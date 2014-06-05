@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="bin\GeneratedFiles\qrc_ifcplusplus.cpp">
+      <Filter>Generierte Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_TabView.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_TabTextEdit.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_TabReadWrite.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_StepHighlighter.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_MainWindow.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_IfcPlusPlusSystem.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_IfcTreeWidget.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_DebugViewer.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmd\CmdLoadIfcFile.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmd\CmdWriteIfcFile.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmd\Command.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cmd\CommandManager.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\DebugViewer.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_DebugViewer.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_DebugViewer.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_DebugViewer.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\IfcTreeWidget.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_IfcTreeWidget.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_IfcTreeWidget.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_IfcTreeWidget.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\MainWindow.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_MainWindow.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_MainWindow.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_MainWindow.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\StepHighlighter.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_StepHighlighter.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_StepHighlighter.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_StepHighlighter.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\TabReadWrite.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_TabReadWrite.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_TabReadWrite.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_TabReadWrite.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\TabTextEdit.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_TabTextEdit.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_TabTextEdit.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_TabTextEdit.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\TabView.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_TabView.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_TabView.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_TabView.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\Orbit3DManipulator.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\ViewerUtil.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\ViewerWidget.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IfcPlusPlusSystem.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_IfcPlusPlusSystem.cpp">
+      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_IfcPlusPlusSystem.cpp">
+      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_IfcPlusPlusSystem.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ViewController.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Dateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Source Dateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien\Debug">
+      <UniqueIdentifier>{18d3e338-385c-4d5f-907a-a5361c16f06e}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien\Release">
+      <UniqueIdentifier>{8bf50873-7ede-4fa2-b025-81b1b624c306}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Resource Dateien">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien\ReleaseNoOptimization">
+      <UniqueIdentifier>{c4aee6f7-001c-43e5-b6d4-febb1416442e}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generierte Dateien\ReleaseWithDebugInfo">
+      <UniqueIdentifier>{4f9df3ad-879c-4e1d-981b-a49f61e23b07}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Resources\ifcplusplus.qrc">
+      <Filter>Resource Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\DebugViewer.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\IfcTreeWidget.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\MainWindow.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\StepHighlighter.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\TabReadWrite.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\TabTextEdit.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\TabView.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\IfcPlusPlusSystem.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\styles.css">
+      <Filter>Resource Dateien</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\img\appicon.ico">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\splitterh.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\splitterv.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\TabViewShaded.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\TabViewWireframe.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\bulb.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\dropDownArrow.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\zoomBoundings.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\RemoveSelectedObjects.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\IfcPlusPlusViewerSplash.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+    <Image Include="Resources\img\IfcPlusPlusViewerWindowIcon.png">
+      <Filter>Resource Dateien</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\appicon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cmd\CmdLoadIfcFile.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cmd\CmdRemoveSelectedObjects.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cmd\CmdWriteIfcFile.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cmd\Command.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cmd\CommandManager.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer\Orbit3DManipulator.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer\ViewerUtil.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer\ViewerWidget.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewController.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

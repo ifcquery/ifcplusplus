@@ -1,0 +1,29 @@
+/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+
+#pragma once
+
+#include <vector>
+#include <osg/Array>
+#include <osg/Geode>
+#include <osg/Group>
+#include <osgViewer/Viewer>
+#include <osgViewer/CompositeViewer>
+
+#include <QTreeWidget>
+
+void zoomToBoundingSphere( osgViewer::Viewer* viewer, const osg::BoundingSphere& bs, double ratio_w = 1.0 );
+void zoomToBoundingSphere( osgViewer::CompositeViewer* viewer, const osg::BoundingSphere& bs, double ratio_w = 1.0 );
+enum IntersectionPlane {	XY_PLANE,	YZ_PLANE,	XZ_PLANE	};
+void intersectRayWithPlane( const osg::Vec3d& ray_origin, const osg::Vec3d& ray_direction, const IntersectionPlane& plane, osg::Vec3d& intersection_point );
+QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id );

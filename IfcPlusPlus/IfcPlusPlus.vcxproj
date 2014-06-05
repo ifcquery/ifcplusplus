@@ -1,0 +1,2646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseNoOptimization|Win32">
+      <Configuration>ReleaseNoOptimization</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseNoOptimization|x64">
+      <Configuration>ReleaseNoOptimization</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseWithDebugInfo|Win32">
+      <Configuration>ReleaseWithDebugInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseWithDebugInfo|x64">
+      <Configuration>ReleaseWithDebugInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9700AD93-4F6B-484A-BA34-FC4C97E5C645}</ProjectGuid>
+    <RootNamespace>IfcPlusPlus</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>bin\$(Configuration)\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>bin\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>bin\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
+    <OutDir>bin\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)rd</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|x64'">
+    <OutDir>bin\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>src;../Carve/src/include;../Carve/src/include/carve/external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>src;../Carve/src/include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;IFCPP_OPENMP;CARVE_SYSTEM_BOOST;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>src;../Carve/src/include;../Carve/src/include/carve/external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;IFCPP_OPENMP;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>src;../Carve/src/include;../Carve/src/include/carve/external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;IFCPP_OPENMP;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ifcpp\guid\CreateGuid_64.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAbsorbedDoseMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAccelerationMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActionRequest.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActionRequestTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActionSourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActionTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActorRole.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActorSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActuator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActuatorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcActuatorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAddress.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAddressTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAdvancedBrep.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAdvancedBrepWithVoids.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAdvancedFace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirTerminal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirTerminalBox.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirTerminalBoxType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirTerminalBoxTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirTerminalType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirTerminalTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirToAirHeatRecovery.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirToAirHeatRecoveryType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAirToAirHeatRecoveryTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAlarm.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAlarmType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAlarmTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAmountOfSubstanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAnalysisModelTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAnalysisTheoryTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAngularVelocityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAnnotation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAnnotationFillArea.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcApplication.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAppliedValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAppliedValueSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcApproval.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcApprovalRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcArbitraryClosedProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcArbitraryOpenProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcArbitraryProfileDefWithVoids.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAreaDensityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAreaMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcArithmeticOperatorEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAssemblyPlaceEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAsset.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAsymmetricIShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAudioVisualAppliance.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAudioVisualApplianceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAudioVisualApplianceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAxis1Placement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAxis2Placement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAxis2Placement2D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcAxis2Placement3D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBeam.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBeamStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBeamType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBeamTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBenchmarkEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBendingParameterSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBlobTexture.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBlock.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoiler.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoilerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoilerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoolean.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBooleanClippingResult.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBooleanOperand.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBooleanOperator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBooleanResult.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundaryCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundaryCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundaryEdgeCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundaryFaceCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundaryNodeCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundaryNodeConditionWarping.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundedCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundedSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoundingBox.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoxAlignment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBoxedHalfSpace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBSplineCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBSplineCurveForm.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBSplineCurveWithKnots.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBSplineSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBSplineSurfaceForm.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBSplineSurfaceWithKnots.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuilding.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementPart.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementPartType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementPartTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementProxy.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementProxyType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementProxyTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingStorey.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingSystem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBuildingSystemTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBurner.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBurnerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcBurnerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableCarrierFitting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableCarrierFittingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableCarrierFittingTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableCarrierSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableCarrierSegmentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableCarrierSegmentTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableFitting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableFittingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableFittingTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableSegmentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCableSegmentTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCardinalPointReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianPoint.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianPointList.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianPointList3D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianTransformationOperator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianTransformationOperator2D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianTransformationOperator2DnonUniform.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianTransformationOperator3D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCartesianTransformationOperator3DnonUniform.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCenterLineProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChangeActionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChiller.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChillerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChillerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChimney.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChimneyType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcChimneyTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCircle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCircleHollowProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCircleProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCivilElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCivilElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcClassification.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcClassificationReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcClassificationReferenceSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcClassificationSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcClosedShell.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoil.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoilType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoilTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColour.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColourOrFactor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColourRgb.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColourRgbList.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColourSpecification.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColumn.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColumnStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColumnType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcColumnTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCommunicationsAppliance.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCommunicationsApplianceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCommunicationsApplianceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcComplexNumber.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcComplexProperty.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcComplexPropertyTemplate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcComplexPropertyTemplateTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompositeCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompositeCurveOnSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompositeCurveSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompositeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompoundPlaneAngleMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompressor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompressorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCompressorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCondenser.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCondenserType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCondenserTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConic.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectedFaceSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionCurveGeometry.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionGeometry.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionPointEccentricity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionPointGeometry.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionSurfaceGeometry.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConnectionVolumeGeometry.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstraint.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstraintEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionEquipmentResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionEquipmentResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionEquipmentResourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionMaterialResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionMaterialResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionMaterialResourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionProductResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionProductResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionProductResourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConstructionResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcContext.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcContextDependentMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcContextDependentUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcControl.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcController.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcControllerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcControllerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConversionBasedUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcConversionBasedUnitWithOffset.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCooledBeam.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCooledBeamType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCooledBeamTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoolingTower.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoolingTowerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoolingTowerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoordinateOperation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoordinateReferenceSystem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoordinateReferenceSystemSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCostItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCostItemTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCostSchedule.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCostScheduleTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCostValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCountMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCovering.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoveringType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCoveringTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCrewResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCrewResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCrewResourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCsgPrimitive3D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCsgSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCsgSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurrencyRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurtainWall.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurtainWallType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurtainWallTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurvatureMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveBoundedPlane.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveBoundedSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveFontOrScaledCurveFontSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveInterpolationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveOnSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveOrEdgeCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveStyleFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveStyleFontAndScaling.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveStyleFontPattern.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCurveStyleFontSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcCylindricalSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDamper.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDamperType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDamperTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDataOriginEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDateTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDayInMonthNumber.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDayInWeekNumber.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDefinitionSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDerivedMeasureValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDerivedProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDerivedUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDerivedUnitElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDerivedUnitEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDescriptiveMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDimensionalExponents.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDimensionCount.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDirection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDirectionSenseEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDiscreteAccessory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDiscreteAccessoryType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDiscreteAccessoryTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionChamberElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionChamberElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionChamberElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionCircuit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionControlElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionControlElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionFlowElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionFlowElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionPort.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionPortTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionSystem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDistributionSystemEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDocumentConfidentialityEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDocumentInformation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDocumentInformationRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDocumentReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDocumentSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDocumentStatusEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorLiningProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorPanelOperationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorPanelPositionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorPanelProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorStyleConstructionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorStyleOperationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoorTypeOperationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDoseEquivalentMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDraughtingPreDefinedColour.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDraughtingPreDefinedCurveFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctFitting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctFittingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctFittingTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctSegmentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctSegmentTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctSilencer.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctSilencerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuctSilencerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDuration.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcDynamicViscosityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEdge.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEdgeCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEdgeLoop.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricAppliance.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricApplianceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricApplianceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricCapacitanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricChargeMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricConductanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricCurrentMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricDistributionBoard.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricDistributionBoardType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricDistributionBoardTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricFlowStorageDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricFlowStorageDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricFlowStorageDeviceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricGenerator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricGeneratorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricGeneratorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricMotor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricMotorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricMotorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricResistanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricTimeControl.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricTimeControlType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricTimeControlTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElectricVoltageMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementarySurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementAssembly.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementAssemblyType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementAssemblyTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementComponent.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementComponentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementCompositionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementQuantity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEllipse.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEllipseProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEnergyConversionDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEnergyConversionDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEnergyMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEngine.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEngineType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEngineTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvaporativeCooler.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvaporativeCoolerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvaporativeCoolerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvaporator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvaporatorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvaporatorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEvent.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEventTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEventTriggerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEventType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcEventTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExtendedProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternalInformation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternallyDefinedHatchStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternallyDefinedSurfaceStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternallyDefinedTextFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternalReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternalReferenceRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternalSpatialElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternalSpatialElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExternalSpatialStructureElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExtrudedAreaSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcExtrudedAreaSolidTapered.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFaceBasedSurfaceModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFaceBound.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFaceOuterBound.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFaceSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFacetedBrep.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFacetedBrepWithVoids.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFailureConnectionCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFan.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFanType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFanTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFastener.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFastenerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFastenerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFeatureElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFeatureElementAddition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFeatureElementSubtraction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFillAreaStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFillAreaStyleHatching.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFillAreaStyleTiles.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFillStyleSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFilter.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFilterType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFilterTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFireSuppressionTerminal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFireSuppressionTerminalType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFireSuppressionTerminalTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFixedReferenceSweptAreaSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowController.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowControllerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowDirectionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowFitting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowFittingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowInstrument.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowInstrumentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowInstrumentTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowMeter.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowMeterType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowMeterTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowMovingDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowMovingDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowSegmentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowStorageDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowStorageDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowTerminal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowTerminalType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowTreatmentDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFlowTreatmentDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFontStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFontVariant.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFontWeight.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFooting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFootingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFootingTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcForceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFrequencyMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFurnishingElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFurnishingElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFurniture.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFurnitureType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcFurnitureTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeographicElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeographicElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeographicElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricCurveSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricProjectionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricRepresentationContext.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricRepresentationItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricRepresentationSubContext.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGeometricSetSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGloballyUniqueId.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGlobalOrLocalEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGrid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGridAxis.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGridPlacement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGridPlacementDirectionSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGridTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcGroup.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHalfSpaceSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHatchLineDistanceSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHeatExchanger.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHeatExchangerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHeatExchangerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHeatFluxDensityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHeatingValueMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHumidifier.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHumidifierType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcHumidifierTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIdentifier.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIlluminanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcImageTexture.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIndexedColourMap.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIndexedTextureMap.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIndexedTriangleTextureMap.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInductanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInteger.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIntegerCountRateMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInterceptor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInterceptorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInterceptorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInternalOrExternalEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInventory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcInventoryTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIonConcentrationMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIrregularTimeSeries.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIrregularTimeSeriesValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIsothermalMoistureCapacityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcJunctionBox.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcJunctionBoxType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcJunctionBoxTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcKinematicViscosityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcKnotType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLabel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLaborResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLaborResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLaborResourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLagTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLamp.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLampType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLampTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLanguageId.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLayeredItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLayerSetDirectionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLengthMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLibraryInformation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLibraryReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLibrarySelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightDistributionCurveEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightDistributionData.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightDistributionDataSourceSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightEmissionSourceEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightFixture.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightFixtureType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightFixtureTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightIntensityDistribution.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightSource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightSourceAmbient.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightSourceDirectional.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightSourceGoniometric.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightSourcePositional.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLightSourceSpot.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLine.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLinearForceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLinearMomentMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLinearStiffnessMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLinearVelocityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLoadGroupTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLocalPlacement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLogical.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLogicalOperatorEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLoop.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLuminousFluxMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLuminousIntensityDistributionMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcLuminousIntensityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMagneticFluxDensityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMagneticFluxMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcManifoldSolidBrep.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMapConversion.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMappedItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMassDensityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMassFlowRateMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMassMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMassPerLengthMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterial.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialClassificationRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialConstituent.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialConstituentSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialDefinition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialDefinitionRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialLayer.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialLayerSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialLayerSetUsage.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialLayerWithOffsets.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialList.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialProfile.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialProfileSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialProfileSetUsage.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialProfileSetUsageTapering.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialProfileWithOffsets.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMaterialUsageDefinition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMeasureValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMeasureWithUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMechanicalFastener.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMechanicalFastenerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMechanicalFastenerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMedicalDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMedicalDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMedicalDeviceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMember.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMemberStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMemberType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMemberTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMetric.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMetricValueSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMirroredProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfElasticityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfLinearSubgradeReactionMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfRotationalSubgradeReactionMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfRotationalSubgradeReactionSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfSubgradeReactionMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfSubgradeReactionSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcModulusOfTranslationalSubgradeReactionSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMoistureDiffusivityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMolecularWeightMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMomentOfInertiaMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMonetaryMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMonetaryUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMonthInYearNumber.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMotorConnection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMotorConnectionType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcMotorConnectionTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcNamedUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcNonNegativeLengthMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcNormalisedRatioMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcNullStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcNumericMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObject.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObjectDefinition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObjective.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObjectiveEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObjectPlacement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObjectReferenceSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcObjectTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOccupant.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOccupantTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOffsetCurve2D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOffsetCurve3D.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOpeningElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOpeningElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOpeningStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOpenShell.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOrganization.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOrganizationRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOrientedEdge.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOuterBoundaryCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOutlet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOutletType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOutletTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcOwnerHistory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcParameterizedProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcParameterValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPath.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPcurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPerformanceHistory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPerformanceHistoryTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPermeableCoveringOperationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPermeableCoveringProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPermit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPermitTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPerson.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPersonAndOrganization.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPHMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPhysicalComplexQuantity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPhysicalOrVirtualEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPhysicalQuantity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPhysicalSimpleQuantity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPile.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPileConstructionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPileType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPileTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPipeFitting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPipeFittingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPipeFittingTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPipeSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPipeSegmentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPipeSegmentTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPixelTexture.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlacement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlanarBox.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlanarExtent.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlanarForceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlane.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlaneAngleMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlateStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlateType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPlateTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPoint.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPointOnCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPointOnSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPointOrVertexPoint.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPolygonalBoundedHalfSpace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPolyline.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPolyLoop.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPort.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPositiveLengthMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPositivePlaneAngleMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPositiveRatioMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPostalAddress.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPowerMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedColour.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedCurveFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedPropertySet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedTextFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentableText.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentationItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentationLayerAssignment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentationLayerWithStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentationStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentationStyleAssignment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPresentationStyleSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPressureMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProcedure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProcedureType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProcedureTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProcess.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProcessSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProduct.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProductDefinitionShape.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProductRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProductRepresentationSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProductSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProfileProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProfileTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProject.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectedCRS.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectedOrTrueLengthEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectionElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectionElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectLibrary.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectOrder.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProjectOrderTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProperty.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyAbstraction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyBoundedValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyDefinition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyDependencyRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyEnumeratedValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyEnumeration.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyListValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyReferenceValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySetDefinition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySetDefinitionSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySetDefinitionSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySetTemplate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySetTemplateTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertySingleValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyTableValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyTemplate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPropertyTemplateDefinition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProtectiveDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProtectiveDeviceTrippingUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProtectiveDeviceTrippingUnitType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProtectiveDeviceTrippingUnitTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProtectiveDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProtectiveDeviceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcProxy.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPump.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPumpType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPumpTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantityArea.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantityCount.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantityLength.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantitySet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantityTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantityVolume.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcQuantityWeight.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRadioActivityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRailing.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRailingType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRailingTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRamp.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRampFlight.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRampFlightType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRampFlightTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRampType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRampTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRatioMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRationalBSplineCurveWithKnots.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRationalBSplineSurfaceWithKnots.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRectangleHollowProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRectangleProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRectangularPyramid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRectangularTrimmedSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRecurrencePattern.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRecurrenceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReflectanceMethodEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRegularTimeSeries.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcementBarProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcementDefinitionProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingBar.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingBarRoleEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingBarSurfaceEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingBarType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingBarTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingMesh.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingMeshType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReinforcingMeshTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAggregates.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssigns.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToActor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToControl.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToGroup.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToGroupByFactor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToProcess.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToProduct.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssignsToResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociates.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociatesApproval.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociatesClassification.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociatesConstraint.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociatesDocument.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociatesLibrary.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelAssociatesMaterial.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnects.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsElements.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsPathElements.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsPorts.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsPortToElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsStructuralActivity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsStructuralMember.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsWithEccentricity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelConnectsWithRealizingElements.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelContainedInSpatialStructure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelCoversBldgElements.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelCoversSpaces.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDeclares.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDecomposes.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDefines.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDefinesByObject.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDefinesByProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDefinesByTemplate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelDefinesByType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelFillsElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelFlowControlElements.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelInterferesElements.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelNests.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelProjectsElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelReferencedInSpatialStructure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelSequence.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelServicesBuildings.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelSpaceBoundary.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelSpaceBoundary1stLevel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelSpaceBoundary2ndLevel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRelVoidsElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcReparametrisedCompositeCurveSegment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRepresentationContext.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRepresentationItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRepresentationMap.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResourceApprovalRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResourceConstraintRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResourceLevelRelationship.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResourceObjectSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResourceSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcResourceTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRevolvedAreaSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRevolvedAreaSolidTapered.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRightCircularCone.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRightCircularCylinder.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRoleEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRoof.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRoofType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRoofTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRoot.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRotationalFrequencyMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRotationalMassMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRotationalStiffnessMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRotationalStiffnessSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcRoundedRectangleProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSanitaryTerminal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSanitaryTerminalType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSanitaryTerminalTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSchedulingTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSectionalAreaIntegralMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSectionedSpine.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSectionModulusMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSectionProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSectionReinforcementProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSectionTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSensor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSensorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSensorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSequenceEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShadingDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShadingDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShadingDeviceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShapeAspect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShapeModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShapeRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShearModulusMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShell.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcShellBasedSurfaceModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSimpleProperty.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSimplePropertyTemplate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSimplePropertyTemplateTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSimpleValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSIPrefix.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSite.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSIUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSIUnitName.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSizeSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSlab.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSlabElementedCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSlabStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSlabType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSlabTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSlippageConnectionCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSolarDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSolarDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSolarDeviceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSolidAngleMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSolidModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSolidOrShell.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSoundPowerLevelMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSoundPowerMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSoundPressureLevelMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSoundPressureMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpaceBoundarySelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpaceHeater.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpaceHeaterType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpaceHeaterTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpaceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpaceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialStructureElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialStructureElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialZone.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialZoneType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpatialZoneTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpecificHeatCapacityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpecularExponent.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpecularHighlightSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSpecularRoughness.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSphere.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStackTerminal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStackTerminalType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStackTerminalTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStair.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStairFlight.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStairFlightType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStairFlightTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStairType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStairTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStateEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralAction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralActivity.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralActivityAssignmentSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralAnalysisModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralConnection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralConnectionCondition.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveAction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveActivityTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveConnection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveMember.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveMemberTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveMemberVarying.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralCurveReaction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLinearAction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoad.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadConfiguration.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadGroup.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadLinearForce.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadOrResult.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadPlanarForce.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadSingleDisplacement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadSingleDisplacementDistortion.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadSingleForce.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadSingleForceWarping.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadStatic.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralLoadTemperature.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralMember.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralPlanarAction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralPointAction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralPointConnection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralPointReaction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralReaction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralResultGroup.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceAction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceActivityTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceConnection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceMember.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceMemberTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceMemberVarying.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStructuralSurfaceReaction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStyleAssignmentSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStyledItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStyledRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcStyleModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSubContractResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSubContractResourceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSubContractResourceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSubedge.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceCurveSweptAreaSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceFeature.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceFeatureTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceOfLinearExtrusion.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceOfRevolution.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceOrFaceSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceReinforcementArea.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceSide.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyleElementSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyleLighting.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyleRefraction.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyleRendering.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyleShading.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceStyleWithTextures.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceTexture.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSweptAreaSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSweptDiskSolid.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSweptDiskSolidPolygonal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSweptSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSwitchingDevice.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSwitchingDeviceType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSwitchingDeviceTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSystem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSystemFurnitureElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSystemFurnitureElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSystemFurnitureElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTable.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTableColumn.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTableRow.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTank.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTankType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTankTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTask.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTaskDurationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTaskTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTaskTimeRecurring.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTaskType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTaskTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTelecomAddress.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTemperatureGradientMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTemperatureRateOfChangeMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTendon.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTendonAnchor.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTendonAnchorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTendonAnchorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTendonType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTendonTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTessellatedFaceSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTessellatedItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcText.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextAlignment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextDecoration.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextFontName.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextFontSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextLiteral.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextLiteralWithExtent.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextPath.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextStyleFontModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextStyleForDefinedFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextStyleTextModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextTransformation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextureCoordinate.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextureCoordinateGenerator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextureMap.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextureVertex.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTextureVertexList.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcThermalAdmittanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcThermalConductivityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcThermalExpansionCoefficientMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcThermalResistanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcThermalTransmittanceMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcThermodynamicTemperatureMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimeMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimeOrRatioSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimePeriod.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimeSeries.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimeSeriesDataTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimeSeriesValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTimeStamp.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTopologicalRepresentationItem.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTopologyRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTorqueMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransformer.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransformerType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransformerTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransitionCode.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTranslationalStiffnessSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransportElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransportElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTransportElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTrapeziumProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTriangulatedFaceSet.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTrimmedCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTrimmingPreference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTrimmingSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTubeBundle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTubeBundleType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTubeBundleTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTypeObject.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTypeProcess.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTypeProduct.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcTypeResource.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnit.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitaryControlElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitaryControlElementType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitaryControlElementTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitaryEquipment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitaryEquipmentType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitaryEquipmentTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitAssignment.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUnitEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcURIReference.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcUShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcValue.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcValve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcValveType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcValveTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVaporPermeabilityMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVector.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVectorOrDirection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVertex.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVertexLoop.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVertexPoint.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVibrationIsolator.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVibrationIsolatorType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVibrationIsolatorTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVirtualElement.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVirtualGridIntersection.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVoidingFeature.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVoidingFeatureTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVolumeMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcVolumetricFlowRateMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWall.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWallElementedCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWallStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWallType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWallTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWarpingConstantMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWarpingMomentMeasure.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWarpingStiffnessSelect.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWasteTerminal.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWasteTerminalType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWasteTerminalTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindow.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowLiningProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowPanelOperationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowPanelPositionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowPanelProperties.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowStandardCase.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowStyle.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowStyleConstructionEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowStyleOperationEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowType.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWindowTypePartitioningEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkCalendar.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkCalendarTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkControl.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkPlan.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkPlanTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkSchedule.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkScheduleTypeEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcWorkTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcZone.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcZShapeProfileDef.cpp" />
+    <ClCompile Include="src\ifcpp\IfcPPEntityBroker.cpp" />
+    <ClCompile Include="src\ifcpp\IfcPPTypeBroker.cpp" />
+    <ClCompile Include="src\ifcpp\model\IfcPPAttributeObject.cpp" />
+    <ClCompile Include="src\ifcpp\model\IfcPPException.cpp" />
+    <ClCompile Include="src\ifcpp\model\IfcPPModel.cpp" />
+    <ClCompile Include="src\ifcpp\model\IfcPPObject.cpp" />
+    <ClCompile Include="src\ifcpp\model\StatusObservable.cpp" />
+    <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
+    <ClCompile Include="src\ifcpp\reader\IfcPlusPlusReader.cpp" />
+    <ClCompile Include="src\ifcpp\reader\IfcStepReader.cpp" />
+    <ClCompile Include="src\ifcpp\reader\IfcXmlReader.cpp" />
+    <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp" />
+    <ClCompile Include="src\ifcpp\writer\IfcStepWriter.cpp" />
+    <ClCompile Include="src\ifcpp\writer\IfcXmlWriter.cpp" />
+    <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp" />
+    <ClCompile Include="src\ifcpp\xml\XmlTools.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ifcpp\guid\CreateGuid_64.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAbsorbedDoseMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAccelerationMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActionRequest.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActionRequestTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActionSourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActionTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActorRole.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActorSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActuator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActuatorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcActuatorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAddress.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAddressTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAdvancedBrep.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAdvancedBrepWithVoids.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAdvancedFace.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirTerminal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirTerminalBox.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirTerminalBoxType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirTerminalBoxTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirTerminalType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirTerminalTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirToAirHeatRecovery.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirToAirHeatRecoveryType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAirToAirHeatRecoveryTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAlarm.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAlarmType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAlarmTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAmountOfSubstanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAnalysisModelTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAnalysisTheoryTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAngularVelocityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAnnotation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAnnotationFillArea.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcApplication.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAppliedValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAppliedValueSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcApproval.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcApprovalRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcArbitraryClosedProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcArbitraryOpenProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcArbitraryProfileDefWithVoids.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAreaDensityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAreaMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcArithmeticOperatorEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAssemblyPlaceEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAsset.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAsymmetricIShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAudioVisualAppliance.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAudioVisualApplianceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAudioVisualApplianceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAxis1Placement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAxis2Placement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAxis2Placement2D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcAxis2Placement3D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBeam.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBeamStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBeamType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBeamTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBenchmarkEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBendingParameterSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBlobTexture.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBlock.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoiler.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoilerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoilerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoolean.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBooleanClippingResult.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBooleanOperand.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBooleanOperator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBooleanResult.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundaryCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundaryCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundaryEdgeCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundaryFaceCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundaryNodeCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundaryNodeConditionWarping.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundedCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundedSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoundingBox.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoxAlignment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBoxedHalfSpace.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBSplineCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBSplineCurveForm.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBSplineCurveWithKnots.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBSplineSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBSplineSurfaceForm.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBSplineSurfaceWithKnots.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuilding.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementPart.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementPartType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementPartTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementProxy.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementProxyType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementProxyTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingStorey.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingSystem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBuildingSystemTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBurner.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBurnerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcBurnerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableCarrierFitting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableCarrierFittingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableCarrierFittingTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableCarrierSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableCarrierSegmentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableCarrierSegmentTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableFitting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableFittingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableFittingTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableSegmentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCableSegmentTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCardinalPointReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianPoint.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianPointList.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianPointList3D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianTransformationOperator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianTransformationOperator2D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianTransformationOperator2DnonUniform.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianTransformationOperator3D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCartesianTransformationOperator3DnonUniform.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCenterLineProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChangeActionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChiller.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChillerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChillerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChimney.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChimneyType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcChimneyTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCircle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCircleHollowProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCircleProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCivilElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCivilElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcClassification.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcClassificationReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcClassificationReferenceSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcClassificationSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcClosedShell.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoil.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoilType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoilTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColour.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColourOrFactor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColourRgb.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColourRgbList.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColourSpecification.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColumn.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColumnStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColumnType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcColumnTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCommunicationsAppliance.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCommunicationsApplianceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCommunicationsApplianceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcComplexNumber.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcComplexProperty.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcComplexPropertyTemplate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcComplexPropertyTemplateTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompositeCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompositeCurveOnSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompositeCurveSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompositeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompoundPlaneAngleMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompressor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompressorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCompressorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCondenser.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCondenserType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCondenserTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConic.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectedFaceSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionCurveGeometry.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionGeometry.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionPointEccentricity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionPointGeometry.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionSurfaceGeometry.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConnectionVolumeGeometry.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstraint.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstraintEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionEquipmentResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionEquipmentResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionEquipmentResourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionMaterialResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionMaterialResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionMaterialResourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionProductResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionProductResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionProductResourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConstructionResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcContext.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcContextDependentMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcContextDependentUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcControl.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcController.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcControllerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcControllerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConversionBasedUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcConversionBasedUnitWithOffset.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCooledBeam.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCooledBeamType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCooledBeamTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoolingTower.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoolingTowerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoolingTowerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoordinateOperation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoordinateReferenceSystem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoordinateReferenceSystemSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCostItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCostItemTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCostSchedule.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCostScheduleTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCostValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCountMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCovering.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoveringType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCoveringTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCrewResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCrewResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCrewResourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCsgPrimitive3D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCsgSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCsgSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurrencyRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurtainWall.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurtainWallType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurtainWallTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurvatureMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveBoundedPlane.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveBoundedSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveFontOrScaledCurveFontSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveInterpolationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveOnSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveOrEdgeCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveStyleFont.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveStyleFontAndScaling.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveStyleFontPattern.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCurveStyleFontSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcCylindricalSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDamper.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDamperType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDamperTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDataOriginEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDateTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDayInMonthNumber.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDayInWeekNumber.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDefinitionSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDerivedMeasureValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDerivedProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDerivedUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDerivedUnitElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDerivedUnitEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDescriptiveMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDimensionalExponents.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDimensionCount.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDirection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDirectionSenseEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDiscreteAccessory.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDiscreteAccessoryType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDiscreteAccessoryTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionChamberElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionChamberElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionChamberElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionCircuit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionControlElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionControlElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionFlowElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionFlowElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionPort.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionPortTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionSystem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDistributionSystemEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDocumentConfidentialityEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDocumentInformation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDocumentInformationRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDocumentReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDocumentSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDocumentStatusEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorLiningProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorPanelOperationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorPanelPositionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorPanelProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorStyleConstructionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorStyleOperationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoorTypeOperationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDoseEquivalentMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDraughtingPreDefinedColour.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDraughtingPreDefinedCurveFont.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctFitting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctFittingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctFittingTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctSegmentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctSegmentTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctSilencer.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctSilencerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuctSilencerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDuration.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcDynamicViscosityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEdge.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEdgeCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEdgeLoop.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricAppliance.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricApplianceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricApplianceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricCapacitanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricChargeMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricConductanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricCurrentMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricDistributionBoard.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricDistributionBoardType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricDistributionBoardTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricFlowStorageDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricFlowStorageDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricFlowStorageDeviceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricGenerator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricGeneratorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricGeneratorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricMotor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricMotorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricMotorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricResistanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricTimeControl.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricTimeControlType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricTimeControlTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElectricVoltageMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementarySurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementAssembly.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementAssemblyType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementAssemblyTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementComponent.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementComponentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementCompositionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementQuantity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEllipse.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEllipseProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEnergyConversionDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEnergyConversionDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEnergyMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEngine.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEngineType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEngineTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvaporativeCooler.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvaporativeCoolerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvaporativeCoolerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvaporator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvaporatorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvaporatorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEvent.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEventTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEventTriggerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEventType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcEventTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExtendedProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternalInformation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternallyDefinedHatchStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternallyDefinedSurfaceStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternallyDefinedTextFont.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternalReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternalReferenceRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternalSpatialElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternalSpatialElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExternalSpatialStructureElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExtrudedAreaSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcExtrudedAreaSolidTapered.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFace.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFaceBasedSurfaceModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFaceBound.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFaceOuterBound.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFaceSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFacetedBrep.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFacetedBrepWithVoids.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFailureConnectionCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFan.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFanType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFanTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFastener.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFastenerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFastenerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFeatureElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFeatureElementAddition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFeatureElementSubtraction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFillAreaStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFillAreaStyleHatching.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFillAreaStyleTiles.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFillStyleSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFilter.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFilterType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFilterTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFireSuppressionTerminal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFireSuppressionTerminalType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFireSuppressionTerminalTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFixedReferenceSweptAreaSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowController.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowControllerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowDirectionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowFitting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowFittingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowInstrument.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowInstrumentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowInstrumentTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowMeter.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowMeterType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowMeterTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowMovingDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowMovingDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowSegmentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowStorageDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowStorageDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowTerminal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowTerminalType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowTreatmentDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFlowTreatmentDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFontStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFontVariant.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFontWeight.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFooting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFootingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFootingTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcForceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFrequencyMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFurnishingElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFurnishingElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFurniture.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFurnitureType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcFurnitureTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeographicElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeographicElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeographicElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricCurveSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricProjectionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricRepresentationContext.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricRepresentationItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricRepresentationSubContext.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGeometricSetSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGloballyUniqueId.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGlobalOrLocalEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGrid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGridAxis.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGridPlacement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGridPlacementDirectionSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGridTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcGroup.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHalfSpaceSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHatchLineDistanceSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHeatExchanger.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHeatExchangerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHeatExchangerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHeatFluxDensityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHeatingValueMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHumidifier.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHumidifierType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcHumidifierTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIdentifier.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIlluminanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcImageTexture.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIndexedColourMap.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIndexedTextureMap.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIndexedTriangleTextureMap.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInductanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInteger.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIntegerCountRateMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInterceptor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInterceptorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInterceptorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInternalOrExternalEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInventory.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcInventoryTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIonConcentrationMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIrregularTimeSeries.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIrregularTimeSeriesValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcIsothermalMoistureCapacityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcJunctionBox.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcJunctionBoxType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcJunctionBoxTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcKinematicViscosityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcKnotType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLabel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLaborResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLaborResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLaborResourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLagTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLamp.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLampType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLampTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLanguageId.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLayeredItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLayerSetDirectionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLengthMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLibraryInformation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLibraryReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLibrarySelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightDistributionCurveEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightDistributionData.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightDistributionDataSourceSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightEmissionSourceEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightFixture.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightFixtureType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightFixtureTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightIntensityDistribution.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightSource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightSourceAmbient.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightSourceDirectional.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightSourceGoniometric.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightSourcePositional.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLightSourceSpot.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLine.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLinearForceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLinearMomentMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLinearStiffnessMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLinearVelocityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLoadGroupTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLocalPlacement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLogical.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLogicalOperatorEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLoop.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLuminousFluxMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLuminousIntensityDistributionMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcLuminousIntensityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMagneticFluxDensityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMagneticFluxMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcManifoldSolidBrep.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMapConversion.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMappedItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMassDensityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMassFlowRateMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMassMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMassPerLengthMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterial.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialClassificationRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialConstituent.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialConstituentSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialDefinition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialDefinitionRepresentation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialLayer.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialLayerSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialLayerSetUsage.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialLayerWithOffsets.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialList.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialProfile.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialProfileSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialProfileSetUsage.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialProfileSetUsageTapering.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialProfileWithOffsets.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMaterialUsageDefinition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMeasureValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMeasureWithUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMechanicalFastener.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMechanicalFastenerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMechanicalFastenerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMedicalDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMedicalDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMedicalDeviceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMember.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMemberStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMemberType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMemberTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMetric.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMetricValueSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMirroredProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfElasticityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfLinearSubgradeReactionMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfRotationalSubgradeReactionMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfRotationalSubgradeReactionSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfSubgradeReactionMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfSubgradeReactionSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcModulusOfTranslationalSubgradeReactionSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMoistureDiffusivityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMolecularWeightMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMomentOfInertiaMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMonetaryMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMonetaryUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMonthInYearNumber.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMotorConnection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMotorConnectionType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcMotorConnectionTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcNamedUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcNonNegativeLengthMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcNormalisedRatioMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcNullStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcNumericMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObject.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObjectDefinition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObjective.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObjectiveEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObjectPlacement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObjectReferenceSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcObjectTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOccupant.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOccupantTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOffsetCurve2D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOffsetCurve3D.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOpeningElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOpeningElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOpeningStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOpenShell.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOrganization.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOrganizationRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOrientedEdge.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOuterBoundaryCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOutlet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOutletType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOutletTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcOwnerHistory.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcParameterizedProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcParameterValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPath.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPcurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPerformanceHistory.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPerformanceHistoryTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPermeableCoveringOperationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPermeableCoveringProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPermit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPermitTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPerson.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPersonAndOrganization.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPHMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPhysicalComplexQuantity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPhysicalOrVirtualEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPhysicalQuantity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPhysicalSimpleQuantity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPile.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPileConstructionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPileType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPileTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPipeFitting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPipeFittingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPipeFittingTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPipeSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPipeSegmentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPipeSegmentTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPixelTexture.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlacement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlanarBox.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlanarExtent.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlanarForceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlane.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlaneAngleMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlateStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlateType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPlateTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPoint.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPointOnCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPointOnSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPointOrVertexPoint.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPolygonalBoundedHalfSpace.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPolyline.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPolyLoop.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPort.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPositiveLengthMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPositivePlaneAngleMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPositiveRatioMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPostalAddress.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPowerMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPreDefinedColour.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPreDefinedCurveFont.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPreDefinedItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPreDefinedProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPreDefinedPropertySet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPreDefinedTextFont.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentableText.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentationItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentationLayerAssignment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentationLayerWithStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentationStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentationStyleAssignment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPresentationStyleSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPressureMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProcedure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProcedureType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProcedureTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProcess.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProcessSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProduct.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProductDefinitionShape.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProductRepresentation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProductRepresentationSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProductSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProfileProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProfileTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProject.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectedCRS.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectedOrTrueLengthEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectionElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectionElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectLibrary.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectOrder.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProjectOrderTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProperty.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyAbstraction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyBoundedValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyDefinition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyDependencyRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyEnumeratedValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyEnumeration.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyListValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyReferenceValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySetDefinition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySetDefinitionSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySetDefinitionSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySetTemplate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySetTemplateTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertySingleValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyTableValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyTemplate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPropertyTemplateDefinition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProtectiveDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProtectiveDeviceTrippingUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProtectiveDeviceTrippingUnitType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProtectiveDeviceTrippingUnitTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProtectiveDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProtectiveDeviceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcProxy.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPump.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPumpType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcPumpTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantityArea.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantityCount.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantityLength.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantitySet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantityTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantityVolume.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcQuantityWeight.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRadioActivityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRailing.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRailingType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRailingTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRamp.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRampFlight.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRampFlightType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRampFlightTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRampType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRampTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRatioMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRationalBSplineCurveWithKnots.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRationalBSplineSurfaceWithKnots.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRectangleHollowProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRectangleProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRectangularPyramid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRectangularTrimmedSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRecurrencePattern.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRecurrenceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReflectanceMethodEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRegularTimeSeries.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcementBarProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcementDefinitionProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingBar.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingBarRoleEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingBarSurfaceEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingBarType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingBarTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingMesh.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingMeshType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReinforcingMeshTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAggregates.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssigns.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToActor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToControl.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToGroup.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToGroupByFactor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToProcess.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToProduct.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssignsToResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociates.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociatesApproval.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociatesClassification.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociatesConstraint.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociatesDocument.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociatesLibrary.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelAssociatesMaterial.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnects.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsElements.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsPathElements.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsPorts.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsPortToElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsStructuralActivity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsStructuralMember.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsWithEccentricity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelConnectsWithRealizingElements.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelContainedInSpatialStructure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelCoversBldgElements.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelCoversSpaces.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDeclares.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDecomposes.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDefines.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDefinesByObject.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDefinesByProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDefinesByTemplate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelDefinesByType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelFillsElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelFlowControlElements.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelInterferesElements.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelNests.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelProjectsElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelReferencedInSpatialStructure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelSequence.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelServicesBuildings.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelSpaceBoundary.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelSpaceBoundary1stLevel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelSpaceBoundary2ndLevel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRelVoidsElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcReparametrisedCompositeCurveSegment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRepresentation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRepresentationContext.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRepresentationItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRepresentationMap.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResourceApprovalRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResourceConstraintRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResourceLevelRelationship.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResourceObjectSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResourceSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcResourceTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRevolvedAreaSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRevolvedAreaSolidTapered.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRightCircularCone.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRightCircularCylinder.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRoleEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRoof.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRoofType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRoofTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRoot.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRotationalFrequencyMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRotationalMassMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRotationalStiffnessMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRotationalStiffnessSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcRoundedRectangleProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSanitaryTerminal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSanitaryTerminalType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSanitaryTerminalTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSchedulingTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSectionalAreaIntegralMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSectionedSpine.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSectionModulusMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSectionProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSectionReinforcementProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSectionTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSensor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSensorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSensorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSequenceEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShadingDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShadingDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShadingDeviceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShapeAspect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShapeModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShapeRepresentation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShearModulusMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShell.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcShellBasedSurfaceModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSimpleProperty.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSimplePropertyTemplate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSimplePropertyTemplateTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSimpleValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSIPrefix.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSite.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSIUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSIUnitName.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSizeSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSlab.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSlabElementedCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSlabStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSlabType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSlabTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSlippageConnectionCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSolarDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSolarDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSolarDeviceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSolidAngleMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSolidModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSolidOrShell.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSoundPowerLevelMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSoundPowerMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSoundPressureLevelMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSoundPressureMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpace.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpaceBoundarySelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpaceHeater.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpaceHeaterType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpaceHeaterTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpaceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpaceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialStructureElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialStructureElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialZone.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialZoneType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpatialZoneTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpecificHeatCapacityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpecularExponent.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpecularHighlightSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSpecularRoughness.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSphere.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStackTerminal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStackTerminalType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStackTerminalTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStair.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStairFlight.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStairFlightType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStairFlightTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStairType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStairTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStateEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralAction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralActivity.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralActivityAssignmentSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralAnalysisModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralConnection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralConnectionCondition.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveAction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveActivityTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveConnection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveMember.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveMemberTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveMemberVarying.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralCurveReaction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLinearAction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoad.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadConfiguration.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadGroup.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadLinearForce.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadOrResult.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadPlanarForce.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadSingleDisplacement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadSingleDisplacementDistortion.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadSingleForce.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadSingleForceWarping.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadStatic.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralLoadTemperature.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralMember.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralPlanarAction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralPointAction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralPointConnection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralPointReaction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralReaction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralResultGroup.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceAction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceActivityTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceConnection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceMember.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceMemberTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceMemberVarying.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStructuralSurfaceReaction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStyleAssignmentSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStyledItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStyledRepresentation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcStyleModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSubContractResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSubContractResourceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSubContractResourceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSubedge.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceCurveSweptAreaSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceFeature.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceFeatureTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceOfLinearExtrusion.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceOfRevolution.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceOrFaceSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceReinforcementArea.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceSide.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyleElementSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyleLighting.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyleRefraction.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyleRendering.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyleShading.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceStyleWithTextures.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSurfaceTexture.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSweptAreaSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSweptDiskSolid.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSweptDiskSolidPolygonal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSweptSurface.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSwitchingDevice.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSwitchingDeviceType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSwitchingDeviceTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSystem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSystemFurnitureElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSystemFurnitureElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcSystemFurnitureElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTable.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTableColumn.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTableRow.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTank.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTankType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTankTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTask.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTaskDurationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTaskTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTaskTimeRecurring.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTaskType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTaskTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTelecomAddress.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTemperatureGradientMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTemperatureRateOfChangeMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTendon.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTendonAnchor.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTendonAnchorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTendonAnchorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTendonType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTendonTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTessellatedFaceSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTessellatedItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcText.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextAlignment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextDecoration.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextFontName.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextFontSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextLiteral.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextLiteralWithExtent.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextPath.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextStyleFontModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextStyleForDefinedFont.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextStyleTextModel.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextTransformation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextureCoordinate.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextureCoordinateGenerator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextureMap.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextureVertex.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTextureVertexList.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcThermalAdmittanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcThermalConductivityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcThermalExpansionCoefficientMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcThermalResistanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcThermalTransmittanceMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcThermodynamicTemperatureMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimeMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimeOrRatioSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimePeriod.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimeSeries.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimeSeriesDataTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimeSeriesValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTimeStamp.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTopologicalRepresentationItem.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTopologyRepresentation.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTorqueMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransformer.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransformerType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransformerTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransitionCode.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTranslationalStiffnessSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransportElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransportElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTransportElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTrapeziumProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTriangulatedFaceSet.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTrimmedCurve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTrimmingPreference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTrimmingSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTubeBundle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTubeBundleType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTubeBundleTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTypeObject.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTypeProcess.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTypeProduct.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcTypeResource.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnit.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitaryControlElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitaryControlElementType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitaryControlElementTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitaryEquipment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitaryEquipmentType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitaryEquipmentTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitAssignment.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUnitEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcURIReference.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcUShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcValue.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcValve.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcValveType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcValveTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVaporPermeabilityMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVector.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVectorOrDirection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVertex.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVertexLoop.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVertexPoint.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVibrationIsolator.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVibrationIsolatorType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVibrationIsolatorTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVirtualElement.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVirtualGridIntersection.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVoidingFeature.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVoidingFeatureTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVolumeMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcVolumetricFlowRateMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWall.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWallElementedCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWallStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWallType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWallTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWarpingConstantMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWarpingMomentMeasure.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWarpingStiffnessSelect.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWasteTerminal.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWasteTerminalType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWasteTerminalTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindow.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowLiningProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowPanelOperationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowPanelPositionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowPanelProperties.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowStandardCase.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowStyle.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowStyleConstructionEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowStyleOperationEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowType.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWindowTypePartitioningEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkCalendar.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkCalendarTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkControl.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkPlan.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkPlanTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkSchedule.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkScheduleTypeEnum.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcWorkTime.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcZone.h" />
+    <ClInclude Include="src\ifcpp\IFC4\include\IfcZShapeProfileDef.h" />
+    <ClInclude Include="src\ifcpp\IfcPPEntities.h" />
+    <ClInclude Include="src\ifcpp\IfcPPEntitiesMap.h" />
+    <ClInclude Include="src\ifcpp\IfcPPEntityEnums.h" />
+    <ClInclude Include="src\ifcpp\IfcPPTypeEnums.h" />
+    <ClInclude Include="src\ifcpp\IfcPPTypeMap.h" />
+    <ClInclude Include="src\ifcpp\IfcPPTypes.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPAttributeObject.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPException.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPModel.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPObject.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPOpenMP.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPUtil.h" />
+    <ClInclude Include="src\ifcpp\model\shared_ptr.h" />
+    <ClInclude Include="src\ifcpp\model\StatusObservable.h" />
+    <ClInclude Include="src\ifcpp\model\UnitConverter.h" />
+    <ClInclude Include="src\ifcpp\model\UnknownEntityException.h" />
+    <ClInclude Include="src\ifcpp\reader\IfcPlusPlusReader.h" />
+    <ClInclude Include="src\ifcpp\reader\IfcStepReader.h" />
+    <ClInclude Include="src\ifcpp\reader\IfcXmlReader.h" />
+    <ClInclude Include="src\ifcpp\reader\ReaderUtil.h" />
+    <ClInclude Include="src\ifcpp\writer\IfcPlusPlusWriter.h" />
+    <ClInclude Include="src\ifcpp\writer\IfcStepWriter.h" />
+    <ClInclude Include="src\ifcpp\writer\IfcXmlWriter.h" />
+    <ClInclude Include="src\ifcpp\writer\WriterUtil.h" />
+    <ClInclude Include="src\ifcpp\xml\XmlTools.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
