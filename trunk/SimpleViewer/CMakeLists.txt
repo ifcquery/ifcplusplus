@@ -1,0 +1,148 @@
+cmake_minimum_required (VERSION 2.8)
+
+IF(NOT CMAKE_BUILD_TYPE)
+    SET(CMAKE_BUILD_TYPE "Release")
+ENDIF(NOT CMAKE_BUILD_TYPE)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+
+# Carve library
+message(STATUS "IfcPlusPlusSimpleViewer: directories of Carve")
+message(STATUS "source: " ${CARVE_SOURCE_DIR})
+message(STATUS "binary: " ${CARVE_BINARY_DIR})
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/include)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/common)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_BINARY_DIR}/include) # For the generated Config file
+
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${IFCPP_SOURCE_DIR}/IfcPlusPlusGeometry/src/)
+
+# Qt library
+FIND_PACKAGE(Qt4 REQUIRED)
+SET(QT_USE_QTOPENGL TRUE)
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+ADD_DEFINITIONS(-DQT_GUI_LIBS -DQT_CORE_LIB) 
+
+QT4_ADD_RESOURCES(IfcPlusPlusViewer_RESOURCES_RCC ${IFCPP_SOURCE_DIR}/SimpleViewer/Resources/ifcplusplus.qrc)
+
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} 
+        ${QT_INCLUDES}
+        ${QT_INCLUDE_DIR}
+        ${QT_QT_INCLUDE_DIR}
+        ${QT_QTCORE_INCLUDE_DIR}
+        ${QT_QTGUI_INCLUDE_DIR}
+        ${QT_QTOPENGL_INCLUDE_DIR}
+)
+
+FIND_PACKAGE(OpenSceneGraph REQUIRED osgDB osgUtil osgGA osgFX osgSim osgText osgQt osgViewer)
+
+
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/include) # when building with the external dependency
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include) # When building with the embedded Carve
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_BINARY_DIR}/include)
+
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${IFCPP_SOURCE_DIR}/IfcPlusPlusGeometry/src/)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${IFCPP_SOURCE_DIR}/SimpleViewer/src/)
+
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OPENTHREADS_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSG_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSGGA_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSGDB_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSGUTIL_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSGQT_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSGANIMATION_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSGANIMATION_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSG_BINARY_DIR}/include ) # For the generated Config file
+
+set(IFCPPVIEWER_SOURCE_FILES 
+  src/IfcPlusPlusSystem.cpp
+  src/ViewController.cpp
+  src/main.cpp
+  src/cmd/CmdLoadIfcFile.cpp
+  src/cmd/CmdRemoveSelectedObjects.cpp
+  src/cmd/CmdWriteIfcFile.cpp
+  src/cmd/Command.cpp
+  src/cmd/CommandManager.cpp
+  src/gui/DebugViewer.cpp
+  src/gui/IfcTreeWidget.cpp
+  src/gui/MainWindow.cpp
+  src/gui/StepHighlighter.cpp
+  src/gui/TabReadWrite.cpp
+  src/gui/TabTextEdit.cpp
+  src/gui/TabView.cpp
+  src/viewer/Orbit3DManipulator.cpp
+  src/viewer/ViewerUtil.cpp
+  src/viewer/ViewerWidget.cpp
+)
+
+set(IFCPPVIEWER_HEADER_FILES
+  src/IfcPlusPlusSystem.h
+  src/ViewController.h
+  src/cmd/CmdLoadIfcFile.h
+  src/cmd/CmdRemoveSelectedObjects.h
+  src/cmd/CmdWriteIfcFile.h
+  src/cmd/Command.h
+  src/cmd/CommandManager.h
+  src/gui/DebugViewer.h
+  src/gui/IfcTreeWidget.h
+  src/gui/MainWindow.h
+  src/gui/StepHighlighter.h
+  src/gui/TabReadWrite.h
+  src/gui/TabTextEdit.h
+  src/gui/TabView.h
+  src/viewer/Orbit3DManipulator.h
+  src/viewer/ViewerUtil.h
+  src/viewer/ViewerWidget.h
+)
+
+find_package(Boost 1.49)
+if(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+  message(STATUS "Using Boost libraries for Carve")
+else(Boost_FOUND)
+  message(STATUS "Could not find Boost libraries for Carve")
+endif(Boost_FOUND)
+
+QT4_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_HEADER_FILES})
+
+LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}) 
+
+# Linking to the Carve library
+LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CARVE_BINARY_DIR}/lib) 
+LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CARVE_BINARY_DIR}/common) 
+
+
+ADD_EXECUTABLE(IfcPlusPlusViewer 
+  ${IFCPPVIEWER_HEADER_FILES} 
+  ${IFCPPVIEWER_MOC_GENERATED_FILES}
+  ${IFCPPVIEWER_SOURCE_FILES}
+  ${IfcPlusPlusViewer_HEADERS_MOC} 
+  ${IfcPlusPlusViewer_FORMS_HEADERS} 
+  ${IfcPlusPlusViewer_RESOURCES_RCC}
+)
+
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer IfcPlusPlusGeometry)
+
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OPENTHREADS_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSG_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGDB_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGGA_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGUTIL_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGANIMATION_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGFX_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGQT_LIBRARY} )
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${OSGVIEWER_LIBRARY} )
+
+TARGET_LINK_LIBRARIES(IfcPlusPlusViewer ${QT_LIBRARIES})
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
