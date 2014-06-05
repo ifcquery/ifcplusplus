@@ -11,7 +11,7 @@
 #include <ifcpp/IFC4/include/IfcDirection.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
-
+#include <ifcppgeometry/ReaderWriterIFC.h>
 
 #include "viewer/ViewerUtil.h"
 #include "IfcPlusPlusSystem.h"
@@ -205,10 +205,11 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 
 void IfcTreeWidget::slotModelLoadingDone()
 {
+	std::set<int> set_visited;
 	shared_ptr<IfcProject> project = m_system->getIfcModel()->getIfcProject();
 	if( project )
 	{
-		std::set<int> set_visited;
+		
 		QTreeWidgetItem* project_item = resolveTreeItems( project, set_visited );
 		if( project_item != NULL )
 		{
@@ -216,6 +217,27 @@ void IfcTreeWidget::slotModelLoadingDone()
 			insertTopLevelItem( 0, project_item );
 			blockSignals(false);
 		}
+	}
+
+	QTreeWidgetItem* item_outside = new QTreeWidgetItem();
+	item_outside->setText( 0, "OutsideSpatialStructure" );
+
+	std::map<int,shared_ptr<IfcPPObject> >&	map_outside = m_system->getReaderWriterIFC()->getObjectsOutsideSpatialStructure();
+	for( std::map<int,shared_ptr<IfcPPObject> >::iterator it = map_outside.begin(); it != map_outside.end(); ++it )
+	{
+		shared_ptr<IfcPPObject>& ifc_object = it->second;
+		QTreeWidgetItem* object_item = resolveTreeItems( ifc_object, set_visited );
+		if( object_item != NULL )
+		{
+			blockSignals(true);
+			item_outside->addChild( object_item );
+			blockSignals(false);
+		}
+	}
+
+	if( map_outside.size() > 0 )
+	{
+		insertTopLevelItem( topLevelItemCount(), item_outside );
 	}
 }
 

@@ -615,7 +615,7 @@ void AppearanceManagerOSG::clearAppearanceCache()
 	global_vec_existing_statesets.clear();
 }
 
-osg::StateSet* AppearanceManagerOSG::convertToStateSet( shared_ptr<AppearanceData>& appearence )
+osg::StateSet* AppearanceManagerOSG::convertToStateSet( const shared_ptr<AppearanceData>& appearence )
 {
 	if( !appearence )
 	{

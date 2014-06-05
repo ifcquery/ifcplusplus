@@ -92,7 +92,7 @@ RepresentationConverter::RepresentationConverter( shared_ptr<GeometrySettings> g
 	: m_geom_settings(geom_settings), m_unit_converter(unit_converter)
 {
 	m_handle_styled_items = true;
-	m_handle_layer_assignments = true;
+	m_handle_layer_assignments = false;
 
 	m_styles_converter = shared_ptr<StylesConverter>( new StylesConverter() );
 	m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_geom_settings, m_unit_converter ) );
@@ -108,7 +108,7 @@ RepresentationConverter::~RepresentationConverter()
 void RepresentationConverter::convertStyledItem( const shared_ptr<IfcRepresentationItem>& representation_item, shared_ptr<ItemData>& item_data )
 {
 	std::vector<weak_ptr<IfcStyledItem> >&	StyledByItem_inverse_vec = representation_item->m_StyledByItem_inverse;
-	for( unsigned int i=0; i<StyledByItem_inverse_vec.size(); ++i )
+	for( size_t i=0; i<StyledByItem_inverse_vec.size(); ++i )
 	{
 		weak_ptr<IfcStyledItem> styled_item_weak = StyledByItem_inverse_vec[i];
 		shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>(styled_item_weak);
@@ -118,8 +118,15 @@ void RepresentationConverter::convertStyledItem( const shared_ptr<IfcRepresentat
 #endif
 		std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
 		m_styles_converter->convertIfcStyledItem( styled_item, vec_appearance_data );
-		std::copy( vec_appearance_data.begin(), vec_appearance_data.end(), std::back_inserter( item_data->vec_item_appearances ) );
-		//item_data->appearances.push_back( appearance_data );
+		
+		for( size_t jj=0; jj<vec_appearance_data.size(); ++jj )
+		{
+			shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
+			if( data )
+			{
+				item_data->vec_item_appearances.push_back( data );
+			}
+		}
 	}
 }
 
@@ -131,19 +138,19 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 	for( it_representation_items=representation->m_Items.begin(); it_representation_items!=representation->m_Items.end(); ++it_representation_items )
 	{
 		shared_ptr<IfcRepresentationItem> representation_item = (*it_representation_items);
-		shared_ptr<ItemData> item_data( new ItemData() );
-		input_data->vec_item_data.push_back( item_data );
-
-		if( m_handle_styled_items )
-		{
-			convertStyledItem( representation_item, item_data );
-		}
 
 		//ENTITY IfcRepresentationItem  ABSTRACT SUPERTYPE OF(ONEOF(IfcGeometricRepresentationItem, IfcMappedItem, IfcStyledItem, IfcTopologicalRepresentationItem));
 		shared_ptr<IfcGeometricRepresentationItem> geom_item = dynamic_pointer_cast<IfcGeometricRepresentationItem>(representation_item);
 		if( geom_item )
 		{
-			convertIfcGeometricRepresentationItem( geom_item, item_data, strs_err );
+			shared_ptr<ItemData> geom_item_data( new ItemData() );
+			input_data->vec_item_data.push_back( geom_item_data );
+
+			if( m_handle_styled_items )
+			{
+				convertStyledItem( representation_item, geom_item_data );
+			}
+			convertIfcGeometricRepresentationItem( geom_item, geom_item_data, strs_err );
 			continue;
 		}
 		
@@ -185,8 +192,19 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 			}
 
 			shared_ptr<ShapeInputData> mapped_input_data( new ShapeInputData() );
-			std::copy( item_data->vec_item_appearances.begin(), item_data->vec_item_appearances.end(), std::back_inserter( mapped_input_data->vec_appearances ) );
 			convertIfcRepresentation( mapped_representation, mapped_input_data, strs_err );
+
+			// overwrite item appearances with parent appearance
+			for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->vec_item_data.size(); ++i_mapped_item )
+			{
+				shared_ptr<ItemData>& mapped_item_data = mapped_input_data->vec_item_data[i_mapped_item];
+				mapped_item_data->vec_item_appearances.clear();
+				if( m_handle_styled_items )
+				{
+					convertStyledItem( representation_item, mapped_item_data );
+				}
+			}
+			
 			carve::math::Matrix mapped_pos( map_matrix_target*map_matrix_origin );
 			for( size_t i_item = 0; i_item < mapped_input_data->vec_item_data.size(); ++i_item )
 			{
@@ -206,6 +224,9 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 		shared_ptr<IfcTopologicalRepresentationItem> topo_item = dynamic_pointer_cast<IfcTopologicalRepresentationItem>(representation_item);
 		if( topo_item )
 		{
+			shared_ptr<ItemData> topo_item_data( new ItemData() );
+			input_data->vec_item_data.push_back( topo_item_data );
+
 			//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
 			shared_ptr<IfcConnectedFaceSet> topo_connected_face_set = dynamic_pointer_cast<IfcConnectedFaceSet>(topo_item);
 			if( topo_connected_face_set )
@@ -259,7 +280,7 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 						}
 					}
 				}
-				item_data->polylines.push_back( polyline_data );
+				topo_item_data->polylines.push_back( polyline_data );
 				continue;
 			}
 		}
@@ -287,9 +308,8 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 					ScopedLock lock( m_writelock_styles_converter );
 #endif
 					shared_ptr<AppearanceData> appearance_data;
-					input_data->vec_appearances.push_back( appearance_data );
-
 					m_styles_converter->convertIfcPresentationStyle( presentation_style, appearance_data );
+					input_data->addAppearance( appearance_data );
 
 					//osg::StateSet* stateset = m_styles_converter->convertIfcPresentationStyle( presentation_style, item_data );
 					//if( stateset != nullptr )
@@ -758,10 +778,15 @@ void RepresentationConverter::convertIfcPropertySet( const shared_ptr<IfcPropert
 #ifdef IFCPP_OPENMP
 				ScopedLock lock( m_writelock_styles_converter );
 #endif
-				shared_ptr<AppearanceData> appearance_data;
-				m_styles_converter->convertIfcComplexPropertyColor( complex_property, appearance_data );
+				carve::geom::vector<4> vec_color;
+				m_styles_converter->convertIfcComplexPropertyColor( complex_property, vec_color );
+				shared_ptr<AppearanceData> temp_appearance_data( new AppearanceData(-1) );
+				temp_appearance_data->color_ambient = vec_color;
+				temp_appearance_data->color_diffuse = vec_color;
+				temp_appearance_data->color_specular = vec_color;
+				temp_appearance_data->shininess = 35.f;
 
-				osg::ref_ptr<osg::StateSet> stateset = AppearanceManagerOSG::convertToStateSet( appearance_data );
+				osg::ref_ptr<osg::StateSet> stateset = AppearanceManagerOSG::convertToStateSet( temp_appearance_data );
 
 				if( stateset.valid() )
 				{

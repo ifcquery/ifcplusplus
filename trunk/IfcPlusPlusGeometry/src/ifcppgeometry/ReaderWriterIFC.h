@@ -53,6 +53,7 @@ public:
 	shared_ptr<IfcStepWriter>&					getIfcPPWriter()				{ return m_step_writer; }
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter()	{ return m_representation_converter; }
 	std::map<int,shared_ptr<ShapeInputData> >&	getShapeInputData()				{ return m_shape_input_data; }
+	std::map<int,shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure()	{ return m_map_outside_spatial_structure; }
 	shared_ptr<UnitConverter>&					getUnitConverter()				{ return m_unit_converter; }
 
 	std::stringstream& getErrors() { return m_err; }
@@ -82,6 +83,7 @@ protected:
 
 	std::map<int, shared_ptr<ShapeInputData> > m_shape_input_data;
 	std::map<int, shared_ptr<IfcPPObject> > m_map_visited;
+	std::map<int, shared_ptr<IfcPPObject> > m_map_outside_spatial_structure;
 	osg::ref_ptr<osg::Group> m_group_result;
 	double m_recent_progress;
 };

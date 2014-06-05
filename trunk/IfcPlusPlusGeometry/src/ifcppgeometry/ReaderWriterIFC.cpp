@@ -102,7 +102,8 @@ void ReaderWriterIFC::resetModel()
 	m_messages.str(std::string());
 
 	deleteInputCache();
-	//m_processed_products.clear();
+	m_map_visited.clear();
+	m_map_outside_spatial_structure.clear();
 	AppearanceManagerOSG::clearAppearanceCache();
 
 	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
@@ -275,6 +276,7 @@ void ReaderWriterIFC::createGeometry()
 	}
 
 	m_shape_input_data.clear();
+	m_map_outside_spatial_structure.clear();
 	m_representation_converter->getProfileCache()->clearProfileCache();
 
 	std::vector<shared_ptr<IfcProduct> > vec_products;
@@ -419,6 +421,7 @@ void ReaderWriterIFC::createGeometry()
 					group_outside_spatial_structure->addChild( product_switch );
 				}
 				product_shape->added_to_storey = true;
+				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->getId(), ifc_product ) );
 			}
 		}
 	}
@@ -579,6 +582,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	const int product_id = product->getId();
 	std::stringstream strs_err;
 	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
 	std::stringstream group_name;
 	group_name << "#" << product_id << "=IfcProduct group";
 	product_switch->setName( group_name.str().c_str() );
@@ -626,6 +630,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
 		osg::Group* item_group = new osg::Group();
+		osg::Group* item_group_curves = new osg::Group();
 
 		// create shape for open shells
 		for( int i=0; i<item_data->open_polyhedrons.size(); ++i )
@@ -679,7 +684,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			ConverterOSG::drawPolyline( polyline_data.get(), geode );
-			item_group->addChild(geode);
+			item_group_curves->addChild(geode);
 		}
 
 		if( m_geom_settings->m_show_text_literals )
@@ -717,23 +722,46 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			for( int i_appearance=0; i_appearance<item_data->vec_item_appearances.size(); ++i_appearance )
 			{
 				shared_ptr<AppearanceData>& appearance = item_data->vec_item_appearances[i_appearance];
-				
-				osg::StateSet* item_stateset =  AppearanceManagerOSG::convertToStateSet( appearance );
-				if( item_stateset != nullptr )
+				if( appearance->apply_to_geometry_type == AppearanceData::SURFACE )
 				{
-					item_group->setStateSet( item_stateset );
-
-					osg::StateSet* existing_item_stateset = item_group->getStateSet();
-
-					if( existing_item_stateset )
-					{
-						osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-						merged_product_stateset->merge( *item_stateset );
-						item_group->setStateSet( merged_product_stateset );
-					}
-					else
+					osg::StateSet* item_stateset =  AppearanceManagerOSG::convertToStateSet( appearance );
+					if( item_stateset != nullptr )
 					{
 						item_group->setStateSet( item_stateset );
+
+						osg::StateSet* existing_item_stateset = item_group->getStateSet();
+
+						if( existing_item_stateset )
+						{
+							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+							merged_product_stateset->merge( *item_stateset );
+							item_group->setStateSet( merged_product_stateset );
+						}
+						else
+						{
+							item_group->setStateSet( item_stateset );
+						}
+					}
+					else if( appearance->apply_to_geometry_type == AppearanceData::CURVE )
+					{
+						osg::StateSet* item_stateset =  AppearanceManagerOSG::convertToStateSet( appearance );
+						if( item_stateset != nullptr )
+						{
+							item_group->setStateSet( item_stateset );
+
+							osg::StateSet* existing_item_stateset = item_group->getStateSet();
+
+							if( existing_item_stateset )
+							{
+								osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+								merged_product_stateset->merge( *item_stateset );
+								item_group->setStateSet( merged_product_stateset );
+							}
+							else
+							{
+								item_group_curves->setStateSet( item_stateset );
+							}
+						}
 					}
 				}
 			}
@@ -812,9 +840,9 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	//	}
 	//}
 
-	for( int i=0; i<product_shape->vec_appearances.size(); ++i )
+	for( int i=0; i<product_shape->getAppearances().size(); ++i )
 	{
-		shared_ptr<AppearanceData>& appearance = product_shape->vec_appearances[i];
+		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];
 		if( !appearance )
 		{
 			continue;
@@ -861,6 +889,11 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		product_shape->product_switch = product_switch;
 	}
 	
+	if( product_switch_curves->getNumChildren() > 0 )
+	{
+		product_shape->product_switch_curves = product_switch_curves;
+	}
+
 	if( strs_err.tellp() > 0 )
 	{
 		throw IfcPPException( strs_err.str().c_str(), __func__ );

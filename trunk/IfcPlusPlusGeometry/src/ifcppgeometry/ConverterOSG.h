@@ -35,9 +35,7 @@ public:
 class AppearanceManagerOSG
 {
 public:
-	//AppearanceManagerOSG();
-	//~AppearanceManagerOSG();
 	static void clearAppearanceCache();
-	static osg::StateSet* convertToStateSet( shared_ptr<AppearanceData>& appearence );
+	static osg::StateSet* convertToStateSet( const shared_ptr<AppearanceData>& appearence );
 	
 };

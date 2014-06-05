@@ -1,6 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
 
-
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE "Release")
 ENDIF(NOT CMAKE_BUILD_TYPE)
@@ -17,8 +16,9 @@ if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
   message(STATUS "Using Boost libraries")
 else(Boost_FOUND)
-  message(STATUS "Could not find Boost libraries")
+  message(FATAL_ERROR "Could not find Boost libraries")
 endif(Boost_FOUND)
+add_definitions(-DCARVE_SYSTEM_BOOST)
 
 # Carve library
 message(STATUS "IfcPlusPlus: directories of Carve")
@@ -30,13 +30,11 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src)
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/common)
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include)
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_BINARY_DIR}/include) # For the generated Config file
-
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} src/)
 
 LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}) 
 
 file (GLOB ifc4_headers "src/ifcpp/IFC4/include/*.h")
-
 file (GLOB ifc4_source "src/ifcpp/IFC4/*.cpp")
 
 set(IFCPP_HEADER_FILES 
@@ -68,7 +66,6 @@ set(IFCPP_HEADER_FILES
   src/ifcpp/xml/XmlTools.h
 
   ${ifc4_headers}
-
 )
 
 set(IFCPP_SOURCE_FILES 
