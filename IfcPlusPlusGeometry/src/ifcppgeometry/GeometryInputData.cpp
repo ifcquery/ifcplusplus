@@ -196,7 +196,7 @@ shared_ptr<ItemData> ItemData::getDeepCopy()
 void ShapeInputData::addInputData( shared_ptr<ShapeInputData>& other )
 {
 	std::copy( other->vec_item_data.begin(), other->vec_item_data.end(), std::back_inserter( vec_item_data ) );
-	std::copy( other->vec_appearances.begin(), other->vec_appearances.end(), std::back_inserter( vec_appearances ) );
+	std::copy( other->getAppearances().begin(), other->getAppearances().end(), std::back_inserter( vec_appearances ) );
 }
 
 void ShapeInputData::deepCopyFrom( shared_ptr<ShapeInputData>& other )
@@ -211,6 +211,28 @@ void ShapeInputData::deepCopyFrom( shared_ptr<ShapeInputData>& other )
 	}
 	std::copy( other->vec_appearances.begin(), other->vec_appearances.end(), std::back_inserter( vec_appearances ) );
 	//addInputData( other );
+}
+
+void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
+{
+	if( !appearance )
+	{
+		return;
+	}
+	int append_id = appearance->m_step_stype_id;
+	for( size_t ii = 0; ii < vec_appearances.size(); ++ii )
+	{
+		shared_ptr<AppearanceData>& appearance = vec_appearances[ii];
+		if( appearance->m_step_stype_id == append_id )
+		{
+			return;
+		}
+	}
+	vec_appearances.push_back( appearance );
+}
+void ShapeInputData::clearAppearanceData()
+{
+	vec_appearances.clear();
 }
 
 // PolyInputCache

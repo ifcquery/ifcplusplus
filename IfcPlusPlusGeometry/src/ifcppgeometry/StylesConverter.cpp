@@ -158,8 +158,10 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 
 	if( !appearance_data )
 	{
-		appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
+		appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 	}
+	m_map_ifc_styles[style_id] = appearance_data;
+	appearance_data->apply_to_geometry_type = AppearanceData::SURFACE;
 
 	std::vector<shared_ptr<IfcSurfaceStyleElementSelect> >& vec_styles = surface_style->m_Styles;
 	if( vec_styles.size() == 0 )
@@ -231,8 +233,8 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 
 				if( surf_style_rendering->m_SpecularColour)
 				{
-					shared_ptr<IfcColourOrFactor> color_or_factor = surf_style_rendering->m_SpecularColour;
-					//convertIfcColourOrFactor(color_or_factor, color, specularColor);
+					shared_ptr<IfcColourOrFactor> specular_color = surf_style_rendering->m_SpecularColour;
+					//convertIfcColourOrFactor(specular_color, color, specularColor);
 				}
 
 				if( surf_style_rendering->m_Transparency)
@@ -276,8 +278,6 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 			appearance_data->set_transparent = set_transparent;
 			appearance_data->transparency = transparency;
 
-			m_map_ifc_styles[style_id] = appearance_data;
-
 			continue;
 		}
 
@@ -300,11 +300,8 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 	if( it_styles != m_map_ifc_styles.end() )
 	{
 		vec_appearance_data.push_back( it_styles->second );
-		//appearance_data = it_styles->second;
 		return;
 	}
-
-	
 
 	std::vector<shared_ptr<IfcStyleAssignmentSelect> >& vec_style_assigns = styled_item->m_Styles;
 	std::vector<shared_ptr<IfcStyleAssignmentSelect> >::iterator it_style_assigns;
@@ -324,57 +321,28 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 				// TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcSymbolStyle	,IfcTextStyle);
 				shared_ptr<IfcPresentationStyleSelect> pres_style_select = (*it_presentation_styles);
 
-				shared_ptr<AppearanceData> new_appearance( new AppearanceData() );
-				convertIfcPresentationStyleSelect( pres_style_select, new_appearance );
-				vec_appearance_data.push_back( new_appearance );
-				
-				//if( presentation_style_stateset != nullptr )
-				//{
-				//	if( !resulting_stateset.valid() )
-				//	{
-				//		resulting_stateset = presentation_style_stateset;
-				//	}
-				//	else
-				//	{
-				//		resulting_stateset->merge( *presentation_style_stateset );
-				//	}
-				//}
+				shared_ptr<AppearanceData> appearance_data;
+				convertIfcPresentationStyleSelect( pres_style_select, appearance_data );
+				vec_appearance_data.push_back( appearance_data );
 			}
 			continue;
 		}
-		
 
 		// ENTITY IfcPresentationStyle ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
 		shared_ptr<IfcPresentationStyle> presentation_style = dynamic_pointer_cast<IfcPresentationStyle>(style_assign_select);
 		if( presentation_style )
 		{
-			shared_ptr<AppearanceData> new_appearance( new AppearanceData() );
-			convertIfcPresentationStyle( presentation_style, new_appearance );
-			vec_appearance_data.push_back( new_appearance );
-			//if( presentation_style_stateset != nullptr )
-			//{
-			//	if( !resulting_stateset.valid() )
-			//	{
-			//		resulting_stateset = presentation_style_stateset;
-			//	}
-			//	else
-			//	{
-			//		resulting_stateset->merge( *presentation_style_stateset );
-			//	}
-			//}
+			shared_ptr<AppearanceData> appearance_data;
+			convertIfcPresentationStyle( presentation_style, appearance_data );
+			vec_appearance_data.push_back( appearance_data );
 			continue;
 		}
 
 		continue;
 	}
-
-	//if( resulting_stateset.valid() )
-	//{
-	//	item_data->statesets.push_back(resulting_stateset);
-	//}
 }
 
-void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> complex_property, shared_ptr<AppearanceData>& appearance_data )
+void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> complex_property, carve::geom::vector<4>& vec_color )
 {
 	std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 	if( !complex_property->m_UsageName ) return;
@@ -382,19 +350,20 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 	std::string usage_name = complex_property->m_UsageName->m_value;
 	if( _stricmp( usage_name.c_str(), "Color" ) != 0 ) return;
 	
-	int complex_property_id = complex_property->getId();
-	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(complex_property_id);
-	if( it_styles != m_map_ifc_styles.end() )
-	{
-		// use existing appearance
-		appearance_data = it_styles->second;
-		return;
-	}
+	//int complex_property_id = complex_property->getId();
+	//std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(complex_property_id);
+	//if( it_styles != m_map_ifc_styles.end() )
+	//{
+	//	// use existing appearance
+	//	appearance_data = it_styles->second;
+	//	return;
+	//}
 
-	if( !appearance_data )
-	{
-		appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
-	}
+	//if( !appearance_data )
+	//{
+	//	appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
+	//}
+	//m_map_ifc_styles[complex_property_id] = appearance_data;
 
 	if( complex_property->m_HasProperties.size() > 2 )
 	{
@@ -422,13 +391,17 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 						g = 0.12;
 						b = 0.15;
 					}
+					vec_color.x = r;
+					vec_color.y = g;
+					vec_color.z = b;
+					vec_color.w = 1.0;
 
-					appearance_data->color_ambient = carve::geom::VECTOR( r, g, b, 1.f );
-					appearance_data->color_diffuse = carve::geom::VECTOR( r, g, b, 1.f );
-					appearance_data->color_specular = carve::geom::VECTOR( r, g, b, 1.f );
-					appearance_data->shininess = 35.f;
+					//appearance_data->color_ambient = carve::geom::VECTOR( r, g, b, 1.f );
+					//appearance_data->color_diffuse = carve::geom::VECTOR( r, g, b, 1.f );
+					//appearance_data->color_specular = carve::geom::VECTOR( r, g, b, 1.f );
+					//appearance_data->shininess = 35.f;
 
-					m_map_ifc_styles[complex_property_id] = appearance_data;
+					//m_map_ifc_styles[complex_property_id] = appearance_data;
 
 					return;
 				}
@@ -439,8 +412,8 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 
 void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 {
-	int complex_property_id = presentation_style->getId();
-	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(complex_property_id);
+	int style_id = presentation_style->getId();
+	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(style_id);
 	if( it_styles != m_map_ifc_styles.end() )
 	{
 		// use existing appearance
@@ -450,8 +423,9 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 
 	if( !appearance_data )
 	{
-		appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
+		appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 	}
+	m_map_ifc_styles[style_id] = appearance_data;
 
 	// ENTITY IfcPresentationStyle	ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
 	shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
@@ -488,10 +462,10 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 
 void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentationStyleSelect> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 {
-	if( !appearance_data )
-	{
-		appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
-	}
+	//if( !appearance_data )
+	//{
+	//	appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
+	//}
 
 	// TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcSymbolStyle	,IfcTextStyle);
 	shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
@@ -504,7 +478,6 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 	shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
 	if( fill_area_style )
 	{
-
 		std::cout << "IfcFillAreaStyle not implemented" << std::endl;
 		return;
 	}
@@ -527,6 +500,7 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 	if( text_style )
 	{
 		appearance_data->text_style = text_style;
+		appearance_data->apply_to_geometry_type = AppearanceData::TEXT;
 		return;
 	}
 }
@@ -541,6 +515,13 @@ void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_styl
 		appearance_data = it_styles->second;
 		return;
 	}
+	
+	if( !appearance_data )
+	{
+		appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
+	}
+	m_map_ifc_styles[style_id] = appearance_data;
+	appearance_data->apply_to_geometry_type = AppearanceData::CURVE;
 
 	//CurveFont		: OPTIONAL IfcCurveFontOrScaledCurveFontSelect;
 	//CurveWidth	: OPTIONAL IfcSizeSelect;
@@ -566,7 +547,5 @@ void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_styl
 
 		appearance_data->shininess = shininess;
 		appearance_data->set_transparent = false;
-
-		m_map_ifc_styles[style_id] = appearance_data;
 	}
 }

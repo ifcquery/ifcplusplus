@@ -32,8 +32,10 @@ if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
   message(STATUS "Using Boost libraries for Carve")
 else(Boost_FOUND)
-  message(STATUS "Could not find Boost libraries for Carve")
+  message(FATAL_ERROR "Could not find Boost libraries for Carve")
 endif(Boost_FOUND)
+add_definitions(-DCARVE_SYSTEM_BOOST)
+
 
 set(CARVE_HEADER_FILES 
   src/common/geometry.hpp

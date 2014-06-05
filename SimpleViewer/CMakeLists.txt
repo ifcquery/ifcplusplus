@@ -112,6 +112,7 @@ if(Boost_FOUND)
 else(Boost_FOUND)
   message(STATUS "Could not find Boost libraries for Carve")
 endif(Boost_FOUND)
+add_definitions(-DCARVE_SYSTEM_BOOST)
 
 QT4_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_HEADER_FILES})
 

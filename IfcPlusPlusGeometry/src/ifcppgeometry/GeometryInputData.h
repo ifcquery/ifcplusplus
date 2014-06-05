@@ -33,23 +33,27 @@ public:
 class AppearanceData
 {
 public:
-	AppearanceData()
+	enum GeometryTypeEnum { UNDEFINED, TEXT, CURVE, SURFACE, VOLUME };
+	AppearanceData( int step_style_id ) : m_step_stype_id( step_style_id )
 	{
 		set_transparent = false;
 		shininess = 10.f;
 		transparency = 1.f;
 		specular_exponent = 0.f;
 		specular_roughness = 0.f;
+		apply_to_geometry_type = UNDEFINED;
 	}
 	carve::geom::vector<4> color_ambient;
 	carve::geom::vector<4> color_diffuse;
 	carve::geom::vector<4> color_specular;
+	int m_step_stype_id;
 	float shininess;
 	float transparency;
 	float specular_exponent;
 	float specular_roughness;
 	bool set_transparent;
 	shared_ptr<IfcTextStyle> text_style;
+	GeometryTypeEnum apply_to_geometry_type;
 };
 
 //\brief Class to hold input data of one IFC geometric representation item.
@@ -90,17 +94,23 @@ public:
 
 	void addInputData( shared_ptr<ShapeInputData>& other );
 	void deepCopyFrom( shared_ptr<ShapeInputData>& other );
+	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return vec_appearances; }
+	void addAppearance( shared_ptr<AppearanceData>& appearance );
+	void clearAppearanceData();
 
 	shared_ptr<IfcProduct> ifc_product;
 	shared_ptr<IfcRepresentation> representation;
 	shared_ptr<IfcObjectPlacement> object_placement;
 	osg::ref_ptr<osg::Switch> product_switch;
+	osg::ref_ptr<osg::Switch> product_switch_curves;
 	osg::ref_ptr<osg::Switch> space_switch;
 	//std::vector<shared_ptr<IfcProduct> > vec_openings;
 	
 	std::vector<shared_ptr<ItemData> >			vec_item_data;
-	std::vector<shared_ptr<AppearanceData> >	vec_appearances;
 	bool added_to_storey;
+
+protected:
+	std::vector<shared_ptr<AppearanceData> >	vec_appearances;
 };
 
 class PolyInputCache3D
