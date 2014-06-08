@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Carve", "Carve\Carve.vcxproj", "{B3C35BB8-0E24-4F96-8D1C-47F777EF9EA1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IfcPlusPlus", "IfcPlusPlus\IfcPlusPlus.vcxproj", "{9700AD93-4F6B-484A-BA34-FC4C97E5C645}"
@@ -117,7 +119,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = 5.2.0
+		Qt5Version = msvc2012_64_opengl
 		QtVersion = 4.7.4
 	EndGlobalSection
 EndGlobal

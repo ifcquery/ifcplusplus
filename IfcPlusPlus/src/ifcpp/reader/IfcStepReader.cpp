@@ -866,6 +866,10 @@ void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityE
 		case IFCPROPERTYSINGLEVALUE:
 			while( args.size() < 4 ){	args.push_back( "$" );	}
 			break;
+		case IFCPROPERTYTABLEVALUE:
+			while (args.size() < 8){ args.push_back("$"); }
+			break;
+			
 
 			// Q
 		case IFCQUANTITYAREA:

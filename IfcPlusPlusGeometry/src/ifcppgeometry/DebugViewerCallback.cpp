@@ -15,10 +15,10 @@
 
 #ifdef  _DEBUG
 
-#define ENABLE_FILE_DUMP
-#ifdef ENABLE_FILE_DUMP
+//#define ENABLE_FILE_DUMP
+//#ifdef ENABLE_FILE_DUMP
 #include <fstream>
-#endif
+//#endif
 
 #include <osgText/Text>
 #include <ifcpp/model/UnitConverter.h>

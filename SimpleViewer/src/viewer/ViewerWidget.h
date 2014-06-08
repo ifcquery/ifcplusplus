@@ -21,8 +21,8 @@
 #include <QtCore/QTimer>
 #include <qwidget.h>
 
-//\brief class to combine OSG Viewer and Qt widget
 
+//\brief class to combine OSG Viewer and Qt widget
 class ViewerWidget : public QWidget
 {
 public:
@@ -49,10 +49,9 @@ public:
 protected:
 	osgViewer::CompositeViewer		m_viewer;
 	osg::ref_ptr<osgViewer::View>	m_main_view;
-
 	osgQt::GLWidget*				m_gl_widget;
 	ViewerProjection				m_projection;
-
+	
     QTimer							m_timer;
 	double							m_near_plane;
 	double							m_far_plane;

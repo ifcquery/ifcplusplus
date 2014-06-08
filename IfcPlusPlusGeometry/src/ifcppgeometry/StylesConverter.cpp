@@ -178,27 +178,6 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 		}
 		// TYPE IfcSurfaceStyleElementSelect = SELECT	(IfcExternallyDefinedSurfaceStyle	,IfcSurfaceStyleLighting	,IfcSurfaceStyleRefraction	,IfcSurfaceStyleShading	,IfcSurfaceStyleWithTextures);
 
-		shared_ptr<IfcExternallyDefinedSurfaceStyle> ext_surf_style = dynamic_pointer_cast<IfcExternallyDefinedSurfaceStyle>(surf_style_element_select);
-		if( ext_surf_style )
-		{
-			std::cout << "IfcExternallyDefinedSurfaceStyle not implemented" << std::endl;
-			continue;
-		}
-
-		shared_ptr<IfcSurfaceStyleLighting> style_lighting = dynamic_pointer_cast<IfcSurfaceStyleLighting>(surf_style_element_select);
-		if( style_lighting )
-		{
-			std::cout << "IfcSurfaceStyleLighting not implemented" << std::endl;
-			continue;
-		}
-
-		shared_ptr<IfcSurfaceStyleRefraction> style_refraction = dynamic_pointer_cast<IfcSurfaceStyleRefraction>(surf_style_element_select);
-		if( style_refraction )
-		{
-			std::cout << "IfcSurfaceStyleRefraction not implemented" << std::endl;
-			continue;
-		}
-
 		shared_ptr<IfcSurfaceStyleShading> surface_style_shading = dynamic_pointer_cast<IfcSurfaceStyleShading>(surf_style_element_select);
 		if( surface_style_shading )
 		{
@@ -278,6 +257,27 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 			appearance_data->set_transparent = set_transparent;
 			appearance_data->transparency = transparency;
 
+			continue;
+		}
+
+		shared_ptr<IfcExternallyDefinedSurfaceStyle> ext_surf_style = dynamic_pointer_cast<IfcExternallyDefinedSurfaceStyle>(surf_style_element_select);
+		if (ext_surf_style)
+		{
+			std::cout << "IfcExternallyDefinedSurfaceStyle not implemented" << std::endl;
+			continue;
+		}
+
+		shared_ptr<IfcSurfaceStyleLighting> style_lighting = dynamic_pointer_cast<IfcSurfaceStyleLighting>(surf_style_element_select);
+		if (style_lighting)
+		{
+			std::cout << "IfcSurfaceStyleLighting not implemented" << std::endl;
+			continue;
+		}
+
+		shared_ptr<IfcSurfaceStyleRefraction> style_refraction = dynamic_pointer_cast<IfcSurfaceStyleRefraction>(surf_style_element_select);
+		if (style_refraction)
+		{
+			std::cout << "IfcSurfaceStyleRefraction not implemented" << std::endl;
 			continue;
 		}
 
