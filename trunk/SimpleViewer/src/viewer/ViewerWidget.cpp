@@ -21,16 +21,15 @@
 #include <osgViewer/Renderer>
 #include <osg/AnimationPath>
 #include <osg/LightModel>
-
+#include <osgViewer/CompositeViewer>
+#include <osgQt/GraphicsWindowQt>
 #include <QtCore/qglobal.h>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QtGui/QKeyEvent>
-
-#include <osgQt/GraphicsWindowQt>
+#include <QWindow>
 
 #include "ViewerWidget.h"
-
 
 ViewerWidget::ViewerWidget( QWidget* parent) : QWidget(parent)
 {
@@ -78,17 +77,21 @@ ViewerWidget::ViewerWidget( QWidget* parent) : QWidget(parent)
 	vbox->addWidget( m_gl_widget );
     setLayout( vbox );
 	
-    connect( &m_timer, SIGNAL(timeout()), this, SLOT(update()) );
+   connect( &m_timer, SIGNAL(timeout()), this, SLOT(update()) );
 }
+
 ViewerWidget::~ViewerWidget()
 {
 }
 
-
 void ViewerWidget::paintEvent( QPaintEvent* event )
 {
-	m_viewer.frame();
-	//frame();
+	QWindow* w_gl = m_gl_widget->windowHandle();
+	QWindow* w = windowHandle();
+	if( w->isExposed() && w_gl->isExposed() )
+	{
+		m_viewer.frame();
+	}
 }
 
 QSize ViewerWidget::minimumSizeHint() const
@@ -100,7 +103,6 @@ QSize ViewerWidget::sizeHint() const
 {
 	return QSize( 800, 600 );
 }	
-
 
 void ViewerWidget::setProjection( ViewerProjection p )
 {
@@ -144,6 +146,7 @@ void ViewerWidget::stopTimer()
 {
 	m_timer.stop();
 }
+
 void ViewerWidget::startTimer()
 {
 	m_timer.start(10);

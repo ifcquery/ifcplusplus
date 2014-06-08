@@ -105,7 +105,7 @@ RepresentationConverter::~RepresentationConverter()
 {
 }
 
-void RepresentationConverter::convertStyledItem( const shared_ptr<IfcRepresentationItem>& representation_item, shared_ptr<ItemData>& item_data )
+void RepresentationConverter::convertRepresentationStyle(const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
 {
 	std::vector<weak_ptr<IfcStyledItem> >&	StyledByItem_inverse_vec = representation_item->m_StyledByItem_inverse;
 	for( size_t i=0; i<StyledByItem_inverse_vec.size(); ++i )
@@ -116,17 +116,7 @@ void RepresentationConverter::convertStyledItem( const shared_ptr<IfcRepresentat
 #ifdef IFCPP_OPENMP
 		ScopedLock lock(m_writelock_styles_converter);
 #endif
-		std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
 		m_styles_converter->convertIfcStyledItem( styled_item, vec_appearance_data );
-		
-		for( size_t jj=0; jj<vec_appearance_data.size(); ++jj )
-		{
-			shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
-			if( data )
-			{
-				item_data->vec_item_appearances.push_back( data );
-			}
-		}
 	}
 }
 
@@ -148,7 +138,19 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 
 			if( m_handle_styled_items )
 			{
-				convertStyledItem( representation_item, geom_item_data );
+				std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
+				convertRepresentationStyle(representation_item, vec_appearance_data);
+
+				for (size_t jj = 0; jj<vec_appearance_data.size(); ++jj)
+				{
+					shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
+					if (data)
+					{
+						geom_item_data->vec_item_appearances.push_back(data);
+					}
+				}
+
+				//convertStyledItem( representation_item, geom_item_data );
 			}
 			convertIfcGeometricRepresentationItem( geom_item, geom_item_data, strs_err );
 			continue;
@@ -194,14 +196,28 @@ void RepresentationConverter::convertIfcRepresentation(  const shared_ptr<IfcRep
 			shared_ptr<ShapeInputData> mapped_input_data( new ShapeInputData() );
 			convertIfcRepresentation( mapped_representation, mapped_input_data, strs_err );
 
-			// overwrite item appearances with parent appearance
-			for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->vec_item_data.size(); ++i_mapped_item )
+			if( m_handle_styled_items )
 			{
-				shared_ptr<ItemData>& mapped_item_data = mapped_input_data->vec_item_data[i_mapped_item];
-				mapped_item_data->vec_item_appearances.clear();
-				if( m_handle_styled_items )
+				std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
+				convertRepresentationStyle(representation_item, vec_appearance_data);
+
+				if( vec_appearance_data.size() > 0 )
 				{
-					convertStyledItem( representation_item, mapped_item_data );
+					// overwrite item appearances with parent appearance
+					for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->vec_item_data.size(); ++i_mapped_item )
+					{
+						shared_ptr<ItemData>& mapped_item_data = mapped_input_data->vec_item_data[i_mapped_item];
+						mapped_item_data->vec_item_appearances.clear();
+					
+						for (size_t jj_appearance = 0; jj_appearance<vec_appearance_data.size(); ++jj_appearance )
+						{
+							shared_ptr<AppearanceData>& data = vec_appearance_data[jj_appearance];
+							if( data )
+							{
+								mapped_item_data->vec_item_appearances.push_back(data);
+							}
+						}
+					}
 				}
 			}
 			

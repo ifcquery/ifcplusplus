@@ -58,7 +58,6 @@ public:
 	virtual bool isRepeatable()							{ return false; }
 	osg::Group*	getOsgGroup()							{ return m_group.get(); }
 	void setInterruptedCmd( shared_ptr<Command> c )		{	m_interrupted_cmd = c; }
-	bool hasInterruptedCmd()							{	return m_interrupted_cmd; }
 	shared_ptr<Command> getInterruptedCmd()				{	return m_interrupted_cmd; }
 
 };

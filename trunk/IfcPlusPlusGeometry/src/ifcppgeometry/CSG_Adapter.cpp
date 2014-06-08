@@ -1024,18 +1024,19 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 		{
 			carve::mesh::MeshSet<3>* result_copy = result->clone();//new carve::mesh::MeshSet<3>();
 			MeshOps::applyTranslate( result_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-			renderMeshsetInDebugViewer( result_copy, osg::Vec4(0.0f, 0.5f, 0.0f, 1.0f), false );
+		//	renderMeshsetInDebugViewer( result_copy, osg::Vec4(0.0f, 0.5f, 0.0f, 1.0f), false );
 		}
 
 		carve::mesh::MeshSet<3>* op1_copy = op1->clone();
-		MeshOps::applyTranslate( op1_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-		renderMeshsetInDebugViewer( op1_copy, osg::Vec4(0.0f, 0.8f, 0.0f, 1.0f), true );
+		MeshOps::applyTranslate( op1_copy, carve::geom::VECTOR( 0, y_pos, -1 ) );
+		renderMeshsetInDebugViewer( op1_copy, osg::Vec4(0.0f, 0.8f, 0.0f, 1.0f), false );
 
+		y_pos += 0.2;
 		carve::mesh::MeshSet<3>* op2_copy = op2->clone();
-		MeshOps::applyTranslate( op2_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-		renderMeshsetInDebugViewer( op2_copy, osg::Vec4(0.8f, 0.0f, 0.0f, 1.0f), true );
+		MeshOps::applyTranslate(op2_copy, carve::geom::VECTOR(0, y_pos, -1));
+		renderMeshsetInDebugViewer(op2_copy, osg::Vec4(0.8f, 0.0f, 0.0f, 1.0f), false);
 
-		y_pos += 1;
+		y_pos += 0.2;
 
 		dumpMeshsets( op1.get(), op2.get(), result.get(), entity1, entity2 );
 	}
