@@ -462,11 +462,6 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 
 void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentationStyleSelect> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 {
-	//if( !appearance_data )
-	//{
-	//	appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
-	//}
-
 	// TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcSymbolStyle	,IfcTextStyle);
 	shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
 	if( curve_style )
@@ -496,9 +491,17 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 		return convertIfcSurfaceStyle( surface_style, appearance_data );
 	}
 
+
+
 	shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
 	if( text_style )
 	{
+		if (!appearance_data)
+		{
+			int style_id = text_style->getId();
+			appearance_data = shared_ptr<AppearanceData>(new AppearanceData(style_id));
+		}
+
 		appearance_data->text_style = text_style;
 		appearance_data->apply_to_geometry_type = AppearanceData::TEXT;
 		return;

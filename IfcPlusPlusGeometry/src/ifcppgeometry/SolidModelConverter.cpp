@@ -121,18 +121,19 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			//EndParam	 : OPTIONAL IfcParameterValue;
 			//FixedReference	 : IfcDirection;
 
-			shared_ptr<IfcCurve>& directrix_curve = fixed_reference_swept_area_solid->m_Directrix;
+			shared_ptr<IfcCurve>& ifc_directrix_curve = fixed_reference_swept_area_solid->m_Directrix;
+			shared_ptr<IfcParameterValue>& ifc_start_param = fixed_reference_swept_area_solid->m_StartParam;				//optional
+			shared_ptr<IfcParameterValue>& ifc_end_param = fixed_reference_swept_area_solid->m_EndParam;					//optional
+			shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;
 
-			shared_ptr<IfcParameterValue>& start_param = fixed_reference_swept_area_solid->m_StartParam;				//optional
-			shared_ptr<IfcParameterValue>& end_param = fixed_reference_swept_area_solid->m_EndParam;					//optional
-			shared_ptr<IfcDirection>& fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;
+			// TODO: apply fixed reference
 
 			const int nvc = m_geom_settings->m_num_vertices_per_circle;
 			double length_in_meter = m_unit_converter->getLengthInMeterFactor();
 
 			std::vector<carve::geom::vector<3> > segment_start_points;
 			std::vector<carve::geom::vector<3> > basis_curve_points;
-			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
+			m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
 			shared_ptr<ItemData> item_data_solid( new ItemData() );
 			GeomUtils::sweepArea( basis_curve_points, profile_paths, item_data_solid );
@@ -154,34 +155,41 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcSurfaceCurveSweptAreaSolid> surface_curve_swept_area_solid = dynamic_pointer_cast<IfcSurfaceCurveSweptAreaSolid>(swept_area_solid);
 		if( surface_curve_swept_area_solid )
 		{
-			std::cout << "IfcSurfaceCurveSweptAreaSolid not implemented" << std::endl;
-			// IfcSweptAreaSolid -----------------------------------------------------------
-			// attributes:
-			//  shared_ptr<IfcProfileDef>					m_SweptArea;
-			//  shared_ptr<IfcAxis2Placement3D>				m_Position;					//optional
+			shared_ptr<IfcCurve>& ifc_directrix_curve = surface_curve_swept_area_solid->m_Directrix;
+			shared_ptr<IfcParameterValue>& ifc_start_param = surface_curve_swept_area_solid->m_StartParam;				//optional
+			shared_ptr<IfcParameterValue>& ifc_end_param = surface_curve_swept_area_solid->m_EndParam;					//optional
+			shared_ptr<IfcSurface>& ifc_reference_surface = surface_curve_swept_area_solid->m_ReferenceSurface;
 
 			shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
-			shared_ptr<IfcCurve>& directrix_curve = surface_curve_swept_area_solid->m_Directrix;
+			
 			const int nvc = m_geom_settings->m_num_vertices_per_circle;
 			double length_in_meter = m_unit_converter->getLengthInMeterFactor();
 
 			std::vector<carve::geom::vector<3> > segment_start_points;
-			std::vector<carve::geom::vector<3> > basis_curve_points;
-			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
+			std::vector<carve::geom::vector<3> > directrix_curve_points;
+			m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points );
 
-			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-			m_face_converter->convertIfcSurface( surface_curve_swept_area_solid->m_ReferenceSurface, polyline_data );
+			// TODO: apply start_param, end_param
 
-			// apply swept area position
-			std::vector<carve::geom3d::Vector>& polyline_points = polyline_data->points;
-			for( int ii=0; ii<polyline_points.size(); ++ii )
+			// apply reference curve
+			shared_ptr<carve::input::PolylineSetData> reference_surface_data( new carve::input::PolylineSetData() );
+			shared_ptr<SurfaceProxy> surface_proxy;
+			m_face_converter->convertIfcSurface( ifc_reference_surface, reference_surface_data, surface_proxy );
+			
+			if( surface_proxy )
 			{
-				carve::geom3d::Vector& pt = polyline_points[ii];
-				pt = swept_area_pos*pt;
+				for( int ii = 0; ii < directrix_curve_points.size(); ++ii )
+				{
+					carve::geom::vector<3>& point_3d = directrix_curve_points[ii];
+					carve::geom::vector<2> point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
+					//surface_proxy->computePointOnSurface( point_3d, point_3d );
+				}
 			}
 
-			//shared_ptr<IfcParameterValue>				m_StartParam;				//optional
-			//shared_ptr<IfcParameterValue>				m_EndParam;					//optional
+			shared_ptr<ItemData> item_data_solid( new ItemData() );
+			GeomUtils::sweepArea( directrix_curve_points, profile_paths, item_data_solid );
+			item_data_solid->applyPosition( swept_area_pos );
+			item_data->addItemData( item_data_solid );
 
 			return;
 		}
@@ -1339,7 +1347,8 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			if( var == 0 )
 			{
 				shared_ptr<carve::input::PolylineSetData> surface_data ( new carve::input::PolylineSetData() );
-				m_face_converter->convertIfcSurface( base_surface, surface_data );
+				shared_ptr<SurfaceProxy> surface_proxy;
+				m_face_converter->convertIfcSurface( base_surface, surface_data, surface_proxy );
 				std::vector<carve::geom::vector<3> > base_surface_points = surface_data->points;
 
 				if( base_surface_points.size() != 4 )
