@@ -55,7 +55,7 @@ FaceConverter::~FaceConverter()
 {
 }
 
-void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<carve::input::PolylineSetData>& polyline_data )
+void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy )
 {
 	//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))
 
@@ -109,7 +109,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			shared_ptr<IfcSurface>& basis_surface = curve_bounded_surface->m_BasisSurface;
 			if( basis_surface )
 			{
-				convertIfcSurface( basis_surface, polyline_data );
+				convertIfcSurface( basis_surface, polyline_data, surface_proxy );
 			}
 
 			std::vector<shared_ptr<IfcBoundaryCurve> >& vec_boundaries = curve_bounded_surface->m_Boundaries;
@@ -124,7 +124,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			shared_ptr<IfcSurface>& basis_surface = rectengular_trimmed_surface->m_BasisSurface;
 			if( basis_surface )
 			{
-				convertIfcSurface( basis_surface, polyline_data );
+				convertIfcSurface( basis_surface, polyline_data, surface_proxy );
 			}
 
 			shared_ptr<IfcParameterValue>& u1 = rectengular_trimmed_surface->m_U1;
@@ -151,6 +151,10 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			PlacementConverter::convertIfcAxis2Placement3D( elementary_surface_placement, elementary_surface_matrix, length_factor );
 			//elementary_surface_matrix = pos*elementary_surface_matrix;
 		}
+
+		shared_ptr<SurfaceProxyLinear> proxy_linear( new SurfaceProxyLinear() );
+		proxy_linear->m_surface_matrix = elementary_surface_matrix;
+		surface_proxy = proxy_linear;
 
 		shared_ptr<IfcPlane> elementary_surface_plane = dynamic_pointer_cast<IfcPlane>(elementary_surface);
 		if( elementary_surface_plane )
@@ -354,3 +358,8 @@ void FaceConverter::convertIfcBSplineSurface( const shared_ptr<IfcRationalBSplin
 	// TODO: implement
 }
 
+ 
+void SurfaceProxyLinear::computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out)
+{
+	point_out = m_surface_matrix*point_in;
+}

@@ -137,7 +137,11 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			if( points.size() > 0 )
 			{
 				convertIfcCartesianPointVector( points, target_vec );
-				segment_start_points.push_back( carve::geom::VECTOR( points[0]->m_Coordinates[0]->m_value*length_factor, points[0]->m_Coordinates[1]->m_value*length_factor, 0 ) );
+				shared_ptr<IfcCartesianPoint>& first_point = points[0];
+				if( first_point->m_Coordinates.size() > 1 )
+				{
+					segment_start_points.push_back(carve::geom::VECTOR(first_point->m_Coordinates[0]->m_value*length_factor, first_point->m_Coordinates[1]->m_value*length_factor, 0));
+				}
 			}
 			return;
 		}

@@ -23,6 +23,19 @@ class CurveConverter;
 class IfcFace;
 class IfcRationalBSplineSurfaceWithKnots;
 
+class SurfaceProxy
+{
+public:
+	virtual void computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out) = 0;
+};
+
+class SurfaceProxyLinear : public SurfaceProxy
+{
+public:
+	virtual void computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out);
+	carve::math::Matrix m_surface_matrix;
+};
+
 class FaceConverter
 {
 public:
@@ -30,7 +43,7 @@ public:
 	~FaceConverter();
 
 	void convertIfcFaceList(		const std::vector<shared_ptr<IfcFace> >& faces,						shared_ptr<ItemData> item_data, std::stringstream& strs_err );
-	void convertIfcSurface(			const shared_ptr<IfcSurface>& surface,								shared_ptr<carve::input::PolylineSetData>& polyline_data );
+	void convertIfcSurface(			const shared_ptr<IfcSurface>& surface,								shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy );
 	void convertIfcBSplineSurface(	const shared_ptr<IfcRationalBSplineSurfaceWithKnots>& ifc_surface,	shared_ptr<carve::input::PolylineSetData>& polyline_data );
 
 protected:

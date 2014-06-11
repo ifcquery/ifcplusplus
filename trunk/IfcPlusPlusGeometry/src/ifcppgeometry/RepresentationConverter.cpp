@@ -444,7 +444,8 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 	if( surface )
 	{
 		shared_ptr<carve::input::PolylineSetData> polyline( new carve::input::PolylineSetData() );
-		m_face_converter->convertIfcSurface( surface, polyline );
+		shared_ptr<SurfaceProxy> surface_proxy;
+		m_face_converter->convertIfcSurface( surface, polyline, surface_proxy );
 		if( polyline->getVertexCount() > 1 )
 		{
 			item_data->polylines.push_back( polyline );
@@ -520,7 +521,8 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			if( select_surface )
 			{
 				shared_ptr<carve::input::PolylineSetData> polyline( new carve::input::PolylineSetData() );
-				m_face_converter->convertIfcSurface( select_surface, polyline );
+				shared_ptr<SurfaceProxy> surface_proxy;
+				m_face_converter->convertIfcSurface( select_surface, polyline, surface_proxy );
 				if( polyline->getVertexCount() > 1 )
 				{
 					item_data->polylines.push_back( polyline );
