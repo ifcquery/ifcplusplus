@@ -44,24 +44,25 @@ void IfcBoilerTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	shared_ptr<IfcBoilerTypeEnum> type_object( new IfcBoilerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".WATER." ) == 0 )
+	if( boost::iequals( arg, L".WATER." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_WATER;
 	}
-	else if( _stricmp( arg.c_str(), ".STEAM." ) == 0 )
+	else if( boost::iequals( arg, L".STEAM." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_STEAM;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_NOTDEFINED;
 	}

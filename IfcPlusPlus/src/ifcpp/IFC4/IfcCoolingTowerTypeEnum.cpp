@@ -48,28 +48,29 @@ void IfcCoolingTowerTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCoolingTowerTypeEnum> IfcCoolingTowerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCoolingTowerTypeEnum> IfcCoolingTowerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
 	shared_ptr<IfcCoolingTowerTypeEnum> type_object( new IfcCoolingTowerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".NATURALDRAFT." ) == 0 )
+	if( boost::iequals( arg, L".NATURALDRAFT." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_NATURALDRAFT;
 	}
-	else if( _stricmp( arg.c_str(), ".MECHANICALINDUCEDDRAFT." ) == 0 )
+	else if( boost::iequals( arg, L".MECHANICALINDUCEDDRAFT." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_MECHANICALINDUCEDDRAFT;
 	}
-	else if( _stricmp( arg.c_str(), ".MECHANICALFORCEDDRAFT." ) == 0 )
+	else if( boost::iequals( arg, L".MECHANICALFORCEDDRAFT." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_MECHANICALFORCEDDRAFT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_NOTDEFINED;
 	}

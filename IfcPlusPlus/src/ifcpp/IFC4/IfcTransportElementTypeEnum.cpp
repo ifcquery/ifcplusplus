@@ -56,36 +56,37 @@ void IfcTransportElementTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
 	shared_ptr<IfcTransportElementTypeEnum> type_object( new IfcTransportElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ELEVATOR." ) == 0 )
+	if( boost::iequals( arg, L".ELEVATOR." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_ELEVATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".ESCALATOR." ) == 0 )
+	else if( boost::iequals( arg, L".ESCALATOR." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_ESCALATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".MOVINGWALKWAY." ) == 0 )
+	else if( boost::iequals( arg, L".MOVINGWALKWAY." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_MOVINGWALKWAY;
 	}
-	else if( _stricmp( arg.c_str(), ".CRANEWAY." ) == 0 )
+	else if( boost::iequals( arg, L".CRANEWAY." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_CRANEWAY;
 	}
-	else if( _stricmp( arg.c_str(), ".LIFTINGGEAR." ) == 0 )
+	else if( boost::iequals( arg, L".LIFTINGGEAR." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_LIFTINGGEAR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_NOTDEFINED;
 	}

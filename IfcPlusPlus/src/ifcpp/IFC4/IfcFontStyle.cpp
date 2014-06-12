@@ -22,7 +22,7 @@
 
 // TYPE IfcFontStyle 
 IfcFontStyle::IfcFontStyle() {}
-IfcFontStyle::IfcFontStyle( std::string value ) { m_value = value; }
+IfcFontStyle::IfcFontStyle( std::wstring value ) { m_value = value; }
 IfcFontStyle::~IfcFontStyle() {}
 void IfcFontStyle::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -30,10 +30,11 @@ void IfcFontStyle::getStepParameter( std::stringstream& stream, bool is_select_t
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	shared_ptr<IfcFontStyle> type_object( new IfcFontStyle() );
 	type_object->readArgument( arg );
 	return type_object;

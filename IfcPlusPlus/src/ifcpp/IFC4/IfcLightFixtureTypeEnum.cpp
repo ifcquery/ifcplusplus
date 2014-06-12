@@ -48,28 +48,29 @@ void IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	shared_ptr<IfcLightFixtureTypeEnum> type_object( new IfcLightFixtureTypeEnum() );
-	if( _stricmp( arg.c_str(), ".POINTSOURCE." ) == 0 )
+	if( boost::iequals( arg, L".POINTSOURCE." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_POINTSOURCE;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTIONSOURCE." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTIONSOURCE." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_DIRECTIONSOURCE;
 	}
-	else if( _stricmp( arg.c_str(), ".SECURITYLIGHTING." ) == 0 )
+	else if( boost::iequals( arg, L".SECURITYLIGHTING." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_SECURITYLIGHTING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_NOTDEFINED;
 	}

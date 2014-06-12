@@ -44,24 +44,25 @@ void IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
 	shared_ptr<IfcConnectionTypeEnum> type_object( new IfcConnectionTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ATPATH." ) == 0 )
+	if( boost::iequals( arg, L".ATPATH." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_ATPATH;
 	}
-	else if( _stricmp( arg.c_str(), ".ATSTART." ) == 0 )
+	else if( boost::iequals( arg, L".ATSTART." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_ATSTART;
 	}
-	else if( _stricmp( arg.c_str(), ".ATEND." ) == 0 )
+	else if( boost::iequals( arg, L".ATEND." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_ATEND;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_NOTDEFINED;
 	}

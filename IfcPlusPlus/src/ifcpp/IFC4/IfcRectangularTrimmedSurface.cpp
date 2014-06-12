@@ -63,7 +63,7 @@ void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -75,10 +75,10 @@ void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::str
 	m_V1 = IfcParameterValue::createObjectFromStepData( args[2] );
 	m_U2 = IfcParameterValue::createObjectFromStepData( args[3] );
 	m_V2 = IfcParameterValue::createObjectFromStepData( args[4] );
-	if( _stricmp( args[5].c_str(), ".F." ) == 0 ) { m_Usense = false; }
-	else if( _stricmp( args[5].c_str(), ".T." ) == 0 ) { m_Usense = true; }
-	if( _stricmp( args[6].c_str(), ".F." ) == 0 ) { m_Vsense = false; }
-	else if( _stricmp( args[6].c_str(), ".T." ) == 0 ) { m_Vsense = true; }
+	if( boost::iequals( args[5], L".F." ) ) { m_Usense = false; }
+	else if( boost::iequals( args[5], L".T." ) ) { m_Usense = true; }
+	if( boost::iequals( args[6], L".F." ) ) { m_Vsense = false; }
+	else if( boost::iequals( args[6], L".T." ) ) { m_Vsense = true; }
 }
 void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

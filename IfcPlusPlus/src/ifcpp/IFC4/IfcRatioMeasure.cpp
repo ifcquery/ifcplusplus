@@ -33,10 +33,11 @@ void IfcRatioMeasure::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRatioMeasure> IfcRatioMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRatioMeasure> IfcRatioMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
 	shared_ptr<IfcRatioMeasure> type_object( new IfcRatioMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

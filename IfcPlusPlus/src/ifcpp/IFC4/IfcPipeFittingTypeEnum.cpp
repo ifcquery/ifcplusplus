@@ -64,44 +64,45 @@ void IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPipeFittingTypeEnum> IfcPipeFittingTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPipeFittingTypeEnum> IfcPipeFittingTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
 	shared_ptr<IfcPipeFittingTypeEnum> type_object( new IfcPipeFittingTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BEND." ) == 0 )
+	if( boost::iequals( arg, L".BEND." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_BEND;
 	}
-	else if( _stricmp( arg.c_str(), ".CONNECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".CONNECTOR." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_CONNECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".ENTRY." ) == 0 )
+	else if( boost::iequals( arg, L".ENTRY." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_ENTRY;
 	}
-	else if( _stricmp( arg.c_str(), ".EXIT." ) == 0 )
+	else if( boost::iequals( arg, L".EXIT." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_EXIT;
 	}
-	else if( _stricmp( arg.c_str(), ".JUNCTION." ) == 0 )
+	else if( boost::iequals( arg, L".JUNCTION." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_JUNCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".OBSTRUCTION." ) == 0 )
+	else if( boost::iequals( arg, L".OBSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_OBSTRUCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".TRANSITION." ) == 0 )
+	else if( boost::iequals( arg, L".TRANSITION." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_TRANSITION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPipeFittingTypeEnum::ENUM_NOTDEFINED;
 	}

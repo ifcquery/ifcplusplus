@@ -80,60 +80,61 @@ void IfcDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDamperTypeEnum> IfcDamperTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDamperTypeEnum> IfcDamperTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }
 	shared_ptr<IfcDamperTypeEnum> type_object( new IfcDamperTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BACKDRAFTDAMPER." ) == 0 )
+	if( boost::iequals( arg, L".BACKDRAFTDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_BACKDRAFTDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".BALANCINGDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".BALANCINGDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_BALANCINGDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".BLASTDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".BLASTDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_BLASTDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTROLDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".CONTROLDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_CONTROLDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".FIREDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".FIREDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_FIREDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".FIRESMOKEDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".FIRESMOKEDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_FIRESMOKEDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".FUMEHOODEXHAUST." ) == 0 )
+	else if( boost::iequals( arg, L".FUMEHOODEXHAUST." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_FUMEHOODEXHAUST;
 	}
-	else if( _stricmp( arg.c_str(), ".GRAVITYDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".GRAVITYDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_GRAVITYDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".GRAVITYRELIEFDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".GRAVITYRELIEFDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_GRAVITYRELIEFDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".RELIEFDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".RELIEFDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_RELIEFDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".SMOKEDAMPER." ) == 0 )
+	else if( boost::iequals( arg, L".SMOKEDAMPER." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_SMOKEDAMPER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDamperTypeEnum::ENUM_NOTDEFINED;
 	}

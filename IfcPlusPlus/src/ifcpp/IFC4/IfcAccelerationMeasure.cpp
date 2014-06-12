@@ -31,10 +31,11 @@ void IfcAccelerationMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAccelerationMeasure> IfcAccelerationMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAccelerationMeasure> IfcAccelerationMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
 	shared_ptr<IfcAccelerationMeasure> type_object( new IfcAccelerationMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

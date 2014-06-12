@@ -35,7 +35,7 @@ public:
 	~IfcElementCompositionEnum();
 	virtual const char* classname() const { return "IfcElementCompositionEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcElementCompositionEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcElementCompositionEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcElementCompositionEnumEnum m_enum;
 };
 

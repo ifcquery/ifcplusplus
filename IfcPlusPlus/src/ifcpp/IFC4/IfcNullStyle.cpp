@@ -33,12 +33,13 @@ void IfcNullStyle::getStepParameter( std::stringstream& stream, bool is_select_t
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
 	shared_ptr<IfcNullStyle> type_object( new IfcNullStyle() );
-	if( _stricmp( arg.c_str(), ".ENUM_NULL." ) == 0 )
+	if( boost::iequals( arg, L".ENUM_NULL." ) )
 	{
 		type_object->m_enum = IfcNullStyle::ENUM_ENUM_NULL;
 	}

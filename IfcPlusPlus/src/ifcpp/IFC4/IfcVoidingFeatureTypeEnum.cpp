@@ -60,40 +60,41 @@ void IfcVoidingFeatureTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
 	shared_ptr<IfcVoidingFeatureTypeEnum> type_object( new IfcVoidingFeatureTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CUTOUT." ) == 0 )
+	if( boost::iequals( arg, L".CUTOUT." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_CUTOUT;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTCH." ) == 0 )
+	else if( boost::iequals( arg, L".NOTCH." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_NOTCH;
 	}
-	else if( _stricmp( arg.c_str(), ".HOLE." ) == 0 )
+	else if( boost::iequals( arg, L".HOLE." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_HOLE;
 	}
-	else if( _stricmp( arg.c_str(), ".MITER." ) == 0 )
+	else if( boost::iequals( arg, L".MITER." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_MITER;
 	}
-	else if( _stricmp( arg.c_str(), ".CHAMFER." ) == 0 )
+	else if( boost::iequals( arg, L".CHAMFER." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_CHAMFER;
 	}
-	else if( _stricmp( arg.c_str(), ".EDGE." ) == 0 )
+	else if( boost::iequals( arg, L".EDGE." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_EDGE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_NOTDEFINED;
 	}

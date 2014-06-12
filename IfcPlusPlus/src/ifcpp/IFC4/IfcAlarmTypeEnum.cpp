@@ -60,40 +60,41 @@ void IfcAlarmTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	shared_ptr<IfcAlarmTypeEnum> type_object( new IfcAlarmTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BELL." ) == 0 )
+	if( boost::iequals( arg, L".BELL." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_BELL;
 	}
-	else if( _stricmp( arg.c_str(), ".BREAKGLASSBUTTON." ) == 0 )
+	else if( boost::iequals( arg, L".BREAKGLASSBUTTON." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_BREAKGLASSBUTTON;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHT." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_LIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".MANUALPULLBOX." ) == 0 )
+	else if( boost::iequals( arg, L".MANUALPULLBOX." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_MANUALPULLBOX;
 	}
-	else if( _stricmp( arg.c_str(), ".SIREN." ) == 0 )
+	else if( boost::iequals( arg, L".SIREN." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_SIREN;
 	}
-	else if( _stricmp( arg.c_str(), ".WHISTLE." ) == 0 )
+	else if( boost::iequals( arg, L".WHISTLE." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_WHISTLE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -92,72 +92,73 @@ void IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
 	shared_ptr<IfcSIPrefix> type_object( new IfcSIPrefix() );
-	if( _stricmp( arg.c_str(), ".EXA." ) == 0 )
+	if( boost::iequals( arg, L".EXA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_EXA;
 	}
-	else if( _stricmp( arg.c_str(), ".PETA." ) == 0 )
+	else if( boost::iequals( arg, L".PETA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_PETA;
 	}
-	else if( _stricmp( arg.c_str(), ".TERA." ) == 0 )
+	else if( boost::iequals( arg, L".TERA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_TERA;
 	}
-	else if( _stricmp( arg.c_str(), ".GIGA." ) == 0 )
+	else if( boost::iequals( arg, L".GIGA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_GIGA;
 	}
-	else if( _stricmp( arg.c_str(), ".MEGA." ) == 0 )
+	else if( boost::iequals( arg, L".MEGA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_MEGA;
 	}
-	else if( _stricmp( arg.c_str(), ".KILO." ) == 0 )
+	else if( boost::iequals( arg, L".KILO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_KILO;
 	}
-	else if( _stricmp( arg.c_str(), ".HECTO." ) == 0 )
+	else if( boost::iequals( arg, L".HECTO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_HECTO;
 	}
-	else if( _stricmp( arg.c_str(), ".DECA." ) == 0 )
+	else if( boost::iequals( arg, L".DECA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_DECA;
 	}
-	else if( _stricmp( arg.c_str(), ".DECI." ) == 0 )
+	else if( boost::iequals( arg, L".DECI." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_DECI;
 	}
-	else if( _stricmp( arg.c_str(), ".CENTI." ) == 0 )
+	else if( boost::iequals( arg, L".CENTI." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_CENTI;
 	}
-	else if( _stricmp( arg.c_str(), ".MILLI." ) == 0 )
+	else if( boost::iequals( arg, L".MILLI." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_MILLI;
 	}
-	else if( _stricmp( arg.c_str(), ".MICRO." ) == 0 )
+	else if( boost::iequals( arg, L".MICRO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_MICRO;
 	}
-	else if( _stricmp( arg.c_str(), ".NANO." ) == 0 )
+	else if( boost::iequals( arg, L".NANO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_NANO;
 	}
-	else if( _stricmp( arg.c_str(), ".PICO." ) == 0 )
+	else if( boost::iequals( arg, L".PICO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_PICO;
 	}
-	else if( _stricmp( arg.c_str(), ".FEMTO." ) == 0 )
+	else if( boost::iequals( arg, L".FEMTO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_FEMTO;
 	}
-	else if( _stricmp( arg.c_str(), ".ATTO." ) == 0 )
+	else if( boost::iequals( arg, L".ATTO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_ATTO;
 	}

@@ -38,7 +38,7 @@ public:
 	~IfcGridTypeEnum();
 	virtual const char* classname() const { return "IfcGridTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcGridTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcGridTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcGridTypeEnumEnum m_enum;
 };
 

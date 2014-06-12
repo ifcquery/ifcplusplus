@@ -60,7 +60,7 @@ void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcBSplineCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -70,12 +70,12 @@ void IfcBSplineCurve::readStepArguments( const std::vector<std::string>& args, c
 	readIntValue( args[0], m_Degree );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromStepData( args[2] );
-	if( _stricmp( args[3].c_str(), ".F." ) == 0 ) { m_ClosedCurve = LOGICAL_FALSE; }
-	else if( _stricmp( args[3].c_str(), ".T." ) == 0 ) { m_ClosedCurve = LOGICAL_TRUE; }
-	else if( _stricmp( args[3].c_str(), ".U." ) == 0 ) { m_ClosedCurve = LOGICAL_UNKNOWN; }
-	if( _stricmp( args[4].c_str(), ".F." ) == 0 ) { m_SelfIntersect = LOGICAL_FALSE; }
-	else if( _stricmp( args[4].c_str(), ".T." ) == 0 ) { m_SelfIntersect = LOGICAL_TRUE; }
-	else if( _stricmp( args[4].c_str(), ".U." ) == 0 ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[3], L".F." ) ) { m_ClosedCurve = LOGICAL_FALSE; }
+	else if( boost::iequals( args[3], L".T." ) ) { m_ClosedCurve = LOGICAL_TRUE; }
+	else if( boost::iequals( args[3], L".U." ) ) { m_ClosedCurve = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[4], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
+	else if( boost::iequals( args[4], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
+	else if( boost::iequals( args[4], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
 }
 void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

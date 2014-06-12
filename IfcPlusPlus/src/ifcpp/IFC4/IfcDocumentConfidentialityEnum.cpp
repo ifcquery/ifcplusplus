@@ -52,32 +52,33 @@ void IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	shared_ptr<IfcDocumentConfidentialityEnum> type_object( new IfcDocumentConfidentialityEnum() );
-	if( _stricmp( arg.c_str(), ".PUBLIC." ) == 0 )
+	if( boost::iequals( arg, L".PUBLIC." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_PUBLIC;
 	}
-	else if( _stricmp( arg.c_str(), ".RESTRICTED." ) == 0 )
+	else if( boost::iequals( arg, L".RESTRICTED." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_RESTRICTED;
 	}
-	else if( _stricmp( arg.c_str(), ".CONFIDENTIAL." ) == 0 )
+	else if( boost::iequals( arg, L".CONFIDENTIAL." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_CONFIDENTIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".PERSONAL." ) == 0 )
+	else if( boost::iequals( arg, L".PERSONAL." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_PERSONAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_NOTDEFINED;
 	}

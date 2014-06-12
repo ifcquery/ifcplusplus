@@ -56,36 +56,37 @@ void IfcSpaceTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	shared_ptr<IfcSpaceTypeEnum> type_object( new IfcSpaceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".SPACE." ) == 0 )
+	if( boost::iequals( arg, L".SPACE." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_SPACE;
 	}
-	else if( _stricmp( arg.c_str(), ".PARKING." ) == 0 )
+	else if( boost::iequals( arg, L".PARKING." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_PARKING;
 	}
-	else if( _stricmp( arg.c_str(), ".GFA." ) == 0 )
+	else if( boost::iequals( arg, L".GFA." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_GFA;
 	}
-	else if( _stricmp( arg.c_str(), ".INTERNAL." ) == 0 )
+	else if( boost::iequals( arg, L".INTERNAL." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_INTERNAL;
 	}
-	else if( _stricmp( arg.c_str(), ".EXTERNAL." ) == 0 )
+	else if( boost::iequals( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_EXTERNAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_NOTDEFINED;
 	}

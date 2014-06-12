@@ -48,28 +48,29 @@ void IfcMotorConnectionTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
 	shared_ptr<IfcMotorConnectionTypeEnum> type_object( new IfcMotorConnectionTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BELTDRIVE." ) == 0 )
+	if( boost::iequals( arg, L".BELTDRIVE." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_BELTDRIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".COUPLING." ) == 0 )
+	else if( boost::iequals( arg, L".COUPLING." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_COUPLING;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTDRIVE." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTDRIVE." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_DIRECTDRIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -23,7 +23,7 @@
 
 // TYPE IfcLabel 
 IfcLabel::IfcLabel() {}
-IfcLabel::IfcLabel( std::string value ) { m_value = value; }
+IfcLabel::IfcLabel( std::wstring value ) { m_value = value; }
 IfcLabel::~IfcLabel() {}
 void IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -31,10 +31,11 @@ void IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type 
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLabel> IfcLabel::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLabel> IfcLabel::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLabel>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLabel>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	shared_ptr<IfcLabel> type_object( new IfcLabel() );
 	type_object->readArgument( arg );
 	return type_object;

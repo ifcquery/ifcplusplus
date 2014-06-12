@@ -72,7 +72,7 @@ void IfcProcess::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProcess::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcProcess::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcProcess::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcProcess, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

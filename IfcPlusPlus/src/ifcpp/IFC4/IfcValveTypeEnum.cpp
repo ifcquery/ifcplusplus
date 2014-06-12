@@ -120,100 +120,101 @@ void IfcValveTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcValveTypeEnum> IfcValveTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcValveTypeEnum> IfcValveTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
 	shared_ptr<IfcValveTypeEnum> type_object( new IfcValveTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AIRRELEASE." ) == 0 )
+	if( boost::iequals( arg, L".AIRRELEASE." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_AIRRELEASE;
 	}
-	else if( _stricmp( arg.c_str(), ".ANTIVACUUM." ) == 0 )
+	else if( boost::iequals( arg, L".ANTIVACUUM." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_ANTIVACUUM;
 	}
-	else if( _stricmp( arg.c_str(), ".CHANGEOVER." ) == 0 )
+	else if( boost::iequals( arg, L".CHANGEOVER." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_CHANGEOVER;
 	}
-	else if( _stricmp( arg.c_str(), ".CHECK." ) == 0 )
+	else if( boost::iequals( arg, L".CHECK." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_CHECK;
 	}
-	else if( _stricmp( arg.c_str(), ".COMMISSIONING." ) == 0 )
+	else if( boost::iequals( arg, L".COMMISSIONING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_COMMISSIONING;
 	}
-	else if( _stricmp( arg.c_str(), ".DIVERTING." ) == 0 )
+	else if( boost::iequals( arg, L".DIVERTING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_DIVERTING;
 	}
-	else if( _stricmp( arg.c_str(), ".DRAWOFFCOCK." ) == 0 )
+	else if( boost::iequals( arg, L".DRAWOFFCOCK." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_DRAWOFFCOCK;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLECHECK." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLECHECK." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_DOUBLECHECK;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLEREGULATING." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLEREGULATING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_DOUBLEREGULATING;
 	}
-	else if( _stricmp( arg.c_str(), ".FAUCET." ) == 0 )
+	else if( boost::iequals( arg, L".FAUCET." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_FAUCET;
 	}
-	else if( _stricmp( arg.c_str(), ".FLUSHING." ) == 0 )
+	else if( boost::iequals( arg, L".FLUSHING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_FLUSHING;
 	}
-	else if( _stricmp( arg.c_str(), ".GASCOCK." ) == 0 )
+	else if( boost::iequals( arg, L".GASCOCK." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_GASCOCK;
 	}
-	else if( _stricmp( arg.c_str(), ".GASTAP." ) == 0 )
+	else if( boost::iequals( arg, L".GASTAP." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_GASTAP;
 	}
-	else if( _stricmp( arg.c_str(), ".ISOLATING." ) == 0 )
+	else if( boost::iequals( arg, L".ISOLATING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_ISOLATING;
 	}
-	else if( _stricmp( arg.c_str(), ".MIXING." ) == 0 )
+	else if( boost::iequals( arg, L".MIXING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_MIXING;
 	}
-	else if( _stricmp( arg.c_str(), ".PRESSUREREDUCING." ) == 0 )
+	else if( boost::iequals( arg, L".PRESSUREREDUCING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_PRESSUREREDUCING;
 	}
-	else if( _stricmp( arg.c_str(), ".PRESSURERELIEF." ) == 0 )
+	else if( boost::iequals( arg, L".PRESSURERELIEF." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_PRESSURERELIEF;
 	}
-	else if( _stricmp( arg.c_str(), ".REGULATING." ) == 0 )
+	else if( boost::iequals( arg, L".REGULATING." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_REGULATING;
 	}
-	else if( _stricmp( arg.c_str(), ".SAFETYCUTOFF." ) == 0 )
+	else if( boost::iequals( arg, L".SAFETYCUTOFF." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_SAFETYCUTOFF;
 	}
-	else if( _stricmp( arg.c_str(), ".STEAMTRAP." ) == 0 )
+	else if( boost::iequals( arg, L".STEAMTRAP." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_STEAMTRAP;
 	}
-	else if( _stricmp( arg.c_str(), ".STOPCOCK." ) == 0 )
+	else if( boost::iequals( arg, L".STOPCOCK." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_STOPCOCK;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcValveTypeEnum::ENUM_NOTDEFINED;
 	}

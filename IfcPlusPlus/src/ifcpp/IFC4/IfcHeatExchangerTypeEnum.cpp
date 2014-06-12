@@ -44,24 +44,25 @@ void IfcHeatExchangerTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
 	shared_ptr<IfcHeatExchangerTypeEnum> type_object( new IfcHeatExchangerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PLATE." ) == 0 )
+	if( boost::iequals( arg, L".PLATE." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_PLATE;
 	}
-	else if( _stricmp( arg.c_str(), ".SHELLANDTUBE." ) == 0 )
+	else if( boost::iequals( arg, L".SHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_SHELLANDTUBE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_NOTDEFINED;
 	}

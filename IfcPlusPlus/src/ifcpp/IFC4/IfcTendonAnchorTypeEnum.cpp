@@ -48,28 +48,29 @@ void IfcTendonAnchorTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
 	shared_ptr<IfcTendonAnchorTypeEnum> type_object( new IfcTendonAnchorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".COUPLER." ) == 0 )
+	if( boost::iequals( arg, L".COUPLER." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_COUPLER;
 	}
-	else if( _stricmp( arg.c_str(), ".FIXED_END." ) == 0 )
+	else if( boost::iequals( arg, L".FIXED_END." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_FIXED_END;
 	}
-	else if( _stricmp( arg.c_str(), ".TENSIONING_END." ) == 0 )
+	else if( boost::iequals( arg, L".TENSIONING_END." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_TENSIONING_END;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_NOTDEFINED;
 	}

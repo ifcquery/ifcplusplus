@@ -30,6 +30,6 @@ public:
 	~IfcRotationalStiffnessMeasure();
 	virtual const char* classname() const { return "IfcRotationalStiffnessMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcRotationalStiffnessMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcRotationalStiffnessMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

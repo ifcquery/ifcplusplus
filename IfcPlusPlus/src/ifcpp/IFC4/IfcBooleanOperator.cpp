@@ -40,20 +40,21 @@ void IfcBooleanOperator::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	shared_ptr<IfcBooleanOperator> type_object( new IfcBooleanOperator() );
-	if( _stricmp( arg.c_str(), ".UNION." ) == 0 )
+	if( boost::iequals( arg, L".UNION." ) )
 	{
 		type_object->m_enum = IfcBooleanOperator::ENUM_UNION;
 	}
-	else if( _stricmp( arg.c_str(), ".INTERSECTION." ) == 0 )
+	else if( boost::iequals( arg, L".INTERSECTION." ) )
 	{
 		type_object->m_enum = IfcBooleanOperator::ENUM_INTERSECTION;
 	}
-	else if( _stricmp( arg.c_str(), ".DIFFERENCE." ) == 0 )
+	else if( boost::iequals( arg, L".DIFFERENCE." ) )
 	{
 		type_object->m_enum = IfcBooleanOperator::ENUM_DIFFERENCE;
 	}

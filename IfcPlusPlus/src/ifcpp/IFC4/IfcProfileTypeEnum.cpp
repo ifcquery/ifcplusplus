@@ -36,16 +36,17 @@ void IfcProfileTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
 	shared_ptr<IfcProfileTypeEnum> type_object( new IfcProfileTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CURVE." ) == 0 )
+	if( boost::iequals( arg, L".CURVE." ) )
 	{
 		type_object->m_enum = IfcProfileTypeEnum::ENUM_CURVE;
 	}
-	else if( _stricmp( arg.c_str(), ".AREA." ) == 0 )
+	else if( boost::iequals( arg, L".AREA." ) )
 	{
 		type_object->m_enum = IfcProfileTypeEnum::ENUM_AREA;
 	}

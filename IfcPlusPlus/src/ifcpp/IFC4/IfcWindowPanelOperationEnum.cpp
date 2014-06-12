@@ -84,64 +84,65 @@ void IfcWindowPanelOperationEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowPanelOperationEnum> IfcWindowPanelOperationEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWindowPanelOperationEnum> IfcWindowPanelOperationEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
 	shared_ptr<IfcWindowPanelOperationEnum> type_object( new IfcWindowPanelOperationEnum() );
-	if( _stricmp( arg.c_str(), ".SIDEHUNGRIGHTHAND." ) == 0 )
+	if( boost::iequals( arg, L".SIDEHUNGRIGHTHAND." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_SIDEHUNGRIGHTHAND;
 	}
-	else if( _stricmp( arg.c_str(), ".SIDEHUNGLEFTHAND." ) == 0 )
+	else if( boost::iequals( arg, L".SIDEHUNGLEFTHAND." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_SIDEHUNGLEFTHAND;
 	}
-	else if( _stricmp( arg.c_str(), ".TILTANDTURNRIGHTHAND." ) == 0 )
+	else if( boost::iequals( arg, L".TILTANDTURNRIGHTHAND." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_TILTANDTURNRIGHTHAND;
 	}
-	else if( _stricmp( arg.c_str(), ".TILTANDTURNLEFTHAND." ) == 0 )
+	else if( boost::iequals( arg, L".TILTANDTURNLEFTHAND." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_TILTANDTURNLEFTHAND;
 	}
-	else if( _stricmp( arg.c_str(), ".TOPHUNG." ) == 0 )
+	else if( boost::iequals( arg, L".TOPHUNG." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_TOPHUNG;
 	}
-	else if( _stricmp( arg.c_str(), ".BOTTOMHUNG." ) == 0 )
+	else if( boost::iequals( arg, L".BOTTOMHUNG." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_BOTTOMHUNG;
 	}
-	else if( _stricmp( arg.c_str(), ".PIVOTHORIZONTAL." ) == 0 )
+	else if( boost::iequals( arg, L".PIVOTHORIZONTAL." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_PIVOTHORIZONTAL;
 	}
-	else if( _stricmp( arg.c_str(), ".PIVOTVERTICAL." ) == 0 )
+	else if( boost::iequals( arg, L".PIVOTVERTICAL." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_PIVOTVERTICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".SLIDINGHORIZONTAL." ) == 0 )
+	else if( boost::iequals( arg, L".SLIDINGHORIZONTAL." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_SLIDINGHORIZONTAL;
 	}
-	else if( _stricmp( arg.c_str(), ".SLIDINGVERTICAL." ) == 0 )
+	else if( boost::iequals( arg, L".SLIDINGVERTICAL." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_SLIDINGVERTICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".REMOVABLECASEMENT." ) == 0 )
+	else if( boost::iequals( arg, L".REMOVABLECASEMENT." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_REMOVABLECASEMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".FIXEDCASEMENT." ) == 0 )
+	else if( boost::iequals( arg, L".FIXEDCASEMENT." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_FIXEDCASEMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".OTHEROPERATION." ) == 0 )
+	else if( boost::iequals( arg, L".OTHEROPERATION." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_OTHEROPERATION;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowPanelOperationEnum::ENUM_NOTDEFINED;
 	}

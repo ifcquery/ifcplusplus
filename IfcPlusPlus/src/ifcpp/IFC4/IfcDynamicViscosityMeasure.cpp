@@ -31,10 +31,11 @@ void IfcDynamicViscosityMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDynamicViscosityMeasure> IfcDynamicViscosityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDynamicViscosityMeasure> IfcDynamicViscosityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
 	shared_ptr<IfcDynamicViscosityMeasure> type_object( new IfcDynamicViscosityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

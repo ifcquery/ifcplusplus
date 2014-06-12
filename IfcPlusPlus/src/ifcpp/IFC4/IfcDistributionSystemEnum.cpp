@@ -204,184 +204,185 @@ void IfcDistributionSystemEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	shared_ptr<IfcDistributionSystemEnum> type_object( new IfcDistributionSystemEnum() );
-	if( _stricmp( arg.c_str(), ".AIRCONDITIONING." ) == 0 )
+	if( boost::iequals( arg, L".AIRCONDITIONING." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_AIRCONDITIONING;
 	}
-	else if( _stricmp( arg.c_str(), ".AUDIOVISUAL." ) == 0 )
+	else if( boost::iequals( arg, L".AUDIOVISUAL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_AUDIOVISUAL;
 	}
-	else if( _stricmp( arg.c_str(), ".CHEMICAL." ) == 0 )
+	else if( boost::iequals( arg, L".CHEMICAL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_CHEMICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".CHILLEDWATER." ) == 0 )
+	else if( boost::iequals( arg, L".CHILLEDWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_CHILLEDWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".COMMUNICATION." ) == 0 )
+	else if( boost::iequals( arg, L".COMMUNICATION." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_COMMUNICATION;
 	}
-	else if( _stricmp( arg.c_str(), ".COMPRESSEDAIR." ) == 0 )
+	else if( boost::iequals( arg, L".COMPRESSEDAIR." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_COMPRESSEDAIR;
 	}
-	else if( _stricmp( arg.c_str(), ".CONDENSERWATER." ) == 0 )
+	else if( boost::iequals( arg, L".CONDENSERWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_CONDENSERWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTROL." ) == 0 )
+	else if( boost::iequals( arg, L".CONTROL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_CONTROL;
 	}
-	else if( _stricmp( arg.c_str(), ".CONVEYING." ) == 0 )
+	else if( boost::iequals( arg, L".CONVEYING." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_CONVEYING;
 	}
-	else if( _stricmp( arg.c_str(), ".DATA." ) == 0 )
+	else if( boost::iequals( arg, L".DATA." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_DATA;
 	}
-	else if( _stricmp( arg.c_str(), ".DISPOSAL." ) == 0 )
+	else if( boost::iequals( arg, L".DISPOSAL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_DISPOSAL;
 	}
-	else if( _stricmp( arg.c_str(), ".DOMESTICCOLDWATER." ) == 0 )
+	else if( boost::iequals( arg, L".DOMESTICCOLDWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_DOMESTICCOLDWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".DOMESTICHOTWATER." ) == 0 )
+	else if( boost::iequals( arg, L".DOMESTICHOTWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_DOMESTICHOTWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".DRAINAGE." ) == 0 )
+	else if( boost::iequals( arg, L".DRAINAGE." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_DRAINAGE;
 	}
-	else if( _stricmp( arg.c_str(), ".EARTHING." ) == 0 )
+	else if( boost::iequals( arg, L".EARTHING." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_EARTHING;
 	}
-	else if( _stricmp( arg.c_str(), ".ELECTRICAL." ) == 0 )
+	else if( boost::iequals( arg, L".ELECTRICAL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_ELECTRICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".ELECTROACOUSTIC." ) == 0 )
+	else if( boost::iequals( arg, L".ELECTROACOUSTIC." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_ELECTROACOUSTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".EXHAUST." ) == 0 )
+	else if( boost::iequals( arg, L".EXHAUST." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_EXHAUST;
 	}
-	else if( _stricmp( arg.c_str(), ".FIREPROTECTION." ) == 0 )
+	else if( boost::iequals( arg, L".FIREPROTECTION." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_FIREPROTECTION;
 	}
-	else if( _stricmp( arg.c_str(), ".FUEL." ) == 0 )
+	else if( boost::iequals( arg, L".FUEL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_FUEL;
 	}
-	else if( _stricmp( arg.c_str(), ".GAS." ) == 0 )
+	else if( boost::iequals( arg, L".GAS." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_GAS;
 	}
-	else if( _stricmp( arg.c_str(), ".HAZARDOUS." ) == 0 )
+	else if( boost::iequals( arg, L".HAZARDOUS." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_HAZARDOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".HEATING." ) == 0 )
+	else if( boost::iequals( arg, L".HEATING." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_HEATING;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTING." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTING." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_LIGHTING;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTNINGPROTECTION." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTNINGPROTECTION." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_LIGHTNINGPROTECTION;
 	}
-	else if( _stricmp( arg.c_str(), ".MUNICIPALSOLIDWASTE." ) == 0 )
+	else if( boost::iequals( arg, L".MUNICIPALSOLIDWASTE." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_MUNICIPALSOLIDWASTE;
 	}
-	else if( _stricmp( arg.c_str(), ".OIL." ) == 0 )
+	else if( boost::iequals( arg, L".OIL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_OIL;
 	}
-	else if( _stricmp( arg.c_str(), ".OPERATIONAL." ) == 0 )
+	else if( boost::iequals( arg, L".OPERATIONAL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_OPERATIONAL;
 	}
-	else if( _stricmp( arg.c_str(), ".POWERGENERATION." ) == 0 )
+	else if( boost::iequals( arg, L".POWERGENERATION." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_POWERGENERATION;
 	}
-	else if( _stricmp( arg.c_str(), ".RAINWATER." ) == 0 )
+	else if( boost::iequals( arg, L".RAINWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_RAINWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".REFRIGERATION." ) == 0 )
+	else if( boost::iequals( arg, L".REFRIGERATION." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_REFRIGERATION;
 	}
-	else if( _stricmp( arg.c_str(), ".SECURITY." ) == 0 )
+	else if( boost::iequals( arg, L".SECURITY." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_SECURITY;
 	}
-	else if( _stricmp( arg.c_str(), ".SEWAGE." ) == 0 )
+	else if( boost::iequals( arg, L".SEWAGE." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_SEWAGE;
 	}
-	else if( _stricmp( arg.c_str(), ".SIGNAL." ) == 0 )
+	else if( boost::iequals( arg, L".SIGNAL." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_SIGNAL;
 	}
-	else if( _stricmp( arg.c_str(), ".STORMWATER." ) == 0 )
+	else if( boost::iequals( arg, L".STORMWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_STORMWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".TELEPHONE." ) == 0 )
+	else if( boost::iequals( arg, L".TELEPHONE." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_TELEPHONE;
 	}
-	else if( _stricmp( arg.c_str(), ".TV." ) == 0 )
+	else if( boost::iequals( arg, L".TV." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_TV;
 	}
-	else if( _stricmp( arg.c_str(), ".VACUUM." ) == 0 )
+	else if( boost::iequals( arg, L".VACUUM." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_VACUUM;
 	}
-	else if( _stricmp( arg.c_str(), ".VENT." ) == 0 )
+	else if( boost::iequals( arg, L".VENT." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_VENT;
 	}
-	else if( _stricmp( arg.c_str(), ".VENTILATION." ) == 0 )
+	else if( boost::iequals( arg, L".VENTILATION." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_VENTILATION;
 	}
-	else if( _stricmp( arg.c_str(), ".WASTEWATER." ) == 0 )
+	else if( boost::iequals( arg, L".WASTEWATER." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_WASTEWATER;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERSUPPLY." ) == 0 )
+	else if( boost::iequals( arg, L".WATERSUPPLY." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_WATERSUPPLY;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionSystemEnum::ENUM_NOTDEFINED;
 	}

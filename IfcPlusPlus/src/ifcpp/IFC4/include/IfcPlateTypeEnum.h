@@ -36,7 +36,7 @@ public:
 	~IfcPlateTypeEnum();
 	virtual const char* classname() const { return "IfcPlateTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcPlateTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcPlateTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcPlateTypeEnumEnum m_enum;
 };
 

@@ -42,10 +42,11 @@ void IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_typ
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLogical> IfcLogical::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLogical> IfcLogical::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLogical>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogical>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	shared_ptr<IfcLogical> type_object( new IfcLogical() );
 	type_object->readArgument( arg );
 	return type_object;

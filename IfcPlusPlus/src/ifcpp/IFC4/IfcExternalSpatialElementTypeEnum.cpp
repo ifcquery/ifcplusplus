@@ -52,32 +52,33 @@ void IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	shared_ptr<IfcExternalSpatialElementTypeEnum> type_object( new IfcExternalSpatialElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".EXTERNAL." ) == 0 )
+	if( boost::iequals( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL;
 	}
-	else if( _stricmp( arg.c_str(), ".EXTERNAL_EARTH." ) == 0 )
+	else if( boost::iequals( arg, L".EXTERNAL_EARTH." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL_EARTH;
 	}
-	else if( _stricmp( arg.c_str(), ".EXTERNAL_WATER." ) == 0 )
+	else if( boost::iequals( arg, L".EXTERNAL_WATER." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL_WATER;
 	}
-	else if( _stricmp( arg.c_str(), ".EXTERNAL_FIRE." ) == 0 )
+	else if( boost::iequals( arg, L".EXTERNAL_FIRE." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL_FIRE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFIEND." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFIEND." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_NOTDEFIEND;
 	}

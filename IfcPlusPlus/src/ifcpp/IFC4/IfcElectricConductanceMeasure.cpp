@@ -31,10 +31,11 @@ void IfcElectricConductanceMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricConductanceMeasure> IfcElectricConductanceMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricConductanceMeasure> IfcElectricConductanceMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	shared_ptr<IfcElectricConductanceMeasure> type_object( new IfcElectricConductanceMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

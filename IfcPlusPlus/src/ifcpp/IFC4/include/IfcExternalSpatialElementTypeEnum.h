@@ -38,7 +38,7 @@ public:
 	~IfcExternalSpatialElementTypeEnum();
 	virtual const char* classname() const { return "IfcExternalSpatialElementTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcExternalSpatialElementTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcExternalSpatialElementTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcExternalSpatialElementTypeEnumEnum m_enum;
 };
 

@@ -48,28 +48,29 @@ void IfcDoorTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
 	shared_ptr<IfcDoorTypeEnum> type_object( new IfcDoorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DOOR." ) == 0 )
+	if( boost::iequals( arg, L".DOOR." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_DOOR;
 	}
-	else if( _stricmp( arg.c_str(), ".GATE." ) == 0 )
+	else if( boost::iequals( arg, L".GATE." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_GATE;
 	}
-	else if( _stricmp( arg.c_str(), ".TRAPDOOR." ) == 0 )
+	else if( boost::iequals( arg, L".TRAPDOOR." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_TRAPDOOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_NOTDEFINED;
 	}

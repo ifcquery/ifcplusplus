@@ -46,7 +46,7 @@ void IfcFaceBound::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcFaceBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcFaceBound::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFaceBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceBound, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -54,8 +54,8 @@ void IfcFaceBound::readStepArguments( const std::vector<std::string>& args, cons
 	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcFaceBound, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
 	readEntityReference( args[0], m_Bound, map );
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_Orientation = false; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_Orientation = true; }
+	if( boost::iequals( args[1], L".F." ) ) { m_Orientation = false; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_Orientation = true; }
 }
 void IfcFaceBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

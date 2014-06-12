@@ -89,7 +89,7 @@ void IfcVibrationIsolator::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcVibrationIsolator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcVibrationIsolator::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcVibrationIsolator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVibrationIsolator, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

@@ -48,28 +48,29 @@ void IfcAddressTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
 	shared_ptr<IfcAddressTypeEnum> type_object( new IfcAddressTypeEnum() );
-	if( _stricmp( arg.c_str(), ".OFFICE." ) == 0 )
+	if( boost::iequals( arg, L".OFFICE." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_OFFICE;
 	}
-	else if( _stricmp( arg.c_str(), ".SITE." ) == 0 )
+	else if( boost::iequals( arg, L".SITE." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_SITE;
 	}
-	else if( _stricmp( arg.c_str(), ".HOME." ) == 0 )
+	else if( boost::iequals( arg, L".HOME." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_HOME;
 	}
-	else if( _stricmp( arg.c_str(), ".DISTRIBUTIONPOINT." ) == 0 )
+	else if( boost::iequals( arg, L".DISTRIBUTIONPOINT." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_DISTRIBUTIONPOINT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_USERDEFINED;
 	}

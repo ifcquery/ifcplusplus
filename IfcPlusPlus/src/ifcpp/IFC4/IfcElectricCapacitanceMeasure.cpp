@@ -31,10 +31,11 @@ void IfcElectricCapacitanceMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricCapacitanceMeasure> IfcElectricCapacitanceMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricCapacitanceMeasure> IfcElectricCapacitanceMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	shared_ptr<IfcElectricCapacitanceMeasure> type_object( new IfcElectricCapacitanceMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

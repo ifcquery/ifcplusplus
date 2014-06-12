@@ -44,24 +44,25 @@ void IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
 	shared_ptr<IfcArithmeticOperatorEnum> type_object( new IfcArithmeticOperatorEnum() );
-	if( _stricmp( arg.c_str(), ".ADD." ) == 0 )
+	if( boost::iequals( arg, L".ADD." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_ADD;
 	}
-	else if( _stricmp( arg.c_str(), ".DIVIDE." ) == 0 )
+	else if( boost::iequals( arg, L".DIVIDE." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_DIVIDE;
 	}
-	else if( _stricmp( arg.c_str(), ".MULTIPLY." ) == 0 )
+	else if( boost::iequals( arg, L".MULTIPLY." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_MULTIPLY;
 	}
-	else if( _stricmp( arg.c_str(), ".SUBTRACT." ) == 0 )
+	else if( boost::iequals( arg, L".SUBTRACT." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_SUBTRACT;
 	}

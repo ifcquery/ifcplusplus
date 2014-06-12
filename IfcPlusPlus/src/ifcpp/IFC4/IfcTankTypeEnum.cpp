@@ -64,44 +64,45 @@ void IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	shared_ptr<IfcTankTypeEnum> type_object( new IfcTankTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BASIN." ) == 0 )
+	if( boost::iequals( arg, L".BASIN." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_BASIN;
 	}
-	else if( _stricmp( arg.c_str(), ".BREAKPRESSURE." ) == 0 )
+	else if( boost::iequals( arg, L".BREAKPRESSURE." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_BREAKPRESSURE;
 	}
-	else if( _stricmp( arg.c_str(), ".EXPANSION." ) == 0 )
+	else if( boost::iequals( arg, L".EXPANSION." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_EXPANSION;
 	}
-	else if( _stricmp( arg.c_str(), ".FEEDANDEXPANSION." ) == 0 )
+	else if( boost::iequals( arg, L".FEEDANDEXPANSION." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_FEEDANDEXPANSION;
 	}
-	else if( _stricmp( arg.c_str(), ".PRESSUREVESSEL." ) == 0 )
+	else if( boost::iequals( arg, L".PRESSUREVESSEL." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_PRESSUREVESSEL;
 	}
-	else if( _stricmp( arg.c_str(), ".STORAGE." ) == 0 )
+	else if( boost::iequals( arg, L".STORAGE." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_STORAGE;
 	}
-	else if( _stricmp( arg.c_str(), ".VESSEL." ) == 0 )
+	else if( boost::iequals( arg, L".VESSEL." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_VESSEL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_NOTDEFINED;
 	}

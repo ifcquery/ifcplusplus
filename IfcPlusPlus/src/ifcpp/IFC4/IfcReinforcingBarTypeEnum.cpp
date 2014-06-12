@@ -68,48 +68,49 @@ void IfcReinforcingBarTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReinforcingBarTypeEnum> IfcReinforcingBarTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcReinforcingBarTypeEnum> IfcReinforcingBarTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }
 	shared_ptr<IfcReinforcingBarTypeEnum> type_object( new IfcReinforcingBarTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ANCHORING." ) == 0 )
+	if( boost::iequals( arg, L".ANCHORING." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_ANCHORING;
 	}
-	else if( _stricmp( arg.c_str(), ".EDGE." ) == 0 )
+	else if( boost::iequals( arg, L".EDGE." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_EDGE;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGATURE." ) == 0 )
+	else if( boost::iequals( arg, L".LIGATURE." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_LIGATURE;
 	}
-	else if( _stricmp( arg.c_str(), ".MAIN." ) == 0 )
+	else if( boost::iequals( arg, L".MAIN." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_MAIN;
 	}
-	else if( _stricmp( arg.c_str(), ".PUNCHING." ) == 0 )
+	else if( boost::iequals( arg, L".PUNCHING." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_PUNCHING;
 	}
-	else if( _stricmp( arg.c_str(), ".RING." ) == 0 )
+	else if( boost::iequals( arg, L".RING." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_RING;
 	}
-	else if( _stricmp( arg.c_str(), ".SHEAR." ) == 0 )
+	else if( boost::iequals( arg, L".SHEAR." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_SHEAR;
 	}
-	else if( _stricmp( arg.c_str(), ".STUD." ) == 0 )
+	else if( boost::iequals( arg, L".STUD." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_STUD;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_NOTDEFINED;
 	}

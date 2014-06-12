@@ -72,52 +72,53 @@ void IfcAirToAirHeatRecoveryTypeEnum::getStepParameter( std::stringstream& strea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> IfcAirToAirHeatRecoveryTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> IfcAirToAirHeatRecoveryTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAirToAirHeatRecoveryTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirToAirHeatRecoveryTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirToAirHeatRecoveryTypeEnum>(); }
 	shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> type_object( new IfcAirToAirHeatRecoveryTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FIXEDPLATECOUNTERFLOWEXCHANGER." ) == 0 )
+	if( boost::iequals( arg, L".FIXEDPLATECOUNTERFLOWEXCHANGER." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_FIXEDPLATECOUNTERFLOWEXCHANGER;
 	}
-	else if( _stricmp( arg.c_str(), ".FIXEDPLATECROSSFLOWEXCHANGER." ) == 0 )
+	else if( boost::iequals( arg, L".FIXEDPLATECROSSFLOWEXCHANGER." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_FIXEDPLATECROSSFLOWEXCHANGER;
 	}
-	else if( _stricmp( arg.c_str(), ".FIXEDPLATEPARALLELFLOWEXCHANGER." ) == 0 )
+	else if( boost::iequals( arg, L".FIXEDPLATEPARALLELFLOWEXCHANGER." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_FIXEDPLATEPARALLELFLOWEXCHANGER;
 	}
-	else if( _stricmp( arg.c_str(), ".ROTARYWHEEL." ) == 0 )
+	else if( boost::iequals( arg, L".ROTARYWHEEL." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_ROTARYWHEEL;
 	}
-	else if( _stricmp( arg.c_str(), ".RUNAROUNDCOILLOOP." ) == 0 )
+	else if( boost::iequals( arg, L".RUNAROUNDCOILLOOP." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_RUNAROUNDCOILLOOP;
 	}
-	else if( _stricmp( arg.c_str(), ".HEATPIPE." ) == 0 )
+	else if( boost::iequals( arg, L".HEATPIPE." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_HEATPIPE;
 	}
-	else if( _stricmp( arg.c_str(), ".TWINTOWERENTHALPYRECOVERYLOOPS." ) == 0 )
+	else if( boost::iequals( arg, L".TWINTOWERENTHALPYRECOVERYLOOPS." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_TWINTOWERENTHALPYRECOVERYLOOPS;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMOSIPHONSEALEDTUBEHEATEXCHANGERS." ) == 0 )
+	else if( boost::iequals( arg, L".THERMOSIPHONSEALEDTUBEHEATEXCHANGERS." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_THERMOSIPHONSEALEDTUBEHEATEXCHANGERS;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMOSIPHONCOILTYPEHEATEXCHANGERS." ) == 0 )
+	else if( boost::iequals( arg, L".THERMOSIPHONCOILTYPEHEATEXCHANGERS." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_THERMOSIPHONCOILTYPEHEATEXCHANGERS;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirToAirHeatRecoveryTypeEnum::ENUM_NOTDEFINED;
 	}

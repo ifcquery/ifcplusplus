@@ -48,28 +48,29 @@ void IfcWorkScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWorkScheduleTypeEnum> IfcWorkScheduleTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWorkScheduleTypeEnum> IfcWorkScheduleTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	shared_ptr<IfcWorkScheduleTypeEnum> type_object( new IfcWorkScheduleTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ACTUAL." ) == 0 )
+	if( boost::iequals( arg, L".ACTUAL." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_ACTUAL;
 	}
-	else if( _stricmp( arg.c_str(), ".BASELINE." ) == 0 )
+	else if( boost::iequals( arg, L".BASELINE." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_BASELINE;
 	}
-	else if( _stricmp( arg.c_str(), ".PLANNED." ) == 0 )
+	else if( boost::iequals( arg, L".PLANNED." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_PLANNED;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -52,32 +52,33 @@ void IfcSequenceEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	shared_ptr<IfcSequenceEnum> type_object( new IfcSequenceEnum() );
-	if( _stricmp( arg.c_str(), ".START_START." ) == 0 )
+	if( boost::iequals( arg, L".START_START." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_START_START;
 	}
-	else if( _stricmp( arg.c_str(), ".START_FINISH." ) == 0 )
+	else if( boost::iequals( arg, L".START_FINISH." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_START_FINISH;
 	}
-	else if( _stricmp( arg.c_str(), ".FINISH_START." ) == 0 )
+	else if( boost::iequals( arg, L".FINISH_START." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_FINISH_START;
 	}
-	else if( _stricmp( arg.c_str(), ".FINISH_FINISH." ) == 0 )
+	else if( boost::iequals( arg, L".FINISH_FINISH." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_FINISH_FINISH;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_NOTDEFINED;
 	}

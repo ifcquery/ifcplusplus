@@ -77,7 +77,7 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcStructuralResultGroup::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -91,8 +91,8 @@ void IfcStructuralResultGroup::readStepArguments( const std::vector<std::string>
 	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
 	m_TheoryType = IfcAnalysisTheoryTypeEnum::createObjectFromStepData( args[5] );
 	readEntityReference( args[6], m_ResultForLoadGroup, map );
-	if( _stricmp( args[7].c_str(), ".F." ) == 0 ) { m_IsLinear = false; }
-	else if( _stricmp( args[7].c_str(), ".T." ) == 0 ) { m_IsLinear = true; }
+	if( boost::iequals( args[7], L".F." ) ) { m_IsLinear = false; }
+	else if( boost::iequals( args[7], L".T." ) ) { m_IsLinear = true; }
 }
 void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

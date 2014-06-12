@@ -28,6 +28,6 @@ public:
 	~IfcLanguageId();
 	virtual const char* classname() const { return "IfcLanguageId"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLanguageId> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcLanguageId> createObjectFromStepData( const std::wstring& arg );
 };
 

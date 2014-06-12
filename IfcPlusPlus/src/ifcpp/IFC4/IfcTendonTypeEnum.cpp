@@ -52,32 +52,33 @@ void IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	shared_ptr<IfcTendonTypeEnum> type_object( new IfcTendonTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BAR." ) == 0 )
+	if( boost::iequals( arg, L".BAR." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_BAR;
 	}
-	else if( _stricmp( arg.c_str(), ".COATED." ) == 0 )
+	else if( boost::iequals( arg, L".COATED." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_COATED;
 	}
-	else if( _stricmp( arg.c_str(), ".STRAND." ) == 0 )
+	else if( boost::iequals( arg, L".STRAND." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_STRAND;
 	}
-	else if( _stricmp( arg.c_str(), ".WIRE." ) == 0 )
+	else if( boost::iequals( arg, L".WIRE." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_WIRE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -64,44 +64,45 @@ void IfcFurnitureTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
 	shared_ptr<IfcFurnitureTypeEnum> type_object( new IfcFurnitureTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CHAIR." ) == 0 )
+	if( boost::iequals( arg, L".CHAIR." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_CHAIR;
 	}
-	else if( _stricmp( arg.c_str(), ".TABLE." ) == 0 )
+	else if( boost::iequals( arg, L".TABLE." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_TABLE;
 	}
-	else if( _stricmp( arg.c_str(), ".DESK." ) == 0 )
+	else if( boost::iequals( arg, L".DESK." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_DESK;
 	}
-	else if( _stricmp( arg.c_str(), ".BED." ) == 0 )
+	else if( boost::iequals( arg, L".BED." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_BED;
 	}
-	else if( _stricmp( arg.c_str(), ".FILECABINET." ) == 0 )
+	else if( boost::iequals( arg, L".FILECABINET." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_FILECABINET;
 	}
-	else if( _stricmp( arg.c_str(), ".SHELF." ) == 0 )
+	else if( boost::iequals( arg, L".SHELF." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_SHELF;
 	}
-	else if( _stricmp( arg.c_str(), ".SOFA." ) == 0 )
+	else if( boost::iequals( arg, L".SOFA." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_SOFA;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_NOTDEFINED;
 	}

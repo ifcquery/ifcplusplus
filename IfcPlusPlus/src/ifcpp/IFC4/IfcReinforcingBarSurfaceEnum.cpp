@@ -36,16 +36,17 @@ void IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	shared_ptr<IfcReinforcingBarSurfaceEnum> type_object( new IfcReinforcingBarSurfaceEnum() );
-	if( _stricmp( arg.c_str(), ".PLAIN." ) == 0 )
+	if( boost::iequals( arg, L".PLAIN." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarSurfaceEnum::ENUM_PLAIN;
 	}
-	else if( _stricmp( arg.c_str(), ".TEXTURED." ) == 0 )
+	else if( boost::iequals( arg, L".TEXTURED." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarSurfaceEnum::ENUM_TEXTURED;
 	}

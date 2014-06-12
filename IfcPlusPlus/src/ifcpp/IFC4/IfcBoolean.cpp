@@ -44,10 +44,11 @@ void IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_typ
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBoolean> IfcBoolean::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBoolean> IfcBoolean::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
 	shared_ptr<IfcBoolean> type_object( new IfcBoolean() );
 	type_object->readArgument( arg );
 	return type_object;

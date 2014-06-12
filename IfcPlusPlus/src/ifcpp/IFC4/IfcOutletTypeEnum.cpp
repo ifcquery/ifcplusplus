@@ -56,36 +56,37 @@ void IfcOutletTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
 	shared_ptr<IfcOutletTypeEnum> type_object( new IfcOutletTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AUDIOVISUALOUTLET." ) == 0 )
+	if( boost::iequals( arg, L".AUDIOVISUALOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_AUDIOVISUALOUTLET;
 	}
-	else if( _stricmp( arg.c_str(), ".COMMUNICATIONSOUTLET." ) == 0 )
+	else if( boost::iequals( arg, L".COMMUNICATIONSOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_COMMUNICATIONSOUTLET;
 	}
-	else if( _stricmp( arg.c_str(), ".POWEROUTLET." ) == 0 )
+	else if( boost::iequals( arg, L".POWEROUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_POWEROUTLET;
 	}
-	else if( _stricmp( arg.c_str(), ".DATAOUTLET." ) == 0 )
+	else if( boost::iequals( arg, L".DATAOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_DATAOUTLET;
 	}
-	else if( _stricmp( arg.c_str(), ".TELEPHONEOUTLET." ) == 0 )
+	else if( boost::iequals( arg, L".TELEPHONEOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_TELEPHONEOUTLET;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_NOTDEFINED;
 	}

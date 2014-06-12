@@ -64,44 +64,45 @@ void IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	shared_ptr<IfcWasteTerminalTypeEnum> type_object( new IfcWasteTerminalTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FLOORTRAP." ) == 0 )
+	if( boost::iequals( arg, L".FLOORTRAP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_FLOORTRAP;
 	}
-	else if( _stricmp( arg.c_str(), ".FLOORWASTE." ) == 0 )
+	else if( boost::iequals( arg, L".FLOORWASTE." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_FLOORWASTE;
 	}
-	else if( _stricmp( arg.c_str(), ".GULLYSUMP." ) == 0 )
+	else if( boost::iequals( arg, L".GULLYSUMP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_GULLYSUMP;
 	}
-	else if( _stricmp( arg.c_str(), ".GULLYTRAP." ) == 0 )
+	else if( boost::iequals( arg, L".GULLYTRAP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_GULLYTRAP;
 	}
-	else if( _stricmp( arg.c_str(), ".ROOFDRAIN." ) == 0 )
+	else if( boost::iequals( arg, L".ROOFDRAIN." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_ROOFDRAIN;
 	}
-	else if( _stricmp( arg.c_str(), ".WASTEDISPOSALUNIT." ) == 0 )
+	else if( boost::iequals( arg, L".WASTEDISPOSALUNIT." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_WASTEDISPOSALUNIT;
 	}
-	else if( _stricmp( arg.c_str(), ".WASTETRAP." ) == 0 )
+	else if( boost::iequals( arg, L".WASTETRAP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_WASTETRAP;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

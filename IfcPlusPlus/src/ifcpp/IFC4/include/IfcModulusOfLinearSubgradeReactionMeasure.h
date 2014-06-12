@@ -30,6 +30,6 @@ public:
 	~IfcModulusOfLinearSubgradeReactionMeasure();
 	virtual const char* classname() const { return "IfcModulusOfLinearSubgradeReactionMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

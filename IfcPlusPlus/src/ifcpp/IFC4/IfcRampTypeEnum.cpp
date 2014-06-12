@@ -60,40 +60,41 @@ void IfcRampTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
 	shared_ptr<IfcRampTypeEnum> type_object( new IfcRampTypeEnum() );
-	if( _stricmp( arg.c_str(), ".STRAIGHT_RUN_RAMP." ) == 0 )
+	if( boost::iequals( arg, L".STRAIGHT_RUN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_STRAIGHT_RUN_RAMP;
 	}
-	else if( _stricmp( arg.c_str(), ".TWO_STRAIGHT_RUN_RAMP." ) == 0 )
+	else if( boost::iequals( arg, L".TWO_STRAIGHT_RUN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_TWO_STRAIGHT_RUN_RAMP;
 	}
-	else if( _stricmp( arg.c_str(), ".QUARTER_TURN_RAMP." ) == 0 )
+	else if( boost::iequals( arg, L".QUARTER_TURN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_QUARTER_TURN_RAMP;
 	}
-	else if( _stricmp( arg.c_str(), ".TWO_QUARTER_TURN_RAMP." ) == 0 )
+	else if( boost::iequals( arg, L".TWO_QUARTER_TURN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_TWO_QUARTER_TURN_RAMP;
 	}
-	else if( _stricmp( arg.c_str(), ".HALF_TURN_RAMP." ) == 0 )
+	else if( boost::iequals( arg, L".HALF_TURN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_HALF_TURN_RAMP;
 	}
-	else if( _stricmp( arg.c_str(), ".SPIRAL_RAMP." ) == 0 )
+	else if( boost::iequals( arg, L".SPIRAL_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_SPIRAL_RAMP;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_NOTDEFINED;
 	}

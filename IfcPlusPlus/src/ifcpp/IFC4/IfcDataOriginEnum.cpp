@@ -48,28 +48,29 @@ void IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
 	shared_ptr<IfcDataOriginEnum> type_object( new IfcDataOriginEnum() );
-	if( _stricmp( arg.c_str(), ".MEASURED." ) == 0 )
+	if( boost::iequals( arg, L".MEASURED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_MEASURED;
 	}
-	else if( _stricmp( arg.c_str(), ".PREDICTED." ) == 0 )
+	else if( boost::iequals( arg, L".PREDICTED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_PREDICTED;
 	}
-	else if( _stricmp( arg.c_str(), ".SIMULATED." ) == 0 )
+	else if( boost::iequals( arg, L".SIMULATED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_SIMULATED;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_NOTDEFINED;
 	}

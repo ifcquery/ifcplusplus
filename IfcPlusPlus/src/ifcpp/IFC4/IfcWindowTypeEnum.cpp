@@ -48,28 +48,29 @@ void IfcWindowTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
 	shared_ptr<IfcWindowTypeEnum> type_object( new IfcWindowTypeEnum() );
-	if( _stricmp( arg.c_str(), ".WINDOW." ) == 0 )
+	if( boost::iequals( arg, L".WINDOW." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_WINDOW;
 	}
-	else if( _stricmp( arg.c_str(), ".SKYLIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".SKYLIGHT." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_SKYLIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTDOME." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTDOME." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_LIGHTDOME;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_NOTDEFINED;
 	}

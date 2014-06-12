@@ -40,20 +40,21 @@ void IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	shared_ptr<IfcSurfaceSide> type_object( new IfcSurfaceSide() );
-	if( _stricmp( arg.c_str(), ".POSITIVE." ) == 0 )
+	if( boost::iequals( arg, L".POSITIVE." ) )
 	{
 		type_object->m_enum = IfcSurfaceSide::ENUM_POSITIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".NEGATIVE." ) == 0 )
+	else if( boost::iequals( arg, L".NEGATIVE." ) )
 	{
 		type_object->m_enum = IfcSurfaceSide::ENUM_NEGATIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".BOTH." ) == 0 )
+	else if( boost::iequals( arg, L".BOTH." ) )
 	{
 		type_object->m_enum = IfcSurfaceSide::ENUM_BOTH;
 	}

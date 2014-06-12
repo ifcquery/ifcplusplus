@@ -48,28 +48,29 @@ void IfcElectricTimeControlTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	shared_ptr<IfcElectricTimeControlTypeEnum> type_object( new IfcElectricTimeControlTypeEnum() );
-	if( _stricmp( arg.c_str(), ".TIMECLOCK." ) == 0 )
+	if( boost::iequals( arg, L".TIMECLOCK." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_TIMECLOCK;
 	}
-	else if( _stricmp( arg.c_str(), ".TIMEDELAY." ) == 0 )
+	else if( boost::iequals( arg, L".TIMEDELAY." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_TIMEDELAY;
 	}
-	else if( _stricmp( arg.c_str(), ".RELAY." ) == 0 )
+	else if( boost::iequals( arg, L".RELAY." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_RELAY;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_NOTDEFINED;
 	}

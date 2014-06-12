@@ -76,56 +76,57 @@ void IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream,
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
 	shared_ptr<IfcMechanicalFastenerTypeEnum> type_object( new IfcMechanicalFastenerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ANCHORBOLT." ) == 0 )
+	if( boost::iequals( arg, L".ANCHORBOLT." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_ANCHORBOLT;
 	}
-	else if( _stricmp( arg.c_str(), ".BOLT." ) == 0 )
+	else if( boost::iequals( arg, L".BOLT." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_BOLT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOWEL." ) == 0 )
+	else if( boost::iequals( arg, L".DOWEL." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_DOWEL;
 	}
-	else if( _stricmp( arg.c_str(), ".NAIL." ) == 0 )
+	else if( boost::iequals( arg, L".NAIL." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_NAIL;
 	}
-	else if( _stricmp( arg.c_str(), ".NAILPLATE." ) == 0 )
+	else if( boost::iequals( arg, L".NAILPLATE." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_NAILPLATE;
 	}
-	else if( _stricmp( arg.c_str(), ".RIVET." ) == 0 )
+	else if( boost::iequals( arg, L".RIVET." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_RIVET;
 	}
-	else if( _stricmp( arg.c_str(), ".SCREW." ) == 0 )
+	else if( boost::iequals( arg, L".SCREW." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_SCREW;
 	}
-	else if( _stricmp( arg.c_str(), ".SHEARCONNECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".SHEARCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_SHEARCONNECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".STAPLE." ) == 0 )
+	else if( boost::iequals( arg, L".STAPLE." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_STAPLE;
 	}
-	else if( _stricmp( arg.c_str(), ".STUDSHEARCONNECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".STUDSHEARCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_STUDSHEARCONNECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_NOTDEFINED;
 	}

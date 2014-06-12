@@ -34,7 +34,7 @@ public:
 	~IfcComplexPropertyTemplateTypeEnum();
 	virtual const char* classname() const { return "IfcComplexPropertyTemplateTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcComplexPropertyTemplateTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcComplexPropertyTemplateTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcComplexPropertyTemplateTypeEnumEnum m_enum;
 };
 

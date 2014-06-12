@@ -31,10 +31,11 @@ void IfcCurvatureMeasure::getStepParameter( std::stringstream& stream, bool is_s
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
 	shared_ptr<IfcCurvatureMeasure> type_object( new IfcCurvatureMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

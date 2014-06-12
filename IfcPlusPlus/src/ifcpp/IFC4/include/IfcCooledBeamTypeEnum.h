@@ -36,7 +36,7 @@ public:
 	~IfcCooledBeamTypeEnum();
 	virtual const char* classname() const { return "IfcCooledBeamTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCooledBeamTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcCooledBeamTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcCooledBeamTypeEnumEnum m_enum;
 };
 

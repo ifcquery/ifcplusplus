@@ -36,16 +36,17 @@ void IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	shared_ptr<IfcSectionTypeEnum> type_object( new IfcSectionTypeEnum() );
-	if( _stricmp( arg.c_str(), ".UNIFORM." ) == 0 )
+	if( boost::iequals( arg, L".UNIFORM." ) )
 	{
 		type_object->m_enum = IfcSectionTypeEnum::ENUM_UNIFORM;
 	}
-	else if( _stricmp( arg.c_str(), ".TAPERED." ) == 0 )
+	else if( boost::iequals( arg, L".TAPERED." ) )
 	{
 		type_object->m_enum = IfcSectionTypeEnum::ENUM_TAPERED;
 	}

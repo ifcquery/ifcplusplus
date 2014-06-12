@@ -34,7 +34,7 @@ public:
 	~IfcProjectedOrTrueLengthEnum();
 	virtual const char* classname() const { return "IfcProjectedOrTrueLengthEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcProjectedOrTrueLengthEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcProjectedOrTrueLengthEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcProjectedOrTrueLengthEnumEnum m_enum;
 };
 

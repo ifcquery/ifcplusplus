@@ -59,7 +59,7 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcShapeAspect::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -69,9 +69,9 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::string>& args, co
 	readEntityReferenceList( args[0], m_ShapeRepresentations, map );
 	m_Name = IfcLabel::createObjectFromStepData( args[1] );
 	m_Description = IfcText::createObjectFromStepData( args[2] );
-	if( _stricmp( args[3].c_str(), ".F." ) == 0 ) { m_ProductDefinitional = LOGICAL_FALSE; }
-	else if( _stricmp( args[3].c_str(), ".T." ) == 0 ) { m_ProductDefinitional = LOGICAL_TRUE; }
-	else if( _stricmp( args[3].c_str(), ".U." ) == 0 ) { m_ProductDefinitional = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[3], L".F." ) ) { m_ProductDefinitional = LOGICAL_FALSE; }
+	else if( boost::iequals( args[3], L".T." ) ) { m_ProductDefinitional = LOGICAL_TRUE; }
+	else if( boost::iequals( args[3], L".U." ) ) { m_ProductDefinitional = LOGICAL_UNKNOWN; }
 	m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromStepData( args[4], map );
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

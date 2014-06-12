@@ -48,28 +48,29 @@ void IfcAnalysisModelTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAnalysisModelTypeEnum> IfcAnalysisModelTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAnalysisModelTypeEnum> IfcAnalysisModelTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
 	shared_ptr<IfcAnalysisModelTypeEnum> type_object( new IfcAnalysisModelTypeEnum() );
-	if( _stricmp( arg.c_str(), ".IN_PLANE_LOADING_2D." ) == 0 )
+	if( boost::iequals( arg, L".IN_PLANE_LOADING_2D." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_IN_PLANE_LOADING_2D;
 	}
-	else if( _stricmp( arg.c_str(), ".OUT_PLANE_LOADING_2D." ) == 0 )
+	else if( boost::iequals( arg, L".OUT_PLANE_LOADING_2D." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_OUT_PLANE_LOADING_2D;
 	}
-	else if( _stricmp( arg.c_str(), ".LOADING_3D." ) == 0 )
+	else if( boost::iequals( arg, L".LOADING_3D." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_LOADING_3D;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_NOTDEFINED;
 	}

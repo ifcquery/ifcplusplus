@@ -53,7 +53,7 @@ void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcEdgeCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEdgeCurve, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -63,8 +63,8 @@ void IfcEdgeCurve::readStepArguments( const std::vector<std::string>& args, cons
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeGeometry, map );
-	if( _stricmp( args[3].c_str(), ".F." ) == 0 ) { m_SameSense = false; }
-	else if( _stricmp( args[3].c_str(), ".T." ) == 0 ) { m_SameSense = true; }
+	if( boost::iequals( args[3], L".F." ) ) { m_SameSense = false; }
+	else if( boost::iequals( args[3], L".T." ) ) { m_SameSense = true; }
 }
 void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

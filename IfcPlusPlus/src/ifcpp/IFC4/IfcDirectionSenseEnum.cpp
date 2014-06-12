@@ -36,16 +36,17 @@ void IfcDirectionSenseEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
 	shared_ptr<IfcDirectionSenseEnum> type_object( new IfcDirectionSenseEnum() );
-	if( _stricmp( arg.c_str(), ".POSITIVE." ) == 0 )
+	if( boost::iequals( arg, L".POSITIVE." ) )
 	{
 		type_object->m_enum = IfcDirectionSenseEnum::ENUM_POSITIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".NEGATIVE." ) == 0 )
+	else if( boost::iequals( arg, L".NEGATIVE." ) )
 	{
 		type_object->m_enum = IfcDirectionSenseEnum::ENUM_NEGATIVE;
 	}

@@ -52,32 +52,33 @@ void IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
 	shared_ptr<IfcPileConstructionEnum> type_object( new IfcPileConstructionEnum() );
-	if( _stricmp( arg.c_str(), ".CAST_IN_PLACE." ) == 0 )
+	if( boost::iequals( arg, L".CAST_IN_PLACE." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_CAST_IN_PLACE;
 	}
-	else if( _stricmp( arg.c_str(), ".COMPOSITE." ) == 0 )
+	else if( boost::iequals( arg, L".COMPOSITE." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_COMPOSITE;
 	}
-	else if( _stricmp( arg.c_str(), ".PRECAST_CONCRETE." ) == 0 )
+	else if( boost::iequals( arg, L".PRECAST_CONCRETE." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_PRECAST_CONCRETE;
 	}
-	else if( _stricmp( arg.c_str(), ".PREFAB_STEEL." ) == 0 )
+	else if( boost::iequals( arg, L".PREFAB_STEEL." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_PREFAB_STEEL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_NOTDEFINED;
 	}

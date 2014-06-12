@@ -48,28 +48,29 @@ void IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
 	shared_ptr<IfcConstraintEnum> type_object( new IfcConstraintEnum() );
-	if( _stricmp( arg.c_str(), ".HARD." ) == 0 )
+	if( boost::iequals( arg, L".HARD." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_HARD;
 	}
-	else if( _stricmp( arg.c_str(), ".SOFT." ) == 0 )
+	else if( boost::iequals( arg, L".SOFT." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_SOFT;
 	}
-	else if( _stricmp( arg.c_str(), ".ADVISORY." ) == 0 )
+	else if( boost::iequals( arg, L".ADVISORY." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_ADVISORY;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_NOTDEFINED;
 	}

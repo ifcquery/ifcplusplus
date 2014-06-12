@@ -52,32 +52,33 @@ void IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGridTypeEnum> IfcGridTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcGridTypeEnum> IfcGridTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
 	shared_ptr<IfcGridTypeEnum> type_object( new IfcGridTypeEnum() );
-	if( _stricmp( arg.c_str(), ".RECTANGULAR." ) == 0 )
+	if( boost::iequals( arg, L".RECTANGULAR." ) )
 	{
 		type_object->m_enum = IfcGridTypeEnum::ENUM_RECTANGULAR;
 	}
-	else if( _stricmp( arg.c_str(), ".RADIAL." ) == 0 )
+	else if( boost::iequals( arg, L".RADIAL." ) )
 	{
 		type_object->m_enum = IfcGridTypeEnum::ENUM_RADIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIANGULAR." ) == 0 )
+	else if( boost::iequals( arg, L".TRIANGULAR." ) )
 	{
 		type_object->m_enum = IfcGridTypeEnum::ENUM_TRIANGULAR;
 	}
-	else if( _stricmp( arg.c_str(), ".IRREGULAR." ) == 0 )
+	else if( boost::iequals( arg, L".IRREGULAR." ) )
 	{
 		type_object->m_enum = IfcGridTypeEnum::ENUM_IRREGULAR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcGridTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcGridTypeEnum::ENUM_NOTDEFINED;
 	}

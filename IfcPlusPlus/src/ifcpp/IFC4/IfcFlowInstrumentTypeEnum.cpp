@@ -68,48 +68,49 @@ void IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFlowInstrumentTypeEnum> IfcFlowInstrumentTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFlowInstrumentTypeEnum> IfcFlowInstrumentTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
 	shared_ptr<IfcFlowInstrumentTypeEnum> type_object( new IfcFlowInstrumentTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PRESSUREGAUGE." ) == 0 )
+	if( boost::iequals( arg, L".PRESSUREGAUGE." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_PRESSUREGAUGE;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMOMETER." ) == 0 )
+	else if( boost::iequals( arg, L".THERMOMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_THERMOMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".AMMETER." ) == 0 )
+	else if( boost::iequals( arg, L".AMMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_AMMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".FREQUENCYMETER." ) == 0 )
+	else if( boost::iequals( arg, L".FREQUENCYMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_FREQUENCYMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".POWERFACTORMETER." ) == 0 )
+	else if( boost::iequals( arg, L".POWERFACTORMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_POWERFACTORMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".PHASEANGLEMETER." ) == 0 )
+	else if( boost::iequals( arg, L".PHASEANGLEMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_PHASEANGLEMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".VOLTMETER_PEAK." ) == 0 )
+	else if( boost::iequals( arg, L".VOLTMETER_PEAK." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_VOLTMETER_PEAK;
 	}
-	else if( _stricmp( arg.c_str(), ".VOLTMETER_RMS." ) == 0 )
+	else if( boost::iequals( arg, L".VOLTMETER_RMS." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_VOLTMETER_RMS;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_NOTDEFINED;
 	}

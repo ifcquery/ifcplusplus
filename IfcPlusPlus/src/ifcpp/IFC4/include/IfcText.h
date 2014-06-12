@@ -25,10 +25,10 @@ class IfcText : public IfcSimpleValue, public IfcPPString
 {
 public:
 	IfcText();
-	IfcText( std::string value );
+	IfcText( std::wstring value );
 	~IfcText();
 	virtual const char* classname() const { return "IfcText"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcText> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcText> createObjectFromStepData( const std::wstring& arg );
 };
 

@@ -57,7 +57,7 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTrimmedCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -67,8 +67,8 @@ void IfcTrimmedCurve::readStepArguments( const std::vector<std::string>& args, c
 	readEntityReference( args[0], m_BasisCurve, map );
 	readSelectList( args[1], m_Trim1, map );
 	readSelectList( args[2], m_Trim2, map );
-	if( _stricmp( args[3].c_str(), ".F." ) == 0 ) { m_SenseAgreement = false; }
-	else if( _stricmp( args[3].c_str(), ".T." ) == 0 ) { m_SenseAgreement = true; }
+	if( boost::iequals( args[3], L".F." ) ) { m_SenseAgreement = false; }
+	else if( boost::iequals( args[3], L".T." ) ) { m_SenseAgreement = true; }
 	m_MasterRepresentation = IfcTrimmingPreference::createObjectFromStepData( args[4] );
 }
 void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

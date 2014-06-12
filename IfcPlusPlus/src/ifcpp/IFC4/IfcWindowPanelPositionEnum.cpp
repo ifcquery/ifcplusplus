@@ -52,32 +52,33 @@ void IfcWindowPanelPositionEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowPanelPositionEnum> IfcWindowPanelPositionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWindowPanelPositionEnum> IfcWindowPanelPositionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
 	shared_ptr<IfcWindowPanelPositionEnum> type_object( new IfcWindowPanelPositionEnum() );
-	if( _stricmp( arg.c_str(), ".LEFT." ) == 0 )
+	if( boost::iequals( arg, L".LEFT." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".MIDDLE." ) == 0 )
+	else if( boost::iequals( arg, L".MIDDLE." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_MIDDLE;
 	}
-	else if( _stricmp( arg.c_str(), ".RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".RIGHT." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".BOTTOM." ) == 0 )
+	else if( boost::iequals( arg, L".BOTTOM." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_BOTTOM;
 	}
-	else if( _stricmp( arg.c_str(), ".TOP." ) == 0 )
+	else if( boost::iequals( arg, L".TOP." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_TOP;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_NOTDEFINED;
 	}

@@ -107,7 +107,7 @@ void IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<21 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTaskTimeRecurring, expecting 21, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -127,8 +127,8 @@ void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::string>& ar
 	m_LateFinish = IfcDateTime::createObjectFromStepData( args[10] );
 	m_FreeFloat = IfcDuration::createObjectFromStepData( args[11] );
 	m_TotalFloat = IfcDuration::createObjectFromStepData( args[12] );
-	if( _stricmp( args[13].c_str(), ".F." ) == 0 ) { m_IsCritical = false; }
-	else if( _stricmp( args[13].c_str(), ".T." ) == 0 ) { m_IsCritical = true; }
+	if( boost::iequals( args[13], L".F." ) ) { m_IsCritical = false; }
+	else if( boost::iequals( args[13], L".T." ) ) { m_IsCritical = true; }
 	m_StatusTime = IfcDateTime::createObjectFromStepData( args[14] );
 	m_ActualDuration = IfcDuration::createObjectFromStepData( args[15] );
 	m_ActualStart = IfcDateTime::createObjectFromStepData( args[16] );

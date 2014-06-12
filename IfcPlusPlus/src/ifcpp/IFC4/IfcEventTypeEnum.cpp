@@ -48,28 +48,29 @@ void IfcEventTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
 	shared_ptr<IfcEventTypeEnum> type_object( new IfcEventTypeEnum() );
-	if( _stricmp( arg.c_str(), ".STARTEVENT." ) == 0 )
+	if( boost::iequals( arg, L".STARTEVENT." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_STARTEVENT;
 	}
-	else if( _stricmp( arg.c_str(), ".ENDEVENT." ) == 0 )
+	else if( boost::iequals( arg, L".ENDEVENT." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_ENDEVENT;
 	}
-	else if( _stricmp( arg.c_str(), ".INTERMEDIATEEVENT." ) == 0 )
+	else if( boost::iequals( arg, L".INTERMEDIATEEVENT." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_INTERMEDIATEEVENT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_NOTDEFINED;
 	}

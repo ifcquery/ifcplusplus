@@ -41,7 +41,7 @@ public:
 	~IfcDuctFittingTypeEnum();
 	virtual const char* classname() const { return "IfcDuctFittingTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDuctFittingTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcDuctFittingTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcDuctFittingTypeEnumEnum m_enum;
 };
 

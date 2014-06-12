@@ -29,6 +29,6 @@ public:
 	~IfcLinearMomentMeasure();
 	virtual const char* classname() const { return "IfcLinearMomentMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLinearMomentMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcLinearMomentMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

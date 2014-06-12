@@ -53,12 +53,12 @@ void IfcPPModel::initIfcModel()
 	insertEntity(project);
 
 	shared_ptr<IfcPerson> person( new IfcPerson() );
-	person->m_FamilyName = shared_ptr<IfcLabel>( new IfcLabel( "FamilyName" ) );
-	person->m_GivenName = shared_ptr<IfcLabel>( new IfcLabel( "GivenName" ) );
+	person->m_FamilyName = shared_ptr<IfcLabel>( new IfcLabel( L"FamilyName" ) );
+	person->m_GivenName = shared_ptr<IfcLabel>( new IfcLabel( L"GivenName" ) );
 	insertEntity(person);
 	
 	shared_ptr<IfcOrganization> org( new IfcOrganization() );
-	org->m_Name = shared_ptr<IfcLabel>(new IfcLabel( "OrganizationName" ));
+	org->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"OrganizationName" ));
 	insertEntity(org);
 
 	shared_ptr<IfcPersonAndOrganization> person_org( new IfcPersonAndOrganization() );
@@ -68,9 +68,9 @@ void IfcPPModel::initIfcModel()
 
 	shared_ptr<IfcApplication> app( new IfcApplication() );
 	app->m_ApplicationDeveloper = org;
-	app->m_Version = shared_ptr<IfcLabel>( new IfcLabel( "1.0" ) );
-	app->m_ApplicationFullName = shared_ptr<IfcLabel>( new IfcLabel( "IfcPlusPlus" ) );
-	app->m_ApplicationIdentifier = shared_ptr<IfcIdentifier>( new IfcIdentifier( "IfcPlusPlus" ) );
+	app->m_Version = shared_ptr<IfcLabel>( new IfcLabel( L"1.0" ) );
+	app->m_ApplicationFullName = shared_ptr<IfcLabel>( new IfcLabel( L"IfcPlusPlus" ) );
+	app->m_ApplicationIdentifier = shared_ptr<IfcIdentifier>( new IfcIdentifier( L"IfcPlusPlus" ) );
 	insertEntity(app);
 
 
@@ -121,7 +121,7 @@ void IfcPPModel::initIfcModel()
 	
 	project->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) );
 	project->m_OwnerHistory = owner_history;
-	project->m_Name = shared_ptr<IfcLabel>(new IfcLabel( "IfcPlusPlus project" ) );
+	project->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"IfcPlusPlus project" ) );
 	project->m_UnitsInContext = unit_assignment;
 
 	// set up world coordinate system
@@ -247,7 +247,7 @@ int IfcPPModel::getMaxUsedEntityId()
 void IfcPPModel::initFileHeader( std::string file_name )
 {
 	std::string filename_escaped = boost::replace_all_copy(file_name, "\\", "\\\\");
-	std::stringstream strs;
+	std::wstringstream strs;
 	strs << "ISO-10303-21;" << std::endl;
 	strs << "HEADER;" << std::endl;
 	strs << "FILE_DESCRIPTION(('IFC4'),'2;1');" << std::endl;
@@ -276,21 +276,21 @@ void IfcPPModel::initFileHeader( std::string file_name )
 	m_file_header = strs.str().c_str();
 }
 
-void IfcPPModel::setFileHeader( std::string header )
+void IfcPPModel::setFileHeader( std::wstring header )
 {
 	m_file_header = header;
 }
 
-void IfcPPModel::setFileDescription( std::string schema )
+void IfcPPModel::setFileDescription( std::wstring schema )
 {
 	m_IFC_FILE_DESCRIPTION = schema;
 }
 
-void IfcPPModel::setFileName( std::string schema )
+void IfcPPModel::setFileName( std::wstring schema )
 {
 	m_IFC_FILE_NAME = schema;
 }
-void IfcPPModel::setFileSchema( std::string schema )
+void IfcPPModel::setFileSchema( std::wstring schema )
 {
 	m_IFC_FILE_SCHEMA = schema;
 }
@@ -308,10 +308,10 @@ void IfcPPModel::clearIfcModel()
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
 	m_ifc_schema_version = IFC_VERSION_UNKNOWN;
-	m_IFC_FILE_SCHEMA = "";
-	m_IFC_FILE_NAME = "";
-	m_IFC_FILE_DESCRIPTION = "";
-	m_file_header = "";
+	m_IFC_FILE_SCHEMA = L"";
+	m_IFC_FILE_NAME = L"";
+	m_IFC_FILE_DESCRIPTION = L"";
+	m_file_header = L"";
 }
 
 void IfcPPModel::resetIfcModel()

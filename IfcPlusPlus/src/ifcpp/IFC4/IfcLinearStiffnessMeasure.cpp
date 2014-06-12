@@ -32,10 +32,11 @@ void IfcLinearStiffnessMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLinearStiffnessMeasure> IfcLinearStiffnessMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLinearStiffnessMeasure> IfcLinearStiffnessMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLinearStiffnessMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearStiffnessMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearStiffnessMeasure>(); }
 	shared_ptr<IfcLinearStiffnessMeasure> type_object( new IfcLinearStiffnessMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

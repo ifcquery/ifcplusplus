@@ -90,7 +90,7 @@ void IfcWindowStyle::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcWindowStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcWindowStyle::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcWindowStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWindowStyle, expecting 12, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -107,10 +107,10 @@ void IfcWindowStyle::readStepArguments( const std::vector<std::string>& args, co
 	m_Tag = IfcLabel::createObjectFromStepData( args[7] );
 	m_ConstructionType = IfcWindowStyleConstructionEnum::createObjectFromStepData( args[8] );
 	m_OperationType = IfcWindowStyleOperationEnum::createObjectFromStepData( args[9] );
-	if( _stricmp( args[10].c_str(), ".F." ) == 0 ) { m_ParameterTakesPrecedence = false; }
-	else if( _stricmp( args[10].c_str(), ".T." ) == 0 ) { m_ParameterTakesPrecedence = true; }
-	if( _stricmp( args[11].c_str(), ".F." ) == 0 ) { m_Sizeable = false; }
-	else if( _stricmp( args[11].c_str(), ".T." ) == 0 ) { m_Sizeable = true; }
+	if( boost::iequals( args[10], L".F." ) ) { m_ParameterTakesPrecedence = false; }
+	else if( boost::iequals( args[10], L".T." ) ) { m_ParameterTakesPrecedence = true; }
+	if( boost::iequals( args[11], L".F." ) ) { m_Sizeable = false; }
+	else if( boost::iequals( args[11], L".T." ) ) { m_Sizeable = true; }
 }
 void IfcWindowStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

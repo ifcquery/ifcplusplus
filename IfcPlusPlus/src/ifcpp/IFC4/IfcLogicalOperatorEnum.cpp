@@ -48,28 +48,29 @@ void IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	shared_ptr<IfcLogicalOperatorEnum> type_object( new IfcLogicalOperatorEnum() );
-	if( _stricmp( arg.c_str(), ".LOGICALAND." ) == 0 )
+	if( boost::iequals( arg, L".LOGICALAND." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALAND;
 	}
-	else if( _stricmp( arg.c_str(), ".LOGICALOR." ) == 0 )
+	else if( boost::iequals( arg, L".LOGICALOR." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALOR;
 	}
-	else if( _stricmp( arg.c_str(), ".LOGICALXOR." ) == 0 )
+	else if( boost::iequals( arg, L".LOGICALXOR." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALXOR;
 	}
-	else if( _stricmp( arg.c_str(), ".LOGICALNOTAND." ) == 0 )
+	else if( boost::iequals( arg, L".LOGICALNOTAND." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALNOTAND;
 	}
-	else if( _stricmp( arg.c_str(), ".LOGICALNOTOR." ) == 0 )
+	else if( boost::iequals( arg, L".LOGICALNOTOR." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALNOTOR;
 	}

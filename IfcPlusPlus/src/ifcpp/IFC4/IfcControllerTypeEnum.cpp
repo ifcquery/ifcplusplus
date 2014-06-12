@@ -56,36 +56,37 @@ void IfcControllerTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
 	shared_ptr<IfcControllerTypeEnum> type_object( new IfcControllerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FLOATING." ) == 0 )
+	if( boost::iequals( arg, L".FLOATING." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_FLOATING;
 	}
-	else if( _stricmp( arg.c_str(), ".PROGRAMMABLE." ) == 0 )
+	else if( boost::iequals( arg, L".PROGRAMMABLE." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_PROGRAMMABLE;
 	}
-	else if( _stricmp( arg.c_str(), ".PROPORTIONAL." ) == 0 )
+	else if( boost::iequals( arg, L".PROPORTIONAL." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_PROPORTIONAL;
 	}
-	else if( _stricmp( arg.c_str(), ".MULTIPOSITION." ) == 0 )
+	else if( boost::iequals( arg, L".MULTIPOSITION." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_MULTIPOSITION;
 	}
-	else if( _stricmp( arg.c_str(), ".TWOPOSITION." ) == 0 )
+	else if( boost::iequals( arg, L".TWOPOSITION." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_TWOPOSITION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_NOTDEFINED;
 	}

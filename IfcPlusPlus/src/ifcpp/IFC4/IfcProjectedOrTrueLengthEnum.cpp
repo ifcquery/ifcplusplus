@@ -36,16 +36,17 @@ void IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	shared_ptr<IfcProjectedOrTrueLengthEnum> type_object( new IfcProjectedOrTrueLengthEnum() );
-	if( _stricmp( arg.c_str(), ".PROJECTED_LENGTH." ) == 0 )
+	if( boost::iequals( arg, L".PROJECTED_LENGTH." ) )
 	{
 		type_object->m_enum = IfcProjectedOrTrueLengthEnum::ENUM_PROJECTED_LENGTH;
 	}
-	else if( _stricmp( arg.c_str(), ".TRUE_LENGTH." ) == 0 )
+	else if( boost::iequals( arg, L".TRUE_LENGTH." ) )
 	{
 		type_object->m_enum = IfcProjectedOrTrueLengthEnum::ENUM_TRUE_LENGTH;
 	}

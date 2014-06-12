@@ -93,7 +93,7 @@ void IfcStructuralSurfaceAction::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcStructuralSurfaceAction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcStructuralSurfaceAction::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralSurfaceAction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralSurfaceAction, expecting 12, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -109,8 +109,8 @@ void IfcStructuralSurfaceAction::readStepArguments( const std::vector<std::strin
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReference( args[7], m_AppliedLoad, map );
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromStepData( args[8] );
-	if( _stricmp( args[9].c_str(), ".F." ) == 0 ) { m_DestabilizingLoad = false; }
-	else if( _stricmp( args[9].c_str(), ".T." ) == 0 ) { m_DestabilizingLoad = true; }
+	if( boost::iequals( args[9], L".F." ) ) { m_DestabilizingLoad = false; }
+	else if( boost::iequals( args[9], L".T." ) ) { m_DestabilizingLoad = true; }
 	m_ProjectedOrTrue = IfcProjectedOrTrueLengthEnum::createObjectFromStepData( args[10] );
 	m_PredefinedType = IfcStructuralSurfaceActivityTypeEnum::createObjectFromStepData( args[11] );
 }

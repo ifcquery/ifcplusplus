@@ -31,10 +31,11 @@ void IfcInductanceMeasure::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
 	shared_ptr<IfcInductanceMeasure> type_object( new IfcInductanceMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

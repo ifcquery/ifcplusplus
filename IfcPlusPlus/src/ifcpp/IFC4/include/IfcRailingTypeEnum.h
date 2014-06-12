@@ -37,7 +37,7 @@ public:
 	~IfcRailingTypeEnum();
 	virtual const char* classname() const { return "IfcRailingTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcRailingTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcRailingTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcRailingTypeEnumEnum m_enum;
 };
 

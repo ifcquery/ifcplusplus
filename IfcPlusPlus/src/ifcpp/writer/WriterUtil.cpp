@@ -121,25 +121,22 @@ void writeDoubleList3D( std::stringstream& stream, const std::vector<std::vector
 void writeConstCharList( std::stringstream& stream, const std::vector<const char*>& vec )
 {
 	stream << "(";
-	std::vector<const char*>::const_iterator it;
-	
-	for( it=vec.begin(); it!=vec.end(); ++it )
+	for( std::vector<const char*>::const_iterator it=vec.begin(); it!=vec.end(); ++it )
 	{
 		if( it != vec.begin() )
 		{
 			stream << ",";
 		}
-		stream << encodeStepString( (*it) );
+		const char* ch = *it;
+		stream << ch;// encodeStepString(( *it ));
 	}
 	stream << ")";
 }
 
-void writeStringList( std::stringstream& stream, const std::vector<std::string>& vec )
+void writeStringList( std::stringstream& stream, const std::vector<std::wstring>& vec )
 {
 	stream << "(";
-	std::vector<std::string>::const_iterator it;
-	
-	for( it=vec.begin(); it!=vec.end(); ++it )
+	for( std::vector<std::wstring>::const_iterator it=vec.begin(); it!=vec.end(); ++it )
 	{
 		if( it != vec.begin() )
 		{
@@ -151,18 +148,17 @@ void writeStringList( std::stringstream& stream, const std::vector<std::string>&
 }
 
 
-std::string encodeStepString( std::string str )
+std::string encodeStepString( std::wstring str )
 {
-	char* stream_pos = (char*)str.c_str();
+	wchar_t* stream_pos = (wchar_t*)str.c_str();
 	std::string result_str;
 
 	while( *stream_pos != '\0' )
 	{
-		// to utf-8
-		char append_char = *stream_pos;
+		wchar_t append_char = *stream_pos;
 		if( append_char > 0 && append_char < 128 )
 		{
-			result_str.push_back( append_char );
+			result_str.push_back( (char)append_char );
 		}
 		else
 		{

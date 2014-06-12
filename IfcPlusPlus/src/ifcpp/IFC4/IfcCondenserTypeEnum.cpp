@@ -64,44 +64,45 @@ void IfcCondenserTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	shared_ptr<IfcCondenserTypeEnum> type_object( new IfcCondenserTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AIRCOOLED." ) == 0 )
+	if( boost::iequals( arg, L".AIRCOOLED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_AIRCOOLED;
 	}
-	else if( _stricmp( arg.c_str(), ".EVAPORATIVECOOLED." ) == 0 )
+	else if( boost::iequals( arg, L".EVAPORATIVECOOLED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_EVAPORATIVECOOLED;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLED." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLED;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLEDBRAZEDPLATE." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLEDBRAZEDPLATE." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDBRAZEDPLATE;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLEDSHELLCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLEDSHELLCOIL." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDSHELLCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLEDSHELLTUBE." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLEDSHELLTUBE." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDSHELLTUBE;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLEDTUBEINTUBE." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLEDTUBEINTUBE." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDTUBEINTUBE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_NOTDEFINED;
 	}

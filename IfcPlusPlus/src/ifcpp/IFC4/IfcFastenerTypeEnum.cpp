@@ -48,28 +48,29 @@ void IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	shared_ptr<IfcFastenerTypeEnum> type_object( new IfcFastenerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".GLUE." ) == 0 )
+	if( boost::iequals( arg, L".GLUE." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_GLUE;
 	}
-	else if( _stricmp( arg.c_str(), ".MORTAR." ) == 0 )
+	else if( boost::iequals( arg, L".MORTAR." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_MORTAR;
 	}
-	else if( _stricmp( arg.c_str(), ".WELD." ) == 0 )
+	else if( boost::iequals( arg, L".WELD." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_WELD;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_NOTDEFINED;
 	}

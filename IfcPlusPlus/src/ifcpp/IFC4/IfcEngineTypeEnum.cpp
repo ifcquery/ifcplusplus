@@ -44,24 +44,25 @@ void IfcEngineTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
 	shared_ptr<IfcEngineTypeEnum> type_object( new IfcEngineTypeEnum() );
-	if( _stricmp( arg.c_str(), ".EXTERNALCOMBUSTION." ) == 0 )
+	if( boost::iequals( arg, L".EXTERNALCOMBUSTION." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_EXTERNALCOMBUSTION;
 	}
-	else if( _stricmp( arg.c_str(), ".INTERNALCOMBUSTION." ) == 0 )
+	else if( boost::iequals( arg, L".INTERNALCOMBUSTION." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_INTERNALCOMBUSTION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_NOTDEFINED;
 	}

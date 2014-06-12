@@ -22,7 +22,7 @@
 
 // TYPE IfcTextTransformation 
 IfcTextTransformation::IfcTextTransformation() {}
-IfcTextTransformation::IfcTextTransformation( std::string value ) { m_value = value; }
+IfcTextTransformation::IfcTextTransformation( std::wstring value ) { m_value = value; }
 IfcTextTransformation::~IfcTextTransformation() {}
 void IfcTextTransformation::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -30,10 +30,11 @@ void IfcTextTransformation::getStepParameter( std::stringstream& stream, bool is
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTextTransformation> IfcTextTransformation::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTextTransformation> IfcTextTransformation::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
 	shared_ptr<IfcTextTransformation> type_object( new IfcTextTransformation() );
 	type_object->readArgument( arg );
 	return type_object;

@@ -56,36 +56,37 @@ void IfcActionRequestTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
 	shared_ptr<IfcActionRequestTypeEnum> type_object( new IfcActionRequestTypeEnum() );
-	if( _stricmp( arg.c_str(), ".EMAIL." ) == 0 )
+	if( boost::iequals( arg, L".EMAIL." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_EMAIL;
 	}
-	else if( _stricmp( arg.c_str(), ".FAX." ) == 0 )
+	else if( boost::iequals( arg, L".FAX." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_FAX;
 	}
-	else if( _stricmp( arg.c_str(), ".PHONE." ) == 0 )
+	else if( boost::iequals( arg, L".PHONE." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_PHONE;
 	}
-	else if( _stricmp( arg.c_str(), ".POST." ) == 0 )
+	else if( boost::iequals( arg, L".POST." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_POST;
 	}
-	else if( _stricmp( arg.c_str(), ".VERBAL." ) == 0 )
+	else if( boost::iequals( arg, L".VERBAL." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_VERBAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_NOTDEFINED;
 	}

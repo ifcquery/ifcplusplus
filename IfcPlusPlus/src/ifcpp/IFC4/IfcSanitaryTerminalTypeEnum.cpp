@@ -76,56 +76,57 @@ void IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	shared_ptr<IfcSanitaryTerminalTypeEnum> type_object( new IfcSanitaryTerminalTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BATH." ) == 0 )
+	if( boost::iequals( arg, L".BATH." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_BATH;
 	}
-	else if( _stricmp( arg.c_str(), ".BIDET." ) == 0 )
+	else if( boost::iequals( arg, L".BIDET." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_BIDET;
 	}
-	else if( _stricmp( arg.c_str(), ".CISTERN." ) == 0 )
+	else if( boost::iequals( arg, L".CISTERN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_CISTERN;
 	}
-	else if( _stricmp( arg.c_str(), ".SHOWER." ) == 0 )
+	else if( boost::iequals( arg, L".SHOWER." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_SHOWER;
 	}
-	else if( _stricmp( arg.c_str(), ".SINK." ) == 0 )
+	else if( boost::iequals( arg, L".SINK." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_SINK;
 	}
-	else if( _stricmp( arg.c_str(), ".SANITARYFOUNTAIN." ) == 0 )
+	else if( boost::iequals( arg, L".SANITARYFOUNTAIN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_SANITARYFOUNTAIN;
 	}
-	else if( _stricmp( arg.c_str(), ".TOILETPAN." ) == 0 )
+	else if( boost::iequals( arg, L".TOILETPAN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_TOILETPAN;
 	}
-	else if( _stricmp( arg.c_str(), ".URINAL." ) == 0 )
+	else if( boost::iequals( arg, L".URINAL." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_URINAL;
 	}
-	else if( _stricmp( arg.c_str(), ".WASHHANDBASIN." ) == 0 )
+	else if( boost::iequals( arg, L".WASHHANDBASIN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_WASHHANDBASIN;
 	}
-	else if( _stricmp( arg.c_str(), ".WCSEAT." ) == 0 )
+	else if( boost::iequals( arg, L".WCSEAT." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_WCSEAT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

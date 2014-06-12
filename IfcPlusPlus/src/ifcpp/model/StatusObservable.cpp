@@ -71,7 +71,7 @@ void StatusObservable::progressCallback( double progress_value, const std::strin
 	}
 }
 
-void StatusObservable::progressTextCallback( const std::string& str )
+void StatusObservable::progressTextCallback( const std::wstring& str )
 {
 	if( m_func_call_on_progress_text )
 	{
@@ -82,7 +82,7 @@ void StatusObservable::progressTextCallback( const std::string& str )
 	}
 }
 
-void StatusObservable::setProgressTextCallBack( void* obj_ptr, void (*func)(void*, const std::string& message) )
+void StatusObservable::setProgressTextCallBack( void* obj_ptr, void (*func)(void*, const std::wstring& message) )
 {
 	m_obj_call_on_progress_text = obj_ptr;
 	m_func_call_on_progress_text = func;
@@ -95,7 +95,7 @@ void StatusObservable::unsetProgressTextCallBack()
 }
 
 // message callback
-void StatusObservable::setMessageCallBack( void* obj_ptr, void (*func)(void*, const std::string&) )
+void StatusObservable::setMessageCallBack( void* obj_ptr, void (*func)(void*, const std::wstring&) )
 {
 	m_obj_call_on_message = obj_ptr;
 	m_func_call_on_message = func;
@@ -107,7 +107,7 @@ void StatusObservable::unsetMessageCallBack()
 	m_func_call_on_message = 0;
 }
 
-void StatusObservable::messageCallback( const std::string& str )
+void StatusObservable::messageCallback( const std::wstring& str )
 {
 	if( m_func_call_on_message )
 	{
@@ -119,7 +119,7 @@ void StatusObservable::messageCallback( const std::string& str )
 }
 
 // error callback
-void StatusObservable::setErrorCallBack( void* obj_ptr, void (*func)(void*, const std::string&) )
+void StatusObservable::setErrorCallBack( void* obj_ptr, void (*func)(void*, const std::wstring&) )
 {
 	m_obj_call_on_error = obj_ptr;
 	m_func_call_on_error = func;
@@ -131,7 +131,7 @@ void StatusObservable::unsetErrorCallBack()
 	m_func_call_on_error = 0;
 }
 
-void StatusObservable::errorCallback( const std::string& str )
+void StatusObservable::errorCallback( const std::wstring& str )
 {
 	if( m_func_call_on_error )
 	{

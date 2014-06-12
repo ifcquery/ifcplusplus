@@ -44,24 +44,25 @@ void IfcDoorPanelPositionEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
 	shared_ptr<IfcDoorPanelPositionEnum> type_object( new IfcDoorPanelPositionEnum() );
-	if( _stricmp( arg.c_str(), ".LEFT." ) == 0 )
+	if( boost::iequals( arg, L".LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".MIDDLE." ) == 0 )
+	else if( boost::iequals( arg, L".MIDDLE." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_MIDDLE;
 	}
-	else if( _stricmp( arg.c_str(), ".RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_NOTDEFINED;
 	}

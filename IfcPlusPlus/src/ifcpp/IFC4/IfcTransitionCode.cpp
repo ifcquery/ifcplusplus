@@ -44,24 +44,25 @@ void IfcTransitionCode::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
 	shared_ptr<IfcTransitionCode> type_object( new IfcTransitionCode() );
-	if( _stricmp( arg.c_str(), ".DISCONTINUOUS." ) == 0 )
+	if( boost::iequals( arg, L".DISCONTINUOUS." ) )
 	{
 		type_object->m_enum = IfcTransitionCode::ENUM_DISCONTINUOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTINUOUS." ) == 0 )
+	else if( boost::iequals( arg, L".CONTINUOUS." ) )
 	{
 		type_object->m_enum = IfcTransitionCode::ENUM_CONTINUOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTSAMEGRADIENT." ) == 0 )
+	else if( boost::iequals( arg, L".CONTSAMEGRADIENT." ) )
 	{
 		type_object->m_enum = IfcTransitionCode::ENUM_CONTSAMEGRADIENT;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTSAMEGRADIENTSAMECURVATURE." ) == 0 )
+	else if( boost::iequals( arg, L".CONTSAMEGRADIENTSAMECURVATURE." ) )
 	{
 		type_object->m_enum = IfcTransitionCode::ENUM_CONTSAMEGRADIENTSAMECURVATURE;
 	}

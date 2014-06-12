@@ -52,32 +52,33 @@ void IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& strea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
 	shared_ptr<IfcBuildingElementProxyTypeEnum> type_object( new IfcBuildingElementProxyTypeEnum() );
-	if( _stricmp( arg.c_str(), ".COMPLEX." ) == 0 )
+	if( boost::iequals( arg, L".COMPLEX." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_COMPLEX;
 	}
-	else if( _stricmp( arg.c_str(), ".ELEMENT." ) == 0 )
+	else if( boost::iequals( arg, L".ELEMENT." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_ELEMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".PARTIAL." ) == 0 )
+	else if( boost::iequals( arg, L".PARTIAL." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PARTIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".PROVISIONFORVOID." ) == 0 )
+	else if( boost::iequals( arg, L".PROVISIONFORVOID." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PROVISIONFORVOID;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_NOTDEFINED;
 	}

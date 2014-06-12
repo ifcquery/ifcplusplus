@@ -38,7 +38,7 @@ public:
 	~IfcDistributionPortTypeEnum();
 	virtual const char* classname() const { return "IfcDistributionPortTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDistributionPortTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcDistributionPortTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcDistributionPortTypeEnumEnum m_enum;
 };
 

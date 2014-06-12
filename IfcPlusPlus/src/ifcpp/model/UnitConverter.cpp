@@ -152,7 +152,7 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 									}
 									else if( conversion_based_unit->m_Name )
 									{
-										if( _stricmp(conversion_based_unit->m_Name->m_value.c_str(), "DEGREE" ) == 0 )
+										if( boost::iequals(conversion_based_unit->m_Name->m_value.c_str(), L"DEGREE" ) )
 										{
 											m_plane_angle_factor = M_PI/180.0;
 											angle_factor_found = true;

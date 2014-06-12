@@ -29,7 +29,7 @@ public:
 	~IfcPropertySetDefinitionSet();
 	virtual const char* classname() const { return "IfcPropertySetDefinitionSet"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcPropertySetDefinitionSet> createObjectFromStepData( const std::string& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcPropertySetDefinitionSet> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 	std::vector<shared_ptr<IfcPropertySetDefinition> > m_vec;
 };
 

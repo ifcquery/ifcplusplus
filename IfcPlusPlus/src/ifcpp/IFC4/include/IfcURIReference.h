@@ -24,10 +24,10 @@ class IfcURIReference : public IfcPPString
 {
 public:
 	IfcURIReference();
-	IfcURIReference( std::string value );
+	IfcURIReference( std::wstring value );
 	~IfcURIReference();
 	virtual const char* classname() const { return "IfcURIReference"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcURIReference> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcURIReference> createObjectFromStepData( const std::wstring& arg );
 };
 

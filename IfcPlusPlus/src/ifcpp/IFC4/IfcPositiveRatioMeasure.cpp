@@ -31,10 +31,11 @@ void IfcPositiveRatioMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	shared_ptr<IfcPositiveRatioMeasure> type_object( new IfcPositiveRatioMeasure() );
 	// read TYPE
 	type_object->readArgument( arg );

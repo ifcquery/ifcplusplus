@@ -44,24 +44,25 @@ void IfcSystemFurnitureElementTypeEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> type_object( new IfcSystemFurnitureElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PANEL." ) == 0 )
+	if( boost::iequals( arg, L".PANEL." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_PANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".WORKSURFACE." ) == 0 )
+	else if( boost::iequals( arg, L".WORKSURFACE." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_WORKSURFACE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_NOTDEFINED;
 	}

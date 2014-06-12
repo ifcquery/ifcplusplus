@@ -48,28 +48,29 @@ void IfcDiscreteAccessoryTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> type_object( new IfcDiscreteAccessoryTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ANCHORPLATE." ) == 0 )
+	if( boost::iequals( arg, L".ANCHORPLATE." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_ANCHORPLATE;
 	}
-	else if( _stricmp( arg.c_str(), ".BRACKET." ) == 0 )
+	else if( boost::iequals( arg, L".BRACKET." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_BRACKET;
 	}
-	else if( _stricmp( arg.c_str(), ".SHOE." ) == 0 )
+	else if( boost::iequals( arg, L".SHOE." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_SHOE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_NOTDEFINED;
 	}

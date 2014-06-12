@@ -44,24 +44,25 @@ void IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
 	shared_ptr<IfcPlateTypeEnum> type_object( new IfcPlateTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CURTAIN_PANEL." ) == 0 )
+	if( boost::iequals( arg, L".CURTAIN_PANEL." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_CURTAIN_PANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".SHEET." ) == 0 )
+	else if( boost::iequals( arg, L".SHEET." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_SHEET;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_NOTDEFINED;
 	}

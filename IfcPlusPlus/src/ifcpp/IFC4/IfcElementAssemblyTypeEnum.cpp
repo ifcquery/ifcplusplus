@@ -72,52 +72,53 @@ void IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	shared_ptr<IfcElementAssemblyTypeEnum> type_object( new IfcElementAssemblyTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ACCESSORY_ASSEMBLY." ) == 0 )
+	if( boost::iequals( arg, L".ACCESSORY_ASSEMBLY." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_ACCESSORY_ASSEMBLY;
 	}
-	else if( _stricmp( arg.c_str(), ".ARCH." ) == 0 )
+	else if( boost::iequals( arg, L".ARCH." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_ARCH;
 	}
-	else if( _stricmp( arg.c_str(), ".BEAM_GRID." ) == 0 )
+	else if( boost::iequals( arg, L".BEAM_GRID." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_BEAM_GRID;
 	}
-	else if( _stricmp( arg.c_str(), ".BRACED_FRAME." ) == 0 )
+	else if( boost::iequals( arg, L".BRACED_FRAME." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_BRACED_FRAME;
 	}
-	else if( _stricmp( arg.c_str(), ".GIRDER." ) == 0 )
+	else if( boost::iequals( arg, L".GIRDER." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_GIRDER;
 	}
-	else if( _stricmp( arg.c_str(), ".REINFORCEMENT_UNIT." ) == 0 )
+	else if( boost::iequals( arg, L".REINFORCEMENT_UNIT." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_REINFORCEMENT_UNIT;
 	}
-	else if( _stricmp( arg.c_str(), ".RIGID_FRAME." ) == 0 )
+	else if( boost::iequals( arg, L".RIGID_FRAME." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_RIGID_FRAME;
 	}
-	else if( _stricmp( arg.c_str(), ".SLAB_FIELD." ) == 0 )
+	else if( boost::iequals( arg, L".SLAB_FIELD." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SLAB_FIELD;
 	}
-	else if( _stricmp( arg.c_str(), ".TRUSS." ) == 0 )
+	else if( boost::iequals( arg, L".TRUSS." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TRUSS;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -48,28 +48,29 @@ void IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_t
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
 	shared_ptr<IfcStateEnum> type_object( new IfcStateEnum() );
-	if( _stricmp( arg.c_str(), ".READWRITE." ) == 0 )
+	if( boost::iequals( arg, L".READWRITE." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READWRITE;
 	}
-	else if( _stricmp( arg.c_str(), ".READONLY." ) == 0 )
+	else if( boost::iequals( arg, L".READONLY." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READONLY;
 	}
-	else if( _stricmp( arg.c_str(), ".LOCKED." ) == 0 )
+	else if( boost::iequals( arg, L".LOCKED." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_LOCKED;
 	}
-	else if( _stricmp( arg.c_str(), ".READWRITELOCKED." ) == 0 )
+	else if( boost::iequals( arg, L".READWRITELOCKED." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READWRITELOCKED;
 	}
-	else if( _stricmp( arg.c_str(), ".READONLYLOCKED." ) == 0 )
+	else if( boost::iequals( arg, L".READONLYLOCKED." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READONLYLOCKED;
 	}

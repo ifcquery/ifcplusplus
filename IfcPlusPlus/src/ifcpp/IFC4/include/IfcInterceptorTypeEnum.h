@@ -38,7 +38,7 @@ public:
 	~IfcInterceptorTypeEnum();
 	virtual const char* classname() const { return "IfcInterceptorTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcInterceptorTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcInterceptorTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcInterceptorTypeEnumEnum m_enum;
 };
 

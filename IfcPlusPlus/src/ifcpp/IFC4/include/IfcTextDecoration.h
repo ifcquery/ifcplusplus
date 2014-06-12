@@ -24,10 +24,10 @@ class IfcTextDecoration : public IfcPPString
 {
 public:
 	IfcTextDecoration();
-	IfcTextDecoration( std::string value );
+	IfcTextDecoration( std::wstring value );
 	~IfcTextDecoration();
 	virtual const char* classname() const { return "IfcTextDecoration"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTextDecoration> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcTextDecoration> createObjectFromStepData( const std::wstring& arg );
 };
 

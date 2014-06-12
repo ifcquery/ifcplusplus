@@ -38,7 +38,7 @@ public:
 	~IfcTendonTypeEnum();
 	virtual const char* classname() const { return "IfcTendonTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTendonTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcTendonTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcTendonTypeEnumEnum m_enum;
 };
 

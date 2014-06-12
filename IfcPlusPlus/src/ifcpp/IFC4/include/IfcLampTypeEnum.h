@@ -43,7 +43,7 @@ public:
 	~IfcLampTypeEnum();
 	virtual const char* classname() const { return "IfcLampTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLampTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcLampTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcLampTypeEnumEnum m_enum;
 };
 

@@ -48,28 +48,29 @@ void IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	shared_ptr<IfcPermitTypeEnum> type_object( new IfcPermitTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ACCESS." ) == 0 )
+	if( boost::iequals( arg, L".ACCESS." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_ACCESS;
 	}
-	else if( _stricmp( arg.c_str(), ".BUILDING." ) == 0 )
+	else if( boost::iequals( arg, L".BUILDING." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_BUILDING;
 	}
-	else if( _stricmp( arg.c_str(), ".WORK." ) == 0 )
+	else if( boost::iequals( arg, L".WORK." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_WORK;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_NOTDEFINED;
 	}

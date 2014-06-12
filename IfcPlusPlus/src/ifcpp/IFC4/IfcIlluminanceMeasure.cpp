@@ -31,10 +31,11 @@ void IfcIlluminanceMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIlluminanceMeasure> IfcIlluminanceMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcIlluminanceMeasure> IfcIlluminanceMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	shared_ptr<IfcIlluminanceMeasure> type_object( new IfcIlluminanceMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

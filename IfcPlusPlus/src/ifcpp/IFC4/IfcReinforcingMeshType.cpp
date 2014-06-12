@@ -114,7 +114,7 @@ void IfcReinforcingMeshType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcReinforcingMeshType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcReinforcingMeshType::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcReinforcingMeshType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<20 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReinforcingMeshType, expecting 20, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

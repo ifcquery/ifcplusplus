@@ -64,44 +64,45 @@ void IfcFanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	shared_ptr<IfcFanTypeEnum> type_object( new IfcFanTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CENTRIFUGALFORWARDCURVED." ) == 0 )
+	if( boost::iequals( arg, L".CENTRIFUGALFORWARDCURVED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALFORWARDCURVED;
 	}
-	else if( _stricmp( arg.c_str(), ".CENTRIFUGALRADIAL." ) == 0 )
+	else if( boost::iequals( arg, L".CENTRIFUGALRADIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALRADIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".CENTRIFUGALBACKWARDINCLINEDCURVED." ) == 0 )
+	else if( boost::iequals( arg, L".CENTRIFUGALBACKWARDINCLINEDCURVED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALBACKWARDINCLINEDCURVED;
 	}
-	else if( _stricmp( arg.c_str(), ".CENTRIFUGALAIRFOIL." ) == 0 )
+	else if( boost::iequals( arg, L".CENTRIFUGALAIRFOIL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALAIRFOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".TUBEAXIAL." ) == 0 )
+	else if( boost::iequals( arg, L".TUBEAXIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_TUBEAXIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".VANEAXIAL." ) == 0 )
+	else if( boost::iequals( arg, L".VANEAXIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_VANEAXIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".PROPELLORAXIAL." ) == 0 )
+	else if( boost::iequals( arg, L".PROPELLORAXIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_PROPELLORAXIAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_NOTDEFINED;
 	}

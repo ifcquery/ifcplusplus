@@ -112,92 +112,93 @@ void IfcLaborResourceTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLaborResourceTypeEnum> IfcLaborResourceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLaborResourceTypeEnum> IfcLaborResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
 	shared_ptr<IfcLaborResourceTypeEnum> type_object( new IfcLaborResourceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ADMINISTRATION." ) == 0 )
+	if( boost::iequals( arg, L".ADMINISTRATION." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_ADMINISTRATION;
 	}
-	else if( _stricmp( arg.c_str(), ".CARPENTRY." ) == 0 )
+	else if( boost::iequals( arg, L".CARPENTRY." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_CARPENTRY;
 	}
-	else if( _stricmp( arg.c_str(), ".CLEANING." ) == 0 )
+	else if( boost::iequals( arg, L".CLEANING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_CLEANING;
 	}
-	else if( _stricmp( arg.c_str(), ".CONCRETE." ) == 0 )
+	else if( boost::iequals( arg, L".CONCRETE." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_CONCRETE;
 	}
-	else if( _stricmp( arg.c_str(), ".DRYWALL." ) == 0 )
+	else if( boost::iequals( arg, L".DRYWALL." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_DRYWALL;
 	}
-	else if( _stricmp( arg.c_str(), ".ELECTRIC." ) == 0 )
+	else if( boost::iequals( arg, L".ELECTRIC." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_ELECTRIC;
 	}
-	else if( _stricmp( arg.c_str(), ".FINISHING." ) == 0 )
+	else if( boost::iequals( arg, L".FINISHING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_FINISHING;
 	}
-	else if( _stricmp( arg.c_str(), ".FLOORING." ) == 0 )
+	else if( boost::iequals( arg, L".FLOORING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_FLOORING;
 	}
-	else if( _stricmp( arg.c_str(), ".GENERAL." ) == 0 )
+	else if( boost::iequals( arg, L".GENERAL." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_GENERAL;
 	}
-	else if( _stricmp( arg.c_str(), ".HVAC." ) == 0 )
+	else if( boost::iequals( arg, L".HVAC." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_HVAC;
 	}
-	else if( _stricmp( arg.c_str(), ".LANDSCAPING." ) == 0 )
+	else if( boost::iequals( arg, L".LANDSCAPING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_LANDSCAPING;
 	}
-	else if( _stricmp( arg.c_str(), ".MASONRY." ) == 0 )
+	else if( boost::iequals( arg, L".MASONRY." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_MASONRY;
 	}
-	else if( _stricmp( arg.c_str(), ".PAINTING." ) == 0 )
+	else if( boost::iequals( arg, L".PAINTING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_PAINTING;
 	}
-	else if( _stricmp( arg.c_str(), ".PAVING." ) == 0 )
+	else if( boost::iequals( arg, L".PAVING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_PAVING;
 	}
-	else if( _stricmp( arg.c_str(), ".PLUMBING." ) == 0 )
+	else if( boost::iequals( arg, L".PLUMBING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_PLUMBING;
 	}
-	else if( _stricmp( arg.c_str(), ".ROOFING." ) == 0 )
+	else if( boost::iequals( arg, L".ROOFING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_ROOFING;
 	}
-	else if( _stricmp( arg.c_str(), ".SITEGRADING." ) == 0 )
+	else if( boost::iequals( arg, L".SITEGRADING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_SITEGRADING;
 	}
-	else if( _stricmp( arg.c_str(), ".STEELWORK." ) == 0 )
+	else if( boost::iequals( arg, L".STEELWORK." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_STEELWORK;
 	}
-	else if( _stricmp( arg.c_str(), ".SURVEYING." ) == 0 )
+	else if( boost::iequals( arg, L".SURVEYING." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_SURVEYING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLaborResourceTypeEnum::ENUM_NOTDEFINED;
 	}

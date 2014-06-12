@@ -32,10 +32,11 @@ void IfcPositiveLengthMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	shared_ptr<IfcPositiveLengthMeasure> type_object( new IfcPositiveLengthMeasure() );
 	// read TYPE
 	type_object->readArgument( arg );

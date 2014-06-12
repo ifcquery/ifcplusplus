@@ -56,36 +56,37 @@ void IfcElectricMotorTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	shared_ptr<IfcElectricMotorTypeEnum> type_object( new IfcElectricMotorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DC." ) == 0 )
+	if( boost::iequals( arg, L".DC." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_DC;
 	}
-	else if( _stricmp( arg.c_str(), ".INDUCTION." ) == 0 )
+	else if( boost::iequals( arg, L".INDUCTION." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_INDUCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".POLYPHASE." ) == 0 )
+	else if( boost::iequals( arg, L".POLYPHASE." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_POLYPHASE;
 	}
-	else if( _stricmp( arg.c_str(), ".RELUCTANCESYNCHRONOUS." ) == 0 )
+	else if( boost::iequals( arg, L".RELUCTANCESYNCHRONOUS." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_RELUCTANCESYNCHRONOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".SYNCHRONOUS." ) == 0 )
+	else if( boost::iequals( arg, L".SYNCHRONOUS." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_SYNCHRONOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_NOTDEFINED;
 	}

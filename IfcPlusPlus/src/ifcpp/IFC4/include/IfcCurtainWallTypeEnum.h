@@ -34,7 +34,7 @@ public:
 	~IfcCurtainWallTypeEnum();
 	virtual const char* classname() const { return "IfcCurtainWallTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCurtainWallTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcCurtainWallTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcCurtainWallTypeEnumEnum m_enum;
 };
 

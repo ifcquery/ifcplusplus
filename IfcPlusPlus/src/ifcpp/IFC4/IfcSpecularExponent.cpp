@@ -31,10 +31,11 @@ void IfcSpecularExponent::getStepParameter( std::stringstream& stream, bool is_s
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpecularExponent> IfcSpecularExponent::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSpecularExponent> IfcSpecularExponent::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
 	shared_ptr<IfcSpecularExponent> type_object( new IfcSpecularExponent() );
 	type_object->readArgument( arg );
 	return type_object;

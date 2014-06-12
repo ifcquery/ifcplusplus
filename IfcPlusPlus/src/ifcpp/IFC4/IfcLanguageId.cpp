@@ -29,10 +29,11 @@ void IfcLanguageId::getStepParameter( std::stringstream& stream, bool is_select_
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	shared_ptr<IfcLanguageId> type_object( new IfcLanguageId() );
 	// read TYPE
 	type_object->readArgument( arg );

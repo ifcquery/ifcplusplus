@@ -44,24 +44,25 @@ void IfcOpeningElementTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
 	shared_ptr<IfcOpeningElementTypeEnum> type_object( new IfcOpeningElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".OPENING." ) == 0 )
+	if( boost::iequals( arg, L".OPENING." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_OPENING;
 	}
-	else if( _stricmp( arg.c_str(), ".RECESS." ) == 0 )
+	else if( boost::iequals( arg, L".RECESS." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_RECESS;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -64,44 +64,45 @@ void IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
 	shared_ptr<IfcProcedureTypeEnum> type_object( new IfcProcedureTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ADVICE_CAUTION." ) == 0 )
+	if( boost::iequals( arg, L".ADVICE_CAUTION." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_ADVICE_CAUTION;
 	}
-	else if( _stricmp( arg.c_str(), ".ADVICE_NOTE." ) == 0 )
+	else if( boost::iequals( arg, L".ADVICE_NOTE." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_ADVICE_NOTE;
 	}
-	else if( _stricmp( arg.c_str(), ".ADVICE_WARNING." ) == 0 )
+	else if( boost::iequals( arg, L".ADVICE_WARNING." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_ADVICE_WARNING;
 	}
-	else if( _stricmp( arg.c_str(), ".CALIBRATION." ) == 0 )
+	else if( boost::iequals( arg, L".CALIBRATION." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_CALIBRATION;
 	}
-	else if( _stricmp( arg.c_str(), ".DIAGNOSTIC." ) == 0 )
+	else if( boost::iequals( arg, L".DIAGNOSTIC." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_DIAGNOSTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".SHUTDOWN." ) == 0 )
+	else if( boost::iequals( arg, L".SHUTDOWN." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_SHUTDOWN;
 	}
-	else if( _stricmp( arg.c_str(), ".STARTUP." ) == 0 )
+	else if( boost::iequals( arg, L".STARTUP." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_STARTUP;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -20,13 +20,13 @@
 // TYPE IfcPresentationStyleSelect 
 IfcPresentationStyleSelect::IfcPresentationStyleSelect() {}
 IfcPresentationStyleSelect::~IfcPresentationStyleSelect() {}
-shared_ptr<IfcPresentationStyleSelect> IfcPresentationStyleSelect::createObjectFromStepData( const std::string& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPresentationStyleSelect> IfcPresentationStyleSelect::createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// Read SELECT TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcPresentationStyleSelect>(); }
 	if( arg[0] == '#' )
 	{
-		int id=atoi( arg.substr(1,arg.length()-1).c_str() );
+		int id=std::stoi( arg.substr(1,arg.length()-1).c_str() );
 		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map.find( id );
 		if( it_entity != map.end() )
 		{
@@ -40,19 +40,19 @@ shared_ptr<IfcPresentationStyleSelect> IfcPresentationStyleSelect::createObjectF
 			throw IfcPPException( strs.str() );
 		}
 	}
-	else if( arg.compare("$")==0 )
+	else if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcPresentationStyleSelect>();
 	}
-	else if( arg.compare("*")==0 )
+	else if( arg.compare(L"*")==0 )
 	{
 		return shared_ptr<IfcPresentationStyleSelect>();
 	}
 	else
 	{
 		// inline arguments
-		std::string keyword;
-		std::string inline_arg;
+		std::wstring keyword;
+		std::wstring inline_arg;
 		tokenizeInlineArgument( arg, keyword, inline_arg );
 		shared_ptr<IfcPPObject> result_object;
 		readInlineTypeOrEntity( keyword, inline_arg, result_object, map );
@@ -65,7 +65,7 @@ shared_ptr<IfcPresentationStyleSelect> IfcPresentationStyleSelect::createObjectF
 				return result_ptr_self;
 			}
 		}
-		std::stringstream strs;
+		std::wstringstream strs;
 		strs << "unhandled inline argument: " << arg << " in function IfcPresentationStyleSelect::readStepData" << std::endl;
 		throw IfcPPException( strs.str() );
 	}

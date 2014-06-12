@@ -44,24 +44,25 @@ void IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
 	shared_ptr<IfcCurveInterpolationEnum> type_object( new IfcCurveInterpolationEnum() );
-	if( _stricmp( arg.c_str(), ".LINEAR." ) == 0 )
+	if( boost::iequals( arg, L".LINEAR." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_LINEAR;
 	}
-	else if( _stricmp( arg.c_str(), ".LOG_LINEAR." ) == 0 )
+	else if( boost::iequals( arg, L".LOG_LINEAR." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_LOG_LINEAR;
 	}
-	else if( _stricmp( arg.c_str(), ".LOG_LOG." ) == 0 )
+	else if( boost::iequals( arg, L".LOG_LOG." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_LOG_LOG;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_NOTDEFINED;
 	}

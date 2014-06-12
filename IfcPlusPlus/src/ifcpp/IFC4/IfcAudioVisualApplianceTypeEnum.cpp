@@ -80,60 +80,61 @@ void IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& strea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> type_object( new IfcAudioVisualApplianceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AMPLIFIER." ) == 0 )
+	if( boost::iequals( arg, L".AMPLIFIER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_AMPLIFIER;
 	}
-	else if( _stricmp( arg.c_str(), ".CAMERA." ) == 0 )
+	else if( boost::iequals( arg, L".CAMERA." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_CAMERA;
 	}
-	else if( _stricmp( arg.c_str(), ".DISPLAY." ) == 0 )
+	else if( boost::iequals( arg, L".DISPLAY." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_DISPLAY;
 	}
-	else if( _stricmp( arg.c_str(), ".MICROPHONE." ) == 0 )
+	else if( boost::iequals( arg, L".MICROPHONE." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_MICROPHONE;
 	}
-	else if( _stricmp( arg.c_str(), ".PLAYER." ) == 0 )
+	else if( boost::iequals( arg, L".PLAYER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_PLAYER;
 	}
-	else if( _stricmp( arg.c_str(), ".PROJECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".PROJECTOR." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_PROJECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".RECEIVER." ) == 0 )
+	else if( boost::iequals( arg, L".RECEIVER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_RECEIVER;
 	}
-	else if( _stricmp( arg.c_str(), ".SPEAKER." ) == 0 )
+	else if( boost::iequals( arg, L".SPEAKER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_SPEAKER;
 	}
-	else if( _stricmp( arg.c_str(), ".SWITCHER." ) == 0 )
+	else if( boost::iequals( arg, L".SWITCHER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_SWITCHER;
 	}
-	else if( _stricmp( arg.c_str(), ".TELEPHONE." ) == 0 )
+	else if( boost::iequals( arg, L".TELEPHONE." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_TELEPHONE;
 	}
-	else if( _stricmp( arg.c_str(), ".TUNER." ) == 0 )
+	else if( boost::iequals( arg, L".TUNER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_TUNER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_NOTDEFINED;
 	}

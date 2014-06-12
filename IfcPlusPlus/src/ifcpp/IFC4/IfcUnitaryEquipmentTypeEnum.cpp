@@ -56,36 +56,37 @@ void IfcUnitaryEquipmentTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> type_object( new IfcUnitaryEquipmentTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AIRHANDLER." ) == 0 )
+	if( boost::iequals( arg, L".AIRHANDLER." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_AIRHANDLER;
 	}
-	else if( _stricmp( arg.c_str(), ".AIRCONDITIONINGUNIT." ) == 0 )
+	else if( boost::iequals( arg, L".AIRCONDITIONINGUNIT." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_AIRCONDITIONINGUNIT;
 	}
-	else if( _stricmp( arg.c_str(), ".DEHUMIDIFIER." ) == 0 )
+	else if( boost::iequals( arg, L".DEHUMIDIFIER." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_DEHUMIDIFIER;
 	}
-	else if( _stricmp( arg.c_str(), ".SPLITSYSTEM." ) == 0 )
+	else if( boost::iequals( arg, L".SPLITSYSTEM." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_SPLITSYSTEM;
 	}
-	else if( _stricmp( arg.c_str(), ".ROOFTOPUNIT." ) == 0 )
+	else if( boost::iequals( arg, L".ROOFTOPUNIT." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_ROOFTOPUNIT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_NOTDEFINED;
 	}

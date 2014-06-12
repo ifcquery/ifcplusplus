@@ -48,28 +48,29 @@ void IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
 	shared_ptr<IfcDuctSilencerTypeEnum> type_object( new IfcDuctSilencerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FLATOVAL." ) == 0 )
+	if( boost::iequals( arg, L".FLATOVAL." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_FLATOVAL;
 	}
-	else if( _stricmp( arg.c_str(), ".RECTANGULAR." ) == 0 )
+	else if( boost::iequals( arg, L".RECTANGULAR." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_RECTANGULAR;
 	}
-	else if( _stricmp( arg.c_str(), ".ROUND." ) == 0 )
+	else if( boost::iequals( arg, L".ROUND." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_ROUND;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_NOTDEFINED;
 	}

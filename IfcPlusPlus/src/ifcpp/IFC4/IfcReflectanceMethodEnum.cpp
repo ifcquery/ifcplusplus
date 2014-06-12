@@ -68,48 +68,49 @@ void IfcReflectanceMethodEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
 	shared_ptr<IfcReflectanceMethodEnum> type_object( new IfcReflectanceMethodEnum() );
-	if( _stricmp( arg.c_str(), ".BLINN." ) == 0 )
+	if( boost::iequals( arg, L".BLINN." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_BLINN;
 	}
-	else if( _stricmp( arg.c_str(), ".FLAT." ) == 0 )
+	else if( boost::iequals( arg, L".FLAT." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_FLAT;
 	}
-	else if( _stricmp( arg.c_str(), ".GLASS." ) == 0 )
+	else if( boost::iequals( arg, L".GLASS." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_GLASS;
 	}
-	else if( _stricmp( arg.c_str(), ".MATT." ) == 0 )
+	else if( boost::iequals( arg, L".MATT." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_MATT;
 	}
-	else if( _stricmp( arg.c_str(), ".METAL." ) == 0 )
+	else if( boost::iequals( arg, L".METAL." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_METAL;
 	}
-	else if( _stricmp( arg.c_str(), ".MIRROR." ) == 0 )
+	else if( boost::iequals( arg, L".MIRROR." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_MIRROR;
 	}
-	else if( _stricmp( arg.c_str(), ".PHONG." ) == 0 )
+	else if( boost::iequals( arg, L".PHONG." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_PHONG;
 	}
-	else if( _stricmp( arg.c_str(), ".PLASTIC." ) == 0 )
+	else if( boost::iequals( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_PLASTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".STRAUSS." ) == 0 )
+	else if( boost::iequals( arg, L".STRAUSS." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_STRAUSS;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_NOTDEFINED;
 	}

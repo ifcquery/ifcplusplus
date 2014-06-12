@@ -48,28 +48,29 @@ void IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
 	shared_ptr<IfcShadingDeviceTypeEnum> type_object( new IfcShadingDeviceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".JALOUSIE." ) == 0 )
+	if( boost::iequals( arg, L".JALOUSIE." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_JALOUSIE;
 	}
-	else if( _stricmp( arg.c_str(), ".SHUTTER." ) == 0 )
+	else if( boost::iequals( arg, L".SHUTTER." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_SHUTTER;
 	}
-	else if( _stricmp( arg.c_str(), ".AWNING." ) == 0 )
+	else if( boost::iequals( arg, L".AWNING." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_AWNING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

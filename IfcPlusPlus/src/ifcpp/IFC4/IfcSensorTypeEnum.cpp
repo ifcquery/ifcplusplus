@@ -116,96 +116,97 @@ void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	shared_ptr<IfcSensorTypeEnum> type_object( new IfcSensorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONDUCTANCESENSOR." ) == 0 )
+	if( boost::iequals( arg, L".CONDUCTANCESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_CONDUCTANCESENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTACTSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".CONTACTSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_CONTACTSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".FIRESENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".FIRESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_FIRESENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".FLOWSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".FLOWSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_FLOWSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".GASSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".GASSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_GASSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".HEATSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".HEATSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_HEATSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".HUMIDITYSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".HUMIDITYSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_HUMIDITYSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".IONCONCENTRATIONSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".IONCONCENTRATIONSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_IONCONCENTRATIONSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".LEVELSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".LEVELSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_LEVELSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_LIGHTSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".MOISTURESENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".MOISTURESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_MOISTURESENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".MOVEMENTSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".MOVEMENTSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_MOVEMENTSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".PHSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".PHSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_PHSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".PRESSURESENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".PRESSURESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_PRESSURESENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".RADIATIONSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".RADIATIONSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_RADIATIONSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".RADIOACTIVITYSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".RADIOACTIVITYSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_RADIOACTIVITYSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".SMOKESENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".SMOKESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_SMOKESENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".SOUNDSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".SOUNDSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_SOUNDSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".TEMPERATURESENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".TEMPERATURESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_TEMPERATURESENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".WINDSENSOR." ) == 0 )
+	else if( boost::iequals( arg, L".WINDSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_WINDSENSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_NOTDEFINED;
 	}

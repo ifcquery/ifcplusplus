@@ -72,52 +72,53 @@ void IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	shared_ptr<IfcSwitchingDeviceTypeEnum> type_object( new IfcSwitchingDeviceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONTACTOR." ) == 0 )
+	if( boost::iequals( arg, L".CONTACTOR." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_CONTACTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".DIMMERSWITCH." ) == 0 )
+	else if( boost::iequals( arg, L".DIMMERSWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_DIMMERSWITCH;
 	}
-	else if( _stricmp( arg.c_str(), ".EMERGENCYSTOP." ) == 0 )
+	else if( boost::iequals( arg, L".EMERGENCYSTOP." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_EMERGENCYSTOP;
 	}
-	else if( _stricmp( arg.c_str(), ".KEYPAD." ) == 0 )
+	else if( boost::iequals( arg, L".KEYPAD." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_KEYPAD;
 	}
-	else if( _stricmp( arg.c_str(), ".MOMENTARYSWITCH." ) == 0 )
+	else if( boost::iequals( arg, L".MOMENTARYSWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_MOMENTARYSWITCH;
 	}
-	else if( _stricmp( arg.c_str(), ".SELECTORSWITCH." ) == 0 )
+	else if( boost::iequals( arg, L".SELECTORSWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_SELECTORSWITCH;
 	}
-	else if( _stricmp( arg.c_str(), ".STARTER." ) == 0 )
+	else if( boost::iequals( arg, L".STARTER." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_STARTER;
 	}
-	else if( _stricmp( arg.c_str(), ".SWITCHDISCONNECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".SWITCHDISCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_SWITCHDISCONNECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".TOGGLESWITCH." ) == 0 )
+	else if( boost::iequals( arg, L".TOGGLESWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_TOGGLESWITCH;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

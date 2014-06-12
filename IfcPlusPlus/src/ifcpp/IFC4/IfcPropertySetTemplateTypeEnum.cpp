@@ -60,40 +60,41 @@ void IfcPropertySetTemplateTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPropertySetTemplateTypeEnum> IfcPropertySetTemplateTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPropertySetTemplateTypeEnum> IfcPropertySetTemplateTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
 	shared_ptr<IfcPropertySetTemplateTypeEnum> type_object( new IfcPropertySetTemplateTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PSET_TYPEDRIVENONLY." ) == 0 )
+	if( boost::iequals( arg, L".PSET_TYPEDRIVENONLY." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_TYPEDRIVENONLY;
 	}
-	else if( _stricmp( arg.c_str(), ".PSET_TYPEDRIVENOVERRIDE." ) == 0 )
+	else if( boost::iequals( arg, L".PSET_TYPEDRIVENOVERRIDE." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_TYPEDRIVENOVERRIDE;
 	}
-	else if( _stricmp( arg.c_str(), ".PSET_OCCURRENCEDRIVEN." ) == 0 )
+	else if( boost::iequals( arg, L".PSET_OCCURRENCEDRIVEN." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_OCCURRENCEDRIVEN;
 	}
-	else if( _stricmp( arg.c_str(), ".PSET_PERFORMANCEDRIVEN." ) == 0 )
+	else if( boost::iequals( arg, L".PSET_PERFORMANCEDRIVEN." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_PERFORMANCEDRIVEN;
 	}
-	else if( _stricmp( arg.c_str(), ".QTO_TYPEDRIVENONLY." ) == 0 )
+	else if( boost::iequals( arg, L".QTO_TYPEDRIVENONLY." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_QTO_TYPEDRIVENONLY;
 	}
-	else if( _stricmp( arg.c_str(), ".QTO_TYPEDRIVENOVERRIDE." ) == 0 )
+	else if( boost::iequals( arg, L".QTO_TYPEDRIVENOVERRIDE." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_QTO_TYPEDRIVENOVERRIDE;
 	}
-	else if( _stricmp( arg.c_str(), ".QTO_OCCURRENCEDRIVEN." ) == 0 )
+	else if( boost::iequals( arg, L".QTO_OCCURRENCEDRIVEN." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_QTO_OCCURRENCEDRIVEN;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -28,7 +28,7 @@ public:
 	~IfcCompoundPlaneAngleMeasure();
 	virtual const char* classname() const { return "IfcCompoundPlaneAngleMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCompoundPlaneAngleMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcCompoundPlaneAngleMeasure> createObjectFromStepData( const std::wstring& arg );
 	std::vector<int> m_vec;
 };
 

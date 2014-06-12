@@ -21,7 +21,7 @@
 
 class IfcPPObject;
 
-std::string encodeStepString( std::string arg_str );
+std::string encodeStepString( std::wstring arg_str );
 void writeIntList( std::stringstream& stream, const std::vector<int>& vec );
 void writeIntList2D( std::stringstream& stream, const std::vector<std::vector<int> >& vec );
 void writeIntList3D( std::stringstream& stream, const std::vector<std::vector<std::vector<int> > >& vec );
@@ -29,7 +29,7 @@ void writeDoubleList( std::stringstream& stream, const std::vector<double>& vec 
 void writeDoubleList2D( std::stringstream& stream, const std::vector<std::vector<double> >& vec );
 void writeDoubleList3D( std::stringstream& stream, const  std::vector<std::vector<std::vector<double> > >& vec );
 void writeConstCharList( std::stringstream& stream, const std::vector<const char*>& vec );
-void writeStringList( std::stringstream& stream, const std::vector<std::string>& vec );
+void writeStringList( std::stringstream& stream, const std::vector<std::wstring>& vec );
 
 template<typename T>
 void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec )

@@ -29,6 +29,6 @@ public:
 	~IfcVolumeMeasure();
 	virtual const char* classname() const { return "IfcVolumeMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcVolumeMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcVolumeMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

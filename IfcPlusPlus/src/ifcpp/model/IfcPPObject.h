@@ -16,6 +16,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <boost/algorithm/string.hpp>
 #include "ifcpp/model/shared_ptr.h"
 
 #ifdef __GNUC__
@@ -41,7 +42,7 @@ public:
 	IfcPPBool( bool value );
 	~IfcPPBool();
 	virtual const char* classname() const { return "IfcPPBool"; }
-	void readArgument( const std::string& attribute_value );
+	void readArgument( const std::wstring& attribute_value );
 	bool m_value;
 };
 
@@ -52,7 +53,7 @@ public:
 	IfcPPLogical( LogicalEnum value );
 	~IfcPPLogical();
 	virtual const char* classname() const { return "IfcPPLogical"; }
-	void readArgument( const std::string& attribute_value );
+	void readArgument( const std::wstring& attribute_value );
 	LogicalEnum m_value;
 };
 
@@ -63,7 +64,7 @@ public:
 	IfcPPInt( int value );
 	~IfcPPInt();
 	virtual const char* classname() const { return "IfcPPInt"; }
-	void readArgument( const std::string& attribute_value );
+	void readArgument( const std::wstring& attribute_value );
 	int m_value;
 };
 
@@ -74,7 +75,7 @@ public:
 	IfcPPReal( double value );
 	~IfcPPReal();
 	virtual const char* classname() const { return "IfcPPReal"; }
-	void readArgument( const std::string& attribute_value );
+	void readArgument( const std::wstring& attribute_value );
 	double m_value;
 };
 
@@ -82,11 +83,11 @@ class IfcPPString : virtual public IfcPPObject
 {
 public:
 	IfcPPString();
-	IfcPPString( std::string& value );
+	IfcPPString( std::wstring& value );
 	~IfcPPString();
 	virtual const char* classname() const { return "IfcPPString"; }
-	void readArgument( const std::string& attribute_value );
-	std::string m_value;
+	void readArgument( const std::wstring& attribute_value );
+	std::wstring m_value;
 };
 
 
@@ -103,7 +104,7 @@ public:
 	virtual const char* classname() const { return "IfcPPEntity"; }
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
 	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& map_attributes );
 	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self );

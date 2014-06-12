@@ -58,7 +58,7 @@ void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -67,8 +67,8 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::string>& 
 	#endif
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
-	if( _stricmp( args[2].c_str(), ".F." ) == 0 ) { m_Closed = false; }
-	else if( _stricmp( args[2].c_str(), ".T." ) == 0 ) { m_Closed = true; }
+	if( boost::iequals( args[2], L".F." ) ) { m_Closed = false; }
+	else if( boost::iequals( args[2], L".T." ) ) { m_Closed = true; }
 	readIntList2D(  args[3], m_CoordIndex );
 	readIntList2D(  args[4], m_NormalIndex );
 }

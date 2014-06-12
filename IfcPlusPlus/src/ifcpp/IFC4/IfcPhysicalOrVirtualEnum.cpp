@@ -40,20 +40,21 @@ void IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	shared_ptr<IfcPhysicalOrVirtualEnum> type_object( new IfcPhysicalOrVirtualEnum() );
-	if( _stricmp( arg.c_str(), ".PHYSICAL." ) == 0 )
+	if( boost::iequals( arg, L".PHYSICAL." ) )
 	{
 		type_object->m_enum = IfcPhysicalOrVirtualEnum::ENUM_PHYSICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".VIRTUAL." ) == 0 )
+	else if( boost::iequals( arg, L".VIRTUAL." ) )
 	{
 		type_object->m_enum = IfcPhysicalOrVirtualEnum::ENUM_VIRTUAL;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPhysicalOrVirtualEnum::ENUM_NOTDEFINED;
 	}

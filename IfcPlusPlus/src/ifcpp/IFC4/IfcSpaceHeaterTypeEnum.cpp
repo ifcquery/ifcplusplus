@@ -44,24 +44,25 @@ void IfcSpaceHeaterTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpaceHeaterTypeEnum> IfcSpaceHeaterTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSpaceHeaterTypeEnum> IfcSpaceHeaterTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	shared_ptr<IfcSpaceHeaterTypeEnum> type_object( new IfcSpaceHeaterTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONVECTOR." ) == 0 )
+	if( boost::iequals( arg, L".CONVECTOR." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_CONVECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".RADIATOR." ) == 0 )
+	else if( boost::iequals( arg, L".RADIATOR." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_RADIATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_NOTDEFINED;
 	}

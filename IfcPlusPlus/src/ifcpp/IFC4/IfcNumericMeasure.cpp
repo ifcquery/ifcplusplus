@@ -31,10 +31,11 @@ void IfcNumericMeasure::getStepParameter( std::stringstream& stream, bool is_sel
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	shared_ptr<IfcNumericMeasure> type_object( new IfcNumericMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

@@ -43,7 +43,7 @@ public:
 	~IfcWindowTypePartitioningEnum();
 	virtual const char* classname() const { return "IfcWindowTypePartitioningEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcWindowTypePartitioningEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcWindowTypePartitioningEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcWindowTypePartitioningEnumEnum m_enum;
 };
 

@@ -24,10 +24,10 @@ class IfcTextTransformation : public IfcPPString
 {
 public:
 	IfcTextTransformation();
-	IfcTextTransformation( std::string value );
+	IfcTextTransformation( std::wstring value );
 	~IfcTextTransformation();
 	virtual const char* classname() const { return "IfcTextTransformation"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTextTransformation> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcTextTransformation> createObjectFromStepData( const std::wstring& arg );
 };
 

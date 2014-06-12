@@ -56,36 +56,37 @@ void IfcProjectOrderTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProjectOrderTypeEnum> IfcProjectOrderTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProjectOrderTypeEnum> IfcProjectOrderTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
 	shared_ptr<IfcProjectOrderTypeEnum> type_object( new IfcProjectOrderTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CHANGEORDER." ) == 0 )
+	if( boost::iequals( arg, L".CHANGEORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_CHANGEORDER;
 	}
-	else if( _stricmp( arg.c_str(), ".MAINTENANCEWORKORDER." ) == 0 )
+	else if( boost::iequals( arg, L".MAINTENANCEWORKORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_MAINTENANCEWORKORDER;
 	}
-	else if( _stricmp( arg.c_str(), ".MOVEORDER." ) == 0 )
+	else if( boost::iequals( arg, L".MOVEORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_MOVEORDER;
 	}
-	else if( _stricmp( arg.c_str(), ".PURCHASEORDER." ) == 0 )
+	else if( boost::iequals( arg, L".PURCHASEORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_PURCHASEORDER;
 	}
-	else if( _stricmp( arg.c_str(), ".WORKORDER." ) == 0 )
+	else if( boost::iequals( arg, L".WORKORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_WORKORDER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_NOTDEFINED;
 	}

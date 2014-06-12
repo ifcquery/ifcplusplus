@@ -36,7 +36,7 @@ public:
 	~IfcLightDistributionCurveEnum();
 	virtual const char* classname() const { return "IfcLightDistributionCurveEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLightDistributionCurveEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcLightDistributionCurveEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcLightDistributionCurveEnumEnum m_enum;
 };
 

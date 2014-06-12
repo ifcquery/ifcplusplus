@@ -31,10 +31,11 @@ void IfcTimeStamp::getStepParameter( std::stringstream& stream, bool is_select_t
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTimeStamp> IfcTimeStamp::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTimeStamp> IfcTimeStamp::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	shared_ptr<IfcTimeStamp> type_object( new IfcTimeStamp() );
 	type_object->readArgument( arg );
 	return type_object;

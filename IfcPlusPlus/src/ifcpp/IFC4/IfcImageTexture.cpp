@@ -61,17 +61,17 @@ void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcImageTexture::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	#ifdef _DEBUG
 	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
-	if( _stricmp( args[0].c_str(), ".F." ) == 0 ) { m_RepeatS = false; }
-	else if( _stricmp( args[0].c_str(), ".T." ) == 0 ) { m_RepeatS = true; }
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_RepeatT = false; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_RepeatT = true; }
+	if( boost::iequals( args[0], L".F." ) ) { m_RepeatS = false; }
+	else if( boost::iequals( args[0], L".T." ) ) { m_RepeatS = true; }
+	if( boost::iequals( args[1], L".F." ) ) { m_RepeatT = false; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_RepeatT = true; }
 	m_Mode = IfcIdentifier::createObjectFromStepData( args[2] );
 	readEntityReference( args[3], m_TextureTransform, map );
 	readTypeList( args[4], m_Parameter );

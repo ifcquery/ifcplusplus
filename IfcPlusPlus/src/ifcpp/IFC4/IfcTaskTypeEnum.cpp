@@ -84,64 +84,65 @@ void IfcTaskTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	shared_ptr<IfcTaskTypeEnum> type_object( new IfcTaskTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ATTENDANCE." ) == 0 )
+	if( boost::iequals( arg, L".ATTENDANCE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_ATTENDANCE;
 	}
-	else if( _stricmp( arg.c_str(), ".CONSTRUCTION." ) == 0 )
+	else if( boost::iequals( arg, L".CONSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_CONSTRUCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".DEMOLITION." ) == 0 )
+	else if( boost::iequals( arg, L".DEMOLITION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_DEMOLITION;
 	}
-	else if( _stricmp( arg.c_str(), ".DISMANTLE." ) == 0 )
+	else if( boost::iequals( arg, L".DISMANTLE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_DISMANTLE;
 	}
-	else if( _stricmp( arg.c_str(), ".DISPOSAL." ) == 0 )
+	else if( boost::iequals( arg, L".DISPOSAL." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_DISPOSAL;
 	}
-	else if( _stricmp( arg.c_str(), ".INSTALLATION." ) == 0 )
+	else if( boost::iequals( arg, L".INSTALLATION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_INSTALLATION;
 	}
-	else if( _stricmp( arg.c_str(), ".LOGISTIC." ) == 0 )
+	else if( boost::iequals( arg, L".LOGISTIC." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_LOGISTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".MAINTENANCE." ) == 0 )
+	else if( boost::iequals( arg, L".MAINTENANCE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_MAINTENANCE;
 	}
-	else if( _stricmp( arg.c_str(), ".MOVE." ) == 0 )
+	else if( boost::iequals( arg, L".MOVE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_MOVE;
 	}
-	else if( _stricmp( arg.c_str(), ".OPERATION." ) == 0 )
+	else if( boost::iequals( arg, L".OPERATION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_OPERATION;
 	}
-	else if( _stricmp( arg.c_str(), ".REMOVAL." ) == 0 )
+	else if( boost::iequals( arg, L".REMOVAL." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_REMOVAL;
 	}
-	else if( _stricmp( arg.c_str(), ".RENOVATION." ) == 0 )
+	else if( boost::iequals( arg, L".RENOVATION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_RENOVATION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_NOTDEFINED;
 	}

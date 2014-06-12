@@ -36,16 +36,17 @@ void IfcGlobalOrLocalEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
 	shared_ptr<IfcGlobalOrLocalEnum> type_object( new IfcGlobalOrLocalEnum() );
-	if( _stricmp( arg.c_str(), ".GLOBAL_COORDS." ) == 0 )
+	if( boost::iequals( arg, L".GLOBAL_COORDS." ) )
 	{
 		type_object->m_enum = IfcGlobalOrLocalEnum::ENUM_GLOBAL_COORDS;
 	}
-	else if( _stricmp( arg.c_str(), ".LOCAL_COORDS." ) == 0 )
+	else if( boost::iequals( arg, L".LOCAL_COORDS." ) )
 	{
 		type_object->m_enum = IfcGlobalOrLocalEnum::ENUM_LOCAL_COORDS;
 	}

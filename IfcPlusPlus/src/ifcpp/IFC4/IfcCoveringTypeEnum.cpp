@@ -76,56 +76,57 @@ void IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	shared_ptr<IfcCoveringTypeEnum> type_object( new IfcCoveringTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CEILING." ) == 0 )
+	if( boost::iequals( arg, L".CEILING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_CEILING;
 	}
-	else if( _stricmp( arg.c_str(), ".FLOORING." ) == 0 )
+	else if( boost::iequals( arg, L".FLOORING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_FLOORING;
 	}
-	else if( _stricmp( arg.c_str(), ".CLADDING." ) == 0 )
+	else if( boost::iequals( arg, L".CLADDING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_CLADDING;
 	}
-	else if( _stricmp( arg.c_str(), ".ROOFING." ) == 0 )
+	else if( boost::iequals( arg, L".ROOFING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_ROOFING;
 	}
-	else if( _stricmp( arg.c_str(), ".MOLDING." ) == 0 )
+	else if( boost::iequals( arg, L".MOLDING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_MOLDING;
 	}
-	else if( _stricmp( arg.c_str(), ".SKIRTINGBOARD." ) == 0 )
+	else if( boost::iequals( arg, L".SKIRTINGBOARD." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_SKIRTINGBOARD;
 	}
-	else if( _stricmp( arg.c_str(), ".INSULATION." ) == 0 )
+	else if( boost::iequals( arg, L".INSULATION." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_INSULATION;
 	}
-	else if( _stricmp( arg.c_str(), ".MEMBRANE." ) == 0 )
+	else if( boost::iequals( arg, L".MEMBRANE." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_MEMBRANE;
 	}
-	else if( _stricmp( arg.c_str(), ".SLEEVING." ) == 0 )
+	else if( boost::iequals( arg, L".SLEEVING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_SLEEVING;
 	}
-	else if( _stricmp( arg.c_str(), ".WRAPPING." ) == 0 )
+	else if( boost::iequals( arg, L".WRAPPING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_WRAPPING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_NOTDEFINED;
 	}

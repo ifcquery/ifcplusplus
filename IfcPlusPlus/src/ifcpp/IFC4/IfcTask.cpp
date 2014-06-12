@@ -94,7 +94,7 @@ void IfcTask::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTask::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTask::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<13 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTask, expecting 13, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -110,8 +110,8 @@ void IfcTask::readStepArguments( const std::vector<std::string>& args, const std
 	m_LongDescription = IfcText::createObjectFromStepData( args[6] );
 	m_Status = IfcLabel::createObjectFromStepData( args[7] );
 	m_WorkMethod = IfcLabel::createObjectFromStepData( args[8] );
-	if( _stricmp( args[9].c_str(), ".F." ) == 0 ) { m_IsMilestone = false; }
-	else if( _stricmp( args[9].c_str(), ".T." ) == 0 ) { m_IsMilestone = true; }
+	if( boost::iequals( args[9], L".F." ) ) { m_IsMilestone = false; }
+	else if( boost::iequals( args[9], L".T." ) ) { m_IsMilestone = true; }
 	readIntValue( args[10], m_Priority );
 	readEntityReference( args[11], m_TaskTime, map );
 	m_PredefinedType = IfcTaskTypeEnum::createObjectFromStepData( args[12] );

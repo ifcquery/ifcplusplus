@@ -56,36 +56,37 @@ void IfcFootingTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
 	shared_ptr<IfcFootingTypeEnum> type_object( new IfcFootingTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CAISSON_FOUNDATION." ) == 0 )
+	if( boost::iequals( arg, L".CAISSON_FOUNDATION." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_CAISSON_FOUNDATION;
 	}
-	else if( _stricmp( arg.c_str(), ".FOOTING_BEAM." ) == 0 )
+	else if( boost::iequals( arg, L".FOOTING_BEAM." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_FOOTING_BEAM;
 	}
-	else if( _stricmp( arg.c_str(), ".PAD_FOOTING." ) == 0 )
+	else if( boost::iequals( arg, L".PAD_FOOTING." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_PAD_FOOTING;
 	}
-	else if( _stricmp( arg.c_str(), ".PILE_CAP." ) == 0 )
+	else if( boost::iequals( arg, L".PILE_CAP." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_PILE_CAP;
 	}
-	else if( _stricmp( arg.c_str(), ".STRIP_FOOTING." ) == 0 )
+	else if( boost::iequals( arg, L".STRIP_FOOTING." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_STRIP_FOOTING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFootingTypeEnum::ENUM_NOTDEFINED;
 	}

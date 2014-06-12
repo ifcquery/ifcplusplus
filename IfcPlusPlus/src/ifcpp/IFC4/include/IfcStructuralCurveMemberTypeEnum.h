@@ -39,7 +39,7 @@ public:
 	~IfcStructuralCurveMemberTypeEnum();
 	virtual const char* classname() const { return "IfcStructuralCurveMemberTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcStructuralCurveMemberTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcStructuralCurveMemberTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcStructuralCurveMemberTypeEnumEnum m_enum;
 };
 

@@ -48,28 +48,29 @@ void IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	shared_ptr<IfcInventoryTypeEnum> type_object( new IfcInventoryTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ASSETINVENTORY." ) == 0 )
+	if( boost::iequals( arg, L".ASSETINVENTORY." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_ASSETINVENTORY;
 	}
-	else if( _stricmp( arg.c_str(), ".SPACEINVENTORY." ) == 0 )
+	else if( boost::iequals( arg, L".SPACEINVENTORY." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_SPACEINVENTORY;
 	}
-	else if( _stricmp( arg.c_str(), ".FURNITUREINVENTORY." ) == 0 )
+	else if( boost::iequals( arg, L".FURNITUREINVENTORY." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_FURNITUREINVENTORY;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_NOTDEFINED;
 	}

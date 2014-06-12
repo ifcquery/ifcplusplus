@@ -32,10 +32,11 @@ void IfcWarpingMomentMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWarpingMomentMeasure> IfcWarpingMomentMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWarpingMomentMeasure> IfcWarpingMomentMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	shared_ptr<IfcWarpingMomentMeasure> type_object( new IfcWarpingMomentMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

@@ -31,10 +31,11 @@ void IfcMonetaryMeasure::getStepParameter( std::stringstream& stream, bool is_se
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
 	shared_ptr<IfcMonetaryMeasure> type_object( new IfcMonetaryMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

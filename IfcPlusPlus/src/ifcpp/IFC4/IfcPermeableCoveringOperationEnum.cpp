@@ -48,28 +48,29 @@ void IfcPermeableCoveringOperationEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	shared_ptr<IfcPermeableCoveringOperationEnum> type_object( new IfcPermeableCoveringOperationEnum() );
-	if( _stricmp( arg.c_str(), ".GRILL." ) == 0 )
+	if( boost::iequals( arg, L".GRILL." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_GRILL;
 	}
-	else if( _stricmp( arg.c_str(), ".LOUVER." ) == 0 )
+	else if( boost::iequals( arg, L".LOUVER." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_LOUVER;
 	}
-	else if( _stricmp( arg.c_str(), ".SCREEN." ) == 0 )
+	else if( boost::iequals( arg, L".SCREEN." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_SCREEN;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_NOTDEFINED;
 	}

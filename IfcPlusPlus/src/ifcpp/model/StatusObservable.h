@@ -27,15 +27,15 @@ public:
 	void unsetProgressCallBack();
 
 	//! @brief this callback can be connected to set a message in the status bar
-	void setProgressTextCallBack( void* obj_ptr, void (*func)(void*, const std::string& message) );
+	void setProgressTextCallBack( void* obj_ptr, void (*func)(void*, const std::wstring& message) );
 	void unsetProgressTextCallBack();
 
 	//! @brief message callback mechanism to show messages in gui
-	void setMessageCallBack( void* obj_ptr, void (*func)(void*, const std::string& message) );
+	void setMessageCallBack( void* obj_ptr, void (*func)(void*, const std::wstring& message) );
 	void unsetMessageCallBack();
 
 	//! @brief error callback mechanism to show errors in gui
-	void setErrorCallBack( void* obj_ptr, void (*func)(void*, const std::string& message) );
+	void setErrorCallBack( void* obj_ptr, void (*func)(void*, const std::wstring& message) );
 	void unsetErrorCallBack();
 
 protected:
@@ -45,14 +45,14 @@ protected:
 	void progressCallback(double progress, const std::string& progress_type);
 
 	void* m_obj_call_on_progress_text;
-	void (*m_func_call_on_progress_text)(void*, const std::string& message);
-	void progressTextCallback( const std::string& message );
+	void (*m_func_call_on_progress_text)(void*, const std::wstring& message);
+	void progressTextCallback( const std::wstring& message );
 
 	void* m_obj_call_on_message;
-	void (*m_func_call_on_message)(void*, const std::string& message);
-	void messageCallback( const std::string& message );
+	void (*m_func_call_on_message)(void*, const std::wstring& message);
+	void messageCallback( const std::wstring& message );
 
 	void* m_obj_call_on_error;
-	void (*m_func_call_on_error)(void*, const std::string& err);
-	void errorCallback( const std::string& err );
+	void (*m_func_call_on_error)(void*, const std::wstring& err);
+	void errorCallback( const std::wstring& err );
 };

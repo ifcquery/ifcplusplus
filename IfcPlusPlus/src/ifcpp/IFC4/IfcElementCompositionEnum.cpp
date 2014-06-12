@@ -40,20 +40,21 @@ void IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
 	shared_ptr<IfcElementCompositionEnum> type_object( new IfcElementCompositionEnum() );
-	if( _stricmp( arg.c_str(), ".COMPLEX." ) == 0 )
+	if( boost::iequals( arg, L".COMPLEX." ) )
 	{
 		type_object->m_enum = IfcElementCompositionEnum::ENUM_COMPLEX;
 	}
-	else if( _stricmp( arg.c_str(), ".ELEMENT." ) == 0 )
+	else if( boost::iequals( arg, L".ELEMENT." ) )
 	{
 		type_object->m_enum = IfcElementCompositionEnum::ENUM_ELEMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".PARTIAL." ) == 0 )
+	else if( boost::iequals( arg, L".PARTIAL." ) )
 	{
 		type_object->m_enum = IfcElementCompositionEnum::ENUM_PARTIAL;
 	}

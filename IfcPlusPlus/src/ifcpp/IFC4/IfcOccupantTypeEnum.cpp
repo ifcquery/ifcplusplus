@@ -64,44 +64,45 @@ void IfcOccupantTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
 	shared_ptr<IfcOccupantTypeEnum> type_object( new IfcOccupantTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ASSIGNEE." ) == 0 )
+	if( boost::iequals( arg, L".ASSIGNEE." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_ASSIGNEE;
 	}
-	else if( _stricmp( arg.c_str(), ".ASSIGNOR." ) == 0 )
+	else if( boost::iequals( arg, L".ASSIGNOR." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_ASSIGNOR;
 	}
-	else if( _stricmp( arg.c_str(), ".LESSEE." ) == 0 )
+	else if( boost::iequals( arg, L".LESSEE." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_LESSEE;
 	}
-	else if( _stricmp( arg.c_str(), ".LESSOR." ) == 0 )
+	else if( boost::iequals( arg, L".LESSOR." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_LESSOR;
 	}
-	else if( _stricmp( arg.c_str(), ".LETTINGAGENT." ) == 0 )
+	else if( boost::iequals( arg, L".LETTINGAGENT." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_LETTINGAGENT;
 	}
-	else if( _stricmp( arg.c_str(), ".OWNER." ) == 0 )
+	else if( boost::iequals( arg, L".OWNER." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_OWNER;
 	}
-	else if( _stricmp( arg.c_str(), ".TENANT." ) == 0 )
+	else if( boost::iequals( arg, L".TENANT." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_TENANT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_NOTDEFINED;
 	}

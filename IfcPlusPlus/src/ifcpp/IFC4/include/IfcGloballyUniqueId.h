@@ -24,10 +24,10 @@ class IfcGloballyUniqueId : public IfcPPString
 {
 public:
 	IfcGloballyUniqueId();
-	IfcGloballyUniqueId( std::string value );
+	IfcGloballyUniqueId( std::wstring value );
 	~IfcGloballyUniqueId();
 	virtual const char* classname() const { return "IfcGloballyUniqueId"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcGloballyUniqueId> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcGloballyUniqueId> createObjectFromStepData( const std::wstring& arg );
 };
 

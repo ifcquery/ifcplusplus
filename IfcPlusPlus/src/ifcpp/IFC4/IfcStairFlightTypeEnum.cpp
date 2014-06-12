@@ -56,36 +56,37 @@ void IfcStairFlightTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStairFlightTypeEnum> IfcStairFlightTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcStairFlightTypeEnum> IfcStairFlightTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
 	shared_ptr<IfcStairFlightTypeEnum> type_object( new IfcStairFlightTypeEnum() );
-	if( _stricmp( arg.c_str(), ".STRAIGHT." ) == 0 )
+	if( boost::iequals( arg, L".STRAIGHT." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_STRAIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".WINDER." ) == 0 )
+	else if( boost::iequals( arg, L".WINDER." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_WINDER;
 	}
-	else if( _stricmp( arg.c_str(), ".SPIRAL." ) == 0 )
+	else if( boost::iequals( arg, L".SPIRAL." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_SPIRAL;
 	}
-	else if( _stricmp( arg.c_str(), ".CURVED." ) == 0 )
+	else if( boost::iequals( arg, L".CURVED." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_CURVED;
 	}
-	else if( _stricmp( arg.c_str(), ".FREEFORM." ) == 0 )
+	else if( boost::iequals( arg, L".FREEFORM." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_FREEFORM;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_NOTDEFINED;
 	}

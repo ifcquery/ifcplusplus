@@ -80,60 +80,61 @@ void IfcObjectiveEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
 	shared_ptr<IfcObjectiveEnum> type_object( new IfcObjectiveEnum() );
-	if( _stricmp( arg.c_str(), ".CODECOMPLIANCE." ) == 0 )
+	if( boost::iequals( arg, L".CODECOMPLIANCE." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_CODECOMPLIANCE;
 	}
-	else if( _stricmp( arg.c_str(), ".CODEWAIVER." ) == 0 )
+	else if( boost::iequals( arg, L".CODEWAIVER." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_CODEWAIVER;
 	}
-	else if( _stricmp( arg.c_str(), ".DESIGNINTENT." ) == 0 )
+	else if( boost::iequals( arg, L".DESIGNINTENT." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_DESIGNINTENT;
 	}
-	else if( _stricmp( arg.c_str(), ".EXTERNAL." ) == 0 )
+	else if( boost::iequals( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_EXTERNAL;
 	}
-	else if( _stricmp( arg.c_str(), ".HEALTHANDSAFETY." ) == 0 )
+	else if( boost::iequals( arg, L".HEALTHANDSAFETY." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_HEALTHANDSAFETY;
 	}
-	else if( _stricmp( arg.c_str(), ".MERGECONFLICT." ) == 0 )
+	else if( boost::iequals( arg, L".MERGECONFLICT." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_MERGECONFLICT;
 	}
-	else if( _stricmp( arg.c_str(), ".MODELVIEW." ) == 0 )
+	else if( boost::iequals( arg, L".MODELVIEW." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_MODELVIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".PARAMETER." ) == 0 )
+	else if( boost::iequals( arg, L".PARAMETER." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_PARAMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".REQUIREMENT." ) == 0 )
+	else if( boost::iequals( arg, L".REQUIREMENT." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_REQUIREMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".SPECIFICATION." ) == 0 )
+	else if( boost::iequals( arg, L".SPECIFICATION." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_SPECIFICATION;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIGGERCONDITION." ) == 0 )
+	else if( boost::iequals( arg, L".TRIGGERCONDITION." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_TRIGGERCONDITION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_NOTDEFINED;
 	}

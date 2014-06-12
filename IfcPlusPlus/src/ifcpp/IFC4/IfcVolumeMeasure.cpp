@@ -31,10 +31,11 @@ void IfcVolumeMeasure::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
 	shared_ptr<IfcVolumeMeasure> type_object( new IfcVolumeMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

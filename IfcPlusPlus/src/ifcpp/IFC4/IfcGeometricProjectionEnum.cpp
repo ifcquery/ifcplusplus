@@ -64,44 +64,45 @@ void IfcGeometricProjectionEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
 	shared_ptr<IfcGeometricProjectionEnum> type_object( new IfcGeometricProjectionEnum() );
-	if( _stricmp( arg.c_str(), ".GRAPH_VIEW." ) == 0 )
+	if( boost::iequals( arg, L".GRAPH_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_GRAPH_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".SKETCH_VIEW." ) == 0 )
+	else if( boost::iequals( arg, L".SKETCH_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_SKETCH_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".MODEL_VIEW." ) == 0 )
+	else if( boost::iequals( arg, L".MODEL_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_MODEL_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".PLAN_VIEW." ) == 0 )
+	else if( boost::iequals( arg, L".PLAN_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_PLAN_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".REFLECTED_PLAN_VIEW." ) == 0 )
+	else if( boost::iequals( arg, L".REFLECTED_PLAN_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_REFLECTED_PLAN_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".SECTION_VIEW." ) == 0 )
+	else if( boost::iequals( arg, L".SECTION_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_SECTION_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".ELEVATION_VIEW." ) == 0 )
+	else if( boost::iequals( arg, L".ELEVATION_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_ELEVATION_VIEW;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_NOTDEFINED;
 	}
