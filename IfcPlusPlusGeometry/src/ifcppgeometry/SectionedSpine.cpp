@@ -46,7 +46,7 @@ void RepresentationConverter::convertIfcSectionedSpine( const shared_ptr<IfcSect
 
 	std::vector<shared_ptr<IfcProfileDef> >::iterator it_cross_sections;
 
-	unsigned int num_cross_sections = vec_cross_sections.size();
+	size_t num_cross_sections = vec_cross_sections.size();
 	if( vec_cross_section_positions.size() < num_cross_sections )
 	{
 		num_cross_sections = vec_cross_section_positions.size();

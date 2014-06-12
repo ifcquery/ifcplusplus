@@ -95,7 +95,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 				// TODO: implement boundary
 			}
 			std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = curve_bounded_plane->m_InnerBoundaries;
-			for( unsigned int i=0; i<vec_inner_boundaries.size(); ++i )
+			for( size_t i=0; i<vec_inner_boundaries.size(); ++i )
 			{
 				shared_ptr<IfcCurve>& inner_curve = vec_inner_boundaries[i];
 				//convertIfcCurve( outer_boundary)
@@ -347,12 +347,12 @@ void FaceConverter::convertIfcBSplineSurface( const shared_ptr<IfcRationalBSplin
 	unsigned int numPathU=10;
 	unsigned int numPathV=10;
 
-	const unsigned int eta = ifc_control_points.size();
+	const size_t eta = ifc_control_points.size();
 	if( eta < 2 )
 	{
 		return;
 	}
-	const unsigned int zeta = ifc_control_points[0].size();
+	const size_t zeta = ifc_control_points[0].size();
 
 	const int num_points_per_section = eta*zeta;
 	// TODO: implement
