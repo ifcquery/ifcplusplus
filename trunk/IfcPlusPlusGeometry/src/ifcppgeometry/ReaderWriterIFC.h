@@ -64,9 +64,9 @@ public:
 	void resetModel();
 
 	static void slotProgressValueWrapper( void* obj_ptr, double value, const std::string& progress_type );
-	static void slotProgressTextWrapper( void* obj_ptr, const std::string& str );
-	static void slotMessageWrapper( void* obj_ptr, const std::string& str );
-	static void slotErrorWrapper( void* obj_ptr, const std::string& str );
+	static void slotProgressTextWrapper( void* obj_ptr, const std::wstring& str );
+	static void slotMessageWrapper( void* obj_ptr, const std::wstring& str );
+	static void slotErrorWrapper( void* obj_ptr, const std::wstring& str );
 
 protected:
 	shared_ptr<IfcPPModel>				m_ifc_model;

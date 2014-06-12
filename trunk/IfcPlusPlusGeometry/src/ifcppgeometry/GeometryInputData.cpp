@@ -10,7 +10,7 @@ ItemData::~ItemData()
 
 void ItemData::createMeshSetsFromClosedPolyhedrons()
 {
-	for( unsigned int i=0; i<closed_polyhedrons.size(); ++i )
+	for( size_t i=0; i<closed_polyhedrons.size(); ++i )
 	{
 		shared_ptr<carve::input::PolyhedronData>& poly_data = closed_polyhedrons[i];
 		if( poly_data->getVertexCount() < 3 )

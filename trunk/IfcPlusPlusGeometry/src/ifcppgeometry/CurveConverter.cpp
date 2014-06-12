@@ -299,7 +299,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			if( circle_points.size() > 0 )
 			{
 				// apply position
-				for( unsigned int i=0; i<circle_points.size(); ++i )
+				for( size_t i=0; i<circle_points.size(); ++i )
 				{
 					carve::geom::vector<2>&  point = circle_points[i];
 					carve::geom::vector<3>  point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
@@ -339,7 +339,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 					}
 
 					// apply position
-					for( unsigned int i=0; i<circle_points.size(); ++i )
+					for( size_t i=0; i<circle_points.size(); ++i )
 					{
 						carve::geom::vector<3>& point = circle_points[i];
 						point = conic_position_matrix * point;
@@ -638,8 +638,8 @@ void CurveConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoin
 void CurveConverter::convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<carve::geom::vector<3> >& loop ) const
 {
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
-	const unsigned int num_points = points.size();
-	for( unsigned int i_point=0; i_point < num_points; ++i_point )
+	const size_t num_points = points.size();
+	for( size_t i_point=0; i_point < num_points; ++i_point )
 	{
 		const std::vector<shared_ptr<IfcLengthMeasure> >& coords = points[i_point]->m_Coordinates;
 

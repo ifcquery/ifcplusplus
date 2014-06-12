@@ -26,7 +26,7 @@
 class TextItemData
 {
 public:
-	std::string m_text;
+	std::wstring m_text;
 	carve::math::Matrix m_text_position;
 };
 

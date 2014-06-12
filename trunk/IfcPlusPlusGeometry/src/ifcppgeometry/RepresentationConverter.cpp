@@ -459,13 +459,13 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		std::vector<carve::geom::vector<3> > poly_vertices;
 		m_curve_converter->convertIfcPolyline( poly_line, poly_vertices );
 
-		const unsigned int num_points = poly_vertices.size();
+		const size_t num_points = poly_vertices.size();
 		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 		
 		polyline_data->beginPolyline();
 
 		// apply position
-		for( unsigned int i=0; i<num_points; ++i )
+		for( size_t i=0; i<num_points; ++i )
 		{
 			carve::geom::vector<3>& vertex = poly_vertices[i];
 			//vertex = vertex;
@@ -557,7 +557,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		if( m_geom_settings->m_show_text_literals )
 		{
 			shared_ptr<IfcPresentableText>& ifc_literal = text_literal->m_Literal;
-			std::string& literal_text = ifc_literal->m_value;
+			std::wstring& literal_text = ifc_literal->m_value;
 			shared_ptr<IfcAxis2Placement>& text_placement = text_literal->m_Placement;
 			
 			carve::math::Matrix text_position_matrix( carve::math::Matrix::IDENT() );
@@ -758,8 +758,8 @@ void RepresentationConverter::convertIfcPropertySet( const shared_ptr<IfcPropert
 		if( simple_property )
 		{
 			shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
-			std::string name_str = property_name->m_value;
-			if( name_str.compare( "LayerName" ) == 0 )
+			std::wstring name_str = property_name->m_value;
+			if( name_str.compare( L"LayerName" ) == 0 )
 			{
 				// TODO: implement layers
 			}
@@ -790,7 +790,7 @@ void RepresentationConverter::convertIfcPropertySet( const shared_ptr<IfcPropert
 		{
 			std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 			if( !complex_property->m_UsageName ) continue;
-			if( complex_property->m_UsageName->m_value.compare( "Color" ) == 0 )
+			if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
 			{
 
 #ifdef IFCPP_OPENMP

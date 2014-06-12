@@ -12,6 +12,7 @@
 */
 
 #include <cstring>
+#include <boost/algorithm/string.hpp>
 
 #include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
 #include <ifcpp/IFC4/include/IfcSpecularExponent.h>
@@ -129,15 +130,15 @@ void convertIfcColour( shared_ptr<IfcColour> ifc_color, carve::geom::vector<4>& 
 		{
 			if( draughting_predefined_color->m_Name )
 			{
-				std::string predefined_name = draughting_predefined_color->m_Name->m_value;
-				if( _stricmp( predefined_name.c_str(), "black")==0 )		color = carve::geom::VECTOR( 0.0f, 0.0f, 0.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "red")==0 )		color = carve::geom::VECTOR( 1.0f, 0.0f, 0.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "green")==0 )	color = carve::geom::VECTOR( 0.0f, 1.0f, 0.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "blue")==0 )	color = carve::geom::VECTOR( 0.0f, 0.0f, 1.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "yellow")==0 )	color = carve::geom::VECTOR( 1.0f, 1.0f, 0.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "magenta")==0 )	color = carve::geom::VECTOR( 1.0f, 0.0f, 1.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "cyan")==0 )	color = carve::geom::VECTOR( 0.0f, 1.0f, 1.0f, 1.f );
-				else if( _stricmp( predefined_name.c_str(), "white")==0 )	color = carve::geom::VECTOR( 1.0f, 1.0f, 1.0f, 1.f );
+				std::wstring predefined_name = draughting_predefined_color->m_Name->m_value;
+				if( boost::iequals(predefined_name, L"black") )			color = carve::geom::VECTOR( 0.0f, 0.0f, 0.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"red") )		color = carve::geom::VECTOR( 1.0f, 0.0f, 0.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"green") )	color = carve::geom::VECTOR( 0.0f, 1.0f, 0.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"blue") )		color = carve::geom::VECTOR( 0.0f, 0.0f, 1.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"yellow") )	color = carve::geom::VECTOR( 1.0f, 1.0f, 0.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"magenta") )	color = carve::geom::VECTOR( 1.0f, 0.0f, 1.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"cyan") )		color = carve::geom::VECTOR( 0.0f, 1.0f, 1.0f, 1.f );
+				else if( boost::iequals(predefined_name, L"white") )	color = carve::geom::VECTOR( 1.0f, 1.0f, 1.0f, 1.f );
 			}
 		}
 		return;
@@ -347,8 +348,8 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 	std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 	if( !complex_property->m_UsageName ) return;
 	if( vec_HasProperties.size() < 3 ) return;
-	std::string usage_name = complex_property->m_UsageName->m_value;
-	if( _stricmp( usage_name.c_str(), "Color" ) != 0 ) return;
+	std::wstring usage_name = complex_property->m_UsageName->m_value;
+	if( !boost::iequals( usage_name.c_str(), L"Color" ) ) return;
 	
 	//int complex_property_id = complex_property->getId();
 	//std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(complex_property_id);

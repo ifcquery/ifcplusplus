@@ -97,7 +97,7 @@ ReaderWriterIFC::~ReaderWriterIFC()
 
 void ReaderWriterIFC::resetModel()
 {
-	progressTextCallback( "Unloading model, cleaning up memory..." );
+	progressTextCallback( L"Unloading model, cleaning up memory..." );
 	m_err.str(std::string());
 	m_messages.str(std::string());
 
@@ -109,7 +109,7 @@ void ReaderWriterIFC::resetModel()
 	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
 	m_recent_progress = 0.0;
 	progressCallback( 0.0, "parse" );
-	progressTextCallback( "Unloading model done" );
+	progressTextCallback( L"Unloading model done" );
 }
 
 void ReaderWriterIFC::deleteInputCache()
@@ -172,13 +172,13 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 	m_ifc_model->clearIfcModel();
 	m_step_reader->setModel( m_ifc_model );
 	m_step_reader->readStreamHeader( buffer );
-	std::string file_schema_version = m_ifc_model->getFileSchema();
+	std::wstring file_schema_version = m_ifc_model->getFileSchema();
 	std::map<int,shared_ptr<IfcPPEntity> > map_entities;
 	
 	m_err.clear();
 	m_err.str( std::string() );
 
-	progressTextCallback( "Reading STEP data..." );
+	progressTextCallback( L"Reading STEP data..." );
 
 	try
 	{
@@ -237,7 +237,7 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 		m_err << "An error occured in ReaderWriterIFC::readNode";
 	}
 
-	progressTextCallback( "Creating geometry..." );
+	progressTextCallback( L"Creating geometry..." );
 	try
 	{
 		createGeometry();
@@ -441,7 +441,7 @@ void ReaderWriterIFC::createGeometry()
 	m_representation_converter->getProfileCache()->clearProfileCache();
 
 	progressCallback( 1.0, "geometry" );
-	progressTextCallback( "Loading file done" );
+	progressTextCallback( L"Loading file done" );
 
 	if( err.tellp() > 0 )
 	{
@@ -699,6 +699,9 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				carve::math::Matrix& text_pos = text_data->m_text_position;
 				// TODO: handle rotation
 			
+				std::string text_str;
+				text_str.assign(text_data->m_text.begin(), text_data->m_text.end());
+				
 				osg::Vec3 pos2( text_pos._41, text_pos._42, text_pos._43 );
 
 				osgText::Text* txt = new osgText::Text();
@@ -707,7 +710,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				txt->setCharacterSize( 0.1f );
 				txt->setAutoRotateToScreen( true );
 				txt->setPosition( pos2 );
-				txt->setText( text_data->m_text.c_str() );
+				txt->setText( text_str.c_str() );
 				txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
 				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
@@ -906,13 +909,13 @@ void ReaderWriterIFC::slotProgressValueWrapper( void* ptr, double progress_value
 	myself->progressCallback( progress_value, progress_type );
 }
 
-void ReaderWriterIFC::slotProgressTextWrapper( void* ptr, const std::string& str )
+void ReaderWriterIFC::slotProgressTextWrapper( void* ptr, const std::wstring& str )
 {
 	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
 	myself->progressTextCallback( str );
 }
 
-void ReaderWriterIFC::slotMessageWrapper( void* ptr, const std::string& str )
+void ReaderWriterIFC::slotMessageWrapper( void* ptr, const std::wstring& str )
 {
 	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
 	if( myself )
@@ -921,7 +924,7 @@ void ReaderWriterIFC::slotMessageWrapper( void* ptr, const std::string& str )
 	}
 }
 
-void ReaderWriterIFC::slotErrorWrapper( void* ptr, const std::string& str )
+void ReaderWriterIFC::slotErrorWrapper( void* ptr, const std::wstring& str )
 {
 	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
 	if( myself )
