@@ -73,7 +73,7 @@ bool CmdLoadIfcFile::doCmd()
 	{
 		err << "ReaderWriterIFC::readNode failed" << std::endl;
 	}
-	err << reader_writer->getErrors().str();
+	err << reader_writer->getErrors().str().c_str();
 
 	try
 	{
@@ -128,12 +128,12 @@ bool CmdLoadIfcFile::doCmd()
 	catch( IfcPPException& e)
 	{
 		err << e.what();
-		err << reader_writer->getErrors().str();
+		err << reader_writer->getErrors().str().c_str();
 	}
 	catch(std::exception& e)
 	{
 		err << e.what();
-		err << reader_writer->getErrors().str();
+		err << reader_writer->getErrors().str().c_str();
 	}
 
 	shared_ptr<IfcPPModel> ifc_model = reader_writer->getIfcPPModel();

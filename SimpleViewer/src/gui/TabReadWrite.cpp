@@ -150,20 +150,23 @@ void TabReadWrite::slotProgressValueWrapper( void* ptr, double value, const std:
 		myself->slotProgressValue( value, progress_type );
 	}
 }
-void TabReadWrite::slotMessageWrapper( void* ptr, const std::string& str )
+void TabReadWrite::slotMessageWrapper( void* ptr, const std::wstring& str )
 {
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
 	{
-		myself->slotTxtOut( str.c_str() );
+		
+		QString qt_str = QString::fromStdWString(str);
+		myself->slotTxtOut( qt_str );
 	}
 }
-void TabReadWrite::slotErrorWrapper( void* ptr, const std::string& str )
+void TabReadWrite::slotErrorWrapper( void* ptr, const std::wstring& str )
 {
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
 	{
-		myself->slotTxtOutError( str.c_str() );
+		QString qt_str = QString::fromStdWString(str);
+		myself->slotTxtOutError( qt_str );
 	}
 }
 
@@ -254,6 +257,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		}
 	}
 
+
 	// TODO: loadIfcFile in a separate thread
 	std::stringstream warning, err;
 	try
@@ -336,13 +340,13 @@ void TabReadWrite::slotTxtOutError( QString txt )
 	m_txt_out->append( "<div style=\"color:red;\">Error: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
-void TabReadWrite::slotProgressValue( double progress, const std::string& str )
+void TabReadWrite::slotProgressValue( double progress, const std::string& str_type )
 {
-	if( str.compare( "parse" ) == 0 )
+	if( str_type.compare( "parse" ) == 0 )
 	{
 		progress = progress*0.5;
 	}
-	else if( str.compare( "geometry" ) == 0 )
+	else if( str_type.compare( "geometry" ) == 0 )
 	{
 		progress = 0.5 + progress*0.5;
 	}

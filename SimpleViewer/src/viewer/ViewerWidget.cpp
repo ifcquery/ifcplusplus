@@ -27,7 +27,9 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QtGui/QKeyEvent>
+#if QT_VERSION >= 0x04FF00
 #include <QWindow>
+#endif
 
 #include "ViewerWidget.h"
 
@@ -86,12 +88,17 @@ ViewerWidget::~ViewerWidget()
 
 void ViewerWidget::paintEvent( QPaintEvent* event )
 {
+#if QT_VERSION >= 0x04FF00
 	QWindow* w_gl = m_gl_widget->windowHandle();
 	QWindow* w = windowHandle();
 	if( w->isExposed() && w_gl->isExposed() )
 	{
 		m_viewer.frame();
 	}
+#else
+	m_viewer.frame();
+#endif
+
 }
 
 QSize ViewerWidget::minimumSizeHint() const

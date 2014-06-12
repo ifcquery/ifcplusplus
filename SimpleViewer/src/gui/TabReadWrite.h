@@ -42,9 +42,9 @@ public:
 	~TabReadWrite();
 
 	static void slotProgressValueWrapper( void* obj_ptr, double value, const std::string& type );
-	static void slotMessageWrapper( void* obj_ptr, const std::string& str );
-	static void slotErrorWrapper( void* obj_ptr, const std::string& str );
-	void slotProgressValue( double value, const std::string& str );
+	static void slotMessageWrapper( void* obj_ptr, const std::wstring& str );
+	static void slotErrorWrapper( void* obj_ptr, const std::wstring& str );
+	void slotProgressValue( double value, const std::string& str_type );
 	void closeEvent( QCloseEvent *event );
 
 public slots:

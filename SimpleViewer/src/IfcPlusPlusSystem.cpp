@@ -145,7 +145,7 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 				//{
 				//	if( !m_drag )
 				//	{
-				//		unsigned int buttonMask = m_ga_t0->getButtonMask();
+				//		int buttonMask = m_ga_t0->getButtonMask();
 				//		if( buttonMask==osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON )
 				//		{
 				//			handled = intersectModel( ea, aa, false, false );

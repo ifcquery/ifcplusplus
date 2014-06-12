@@ -283,7 +283,7 @@ bool Orbit3DManipulator::handleMousePush( const osgGA::GUIEventAdapter& ea, osgG
 
 	intersectSceneRotateCenter( ea, view );
 
-	unsigned int buttonMask = ea.getButtonMask();
+	int buttonMask = ea.getButtonMask();
 	if( buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == (osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON | osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON) )
 	{
 		m_pan_point.set( m_pointer_intersection );
@@ -447,7 +447,7 @@ bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapte
 #endif
 
 		osg::NodePath& nodePath = intersection.nodePath;
-		for( unsigned int i=0; i<nodePath.size(); ++i )
+		for( size_t i=0; i<nodePath.size(); ++i )
 		{
 			osg::Node* node = nodePath[nodePath.size()-i-1];
 			//const std::string node_name = node->getName();
@@ -512,7 +512,7 @@ bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea,
 #endif
 
 		osg::NodePath& nodePath = intersection.nodePath;
-		for( unsigned int i=0; i<nodePath.size(); ++i )
+		for( size_t i=0; i<nodePath.size(); ++i )
 		{
 			osg::Node* node = nodePath[nodePath.size()-i-1];
 			const std::string node_name = node->getName();
@@ -661,7 +661,7 @@ bool Orbit3DManipulator::performMovement( const osgGA::GUIEventAdapter& ea, osgG
 
 
 	// call appropriate methods
-	unsigned int buttonMask = _ga_t1->getButtonMask();
+	int buttonMask = _ga_t1->getButtonMask();
 	if( buttonMask == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON )
 	{
 		rotateCamera( dx, dy );
