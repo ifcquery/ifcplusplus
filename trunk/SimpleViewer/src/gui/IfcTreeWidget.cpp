@@ -143,9 +143,10 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 		{
 			if( obj_def->m_Name->m_value.size() > 0 )
 			{
-				item->setText( 0, QString::fromLocal8Bit( obj_def->m_Name->m_value.c_str() ) );
+				item->setText(0, QString::fromStdWString(obj_def->m_Name->m_value));
 			}
 		}
+
 		item->setText( 1, QString::number( obj_def->getId() ) );
 		item->setText( 2, obj_def->classname() );
 
@@ -179,9 +180,7 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 				std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >::iterator it_rel_contained;
 				for( it_rel_contained=vec_contained.begin(); it_rel_contained!=vec_contained.end(); ++it_rel_contained )
 				{
-
 					shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( *it_rel_contained );
-						
 					std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
 					std::vector<shared_ptr<IfcProduct> >::iterator it;
 			
