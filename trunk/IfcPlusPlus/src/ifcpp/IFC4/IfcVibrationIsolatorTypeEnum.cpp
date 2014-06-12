@@ -44,24 +44,25 @@ void IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
 	shared_ptr<IfcVibrationIsolatorTypeEnum> type_object( new IfcVibrationIsolatorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".COMPRESSION." ) == 0 )
+	if( boost::iequals( arg, L".COMPRESSION." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_COMPRESSION;
 	}
-	else if( _stricmp( arg.c_str(), ".SPRING." ) == 0 )
+	else if( boost::iequals( arg, L".SPRING." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_SPRING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_NOTDEFINED;
 	}

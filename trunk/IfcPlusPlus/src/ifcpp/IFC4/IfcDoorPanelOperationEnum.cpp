@@ -64,44 +64,45 @@ void IfcDoorPanelOperationEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	shared_ptr<IfcDoorPanelOperationEnum> type_object( new IfcDoorPanelOperationEnum() );
-	if( _stricmp( arg.c_str(), ".SWINGING." ) == 0 )
+	if( boost::iequals( arg, L".SWINGING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_SWINGING;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_ACTING." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_ACTING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_DOUBLE_ACTING;
 	}
-	else if( _stricmp( arg.c_str(), ".SLIDING." ) == 0 )
+	else if( boost::iequals( arg, L".SLIDING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_SLIDING;
 	}
-	else if( _stricmp( arg.c_str(), ".FOLDING." ) == 0 )
+	else if( boost::iequals( arg, L".FOLDING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_FOLDING;
 	}
-	else if( _stricmp( arg.c_str(), ".REVOLVING." ) == 0 )
+	else if( boost::iequals( arg, L".REVOLVING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_REVOLVING;
 	}
-	else if( _stricmp( arg.c_str(), ".ROLLINGUP." ) == 0 )
+	else if( boost::iequals( arg, L".ROLLINGUP." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_ROLLINGUP;
 	}
-	else if( _stricmp( arg.c_str(), ".FIXEDPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".FIXEDPANEL." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_FIXEDPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_NOTDEFINED;
 	}

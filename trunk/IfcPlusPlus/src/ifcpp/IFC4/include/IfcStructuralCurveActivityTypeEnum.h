@@ -41,7 +41,7 @@ public:
 	~IfcStructuralCurveActivityTypeEnum();
 	virtual const char* classname() const { return "IfcStructuralCurveActivityTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcStructuralCurveActivityTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcStructuralCurveActivityTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcStructuralCurveActivityTypeEnumEnum m_enum;
 };
 

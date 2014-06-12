@@ -72,7 +72,7 @@ void getGuid( GUID   *pGuid )
 	*pGuid = guid;
 };
 
-std::string CreateCompressedGuidString22()
+std::wstring CreateCompressedGuidString22()
 {
 	GUID guid = GUID_NULL;
 
@@ -86,7 +86,10 @@ std::string CreateCompressedGuidString22()
 	{
 		return 0;
 	}
-	return getString64FromGuid (&guid, guid_buf, len);
+	std::string guid_str = getString64FromGuid (&guid, guid_buf, len);
+	std::wstring guid_wstr;
+	guid_wstr.assign(guid_str.begin(), guid_str.end());
+	return guid_wstr;
 }
 
 //

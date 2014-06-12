@@ -44,24 +44,25 @@ void IfcJunctionBoxTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcJunctionBoxTypeEnum> IfcJunctionBoxTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcJunctionBoxTypeEnum> IfcJunctionBoxTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	shared_ptr<IfcJunctionBoxTypeEnum> type_object( new IfcJunctionBoxTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DATA." ) == 0 )
+	if( boost::iequals( arg, L".DATA." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_DATA;
 	}
-	else if( _stricmp( arg.c_str(), ".POWER." ) == 0 )
+	else if( boost::iequals( arg, L".POWER." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_POWER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_NOTDEFINED;
 	}

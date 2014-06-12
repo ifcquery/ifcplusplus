@@ -72,52 +72,53 @@ void IfcEvaporativeCoolerTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEvaporativeCoolerTypeEnum> IfcEvaporativeCoolerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcEvaporativeCoolerTypeEnum> IfcEvaporativeCoolerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
 	shared_ptr<IfcEvaporativeCoolerTypeEnum> type_object( new IfcEvaporativeCoolerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER." ) == 0 )
+	if( boost::iequals( arg, L".DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEVAPORATIVEAIRWASHER." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEVAPORATIVEAIRWASHER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_DIRECTEVAPORATIVEAIRWASHER;
 	}
-	else if( _stricmp( arg.c_str(), ".INDIRECTEVAPORATIVEPACKAGEAIRCOOLER." ) == 0 )
+	else if( boost::iequals( arg, L".INDIRECTEVAPORATIVEPACKAGEAIRCOOLER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_INDIRECTEVAPORATIVEPACKAGEAIRCOOLER;
 	}
-	else if( _stricmp( arg.c_str(), ".INDIRECTEVAPORATIVEWETCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".INDIRECTEVAPORATIVEWETCOIL." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_INDIRECTEVAPORATIVEWETCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER." ) == 0 )
+	else if( boost::iequals( arg, L".INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER;
 	}
-	else if( _stricmp( arg.c_str(), ".INDIRECTDIRECTCOMBINATION." ) == 0 )
+	else if( boost::iequals( arg, L".INDIRECTDIRECTCOMBINATION." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_INDIRECTDIRECTCOMBINATION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEvaporativeCoolerTypeEnum::ENUM_NOTDEFINED;
 	}

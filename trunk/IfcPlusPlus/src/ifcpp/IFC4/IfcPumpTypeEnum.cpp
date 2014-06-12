@@ -64,44 +64,45 @@ void IfcPumpTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	shared_ptr<IfcPumpTypeEnum> type_object( new IfcPumpTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CIRCULATOR." ) == 0 )
+	if( boost::iequals( arg, L".CIRCULATOR." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_CIRCULATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".ENDSUCTION." ) == 0 )
+	else if( boost::iequals( arg, L".ENDSUCTION." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_ENDSUCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".SPLITCASE." ) == 0 )
+	else if( boost::iequals( arg, L".SPLITCASE." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_SPLITCASE;
 	}
-	else if( _stricmp( arg.c_str(), ".SUBMERSIBLEPUMP." ) == 0 )
+	else if( boost::iequals( arg, L".SUBMERSIBLEPUMP." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_SUBMERSIBLEPUMP;
 	}
-	else if( _stricmp( arg.c_str(), ".SUMPPUMP." ) == 0 )
+	else if( boost::iequals( arg, L".SUMPPUMP." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_SUMPPUMP;
 	}
-	else if( _stricmp( arg.c_str(), ".VERTICALINLINE." ) == 0 )
+	else if( boost::iequals( arg, L".VERTICALINLINE." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_VERTICALINLINE;
 	}
-	else if( _stricmp( arg.c_str(), ".VERTICALTURBINE." ) == 0 )
+	else if( boost::iequals( arg, L".VERTICALTURBINE." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_VERTICALTURBINE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_NOTDEFINED;
 	}

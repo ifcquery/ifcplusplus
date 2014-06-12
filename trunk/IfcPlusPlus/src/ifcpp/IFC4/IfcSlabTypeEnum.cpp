@@ -52,32 +52,33 @@ void IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	shared_ptr<IfcSlabTypeEnum> type_object( new IfcSlabTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FLOOR." ) == 0 )
+	if( boost::iequals( arg, L".FLOOR." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_FLOOR;
 	}
-	else if( _stricmp( arg.c_str(), ".ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".ROOF." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".LANDING." ) == 0 )
+	else if( boost::iequals( arg, L".LANDING." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_LANDING;
 	}
-	else if( _stricmp( arg.c_str(), ".BASESLAB." ) == 0 )
+	else if( boost::iequals( arg, L".BASESLAB." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_BASESLAB;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_NOTDEFINED;
 	}

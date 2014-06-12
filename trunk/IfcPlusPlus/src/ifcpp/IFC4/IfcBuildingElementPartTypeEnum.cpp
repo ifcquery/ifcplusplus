@@ -44,24 +44,25 @@ void IfcBuildingElementPartTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
 	shared_ptr<IfcBuildingElementPartTypeEnum> type_object( new IfcBuildingElementPartTypeEnum() );
-	if( _stricmp( arg.c_str(), ".INSULATION." ) == 0 )
+	if( boost::iequals( arg, L".INSULATION." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_INSULATION;
 	}
-	else if( _stricmp( arg.c_str(), ".PRECASTPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".PRECASTPANEL." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_PRECASTPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_NOTDEFINED;
 	}

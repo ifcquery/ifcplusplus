@@ -31,10 +31,11 @@ void IfcMassPerLengthMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMassPerLengthMeasure> IfcMassPerLengthMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMassPerLengthMeasure> IfcMassPerLengthMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
 	shared_ptr<IfcMassPerLengthMeasure> type_object( new IfcMassPerLengthMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

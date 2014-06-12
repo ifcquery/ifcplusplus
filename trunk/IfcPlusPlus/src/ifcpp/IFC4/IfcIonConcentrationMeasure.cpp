@@ -31,10 +31,11 @@ void IfcIonConcentrationMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIonConcentrationMeasure> IfcIonConcentrationMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcIonConcentrationMeasure> IfcIonConcentrationMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	shared_ptr<IfcIonConcentrationMeasure> type_object( new IfcIonConcentrationMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

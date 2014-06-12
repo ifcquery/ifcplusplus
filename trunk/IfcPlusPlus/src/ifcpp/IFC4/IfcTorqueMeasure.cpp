@@ -31,10 +31,11 @@ void IfcTorqueMeasure::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTorqueMeasure> IfcTorqueMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTorqueMeasure> IfcTorqueMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
 	shared_ptr<IfcTorqueMeasure> type_object( new IfcTorqueMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

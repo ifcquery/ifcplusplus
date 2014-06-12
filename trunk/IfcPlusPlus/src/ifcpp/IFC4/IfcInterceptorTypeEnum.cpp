@@ -52,32 +52,33 @@ void IfcInterceptorTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
 	shared_ptr<IfcInterceptorTypeEnum> type_object( new IfcInterceptorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CYCLONIC." ) == 0 )
+	if( boost::iequals( arg, L".CYCLONIC." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_CYCLONIC;
 	}
-	else if( _stricmp( arg.c_str(), ".GREASE." ) == 0 )
+	else if( boost::iequals( arg, L".GREASE." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_GREASE;
 	}
-	else if( _stricmp( arg.c_str(), ".OIL." ) == 0 )
+	else if( boost::iequals( arg, L".OIL." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_OIL;
 	}
-	else if( _stricmp( arg.c_str(), ".PETROL." ) == 0 )
+	else if( boost::iequals( arg, L".PETROL." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_PETROL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_NOTDEFINED;
 	}

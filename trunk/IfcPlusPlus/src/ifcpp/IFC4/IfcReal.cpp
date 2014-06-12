@@ -31,10 +31,11 @@ void IfcReal::getStepParameter( std::stringstream& stream, bool is_select_type )
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReal> IfcReal::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcReal> IfcReal::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReal>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReal>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReal>(); }
 	shared_ptr<IfcReal> type_object( new IfcReal() );
 	type_object->readArgument( arg );
 	return type_object;

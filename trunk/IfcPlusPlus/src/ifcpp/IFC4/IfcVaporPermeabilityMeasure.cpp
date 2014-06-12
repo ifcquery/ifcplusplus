@@ -31,10 +31,11 @@ void IfcVaporPermeabilityMeasure::getStepParameter( std::stringstream& stream, b
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVaporPermeabilityMeasure> IfcVaporPermeabilityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcVaporPermeabilityMeasure> IfcVaporPermeabilityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
 	shared_ptr<IfcVaporPermeabilityMeasure> type_object( new IfcVaporPermeabilityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

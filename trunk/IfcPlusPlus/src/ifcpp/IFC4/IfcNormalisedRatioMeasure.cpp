@@ -32,10 +32,11 @@ void IfcNormalisedRatioMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcNormalisedRatioMeasure> IfcNormalisedRatioMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcNormalisedRatioMeasure> IfcNormalisedRatioMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
 	shared_ptr<IfcNormalisedRatioMeasure> type_object( new IfcNormalisedRatioMeasure() );
 	// read TYPE
 	type_object->readArgument( arg );

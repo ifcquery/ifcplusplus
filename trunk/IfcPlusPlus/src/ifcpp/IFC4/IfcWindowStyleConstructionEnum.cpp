@@ -60,40 +60,41 @@ void IfcWindowStyleConstructionEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowStyleConstructionEnum> IfcWindowStyleConstructionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWindowStyleConstructionEnum> IfcWindowStyleConstructionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }
 	shared_ptr<IfcWindowStyleConstructionEnum> type_object( new IfcWindowStyleConstructionEnum() );
-	if( _stricmp( arg.c_str(), ".ALUMINIUM." ) == 0 )
+	if( boost::iequals( arg, L".ALUMINIUM." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_ALUMINIUM;
 	}
-	else if( _stricmp( arg.c_str(), ".HIGH_GRADE_STEEL." ) == 0 )
+	else if( boost::iequals( arg, L".HIGH_GRADE_STEEL." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_HIGH_GRADE_STEEL;
 	}
-	else if( _stricmp( arg.c_str(), ".STEEL." ) == 0 )
+	else if( boost::iequals( arg, L".STEEL." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_STEEL;
 	}
-	else if( _stricmp( arg.c_str(), ".WOOD." ) == 0 )
+	else if( boost::iequals( arg, L".WOOD." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_WOOD;
 	}
-	else if( _stricmp( arg.c_str(), ".ALUMINIUM_WOOD." ) == 0 )
+	else if( boost::iequals( arg, L".ALUMINIUM_WOOD." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_ALUMINIUM_WOOD;
 	}
-	else if( _stricmp( arg.c_str(), ".PLASTIC." ) == 0 )
+	else if( boost::iequals( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_PLASTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".OTHER_CONSTRUCTION." ) == 0 )
+	else if( boost::iequals( arg, L".OTHER_CONSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_OTHER_CONSTRUCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowStyleConstructionEnum::ENUM_NOTDEFINED;
 	}

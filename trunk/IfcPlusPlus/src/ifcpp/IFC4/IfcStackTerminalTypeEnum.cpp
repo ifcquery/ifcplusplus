@@ -48,28 +48,29 @@ void IfcStackTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
 	shared_ptr<IfcStackTerminalTypeEnum> type_object( new IfcStackTerminalTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BIRDCAGE." ) == 0 )
+	if( boost::iequals( arg, L".BIRDCAGE." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_BIRDCAGE;
 	}
-	else if( _stricmp( arg.c_str(), ".COWL." ) == 0 )
+	else if( boost::iequals( arg, L".COWL." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_COWL;
 	}
-	else if( _stricmp( arg.c_str(), ".RAINWATERHOPPER." ) == 0 )
+	else if( boost::iequals( arg, L".RAINWATERHOPPER." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_RAINWATERHOPPER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

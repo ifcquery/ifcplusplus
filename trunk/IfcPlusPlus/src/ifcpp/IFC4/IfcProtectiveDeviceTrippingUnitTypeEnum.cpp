@@ -52,32 +52,33 @@ void IfcProtectiveDeviceTrippingUnitTypeEnum::getStepParameter( std::stringstrea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> IfcProtectiveDeviceTrippingUnitTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> IfcProtectiveDeviceTrippingUnitTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum>(); }
 	shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> type_object( new IfcProtectiveDeviceTrippingUnitTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ELECTRONIC." ) == 0 )
+	if( boost::iequals( arg, L".ELECTRONIC." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_ELECTRONIC;
 	}
-	else if( _stricmp( arg.c_str(), ".ELECTROMAGNETIC." ) == 0 )
+	else if( boost::iequals( arg, L".ELECTROMAGNETIC." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_ELECTROMAGNETIC;
 	}
-	else if( _stricmp( arg.c_str(), ".RESIDUALCURRENT." ) == 0 )
+	else if( boost::iequals( arg, L".RESIDUALCURRENT." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_RESIDUALCURRENT;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMAL." ) == 0 )
+	else if( boost::iequals( arg, L".THERMAL." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_THERMAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -44,24 +44,25 @@ void IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream,
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	shared_ptr<IfcLightDistributionCurveEnum> type_object( new IfcLightDistributionCurveEnum() );
-	if( _stricmp( arg.c_str(), ".TYPE_A." ) == 0 )
+	if( boost::iequals( arg, L".TYPE_A." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_TYPE_A;
 	}
-	else if( _stricmp( arg.c_str(), ".TYPE_B." ) == 0 )
+	else if( boost::iequals( arg, L".TYPE_B." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_TYPE_B;
 	}
-	else if( _stricmp( arg.c_str(), ".TYPE_C." ) == 0 )
+	else if( boost::iequals( arg, L".TYPE_C." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_TYPE_C;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_NOTDEFINED;
 	}

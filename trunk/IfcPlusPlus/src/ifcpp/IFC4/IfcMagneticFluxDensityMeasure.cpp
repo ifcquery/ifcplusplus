@@ -31,10 +31,11 @@ void IfcMagneticFluxDensityMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMagneticFluxDensityMeasure> IfcMagneticFluxDensityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMagneticFluxDensityMeasure> IfcMagneticFluxDensityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }
 	shared_ptr<IfcMagneticFluxDensityMeasure> type_object( new IfcMagneticFluxDensityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

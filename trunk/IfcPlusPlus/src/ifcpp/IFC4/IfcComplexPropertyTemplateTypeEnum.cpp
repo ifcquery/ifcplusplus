@@ -36,16 +36,17 @@ void IfcComplexPropertyTemplateTypeEnum::getStepParameter( std::stringstream& st
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcComplexPropertyTemplateTypeEnum> IfcComplexPropertyTemplateTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcComplexPropertyTemplateTypeEnum> IfcComplexPropertyTemplateTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	shared_ptr<IfcComplexPropertyTemplateTypeEnum> type_object( new IfcComplexPropertyTemplateTypeEnum() );
-	if( _stricmp( arg.c_str(), ".P_COMPLEX." ) == 0 )
+	if( boost::iequals( arg, L".P_COMPLEX." ) )
 	{
 		type_object->m_enum = IfcComplexPropertyTemplateTypeEnum::ENUM_P_COMPLEX;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_COMPLEX." ) == 0 )
+	else if( boost::iequals( arg, L".Q_COMPLEX." ) )
 	{
 		type_object->m_enum = IfcComplexPropertyTemplateTypeEnum::ENUM_Q_COMPLEX;
 	}

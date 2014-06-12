@@ -31,10 +31,11 @@ void IfcContextDependentMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcContextDependentMeasure> IfcContextDependentMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcContextDependentMeasure> IfcContextDependentMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
 	shared_ptr<IfcContextDependentMeasure> type_object( new IfcContextDependentMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

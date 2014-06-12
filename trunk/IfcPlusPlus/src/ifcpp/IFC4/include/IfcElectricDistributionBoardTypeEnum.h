@@ -38,7 +38,7 @@ public:
 	~IfcElectricDistributionBoardTypeEnum();
 	virtual const char* classname() const { return "IfcElectricDistributionBoardTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcElectricDistributionBoardTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcElectricDistributionBoardTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcElectricDistributionBoardTypeEnumEnum m_enum;
 };
 

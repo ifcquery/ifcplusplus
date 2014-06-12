@@ -56,7 +56,7 @@ void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcCurveStyle::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyle, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -67,8 +67,8 @@ void IfcCurveStyle::readStepArguments( const std::vector<std::string>& args, con
 	m_CurveFont = IfcCurveFontOrScaledCurveFontSelect::createObjectFromStepData( args[1], map );
 	m_CurveWidth = IfcSizeSelect::createObjectFromStepData( args[2], map );
 	m_CurveColour = IfcColour::createObjectFromStepData( args[3], map );
-	if( _stricmp( args[4].c_str(), ".F." ) == 0 ) { m_ModelOrDraughting = false; }
-	else if( _stricmp( args[4].c_str(), ".T." ) == 0 ) { m_ModelOrDraughting = true; }
+	if( boost::iequals( args[4], L".F." ) ) { m_ModelOrDraughting = false; }
+	else if( boost::iequals( args[4], L".T." ) ) { m_ModelOrDraughting = true; }
 }
 void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

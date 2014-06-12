@@ -64,44 +64,45 @@ void IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& st
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
 	shared_ptr<IfcStructuralCurveActivityTypeEnum> type_object( new IfcStructuralCurveActivityTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONST." ) == 0 )
+	if( boost::iequals( arg, L".CONST." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_CONST;
 	}
-	else if( _stricmp( arg.c_str(), ".LINEAR." ) == 0 )
+	else if( boost::iequals( arg, L".LINEAR." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_LINEAR;
 	}
-	else if( _stricmp( arg.c_str(), ".POLYGONAL." ) == 0 )
+	else if( boost::iequals( arg, L".POLYGONAL." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_POLYGONAL;
 	}
-	else if( _stricmp( arg.c_str(), ".EQUIDISTANT." ) == 0 )
+	else if( boost::iequals( arg, L".EQUIDISTANT." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_EQUIDISTANT;
 	}
-	else if( _stricmp( arg.c_str(), ".SINUS." ) == 0 )
+	else if( boost::iequals( arg, L".SINUS." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_SINUS;
 	}
-	else if( _stricmp( arg.c_str(), ".PARABOLA." ) == 0 )
+	else if( boost::iequals( arg, L".PARABOLA." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_PARABOLA;
 	}
-	else if( _stricmp( arg.c_str(), ".DISCRETE." ) == 0 )
+	else if( boost::iequals( arg, L".DISCRETE." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_DISCRETE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_NOTDEFINED;
 	}

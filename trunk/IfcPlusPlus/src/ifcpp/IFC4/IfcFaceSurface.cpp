@@ -51,7 +51,7 @@ void IfcFaceSurface::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcFaceSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcFaceSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFaceSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceSurface, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -60,8 +60,8 @@ void IfcFaceSurface::readStepArguments( const std::vector<std::string>& args, co
 	#endif
 	readEntityReferenceList( args[0], m_Bounds, map );
 	readEntityReference( args[1], m_FaceSurface, map );
-	if( _stricmp( args[2].c_str(), ".F." ) == 0 ) { m_SameSense = false; }
-	else if( _stricmp( args[2].c_str(), ".T." ) == 0 ) { m_SameSense = true; }
+	if( boost::iequals( args[2], L".F." ) ) { m_SameSense = false; }
+	else if( boost::iequals( args[2], L".T." ) ) { m_SameSense = true; }
 }
 void IfcFaceSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

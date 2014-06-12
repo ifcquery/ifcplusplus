@@ -30,10 +30,11 @@ void IfcComplexNumber::getStepParameter( std::stringstream& stream, bool is_sele
 	writeDoubleList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	shared_ptr<IfcComplexNumber> type_object( new IfcComplexNumber() );
 	readDoubleList( arg, type_object->m_vec );
 	return type_object;

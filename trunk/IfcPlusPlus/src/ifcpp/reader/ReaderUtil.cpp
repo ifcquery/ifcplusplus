@@ -56,10 +56,10 @@ static wchar_t Hex4Wchar(unsigned char h1, unsigned char h2, unsigned char h3, u
 }
 
 
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::string& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
+shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
 IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 
-void checkOpeningClosingParenthesis( const char* ch_check )
+void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 {
 	int num_opening=0;
 	int num_closing=0;
@@ -83,7 +83,7 @@ void checkOpeningClosingParenthesis( const char* ch_check )
 	}
 }
 
-void findLeadingTrailingParanthesis( char* ch, char*& pos_opening, char*& pos_closing )
+void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing )
 {
 	int num_opening = 0;
 	while( *ch != '\0' )
@@ -124,14 +124,14 @@ void findLeadingTrailingParanthesis( char* ch, char*& pos_opening, char*& pos_cl
 	}
 }
 
-void tokenizeList( std::string& list_str, std::vector<std::string>& list_items )
+void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items )
 {
 	if( list_str.size() == 0 )
 	{
 		return;
 	}
-	char* stream_pos = (char*)list_str.c_str();
-	char* last_token = stream_pos;
+	wchar_t* stream_pos = (wchar_t*)list_str.c_str();
+	wchar_t* last_token = stream_pos;
 	while( *stream_pos != '\0' )
 	{
 		if( *stream_pos == '\'' )
@@ -152,7 +152,7 @@ void tokenizeList( std::string& list_str, std::vector<std::string>& list_items )
 
 		if( *stream_pos == ',' )
 		{
-			std::string item( last_token, stream_pos-last_token );
+			std::wstring item( last_token, stream_pos-last_token );
 			//if( item.at(0) == '\'' && item.at(item.size()-1) == '\'' )
 			//{
 			//	item.erase(item.size()-1);
@@ -176,7 +176,7 @@ void tokenizeList( std::string& list_str, std::vector<std::string>& list_items )
 	{
 		if( last_token != stream_pos )
 		{
-			std::string item( last_token, stream_pos-last_token );
+			std::wstring item( last_token, stream_pos-last_token );
 			//if( item.at(0) == '\'' && item.at(item.size()-1) == '\'' )
 			//{
 			//	item.erase(item.size()-1);
@@ -187,13 +187,13 @@ void tokenizeList( std::string& list_str, std::vector<std::string>& list_items )
 	}
 }
 
-void tokenizeEntityList( std::string& list_str, std::vector<int>& list_items )
+void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 {
 	if( list_str.size() == 0 )
 	{
 		return;
 	}
-	char* stream_pos = (char*)list_str.c_str();
+	wchar_t* stream_pos = (wchar_t*)list_str.c_str();
 	while( *stream_pos != '\0' )
 	{
 		// skip whitespace
@@ -203,7 +203,7 @@ void tokenizeEntityList( std::string& list_str, std::vector<int>& list_items )
 		{
 			++stream_pos;
 			// beginning of id
-			char* begin_id = stream_pos;
+			wchar_t* begin_id = stream_pos;
 
 			// proceed until end of integer
 			++stream_pos;
@@ -218,7 +218,7 @@ void tokenizeEntityList( std::string& list_str, std::vector<int>& list_items )
 					break;
 				}
 			}
-			const int id = atoi( std::string( begin_id, stream_pos-begin_id ).c_str() );
+			const int id = std::stoi( std::wstring( begin_id, stream_pos-begin_id ).c_str() );
 			list_items.push_back( id );
 		}
 		else if( *stream_pos == '$' )
@@ -249,40 +249,48 @@ void tokenizeEntityList( std::string& list_str, std::vector<int>& list_items )
 	}
 }
 
-void readIntValue( const std::string& str, int& int_value )
+void readIntValue( const std::wstring& str, int& int_value )
 {
-	if( str.compare("$") == 0 )
+	if( str.compare(L"$") == 0 )
+	{
+		int_value = std::numeric_limits<int>::quiet_NaN();
+	}
+	else if( str.compare(L"*") == 0 )
 	{
 		int_value = std::numeric_limits<int>::quiet_NaN();
 	}
 	else
 	{
-		int_value = atoi( str.c_str() );
+		int_value = std::stoi( str.c_str() );
 	}
 }
 
-void readRealValue( const std::string& str, double& real_value )
+void readRealValue( const std::wstring& str, double& real_value )
 {
-	if( str.compare("$") == 0 )
+	if( str.compare(L"$") == 0 )
+	{
+		real_value = std::numeric_limits<double>::quiet_NaN();
+	}
+	else if( str.compare(L"*") == 0 )
 	{
 		real_value = std::numeric_limits<double>::quiet_NaN();
 	}
 	else
 	{
-		real_value = atof( str.c_str() );
+		real_value = std::stod( str.c_str() );
 	}
 }
 
-void readIntList( const std::string& str, std::vector<int>& vec )
+void readIntList( const std::wstring& str, std::vector<int>& vec )
 {
-	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const wchar_t* ch = str.c_str();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int last_token = 0;
+	size_t i=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == '(' )
@@ -298,30 +306,38 @@ void readIntList( const std::string& str, std::vector<int>& vec )
 	{
 		if( ch[i] == ',' )
 		{
-			vec.push_back( atoi( str.substr( last_token, i-last_token ).c_str() ) );
+			size_t str_length = i - last_token;
+			if( str_length > 0 )
+			{
+				vec.push_back(std::stoi(str.substr(last_token, i - last_token).c_str()));
+			}
 			last_token = i+1;
 		}
 		else if( ch[i] == ')' )
 		{
-			vec.push_back( atoi( str.substr( last_token, i-last_token ).c_str() ) );
+			size_t str_length = i - last_token;
+			if( str_length > 0 )
+			{
+				vec.push_back(std::stoi(str.substr(last_token, i - last_token).c_str()));
+			}
 			return;
 		}
 		++i;
 	}
 }
 
-void readIntList2D( const std::string& str, std::vector<std::vector<int> >& vec )
+void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec )
 {
 	// ((1,2,4),(3,23,039),(938,3,-3,6))
-	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const wchar_t* ch = str.c_str();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int num_par_open=0;
-	int last_token = 0;
+	size_t i=0;
+	size_t num_par_open=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == ',' )
@@ -353,16 +369,16 @@ void readIntList2D( const std::string& str, std::vector<std::vector<int> >& vec 
 	}
 }
 
-void readDoubleList( const std::string& str, std::vector<double>& vec )
+void readDoubleList( const std::wstring& str, std::vector<double>& vec )
 {
-	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const wchar_t* ch = str.c_str();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int last_token = 0;
+	size_t i=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == '(' )
@@ -378,30 +394,30 @@ void readDoubleList( const std::string& str, std::vector<double>& vec )
 	{
 		if( ch[i] == ',' )
 		{
-			vec.push_back( atof( str.substr( last_token, i-last_token ).c_str() ) );
+			vec.push_back( std::stod( str.substr( last_token, i-last_token ).c_str() ) );
 			last_token = i+1;
 		}
 		else if( ch[i] == ')' )
 		{
-			vec.push_back( atof( str.substr( last_token, i-last_token ).c_str() ) );
+			vec.push_back( std::stod( str.substr( last_token, i-last_token ).c_str() ) );
 			return;
 		}
 		++i;
 	}
 }
 
-void readDoubleList2D( const std::string& str, std::vector<std::vector<double> >& vec )
+void readDoubleList2D( const std::wstring& str, std::vector<std::vector<double> >& vec )
 {
 	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const wchar_t* ch = str.c_str();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int num_par_open=0;
-	unsigned int last_token = 0;
+	size_t i=0;
+	size_t num_par_open=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == ',' )
@@ -434,18 +450,18 @@ void readDoubleList2D( const std::string& str, std::vector<std::vector<double> >
 	}
 }
 
-void readDoubleList3D( const std::string& str, std::vector<std::vector<std::vector<double> > >& vec )
+void readDoubleList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec )
 {
 	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const wchar_t* ch = str.c_str();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int num_par_open=0;
-	unsigned int last_token = 0;
+	size_t i=0;
+	size_t num_par_open=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == ',' )
@@ -478,16 +494,17 @@ void readDoubleList3D( const std::string& str, std::vector<std::vector<std::vect
 	}
 }
 
-void readConstCharList( const std::string& str, std::vector<const char*>& vec )
+//void readConstCharList( const std::wstring& str, std::vector<const char*>& vec );
+void readConstCharList( const std::wstring& str, std::vector<const char*>& vec )
 {
-	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const wchar_t* ch = str.c_str();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int last_token = 0;
+	size_t i=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == '(' )
@@ -502,12 +519,20 @@ void readConstCharList( const std::string& str, std::vector<const char*>& vec )
 	{
 		if( ch[i] == ',' )
 		{
-			vec.push_back( str.substr( last_token, i-last_token ).c_str() );
+			std::wstring wstr_single_arg = str.substr( last_token, i-last_token );
+			std::string str_single_arg;
+			str_single_arg.assign(wstr_single_arg.begin(), wstr_single_arg.end());
+			vec.push_back(str_single_arg.c_str());
+			//vec.push_back( str.substr( last_token, i-last_token ).c_str() );
 			last_token = i+1;
 		}
 		else if( ch[i] == ')' )
 		{
-			vec.push_back( str.substr( last_token, i-last_token ).c_str() );
+			std::wstring wstr_single_arg = str.substr( last_token, i-last_token );
+			std::string str_single_arg;
+			str_single_arg.assign(wstr_single_arg.begin(), wstr_single_arg.end());
+			vec.push_back(str_single_arg.c_str());
+			//vec.push_back( str.substr( last_token, i-last_token ).c_str() );
 			return;
 		}
 		++i;
@@ -517,13 +542,13 @@ void readConstCharList( const std::string& str, std::vector<const char*>& vec )
 void readStringList( const std::string& str, std::vector<std::string>& vec )
 {
 	const char* ch = str.c_str();
-	const unsigned int argsize = (unsigned int)str.size();
+	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{
 		return;
 	}
-	unsigned int i=0;
-	unsigned int last_token = 0;
+	size_t i=0;
+	size_t last_token = 0;
 	while( i<argsize )
 	{
 		if( ch[i] == '(' )
@@ -610,6 +635,67 @@ void findEndOfString( char*& stream_pos )
 	}
 }
 
+void findEndOfWString( wchar_t*& stream_pos )
+{
+	++stream_pos;
+	wchar_t* pos_begin = stream_pos;
+
+	// beginning of string, continue to end
+	while( *stream_pos != '\0' )
+	{
+		if( *stream_pos == '\\' )
+		{
+			if( *(stream_pos+1) == 'X' )
+			{
+				if( *(stream_pos+2) == '0' || *(stream_pos+2) == '2' || *(stream_pos+2) == '4' )
+				{
+					if( *(stream_pos+3) == '\\' )
+					{
+						// ISO 10646 encoding, continue
+						stream_pos += 4;
+						continue;
+					}
+				}
+			}
+
+			if( *(stream_pos+1) == '\\' )
+			{
+				// we have a double backslash, so just continue
+				++stream_pos;
+				++stream_pos;
+				continue;
+			}
+			if( *(stream_pos+1) == '\'' )
+			{
+				// quote is escaped
+				++stream_pos;
+				++stream_pos;
+				continue;
+			}
+		}
+				
+		if( *stream_pos == '\'' )
+		{
+			if( *(stream_pos+1) == '\'' )
+			{
+				// two single quotes in string
+				if( stream_pos != pos_begin )
+				{
+					++stream_pos;
+					++stream_pos;
+					continue;
+				}
+			}
+			++stream_pos;
+
+			// end of string
+			break;
+		}
+		++stream_pos;
+	}
+}
+
+/*
 void decodeArgumentStrings( std::vector<std::string>& entity_arguments )
 {
 	std::vector<std::string>::iterator it = entity_arguments.begin();
@@ -725,10 +811,12 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments )
 										{
 											//we got a multibyte character here
 #ifdef _MSC_VER
+
 											char buf[2];
 											int len = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, buf, 2, nullptr, nullptr);
 											arg_str_new+= buf[0];
 											arg_str_new+= buf[1];
+
 #endif
 										}
 										else
@@ -761,9 +849,9 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments )
 		}
 		argument_str.assign( arg_str_new );
 	}
-}
+}*/
 
-#ifdef _MSC_VER
+
 void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out )
 {
 	std::vector<std::string>::iterator it = entity_arguments.begin();
@@ -816,10 +904,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 									{
 										// next characters code value v shall be interpreted as v + 128
 										char char_pos = *(stream_pos+3);
-										char char_pos_128 =  char_pos + 128;
-
-										//*stream_pos_new = char_pos_128;
-										//++stream_pos_new;
+										wchar_t char_pos_128 =  char_pos + 128;
 										arg_str_new += char_pos_128;
 										stream_pos += 4;
 										continue;
@@ -882,18 +967,15 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 					}
 					
 					char current_char = *stream_pos;
-					wchar_t c;
-					//mbstowcs(  &c, &current_char, 1 );
-					arg_str_new += current_char;//.append( &c );
+					arg_str_new += current_char;
 					++stream_pos;
 				}
 			}
 		}
-		//argument_str.assign( arg_str_new );
 		args_out.push_back( arg_str_new );
 	}
 }
-#endif
+
 
 // @brief split one string into a vector of argument strings
 // caution: when using OpenMP, this method runs in parallel threads
@@ -938,15 +1020,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 					++begin_arg; 
 				}
 				char* end_arg = stream_pos-1;
-				//if( *begin_arg == '\'' && *end_arg == '\'' )
-				//{
-				//	std::string arg_str( begin_arg+1, end_arg-begin_arg-1 );
-				//	entity_arguments.push_back( arg_str );
-				//}
-				//else
-				//{
-					entity_arguments.push_back( std::string( begin_arg, end_arg-begin_arg+1 ) );
-//				}
+				entity_arguments.push_back( std::string( begin_arg, end_arg-begin_arg+1 ) );
 				last_token = stream_pos;
 			}
 		}
@@ -972,14 +1046,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 				if( remaining_size > 0 )
 				{
 					char* end_arg = stream_pos-1;
-					//if( *begin_arg == '\'' && *end_arg == '\'' )
-					//{
-					//	entity_arguments.push_back( std::string( begin_arg+1, end_arg-begin_arg-1 ) );
-					//}
-					//else
-					//{
-						entity_arguments.push_back( std::string( begin_arg, end_arg-begin_arg+1 ) );
-//					}
+					entity_arguments.push_back( std::string( begin_arg, end_arg-begin_arg+1 ) );
 				}
 				break;
 			}
@@ -988,7 +1055,85 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 	}
 }
 
-void tokenizeInlineArgument( std::string arg, std::string& keyword, std::string& inline_arg )
+// @brief split one string into a vector of argument strings
+// caution: when using OpenMP, this method runs in parallel threads
+void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments )
+{
+	wchar_t* stream_pos = (wchar_t*)argument_str.c_str();
+	if( *stream_pos != '(' )
+	{
+		return;
+	}
+
+	++stream_pos;
+	int num_open_braces = 1;
+	wchar_t* last_token = stream_pos;
+
+	while( *stream_pos != '\0' )
+	{
+		if( *stream_pos == '\'' )
+		{
+			findEndOfWString( stream_pos );
+			continue;
+		}
+
+		if( *stream_pos == '(' )
+		{
+			++num_open_braces;
+		}
+		else if( *stream_pos == ',' )
+		{
+			if( num_open_braces == 1 )
+			{
+				if( *last_token == ',' )
+				{
+					++last_token;
+				}
+
+				wchar_t* begin_arg = last_token;
+
+				// skip whitespace
+				while( isspace( *begin_arg ) ) 
+				{
+					++begin_arg; 
+				}
+				wchar_t* end_arg = stream_pos-1;
+				entity_arguments.push_back( std::wstring( begin_arg, end_arg-begin_arg+1 ) );
+				last_token = stream_pos;
+			}
+		}
+		else if( *stream_pos == ')' )
+		{
+			--num_open_braces;
+			if( num_open_braces == 0 )
+			{
+				if( *last_token == ',' )
+				{
+					++last_token;
+				}
+
+				wchar_t* begin_arg = last_token;
+
+				// skip whitespace
+				while( isspace( *begin_arg ) ) 
+				{
+					++begin_arg; 
+				}
+
+				int remaining_size = (int)(stream_pos - begin_arg);
+				if( remaining_size > 0 )
+				{
+					wchar_t* end_arg = stream_pos-1;
+					entity_arguments.push_back( std::wstring( begin_arg, end_arg-begin_arg+1 ) );
+				}
+				break;
+			}
+		}
+		++stream_pos;
+	}
+}
+
+void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstring& inline_arg )
 {
 	if( arg.size() == 0 )
 	{
@@ -1007,14 +1152,14 @@ void tokenizeInlineArgument( std::string arg, std::string& keyword, std::string&
 		throw IfcPPException( "tokenizeInlineArgument: argument begins with #, so it is not inline", __func__ );
 	}
 
-	char* stream_pos = (char*)arg.c_str();
+	wchar_t* stream_pos = (wchar_t*)arg.c_str();
 	while(isspace(*stream_pos)){ ++stream_pos; }
 
-	char* begin_keyword = stream_pos;
+	wchar_t* begin_keyword = stream_pos;
 	while(isalnum(*stream_pos)){ ++stream_pos; }
 
 	// get type name
-	std::string key( begin_keyword, stream_pos-begin_keyword );
+	std::wstring key( begin_keyword, stream_pos-begin_keyword );
 	
 	if( key.size() == 0 )
 	{
@@ -1042,8 +1187,8 @@ void tokenizeInlineArgument( std::string arg, std::string& keyword, std::string&
 	}
 
 	// proceed to ')'
-	std::string inline_argument;
-	char* inline_argument_begin = stream_pos;
+	std::wstring inline_argument;
+	wchar_t* inline_argument_begin = stream_pos;
 	
 	while( *stream_pos != '\0' )
 	{
@@ -1056,7 +1201,7 @@ void tokenizeInlineArgument( std::string arg, std::string& keyword, std::string&
 				if( *stream_pos == '\'' )
 				{
 					// check if tick is escaped
-					char* tick_pos = stream_pos;
+					wchar_t* tick_pos = stream_pos;
 					bool tick_escaped = false;
 					while( tick_pos != begin_keyword )
 					{
@@ -1087,15 +1232,8 @@ void tokenizeInlineArgument( std::string arg, std::string& keyword, std::string&
 			{
 				++inline_argument_begin;
 			}
-			char* end_arg = stream_pos-1;
-			//if( *inline_argument_begin == '\'' && *end_arg == '\'' )
-			//{
-			//	inline_argument = std::string( inline_argument_begin+1, end_arg-inline_argument_begin-1 );
-			//}
-			//else
-			//{
-				inline_argument = std::string( inline_argument_begin, end_arg-inline_argument_begin+1 );
-			//}
+			wchar_t* end_arg = stream_pos-1;
+			inline_argument = std::wstring( inline_argument_begin, end_arg-inline_argument_begin+1 );
 			
 			break;
 		}
@@ -1117,10 +1255,10 @@ void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source )
 	stream_pos += length;
 }
 
-void readInlineTypeOrEntity( const std::string& arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readInlineTypeOrEntity( const std::wstring& arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	std::string keyword;
-	std::string inline_arg;
+	std::wstring keyword;
+	std::wstring inline_arg;
 	tokenizeInlineArgument( arg, keyword, inline_arg );
 
 	if( keyword.size() == 0 )
@@ -1148,8 +1286,8 @@ void readInlineTypeOrEntity( const std::string& arg, shared_ptr<IfcPPObject>& re
 		{
 			entity_instance->setId( -1 );
 			entity_instance->m_entity_enum = entity_enum;
-			entity_instance->m_entity_argument_str.assign( inline_arg );
-			std::vector<std::string> args;
+			entity_instance->m_entity_argument_str.assign( inline_arg.begin(), inline_arg.end() );
+			std::vector<std::wstring> args;
 			args.push_back( inline_arg );
 			entity_instance->readStepArguments( args, map_entities );
 
@@ -1159,7 +1297,7 @@ void readInlineTypeOrEntity( const std::string& arg, shared_ptr<IfcPPObject>& re
 	}
 }
 
-void readInlineTypeOrEntity( const std::string& keyword, const std::string& inline_arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readInlineTypeOrEntity( const std::wstring& keyword, const std::wstring& inline_arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	if( keyword.size() == 0 )
 	{
@@ -1186,8 +1324,8 @@ void readInlineTypeOrEntity( const std::string& keyword, const std::string& inli
 		{
 			entity_instance->setId( -1 );
 			entity_instance->m_entity_enum = entity_enum;
-			entity_instance->m_entity_argument_str.assign( inline_arg );
-			std::vector<std::string> args;
+			entity_instance->m_entity_argument_str.assign( inline_arg.begin(), inline_arg.end() );
+			std::vector<std::wstring> args;
 			args.push_back( inline_arg );
 			entity_instance->readStepArguments( args, map_entities );
 

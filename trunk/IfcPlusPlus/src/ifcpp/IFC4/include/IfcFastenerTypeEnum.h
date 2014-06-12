@@ -37,7 +37,7 @@ public:
 	~IfcFastenerTypeEnum();
 	virtual const char* classname() const { return "IfcFastenerTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcFastenerTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcFastenerTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcFastenerTypeEnumEnum m_enum;
 };
 

@@ -37,7 +37,7 @@ public:
 	~IfcStateEnum();
 	virtual const char* classname() const { return "IfcStateEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcStateEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcStateEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcStateEnumEnum m_enum;
 };
 

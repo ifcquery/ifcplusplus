@@ -31,10 +31,11 @@ void IfcSoundPowerMeasure::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSoundPowerMeasure> IfcSoundPowerMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSoundPowerMeasure> IfcSoundPowerMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSoundPowerMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSoundPowerMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPowerMeasure>(); }
 	shared_ptr<IfcSoundPowerMeasure> type_object( new IfcSoundPowerMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

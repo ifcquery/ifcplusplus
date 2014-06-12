@@ -60,40 +60,41 @@ void IfcObjectTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
 	shared_ptr<IfcObjectTypeEnum> type_object( new IfcObjectTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PRODUCT." ) == 0 )
+	if( boost::iequals( arg, L".PRODUCT." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_PRODUCT;
 	}
-	else if( _stricmp( arg.c_str(), ".PROCESS." ) == 0 )
+	else if( boost::iequals( arg, L".PROCESS." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_PROCESS;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTROL." ) == 0 )
+	else if( boost::iequals( arg, L".CONTROL." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_CONTROL;
 	}
-	else if( _stricmp( arg.c_str(), ".RESOURCE." ) == 0 )
+	else if( boost::iequals( arg, L".RESOURCE." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_RESOURCE;
 	}
-	else if( _stricmp( arg.c_str(), ".ACTOR." ) == 0 )
+	else if( boost::iequals( arg, L".ACTOR." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_ACTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".GROUP." ) == 0 )
+	else if( boost::iequals( arg, L".GROUP." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_GROUP;
 	}
-	else if( _stricmp( arg.c_str(), ".PROJECT." ) == 0 )
+	else if( boost::iequals( arg, L".PROJECT." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_PROJECT;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_NOTDEFINED;
 	}

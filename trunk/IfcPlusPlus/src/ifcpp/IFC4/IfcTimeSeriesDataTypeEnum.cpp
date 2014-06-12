@@ -56,36 +56,37 @@ void IfcTimeSeriesDataTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
 	shared_ptr<IfcTimeSeriesDataTypeEnum> type_object( new IfcTimeSeriesDataTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONTINUOUS." ) == 0 )
+	if( boost::iequals( arg, L".CONTINUOUS." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_CONTINUOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".DISCRETE." ) == 0 )
+	else if( boost::iequals( arg, L".DISCRETE." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_DISCRETE;
 	}
-	else if( _stricmp( arg.c_str(), ".DISCRETEBINARY." ) == 0 )
+	else if( boost::iequals( arg, L".DISCRETEBINARY." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_DISCRETEBINARY;
 	}
-	else if( _stricmp( arg.c_str(), ".PIECEWISEBINARY." ) == 0 )
+	else if( boost::iequals( arg, L".PIECEWISEBINARY." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_PIECEWISEBINARY;
 	}
-	else if( _stricmp( arg.c_str(), ".PIECEWISECONSTANT." ) == 0 )
+	else if( boost::iequals( arg, L".PIECEWISECONSTANT." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_PIECEWISECONSTANT;
 	}
-	else if( _stricmp( arg.c_str(), ".PIECEWISECONTINUOUS." ) == 0 )
+	else if( boost::iequals( arg, L".PIECEWISECONTINUOUS." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_PIECEWISECONTINUOUS;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_NOTDEFINED;
 	}

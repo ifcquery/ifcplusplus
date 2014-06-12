@@ -89,7 +89,7 @@ void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream 
 	stream << ");";
 }
 void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<13 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -100,15 +100,15 @@ void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<st
 	readIntValue( args[1], m_VDegree );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
 	m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromStepData( args[3] );
-	if( _stricmp( args[4].c_str(), ".F." ) == 0 ) { m_UClosed = LOGICAL_FALSE; }
-	else if( _stricmp( args[4].c_str(), ".T." ) == 0 ) { m_UClosed = LOGICAL_TRUE; }
-	else if( _stricmp( args[4].c_str(), ".U." ) == 0 ) { m_UClosed = LOGICAL_UNKNOWN; }
-	if( _stricmp( args[5].c_str(), ".F." ) == 0 ) { m_VClosed = LOGICAL_FALSE; }
-	else if( _stricmp( args[5].c_str(), ".T." ) == 0 ) { m_VClosed = LOGICAL_TRUE; }
-	else if( _stricmp( args[5].c_str(), ".U." ) == 0 ) { m_VClosed = LOGICAL_UNKNOWN; }
-	if( _stricmp( args[6].c_str(), ".F." ) == 0 ) { m_SelfIntersect = LOGICAL_FALSE; }
-	else if( _stricmp( args[6].c_str(), ".T." ) == 0 ) { m_SelfIntersect = LOGICAL_TRUE; }
-	else if( _stricmp( args[6].c_str(), ".U." ) == 0 ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[4], L".F." ) ) { m_UClosed = LOGICAL_FALSE; }
+	else if( boost::iequals( args[4], L".T." ) ) { m_UClosed = LOGICAL_TRUE; }
+	else if( boost::iequals( args[4], L".U." ) ) { m_UClosed = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[5], L".F." ) ) { m_VClosed = LOGICAL_FALSE; }
+	else if( boost::iequals( args[5], L".T." ) ) { m_VClosed = LOGICAL_TRUE; }
+	else if( boost::iequals( args[5], L".U." ) ) { m_VClosed = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[6], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
+	else if( boost::iequals( args[6], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
+	else if( boost::iequals( args[6], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
 	readIntList(  args[7], m_UMultiplicities );
 	readIntList(  args[8], m_VMultiplicities );
 	readTypeOfRealList( args[9], m_UKnots );

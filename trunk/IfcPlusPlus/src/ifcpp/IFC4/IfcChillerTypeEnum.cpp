@@ -48,28 +48,29 @@ void IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	shared_ptr<IfcChillerTypeEnum> type_object( new IfcChillerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AIRCOOLED." ) == 0 )
+	if( boost::iequals( arg, L".AIRCOOLED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_AIRCOOLED;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLED." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_WATERCOOLED;
 	}
-	else if( _stricmp( arg.c_str(), ".HEATRECOVERY." ) == 0 )
+	else if( boost::iequals( arg, L".HEATRECOVERY." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_HEATRECOVERY;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_NOTDEFINED;
 	}

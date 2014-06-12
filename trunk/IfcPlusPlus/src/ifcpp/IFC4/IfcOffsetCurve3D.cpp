@@ -55,7 +55,7 @@ void IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcOffsetCurve3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcOffsetCurve3D::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcOffsetCurve3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOffsetCurve3D, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -64,9 +64,9 @@ void IfcOffsetCurve3D::readStepArguments( const std::vector<std::string>& args, 
 	#endif
 	readEntityReference( args[0], m_BasisCurve, map );
 	m_Distance = IfcLengthMeasure::createObjectFromStepData( args[1] );
-	if( _stricmp( args[2].c_str(), ".F." ) == 0 ) { m_SelfIntersect = LOGICAL_FALSE; }
-	else if( _stricmp( args[2].c_str(), ".T." ) == 0 ) { m_SelfIntersect = LOGICAL_TRUE; }
-	else if( _stricmp( args[2].c_str(), ".U." ) == 0 ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[2], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
+	else if( boost::iequals( args[2], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
+	else if( boost::iequals( args[2], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
 	readEntityReference( args[3], m_RefDirection, map );
 }
 void IfcOffsetCurve3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

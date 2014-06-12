@@ -48,28 +48,29 @@ void IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
 	shared_ptr<IfcRailingTypeEnum> type_object( new IfcRailingTypeEnum() );
-	if( _stricmp( arg.c_str(), ".HANDRAIL." ) == 0 )
+	if( boost::iequals( arg, L".HANDRAIL." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_HANDRAIL;
 	}
-	else if( _stricmp( arg.c_str(), ".GUARDRAIL." ) == 0 )
+	else if( boost::iequals( arg, L".GUARDRAIL." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_GUARDRAIL;
 	}
-	else if( _stricmp( arg.c_str(), ".BALUSTRADE." ) == 0 )
+	else if( boost::iequals( arg, L".BALUSTRADE." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_BALUSTRADE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_NOTDEFINED;
 	}

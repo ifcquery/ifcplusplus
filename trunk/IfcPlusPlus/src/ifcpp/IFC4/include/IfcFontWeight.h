@@ -24,10 +24,10 @@ class IfcFontWeight : public IfcPPString
 {
 public:
 	IfcFontWeight();
-	IfcFontWeight( std::string value );
+	IfcFontWeight( std::wstring value );
 	~IfcFontWeight();
 	virtual const char* classname() const { return "IfcFontWeight"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcFontWeight> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcFontWeight> createObjectFromStepData( const std::wstring& arg );
 };
 

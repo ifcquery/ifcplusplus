@@ -15,14 +15,29 @@
 
 IfcPPException::IfcPPException( std::string reason )
 {
-	m_reason = reason;
+	m_reason_str = reason;
 }
 
 IfcPPException::IfcPPException( std::string reason, const char* function_name )
 {
-	m_reason.append( function_name );
-	m_reason.append( ": " );
-	m_reason.append( reason );
+	m_reason_str.append(function_name);
+	m_reason_str.append( ": " );
+	m_reason_str.append( reason );
+}
+
+IfcPPException::IfcPPException(std::wstring reason)
+{
+	m_reason_str.assign(reason.begin(), reason.end());
+}
+
+IfcPPException::IfcPPException(std::wstring reason, const char* function_name)
+{
+	m_reason_str.append(function_name);
+	m_reason_str.append( ": " );
+
+	std::string reason_str;
+	reason_str.assign(reason.begin(), reason.end());
+	m_reason_str.append(reason_str);
 }
 
 IfcPPException::~IfcPPException() throw()
@@ -32,5 +47,5 @@ IfcPPException::~IfcPPException() throw()
 
 const char* IfcPPException::what() const throw()
 {
-	return m_reason.c_str();
+	return m_reason_str.c_str();
 }

@@ -36,16 +36,17 @@ void IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
 	shared_ptr<IfcProjectionElementTypeEnum> type_object( new IfcProjectionElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -28,6 +28,6 @@ public:
 	~IfcCardinalPointReference();
 	virtual const char* classname() const { return "IfcCardinalPointReference"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCardinalPointReference> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcCardinalPointReference> createObjectFromStepData( const std::wstring& arg );
 };
 

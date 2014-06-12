@@ -42,7 +42,7 @@ public:
 	~IfcUnitaryControlElementTypeEnum();
 	virtual const char* classname() const { return "IfcUnitaryControlElementTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcUnitaryControlElementTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcUnitaryControlElementTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcUnitaryControlElementTypeEnumEnum m_enum;
 };
 

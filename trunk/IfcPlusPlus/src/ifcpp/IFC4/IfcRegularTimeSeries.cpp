@@ -75,7 +75,7 @@ void IfcRegularTimeSeries::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRegularTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcRegularTimeSeries::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRegularTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRegularTimeSeries, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

@@ -52,32 +52,33 @@ void IfcAnalysisTheoryTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
 	shared_ptr<IfcAnalysisTheoryTypeEnum> type_object( new IfcAnalysisTheoryTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FIRST_ORDER_THEORY." ) == 0 )
+	if( boost::iequals( arg, L".FIRST_ORDER_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_FIRST_ORDER_THEORY;
 	}
-	else if( _stricmp( arg.c_str(), ".SECOND_ORDER_THEORY." ) == 0 )
+	else if( boost::iequals( arg, L".SECOND_ORDER_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_SECOND_ORDER_THEORY;
 	}
-	else if( _stricmp( arg.c_str(), ".THIRD_ORDER_THEORY." ) == 0 )
+	else if( boost::iequals( arg, L".THIRD_ORDER_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_THIRD_ORDER_THEORY;
 	}
-	else if( _stricmp( arg.c_str(), ".FULL_NONLINEAR_THEORY." ) == 0 )
+	else if( boost::iequals( arg, L".FULL_NONLINEAR_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_FULL_NONLINEAR_THEORY;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_NOTDEFINED;
 	}

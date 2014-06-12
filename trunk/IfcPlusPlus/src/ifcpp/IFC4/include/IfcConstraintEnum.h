@@ -37,7 +37,7 @@ public:
 	~IfcConstraintEnum();
 	virtual const char* classname() const { return "IfcConstraintEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcConstraintEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcConstraintEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcConstraintEnumEnum m_enum;
 };
 

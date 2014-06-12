@@ -68,48 +68,49 @@ void IfcDistributionChamberElementTypeEnum::getStepParameter( std::stringstream&
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
 	shared_ptr<IfcDistributionChamberElementTypeEnum> type_object( new IfcDistributionChamberElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FORMEDDUCT." ) == 0 )
+	if( boost::iequals( arg, L".FORMEDDUCT." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_FORMEDDUCT;
 	}
-	else if( _stricmp( arg.c_str(), ".INSPECTIONCHAMBER." ) == 0 )
+	else if( boost::iequals( arg, L".INSPECTIONCHAMBER." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_INSPECTIONCHAMBER;
 	}
-	else if( _stricmp( arg.c_str(), ".INSPECTIONPIT." ) == 0 )
+	else if( boost::iequals( arg, L".INSPECTIONPIT." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_INSPECTIONPIT;
 	}
-	else if( _stricmp( arg.c_str(), ".MANHOLE." ) == 0 )
+	else if( boost::iequals( arg, L".MANHOLE." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_MANHOLE;
 	}
-	else if( _stricmp( arg.c_str(), ".METERCHAMBER." ) == 0 )
+	else if( boost::iequals( arg, L".METERCHAMBER." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_METERCHAMBER;
 	}
-	else if( _stricmp( arg.c_str(), ".SUMP." ) == 0 )
+	else if( boost::iequals( arg, L".SUMP." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_SUMP;
 	}
-	else if( _stricmp( arg.c_str(), ".TRENCH." ) == 0 )
+	else if( boost::iequals( arg, L".TRENCH." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_TRENCH;
 	}
-	else if( _stricmp( arg.c_str(), ".VALVECHAMBER." ) == 0 )
+	else if( boost::iequals( arg, L".VALVECHAMBER." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_VALVECHAMBER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_NOTDEFINED;
 	}

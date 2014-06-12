@@ -87,7 +87,7 @@ void IfcGrid::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcGrid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcGrid::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

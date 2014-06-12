@@ -88,68 +88,69 @@ void IfcHumidifierTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	shared_ptr<IfcHumidifierTypeEnum> type_object( new IfcHumidifierTypeEnum() );
-	if( _stricmp( arg.c_str(), ".STEAMINJECTION." ) == 0 )
+	if( boost::iequals( arg, L".STEAMINJECTION." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_STEAMINJECTION;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICAIRWASHER." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICAIRWASHER." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICAIRWASHER;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICPAN." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICPAN." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICPAN;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICWETTEDELEMENT." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICWETTEDELEMENT." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICWETTEDELEMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICATOMIZING." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICATOMIZING." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICATOMIZING;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICULTRASONIC." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICULTRASONIC." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICULTRASONIC;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICRIGIDMEDIA." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICRIGIDMEDIA." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICRIGIDMEDIA;
 	}
-	else if( _stricmp( arg.c_str(), ".ADIABATICCOMPRESSEDAIRNOZZLE." ) == 0 )
+	else if( boost::iequals( arg, L".ADIABATICCOMPRESSEDAIRNOZZLE." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICCOMPRESSEDAIRNOZZLE;
 	}
-	else if( _stricmp( arg.c_str(), ".ASSISTEDELECTRIC." ) == 0 )
+	else if( boost::iequals( arg, L".ASSISTEDELECTRIC." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDELECTRIC;
 	}
-	else if( _stricmp( arg.c_str(), ".ASSISTEDNATURALGAS." ) == 0 )
+	else if( boost::iequals( arg, L".ASSISTEDNATURALGAS." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDNATURALGAS;
 	}
-	else if( _stricmp( arg.c_str(), ".ASSISTEDPROPANE." ) == 0 )
+	else if( boost::iequals( arg, L".ASSISTEDPROPANE." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDPROPANE;
 	}
-	else if( _stricmp( arg.c_str(), ".ASSISTEDBUTANE." ) == 0 )
+	else if( boost::iequals( arg, L".ASSISTEDBUTANE." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDBUTANE;
 	}
-	else if( _stricmp( arg.c_str(), ".ASSISTEDSTEAM." ) == 0 )
+	else if( boost::iequals( arg, L".ASSISTEDSTEAM." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDSTEAM;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_NOTDEFINED;
 	}

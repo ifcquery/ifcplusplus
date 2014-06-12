@@ -29,6 +29,6 @@ public:
 	~IfcThermalTransmittanceMeasure();
 	virtual const char* classname() const { return "IfcThermalTransmittanceMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcThermalTransmittanceMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcThermalTransmittanceMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

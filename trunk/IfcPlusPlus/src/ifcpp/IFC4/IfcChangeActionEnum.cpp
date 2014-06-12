@@ -48,28 +48,29 @@ void IfcChangeActionEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcChangeActionEnum> IfcChangeActionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcChangeActionEnum> IfcChangeActionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
 	shared_ptr<IfcChangeActionEnum> type_object( new IfcChangeActionEnum() );
-	if( _stricmp( arg.c_str(), ".NOCHANGE." ) == 0 )
+	if( boost::iequals( arg, L".NOCHANGE." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_NOCHANGE;
 	}
-	else if( _stricmp( arg.c_str(), ".MODIFIED." ) == 0 )
+	else if( boost::iequals( arg, L".MODIFIED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_MODIFIED;
 	}
-	else if( _stricmp( arg.c_str(), ".ADDED." ) == 0 )
+	else if( boost::iequals( arg, L".ADDED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_ADDED;
 	}
-	else if( _stricmp( arg.c_str(), ".DELETED." ) == 0 )
+	else if( boost::iequals( arg, L".DELETED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_DELETED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_NOTDEFINED;
 	}

@@ -44,24 +44,25 @@ void IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
 	shared_ptr<IfcCrewResourceTypeEnum> type_object( new IfcCrewResourceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".OFFICE." ) == 0 )
+	if( boost::iequals( arg, L".OFFICE." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_OFFICE;
 	}
-	else if( _stricmp( arg.c_str(), ".SITE." ) == 0 )
+	else if( boost::iequals( arg, L".SITE." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_SITE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -31,10 +31,11 @@ void IfcSolidAngleMeasure::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSolidAngleMeasure> IfcSolidAngleMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSolidAngleMeasure> IfcSolidAngleMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
 	shared_ptr<IfcSolidAngleMeasure> type_object( new IfcSolidAngleMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

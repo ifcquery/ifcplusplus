@@ -64,44 +64,45 @@ void IfcProtectiveDeviceTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	shared_ptr<IfcProtectiveDeviceTypeEnum> type_object( new IfcProtectiveDeviceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CIRCUITBREAKER." ) == 0 )
+	if( boost::iequals( arg, L".CIRCUITBREAKER." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_CIRCUITBREAKER;
 	}
-	else if( _stricmp( arg.c_str(), ".EARTHLEAKAGECIRCUITBREAKER." ) == 0 )
+	else if( boost::iequals( arg, L".EARTHLEAKAGECIRCUITBREAKER." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_EARTHLEAKAGECIRCUITBREAKER;
 	}
-	else if( _stricmp( arg.c_str(), ".EARTHINGSWITCH." ) == 0 )
+	else if( boost::iequals( arg, L".EARTHINGSWITCH." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_EARTHINGSWITCH;
 	}
-	else if( _stricmp( arg.c_str(), ".FUSEDISCONNECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".FUSEDISCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_FUSEDISCONNECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".RESIDUALCURRENTCIRCUITBREAKER." ) == 0 )
+	else if( boost::iequals( arg, L".RESIDUALCURRENTCIRCUITBREAKER." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_RESIDUALCURRENTCIRCUITBREAKER;
 	}
-	else if( _stricmp( arg.c_str(), ".RESIDUALCURRENTSWITCH." ) == 0 )
+	else if( boost::iequals( arg, L".RESIDUALCURRENTSWITCH." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_RESIDUALCURRENTSWITCH;
 	}
-	else if( _stricmp( arg.c_str(), ".VARISTOR." ) == 0 )
+	else if( boost::iequals( arg, L".VARISTOR." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_VARISTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

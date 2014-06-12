@@ -47,7 +47,7 @@ void IfcCompositeCurveOnSurface::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCompositeCurveOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcCompositeCurveOnSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCompositeCurveOnSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeCurveOnSurface, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -55,9 +55,9 @@ void IfcCompositeCurveOnSurface::readStepArguments( const std::vector<std::strin
 	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcCompositeCurveOnSurface, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
 	readEntityReferenceList( args[0], m_Segments, map );
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_SelfIntersect = LOGICAL_FALSE; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_SelfIntersect = LOGICAL_TRUE; }
-	else if( _stricmp( args[1].c_str(), ".U." ) == 0 ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[1], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
+	else if( boost::iequals( args[1], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
 }
 void IfcCompositeCurveOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

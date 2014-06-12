@@ -71,7 +71,7 @@ void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -82,15 +82,15 @@ void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::st
 	m_Description = IfcText::createObjectFromStepData( args[1] );
 	readSelectList( args[2], m_AssignedItems, map );
 	m_Identifier = IfcIdentifier::createObjectFromStepData( args[3] );
-	if( _stricmp( args[4].c_str(), ".F." ) == 0 ) { m_LayerOn = LOGICAL_FALSE; }
-	else if( _stricmp( args[4].c_str(), ".T." ) == 0 ) { m_LayerOn = LOGICAL_TRUE; }
-	else if( _stricmp( args[4].c_str(), ".U." ) == 0 ) { m_LayerOn = LOGICAL_UNKNOWN; }
-	if( _stricmp( args[5].c_str(), ".F." ) == 0 ) { m_LayerFrozen = LOGICAL_FALSE; }
-	else if( _stricmp( args[5].c_str(), ".T." ) == 0 ) { m_LayerFrozen = LOGICAL_TRUE; }
-	else if( _stricmp( args[5].c_str(), ".U." ) == 0 ) { m_LayerFrozen = LOGICAL_UNKNOWN; }
-	if( _stricmp( args[6].c_str(), ".F." ) == 0 ) { m_LayerBlocked = LOGICAL_FALSE; }
-	else if( _stricmp( args[6].c_str(), ".T." ) == 0 ) { m_LayerBlocked = LOGICAL_TRUE; }
-	else if( _stricmp( args[6].c_str(), ".U." ) == 0 ) { m_LayerBlocked = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[4], L".F." ) ) { m_LayerOn = LOGICAL_FALSE; }
+	else if( boost::iequals( args[4], L".T." ) ) { m_LayerOn = LOGICAL_TRUE; }
+	else if( boost::iequals( args[4], L".U." ) ) { m_LayerOn = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[5], L".F." ) ) { m_LayerFrozen = LOGICAL_FALSE; }
+	else if( boost::iequals( args[5], L".T." ) ) { m_LayerFrozen = LOGICAL_TRUE; }
+	else if( boost::iequals( args[5], L".U." ) ) { m_LayerFrozen = LOGICAL_UNKNOWN; }
+	if( boost::iequals( args[6], L".F." ) ) { m_LayerBlocked = LOGICAL_FALSE; }
+	else if( boost::iequals( args[6], L".T." ) ) { m_LayerBlocked = LOGICAL_TRUE; }
+	else if( boost::iequals( args[6], L".U." ) ) { m_LayerBlocked = LOGICAL_UNKNOWN; }
 	readEntityReferenceList( args[7], m_LayerStyles, map );
 }
 void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

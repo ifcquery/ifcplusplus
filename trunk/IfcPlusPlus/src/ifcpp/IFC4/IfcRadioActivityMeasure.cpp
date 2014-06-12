@@ -31,10 +31,11 @@ void IfcRadioActivityMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRadioActivityMeasure> IfcRadioActivityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRadioActivityMeasure> IfcRadioActivityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	shared_ptr<IfcRadioActivityMeasure> type_object( new IfcRadioActivityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

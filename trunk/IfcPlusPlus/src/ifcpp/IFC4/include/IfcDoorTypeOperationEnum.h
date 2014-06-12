@@ -52,7 +52,7 @@ public:
 	~IfcDoorTypeOperationEnum();
 	virtual const char* classname() const { return "IfcDoorTypeOperationEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDoorTypeOperationEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcDoorTypeOperationEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcDoorTypeOperationEnumEnum m_enum;
 };
 

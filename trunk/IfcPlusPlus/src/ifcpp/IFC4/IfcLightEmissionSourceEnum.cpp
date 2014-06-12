@@ -72,52 +72,53 @@ void IfcLightEmissionSourceEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLightEmissionSourceEnum> IfcLightEmissionSourceEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLightEmissionSourceEnum> IfcLightEmissionSourceEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
 	shared_ptr<IfcLightEmissionSourceEnum> type_object( new IfcLightEmissionSourceEnum() );
-	if( _stricmp( arg.c_str(), ".COMPACTFLUORESCENT." ) == 0 )
+	if( boost::iequals( arg, L".COMPACTFLUORESCENT." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_COMPACTFLUORESCENT;
 	}
-	else if( _stricmp( arg.c_str(), ".FLUORESCENT." ) == 0 )
+	else if( boost::iequals( arg, L".FLUORESCENT." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_FLUORESCENT;
 	}
-	else if( _stricmp( arg.c_str(), ".HIGHPRESSUREMERCURY." ) == 0 )
+	else if( boost::iequals( arg, L".HIGHPRESSUREMERCURY." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_HIGHPRESSUREMERCURY;
 	}
-	else if( _stricmp( arg.c_str(), ".HIGHPRESSURESODIUM." ) == 0 )
+	else if( boost::iequals( arg, L".HIGHPRESSURESODIUM." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_HIGHPRESSURESODIUM;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTEMITTINGDIODE." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTEMITTINGDIODE." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_LIGHTEMITTINGDIODE;
 	}
-	else if( _stricmp( arg.c_str(), ".LOWPRESSURESODIUM." ) == 0 )
+	else if( boost::iequals( arg, L".LOWPRESSURESODIUM." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_LOWPRESSURESODIUM;
 	}
-	else if( _stricmp( arg.c_str(), ".LOWVOLTAGEHALOGEN." ) == 0 )
+	else if( boost::iequals( arg, L".LOWVOLTAGEHALOGEN." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_LOWVOLTAGEHALOGEN;
 	}
-	else if( _stricmp( arg.c_str(), ".MAINVOLTAGEHALOGEN." ) == 0 )
+	else if( boost::iequals( arg, L".MAINVOLTAGEHALOGEN." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_MAINVOLTAGEHALOGEN;
 	}
-	else if( _stricmp( arg.c_str(), ".METALHALIDE." ) == 0 )
+	else if( boost::iequals( arg, L".METALHALIDE." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_METALHALIDE;
 	}
-	else if( _stricmp( arg.c_str(), ".TUNGSTENFILAMENT." ) == 0 )
+	else if( boost::iequals( arg, L".TUNGSTENFILAMENT." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_TUNGSTENFILAMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightEmissionSourceEnum::ENUM_NOTDEFINED;
 	}

@@ -60,40 +60,41 @@ void IfcEvaporatorTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
 	shared_ptr<IfcEvaporatorTypeEnum> type_object( new IfcEvaporatorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DIRECTEXPANSION." ) == 0 )
+	if( boost::iequals( arg, L".DIRECTEXPANSION." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSION;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEXPANSIONSHELLANDTUBE." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEXPANSIONSHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSIONSHELLANDTUBE;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEXPANSIONTUBEINTUBE." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEXPANSIONTUBEINTUBE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSIONTUBEINTUBE;
 	}
-	else if( _stricmp( arg.c_str(), ".DIRECTEXPANSIONBRAZEDPLATE." ) == 0 )
+	else if( boost::iequals( arg, L".DIRECTEXPANSIONBRAZEDPLATE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSIONBRAZEDPLATE;
 	}
-	else if( _stricmp( arg.c_str(), ".FLOODEDSHELLANDTUBE." ) == 0 )
+	else if( boost::iequals( arg, L".FLOODEDSHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_FLOODEDSHELLANDTUBE;
 	}
-	else if( _stricmp( arg.c_str(), ".SHELLANDCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".SHELLANDCOIL." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_SHELLANDCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_NOTDEFINED;
 	}

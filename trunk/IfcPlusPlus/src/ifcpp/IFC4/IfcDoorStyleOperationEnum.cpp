@@ -100,80 +100,81 @@ void IfcDoorStyleOperationEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorStyleOperationEnum> IfcDoorStyleOperationEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDoorStyleOperationEnum> IfcDoorStyleOperationEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorStyleOperationEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorStyleOperationEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleOperationEnum>(); }
 	shared_ptr<IfcDoorStyleOperationEnum> type_object( new IfcDoorStyleOperationEnum() );
-	if( _stricmp( arg.c_str(), ".SINGLE_SWING_LEFT." ) == 0 )
+	if( boost::iequals( arg, L".SINGLE_SWING_LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_SINGLE_SWING_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".SINGLE_SWING_RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".SINGLE_SWING_RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_SINGLE_SWING_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_DOOR_SINGLE_SWING." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_DOOR_SINGLE_SWING." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_DOOR_SINGLE_SWING;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_SWING_LEFT." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_SWING_LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_SWING_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_SWING_RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_SWING_RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_SWING_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_DOOR_DOUBLE_SWING." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_DOOR_DOUBLE_SWING." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_DOOR_DOUBLE_SWING;
 	}
-	else if( _stricmp( arg.c_str(), ".SLIDING_TO_LEFT." ) == 0 )
+	else if( boost::iequals( arg, L".SLIDING_TO_LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_SLIDING_TO_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".SLIDING_TO_RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".SLIDING_TO_RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_SLIDING_TO_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_DOOR_SLIDING." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_DOOR_SLIDING." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_DOOR_SLIDING;
 	}
-	else if( _stricmp( arg.c_str(), ".FOLDING_TO_LEFT." ) == 0 )
+	else if( boost::iequals( arg, L".FOLDING_TO_LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_FOLDING_TO_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".FOLDING_TO_RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".FOLDING_TO_RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_FOLDING_TO_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_DOOR_FOLDING." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_DOOR_FOLDING." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_DOUBLE_DOOR_FOLDING;
 	}
-	else if( _stricmp( arg.c_str(), ".REVOLVING." ) == 0 )
+	else if( boost::iequals( arg, L".REVOLVING." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_REVOLVING;
 	}
-	else if( _stricmp( arg.c_str(), ".ROLLINGUP." ) == 0 )
+	else if( boost::iequals( arg, L".ROLLINGUP." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_ROLLINGUP;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorStyleOperationEnum::ENUM_NOTDEFINED;
 	}

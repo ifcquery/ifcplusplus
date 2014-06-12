@@ -96,7 +96,7 @@ void IfcResourceTime::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcResourceTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcResourceTime::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<18 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcResourceTime, expecting 18, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -112,8 +112,8 @@ void IfcResourceTime::readStepArguments( const std::vector<std::string>& args, c
 	m_ScheduleFinish = IfcDateTime::createObjectFromStepData( args[6] );
 	m_ScheduleContour = IfcLabel::createObjectFromStepData( args[7] );
 	m_LevelingDelay = IfcDuration::createObjectFromStepData( args[8] );
-	if( _stricmp( args[9].c_str(), ".F." ) == 0 ) { m_IsOverAllocated = false; }
-	else if( _stricmp( args[9].c_str(), ".T." ) == 0 ) { m_IsOverAllocated = true; }
+	if( boost::iequals( args[9], L".F." ) ) { m_IsOverAllocated = false; }
+	else if( boost::iequals( args[9], L".T." ) ) { m_IsOverAllocated = true; }
 	m_StatusTime = IfcDateTime::createObjectFromStepData( args[10] );
 	m_ActualWork = IfcDuration::createObjectFromStepData( args[11] );
 	m_ActualUsage = IfcPositiveRatioMeasure::createObjectFromStepData( args[12] );

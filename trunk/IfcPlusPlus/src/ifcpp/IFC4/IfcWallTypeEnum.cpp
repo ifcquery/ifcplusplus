@@ -72,52 +72,53 @@ void IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	shared_ptr<IfcWallTypeEnum> type_object( new IfcWallTypeEnum() );
-	if( _stricmp( arg.c_str(), ".MOVABLE." ) == 0 )
+	if( boost::iequals( arg, L".MOVABLE." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_MOVABLE;
 	}
-	else if( _stricmp( arg.c_str(), ".PARAPET." ) == 0 )
+	else if( boost::iequals( arg, L".PARAPET." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_PARAPET;
 	}
-	else if( _stricmp( arg.c_str(), ".PARTITIONING." ) == 0 )
+	else if( boost::iequals( arg, L".PARTITIONING." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_PARTITIONING;
 	}
-	else if( _stricmp( arg.c_str(), ".PLUMBINGWALL." ) == 0 )
+	else if( boost::iequals( arg, L".PLUMBINGWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_PLUMBINGWALL;
 	}
-	else if( _stricmp( arg.c_str(), ".SHEAR." ) == 0 )
+	else if( boost::iequals( arg, L".SHEAR." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_SHEAR;
 	}
-	else if( _stricmp( arg.c_str(), ".SOLIDWALL." ) == 0 )
+	else if( boost::iequals( arg, L".SOLIDWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_SOLIDWALL;
 	}
-	else if( _stricmp( arg.c_str(), ".STANDARD." ) == 0 )
+	else if( boost::iequals( arg, L".STANDARD." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_STANDARD;
 	}
-	else if( _stricmp( arg.c_str(), ".POLYGONAL." ) == 0 )
+	else if( boost::iequals( arg, L".POLYGONAL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_POLYGONAL;
 	}
-	else if( _stricmp( arg.c_str(), ".ELEMENTEDWALL." ) == 0 )
+	else if( boost::iequals( arg, L".ELEMENTEDWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_ELEMENTEDWALL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_NOTDEFINED;
 	}

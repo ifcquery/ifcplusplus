@@ -54,7 +54,7 @@ void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -62,8 +62,8 @@ void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::str
 	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
 	readEntityReference( args[0], m_BaseSurface, map );
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_AgreementFlag = false; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_AgreementFlag = true; }
+	if( boost::iequals( args[1], L".F." ) ) { m_AgreementFlag = false; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_AgreementFlag = true; }
 	readEntityReference( args[2], m_Position, map );
 	readEntityReference( args[3], m_PolygonalBoundary, map );
 }

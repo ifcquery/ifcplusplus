@@ -72,52 +72,53 @@ void IfcConstructionMaterialResourceTypeEnum::getStepParameter( std::stringstrea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstructionMaterialResourceTypeEnum> IfcConstructionMaterialResourceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcConstructionMaterialResourceTypeEnum> IfcConstructionMaterialResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConstructionMaterialResourceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionMaterialResourceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionMaterialResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionMaterialResourceTypeEnum> type_object( new IfcConstructionMaterialResourceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AGGREGATES." ) == 0 )
+	if( boost::iequals( arg, L".AGGREGATES." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_AGGREGATES;
 	}
-	else if( _stricmp( arg.c_str(), ".CONCRETE." ) == 0 )
+	else if( boost::iequals( arg, L".CONCRETE." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_CONCRETE;
 	}
-	else if( _stricmp( arg.c_str(), ".DRYWALL." ) == 0 )
+	else if( boost::iequals( arg, L".DRYWALL." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_DRYWALL;
 	}
-	else if( _stricmp( arg.c_str(), ".FUEL." ) == 0 )
+	else if( boost::iequals( arg, L".FUEL." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_FUEL;
 	}
-	else if( _stricmp( arg.c_str(), ".GYPSUM." ) == 0 )
+	else if( boost::iequals( arg, L".GYPSUM." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_GYPSUM;
 	}
-	else if( _stricmp( arg.c_str(), ".MASONRY." ) == 0 )
+	else if( boost::iequals( arg, L".MASONRY." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_MASONRY;
 	}
-	else if( _stricmp( arg.c_str(), ".METAL." ) == 0 )
+	else if( boost::iequals( arg, L".METAL." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_METAL;
 	}
-	else if( _stricmp( arg.c_str(), ".PLASTIC." ) == 0 )
+	else if( boost::iequals( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_PLASTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".WOOD." ) == 0 )
+	else if( boost::iequals( arg, L".WOOD." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_WOOD;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_NOTDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_USERDEFINED;
 	}

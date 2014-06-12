@@ -52,32 +52,33 @@ void IfcFlowMeterTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
 	shared_ptr<IfcFlowMeterTypeEnum> type_object( new IfcFlowMeterTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ENERGYMETER." ) == 0 )
+	if( boost::iequals( arg, L".ENERGYMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_ENERGYMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".GASMETER." ) == 0 )
+	else if( boost::iequals( arg, L".GASMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_GASMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".OILMETER." ) == 0 )
+	else if( boost::iequals( arg, L".OILMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_OILMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERMETER." ) == 0 )
+	else if( boost::iequals( arg, L".WATERMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_WATERMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_NOTDEFINED;
 	}

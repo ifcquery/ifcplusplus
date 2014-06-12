@@ -56,36 +56,37 @@ void IfcActuatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }
 	shared_ptr<IfcActuatorTypeEnum> type_object( new IfcActuatorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ELECTRICACTUATOR." ) == 0 )
+	if( boost::iequals( arg, L".ELECTRICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_ELECTRICACTUATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".HANDOPERATEDACTUATOR." ) == 0 )
+	else if( boost::iequals( arg, L".HANDOPERATEDACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_HANDOPERATEDACTUATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".HYDRAULICACTUATOR." ) == 0 )
+	else if( boost::iequals( arg, L".HYDRAULICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_HYDRAULICACTUATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".PNEUMATICACTUATOR." ) == 0 )
+	else if( boost::iequals( arg, L".PNEUMATICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_PNEUMATICACTUATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMOSTATICACTUATOR." ) == 0 )
+	else if( boost::iequals( arg, L".THERMOSTATICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_THERMOSTATICACTUATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -31,10 +31,11 @@ void IfcHeatFluxDensityMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcHeatFluxDensityMeasure> IfcHeatFluxDensityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcHeatFluxDensityMeasure> IfcHeatFluxDensityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcHeatFluxDensityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatFluxDensityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatFluxDensityMeasure>(); }
 	shared_ptr<IfcHeatFluxDensityMeasure> type_object( new IfcHeatFluxDensityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

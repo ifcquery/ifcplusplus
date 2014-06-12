@@ -92,7 +92,7 @@ void IfcDoorType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcDoorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcDoorType::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDoorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<13 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDoorType, expecting 13, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -110,8 +110,8 @@ void IfcDoorType::readStepArguments( const std::vector<std::string>& args, const
 	m_ElementType = IfcLabel::createObjectFromStepData( args[8] );
 	m_PredefinedType = IfcDoorTypeEnum::createObjectFromStepData( args[9] );
 	m_OperationType = IfcDoorTypeOperationEnum::createObjectFromStepData( args[10] );
-	if( _stricmp( args[11].c_str(), ".F." ) == 0 ) { m_ParameterTakesPrecedence = false; }
-	else if( _stricmp( args[11].c_str(), ".T." ) == 0 ) { m_ParameterTakesPrecedence = true; }
+	if( boost::iequals( args[11], L".F." ) ) { m_ParameterTakesPrecedence = false; }
+	else if( boost::iequals( args[11], L".T." ) ) { m_ParameterTakesPrecedence = true; }
 	m_UserDefinedOperationType = IfcLabel::createObjectFromStepData( args[12] );
 }
 void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

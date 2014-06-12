@@ -60,40 +60,41 @@ void IfcBuildingSystemTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
 	shared_ptr<IfcBuildingSystemTypeEnum> type_object( new IfcBuildingSystemTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FENESTRATION." ) == 0 )
+	if( boost::iequals( arg, L".FENESTRATION." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_FENESTRATION;
 	}
-	else if( _stricmp( arg.c_str(), ".FOUNDATION." ) == 0 )
+	else if( boost::iequals( arg, L".FOUNDATION." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_FOUNDATION;
 	}
-	else if( _stricmp( arg.c_str(), ".LOADBEARING." ) == 0 )
+	else if( boost::iequals( arg, L".LOADBEARING." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_LOADBEARING;
 	}
-	else if( _stricmp( arg.c_str(), ".OUTERSHELL." ) == 0 )
+	else if( boost::iequals( arg, L".OUTERSHELL." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_OUTERSHELL;
 	}
-	else if( _stricmp( arg.c_str(), ".SHADING." ) == 0 )
+	else if( boost::iequals( arg, L".SHADING." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_SHADING;
 	}
-	else if( _stricmp( arg.c_str(), ".TRANSPORT." ) == 0 )
+	else if( boost::iequals( arg, L".TRANSPORT." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_TRANSPORT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_NOTDEFINED;
 	}

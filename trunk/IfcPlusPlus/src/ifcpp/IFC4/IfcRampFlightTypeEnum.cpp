@@ -44,24 +44,25 @@ void IfcRampFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	shared_ptr<IfcRampFlightTypeEnum> type_object( new IfcRampFlightTypeEnum() );
-	if( _stricmp( arg.c_str(), ".STRAIGHT." ) == 0 )
+	if( boost::iequals( arg, L".STRAIGHT." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_STRAIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".SPIRAL." ) == 0 )
+	else if( boost::iequals( arg, L".SPIRAL." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_SPIRAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_NOTDEFINED;
 	}

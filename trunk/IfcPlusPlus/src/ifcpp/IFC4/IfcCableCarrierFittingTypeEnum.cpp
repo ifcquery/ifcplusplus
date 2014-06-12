@@ -52,32 +52,33 @@ void IfcCableCarrierFittingTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
 	shared_ptr<IfcCableCarrierFittingTypeEnum> type_object( new IfcCableCarrierFittingTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BEND." ) == 0 )
+	if( boost::iequals( arg, L".BEND." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_BEND;
 	}
-	else if( _stricmp( arg.c_str(), ".CROSS." ) == 0 )
+	else if( boost::iequals( arg, L".CROSS." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_CROSS;
 	}
-	else if( _stricmp( arg.c_str(), ".REDUCER." ) == 0 )
+	else if( boost::iequals( arg, L".REDUCER." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_REDUCER;
 	}
-	else if( _stricmp( arg.c_str(), ".TEE." ) == 0 )
+	else if( boost::iequals( arg, L".TEE." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_TEE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_NOTDEFINED;
 	}

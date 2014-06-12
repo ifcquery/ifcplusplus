@@ -64,44 +64,45 @@ void IfcCoilTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCoilTypeEnum> IfcCoilTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCoilTypeEnum> IfcCoilTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	shared_ptr<IfcCoilTypeEnum> type_object( new IfcCoilTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DXCOOLINGCOIL." ) == 0 )
+	if( boost::iequals( arg, L".DXCOOLINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_DXCOOLINGCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".ELECTRICHEATINGCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".ELECTRICHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_ELECTRICHEATINGCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".GASHEATINGCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".GASHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_GASHEATINGCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".HYDRONICCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".HYDRONICCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_HYDRONICCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".STEAMHEATINGCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".STEAMHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_STEAMHEATINGCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERCOOLINGCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".WATERCOOLINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_WATERCOOLINGCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERHEATINGCOIL." ) == 0 )
+	else if( boost::iequals( arg, L".WATERHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_WATERHEATINGCOIL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_NOTDEFINED;
 	}

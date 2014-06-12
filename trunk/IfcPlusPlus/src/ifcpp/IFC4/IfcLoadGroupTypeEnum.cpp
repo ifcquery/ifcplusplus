@@ -48,28 +48,29 @@ void IfcLoadGroupTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLoadGroupTypeEnum> IfcLoadGroupTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLoadGroupTypeEnum> IfcLoadGroupTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	shared_ptr<IfcLoadGroupTypeEnum> type_object( new IfcLoadGroupTypeEnum() );
-	if( _stricmp( arg.c_str(), ".LOAD_GROUP." ) == 0 )
+	if( boost::iequals( arg, L".LOAD_GROUP." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_LOAD_GROUP;
 	}
-	else if( _stricmp( arg.c_str(), ".LOAD_CASE." ) == 0 )
+	else if( boost::iequals( arg, L".LOAD_CASE." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_LOAD_CASE;
 	}
-	else if( _stricmp( arg.c_str(), ".LOAD_COMBINATION." ) == 0 )
+	else if( boost::iequals( arg, L".LOAD_COMBINATION." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_LOAD_COMBINATION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_NOTDEFINED;
 	}

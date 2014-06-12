@@ -68,48 +68,49 @@ void IfcConstructionEquipmentResourceTypeEnum::getStepParameter( std::stringstre
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstructionEquipmentResourceTypeEnum> IfcConstructionEquipmentResourceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcConstructionEquipmentResourceTypeEnum> IfcConstructionEquipmentResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConstructionEquipmentResourceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionEquipmentResourceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionEquipmentResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionEquipmentResourceTypeEnum> type_object( new IfcConstructionEquipmentResourceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DEMOLISHING." ) == 0 )
+	if( boost::iequals( arg, L".DEMOLISHING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_DEMOLISHING;
 	}
-	else if( _stricmp( arg.c_str(), ".EARTHMOVING." ) == 0 )
+	else if( boost::iequals( arg, L".EARTHMOVING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_EARTHMOVING;
 	}
-	else if( _stricmp( arg.c_str(), ".ERECTING." ) == 0 )
+	else if( boost::iequals( arg, L".ERECTING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_ERECTING;
 	}
-	else if( _stricmp( arg.c_str(), ".HEATING." ) == 0 )
+	else if( boost::iequals( arg, L".HEATING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_HEATING;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTING." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_LIGHTING;
 	}
-	else if( _stricmp( arg.c_str(), ".PAVING." ) == 0 )
+	else if( boost::iequals( arg, L".PAVING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_PAVING;
 	}
-	else if( _stricmp( arg.c_str(), ".PUMPING." ) == 0 )
+	else if( boost::iequals( arg, L".PUMPING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_PUMPING;
 	}
-	else if( _stricmp( arg.c_str(), ".TRANSPORTING." ) == 0 )
+	else if( boost::iequals( arg, L".TRANSPORTING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_TRANSPORTING;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_NOTDEFINED;
 	}

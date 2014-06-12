@@ -64,44 +64,45 @@ void IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
 	shared_ptr<IfcCostScheduleTypeEnum> type_object( new IfcCostScheduleTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BUDGET." ) == 0 )
+	if( boost::iequals( arg, L".BUDGET." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_BUDGET;
 	}
-	else if( _stricmp( arg.c_str(), ".COSTPLAN." ) == 0 )
+	else if( boost::iequals( arg, L".COSTPLAN." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_COSTPLAN;
 	}
-	else if( _stricmp( arg.c_str(), ".ESTIMATE." ) == 0 )
+	else if( boost::iequals( arg, L".ESTIMATE." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_ESTIMATE;
 	}
-	else if( _stricmp( arg.c_str(), ".TENDER." ) == 0 )
+	else if( boost::iequals( arg, L".TENDER." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_TENDER;
 	}
-	else if( _stricmp( arg.c_str(), ".PRICEDBILLOFQUANTITIES." ) == 0 )
+	else if( boost::iequals( arg, L".PRICEDBILLOFQUANTITIES." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_PRICEDBILLOFQUANTITIES;
 	}
-	else if( _stricmp( arg.c_str(), ".UNPRICEDBILLOFQUANTITIES." ) == 0 )
+	else if( boost::iequals( arg, L".UNPRICEDBILLOFQUANTITIES." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_UNPRICEDBILLOFQUANTITIES;
 	}
-	else if( _stricmp( arg.c_str(), ".SCHEDULEOFRATES." ) == 0 )
+	else if( boost::iequals( arg, L".SCHEDULEOFRATES." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_SCHEDULEOFRATES;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_NOTDEFINED;
 	}

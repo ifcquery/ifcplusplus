@@ -22,7 +22,7 @@
 
 // TYPE IfcGloballyUniqueId 
 IfcGloballyUniqueId::IfcGloballyUniqueId() {}
-IfcGloballyUniqueId::IfcGloballyUniqueId( std::string value ) { m_value = value; }
+IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
 IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
 void IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -30,10 +30,11 @@ void IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_s
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	shared_ptr<IfcGloballyUniqueId> type_object( new IfcGloballyUniqueId() );
 	type_object->readArgument( arg );
 	return type_object;

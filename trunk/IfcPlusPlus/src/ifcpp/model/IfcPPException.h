@@ -25,8 +25,10 @@ class IfcPPException : public std::exception
 public:
 	IfcPPException( std::string reason );
 	IfcPPException( std::string reason, const char* function_name );
+	IfcPPException( std::wstring reason );
+	IfcPPException( std::wstring reason, const char* function_name );
 	~IfcPPException() throw();
 	virtual const char* what() const throw();
 
-	std::string m_reason;
+	std::string m_reason_str;
 };

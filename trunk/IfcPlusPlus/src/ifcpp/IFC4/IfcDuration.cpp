@@ -24,7 +24,7 @@
 
 // TYPE IfcDuration 
 IfcDuration::IfcDuration() {}
-IfcDuration::IfcDuration( std::string value ) { m_value = value; }
+IfcDuration::IfcDuration( std::wstring value ) { m_value = value; }
 IfcDuration::~IfcDuration() {}
 void IfcDuration::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -32,10 +32,11 @@ void IfcDuration::getStepParameter( std::stringstream& stream, bool is_select_ty
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDuration> IfcDuration::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDuration> IfcDuration::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDuration>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuration>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuration>(); }
 	shared_ptr<IfcDuration> type_object( new IfcDuration() );
 	type_object->readArgument( arg );
 	return type_object;

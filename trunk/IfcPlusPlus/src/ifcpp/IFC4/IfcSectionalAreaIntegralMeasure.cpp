@@ -31,10 +31,11 @@ void IfcSectionalAreaIntegralMeasure::getStepParameter( std::stringstream& strea
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
 	shared_ptr<IfcSectionalAreaIntegralMeasure> type_object( new IfcSectionalAreaIntegralMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

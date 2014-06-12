@@ -76,7 +76,7 @@ void IfcTypeResource::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTypeResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTypeResource::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTypeResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTypeResource, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

@@ -44,24 +44,25 @@ void IfcTextPath::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTextPath> IfcTextPath::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTextPath> IfcTextPath::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
 	shared_ptr<IfcTextPath> type_object( new IfcTextPath() );
-	if( _stricmp( arg.c_str(), ".LEFT." ) == 0 )
+	if( boost::iequals( arg, L".LEFT." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".RIGHT." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".UP." ) == 0 )
+	else if( boost::iequals( arg, L".UP." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_UP;
 	}
-	else if( _stricmp( arg.c_str(), ".DOWN." ) == 0 )
+	else if( boost::iequals( arg, L".DOWN." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_DOWN;
 	}

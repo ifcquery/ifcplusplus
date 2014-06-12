@@ -31,10 +31,11 @@ void IfcElectricCurrentMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricCurrentMeasure> IfcElectricCurrentMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricCurrentMeasure> IfcElectricCurrentMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
 	shared_ptr<IfcElectricCurrentMeasure> type_object( new IfcElectricCurrentMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

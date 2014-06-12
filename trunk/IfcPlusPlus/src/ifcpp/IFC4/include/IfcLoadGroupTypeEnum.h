@@ -37,7 +37,7 @@ public:
 	~IfcLoadGroupTypeEnum();
 	virtual const char* classname() const { return "IfcLoadGroupTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLoadGroupTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcLoadGroupTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcLoadGroupTypeEnumEnum m_enum;
 };
 

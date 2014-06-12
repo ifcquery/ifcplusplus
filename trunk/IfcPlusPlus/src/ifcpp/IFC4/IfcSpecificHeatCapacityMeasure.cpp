@@ -31,10 +31,11 @@ void IfcSpecificHeatCapacityMeasure::getStepParameter( std::stringstream& stream
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpecificHeatCapacityMeasure> IfcSpecificHeatCapacityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSpecificHeatCapacityMeasure> IfcSpecificHeatCapacityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpecificHeatCapacityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecificHeatCapacityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecificHeatCapacityMeasure>(); }
 	shared_ptr<IfcSpecificHeatCapacityMeasure> type_object( new IfcSpecificHeatCapacityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

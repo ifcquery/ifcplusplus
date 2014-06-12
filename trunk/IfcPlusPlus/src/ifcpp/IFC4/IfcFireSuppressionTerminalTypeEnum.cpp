@@ -56,36 +56,37 @@ void IfcFireSuppressionTerminalTypeEnum::getStepParameter( std::stringstream& st
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFireSuppressionTerminalTypeEnum> IfcFireSuppressionTerminalTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFireSuppressionTerminalTypeEnum> IfcFireSuppressionTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
 	shared_ptr<IfcFireSuppressionTerminalTypeEnum> type_object( new IfcFireSuppressionTerminalTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BREECHINGINLET." ) == 0 )
+	if( boost::iequals( arg, L".BREECHINGINLET." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_BREECHINGINLET;
 	}
-	else if( _stricmp( arg.c_str(), ".FIREHYDRANT." ) == 0 )
+	else if( boost::iequals( arg, L".FIREHYDRANT." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_FIREHYDRANT;
 	}
-	else if( _stricmp( arg.c_str(), ".HOSEREEL." ) == 0 )
+	else if( boost::iequals( arg, L".HOSEREEL." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_HOSEREEL;
 	}
-	else if( _stricmp( arg.c_str(), ".SPRINKLER." ) == 0 )
+	else if( boost::iequals( arg, L".SPRINKLER." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_SPRINKLER;
 	}
-	else if( _stricmp( arg.c_str(), ".SPRINKLERDEFLECTOR." ) == 0 )
+	else if( boost::iequals( arg, L".SPRINKLERDEFLECTOR." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_SPRINKLERDEFLECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

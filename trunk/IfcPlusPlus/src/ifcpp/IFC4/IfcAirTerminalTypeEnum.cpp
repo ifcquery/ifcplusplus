@@ -52,32 +52,33 @@ void IfcAirTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
 	shared_ptr<IfcAirTerminalTypeEnum> type_object( new IfcAirTerminalTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DIFFUSER." ) == 0 )
+	if( boost::iequals( arg, L".DIFFUSER." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_DIFFUSER;
 	}
-	else if( _stricmp( arg.c_str(), ".GRILLE." ) == 0 )
+	else if( boost::iequals( arg, L".GRILLE." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_GRILLE;
 	}
-	else if( _stricmp( arg.c_str(), ".LOUVRE." ) == 0 )
+	else if( boost::iequals( arg, L".LOUVRE." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_LOUVRE;
 	}
-	else if( _stricmp( arg.c_str(), ".REGISTER." ) == 0 )
+	else if( boost::iequals( arg, L".REGISTER." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_REGISTER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

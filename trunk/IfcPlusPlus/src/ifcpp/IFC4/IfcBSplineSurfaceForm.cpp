@@ -72,52 +72,53 @@ void IfcBSplineSurfaceForm::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }
 	shared_ptr<IfcBSplineSurfaceForm> type_object( new IfcBSplineSurfaceForm() );
-	if( _stricmp( arg.c_str(), ".PLANE_SURF." ) == 0 )
+	if( boost::iequals( arg, L".PLANE_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_PLANE_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".CYLINDRICAL_SURF." ) == 0 )
+	else if( boost::iequals( arg, L".CYLINDRICAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_CYLINDRICAL_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".CONICAL_SURF." ) == 0 )
+	else if( boost::iequals( arg, L".CONICAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_CONICAL_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".SPHERICAL_SURF." ) == 0 )
+	else if( boost::iequals( arg, L".SPHERICAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_SPHERICAL_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".TOROIDAL_SURF." ) == 0 )
+	else if( boost::iequals( arg, L".TOROIDAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_TOROIDAL_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".SURF_OF_REVOLUTION." ) == 0 )
+	else if( boost::iequals( arg, L".SURF_OF_REVOLUTION." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_SURF_OF_REVOLUTION;
 	}
-	else if( _stricmp( arg.c_str(), ".RULED_SURF." ) == 0 )
+	else if( boost::iequals( arg, L".RULED_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_RULED_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".GENERALISED_CONE." ) == 0 )
+	else if( boost::iequals( arg, L".GENERALISED_CONE." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_GENERALISED_CONE;
 	}
-	else if( _stricmp( arg.c_str(), ".QUADRIC_SURF." ) == 0 )
+	else if( boost::iequals( arg, L".QUADRIC_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_QUADRIC_SURF;
 	}
-	else if( _stricmp( arg.c_str(), ".SURF_OF_LINEAR_EXTRUSION." ) == 0 )
+	else if( boost::iequals( arg, L".SURF_OF_LINEAR_EXTRUSION." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_SURF_OF_LINEAR_EXTRUSION;
 	}
-	else if( _stricmp( arg.c_str(), ".UNSPECIFIED." ) == 0 )
+	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_UNSPECIFIED;
 	}

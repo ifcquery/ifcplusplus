@@ -44,24 +44,25 @@ void IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
 	shared_ptr<IfcCooledBeamTypeEnum> type_object( new IfcCooledBeamTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ACTIVE." ) == 0 )
+	if( boost::iequals( arg, L".ACTIVE." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_ACTIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".PASSIVE." ) == 0 )
+	else if( boost::iequals( arg, L".PASSIVE." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_PASSIVE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_NOTDEFINED;
 	}

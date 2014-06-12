@@ -31,10 +31,11 @@ void IfcDoseEquivalentMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoseEquivalentMeasure> IfcDoseEquivalentMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDoseEquivalentMeasure> IfcDoseEquivalentMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	shared_ptr<IfcDoseEquivalentMeasure> type_object( new IfcDoseEquivalentMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

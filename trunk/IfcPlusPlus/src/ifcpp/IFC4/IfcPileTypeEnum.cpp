@@ -60,40 +60,41 @@ void IfcPileTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	shared_ptr<IfcPileTypeEnum> type_object( new IfcPileTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BORED." ) == 0 )
+	if( boost::iequals( arg, L".BORED." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_BORED;
 	}
-	else if( _stricmp( arg.c_str(), ".DRIVEN." ) == 0 )
+	else if( boost::iequals( arg, L".DRIVEN." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_DRIVEN;
 	}
-	else if( _stricmp( arg.c_str(), ".JETGROUTING." ) == 0 )
+	else if( boost::iequals( arg, L".JETGROUTING." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_JETGROUTING;
 	}
-	else if( _stricmp( arg.c_str(), ".COHESION." ) == 0 )
+	else if( boost::iequals( arg, L".COHESION." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_COHESION;
 	}
-	else if( _stricmp( arg.c_str(), ".FRICTION." ) == 0 )
+	else if( boost::iequals( arg, L".FRICTION." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_FRICTION;
 	}
-	else if( _stricmp( arg.c_str(), ".SUPPORT." ) == 0 )
+	else if( boost::iequals( arg, L".SUPPORT." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_SUPPORT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -22,7 +22,7 @@
 
 // TYPE IfcTextAlignment 
 IfcTextAlignment::IfcTextAlignment() {}
-IfcTextAlignment::IfcTextAlignment( std::string value ) { m_value = value; }
+IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
 IfcTextAlignment::~IfcTextAlignment() {}
 void IfcTextAlignment::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -30,10 +30,11 @@ void IfcTextAlignment::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	shared_ptr<IfcTextAlignment> type_object( new IfcTextAlignment() );
 	type_object->readArgument( arg );
 	return type_object;

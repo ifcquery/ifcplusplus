@@ -68,48 +68,49 @@ void IfcSpatialZoneTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
 	shared_ptr<IfcSpatialZoneTypeEnum> type_object( new IfcSpatialZoneTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONSTRUCTION." ) == 0 )
+	if( boost::iequals( arg, L".CONSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_CONSTRUCTION;
 	}
-	else if( _stricmp( arg.c_str(), ".FIRESAFETY." ) == 0 )
+	else if( boost::iequals( arg, L".FIRESAFETY." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_FIRESAFETY;
 	}
-	else if( _stricmp( arg.c_str(), ".LIGHTING." ) == 0 )
+	else if( boost::iequals( arg, L".LIGHTING." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_LIGHTING;
 	}
-	else if( _stricmp( arg.c_str(), ".OCCUPANCY." ) == 0 )
+	else if( boost::iequals( arg, L".OCCUPANCY." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_OCCUPANCY;
 	}
-	else if( _stricmp( arg.c_str(), ".SECURITY." ) == 0 )
+	else if( boost::iequals( arg, L".SECURITY." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_SECURITY;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMAL." ) == 0 )
+	else if( boost::iequals( arg, L".THERMAL." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_THERMAL;
 	}
-	else if( _stricmp( arg.c_str(), ".TRANSPORT." ) == 0 )
+	else if( boost::iequals( arg, L".TRANSPORT." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_TRANSPORT;
 	}
-	else if( _stricmp( arg.c_str(), ".VENTILATION." ) == 0 )
+	else if( boost::iequals( arg, L".VENTILATION." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_VENTILATION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_NOTDEFINED;
 	}

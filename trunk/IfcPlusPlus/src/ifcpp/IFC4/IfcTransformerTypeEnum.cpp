@@ -56,36 +56,37 @@ void IfcTransformerTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	shared_ptr<IfcTransformerTypeEnum> type_object( new IfcTransformerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CURRENT." ) == 0 )
+	if( boost::iequals( arg, L".CURRENT." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_CURRENT;
 	}
-	else if( _stricmp( arg.c_str(), ".FREQUENCY." ) == 0 )
+	else if( boost::iequals( arg, L".FREQUENCY." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_FREQUENCY;
 	}
-	else if( _stricmp( arg.c_str(), ".INVERTER." ) == 0 )
+	else if( boost::iequals( arg, L".INVERTER." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_INVERTER;
 	}
-	else if( _stricmp( arg.c_str(), ".RECTIFIER." ) == 0 )
+	else if( boost::iequals( arg, L".RECTIFIER." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_RECTIFIER;
 	}
-	else if( _stricmp( arg.c_str(), ".VOLTAGE." ) == 0 )
+	else if( boost::iequals( arg, L".VOLTAGE." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_VOLTAGE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_NOTDEFINED;
 	}

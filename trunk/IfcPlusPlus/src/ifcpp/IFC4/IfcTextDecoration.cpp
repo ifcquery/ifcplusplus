@@ -22,7 +22,7 @@
 
 // TYPE IfcTextDecoration 
 IfcTextDecoration::IfcTextDecoration() {}
-IfcTextDecoration::IfcTextDecoration( std::string value ) { m_value = value; }
+IfcTextDecoration::IfcTextDecoration( std::wstring value ) { m_value = value; }
 IfcTextDecoration::~IfcTextDecoration() {}
 void IfcTextDecoration::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -30,10 +30,11 @@ void IfcTextDecoration::getStepParameter( std::stringstream& stream, bool is_sel
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTextDecoration> IfcTextDecoration::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTextDecoration> IfcTextDecoration::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
 	shared_ptr<IfcTextDecoration> type_object( new IfcTextDecoration() );
 	type_object->readArgument( arg );
 	return type_object;

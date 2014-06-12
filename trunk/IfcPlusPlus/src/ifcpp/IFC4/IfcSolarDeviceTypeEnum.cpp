@@ -44,24 +44,25 @@ void IfcSolarDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
 	shared_ptr<IfcSolarDeviceTypeEnum> type_object( new IfcSolarDeviceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".SOLARCOLLECTOR." ) == 0 )
+	if( boost::iequals( arg, L".SOLARCOLLECTOR." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_SOLARCOLLECTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".SOLARPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".SOLARPANEL." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_SOLARPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

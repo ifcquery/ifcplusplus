@@ -40,20 +40,21 @@ void IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	shared_ptr<IfcAssemblyPlaceEnum> type_object( new IfcAssemblyPlaceEnum() );
-	if( _stricmp( arg.c_str(), ".SITE." ) == 0 )
+	if( boost::iequals( arg, L".SITE." ) )
 	{
 		type_object->m_enum = IfcAssemblyPlaceEnum::ENUM_SITE;
 	}
-	else if( _stricmp( arg.c_str(), ".FACTORY." ) == 0 )
+	else if( boost::iequals( arg, L".FACTORY." ) )
 	{
 		type_object->m_enum = IfcAssemblyPlaceEnum::ENUM_FACTORY;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAssemblyPlaceEnum::ENUM_NOTDEFINED;
 	}

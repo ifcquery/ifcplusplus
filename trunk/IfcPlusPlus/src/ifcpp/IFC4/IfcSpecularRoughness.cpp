@@ -31,10 +31,11 @@ void IfcSpecularRoughness::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
 	shared_ptr<IfcSpecularRoughness> type_object( new IfcSpecularRoughness() );
 	type_object->readArgument( arg );
 	return type_object;

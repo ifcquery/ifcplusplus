@@ -68,48 +68,49 @@ void IfcBenchmarkEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	shared_ptr<IfcBenchmarkEnum> type_object( new IfcBenchmarkEnum() );
-	if( _stricmp( arg.c_str(), ".GREATERTHAN." ) == 0 )
+	if( boost::iequals( arg, L".GREATERTHAN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_GREATERTHAN;
 	}
-	else if( _stricmp( arg.c_str(), ".GREATERTHANOREQUALTO." ) == 0 )
+	else if( boost::iequals( arg, L".GREATERTHANOREQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_GREATERTHANOREQUALTO;
 	}
-	else if( _stricmp( arg.c_str(), ".LESSTHAN." ) == 0 )
+	else if( boost::iequals( arg, L".LESSTHAN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_LESSTHAN;
 	}
-	else if( _stricmp( arg.c_str(), ".LESSTHANOREQUALTO." ) == 0 )
+	else if( boost::iequals( arg, L".LESSTHANOREQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_LESSTHANOREQUALTO;
 	}
-	else if( _stricmp( arg.c_str(), ".EQUALTO." ) == 0 )
+	else if( boost::iequals( arg, L".EQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_EQUALTO;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTEQUALTO." ) == 0 )
+	else if( boost::iequals( arg, L".NOTEQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_NOTEQUALTO;
 	}
-	else if( _stricmp( arg.c_str(), ".INCLUDES." ) == 0 )
+	else if( boost::iequals( arg, L".INCLUDES." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_INCLUDES;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTINCLUDES." ) == 0 )
+	else if( boost::iequals( arg, L".NOTINCLUDES." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_NOTINCLUDES;
 	}
-	else if( _stricmp( arg.c_str(), ".INCLUDEDIN." ) == 0 )
+	else if( boost::iequals( arg, L".INCLUDEDIN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_INCLUDEDIN;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTINCLUDEDIN." ) == 0 )
+	else if( boost::iequals( arg, L".NOTINCLUDEDIN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_NOTINCLUDEDIN;
 	}

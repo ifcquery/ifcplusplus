@@ -44,24 +44,25 @@ void IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcKnotType> IfcKnotType::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcKnotType> IfcKnotType::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
 	shared_ptr<IfcKnotType> type_object( new IfcKnotType() );
-	if( _stricmp( arg.c_str(), ".UNIFORM_KNOTS." ) == 0 )
+	if( boost::iequals( arg, L".UNIFORM_KNOTS." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_UNIFORM_KNOTS;
 	}
-	else if( _stricmp( arg.c_str(), ".QUASI_UNIFORM_KNOTS." ) == 0 )
+	else if( boost::iequals( arg, L".QUASI_UNIFORM_KNOTS." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_QUASI_UNIFORM_KNOTS;
 	}
-	else if( _stricmp( arg.c_str(), ".PIECEWISE_BEZIER_KNOTS." ) == 0 )
+	else if( boost::iequals( arg, L".PIECEWISE_BEZIER_KNOTS." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_PIECEWISE_BEZIER_KNOTS;
 	}
-	else if( _stricmp( arg.c_str(), ".UNSPECIFIED." ) == 0 )
+	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_UNSPECIFIED;
 	}

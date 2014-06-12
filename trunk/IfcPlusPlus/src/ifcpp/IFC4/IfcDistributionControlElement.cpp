@@ -87,7 +87,7 @@ void IfcDistributionControlElement::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcDistributionControlElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcDistributionControlElement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDistributionControlElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDistributionControlElement, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }

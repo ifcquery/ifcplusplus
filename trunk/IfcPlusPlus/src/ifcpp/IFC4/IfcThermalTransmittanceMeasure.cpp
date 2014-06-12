@@ -31,10 +31,11 @@ void IfcThermalTransmittanceMeasure::getStepParameter( std::stringstream& stream
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcThermalTransmittanceMeasure> IfcThermalTransmittanceMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcThermalTransmittanceMeasure> IfcThermalTransmittanceMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
 	shared_ptr<IfcThermalTransmittanceMeasure> type_object( new IfcThermalTransmittanceMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

@@ -38,7 +38,7 @@ public:
 	~IfcSlabTypeEnum();
 	virtual const char* classname() const { return "IfcSlabTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcSlabTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcSlabTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcSlabTypeEnumEnum m_enum;
 };
 

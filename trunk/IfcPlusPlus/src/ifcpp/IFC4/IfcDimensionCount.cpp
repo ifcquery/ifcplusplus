@@ -30,10 +30,11 @@ void IfcDimensionCount::getStepParameter( std::stringstream& stream, bool is_sel
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	shared_ptr<IfcDimensionCount> type_object( new IfcDimensionCount() );
 	type_object->readArgument( arg );
 	return type_object;

@@ -48,28 +48,29 @@ void IfcActionTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
 	shared_ptr<IfcActionTypeEnum> type_object( new IfcActionTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PERMANENT_G." ) == 0 )
+	if( boost::iequals( arg, L".PERMANENT_G." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_PERMANENT_G;
 	}
-	else if( _stricmp( arg.c_str(), ".VARIABLE_Q." ) == 0 )
+	else if( boost::iequals( arg, L".VARIABLE_Q." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_VARIABLE_Q;
 	}
-	else if( _stricmp( arg.c_str(), ".EXTRAORDINARY_A." ) == 0 )
+	else if( boost::iequals( arg, L".EXTRAORDINARY_A." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_EXTRAORDINARY_A;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -31,10 +31,11 @@ void IfcAreaDensityMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAreaDensityMeasure> IfcAreaDensityMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcAreaDensityMeasure> IfcAreaDensityMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAreaDensityMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAreaDensityMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAreaDensityMeasure>(); }
 	shared_ptr<IfcAreaDensityMeasure> type_object( new IfcAreaDensityMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

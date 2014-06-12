@@ -52,32 +52,33 @@ void IfcEventTriggerTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEventTriggerTypeEnum> IfcEventTriggerTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcEventTriggerTypeEnum> IfcEventTriggerTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	shared_ptr<IfcEventTriggerTypeEnum> type_object( new IfcEventTriggerTypeEnum() );
-	if( _stricmp( arg.c_str(), ".EVENTRULE." ) == 0 )
+	if( boost::iequals( arg, L".EVENTRULE." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTRULE;
 	}
-	else if( _stricmp( arg.c_str(), ".EVENTMESSAGE." ) == 0 )
+	else if( boost::iequals( arg, L".EVENTMESSAGE." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTMESSAGE;
 	}
-	else if( _stricmp( arg.c_str(), ".EVENTTIME." ) == 0 )
+	else if( boost::iequals( arg, L".EVENTTIME." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTTIME;
 	}
-	else if( _stricmp( arg.c_str(), ".EVENTCOMPLEX." ) == 0 )
+	else if( boost::iequals( arg, L".EVENTCOMPLEX." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTCOMPLEX;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_NOTDEFINED;
 	}

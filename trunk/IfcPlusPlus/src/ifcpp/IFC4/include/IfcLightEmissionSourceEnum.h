@@ -43,7 +43,7 @@ public:
 	~IfcLightEmissionSourceEnum();
 	virtual const char* classname() const { return "IfcLightEmissionSourceEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLightEmissionSourceEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcLightEmissionSourceEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcLightEmissionSourceEnumEnum m_enum;
 };
 

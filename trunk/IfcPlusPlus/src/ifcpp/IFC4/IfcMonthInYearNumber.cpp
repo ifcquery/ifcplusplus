@@ -30,10 +30,11 @@ void IfcMonthInYearNumber::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	shared_ptr<IfcMonthInYearNumber> type_object( new IfcMonthInYearNumber() );
 	type_object->readArgument( arg );
 	return type_object;

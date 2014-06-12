@@ -11,7 +11,8 @@
  * OpenSceneGraph Public License for more details.
 */
 
-#include <string.h>
+#include <string>
+#include <iostream>
 #include "IfcPPException.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "IfcPPObject.h"
@@ -19,13 +20,13 @@
 IfcPPBool::IfcPPBool(){}
 IfcPPBool::IfcPPBool( bool value ) : m_value(value) {}
 IfcPPBool::~IfcPPBool(){}
-void IfcPPBool::readArgument( const std::string& attribute_value )
+void IfcPPBool::readArgument( const std::wstring& attribute_value )
 {
-	if( _stricmp( attribute_value.c_str(), ".F." ) == 0 )
+	if( boost::iequals( attribute_value, L".F." ) )
 	{
 		m_value = false;
 	}
-	else if( _stricmp( attribute_value.c_str(), ".T." ) == 0 )
+	else if( boost::iequals( attribute_value, L".T." ) )
 	{
 		m_value = true;;
 	}
@@ -34,17 +35,17 @@ void IfcPPBool::readArgument( const std::string& attribute_value )
 IfcPPLogical::IfcPPLogical(){}
 IfcPPLogical::IfcPPLogical( LogicalEnum value ) : m_value(value) {}
 IfcPPLogical::~IfcPPLogical(){}
-void IfcPPLogical::readArgument( const std::string& attribute_value )
+void IfcPPLogical::readArgument( const std::wstring& attribute_value )
 {
-	if( _stricmp( attribute_value.c_str(), ".F." ) == 0 )
+	if( boost::iequals(attribute_value, L".F." ) )
 	{
 		m_value = LOGICAL_FALSE;
 	}
-	else if( _stricmp( attribute_value.c_str(), ".T." ) == 0 )
+	else if( boost::iequals( attribute_value, L".T." ) )
 	{
 		m_value = LOGICAL_TRUE;
 	}
-	else if( _stricmp( attribute_value.c_str(), ".U." ) == 0 )
+	else if( boost::iequals( attribute_value, L".U." ) )
 	{
 		m_value = LOGICAL_UNKNOWN;;
 	}
@@ -53,24 +54,24 @@ void IfcPPLogical::readArgument( const std::string& attribute_value )
 IfcPPInt::IfcPPInt(){}
 IfcPPInt::IfcPPInt( int value ) : m_value(value) {}
 IfcPPInt::~IfcPPInt(){}
-void IfcPPInt::readArgument( const std::string& attribute_value )
+void IfcPPInt::readArgument( const std::wstring& attribute_value )
 {
-	m_value = atoi( attribute_value.c_str() );
+	m_value = std::stoi( attribute_value );
 }
 
 
 IfcPPReal::IfcPPReal(){}
 IfcPPReal::IfcPPReal( double value ) : m_value(value) {}
 IfcPPReal::~IfcPPReal(){}
-void IfcPPReal::readArgument( const std::string& attribute_value )
+void IfcPPReal::readArgument( const std::wstring& attribute_value )
 {
-	m_value = atof( attribute_value.c_str() );
+	m_value = std::stod( attribute_value.c_str() );
 }
 
 IfcPPString::IfcPPString(){}
-IfcPPString::IfcPPString( std::string& value ) : m_value(value) {}
+IfcPPString::IfcPPString( std::wstring& value ) : m_value(value) {}
 IfcPPString::~IfcPPString(){}
-void IfcPPString::readArgument( const std::string& attribute_value )
+void IfcPPString::readArgument( const std::wstring& attribute_value )
 {
 	if( attribute_value.size() < 2 )
 	{
@@ -105,7 +106,7 @@ void IfcPPEntity::setId( int id )
 	m_id = id;
 }
 
-void IfcPPEntity::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPPEntity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	throw IfcPPException("IfcPPEntity::readStepArguments(), this method should be overwritten");
 }

@@ -44,24 +44,25 @@ void IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	shared_ptr<IfcColumnTypeEnum> type_object( new IfcColumnTypeEnum() );
-	if( _stricmp( arg.c_str(), ".COLUMN." ) == 0 )
+	if( boost::iequals( arg, L".COLUMN." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_COLUMN;
 	}
-	else if( _stricmp( arg.c_str(), ".PILASTER." ) == 0 )
+	else if( boost::iequals( arg, L".PILASTER." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_PILASTER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_NOTDEFINED;
 	}

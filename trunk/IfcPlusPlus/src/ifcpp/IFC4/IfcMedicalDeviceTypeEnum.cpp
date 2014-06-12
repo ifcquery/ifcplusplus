@@ -56,36 +56,37 @@ void IfcMedicalDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
 	shared_ptr<IfcMedicalDeviceTypeEnum> type_object( new IfcMedicalDeviceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AIRSTATION." ) == 0 )
+	if( boost::iequals( arg, L".AIRSTATION." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_AIRSTATION;
 	}
-	else if( _stricmp( arg.c_str(), ".FEEDAIRUNIT." ) == 0 )
+	else if( boost::iequals( arg, L".FEEDAIRUNIT." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_FEEDAIRUNIT;
 	}
-	else if( _stricmp( arg.c_str(), ".OXYGENGENERATOR." ) == 0 )
+	else if( boost::iequals( arg, L".OXYGENGENERATOR." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_OXYGENGENERATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".OXYGENPLANT." ) == 0 )
+	else if( boost::iequals( arg, L".OXYGENPLANT." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_OXYGENPLANT;
 	}
-	else if( _stricmp( arg.c_str(), ".VACUUMSTATION." ) == 0 )
+	else if( boost::iequals( arg, L".VACUUMSTATION." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_VACUUMSTATION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -19,13 +19,13 @@
 // TYPE IfcResourceSelect 
 IfcResourceSelect::IfcResourceSelect() {}
 IfcResourceSelect::~IfcResourceSelect() {}
-shared_ptr<IfcResourceSelect> IfcResourceSelect::createObjectFromStepData( const std::string& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcResourceSelect> IfcResourceSelect::createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// Read SELECT TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcResourceSelect>(); }
 	if( arg[0] == '#' )
 	{
-		int id=atoi( arg.substr(1,arg.length()-1).c_str() );
+		int id=std::stoi( arg.substr(1,arg.length()-1).c_str() );
 		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map.find( id );
 		if( it_entity != map.end() )
 		{
@@ -39,19 +39,19 @@ shared_ptr<IfcResourceSelect> IfcResourceSelect::createObjectFromStepData( const
 			throw IfcPPException( strs.str() );
 		}
 	}
-	else if( arg.compare("$")==0 )
+	else if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcResourceSelect>();
 	}
-	else if( arg.compare("*")==0 )
+	else if( arg.compare(L"*")==0 )
 	{
 		return shared_ptr<IfcResourceSelect>();
 	}
 	else
 	{
 		// inline arguments
-		std::string keyword;
-		std::string inline_arg;
+		std::wstring keyword;
+		std::wstring inline_arg;
 		tokenizeInlineArgument( arg, keyword, inline_arg );
 		shared_ptr<IfcPPObject> result_object;
 		readInlineTypeOrEntity( keyword, inline_arg, result_object, map );
@@ -64,7 +64,7 @@ shared_ptr<IfcResourceSelect> IfcResourceSelect::createObjectFromStepData( const
 				return result_ptr_self;
 			}
 		}
-		std::stringstream strs;
+		std::wstringstream strs;
 		strs << "unhandled inline argument: " << arg << " in function IfcResourceSelect::readStepData" << std::endl;
 		throw IfcPPException( strs.str() );
 	}

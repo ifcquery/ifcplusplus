@@ -29,6 +29,6 @@ public:
 	~IfcSoundPowerLevelMeasure();
 	virtual const char* classname() const { return "IfcSoundPowerLevelMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcSoundPowerLevelMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcSoundPowerLevelMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

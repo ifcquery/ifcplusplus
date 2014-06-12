@@ -48,28 +48,29 @@ void IfcSurfaceFeatureTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
 	shared_ptr<IfcSurfaceFeatureTypeEnum> type_object( new IfcSurfaceFeatureTypeEnum() );
-	if( _stricmp( arg.c_str(), ".MARK." ) == 0 )
+	if( boost::iequals( arg, L".MARK." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_MARK;
 	}
-	else if( _stricmp( arg.c_str(), ".TAG." ) == 0 )
+	else if( boost::iequals( arg, L".TAG." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_TAG;
 	}
-	else if( _stricmp( arg.c_str(), ".TREATMENT." ) == 0 )
+	else if( boost::iequals( arg, L".TREATMENT." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_TREATMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_NOTDEFINED;
 	}

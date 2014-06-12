@@ -55,7 +55,7 @@ void IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& str
 	stream << ");";
 }
 void IfcReparametrisedCompositeCurveSegment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReparametrisedCompositeCurveSegment, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -63,8 +63,8 @@ void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vecto
 	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcReparametrisedCompositeCurveSegment, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
 	m_Transition = IfcTransitionCode::createObjectFromStepData( args[0] );
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_SameSense = false; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_SameSense = true; }
+	if( boost::iequals( args[1], L".F." ) ) { m_SameSense = false; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_SameSense = true; }
 	readEntityReference( args[2], m_ParentCurve, map );
 	m_ParamLength = IfcParameterValue::createObjectFromStepData( args[3] );
 }

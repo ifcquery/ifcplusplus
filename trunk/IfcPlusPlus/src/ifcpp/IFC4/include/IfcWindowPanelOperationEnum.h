@@ -46,7 +46,7 @@ public:
 	~IfcWindowPanelOperationEnum();
 	virtual const char* classname() const { return "IfcWindowPanelOperationEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcWindowPanelOperationEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcWindowPanelOperationEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcWindowPanelOperationEnumEnum m_enum;
 };
 

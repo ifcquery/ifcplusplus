@@ -31,10 +31,11 @@ void IfcThermodynamicTemperatureMeasure::getStepParameter( std::stringstream& st
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcThermodynamicTemperatureMeasure> IfcThermodynamicTemperatureMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcThermodynamicTemperatureMeasure> IfcThermodynamicTemperatureMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
 	shared_ptr<IfcThermodynamicTemperatureMeasure> type_object( new IfcThermodynamicTemperatureMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

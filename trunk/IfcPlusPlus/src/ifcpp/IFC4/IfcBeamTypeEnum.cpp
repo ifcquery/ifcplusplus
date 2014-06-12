@@ -60,40 +60,41 @@ void IfcBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	shared_ptr<IfcBeamTypeEnum> type_object( new IfcBeamTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BEAM." ) == 0 )
+	if( boost::iequals( arg, L".BEAM." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_BEAM;
 	}
-	else if( _stricmp( arg.c_str(), ".JOIST." ) == 0 )
+	else if( boost::iequals( arg, L".JOIST." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_JOIST;
 	}
-	else if( _stricmp( arg.c_str(), ".HOLLOWCORE." ) == 0 )
+	else if( boost::iequals( arg, L".HOLLOWCORE." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_HOLLOWCORE;
 	}
-	else if( _stricmp( arg.c_str(), ".LINTEL." ) == 0 )
+	else if( boost::iequals( arg, L".LINTEL." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_LINTEL;
 	}
-	else if( _stricmp( arg.c_str(), ".SPANDREL." ) == 0 )
+	else if( boost::iequals( arg, L".SPANDREL." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_SPANDREL;
 	}
-	else if( _stricmp( arg.c_str(), ".T_BEAM." ) == 0 )
+	else if( boost::iequals( arg, L".T_BEAM." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_T_BEAM;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_NOTDEFINED;
 	}

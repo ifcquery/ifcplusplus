@@ -64,44 +64,45 @@ void IfcDoorStyleConstructionEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
 	shared_ptr<IfcDoorStyleConstructionEnum> type_object( new IfcDoorStyleConstructionEnum() );
-	if( _stricmp( arg.c_str(), ".ALUMINIUM." ) == 0 )
+	if( boost::iequals( arg, L".ALUMINIUM." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_ALUMINIUM;
 	}
-	else if( _stricmp( arg.c_str(), ".HIGH_GRADE_STEEL." ) == 0 )
+	else if( boost::iequals( arg, L".HIGH_GRADE_STEEL." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_HIGH_GRADE_STEEL;
 	}
-	else if( _stricmp( arg.c_str(), ".STEEL." ) == 0 )
+	else if( boost::iequals( arg, L".STEEL." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_STEEL;
 	}
-	else if( _stricmp( arg.c_str(), ".WOOD." ) == 0 )
+	else if( boost::iequals( arg, L".WOOD." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_WOOD;
 	}
-	else if( _stricmp( arg.c_str(), ".ALUMINIUM_WOOD." ) == 0 )
+	else if( boost::iequals( arg, L".ALUMINIUM_WOOD." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_ALUMINIUM_WOOD;
 	}
-	else if( _stricmp( arg.c_str(), ".ALUMINIUM_PLASTIC." ) == 0 )
+	else if( boost::iequals( arg, L".ALUMINIUM_PLASTIC." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_ALUMINIUM_PLASTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".PLASTIC." ) == 0 )
+	else if( boost::iequals( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_PLASTIC;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_NOTDEFINED;
 	}

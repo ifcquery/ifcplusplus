@@ -31,10 +31,11 @@ void IfcLinearForceMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
 	shared_ptr<IfcLinearForceMeasure> type_object( new IfcLinearForceMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

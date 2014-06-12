@@ -88,68 +88,69 @@ void IfcRoofTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRoofTypeEnum> IfcRoofTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRoofTypeEnum> IfcRoofTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
 	shared_ptr<IfcRoofTypeEnum> type_object( new IfcRoofTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FLAT_ROOF." ) == 0 )
+	if( boost::iequals( arg, L".FLAT_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_FLAT_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".SHED_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".SHED_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_SHED_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".GABLE_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".GABLE_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_GABLE_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".HIP_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".HIP_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_HIP_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".HIPPED_GABLE_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".HIPPED_GABLE_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_HIPPED_GABLE_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".GAMBREL_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".GAMBREL_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_GAMBREL_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".MANSARD_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".MANSARD_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_MANSARD_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".BARREL_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".BARREL_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_BARREL_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".RAINBOW_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".RAINBOW_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_RAINBOW_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".BUTTERFLY_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".BUTTERFLY_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_BUTTERFLY_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".PAVILION_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".PAVILION_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_PAVILION_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".DOME_ROOF." ) == 0 )
+	else if( boost::iequals( arg, L".DOME_ROOF." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_DOME_ROOF;
 	}
-	else if( _stricmp( arg.c_str(), ".FREEFORM." ) == 0 )
+	else if( boost::iequals( arg, L".FREEFORM." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_FREEFORM;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRoofTypeEnum::ENUM_NOTDEFINED;
 	}

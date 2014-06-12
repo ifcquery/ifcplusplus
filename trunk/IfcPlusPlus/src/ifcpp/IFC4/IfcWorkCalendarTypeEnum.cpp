@@ -48,28 +48,29 @@ void IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	shared_ptr<IfcWorkCalendarTypeEnum> type_object( new IfcWorkCalendarTypeEnum() );
-	if( _stricmp( arg.c_str(), ".FIRSTSHIFT." ) == 0 )
+	if( boost::iequals( arg, L".FIRSTSHIFT." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_FIRSTSHIFT;
 	}
-	else if( _stricmp( arg.c_str(), ".SECONDSHIFT." ) == 0 )
+	else if( boost::iequals( arg, L".SECONDSHIFT." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_SECONDSHIFT;
 	}
-	else if( _stricmp( arg.c_str(), ".THIRDSHIFT." ) == 0 )
+	else if( boost::iequals( arg, L".THIRDSHIFT." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_THIRDSHIFT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -39,7 +39,7 @@ public:
 	~IfcElectricMotorTypeEnum();
 	virtual const char* classname() const { return "IfcElectricMotorTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcElectricMotorTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcElectricMotorTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcElectricMotorTypeEnumEnum m_enum;
 };
 

@@ -45,7 +45,7 @@ void IfcTableRow::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTableRow::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTableRow::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -53,8 +53,8 @@ void IfcTableRow::readStepArguments( const std::vector<std::string>& args, const
 	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
 	readSelectList( args[0], m_RowCells, map );
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_IsHeading = false; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_IsHeading = true; }
+	if( boost::iequals( args[1], L".F." ) ) { m_IsHeading = false; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_IsHeading = true; }
 }
 void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

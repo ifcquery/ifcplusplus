@@ -40,20 +40,21 @@ void IfcLayerSetDirectionEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	shared_ptr<IfcLayerSetDirectionEnum> type_object( new IfcLayerSetDirectionEnum() );
-	if( _stricmp( arg.c_str(), ".AXIS1." ) == 0 )
+	if( boost::iequals( arg, L".AXIS1." ) )
 	{
 		type_object->m_enum = IfcLayerSetDirectionEnum::ENUM_AXIS1;
 	}
-	else if( _stricmp( arg.c_str(), ".AXIS2." ) == 0 )
+	else if( boost::iequals( arg, L".AXIS2." ) )
 	{
 		type_object->m_enum = IfcLayerSetDirectionEnum::ENUM_AXIS2;
 	}
-	else if( _stricmp( arg.c_str(), ".AXIS3." ) == 0 )
+	else if( boost::iequals( arg, L".AXIS3." ) )
 	{
 		type_object->m_enum = IfcLayerSetDirectionEnum::ENUM_AXIS3;
 	}

@@ -33,14 +33,17 @@
 static std::map<std::string,IfcPPEntityEnum> map_string2entity_enum(initializers_IfcPP_entity, initializers_IfcPP_entity + sizeof(initializers_IfcPP_entity)/sizeof(initializers_IfcPP_entity[0]));
 static std::map<std::string,IfcPPTypeEnum> map_string2type_enum(initializers_IfcPP_type, initializers_IfcPP_type + sizeof(initializers_IfcPP_type)/sizeof(initializers_IfcPP_type[0]));
 
-void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::string>& args );
+void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args );
 void applyBackwardCompatibility( std::string& keyword, std::string& step_line );
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::string& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
+shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
 IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 void findEndOfString( char*& stream_pos );
+void findEndOfWString( wchar_t*& stream_pos );
 
-IfcPPTypeEnum findTypeEnumForString( const std::string& type_name )
+IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name_w )
 {
+	std::string type_name;
+	type_name.assign(type_name_w.begin(), type_name_w.end());
 	std::map<std::string,IfcPPTypeEnum>::iterator it_type_enum = map_string2type_enum.find( type_name );
 	if( it_type_enum != map_string2type_enum.end() )
 	{
@@ -51,8 +54,10 @@ IfcPPTypeEnum findTypeEnumForString( const std::string& type_name )
 }
 
 
-IfcPPEntityEnum findEntityEnumForString( const std::string& entity_name )
+IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name_w )
 {
+	std::string entity_name;
+	entity_name.assign(entity_name_w.begin(), entity_name_w.end());
 	std::map<std::string,IfcPPEntityEnum>::iterator it_enum = map_string2entity_enum.find( entity_name );
 	if( it_enum != map_string2entity_enum.end() )
 	{
@@ -152,7 +157,8 @@ void readSingleStepLine( const std::string& line, shared_ptr<IfcPPEntity>& entit
 				entity->m_entity_enum = entity_enum;
 				
 				size_t sub_length = line.size() -(stream_pos-line.c_str());
-				entity->m_entity_argument_str.assign( stream_pos, sub_length );
+				std::string entity_arg(stream_pos, sub_length);
+				entity->m_entity_argument_str.assign( entity_arg.begin(), entity_arg.end() );
 			}
 		}
 	}
@@ -162,15 +168,8 @@ void readSingleStepLine( const std::string& line, shared_ptr<IfcPPEntity>& entit
 //////////////////////////////////////////////////////////////////////////////////////////////////
 IfcStepReader::IfcStepReader()
 {
-#ifdef _DEBUG
-	// TODO: use std::wstring for unicode chars 
-	std::vector<std::string> vec_in;
-	std::vector<std::wstring> vec_out;
-	vec_in.push_back( "\\X2\\041A0416\\X0\\-\\X2\\041F041B0418\\X0\\-\\X2\\041F04150420\\X0\\-\\X2\\041104150422041E041D\\X0\\;" );
-	decodeArgumentStrings( vec_in );
-	decodeArgumentStrings( vec_in, vec_out );
-#endif
 }
+
 IfcStepReader::~IfcStepReader()
 {
 }
@@ -182,11 +181,11 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 		throw IfcPPException( "Model not set.", __func__ );
 	}
 
-	m_model->m_file_header = "";
+	m_model->m_file_header = L"";
 	m_model->m_ifc_schema_version = IfcPPModel::IFC_VERSION_UNDEFINED;
-	m_model->m_IFC_FILE_DESCRIPTION = "";
-	m_model->m_IFC_FILE_NAME = "";
-	m_model->m_IFC_FILE_SCHEMA = "";
+	m_model->m_IFC_FILE_DESCRIPTION = L"";
+	m_model->m_IFC_FILE_NAME = L"";
+	m_model->m_IFC_FILE_SCHEMA = L"";
 	
 	size_t file_header_start = read_in.find("HEADER;");
 	size_t file_header_end = read_in.find("ENDSEC;");
@@ -198,10 +197,16 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 	file_header_start += 7;
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
+	std::vector<std::wstring> vec_header_wstr;
 	vec_header.push_back( file_header );
-	decodeArgumentStrings( vec_header );
-	file_header = vec_header[0];
-	m_model->setFileHeader( file_header );
+	decodeArgumentStrings( vec_header, vec_header_wstr );
+	
+	std::wstring file_header_wstr;
+	if( vec_header_wstr.size() > 0 )
+	{
+		file_header_wstr = vec_header_wstr[0];
+	}
+	m_model->setFileHeader( file_header_wstr );
 	
 	std::vector<std::string> vec_header_lines;
 	// split into lines
@@ -234,23 +239,25 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 	for( int i=0; i<vec_header_lines.size(); ++i )
 	{
 		std::string header_line = vec_header_lines[i];
+		std::wstring header_line_wstr;
+		header_line_wstr.assign(header_line.begin(), header_line.end());
 
 		if( header_line.find("FILE_DESCRIPTION") != std::string::npos )
 		{
-			m_model->setFileDescription( header_line );
+			m_model->setFileDescription( header_line_wstr );
 			continue;
 		}
 
 		if( header_line.find("FILE_NAME") != std::string::npos )
 		{
-			m_model->setFileName( header_line );
+			m_model->setFileName( header_line_wstr );
 			continue;
 		}
 
 		if( header_line.find("FILE_SCHEMA") != std::string::npos )
 		{
 			size_t file_schema_begin = header_line.find("FILE_SCHEMA") + 11;
-			m_model->setFileSchema( header_line );
+			m_model->setFileSchema( header_line_wstr );
 
 			std::string file_schema_args = header_line.substr( 11 );
 			size_t find_whitespace = file_schema_args.find(" ");
@@ -301,77 +308,26 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 	}
 }
 
-void IfcStepReader::splitIntoStepLines( const std::string& read_in, std::vector<std::string>& target_vec )
+void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<std::string>& target_vec)
 {
 	// set progress to 0
 	double progress = 0.0;
-	progressCallback( progress, "parse" );
+	progressCallback(progress, "parse");
 	const int length = (int)read_in.length();
 
 	// sort out comments like /* ... */
-	std::string buffer;
-	buffer.resize( length );
-	char* stream_pos_source = (char*)&read_in[0];
-	char* stream_pos = &buffer[0];
+	char* stream_pos = (char*)&read_in[0];
 
-	while( *stream_pos_source != '\0' )
-	{
-		if( *stream_pos_source == '*' )
-		{
-			if( *(stream_pos_source-1) == '/' )
-			{
-				--stream_pos;
-				// we are inside comment now, proceed to end of comment
-				++stream_pos_source;
-				while( *stream_pos_source != '\0' )
-				{
-					if( *stream_pos_source == '/' )
-					{
-						if( *(stream_pos_source-1) == '*' )
-						{
-							break;
-						}
-					}
-					++stream_pos_source;
-				}
-				++stream_pos_source;
-				continue;
-			}
-		}
-		else if( *stream_pos_source == '\'' )
-		{
-			copyToEndOfStepString( stream_pos, stream_pos_source );
-		}
-
-		if( *stream_pos_source == '\r' )
-		{
-			// omit newlines
-			++stream_pos_source;
-			continue;
-		}
-		
-		if( *stream_pos_source == '\n' )
-		{
-			// omit newlines
-			++stream_pos_source;
-			continue;
-		}
-		*(stream_pos++) = *(stream_pos_source++);
-	}
-	// copy end of string
-	*(stream_pos) = *(stream_pos_source);
 
 	// find beginning of data lines
-	stream_pos = &buffer[0];
-	stream_pos = strstr( stream_pos, "DATA;" );
-	if( stream_pos != nullptr )
+	stream_pos = strstr(stream_pos, "DATA;");
+	if( stream_pos != NULL )
 	{
 		stream_pos += 5;
-		while(isspace(*stream_pos)){++stream_pos;}
+		while( isspace(*stream_pos) ){ ++stream_pos; }
 	}
-	
+
 	// find the first data line
-	stream_pos = &buffer[0];
 	while( *stream_pos != '\0' )
 	{
 		if( *stream_pos == '#' )
@@ -382,43 +338,96 @@ void IfcStepReader::splitIntoStepLines( const std::string& read_in, std::vector<
 	}
 
 	// split into data lines: #1234=IFCOBJECTNAME(...,...,(...,...),...);
-	char* last_token = stream_pos;
+
 	char* progress_anchor = stream_pos;
+
+	std::string single_step_line = "";
 
 	while( *stream_pos != '\0' )
 	{
+		if( *stream_pos == '*' )
+		{
+			if( *( stream_pos - 1 ) == '/' )
+			{
+				--stream_pos;
+				// we are inside comment now, proceed to end of comment
+				++stream_pos;
+				while( *stream_pos != '\0' )
+				{
+					if( *stream_pos == '/' )
+					{
+						if( *( stream_pos - 1 ) == '*' )
+						{
+							break;
+						}
+					}
+					++stream_pos;
+				}
+				++stream_pos;
+				continue;
+			}
+		}
+
+		if( *stream_pos == '\r' )
+		{
+			// omit newlines
+			++stream_pos;
+			continue;
+		}
+
+		if( *stream_pos == '\n' )
+		{
+			// omit newlines
+			++stream_pos;
+			continue;
+		}
+
+
+		if( isspace(*stream_pos) ){
+			++stream_pos;
+			continue;
+		}
+
 		if( *stream_pos == '\'' )
 		{
-			findEndOfString( stream_pos );
-			++stream_pos;
+			char* string_start = stream_pos;
+			findEndOfString(stream_pos);
+
+			std::string s(string_start, stream_pos - string_start);
+
+			single_step_line += s;
+
+			//++stream_pos;
 			continue;
 		}
 
 		if( *stream_pos == ';' )
 		{
-			char* begin_line = last_token;
-			if( *begin_line == '#' )
+			if( single_step_line[0] == '#' )
 			{
-				std::string single_step_line( begin_line, stream_pos-last_token );
-				target_vec.push_back( single_step_line );
+
+				target_vec.push_back(single_step_line);
+				single_step_line = "";
 			}
 
 			++stream_pos;
-			while(isspace(*stream_pos)){++stream_pos;}
-			last_token = stream_pos;
+			while( isspace(*stream_pos) ){ ++stream_pos; }
+
 
 			if( target_vec.size() % 100 == 0 )
 			{
-				double progress_since_anchor = (double)(stream_pos-progress_anchor)/double(length);
+				double progress_since_anchor = (double)( stream_pos - progress_anchor ) / double(length);
 				if( progress_since_anchor > 0.03 )
 				{
-					progress = 0.2*(double)(stream_pos-&buffer[0])/double(length);
-					progressCallback( progress, "parse" );
+					progress = 0.2*(double)( stream_pos - &read_in[0] ) / double(length);
+					progressCallback(progress, "parse");
 					progress_anchor = stream_pos;
 				}
 			}
 			continue;
 		}
+
+		single_step_line += *stream_pos;
 		++stream_pos;
 	}
 }
@@ -550,20 +559,21 @@ void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntit
 			shared_ptr<IfcPPEntity> entity = vec_entities_ptr->at(i);
 			std::string& argument_str = entity->m_entity_argument_str;
 			std::vector<std::string> arguments;
+			std::vector<std::wstring> arguments_w;
 			tokenizeEntityArguments( argument_str, arguments );
 
 #ifndef SET_ENTIY_ARGUMENT_STRING
 			entity->m_entity_argument_str = "";
 #endif
 			// character decoding:
-			decodeArgumentStrings( arguments );
+			decodeArgumentStrings( arguments, arguments_w );
 
 			if( m_model->getIfcSchemaVersion() != IfcPPModel::IFC4 )
 			{
 				if( m_model->getIfcSchemaVersion() != IfcPPModel::IFC_VERSION_UNDEFINED && m_model->getIfcSchemaVersion() != IfcPPModel::IFC_VERSION_UNKNOWN )
 				{
 					IfcPPEntityEnum entity_enum = entity->m_entity_enum;
-					applyBackwardCompatibility( m_model, entity_enum, arguments );
+					applyBackwardCompatibility( m_model, entity_enum, arguments_w );
 				}
 			}
 #ifdef _DEBUG
@@ -572,7 +582,7 @@ void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntit
 
 			try
 			{
-				entity->readStepArguments( arguments, map_loc );
+				entity->readStepArguments( arguments_w, map_loc );
 			}
 			catch( std::exception& e )
 			{
@@ -627,8 +637,8 @@ void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,sha
 
 	if( m_model->getIfcSchemaVersion()  == IfcPPModel::IFC_VERSION_UNDEFINED || m_model->getIfcSchemaVersion() == IfcPPModel::IFC_VERSION_UNKNOWN )
 	{
-		std::string error_message;
-		error_message.append( "Unsupported IFC version: " );
+		std::wstring error_message;
+		error_message.append( L"Unsupported IFC version: " );
 		error_message.append( m_model->getFileSchema() );
 		errorCallback( error_message );
 		progressCallback(0.0, "parse");
@@ -637,7 +647,7 @@ void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,sha
 	
 	//std::string message( "Detected IFC version: " );
 	//message.append( m_model->getFileSchema() );
-	messageCallback( std::string( "Detected IFC version: ") + m_model->getFileSchema() );
+	messageCallback( std::wstring( L"Detected IFC version: ") + m_model->getFileSchema() );
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;
@@ -729,10 +739,16 @@ void applyBackwardCompatibility( std::string& keyword, std::string& step_line )
 	
 }
 
-void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::string>& args )
+void appendEmptyArgs(std::vector<std::wstring>& args, const size_t target_size)
+{
+	while( args.size() > target_size ){ args.pop_back(); }
+	while( args.size() < target_size ){	args.push_back( L"$" );	}
+}
+
+void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
 {
 	IfcPPModel::IfcVersion version = ifc_model->getIfcSchemaVersion();
-	std::string ifc_file_name = ifc_model->getFileName();
+	std::wstring ifc_file_name = ifc_model->getFileName();
 
 	// TODO: replace this workaround with a systematic backward compatibility, possibly generated from schema diff
 	if( version < IfcPPModel::IFC2X )
@@ -746,216 +762,208 @@ void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityE
 		{
 			// B
 		case IFCBEAM:
-			while( args.size() < 9 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCBUILDINGELEMENTPART:
-			while( args.size() < 9 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 			// C
 		case IFCCLASSIFICATION:
-			while( args.size() < 7 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 7);
 			break;
 		case IFCCLASSIFICATIONREFERENCE:
-			while( args.size() < 6 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 6);
 			break;
 		case IFCCOLOURRGB:
 			if( args.size() == 3 ) //#315= IFCCOLOURRGB($,0.65882353,0.6627451,0.61960784);
 			{
-				args.insert( args.begin(), "$" );
+				args.insert( args.begin(), L"$" );
 			}
 			break;
 		case IFCCOLUMN:
-			while( args.size() < 9 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCCSHAPEPROFILEDEF:
-			while( args.size() < 8 ){	args.push_back( "$" );	}
-			while( args.size() > 8 ){	args.pop_back();	}
+			appendEmptyArgs(args, 8);
 			break;
 		case IFCCURTAINWALL:
-			while( args.size() < 9 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCCURVESTYLE:
-			while( args.size() < 5 ){	args.push_back( "$" );}
+			appendEmptyArgs(args, 5);
 			break;
 			//D
 		case IFCDISCRETEACCESSORY:
-			while( args.size() < 9 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCDISCRETEACCESSORYTYPE:
-			while( args.size() < 10 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 10);
 			break;
 		case IFCDISTRIBUTIONPORT:
-			while( args.size() < 10 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 10);
 			break;
 		case IFCDOCUMENTREFERENCE:
-			while( args.size() < 5 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 		case IFCDOOR:
-			while( args.size() < 13 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 13);
 			break;
 		case IFCDOORLININGPROPERTIES:
-			while( args.size() < 17 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 17);
 			break;
 			// F
 		case IFCFILLAREASTYLE:
-			while( args.size() < 3 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 3);
 			break;
 		case IFCFLOWTERMINAL:
-			while( args.size() < 8 ){	args.push_back( "$" );	}
-			while( args.size() > 8 ) {	args.pop_back();	}
+			appendEmptyArgs(args, 8);
 			break;
 		case IFCFURNITURETYPE:
-			while( args.size() < 11 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 11);
 			break;
 
 			// I
 		case IFCISHAPEPROFILEDEF:
-			while( args.size() < 10 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 10);
 			break;
 
 			// L
 		case IFCLIBRARYREFERENCE:
-			while( args.size() < 6 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 6);
 			break;
 		case IFCLSHAPEPROFILEDEF:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
-			while( args.size() > 9 ) {	args.pop_back();	}
+			appendEmptyArgs(args, 9);
 			break;
 			// M
 		case IFCMATERIAL:
-			while( args.size() < 3 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 3);
 			break;
 		case IFCMATERIALLAYER:
-			while( args.size() < 7 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 7);
 			break;
 		case IFCMATERIALLAYERSET:
-			while( args.size() < 3 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 3);
 			break;
 		case IFCMATERIALLAYERSETUSAGE:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 		case IFCMATERIALPROFILESETUSAGE:
-			while( args.size() < 3 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 3);
 			break;
 		case IFCMECHANICALFASTENER:
-			while( args.size() < 11 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 11);
 			break;
 		case IFCMECHANICALFASTENERTYPE:
-			while( args.size() < 12 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 12);
 			break;
-
 		case IFCMEMBER:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		
 			// O
 		case IFCOPENINGELEMENT:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 
 			// P
 		case IFCPLATE:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCPROJECT:
-			while( args.size() < 9 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCPROPERTYBOUNDEDVALUE:
-			while( args.size() < 6 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 6);
 			break;
 		case IFCPROPERTYSINGLEVALUE:
-			while( args.size() < 4 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 4);
 			break;
 		case IFCPROPERTYTABLEVALUE:
-			while (args.size() < 8){ args.push_back("$"); }
+			appendEmptyArgs(args, 8);
 			break;
 			
-
 			// Q
 		case IFCQUANTITYAREA:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 		case IFCQUANTITYCOUNT:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 		case IFCQUANTITYLENGTH:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 		case IFCQUANTITYVOLUME:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 		case IFCQUANTITYWEIGHT:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 
 			// R
 		case IFCRAMPFLIGHT:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCREINFORCINGMESH:
-			while( args.size() < 18 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 18);
 			break;
 
 			// S
 		case IFCSIMPLEPROPERTYTEMPLATE:
-			while( args.size() < 12 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 12);
 			break;
 		case IFCSTAIRFLIGHT:
-			while( args.size() < 13 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 13);
 			break;
 		case IFCSTRUCTURALANALYSISMODEL:
-			while( args.size() < 10 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 10);
 			break;
 		case IFCSTRUCTURALPOINTCONNECTION:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCSTRUCTURALCURVEMEMBER:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCSURFACESTYLE:
-			while( args.size() < 3 ) {	args.insert( args.begin()+1, "$" );	}
+			appendEmptyArgs(args, 3);
 			break;
 		case IFCSYSTEMFURNITUREELEMENTTYPE:
-			while( args.size() < 10 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 10);
 			break;
 
 			// T
 		case IFCTSHAPEPROFILEDEF:
-			while( args.size() < 12 ) {	args.push_back( "$" );	}
-			while( args.size() > 12 ) {	args.pop_back();	}
+			appendEmptyArgs(args, 12);
 			break;
 		
 		case IFCTEXTSTYLE:
-			while( args.size() < 5 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 5);
 			break;
 
 		case IFCTRANSPORTELEMENT:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
-			while( args.size() > 9 ) {	args.pop_back();	}
+			appendEmptyArgs(args, 9);
 			break;
 
 			// U
 		case IFCUSHAPEPROFILEDEF:
-			while( args.size() < 10 ) {	args.push_back( "$" );	}
-			while( args.size() > 10 ) {	args.pop_back();	}
+			appendEmptyArgs(args, 10);
 			break;
 
 			// W
 		case IFCWALL:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCWALLSTANDARDCASE:
-			while( args.size() < 9 ) {	args.push_back( "$" );	}
+			appendEmptyArgs(args, 9);
 			break;
 		case IFCWINDOW:
-			while( args.size() < 13 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 13);
 			break;
 		case IFCWINDOWLININGPROPERTIES:
-			while( args.size() < 16 ){	args.push_back( "$" );	}
+			appendEmptyArgs(args, 16);
 			break;
 
 		case IFCZONE:
-			args.push_back( "$" );
+			appendEmptyArgs(args, 6);
 			break;
 		}
 	}

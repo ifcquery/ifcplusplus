@@ -48,28 +48,29 @@ void IfcElectricGeneratorTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	shared_ptr<IfcElectricGeneratorTypeEnum> type_object( new IfcElectricGeneratorTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CHP." ) == 0 )
+	if( boost::iequals( arg, L".CHP." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_CHP;
 	}
-	else if( _stricmp( arg.c_str(), ".ENGINEGENERATOR." ) == 0 )
+	else if( boost::iequals( arg, L".ENGINEGENERATOR." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_ENGINEGENERATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".STANDALONE." ) == 0 )
+	else if( boost::iequals( arg, L".STANDALONE." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_STANDALONE;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_NOTDEFINED;
 	}

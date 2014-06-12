@@ -60,40 +60,41 @@ void IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
 	shared_ptr<IfcRecurrenceTypeEnum> type_object( new IfcRecurrenceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".DAILY." ) == 0 )
+	if( boost::iequals( arg, L".DAILY." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_DAILY;
 	}
-	else if( _stricmp( arg.c_str(), ".WEEKLY." ) == 0 )
+	else if( boost::iequals( arg, L".WEEKLY." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_WEEKLY;
 	}
-	else if( _stricmp( arg.c_str(), ".MONTHLY_BY_DAY_OF_MONTH." ) == 0 )
+	else if( boost::iequals( arg, L".MONTHLY_BY_DAY_OF_MONTH." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_MONTHLY_BY_DAY_OF_MONTH;
 	}
-	else if( _stricmp( arg.c_str(), ".MONTHLY_BY_POSITION." ) == 0 )
+	else if( boost::iequals( arg, L".MONTHLY_BY_POSITION." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_MONTHLY_BY_POSITION;
 	}
-	else if( _stricmp( arg.c_str(), ".BY_DAY_COUNT." ) == 0 )
+	else if( boost::iequals( arg, L".BY_DAY_COUNT." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_BY_DAY_COUNT;
 	}
-	else if( _stricmp( arg.c_str(), ".BY_WEEKDAY_COUNT." ) == 0 )
+	else if( boost::iequals( arg, L".BY_WEEKDAY_COUNT." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_BY_WEEKDAY_COUNT;
 	}
-	else if( _stricmp( arg.c_str(), ".YEARLY_BY_DAY_OF_MONTH." ) == 0 )
+	else if( boost::iequals( arg, L".YEARLY_BY_DAY_OF_MONTH." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_YEARLY_BY_DAY_OF_MONTH;
 	}
-	else if( _stricmp( arg.c_str(), ".YEARLY_BY_POSITION." ) == 0 )
+	else if( boost::iequals( arg, L".YEARLY_BY_POSITION." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_YEARLY_BY_POSITION;
 	}

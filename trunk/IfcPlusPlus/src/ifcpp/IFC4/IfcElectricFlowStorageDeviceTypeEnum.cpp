@@ -56,36 +56,37 @@ void IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::stringstream& 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> IfcElectricFlowStorageDeviceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> IfcElectricFlowStorageDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
 	shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> type_object( new IfcElectricFlowStorageDeviceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BATTERY." ) == 0 )
+	if( boost::iequals( arg, L".BATTERY." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_BATTERY;
 	}
-	else if( _stricmp( arg.c_str(), ".CAPACITORBANK." ) == 0 )
+	else if( boost::iequals( arg, L".CAPACITORBANK." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_CAPACITORBANK;
 	}
-	else if( _stricmp( arg.c_str(), ".HARMONICFILTER." ) == 0 )
+	else if( boost::iequals( arg, L".HARMONICFILTER." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_HARMONICFILTER;
 	}
-	else if( _stricmp( arg.c_str(), ".INDUCTORBANK." ) == 0 )
+	else if( boost::iequals( arg, L".INDUCTORBANK." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_INDUCTORBANK;
 	}
-	else if( _stricmp( arg.c_str(), ".UPS." ) == 0 )
+	else if( boost::iequals( arg, L".UPS." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_UPS;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

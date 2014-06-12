@@ -31,10 +31,11 @@ void IfcEnergyMeasure::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
 	shared_ptr<IfcEnergyMeasure> type_object( new IfcEnergyMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

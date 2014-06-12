@@ -36,7 +36,7 @@ public:
 	~IfcRampFlightTypeEnum();
 	virtual const char* classname() const { return "IfcRampFlightTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcRampFlightTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcRampFlightTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcRampFlightTypeEnumEnum m_enum;
 };
 

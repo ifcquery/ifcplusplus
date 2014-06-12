@@ -52,32 +52,33 @@ void IfcCableSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCableSegmentTypeEnum> IfcCableSegmentTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcCableSegmentTypeEnum> IfcCableSegmentTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCableSegmentTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableSegmentTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableSegmentTypeEnum>(); }
 	shared_ptr<IfcCableSegmentTypeEnum> type_object( new IfcCableSegmentTypeEnum() );
-	if( _stricmp( arg.c_str(), ".BUSBARSEGMENT." ) == 0 )
+	if( boost::iequals( arg, L".BUSBARSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_BUSBARSEGMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".CABLESEGMENT." ) == 0 )
+	else if( boost::iequals( arg, L".CABLESEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_CABLESEGMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".CONDUCTORSEGMENT." ) == 0 )
+	else if( boost::iequals( arg, L".CONDUCTORSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_CONDUCTORSEGMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".CORESEGMENT." ) == 0 )
+	else if( boost::iequals( arg, L".CORESEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_CORESEGMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_NOTDEFINED;
 	}

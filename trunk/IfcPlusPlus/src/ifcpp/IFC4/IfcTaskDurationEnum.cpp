@@ -40,20 +40,21 @@ void IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
 	shared_ptr<IfcTaskDurationEnum> type_object( new IfcTaskDurationEnum() );
-	if( _stricmp( arg.c_str(), ".ELAPSEDTIME." ) == 0 )
+	if( boost::iequals( arg, L".ELAPSEDTIME." ) )
 	{
 		type_object->m_enum = IfcTaskDurationEnum::ENUM_ELAPSEDTIME;
 	}
-	else if( _stricmp( arg.c_str(), ".WORKTIME." ) == 0 )
+	else if( boost::iequals( arg, L".WORKTIME." ) )
 	{
 		type_object->m_enum = IfcTaskDurationEnum::ENUM_WORKTIME;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTaskDurationEnum::ENUM_NOTDEFINED;
 	}

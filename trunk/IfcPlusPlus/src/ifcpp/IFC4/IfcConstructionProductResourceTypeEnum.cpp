@@ -44,24 +44,25 @@ void IfcConstructionProductResourceTypeEnum::getStepParameter( std::stringstream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionProductResourceTypeEnum> type_object( new IfcConstructionProductResourceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ASSEMBLY." ) == 0 )
+	if( boost::iequals( arg, L".ASSEMBLY." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_ASSEMBLY;
 	}
-	else if( _stricmp( arg.c_str(), ".FORMWORK." ) == 0 )
+	else if( boost::iequals( arg, L".FORMWORK." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_FORMWORK;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_NOTDEFINED;
 	}

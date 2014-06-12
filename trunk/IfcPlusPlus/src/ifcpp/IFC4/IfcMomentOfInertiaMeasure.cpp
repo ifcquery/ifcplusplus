@@ -31,10 +31,11 @@ void IfcMomentOfInertiaMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMomentOfInertiaMeasure> IfcMomentOfInertiaMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcMomentOfInertiaMeasure> IfcMomentOfInertiaMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
 	shared_ptr<IfcMomentOfInertiaMeasure> type_object( new IfcMomentOfInertiaMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

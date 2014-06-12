@@ -60,40 +60,41 @@ void IfcFilterTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	shared_ptr<IfcFilterTypeEnum> type_object( new IfcFilterTypeEnum() );
-	if( _stricmp( arg.c_str(), ".AIRPARTICLEFILTER." ) == 0 )
+	if( boost::iequals( arg, L".AIRPARTICLEFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_AIRPARTICLEFILTER;
 	}
-	else if( _stricmp( arg.c_str(), ".COMPRESSEDAIRFILTER." ) == 0 )
+	else if( boost::iequals( arg, L".COMPRESSEDAIRFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_COMPRESSEDAIRFILTER;
 	}
-	else if( _stricmp( arg.c_str(), ".ODORFILTER." ) == 0 )
+	else if( boost::iequals( arg, L".ODORFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_ODORFILTER;
 	}
-	else if( _stricmp( arg.c_str(), ".OILFILTER." ) == 0 )
+	else if( boost::iequals( arg, L".OILFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_OILFILTER;
 	}
-	else if( _stricmp( arg.c_str(), ".STRAINER." ) == 0 )
+	else if( boost::iequals( arg, L".STRAINER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_STRAINER;
 	}
-	else if( _stricmp( arg.c_str(), ".WATERFILTER." ) == 0 )
+	else if( boost::iequals( arg, L".WATERFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_WATERFILTER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_NOTDEFINED;
 	}

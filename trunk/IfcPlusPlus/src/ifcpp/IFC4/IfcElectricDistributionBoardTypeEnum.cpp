@@ -52,32 +52,33 @@ void IfcElectricDistributionBoardTypeEnum::getStepParameter( std::stringstream& 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	shared_ptr<IfcElectricDistributionBoardTypeEnum> type_object( new IfcElectricDistributionBoardTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CONSUMERUNIT." ) == 0 )
+	if( boost::iequals( arg, L".CONSUMERUNIT." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_CONSUMERUNIT;
 	}
-	else if( _stricmp( arg.c_str(), ".DISTRIBUTIONBOARD." ) == 0 )
+	else if( boost::iequals( arg, L".DISTRIBUTIONBOARD." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_DISTRIBUTIONBOARD;
 	}
-	else if( _stricmp( arg.c_str(), ".MOTORCONTROLCENTRE." ) == 0 )
+	else if( boost::iequals( arg, L".MOTORCONTROLCENTRE." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_MOTORCONTROLCENTRE;
 	}
-	else if( _stricmp( arg.c_str(), ".SWITCHBOARD." ) == 0 )
+	else if( boost::iequals( arg, L".SWITCHBOARD." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_SWITCHBOARD;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_NOTDEFINED;
 	}

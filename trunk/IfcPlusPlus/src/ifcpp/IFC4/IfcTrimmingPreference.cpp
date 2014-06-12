@@ -40,20 +40,21 @@ void IfcTrimmingPreference::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
 	shared_ptr<IfcTrimmingPreference> type_object( new IfcTrimmingPreference() );
-	if( _stricmp( arg.c_str(), ".CARTESIAN." ) == 0 )
+	if( boost::iequals( arg, L".CARTESIAN." ) )
 	{
 		type_object->m_enum = IfcTrimmingPreference::ENUM_CARTESIAN;
 	}
-	else if( _stricmp( arg.c_str(), ".PARAMETER." ) == 0 )
+	else if( boost::iequals( arg, L".PARAMETER." ) )
 	{
 		type_object->m_enum = IfcTrimmingPreference::ENUM_PARAMETER;
 	}
-	else if( _stricmp( arg.c_str(), ".UNSPECIFIED." ) == 0 )
+	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcTrimmingPreference::ENUM_UNSPECIFIED;
 	}

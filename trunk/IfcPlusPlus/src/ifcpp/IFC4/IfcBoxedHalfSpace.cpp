@@ -50,7 +50,7 @@ void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoxedHalfSpace, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
@@ -58,8 +58,8 @@ void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::string>& args,
 	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcBoxedHalfSpace, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
 	#endif
 	readEntityReference( args[0], m_BaseSurface, map );
-	if( _stricmp( args[1].c_str(), ".F." ) == 0 ) { m_AgreementFlag = false; }
-	else if( _stricmp( args[1].c_str(), ".T." ) == 0 ) { m_AgreementFlag = true; }
+	if( boost::iequals( args[1], L".F." ) ) { m_AgreementFlag = false; }
+	else if( boost::iequals( args[1], L".T." ) ) { m_AgreementFlag = true; }
 	readEntityReference( args[2], m_Enclosure, map );
 }
 void IfcBoxedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

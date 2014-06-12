@@ -32,10 +32,11 @@ void IfcPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPlaneAngleMeasure> IfcPlaneAngleMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPlaneAngleMeasure> IfcPlaneAngleMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
 	shared_ptr<IfcPlaneAngleMeasure> type_object( new IfcPlaneAngleMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

@@ -44,24 +44,25 @@ void IfcSubContractResourceTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	shared_ptr<IfcSubContractResourceTypeEnum> type_object( new IfcSubContractResourceTypeEnum() );
-	if( _stricmp( arg.c_str(), ".PURCHASE." ) == 0 )
+	if( boost::iequals( arg, L".PURCHASE." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_PURCHASE;
 	}
-	else if( _stricmp( arg.c_str(), ".WORK." ) == 0 )
+	else if( boost::iequals( arg, L".WORK." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_WORK;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_NOTDEFINED;
 	}

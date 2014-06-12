@@ -36,7 +36,7 @@ public:
 	~IfcConnectionTypeEnum();
 	virtual const char* classname() const { return "IfcConnectionTypeEnum"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcConnectionTypeEnum> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcConnectionTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcConnectionTypeEnumEnum m_enum;
 };
 

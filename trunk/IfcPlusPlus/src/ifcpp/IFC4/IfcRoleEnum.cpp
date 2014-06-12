@@ -120,100 +120,101 @@ void IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
 	shared_ptr<IfcRoleEnum> type_object( new IfcRoleEnum() );
-	if( _stricmp( arg.c_str(), ".SUPPLIER." ) == 0 )
+	if( boost::iequals( arg, L".SUPPLIER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_SUPPLIER;
 	}
-	else if( _stricmp( arg.c_str(), ".MANUFACTURER." ) == 0 )
+	else if( boost::iequals( arg, L".MANUFACTURER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_MANUFACTURER;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTRACTOR." ) == 0 )
+	else if( boost::iequals( arg, L".CONTRACTOR." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CONTRACTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".SUBCONTRACTOR." ) == 0 )
+	else if( boost::iequals( arg, L".SUBCONTRACTOR." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_SUBCONTRACTOR;
 	}
-	else if( _stricmp( arg.c_str(), ".ARCHITECT." ) == 0 )
+	else if( boost::iequals( arg, L".ARCHITECT." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_ARCHITECT;
 	}
-	else if( _stricmp( arg.c_str(), ".STRUCTURALENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".STRUCTURALENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_STRUCTURALENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".COSTENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".COSTENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_COSTENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".CLIENT." ) == 0 )
+	else if( boost::iequals( arg, L".CLIENT." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CLIENT;
 	}
-	else if( _stricmp( arg.c_str(), ".BUILDINGOWNER." ) == 0 )
+	else if( boost::iequals( arg, L".BUILDINGOWNER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_BUILDINGOWNER;
 	}
-	else if( _stricmp( arg.c_str(), ".BUILDINGOPERATOR." ) == 0 )
+	else if( boost::iequals( arg, L".BUILDINGOPERATOR." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_BUILDINGOPERATOR;
 	}
-	else if( _stricmp( arg.c_str(), ".MECHANICALENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".MECHANICALENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_MECHANICALENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".ELECTRICALENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".ELECTRICALENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_ELECTRICALENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".PROJECTMANAGER." ) == 0 )
+	else if( boost::iequals( arg, L".PROJECTMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_PROJECTMANAGER;
 	}
-	else if( _stricmp( arg.c_str(), ".FACILITIESMANAGER." ) == 0 )
+	else if( boost::iequals( arg, L".FACILITIESMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_FACILITIESMANAGER;
 	}
-	else if( _stricmp( arg.c_str(), ".CIVILENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".CIVILENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CIVILENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".COMMISSIONINGENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".COMMISSIONINGENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_COMMISSIONINGENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".ENGINEER." ) == 0 )
+	else if( boost::iequals( arg, L".ENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_ENGINEER;
 	}
-	else if( _stricmp( arg.c_str(), ".OWNER." ) == 0 )
+	else if( boost::iequals( arg, L".OWNER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_OWNER;
 	}
-	else if( _stricmp( arg.c_str(), ".CONSULTANT." ) == 0 )
+	else if( boost::iequals( arg, L".CONSULTANT." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CONSULTANT;
 	}
-	else if( _stricmp( arg.c_str(), ".CONSTRUCTIONMANAGER." ) == 0 )
+	else if( boost::iequals( arg, L".CONSTRUCTIONMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CONSTRUCTIONMANAGER;
 	}
-	else if( _stricmp( arg.c_str(), ".FIELDCONSTRUCTIONMANAGER." ) == 0 )
+	else if( boost::iequals( arg, L".FIELDCONSTRUCTIONMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_FIELDCONSTRUCTIONMANAGER;
 	}
-	else if( _stricmp( arg.c_str(), ".RESELLER." ) == 0 )
+	else if( boost::iequals( arg, L".RESELLER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_RESELLER;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_USERDEFINED;
 	}

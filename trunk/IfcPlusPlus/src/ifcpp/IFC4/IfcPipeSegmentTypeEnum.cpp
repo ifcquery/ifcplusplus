@@ -56,36 +56,37 @@ void IfcPipeSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
 	shared_ptr<IfcPipeSegmentTypeEnum> type_object( new IfcPipeSegmentTypeEnum() );
-	if( _stricmp( arg.c_str(), ".CULVERT." ) == 0 )
+	if( boost::iequals( arg, L".CULVERT." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_CULVERT;
 	}
-	else if( _stricmp( arg.c_str(), ".FLEXIBLESEGMENT." ) == 0 )
+	else if( boost::iequals( arg, L".FLEXIBLESEGMENT." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_FLEXIBLESEGMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".RIGIDSEGMENT." ) == 0 )
+	else if( boost::iequals( arg, L".RIGIDSEGMENT." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_RIGIDSEGMENT;
 	}
-	else if( _stricmp( arg.c_str(), ".GUTTER." ) == 0 )
+	else if( boost::iequals( arg, L".GUTTER." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_GUTTER;
 	}
-	else if( _stricmp( arg.c_str(), ".SPOOL." ) == 0 )
+	else if( boost::iequals( arg, L".SPOOL." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_SPOOL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_NOTDEFINED;
 	}

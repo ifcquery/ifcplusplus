@@ -38,16 +38,16 @@ public:
 	int getMaxUsedEntityId();
 	shared_ptr<IfcProject> getIfcProject();
 	shared_ptr<IfcGeometricRepresentationContext> getIfcGeometricRepresentationContext3D();
-	std::string getFileHeader() { return m_file_header; }
-	std::string getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
-	std::string getFileName() { return m_IFC_FILE_NAME; }
-	std::string getFileSchema() { return m_IFC_FILE_SCHEMA; }
+	const std::wstring& getFileHeader() { return m_file_header; }
+	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
+	const std::wstring& getFileName() { return m_IFC_FILE_NAME; }
+	const std::wstring& getFileSchema() { return m_IFC_FILE_SCHEMA; }
 	shared_ptr<UnitConverter> getUnitConverter() { return m_unit_converter; }
 
-	void setFileHeader( std::string header );
-	void setFileDescription( std::string schema );
-	void setFileName( std::string schema );
-	void setFileSchema( std::string schema );
+	void setFileHeader( std::wstring header );
+	void setFileDescription( std::wstring schema );
+	void setFileName( std::wstring schema );
+	void setFileSchema( std::wstring schema );
 	void setIfcProject( shared_ptr<IfcProject> project );
 	void resolveInverseAttributes();
 	void clearIfcModel();
@@ -66,9 +66,9 @@ private:
 	shared_ptr<IfcProject>							m_ifc_project;
 	shared_ptr<IfcGeometricRepresentationContext>	m_geom_context_3d;
 	shared_ptr<UnitConverter>						m_unit_converter;
-	std::string										m_file_header;
-	std::string										m_IFC_FILE_DESCRIPTION;
-	std::string										m_IFC_FILE_NAME;
-	std::string										m_IFC_FILE_SCHEMA;
+	std::wstring									m_file_header;
+	std::wstring									m_IFC_FILE_DESCRIPTION;
+	std::wstring									m_IFC_FILE_NAME;
+	std::wstring									m_IFC_FILE_SCHEMA;
 	IfcVersion										m_ifc_schema_version;
 };

@@ -31,10 +31,11 @@ void IfcThermalExpansionCoefficientMeasure::getStepParameter( std::stringstream&
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcThermalExpansionCoefficientMeasure> IfcThermalExpansionCoefficientMeasure::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcThermalExpansionCoefficientMeasure> IfcThermalExpansionCoefficientMeasure::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	shared_ptr<IfcThermalExpansionCoefficientMeasure> type_object( new IfcThermalExpansionCoefficientMeasure() );
 	type_object->readArgument( arg );
 	return type_object;

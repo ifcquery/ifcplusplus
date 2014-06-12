@@ -76,56 +76,57 @@ void IfcSimplePropertyTemplateTypeEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSimplePropertyTemplateTypeEnum> IfcSimplePropertyTemplateTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcSimplePropertyTemplateTypeEnum> IfcSimplePropertyTemplateTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
 	shared_ptr<IfcSimplePropertyTemplateTypeEnum> type_object( new IfcSimplePropertyTemplateTypeEnum() );
-	if( _stricmp( arg.c_str(), ".P_SINGLEVALUE." ) == 0 )
+	if( boost::iequals( arg, L".P_SINGLEVALUE." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_P_SINGLEVALUE;
 	}
-	else if( _stricmp( arg.c_str(), ".P_ENUMERATEDVALUE." ) == 0 )
+	else if( boost::iequals( arg, L".P_ENUMERATEDVALUE." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_P_ENUMERATEDVALUE;
 	}
-	else if( _stricmp( arg.c_str(), ".P_BOUNDEDVALUE." ) == 0 )
+	else if( boost::iequals( arg, L".P_BOUNDEDVALUE." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_P_BOUNDEDVALUE;
 	}
-	else if( _stricmp( arg.c_str(), ".P_LISTVALUE." ) == 0 )
+	else if( boost::iequals( arg, L".P_LISTVALUE." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_P_LISTVALUE;
 	}
-	else if( _stricmp( arg.c_str(), ".P_TABLEVALUE." ) == 0 )
+	else if( boost::iequals( arg, L".P_TABLEVALUE." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_P_TABLEVALUE;
 	}
-	else if( _stricmp( arg.c_str(), ".P_REFERENCEVALUE." ) == 0 )
+	else if( boost::iequals( arg, L".P_REFERENCEVALUE." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_P_REFERENCEVALUE;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_LENGTH." ) == 0 )
+	else if( boost::iequals( arg, L".Q_LENGTH." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_Q_LENGTH;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_AREA." ) == 0 )
+	else if( boost::iequals( arg, L".Q_AREA." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_Q_AREA;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_VOLUME." ) == 0 )
+	else if( boost::iequals( arg, L".Q_VOLUME." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_Q_VOLUME;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_COUNT." ) == 0 )
+	else if( boost::iequals( arg, L".Q_COUNT." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_Q_COUNT;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_WEIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".Q_WEIGHT." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_Q_WEIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".Q_TIME." ) == 0 )
+	else if( boost::iequals( arg, L".Q_TIME." ) )
 	{
 		type_object->m_enum = IfcSimplePropertyTemplateTypeEnum::ENUM_Q_TIME;
 	}

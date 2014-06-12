@@ -29,6 +29,6 @@ public:
 	~IfcPowerMeasure();
 	virtual const char* classname() const { return "IfcPowerMeasure"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcPowerMeasure> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcPowerMeasure> createObjectFromStepData( const std::wstring& arg );
 };
 

@@ -72,52 +72,53 @@ void IfcWindowTypePartitioningEnum::getStepParameter( std::stringstream& stream,
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowTypePartitioningEnum> IfcWindowTypePartitioningEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcWindowTypePartitioningEnum> IfcWindowTypePartitioningEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowTypePartitioningEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowTypePartitioningEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowTypePartitioningEnum>(); }
 	shared_ptr<IfcWindowTypePartitioningEnum> type_object( new IfcWindowTypePartitioningEnum() );
-	if( _stricmp( arg.c_str(), ".SINGLE_PANEL." ) == 0 )
+	if( boost::iequals( arg, L".SINGLE_PANEL." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_SINGLE_PANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_PANEL_VERTICAL." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_PANEL_VERTICAL." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_DOUBLE_PANEL_VERTICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".DOUBLE_PANEL_HORIZONTAL." ) == 0 )
+	else if( boost::iequals( arg, L".DOUBLE_PANEL_HORIZONTAL." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_DOUBLE_PANEL_HORIZONTAL;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIPLE_PANEL_VERTICAL." ) == 0 )
+	else if( boost::iequals( arg, L".TRIPLE_PANEL_VERTICAL." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_TRIPLE_PANEL_VERTICAL;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIPLE_PANEL_BOTTOM." ) == 0 )
+	else if( boost::iequals( arg, L".TRIPLE_PANEL_BOTTOM." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_TRIPLE_PANEL_BOTTOM;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIPLE_PANEL_TOP." ) == 0 )
+	else if( boost::iequals( arg, L".TRIPLE_PANEL_TOP." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_TRIPLE_PANEL_TOP;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIPLE_PANEL_LEFT." ) == 0 )
+	else if( boost::iequals( arg, L".TRIPLE_PANEL_LEFT." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_TRIPLE_PANEL_LEFT;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIPLE_PANEL_RIGHT." ) == 0 )
+	else if( boost::iequals( arg, L".TRIPLE_PANEL_RIGHT." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_TRIPLE_PANEL_RIGHT;
 	}
-	else if( _stricmp( arg.c_str(), ".TRIPLE_PANEL_HORIZONTAL." ) == 0 )
+	else if( boost::iequals( arg, L".TRIPLE_PANEL_HORIZONTAL." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_TRIPLE_PANEL_HORIZONTAL;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowTypePartitioningEnum::ENUM_NOTDEFINED;
 	}

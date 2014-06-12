@@ -25,10 +25,10 @@ class IfcDateTime : public IfcSimpleValue, public IfcPPString
 {
 public:
 	IfcDateTime();
-	IfcDateTime( std::string value );
+	IfcDateTime( std::wstring value );
 	~IfcDateTime();
 	virtual const char* classname() const { return "IfcDateTime"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDateTime> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcDateTime> createObjectFromStepData( const std::wstring& arg );
 };
 

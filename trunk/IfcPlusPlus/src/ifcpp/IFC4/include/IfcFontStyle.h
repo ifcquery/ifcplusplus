@@ -24,10 +24,10 @@ class IfcFontStyle : public IfcPPString
 {
 public:
 	IfcFontStyle();
-	IfcFontStyle( std::string value );
+	IfcFontStyle( std::wstring value );
 	~IfcFontStyle();
 	virtual const char* classname() const { return "IfcFontStyle"; }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcFontStyle> createObjectFromStepData( const std::string& arg );
+	static shared_ptr<IfcFontStyle> createObjectFromStepData( const std::wstring& arg );
 };
 

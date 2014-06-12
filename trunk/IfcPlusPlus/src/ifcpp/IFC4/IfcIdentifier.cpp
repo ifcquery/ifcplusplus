@@ -23,7 +23,7 @@
 
 // TYPE IfcIdentifier 
 IfcIdentifier::IfcIdentifier() {}
-IfcIdentifier::IfcIdentifier( std::string value ) { m_value = value; }
+IfcIdentifier::IfcIdentifier( std::wstring value ) { m_value = value; }
 IfcIdentifier::~IfcIdentifier() {}
 void IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
@@ -31,10 +31,11 @@ void IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	shared_ptr<IfcIdentifier> type_object( new IfcIdentifier() );
 	type_object->readArgument( arg );
 	return type_object;

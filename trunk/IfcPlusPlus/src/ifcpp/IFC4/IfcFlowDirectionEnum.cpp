@@ -44,24 +44,25 @@ void IfcFlowDirectionEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFlowDirectionEnum> IfcFlowDirectionEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcFlowDirectionEnum> IfcFlowDirectionEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
 	shared_ptr<IfcFlowDirectionEnum> type_object( new IfcFlowDirectionEnum() );
-	if( _stricmp( arg.c_str(), ".SOURCE." ) == 0 )
+	if( boost::iequals( arg, L".SOURCE." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_SOURCE;
 	}
-	else if( _stricmp( arg.c_str(), ".SINK." ) == 0 )
+	else if( boost::iequals( arg, L".SINK." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_SINK;
 	}
-	else if( _stricmp( arg.c_str(), ".SOURCEANDSINK." ) == 0 )
+	else if( boost::iequals( arg, L".SOURCEANDSINK." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_SOURCEANDSINK;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_NOTDEFINED;
 	}

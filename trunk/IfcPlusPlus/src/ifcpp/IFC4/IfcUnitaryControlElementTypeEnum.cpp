@@ -68,48 +68,49 @@ void IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stre
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromStepData( const std::string& arg )
+shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
 {
 	// read TYPE
-	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
+	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
+	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	shared_ptr<IfcUnitaryControlElementTypeEnum> type_object( new IfcUnitaryControlElementTypeEnum() );
-	if( _stricmp( arg.c_str(), ".ALARMPANEL." ) == 0 )
+	if( boost::iequals( arg, L".ALARMPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_ALARMPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".CONTROLPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".CONTROLPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_CONTROLPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".GASDETECTIONPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".GASDETECTIONPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_GASDETECTIONPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".INDICATORPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".INDICATORPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_INDICATORPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".MIMICPANEL." ) == 0 )
+	else if( boost::iequals( arg, L".MIMICPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_MIMICPANEL;
 	}
-	else if( _stricmp( arg.c_str(), ".HUMIDISTAT." ) == 0 )
+	else if( boost::iequals( arg, L".HUMIDISTAT." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_HUMIDISTAT;
 	}
-	else if( _stricmp( arg.c_str(), ".THERMOSTAT." ) == 0 )
+	else if( boost::iequals( arg, L".THERMOSTAT." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_THERMOSTAT;
 	}
-	else if( _stricmp( arg.c_str(), ".WEATHERSTATION." ) == 0 )
+	else if( boost::iequals( arg, L".WEATHERSTATION." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_WEATHERSTATION;
 	}
-	else if( _stricmp( arg.c_str(), ".USERDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( _stricmp( arg.c_str(), ".NOTDEFINED." ) == 0 )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_NOTDEFINED;
 	}
