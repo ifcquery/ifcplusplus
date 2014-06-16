@@ -44,10 +44,11 @@
 #include "ProfileConverter.h"
 #include "PlacementConverter.h"
 #include "CurveConverter.h"
+#include "SplineConverter.h"
 #include "FaceConverter.h"
 
-FaceConverter::FaceConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc, shared_ptr<CurveConverter>	cc )
-	: m_geom_settings(geom_settings), m_unit_converter( uc ), m_curve_converter( cc )
+FaceConverter::FaceConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc, shared_ptr<CurveConverter>	cc, shared_ptr<SplineConverter>& sc )
+	: m_geom_settings(geom_settings), m_unit_converter(uc), m_curve_converter(cc), m_spline_converter(sc)
 {
 }
 
@@ -69,7 +70,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			if( dynamic_pointer_cast<IfcRationalBSplineSurfaceWithKnots>(bounded_surface) )
 			{
 				shared_ptr<IfcRationalBSplineSurfaceWithKnots> nurbs_surface = dynamic_pointer_cast<IfcRationalBSplineSurfaceWithKnots>(bounded_surface);
-				convertIfcBSplineSurface( nurbs_surface, polyline_data );
+				m_spline_converter->convertIfcBSplineSurface( nurbs_surface, polyline_data );
 			}
 		}
 		else if( dynamic_pointer_cast<IfcCurveBoundedPlane>(bounded_surface) )
@@ -302,63 +303,9 @@ void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >&
 	item_data->open_or_closed_polyhedrons.push_back( poly_cache.m_poly_data );
 }
 
-void convertIfcCartesianPointVector2D( std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& points, double length_factor, osg::Vec3Array* vertices )
-{
-	std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >::iterator it_cp_outer;
-	for( it_cp_outer=points.begin(); it_cp_outer!=points.end(); ++it_cp_outer )
-	{
-		std::vector<shared_ptr<IfcCartesianPoint> >& points_inner = (*it_cp_outer);
-		std::vector<shared_ptr<IfcCartesianPoint> >::iterator it_cp;
-		for( it_cp=points_inner.begin(); it_cp!=points_inner.end(); ++it_cp )
-		{
-			shared_ptr<IfcCartesianPoint> cp = (*it_cp);
-
-			if( !cp )
-			{
-				continue;
-			}
-
-			std::vector<shared_ptr<IfcLengthMeasure> >& coords = cp->m_Coordinates;
-			if( coords.size() > 2 )
-			{
-				vertices->push_back( osg::Vec3( coords[0]->m_value*length_factor, coords[1]->m_value*length_factor, coords[2]->m_value*length_factor ) );
-			}
-			else if( coords.size() > 1 )
-			{
-				vertices->push_back( osg::Vec3( coords[0]->m_value*length_factor, coords[1]->m_value*length_factor, 0.0 ) );
-			}
-		}
-	}
-}
 
 
-void FaceConverter::convertIfcBSplineSurface( const shared_ptr<IfcRationalBSplineSurfaceWithKnots>& ifc_surface, shared_ptr<carve::input::PolylineSetData>& polyline_data )
-{
-	std::vector<shared_ptr<IfcParameterValue> >& ifc_u_knots = ifc_surface->m_UKnots;
-	std::vector<shared_ptr<IfcParameterValue> >& ifc_v_knots = ifc_surface->m_VKnots;
-	std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& ifc_control_points = ifc_surface->m_ControlPointsList;
-	std::vector<std::vector<double> > vec_weights = ifc_surface->m_WeightsData;
 
-	osg::ref_ptr<osg::Vec3Array> control_point_array = new osg::Vec3Array();
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
-	convertIfcCartesianPointVector2D( ifc_control_points, length_factor, control_point_array );
-	int degree_u = ifc_surface->m_UDegree;
-	int degree_v = ifc_surface->m_VDegree;
-	unsigned int numPathU=10;
-	unsigned int numPathV=10;
-
-	const size_t eta = ifc_control_points.size();
-	if( eta < 2 )
-	{
-		return;
-	}
-	const size_t zeta = ifc_control_points[0].size();
-
-	const int num_points_per_section = eta*zeta;
-	// TODO: implement
-}
-
- 
 void SurfaceProxyLinear::computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out)
 {
 	point_out = m_surface_matrix*point_in;

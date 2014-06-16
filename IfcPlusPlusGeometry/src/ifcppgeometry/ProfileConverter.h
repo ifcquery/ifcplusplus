@@ -18,6 +18,8 @@
 
 class GeometrySettings;
 class UnitConverter;
+class PointConverter;
+class SplineConverter;
 class IfcProfileDef;
 class IfcArbitraryClosedProfileDef;
 class IfcArbitraryOpenProfileDef;
@@ -28,14 +30,14 @@ class IfcParameterizedProfileDef;
 class ProfileConverter
 {
 public:
-	ProfileConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter );
+	ProfileConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter, shared_ptr<PointConverter> pc, shared_ptr<SplineConverter>& sc );
 	~ProfileConverter();
 
 	void computeProfile( shared_ptr<IfcProfileDef> profile_def );
-	void convertIfcArbitraryClosedProfileDef(				const shared_ptr<IfcArbitraryClosedProfileDef>& profile_def,	std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
-	void convertIfcArbitraryOpenProfileDef(					const shared_ptr<IfcArbitraryOpenProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
-	void convertIfcCompositeProfileDef(						const shared_ptr<IfcCompositeProfileDef>& profile_def,			std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
-	void convertIfcDerivedProfileDef(						const shared_ptr<IfcDerivedProfileDef>& profile_def,			std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
+	void convertIfcArbitraryClosedProfileDef(				const shared_ptr<IfcArbitraryClosedProfileDef>& profile_def,	std::vector<std::vector<carve::geom::vector<2> > >& paths );
+	void convertIfcArbitraryOpenProfileDef(					const shared_ptr<IfcArbitraryOpenProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths );
+	void convertIfcCompositeProfileDef(						const shared_ptr<IfcCompositeProfileDef>& profile_def,			std::vector<std::vector<carve::geom::vector<2> > >& paths );
+	void convertIfcDerivedProfileDef(						const shared_ptr<IfcDerivedProfileDef>& profile_def,			std::vector<std::vector<carve::geom::vector<2> > >& paths );
 	void convertIfcParameterizedProfileDef(					const shared_ptr<IfcParameterizedProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
 	void convertIfcParameterizedProfileDefWithPosition(		const shared_ptr<IfcParameterizedProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
 	void addArc(					std::vector<carve::geom::vector<2> >& coords, double radius, double start_angle, double opening_angle, double xM, double yM, int segments = -1 ) const;
@@ -54,5 +56,7 @@ public:
 protected:
 	shared_ptr<GeometrySettings>						m_geom_settings;
 	shared_ptr<UnitConverter>							m_unit_converter;
+	shared_ptr<PointConverter>							m_point_converter;
+	shared_ptr<SplineConverter>							m_spline_converter;
 	std::vector<std::vector<carve::geom::vector<2> > >	m_paths;
 };

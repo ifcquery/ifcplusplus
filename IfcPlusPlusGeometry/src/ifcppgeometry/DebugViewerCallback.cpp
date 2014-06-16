@@ -1045,7 +1045,7 @@ poly_data3->addFace( 0, 7, 9);
 		shared_ptr<carve::mesh::MeshSet<3> > tetrahedron( new carve::mesh::MeshSet<3>(tet_faces) );
 
 		osg::Geode* geode = new osg::Geode();
-		ConverterOSG::drawMeshSet( tetrahedron.get(), geode );
+		ConverterOSG::drawMeshSet( tetrahedron.get(), geode, 0.1 );
 		group->addChild(geode);
 
 
@@ -1074,13 +1074,13 @@ poly_data3->addFace( 0, 7, 9);
 
 		shared_ptr<carve::mesh::MeshSet<3> > triangle( new carve::mesh::MeshSet<3>(tri_faces) );
 
-		ConverterOSG::drawMeshSet( triangle.get(), geode );
+		ConverterOSG::drawMeshSet( triangle.get(), geode, 0.1 );
 
 
 		//cut triangle with tetrahedron.
 		shared_ptr<carve::mesh::MeshSet<3> > is_poly( carve::csg::CSG().compute( tetrahedron.get(), triangle.get(), carve::csg::CSG::INTERSECTION) );
 
-		ConverterOSG::drawMeshSet( is_poly.get(), geode );
+		ConverterOSG::drawMeshSet( is_poly.get(), geode, 0.1 );
 
 	}
 
@@ -1167,7 +1167,7 @@ poly_data3->addFace( 0, 7, 9);
 	csg7.hooks.registerHook(new carve::csg::CarveTriangulatorWithImprovement, carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
 	solid_result = shared_ptr<carve::mesh::MeshSet<3> >( csg7.compute(solid_result.get(), cut_box2.get(), carve::csg::CSG::A_MINUS_B) );
 
-	ConverterOSG::drawMeshSet( solid_result.get(), geode_solid );
+	ConverterOSG::drawMeshSet( solid_result.get(), geode_solid, 0.1 );
 	group->addChild(geode_solid);
 
 
@@ -1202,7 +1202,7 @@ poly_data3->addFace( 0, 7, 9);
 	{
 		osg::Geode* geode = new osg::Geode();
 
-		ConverterOSG::drawMeshSet( opening.get(), geode );
+		ConverterOSG::drawMeshSet( opening.get(), geode, 0.1 );
 
 		osg::MatrixTransform* mt = new osg::MatrixTransform( osg::Matrix::translate( 10, 10, 0 ) );
 		mt->addChild(geode);
@@ -1211,7 +1211,7 @@ poly_data3->addFace( 0, 7, 9);
 
 	{
 		osg::Geode* geode = new osg::Geode();
-		ConverterOSG::drawMeshSet( subtract_from.get(), geode );
+		ConverterOSG::drawMeshSet( subtract_from.get(), geode, 0.1 );
 
 		osg::MatrixTransform* mt = new osg::MatrixTransform( osg::Matrix::translate( -10, 10, 0 ) );
 		mt->addChild(geode);
@@ -1219,7 +1219,7 @@ poly_data3->addFace( 0, 7, 9);
 	}
 	{
 		osg::Geode* geode = new osg::Geode();
-		ConverterOSG::drawMeshSet( result.get(), geode );
+		ConverterOSG::drawMeshSet( result.get(), geode, 0.1 );
 		group->addChild(geode);
 	}
 }
@@ -1270,7 +1270,7 @@ void createTest2(osg::Group* group)
 		mt->addChild(geode);
 		group->addChild(mt);
 
-		ConverterOSG::drawMeshSet( meshset, geode );
+		ConverterOSG::drawMeshSet( meshset, geode, 0.1 );
 
 	}
 }
@@ -1321,7 +1321,7 @@ void createTest4(osg::Group* group)
 		group->addChild( geode );
 
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data.createMesh(carve::input::opts()) );
-		ConverterOSG::drawMeshSet( meshset.get(), geode );
+		ConverterOSG::drawMeshSet( meshset.get(), geode, 0.1 );
 	}
 
 	carve::input::PolyhedronData poly_data;
@@ -1388,8 +1388,11 @@ void createTest4(osg::Group* group)
 	mt->addChild(geode);
 	group->addChild(mt);
 
-	ConverterOSG::drawPolyhedron( poly.get(), geode );
-	ConverterOSG::drawPolyhedron( poly_opening.get(), geode );
+	shared_ptr<carve::mesh::MeshSet<3> > poly_meshset( carve::meshFromPolyhedron(poly.get(), -1) );
+	ConverterOSG::drawMeshSet( poly_meshset.get(), geode, 0.1 );
+
+	shared_ptr<carve::mesh::MeshSet<3> > poly_opening_meshset( carve::meshFromPolyhedron(poly_opening.get(), -1) );
+	ConverterOSG::drawMeshSet( poly_opening_meshset.get(), geode, 0.1 );
 
 	carve::csg::CSG csg;
 	csg.hooks.registerHook(new carve::csg::CarveTriangulator, carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
@@ -1400,7 +1403,7 @@ void createTest4(osg::Group* group)
 		group->addChild(mt);
 
 		shared_ptr<carve::mesh::MeshSet<3> > result( csg.compute( poly_data.createMesh(carve::input::opts()), poly_opening_data.createMesh(carve::input::opts()), carve::csg::CSG::A_MINUS_B) );
-		ConverterOSG::drawMeshSet( result.get(), geode );
+		ConverterOSG::drawMeshSet( result.get(), geode, 0.1 );
 	}
 }
 

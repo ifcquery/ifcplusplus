@@ -51,6 +51,7 @@
 #include "ProfileConverter.h"
 #include "ProfileCache.h"
 #include "PlacementConverter.h"
+#include "PointConverter.h"
 #include "CurveConverter.h"
 #include "FaceConverter.h"
 #include "ConverterOSG.h"
@@ -61,8 +62,9 @@
 #include "RepresentationConverter.h"
 #include "SolidModelConverter.h"
 
-SolidModelConverter::SolidModelConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc, shared_ptr<CurveConverter>	cc, shared_ptr<FaceConverter> fc, shared_ptr<ProfileCache>	pc ) 
-	: m_geom_settings(geom_settings), m_unit_converter(uc), m_curve_converter(cc), m_face_converter(fc), m_profile_cache( pc )
+SolidModelConverter::SolidModelConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc,
+	shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>& cc, shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache )
+	: m_geom_settings(geom_settings), m_point_converter(pc), m_unit_converter(uc), m_curve_converter(cc), m_face_converter(fc), m_profile_cache( pcache )
 {
 }
 
@@ -464,7 +466,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		if( axis_placement->m_Location )
 		{
 			shared_ptr<IfcCartesianPoint> location_point = axis_placement->m_Location;
-			m_curve_converter->convertIfcCartesianPoint( location_point, axis_location );
+			m_point_converter->convertIfcCartesianPoint( location_point, axis_location );
 		}
 
 		if( axis_placement->m_Axis )
@@ -724,83 +726,83 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
 {
 	const int boolean_result_id = bool_result->getId();
+	shared_ptr<IfcBooleanOperator> ifc_boolean_operator = bool_result->m_Operator;
+	shared_ptr<IfcBooleanOperand> ifc_first_operand = bool_result->m_FirstOperand;
+	shared_ptr<IfcBooleanOperand> ifc_second_operand = bool_result->m_SecondOperand;
+	if( !ifc_boolean_operator || !ifc_first_operand || !ifc_second_operand )
+	{
+		std::cout << __FUNC__ << ": invalid IfcBooleanOperator or IfcBooleanOperand" << std::endl;
+		return;
+	}
+	carve::csg::CSG::OP csg_operation = carve::csg::CSG::A_MINUS_B;
+	if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_UNION )
+	{
+		csg_operation = carve::csg::CSG::UNION;
+	}
+	else if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_INTERSECTION )
+	{
+		csg_operation = carve::csg::CSG::INTERSECTION;
+	}
+	else if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_DIFFERENCE )
+	{
+		csg_operation = carve::csg::CSG::A_MINUS_B;
+	}
+	else
+	{
+		strs_err << __FUNC__ << ": invalid IfcBooleanOperator" << std::endl;
+	}
+
+	int id1 = 0;
+	if( dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand ) )
+	{
+		id1 = dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand )->getId();
+	}
+
+	int id2 = 0;
+	if( dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand ) )
+	{
+		id2 = dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand )->getId();
+	}
+
+	// convert the first operand
+	shared_ptr<ItemData> first_operand_data( new ItemData() );
+	shared_ptr<ItemData> empty_operand;
+	convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand, strs_err );
+	first_operand_data->createMeshSetsFromClosedPolyhedrons();
+
+	// convert the second operand
+	shared_ptr<ItemData> second_operand_data( new ItemData() );
+	convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data, strs_err );
+	second_operand_data->createMeshSetsFromClosedPolyhedrons();
+		
+	// for every first operand polyhedrons, apply all second operand polyhedrons
+	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_first_operands;
+	for( it_first_operands=first_operand_data->meshsets.begin(); it_first_operands!=first_operand_data->meshsets.end(); ++it_first_operands )
+	{
+		shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset = (*it_first_operands);
+
+		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_second_operands;
+		for( it_second_operands=second_operand_data->meshsets.begin(); it_second_operands!=second_operand_data->meshsets.end(); ++it_second_operands )
+		{
+			shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = (*it_second_operands);
+			shared_ptr<carve::mesh::MeshSet<3> > result;
+			bool csg_op_ok = CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, id1, id2, strs_err, result );
+				
+			if( csg_op_ok )
+			{
+				first_operand_meshset = result;
+			}
+			item_data->m_csg_computed = true;
+		}
+	}
+
+	// now copy processed first operands to result input data
+	std::copy( first_operand_data->meshsets.begin(), first_operand_data->meshsets.end(), std::back_inserter(item_data->meshsets) );
+
 	shared_ptr<IfcBooleanClippingResult> boolean_clipping_result = dynamic_pointer_cast<IfcBooleanClippingResult>(bool_result);
 	if( boolean_clipping_result )
 	{
-		shared_ptr<IfcBooleanOperator> ifc_boolean_operator = boolean_clipping_result->m_Operator;
-		shared_ptr<IfcBooleanOperand> ifc_first_operand = boolean_clipping_result->m_FirstOperand;
-		shared_ptr<IfcBooleanOperand> ifc_second_operand = boolean_clipping_result->m_SecondOperand;
-
-		if( !ifc_boolean_operator || !ifc_first_operand || !ifc_second_operand )
-		{
-			std::cout << __FUNC__ << ": invalid IfcBooleanOperator or IfcBooleanOperand" << std::endl;
-			return;
-		}
-
-		carve::csg::CSG::OP csg_operation = carve::csg::CSG::A_MINUS_B;
-		if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_UNION )
-		{
-			csg_operation = carve::csg::CSG::UNION;
-		}
-		else if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_INTERSECTION )
-		{
-			csg_operation = carve::csg::CSG::INTERSECTION;
-		}
-		else if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_DIFFERENCE )
-		{
-			csg_operation = carve::csg::CSG::A_MINUS_B;
-		}
-		else
-		{
-			strs_err << __FUNC__ << ": invalid IfcBooleanOperator" << std::endl;
-		}
-
-		int id1 = 0;
-		if( dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand ) )
-		{
-			id1 = dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand )->getId();
-		}
-
-		int id2 = 0;
-		if( dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand ) )
-		{
-			id2 = dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand )->getId();
-		}
-
-		// convert the first operand
-		shared_ptr<ItemData> first_operand_data( new ItemData() );
-		shared_ptr<ItemData> empty_operand;
-		convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand, strs_err );
-		first_operand_data->createMeshSetsFromClosedPolyhedrons();
-
-		// convert the second operand
-		shared_ptr<ItemData> second_operand_data( new ItemData() );
-		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data, strs_err );
-		second_operand_data->createMeshSetsFromClosedPolyhedrons();
-		
-		// for every first operand polyhedrons, apply all second operand polyhedrons
-		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_first_operands;
-		for( it_first_operands=first_operand_data->meshsets.begin(); it_first_operands!=first_operand_data->meshsets.end(); ++it_first_operands )
-		{
-			shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset = (*it_first_operands);
-
-			std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_second_operands;
-			for( it_second_operands=second_operand_data->meshsets.begin(); it_second_operands!=second_operand_data->meshsets.end(); ++it_second_operands )
-			{
-				shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = (*it_second_operands);
-				shared_ptr<carve::mesh::MeshSet<3> > result;
-				bool csg_op_ok = CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, id1, id2, strs_err, result );
-				
-				if( csg_op_ok )
-				{
-					first_operand_meshset = result;
-				}
-				item_data->m_csg_computed = true;
-			}
-		}
-
-		// now copy processed first operands to result input data
-		std::copy( first_operand_data->meshsets.begin(), first_operand_data->meshsets.end(), std::back_inserter(item_data->meshsets) );
+		// OperatorType	 :	Operator = DIFFERENCE;
 	}
 }
 
@@ -1166,7 +1168,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			shared_ptr<IfcPositiveLengthMeasure>&	bbox_z_dim = bbox->m_ZDim;
 
 			carve::geom::vector<3> corner;
-			m_curve_converter->convertIfcCartesianPoint( bbox_corner, corner );
+			m_point_converter->convertIfcCartesianPoint( bbox_corner, corner );
 			carve::math::Matrix box_position_matrix = base_position_matrix*carve::math::Matrix::TRANS( corner );
 
 			// else, its an unbounded half space solid, create simple box

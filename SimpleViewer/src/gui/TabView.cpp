@@ -11,14 +11,15 @@
  * OpenSceneGraph Public License for more details.
 */
 
-#include <QtCore/qglobal.h>
-#include <QtCore/QSettings>
+#include <qglobal.h>
+#include <QSettings>
 #include <QToolButton>
 #include <QBoxLayout>
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QButtonGroup>
 #include <QLabel>
+#include <QSpinBox>
 
 #include <osgGA/OrbitManipulator>
 
@@ -26,6 +27,8 @@
 #include <ifcpp/writer/IfcStepWriter.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcppgeometry/GeomUtils.h>
+#include <ifcppgeometry/GeometrySettings.h>
+#include <ifcppgeometry/ReaderWriterIFC.h>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
@@ -77,14 +80,23 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	btn_toggle_light->setChecked( true );
 	connect( btn_toggle_light,	SIGNAL( clicked() ),	this,	SLOT( slotToggleSceneLight() ) );
 
-	// perspective/parallel projection
-	//QRadioButton* radio_perspective = new QRadioButton("Perspective");
-	//QRadioButton* radio_parallel = new QRadioButton("Parallel");
-	//radio_parallel->setChecked(true);
-	//QButtonGroup* btn_group_projection = new QButtonGroup();
-	//btn_group_projection->addButton( radio_perspective, 0 );
-	//btn_group_projection->addButton( radio_parallel, 1 );
-	//connect( btn_group_projection, SIGNAL( buttonClicked( int ) ), this, SLOT( slotProjectionButtonClicked( int ) ) );
+	// number of vertices per cycle
+	m_spinbox_circle_vertices = new QSpinBox( this );
+	m_spinbox_circle_vertices->setRange(6, 48);
+	m_spinbox_circle_vertices->setSingleStep(1);
+	m_spinbox_circle_vertices->setValue(10);
+	if( keys.contains( "NumVerticesPerCircle" ) )
+	{
+		int num_vertices = settings.value("NumVerticesPerCircle").toInt();
+		m_spinbox_circle_vertices->setValue(num_vertices);
+		m_system->getReaderWriterIFC()->getGeomSettings()->m_num_vertices_per_circle = num_vertices;
+	}
+
+	QHBoxLayout* num_vertices_hbox = new QHBoxLayout();
+	num_vertices_hbox->addWidget( m_spinbox_circle_vertices );
+	num_vertices_hbox->addWidget( new QLabel( tr("Number of vertices per circle") ) );
+	connect(m_spinbox_circle_vertices, SIGNAL(valueChanged(int)), this, SLOT( slotSetNumVertices( int ) ) );
+
 
 	// positive z axis
 	QCheckBox* check_pos_z_down = new QCheckBox("Positive z-axis down");
@@ -96,18 +108,11 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	hbox->addWidget( cull_front_faces, 0 );
 	hbox->addWidget( cull_back_faces, 0 );
 	hbox->addWidget( check_pos_z_down, 0 );
+	hbox->addLayout( num_vertices_hbox );
 	hbox->addStretch( 1 );
-
-	//QHBoxLayout* hbox_projection = new QHBoxLayout();
-	//hbox_projection->addWidget( new QLabel("<b>Projection:</b>") );
-	//hbox_projection->addSpacing(10);
-	//hbox_projection->addWidget( radio_perspective );
-	//hbox_projection->addWidget( radio_parallel );
-	//hbox_projection->addStretch( 1 );
 
 	QVBoxLayout* vbox = new QVBoxLayout();
 	vbox->addLayout( hbox );
-//	vbox->addLayout( hbox_projection );
 	vbox->addStretch(1);
 
 	setLayout( vbox );
@@ -173,4 +178,11 @@ void TabView::slotZAxisDown( int state )
 	{
 	//	m_vw->getCameraManager()->setZAxisDown( false );
 	}
+}
+
+void TabView::slotSetNumVertices( int num_vertices )
+{
+	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
+	settings.setValue( "NumVerticesPerCircle", num_vertices );
+	m_system->getReaderWriterIFC()->getGeomSettings()->m_num_vertices_per_circle = num_vertices;
 }

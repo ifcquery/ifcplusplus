@@ -229,7 +229,7 @@ void DebugViewer::renderPolyhedron( const carve::input::PolyhedronData* poly, co
 	geode->getOrCreateStateSet()->setAttributeAndModes(material, osg::StateAttribute::OVERRIDE); 
 
 	carve::mesh::MeshSet<3> * meshset = poly->createMesh( carve::input::opts() );
-	ConverterOSG::drawMeshSet( meshset, geode );
+	ConverterOSG::drawMeshSet( meshset, geode, 0.1 );
 	m_view_controller->getModelNode()->addChild(geode);
 
 	osg::ref_ptr<osg::Geode> geode_vertex_numbers = new osg::Geode();
@@ -271,8 +271,7 @@ void DebugViewer::renderMeshset( const carve::mesh::MeshSet<3>* meshset, const o
 		material->setEmission(osg::Material::FRONT_AND_BACK, color ); 
 		geode->getOrCreateStateSet()->setAttributeAndModes(material, osg::StateAttribute::OVERRIDE); 
 
-		ConverterOSG::drawMesh( meshset->meshes[i], geode );
-
+		ConverterOSG::drawMesh( meshset->meshes[i], geode, 0.1 );
 		m_view_controller->getModelNode()->addChild(geode);
 	}
 

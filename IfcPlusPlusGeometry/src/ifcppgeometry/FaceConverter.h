@@ -20,6 +20,7 @@
 class GeometrySettings;
 class UnitConverter;
 class CurveConverter;
+class SplineConverter;
 class IfcFace;
 class IfcRationalBSplineSurfaceWithKnots;
 
@@ -39,15 +40,15 @@ public:
 class FaceConverter
 {
 public:
-	FaceConverter( shared_ptr<GeometrySettings>	geom_settings, shared_ptr<UnitConverter> unit_converter, shared_ptr<CurveConverter>	cc );
+	FaceConverter( shared_ptr<GeometrySettings>	geom_settings, shared_ptr<UnitConverter> unit_converter, shared_ptr<CurveConverter>	cc, shared_ptr<SplineConverter>& spline_converter );
 	~FaceConverter();
 
 	void convertIfcFaceList(		const std::vector<shared_ptr<IfcFace> >& faces,						shared_ptr<ItemData> item_data, std::stringstream& strs_err );
 	void convertIfcSurface(			const shared_ptr<IfcSurface>& surface,								shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy );
-	void convertIfcBSplineSurface(	const shared_ptr<IfcRationalBSplineSurfaceWithKnots>& ifc_surface,	shared_ptr<carve::input::PolylineSetData>& polyline_data );
 
 protected:
 	shared_ptr<GeometrySettings>	m_geom_settings;
 	shared_ptr<UnitConverter>		m_unit_converter;
 	shared_ptr<CurveConverter>		m_curve_converter;
+	shared_ptr<SplineConverter>		m_spline_converter;
 };

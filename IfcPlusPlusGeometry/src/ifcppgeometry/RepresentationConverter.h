@@ -24,6 +24,8 @@
 
 class UnitConverter;
 class StylesConverter;
+class SplineConverter;
+class PointConverter;
 class CurveConverter;
 class SolidModelConverter;
 class FaceConverter;
@@ -62,6 +64,8 @@ protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
 	shared_ptr<StylesConverter>			m_styles_converter;
+	shared_ptr<SplineConverter>			m_spline_converter;
+	shared_ptr<PointConverter>			m_point_converter;
 	shared_ptr<CurveConverter>			m_curve_converter;
 	shared_ptr<SolidModelConverter>		m_solid_converter;
 	shared_ptr<FaceConverter>			m_face_converter;

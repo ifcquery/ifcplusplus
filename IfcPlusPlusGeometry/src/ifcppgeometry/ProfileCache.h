@@ -18,13 +18,15 @@
 #include <ifcpp/model/shared_ptr.h>
 class GeometrySettings;
 class UnitConverter;
+class PointConverter;
+class SplineConverter;
 class IfcProfileDef;
 class ProfileConverter;
 
 class ProfileCache
 {
 public:	
-	ProfileCache( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc );
+	ProfileCache( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc );
 	~ProfileCache();
 
 	shared_ptr<ProfileConverter> getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile );
@@ -33,6 +35,8 @@ public:
 protected:
 	shared_ptr<GeometrySettings>				m_geom_settings;
 	shared_ptr<UnitConverter>					m_unit_converter;
+	shared_ptr<PointConverter>					m_point_converter;
+	shared_ptr<SplineConverter>					m_spline_converter;
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
 #ifdef IFCPP_OPENMP

@@ -174,6 +174,46 @@ IfcStepReader::~IfcStepReader()
 {
 }
 
+void IfcStepReader::removeComments( std::string& buffer )
+{
+	const size_t length = buffer.length();
+	size_t length_without_comments = 0;
+
+	// sort out comments like /* ... */
+	char* read_pos = (char*)&buffer[0];
+	char* write_pos = (char*)&buffer[0];
+
+	while( *read_pos != '\0' )
+	{
+		if( *read_pos == '/' )
+		{
+			if( *( read_pos + 1 ) == '*' )
+			{
+				// we are inside comment now, proceed to end of comment
+				++read_pos;
+				while( *read_pos != '\0' )
+				{
+					if( *read_pos == '/' )
+					{
+						if( *( read_pos - 1 ) == '*' )
+						{
+							break;
+						}
+					}
+					++read_pos;
+				}
+				++read_pos;
+				continue;
+			}
+		}
+		*write_pos = *read_pos;
+		++read_pos;
+		++write_pos;
+		++length_without_comments;
+	}
+	buffer = buffer.substr( 0, length_without_comments );
+}
+
 void IfcStepReader::readStreamHeader( const std::string& read_in )
 {
 	if( !m_model )
@@ -313,13 +353,10 @@ void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<s
 	// set progress to 0
 	double progress = 0.0;
 	progressCallback(progress, "parse");
-	const int length = (int)read_in.length();
-
-	// sort out comments like /* ... */
-	char* stream_pos = (char*)&read_in[0];
-
 
 	// find beginning of data lines
+	const size_t length = read_in.length();
+	char* stream_pos = (char*)&read_in[0];
 	stream_pos = strstr(stream_pos, "DATA;");
 	if( stream_pos != NULL )
 	{
@@ -338,36 +375,11 @@ void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<s
 	}
 
 	// split into data lines: #1234=IFCOBJECTNAME(...,...,(...,...),...);
-
 	char* progress_anchor = stream_pos;
-
 	std::string single_step_line = "";
 
 	while( *stream_pos != '\0' )
 	{
-		if( *stream_pos == '*' )
-		{
-			if( *( stream_pos - 1 ) == '/' )
-			{
-				--stream_pos;
-				// we are inside comment now, proceed to end of comment
-				++stream_pos;
-				while( *stream_pos != '\0' )
-				{
-					if( *stream_pos == '/' )
-					{
-						if( *( stream_pos - 1 ) == '*' )
-						{
-							break;
-						}
-					}
-					++stream_pos;
-				}
-				++stream_pos;
-				continue;
-			}
-		}
-
 		if( *stream_pos == '\r' )
 		{
 			// omit newlines
@@ -382,7 +394,6 @@ void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<s
 			continue;
 		}
 
-
 		if( isspace(*stream_pos) ){
 			++stream_pos;
 			continue;
@@ -392,12 +403,8 @@ void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<s
 		{
 			char* string_start = stream_pos;
 			findEndOfString(stream_pos);
-
 			std::string s(string_start, stream_pos - string_start);
-
 			single_step_line += s;
-
-			//++stream_pos;
 			continue;
 		}
 
@@ -412,7 +419,6 @@ void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<s
 
 			++stream_pos;
 			while( isspace(*stream_pos) ){ ++stream_pos; }
-
 
 			if( target_vec.size() % 100 == 0 )
 			{
@@ -439,7 +445,7 @@ void IfcStepReader::readStepLines( const std::vector<std::string>& step_lines, s
 
 	double progress = 0.2;
 	double last_progress = 0.2;
-	const int num_lines = (int)step_lines.size();
+	const size_t num_lines = step_lines.size();
 	
 	std::vector<shared_ptr<IfcPPEntity> >* target_vec_ptr = &target_entity_vec;
 	std::set<std::string>* unkown_entities_ptr = &unkown_entities;
@@ -534,7 +540,7 @@ void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntit
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
-	int num_objects = (int)vec_entities.size();
+	const size_t num_objects = vec_entities.size();
 	std::stringstream err;
 
 	// set progress

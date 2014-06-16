@@ -168,9 +168,10 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 	// read data as a block:
 	infile.read (&buffer[0],length);
 	infile.close();
-
+	
 	m_ifc_model->clearIfcModel();
 	m_step_reader->setModel( m_ifc_model );
+	m_step_reader->removeComments( buffer );
 	m_step_reader->readStreamHeader( buffer );
 	std::wstring file_schema_version = m_ifc_model->getFileSchema();
 	std::map<int,shared_ptr<IfcPPEntity> > map_entities;
@@ -420,6 +421,16 @@ void ReaderWriterIFC::createGeometry()
 				{
 					group_outside_spatial_structure->addChild( product_switch );
 				}
+
+				osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
+				if( product_switch_curves.valid() )
+				{
+					if( !m_geom_settings->m_ignore_curve_geometry )
+					{
+						group_outside_spatial_structure->addChild( product_switch_curves );
+					}
+				}
+
 				product_shape->added_to_storey = true;
 				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->getId(), ifc_product ) );
 			}
@@ -510,6 +521,20 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcPPObject>& ob
 				else
 				{
 					item_grp->addChild( product_switch );
+				}
+				parent_group->addChild( item_grp );
+			}
+
+			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
+			if( product_switch_curves.valid() )
+			{
+				if( item_grp == nullptr )
+				{
+					item_grp = product_switch_curves;
+				}
+				else
+				{
+					item_grp->addChild( product_switch_curves );
 				}
 				parent_group->addChild( item_grp );
 			}
@@ -629,8 +654,8 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	for( int i_item=0; i_item<product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
-		osg::Group* item_group = new osg::Group();
-		osg::Group* item_group_curves = new osg::Group();
+		osg::ref_ptr<osg::Group> item_group = new osg::Group();
+		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
 
 		// create shape for open shells
 		for( int i=0; i<item_data->open_polyhedrons.size(); ++i )
@@ -643,7 +668,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			
 			shared_ptr<carve::mesh::MeshSet<3> > open_shell_meshset( shell_data->createMesh(carve::input::opts()) );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			ConverterOSG::drawMeshSet( open_shell_meshset.get(), geode );
+			ConverterOSG::drawMeshSet( open_shell_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode);
 
 			// disable back face culling for open meshes
@@ -661,7 +686,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 			shared_ptr<carve::mesh::MeshSet<3> > open_or_closed_shell_meshset( shell_data->createMesh(carve::input::opts()) );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			ConverterOSG::drawMeshSet( open_or_closed_shell_meshset.get(), geode );
+			ConverterOSG::drawMeshSet( open_or_closed_shell_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode);
 		}
 
@@ -674,7 +699,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				//CSG_Adapter::simplifyMesh( item_meshset );
 			}
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
-			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result );
+			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode_result);
 		}
 
@@ -774,6 +799,11 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		if( item_group->getNumChildren() > 0 )
 		{
 			product_switch->addChild(item_group);
+		}
+
+		if( item_group_curves->getNumChildren() > 0 )
+		{
+			product_switch_curves->addChild(item_group_curves);
 		}
 	}
 

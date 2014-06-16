@@ -17,6 +17,11 @@
 #include "ifcpp/model/IfcPPModel.h"
 #include "ifcpp/reader/IfcXmlReader.h"
 
+void IfcXmlReader::removeComments( std::string& buffer )
+{
+	// not implemented
+}
+
 void IfcXmlReader::readStreamHeader( const std::string& in )
 {
 	// not implemented
