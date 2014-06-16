@@ -14,18 +14,19 @@
 #pragma once
 
 #include "ifcpp/model/shared_ptr.h"
-#include "IfcPlusPlusReader.h"
+#include "IncludeCarveHeaders.h"
 
-class IfcStepReader : public IfcPlusPlusReader
+class PointConverter;
+class IfcBSplineCurve;
+class IfcBSplineSurface;
+
+class SplineConverter
 {
 public:
-	IfcStepReader();
-	~IfcStepReader();
-	virtual void removeComments( std::string& buffer );
-	virtual void readStreamHeader(	const std::string& in );
-	virtual void readStreamData(	const std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map );
-	
-	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& step_lines );
-	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<shared_ptr<IfcPPEntity> >& vec_target_entity );
-	void readEntityArguments(	const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	SplineConverter( shared_ptr<PointConverter>& point_converter );
+	~SplineConverter();
+	void convertBSplineCurve( const shared_ptr<IfcBSplineCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points ) const;
+	void convertIfcBSplineSurface(	const shared_ptr<IfcBSplineSurface>& ifc_surface,	shared_ptr<carve::input::PolylineSetData>& polyline_data );
+
+	shared_ptr<PointConverter> m_point_converter;
 };

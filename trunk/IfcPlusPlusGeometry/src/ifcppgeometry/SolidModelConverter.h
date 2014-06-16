@@ -19,6 +19,7 @@
 
 class GeometrySettings;
 class UnitConverter;
+class PointConverter;
 class ProfileCache;
 class FaceConverter;
 class CurveConverter;
@@ -33,7 +34,8 @@ class IfcCsgPrimitive3D;
 class SolidModelConverter
 {
 public:
-	SolidModelConverter( shared_ptr<GeometrySettings> settings, shared_ptr<UnitConverter> uc, shared_ptr<CurveConverter>	cc, shared_ptr<FaceConverter> fc, shared_ptr<ProfileCache>	pc );
+	SolidModelConverter( shared_ptr<GeometrySettings>& settings, shared_ptr<UnitConverter>& uc, 
+		shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>&	cc, shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache );
 	~SolidModelConverter();
 
 	void convertIfcBooleanResult(		const shared_ptr<IfcBooleanResult>& operand,			shared_ptr<ItemData> item_data, std::stringstream& err );
@@ -46,6 +48,7 @@ public:
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
+	shared_ptr<PointConverter>			m_point_converter;
 	shared_ptr<CurveConverter>			m_curve_converter;
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<ProfileCache>			m_profile_cache;

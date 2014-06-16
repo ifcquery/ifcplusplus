@@ -51,11 +51,13 @@
 #include "GeomUtils.h"
 #include "GeometryException.h"
 #include "PlacementConverter.h"
+#include "PointConverter.h"
 #include "ProfileConverter.h"
+#include "SplineConverter.h"
 #include "CurveConverter.h"
 
-CurveConverter::CurveConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc )
-	: m_geom_settings(geom_settings), m_unit_converter( uc )
+CurveConverter::CurveConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
+	: m_geom_settings(geom_settings), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc)
 {
 }
 
@@ -99,6 +101,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 }
 
 
+
 void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points,
 	std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 {
@@ -136,7 +139,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			std::vector<shared_ptr<IfcCartesianPoint> >& points = poly_line->m_Points;
 			if( points.size() > 0 )
 			{
-				convertIfcCartesianPointVector( points, target_vec );
+				m_point_converter->convertIfcCartesianPointVector( points, target_vec );
 				shared_ptr<IfcCartesianPoint>& first_point = points[0];
 				if( first_point->m_Coordinates.size() > 1 )
 				{
@@ -164,11 +167,12 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 		shared_ptr<IfcBSplineCurve> bspline_curve = dynamic_pointer_cast<IfcBSplineCurve>(bounded_curve);
 		if( bspline_curve )
 		{
-			std::vector<shared_ptr<IfcCartesianPoint> >&	points = bspline_curve->m_ControlPointsList;
+			 //const shared_ptr<IfcBSplineCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& loops, std::vector<carve::geom::vector<3> >& segment_start_points
+			std::vector<carve::geom::vector<3> > curve_points;
+			//std::vector<carve::geom::vector<3> > segment_start_points;
+			m_spline_converter->convertBSplineCurve( bspline_curve, target_vec, segment_start_points );
+				
 
-
-			// TODO: compute bspline curve
-			convertIfcCartesianPointVector( points, target_vec );
 			return;
 		}
 		throw UnhandledRepresentationException(bounded_curve);
@@ -220,8 +224,8 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 					if( findFirstInVector( trim1_vec, trim_point1 ) )
 					{
 						carve::geom::vector<3> trim_point;
-						convertIfcCartesianPoint( trim_point1, trim_point );
-						trim_angle1 = getAngleOnCircle( circle_center, circle_radius, trim_point );
+						m_point_converter->convertIfcCartesianPoint( trim_point1, trim_point );
+						trim_angle1 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
 					}
 				}
 			}
@@ -240,8 +244,8 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 					if( findFirstInVector( trim2_vec, ifc_trim_point ) )
 					{
 						carve::geom::vector<3> trim_point;
-						convertIfcCartesianPoint( ifc_trim_point, trim_point );
-						trim_angle2 = getAngleOnCircle( circle_center, circle_radius, trim_point );
+						m_point_converter->convertIfcCartesianPoint( ifc_trim_point, trim_point );
+						trim_angle2 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
 					}
 				}
 			}
@@ -363,7 +367,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 	{
 		shared_ptr<IfcCartesianPoint> ifc_line_point = line->m_Pnt;
 		carve::geom::vector<3> line_origin;
-		convertIfcCartesianPoint( ifc_line_point, line_origin );
+		m_point_converter->convertIfcCartesianPoint( ifc_line_point, line_origin );
 		
 		// line: lambda(u) = line_point + u*line_direction
 		shared_ptr<IfcVector> line_vec = line->m_Dir;
@@ -405,7 +409,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			if( findFirstInVector( trim1_vec, ifc_trim_point ) )
 			{
 				carve::geom::vector<3> trim_point;
-				convertIfcCartesianPoint( ifc_trim_point, trim_point );
+				m_point_converter->convertIfcCartesianPoint( ifc_trim_point, trim_point );
 
 				carve::geom::vector<3> closest_point_on_line;
 				GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
@@ -431,7 +435,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			if( findFirstInVector( trim2_vec, ifc_trim_point ) )
 			{
 				carve::geom::vector<3> trim_point;
-				convertIfcCartesianPoint( ifc_trim_point, trim_point );
+				m_point_converter->convertIfcCartesianPoint( ifc_trim_point, trim_point );
 
 				carve::geom::vector<3> closest_point_on_line;
 				GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
@@ -484,7 +488,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 
 void CurveConverter::convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<carve::geom::vector<3> >& loop ) const
 {
-	convertIfcCartesianPointVector( poly_line->m_Points, loop );
+	m_point_converter->convertIfcCartesianPointVector( poly_line->m_Points, loop );
 }
 
 void CurveConverter::convertIfcLoop( const shared_ptr<IfcLoop>& loop,	std::vector<carve::geom::vector<3> >& loop_points ) const
@@ -493,7 +497,7 @@ void CurveConverter::convertIfcLoop( const shared_ptr<IfcLoop>& loop,	std::vecto
 	if( poly_loop )
 	{
 		const std::vector<shared_ptr<IfcCartesianPoint> >&    ifc_points = poly_loop->m_Polygon;
-		convertIfcCartesianPointVectorSkipDuplicates( ifc_points, loop_points );
+		m_point_converter->convertIfcCartesianPointVectorSkipDuplicates( ifc_points, loop_points );
 
 		// if first and last point have same coordinates, remove last point
 		while( loop_points.size() > 2 )
@@ -569,206 +573,5 @@ void CurveConverter::convertIfcLoop( const shared_ptr<IfcLoop>& loop,	std::vecto
 			}
 		}
 	}
-}
-
-void CurveConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point,	carve::geom::vector<3> & point ) const
-{
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
-	std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
-	if( coords1.size() > 2 )
-	{
-		// round to 0.1 mm
-		// TODO: round only when digits are noise
-#ifdef ROUND_IFC_COORDINATES
-		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-		double z = round(coords1[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-		double x = coords1[0]->m_value*length_factor;
-		double y = coords1[1]->m_value*length_factor;
-		double z = coords1[2]->m_value*length_factor;
-#endif
-		point = carve::geom::VECTOR( x, y, z );
-	}
-	else if( coords1.size() > 1 )
-	{
-		// round to 0.1 mm
-#ifdef ROUND_IFC_COORDINATES
-		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-		double x = coords1[0]->m_value*length_factor;
-		double y = coords1[1]->m_value*length_factor;
-#endif
-		point = carve::geom::VECTOR( x, y, 0.0 );
-	}
-}
-
-void CurveConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point,	carve::geom::vector<3> & point, double length_factor )
-{
-	std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
-	if( coords1.size() > 2 )
-	{
-		// round to 0.1 mm
-#ifdef ROUND_IFC_COORDINATES
-		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-		double z = round(coords1[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-		double x = coords1[0]->m_value*length_factor;
-		double y = coords1[1]->m_value*length_factor;
-		double z = coords1[2]->m_value*length_factor;
-#endif
-		point = carve::geom::VECTOR( x, y, z );
-	}
-	else if( coords1.size() > 1 )
-	{
-		// round to 0.1 mm
-#ifdef ROUND_IFC_COORDINATES
-		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-		double x = coords1[0]->m_value*length_factor;
-		double y = coords1[1]->m_value*length_factor;
-#endif
-		point = carve::geom::VECTOR( x, y, 0.0 );
-	}
-}
-
-void CurveConverter::convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<carve::geom::vector<3> >& loop ) const
-{
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
-	const size_t num_points = points.size();
-	for( size_t i_point=0; i_point < num_points; ++i_point )
-	{
-		const std::vector<shared_ptr<IfcLengthMeasure> >& coords = points[i_point]->m_Coordinates;
-
-		if( coords.size() > 2  )
-		{
-			// round to 0.1 mm
-#ifdef ROUND_IFC_COORDINATES
-			double x = round(coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-			double y = round(coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-			double z = round(coords[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-			double x = coords[0]->m_value*length_factor;
-			double y = coords[1]->m_value*length_factor;
-			double z = coords[2]->m_value*length_factor;
-#endif
-			loop.push_back( carve::geom::VECTOR( x, y, z ) );
-		}
-		else if( coords.size() > 1  )
-		{
-			// round to 0.1 mm
-#ifdef ROUND_IFC_COORDINATES
-			double x = round(coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-			double y = round(coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-			double x = coords[0]->m_value*length_factor;
-			double y = coords[1]->m_value*length_factor;
-#endif
-			loop.push_back( carve::geom::VECTOR( x, y, 0.0 ) );
-		}
-		else
-		{
-			std::cout << "convertIfcCartesianPointVector: ifc_pt->m_Coordinates.size() != 2" << std::endl;
-		}
-	}
-}
-
-void CurveConverter::convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& ifc_points, std::vector<carve::geom::vector<3> >& loop ) const
-{
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
-	std::vector<shared_ptr<IfcCartesianPoint> >::const_iterator it_cp;
-	int i=0;
-	carve::geom::vector<3>  vertex_previous;
-	for( it_cp=ifc_points.begin(); it_cp!=ifc_points.end(); ++it_cp, ++i )
-	{
-		shared_ptr<IfcCartesianPoint> cp = (*it_cp);
-		const int cp_id = cp->getId();
-		double x = 0.0, y = 0.0, z = 0.0;
-		std::vector<shared_ptr<IfcLengthMeasure> >& coords = cp->m_Coordinates;
-
-
-		if( coords.size() > 2 )
-		{
-#ifdef ROUND_IFC_COORDINATES
-			x = round(coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-			y = round(coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-			z = round(coords[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-			x = coords[0]->m_value*length_factor;
-			y = coords[1]->m_value*length_factor;
-			z = coords[2]->m_value*length_factor;
-#endif
-		}
-		else if( coords.size() > 1 )
-		{
-#ifdef ROUND_IFC_COORDINATES
-			x = round(coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-			y = round(coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
-			x = coords[0]->m_value*length_factor;
-			y = coords[1]->m_value*length_factor;
-#endif
-		}
-
-		carve::geom::vector<3>  vertex( carve::geom::VECTOR( x, y, z ) );
-
-		// skip duplicate vertices
-		if( it_cp != ifc_points.begin() )
-		{
-			if( std::abs(vertex.x-vertex_previous.x) < 0.00000001 )
-			{
-				if( std::abs(vertex.y-vertex_previous.y) < 0.00000001 )
-				{
-					if( std::abs(vertex.z-vertex_previous.z) < 0.00000001 )
-					{
-						// TODO: is it better to report degenerated loops, or to just omit them?
-						continue;
-					}
-				}
-			}
-		}
-		loop.push_back( vertex );
-		vertex_previous = vertex;
-	}
-}
-
-// @brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
-double CurveConverter::getAngleOnCircle( const carve::geom::vector<3>& circle_center, double circle_radius, const carve::geom::vector<3>& trim_point )
-{
-	double result_angle = -1.0;
-	carve::geom::vector<3> center_trim_point = trim_point-circle_center;
-	if( std::abs(center_trim_point.length() - circle_radius) < 0.0001 )
-	{
-		carve::geom::vector<3> center_trim_point_direction = center_trim_point;
-		center_trim_point_direction.normalize();
-		double cos_angle = carve::geom::dot( center_trim_point_direction, carve::geom::vector<3> ( carve::geom::VECTOR( 1.0, 0, 0 ) ) );
-
-		if( std::abs(cos_angle) < 0.0001 )
-		{
-			if( center_trim_point.y > 0 )
-			{
-				result_angle = M_PI_2;
-			}
-			else if( center_trim_point.y < 0 )
-			{
-				result_angle = M_PI*1.5;
-			}
-		}
-		else
-		{
-			if( center_trim_point.y > 0 )
-			{
-				result_angle = acos( cos_angle );
-			}
-			else if( center_trim_point.y < 0 )
-			{
-				result_angle = 2.0*M_PI - acos( cos_angle );
-			}
-		}
-	}
-	return result_angle;
 }
 

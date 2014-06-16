@@ -94,9 +94,6 @@ void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& ve
 		{
 			++ch;
 		}
-        //if (*ch == ',')
-          //      return ((wchar_t *)s);
-        //return (NULL);
 
 		if( last_token != nullptr )
 		{
@@ -117,7 +114,6 @@ void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& ve
 			}
 		}
 
-		//ch = strchr( ch, ',' );
 		if( *ch == L'\0' )
 		{
 			break;
@@ -405,7 +401,6 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<T>
 			std::wstringstream strs;
 			strs << "unhandled inline argument: " << item << " in function IfcAppliedValueSelect::readStepData" << std::endl;
 			throw IfcPPException( strs.str() );
-
 		}
 	}
 	return;

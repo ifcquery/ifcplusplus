@@ -55,6 +55,7 @@ public:
 	std::map<int,shared_ptr<ShapeInputData> >&	getShapeInputData()				{ return m_shape_input_data; }
 	std::map<int,shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure()	{ return m_map_outside_spatial_structure; }
 	shared_ptr<UnitConverter>&					getUnitConverter()				{ return m_unit_converter; }
+	shared_ptr<GeometrySettings>&				getGeomSettings()				{ return m_geom_settings; }
 
 	std::stringstream& getErrors() { return m_err; }
 	std::stringstream& getMessages() { return m_messages; }

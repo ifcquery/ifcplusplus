@@ -18,6 +18,8 @@
 
 class UnitConverter;
 class GeometrySettings;
+class PointConverter;
+class SplineConverter;
 class IfcPolyline;
 class IfcLoop;
 class IfcCurve;
@@ -29,7 +31,7 @@ class IfcTrimmingSelect;
 class CurveConverter
 {
 public:
-	CurveConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter );
+	CurveConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& unit_converter, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc );
 	~CurveConverter();
 
 	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& loops, std::vector<carve::geom::vector<3> >& segment_start_points ) const;
@@ -43,12 +45,8 @@ public:
 	void convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line,	std::vector<carve::geom::vector<3> >& loops ) const;
 	void convertIfcLoop( const shared_ptr<IfcLoop>& loop,	std::vector<carve::geom::vector<3> >& loop_points ) const;
 
-	void convertIfcCartesianPoint(			const shared_ptr<IfcCartesianPoint>& ifc_point,				carve::geom::vector<3>& point ) const;
-	static void convertIfcCartesianPoint(	const shared_ptr<IfcCartesianPoint>& ifc_point,				carve::geom::vector<3>& point, double length_factor );
-	void convertIfcCartesianPointVector(	const std::vector<shared_ptr<IfcCartesianPoint> >& points,	std::vector<carve::geom::vector<3> >& vertices ) const;
-	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& ifc_points, std::vector<carve::geom::vector<3> >& loop ) const;
-	static double getAngleOnCircle( const carve::geom::vector<3>& circle_center, double circle_radius, const carve::geom::vector<3>& trim_point );
-	
 	shared_ptr<GeometrySettings>	m_geom_settings;
 	shared_ptr<UnitConverter>		m_unit_converter;
+	shared_ptr<SplineConverter>		m_spline_converter;
+	shared_ptr<PointConverter>		m_point_converter;
 };

@@ -161,7 +161,7 @@ void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode
 #endif
 }
 
-void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode, bool add_color_array )
+void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode, double intermediate_normal_angle, bool add_color_array )
 {
 	osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
 	osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
@@ -169,95 +169,101 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 	osg::ref_ptr<osg::Vec3Array> vertices_quad = new osg::Vec3Array();
 	osg::ref_ptr<osg::Vec3Array> normals_quad = new osg::Vec3Array();
 
-	std::vector<carve::mesh::Vertex<3> *> v;
-	const carve::geom::vector<3>* v0;
-	const carve::geom::vector<3>* v1;
-	const carve::geom::vector<3>* v2;
-	const carve::geom::vector<3>* v3;
-
 	const size_t num_faces = mesh->faces.size();
 	for( size_t i = 0; i != num_faces; ++i )
 	{
-		carve::mesh::Face<3>* f = mesh->faces[i];
-		if(f->nVertices() > 4)
+		carve::mesh::Face<3>* face = mesh->faces[i];
+		if(face->nVertices() > 4)
 		{
-			drawFace(f, geode );
+			drawFace(face, geode );
 			continue;
 		}
-		osg::Vec3 normal(f->plane.N.v[0],f->plane.N.v[1],f->plane.N.v[2]);
-		f->getVertices(v);
+		carve::geom::vector<3> face_normal = face->plane.N;
+		osg::Vec3 normal_osg( face_normal.x, face_normal.y, face_normal.z );
 
+		carve::mesh::Edge<3>* e = face->edge;
+		do {
+			carve::mesh::Vertex<3>* vertex = e->vert;
+			const carve::geom::vector<3>& vertex_v = vertex->v;
 
-		//		if( f->nEdges() == 3 )
-		//{
-		//	carve::geom::vector<3>& v = edge->vert->v;
-		//	vertices_tri->push_back( osg::Vec3(v.x, v.y, v.z ) );
-		//	
-		//	edge = edge->next;
-		//	v = edge->vert->v;
-		//	vertices_tri->push_back( osg::Vec3(v.x, v.y, v.z ) );
-		//	
-		//	edge = edge->next;
-		//	v = edge->vert->v;
-		//	vertices_tri->push_back( osg::Vec3(v.x, v.y, v.z ) );
+			if( intermediate_normal_angle > 0.0 )
+			{
+				// check if all adjacent faces have almost same normal
+				if( e->rev )
+				{
+					if( e->rev->next )
+					{
+						carve::mesh::Edge<3>* e1 = e->rev->next;
+						carve::mesh::Edge<3>* e1_start = e1;
+						if( e->next->rev && e->rev->next )
+						{
+							bool use_intermediate_normal = false;
+							size_t i_edge;
+							for( i_edge = 0; i_edge < 1000; ++i_edge )
+							{
+								// TODO: if face f1 is much bigger than the adjacent face f2, use f1->plane.N as normals for all its vertices
+								carve::geom::vector<3> reverse_face_normal = e1->face->plane.N;
+								double cos_angle = dot( reverse_face_normal, face_normal );
+								if( abs( cos_angle - 1.0 ) < intermediate_normal_angle )
+								{
+									use_intermediate_normal = true;
+									normal_osg = osg::Vec3( reverse_face_normal.x, reverse_face_normal.y, reverse_face_normal.z ) + normal_osg;
+								}
 
-		//	normals_tri->push_back( normal );
-		//	normals_tri->push_back( normal );
-		//	normals_tri->push_back( normal );
-		//}
-		//else if( f->nEdges() == 4 )
-		//{
-		//	carve::geom::vector<3>& v = edge->vert->v;
-		//	vertices_quad->push_back( osg::Vec3(v.x, v.y, v.z ) );
+								if( !e1->rev )
+								{
+									// it's an open mesh
+									break;
+								}
 
-		//	edge = edge->next;
-		//	v = edge->vert->v;
-		//	vertices_quad->push_back( osg::Vec3(v.x, v.y, v.z ) );
-		//	
-		//	edge = edge->next;
-		//	v = edge->vert->v;
-		//	vertices_quad->push_back( osg::Vec3(v.x, v.y, v.z ) );
-		//	
-		//	edge = edge->next;
-		//	v = edge->vert->v;
-		//	vertices_quad->push_back( osg::Vec3(v.x, v.y, v.z ) );
+								e1 = e1->rev->next;
+								if( !e1 )
+								{
+									break;
+								}
+								
+#ifdef _DEBUG
+								if( e1->vert != vertex )
+								{
+									std::cout << "e1->vert != vertex" << std::endl;
+								}
+#endif
+								if( e1 == e1_start )
+								{
+									break;
+								}
 
-		//	normals_quad->push_back( normal );
-		//	normals_quad->push_back( normal );
-		//	normals_quad->push_back( normal );
-		//	normals_quad->push_back( normal );
-		//}
+							}
 
-		if( v.size() == 3 )
-		{
-			v0 = &(v[0]->v);
-			v1 = &(v[1]->v);
-			v2 = &(v[2]->v);
-			normals_tri->push_back( normal );
-			normals_tri->push_back( normal );
-			normals_tri->push_back( normal );
+#ifdef _DEBUG
+							if( i_edge > 30 )
+							{
+								std::cout << "i_edge > 20" << std::endl;
+							}
+#endif
+							if( use_intermediate_normal )
+							{
+								normal_osg.normalize();
+							}
+						}
+					}
+				}
+			}
 
-			vertices_tri->push_back( osg::Vec3(v0->x, v0->y, v0->z ) );
-			vertices_tri->push_back( osg::Vec3(v1->x, v1->y, v1->z ) );
-			vertices_tri->push_back( osg::Vec3(v2->x, v2->y, v2->z ) );
-		}
-		else if( v.size() == 4 )
-		{
-			v0 = &(v[0]->v);
-			v1 = &(v[1]->v);
-			v2 = &(v[2]->v);
-			v3 = &(v[3]->v);
+			if( face->n_edges == 3 )
+			{
+				vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+				normals_tri->push_back( normal_osg );
+			}
+			else if( face->n_edges == 4 )
+			{
+				vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+				normals_quad->push_back( normal_osg );
+			}
 
-			normals_quad->push_back( normal );
-			normals_quad->push_back( normal );
-			normals_quad->push_back( normal );
-			normals_quad->push_back( normal );
+			e = e->next;
 
-			vertices_quad->push_back( osg::Vec3(v0->x, v0->y, v0->z ) );
-			vertices_quad->push_back( osg::Vec3(v1->x, v1->y, v1->z ) );
-			vertices_quad->push_back( osg::Vec3(v2->x, v2->y, v2->z ) );
-			vertices_quad->push_back( osg::Vec3(v3->x, v3->y, v3->z ) );
-		}
+		} while (e != face->edge);
 	}
 
 	if( vertices_tri->size() > 0 )
@@ -271,7 +277,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 	}
 }
 
-void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geode* geode, bool add_color_array )
+void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geode* geode, double intermediate_normal_angle, bool add_color_array )
 {
 	if( !meshset )
 	{
@@ -280,125 +286,8 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 
 	for( size_t i = 0; i < meshset->meshes.size(); ++i )
 	{
-		drawMesh( meshset->meshes[i], geode, add_color_array );
+		drawMesh( meshset->meshes[i], geode, intermediate_normal_angle, add_color_array );
 	}
-}
-
-void ConverterOSG::drawPolyhedron( const carve::poly::Polyhedron* polyhedron, osg::Geode* geode, bool add_color_array )
-{
-	shared_ptr<carve::mesh::MeshSet<3> > mesh_set( carve::meshFromPolyhedron(polyhedron, -1) );
-	for( size_t i = 0; i < mesh_set->meshes.size(); ++i )
-	{
-		drawMesh(mesh_set->meshes[i], geode, add_color_array );
-	}
-}
-
-void ConverterOSG::drawOpenMesh(	const carve::input::PolyhedronData* poly_data, osg::Geode* geode, bool add_color_array )
-{
-	const std::vector<carve::geom::vector<3> >& vec_points = poly_data->points;
-	const std::vector<int>& face_indices = poly_data->faceIndices;
-
-	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-	osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
-	osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::TRIANGLES, 0 );
-
-	osg::ref_ptr<osg::Vec3Array> normals_quad = new osg::Vec3Array();
-	osg::ref_ptr<osg::DrawElementsUInt> quads = new osg::DrawElementsUInt( osg::PrimitiveSet::QUADS, 0 );
-
-	std::vector<carve::geom::vector<3> >::const_iterator it_points;
-	for( it_points = vec_points.begin(); it_points != vec_points.end(); ++it_points )
-	{
-		const carve::geom::vector<3> & vec = (*it_points);
-		vertices->push_back( osg::Vec3f( vec.x, vec.y, vec.z ) );
-	}
-
-	std::vector<int>::const_iterator it_face_indices;
-	for( it_face_indices = face_indices.begin(); it_face_indices != face_indices.end(); ++it_face_indices )
-	{
-		int num_indices = (*it_face_indices);
-		if( num_indices == 3 )
-		{
-			++it_face_indices;
-			int vi0 = (*it_face_indices);
-			triangles->push_back( vi0 );
-			osg::Vec3f& v0 = vertices->at( vi0 );
-
-			++it_face_indices;
-			int vi1 = (*it_face_indices);
-			triangles->push_back( vi1 );
-			osg::Vec3f& v1 = vertices->at( vi1 );
-
-			++it_face_indices;
-			int vi2 = (*it_face_indices);
-			triangles->push_back( vi2 );
-			osg::Vec3f& v2 = vertices->at( vi2 );
-
-			// TODO: get edged from connectivity and compute intermediate normal if angle between faces is small
-			osg::Vec3f normal( (v1-v0)^(v2-v0) );
-			normal.normalize();
-			normals->push_back(normal);
-
-		}
-		else if( num_indices == 4 )
-		{
-			++it_face_indices;
-			int vi0 = (*it_face_indices);
-			quads->push_back( vi0 );
-			osg::Vec3f& v0 = vertices->at( vi0 );
-
-			++it_face_indices;
-			int vi1 = (*it_face_indices);
-			quads->push_back( vi1 );
-			osg::Vec3f& v1 = vertices->at( vi1 );
-
-			++it_face_indices;
-			int vi2 = (*it_face_indices);
-			quads->push_back( vi2 );
-			osg::Vec3f& v2 = vertices->at( vi2 );
-
-			++it_face_indices;
-			int vi3 = (*it_face_indices);
-			quads->push_back( vi3 );
-
-			osg::Vec3f normal( (v1-v0)^(v2-v0) );
-			normal.normalize();
-			normals->push_back(normal);
-
-		}
-		else
-		{
-			for( int i=0; i<num_indices; ++i )
-			{
-				(++it_face_indices);
-
-			}
-		}
-	}
-
-	osg::Geometry* geometry = new osg::Geometry();
-	geometry->setVertexArray( vertices );
-
-	geometry->setNormalArray( normals );
-	geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
-
-	if( add_color_array )
-	{
-		osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-		colors->resize( vertices->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
-
-		geometry->setColorArray( colors );
-		geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
-	}
-
-	if( triangles->size() > 0 )
-	{
-		geometry->addPrimitiveSet( triangles );
-	}
-	if( quads->size() > 0 )
-	{
-		geometry->addPrimitiveSet( quads );
-	}
-	geode->addDrawable( geometry );
 }
 
 void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array )
@@ -446,10 +335,6 @@ void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_d
 
 	geode->addDrawable(geometry);
 }
-
-//#define THOROUGH_MESHSET_CHECK
-
-
 
 double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 {

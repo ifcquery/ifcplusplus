@@ -31,19 +31,21 @@ set(IFCPPGEOMETRY_HEADER_FILES
 
 set(IFCPPGEOMETRY_SOURCE_FILES 
   src/ifcppgeometry/ConverterOSG.cpp
-  src/ifcppgeometry/CurveConverter.cpp
   src/ifcppgeometry/CSG_Adapter.cpp
+  src/ifcppgeometry/CurveConverter.cpp
   src/ifcppgeometry/FaceConverter.cpp
+  src/ifcppgeometry/GeometryInputData.cpp
   src/ifcppgeometry/GeometrySettings.cpp
   src/ifcppgeometry/GeomUtils.cpp
-  src/ifcppgeometry/GeometryInputData.cpp
   src/ifcppgeometry/PlacementConverter.cpp
+  src/ifcppgeometry/PointConverter.cpp
   src/ifcppgeometry/ProfileCache.cpp
   src/ifcppgeometry/ProfileConverter.cpp
   src/ifcppgeometry/ReaderWriterIFC.cpp
   src/ifcppgeometry/RepresentationConverter.cpp
   src/ifcppgeometry/SectionedSpine.cpp
   src/ifcppgeometry/SolidModelConverter.cpp
+  src/ifcppgeometry/SplineConverter.cpp
   src/ifcppgeometry/StylesConverter.cpp
 )
 

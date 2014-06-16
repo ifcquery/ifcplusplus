@@ -77,6 +77,7 @@
 #include "ConverterOSG.h"
 #include "GeometrySettings.h"
 #include "PlacementConverter.h"
+#include "PointConverter.h"
 #include "ProfileConverter.h"
 #include "ProfileCache.h"
 #include "StylesConverter.h"
@@ -84,6 +85,7 @@
 #include "CurveConverter.h"
 #include "SolidModelConverter.h"
 #include "FaceConverter.h"
+#include "SplineConverter.h"
 #include "DebugViewerCallback.h"
 #include "CSG_Adapter.h"
 #include "RepresentationConverter.h"
@@ -95,10 +97,12 @@ RepresentationConverter::RepresentationConverter( shared_ptr<GeometrySettings> g
 	m_handle_layer_assignments = false;
 
 	m_styles_converter = shared_ptr<StylesConverter>( new StylesConverter() );
-	m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_geom_settings, m_unit_converter ) );
-	m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_unit_converter ) );
-	m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter ) );
-	m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_face_converter, m_profile_cache ) );
+	m_point_converter = shared_ptr<PointConverter>( new PointConverter( m_geom_settings, m_unit_converter ) );
+	m_spline_converter = shared_ptr<SplineConverter>( new SplineConverter(m_point_converter) );
+	m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
+	m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
+	m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter ) );
+	m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_unit_converter, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache ) );
 }
 
 RepresentationConverter::~RepresentationConverter()

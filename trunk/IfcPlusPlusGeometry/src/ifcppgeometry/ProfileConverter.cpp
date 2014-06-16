@@ -57,11 +57,12 @@
 #include "RepresentationConverter.h"
 #include "PlacementConverter.h"
 #include "CurveConverter.h"
+#include "PointConverter.h"
 #include "ProfileConverter.h"
 
 
-ProfileConverter::ProfileConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
-	: m_geom_settings(geom_settings), m_unit_converter(unit_converter)
+ProfileConverter::ProfileConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc, shared_ptr<PointConverter> pc, shared_ptr<SplineConverter>& sc )
+	: m_geom_settings(geom_settings), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc)
 {
 }
 
@@ -189,13 +190,14 @@ void ProfileConverter::addAvoidingDuplicates( const std::vector<carve::geom::vec
 	paths.push_back(polygon_add);
 }
 
-void ProfileConverter::convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile,	std::vector<std::vector<carve::geom::vector<2> > >& paths ) const
+
+void ProfileConverter::convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile,	std::vector<std::vector<carve::geom::vector<2> > >& paths )
 {
 	shared_ptr<IfcCurve> outer_curve = profile->m_OuterCurve;
 	std::vector<carve::geom::vector<2> > curve_polygon;
 	std::vector<carve::geom::vector<2> > segment_start_points;
 
-	CurveConverter c_conv( m_geom_settings, m_unit_converter );
+	CurveConverter c_conv( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter );
 	c_conv.convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points );
 
 	deleteLastPointIfEqualToFirst( curve_polygon );
@@ -219,7 +221,7 @@ void ProfileConverter::convertIfcArbitraryClosedProfileDef( const shared_ptr<Ifc
 	}
 }
 	
-void ProfileConverter::convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcArbitraryOpenProfileDef>& profile,	std::vector<std::vector<carve::geom::vector<2> > >& paths ) const
+void ProfileConverter::convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcArbitraryOpenProfileDef>& profile,	std::vector<std::vector<carve::geom::vector<2> > >& paths )
 {
 	// ENTITY IfcArbitraryOpenProfileDef
 	//	SUPERTYPE OF(IfcCenterLineProfileDef)
@@ -227,7 +229,7 @@ void ProfileConverter::convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcAr
 	//	Curve	 :	IfcBoundedCurve;
 
 	shared_ptr<IfcCurve> ifc_curve = profile->m_Curve;
-	CurveConverter c_converter( m_geom_settings, m_unit_converter );
+	CurveConverter c_converter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter );
 
 	//TODO IfcCenterLineProfileDef
 	shared_ptr<IfcCenterLineProfileDef> center_line_profile_def = dynamic_pointer_cast<IfcCenterLineProfileDef>(profile);
@@ -321,7 +323,7 @@ void ProfileConverter::convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcAr
 	}
 }
 	
-void ProfileConverter::convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<carve::geom::vector<2> > >& paths ) const
+void ProfileConverter::convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<carve::geom::vector<2> > >& paths )
 {
 	std::vector<int> temploop_counts;
 	std::vector<int> tempcontour_counts;
@@ -374,9 +376,9 @@ void ProfileConverter::convertIfcCompositeProfileDef( const shared_ptr<IfcCompos
 	}
 }
 	
-void ProfileConverter::convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<carve::geom::vector<2> > >& paths ) const
+void ProfileConverter::convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<carve::geom::vector<2> > >& paths )
 {
-	ProfileConverter temp_profiler( m_geom_settings, m_unit_converter );
+	ProfileConverter temp_profiler( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter );
 	temp_profiler.computeProfile( derived_profile->m_ParentProfile );
 	const std::vector<std::vector<carve::geom::vector<2> > >& parent_paths = temp_profiler.getCoordinates();
 
