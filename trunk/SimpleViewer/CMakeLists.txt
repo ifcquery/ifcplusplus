@@ -73,10 +73,8 @@ set(IFCPPVIEWER_SOURCE_FILES
   src/cmd/CmdWriteIfcFile.cpp
   src/cmd/Command.cpp
   src/cmd/CommandManager.cpp
-  src/gui/DebugViewer.cpp
   src/gui/IfcTreeWidget.cpp
   src/gui/MainWindow.cpp
-  src/gui/StepHighlighter.cpp
   src/gui/TabReadWrite.cpp
   src/gui/TabTextEdit.cpp
   src/gui/TabView.cpp
@@ -93,10 +91,8 @@ set(IFCPPVIEWER_HEADER_FILES
   src/cmd/CmdWriteIfcFile.h
   src/cmd/Command.h
   src/cmd/CommandManager.h
-  src/gui/DebugViewer.h
   src/gui/IfcTreeWidget.h
   src/gui/MainWindow.h
-  src/gui/StepHighlighter.h
   src/gui/TabReadWrite.h
   src/gui/TabTextEdit.h
   src/gui/TabView.h

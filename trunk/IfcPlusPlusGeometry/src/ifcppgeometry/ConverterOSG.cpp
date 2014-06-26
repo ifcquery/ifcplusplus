@@ -25,7 +25,6 @@
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/IfcPPOpenMP.h>
 
-#include "DebugViewerCallback.h"
 #include "GeomUtils.h"
 #include "ProfileConverter.h"
 #include "RepresentationConverter.h"

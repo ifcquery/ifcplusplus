@@ -57,7 +57,6 @@
 #include "ConverterOSG.h"
 #include "GeomUtils.h"
 #include "CSG_Adapter.h"
-#include "DebugViewerCallback.h"
 #include "GeometryException.h"
 #include "RepresentationConverter.h"
 #include "SolidModelConverter.h"
@@ -373,68 +372,17 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	}
 	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
 	GeomUtils::extrude( paths, extrusion_vector, poly_data, strs_err );
-
-#ifdef _DEBUG
-	if( false )// entity_id == 149044 || entity_id == 149241 || entity_id == 149053 )
-	{
-		shared_ptr<carve::input::PolyhedronData> poly_data_copy( new carve::input::PolyhedronData( *(poly_data.get()) ) );
-
-		std::vector<carve::geom::vector<3> >& points_copy = poly_data_copy->points;
-		for( std::vector<carve::geom::vector<3> >::iterator it_points = points_copy.begin(); it_points != points_copy.end(); ++it_points )
-		{
-			carve::geom::vector<3>& vertex = (*it_points);
-			vertex = carve::math::Matrix::TRANS( 0.1, 0.1, 0)*carve::math::Matrix::SCALE(4,4,4)*vertex;
-		}
-
-		//shared_ptr<carve::mesh::MeshSet<3> > mesh_set_copy( poly_data_copy->createMesh(carve::input::opts()) );
-
-		//ConverterOSG::dumpToVTK( paths );
-		renderPathsInDebugViewer( paths );
-		renderPolyhedronInDebugViewer( poly_data_copy.get(), osg::Vec4(1.0f, 0.0f, 1.0f, 1.0f), false );
-	}
-#endif
-
-	// apply object coordinate system
-	//std::vector<carve::geom::vector<3> >& points = poly_data->points;
-	//for( std::vector<carve::geom::vector<3> >::iterator it_points = points.begin(); it_points != points.end(); ++it_points )
-	//{
-	//	carve::geom::vector<3>& vertex = (*it_points);
-	//	vertex = pos*vertex;
-	//}
-
 	item_data->closed_polyhedrons.push_back( poly_data );
 
 #ifdef _DEBUG
-	shared_ptr<carve::mesh::MeshSet<3> > mesh_set( poly_data->createMesh(carve::input::opts()) );
+	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
 	std::stringstream strs_err_meshset;
-	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( mesh_set.get(), strs_err_meshset, -1 );
+	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err_meshset, -1 );
 
 	if( !poly_ok )
 	{
 		std::cout << strs_err_meshset.str().c_str() << std::endl;
-
-		renderMeshsetInDebugViewer( mesh_set.get(), osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f), true );
-		dumpMeshsets( mesh_set.get(), nullptr, nullptr, extruded_area->getId(), 0 );
-
-		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-		polyline_data->beginPolyline();
-		if( paths.size() > 0 )
-		{
-			const std::vector<carve::geom::vector<2> >& loop = paths[0]; 
-			for( int i=0; i<loop.size(); ++i )
-			{
-				const carve::geom::vector<2>& point = loop[i];
-				carve::geom::vector<3> point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
-				polyline_data->addVertex( point3d );
-				polyline_data->addPolylineIndex(i);
-			}
-
-			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			ConverterOSG::drawPolyline( polyline_data.get(), geode );
-
-			renderPolylineInDebugViewer( polyline_data.get(), osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f) );
-		}
-
+		CSG_Adapter::dumpMeshset( meshset.get(), true );
 	}
 #endif
 }
@@ -591,17 +539,16 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 
 	// create vertices
 	carve::math::Matrix m;
-	for( int i = 0; i <= num_segments; ++i )
+	for( int ii = 0; ii <= num_segments; ++ii )
 	{
 		m = carve::math::Matrix::ROT( angle, -axis_direction );
-		for( int j=0; j<profile_coords.size(); ++j )
+		for( size_t jj=0; jj<profile_coords.size(); ++jj )
 		{
-			const std::vector<carve::geom::vector<2> >& loop = profile_coords[j];
+			const std::vector<carve::geom::vector<2> >& loop = profile_coords[jj];
 
-			for( int k=0; k<loop.size(); ++k )
+			for( size_t kk=0; kk<loop.size(); ++kk )
 			{
-				const carve::geom::vector<2>& point = loop[k];
-
+				const carve::geom::vector<2>& point = loop[kk];
 				carve::geom::vector<3>  vertex= m*( carve::geom::VECTOR( point.x, point.y, 0 ) + base_point) - base_point;
 				polyhedron_data->addVertex( vertex );
 			}
@@ -610,7 +557,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	}
 
 	int num_vertices_per_section = 0;
-	for( int j=0; j<profile_coords.size(); ++j )
+	for( size_t j=0; j<profile_coords.size(); ++j )
 	{
 		const std::vector<carve::geom::vector<2> >& loop = profile_coords[j];
 		num_vertices_per_section += loop.size();
@@ -624,9 +571,9 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	// front cap
 	int back_cap_offset = num_vertices_per_section*(num_segments);
 	bool flip_faces = false;
-	for( size_t i = 0; i != triangulated.size(); ++i )
+	for( size_t ii = 0; ii != triangulated.size(); ++ii )
 	{
-		carve::triangulate::tri_idx triangle = triangulated[i];
+		carve::triangulate::tri_idx triangle = triangulated[ii];
 		const int vertex_id_a	= triangle.a;
 		const int vertex_id_b	= triangle.b;
 		const int vertex_id_c	= triangle.c;
@@ -640,7 +587,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		int vertex_id_b_top = vertex_id_b + back_cap_offset;
 		int vertex_id_c_top = vertex_id_c + back_cap_offset;
 
-		if( i == 0 )
+		if( ii == 0 )
 		{
 			const carve::poly::Vertex<3>& v_a = polyhedron_data->getVertex(vertex_id_a);
 			const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex(vertex_id_b);
@@ -669,9 +616,14 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			std::cout << "area < 0.000000001\n" << std::endl;
+			std::cout << __FUNC__ << ": area < 0.000000001\n" << std::endl;
 		}
 #endif
+
+		if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+		{
+			continue;
+		}
 
 		if( flip_faces )
 		{
@@ -686,38 +638,37 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	}
 
 	// faces of revolved shape
-	for( int i = 0; i < num_vertices_per_section-1; ++i )
+	for( int ii = 0; ii < num_vertices_per_section-1; ++ii )
 	{
-		int i_offset_next = i + num_vertices_per_section;
-		for( int j = 0; j < num_segments; ++j )
+		int i_offset_next = ii + num_vertices_per_section;
+		for( int jj = 0; jj < num_segments; ++jj )
 		{
-			int j_offset = j*num_vertices_per_section;
-			//polyhedron_data->addFace( j_offset+i, j_offset+i+1, j_offset+1+i_offset_next, j_offset+i_offset_next );
-			polyhedron_data->addFace( j_offset+i, j_offset+i+1, j_offset+1+i_offset_next );
-			polyhedron_data->addFace( j_offset+1+i_offset_next, j_offset+i_offset_next, j_offset+i );
+			int j_offset = jj*num_vertices_per_section;
+			polyhedron_data->addFace( j_offset+ii, j_offset+ii+1, j_offset+1+i_offset_next );
+			polyhedron_data->addFace( j_offset+1+i_offset_next, j_offset+i_offset_next, j_offset+ii );
 		}
 	}
 
-	for( int j = 0; j < num_segments; ++j )
+	for( int jj = 0; jj < num_segments; ++jj )
 	{
-		int j_offset = j*num_vertices_per_section;
-		//polyhedron_data->addFace( j_offset+num_polygon_points-1, j_offset, j_offset+num_polygon_points, j_offset+num_polygon_points+num_polygon_points-1 );
+		int j_offset = jj*num_vertices_per_section;
 		polyhedron_data->addFace( j_offset+num_vertices_per_section-1, j_offset, j_offset+num_vertices_per_section );
 		polyhedron_data->addFace( j_offset+num_vertices_per_section, j_offset+num_vertices_per_section*2-1, j_offset+num_vertices_per_section-1 );
 	}
 
 #ifdef _DEBUG
 	std::stringstream strs_err;
-	shared_ptr<carve::mesh::MeshSet<3> > mesh_set( polyhedron_data->createMesh(carve::input::opts()) );
-	if( mesh_set->meshes.size() != 1 )
+	shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh(carve::input::opts()) );
+	if( meshset->meshes.size() != 1 )
 	{
-		std::cout << __FUNC__ << ": mesh_set->meshes.size() != 1" << std::endl;
+		std::cout << __FUNC__ << ": meshset->meshes.size() != 1" << std::endl;
 	}
-	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( mesh_set.get(), strs_err, -1 );
+	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err, -1 );
 
 	if( !meshset_ok )
 	{
 		std::cout << strs_err.str().c_str() << std::endl;
+		CSG_Adapter::dumpPolyhedronInput( *(polyhedron_data.get()), true );
 	}
 #endif
 }
@@ -1329,16 +1280,6 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			}
 
 			item_data->closed_polyhedrons.push_back( poly_data );
-
-			//shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-			//	renderMeshsetInDebugViewer( meshset.get(), osg::Vec4(1.0f, 0.5f, 0.0f, 1.0f), true );
-
-			//	for( int ii=0; ii<other_operand->meshsets.size(); ++ii )
-			//	{
-			//	shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->meshsets[ii];
-			//	renderMeshsetInDebugViewer( meshset.get(), osg::Vec4(0.8f, 0.0f, 1.0f, 1.0f), true );
-			//	}
-
 		}
 		else
 		{

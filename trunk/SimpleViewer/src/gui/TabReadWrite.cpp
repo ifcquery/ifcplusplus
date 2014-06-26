@@ -12,18 +12,6 @@
 */
 
 #pragma warning( disable: 4996 )
-#include <QtCore/qglobal.h>
-#include <QVBoxLayout>
-#include <QTreeWidget>
-#include <QFileDialog>
-#include <QLabel>
-#include <QComboBox>
-#include <QPushButton>
-#include <QProgressBar>
-#include <QLineEdit>
-#include <QSplitter>
-#include <QApplication>
-#include <QTextEdit>
 #include <QtGui/qevent.h>
 #include <QtCore/QSettings>
 

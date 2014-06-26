@@ -745,11 +745,66 @@ void applyBackwardCompatibility( std::string& keyword, std::string& step_line )
 	
 }
 
-void appendEmptyArgs(std::vector<std::wstring>& args, const size_t target_size)
-{
-	while( args.size() > target_size ){ args.pop_back(); }
-	while( args.size() < target_size ){	args.push_back( L"$" );	}
-}
+static std::map<IfcPPEntityEnum, int> global_map_num_args = {
+	{ IfcPPEntityEnum::IFCBEAM, 9 },
+	{ IfcPPEntityEnum::IFCBUILDINGELEMENTPART, 9 },
+	{ IfcPPEntityEnum::IFCCLASSIFICATION, 7 },
+	{ IfcPPEntityEnum::IFCCLASSIFICATIONREFERENCE, 6 },
+	{ IfcPPEntityEnum::IFCCOLUMN, 9 },
+	{ IfcPPEntityEnum::IFCCSHAPEPROFILEDEF, 8 },
+	{ IfcPPEntityEnum::IFCCURTAINWALL, 9 },
+	{ IfcPPEntityEnum::IFCCURVESTYLE, 5 },
+	{ IfcPPEntityEnum::IFCDISCRETEACCESSORY, 9 },
+	{ IfcPPEntityEnum::IFCDISCRETEACCESSORYTYPE, 10 },
+	{ IfcPPEntityEnum::IFCDISTRIBUTIONPORT, 10 },
+	{ IfcPPEntityEnum::IFCDOCUMENTREFERENCE, 5 },
+	{ IfcPPEntityEnum::IFCDOOR, 13 },
+	{ IfcPPEntityEnum::IFCDOORLININGPROPERTIES, 17 },
+	{ IfcPPEntityEnum::IFCFILLAREASTYLE, 3 },
+	{ IfcPPEntityEnum::IFCFLOWTERMINAL, 8 },
+	{ IfcPPEntityEnum::IFCFURNITURETYPE, 11 },
+	{ IfcPPEntityEnum::IFCGRID, 11 },
+	{ IfcPPEntityEnum::IFCISHAPEPROFILEDEF, 10 },
+	{ IfcPPEntityEnum::IFCLIBRARYREFERENCE, 6 },
+	{ IfcPPEntityEnum::IFCLSHAPEPROFILEDEF, 9 },
+	{ IfcPPEntityEnum::IFCMATERIAL, 3 },
+	{ IfcPPEntityEnum::IFCMATERIALLAYER, 7 },
+	{ IfcPPEntityEnum::IFCMATERIALLAYERSET, 3 },
+	{ IfcPPEntityEnum::IFCMATERIALLAYERSETUSAGE, 5 },
+	{ IfcPPEntityEnum::IFCMATERIALPROFILESETUSAGE, 3 },
+	{ IfcPPEntityEnum::IFCMECHANICALFASTENER, 11 },
+	{ IfcPPEntityEnum::IFCMECHANICALFASTENERTYPE, 12 },
+	{ IfcPPEntityEnum::IFCMEMBER, 9 },
+	{ IfcPPEntityEnum::IFCOPENINGELEMENT, 9 },
+	{ IfcPPEntityEnum::IFCPLATE, 9 },
+	{ IfcPPEntityEnum::IFCPROJECT, 9 },
+	{ IfcPPEntityEnum::IFCPROPERTYBOUNDEDVALUE, 6 },
+	{ IfcPPEntityEnum::IFCPROPERTYSINGLEVALUE, 4 },
+	{ IfcPPEntityEnum::IFCPROPERTYTABLEVALUE, 8 },
+	{ IfcPPEntityEnum::IFCQUANTITYAREA, 5 },
+	{ IfcPPEntityEnum::IFCQUANTITYCOUNT, 5 },
+	{ IfcPPEntityEnum::IFCQUANTITYLENGTH, 5 },
+	{ IfcPPEntityEnum::IFCQUANTITYVOLUME, 5 },
+	{ IfcPPEntityEnum::IFCQUANTITYWEIGHT, 5 },
+	{ IfcPPEntityEnum::IFCRAMPFLIGHT, 9 },
+	{ IfcPPEntityEnum::IFCREINFORCINGMESH, 18 },
+	{ IfcPPEntityEnum::IFCSIMPLEPROPERTYTEMPLATE, 12 },
+	{ IfcPPEntityEnum::IFCSTAIRFLIGHT, 13 },
+	{ IfcPPEntityEnum::IFCSTRUCTURALANALYSISMODEL, 10 },
+	{ IfcPPEntityEnum::IFCSTRUCTURALPOINTCONNECTION, 9 },
+	{ IfcPPEntityEnum::IFCSTRUCTURALCURVEMEMBER, 9 },
+	{ IfcPPEntityEnum::IFCSURFACESTYLE, 3 },
+	{ IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 },
+	{ IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 },
+	{ IfcPPEntityEnum::IFCTEXTSTYLE, 5 },
+	{ IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 },
+	{ IfcPPEntityEnum::IFCUSHAPEPROFILEDEF, 10 },
+	{ IfcPPEntityEnum::IFCWALL, 9 },
+	{ IfcPPEntityEnum::IFCWALLSTANDARDCASE, 9 },
+	{ IfcPPEntityEnum::IFCWINDOW, 13 },
+	{ IfcPPEntityEnum::IFCWINDOWLININGPROPERTIES, 16 },
+	{ IfcPPEntityEnum::IFCZONE, 6 }
+};
 
 void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
 {
@@ -762,218 +817,27 @@ void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityE
 		throw IfcPPException( "Unsupported IFC version", __func__ );
 	}
 
+	std::map<IfcPPEntityEnum, int>::iterator it_find_num_args = global_map_num_args.find( type_enum );
+	if( it_find_num_args != global_map_num_args.end() )
+	{
+		int num_args = it_find_num_args->second;
+		while( args.size() > num_args ){ args.pop_back(); }
+		while( args.size() < num_args ){ args.push_back( L"$" ); }
+	}
+
 	if( version < IfcPPModel::IFC4 )
 	{
 		switch( type_enum )
 		{
-			// B
-		case IFCBEAM:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCBUILDINGELEMENTPART:
-			appendEmptyArgs(args, 9);
-			break;
-			// C
-		case IFCCLASSIFICATION:
-			appendEmptyArgs(args, 7);
-			break;
-		case IFCCLASSIFICATIONREFERENCE:
-			appendEmptyArgs(args, 6);
-			break;
+		
 		case IFCCOLOURRGB:
 			if( args.size() == 3 ) //#315= IFCCOLOURRGB($,0.65882353,0.6627451,0.61960784);
 			{
 				args.insert( args.begin(), L"$" );
 			}
 			break;
-		case IFCCOLUMN:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCCSHAPEPROFILEDEF:
-			appendEmptyArgs(args, 8);
-			break;
-		case IFCCURTAINWALL:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCCURVESTYLE:
-			appendEmptyArgs(args, 5);
-			break;
-			//D
-		case IFCDISCRETEACCESSORY:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCDISCRETEACCESSORYTYPE:
-			appendEmptyArgs(args, 10);
-			break;
-		case IFCDISTRIBUTIONPORT:
-			appendEmptyArgs(args, 10);
-			break;
-		case IFCDOCUMENTREFERENCE:
-			appendEmptyArgs(args, 5);
-			break;
-		case IFCDOOR:
-			appendEmptyArgs(args, 13);
-			break;
-		case IFCDOORLININGPROPERTIES:
-			appendEmptyArgs(args, 17);
-			break;
-			// F
-		case IFCFILLAREASTYLE:
-			appendEmptyArgs(args, 3);
-			break;
-		case IFCFLOWTERMINAL:
-			appendEmptyArgs(args, 8);
-			break;
-		case IFCFURNITURETYPE:
-			appendEmptyArgs(args, 11);
-			break;
-
-			// I
-		case IFCISHAPEPROFILEDEF:
-			appendEmptyArgs(args, 10);
-			break;
-
-			// L
-		case IFCLIBRARYREFERENCE:
-			appendEmptyArgs(args, 6);
-			break;
-		case IFCLSHAPEPROFILEDEF:
-			appendEmptyArgs(args, 9);
-			break;
-			// M
-		case IFCMATERIAL:
-			appendEmptyArgs(args, 3);
-			break;
-		case IFCMATERIALLAYER:
-			appendEmptyArgs(args, 7);
-			break;
-		case IFCMATERIALLAYERSET:
-			appendEmptyArgs(args, 3);
-			break;
-		case IFCMATERIALLAYERSETUSAGE:
-			appendEmptyArgs(args, 5);
-			break;
-		case IFCMATERIALPROFILESETUSAGE:
-			appendEmptyArgs(args, 3);
-			break;
-		case IFCMECHANICALFASTENER:
-			appendEmptyArgs(args, 11);
-			break;
-		case IFCMECHANICALFASTENERTYPE:
-			appendEmptyArgs(args, 12);
-			break;
-		case IFCMEMBER:
-			appendEmptyArgs(args, 9);
-			break;
-		
-			// O
-		case IFCOPENINGELEMENT:
-			appendEmptyArgs(args, 9);
-			break;
-
-			// P
-		case IFCPLATE:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCPROJECT:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCPROPERTYBOUNDEDVALUE:
-			appendEmptyArgs(args, 6);
-			break;
-		case IFCPROPERTYSINGLEVALUE:
-			appendEmptyArgs(args, 4);
-			break;
-		case IFCPROPERTYTABLEVALUE:
-			appendEmptyArgs(args, 8);
-			break;
-			
-			// Q
-		case IFCQUANTITYAREA:
-			appendEmptyArgs(args, 5);
-			break;
-		case IFCQUANTITYCOUNT:
-			appendEmptyArgs(args, 5);
-			break;
-		case IFCQUANTITYLENGTH:
-			appendEmptyArgs(args, 5);
-			break;
-		case IFCQUANTITYVOLUME:
-			appendEmptyArgs(args, 5);
-			break;
-		case IFCQUANTITYWEIGHT:
-			appendEmptyArgs(args, 5);
-			break;
-
-			// R
-		case IFCRAMPFLIGHT:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCREINFORCINGMESH:
-			appendEmptyArgs(args, 18);
-			break;
-
-			// S
-		case IFCSIMPLEPROPERTYTEMPLATE:
-			appendEmptyArgs(args, 12);
-			break;
-		case IFCSTAIRFLIGHT:
-			appendEmptyArgs(args, 13);
-			break;
-		case IFCSTRUCTURALANALYSISMODEL:
-			appendEmptyArgs(args, 10);
-			break;
-		case IFCSTRUCTURALPOINTCONNECTION:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCSTRUCTURALCURVEMEMBER:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCSURFACESTYLE:
-			appendEmptyArgs(args, 3);
-			break;
-		case IFCSYSTEMFURNITUREELEMENTTYPE:
-			appendEmptyArgs(args, 10);
-			break;
-
-			// T
-		case IFCTSHAPEPROFILEDEF:
-			appendEmptyArgs(args, 12);
-			break;
-		
-		case IFCTEXTSTYLE:
-			appendEmptyArgs(args, 5);
-			break;
-
-		case IFCTRANSPORTELEMENT:
-			appendEmptyArgs(args, 9);
-			break;
-
-			// U
-		case IFCUSHAPEPROFILEDEF:
-			appendEmptyArgs(args, 10);
-			break;
-
-			// W
-		case IFCWALL:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCWALLSTANDARDCASE:
-			appendEmptyArgs(args, 9);
-			break;
-		case IFCWINDOW:
-			appendEmptyArgs(args, 13);
-			break;
-		case IFCWINDOWLININGPROPERTIES:
-			appendEmptyArgs(args, 16);
-			break;
-
-		case IFCZONE:
-			appendEmptyArgs(args, 6);
-			break;
 		}
 	}
 
-	
 	//IfcRelDecomposes -> IfcRelAggregates
 }

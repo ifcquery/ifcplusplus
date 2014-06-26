@@ -110,6 +110,10 @@ void ReaderWriterIFC::resetModel()
 	m_recent_progress = 0.0;
 	progressCallback( 0.0, "parse" );
 	progressTextCallback( L"Unloading model done" );
+
+#ifdef _DEBUG
+	CSG_Adapter::clearMeshsetDump();
+#endif
 }
 
 void ReaderWriterIFC::deleteInputCache()
@@ -133,12 +137,6 @@ void ReaderWriterIFC::setModel( shared_ptr<IfcPPModel> model )
 
 	m_unit_converter = m_ifc_model->getUnitConverter();
 	m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
-}
-
-void ReaderWriterIFC::setNumVerticesPerCircle( int num_vertices )
-{
-	//if( num_vertices < 6 ) { num_vertices = 6; }
-	m_geom_settings->m_num_vertices_per_circle = num_vertices;
 }
 
 osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& filename, const osgDB::ReaderWriter::Options*)
@@ -267,7 +265,6 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 }
 
 
-//#define SHOW_ENTITIES_OUTSIDE_SPATIAL_STRUCTURE
 void ReaderWriterIFC::createGeometry()
 {
 	shared_ptr<IfcProject> project = m_ifc_model->getIfcProject();
@@ -425,10 +422,7 @@ void ReaderWriterIFC::createGeometry()
 				osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
 				if( product_switch_curves.valid() )
 				{
-					if( !m_geom_settings->m_ignore_curve_geometry )
-					{
-						group_outside_spatial_structure->addChild( product_switch_curves );
-					}
+					group_outside_spatial_structure->addChild( product_switch_curves );
 				}
 
 				product_shape->added_to_storey = true;
@@ -481,17 +475,12 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcPPObject>& ob
 	if( building_storey )
 	{
 		int building_storey_id = building_storey->getId();
-		double elevation = 0.0;
-		if( building_storey->m_Elevation )
-		{
-			//elevation = building_storey->m_Elevation->m_value*m_unit_converter->getLengthInMeterFactor();
-		}
 		osg::Switch* switch_building_storey = new osg::Switch();
 		std::stringstream storey_switch_name;
 		storey_switch_name << "#" << building_storey_id << "=IfcBuildingStorey switch";
 		switch_building_storey->setName( storey_switch_name.str().c_str() );
 
-		osg::ref_ptr<osg::MatrixTransform> transform_building_storey = new osg::MatrixTransform( osg::Matrix::translate( 0, 0, elevation ) );
+		osg::ref_ptr<osg::MatrixTransform> transform_building_storey = new osg::MatrixTransform();
 		switch_building_storey->addChild( transform_building_storey );
 				
 		std::stringstream storey_name;
@@ -513,7 +502,6 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcPPObject>& ob
 			osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
 			if( product_switch.valid() )
 			{
-				//item_grp->addChild( product_switch );
 				if( item_grp == nullptr )
 				{
 					item_grp = product_switch;
@@ -611,6 +599,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	std::stringstream group_name;
 	group_name << "#" << product_id << "=IfcProduct group";
 	product_switch->setName( group_name.str().c_str() );
+	product_switch_curves->setName("CurveRepresentation");
 
 	// evaluate IFC geometry
 	shared_ptr<IfcProductRepresentation> product_representation = product->m_Representation;
@@ -704,12 +693,15 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 
 		// create shape for polylines
-		for( int polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
+		if( !m_geom_settings->m_ignore_curve_geometry )
 		{
-			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
-			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			ConverterOSG::drawPolyline( polyline_data.get(), geode );
-			item_group_curves->addChild(geode);
+			for( int polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
+			{
+				shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
+				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+				ConverterOSG::drawPolyline( polyline_data.get(), geode );
+				item_group_curves->addChild( geode );
+			}
 		}
 
 		if( m_geom_settings->m_show_text_literals )
@@ -851,30 +843,9 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 	}
 
-	// Simplify the OSG statesets
-	//for( int i=0; i<product_shape->vec_statesets.size(); ++i )
-	//{
-	//	osg::StateSet* next_product_stateset = product_shape->vec_statesets[i];
-	//	if( !next_product_stateset )
-	//	{
-	//		continue;
-	//	}
-
-	//	osg::StateSet* existing_item_stateset = product_switch->getStateSet();
-	//	if( existing_item_stateset )
-	//	{
-	//		osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-	//		merged_product_stateset->merge( *next_product_stateset );
-	//		product_switch->setStateSet( merged_product_stateset );
-	//	}
-	//	else
-	//	{
-	//		product_switch->setStateSet( next_product_stateset );
-	//	}
-	//}
-
 	for( int i=0; i<product_shape->getAppearances().size(); ++i )
 	{
+		// TODO: handle appearances of curves separately
 		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];
 		if( !appearance )
 		{

@@ -88,13 +88,13 @@ namespace carve {
 
     struct tri_idx {
       union {
-        unsigned v[3];
-        struct { unsigned a, b, c; };
+        unsigned int v[3];
+        struct { unsigned int a, b, c; };
       };
 
       tri_idx() : a(0), b(0), c(0) {
       }
-      tri_idx(unsigned _a, unsigned _b, unsigned _c) : a(_a), b(_b), c(_c) {
+      tri_idx(unsigned int _a, unsigned int _b, unsigned int _c) : a(_a), b(_b), c(_c) {
       }
     };
 

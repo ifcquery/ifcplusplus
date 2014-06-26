@@ -401,20 +401,10 @@ bool Orbit3DManipulator::handleKeyDown( const osgGA::GUIEventAdapter& ea, osgGA:
 	return false;
 }
 
-//#define POLYTOPE_INTERSECTOR
 bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapter& ea, osgViewer::View* view )
 {
 	m_intersect_hit_geometry = false;
-#ifdef POLYTOPE_INTERSECTOR
-	double mx = ea.getXnormalized();
-	double my = ea.getYnormalized();
-	double w = 0.005;
-	double h = 0.005;
-	osg::ref_ptr<osgUtil::PolytopeIntersector> picker = new osgUtil::PolytopeIntersector( osgUtil::Intersector::PROJECTION, mx-w, my-h, mx+w, my+h );
-#else
 	osg::ref_ptr<osgUtil::LineSegmentIntersector> picker = new osgUtil::LineSegmentIntersector( osgUtil::Intersector::PROJECTION, ea.getXnormalized(),ea.getYnormalized() );
-#endif
-	//picker->setIntersectionLimit( osgUtil::Intersector::LIMIT_ONE_PER_DRAWABLE );
 	picker->setIntersectionLimit( osgUtil::Intersector::LIMIT_NEAREST );
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
@@ -434,9 +424,7 @@ bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapte
 		return false;
 	}
 
-	//osg::Group* root_node = m_system->getViewController()->getRootNode();
 	iv.apply( *cam );
-	//iv.apply( root_node );
 
 	if( picker->containsIntersections() )
 	{
@@ -449,30 +437,11 @@ bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapte
 		osg::NodePath& nodePath = intersection.nodePath;
 		for( size_t i=0; i<nodePath.size(); ++i )
 		{
-			osg::Node* node = nodePath[nodePath.size()-i-1];
-			//const std::string node_name = node->getName();
-
-			// check if picked object is a representation of an IfcProduct
-			//if( node_name.length() == 0 ) continue;
-			//if( node_name.substr( 0, 9 ).compare( "intersect" ) == 0 ) continue;
-
 			m_pointer_intersection.set( intersection.getWorldIntersectPoint() );
 			// set rotate center to intersection point
 			m_rotate_center.set( m_pointer_intersection );
-
-			//intersection_geometry_found = true;
 			m_intersect_hit_geometry = true;
 		}
-	}
-
-	if( !m_intersect_hit_geometry )
-	{
-		// no geometry has been hit, so intersect with XY-plane
-		// TODO: when angle between pointer and xy-plane is small, take the xz or yz plane
-		// TODO: intersect with 3 perpendicular planes in the center of the bounding sphere. take the closest as rotation point
-		// TODO: if model bounding sphere is out of sight, set rotation center such that it is intuitive to find back to the model (center of bounding sphere)
-		
-		//intersectRayWithPlane( m_ray_pointer_start, m_ray_pointer_direction, IntersectionPlane::XY_PLANE, m_pointer_intersection );
 	}
 
 	return false;
@@ -485,16 +454,7 @@ bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea,
 		return false;
 	}
 
-#ifdef POLYTOPE_INTERSECTOR
-	double mx = ea.getXnormalized();
-	double my = ea.getYnormalized();
-	double w = 0.005;
-	double h = 0.005;
-	osg::ref_ptr<osgUtil::PolytopeIntersector> picker = new osgUtil::PolytopeIntersector( osgUtil::Intersector::PROJECTION, mx-w, my-h, mx+w, my+h );
-#else
 	osg::ref_ptr<osgUtil::LineSegmentIntersector> picker = new osgUtil::LineSegmentIntersector( osgUtil::Intersector::PROJECTION, ea.getXnormalized(),ea.getYnormalized() );
-#endif
-	//picker->setIntersectionLimit( osgUtil::Intersector::LIMIT_ONE_PER_DRAWABLE );
 	picker->setIntersectionLimit( osgUtil::Intersector::LIMIT_NEAREST );
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
@@ -567,12 +527,6 @@ bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea,
 
 
 		}
-	}
-
-	if( !intersection_geometry_found )
-	{
-		// no geometry has been hit, so intersect with XY-plane
-		//intersectRayWithPlane( m_ray_pointer_start, m_ray_pointer_direction, IntersectionPlane::XY_PLANE, m_pointer_intersection );
 	}
 
 	return intersection_geometry_found;

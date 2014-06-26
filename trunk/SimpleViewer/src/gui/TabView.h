@@ -38,6 +38,5 @@ private slots:
 	void slotCullFrontFaces( int state );
 	void slotCullBackFaces( int state );
 	void slotProjectionButtonClicked( int btn );
-	void slotZAxisDown( int state );
 	void slotSetNumVertices(int);
 };

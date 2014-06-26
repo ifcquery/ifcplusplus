@@ -86,7 +86,6 @@
 #include "SolidModelConverter.h"
 #include "FaceConverter.h"
 #include "SplineConverter.h"
-#include "DebugViewerCallback.h"
 #include "CSG_Adapter.h"
 #include "RepresentationConverter.h"
 

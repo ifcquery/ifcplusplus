@@ -23,14 +23,12 @@
 #include <ifcppgeometry/ReaderWriterIFC.h>
 #include <ifcppgeometry/RepresentationConverter.h>
 #include <ifcppgeometry/ConverterOSG.h>
-#include <ifcppgeometry/DebugViewerCallback.h>
 #include <ifcppgeometry/CSG_Adapter.h>
 
 #include "gui/TabReadWrite.h"
 #include "gui/MainWindow.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/Orbit3DManipulator.h"
-#include "gui/DebugViewer.h"
 #include "ViewController.h"
 #include "IfcPlusPlusSystem.h"
 
@@ -85,14 +83,6 @@ int main(int argc, char *argv[])
 #endif
 
 	IfcPlusPlusSystem* sys = new IfcPlusPlusSystem();
-
-#ifdef _DEBUG
-	DebugViewer* debug_viewer = new DebugViewer();
-	debug_viewer->m_viewer_widget->startTimer();
-	debug_viewer->show();
-	//createTest( sys->getViewController()->getModelNode(), sys->getViewController()->getRootNode() );
-#endif
-
 	ViewerWidget* viewer_widget = new ViewerWidget();
 	Orbit3DManipulator* camera_manip = new Orbit3DManipulator( sys );
 	viewer_widget->getMainView()->setCameraManipulator( camera_manip );

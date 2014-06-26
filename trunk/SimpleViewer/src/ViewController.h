@@ -39,7 +39,6 @@ public:
 	osg::Material* getDefaultMaterial() { return m_material_default; }
 	void toggleSceneLight();
 	void toggleModelTransparency();
-	void toggleBoundingSphere();
 	void setViewerMode( ViewerMode mode );
 	ViewerMode getViewerMode() { return m_viewer_mode; }
 

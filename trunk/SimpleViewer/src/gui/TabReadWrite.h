@@ -17,17 +17,18 @@
 #include "ifcpp/model/shared_ptr.h"
 
 #include <QtCore/qglobal.h>
-#include <qwidget.h>
-
-class QTextEdit;
-class QProgressBar;
-class QComboBox;
-class QTreeWidget;
-class QLineEdit;
-class QPushButton;
-class QSplitter;
-class QTreeWidgetItem;
-class StoreyWidget;
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QTreeWidget>
+#include <QFileDialog>
+#include <QLabel>
+#include <QComboBox>
+#include <QPushButton>
+#include <QProgressBar>
+#include <QLineEdit>
+#include <QSplitter>
+#include <QApplication>
+#include <QTextEdit>
 
 class ViewerWidget;
 class IfcPPEntity;
@@ -72,11 +73,8 @@ private:
 	QPushButton*	m_btn_load;
 	QWidget*		m_io_widget;
 
-	StoreyWidget*	m_storey_widget;
-
 	QLineEdit*		m_le_path_write;
 	QSplitter*		m_io_splitter;
-	//bool			m_block_selection_signals;
 
 private slots:
 	void slotAddOtherIfcFileClicked();
