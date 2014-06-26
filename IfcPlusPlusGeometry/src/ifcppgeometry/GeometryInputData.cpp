@@ -242,8 +242,8 @@ PolyInputCache3D::PolyInputCache3D()
 }
 
 
-#define ROUND_POLY_COORDINATES_UP 100000.0
-#define ROUND_POLY_COORDINATES_DOWN 0.00001
+#define ROUND_POLY_COORDINATES_UP 1000000.0
+#define ROUND_POLY_COORDINATES_DOWN 0.000001
 int PolyInputCache3D::addPointPrecise( const carve::geom::vector<3>& v )
 {
 	const double vertex_x = v.x;

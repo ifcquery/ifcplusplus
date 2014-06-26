@@ -27,7 +27,6 @@ namespace osg { class Material; }
 struct selectedEntity 
 {
 	shared_ptr<IfcPPEntity> entity;
-	//osg::ref_ptr<osg::StateSet> original_stateset;
 	osg::ref_ptr<osg::Group> osg_group;
 };
 

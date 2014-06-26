@@ -91,6 +91,11 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 		m_spinbox_circle_vertices->setValue(num_vertices);
 		m_system->getReaderWriterIFC()->getGeomSettings()->m_num_vertices_per_circle = num_vertices;
 	}
+	else
+	{
+		int num_vertices = m_system->getReaderWriterIFC()->getGeomSettings()->m_num_vertices_per_circle;
+		m_spinbox_circle_vertices->setValue(num_vertices);
+	}
 
 	QHBoxLayout* num_vertices_hbox = new QHBoxLayout();
 	num_vertices_hbox->addWidget( m_spinbox_circle_vertices );
@@ -98,16 +103,11 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	connect(m_spinbox_circle_vertices, SIGNAL(valueChanged(int)), this, SLOT( slotSetNumVertices( int ) ) );
 
 
-	// positive z axis
-	QCheckBox* check_pos_z_down = new QCheckBox("Positive z-axis down");
-	connect( check_pos_z_down, SIGNAL( stateChanged(int) ), this, SLOT( slotZAxisDown(int) ) );
-
 	// layout
 	QHBoxLayout* hbox = new QHBoxLayout();
 	hbox->addWidget( btn_toggle_light, 0 );
 	hbox->addWidget( cull_front_faces, 0 );
 	hbox->addWidget( cull_back_faces, 0 );
-	hbox->addWidget( check_pos_z_down, 0 );
 	hbox->addLayout( num_vertices_hbox );
 	hbox->addStretch( 1 );
 
@@ -165,18 +165,6 @@ void TabView::slotProjectionButtonClicked( int btn )
 	else if( btn == 1 )
 	{
 		m_vw->setProjection( ViewerWidget::PROJECTION_PARALLEL );
-	}
-}
-
-void TabView::slotZAxisDown( int state )
-{
-	if( state == Qt::Checked )
-	{
-//		m_vw->getCameraManager()->setZAxisDown( true );
-	}
-	else
-	{
-	//	m_vw->getCameraManager()->setZAxisDown( false );
 	}
 }
 

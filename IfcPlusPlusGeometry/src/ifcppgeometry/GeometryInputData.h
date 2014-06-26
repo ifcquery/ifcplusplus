@@ -101,11 +101,8 @@ public:
 	shared_ptr<IfcProduct> ifc_product;
 	shared_ptr<IfcRepresentation> representation;
 	shared_ptr<IfcObjectPlacement> object_placement;
-	osg::ref_ptr<osg::Switch> product_switch;
-	osg::ref_ptr<osg::Switch> product_switch_curves;
-	osg::ref_ptr<osg::Switch> space_switch;
-	//std::vector<shared_ptr<IfcProduct> > vec_openings;
-	
+	osg::ref_ptr<osg::Switch>	product_switch;
+	osg::ref_ptr<osg::Switch>	product_switch_curves;
 	std::vector<shared_ptr<ItemData> >			vec_item_data;
 	bool added_to_storey;
 

@@ -12,15 +12,10 @@
 */
 
 #include <QtCore/qglobal.h>
-
-#include <qaction.h>
-#include <qtoolbar.h>
-#include <qsplitter.h>
-#include <qstatusbar.h>
-#include <qlabel.h>
+#include <QSettings>
+#include <QAction>
 #include <QDockWidget>
-#include <QtCore/qfile.h>
-#include <QtCore/qsettings.h>
+#include <QStatusBar>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
@@ -47,10 +42,6 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	setStyleSheet( styleSheet );
 	createTabWidget();
 
-	//QDockWidget *dock = new QDockWidget( "View options", this);
-	//dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::TopDockWidgetArea);
-	//addDockWidget(Qt::TopDockWidgetArea, dock);
-
 	QAction* zoom_bounds_btn = new QAction(QIcon(":img/zoomBoundings.png"), "&Zoom to boundings", this );
 	zoom_bounds_btn->setShortcut(tr("Ctrl+Z"));
 	zoom_bounds_btn->setStatusTip("Zoom to boundings");
@@ -58,17 +49,12 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 
 	QAction* wireframe = new QAction(QIcon(":img/TabViewWireframe.png"), "&Wireframe [w]", this );
 	wireframe->setCheckable( true );
-	//wireframe->setShortcut(tr("w"));
 	wireframe->setStatusTip("Wireframe [w]");
 	connect(wireframe, SIGNAL(triggered()), this, SLOT(slotBtnWireframeClicked()));
 
 	QAction* remove_selected_objects = new QAction(QIcon(":img/RemoveSelectedObjects.png"), "&Remove selected objects [del]", this );
 	remove_selected_objects->setStatusTip("Remove selected objects [del]");
 	connect(remove_selected_objects, SIGNAL(triggered()), this, SLOT(slotBtnRemoveSelectedObjectsClicked()));
-
-
-	// TODO: exploded view or storey shift
-	// TODO: transparency for selected objects
 
 	m_file_toolbar = new QToolBar();
 	m_file_toolbar->setObjectName("FileToolbar");
@@ -83,7 +69,6 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	addDockWidget(Qt::RightDockWidgetArea, dock);
 	
 	IfcTreeWidget* ifc_tree_widget = new IfcTreeWidget( m_system );
-	//connect( m_ifc_tree_widget, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	dock->setWidget( ifc_tree_widget );
 
 	m_splitter = new QSplitter( Qt::Vertical );
@@ -135,7 +120,6 @@ void MainWindow::closeEvent( QCloseEvent *event )
 	settings.setValue("MainWindowGeometry", saveGeometry());
 	settings.setValue("mainWindowState", saveState());
 	
-	// for some reason, closeEvent or other close methods are not called on widgets, so do it manually here...
 	m_tab_read_write->closeEvent( event );
 	QMainWindow::closeEvent( event );
 
@@ -168,11 +152,6 @@ void MainWindow::slotBtnZoomBoundingsClicked()
 			orbit_manip->zoomToBoundingSphere( bs );
 		}
 	}
-
-	//zoomToBoundingSphere( m_viewer_widget, bs );
-	//m_viewer_widget->frame();
-	//zoomToBoundingSphere( m_viewer_widget, bs );
-	// TODO: fancy animation path, views from x/y/z and isometry
 }
 
 void MainWindow::slotBtnWireframeClicked()
@@ -182,12 +161,10 @@ void MainWindow::slotBtnWireframeClicked()
 	if( toggle_btn->isChecked() )
 	{
 		m_system->getViewController()->setViewerMode( ViewController::VIEWER_MODE_WIREFRAME );
-		//m_viewer_widget->setViewerMode( ViewerWidget::VIEWER_MODE_WIREFRAME );
 	}
 	else
 	{
 		m_system->getViewController()->setViewerMode( ViewController::VIEWER_MODE_SHADED );
-		//m_viewer_widget->setViewerMode( ViewerWidget::VIEWER_MODE_SHADED );
 	}
 }
 

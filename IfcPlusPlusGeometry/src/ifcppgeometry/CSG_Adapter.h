@@ -28,7 +28,16 @@ public:
 	static void simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset );
 	static bool computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation, 
 		const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result );
-	//static bool checkMeshSetEmpty(	const carve::mesh::MeshSet<3>* meshset );
 	static bool checkMeshSetValidAndClosed(	const carve::mesh::MeshSet<3>* meshset, std::stringstream& err_poly, int entity_id );
 	static bool checkFaceIntegrity(	const carve::mesh::MeshSet<3>* meshset );
+
+#ifdef _DEBUG
+	static void dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, bool append );
+	static void dumpPolyhedron( carve::poly::Polyhedron* poly, bool append );
+	static void dumpMeshset( carve::mesh::MeshSet<3>* meshset, bool append );
+	static void dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& meshset, bool append );
+	static void dumpFaces( const carve::mesh::MeshSet<3>* meshset, std::vector<face_t* >& vec_faces );
+	static void dumpEdges( const carve::mesh::MeshSet<3>* meshset, std::vector<edge_t* >& vec_edges );
+	static void clearMeshsetDump();
+#endif
 };

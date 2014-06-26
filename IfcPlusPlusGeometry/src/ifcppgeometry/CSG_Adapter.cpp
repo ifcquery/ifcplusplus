@@ -1,14 +1,13 @@
+#include <osgDB/fstream>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/IfcPPOpenMP.h>
 
-#include "DebugViewerCallback.h"
 #include "ConverterOSG.h"
 #include "GeometryInputData.h"
 #include "GeometryException.h"
 #include "CSG_Adapter.h"
 
-
-void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
+void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::mesh::MeshSimplifier& simplifier )
 {
 	if( !meshset )
 	{
@@ -25,16 +24,28 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 		for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
 		{
 			edge_t* edge_i = vec_closed_edges[closed_edge_i];
-
-			// edge i and j are in line, check if connected directly
 			edge_t* edge_next = edge_i->next;
-			if( !edge_next )
+
+#ifdef _DEBUG
+			if( edge_i == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
 				std::cout << "!edge_next" << std::endl;
 				continue;
 			}
+			if( edge_next == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
+			{
+				std::cout << "!edge_next" << std::endl;
+				continue;
+			}
+			if( edge_next->rev == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
+			{
+				std::cout << "!edge_j->rev" << std::endl;
+				continue;
+			}
 
-			if( edge_next == reinterpret_cast<carve::mesh::Edge<3>*>(0xfeeefeeefeeefeee) )
+#endif
+
+			if( !edge_next )
 			{
 				std::cout << "!edge_next" << std::endl;
 				continue;
@@ -45,198 +56,110 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 				std::cout << "!edge_j->rev" << std::endl;
 				continue;
 			}
-					
-			if( edge_next->rev == reinterpret_cast<carve::mesh::Edge<3>*>(0xfeeefeeefeeefeee) )
-			{
-				std::cout << "!edge_j->rev" << std::endl;
-				continue;
-			}
 
-					
 			if( edge_next->rev->next == edge_i->rev )
 			{
-				// --->o--->			 --->o--->
-				//     |^                    |^
-				//     ||edge_next(x)        ||
-				//     v|                    || 
-				//     o                     ||
-				//     |^                    ||
-				//  (x)||edge_i	             ||edge_i
-				//     v|				     v|
-				// <---o<---			 <---o<---
+				// --->(v3)--->		      --->o--->
+				//      |^                    |^
+				//      ||edge_next(x)        ||
+				//      v|                    || 
+				//     (v2)                   ||
+				//      |^                    ||
+				//   (x)||edge_i	          ||edge_i
+				//      v|				      v|
+				// <---(v1)<---			  <---o<---
 
-				int remove_count = 0;
-				for( size_t closed_edge_remove = 0; closed_edge_remove < vec_closed_edges.size(); ++closed_edge_remove )
+				const carve::mesh::Vertex<3>* v1 = edge_i->v1();
+				const carve::mesh::Vertex<3>* v2 = edge_i->v2();
+				const carve::mesh::Vertex<3>* v3 = edge_next->v2();
+
+				const carve::geom::vector<3>& v1vec = v1->v;
+				const carve::geom::vector<3>& v2vec = v2->v;
+				const carve::geom::vector<3>& v3vec = v3->v;
+				carve::geom::vector<3> sement12 = v2vec - v1vec;
+				carve::geom::vector<3> sement23 = v3vec - v2vec;
+				double sement12_length2 = sement12.length2();
+				double sement23_length2 = sement23.length2();
+#ifdef _DEBUG
+				if( std::abs( edge_i->length2() - sement12_length2 ) > 0.00001 )
 				{
-					//const carve::geom::vector<3>& linesegment_i = vec_edge_segments[closed_edge_i];
-					edge_t* edge_check = vec_closed_edges[closed_edge_remove];
-
-					if( edge_next == edge_check )
-					{
-						vec_closed_edges.erase( vec_closed_edges.begin() + closed_edge_remove );
-						--closed_edge_remove;
-						++remove_count;
-						if( remove_count == 2 )
-						{
-							break;
-						}
-					}
-
-					if( edge_i->rev == edge_check )
-					{
-						vec_closed_edges.erase( vec_closed_edges.begin() + closed_edge_remove );
-						--closed_edge_remove;
-						++remove_count;
-						if( remove_count == 2 )
-						{
-							break;
-						}
-					}
+					std::cout << "abs( edge_i->length2() - sement12_length2 ) > 0.00001" << std::endl;
 				}
 
-				// this links previous and next edges and deletes edge_j and reverse of edge_i:
-				edge_t* edge_next_rev = edge_next->rev;
-				edge_next->removeHalfEdge();
-				edge_i->rev->removeHalfEdge();
-				edge_i->rev = edge_next_rev;
-				edge_next_rev->rev = edge_i;
-				cache_dirty = true;
-			}
-
-			// the vertex is kept in the vertex storage, no need to delete
-		}
-	}
-	if( cache_dirty )
-	{
-		double volume_check2 = 0;
-		for( size_t i = 0; i < meshset->meshes.size(); ++i )
-		{
-			meshset->meshes[i]->cacheEdges();
-		}
-	}
-}
-
-
-void splitFace(carve::mesh::MeshSet<3>::face_t *face,
-			   const carve::csg::V2Set &edges,
-			   std::list<std::vector<carve::mesh::MeshSet<3>::vertex_t *> > &face_loops,
-			   std::list<std::vector<carve::mesh::MeshSet<3>::vertex_t *> > &hole_loops,
-			   const carve::csg::VertexIntersections & /* vi */);
-
-int intersection_test_count = 0;
-#ifdef IFCPP_OPENMP
-Mutex writelock_count;
+				if( std::abs( edge_next->length2() - sement23_length2 ) > 0.00001 )
+				{
+					std::cout << "abs( edge_next->length2() - sement23_length2 ) > 0.00001" << std::endl;
+				}
 #endif
 
-
-
-void removeSmallAreaFaces( shared_ptr<carve::mesh::MeshSet<3> >& meshset, double min_area = 0.0001, double min_side_length = 0.001 )
-{
-	if( !meshset )
-	{
-		return;
-	}
-	bool cache_dirty = false;
-	double min_side_length2 = min_side_length*min_side_length;
-
-	std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
-	for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
-	{
-		carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-
-		// find edges that are in line
-		std::vector<face_t*>& vec_faces = mesh->faces;
-		
-		for( size_t face_i = 0; face_i < vec_faces.size(); ++face_i )
-		{
-			face_t* face = vec_faces[face_i];
-			double area = min_area;
-
-			if( face->n_edges == 3 )
-			{
-				edge_t* edge = face->edge;
-				edge_t* edge2 = edge->next;
-				edge_t* edge3 = edge2->next;
-				const carve::geom::vector<3>& v1 = edge->v1()->v;
-				const carve::geom::vector<3>& v2 = edge2->v1()->v;
-				const carve::geom::vector<3>& v3 = edge3->v1()->v;
-				carve::geom::vector<3> sement12 = v2 - v1;
-				carve::geom::vector<3> sement23 = v3 - v2;
-				area = 0.5*(cross( sement12, sement23 ).length());
-			}
-			else
-			{
-				std::cout << __FUNC__ << ": I want triangles as input" << std::endl;
-				continue;
-			}
-
-			if( area < min_area )
-			{
-				edge_t* edge = face->edge;
-				edge_t* edge_max = nullptr;
-				edge_t* edge_min = nullptr;
-				double max_edge_length2 = 0;
-				double min_edge_length2 = DBL_MAX;
-				for( size_t i_edge = 0; i_edge < face->n_edges; ++i_edge )
+				// check angle between edges
+				sement12.normalize();
+				sement23.normalize();
+				double dot_angle = dot( sement12, sement23 );
+				if( abs( abs( dot_angle ) - 1.0 ) < 0.001 )
 				{
-					double edge_length2 = edge->length2();
-					if( edge_length2 > max_edge_length2 )
+					// edges are in line
+					if( v1 == v3 )
 					{
-						max_edge_length2 = edge_length2;
-						edge_max = edge;
+						std::cout << "edge loop with only 2 edges" << std::endl;
 					}
-					if( edge_length2 < min_edge_length2 )
+
+					edge_t* edge_remove_from_vec = std::min( edge_next, edge_i->rev );
+					for( size_t closed_edge_remove = 0; closed_edge_remove < vec_closed_edges.size(); ++closed_edge_remove )
 					{
-						min_edge_length2 = edge_length2;
-						edge_min = edge;
+						edge_t* edge_check = vec_closed_edges[closed_edge_remove];
+
+						if( edge_remove_from_vec == edge_check )
+						{
+							vec_closed_edges.erase( vec_closed_edges.begin() + closed_edge_remove );
+							if( closed_edge_remove <= closed_edge_i )
+							{
+								if( closed_edge_i > 0 )
+								{
+									--closed_edge_i;
+								}
+							}
+
+							break;
+						}
 					}
-					edge = edge->next;
-				}
 
-				carve::geom::vector<3> centroid = face->centroid();
 
-				if( max_edge_length2 < min_side_length2 )
-				{
-					//    1-------------3
-					//     \    e3     /
-					//      \         /
-					//       \e1   e2/
-					//        \     /
-					//         \   /
-					//          \ /
-					//           2
-
-					for( size_t i_edge = 0; i_edge < face->n_edges; ++i_edge )
-					{
-						edge->vert->v.x = centroid.x;
-						edge->vert->v.y = centroid.y;
-						edge->vert->v.z = centroid.z;
-
-						edge = edge->next;
-					}
-					//face->remove();
+					// this links previous and next edges and deletes edge_j and reverse of edge_i:
+					edge_t* edge_next_rev = edge_next->rev;
+					edge_next->removeHalfEdge();
+					edge_i->rev->removeHalfEdge();
+					edge_i->rev = edge_next_rev;
+					edge_next_rev->rev = edge_i;
+					cache_dirty = true;
 				}
 				else
 				{
-					// keep the longest edge
+					// edges are not in line, so faces should be in a plane
+#ifdef _DEBUG
+					const carve::geom::vector<3>& normal_face_i = edge_i->face->plane.N;
+					const carve::geom::vector<3>& normal_face_i_rev = edge_i->rev->face->plane.N;
 
-					// 3----2
-					// |   |
-					// |  |
-					// | |
-					// ||
-					// 1
 
-					carve::mesh::Vertex<3>* vert_min1 = edge_min->vert;
-					carve::mesh::Vertex<3>* vert_min2 = edge_min->next->vert;
-
-					vert_min2->v.x = vert_min1->v.x;
-					vert_min2->v.y = vert_min1->v.y;
-					vert_min2->v.z = vert_min1->v.z;
+					double dot_face_angle = dot( normal_face_i, normal_face_i_rev );
+					if( abs( dot_face_angle - 1.0 ) > 0.001 )
+					{
+						std::cout << __func__ << "abs( dot_face_angle - 1.0 ) > 0.001" << std::endl;
+					}
+#endif
 				}
-
-				// if all three edges ar almost equal, move the vertices to the center and collapse the edges
 			}
+			// the vertex is kept in the vertex storage, no need to delete
+		}
+	}
+
+	if( cache_dirty )
+	{
+		for( size_t i = 0; i < meshset->meshes.size(); ++i )
+		{
+			simplifier.removeRemnantFaces( meshset->meshes[i] );
+			simplifier.cleanFaceEdges( meshset->meshes[i] );
+			meshset->meshes[i]->cacheEdges();
 		}
 	}
 }
@@ -255,26 +178,26 @@ void removeFins( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 	{
 		carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-		
+
 		// find edges that are in line
 		std::vector<edge_t*>& vec_closed_edges = mesh->closed_edges;
-		
+
 		for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
 		{
 			edge_t* edge = vec_closed_edges[closed_edge_i];
 			edge_t* edge_reverse = edge->rev;
 			face_t* face = edge->face;
 			face_t* face_reverse = edge_reverse->face;
-			
+
 			carve::geom::vector<3>& face_normal = face->plane.N;
 			carve::geom::vector<3>& face_reverse_normal = face_reverse->plane.N;
-			
+
 			const double cos_angle = dot( face_normal, face_reverse_normal );
-			if( std::abs(cos_angle+1.0) > 0.000001 )
+			if( std::abs( cos_angle + 1.0 ) > 0.000001 )
 			{
 				continue;
 			}
-			
+
 			//                      e->rev->prev
 			//              <----------------                             //
 			//             | --------------->                            //
@@ -313,7 +236,7 @@ void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	}
 
 	PolyInputCache3D poly_cache;
-	std::map<int,int> map_merged_idx;
+	std::map<int, int> map_merged_idx;
 	for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
 	{
 		carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
@@ -345,10 +268,10 @@ void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 			{
 				try
 				{
-					carve::triangulate::triangulate(verts2d, triangulated);
-					carve::triangulate::improve(verts2d, triangulated);
+					carve::triangulate::triangulate( verts2d, triangulated );
+					carve::triangulate::improve( verts2d, triangulated );
 				}
-				catch(...)
+				catch( ... )
 				{
 					std::cout << __FUNC__ << " carve::triangulate failed " << std::endl;
 					continue;
@@ -383,15 +306,6 @@ void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 				int b = triangle.b;
 				int c = triangle.c;
 
-				//if( a >= verts.size() || b >= verts.size() || c >= verts.size() )
-				//{
-				//	continue;
-				//}
-
-				//int vertex_id_a = poly_cache.addPoint( verts[a]->v );
-				//int vertex_id_b = poly_cache.addPoint( verts[b]->v );
-				//int vertex_id_c = poly_cache.addPoint( verts[c]->v );
-				
 				int vertex_id_a = map_merged_idx[a];
 				int vertex_id_b = map_merged_idx[b];
 				int vertex_id_c = map_merged_idx[c];
@@ -401,19 +315,18 @@ void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 					continue;
 				}
 
-
 #ifdef _DEBUG
-				const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex(vertex_id_a);
-				const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex(vertex_id_b);
+				const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex( vertex_id_a );
+				const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex( vertex_id_b );
 
 				double dx = v_a.v[0] - v_b.v[0];
-				if( std::abs(dx) < 0.0000001 )
+				if( std::abs( dx ) < 0.0000001 )
 				{
 					double dy = v_a.v[1] - v_b.v[1];
-					if( std::abs(dy) < 0.0000001 )
+					if( std::abs( dy ) < 0.0000001 )
 					{
 						double dz = v_a.v[2] - v_b.v[2];
-						if( std::abs(dz) < 0.0000001 )
+						if( std::abs( dz ) < 0.0000001 )
 						{
 							std::cerr << "abs(dx) < 0.00001 && abs(dy) < 0.00001 && abs(dz) < 0.00001\n";
 						}
@@ -426,10 +339,10 @@ void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	}
 
 	meshset.reset();
-	meshset = shared_ptr<carve::mesh::MeshSet<3> >( poly_cache.m_poly_data->createMesh(carve::input::opts()) );
+	meshset = shared_ptr<carve::mesh::MeshSet<3> >( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 }
 
-bool CSG_Adapter::checkFaceIntegrity(	const carve::mesh::MeshSet<3>* mesh_set )
+bool CSG_Adapter::checkFaceIntegrity( const carve::mesh::MeshSet<3>* mesh_set )
 {
 	for( size_t i = 0; i < mesh_set->meshes.size(); ++i )
 	{
@@ -439,14 +352,14 @@ bool CSG_Adapter::checkFaceIntegrity(	const carve::mesh::MeshSet<3>* mesh_set )
 			return false;
 		}
 		std::vector<carve::mesh::Face<3>* >& vec_faces = mesh_i->faces;
-		for( size_t j=0; j<vec_faces.size(); ++j )
+		for( size_t j = 0; j < vec_faces.size(); ++j )
 		{
 			carve::mesh::Face<3>* face = vec_faces[j];
 			carve::mesh::Edge<3>* e = face->edge;
 			const size_t n_edges = face->n_edges;
 			for( size_t i_edge = 0; i_edge < n_edges; ++i_edge )
 			{
-				if( e == reinterpret_cast<carve::mesh::Edge<3>*>(0xfeeefeeefeeefeee) )
+				if( e == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 				{
 					return false;
 				}
@@ -454,19 +367,19 @@ bool CSG_Adapter::checkFaceIntegrity(	const carve::mesh::MeshSet<3>* mesh_set )
 				{
 					return false;
 				}
-				if( e->rev->next == reinterpret_cast<carve::mesh::Edge<3>*>(0xfeeefeeefeeefeee) )
+				if( e->rev->next == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 				{
 					return false;
 				}
-				if( ! e->rev->next )
+				if( !e->rev->next )
 				{
 					return false;
 				}
-				if( ! e->rev->next->next )
+				if( !e->rev->next->next )
 				{
 					return false;
 				}
-				if( ! e->rev->next->next->vert )
+				if( !e->rev->next->next->vert )
 				{
 					return false;
 				}
@@ -475,7 +388,7 @@ bool CSG_Adapter::checkFaceIntegrity(	const carve::mesh::MeshSet<3>* mesh_set )
 				{
 					return false;
 				}
-				if( e->next == reinterpret_cast<carve::mesh::Edge<3>*>(0xfeeefeeefeeefeee) )
+				if( e->next == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 				{
 					return false;
 				}
@@ -510,27 +423,14 @@ bool CSG_Adapter::checkFaceIntegrity(	const carve::mesh::MeshSet<3>* mesh_set )
 class MeshOps
 {
 public:
-	//static void applyPosition( carve::mesh::MeshSet<3>* meshset, const carve::math::Matrix& pos )
-	//{
-	//	for (size_t i = 0; i < meshset->vertex_storage.size(); ++i )
-	//	{
-	//		carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
-	//		point = pos*point;
-	//	}
-	//	for (size_t i = 0; i < meshset->meshes.size(); ++i)
-	//	{
-	//		meshset->meshes[i]->recalc();
-	//	}
-	//}
-		
 	static void applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos )
 	{
-		for (size_t i = 0; i < meshset->vertex_storage.size(); ++i )
+		for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
 		{
 			carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
 			point = point + pos;
 		}
-		for (size_t i = 0; i < meshset->meshes.size(); ++i)
+		for( size_t i = 0; i < meshset->meshes.size(); ++i )
 		{
 			meshset->meshes[i]->recalc();
 		}
@@ -539,7 +439,7 @@ public:
 	{
 		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
 		const size_t num_vertices = vertex_storage.size();
-		for( int i=0; i<num_vertices; ++i )
+		for( int i = 0; i < num_vertices; ++i )
 		{
 			carve::mesh::Vertex<3>& vertex = vertex_storage[i];
 			vertex.v.x = round( vertex.v.x*1000000.0 ) * 0.000001;
@@ -550,7 +450,7 @@ public:
 	static int getNumFaces( const carve::mesh::MeshSet<3>* meshset )
 	{
 		int num_faces = 0;
-		for( int i=0; i<meshset->meshes.size(); ++i )
+		for( int i = 0; i < meshset->meshes.size(); ++i )
 		{
 			num_faces += meshset->meshes[i]->faces.size();
 		}
@@ -559,7 +459,7 @@ public:
 	static int getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset )
 	{
 		int num_edges = 0;
-		for( int i=0; i<meshset->meshes.size(); ++i )
+		for( int i = 0; i < meshset->meshes.size(); ++i )
 		{
 			num_edges += meshset->meshes[i]->closed_edges.size();
 		}
@@ -682,20 +582,20 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 
 	//try
 	//{
-	//	simplifier.removeFins(meshset.get());
-	//	//simplifier.cleanFaceEdges( meshset.get() );
-	//	//simplifier.removeRemnantFaces( meshset.get() );
-	//	//simplifier.mergeCoplanarFaces( meshset.get(), 0.0 );
-	//	//simplifier.eliminateShortEdges( meshset.get(), min_length );
-	//	//simplifier.removeFins(meshset.get());
-	//	simplifier.simplify( meshset.get(), min_colinearity, min_delta_v, min_normal_angle, min_length );
-	//	simplifier.removeFins(meshset.get());
-	//	//simplifier.removeLowVolumeManifolds(meshset, 0.01);
-	//	simplifier.improveMesh( meshset.get(), m_geom_settings->m_min_colinearity, m_geom_settings->m_min_delta_v, m_geom_settings->m_min_normal_angle );
+	//      simplifier.removeFins(meshset.get());
+	//      //simplifier.cleanFaceEdges( meshset.get() );
+	//      //simplifier.removeRemnantFaces( meshset.get() );
+	//      //simplifier.mergeCoplanarFaces( meshset.get(), 0.0 );
+	//      //simplifier.eliminateShortEdges( meshset.get(), min_length );
+	//      //simplifier.removeFins(meshset.get());
+	//      simplifier.simplify( meshset.get(), min_colinearity, min_delta_v, min_normal_angle, min_length );
+	//      simplifier.removeFins(meshset.get());
+	//      //simplifier.removeLowVolumeManifolds(meshset, 0.01);
+	//      simplifier.improveMesh( meshset.get(), m_geom_settings->m_min_colinearity, m_geom_settings->m_min_delta_v, m_geom_settings->m_min_normal_angle );
 	//}
 	//catch(...)
 	//{
-	//	std::cout << "simplifier.eliminateShortEdges failed." << std::endl;
+	//      std::cout << "simplifier.eliminateShortEdges failed." << std::endl;
 	//}
 
 	if( !meshset )
@@ -705,9 +605,8 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 
 	if( meshset->vertex_storage.size() < 9 )
 	{
-		//std::cout << "meshset->vertex_storage.size() < 9" << std::endl;
 		return;
-	}
+}
 
 	std::stringstream err;
 	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err, -1 );
@@ -717,25 +616,11 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 		return;
 	}
 	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy( meshset->clone() );
-
-	retriangulateMeshSet( meshset );
-	
-	//simplifier.simplify( meshset.get(), 0.00001,0.001, 0.000001, 0.001 );
-	//retriangulateMeshSet( meshset );
-
-	//return;
 	simplifier.removeLowVolumeManifolds( meshset.get(), 0.000001 );
 
 	if( meshset->meshes.size() < 1 )
 	{
 		return;
-	}
-	//size_t modifications_short_edges = simplifier.eliminateShortEdges(meshset.get(), 0.001 );
-	//removeSmallAreaFaces( meshset );
-
-	//if( modifications_short_edges > 0 )
-	{
-		//retriangulateMeshSet( meshset );
 	}
 
 	int num_faces = MeshOps::getNumFaces( meshset.get() );
@@ -743,7 +628,6 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	if( modifications_coplanar > 0 )
 	{
 		int num_faces_post_merge = MeshOps::getNumFaces( meshset.get() );
-
 		if( num_faces_post_merge + modifications_coplanar != num_faces )
 		{
 			std::cout << "num_faces_post_merge + modifications_coplanar != num_faces" << std::endl;
@@ -761,7 +645,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	}
 
 	meshset_copy = shared_ptr<carve::mesh::MeshSet<3> >( meshset->clone() );
-	mergeAlignedEdges( meshset );
+	mergeAlignedEdges( meshset, simplifier );
 
 	faces_ok = checkFaceIntegrity( meshset.get() );
 	if( !faces_ok )
@@ -773,12 +657,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 		return;
 	}
 
-	//if( meshset->vertex_storage.size() < 9 )
-	//{
-	//	return;
-	//}
-
-	simplifier.removeRemnantFaces(meshset.get());
+	simplifier.removeRemnantFaces( meshset.get() );
 	//simplifier.cleanFaceEdges(meshset.get());
 #ifdef _DEBUG
 	meshset_copy = shared_ptr<carve::mesh::MeshSet<3> >( meshset->clone() );
@@ -790,22 +669,8 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	}
 #endif
 
-	//retriangulateMeshSet( meshset );
-
-#ifdef _DEBUG
-	bool meshset_ok_post_triang = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err, -1 );
-	if( !meshset_ok_post_triang )
-	{
-		meshset = meshset_copy;
-		std::cout << "Error in retriangulateMeshSet" << std::endl;
-	}
-#endif
-
-	//simplifier.removeRemnantFaces(meshset.get());
-	//size_t modifications_short_edges2 = simplifier.eliminateShortEdges(meshset.get(), 0.0001 );
-	
 	removeFins( meshset );
-    simplifier.cleanFaceEdges( meshset.get() );
+	simplifier.cleanFaceEdges( meshset.get() );
 
 	for( size_t i = 0; i < meshset->meshes.size(); ++i )
 	{
@@ -818,23 +683,23 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	{
 #ifdef _DEBUG
 		std::cout << err_simplified.str().c_str() << std::endl;
-		renderMeshsetInDebugViewer( meshset.get(), osg::Vec4f( 0.2f, 0.3f, 0.4f, 1.f ), false );
+		CSG_Adapter::dumpMeshset( meshset.get(), true );
 		//throw DebugBreakException( "!simplified_meshset_ok" );
 #endif
 		meshset = meshset_copy;
 		return;
 	}
 
-	simplifier.removeLowVolumeManifolds(meshset.get(), 0.0);
+	simplifier.removeLowVolumeManifolds( meshset.get(), 0.0 );
 	retriangulateMeshSet( meshset );
-	
+
 	std::stringstream err_retriangulated;
 	bool retriangulated_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err_retriangulated, -1 );
 	if( !retriangulated_meshset_ok )
 	{
 #ifdef _DEBUG
 		std::cout << err_retriangulated.str().c_str() << std::endl;
-		renderMeshsetInDebugViewer( meshset.get(), osg::Vec4f( 0.2f, 0.3f, 0.4f, 1.f ), false );
+		CSG_Adapter::dumpMeshset( meshset.get(), true );
 		//throw DebugBreakException( "!simplified_meshset_ok" );
 #endif
 		meshset = meshset_copy;
@@ -846,16 +711,14 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 }
 
 
-
-//#define ROUND_MESH_COORDS
 #define SIMPLIFY_MESH_PRE_CSG
 #define SIMPLIFY_MESH_POST_CSG
 #ifdef _DEBUG
 double y_pos = 0;
 #endif
 
-bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation, 
-							 const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result )
+bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation,
+	const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result )
 {
 #ifdef ROUND_MESH_COORDS
 	MeshOps::roundVertices( op1.get() );
@@ -870,7 +733,7 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 
 		if( meshset1_ok && meshset2_ok )
 		{
-		
+
 #ifdef SIMPLIFY_MESH_PRE_CSG
 			simplifyMesh( op1 );
 			simplifyMesh( op2 );
@@ -967,7 +830,7 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 				std::cout << "csg.compute result nok ok." << std::endl;
 #endif
 			}
-		
+
 			if( translate_avoid_large_numbers.length2() > 1000.0 )
 			{
 				if( result )
@@ -977,14 +840,14 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 				MeshOps::applyTranslate( op1.get(), translate_avoid_large_numbers );
 				MeshOps::applyTranslate( op2.get(), translate_avoid_large_numbers );
 			}
-		}
+	}
 		else
 		{
 			csg_operation_ok = false;
 		}
 	}
 #ifdef _DEBUG
-	catch(DebugBreakException& e)
+	catch( DebugBreakException& e )
 	{
 		throw e;
 	}
@@ -995,19 +858,19 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
 		err << ce.str() << std::endl;
 	}
-	catch (const std::out_of_range& oor)
+	catch( const std::out_of_range& oor )
 	{
 		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
 		err << oor.what() << std::endl;
 	}
-	catch(std::exception& e)
+	catch( std::exception& e )
 	{
 		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
 		err << e.what() << std::endl;
 	}
-	catch(...)
+	catch( ... )
 	{
 		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << std::endl;
@@ -1020,26 +883,169 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 	{
 		std::cout << "!csg_operation_ok. id1=" << entity1 << ", id2=" << entity2 << std::endl;
 
-		if( result )
-		{
-			carve::mesh::MeshSet<3>* result_copy = result->clone();//new carve::mesh::MeshSet<3>();
-			MeshOps::applyTranslate( result_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-		//	renderMeshsetInDebugViewer( result_copy, osg::Vec4(0.0f, 0.5f, 0.0f, 1.0f), false );
-		}
-
 		carve::mesh::MeshSet<3>* op1_copy = op1->clone();
 		MeshOps::applyTranslate( op1_copy, carve::geom::VECTOR( 0, y_pos, -1 ) );
-		renderMeshsetInDebugViewer( op1_copy, osg::Vec4(0.0f, 0.8f, 0.0f, 1.0f), false );
+		CSG_Adapter::dumpMeshset( op1_copy, true );
 
 		y_pos += 0.2;
 		carve::mesh::MeshSet<3>* op2_copy = op2->clone();
-		MeshOps::applyTranslate(op2_copy, carve::geom::VECTOR(0, y_pos, -1));
-		renderMeshsetInDebugViewer(op2_copy, osg::Vec4(0.8f, 0.0f, 0.0f, 1.0f), false);
+		MeshOps::applyTranslate( op2_copy, carve::geom::VECTOR( 0, y_pos, -1 ) );
+		CSG_Adapter::dumpMeshset( op1_copy, true );
 
 		y_pos += 0.2;
 
-		dumpMeshsets( op1.get(), op2.get(), result.get(), entity1, entity2 );
+		if( result )
+		{
+			carve::mesh::MeshSet<3>* result_copy = result->clone();
+			MeshOps::applyTranslate( result_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
+			CSG_Adapter::dumpMeshset( result_copy, true );
+		}
 	}
 #endif
 	return csg_operation_ok;
+	}
+
+
+#ifdef _DEBUG
+
+void Polyhedron2Stream( carve::poly::Polyhedron* poly, std::stringstream& strs_out )
+{
+	strs_out << "Polyhedron{" << std::endl;
+	strs_out << "vertices{" << std::endl;
+	const size_t num_vertices = poly->vertices.size();
+	for( int i = 0; i < num_vertices; ++i )
+	{
+		carve::poly::Vertex<3> vertex = poly->vertices[i];
+		if( i > 0 )
+		{
+			strs_out << ",";
+		}
+		strs_out << "{" << vertex.v.x << ", " << vertex.v.y << ", " << vertex.v.z << "}";
+	}
+	strs_out << "}" << std::endl;
+
+	strs_out << "faces{" << std::endl;
+	for( int i = 0; i < poly->faces.size(); ++i )
+	{
+		carve::poly::Face<3> f = poly->faces[i];
+		if( i > 0 )
+		{
+			strs_out << ",";
+		}
+		strs_out << "{";
+		for( int j = 0; j < f.nVertices(); ++j )
+		{
+			if( j > 0 )
+			{
+				strs_out << ", ";
+	}
+			strs_out << poly->vertexToIndex( f.vertex( j ) );
 }
+		strs_out << "}";
+	}
+	strs_out << std::endl << "}";
+}
+
+void CSG_Adapter::dumpMeshset( carve::mesh::MeshSet<3>* meshset, bool append )
+{
+	shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
+	dumpPolyhedron( poly.get(), append );
+}
+
+void CSG_Adapter::dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, bool append )
+{
+	std::stringstream strs_out;
+	for( size_t i = 0; i < vec_meshsets.size(); ++i )
+	{
+		carve::mesh::MeshSet<3>* meshset = vec_meshsets[i];
+		shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
+		Polyhedron2Stream( poly.get(), strs_out );
+	}
+
+	if( !append )
+	{
+		clearMeshsetDump();
+	}
+	osgDB::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+	dump_ofstream << strs_out.str().c_str();
+	dump_ofstream.close();
+}
+
+void CSG_Adapter::dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, bool append )
+{
+	dumpPolyhedron( poly_input.create( carve::input::opts() ), append );
+}
+
+void CSG_Adapter::dumpPolyhedron( carve::poly::Polyhedron* poly, bool append )
+{
+	std::stringstream strs_out;
+	Polyhedron2Stream( poly, strs_out );
+
+	if( !append )
+	{
+		clearMeshsetDump();
+	}
+
+	std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+	dump_ofstream << strs_out.str().c_str();
+	dump_ofstream.close();
+}
+
+void CSG_Adapter::dumpFaces( const carve::mesh::MeshSet<3>* meshset, std::vector<face_t* >& vec_faces )
+{
+	std::stringstream strs_out;
+	strs_out << "Polyhedron{" << std::endl;
+	strs_out << "vertices{" << std::endl;
+
+	std::map<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
+	const size_t num_vertices = meshset->vertex_storage.size();
+	for( size_t i = 0; i < num_vertices; ++i )
+	{
+		const carve::mesh::Vertex<3>& vertex = meshset->vertex_storage[i];
+		//carve::poly::Vertex<3> vertex = meshset->vertex_storage[i].v;
+		map_vertex_idx[&vertex] = i;
+		if( i > 0 )
+		{
+			strs_out << ",";
+		}
+		strs_out << "{" << vertex.v.x << ", " << vertex.v.y << ", " << vertex.v.z << "}";
+	}
+	strs_out << "}" << std::endl;
+
+	strs_out << "faces{" << std::endl;
+	for( int i = 0; i < vec_faces.size(); ++i )
+	{
+		carve::mesh::Face<3>* f = vec_faces[i];
+		if( i > 0 )
+		{
+			strs_out << ",";
+		}
+		strs_out << "{";
+		edge_t* edge = f->edge;
+		for( int j = 0; j < f->nEdges(); ++j )
+		{
+			if( j > 0 )
+			{
+				strs_out << ", ";
+			}
+			carve::mesh::Vertex<3>* face_vertex = edge->vert;
+			int idx = map_vertex_idx[face_vertex];
+			strs_out << idx;// poly->vertexToIndex( f.vertex( j ) );
+			edge = edge->next;
+		}
+		strs_out << "}";
+	}
+	strs_out << std::endl << "}";
+
+	std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+	dump_ofstream << strs_out.str().c_str();
+	dump_ofstream.close();
+}
+
+void CSG_Adapter::clearMeshsetDump()
+{
+	std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::trunc );
+	dump_ofstream.close();
+}
+
+#endif

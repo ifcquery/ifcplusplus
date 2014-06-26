@@ -25,11 +25,12 @@
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 #include <ifcppgeometry/RepresentationConverter.h>
-#include <ifcppgeometry/DebugViewerCallback.h>
+#include <ifcppgeometry/GeomUtils.h>
 
 #include "viewer/Orbit3DManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
+
 #include "ViewController.h"
 #include "IfcPlusPlusSystem.h"
 
@@ -54,6 +55,7 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 		m_reader_writer = new ReaderWriterIFC();
 	}
 	m_reader_writer->setModel( m_ifc_model );
+	m_reader_writer->getGeomSettings()->m_ignore_curve_geometry = true;
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem()
@@ -95,32 +97,6 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 					shared_ptr<CmdRemoveSelectedObjects> cmd_remove( new CmdRemoveSelectedObjects( this ) );
 					m_command_manager->executeCommand( cmd_remove );
 				}
-				else if( ea.getKey() == osgGA::GUIEventAdapter::KEY_F5 )
-				{
-
-				}
-				else if( key=='l' )
-				{
-
-				}
-				else if( key == 'm' )
-				{
-					osg::Material* mat = m_view_controller->getDefaultMaterial();
-					float shinyness = mat->getShininess( osg::Material::FRONT ) + 1.f;
-					mat->setShininess( osg::Material::FRONT, shinyness );
-					std::cout << "shininess: " << shinyness << std::endl;
-				}
-				else if( key == 'n' )
-				{
-					osg::Material* mat = m_view_controller->getDefaultMaterial();
-					float shinyness = mat->getShininess( osg::Material::FRONT ) - 1.f;
-					mat->setShininess( osg::Material::FRONT, shinyness );
-					std::cout << "shininess: " << shinyness << std::endl;
-				}
-				else if( key == 'b' )
-				{
-					m_view_controller->toggleBoundingSphere();
-				}
 				else if( key == 't' )
 				{
 					// TODO: fix or disable conflicting window transparency statesets
@@ -128,40 +104,6 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 				}
 				break;
 			}
-			case osgGA::GUIEventAdapter::DOUBLECLICK :
-			{
-				//handled = handleMouseDoubleClick( ea, aa );
-				break;
-			}
-			case osgGA::GUIEventAdapter::PUSH :
-			{
-				//m_drag = false;
-				// TODO: set camera center to first intersection point
-				break;
-			}
-			case osgGA::GUIEventAdapter::RELEASE :
-			{
-				//if( m_ga_t0 != nullptr  )
-				//{
-				//	if( !m_drag )
-				//	{
-				//		int buttonMask = m_ga_t0->getButtonMask();
-				//		if( buttonMask==osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON )
-				//		{
-				//			handled = intersectModel( ea, aa, false, false );
-				//		}
-				//	}
-				//}
-
-				//m_drag = false;
-				break;
-			}
-			case osgGA::GUIEventAdapter::DRAG :
-			{
-//				m_drag = true;
-				break;
-			}
-
 			default:
 				break;
 		}
@@ -269,7 +211,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			{
 				m_reader_writer->convertIfcProduct( product, product_shape );
 			}
-			renderShapeInputDataInDebugViewer( product_shape.get(), osg::Vec4f( 0.5, 0.5, 0.5, 1.0 ), true  );
+			//GeomUtils::dumpMeshset( product_shape );
 		}
 #endif
 

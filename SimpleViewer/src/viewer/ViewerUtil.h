@@ -25,5 +25,4 @@
 void zoomToBoundingSphere( osgViewer::Viewer* viewer, const osg::BoundingSphere& bs, double ratio_w = 1.0 );
 void zoomToBoundingSphere( osgViewer::CompositeViewer* viewer, const osg::BoundingSphere& bs, double ratio_w = 1.0 );
 enum IntersectionPlane {	XY_PLANE,	YZ_PLANE,	XZ_PLANE	};
-void intersectRayWithPlane( const osg::Vec3d& ray_origin, const osg::Vec3d& ray_direction, const IntersectionPlane& plane, osg::Vec3d& intersection_point );
 QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id );

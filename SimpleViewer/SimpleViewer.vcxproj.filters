@@ -7,13 +7,7 @@
     <ClCompile Include="bin\GeneratedFiles\Debug\moc_TabView.cpp">
       <Filter>Generierte Dateien\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\Debug\moc_TabTextEdit.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="bin\GeneratedFiles\Debug\moc_TabReadWrite.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\Debug\moc_StepHighlighter.cpp">
       <Filter>Generierte Dateien\Debug</Filter>
     </ClCompile>
     <ClCompile Include="bin\GeneratedFiles\Debug\moc_MainWindow.cpp">
@@ -23,9 +17,6 @@
       <Filter>Generierte Dateien\Debug</Filter>
     </ClCompile>
     <ClCompile Include="bin\GeneratedFiles\Debug\moc_IfcTreeWidget.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\Debug\moc_DebugViewer.cpp">
       <Filter>Generierte Dateien\Debug</Filter>
     </ClCompile>
     <ClCompile Include="src\cmd\CmdLoadIfcFile.cpp">
@@ -42,18 +33,6 @@
     </ClCompile>
     <ClCompile Include="src\cmd\CommandManager.cpp">
       <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\DebugViewer.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_DebugViewer.cpp">
-      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_DebugViewer.cpp">
-      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\Release\moc_DebugViewer.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\IfcTreeWidget.cpp">
       <Filter>Source Dateien</Filter>
@@ -79,18 +58,6 @@
     <ClCompile Include="bin\GeneratedFiles\Release\moc_MainWindow.cpp">
       <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\StepHighlighter.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_StepHighlighter.cpp">
-      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_StepHighlighter.cpp">
-      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\Release\moc_StepHighlighter.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\TabReadWrite.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -101,18 +68,6 @@
       <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
     </ClCompile>
     <ClCompile Include="bin\GeneratedFiles\Release\moc_TabReadWrite.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\TabTextEdit.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\ReleaseWithDebugInfo\moc_TabTextEdit.cpp">
-      <Filter>Generierte Dateien\ReleaseWithDebugInfo</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\ReleaseNoOptimization\moc_TabTextEdit.cpp">
-      <Filter>Generierte Dateien\ReleaseNoOptimization</Filter>
-    </ClCompile>
-    <ClCompile Include="bin\GeneratedFiles\Release\moc_TabTextEdit.cpp">
       <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\TabView.cpp">
@@ -201,22 +156,13 @@
     <CustomBuild Include="Resources\ifcplusplus.qrc">
       <Filter>Resource Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="src\gui\DebugViewer.h">
-      <Filter>Header Dateien</Filter>
-    </CustomBuild>
     <CustomBuild Include="src\gui\IfcTreeWidget.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
     <CustomBuild Include="src\gui\MainWindow.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="src\gui\StepHighlighter.h">
-      <Filter>Header Dateien</Filter>
-    </CustomBuild>
     <CustomBuild Include="src\gui\TabReadWrite.h">
-      <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\gui\TabTextEdit.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
     <CustomBuild Include="src\gui\TabView.h">

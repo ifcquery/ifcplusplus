@@ -34,17 +34,6 @@ ViewController::ViewController()
 	m_transform_model->setName("m_transform_model");
 	m_transform_model->addChild( m_sw_model.get() );
 	m_rootnode->addChild( m_transform_model.get() );
-	//m_rootnode->setDataVariance( osg::Object::DYNAMIC );
-
-	// background camera
-	//osg::Camera* sky = new osg::Camera();
-	//sky->setName( "Sky_Camera" );
-	//sky->setReferenceFrame( osg::Transform::ABSOLUTE_RF );
-	//sky->setViewMatrix( osg::Matrix::identity() );
-	//sky->setRenderOrder( osg::Camera::PRE_RENDER );
-	//sky->setClearColor( osg::Vec4f( 0.96f,	0.96f,	0.96f,	1.0f ) );
-	//m_rootnode->addChild( sky );
-	// TODO: fancy horizon
 
 	m_sw_bound = new osg::Switch();
 	m_sw_bound->setName("m_sw_bound");
@@ -59,8 +48,6 @@ ViewController::ViewController()
 	m_material_default->setSpecular( osg::Material::FRONT, osg::Vec4f( 0.02f, 0.025f, 0.03f, 0.03f ) );
 	m_material_default->setShininess( osg::Material::FRONT, m_shinyness );
 	m_material_default->setColorMode( osg::Material::SPECULAR );
-	//m_material_default->setEmission( osg::Material::FRONT, osg::Vec4f( 0.05f, 0.08f, 0.1f, 0.1f ) );
-	//m_material_default->setEmission( osg::Material::BACK, osg::Vec4f( 0.095f, 0.098f, 0.091f, 0.091f ) );
 	m_material_default->setTransparency( osg::Material::FRONT_AND_BACK, 0.7f );
 	
 	osg::LightModel* light_model = new osg::LightModel();  
@@ -78,13 +65,10 @@ ViewController::ViewController()
 	m_stateset_transparent->setRenderBinDetails(11, "DepthSortedBin"); 
 
 	osg::Material* material_selected = new osg::Material();
-	//m_material_selected->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.02f, 0.025f, 0.03f, 0.03f ) );
 	material_selected->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.4f, 0.92f, 0.92f, 0.5f ) );
 	material_selected->setSpecular( osg::Material::FRONT, osg::Vec4f( 0.3f, 0.35f, 0.3f, 1.0f ) );
 	material_selected->setShininess( osg::Material::FRONT, m_shinyness );
 	material_selected->setColorMode( osg::Material::SPECULAR );
-	//m_material_selected->setEmission( osg::Material::FRONT, osg::Vec4f( 0.1f, 0.15f, 0.2f, 0.2f ) );
-	//material_selected->setAlpha(osg::Material::FRONT, 0.8f);
 	m_stateset_selected = new osg::StateSet();
 	m_stateset_selected->setAttribute( material_selected, osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON );
 
@@ -93,7 +77,6 @@ ViewController::ViewController()
 	m_sw_coord_axes->setName("m_sw_coord_axes");
 	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxes() );
 	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxesArrows() );
-	//m_sw_coord_axes->addChild( createQuarterCircles() );
 	m_rootnode->addChild( m_sw_coord_axes.get() );
 
 	toggleSceneLight();
@@ -139,25 +122,6 @@ void ViewController::setViewerMode( ViewerMode mode )
 		{
 			GeomUtils::HiddenLineModeOn( m_transform_model.get() );
 		}
-	}
-}
-
-void ViewController::toggleBoundingSphere()
-{
-	if( m_sw_bound->getNumChildren() == 0 )
-	{
-		const osg::BoundingSphere& bs = m_sw_model->getBound();
-		osg::Sphere* sphere = new osg::Sphere( bs.center(), bs.radius() );
-		osg::ShapeDrawable* drawable = new osg::ShapeDrawable( sphere );
-		drawable->setColor( osg::Vec4( 0.7, 0.7, 0.7, 0.1 ) );
-		osg::Geode* geode = new osg::Geode();
-		geode->addDrawable( drawable );
-		m_sw_bound->addChild( geode );
-		geode->setStateSet( m_stateset_transparent );
-	}
-	else
-	{
-		m_sw_bound->removeChildren( 0, m_sw_bound->getNumChildren() );
 	}
 }
 

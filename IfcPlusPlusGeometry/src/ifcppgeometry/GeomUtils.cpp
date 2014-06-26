@@ -13,6 +13,7 @@
 
 #include <osg/ShapeDrawable>
 #include <osg/MatrixTransform>
+#include <osg/Group>
 #include <osgText/Text>
 #include <osg/CullFace>
 #include <osg/Material>
@@ -36,14 +37,13 @@
 #include "ProfileConverter.h"
 #include "CSG_Adapter.h"
 #include "RepresentationConverter.h"
-#include "DebugViewerCallback.h"
 #include "GeomUtils.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GeomUtils::WireFrameModeOn( osg::StateSet* state )
 {
 	osg::ref_ptr<osg::PolygonMode> polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ));
-	if(  !polygon_mode )
+	if( !polygon_mode )
 	{
 		polygon_mode = new osg::PolygonMode();
 		state->setAttribute( polygon_mode );	
@@ -51,19 +51,67 @@ void GeomUtils::WireFrameModeOn( osg::StateSet* state )
 	polygon_mode->setMode(  osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE );
 }
 
+void disableWireFrameOnText( osg::Node* node )
+{
+	if( node == nullptr )
+	{
+		return;
+	}
+
+	osg::Group* grp = dynamic_cast<osg::Group*>( node );
+	if( grp )
+	{
+		for( size_t i = 0; i < grp->getNumChildren(); ++i )
+		{
+			osg::Node* child = grp->getChild( i );
+			disableWireFrameOnText( child );
+		}
+	}
+	else
+	{
+		osg::Geode* geode = dynamic_cast<osg::Geode*>( node );
+		if( geode )
+		{
+			for( size_t i = 0; i < geode->getNumDrawables(); ++i )
+			{
+				osg::Drawable* child = geode->getDrawable( i );
+
+				osgText::Text* txt = dynamic_cast<osgText::Text*>( child );
+				if( txt )
+				{
+					osg::StateSet* state = txt->getOrCreateStateSet();
+
+					osg::PolygonMode* polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ));
+
+					if( !polygon_mode )
+					{
+						polygon_mode = new osg::PolygonMode();
+						state->setAttribute( polygon_mode );	
+					}
+					polygon_mode->setMode(  osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::FILL );
+				}
+			}
+		}
+	}
+}
+
 void GeomUtils::WireFrameModeOn( osg::Node* node )
 {
 	if( node == nullptr )
+	{
 		return;
+	}
 
 	osg::StateSet* state = node->getOrCreateStateSet();
 	WireFrameModeOn( state );
+
+	disableWireFrameOnText( node );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GeomUtils::WireFrameModeOff( osg::StateSet* state )
 {
-	osg::PolygonMode *polygon_mode = dynamic_cast< osg::PolygonMode* >( state->getAttribute( osg::StateAttribute::POLYGONMODE ));
+	osg::PolygonMode *polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ));
 
 	if(  !polygon_mode )
 	{
@@ -72,12 +120,14 @@ void GeomUtils::WireFrameModeOff( osg::StateSet* state )
 	}
 	polygon_mode->setMode(  osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::FILL );
 }
-void GeomUtils::WireFrameModeOff( osg::Node *srisdNode )
+void GeomUtils::WireFrameModeOff( osg::Node *node )
 {
-	if( srisdNode == nullptr )
+	if( node == nullptr )
+	{
 		return;
+	}
 
-	osg::StateSet *state = srisdNode->getOrCreateStateSet();
+	osg::StateSet *state = node->getOrCreateStateSet();
 	WireFrameModeOff( state );
 }
 
@@ -1150,9 +1200,14 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			std::cout << "area < 0.000000001\n" << std::endl;
+			std::cout <<  __FUNC__ << ": area < 0.000000001\n" << std::endl;
 		}
 #endif
+				
+		if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+		{
+			continue;
+		}
 
 		if( flip_faces )
 		{
@@ -1935,13 +1990,18 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			std::cout << "area < 0.000000001\n" << std::endl;
+			std::cout <<  __FUNC__ << ": area < 0.000000001\n" << std::endl;
 		}
 #endif
 
+		if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+		{
+			continue;
+		}
+
 		if( flip_faces )
 		{
-			poly_cache.m_poly_data->addFace( vertex_id_a,		vertex_id_c,		vertex_id_b );		// bottom cap
+			poly_cache.m_poly_data->addFace( vertex_id_a, vertex_id_c, vertex_id_b );		// bottom cap
 			poly_cache.m_poly_data->addFace( vertex_id_a_top,	vertex_id_b_top,	vertex_id_c_top );	// top cap, flipped outward
 		}
 		else

@@ -39,11 +39,9 @@ ViewerWidget::ViewerWidget( QWidget* parent) : QWidget(parent)
 	osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::SingleThreaded;
 
     m_viewer.setThreadingModel(threadingModel);
-	m_near_plane = 0.1;
+	m_near_plane = 0.01;
 	m_far_plane = 10000.0;
 	m_projection = PROJECTION_PERSPECTIVE;
-	
-    // disable the default setting of viewer.done() by pressing Escape.
 	m_viewer.setKeyEventSetsDone(0);
 
 	osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
@@ -120,18 +118,15 @@ void ViewerWidget::setProjection( ViewerProjection p )
 
 	osg::Camera* cam = m_main_view->getCamera();
 	cam->setViewport( new osg::Viewport(0, 0, w, h) );
+	//cam->setComputeNearFarMode(osg::CullSettings::DO_NOT_COMPUTE_NEAR_FAR);
 	
 	if( m_projection == PROJECTION_PARALLEL )
 	{
-		// for some reason, osg auto computed near/far planes cause unintended clipping...
-		//cam->setComputeNearFarMode(osg::CullSettings::DO_NOT_COMPUTE_NEAR_FAR);
 		cam->setProjectionMatrixAsOrtho(-100, 100, -100.0*ratio, 100.0*ratio, m_near_plane-1000, m_near_plane/0.0005+100 );
 	}
 	else if( m_projection == PROJECTION_PERSPECTIVE )
 	{
-		double near_plane = 0.1;
-		//cam->setComputeNearFarMode(osg::CullSettings::COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES);
-		cam->setProjectionMatrixAsPerspective( 45.0, 1.0/ratio, near_plane, m_far_plane );
+		cam->setProjectionMatrixAsPerspective( 45.0, 1.0/ratio, m_near_plane, m_far_plane );
 	}
 	if( m_hud_camera )
 	{

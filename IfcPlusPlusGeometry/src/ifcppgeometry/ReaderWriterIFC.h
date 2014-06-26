@@ -59,7 +59,6 @@ public:
 
 	std::stringstream& getErrors() { return m_err; }
 	std::stringstream& getMessages() { return m_messages; }
-	void setNumVerticesPerCircle( int num_circles );
 	void resetNumVerticesPerCircle();
 	void deleteInputCache();
 	void resetModel();

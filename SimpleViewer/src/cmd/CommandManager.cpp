@@ -21,7 +21,6 @@ CommandManager::CommandManager()
 }
 CommandManager::~CommandManager()
 {
-
 }
 
 void CommandManager::executeCommand( shared_ptr<Command> c )
@@ -34,17 +33,12 @@ void CommandManager::executeCommand( shared_ptr<Command> c )
 	{
 		// remember interrupted command in new command
 		c->setInterruptedCmd( m_current_command );
-
-		// disconnect current command
-		//		m_curr_m_disconnect( this );
 	}
 
 	m_current_command = c;
-	//connect( m_curr_cmd, SIGNAL( signalCmdFinished() ), this, SLOT( slotCmdFinished() ) );
 
 	// put the commands widget into the gui
 	shared_ptr<Command> emit_arg = m_current_command;
-	//emit( signalCommandStarted( emit_arg ) );
 
 	// execute the command
 	m_current_command->doCmd();
@@ -89,11 +83,7 @@ void CommandManager::slotCmdFinished()
 			m_previous_command.reset();
 		}
 	}
-
-	//emit( signalCmdFinished() );
-	//setViewerFocus();
 	m_current_command.reset();
-	//emit( signalUndoRedoChanged() );
 }
 
 
@@ -129,10 +119,8 @@ void CommandManager::undoCmd()
 	// get unco command from current position
 	if( m_undo_vec[m_undo_pos]->undo() )
 	{
-
 		// decrement undo position
 		--m_undo_pos;
-		//emit( signalUndoRedoChanged() );
 	}
 
 	// todo: return true/false here
@@ -163,7 +151,6 @@ void CommandManager::redoCmd()
 	{
 		// increment undo position
 		++m_undo_pos;
-		//emit( signalUndoRedoChanged() );
 	}
 	// todo: return true/false here
 }
@@ -176,7 +163,6 @@ void CommandManager::clearUndoHistory()
 	}
 	m_undo_vec.clear();
 	m_undo_pos = -1;
-	//emit( signalUndoRedoChanged() );
 }
 
 int CommandManager::getNumUndoCmds()

@@ -15,10 +15,10 @@
 
 #include <QtCore/qglobal.h>
 #include <QMainWindow>
+#include <QLabel>
+#include <QSplitter>
+#include <QToolBar>
 
-class QLabel;
-class QSplitter;
-class QToolBar;
 class IfcPlusPlusSystem;
 class TabReadWrite;
 class ViewerWidget;
