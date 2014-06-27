@@ -140,7 +140,7 @@ void MainWindow::createTabWidget()
 
 void MainWindow::slotBtnZoomBoundingsClicked()
 {
-	osg::BoundingSphere bs = m_system->getViewController()->getModelNode()->computeBound();
+	osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();
 	
 	osgViewer::View* main_view = m_viewer_widget->getMainView();
 	if( main_view )

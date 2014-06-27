@@ -941,7 +941,7 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 
 		if( loop.size() < 3 )
 		{
-			err << "loop.size() < 3" << std::endl;
+			//err << "loop.size() < 3" << std::endl;
 			if( it_face_loops == face_loops_input.begin() )
 			{
 				break;
@@ -995,6 +995,11 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 		}
 
 		face_loops.push_back(loop_2d);
+	}
+
+	if( face_loops.size() == 0 )
+	{
+		return;
 	}
 
 	bool flip_faces = false;
@@ -1558,7 +1563,7 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 
 		if( loop.size() < 3 )
 		{
-			err << "loop.size() < 3" << std::endl;
+			err << __FUNC__ << "loop.size() < 3" << std::endl;
 			if( it_face_loops == profile_paths.begin() )
 			{
 				break;

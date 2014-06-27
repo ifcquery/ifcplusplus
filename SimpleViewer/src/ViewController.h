@@ -31,18 +31,11 @@ public:
 	ViewController();
 	~ViewController();
 
-	osg::Group*		getRootNode()	{ return m_rootnode.get(); }
-	osg::Switch*	getModelNode()	{ return m_sw_model.get(); }
-	osg::MatrixTransform* getModelTransform() { return m_transform_model.get(); }
-	osg::StateSet* getStateSetDefault() { return m_stateset_default.get(); }
-	osg::StateSet* getStateSetSelected() { return m_stateset_selected.get(); }
-	osg::Material* getDefaultMaterial() { return m_material_default; }
 	void toggleSceneLight();
 	void toggleModelTransparency();
 	void setViewerMode( ViewerMode mode );
-	ViewerMode getViewerMode() { return m_viewer_mode; }
+	void switchCurveRepresentation( osg::Group* grp, bool on );
 
-private:
 	osg::ref_ptr<osg::Group>			m_rootnode;
 	osg::ref_ptr<osg::Switch>			m_sw_coord_axes;
 	osg::ref_ptr<osg::Switch>			m_sw_model;
@@ -53,6 +46,7 @@ private:
 	float								m_shinyness;
 	double								m_factor_graphics_scale;
 	bool								m_transparent_model;
+	bool								m_show_curve_representation;
 	ViewerMode							m_viewer_mode;
 
 	osg::ref_ptr<osg::Material>			m_material_default;

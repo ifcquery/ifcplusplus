@@ -693,15 +693,12 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 
 		// create shape for polylines
-		if( !m_geom_settings->m_ignore_curve_geometry )
+		for( int polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
 		{
-			for( int polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
-			{
-				shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
-				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-				ConverterOSG::drawPolyline( polyline_data.get(), geode );
-				item_group_curves->addChild( geode );
-			}
+			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
+			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+			ConverterOSG::drawPolyline( polyline_data.get(), geode );
+			item_group_curves->addChild( geode );
 		}
 
 		if( m_geom_settings->m_show_text_literals )
