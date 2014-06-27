@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 	ViewerWidget* viewer_widget = new ViewerWidget();
 	Orbit3DManipulator* camera_manip = new Orbit3DManipulator( sys );
 	viewer_widget->getMainView()->setCameraManipulator( camera_manip );
-	viewer_widget->setRootNode( sys->getViewController()->getRootNode() );
+	viewer_widget->setRootNode( sys->getViewController()->m_rootnode );
 
 	MainWindow* window = new MainWindow( sys, viewer_widget );
 	app.connect( window,	SIGNAL(signalMainWindowClosed()),	&app,	SLOT(quit()) );

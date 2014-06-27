@@ -21,8 +21,7 @@ GeometrySettings::GeometrySettings()
 	m_num_vertices_per_circle = m_num_vertices_per_circle_default;
 	m_min_num_vertices_per_arc = 6;
 	m_show_text_literals = false;
-	m_ignore_curve_geometry = false;
-	m_intermediate_normal_angle = 0.15;
+	m_intermediate_normal_angle = M_PI*0.05;
 
 	m_min_colinearity = 0.1;
 	m_min_delta_v = 1.0;

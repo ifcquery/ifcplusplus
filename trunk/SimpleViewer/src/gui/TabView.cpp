@@ -53,7 +53,7 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	{
 		m_cull_back = settings.value("cullBackFaces").toBool();
 	}
-	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getViewController()->getRootNode()->getOrCreateStateSet() );
+	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getViewController()->m_rootnode->getOrCreateStateSet() );
 
 	// cull face buttons
 	QCheckBox* cull_front_faces = new QCheckBox( "Cull front faces" );
@@ -102,6 +102,18 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	num_vertices_hbox->addWidget( new QLabel( tr("Number of vertices per circle") ) );
 	connect(m_spinbox_circle_vertices, SIGNAL(valueChanged(int)), this, SLOT( slotSetNumVertices( int ) ) );
 
+	m_check_show_curve_representations = new QCheckBox(tr("Show curve representations"));
+	bool show_curves = true;
+	if( keys.contains( "ShowCurveRepresentations" ) )
+	{
+		show_curves = settings.value( "ShowCurveRepresentations" ).toBool();
+		if( show_curves )
+		{
+			m_check_show_curve_representations->setChecked( true );
+		}
+	}
+	m_system->getViewController()->m_show_curve_representation = show_curves;
+	connect( m_check_show_curve_representations, SIGNAL( stateChanged(int) ), this, SLOT( slotShowCurves(int) ) );
 
 	// layout
 	QHBoxLayout* hbox = new QHBoxLayout();
@@ -109,6 +121,7 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	hbox->addWidget( cull_front_faces, 0 );
 	hbox->addWidget( cull_back_faces, 0 );
 	hbox->addLayout( num_vertices_hbox );
+	hbox->addWidget( m_check_show_curve_representations );
 	hbox->addStretch( 1 );
 
 	QVBoxLayout* vbox = new QVBoxLayout();
@@ -137,7 +150,7 @@ void TabView::slotCullFrontFaces( int state )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("cullFrontFaces", m_cull_front );
 
-	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getViewController()->getRootNode()->getOrCreateStateSet() );
+	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getViewController()->m_rootnode->getOrCreateStateSet() );
 }
 
 void TabView::slotCullBackFaces( int state )
@@ -153,7 +166,7 @@ void TabView::slotCullBackFaces( int state )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("cullBackFaces", m_cull_back );
 
-	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getViewController()->getRootNode()->getOrCreateStateSet() );
+	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getViewController()->m_rootnode->getOrCreateStateSet() );
 }
 
 void TabView::slotProjectionButtonClicked( int btn )
@@ -173,4 +186,12 @@ void TabView::slotSetNumVertices( int num_vertices )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue( "NumVerticesPerCircle", num_vertices );
 	m_system->getReaderWriterIFC()->getGeomSettings()->m_num_vertices_per_circle = num_vertices;
+}
+
+void TabView::slotShowCurves( int state )
+{
+	bool curves_on = state == Qt::Checked;
+	m_system->getViewController()->switchCurveRepresentation( m_system->getViewController()->m_sw_model, curves_on );
+	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
+	settings.setValue( "ShowCurveRepresentations", curves_on );
 }

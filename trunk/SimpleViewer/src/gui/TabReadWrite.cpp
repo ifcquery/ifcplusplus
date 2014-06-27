@@ -269,7 +269,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	}
 
 	m_viewer->update();
-	osg::BoundingSphere bs = m_system->getViewController()->getModelNode()->computeBound();
+	osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();
 
 	osgViewer::View* main_view = m_viewer->getMainView();
 	if( main_view )

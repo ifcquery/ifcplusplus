@@ -167,3 +167,34 @@ void ViewController::toggleSceneLight()
 		stateset_root->setMode( GL_LIGHT6, osg::StateAttribute::OFF );
 	}
 }
+
+void ViewController::switchCurveRepresentation( osg::Group* grp, bool on )
+{
+	m_show_curve_representation = on;
+	osg::Switch* grp_switch = dynamic_cast<osg::Switch*>( grp );
+	if( grp_switch )
+	{
+		if( grp_switch->getName().compare( "CurveRepresentation" ) == 0 )
+		{
+			if( on )
+			{
+				grp_switch->setAllChildrenOn();
+			}
+			else
+			{
+				grp_switch->setAllChildrenOff();
+			}
+		}
+	}
+
+	unsigned int num_children = grp->getNumChildren();
+	for( unsigned int i=0; i<num_children; ++i)
+	{
+		osg::Node* child_node = grp->getChild(i);
+		osg::Group* child_grp = dynamic_cast<osg::Group*>( child_node );
+		if( child_grp )
+		{
+			switchCurveRepresentation( child_grp, on );
+		}
+	}
+}

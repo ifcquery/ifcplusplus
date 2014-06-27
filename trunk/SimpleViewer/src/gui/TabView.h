@@ -16,6 +16,7 @@
 #include <qglobal.h>
 #include <QWidget>
 #include <QSpinBox>
+#include <QCheckBox>
 
 class IfcPlusPlusSystem;
 class ViewerWidget;
@@ -30,6 +31,7 @@ private:
 	IfcPlusPlusSystem*	m_system;
 	ViewerWidget*	m_vw;
 	QSpinBox*		m_spinbox_circle_vertices;
+	QCheckBox*		m_check_show_curve_representations;
 	bool			m_cull_front;
 	bool			m_cull_back;
 	
@@ -39,4 +41,5 @@ private slots:
 	void slotCullBackFaces( int state );
 	void slotProjectionButtonClicked( int btn );
 	void slotSetNumVertices(int);
+	void slotShowCurves( int );
 };

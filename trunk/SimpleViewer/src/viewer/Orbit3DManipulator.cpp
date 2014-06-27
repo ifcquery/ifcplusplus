@@ -412,7 +412,7 @@ bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapte
 	osg::Group* root_node = nullptr;
 	if( m_system )
 	{
-		root_node = m_system->getViewController()->getRootNode();
+		root_node = m_system->getViewController()->m_rootnode;
 	}
 	else
 	{
@@ -459,8 +459,8 @@ bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea,
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
 	view->getScene();
-	osg::Group* model_node = m_system->getViewController()->getModelNode();
-	iv.apply( *cam );//, model_node );
+	osg::Group* model_node = m_system->getViewController()->m_sw_model;
+	iv.apply( *cam );
 
 	bool intersection_geometry_found = false;
 	if( picker->containsIntersections() )

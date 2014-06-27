@@ -48,7 +48,8 @@ bool CmdLoadIfcFile::doCmd()
 		return false;
 	}
 
-	osg::Group* model_group = m_system->getViewController()->getModelNode();
+	shared_ptr<ViewController> vc = m_system->getViewController();
+	osg::Group* model_group = vc->m_sw_model;
 	model_group->removeChildren( 0, model_group->getNumChildren() );
 	m_system->clearSelection();
 
@@ -139,6 +140,8 @@ bool CmdLoadIfcFile::doCmd()
 	shared_ptr<IfcPPModel> ifc_model = reader_writer->getIfcPPModel();
 	m_system->setIfcModel( ifc_model );
 	reader_writer->deleteInputCache();
+
+	vc->switchCurveRepresentation( model_group, vc->m_show_curve_representation );
 
 	if( err.tellp() > 0 )
 	{

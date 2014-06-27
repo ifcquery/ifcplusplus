@@ -55,7 +55,6 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 		m_reader_writer = new ReaderWriterIFC();
 	}
 	m_reader_writer->setModel( m_ifc_model );
-	m_reader_writer->getGeomSettings()->m_ignore_curve_geometry = true;
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem()
@@ -169,7 +168,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 	const int id = ifc_object->getId();
 	if( grp == 0 )
 	{
-		osg::Group* model_group = m_view_controller->getModelNode();
+		osg::Group* model_group = m_view_controller->m_sw_model;
 		grp = findNodeByIfcId( model_group, id );
 	}
 

@@ -26,10 +26,9 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 			edge_t* edge_i = vec_closed_edges[closed_edge_i];
 			edge_t* edge_next = edge_i->next;
 
-#ifdef _DEBUG
 			if( edge_i == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << "!edge_next" << std::endl;
+				std::cout << "!edge_i" << std::endl;
 				continue;
 			}
 			if( edge_next == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
@@ -43,7 +42,11 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 				continue;
 			}
 
-#endif
+			if( !edge_i )
+			{
+				std::cout << "!edge_i" << std::endl;
+				continue;
+			}
 
 			if( !edge_next )
 			{
@@ -948,6 +951,10 @@ void Polyhedron2Stream( carve::poly::Polyhedron* poly, std::stringstream& strs_o
 
 void CSG_Adapter::dumpMeshset( carve::mesh::MeshSet<3>* meshset, bool append )
 {
+	if( meshset->meshes.size() == 0 )
+	{
+		return;
+	}
 	shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
 	dumpPolyhedron( poly.get(), append );
 }
