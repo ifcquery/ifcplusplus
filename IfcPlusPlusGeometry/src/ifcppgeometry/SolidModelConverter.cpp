@@ -236,7 +236,9 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 				std::vector<shared_ptr<IfcClosedShell> >& vec_voids = advanced_brep_with_voids->m_Voids;
 
 				// TODO: subtract voids from outer shell
+#ifdef _DEBUG
 				std::cout << "IfcAdvancedBrep not implemented" << std::endl;
+#endif
 			}
 			return;
 		}
@@ -482,7 +484,9 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 
 			if( loop_number >= profile_coords.size() )
 			{
+#ifdef _DEBUG
 				std::cout << __FUNC__ << ": loop_number >= profile_coords.size()" << std::endl;
+#endif
 				continue;
 			}
 
@@ -682,7 +686,9 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	shared_ptr<IfcBooleanOperand> ifc_second_operand = bool_result->m_SecondOperand;
 	if( !ifc_boolean_operator || !ifc_first_operand || !ifc_second_operand )
 	{
+#ifdef _DEBUG
 		std::cout << __FUNC__ << ": invalid IfcBooleanOperator or IfcBooleanOperand" << std::endl;
+#endif
 		return;
 	}
 	carve::csg::CSG::OP csg_operation = carve::csg::CSG::A_MINUS_B;
@@ -865,12 +871,16 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	{
 		if( !right_circular_cone->m_Height )
 		{
+#ifdef _DEBUG
 			std::cout << "IfcRightCircularCone: height not given" << std::endl;
+#endif
 			return;
 		}
 		if( !right_circular_cone->m_BottomRadius )
 		{
+#ifdef _DEBUG
 			std::cout << "IfcRightCircularCone: radius not given" << std::endl;
+#endif
 			return;
 		}
 
@@ -911,13 +921,17 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	{
 		if( !right_circular_cylinder->m_Height )
 		{
+#ifdef _DEBUG
 			std::cout << "IfcRightCircularCylinder: height not given" << std::endl;
+#endif
 			return;
 		}
 
 		if( !right_circular_cylinder->m_Radius )
 		{
+#ifdef _DEBUG
 			std::cout << "IfcRightCircularCylinder: radius not given" << std::endl;
+#endif
 			return;
 		}
 
@@ -959,7 +973,9 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	{
 		if( !sphere->m_Radius )
 		{
+#ifdef _DEBUG
 			std::cout << "IfcSphere: radius not given" << std::endl;
+#endif
 			return;
 		}
 
@@ -1275,7 +1291,9 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				}
 				else
 				{
+#ifdef _DEBUG
 					std::cout << "no intersection found" << std::endl;
+#endif
 				}
 			}
 
@@ -1296,7 +1314,9 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 
 				if( base_surface_points.size() != 4 )
 				{
+#ifdef _DEBUG
 					std::cout << __FUNC__ << ": invalid IfcHalfSpaceSolid.BaseSurface" << std::endl;
+#endif
 					return;
 				}
 				// If the agreement flag is TRUE, then the subset is the one the normal points away from

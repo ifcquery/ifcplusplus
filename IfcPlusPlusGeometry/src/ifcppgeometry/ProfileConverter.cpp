@@ -245,7 +245,9 @@ void ProfileConverter::convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcAr
 			int num_base_points = basis_curve_points.size();
 			if( num_base_points < 2 )
 			{
+#ifdef _DEBUG
 				std::cout << "IfcCenterLineProfileDef: num curve points < 2";
+#endif
 				return;
 			}
 

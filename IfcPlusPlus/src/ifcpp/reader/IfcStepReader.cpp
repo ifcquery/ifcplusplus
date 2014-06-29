@@ -248,23 +248,23 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 	}
 	m_model->setFileHeader( file_header_wstr );
 	
-	std::vector<std::string> vec_header_lines;
+	std::vector<std::wstring> vec_header_lines;
 	// split into lines
-	char* stream_pos = &file_header[0];
-	char* last_token = stream_pos;
+	wchar_t* stream_pos = &file_header_wstr[0];
+	wchar_t* last_token = stream_pos;
 
 	while( *stream_pos != '\0' )
 	{
 		if( *stream_pos == '\'' )
 		{
-			findEndOfString( stream_pos );
+			findEndOfWString( stream_pos );
 			continue;
 		}
 
 		if( *stream_pos == ';' )
 		{
-			char* begin_line = last_token;
-			std::string single_step_line( begin_line, stream_pos-last_token );
+			wchar_t* begin_line = last_token;
+			std::wstring single_step_line( begin_line, stream_pos-last_token );
 			vec_header_lines.push_back( single_step_line );
 
 			++stream_pos;
@@ -278,30 +278,28 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 
 	for( int i=0; i<vec_header_lines.size(); ++i )
 	{
-		std::string header_line = vec_header_lines[i];
-		std::wstring header_line_wstr;
-		header_line_wstr.assign(header_line.begin(), header_line.end());
+		std::wstring header_line = vec_header_lines[i];
 
-		if( header_line.find("FILE_DESCRIPTION") != std::string::npos )
+		if( header_line.find(L"FILE_DESCRIPTION") != std::string::npos )
 		{
-			m_model->setFileDescription( header_line_wstr );
+			m_model->setFileDescription( header_line );
 			continue;
 		}
 
-		if( header_line.find("FILE_NAME") != std::string::npos )
+		if( header_line.find(L"FILE_NAME") != std::string::npos )
 		{
-			m_model->setFileName( header_line_wstr );
+			m_model->setFileName( header_line );
 			continue;
 		}
 
-		if( header_line.find("FILE_SCHEMA") != std::string::npos )
+		if( header_line.find(L"FILE_SCHEMA") != std::string::npos )
 		{
-			size_t file_schema_begin = header_line.find("FILE_SCHEMA") + 11;
-			m_model->setFileSchema( header_line_wstr );
+			size_t file_schema_begin = header_line.find(L"FILE_SCHEMA") + 11;
+			m_model->setFileSchema( header_line );
 
-			std::string file_schema_args = header_line.substr( 11 );
-			size_t find_whitespace = file_schema_args.find(" ");
-			while(find_whitespace != std::string::npos){ file_schema_args.erase(find_whitespace,1); find_whitespace = file_schema_args.find(" "); }
+			std::wstring file_schema_args = header_line.substr( 11 );
+			size_t find_whitespace = file_schema_args.find(L" ");
+			while(find_whitespace != std::string::npos){ file_schema_args.erase(find_whitespace,1); find_whitespace = file_schema_args.find(L" "); }
 			
 			if( file_schema_args.at(0) =='(' && file_schema_args.at(file_schema_args.size()-1) ==')' )
 			{
@@ -316,27 +314,27 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
 			}
 				
-			if( file_schema_args.substr(0,6).compare("IFC2X2") == 0 )
+			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
 			{
 				m_model->m_ifc_schema_version = IfcPPModel::IFC2X2;
 			}
-			else if( file_schema_args.substr(0,6).compare("IFC2X3") == 0 )
+			else if( file_schema_args.substr(0,6).compare(L"IFC2X3") == 0 )
 			{
 				m_model->m_ifc_schema_version = IfcPPModel::IFC2X3;
 			}
-			else if( file_schema_args.substr(0,6).compare("IFC2X4") == 0 )
+			else if( file_schema_args.substr(0,6).compare(L"IFC2X4") == 0 )
 			{
 				m_model->m_ifc_schema_version = IfcPPModel::IFC2X4;
 			}
-			else if( file_schema_args.substr(0,5).compare("IFC2X") == 0 )
+			else if( file_schema_args.substr(0,5).compare(L"IFC2X") == 0 )
 			{
 				m_model->m_ifc_schema_version = IfcPPModel::IFC2X;
 			}
-			else if( file_schema_args.compare("IFC4") == 0 )
+			else if( file_schema_args.compare(L"IFC4") == 0 )
 			{
 				m_model->m_ifc_schema_version = IfcPPModel::IFC4;
 			}
-			else if( file_schema_args.compare("IFC4RC4") == 0 )
+			else if( file_schema_args.compare(L"IFC4RC4") == 0 )
 			{
 				m_model->m_ifc_schema_version = IfcPPModel::IFC4;
 			}
@@ -760,6 +758,7 @@ static std::map<IfcPPEntityEnum, int> global_map_num_args = {
 	{ IfcPPEntityEnum::IFCDOCUMENTREFERENCE, 5 },
 	{ IfcPPEntityEnum::IFCDOOR, 13 },
 	{ IfcPPEntityEnum::IFCDOORLININGPROPERTIES, 17 },
+	{ IfcPPEntityEnum::IFCFASTENER, 9 },
 	{ IfcPPEntityEnum::IFCFILLAREASTYLE, 3 },
 	{ IfcPPEntityEnum::IFCFLOWTERMINAL, 8 },
 	{ IfcPPEntityEnum::IFCFURNITURETYPE, 11 },

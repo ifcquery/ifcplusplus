@@ -321,5 +321,7 @@ void SplineConverter::convertIfcBSplineSurface( const shared_ptr<IfcBSplineSurfa
 
 	const int num_points_per_section = eta*zeta;
 	// TODO: implement
+#ifdef _DEBUG
 	std::cout << "IfcBSplineSurface not yet implemented" << std::endl;
+#endif
 }

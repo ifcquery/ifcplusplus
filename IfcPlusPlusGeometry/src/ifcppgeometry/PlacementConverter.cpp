@@ -328,7 +328,6 @@ void PlacementConverter::convertIfcObjectPlacement( const shared_ptr<IfcObjectPl
 		if( placement_already_applied.find(placement_id) != placement_already_applied.end() )
 		{
 			return;
-			//throw IfcPPException( "PlacementConverter::convertIfcObjectPlacement: detected placement cycle", __func__ );
 		}
 		placement_already_applied.insert(placement_id);
 	}
@@ -378,7 +377,9 @@ void PlacementConverter::convertIfcObjectPlacement( const shared_ptr<IfcObjectPl
 			// todo: implement
 
 		}
+#ifdef _DEBUG
 		std::cout << "IfcGridPlacement not implemented" << std::endl;
+#endif
 		//IfcGridPlacementDirectionSelect* ref_direction = grid_placement->m_PlacementRefDirection.get();	//optional
 	}
 
@@ -403,11 +404,11 @@ void PlacementConverter::convertTransformationOperator( const shared_ptr<IfcCart
 		shared_ptr<IfcCartesianTransformationOperator2D> trans_operator_2d = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>(transform_operator);
 		if( !trans_operator_2d->m_LocalOrigin )
 		{
-			throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+			throw IfcPPException( "LocalOrigin is not valid", __func__ );
 		}
 		if( trans_operator_2d->m_LocalOrigin->m_Coordinates.size() < 2 )
 		{
-			throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+			throw IfcPPException( "LocalOrigin is not valid", __func__ );
 		}
 		double x = trans_operator_2d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
 		double y = trans_operator_2d->m_LocalOrigin->m_Coordinates[1]->m_value*length_factor;
@@ -424,11 +425,11 @@ void PlacementConverter::convertTransformationOperator( const shared_ptr<IfcCart
 		{
 			if( trans_operator_2d->m_Axis1->m_DirectionRatios.size() < 2 )
 			{
-				throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+				throw IfcPPException( "Axis1 is not valid", __func__ );
 			}
 			if( trans_operator_2d->m_Axis2->m_DirectionRatios.size() < 2 )
 			{
-				throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+				throw IfcPPException( "Axis2 is not valid", __func__ );
 			}
 
 			local_x.x =  trans_operator_2d->m_Axis1->m_DirectionRatios[0];
@@ -458,11 +459,11 @@ void PlacementConverter::convertTransformationOperator( const shared_ptr<IfcCart
 		}
 		if( !trans_operator_3d->m_LocalOrigin )
 		{
-			throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+			throw IfcPPException( "LocalOrigin is not valid", __func__ );
 		}
 		if( trans_operator_3d->m_LocalOrigin->m_Coordinates.size() < 3 )
 		{
-			throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+			throw IfcPPException( "LocalOrigin is not valid", __func__ );
 		}
 		translate.x = trans_operator_3d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
 		translate.y = trans_operator_3d->m_LocalOrigin->m_Coordinates[1]->m_value*length_factor;
@@ -481,15 +482,15 @@ void PlacementConverter::convertTransformationOperator( const shared_ptr<IfcCart
 			shared_ptr<IfcDirection> axis3 = trans_operator_3d->m_Axis3;
 			if( axis1->m_DirectionRatios.size() < 2 )
 			{
-				throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+				throw IfcPPException( "Axis1 is not valid", __func__ );
 			}
 			if( axis2->m_DirectionRatios.size() < 2 )
 			{
-				throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+				throw IfcPPException( "Axis2 is not valid", __func__ );
 			}
 			if( axis3->m_DirectionRatios.size() < 2 )
 			{
-				throw IfcPPException( "IfcCartesianTransformationOperator is not valid", __func__ );
+				throw IfcPPException( "Axis3 is not valid", __func__ );
 			}
 			local_x.x = axis1->m_DirectionRatios[0];
 			local_x.y = axis1->m_DirectionRatios[1];

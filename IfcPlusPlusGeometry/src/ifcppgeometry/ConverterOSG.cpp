@@ -33,7 +33,9 @@
 
 void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array )
 {
+#ifdef _DEBUG
 	std::cout << "not triangulated" << std::endl;
+#endif
 	std::vector<carve::geom::vector<3> > face_vertices;
 	face_vertices.resize(face->nVertices());
 	carve::mesh::Edge<3> *e = face->edge;
@@ -199,9 +201,9 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 									std::cout << "e1->vert != vertex" << std::endl;
 								}
 
-								if( i_edge > 30 )
+								if( i_edge > 50 )
 								{
-									std::cout << "i_edge > 20" << std::endl;
+									std::cout << "i_edge > 50" << std::endl;
 								}
 #endif
 								if( f1 == face )
@@ -349,7 +351,9 @@ void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_d
 
 	if( polyline_set->vertices.size() < 2 )
 	{
+#ifdef _DEBUG
 		std::cout << __FUNC__ << ": polyline_set->vertices.size() < 2" << std::endl;
+#endif
 		return;
 	}
 
@@ -363,7 +367,9 @@ void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_d
 		{
 			if( vertex_i >= polyline_set->vertices.size() )
 			{
+#ifdef _DEBUG
 				std::cout << __FUNC__ <<  ": vertex_i >= polyline_set->vertices.size()" << std::endl;
+#endif
 				continue;
 			}
 			const carve::line::Vertex* v = pline->vertex( vertex_i );
@@ -417,7 +423,9 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 				const osg::Geometry* child_gemetry = dynamic_cast<const osg::Geometry*>(drawable);
 				if( !child_gemetry )
 				{
+#ifdef _DEBUG
 					std::cout <<  __FUNC__ << " !child_gemetry" << std::endl;
+#endif
 					return 0;
 				}
 				const osg::Array* vertices_array = child_gemetry->getVertexArray();
@@ -425,7 +433,9 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 
 				if( !vertices_float )
 				{
+#ifdef _DEBUG
 					std::cout <<  __FUNC__ << " !vertices_float" << std::endl; 
+#endif
 					return 0;
 				}
 
@@ -438,7 +448,9 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 					const int num_elements = p_set->getNumIndices();
 					if( num_elements < 3 )
 					{
+#ifdef _DEBUG
 						std::cout << "num_elements < 3" << std::endl; 
+#endif
 						continue;
 					}
 
@@ -527,7 +539,9 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 					}
 					else
 					{
+#ifdef _DEBUG
 						std::cout << "other primitive set mode" << std::endl;
+#endif
 						return 0;
 					}
 				}

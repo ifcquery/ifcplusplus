@@ -1121,6 +1121,9 @@ namespace {
         }
 
         // copy up to the end of the path.
+		CARVE_ASSERT( e1_1 < base_loop.size() );
+		CARVE_ASSERT( pos < base_loop.size() );
+		CARVE_ASSERT( e1_1 >= pos );
         std::copy(base_loop.begin() + pos, base_loop.begin() + e1_1, std::back_inserter(out));
 
         CARVE_ASSERT(base_loop[e1_1] == p1.back());

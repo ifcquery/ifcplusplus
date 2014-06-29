@@ -102,7 +102,9 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 				//convertIfcCurve( outer_boundary)
 				// TODO: implement boundary
 			}
+#ifdef _DEBUG
 			std::cout << "IfcCurveBoundedPlane not implemented." << std::endl;
+#endif
 		}
 		else if( dynamic_pointer_cast<IfcCurveBoundedSurface>(bounded_surface) )
 		{
@@ -116,7 +118,9 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			std::vector<shared_ptr<IfcBoundaryCurve> >& vec_boundaries = curve_bounded_surface->m_Boundaries;
 			bool implicit_outer = curve_bounded_surface->m_ImplicitOuter;
 			// TODO: implement
+#ifdef _DEBUG
 			std::cout << "IfcCurveBoundedSurface not implemented." << std::endl;
+#endif
 		}
 		else if( dynamic_pointer_cast<IfcRectangularTrimmedSurface>(bounded_surface) )
 		{
@@ -135,7 +139,9 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			bool u_sense = rectengular_trimmed_surface->m_Usense;
 			bool v_sense = rectengular_trimmed_surface->m_Vsense;
 			// TODO: implement
+#ifdef _DEBUG
 			std::cout << "IfcRectangularTrimmedSurface not implemented." << std::endl;
+#endif
 		}
 		return;
 	}
@@ -230,7 +236,9 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			shared_ptr<IfcDirection>& linear_extrusion_direction = linear_extrusion->m_ExtrudedDirection;
 			shared_ptr<IfcLengthMeasure>& linear_extrusion_depth = linear_extrusion->m_Depth;
 			// TODO: implement
+#ifdef _DEBUG
 			std::cout << "IfcSurfaceOfLinearExtrusion not implemented." << std::endl;
+#endif
 			return;
 		}
 
@@ -238,7 +246,9 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 		if( suface_of_revolution )
 		{
 			// TODO: implement
+#ifdef _DEBUG
 			std::cout << "IfcSurfaceOfRevolution not implemented." << std::endl;
+#endif
 			return;
 		}
 

@@ -210,16 +210,16 @@ void GeomUtils::setMaterialTransparent( osg::Node* node, float transparency )
 		{
 			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );
 			
-			const osg::Vec4& ambient = mat->getAmbient( osg::Material::FRONT );
-			mat->setAmbient( osg::Material::FRONT, osg::Vec4( ambient.r(), ambient.g(), ambient.b(), transparency ) );
+			const osg::Vec4& ambient = mat->getAmbient( osg::Material::FRONT_AND_BACK );
+			mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( ambient.r(), ambient.g(), ambient.b(), transparency ) );
 
-			const osg::Vec4& diffuse = mat->getDiffuse( osg::Material::FRONT );
-			mat->setDiffuse( osg::Material::FRONT, osg::Vec4( diffuse.r(), diffuse.g(), diffuse.b(), transparency ) );
+			const osg::Vec4& diffuse = mat->getDiffuse( osg::Material::FRONT_AND_BACK );
+			mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( diffuse.r(), diffuse.g(), diffuse.b(), transparency ) );
 
-			//const osg::Vec4& specular = mat->getSpecular( osg::Material::FRONT );
-			//mat->setSpecular( osg::Material::FRONT, osg::Vec4( specular.r(), specular.g(), specular.b(), transparency ) );
+			//const osg::Vec4& specular = mat->getSpecular( osg::Material::FRONT_AND_BACK );
+			//mat->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4( specular.r(), specular.g(), specular.b(), transparency ) );
 
-			//mat->setShininess( osg::Material::FRONT, 64.f );
+			//mat->setShininess( osg::Material::FRONT_AND_BACK, 64.f );
 			//mat->setColorMode( osg::Material::SPECULAR );
 		}
 	}
@@ -387,10 +387,10 @@ osg::ref_ptr<osg::Group> GeomUtils::createCoordinateAxesArrows()
 		group->addChild( mt1 );
 
 		osg::Material* material = new osg::Material();
-		material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
-		material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
-		material->setSpecular( osg::Material::FRONT, osg::Vec4f( 1.f, 0.4f, 0.4f, 0.7f ) );
-		material->setShininess( osg::Material::FRONT, 30.0 );
+		material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
+		material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
+		material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 1.f, 0.4f, 0.4f, 0.7f ) );
+		material->setShininess( osg::Material::FRONT_AND_BACK, 30.0 );
 		cone_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
 		cyl_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
 
@@ -423,10 +423,10 @@ osg::ref_ptr<osg::Group> GeomUtils::createCoordinateAxesArrows()
 		group->addChild( mt_cyl );
 
 		osg::Material* material = new osg::Material();
-		material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
-		material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
-		material->setSpecular( osg::Material::FRONT, osg::Vec4f( 0.4f, 1.f, 0.4f, 0.7f ) );
-		material->setShininess( osg::Material::FRONT, 30.0 );
+		material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
+		material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
+		material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 1.f, 0.4f, 0.7f ) );
+		material->setShininess( osg::Material::FRONT_AND_BACK, 30.0 );
 		cone_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
 		cyl_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
 	}
@@ -455,10 +455,10 @@ osg::ref_ptr<osg::Group> GeomUtils::createCoordinateAxesArrows()
 		group->addChild( geode_cyl );
 
 		osg::Material* material = new osg::Material();
-		material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.f, 0.f, 0.8f, 0.7f ) );
-		material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.f, 0.f, 0.8f, 0.7f ) );
-		material->setSpecular( osg::Material::FRONT, osg::Vec4f( 0.4f, 0.4f, 1.f, 0.7f ) );
-		material->setShininess( osg::Material::FRONT, 30.0 );
+		material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.f, 0.f, 0.8f, 0.7f ) );
+		material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.f, 0.f, 0.8f, 0.7f ) );
+		material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 0.4f, 1.f, 0.7f ) );
+		material->setShininess( osg::Material::FRONT_AND_BACK, 30.0 );
 		cone_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
 		cyl_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
 	}
@@ -685,7 +685,9 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 
 			if( triangle_indexes.size() != 3 )
 			{
+#ifdef _DEBUG
 				std::cout << __FUNC__ << ": triangle_indexes.size() != 3" << std::endl;
+#endif
 				continue;
 			}
 
@@ -760,7 +762,9 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 
 				if( triangle_indexes.size() != 4 )
 				{
+#ifdef _DEBUG
 					std::cout << __FUNC__ << ": triangle_indexes.size() != 4" << std::endl;
+#endif
 					continue;
 				}
 
@@ -909,17 +913,23 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 {
 	if( face_loops_input.size() == 0 )
 	{
+#ifdef _DEBUG
 		std::cout << "extrude: face_loops_input.size() == 0" << std::endl;
+#endif
 		return;
 	}
 	if( poly_data->points.size() > 0 )
 	{
+#ifdef _DEBUG
 		std::cout << "extrude: points vec should be empty" << std::endl;
+#endif
 		return;
 	}
 	if( poly_data->getFaceCount() > 0 )
 	{
+#ifdef _DEBUG
 		std::cout << "extrude: PolyhedronData::faceCount should be 0" << std::endl;
+#endif
 		return;
 	}
 
@@ -1156,7 +1166,9 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 
 			if( point_idx_next_up >= 2*num_points_base )
 			{
+#ifdef _DEBUG
 				std::cout << "point_idx_next_up >= 2*num_points_base" << std::endl;
+#endif
 				continue;
 			}
 			if( flip_faces )
@@ -1235,7 +1247,9 @@ void GeomUtils::sweepDisk( std::vector<carve::geom::vector<3> >& basis_curve_poi
 	const int num_curve_points = basis_curve_points.size();
 	if( num_curve_points < 2 )
 	{
+#ifdef _DEBUG
 		std::cout << "IfcSweptDiskSolid: num curve points < 2" << std::endl;
+#endif
 		return;
 	}
 
@@ -1406,7 +1420,9 @@ void GeomUtils::sweepDisk( std::vector<carve::geom::vector<3> >& basis_curve_poi
 			}
 			else
 			{
+#ifdef _DEBUG
 				std::cout << "no intersection found" << std::endl;
+#endif
 			}
 
 			pipe_data->addVertex( vertex );
@@ -1457,7 +1473,9 @@ void GeomUtils::sweepDisk( std::vector<carve::geom::vector<3> >& basis_curve_poi
 	{
 		if( inner_shape_points.size() != num_vertices_outer )
 		{
-			std::cout << "IfcSweptDiskSolid: inner_shape_points.size() != num_vertices_outer" << std::endl;
+#ifdef _DEBUG
+			std::cout << __func__ << ": inner_shape_points.size() != num_vertices_outer" << std::endl;
+#endif
 		}
 
 		// add points for inner shape
@@ -1536,12 +1554,16 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 	std::stringstream err;
 	if( profile_paths.size() == 0 )
 	{
+#ifdef _DEBUG
 		std::cout << __FUNC__ << ": profile_paths.size() == 0" << std::endl;
+#endif
 		return;
 	}
 	if( !item_data_solid->isEmpty() )
 	{
+#ifdef _DEBUG
 		std::cout << __FUNC__ << ": ItemData should be empty" << std::endl;
+#endif
 		return;
 	}
 
@@ -1680,17 +1702,11 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 	const int num_curve_points = curve_points.size();
 	if( num_curve_points < 2 )
 	{
-		std::cout << "IfcSweptDiskSolid: num curve points < 2" << std::endl;
+#ifdef _DEBUG
+		std::cout << __func__ << ": num curve points < 2" << std::endl;
+#endif
 		return;
 	}
-
-#ifdef _DEBUG
-	if( num_curve_points == 2 )
-	{
-		std::cout << "IfcSweptDiskSolid: 2" << std::endl;
-		;
-	}
-#endif
 
 	const carve::geom::vector<3>& curve_point_first = curve_points[0];
 	const carve::geom::vector<3>& curve_point_second = curve_points[1];
@@ -1849,7 +1865,9 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 			}
 			else
 			{
+#ifdef _DEBUG
 				std::cout << "no intersection found" << std::endl;
+#endif
 			}
 
 			int vertex_id = poly_cache.addPoint(section_point);
@@ -1917,7 +1935,9 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 			{
 				if( num_points_in_loop != loop_idx.size() )
 				{
+#ifdef _DEBUG
 					std::cout << "num_points_in_loop != loop_idx.size()" << std::endl;
+#endif
 				}
 			}
 		
@@ -1930,7 +1950,9 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 
 				if( point_idx_next_up >= num_points_all )
 				{
+#ifdef _DEBUG
 					std::cout << "point_idx_next_up >= num_points_all" << std::endl;
+#endif
 					continue;
 				}
 				if( flip_faces )
@@ -2488,7 +2510,9 @@ void GeomUtils::applyTranslate( osg::Group* grp, const osg::Vec3f& trans )
 				osg::Geometry* child_gemetry = dynamic_cast<osg::Geometry*>(drawable);
 				if( !child_gemetry )
 				{
+#ifdef _DEBUG
 					std::cout << "!child_gemetry" << std::endl;
+#endif
 					return;
 				}
 				osg::Array* vertices_array = child_gemetry->getVertexArray();
@@ -2496,7 +2520,9 @@ void GeomUtils::applyTranslate( osg::Group* grp, const osg::Vec3f& trans )
 
 				if( !vertices_float )
 				{
+#ifdef _DEBUG
 					std::cout << "!vertices_float" << std::endl; 
+#endif
 					return;
 				}
 

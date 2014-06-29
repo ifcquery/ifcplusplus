@@ -64,5 +64,7 @@ void RepresentationConverter::convertIfcSectionedSpine( const shared_ptr<IfcSect
 	//CurveConverter cconv( m_unit_converter );
 	m_curve_converter->convertIfcCurve( spine_curve, curve_polygon, segment_start_points );
 
+#ifdef _DEBUG
 	std::cout << "IfcSectionedSpine not implemented." << std::endl;
+#endif
 }

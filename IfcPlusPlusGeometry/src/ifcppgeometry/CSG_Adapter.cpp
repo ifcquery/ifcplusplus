@@ -7,6 +7,20 @@
 #include "GeometryException.h"
 #include "CSG_Adapter.h"
 
+template<typename T>
+int findInVector( T* find_object, std::vector<T*>& vec )
+{
+	for( size_t ii = 0; ii < vec.size(); ++ii )
+	{
+		T* t_check = vec[ii];
+		if( t_check == find_object )
+		{
+			return ii;
+		}
+	}
+	return -1;
+}
+
 void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::mesh::MeshSimplifier& simplifier )
 {
 	if( !meshset )
@@ -26,37 +40,45 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 			edge_t* edge_i = vec_closed_edges[closed_edge_i];
 			edge_t* edge_next = edge_i->next;
 
+#ifdef _DEBUG
 			if( edge_i == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << "!edge_i" << std::endl;
+				std::cout << __func__ <<  ": !edge_i" << std::endl;
 				continue;
 			}
 			if( edge_next == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << "!edge_next" << std::endl;
+				std::cout << __func__ <<  ": !edge_next" << std::endl;
 				continue;
 			}
 			if( edge_next->rev == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << "!edge_j->rev" << std::endl;
+				std::cout << __func__ <<  ": !edge_j->rev" << std::endl;
 				continue;
 			}
+#endif
 
 			if( !edge_i )
 			{
-				std::cout << "!edge_i" << std::endl;
+#ifdef _DEBUG
+				std::cout << __func__ <<  ": !edge_i" << std::endl;
+#endif
 				continue;
 			}
 
 			if( !edge_next )
 			{
-				std::cout << "!edge_next" << std::endl;
+#ifdef _DEBUG
+				std::cout << __func__ <<  ": !edge_next" << std::endl;
+#endif
 				continue;
 			}
 
 			if( !edge_next->rev )
 			{
-				std::cout << "!edge_j->rev" << std::endl;
+#ifdef _DEBUG
+				std::cout << __func__ <<  ": !edge_j->rev" << std::endl;
+#endif
 				continue;
 			}
 
@@ -86,12 +108,12 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 #ifdef _DEBUG
 				if( std::abs( edge_i->length2() - sement12_length2 ) > 0.00001 )
 				{
-					std::cout << "abs( edge_i->length2() - sement12_length2 ) > 0.00001" << std::endl;
+					std::cout << __func__ << ": abs( edge_i->length2() - sement12_length2 ) > 0.00001" << std::endl;
 				}
 
 				if( std::abs( edge_next->length2() - sement23_length2 ) > 0.00001 )
 				{
-					std::cout << "abs( edge_next->length2() - sement23_length2 ) > 0.00001" << std::endl;
+					std::cout << __func__ << ": abs( edge_next->length2() - sement23_length2 ) > 0.00001" << std::endl;
 				}
 #endif
 
@@ -104,37 +126,40 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 					// edges are in line
 					if( v1 == v3 )
 					{
-						std::cout << "edge loop with only 2 edges" << std::endl;
+#ifdef _DEBUG
+						std::cout << __func__ << ": edge loop with only 2 edges" << std::endl;
+#endif
 					}
-
-					edge_t* edge_remove_from_vec = std::min( edge_next, edge_i->rev );
-					for( size_t closed_edge_remove = 0; closed_edge_remove < vec_closed_edges.size(); ++closed_edge_remove )
-					{
-						edge_t* edge_check = vec_closed_edges[closed_edge_remove];
-
-						if( edge_remove_from_vec == edge_check )
-						{
-							vec_closed_edges.erase( vec_closed_edges.begin() + closed_edge_remove );
-							if( closed_edge_remove <= closed_edge_i )
-							{
-								if( closed_edge_i > 0 )
-								{
-									--closed_edge_i;
-								}
-							}
-
-							break;
-						}
-					}
-
 
 					// this links previous and next edges and deletes edge_j and reverse of edge_i:
 					edge_t* edge_next_rev = edge_next->rev;
+
+					int edge_remove_idx = findInVector( edge_next, vec_closed_edges );
+					if( edge_remove_idx >= 0 && edge_remove_idx < vec_closed_edges.size() )
+					{
+						vec_closed_edges.erase( vec_closed_edges.begin() + edge_remove_idx );
+						if( edge_remove_idx <= closed_edge_i )
+						{
+							--closed_edge_i;
+						}
+					}
 					edge_next->removeHalfEdge();
+
+					edge_remove_idx = findInVector( edge_i->rev, vec_closed_edges );
+					if( edge_remove_idx >= 0 && edge_remove_idx < vec_closed_edges.size() )
+					{
+						vec_closed_edges.erase( vec_closed_edges.begin() + edge_remove_idx );
+						if( edge_remove_idx <= closed_edge_i )
+						{
+							--closed_edge_i;
+						}
+					}
 					edge_i->rev->removeHalfEdge();
+
 					edge_i->rev = edge_next_rev;
 					edge_next_rev->rev = edge_i;
 					cache_dirty = true;
+					
 				}
 				else
 				{
@@ -147,7 +172,7 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 					double dot_face_angle = dot( normal_face_i, normal_face_i_rev );
 					if( abs( dot_face_angle - 1.0 ) > 0.001 )
 					{
-						std::cout << __func__ << "abs( dot_face_angle - 1.0 ) > 0.001" << std::endl;
+						std::cout << __func__ << ": abs( dot_face_angle - 1.0 ) > 0.001" << std::endl;
 					}
 #endif
 				}
@@ -276,7 +301,9 @@ void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 				}
 				catch( ... )
 				{
+#ifdef _DEBUG
 					std::cout << __FUNC__ << " carve::triangulate failed " << std::endl;
+#endif
 					continue;
 				}
 			}
@@ -615,7 +642,9 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err, -1 );
 	if( !meshset_ok )
 	{
+#ifdef _DEBUG
 		std::cout << err.str().c_str() << std::endl;
+#endif
 		return;
 	}
 	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy( meshset->clone() );
@@ -633,7 +662,9 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 		int num_faces_post_merge = MeshOps::getNumFaces( meshset.get() );
 		if( num_faces_post_merge + modifications_coplanar != num_faces )
 		{
+#ifdef _DEBUG
 			std::cout << "num_faces_post_merge + modifications_coplanar != num_faces" << std::endl;
+#endif
 		}
 	}
 

@@ -264,28 +264,36 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 		shared_ptr<IfcExternallyDefinedSurfaceStyle> ext_surf_style = dynamic_pointer_cast<IfcExternallyDefinedSurfaceStyle>(surf_style_element_select);
 		if (ext_surf_style)
 		{
+#ifdef _DEBUG
 			std::cout << "IfcExternallyDefinedSurfaceStyle not implemented" << std::endl;
+#endif
 			continue;
 		}
 
 		shared_ptr<IfcSurfaceStyleLighting> style_lighting = dynamic_pointer_cast<IfcSurfaceStyleLighting>(surf_style_element_select);
 		if (style_lighting)
 		{
+#ifdef _DEBUG
 			std::cout << "IfcSurfaceStyleLighting not implemented" << std::endl;
+#endif
 			continue;
 		}
 
 		shared_ptr<IfcSurfaceStyleRefraction> style_refraction = dynamic_pointer_cast<IfcSurfaceStyleRefraction>(surf_style_element_select);
 		if (style_refraction)
 		{
+#ifdef _DEBUG
 			std::cout << "IfcSurfaceStyleRefraction not implemented" << std::endl;
+#endif
 			continue;
 		}
 
 		shared_ptr<IfcSurfaceStyleWithTextures> style_texture = dynamic_pointer_cast<IfcSurfaceStyleWithTextures>(surf_style_element_select);
 		if( style_texture )
 		{
+#ifdef _DEBUG
 			std::cout << "IfcSurfaceStyleWithTextures not implemented" << std::endl;
+#endif
 			continue;
 		}
 		
@@ -439,7 +447,9 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 	shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
 	if( fill_area_style )
 	{
+#ifdef _DEBUG
 		std::cout << "IfcFillAreaStyle not implemented" << std::endl;
+#endif
 		return;
 	}
 
@@ -474,15 +484,18 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 	shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
 	if( fill_area_style )
 	{
+#ifdef _DEBUG
 		std::cout << "IfcFillAreaStyle not implemented" << std::endl;
+#endif
 		return;
 	}
 
 	shared_ptr<IfcNullStyle> null_style = dynamic_pointer_cast<IfcNullStyle>( presentation_style );
 	if( null_style )
 	{
-
+#ifdef _DEBUG
 		std::cout << "IfcNullStyle not implemented" << std::endl;
+#endif
 		return;
 	}
 

@@ -258,7 +258,9 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 	if( m_err.tellp() > 0 )
 	{
 		status = osgDB::ReaderWriter::ReadResult::ERROR_IN_READING_FILE;
+#ifdef _DEBUG
 		std::cout << m_err.str().c_str();
+#endif
 	}
 
 	return osgDB::ReaderWriter::ReadResult( m_group_result, status );
@@ -270,7 +272,10 @@ void ReaderWriterIFC::createGeometry()
 	shared_ptr<IfcProject> project = m_ifc_model->getIfcProject();
 	if( !project )
 	{
-		throw IfcPPException( "ReaderWriterIFC: no valid IfcProject in model." , __func__ );
+#ifdef _DEBUG
+		std::cout << "Warning: no valid IfcProject found in model!" << std::endl;
+#endif
+		//throw IfcPPException( "No valid IfcProject in model." , __func__ );
 	}
 
 	m_shape_input_data.clear();
@@ -450,7 +455,7 @@ void ReaderWriterIFC::createGeometry()
 
 	if( err.tellp() > 0 )
 	{
-		throw IfcPPException( err.str().c_str(), __func__ );
+		throw IfcPPException( err.str().c_str() );
 	}
 }
 
@@ -897,7 +902,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 	if( strs_err.tellp() > 0 )
 	{
-		throw IfcPPException( strs_err.str().c_str(), __func__ );
+		throw IfcPPException( strs_err.str().c_str() );
 	}
 }
 
