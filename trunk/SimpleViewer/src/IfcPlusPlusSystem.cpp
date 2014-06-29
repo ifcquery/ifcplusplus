@@ -109,7 +109,9 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 	}
 	catch( IfcPPException& e )
 	{
+#ifdef _DEBUG
 		std::cout << e.what();
+#endif
 	}
 #ifndef _DEBUG
 	catch( std::exception& e )

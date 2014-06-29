@@ -52,19 +52,25 @@ protected:
 		}
 		catch( std::exception& e )
 		{
+#ifdef _DEBUG
 			std::cout << " * ApplicationEx::notify :" << std::endl;
 			std::cout << "IfcPlusPlusApplication: exception occurred : " << e.what() << std::endl;
+#endif
 			// TODO: write file with error report
 		}
 		catch( std::exception* e )
 		{
+#ifdef _DEBUG
 			std::cout << " * ApplicationEx::notify :" << std::endl;
 			std::cout << "IfcPlusPlusApplication: exception occurred : " << e->what() << std::endl;
+#endif
 			// TODO: write file with error report
 		}
 		catch(...)
 		{
+#ifdef _DEBUG
 			std::cout << "IfcPlusPlusApplication: exception occurred. " << std::endl;
+#endif
 		}
 		return errRet;
 	}

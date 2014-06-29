@@ -144,7 +144,9 @@ void PointConverter::convertIfcCartesianPointVector( const std::vector<shared_pt
 		}
 		else
 		{
+#ifdef _DEBUG
 			std::cout << "convertIfcCartesianPointVector: ifc_pt->m_Coordinates.size() != 2" << std::endl;
+#endif
 		}
 	}
 }
