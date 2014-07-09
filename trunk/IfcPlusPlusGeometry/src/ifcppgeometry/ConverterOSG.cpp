@@ -237,12 +237,13 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 					{
 						use_intermediate_normal = true;
 						intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
+						intermediate_normal.normalize();
 					}
 				}
 
 				if( use_intermediate_normal )
 				{
-					intermediate_normal.normalize();
+					//intermediate_normal.normalize();
 				}
 
 
@@ -434,7 +435,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 				if( !vertices_float )
 				{
 #ifdef _DEBUG
-					std::cout <<  __FUNC__ << " !vertices_float" << std::endl; 
+					std::cout <<  __FUNC__ << " !vertices_float" << std::endl;
 #endif
 					return 0;
 				}
@@ -449,7 +450,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 					if( num_elements < 3 )
 					{
 #ifdef _DEBUG
-						std::cout << "num_elements < 3" << std::endl; 
+						std::cout << "num_elements < 3" << std::endl;
 #endif
 						continue;
 					}

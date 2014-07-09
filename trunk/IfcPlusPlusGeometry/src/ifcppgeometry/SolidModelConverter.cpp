@@ -384,7 +384,7 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	if( !poly_ok )
 	{
 		std::cout << strs_err_meshset.str().c_str() << std::endl;
-		CSG_Adapter::dumpMeshset( meshset.get(), true );
+		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 	}
 #endif
 }
@@ -672,7 +672,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	if( !meshset_ok )
 	{
 		std::cout << strs_err.str().c_str() << std::endl;
-		CSG_Adapter::dumpPolyhedronInput( *(polyhedron_data.get()), true );
+		CSG_Adapter::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 	}
 #endif
 }
@@ -743,13 +743,8 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = (*it_second_operands);
 			shared_ptr<carve::mesh::MeshSet<3> > result;
-			bool csg_op_ok = CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, id1, id2, strs_err, result );
-				
-			if( csg_op_ok )
-			{
-				first_operand_meshset = result;
-			}
-			item_data->m_csg_computed = true;
+			CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, id1, id2, strs_err, result );
+			first_operand_meshset = result;
 		}
 	}
 
@@ -759,6 +754,9 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	shared_ptr<IfcBooleanClippingResult> boolean_clipping_result = dynamic_pointer_cast<IfcBooleanClippingResult>(bool_result);
 	if( boolean_clipping_result )
 	{
+		// WHERE
+		// FirstOperand is IFCSWEPTAREASOLID or IFCSWEPTDISCSOLID or IFCBOOLEANCLIPPINGRESULT
+		// SecondOperand is IFCHALFSPACESOLID
 		// OperatorType	 :	Operator = DIFFERENCE;
 	}
 }

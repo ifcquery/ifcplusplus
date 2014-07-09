@@ -273,7 +273,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\common\geometry.cpp" />
     <ClCompile Include="src\lib\carve.cpp" />
     <ClCompile Include="src\lib\convex_hull.cpp" />
     <ClCompile Include="src\lib\csg.cpp" />
@@ -303,10 +302,6 @@
     <ClCompile Include="src\lib\triangulator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\common\geometry.hpp" />
-    <ClInclude Include="src\common\opts.hpp" />
-    <ClInclude Include="src\common\rgb.hpp" />
-    <ClInclude Include="src\common\stringfuncs.hpp" />
     <ClInclude Include="src\include\carve\aabb.hpp" />
     <ClInclude Include="src\include\carve\aabb_impl.hpp" />
     <ClInclude Include="src\include\carve\carve.hpp" />
@@ -345,7 +340,9 @@
     <ClInclude Include="src\include\carve\triangle_intersection.hpp" />
     <ClInclude Include="src\include\carve\triangulator.hpp" />
     <ClInclude Include="src\include\carve\triangulator_impl.hpp" />
+    <ClInclude Include="src\include\carve\vcpp_config.h" />
     <ClInclude Include="src\include\carve\vector.hpp" />
+    <ClInclude Include="src\include\carve\win32.h" />
     <ClInclude Include="src\lib\csg_collector.hpp" />
     <ClInclude Include="src\lib\csg_data.hpp" />
     <ClInclude Include="src\lib\csg_detail.hpp" />

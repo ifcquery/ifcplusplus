@@ -26,7 +26,7 @@ void IfcXmlReader::readStreamHeader( const std::string& in )
 {
 	// not implemented
 }
-void IfcXmlReader::readStreamData( const std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcXmlReader::readStreamData( std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// not implemented
 	return;

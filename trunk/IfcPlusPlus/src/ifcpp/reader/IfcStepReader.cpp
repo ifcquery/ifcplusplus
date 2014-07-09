@@ -634,7 +634,7 @@ void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntit
 	}
 }
 
-void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcStepReader::readStreamData(	std::string& read_in, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
 {
 	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
 	setlocale(LC_NUMERIC,"C");
@@ -663,6 +663,8 @@ void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,sha
 	{
 		err << e.what();
 	}
+	// the input string is not needed any more
+	read_in.clear();
 	
 	std::vector<shared_ptr<IfcPPEntity> > vec_entities;
 	try
@@ -672,7 +674,7 @@ void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,sha
 	catch( UnknownEntityException& e )
 	{
 		std::string unknown_keyword = e.m_keyword;
-		err << "readStreamData: unknown entity: " << unknown_keyword.c_str() << std::endl;
+		err << __func__ << ": unknown entity: " << unknown_keyword.c_str() << std::endl;
 	}
 	catch( IfcPPException& e )
 	{
@@ -684,7 +686,7 @@ void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,sha
 	}
 	catch(...)
 	{
-		err << "readStreamData: error occurred" << std::endl;
+		err << __func__ << ": error occurred" << std::endl;
 	}
 	
 	// copy entities into map so that they can be found during entity attribute initialization
@@ -709,7 +711,7 @@ void IfcStepReader::readStreamData(	const std::string& read_in, std::map<int,sha
 	}
 	catch(...)
 	{
-		err << "readStreamData: error occurred" << std::endl;
+		err << __func__ << ": error occurred" << std::endl;
 	}
 
 	setlocale(LC_NUMERIC,current_numeric_locale);

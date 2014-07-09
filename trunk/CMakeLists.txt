@@ -15,8 +15,11 @@ IF(NOT CARVE_BINARY_DIR)
 ENDIF(NOT CARVE_BINARY_DIR)
 message(STATUS   "------------------------------------------------------------------------")
 
+OPTION(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
 
 add_subdirectory (Carve)
 add_subdirectory (IfcPlusPlus)
 add_subdirectory (IfcPlusPlusGeometry)
-add_subdirectory (SimpleViewer)
+IF(BUILD_VIEWER_APPLICATION)
+	add_subdirectory (SimpleViewer)
+ENDIF()

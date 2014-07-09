@@ -1152,7 +1152,21 @@ void ProfileConverter::simplifyPath( std::vector<carve::geom::vector<2> >& path 
 		return;
 	}
 
-	for( int i=1; i<path.size()-1; )
+	for( size_t i = 1; i < path.size(); )
+	{
+		carve::geom::vector<2>& previous = path[i - 1];
+		carve::geom::vector<2>& current = path[i];
+
+		carve::geom::vector<2> segment1 = current - previous;
+		if( segment1.length2() < 0.000000001 )
+		{
+			path.erase( path.begin() + i );
+			continue;
+		}
+		++i;
+	}
+
+	for( size_t i=1; i<path.size()-1; )
 	{
 		carve::geom::vector<2>& previous = path[i-1];
 		carve::geom::vector<2>& current = path[i];
@@ -1181,14 +1195,14 @@ void ProfileConverter::simplifyPath( std::vector<carve::geom::vector<2> >& path 
 		carve::geom::vector<2>& first = path.front();
 		carve::geom::vector<2>& last = path.back();
 
-		if( (last - first).length2() < 0.000001 )
+		if( ( last - first ).length2() < 0.000001 )
 		{
 			carve::geom::vector<2> first_segment = path[1] - first;
 			first_segment.normalize();
-			carve::geom::vector<2> last_segment = last - path[path.size()-2];
+			carve::geom::vector<2> last_segment = last - path[path.size() - 2];
 			last_segment.normalize();
-			double angle = std::abs( first_segment.x*last_segment.x + first_segment.y*last_segment.y);
-			if( std::abs(angle-1) < 0.00001 )
+			double angle = std::abs( first_segment.x*last_segment.x + first_segment.y*last_segment.y );
+			if( std::abs( angle - 1 ) < 0.00001 )
 			{
 				// remove first and last point
 				path.erase( path.begin() );

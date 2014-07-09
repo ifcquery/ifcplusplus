@@ -27,7 +27,7 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 	{
 		return;
 	}
-	bool cache_dirty = false;
+	bool meshset_dirty = false;
 
 	std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 	for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
@@ -43,17 +43,17 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 #ifdef _DEBUG
 			if( edge_i == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << __func__ <<  ": !edge_i" << std::endl;
+				std::cout << __func__ << ": !edge_i" << std::endl;
 				continue;
 			}
 			if( edge_next == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << __func__ <<  ": !edge_next" << std::endl;
+				std::cout << __func__ << ": !edge_next" << std::endl;
 				continue;
 			}
 			if( edge_next->rev == reinterpret_cast<carve::mesh::Edge<3>*>( 0xfeeefeeefeeefeee ) )
 			{
-				std::cout << __func__ <<  ": !edge_j->rev" << std::endl;
+				std::cout << __func__ << ": !edge_j->rev" << std::endl;
 				continue;
 			}
 #endif
@@ -61,7 +61,7 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 			if( !edge_i )
 			{
 #ifdef _DEBUG
-				std::cout << __func__ <<  ": !edge_i" << std::endl;
+				std::cout << __func__ << ": !edge_i" << std::endl;
 #endif
 				continue;
 			}
@@ -69,7 +69,7 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 			if( !edge_next )
 			{
 #ifdef _DEBUG
-				std::cout << __func__ <<  ": !edge_next" << std::endl;
+				std::cout << __func__ << ": !edge_next" << std::endl;
 #endif
 				continue;
 			}
@@ -77,22 +77,22 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 			if( !edge_next->rev )
 			{
 #ifdef _DEBUG
-				std::cout << __func__ <<  ": !edge_j->rev" << std::endl;
+				std::cout << __func__ << ": !edge_j->rev" << std::endl;
 #endif
 				continue;
 			}
 
 			if( edge_next->rev->next == edge_i->rev )
 			{
-				// --->(v3)--->		      --->o--->
-				//      |^                    |^
-				//      ||edge_next(x)        ||
-				//      v|                    || 
-				//     (v2)                   ||
-				//      |^                    ||
-				//   (x)||edge_i	          ||edge_i
-				//      v|				      v|
-				// <---(v1)<---			  <---o<---
+				//   ----------->(v3)--->		     --->o--->
+				//               |^                      |^
+				// edge_next->rev||edge_next(remove)     ||
+				//               v|                      || 
+				//              (v2)                     ||
+				//               |^                      ||
+				//       (remove)||edge_i	             ||edge_i
+				//               v|				         v|
+				//   <----------(v1)<---             <---o<---
 
 				const carve::mesh::Vertex<3>* v1 = edge_i->v1();
 				const carve::mesh::Vertex<3>* v2 = edge_i->v2();
@@ -158,8 +158,9 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 
 					edge_i->rev = edge_next_rev;
 					edge_next_rev->rev = edge_i;
-					cache_dirty = true;
-					
+					meshset_dirty = true;
+
+					// the vertex is kept in the vertex storage, no need to delete here
 				}
 				else
 				{
@@ -177,11 +178,10 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 #endif
 				}
 			}
-			// the vertex is kept in the vertex storage, no need to delete
 		}
 	}
 
-	if( cache_dirty )
+	if( meshset_dirty )
 	{
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
 		{
@@ -194,13 +194,13 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 
 void removeFins( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 {
-	return;
+	return;  // TODO: improve and check
 
 	if( !meshset )
 	{
 		return;
 	}
-	bool cache_dirty = false;
+	bool meshset_dirty = false;
 
 	std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 	for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
@@ -234,19 +234,21 @@ void removeFins( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 			//             ||e 
 			//             v|
 
-
 			if( edge->next->rev == edge_reverse->prev )
 			{
 				edge_t* edge_next_rev = edge->next->rev;
 				edge->next->removeHalfEdge();
 				edge_reverse->removeHalfEdge();
+
+				// TODO: erase from vec_closed_edges, check if closed_edge_i needs to be decremented
+
 				edge->rev = edge_next_rev;
 				edge_next_rev->rev = edge;
-				cache_dirty = true;
+				meshset_dirty = true;
 			}
 		}
 	}
-	if( cache_dirty )
+	if( meshset_dirty )
 	{
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
 		{
@@ -256,9 +258,28 @@ void removeFins( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 }
 
 
-void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
+void CSG_Adapter::retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 {
 	if( !meshset )
+	{
+		return;
+	}
+
+	bool already_triagulated = true;
+	for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
+	{
+		carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
+		std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+		for( size_t i2 = 0; i2 < vec_faces.size(); ++i2 )
+		{
+			carve::mesh::Face<3>* face = vec_faces[i2];
+			if( face->n_edges != 3 )
+			{
+				already_triagulated = false;
+			}
+		}
+	}
+	if( already_triagulated )
 	{
 		return;
 	}
@@ -379,7 +400,7 @@ bool CSG_Adapter::checkFaceIntegrity( const carve::mesh::MeshSet<3>* mesh_set )
 		carve::mesh::Mesh<3>* mesh_i = mesh_set->meshes[i];
 		if( mesh_i->open_edges.size() > 0 )
 		{
-			return false;
+			//return false;
 		}
 		std::vector<carve::mesh::Face<3>* >& vec_faces = mesh_i->faces;
 		for( size_t j = 0; j < vec_faces.size(); ++j )
@@ -601,7 +622,7 @@ int simplify_count = 0;
 double y_trans = 0;
 #endif
 
-void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
+void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool triangulate )
 {
 
 	carve::mesh::MeshSimplifier simplifier;
@@ -636,7 +657,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	if( meshset->vertex_storage.size() < 9 )
 	{
 		return;
-}
+	}
 
 	std::stringstream err;
 	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err, -1 );
@@ -717,7 +738,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	{
 #ifdef _DEBUG
 		std::cout << err_simplified.str().c_str() << std::endl;
-		CSG_Adapter::dumpMeshset( meshset.get(), true );
+		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 		//throw DebugBreakException( "!simplified_meshset_ok" );
 #endif
 		meshset = meshset_copy;
@@ -725,7 +746,11 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	}
 
 	simplifier.removeLowVolumeManifolds( meshset.get(), 0.0 );
-	retriangulateMeshSet( meshset );
+
+	if( triangulate )
+	{
+		retriangulateMeshSet( meshset );
+	}
 
 	std::stringstream err_retriangulated;
 	bool retriangulated_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err_retriangulated, -1 );
@@ -733,7 +758,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 	{
 #ifdef _DEBUG
 		std::cout << err_retriangulated.str().c_str() << std::endl;
-		CSG_Adapter::dumpMeshset( meshset.get(), true );
+		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 		//throw DebugBreakException( "!simplified_meshset_ok" );
 #endif
 		meshset = meshset_copy;
@@ -745,13 +770,11 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 }
 
 
-#define SIMPLIFY_MESH_PRE_CSG
-#define SIMPLIFY_MESH_POST_CSG
 #ifdef _DEBUG
 double y_pos = 0;
 #endif
 
-bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation,
+void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation,
 	const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result )
 {
 #ifdef ROUND_MESH_COORDS
@@ -759,125 +782,159 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 	MeshOps::roundVertices( op1.get() );
 #endif
 
-	bool csg_operation_ok = false;
+	if( !op1 )
+	{
+		return;
+	}
+	
+	if( !op2 )
+	{
+		return;
+	}
+
+	bool csg_op_ok = true;
 	try
 	{
 		bool meshset1_ok = CSG_Adapter::checkMeshSetValidAndClosed( op1.get(), err, entity1 );
-		bool meshset2_ok = CSG_Adapter::checkMeshSetValidAndClosed( op2.get(), err, entity2 );
-
-		if( meshset1_ok && meshset2_ok )
+		if( !meshset1_ok )
 		{
-
-#ifdef SIMPLIFY_MESH_PRE_CSG
-			simplifyMesh( op1 );
-			simplifyMesh( op2 );
-			// TODO: Subclass from carve::mesh::MeshSet and add attribute to remember which meshset has already been simplified. 
-#endif
-			// check if meshset aabb is far away from origin. if so, move to origin, compute, move back
-			carve::geom::vector<3> translate_avoid_large_numbers;
-			const carve::geom::aabb<3>& aabb_op1 = op1->getAABB();
-			if( aabb_op1.pos.length2() > 10000 )
+			if( operation == carve::csg::CSG::B_MINUS_A )
 			{
-				const carve::geom::aabb<3>& aabb_op2 = op2->getAABB();
+				result = op2;
+			}
+			else if( operation == carve::csg::CSG::UNION )
+			{
+				result = op2;
+			}
+#ifdef _DEBUG
+			CSG_Adapter::dumpMeshset( op1.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+#endif
+			return;
+		}
 
-				if( aabb_op2.pos.length2() > 10000 )
+		bool meshset2_ok = CSG_Adapter::checkMeshSetValidAndClosed( op2.get(), err, entity2 );
+		if( !meshset2_ok )
+		{
+			if( operation == carve::csg::CSG::A_MINUS_B )
+			{
+				result = op1;
+			}
+			else if( operation == carve::csg::CSG::UNION )
+			{
+				result = op1;
+			}
+#ifdef _DEBUG
+			CSG_Adapter::dumpMeshset( op2.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+#endif
+			return;
+		}
+
+		simplifyMesh( op1, false );
+		simplifyMesh( op2, false );
+		// TODO: Subclass from carve::mesh::MeshSet and add attribute to remember which meshset has already been simplified. 
+
+		// check if meshset aabb is far away from origin. if so, move to origin, compute, move back
+		carve::geom::vector<3> translate_avoid_large_numbers;
+		const carve::geom::aabb<3>& aabb_op1 = op1->getAABB();
+		if( aabb_op1.pos.length2() > 10000 )
+		{
+			const carve::geom::aabb<3>& aabb_op2 = op2->getAABB();
+
+			if( aabb_op2.pos.length2() > 10000 )
+			{
+				carve::geom::vector<3> aabb_op1_direction( aabb_op1.pos );
+				aabb_op1_direction.normalize();
+
+				carve::geom::vector<3> aabb_op2_direction( aabb_op2.pos );
+				aabb_op2_direction.normalize();
+
+				double cos_angle = dot( aabb_op1_direction, aabb_op2_direction );
+				if( cos_angle > -0.5 )
 				{
-					carve::geom::vector<3> aabb_op1_direction( aabb_op1.pos );
-					aabb_op1_direction.normalize();
+					// if close to -1, the bboxes are in opposite direction, not useful to translate
+					// if close to 1, the bboxes are somewhere in the same direction, good to translate
 
-					carve::geom::vector<3> aabb_op2_direction( aabb_op2.pos );
-					aabb_op2_direction.normalize();
-
-					double cos_angle = dot( aabb_op1_direction, aabb_op2_direction );
-					if( cos_angle > -0.5 )
+					// check extent
+					if( aabb_op1.extent.length2() < 1000 && aabb_op2.extent.length2() < 1000 )
 					{
-						// if close to -1, the bboxes are in opposite direction, not useful to translate
-						// if close to 1, the bboxes are somewhere in the same direction, good to translate
-
-						// check extent
-						if( aabb_op1.extent.length2() < 1000 && aabb_op2.extent.length2() < 1000 )
+						if( aabb_op1.pos.length2() > aabb_op2.pos.length2() )
 						{
-							if( aabb_op1.pos.length2() > aabb_op2.pos.length2() )
-							{
-								// TODO: take biggest |x|, biggest |y|, biggest |z|
-								translate_avoid_large_numbers = carve::geom::VECTOR( aabb_op1.pos.x, aabb_op1.pos.y, aabb_op1.pos.z );
-							}
-							else
-							{
-								translate_avoid_large_numbers = carve::geom::VECTOR( aabb_op2.pos.x, aabb_op2.pos.y, aabb_op2.pos.z );
-							}
+							// TODO: take biggest |x|, biggest |y|, biggest |z|
+							translate_avoid_large_numbers = carve::geom::VECTOR( aabb_op1.pos.x, aabb_op1.pos.y, aabb_op1.pos.z );
+						}
+						else
+						{
+							translate_avoid_large_numbers = carve::geom::VECTOR( aabb_op2.pos.x, aabb_op2.pos.y, aabb_op2.pos.z );
 						}
 					}
 				}
 			}
+		}
 
-			if( translate_avoid_large_numbers.length2() > 1000.0 )
+		if( translate_avoid_large_numbers.length2() > 1000.0 )
+		{
+			MeshOps::applyTranslate( op1.get(), -translate_avoid_large_numbers );
+			MeshOps::applyTranslate( op2.get(), -translate_avoid_large_numbers );
+		}
+
+		carve::csg::CSG csg;
+		//csg.hooks.registerHook(new carve::csg::CarveTriangulator(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
+		//csg.hooks.registerHook(new carve::csg::CarveTriangulatorWithImprovement(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
+		//csg.hooks.registerHook(new carve::csg::CarveHoleResolver(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
+
+		result = shared_ptr<carve::mesh::MeshSet<3> >( csg.compute( op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE ) );
+
+		bool result_meshset_ok = false;
+		if( result )
+		{
+			if( result->meshes.size() == 0 )
 			{
-				MeshOps::applyTranslate( op1.get(), -translate_avoid_large_numbers );
-				MeshOps::applyTranslate( op2.get(), -translate_avoid_large_numbers );
-			}
-
-			carve::csg::CSG csg;
-			//csg.hooks.registerHook(new carve::csg::CarveTriangulator(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
-			//csg.hooks.registerHook(new carve::csg::CarveTriangulatorWithImprovement(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
-			//csg.hooks.registerHook(new carve::csg::CarveHoleResolver(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
-
-			result = shared_ptr<carve::mesh::MeshSet<3> >( csg.compute( op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE ) );
-
-			bool result_meshset_ok = false;
-			if( result )
-			{
-				if( result->meshes.size() == 0 )
+				if( operation == carve::csg::CSG::A_MINUS_B )
 				{
-					if( operation == carve::csg::CSG::A_MINUS_B )
-					{
-						result = op1;
-						result_meshset_ok = true;
-					}
-					else if( operation == carve::csg::CSG::B_MINUS_A )
-					{
-						result = op2;
-						result_meshset_ok = true;
-					}
-					else
-					{
-						result.reset();
-					}
+					result = op1;
+					result_meshset_ok = true;
+				}
+				else if( operation == carve::csg::CSG::B_MINUS_A )
+				{
+					result = op2;
+					result_meshset_ok = true;
 				}
 				else
 				{
-					result_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( result.get(), err, -1 );
+					result.reset();
 				}
-			}
-
-			if( result_meshset_ok )
-			{
-				csg_operation_ok = true;
-
-#ifdef SIMPLIFY_MESH_POST_CSG
-				simplifyMesh( result );
-#endif
 			}
 			else
 			{
-#ifdef _DEBUG
-				std::cout << "csg.compute result nok ok." << std::endl;
-#endif
-			}
-
-			if( translate_avoid_large_numbers.length2() > 1000.0 )
-			{
-				if( result )
+				result_meshset_ok = true;
+				bool result_mesh_closed = CSG_Adapter::checkMeshSetValidAndClosed( result.get(), err, -1 );
+				if( !result_mesh_closed )
 				{
-					MeshOps::applyTranslate( result.get(), translate_avoid_large_numbers );
+					result_meshset_ok = false;
 				}
-				MeshOps::applyTranslate( op1.get(), translate_avoid_large_numbers );
-				MeshOps::applyTranslate( op2.get(), translate_avoid_large_numbers );
 			}
-	}
+		}
+
+		if( result_meshset_ok )
+		{
+			simplifyMesh( result, true );
+		}
 		else
 		{
-			csg_operation_ok = false;
+			csg_op_ok = false;
+#ifdef _DEBUG
+			std::cout << "csg.compute result nok ok." << std::endl;
+#endif
+		}
+
+		if( translate_avoid_large_numbers.length2() > 1000.0 )
+		{
+			if( result )
+			{
+				MeshOps::applyTranslate( result.get(), translate_avoid_large_numbers );
+			}
+			MeshOps::applyTranslate( op1.get(), translate_avoid_large_numbers );
+			MeshOps::applyTranslate( op2.get(), translate_avoid_large_numbers );
 		}
 	}
 #ifdef _DEBUG
@@ -888,63 +945,82 @@ bool CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 #endif
 	catch( carve::exception& ce )
 	{
-		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
 		err << ce.str() << std::endl;
+		csg_op_ok = false;
 	}
 	catch( const std::out_of_range& oor )
 	{
-		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
 		err << oor.what() << std::endl;
+		csg_op_ok = false;
 	}
 	catch( std::exception& e )
 	{
-		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
 		err << e.what() << std::endl;
+		csg_op_ok = false;
 	}
 	catch( ... )
 	{
-		csg_operation_ok = false;
 		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << std::endl;
+		csg_op_ok = false;
 	}
 
-	//csg_operation_ok = false;
-
 #ifdef _DEBUG
-	if( !csg_operation_ok )
+	if( !csg_op_ok )
 	{
 		std::cout << "!csg_operation_ok. id1=" << entity1 << ", id2=" << entity2 << std::endl;
 
 		carve::mesh::MeshSet<3>* op1_copy = op1->clone();
-		MeshOps::applyTranslate( op1_copy, carve::geom::VECTOR( 0, y_pos, -1 ) );
-		CSG_Adapter::dumpMeshset( op1_copy, true );
+		MeshOps::applyTranslate( op1_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
+		CSG_Adapter::dumpMeshset( op1_copy, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
 
-		y_pos += 0.2;
+		y_pos += 1.0;
 		carve::mesh::MeshSet<3>* op2_copy = op2->clone();
-		MeshOps::applyTranslate( op2_copy, carve::geom::VECTOR( 0, y_pos, -1 ) );
-		CSG_Adapter::dumpMeshset( op1_copy, true );
+		MeshOps::applyTranslate( op2_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
+		CSG_Adapter::dumpMeshset( op2_copy, carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 ), true );
 
-		y_pos += 0.2;
+		y_pos += 1.0;
 
 		if( result )
 		{
 			carve::mesh::MeshSet<3>* result_copy = result->clone();
 			MeshOps::applyTranslate( result_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-			CSG_Adapter::dumpMeshset( result_copy, true );
+			CSG_Adapter::dumpMeshset( result_copy, carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 ), true );
+			y_pos += 3.0;
 		}
 	}
 #endif
-	return csg_operation_ok;
+
+	if( !csg_op_ok )
+	{
+		if( operation == carve::csg::CSG::A_MINUS_B )
+		{
+			result = op1;
+		}
+		else if( operation == carve::csg::CSG::B_MINUS_A )
+		{
+			result = op2;
+		}
+		else if( operation == carve::csg::CSG::UNION )
+		{
+			result = op1;
+		}
+		else
+		{
+			result.reset();
+		}
 	}
+}
+
 
 
 #ifdef _DEBUG
-
-void Polyhedron2Stream( carve::poly::Polyhedron* poly, std::stringstream& strs_out )
+void Polyhedron2Stream( carve::poly::Polyhedron* poly, carve::geom::vector<4>& color, std::stringstream& strs_out )
 {
 	strs_out << "Polyhedron{" << std::endl;
+	strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
 	strs_out << "vertices{" << std::endl;
 	const size_t num_vertices = poly->vertices.size();
 	for( int i = 0; i < num_vertices; ++i )
@@ -972,32 +1048,37 @@ void Polyhedron2Stream( carve::poly::Polyhedron* poly, std::stringstream& strs_o
 			if( j > 0 )
 			{
 				strs_out << ", ";
-	}
+			}
 			strs_out << poly->vertexToIndex( f.vertex( j ) );
-}
+		}
 		strs_out << "}";
 	}
 	strs_out << std::endl << "}";
 }
 
-void CSG_Adapter::dumpMeshset( carve::mesh::MeshSet<3>* meshset, bool append )
+void CSG_Adapter::dumpMeshset( carve::mesh::MeshSet<3>* meshset, carve::geom::vector<4>& color, bool append )
 {
 	if( meshset->meshes.size() == 0 )
 	{
 		return;
 	}
 	shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
-	dumpPolyhedron( poly.get(), append );
+	dumpPolyhedron( poly.get(), color, append );
 }
 
-void CSG_Adapter::dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, bool append )
+void CSG_Adapter::dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, std::vector<carve::geom::vector<4> >& vec_colors, bool append )
 {
 	std::stringstream strs_out;
 	for( size_t i = 0; i < vec_meshsets.size(); ++i )
 	{
 		carve::mesh::MeshSet<3>* meshset = vec_meshsets[i];
+		carve::geom::vector<4> color = carve::geom::VECTOR( 0.5, 0.5, 0.5, 1.0 );
+		if( i < vec_colors.size() )
+		{
+			color = vec_colors[i];
+		}
 		shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
-		Polyhedron2Stream( poly.get(), strs_out );
+		Polyhedron2Stream( poly.get(), color, strs_out );
 	}
 
 	if( !append )
@@ -1009,15 +1090,15 @@ void CSG_Adapter::dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& vec_mesh
 	dump_ofstream.close();
 }
 
-void CSG_Adapter::dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, bool append )
+void CSG_Adapter::dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, carve::geom::vector<4>& color, bool append )
 {
-	dumpPolyhedron( poly_input.create( carve::input::opts() ), append );
+	dumpPolyhedron( poly_input.create( carve::input::opts() ), color, append );
 }
 
-void CSG_Adapter::dumpPolyhedron( carve::poly::Polyhedron* poly, bool append )
+void CSG_Adapter::dumpPolyhedron( carve::poly::Polyhedron* poly, carve::geom::vector<4>& color, bool append )
 {
 	std::stringstream strs_out;
-	Polyhedron2Stream( poly, strs_out );
+	Polyhedron2Stream( poly, color, strs_out );
 
 	if( !append )
 	{

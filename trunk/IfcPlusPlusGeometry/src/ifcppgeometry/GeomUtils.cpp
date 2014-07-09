@@ -2488,7 +2488,7 @@ void GeomUtils::convertPlane2Matrix( const carve::geom::vector<3>& plane_normal,
 
 }
 
-void GeomUtils::applyTranslate( osg::Group* grp, const osg::Vec3f& trans )
+void GeomUtils::applyTranslate( osg::Group* grp, const osg::Vec3f& trans, std::unordered_set<osg::Geode*>& set_applied )
 {
 	int num_children = grp->getNumChildren();
 	for( int i=0; i<num_children; ++i )
@@ -2497,25 +2497,32 @@ void GeomUtils::applyTranslate( osg::Group* grp, const osg::Vec3f& trans )
 		osg::Group* child_group = dynamic_cast<osg::Group*>(node);
 		if( child_group )
 		{
-			applyTranslate( child_group, trans );
+			applyTranslate( child_group, trans, set_applied );
 			continue;
 		}
+		
+		
 		osg::Geode* child_geode = dynamic_cast<osg::Geode*>(node);
 		if( child_geode )
 		{
+			if( set_applied.find(child_geode) != set_applied.end() )
+			{
+				continue;
+			}
+			set_applied.insert( child_geode );
 			const osg::Geode::DrawableList& drawable_list = child_geode->getDrawableList();
 			for( osg::Geode::DrawableList::const_iterator it_drawables=drawable_list.begin(); it_drawables!=drawable_list.end(); ++it_drawables )
 			{
 				osg::Drawable* drawable = (*it_drawables);
-				osg::Geometry* child_gemetry = dynamic_cast<osg::Geometry*>(drawable);
-				if( !child_gemetry )
+				osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>(drawable);
+				if( !child_geometry )
 				{
 #ifdef _DEBUG
-					std::cout << "!child_gemetry" << std::endl;
+					std::cout << "!child_geometry" << std::endl;
 #endif
 					return;
 				}
-				osg::Array* vertices_array = child_gemetry->getVertexArray();
+				osg::Array* vertices_array = child_geometry->getVertexArray();
 				osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
 
 				if( !vertices_float )
@@ -2530,12 +2537,22 @@ void GeomUtils::applyTranslate( osg::Group* grp, const osg::Vec3f& trans )
 				{
 					osg::Vec3f& vertex = (*it_array);
 					vertex = vertex + trans;
+					int wait = 0;
 				}
-				child_gemetry->dirtyBound();
-				child_gemetry->dirtyDisplayList();
+				
+				vertices_float->dirty();
+				child_geometry->dirtyBound();
+				child_geometry->dirtyDisplayList();
 				child_geode->dirtyBound();
+				grp->dirtyBound();
 			}
+
+			continue;
 		}
+
+#ifdef _DEBUG
+		std::cout << __FUNC__ << ": unhandled node: " << node->className() << std::endl;
+#endif
 	}
 }
 
@@ -2550,30 +2567,14 @@ void GeomUtils::applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_da
 
 bool GeomUtils::Plane::intersetRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point )
 {
-	carve::geom::vector<3>  location(		carve::geom::VECTOR( position.x(), position.y(), position.z()) );
-	carve::geom::vector<3>  local_z(		carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
-	//carve::geom::vector<3>  local_y(		carve::geom::VECTOR(0.0, 1.0, 0.0) );
-	//carve::geom::vector<3>  local_z(		carve::geom::VECTOR(0.0, 0.0, 1.0) );
-	//carve::geom::vector<3>  ref_direction(	carve::geom::VECTOR(1.0, 0.0, 0.0) );
-
-
-	
-	//local_z = carve::geom::VECTOR( axis[0], axis[1], axis[2] );
-	//local_z.normalize();
-
+	carve::geom::vector<3>  location( carve::geom::VECTOR( position.x(), position.y(), position.z()) );
+	carve::geom::vector<3>  local_z( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
 	carve::geom::plane<3> plane( local_z, location );
-	//plane.d = p.d;
-	//plane.N = local_z;
-	//translate = location;
-
 	carve::geom::vector<3>  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
 	carve::geom::vector<3>  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
 	carve::geom::vector<3>  v_intersect;
 	double t;
-
 	carve::IntersectionClass intersect_result = carve::geom3d::rayPlaneIntersection( plane, v1, v2, v_intersect, t );
- //                                          Vector &v,
- //                                          double &t) 
 
 	if( intersect_result == carve::INTERSECT_BAD || intersect_result == carve::INTERSECT_NONE )
 	{
@@ -2582,21 +2583,4 @@ bool GeomUtils::Plane::intersetRay( const GeomUtils::Ray* ray, osg::Vec3d& inter
 
 	intersect_point.set( v_intersect.x, v_intersect.y, v_intersect.z );
 	return true;
-
-    //  Vector Rd = v2 - v1;
-    //  double Vd = dot(p.N, Rd);
-    //  double V0 = dot(p.N, v1) + p.d;
-
-    //  if (carve::math::ZERO(Vd)) {
-    //    if (carve::math::ZERO(V0)) {
-    //      return INTERSECT_BAD;
-    //    } else {
-    //      return INTERSECT_NONE;
-    //    }
-    //  }
-
-    //  t = -V0 / Vd;
-    //  v = v1 + t * Rd;
-    //  return INTERSECT_PLANE;
-    //}
 }

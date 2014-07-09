@@ -66,7 +66,7 @@ public:
 	static bool bisectingPlane( const carve::geom::vector<3>& v1, const carve::geom::vector<3>& v2, const carve::geom::vector<3>& v3, carve::geom::vector<3>& normal );
 	static void convertPlane2Matrix( const carve::geom::vector<3>& plane_normal, const carve::geom::vector<3>& plane_position, 
 							 const carve::geom::vector<3>& local_z, carve::math::Matrix& resulting_matrix );
-	static void applyTranslate( osg::Group* grp, const osg::Vec3f& translate );
+	static void applyTranslate( osg::Group* grp, const osg::Vec3f& translate, std::unordered_set<osg::Geode*>& set_applied );
 	static void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, carve::math::Matrix& matrix );
 
 	class Ray : public osg::Referenced

@@ -69,7 +69,6 @@ public:
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		meshsets;
 	std::vector<shared_ptr<AppearanceData> >				vec_item_appearances;
 	std::vector<shared_ptr<TextItemData> >					vec_text_literals;
-	bool													m_csg_computed;
 
 	bool isEmpty();
 	void createMeshSetsFromClosedPolyhedrons();
@@ -105,6 +104,8 @@ public:
 	osg::ref_ptr<osg::Switch>	product_switch_curves;
 	std::vector<shared_ptr<ItemData> >			vec_item_data;
 	bool added_to_storey;
+	std::wstring representation_identifier;
+	std::wstring representation_type;
 
 protected:
 	std::vector<shared_ptr<AppearanceData> >	vec_appearances;

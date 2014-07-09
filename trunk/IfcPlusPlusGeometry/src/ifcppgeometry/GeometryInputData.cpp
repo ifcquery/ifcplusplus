@@ -2,7 +2,6 @@
 
 ItemData::ItemData()
 {
-	m_csg_computed = false;
 }
 ItemData::~ItemData()
 {
@@ -39,7 +38,6 @@ void ItemData::addItemData( shared_ptr<ItemData>& other )
 	std::copy( other->polylines.begin(),					other->polylines.end(),						std::back_inserter( polylines ) );
 	std::copy( other->meshsets.begin(),						other->meshsets.end(),						std::back_inserter( meshsets ) );
 	std::copy( other->vec_item_appearances.begin(),			other->vec_item_appearances.end(),			std::back_inserter( vec_item_appearances ) );
-	m_csg_computed = other->m_csg_computed || m_csg_computed;
 }
 
 bool ItemData::isEmpty()
