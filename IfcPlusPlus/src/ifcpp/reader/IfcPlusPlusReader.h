@@ -28,7 +28,7 @@ public:
 	void setModel( shared_ptr<IfcPPModel>& model );
 	virtual void removeComments( std::string& buffer ) = 0;
 	virtual void readStreamHeader(	const std::string& in ) = 0;
-	virtual void readStreamData(	const std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
+	virtual void readStreamData(	std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
 
 protected:
 	shared_ptr<IfcPPModel> m_model;

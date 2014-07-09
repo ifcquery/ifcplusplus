@@ -30,10 +30,7 @@ ViewController::ViewController()
 	m_rootnode	= new osg::Group();
 	m_rootnode->setName("m_rootnode");
 	m_sw_model = new osg::Switch();
-	m_transform_model = new osg::MatrixTransform();
-	m_transform_model->setName("m_transform_model");
-	m_transform_model->addChild( m_sw_model.get() );
-	m_rootnode->addChild( m_transform_model.get() );
+	m_rootnode->addChild( m_sw_model.get() );
 
 	m_sw_bound = new osg::Switch();
 	m_sw_bound->setName("m_sw_bound");
@@ -55,7 +52,7 @@ ViewController::ViewController()
 	light_model->setTwoSided(true);
 	m_rootnode->getOrCreateStateSet()->setAttribute( light_model );
 
-	m_stateset_default = m_transform_model->getOrCreateStateSet();
+	m_stateset_default = m_sw_model->getOrCreateStateSet();
 	m_stateset_default->setAttribute( m_material_default, osg::StateAttribute::ON );
 
 	m_stateset_transparent = new osg::StateSet();
@@ -91,11 +88,11 @@ void ViewController::toggleModelTransparency()
 	m_transparent_model = !m_transparent_model;
 	if( m_transparent_model )
 	{
-		m_transform_model->setStateSet( m_stateset_transparent );
+		m_sw_model->setStateSet( m_stateset_transparent );
 	}
 	else
 	{
-		m_transform_model->setStateSet( m_stateset_default );
+		m_sw_model->setStateSet( m_stateset_default );
 	}
 }
 
@@ -106,21 +103,21 @@ void ViewController::setViewerMode( ViewerMode mode )
 		// first disable previous mode
 		if( m_viewer_mode == VIEWER_MODE_WIREFRAME )
 		{
-			GeomUtils::WireFrameModeOff( m_transform_model.get() );
+			GeomUtils::WireFrameModeOff( m_sw_model.get() );
 		}
 		else if( m_viewer_mode == VIEWER_MODE_HIDDEN_LINE )
 		{
-			GeomUtils::HiddenLineModeOff( m_transform_model.get() );
+			GeomUtils::HiddenLineModeOff( m_sw_model.get() );
 		}
 
 		m_viewer_mode = mode;
 		if( m_viewer_mode == VIEWER_MODE_WIREFRAME )
 		{
-			GeomUtils::WireFrameModeOn( m_transform_model.get() );
+			GeomUtils::WireFrameModeOn( m_sw_model.get() );
 		}
 		else if( m_viewer_mode == VIEWER_MODE_HIDDEN_LINE )
 		{
-			GeomUtils::HiddenLineModeOn( m_transform_model.get() );
+			GeomUtils::HiddenLineModeOn( m_sw_model.get() );
 		}
 	}
 }

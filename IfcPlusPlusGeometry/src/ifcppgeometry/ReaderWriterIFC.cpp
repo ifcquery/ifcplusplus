@@ -607,10 +607,9 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	product_switch_curves->setName("CurveRepresentation");
 
 	// evaluate IFC geometry
-	shared_ptr<IfcProductRepresentation> product_representation = product->m_Representation;
+	shared_ptr<IfcProductRepresentation>& product_representation = product->m_Representation;
 	std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
-	std::vector<shared_ptr<IfcRepresentation> >::iterator it_representations;
-	for( it_representations=vec_representations.begin(); it_representations!=vec_representations.end(); ++it_representations )
+	for( auto it_representations=vec_representations.begin(); it_representations!=vec_representations.end(); ++it_representations )
 	{
 		shared_ptr<IfcRepresentation> representation = (*it_representations);
 		m_representation_converter->convertIfcRepresentation( representation, product_shape, strs_err );
@@ -628,7 +627,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 	
 	std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
-	for( int i_item=0; i_item<product_items.size(); ++i_item )
+	for( size_t i_item=0; i_item<product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
 		// create shape for closed shells
@@ -645,14 +644,14 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 
 	// create OSG objects
-	for( int i_item=0; i_item<product_items.size(); ++i_item )
+	for( size_t i_item=0; i_item<product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
 		osg::ref_ptr<osg::Group> item_group = new osg::Group();
 		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
 
 		// create shape for open shells
-		for( int i=0; i<item_data->open_polyhedrons.size(); ++i )
+		for( size_t i=0; i<item_data->open_polyhedrons.size(); ++i )
 		{
 			shared_ptr<carve::input::PolyhedronData>& shell_data = item_data->open_polyhedrons[i];
 			if( shell_data->getVertexCount() < 3 )
@@ -661,6 +660,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			}
 			
 			shared_ptr<carve::mesh::MeshSet<3> > open_shell_meshset( shell_data->createMesh(carve::input::opts()) );
+			CSG_Adapter::retriangulateMeshSet( open_shell_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			ConverterOSG::drawMeshSet( open_shell_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode);
@@ -670,7 +670,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 
 		// create shape for open or closed shells
-		for( int i_poly=0; i_poly<item_data->open_or_closed_polyhedrons.size(); ++i_poly )
+		for( size_t i_poly=0; i_poly<item_data->open_or_closed_polyhedrons.size(); ++i_poly )
 		{
 			shared_ptr<carve::input::PolyhedronData>& shell_data = item_data->open_or_closed_polyhedrons[i_poly];
 			if( shell_data->getVertexCount() < 3 )
@@ -679,26 +679,24 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			}
 
 			shared_ptr<carve::mesh::MeshSet<3> > open_or_closed_shell_meshset( shell_data->createMesh(carve::input::opts()) );
+			CSG_Adapter::retriangulateMeshSet( open_or_closed_shell_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			ConverterOSG::drawMeshSet( open_or_closed_shell_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode);
 		}
 
 		// create shape for meshsets
-		for( std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_meshsets = item_data->meshsets.begin(); it_meshsets != item_data->meshsets.end(); ++it_meshsets )
+		for( auto it_meshsets = item_data->meshsets.begin(); it_meshsets != item_data->meshsets.end(); ++it_meshsets )
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-			if( item_data->m_csg_computed )
-			{
-				//CSG_Adapter::simplifyMesh( item_meshset );
-			}
+			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
 			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode_result);
 		}
 
 		// create shape for polylines
-		for( int polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
+		for( size_t polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
 		{
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
@@ -708,7 +706,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 		if( m_geom_settings->m_show_text_literals )
 		{
-			for( int text_literal_i = 0; text_literal_i < item_data->vec_text_literals.size(); ++text_literal_i )
+			for( size_t text_literal_i = 0; text_literal_i < item_data->vec_text_literals.size(); ++text_literal_i )
 			{
 				shared_ptr<TextItemData>& text_data = item_data->vec_text_literals[text_literal_i];
 				if( !text_data )
@@ -741,7 +739,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		// apply statesets if there are any
 		if( item_data->vec_item_appearances.size() > 0 )
 		{
-			for( int i_appearance=0; i_appearance<item_data->vec_item_appearances.size(); ++i_appearance )
+			for( size_t i_appearance=0; i_appearance<item_data->vec_item_appearances.size(); ++i_appearance )
 			{
 				shared_ptr<AppearanceData>& appearance = item_data->vec_item_appearances[i_appearance];
 				if( appearance->apply_to_geometry_type == AppearanceData::SURFACE )
@@ -805,7 +803,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	if( product->m_IsDefinedBy_inverse.size() > 0 )
 	{
 		std::vector<weak_ptr<IfcRelDefinesByProperties> >& vec_IsDefinedBy_inverse = product->m_IsDefinedBy_inverse;
-		for( int i=0; i<vec_IsDefinedBy_inverse.size(); ++i )
+		for( size_t i=0; i<vec_IsDefinedBy_inverse.size(); ++i )
 		{
 			shared_ptr<IfcRelDefinesByProperties> rel_def( vec_IsDefinedBy_inverse[i] );
 			shared_ptr<IfcPropertySetDefinitionSelect> relating_property_definition_select = rel_def->m_RelatingPropertyDefinition;
@@ -845,7 +843,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 	}
 
-	for( int i=0; i<product_shape->getAppearances().size(); ++i )
+	for( size_t i=0; i<product_shape->getAppearances().size(); ++i )
 	{
 		// TODO: handle appearances of curves separately
 		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];

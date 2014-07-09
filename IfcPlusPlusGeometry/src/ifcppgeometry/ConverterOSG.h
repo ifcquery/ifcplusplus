@@ -24,8 +24,8 @@ class ConverterOSG
 {
 public:
 	static void drawFace(		const carve::mesh::Face<3>* face,					osg::Geode* geode, bool add_color_array = false );
-	static void drawMesh(		const carve::mesh::Mesh<3>* mesh,					osg::Geode* geode, double intermediate_normal_angle, bool add_color_array = false );
-	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set,			osg::Geode* geode, double intermediate_normal_angle, bool add_color_array = false );
+	static void drawMesh(		const carve::mesh::Mesh<3>* mesh,					osg::Geode* geode, double intermediate_normal_angle = M_PI*0.05, bool add_color_array = false );
+	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set,			osg::Geode* geode, double intermediate_normal_angle = M_PI*0.05, bool add_color_array = false );
 	static void drawPolyline(	const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false );
 	static double computeSurfaceAreaOfGroup( const osg::Group* grp );
 };

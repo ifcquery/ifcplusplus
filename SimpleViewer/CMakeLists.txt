@@ -76,29 +76,10 @@ set(IFCPPVIEWER_SOURCE_FILES
   src/gui/IfcTreeWidget.cpp
   src/gui/MainWindow.cpp
   src/gui/TabReadWrite.cpp
-  src/gui/TabTextEdit.cpp
   src/gui/TabView.cpp
   src/viewer/Orbit3DManipulator.cpp
   src/viewer/ViewerUtil.cpp
   src/viewer/ViewerWidget.cpp
-)
-
-set(IFCPPVIEWER_HEADER_FILES
-  src/IfcPlusPlusSystem.h
-  src/ViewController.h
-  src/cmd/CmdLoadIfcFile.h
-  src/cmd/CmdRemoveSelectedObjects.h
-  src/cmd/CmdWriteIfcFile.h
-  src/cmd/Command.h
-  src/cmd/CommandManager.h
-  src/gui/IfcTreeWidget.h
-  src/gui/MainWindow.h
-  src/gui/TabReadWrite.h
-  src/gui/TabTextEdit.h
-  src/gui/TabView.h
-  src/viewer/Orbit3DManipulator.h
-  src/viewer/ViewerUtil.h
-  src/viewer/ViewerWidget.h
 )
 
 find_package(Boost 1.49)
@@ -118,9 +99,7 @@ LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CARVE_BINARY_DIR}/lib) 
 LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CARVE_BINARY_DIR}/common) 
 
-
 ADD_EXECUTABLE(IfcPlusPlusViewer 
-  ${IFCPPVIEWER_HEADER_FILES} 
   ${IFCPPVIEWER_MOC_GENERATED_FILES}
   ${IFCPPVIEWER_SOURCE_FILES}
   ${IfcPlusPlusViewer_HEADERS_MOC} 

@@ -24,5 +24,5 @@ public:
 	~IfcXmlReader();
 	virtual void removeComments( std::string& buffer );
 	virtual void readStreamHeader(	const std::string& in );
-	virtual void readStreamData(	const std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map );
+	virtual void readStreamData(	std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map );
 };

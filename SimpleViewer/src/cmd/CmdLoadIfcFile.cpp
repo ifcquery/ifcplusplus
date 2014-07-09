@@ -41,6 +41,42 @@ void CmdLoadIfcFile::setFilePath( std::string& path_in )
 
 }
 
+//void findSiteGroup( osg::Group* grp_in, osg::Group* grp_site, osg::Group* grp_site_parent )
+//{
+//	if( grp_in->getName().size() > 0 )
+//	{
+//		if( grp_in->getName().find( "=IfcSite" ) != std::string::npos )
+//		{
+//			grp_site = grp_in;
+//			return;
+//		}
+//	}
+//
+//	for( size_t ii = 0; ii < grp_in->getNumChildren(); ++ii )
+//	{
+//		osg::Node* child_node = grp_in->getChild( ii );
+//		osg::Group* grp_child = dynamic_cast<osg::Group*>( child_node );
+//		if( grp_child )
+//		{
+//			osg::Group* found_site_grp = nullptr;
+//			osg::Group* found_site_parent = nullptr;
+//			findSiteGroup( grp_child, found_site_grp, found_site_parent );
+//
+//			if( found_site_grp != nullptr )
+//			{
+//				grp_site = found_site_grp;
+//
+//				if( found_site_parent != nullptr )
+//				{
+//					grp_site_parent = found_site_parent;
+//				}
+//				return;
+//			}
+//		}
+//	}
+//
+//}
+
 bool CmdLoadIfcFile::doCmd()
 {
 	if( m_file_path.length() == 0 )
@@ -97,14 +133,36 @@ bool CmdLoadIfcFile::doCmd()
 			{
 				if( bsphere.center().length()/bsphere.radius() > 100 )
 				{
-					GeomUtils::applyTranslate( group, -bsphere.center() );
+					std::unordered_set<osg::Geode*> set_applied;
+					GeomUtils::applyTranslate( group, -bsphere.center(), set_applied );
 				}
 			}
+
+
+			//osg::Group* found_site_grp = nullptr;
+			//osg::Group* found_site_parent = nullptr;
+			//findSiteGroup( group, found_site_grp, found_site_parent );
+
+			//if( found_site_grp != nullptr )
+			//{
+			//	TODO: add geometry of site to other group
+			//}
 
 			model_group->addChild( group );
 
 
 			// TODO: handle spaces, terrain, storeys separately. add buttons in gui to show/hide spaces or terrain and to shift storeys
+
+
+			//if( group->getName().size() > 0 )
+			//{
+			//	if( group->getName().find( "=IfcSite" ) != std::string::npos )
+			//	{
+
+			//	}
+
+			//}
+
 		}
 		else
 		{

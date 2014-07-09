@@ -40,7 +40,6 @@ public:
 	osg::ref_ptr<osg::Switch>			m_sw_coord_axes;
 	osg::ref_ptr<osg::Switch>			m_sw_model;
 	osg::ref_ptr<osg::Switch>			m_sw_bound;
-	osg::ref_ptr<osg::MatrixTransform>	m_transform_model;
 	osg::ref_ptr<osg::MatrixTransform>	m_transform_light;
 	bool								m_light_on;
 	float								m_shinyness;

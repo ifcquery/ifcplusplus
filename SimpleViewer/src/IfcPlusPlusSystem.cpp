@@ -23,6 +23,7 @@
 #include <ifcpp/reader/IfcStepReader.h>
 #include <ifcpp/writer/IfcStepWriter.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 #include <ifcppgeometry/RepresentationConverter.h>
 #include <ifcppgeometry/GeomUtils.h>
@@ -184,9 +185,27 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			selected_entity->osg_group = grp;
 			m_map_selected[id] = selected_entity;
 
+			bool scribe_only_geode_children = false;
+			shared_ptr<IfcSite> ifc_object_site = dynamic_pointer_cast<IfcSite>( ifc_object );
+			if( ifc_object_site )
+			{
+				// if terrain (IfcSite) is selected, do not select all buildings
+				scribe_only_geode_children = true;
+			}
+
 			for( int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
 			{
 				osg::Node* child_node = grp->getChild( child_ii );
+
+				if( scribe_only_geode_children )
+				{
+					osg::Switch* child_as_switch = dynamic_cast<osg::Switch*>(child_node);
+					if( child_as_switch )
+					{
+						// switch is a building
+						continue;
+					}
+				}
 
 				osgFX::Scribe* child_as_scribe = dynamic_cast<osgFX::Scribe*>(child_node);
 				if( !child_as_scribe )
