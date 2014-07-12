@@ -56,20 +56,20 @@ void IfcAnnotation::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcAnnotation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCANNOTATION" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCANNOTATION" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcAnnotation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -95,7 +95,10 @@ void IfcAnnotation::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcAnnotation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ContainedInStructure_inverse.size(); ++i ) { ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) ); }
+	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+	{
+		ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 }
 void IfcAnnotation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

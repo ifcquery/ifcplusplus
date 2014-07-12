@@ -619,7 +619,7 @@ bool CSG_Adapter::checkMeshSetValidAndClosed( const carve::mesh::MeshSet<3>* mes
 
 #ifdef _DEBUG
 int simplify_count = 0;
-double y_trans = 0;
+double dump_y_pos = 0;
 #endif
 
 void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool triangulate )
@@ -758,8 +758,17 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, b
 	{
 #ifdef _DEBUG
 		std::cout << err_retriangulated.str().c_str() << std::endl;
-		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-		//throw DebugBreakException( "!simplified_meshset_ok" );
+
+		shared_ptr<carve::mesh::MeshSet<3> > meshset_pre_triang( meshset_copy->clone() );
+		MeshOps::applyTranslate( meshset_pre_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
+		CSG_Adapter::dumpMeshset( meshset_pre_triang.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+		dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
+
+		shared_ptr<carve::mesh::MeshSet<3> > meshset_post_triang( meshset->clone() );
+		MeshOps::applyTranslate( meshset_post_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
+		CSG_Adapter::dumpMeshset( meshset_post_triang.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+		dump_y_pos += meshset_post_triang->getAABB().extent.y*2.2;
+
 #endif
 		meshset = meshset_copy;
 	}
@@ -770,9 +779,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, b
 }
 
 
-#ifdef _DEBUG
-double y_pos = 0;
-#endif
+
 
 void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation,
 	const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result )
@@ -972,23 +979,22 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 	{
 		std::cout << "!csg_operation_ok. id1=" << entity1 << ", id2=" << entity2 << std::endl;
 
-		carve::mesh::MeshSet<3>* op1_copy = op1->clone();
-		MeshOps::applyTranslate( op1_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-		CSG_Adapter::dumpMeshset( op1_copy, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+		shared_ptr<carve::mesh::MeshSet<3> > op1_copy( op1->clone() );
+		MeshOps::applyTranslate( op1_copy.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
+		CSG_Adapter::dumpMeshset( op1_copy.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+		dump_y_pos += op1_copy->getAABB().extent.y*2.2;
 
-		y_pos += 1.0;
-		carve::mesh::MeshSet<3>* op2_copy = op2->clone();
-		MeshOps::applyTranslate( op2_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-		CSG_Adapter::dumpMeshset( op2_copy, carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 ), true );
-
-		y_pos += 1.0;
+		shared_ptr<carve::mesh::MeshSet<3> > op2_copy( op2->clone() );
+		MeshOps::applyTranslate( op2_copy.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
+		CSG_Adapter::dumpMeshset( op2_copy.get(), carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 ), true );
+		dump_y_pos += op2_copy->getAABB().extent.y*2.2;
 
 		if( result )
 		{
-			carve::mesh::MeshSet<3>* result_copy = result->clone();
-			MeshOps::applyTranslate( result_copy, carve::geom::VECTOR( 0, y_pos, 0 ) );
-			CSG_Adapter::dumpMeshset( result_copy, carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 ), true );
-			y_pos += 3.0;
+			shared_ptr<carve::mesh::MeshSet<3> > result_copy( result->clone() );
+			MeshOps::applyTranslate( result_copy.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
+			CSG_Adapter::dumpMeshset( result_copy.get(), carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 ), true );
+			dump_y_pos += result_copy->getAABB().extent.y*2.2;
 		}
 	}
 #endif
@@ -1051,9 +1057,9 @@ void Polyhedron2Stream( carve::poly::Polyhedron* poly, carve::geom::vector<4>& c
 			}
 			strs_out << poly->vertexToIndex( f.vertex( j ) );
 		}
-		strs_out << "}";
+		strs_out << "}" << std::endl;
 	}
-	strs_out << std::endl << "}";
+	strs_out << std::endl << "}" << std::endl;
 }
 
 void CSG_Adapter::dumpMeshset( carve::mesh::MeshSet<3>* meshset, carve::geom::vector<4>& color, bool append )

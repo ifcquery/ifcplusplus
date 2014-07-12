@@ -62,20 +62,20 @@ void IfcInventory::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcInventory::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCINVENTORY" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCINVENTORY" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Jurisdiction ) { m_Jurisdiction->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Jurisdiction ) { m_Jurisdiction->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	writeEntityList( stream, m_ResponsiblePersons );
 	stream << ",";
@@ -111,6 +111,9 @@ void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "Jurisdiction", m_Jurisdiction ) );
+	shared_ptr<IfcPPAttributeObjectVector> ResponsiblePersons_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "LastUpdateDate", m_LastUpdateDate ) );
 	vec_attributes.push_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
 	vec_attributes.push_back( std::make_pair( "OriginalValue", m_OriginalValue ) );

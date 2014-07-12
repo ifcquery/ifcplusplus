@@ -40,12 +40,12 @@ void IfcPropertyEnumeration::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROPERTYENUMERATION" << "(";
+	stream << "#" << m_id << "= IFCPROPERTYENUMERATION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_EnumerationValues, true );
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcPropertyEnumeration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

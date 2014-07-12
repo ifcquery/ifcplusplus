@@ -49,14 +49,14 @@ void IfcRelSequence::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelSequence::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELSEQUENCE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELSEQUENCE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingProcess ) { stream << "#" << m_RelatingProcess->getId(); } else { stream << "$"; }
 	stream << ",";

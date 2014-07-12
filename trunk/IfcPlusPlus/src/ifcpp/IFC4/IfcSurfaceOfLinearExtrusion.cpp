@@ -43,10 +43,10 @@ void IfcSurfaceOfLinearExtrusion::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcSurfaceOfLinearExtrusion::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACEOFLINEAREXTRUSION" << "(";
-	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSURFACEOFLINEAREXTRUSION" << "(";
+	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->getId(); } else { stream << "$"; }
 	stream << ",";

@@ -45,14 +45,14 @@ void IfcRelAssigns::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelAssigns::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELASSIGNS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELASSIGNS" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ",";
@@ -77,6 +77,9 @@ void IfcRelAssigns::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcRelAssigns::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelationship::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedObjects_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "RelatedObjectsType", m_RelatedObjectsType ) );
 }
 void IfcRelAssigns::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

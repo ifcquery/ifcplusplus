@@ -118,6 +118,7 @@ void IfcTreeWidget::slotModelCleared()
 
 void IfcTreeWidget::slotModelLoadingStart()
 {
+	slotModelCleared();
 }
 
 QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& set_visited )

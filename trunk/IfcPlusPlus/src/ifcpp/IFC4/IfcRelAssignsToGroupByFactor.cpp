@@ -49,20 +49,20 @@ void IfcRelAssignsToGroupByFactor::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcRelAssignsToGroupByFactor::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELASSIGNSTOGROUPBYFACTOR" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELASSIGNSTOGROUPBYFACTOR" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ",";
-	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingGroup ) { stream << "#" << m_RelatingGroup->getId(); } else { stream << "$"; }
+	if( m_RelatingGroup ) { stream << "#" << m_RelatingGroup->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Factor ) { m_Factor->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

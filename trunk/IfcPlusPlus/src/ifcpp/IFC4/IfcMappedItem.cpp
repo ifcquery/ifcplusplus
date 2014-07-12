@@ -39,7 +39,7 @@ void IfcMappedItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMappedItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMAPPEDITEM" << "(";
+	stream << "#" << m_id << "= IFCMAPPEDITEM" << "(";
 	if( m_MappingSource ) { stream << "#" << m_MappingSource->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_MappingTarget ) { stream << "#" << m_MappingTarget->getId(); } else { stream << "$"; }

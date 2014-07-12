@@ -37,7 +37,7 @@ void IfcIrregularTimeSeriesValue::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCIRREGULARTIMESERIESVALUE" << "(";
+	stream << "#" << m_id << "= IFCIRREGULARTIMESERIESVALUE" << "(";
 	if( m_TimeStamp ) { m_TimeStamp->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_ListValues, true );

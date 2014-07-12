@@ -36,11 +36,10 @@ void IfcDerivedUnitElement::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcDerivedUnitElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDERIVEDUNITELEMENT" << "(";
+	stream << "#" << m_id << "= IFCDERIVEDUNITELEMENT" << "(";
 	if( m_Unit ) { stream << "#" << m_Unit->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_Exponent == m_Exponent ){ stream << m_Exponent; }
-	else { stream << "$"; }
+	if( m_Exponent == m_Exponent ){ stream << m_Exponent; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcDerivedUnitElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

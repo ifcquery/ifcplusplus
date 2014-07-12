@@ -40,7 +40,7 @@ void IfcCoordinateReferenceSystem::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcCoordinateReferenceSystem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOORDINATEREFERENCESYSTEM" << "(";
+	stream << "#" << m_id << "= IFCCOORDINATEREFERENCESYSTEM" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }

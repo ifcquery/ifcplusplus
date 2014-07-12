@@ -38,7 +38,7 @@ void IfcFaceBound::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcFaceBound::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFACEBOUND" << "(";
+	stream << "#" << m_id << "= IFCFACEBOUND" << "(";
 	if( m_Bound ) { stream << "#" << m_Bound->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Orientation == false ) { stream << ".F."; }

@@ -37,8 +37,8 @@ void IfcCsgSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCsgSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCSGSOLID" << "(";
-	if( m_TreeRootExpression ) { m_TreeRootExpression->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCSGSOLID" << "(";
+	if( m_TreeRootExpression ) { m_TreeRootExpression->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcCsgSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

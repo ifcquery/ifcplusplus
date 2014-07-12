@@ -46,14 +46,14 @@ void IfcObjectDefinition::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcObjectDefinition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCOBJECTDEFINITION" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCOBJECTDEFINITION" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcObjectDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -76,25 +76,46 @@ void IfcObjectDefinition::getAttributes( std::vector<std::pair<std::string, shar
 void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasAssignments_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasAssignments_inverse.size(); ++i ) { HasAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssigns>( m_HasAssignments_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasAssignments_inverse.size(); ++i )
+	{
+		HasAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssigns>( m_HasAssignments_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasAssignments_inverse", HasAssignments_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> Nests_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Nests_inverse.size(); ++i ) { Nests_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelNests>( m_Nests_inverse[i] ) ); }
+	for( size_t i=0; i<m_Nests_inverse.size(); ++i )
+	{
+		Nests_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelNests>( m_Nests_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Nests_inverse", Nests_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> IsNestedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsNestedBy_inverse.size(); ++i ) { IsNestedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelNests>( m_IsNestedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsNestedBy_inverse.size(); ++i )
+	{
+		IsNestedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelNests>( m_IsNestedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsNestedBy_inverse", IsNestedBy_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasContext_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasContext_inverse.size(); ++i ) { HasContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
+	{
+		HasContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> IsDecomposedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsDecomposedBy_inverse.size(); ++i ) { IsDecomposedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAggregates>( m_IsDecomposedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsDecomposedBy_inverse.size(); ++i )
+	{
+		IsDecomposedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAggregates>( m_IsDecomposedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsDecomposedBy_inverse", IsDecomposedBy_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> Decomposes_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Decomposes_inverse.size(); ++i ) { Decomposes_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAggregates>( m_Decomposes_inverse[i] ) ); }
+	for( size_t i=0; i<m_Decomposes_inverse.size(); ++i )
+	{
+		Decomposes_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAggregates>( m_Decomposes_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Decomposes_inverse", Decomposes_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasAssociations_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasAssociations_inverse.size(); ++i ) { HasAssociations_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
+	{
+		HasAssociations_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 }
 void IfcObjectDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

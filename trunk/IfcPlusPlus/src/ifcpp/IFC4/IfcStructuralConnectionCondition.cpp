@@ -35,7 +35,7 @@ void IfcStructuralConnectionCondition::setEntity( shared_ptr<IfcPPEntity> other_
 }
 void IfcStructuralConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALCONNECTIONCONDITION" << "(";
+	stream << "#" << m_id << "= IFCSTRUCTURALCONNECTIONCONDITION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }

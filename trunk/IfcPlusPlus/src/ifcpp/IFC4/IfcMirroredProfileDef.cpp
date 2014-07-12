@@ -44,16 +44,16 @@ void IfcMirroredProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMIRROREDPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCMIRROREDPROFILEDEF" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->getId(); } else { stream << "$"; }
+	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Operator ) { stream << "#" << m_Operator->getId(); } else { stream << "$"; }
+	if( m_Operator ) { stream << "#" << m_Operator->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

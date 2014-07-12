@@ -48,7 +48,7 @@ void IfcTimeSeries::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTimeSeries::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTIMESERIES" << "(";
+	stream << "#" << m_id << "= IFCTIMESERIES" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -63,7 +63,7 @@ void IfcTimeSeries::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -97,7 +97,10 @@ void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasExternalReference_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasExternalReference_inverse.size(); ++i ) { HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
+	{
+		HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 }
 void IfcTimeSeries::setInverseCounterparts( shared_ptr<IfcPPEntity> )

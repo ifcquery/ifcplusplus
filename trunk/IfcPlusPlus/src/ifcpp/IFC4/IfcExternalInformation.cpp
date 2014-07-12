@@ -33,7 +33,7 @@ void IfcExternalInformation::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcExternalInformation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEXTERNALINFORMATION" << "(";
+	stream << "#" << m_id << "= IFCEXTERNALINFORMATION" << "(";
 	stream << ");";
 }
 void IfcExternalInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

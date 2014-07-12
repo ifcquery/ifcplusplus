@@ -44,23 +44,20 @@ void IfcCartesianTransformationOperator3DnonUniform::setEntity( shared_ptr<IfcPP
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
+	if( m_Axis1 ) { stream << "#" << m_Axis1->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis2 ) { stream << "#" << m_Axis2->getId(); } else { stream << "$"; }
+	if( m_Axis2 ) { stream << "#" << m_Axis2->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->getId(); } else { stream << "$"; }
+	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale == m_Scale ){ stream << m_Scale; }
-	else { stream << "$"; }
+	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis3 ) { stream << "#" << m_Axis3->getId(); } else { stream << "$"; }
+	if( m_Axis3 ) { stream << "#" << m_Axis3->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale2 == m_Scale2 ){ stream << m_Scale2; }
-	else { stream << "$"; }
+	if( m_Scale2 == m_Scale2 ){ stream << m_Scale2; } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale3 == m_Scale3 ){ stream << m_Scale3; }
-	else { stream << "$"; }
+	if( m_Scale3 == m_Scale3 ){ stream << m_Scale3; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

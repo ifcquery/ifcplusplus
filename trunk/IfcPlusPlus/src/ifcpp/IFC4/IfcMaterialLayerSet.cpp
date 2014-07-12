@@ -42,7 +42,7 @@ void IfcMaterialLayerSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialLayerSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALLAYERSET" << "(";
+	stream << "#" << m_id << "= IFCMATERIALLAYERSET" << "(";
 	writeEntityList( stream, m_MaterialLayers );
 	stream << ",";
 	if( m_LayerSetName ) { m_LayerSetName->getStepParameter( stream ); } else { stream << "$"; }
@@ -65,6 +65,9 @@ void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> MaterialLayers_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }

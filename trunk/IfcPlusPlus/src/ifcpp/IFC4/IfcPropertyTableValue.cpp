@@ -50,10 +50,10 @@ void IfcPropertyTableValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROPERTYTABLEVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPROPERTYTABLEVALUE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_DefiningValues, true );
 	stream << ",";
@@ -61,9 +61,9 @@ void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DefiningUnit ) { m_DefiningUnit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_DefiningUnit ) { m_DefiningUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_DefinedUnit ) { m_DefinedUnit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_DefinedUnit ) { m_DefinedUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_CurveInterpolation ) { m_CurveInterpolation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

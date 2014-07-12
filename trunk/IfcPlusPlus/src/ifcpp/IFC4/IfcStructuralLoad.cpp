@@ -35,7 +35,7 @@ void IfcStructuralLoad::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStructuralLoad::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOAD" << "(";
+	stream << "#" << m_id << "= IFCSTRUCTURALLOAD" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }

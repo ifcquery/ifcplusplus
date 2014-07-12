@@ -37,7 +37,7 @@ void IfcManifoldSolidBrep::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMANIFOLDSOLIDBREP" << "(";
+	stream << "#" << m_id << "= IFCMANIFOLDSOLIDBREP" << "(";
 	if( m_Outer ) { stream << "#" << m_Outer->getId(); } else { stream << "$"; }
 	stream << ");";
 }

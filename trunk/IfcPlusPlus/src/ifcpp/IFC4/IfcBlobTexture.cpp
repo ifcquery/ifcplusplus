@@ -44,16 +44,16 @@ void IfcBlobTexture::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBlobTexture::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBLOBTEXTURE" << "(";
+	stream << "#" << m_id << "= IFCBLOBTEXTURE" << "(";
 	if( m_RepeatS == false ) { stream << ".F."; }
 	else if( m_RepeatS == true ) { stream << ".T."; }
 	stream << ",";
 	if( m_RepeatT == false ) { stream << ".F."; }
 	else if( m_RepeatT == true ) { stream << ".T."; }
 	stream << ",";
-	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "$"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_Parameter );
 	stream << ",";
@@ -82,6 +82,7 @@ void IfcBlobTexture::getAttributes( std::vector<std::pair<std::string, shared_pt
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RasterFormat", m_RasterFormat ) );
+	vec_attributes.push_back( std::make_pair( "RasterCode", shared_ptr<IfcPPBinary>( new IfcPPBinary( m_RasterCode ) ) ) );
 }
 void IfcBlobTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

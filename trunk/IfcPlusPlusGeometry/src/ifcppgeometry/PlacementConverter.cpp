@@ -188,9 +188,6 @@ void PlacementConverter::getPlane( const shared_ptr<IfcAxis2Placement3D> axis2pl
 void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, double length_factor,
 	int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_entities )
 {
-	throw std::exception();
-
-
 	if( !axis2placement3d )
 	{
 		axis2placement3d = shared_ptr<IfcAxis2Placement3D>( new IfcAxis2Placement3D( entity_id++ ) );

@@ -40,8 +40,8 @@ void IfcSurfaceReinforcementArea::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACEREINFORCEMENTAREA" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSURFACEREINFORCEMENTAREA" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeTypeOfRealList( stream, m_SurfaceReinforcement1 );
 	stream << ",";

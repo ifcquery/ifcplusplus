@@ -40,8 +40,8 @@ void IfcBoxedHalfSpace::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBOXEDHALFSPACE" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCBOXEDHALFSPACE" << "(";
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_AgreementFlag == false ) { stream << ".F."; }
 	else if( m_AgreementFlag == true ) { stream << ".T."; }

@@ -35,7 +35,7 @@ void IfcSolidModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSolidModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSOLIDMODEL" << "(";
+	stream << "#" << m_id << "= IFCSOLIDMODEL" << "(";
 	stream << ");";
 }
 void IfcSolidModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

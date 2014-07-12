@@ -46,14 +46,14 @@ void IfcRelCoversBldgElements::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelCoversBldgElements::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELCOVERSBLDGELEMENTS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELCOVERSBLDGELEMENTS" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingBuildingElement ) { stream << "#" << m_RelatingBuildingElement->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -79,6 +79,9 @@ void IfcRelCoversBldgElements::getAttributes( std::vector<std::pair<std::string,
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedCoverings_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
 }
 void IfcRelCoversBldgElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

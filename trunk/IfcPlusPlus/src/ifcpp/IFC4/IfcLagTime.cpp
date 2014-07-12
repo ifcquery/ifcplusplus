@@ -42,14 +42,14 @@ void IfcLagTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcLagTime::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLAGTIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCLAGTIME" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LagValue ) { m_LagValue->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_LagValue ) { m_LagValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

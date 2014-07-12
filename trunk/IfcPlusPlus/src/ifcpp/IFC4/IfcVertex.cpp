@@ -35,7 +35,7 @@ void IfcVertex::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcVertex::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCVERTEX" << "(";
+	stream << "#" << m_id << "= IFCVERTEX" << "(";
 	stream << ");";
 }
 void IfcVertex::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -18,14 +18,7 @@
 #include <map>
 #include <boost/algorithm/string.hpp>
 #include "ifcpp/model/shared_ptr.h"
-
-#ifdef __GNUC__
-#include "ifcpp/IfcPPTypeEnums.h"
 #include "ifcpp/IfcPPEntityEnums.h"
-#else
-enum IfcPPTypeEnum;
-enum IfcPPEntityEnum;
-#endif
 
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 
@@ -33,6 +26,7 @@ class IfcPPObject
 {
 public:
 	virtual const char* classname() const { return "IfcPPObject"; }
+	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {}
 };
 
 class IfcPPBool : virtual public IfcPPObject
@@ -90,6 +84,16 @@ public:
 	std::wstring m_value;
 };
 
+class IfcPPBinary : virtual public IfcPPObject
+{
+public:
+	IfcPPBinary();
+	IfcPPBinary( const char* value );
+	~IfcPPBinary();
+	virtual const char* classname() const { return "IfcPPBinary"; }
+	void readArgument( const char* attribute_value );
+	const char* m_value;
+};
 
 // ENTITY
 class IfcPPEntity : virtual public IfcPPObject
@@ -102,13 +106,12 @@ public:
 	IfcPPEntity( int id );
 	virtual ~IfcPPEntity();
 	virtual const char* classname() const { return "IfcPPEntity"; }
-	virtual void getStepLine( std::stringstream& stream ) const;
-	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
-	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
-	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& map_attributes );
-	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self );
-	virtual void unlinkSelf();
+	virtual void getStepLine( std::stringstream& stream ) const = 0;
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
+	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes ) = 0;
+	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& map_attributes ) = 0;
+	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self ) = 0;
+	virtual void unlinkSelf() = 0;
 	virtual const int getId() const { return m_id; }
 	void setId( int id );
 	std::string m_entity_argument_str;

@@ -41,10 +41,10 @@ void IfcTextLiteral::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTLITERAL" << "(";
+	stream << "#" << m_id << "= IFCTEXTLITERAL" << "(";
 	if( m_Literal ) { m_Literal->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

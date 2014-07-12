@@ -45,14 +45,14 @@ void IfcPropertySingleValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPropertySingleValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROPERTYSINGLEVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPROPERTYSINGLEVALUE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_NominalValue ) { m_NominalValue->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_NominalValue ) { m_NominalValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcPropertySingleValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -48,27 +48,26 @@ void IfcRationalBSplineCurveWithKnots::setEntity( shared_ptr<IfcPPEntity> other_
 }
 void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRATIONALBSPLINECURVEWITHKNOTS" << "(";
-	if( m_Degree == m_Degree ){ stream << m_Degree; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRATIONALBSPLINECURVEWITHKNOTS" << "(";
+	if( m_Degree == m_Degree ){ stream << m_Degree; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ClosedCurve == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_ClosedCurve == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_ClosedCurve == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	writeIntList( stream, m_KnotMultiplicities );
 	stream << ",";
 	writeTypeOfRealList( stream, m_Knots );
 	stream << ",";
-	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeDoubleList( stream, m_WeightsData );
 	stream << ");";
@@ -98,6 +97,12 @@ void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBSplineCurveWithKnots::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> WeightsData_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_WeightsData.size(); ++i )
+	{
+		WeightsData_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_WeightsData[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "WeightsData", WeightsData_vec_obj ) );
 }
 void IfcRationalBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

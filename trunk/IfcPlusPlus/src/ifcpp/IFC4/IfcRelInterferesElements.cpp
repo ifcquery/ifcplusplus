@@ -49,14 +49,14 @@ void IfcRelInterferesElements::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELINTERFERESELEMENTS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELINTERFERESELEMENTS" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingElement ) { stream << "#" << m_RelatingElement->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -68,7 +68,7 @@ void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ImpliedOrder == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_ImpliedOrder == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_ImpliedOrder == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ");";
 }
 void IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

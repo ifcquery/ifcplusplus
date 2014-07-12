@@ -50,14 +50,14 @@ void IfcPropertySetTemplate::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPropertySetTemplate::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROPERTYSETTEMPLATE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPROPERTYSETTEMPLATE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TemplateType ) { m_TemplateType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -87,11 +87,17 @@ void IfcPropertySetTemplate::getAttributes( std::vector<std::pair<std::string, s
 	IfcPropertyTemplateDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TemplateType", m_TemplateType ) );
 	vec_attributes.push_back( std::make_pair( "ApplicableEntity", m_ApplicableEntity ) );
+	shared_ptr<IfcPPAttributeObjectVector> HasPropertyTemplates_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_HasPropertyTemplates.begin(), m_HasPropertyTemplates.end(), std::back_inserter( HasPropertyTemplates_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
 }
 void IfcPropertySetTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> Defines_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Defines_inverse.size(); ++i ) { Defines_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByTemplate>( m_Defines_inverse[i] ) ); }
+	for( size_t i=0; i<m_Defines_inverse.size(); ++i )
+	{
+		Defines_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByTemplate>( m_Defines_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Defines_inverse", Defines_inverse_vec_obj ) );
 }
 void IfcPropertySetTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

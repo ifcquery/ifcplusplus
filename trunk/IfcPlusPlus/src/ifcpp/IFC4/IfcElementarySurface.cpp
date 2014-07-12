@@ -37,7 +37,7 @@ void IfcElementarySurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcElementarySurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCELEMENTARYSURFACE" << "(";
+	stream << "#" << m_id << "= IFCELEMENTARYSURFACE" << "(";
 	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
 	stream << ");";
 }

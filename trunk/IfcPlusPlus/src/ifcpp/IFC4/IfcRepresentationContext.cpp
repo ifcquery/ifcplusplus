@@ -37,7 +37,7 @@ void IfcRepresentationContext::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRepresentationContext::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREPRESENTATIONCONTEXT" << "(";
+	stream << "#" << m_id << "= IFCREPRESENTATIONCONTEXT" << "(";
 	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
@@ -62,7 +62,10 @@ void IfcRepresentationContext::getAttributes( std::vector<std::pair<std::string,
 void IfcRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> RepresentationsInContext_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_RepresentationsInContext_inverse.size(); ++i ) { RepresentationsInContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentation>( m_RepresentationsInContext_inverse[i] ) ); }
+	for( size_t i=0; i<m_RepresentationsInContext_inverse.size(); ++i )
+	{
+		RepresentationsInContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentation>( m_RepresentationsInContext_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "RepresentationsInContext_inverse", RepresentationsInContext_inverse_vec_obj ) );
 }
 void IfcRepresentationContext::setInverseCounterparts( shared_ptr<IfcPPEntity> )

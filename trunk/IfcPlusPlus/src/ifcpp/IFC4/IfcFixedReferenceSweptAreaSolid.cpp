@@ -46,10 +46,10 @@ void IfcFixedReferenceSweptAreaSolid::setEntity( shared_ptr<IfcPPEntity> other_e
 }
 void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Directrix ) { stream << "#" << m_Directrix->getId(); } else { stream << "$"; }
 	stream << ",";

@@ -43,14 +43,14 @@ void IfcTableColumn::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTableColumn::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTABLECOLUMN" << "(";
+	stream << "#" << m_id << "= IFCTABLECOLUMN" << "(";
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ReferencePath ) { stream << "#" << m_ReferencePath->getId(); } else { stream << "$"; }
 	stream << ");";

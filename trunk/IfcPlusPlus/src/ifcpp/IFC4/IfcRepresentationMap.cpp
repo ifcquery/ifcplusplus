@@ -39,8 +39,8 @@ void IfcRepresentationMap::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRepresentationMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREPRESENTATIONMAP" << "(";
-	if( m_MappingOrigin ) { m_MappingOrigin->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCREPRESENTATIONMAP" << "(";
+	if( m_MappingOrigin ) { m_MappingOrigin->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_MappedRepresentation ) { stream << "#" << m_MappedRepresentation->getId(); } else { stream << "$"; }
 	stream << ");";
@@ -64,10 +64,16 @@ void IfcRepresentationMap::getAttributes( std::vector<std::pair<std::string, sha
 void IfcRepresentationMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasShapeAspects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasShapeAspects_inverse.size(); ++i ) { HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
+	{
+		HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> MapUsage_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_MapUsage_inverse.size(); ++i ) { MapUsage_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) ); }
+	for( size_t i=0; i<m_MapUsage_inverse.size(); ++i )
+	{
+		MapUsage_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "MapUsage_inverse", MapUsage_inverse_vec_obj ) );
 }
 void IfcRepresentationMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

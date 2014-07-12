@@ -35,7 +35,7 @@ void IfcTimeSeriesValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTIMESERIESVALUE" << "(";
+	stream << "#" << m_id << "= IFCTIMESERIESVALUE" << "(";
 	writeTypeList( stream, m_ListValues, true );
 	stream << ");";
 }

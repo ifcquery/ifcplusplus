@@ -37,7 +37,7 @@ void IfcVertexLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcVertexLoop::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCVERTEXLOOP" << "(";
+	stream << "#" << m_id << "= IFCVERTEXLOOP" << "(";
 	if( m_LoopVertex ) { stream << "#" << m_LoopVertex->getId(); } else { stream << "$"; }
 	stream << ");";
 }

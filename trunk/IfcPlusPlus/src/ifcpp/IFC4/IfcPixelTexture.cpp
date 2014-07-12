@@ -47,16 +47,16 @@ void IfcPixelTexture::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPixelTexture::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPIXELTEXTURE" << "(";
+	stream << "#" << m_id << "= IFCPIXELTEXTURE" << "(";
 	if( m_RepeatS == false ) { stream << ".F."; }
 	else if( m_RepeatS == true ) { stream << ".T."; }
 	stream << ",";
 	if( m_RepeatT == false ) { stream << ".F."; }
 	else if( m_RepeatT == true ) { stream << ".T."; }
 	stream << ",";
-	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "$"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_Parameter );
 	stream << ",";
@@ -95,6 +95,12 @@ void IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "Width", m_Width ) );
 	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
 	vec_attributes.push_back( std::make_pair( "ColourComponents", m_ColourComponents ) );
+	shared_ptr<IfcPPAttributeObjectVector> Pixel_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_Pixel.size(); ++i )
+	{
+		Pixel_vec_obj->m_vec.push_back( shared_ptr<IfcPPBinary>( new IfcPPBinary(m_Pixel[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "Pixel", Pixel_vec_obj ) );
 }
 void IfcPixelTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

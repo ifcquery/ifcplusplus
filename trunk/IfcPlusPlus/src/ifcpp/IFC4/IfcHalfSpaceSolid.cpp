@@ -38,7 +38,7 @@ void IfcHalfSpaceSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCHALFSPACESOLID" << "(";
+	stream << "#" << m_id << "= IFCHALFSPACESOLID" << "(";
 	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_AgreementFlag == false ) { stream << ".F."; }

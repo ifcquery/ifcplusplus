@@ -39,8 +39,8 @@ void IfcCircle::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCircle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCIRCLE" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCIRCLE" << "(";
+	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -37,7 +37,7 @@ void IfcCurveStyleFontPattern::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCURVESTYLEFONTPATTERN" << "(";
+	stream << "#" << m_id << "= IFCCURVESTYLEFONTPATTERN" << "(";
 	if( m_VisibleSegmentLength ) { m_VisibleSegmentLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_InvisibleSegmentLength ) { m_InvisibleSegmentLength->getStepParameter( stream ); } else { stream << "$"; }

@@ -37,7 +37,7 @@ void IfcCurveStyleFont::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCurveStyleFont::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCURVESTYLEFONT" << "(";
+	stream << "#" << m_id << "= IFCCURVESTYLEFONT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_PatternList );
@@ -58,6 +58,9 @@ void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	shared_ptr<IfcPPAttributeObjectVector> PatternList_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "PatternList", PatternList_vec_object ) );
 }
 void IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

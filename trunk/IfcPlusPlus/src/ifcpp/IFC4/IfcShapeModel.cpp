@@ -44,12 +44,12 @@ void IfcShapeModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcShapeModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSHAPEMODEL" << "(";
-	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSHAPEMODEL" << "(";
+	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RepresentationType ) { m_RepresentationType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RepresentationType ) { m_RepresentationType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Items );
 	stream << ");";
@@ -74,7 +74,10 @@ void IfcShapeModel::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcShapeModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> OfShapeAspect_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_OfShapeAspect_inverse.size(); ++i ) { OfShapeAspect_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) ); }
+	for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
+	{
+		OfShapeAspect_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 }
 void IfcShapeModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

@@ -43,12 +43,12 @@ void IfcCenterLineProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCENTERLINEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCENTERLINEPROFILEDEF" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Curve ) { stream << "#" << m_Curve->getId(); } else { stream << "$"; }
+	if( m_Curve ) { stream << "#" << m_Curve->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

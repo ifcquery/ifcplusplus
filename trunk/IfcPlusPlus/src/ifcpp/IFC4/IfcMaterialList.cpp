@@ -35,7 +35,7 @@ void IfcMaterialList::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALLIST" << "(";
+	stream << "#" << m_id << "= IFCMATERIALLIST" << "(";
 	writeEntityList( stream, m_Materials );
 	stream << ");";
 }
@@ -51,6 +51,9 @@ void IfcMaterialList::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcMaterialList::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
+	shared_ptr<IfcPPAttributeObjectVector> Materials_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Materials.begin(), m_Materials.end(), std::back_inserter( Materials_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Materials", Materials_vec_object ) );
 }
 void IfcMaterialList::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

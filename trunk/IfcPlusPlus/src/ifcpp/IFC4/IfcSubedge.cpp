@@ -40,10 +40,10 @@ void IfcSubedge::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSubedge::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSUBEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSUBEDGE" << "(";
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "$"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_ParentEdge ) { stream << "#" << m_ParentEdge->getId(); } else { stream << "$"; }
 	stream << ");";

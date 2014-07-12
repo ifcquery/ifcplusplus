@@ -48,12 +48,12 @@ void IfcCShapeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCSHAPEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCSHAPEPROFILEDEF" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -54,20 +54,20 @@ void IfcMaterialLayerWithOffsets::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcMaterialLayerWithOffsets::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALLAYERWITHOFFSETS" << "(";
-	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCMATERIALLAYERWITHOFFSETS" << "(";
+	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_LayerThickness ) { m_LayerThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LayerThickness ) { m_LayerThickness->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_IsVentilated ) { m_IsVentilated->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_IsVentilated ) { m_IsVentilated->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_OffsetDirection ) { m_OffsetDirection->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

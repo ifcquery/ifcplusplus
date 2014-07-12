@@ -44,7 +44,7 @@ void IfcMaterialLayerSetUsage::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALLAYERSETUSAGE" << "(";
+	stream << "#" << m_id << "= IFCMATERIALLAYERSETUSAGE" << "(";
 	if( m_ForLayerSet ) { stream << "#" << m_ForLayerSet->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_LayerSetDirection ) { m_LayerSetDirection->getStepParameter( stream ); } else { stream << "$"; }

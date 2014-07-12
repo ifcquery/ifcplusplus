@@ -46,10 +46,10 @@ void IfcCurrencyRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCURRENCYRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCURRENCYRELATIONSHIP" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingMonetaryUnit ) { stream << "#" << m_RelatingMonetaryUnit->getId(); } else { stream << "$"; }
 	stream << ",";

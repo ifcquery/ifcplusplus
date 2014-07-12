@@ -54,26 +54,26 @@ void IfcMetric::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMetric::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMETRIC" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCMETRIC" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Benchmark ) { m_Benchmark->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ValueSource ) { m_ValueSource->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataValue ) { m_DataValue->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_DataValue ) { m_DataValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ReferencePath ) { stream << "#" << m_ReferencePath->getId(); } else { stream << "$"; }
 	stream << ");";

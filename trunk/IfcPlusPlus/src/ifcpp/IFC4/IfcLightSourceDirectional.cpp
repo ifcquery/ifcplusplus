@@ -44,14 +44,14 @@ void IfcLightSourceDirectional::setEntity( shared_ptr<IfcPPEntity> other_entity 
 }
 void IfcLightSourceDirectional::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLIGHTSOURCEDIRECTIONAL" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCLIGHTSOURCEDIRECTIONAL" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->getId(); } else { stream << "$"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Orientation ) { stream << "#" << m_Orientation->getId(); } else { stream << "$"; }
 	stream << ");";

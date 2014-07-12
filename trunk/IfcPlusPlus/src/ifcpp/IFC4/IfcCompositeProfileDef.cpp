@@ -42,10 +42,10 @@ void IfcCompositeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOMPOSITEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCOMPOSITEPROFILEDEF" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Profiles );
 	stream << ",";
@@ -68,6 +68,9 @@ void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcProfileDef::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> Profiles_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Profiles", Profiles_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
 }
 void IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -35,7 +35,7 @@ void IfcPreDefinedItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPreDefinedItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPREDEFINEDITEM" << "(";
+	stream << "#" << m_id << "= IFCPREDEFINEDITEM" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }

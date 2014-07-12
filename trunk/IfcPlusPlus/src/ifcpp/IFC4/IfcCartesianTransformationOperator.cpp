@@ -41,15 +41,14 @@ void IfcCartesianTransformationOperator::setEntity( shared_ptr<IfcPPEntity> othe
 }
 void IfcCartesianTransformationOperator::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCARTESIANTRANSFORMATIONOPERATOR" << "(";
+	stream << "#" << m_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR" << "(";
 	if( m_Axis1 ) { stream << "#" << m_Axis1->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis2 ) { stream << "#" << m_Axis2->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale == m_Scale ){ stream << m_Scale; }
-	else { stream << "$"; }
+	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

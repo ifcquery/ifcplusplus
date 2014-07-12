@@ -35,8 +35,8 @@ void IfcDraughtingPreDefinedCurveFont::setEntity( shared_ptr<IfcPPEntity> other_
 }
 void IfcDraughtingPreDefinedCurveFont::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDRAUGHTINGPREDEFINEDCURVEFONT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDRAUGHTINGPREDEFINEDCURVEFONT" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcDraughtingPreDefinedCurveFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

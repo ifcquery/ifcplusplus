@@ -63,18 +63,18 @@ void IfcWorkControl::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcWorkControl::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCWORKCONTROL" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCWORKCONTROL" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -117,6 +117,9 @@ void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_pt
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
+	shared_ptr<IfcPPAttributeObjectVector> Creators_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Creators.begin(), m_Creators.end(), std::back_inserter( Creators_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Creators", Creators_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
 	vec_attributes.push_back( std::make_pair( "Duration", m_Duration ) );
 	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );

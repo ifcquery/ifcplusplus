@@ -47,7 +47,7 @@ void IfcConstraint::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcConstraint::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONSTRAINT" << "(";
+	stream << "#" << m_id << "= IFCCONSTRAINT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -56,7 +56,7 @@ void IfcConstraint::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -92,10 +92,16 @@ void IfcConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasExternalReferences_inverse.size(); ++i ) { HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+	{
+		HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> PropertiesForConstraint_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_PropertiesForConstraint_inverse.size(); ++i ) { PropertiesForConstraint_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceConstraintRelationship>( m_PropertiesForConstraint_inverse[i] ) ); }
+	for( size_t i=0; i<m_PropertiesForConstraint_inverse.size(); ++i )
+	{
+		PropertiesForConstraint_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceConstraintRelationship>( m_PropertiesForConstraint_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "PropertiesForConstraint_inverse", PropertiesForConstraint_inverse_vec_obj ) );
 }
 void IfcConstraint::setInverseCounterparts( shared_ptr<IfcPPEntity> )

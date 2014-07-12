@@ -60,20 +60,20 @@ void IfcConstructionResource::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcConstructionResource::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONSTRUCTIONRESOURCE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONSTRUCTIONRESOURCE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Usage ) { stream << "#" << m_Usage->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -105,6 +105,9 @@ void IfcConstructionResource::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcResource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
+	shared_ptr<IfcPPAttributeObjectVector> BaseCosts_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
 }
 void IfcConstructionResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

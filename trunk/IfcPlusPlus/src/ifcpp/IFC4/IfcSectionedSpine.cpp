@@ -41,7 +41,7 @@ void IfcSectionedSpine::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSECTIONEDSPINE" << "(";
+	stream << "#" << m_id << "= IFCSECTIONEDSPINE" << "(";
 	if( m_SpineCurve ) { stream << "#" << m_SpineCurve->getId(); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_CrossSections );
@@ -65,6 +65,12 @@ void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SpineCurve", m_SpineCurve ) );
+	shared_ptr<IfcPPAttributeObjectVector> CrossSections_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_CrossSections.begin(), m_CrossSections.end(), std::back_inserter( CrossSections_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "CrossSections", CrossSections_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> CrossSectionPositions_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_CrossSectionPositions.begin(), m_CrossSectionPositions.end(), std::back_inserter( CrossSectionPositions_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
 }
 void IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

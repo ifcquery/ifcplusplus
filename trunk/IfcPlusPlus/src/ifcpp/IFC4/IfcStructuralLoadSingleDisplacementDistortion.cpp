@@ -45,20 +45,20 @@ void IfcStructuralLoadSingleDisplacementDistortion::setEntity( shared_ptr<IfcPPE
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DisplacementY ) { m_DisplacementY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DisplacementY ) { m_DisplacementY->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DisplacementZ ) { m_DisplacementZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DisplacementZ ) { m_DisplacementZ->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RotationalDisplacementRX ) { m_RotationalDisplacementRX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RotationalDisplacementRX ) { m_RotationalDisplacementRX->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RotationalDisplacementRY ) { m_RotationalDisplacementRY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RotationalDisplacementRY ) { m_RotationalDisplacementRY->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RotationalDisplacementRZ ) { m_RotationalDisplacementRZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RotationalDisplacementRZ ) { m_RotationalDisplacementRZ->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Distortion ) { m_Distortion->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -39,7 +39,7 @@ void IfcPhysicalQuantity::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPhysicalQuantity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPHYSICALQUANTITY" << "(";
+	stream << "#" << m_id << "= IFCPHYSICALQUANTITY" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -64,10 +64,16 @@ void IfcPhysicalQuantity::getAttributes( std::vector<std::pair<std::string, shar
 void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasExternalReferences_inverse.size(); ++i ) { HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+	{
+		HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> PartOfComplex_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_PartOfComplex_inverse.size(); ++i ) { PartOfComplex_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPhysicalComplexQuantity>( m_PartOfComplex_inverse[i] ) ); }
+	for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
+	{
+		PartOfComplex_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPhysicalComplexQuantity>( m_PartOfComplex_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
 }
 void IfcPhysicalQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> )

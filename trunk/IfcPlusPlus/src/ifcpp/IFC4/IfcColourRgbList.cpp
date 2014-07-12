@@ -35,7 +35,7 @@ void IfcColourRgbList::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOLOURRGBLIST" << "(";
+	stream << "#" << m_id << "= IFCCOLOURRGBLIST" << "(";
 	writeTypeList2D( stream, m_ColourList );
 	stream << ");";
 }

@@ -84,7 +84,13 @@ void IfcPPString::readArgument( const std::wstring& attribute_value )
 	}
 }
 
-
+IfcPPBinary::IfcPPBinary(){}
+IfcPPBinary::IfcPPBinary( const char* value ) : m_value(value) {}
+IfcPPBinary::~IfcPPBinary(){}
+void IfcPPBinary::readArgument( const char* attribute_value )
+{
+	m_value = attribute_value;
+}
 
 
 
@@ -104,36 +110,4 @@ IfcPPEntity::~IfcPPEntity()
 void IfcPPEntity::setId( int id )
 {
 	m_id = id;
-}
-
-void IfcPPEntity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
-{
-	throw IfcPPException("IfcPPEntity::readStepArguments(), this method should be overwritten");
-}
-void IfcPPEntity::getStepLine( std::stringstream& stream ) const
-{
-	throw IfcPPException("IfcPPEntity::getStepLine(), this method should be overwritten");
-}
-
-void IfcPPEntity::getStepParameter( std::stringstream& stream, bool ) const
-{
-	throw IfcPPException("IfcPPEntity::getStepParameter(), this method should be overwritten");
-}
-
-void IfcPPEntity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self )
-{
-	throw IfcPPException("IfcPPEntity::setInverseCounterparts(), this method should be overwritten");
-}
-
-void IfcPPEntity::unlinkSelf()
-{
-	throw IfcPPException("IfcPPEntity::unlinkSelf(), this method should be overwritten");
-}
-
-void IfcPPEntity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
-{
-}
-
-void IfcPPEntity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
-{
 }

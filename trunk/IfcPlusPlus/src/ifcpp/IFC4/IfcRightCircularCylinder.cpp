@@ -40,8 +40,8 @@ void IfcRightCircularCylinder::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRightCircularCylinder::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRIGHTCIRCULARCYLINDER" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRIGHTCIRCULARCYLINDER" << "(";
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

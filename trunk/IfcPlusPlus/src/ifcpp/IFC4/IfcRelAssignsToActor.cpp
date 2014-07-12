@@ -49,18 +49,18 @@ void IfcRelAssignsToActor::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelAssignsToActor::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELASSIGNSTOACTOR" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELASSIGNSTOACTOR" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ",";
-	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingActor ) { stream << "#" << m_RelatingActor->getId(); } else { stream << "$"; }
 	stream << ",";

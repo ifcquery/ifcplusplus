@@ -36,7 +36,7 @@ void IfcSurfaceStyleRefraction::setEntity( shared_ptr<IfcPPEntity> other_entity 
 }
 void IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACESTYLEREFRACTION" << "(";
+	stream << "#" << m_id << "= IFCSURFACESTYLEREFRACTION" << "(";
 	if( m_RefractionIndex ) { m_RefractionIndex->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DispersionFactor ) { m_DispersionFactor->getStepParameter( stream ); } else { stream << "$"; }

@@ -38,8 +38,8 @@ void IfcFillAreaStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFILLAREASTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCFILLAREASTYLE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_FillStyles, true );
 	stream << ",";

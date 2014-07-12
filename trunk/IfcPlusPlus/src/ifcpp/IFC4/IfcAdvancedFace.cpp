@@ -41,10 +41,10 @@ void IfcAdvancedFace::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCADVANCEDFACE" << "(";
+	stream << "#" << m_id << "= IFCADVANCEDFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ",";
-	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->getId(); } else { stream << "$"; }
+	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_SameSense == false ) { stream << ".F."; }
 	else if( m_SameSense == true ) { stream << ".T."; }

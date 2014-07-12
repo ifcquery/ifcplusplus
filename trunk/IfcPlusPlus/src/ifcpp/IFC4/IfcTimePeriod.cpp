@@ -36,7 +36,7 @@ void IfcTimePeriod::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTimePeriod::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTIMEPERIOD" << "(";
+	stream << "#" << m_id << "= IFCTIMEPERIOD" << "(";
 	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "$"; }

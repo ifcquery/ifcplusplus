@@ -44,14 +44,14 @@ void IfcProjectedCRS::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROJECTEDCRS" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPROJECTEDCRS" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_GeodeticDatum ) { m_GeodeticDatum->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GeodeticDatum ) { m_GeodeticDatum->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_VerticalDatum ) { m_VerticalDatum->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_VerticalDatum ) { m_VerticalDatum->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_MapProjection ) { m_MapProjection->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

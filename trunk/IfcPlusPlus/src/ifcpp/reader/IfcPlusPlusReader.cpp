@@ -22,8 +22,3 @@ IfcPlusPlusReader::IfcPlusPlusReader()
 IfcPlusPlusReader::~IfcPlusPlusReader()
 {
 }
-
-void IfcPlusPlusReader::setModel( shared_ptr<IfcPPModel>& model )
-{
-	m_model = model;
-}

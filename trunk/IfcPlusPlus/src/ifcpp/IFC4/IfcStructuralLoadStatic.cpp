@@ -35,8 +35,8 @@ void IfcStructuralLoadStatic::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStructuralLoadStatic::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOADSTATIC" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALLOADSTATIC" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcStructuralLoadStatic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -37,7 +37,7 @@ void IfcVertexPoint::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcVertexPoint::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCVERTEXPOINT" << "(";
+	stream << "#" << m_id << "= IFCVERTEXPOINT" << "(";
 	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->getId(); } else { stream << "$"; }
 	stream << ");";
 }

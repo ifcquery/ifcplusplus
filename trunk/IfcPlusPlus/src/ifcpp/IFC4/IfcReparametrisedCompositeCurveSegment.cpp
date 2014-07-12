@@ -43,13 +43,13 @@ void IfcReparametrisedCompositeCurveSegment::setEntity( shared_ptr<IfcPPEntity> 
 }
 void IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREPARAMETRISEDCOMPOSITECURVESEGMENT" << "(";
-	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCREPARAMETRISEDCOMPOSITECURVESEGMENT" << "(";
+	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_SameSense == false ) { stream << ".F."; }
 	else if( m_SameSense == true ) { stream << ".T."; }
 	stream << ",";
-	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->getId(); } else { stream << "$"; }
+	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_ParamLength ) { m_ParamLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

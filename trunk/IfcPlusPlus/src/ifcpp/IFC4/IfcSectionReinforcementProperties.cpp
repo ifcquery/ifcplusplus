@@ -44,7 +44,7 @@ void IfcSectionReinforcementProperties::setEntity( shared_ptr<IfcPPEntity> other
 }
 void IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSECTIONREINFORCEMENTPROPERTIES" << "(";
+	stream << "#" << m_id << "= IFCSECTIONREINFORCEMENTPROPERTIES" << "(";
 	if( m_LongitudinalStartPosition ) { m_LongitudinalStartPosition->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LongitudinalEndPosition ) { m_LongitudinalEndPosition->getStepParameter( stream ); } else { stream << "$"; }
@@ -81,6 +81,9 @@ void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std
 	vec_attributes.push_back( std::make_pair( "TransversePosition", m_TransversePosition ) );
 	vec_attributes.push_back( std::make_pair( "ReinforcementRole", m_ReinforcementRole ) );
 	vec_attributes.push_back( std::make_pair( "SectionDefinition", m_SectionDefinition ) );
+	shared_ptr<IfcPPAttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
 }
 void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -44,12 +44,12 @@ void IfcQuantityTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcQuantityTime::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCQUANTITYTIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCQUANTITYTIME" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Unit ) { stream << "#" << m_Unit->getId(); } else { stream << "$"; }
+	if( m_Unit ) { stream << "#" << m_Unit->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_TimeValue ) { m_TimeValue->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

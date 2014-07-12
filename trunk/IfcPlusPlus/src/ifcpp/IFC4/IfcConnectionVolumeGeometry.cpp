@@ -36,10 +36,10 @@ void IfcConnectionVolumeGeometry::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONNECTIONVOLUMEGEOMETRY" << "(";
-	if( m_VolumeOnRelatingElement ) { m_VolumeOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONNECTIONVOLUMEGEOMETRY" << "(";
+	if( m_VolumeOnRelatingElement ) { m_VolumeOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_VolumeOnRelatedElement ) { m_VolumeOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_VolumeOnRelatedElement ) { m_VolumeOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

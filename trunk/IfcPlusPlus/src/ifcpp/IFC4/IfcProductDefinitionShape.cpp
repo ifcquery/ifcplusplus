@@ -41,10 +41,10 @@ void IfcProductDefinitionShape::setEntity( shared_ptr<IfcPPEntity> other_entity 
 }
 void IfcProductDefinitionShape::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPRODUCTDEFINITIONSHAPE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPRODUCTDEFINITIONSHAPE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Representations );
 	stream << ");";
@@ -68,10 +68,16 @@ void IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std::string
 void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ShapeOfProduct_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ShapeOfProduct_inverse.size(); ++i ) { ShapeOfProduct_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProduct>( m_ShapeOfProduct_inverse[i] ) ); }
+	for( size_t i=0; i<m_ShapeOfProduct_inverse.size(); ++i )
+	{
+		ShapeOfProduct_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProduct>( m_ShapeOfProduct_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ShapeOfProduct_inverse", ShapeOfProduct_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasShapeAspects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasShapeAspects_inverse.size(); ++i ) { HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
+	{
+		HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 }
 void IfcProductDefinitionShape::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

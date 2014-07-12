@@ -38,7 +38,7 @@ void IfcFace::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcFace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFACE" << "(";
+	stream << "#" << m_id << "= IFCFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ");";
 }
@@ -55,11 +55,17 @@ void IfcFace::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> Bounds_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Bounds.begin(), m_Bounds.end(), std::back_inserter( Bounds_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Bounds", Bounds_vec_object ) );
 }
 void IfcFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasTextureMaps_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasTextureMaps_inverse.size(); ++i ) { HasTextureMaps_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasTextureMaps_inverse.size(); ++i )
+	{
+		HasTextureMaps_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
 }
 void IfcFace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

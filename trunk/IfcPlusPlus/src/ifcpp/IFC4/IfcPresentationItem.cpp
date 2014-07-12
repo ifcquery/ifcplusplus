@@ -33,7 +33,7 @@ void IfcPresentationItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPresentationItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPRESENTATIONITEM" << "(";
+	stream << "#" << m_id << "= IFCPRESENTATIONITEM" << "(";
 	stream << ");";
 }
 void IfcPresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

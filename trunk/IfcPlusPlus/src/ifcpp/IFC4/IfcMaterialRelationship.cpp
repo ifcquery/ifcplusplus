@@ -41,10 +41,10 @@ void IfcMaterialRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCMATERIALRELATIONSHIP" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingMaterial ) { stream << "#" << m_RelatingMaterial->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -71,6 +71,9 @@ void IfcMaterialRelationship::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedMaterials_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
 }
 void IfcMaterialRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

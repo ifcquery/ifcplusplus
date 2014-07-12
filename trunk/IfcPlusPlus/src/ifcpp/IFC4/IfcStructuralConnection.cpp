@@ -59,20 +59,20 @@ void IfcStructuralConnection::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStructuralConnection::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALCONNECTION" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALCONNECTION" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->getId(); } else { stream << "$"; }
 	stream << ");";
@@ -102,7 +102,10 @@ void IfcStructuralConnection::getAttributes( std::vector<std::pair<std::string, 
 void IfcStructuralConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ConnectsStructuralMembers_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ConnectsStructuralMembers_inverse.size(); ++i ) { ConnectsStructuralMembers_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralMember>( m_ConnectsStructuralMembers_inverse[i] ) ); }
+	for( size_t i=0; i<m_ConnectsStructuralMembers_inverse.size(); ++i )
+	{
+		ConnectsStructuralMembers_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralMember>( m_ConnectsStructuralMembers_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ConnectsStructuralMembers_inverse", ConnectsStructuralMembers_inverse_vec_obj ) );
 }
 void IfcStructuralConnection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

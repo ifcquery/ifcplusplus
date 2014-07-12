@@ -38,7 +38,7 @@ void IfcSurfaceStyleLighting::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACESTYLELIGHTING" << "(";
+	stream << "#" << m_id << "= IFCSURFACESTYLELIGHTING" << "(";
 	if( m_DiffuseTransmissionColour ) { stream << "#" << m_DiffuseTransmissionColour->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_DiffuseReflectionColour ) { stream << "#" << m_DiffuseReflectionColour->getId(); } else { stream << "$"; }

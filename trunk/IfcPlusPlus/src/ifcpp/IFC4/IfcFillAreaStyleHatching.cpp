@@ -44,10 +44,10 @@ void IfcFillAreaStyleHatching::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFILLAREASTYLEHATCHING" << "(";
+	stream << "#" << m_id << "= IFCFILLAREASTYLEHATCHING" << "(";
 	if( m_HatchLineAppearance ) { stream << "#" << m_HatchLineAppearance->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartOfNextHatchLine ) { m_StartOfNextHatchLine->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_StartOfNextHatchLine ) { m_StartOfNextHatchLine->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_PointOfReferenceHatchLine ) { stream << "#" << m_PointOfReferenceHatchLine->getId(); } else { stream << "$"; }
 	stream << ",";

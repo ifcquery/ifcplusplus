@@ -37,8 +37,8 @@ void IfcPlane::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPlane::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPLANE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPLANE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcPlane::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -45,7 +45,7 @@ void IfcOrganization::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcOrganization::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCORGANIZATION" << "(";
+	stream << "#" << m_id << "= IFCORGANIZATION" << "(";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
@@ -76,17 +76,32 @@ void IfcOrganization::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> Addresses_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 }
 void IfcOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> IsRelatedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsRelatedBy_inverse.size(); ++i ) { IsRelatedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganizationRelationship>( m_IsRelatedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsRelatedBy_inverse.size(); ++i )
+	{
+		IsRelatedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganizationRelationship>( m_IsRelatedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsRelatedBy_inverse", IsRelatedBy_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> Relates_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Relates_inverse.size(); ++i ) { Relates_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganizationRelationship>( m_Relates_inverse[i] ) ); }
+	for( size_t i=0; i<m_Relates_inverse.size(); ++i )
+	{
+		Relates_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganizationRelationship>( m_Relates_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> Engages_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Engages_inverse.size(); ++i ) { Engages_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_Engages_inverse[i] ) ); }
+	for( size_t i=0; i<m_Engages_inverse.size(); ++i )
+	{
+		Engages_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_Engages_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Engages_inverse", Engages_inverse_vec_obj ) );
 }
 void IfcOrganization::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

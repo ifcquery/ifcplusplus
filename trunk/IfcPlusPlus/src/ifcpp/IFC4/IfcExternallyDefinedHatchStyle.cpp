@@ -40,12 +40,12 @@ void IfcExternallyDefinedHatchStyle::setEntity( shared_ptr<IfcPPEntity> other_en
 }
 void IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEXTERNALLYDEFINEDHATCHSTYLE" << "(";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCEXTERNALLYDEFINEDHATCHSTYLE" << "(";
+	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

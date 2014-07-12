@@ -35,7 +35,7 @@ void IfcCartesianPointList::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCartesianPointList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCARTESIANPOINTLIST" << "(";
+	stream << "#" << m_id << "= IFCCARTESIANPOINTLIST" << "(";
 	stream << ");";
 }
 void IfcCartesianPointList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

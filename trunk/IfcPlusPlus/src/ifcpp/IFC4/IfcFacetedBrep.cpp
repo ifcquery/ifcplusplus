@@ -37,8 +37,8 @@ void IfcFacetedBrep::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcFacetedBrep::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFACETEDBREP" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCFACETEDBREP" << "(";
+	if( m_Outer ) { stream << "#" << m_Outer->getId(); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcFacetedBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

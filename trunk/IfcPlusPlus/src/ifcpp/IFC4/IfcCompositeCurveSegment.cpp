@@ -41,7 +41,7 @@ void IfcCompositeCurveSegment::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOMPOSITECURVESEGMENT" << "(";
+	stream << "#" << m_id << "= IFCCOMPOSITECURVESEGMENT" << "(";
 	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense == false ) { stream << ".F."; }
@@ -73,7 +73,10 @@ void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string,
 void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> UsingCurves_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_UsingCurves_inverse.size(); ++i ) { UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) ); }
+	for( size_t i=0; i<m_UsingCurves_inverse.size(); ++i )
+	{
+		UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "UsingCurves_inverse", UsingCurves_inverse_vec_obj ) );
 }
 void IfcCompositeCurveSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

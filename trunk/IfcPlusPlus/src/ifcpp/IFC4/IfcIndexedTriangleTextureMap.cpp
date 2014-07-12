@@ -40,12 +40,12 @@ void IfcIndexedTriangleTextureMap::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCINDEXEDTRIANGLETEXTUREMAP" << "(";
+	stream << "#" << m_id << "= IFCINDEXEDTRIANGLETEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "$"; }
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_TexCoords ) { stream << "#" << m_TexCoords->getId(); } else { stream << "$"; }
+	if( m_TexCoords ) { stream << "#" << m_TexCoords->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeIntList2D( stream, m_TexCoordIndex );
 	stream << ");";

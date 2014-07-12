@@ -49,14 +49,14 @@ void IfcReinforcementDefinitionProperties::setEntity( shared_ptr<IfcPPEntity> ot
 }
 void IfcReinforcementDefinitionProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREINFORCEMENTDEFINITIONPROPERTIES" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCREINFORCEMENTDEFINITIONPROPERTIES" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DefinitionType ) { m_DefinitionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -82,6 +82,9 @@ void IfcReinforcementDefinitionProperties::getAttributes( std::vector<std::pair<
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DefinitionType", m_DefinitionType ) );
+	shared_ptr<IfcPPAttributeObjectVector> ReinforcementSectionDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_ReinforcementSectionDefinitions.begin(), m_ReinforcementSectionDefinitions.end(), std::back_inserter( ReinforcementSectionDefinitions_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
 }
 void IfcReinforcementDefinitionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

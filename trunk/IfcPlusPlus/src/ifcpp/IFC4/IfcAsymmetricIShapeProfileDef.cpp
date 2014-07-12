@@ -56,12 +56,12 @@ void IfcAsymmetricIShapeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_ent
 }
 void IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCASYMMETRICISHAPEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCASYMMETRICISHAPEPROFILEDEF" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_BottomFlangeWidth ) { m_BottomFlangeWidth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

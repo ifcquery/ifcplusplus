@@ -46,7 +46,7 @@ void IfcReinforcementBarProperties::setEntity( shared_ptr<IfcPPEntity> other_ent
 }
 void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREINFORCEMENTBARPROPERTIES" << "(";
+	stream << "#" << m_id << "= IFCREINFORCEMENTBARPROPERTIES" << "(";
 	if( m_TotalCrossSectionArea ) { m_TotalCrossSectionArea->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SteelGrade ) { m_SteelGrade->getStepParameter( stream ); } else { stream << "$"; }

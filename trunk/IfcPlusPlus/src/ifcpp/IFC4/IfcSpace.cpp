@@ -67,24 +67,24 @@ void IfcSpace::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSpace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSPACE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSPACE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -120,10 +120,16 @@ void IfcSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 void IfcSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasCoverings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasCoverings_inverse.size(); ++i ) { HasCoverings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_HasCoverings_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
+	{
+		HasCoverings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_HasCoverings_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> BoundedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_BoundedBy_inverse.size(); ++i ) { BoundedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_BoundedBy_inverse.size(); ++i )
+	{
+		BoundedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
 }
 void IfcSpace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

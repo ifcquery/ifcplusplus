@@ -40,10 +40,10 @@ void IfcApprovalRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCAPPROVALRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCAPPROVALRELATIONSHIP" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -67,6 +67,9 @@ void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedApprovals_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedApprovals.begin(), m_RelatedApprovals.end(), std::back_inserter( RelatedApprovals_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
 }
 void IfcApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

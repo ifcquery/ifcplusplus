@@ -46,14 +46,14 @@ void IfcRelReferencedInSpatialStructure::setEntity( shared_ptr<IfcPPEntity> othe
 }
 void IfcRelReferencedInSpatialStructure::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELREFERENCEDINSPATIALSTRUCTURE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELREFERENCEDINSPATIALSTRUCTURE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedElements );
 	stream << ",";
@@ -78,6 +78,9 @@ void IfcRelReferencedInSpatialStructure::readStepArguments( const std::vector<st
 void IfcRelReferencedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedElements_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedElements.begin(), m_RelatedElements.end(), std::back_inserter( RelatedElements_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedElements", RelatedElements_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "RelatingStructure", m_RelatingStructure ) );
 }
 void IfcRelReferencedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

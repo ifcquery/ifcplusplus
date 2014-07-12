@@ -25,11 +25,7 @@ class IfcPlusPlusReader : public StatusObservable
 public:
 	IfcPlusPlusReader();
 	~IfcPlusPlusReader();
-	void setModel( shared_ptr<IfcPPModel>& model );
 	virtual void removeComments( std::string& buffer ) = 0;
-	virtual void readStreamHeader(	const std::string& in ) = 0;
-	virtual void readStreamData(	std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
-
-protected:
-	shared_ptr<IfcPPModel> m_model;
+	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model ) = 0;
+	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
 };

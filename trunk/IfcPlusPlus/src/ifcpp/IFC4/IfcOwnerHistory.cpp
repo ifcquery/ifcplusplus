@@ -46,7 +46,7 @@ void IfcOwnerHistory::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCOWNERHISTORY" << "(";
+	stream << "#" << m_id << "= IFCOWNERHISTORY" << "(";
 	if( m_OwningUser ) { stream << "#" << m_OwningUser->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwningApplication ) { stream << "#" << m_OwningApplication->getId(); } else { stream << "$"; }

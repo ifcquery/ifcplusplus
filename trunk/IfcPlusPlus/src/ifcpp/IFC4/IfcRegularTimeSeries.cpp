@@ -52,22 +52,22 @@ void IfcRegularTimeSeries::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRegularTimeSeries::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREGULARTIMESERIES" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCREGULARTIMESERIES" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TimeSeriesDataType ) { m_TimeSeriesDataType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TimeSeriesDataType ) { m_TimeSeriesDataType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_TimeStep ) { m_TimeStep->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -97,6 +97,9 @@ void IfcRegularTimeSeries::getAttributes( std::vector<std::pair<std::string, sha
 {
 	IfcTimeSeries::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TimeStep", m_TimeStep ) );
+	shared_ptr<IfcPPAttributeObjectVector> Values_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
 }
 void IfcRegularTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

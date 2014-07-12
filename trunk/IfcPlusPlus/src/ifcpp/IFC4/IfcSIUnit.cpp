@@ -41,10 +41,10 @@ void IfcSIUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSIUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSIUNIT" << "(";
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Prefix ) { m_Prefix->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

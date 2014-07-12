@@ -39,8 +39,8 @@ void IfcSurfaceStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACESTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSURFACESTYLE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Side ) { m_Side->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

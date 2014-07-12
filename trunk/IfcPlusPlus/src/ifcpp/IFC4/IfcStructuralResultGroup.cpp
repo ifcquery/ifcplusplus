@@ -57,16 +57,16 @@ void IfcStructuralResultGroup::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALRESULTGROUP" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALRESULTGROUP" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TheoryType ) { m_TheoryType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -104,7 +104,10 @@ void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string,
 void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ResultGroupFor_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ResultGroupFor_inverse.size(); ++i ) { ResultGroupFor_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralAnalysisModel>( m_ResultGroupFor_inverse[i] ) ); }
+	for( size_t i=0; i<m_ResultGroupFor_inverse.size(); ++i )
+	{
+		ResultGroupFor_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralAnalysisModel>( m_ResultGroupFor_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ResultGroupFor_inverse", ResultGroupFor_inverse_vec_obj ) );
 }
 void IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

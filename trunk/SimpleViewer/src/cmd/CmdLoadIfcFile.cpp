@@ -38,44 +38,7 @@ CmdLoadIfcFile::~CmdLoadIfcFile()
 void CmdLoadIfcFile::setFilePath( std::string& path_in )
 {
 	m_file_path = path_in;
-
 }
-
-//void findSiteGroup( osg::Group* grp_in, osg::Group* grp_site, osg::Group* grp_site_parent )
-//{
-//	if( grp_in->getName().size() > 0 )
-//	{
-//		if( grp_in->getName().find( "=IfcSite" ) != std::string::npos )
-//		{
-//			grp_site = grp_in;
-//			return;
-//		}
-//	}
-//
-//	for( size_t ii = 0; ii < grp_in->getNumChildren(); ++ii )
-//	{
-//		osg::Node* child_node = grp_in->getChild( ii );
-//		osg::Group* grp_child = dynamic_cast<osg::Group*>( child_node );
-//		if( grp_child )
-//		{
-//			osg::Group* found_site_grp = nullptr;
-//			osg::Group* found_site_parent = nullptr;
-//			findSiteGroup( grp_child, found_site_grp, found_site_parent );
-//
-//			if( found_site_grp != nullptr )
-//			{
-//				grp_site = found_site_grp;
-//
-//				if( found_site_parent != nullptr )
-//				{
-//					grp_site_parent = found_site_parent;
-//				}
-//				return;
-//			}
-//		}
-//	}
-//
-//}
 
 bool CmdLoadIfcFile::doCmd()
 {
@@ -91,6 +54,7 @@ bool CmdLoadIfcFile::doCmd()
 
 	osg::ref_ptr<ReaderWriterIFC> reader_writer = m_system->getReaderWriterIFC();
 	reader_writer->resetModel();
+	carve::setEpsilon( carve::EPSILON*1.5 );
 	osg::ref_ptr<osgDB::ReaderWriter::Options> options = new osgDB::ReaderWriter::Options();
 	std::stringstream err;
 	osgDB::ReaderWriter::ReadResult res = osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
@@ -124,7 +88,6 @@ bool CmdLoadIfcFile::doCmd()
 			{
 				osgUtil::Optimizer opt;
 				opt.optimize(group);
-				//opt.optimize( group, osgUtil::Optimizer::INDEX_MESH );
 			}
 
 			// if model bounding sphere is far from origin, move to origin
@@ -137,32 +100,8 @@ bool CmdLoadIfcFile::doCmd()
 					GeomUtils::applyTranslate( group, -bsphere.center(), set_applied );
 				}
 			}
-
-
-			//osg::Group* found_site_grp = nullptr;
-			//osg::Group* found_site_parent = nullptr;
-			//findSiteGroup( group, found_site_grp, found_site_parent );
-
-			//if( found_site_grp != nullptr )
-			//{
-			//	TODO: add geometry of site to other group
-			//}
-
 			model_group->addChild( group );
-
-
 			// TODO: handle spaces, terrain, storeys separately. add buttons in gui to show/hide spaces or terrain and to shift storeys
-
-
-			//if( group->getName().size() > 0 )
-			//{
-			//	if( group->getName().find( "=IfcSite" ) != std::string::npos )
-			//	{
-
-			//	}
-
-			//}
-
 		}
 		else
 		{
@@ -197,9 +136,11 @@ bool CmdLoadIfcFile::doCmd()
 
 	shared_ptr<IfcPPModel> ifc_model = reader_writer->getIfcPPModel();
 	m_system->setIfcModel( ifc_model );
-	reader_writer->deleteInputCache();
-
+	reader_writer->clearInputCache();
 	vc->switchCurveRepresentation( model_group, vc->m_show_curve_representation );
+
+	//ifc_model->clearIfcModel();
+	//model_group->removeChildren( 0, model_group->getNumChildren() );
 
 	if( err.tellp() > 0 )
 	{

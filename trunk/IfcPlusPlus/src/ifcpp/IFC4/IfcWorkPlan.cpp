@@ -65,32 +65,32 @@ void IfcWorkPlan::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcWorkPlan::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCWORKPLAN" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCWORKPLAN" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Creators );
 	stream << ",";
-	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Duration ) { m_Duration->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Duration ) { m_Duration->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_FinishTime ) { m_FinishTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FinishTime ) { m_FinishTime->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

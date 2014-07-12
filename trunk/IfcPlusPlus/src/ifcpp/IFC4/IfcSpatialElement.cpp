@@ -59,20 +59,20 @@ void IfcSpatialElement::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSpatialElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSPATIALELEMENT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSPATIALELEMENT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -102,13 +102,22 @@ void IfcSpatialElement::getAttributes( std::vector<std::pair<std::string, shared
 void IfcSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ContainsElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ContainsElements_inverse.size(); ++i ) { ContainsElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainsElements_inverse[i] ) ); }
+	for( size_t i=0; i<m_ContainsElements_inverse.size(); ++i )
+	{
+		ContainsElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainsElements_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ContainsElements_inverse", ContainsElements_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> ServicedBySystems_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ServicedBySystems_inverse.size(); ++i ) { ServicedBySystems_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelServicesBuildings>( m_ServicedBySystems_inverse[i] ) ); }
+	for( size_t i=0; i<m_ServicedBySystems_inverse.size(); ++i )
+	{
+		ServicedBySystems_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelServicesBuildings>( m_ServicedBySystems_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ServicedBySystems_inverse", ServicedBySystems_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> ReferencesElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ReferencesElements_inverse.size(); ++i ) { ReferencesElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencesElements_inverse[i] ) ); }
+	for( size_t i=0; i<m_ReferencesElements_inverse.size(); ++i )
+	{
+		ReferencesElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencesElements_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ReferencesElements_inverse", ReferencesElements_inverse_vec_obj ) );
 }
 void IfcSpatialElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

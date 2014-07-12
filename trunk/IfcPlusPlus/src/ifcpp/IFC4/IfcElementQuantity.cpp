@@ -49,14 +49,14 @@ void IfcElementQuantity::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcElementQuantity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCELEMENTQUANTITY" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCELEMENTQUANTITY" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_MethodOfMeasurement ) { m_MethodOfMeasurement->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -82,6 +82,9 @@ void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, share
 {
 	IfcQuantitySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MethodOfMeasurement", m_MethodOfMeasurement ) );
+	shared_ptr<IfcPPAttributeObjectVector> Quantities_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Quantities.begin(), m_Quantities.end(), std::back_inserter( Quantities_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Quantities", Quantities_vec_object ) );
 }
 void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

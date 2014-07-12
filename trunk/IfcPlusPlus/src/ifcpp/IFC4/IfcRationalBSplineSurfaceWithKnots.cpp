@@ -52,28 +52,26 @@ void IfcRationalBSplineSurfaceWithKnots::setEntity( shared_ptr<IfcPPEntity> othe
 }
 void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRATIONALBSPLINESURFACEWITHKNOTS" << "(";
-	if( m_UDegree == m_UDegree ){ stream << m_UDegree; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRATIONALBSPLINESURFACEWITHKNOTS" << "(";
+	if( m_UDegree == m_UDegree ){ stream << m_UDegree; } else { stream << "*"; }
 	stream << ",";
-	if( m_VDegree == m_VDegree ){ stream << m_VDegree; }
-	else { stream << "$"; }
+	if( m_VDegree == m_VDegree ){ stream << m_VDegree; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_UClosed == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_UClosed == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_UClosed == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_VClosed == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_VClosed == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_VClosed == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	writeIntList( stream, m_UMultiplicities );
 	stream << ",";
@@ -83,7 +81,7 @@ void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream 
 	stream << ",";
 	writeTypeOfRealList( stream, m_VKnots );
 	stream << ",";
-	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeDoubleList2D( stream, m_WeightsData );
 	stream << ");";

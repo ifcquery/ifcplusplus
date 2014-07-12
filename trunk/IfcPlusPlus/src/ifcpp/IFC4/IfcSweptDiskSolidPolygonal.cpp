@@ -44,16 +44,16 @@ void IfcSweptDiskSolidPolygonal::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSWEPTDISKSOLIDPOLYGONAL" << "(";
-	if( m_Directrix ) { stream << "#" << m_Directrix->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSWEPTDISKSOLIDPOLYGONAL" << "(";
+	if( m_Directrix ) { stream << "#" << m_Directrix->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_InnerRadius ) { m_InnerRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InnerRadius ) { m_InnerRadius->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_StartParam ) { m_StartParam->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartParam ) { m_StartParam->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_EndParam ) { m_EndParam->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndParam ) { m_EndParam->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_FilletRadius ) { m_FilletRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

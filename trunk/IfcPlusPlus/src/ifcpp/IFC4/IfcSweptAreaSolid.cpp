@@ -39,7 +39,7 @@ void IfcSweptAreaSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSWEPTAREASOLID" << "(";
+	stream << "#" << m_id << "= IFCSWEPTAREASOLID" << "(";
 	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }

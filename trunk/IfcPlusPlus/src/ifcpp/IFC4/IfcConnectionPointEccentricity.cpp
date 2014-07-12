@@ -40,10 +40,10 @@ void IfcConnectionPointEccentricity::setEntity( shared_ptr<IfcPPEntity> other_en
 }
 void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONNECTIONPOINTECCENTRICITY" << "(";
-	if( m_PointOnRelatingElement ) { m_PointOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONNECTIONPOINTECCENTRICITY" << "(";
+	if( m_PointOnRelatingElement ) { m_PointOnRelatingElement->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_EccentricityInX ) { m_EccentricityInX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

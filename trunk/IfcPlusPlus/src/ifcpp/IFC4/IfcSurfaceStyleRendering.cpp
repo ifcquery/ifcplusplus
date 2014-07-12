@@ -47,22 +47,22 @@ void IfcSurfaceStyleRendering::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACESTYLERENDERING" << "(";
-	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSURFACESTYLERENDERING" << "(";
+	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DiffuseColour ) { m_DiffuseColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_DiffuseColour ) { m_DiffuseColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TransmissionColour ) { m_TransmissionColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_TransmissionColour ) { m_TransmissionColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_DiffuseTransmissionColour ) { m_DiffuseTransmissionColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_DiffuseTransmissionColour ) { m_DiffuseTransmissionColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ReflectionColour ) { m_ReflectionColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_ReflectionColour ) { m_ReflectionColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SpecularColour ) { m_SpecularColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_SpecularColour ) { m_SpecularColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SpecularHighlight ) { m_SpecularHighlight->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_SpecularHighlight ) { m_SpecularHighlight->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ReflectanceMethod ) { m_ReflectanceMethod->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

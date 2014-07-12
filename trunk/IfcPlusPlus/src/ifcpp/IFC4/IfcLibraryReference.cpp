@@ -47,12 +47,12 @@ void IfcLibraryReference::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcLibraryReference::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLIBRARYREFERENCE" << "(";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCLIBRARYREFERENCE" << "(";
+	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -86,7 +86,10 @@ void IfcLibraryReference::getAttributes( std::vector<std::pair<std::string, shar
 void IfcLibraryReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> LibraryRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_LibraryRefForObjects_inverse.size(); ++i ) { LibraryRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesLibrary>( m_LibraryRefForObjects_inverse[i] ) ); }
+	for( size_t i=0; i<m_LibraryRefForObjects_inverse.size(); ++i )
+	{
+		LibraryRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesLibrary>( m_LibraryRefForObjects_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "LibraryRefForObjects_inverse", LibraryRefForObjects_inverse_vec_obj ) );
 }
 void IfcLibraryReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

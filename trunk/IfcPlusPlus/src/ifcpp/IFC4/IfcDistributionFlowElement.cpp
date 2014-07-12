@@ -68,22 +68,22 @@ void IfcDistributionFlowElement::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcDistributionFlowElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDISTRIBUTIONFLOWELEMENT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDISTRIBUTIONFLOWELEMENT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcDistributionFlowElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -110,7 +110,10 @@ void IfcDistributionFlowElement::getAttributes( std::vector<std::pair<std::strin
 void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasControlElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasControlElements_inverse.size(); ++i ) { HasControlElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFlowControlElements>( m_HasControlElements_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasControlElements_inverse.size(); ++i )
+	{
+		HasControlElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFlowControlElements>( m_HasControlElements_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasControlElements_inverse", HasControlElements_inverse_vec_obj ) );
 }
 void IfcDistributionFlowElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

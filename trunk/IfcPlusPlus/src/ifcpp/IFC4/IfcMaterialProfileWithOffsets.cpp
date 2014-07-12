@@ -50,18 +50,18 @@ void IfcMaterialProfileWithOffsets::setEntity( shared_ptr<IfcPPEntity> other_ent
 }
 void IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALPROFILEWITHOFFSETS" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCMATERIALPROFILEWITHOFFSETS" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "$"; }
+	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Profile ) { stream << "#" << m_Profile->getId(); } else { stream << "$"; }
+	if( m_Profile ) { stream << "#" << m_Profile->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeTypeOfRealList( stream, m_OffsetValues );
 	stream << ");";

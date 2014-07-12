@@ -63,20 +63,20 @@ void IfcTask::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTask::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTASK" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTASK" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Status ) { m_Status->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -85,8 +85,7 @@ void IfcTask::getStepLine( std::stringstream& stream ) const
 	if( m_IsMilestone == false ) { stream << ".F."; }
 	else if( m_IsMilestone == true ) { stream << ".T."; }
 	stream << ",";
-	if( m_Priority == m_Priority ){ stream << m_Priority; }
-	else { stream << "$"; }
+	if( m_Priority == m_Priority ){ stream << m_Priority; } else { stream << "$"; }
 	stream << ",";
 	if( m_TaskTime ) { stream << "#" << m_TaskTime->getId(); } else { stream << "$"; }
 	stream << ",";

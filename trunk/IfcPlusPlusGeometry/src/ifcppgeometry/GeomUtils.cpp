@@ -2414,12 +2414,12 @@ bool GeomUtils::bisectingPlane( const carve::geom::vector<3>& v1, const carve::g
 	bool valid = false;
 	carve::geom::vector<3> v21 = v2 - v1;
 	carve::geom::vector<3> v32 = v3 - v2;
-	double len21 = v21.length();
-	double len32 = v32.length();
+	double len21_square = v21.length2();
+	double len32_square = v32.length2();
 
-	if( len21 <= GEOM_TOLERANCE * len32)
+	if( len21_square <= carve::EPSILON * len32_square)
 	{
-		if( len32 == 0.0)
+		if( len32_square == 0.0)
 		{
 			// all three points lie ontop of one-another
 			normal = carve::geom::VECTOR( 0.0, 0.0, 0.0 );
@@ -2428,8 +2428,8 @@ bool GeomUtils::bisectingPlane( const carve::geom::vector<3>& v1, const carve::g
 		else
 		{
 			// return a normalized copy of v32 as bisector
-			len32 = 1.0 / len32;
-			normal = v32*len32;
+			len32_square = 1.0 / len32_square;
+			normal = v32*len32_square;
 			normal.normalize();
 			valid = true;
 		}
@@ -2438,7 +2438,7 @@ bool GeomUtils::bisectingPlane( const carve::geom::vector<3>& v1, const carve::g
 	else
 	{
 		valid = true;
-		if( len32 <= GEOM_TOLERANCE * len21)
+		if( len32_square <= carve::EPSILON * len21_square)
 		{
 			// return v21 as bisector
 			v21.normalize();
@@ -2452,7 +2452,7 @@ bool GeomUtils::bisectingPlane( const carve::geom::vector<3>& v1, const carve::g
 			double dot_product = dot( v32, v21 );
 			double dot_product_abs = std::abs( dot_product );
 
-			if( dot_product_abs > (1.0+GEOM_TOLERANCE) || dot_product_abs < (1.0-GEOM_TOLERANCE) )
+			if( dot_product_abs > (1.0+carve::EPSILON) || dot_product_abs < (1.0-carve::EPSILON) )
 			{
 				normal = (v32 + v21)*dot_product - v32 - v21;
 				normal.normalize();

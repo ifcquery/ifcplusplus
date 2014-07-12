@@ -42,14 +42,14 @@ void IfcCurveStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCURVESTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCURVESTYLE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_CurveFont ) { m_CurveFont->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CurveFont ) { m_CurveFont->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_CurveWidth ) { m_CurveWidth->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CurveWidth ) { m_CurveWidth->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_CurveColour ) { m_CurveColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CurveColour ) { m_CurveColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ModelOrDraughting == false ) { stream << ".F."; }
 	else if( m_ModelOrDraughting == true ) { stream << ".T."; }

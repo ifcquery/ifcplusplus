@@ -59,18 +59,18 @@ void IfcCostItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCostItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOSTITEM" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCOSTITEM" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -101,6 +101,12 @@ void IfcCostItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	shared_ptr<IfcPPAttributeObjectVector> CostValues_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_CostValues.begin(), m_CostValues.end(), std::back_inserter( CostValues_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "CostValues", CostValues_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> CostQuantities_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_CostQuantities.begin(), m_CostQuantities.end(), std::back_inserter( CostQuantities_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "CostQuantities", CostQuantities_vec_object ) );
 }
 void IfcCostItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

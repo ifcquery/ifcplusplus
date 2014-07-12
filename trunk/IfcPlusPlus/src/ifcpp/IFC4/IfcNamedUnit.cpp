@@ -37,7 +37,7 @@ void IfcNamedUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcNamedUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCNAMEDUNIT" << "(";
+	stream << "#" << m_id << "= IFCNAMEDUNIT" << "(";
 	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }

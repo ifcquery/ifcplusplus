@@ -40,27 +40,20 @@ void IfcDimensionalExponents::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDIMENSIONALEXPONENTS" << "(";
-	if( m_LengthExponent == m_LengthExponent ){ stream << m_LengthExponent; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDIMENSIONALEXPONENTS" << "(";
+	if( m_LengthExponent == m_LengthExponent ){ stream << m_LengthExponent; } else { stream << "$"; }
 	stream << ",";
-	if( m_MassExponent == m_MassExponent ){ stream << m_MassExponent; }
-	else { stream << "$"; }
+	if( m_MassExponent == m_MassExponent ){ stream << m_MassExponent; } else { stream << "$"; }
 	stream << ",";
-	if( m_TimeExponent == m_TimeExponent ){ stream << m_TimeExponent; }
-	else { stream << "$"; }
+	if( m_TimeExponent == m_TimeExponent ){ stream << m_TimeExponent; } else { stream << "$"; }
 	stream << ",";
-	if( m_ElectricCurrentExponent == m_ElectricCurrentExponent ){ stream << m_ElectricCurrentExponent; }
-	else { stream << "$"; }
+	if( m_ElectricCurrentExponent == m_ElectricCurrentExponent ){ stream << m_ElectricCurrentExponent; } else { stream << "$"; }
 	stream << ",";
-	if( m_ThermodynamicTemperatureExponent == m_ThermodynamicTemperatureExponent ){ stream << m_ThermodynamicTemperatureExponent; }
-	else { stream << "$"; }
+	if( m_ThermodynamicTemperatureExponent == m_ThermodynamicTemperatureExponent ){ stream << m_ThermodynamicTemperatureExponent; } else { stream << "$"; }
 	stream << ",";
-	if( m_AmountOfSubstanceExponent == m_AmountOfSubstanceExponent ){ stream << m_AmountOfSubstanceExponent; }
-	else { stream << "$"; }
+	if( m_AmountOfSubstanceExponent == m_AmountOfSubstanceExponent ){ stream << m_AmountOfSubstanceExponent; } else { stream << "$"; }
 	stream << ",";
-	if( m_LuminousIntensityExponent == m_LuminousIntensityExponent ){ stream << m_LuminousIntensityExponent; }
-	else { stream << "$"; }
+	if( m_LuminousIntensityExponent == m_LuminousIntensityExponent ){ stream << m_LuminousIntensityExponent; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

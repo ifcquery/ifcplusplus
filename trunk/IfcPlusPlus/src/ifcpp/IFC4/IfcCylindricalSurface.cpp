@@ -39,8 +39,8 @@ void IfcCylindricalSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCYLINDRICALSURFACE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCYLINDRICALSURFACE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -35,7 +35,7 @@ void IfcLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcLoop::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLOOP" << "(";
+	stream << "#" << m_id << "= IFCLOOP" << "(";
 	stream << ");";
 }
 void IfcLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

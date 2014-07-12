@@ -39,7 +39,7 @@ void IfcVector::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcVector::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCVECTOR" << "(";
+	stream << "#" << m_id << "= IFCVECTOR" << "(";
 	if( m_Orientation ) { stream << "#" << m_Orientation->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Magnitude ) { m_Magnitude->getStepParameter( stream ); } else { stream << "$"; }

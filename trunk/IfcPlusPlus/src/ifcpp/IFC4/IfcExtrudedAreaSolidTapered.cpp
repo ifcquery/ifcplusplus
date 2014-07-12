@@ -44,14 +44,14 @@ void IfcExtrudedAreaSolidTapered::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEXTRUDEDAREASOLIDTAPERED" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCEXTRUDEDAREASOLIDTAPERED" << "(";
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->getId(); } else { stream << "$"; }
+	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->getId(); } else { stream << "$"; }
 	stream << ");";

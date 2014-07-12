@@ -39,7 +39,7 @@ void IfcTextureCoordinateGenerator::setEntity( shared_ptr<IfcPPEntity> other_ent
 }
 void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTURECOORDINATEGENERATOR" << "(";
+	stream << "#" << m_id << "= IFCTEXTURECOORDINATEGENERATOR" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
