@@ -42,8 +42,8 @@ void IfcPolygonalBoundedHalfSpace::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_AgreementFlag == false ) { stream << ".F."; }
 	else if( m_AgreementFlag == true ) { stream << ".T."; }

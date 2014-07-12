@@ -63,26 +63,26 @@ void IfcStructuralLoadCase::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStructuralLoadCase::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOADCASE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALLOADCASE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ActionType ) { m_ActionType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActionType ) { m_ActionType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ActionSource ) { m_ActionSource->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActionSource ) { m_ActionSource->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Coefficient ) { m_Coefficient->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Coefficient ) { m_Coefficient->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeTypeOfRealList( stream, m_SelfWeightCoefficients );
 	stream << ");";

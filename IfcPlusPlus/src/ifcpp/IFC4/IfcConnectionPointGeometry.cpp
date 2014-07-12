@@ -36,10 +36,10 @@ void IfcConnectionPointGeometry::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcConnectionPointGeometry::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONNECTIONPOINTGEOMETRY" << "(";
-	if( m_PointOnRelatingElement ) { m_PointOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONNECTIONPOINTGEOMETRY" << "(";
+	if( m_PointOnRelatingElement ) { m_PointOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcConnectionPointGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -59,24 +59,24 @@ void IfcConstructionResourceType::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcConstructionResourceType::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONSTRUCTIONRESOURCETYPE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONSTRUCTIONRESOURCETYPE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_HasPropertySets );
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ResourceType ) { m_ResourceType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ResourceType ) { m_ResourceType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_BaseCosts );
 	stream << ",";
@@ -106,6 +106,9 @@ void IfcConstructionResourceType::readStepArguments( const std::vector<std::wstr
 void IfcConstructionResourceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTypeResource::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> BaseCosts_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
 }
 void IfcConstructionResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

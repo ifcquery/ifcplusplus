@@ -22,11 +22,13 @@ void IfcXmlReader::removeComments( std::string& buffer )
 	// not implemented
 }
 
-void IfcXmlReader::readStreamHeader( const std::string& in )
+
+void IfcXmlReader::readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model )
 {
 	// not implemented
 }
-void IfcXmlReader::readStreamData( std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map )
+
+void IfcXmlReader::readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// not implemented
 	return;

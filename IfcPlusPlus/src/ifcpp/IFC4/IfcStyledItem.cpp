@@ -40,7 +40,7 @@ void IfcStyledItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTYLEDITEM" << "(";
+	stream << "#" << m_id << "= IFCSTYLEDITEM" << "(";
 	if( m_Item ) { stream << "#" << m_Item->getId(); } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_Styles, true );

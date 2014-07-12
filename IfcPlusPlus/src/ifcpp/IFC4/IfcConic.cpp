@@ -37,8 +37,8 @@ void IfcConic::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcConic::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONIC" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONIC" << "(";
+	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcConic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

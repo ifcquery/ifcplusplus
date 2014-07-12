@@ -22,10 +22,10 @@ public:
 	IfcStepReader();
 	~IfcStepReader();
 	virtual void removeComments( std::string& buffer );
-	virtual void readStreamHeader(	const std::string& in );
-	virtual void readStreamData(	std::string& in, std::map<int,shared_ptr<IfcPPEntity> >& map );
+	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model );
+	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map );
 	
 	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& step_lines );
 	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<shared_ptr<IfcPPEntity> >& vec_target_entity );
-	void readEntityArguments(	const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	void readEntityArguments(	const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };

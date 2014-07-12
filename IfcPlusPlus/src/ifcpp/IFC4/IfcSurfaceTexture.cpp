@@ -42,7 +42,7 @@ void IfcSurfaceTexture::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSurfaceTexture::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACETEXTURE" << "(";
+	stream << "#" << m_id << "= IFCSURFACETEXTURE" << "(";
 	if( m_RepeatS == false ) { stream << ".F."; }
 	else if( m_RepeatS == true ) { stream << ".T."; }
 	stream << ",";
@@ -86,10 +86,16 @@ void IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string, shared
 void IfcSurfaceTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> IsMappedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsMappedBy_inverse.size(); ++i ) { IsMappedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureCoordinate>( m_IsMappedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsMappedBy_inverse.size(); ++i )
+	{
+		IsMappedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureCoordinate>( m_IsMappedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsMappedBy_inverse", IsMappedBy_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> UsedInStyles_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_UsedInStyles_inverse.size(); ++i ) { UsedInStyles_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcSurfaceStyleWithTextures>( m_UsedInStyles_inverse[i] ) ); }
+	for( size_t i=0; i<m_UsedInStyles_inverse.size(); ++i )
+	{
+		UsedInStyles_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcSurfaceStyleWithTextures>( m_UsedInStyles_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "UsedInStyles_inverse", UsedInStyles_inverse_vec_obj ) );
 }
 void IfcSurfaceTexture::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

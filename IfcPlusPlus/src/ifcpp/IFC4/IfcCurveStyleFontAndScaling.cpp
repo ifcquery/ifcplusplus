@@ -39,10 +39,10 @@ void IfcCurveStyleFontAndScaling::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcCurveStyleFontAndScaling::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCURVESTYLEFONTANDSCALING" << "(";
+	stream << "#" << m_id << "= IFCCURVESTYLEFONTANDSCALING" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CurveFont ) { m_CurveFont->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CurveFont ) { m_CurveFont->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_CurveFontScaling ) { m_CurveFontScaling->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -67,22 +67,22 @@ void IfcDistributionElement::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcDistributionElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDISTRIBUTIONELEMENT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDISTRIBUTIONELEMENT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcDistributionElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -109,7 +109,10 @@ void IfcDistributionElement::getAttributes( std::vector<std::pair<std::string, s
 void IfcDistributionElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasPorts_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasPorts_inverse.size(); ++i ) { HasPorts_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPortToElement>( m_HasPorts_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasPorts_inverse.size(); ++i )
+	{
+		HasPorts_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPortToElement>( m_HasPorts_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasPorts_inverse", HasPorts_inverse_vec_obj ) );
 }
 void IfcDistributionElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

@@ -42,12 +42,12 @@ void IfcArbitraryProfileDefWithVoids::setEntity( shared_ptr<IfcPPEntity> other_e
 }
 void IfcArbitraryProfileDefWithVoids::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCARBITRARYPROFILEDEFWITHVOIDS" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCARBITRARYPROFILEDEFWITHVOIDS" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->getId(); } else { stream << "$"; }
+	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_InnerCurves );
 	stream << ");";
@@ -68,6 +68,9 @@ void IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vector<std::
 void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcArbitraryClosedProfileDef::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> InnerCurves_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
 }
 void IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

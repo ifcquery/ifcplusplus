@@ -44,8 +44,8 @@ void IfcTriangulatedFaceSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTRIANGULATEDFACESET" << "(";
-	if( m_Coordinates ) { stream << "#" << m_Coordinates->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTRIANGULATEDFACESET" << "(";
+	if( m_Coordinates ) { stream << "#" << m_Coordinates->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeTypeOfRealList2D( stream, m_Normals );
 	stream << ",";

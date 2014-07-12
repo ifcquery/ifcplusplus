@@ -42,9 +42,8 @@ void IfcBSplineCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBSPLINECURVE" << "(";
-	if( m_Degree == m_Degree ){ stream << m_Degree; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCBSPLINECURVE" << "(";
+	if( m_Degree == m_Degree ){ stream << m_Degree; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
 	stream << ",";
@@ -52,11 +51,11 @@ void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ClosedCurve == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_ClosedCurve == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_ClosedCurve == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ");";
 }
 void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -81,6 +80,9 @@ void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Degree", shared_ptr<IfcPPInt>( new IfcPPInt( m_Degree ) ) ) );
+	shared_ptr<IfcPPAttributeObjectVector> ControlPointsList_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "CurveForm", m_CurveForm ) );
 	vec_attributes.push_back( std::make_pair( "ClosedCurve", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_ClosedCurve ) ) ) );
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );

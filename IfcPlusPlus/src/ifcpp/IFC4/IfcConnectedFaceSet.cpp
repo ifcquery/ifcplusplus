@@ -37,7 +37,7 @@ void IfcConnectedFaceSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcConnectedFaceSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONNECTEDFACESET" << "(";
+	stream << "#" << m_id << "= IFCCONNECTEDFACESET" << "(";
 	writeEntityList( stream, m_CfsFaces );
 	stream << ");";
 }
@@ -54,6 +54,9 @@ void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> CfsFaces_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
 }
 void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

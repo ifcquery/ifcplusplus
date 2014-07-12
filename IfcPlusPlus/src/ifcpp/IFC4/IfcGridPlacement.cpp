@@ -39,10 +39,10 @@ void IfcGridPlacement::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcGridPlacement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCGRIDPLACEMENT" << "(";
+	stream << "#" << m_id << "= IFCGRIDPLACEMENT" << "(";
 	if( m_PlacementLocation ) { stream << "#" << m_PlacementLocation->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcGridPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

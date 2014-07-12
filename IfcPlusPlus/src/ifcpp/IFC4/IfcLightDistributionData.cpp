@@ -38,7 +38,7 @@ void IfcLightDistributionData::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLIGHTDISTRIBUTIONDATA" << "(";
+	stream << "#" << m_id << "= IFCLIGHTDISTRIBUTIONDATA" << "(";
 	if( m_MainPlaneAngle ) { m_MainPlaneAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeOfRealList( stream, m_SecondaryPlaneAngle );

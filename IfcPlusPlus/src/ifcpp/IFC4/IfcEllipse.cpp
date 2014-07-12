@@ -40,8 +40,8 @@ void IfcEllipse::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcEllipse::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCELLIPSE" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCELLIPSE" << "(";
+	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_SemiAxis1 ) { m_SemiAxis1->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

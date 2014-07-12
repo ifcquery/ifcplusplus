@@ -40,7 +40,7 @@ void IfcApplication::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcApplication::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCAPPLICATION" << "(";
+	stream << "#" << m_id << "= IFCAPPLICATION" << "(";
 	if( m_ApplicationDeveloper ) { stream << "#" << m_ApplicationDeveloper->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Version ) { m_Version->getStepParameter( stream ); } else { stream << "$"; }

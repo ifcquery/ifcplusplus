@@ -44,16 +44,16 @@ void IfcImageTexture::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCIMAGETEXTURE" << "(";
+	stream << "#" << m_id << "= IFCIMAGETEXTURE" << "(";
 	if( m_RepeatS == false ) { stream << ".F."; }
 	else if( m_RepeatS == true ) { stream << ".T."; }
 	stream << ",";
 	if( m_RepeatT == false ) { stream << ".F."; }
 	else if( m_RepeatT == true ) { stream << ".T."; }
 	stream << ",";
-	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "$"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_Parameter );
 	stream << ",";

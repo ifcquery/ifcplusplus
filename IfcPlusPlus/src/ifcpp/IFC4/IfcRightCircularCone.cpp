@@ -40,8 +40,8 @@ void IfcRightCircularCone::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRIGHTCIRCULARCONE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRIGHTCIRCULARCONE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

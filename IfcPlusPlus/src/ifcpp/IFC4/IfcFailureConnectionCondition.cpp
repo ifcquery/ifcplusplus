@@ -42,8 +42,8 @@ void IfcFailureConnectionCondition::setEntity( shared_ptr<IfcPPEntity> other_ent
 }
 void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFAILURECONNECTIONCONDITION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCFAILURECONNECTIONCONDITION" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TensionFailureX ) { m_TensionFailureX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

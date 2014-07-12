@@ -42,7 +42,7 @@ void IfcMaterialConstituentSet::setEntity( shared_ptr<IfcPPEntity> other_entity 
 }
 void IfcMaterialConstituentSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALCONSTITUENTSET" << "(";
+	stream << "#" << m_id << "= IFCMATERIALCONSTITUENTSET" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -67,6 +67,9 @@ void IfcMaterialConstituentSet::getAttributes( std::vector<std::pair<std::string
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	shared_ptr<IfcPPAttributeObjectVector> MaterialConstituents_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_MaterialConstituents.begin(), m_MaterialConstituents.end(), std::back_inserter( MaterialConstituents_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "MaterialConstituents", MaterialConstituents_vec_object ) );
 }
 void IfcMaterialConstituentSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

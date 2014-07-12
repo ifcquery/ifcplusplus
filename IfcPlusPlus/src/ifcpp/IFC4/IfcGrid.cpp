@@ -62,20 +62,20 @@ void IfcGrid::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcGrid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCGRID" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCGRID" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_UAxes );
 	stream << ",";
@@ -109,12 +109,24 @@ void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcProduct::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> UAxes_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "UAxes", UAxes_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> VAxes_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "VAxes", VAxes_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> WAxes_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "WAxes", WAxes_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ContainedInStructure_inverse.size(); ++i ) { ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) ); }
+	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+	{
+		ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 }
 void IfcGrid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

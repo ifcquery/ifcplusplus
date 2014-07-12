@@ -35,8 +35,8 @@ void IfcDraughtingPreDefinedColour::setEntity( shared_ptr<IfcPPEntity> other_ent
 }
 void IfcDraughtingPreDefinedColour::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDRAUGHTINGPREDEFINEDCOLOUR" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDRAUGHTINGPREDEFINEDCOLOUR" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcDraughtingPreDefinedColour::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

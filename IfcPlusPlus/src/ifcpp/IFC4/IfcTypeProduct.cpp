@@ -55,16 +55,16 @@ void IfcTypeProduct::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTypeProduct::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTYPEPRODUCT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTYPEPRODUCT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_HasPropertySets );
 	stream << ",";
@@ -93,12 +93,18 @@ void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTypeObject::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> RepresentationMaps_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RepresentationMaps.begin(), m_RepresentationMaps.end(), std::back_inserter( RepresentationMaps_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RepresentationMaps", RepresentationMaps_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
 }
 void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ReferencedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ReferencedBy_inverse.size(); ++i ) { ReferencedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
+	{
+		ReferencedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 }
 void IfcTypeProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

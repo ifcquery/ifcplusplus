@@ -37,8 +37,8 @@ void IfcCoordinateOperation::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOORDINATEOPERATION" << "(";
-	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCOORDINATEOPERATION" << "(";
+	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->getId(); } else { stream << "$"; }
 	stream << ");";

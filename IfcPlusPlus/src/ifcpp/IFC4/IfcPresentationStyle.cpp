@@ -35,7 +35,7 @@ void IfcPresentationStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPresentationStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPRESENTATIONSTYLE" << "(";
+	stream << "#" << m_id << "= IFCPRESENTATIONSTYLE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }

@@ -37,7 +37,7 @@ void IfcGeometricCurveSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCGEOMETRICCURVESET" << "(";
+	stream << "#" << m_id << "= IFCGEOMETRICCURVESET" << "(";
 	writeTypeList( stream, m_Elements, true );
 	stream << ");";
 }

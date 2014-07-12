@@ -51,14 +51,14 @@ void IfcTypeObject::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTypeObject::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTYPEOBJECT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTYPEOBJECT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -84,11 +84,17 @@ void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ApplicableOccurrence", m_ApplicableOccurrence ) );
+	shared_ptr<IfcPPAttributeObjectVector> HasPropertySets_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_HasPropertySets.begin(), m_HasPropertySets.end(), std::back_inserter( HasPropertySets_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
 }
 void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> Types_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Types_inverse.size(); ++i ) { Types_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByType>( m_Types_inverse[i] ) ); }
+	for( size_t i=0; i<m_Types_inverse.size(); ++i )
+	{
+		Types_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByType>( m_Types_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Types_inverse", Types_inverse_vec_obj ) );
 }
 void IfcTypeObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

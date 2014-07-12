@@ -49,20 +49,20 @@ void IfcRelAssignsToResource::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelAssignsToResource::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELASSIGNSTORESOURCE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELASSIGNSTORESOURCE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ",";
-	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingResource ) { m_RelatingResource->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_RelatingResource ) { m_RelatingResource->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcRelAssignsToResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

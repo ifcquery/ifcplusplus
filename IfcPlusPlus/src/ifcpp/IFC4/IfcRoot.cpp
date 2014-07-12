@@ -41,7 +41,7 @@ void IfcRoot::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRoot::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCROOT" << "(";
+	stream << "#" << m_id << "= IFCROOT" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }

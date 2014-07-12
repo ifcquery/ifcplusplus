@@ -35,7 +35,7 @@ void IfcUnitAssignment::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcUnitAssignment::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCUNITASSIGNMENT" << "(";
+	stream << "#" << m_id << "= IFCUNITASSIGNMENT" << "(";
 	writeTypeList( stream, m_Units, true );
 	stream << ");";
 }

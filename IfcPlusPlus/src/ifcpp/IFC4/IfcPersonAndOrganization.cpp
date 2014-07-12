@@ -39,7 +39,7 @@ void IfcPersonAndOrganization::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPERSONANDORGANIZATION" << "(";
+	stream << "#" << m_id << "= IFCPERSONANDORGANIZATION" << "(";
 	if( m_ThePerson ) { stream << "#" << m_ThePerson->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_TheOrganization ) { stream << "#" << m_TheOrganization->getId(); } else { stream << "$"; }
@@ -63,6 +63,9 @@ void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string,
 {
 	vec_attributes.push_back( std::make_pair( "ThePerson", m_ThePerson ) );
 	vec_attributes.push_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
+	shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
 }
 void IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -39,8 +39,8 @@ void IfcAxis2Placement2D::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcAxis2Placement2D::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCAXIS2PLACEMENT2D" << "(";
-	if( m_Location ) { stream << "#" << m_Location->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCAXIS2PLACEMENT2D" << "(";
+	if( m_Location ) { stream << "#" << m_Location->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_RefDirection ) { stream << "#" << m_RefDirection->getId(); } else { stream << "$"; }
 	stream << ");";

@@ -42,7 +42,7 @@ void IfcLightSource::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcLightSource::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLIGHTSOURCE" << "(";
+	stream << "#" << m_id << "= IFCLIGHTSOURCE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LightColour ) { stream << "#" << m_LightColour->getId(); } else { stream << "$"; }

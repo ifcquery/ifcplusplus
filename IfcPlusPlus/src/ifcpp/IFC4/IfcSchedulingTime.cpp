@@ -38,7 +38,7 @@ void IfcSchedulingTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSCHEDULINGTIME" << "(";
+	stream << "#" << m_id << "= IFCSCHEDULINGTIME" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }

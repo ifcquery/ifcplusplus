@@ -37,7 +37,7 @@ void IfcMaterialClassificationRelationship::setEntity( shared_ptr<IfcPPEntity> o
 }
 void IfcMaterialClassificationRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALCLASSIFICATIONRELATIONSHIP" << "(";
+	stream << "#" << m_id << "= IFCMATERIALCLASSIFICATIONRELATIONSHIP" << "(";
 	writeTypeList( stream, m_MaterialClassifications, true );
 	stream << ",";
 	if( m_ClassifiedMaterial ) { stream << "#" << m_ClassifiedMaterial->getId(); } else { stream << "$"; }

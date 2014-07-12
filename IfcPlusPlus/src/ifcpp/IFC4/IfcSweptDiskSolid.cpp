@@ -43,7 +43,7 @@ void IfcSweptDiskSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSweptDiskSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSWEPTDISKSOLID" << "(";
+	stream << "#" << m_id << "= IFCSWEPTDISKSOLID" << "(";
 	if( m_Directrix ) { stream << "#" << m_Directrix->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }

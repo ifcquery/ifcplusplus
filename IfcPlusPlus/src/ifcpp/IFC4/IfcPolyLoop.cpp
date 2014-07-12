@@ -37,7 +37,7 @@ void IfcPolyLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPolyLoop::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPOLYLOOP" << "(";
+	stream << "#" << m_id << "= IFCPOLYLOOP" << "(";
 	writeEntityList( stream, m_Polygon );
 	stream << ");";
 }
@@ -54,6 +54,9 @@ void IfcPolyLoop::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcLoop::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> Polygon_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Polygon.begin(), m_Polygon.end(), std::back_inserter( Polygon_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Polygon", Polygon_vec_object ) );
 }
 void IfcPolyLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -45,12 +45,12 @@ void IfcDocumentReference::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcDocumentReference::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDOCUMENTREFERENCE" << "(";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDOCUMENTREFERENCE" << "(";
+	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -80,7 +80,10 @@ void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, sha
 void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_DocumentRefForObjects_inverse.size(); ++i ) { DocumentRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) ); }
+	for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
+	{
+		DocumentRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 }
 void IfcDocumentReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

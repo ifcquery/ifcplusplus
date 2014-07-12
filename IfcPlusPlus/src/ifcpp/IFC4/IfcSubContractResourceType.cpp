@@ -61,28 +61,28 @@ void IfcSubContractResourceType::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcSubContractResourceType::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSUBCONTRACTRESOURCETYPE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSUBCONTRACTRESOURCETYPE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_HasPropertySets );
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ResourceType ) { m_ResourceType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ResourceType ) { m_ResourceType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_BaseCosts );
 	stream << ",";
-	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->getId(); } else { stream << "$"; }
+	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

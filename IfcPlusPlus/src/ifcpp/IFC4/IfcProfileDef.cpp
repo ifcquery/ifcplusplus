@@ -39,7 +39,7 @@ void IfcProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROFILEDEF" << "(";
+	stream << "#" << m_id << "= IFCPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
@@ -64,10 +64,16 @@ void IfcProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasExternalReference_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasExternalReference_inverse.size(); ++i ) { HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
+	{
+		HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasProperties_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasProperties_inverse.size(); ++i ) { HasProperties_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProfileProperties>( m_HasProperties_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasProperties_inverse.size(); ++i )
+	{
+		HasProperties_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProfileProperties>( m_HasProperties_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasProperties_inverse", HasProperties_inverse_vec_obj ) );
 }
 void IfcProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> )

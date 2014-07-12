@@ -29,8 +29,16 @@ public:
 	IfcPPModel();
 	~IfcPPModel();
 	
-	enum IfcVersion { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4 };
-
+	enum IfcPPVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4 };
+	class IfcPPSchemaVersion {
+		public:
+			IfcPPSchemaVersion();
+			IfcPPSchemaVersion( std::wstring schema_str, IfcPPVersionEnum schema_enum );
+			~IfcPPSchemaVersion();
+			std::wstring		m_IFC_FILE_SCHEMA;
+			IfcPPVersionEnum	m_ifc_file_schema_enum;
+	};
+	
 	const std::map<int,shared_ptr<IfcPPEntity> >& getMapIfcObjects() const { return m_map_entities; }
 	void insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing = false );
 	void removeEntity( shared_ptr<IfcPPEntity> e );
@@ -41,7 +49,7 @@ public:
 	const std::wstring& getFileHeader() { return m_file_header; }
 	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
 	const std::wstring& getFileName() { return m_IFC_FILE_NAME; }
-	const std::wstring& getFileSchema() { return m_IFC_FILE_SCHEMA; }
+	
 	shared_ptr<UnitConverter> getUnitConverter() { return m_unit_converter; }
 
 	void setFileHeader( std::wstring header );
@@ -56,8 +64,9 @@ public:
 	void updateCache();
 	void clearCache();
 	void initFileHeader( std::string file_name );
-	IfcVersion getIfcSchemaVersion() {	return m_ifc_schema_version; }
-	void setIfcSchemaVersion( IfcVersion ver ) { m_ifc_schema_version = ver; }
+
+	IfcPPSchemaVersion& getIfcSchemaVersion() {	return m_ifc_schema_version; }
+	void setIfcSchemaVersion( IfcPPSchemaVersion& ver );
 
 	friend class IfcStepReader;
 
@@ -69,6 +78,5 @@ private:
 	std::wstring									m_file_header;
 	std::wstring									m_IFC_FILE_DESCRIPTION;
 	std::wstring									m_IFC_FILE_NAME;
-	std::wstring									m_IFC_FILE_SCHEMA;
-	IfcVersion										m_ifc_schema_version;
+	IfcPPSchemaVersion								m_ifc_schema_version;
 };

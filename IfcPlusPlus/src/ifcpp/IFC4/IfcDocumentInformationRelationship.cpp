@@ -41,10 +41,10 @@ void IfcDocumentInformationRelationship::setEntity( shared_ptr<IfcPPEntity> othe
 }
 void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDOCUMENTINFORMATIONRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDOCUMENTINFORMATIONRELATIONSHIP" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingDocument ) { stream << "#" << m_RelatingDocument->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -71,6 +71,9 @@ void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<st
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedDocuments_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
 void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

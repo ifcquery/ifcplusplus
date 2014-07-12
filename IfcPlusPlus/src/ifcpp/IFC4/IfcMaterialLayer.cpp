@@ -50,7 +50,7 @@ void IfcMaterialLayer::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialLayer::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALLAYER" << "(";
+	stream << "#" << m_id << "= IFCMATERIALLAYER" << "(";
 	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_LayerThickness ) { m_LayerThickness->getStepParameter( stream ); } else { stream << "$"; }

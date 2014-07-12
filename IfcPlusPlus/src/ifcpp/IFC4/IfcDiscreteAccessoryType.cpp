@@ -58,24 +58,24 @@ void IfcDiscreteAccessoryType::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcDiscreteAccessoryType::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCDISCRETEACCESSORYTYPE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCDISCRETEACCESSORYTYPE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_HasPropertySets );
 	stream << ",";
 	writeEntityList( stream, m_RepresentationMaps );
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -35,7 +35,7 @@ void IfcMonetaryUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMonetaryUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMONETARYUNIT" << "(";
+	stream << "#" << m_id << "= IFCMONETARYUNIT" << "(";
 	if( m_Currency ) { m_Currency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }

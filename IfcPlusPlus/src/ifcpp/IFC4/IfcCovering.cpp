@@ -70,22 +70,22 @@ void IfcCovering::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCovering::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOVERING" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCOVERING" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -116,10 +116,16 @@ void IfcCovering::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 void IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> CoversSpaces_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_CoversSpaces_inverse.size(); ++i ) { CoversSpaces_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_CoversSpaces_inverse[i] ) ); }
+	for( size_t i=0; i<m_CoversSpaces_inverse.size(); ++i )
+	{
+		CoversSpaces_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_CoversSpaces_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "CoversSpaces_inverse", CoversSpaces_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> CoversElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_CoversElements_inverse.size(); ++i ) { CoversElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversBldgElements>( m_CoversElements_inverse[i] ) ); }
+	for( size_t i=0; i<m_CoversElements_inverse.size(); ++i )
+	{
+		CoversElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversBldgElements>( m_CoversElements_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "CoversElements_inverse", CoversElements_inverse_vec_obj ) );
 }
 void IfcCovering::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

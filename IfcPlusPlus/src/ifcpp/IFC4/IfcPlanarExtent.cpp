@@ -38,7 +38,7 @@ void IfcPlanarExtent::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPlanarExtent::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPLANAREXTENT" << "(";
+	stream << "#" << m_id << "= IFCPLANAREXTENT" << "(";
 	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "$"; }

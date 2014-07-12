@@ -39,7 +39,7 @@ void IfcSweptSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSweptSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSWEPTSURFACE" << "(";
+	stream << "#" << m_id << "= IFCSWEPTSURFACE" << "(";
 	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }

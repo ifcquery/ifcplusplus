@@ -43,10 +43,10 @@ void IfcPhysicalComplexQuantity::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPHYSICALCOMPLEXQUANTITY" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPHYSICALCOMPLEXQUANTITY" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_HasQuantities );
 	stream << ",";
@@ -75,6 +75,9 @@ void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstri
 void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPhysicalQuantity::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> HasQuantities_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "Discrimination", m_Discrimination ) );
 	vec_attributes.push_back( std::make_pair( "Quality", m_Quality ) );
 	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );

@@ -40,12 +40,12 @@ void IfcPlanarBox::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPLANARBOX" << "(";
-	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPLANARBOX" << "(";
+	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

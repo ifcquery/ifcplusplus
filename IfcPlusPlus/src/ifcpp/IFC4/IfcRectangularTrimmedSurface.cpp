@@ -44,7 +44,7 @@ void IfcRectangularTrimmedSurface::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRECTANGULARTRIMMEDSURFACE" << "(";
+	stream << "#" << m_id << "= IFCRECTANGULARTRIMMEDSURFACE" << "(";
 	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_U1 ) { m_U1->getStepParameter( stream ); } else { stream << "$"; }

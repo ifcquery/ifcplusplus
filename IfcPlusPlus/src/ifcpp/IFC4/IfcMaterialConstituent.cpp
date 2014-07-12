@@ -46,7 +46,7 @@ void IfcMaterialConstituent::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialConstituent::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALCONSTITUENT" << "(";
+	stream << "#" << m_id << "= IFCMATERIALCONSTITUENT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }

@@ -23,5 +23,6 @@ public:
 	IfcPPAttributeObjectVector();
 	IfcPPAttributeObjectVector( std::vector<shared_ptr<IfcPPObject> >& vec );
 	~IfcPPAttributeObjectVector();
+	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {}
 	std::vector<shared_ptr<IfcPPObject> > m_vec;
 };

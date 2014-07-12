@@ -54,20 +54,20 @@ void IfcObjective::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcObjective::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCOBJECTIVE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCOBJECTIVE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_BenchmarkValues );
 	stream << ",";
@@ -101,6 +101,9 @@ void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcConstraint::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> BenchmarkValues_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "LogicalAggregator", m_LogicalAggregator ) );
 	vec_attributes.push_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );

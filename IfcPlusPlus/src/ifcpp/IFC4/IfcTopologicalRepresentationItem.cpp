@@ -35,7 +35,7 @@ void IfcTopologicalRepresentationItem::setEntity( shared_ptr<IfcPPEntity> other_
 }
 void IfcTopologicalRepresentationItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTOPOLOGICALREPRESENTATIONITEM" << "(";
+	stream << "#" << m_id << "= IFCTOPOLOGICALREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
 void IfcTopologicalRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

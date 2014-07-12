@@ -37,10 +37,10 @@ void IfcMeasureWithUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMEASUREWITHUNIT" << "(";
-	if( m_ValueComponent ) { m_ValueComponent->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCMEASUREWITHUNIT" << "(";
+	if( m_ValueComponent ) { m_ValueComponent->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_UnitComponent ) { m_UnitComponent->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_UnitComponent ) { m_UnitComponent->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -41,10 +41,10 @@ void IfcPropertyDependencyRelationship::setEntity( shared_ptr<IfcPPEntity> other
 }
 void IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROPERTYDEPENDENCYRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPROPERTYDEPENDENCYRELATIONSHIP" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DependingProperty ) { stream << "#" << m_DependingProperty->getId(); } else { stream << "$"; }
 	stream << ",";

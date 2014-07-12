@@ -106,6 +106,18 @@ RepresentationConverter::RepresentationConverter( shared_ptr<GeometrySettings> g
 
 RepresentationConverter::~RepresentationConverter()
 {
+	clearCache();
+}
+
+void RepresentationConverter::clearCache()
+{
+	m_profile_cache->clearProfileCache();
+	m_styles_converter->m_map_ifc_styles.clear();
+}
+
+void RepresentationConverter::setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
+{
+	m_unit_converter = unit_converter;
 }
 
 void RepresentationConverter::convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )

@@ -37,7 +37,7 @@ void IfcPolyline::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPolyline::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPOLYLINE" << "(";
+	stream << "#" << m_id << "= IFCPOLYLINE" << "(";
 	writeEntityList( stream, m_Points );
 	stream << ");";
 }
@@ -54,6 +54,9 @@ void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> Points_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Points", Points_vec_object ) );
 }
 void IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

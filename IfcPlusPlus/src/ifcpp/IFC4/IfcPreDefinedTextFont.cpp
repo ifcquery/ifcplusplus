@@ -35,8 +35,8 @@ void IfcPreDefinedTextFont::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPreDefinedTextFont::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPREDEFINEDTEXTFONT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPREDEFINEDTEXTFONT" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcPreDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

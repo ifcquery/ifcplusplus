@@ -44,12 +44,12 @@ void IfcQuantityCount::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcQuantityCount::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCQUANTITYCOUNT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCQUANTITYCOUNT" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Unit ) { stream << "#" << m_Unit->getId(); } else { stream << "$"; }
+	if( m_Unit ) { stream << "#" << m_Unit->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_CountValue ) { m_CountValue->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

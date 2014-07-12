@@ -37,7 +37,7 @@ void IfcTableRow::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTableRow::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTABLEROW" << "(";
+	stream << "#" << m_id << "= IFCTABLEROW" << "(";
 	writeTypeList( stream, m_RowCells, true );
 	stream << ",";
 	if( m_IsHeading == false ) { stream << ".F."; }

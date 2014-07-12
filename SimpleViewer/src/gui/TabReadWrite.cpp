@@ -245,9 +245,6 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		}
 	}
 
-
-	// TODO: loadIfcFile in a separate thread
-	std::stringstream warning, err;
 	try
 	{
 		shared_ptr<CmdLoadIfcFile> cmd_load( new CmdLoadIfcFile( m_system ) );
@@ -257,7 +254,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 
 		std::string path_str = path_in.toLocal8Bit().constData();
 		cmd_load->setFilePath( path_str );
-		m_system->getCommandManager()->executeCommand( cmd_load );
+		cmd_load->doCmd();
 	}
 	catch( IfcPPException& e )
 	{
@@ -269,8 +266,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	}
 
 	m_viewer->update();
-	osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();
-
+	
 	osgViewer::View* main_view = m_viewer->getMainView();
 	if( main_view )
 	{
@@ -278,39 +274,16 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		Orbit3DManipulator* orbit_manip = dynamic_cast<Orbit3DManipulator*>( camera_manip );
 		if( orbit_manip )
 		{
+			osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();
 			orbit_manip->zoomToBoundingSphere( bs );
 		}
 	}
-
-	// TODO: adapt near/far plane according to bounding sphere
 
 	clock_t time_diff = clock() - millisecs;
 	int num_entities = m_system->getIfcModel()->getMapIfcObjects().size();
 	slotTxtOut( tr("File loaded: ") + QString::number(num_entities) + " entities in " + QString::number( round(time_diff*0.1)*0.01 ) + " sec."  );
 
 	m_system->notifyModelLoadingDone();
-
-	shared_ptr<IfcGeometricRepresentationContext> geom_context = m_system->getIfcModel()->getIfcGeometricRepresentationContext3D();
-	if( geom_context )
-	{
-		shared_ptr<IfcAxis2Placement> world_coordinate_system = geom_context->m_WorldCoordinateSystem;
-		shared_ptr<IfcAxis2Placement3D> world_coordinate_system3d = dynamic_pointer_cast<IfcAxis2Placement3D>(world_coordinate_system);
-		if( world_coordinate_system3d )
-		{
-			if( world_coordinate_system3d->m_RefDirection )
-			{
-				if( world_coordinate_system3d->m_RefDirection->m_DirectionRatios.size() > 2 )
-				{
-					// if z value < 0, then flip viewer
-					if( world_coordinate_system3d->m_RefDirection->m_DirectionRatios[2] < 0 )
-					{
-						//m_viewer->getCameraManager()->setZAxisDown( true );
-					}
-				}
-			}
-		}
-	}
-
 	slotProgressValue( 1.0, "" );
 }
 

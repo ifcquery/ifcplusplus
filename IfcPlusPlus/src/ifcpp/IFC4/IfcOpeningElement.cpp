@@ -68,22 +68,22 @@ void IfcOpeningElement::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcOpeningElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCOPENINGELEMENT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCOPENINGELEMENT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "$"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "$"; }
+	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -114,7 +114,10 @@ void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared
 void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasFillings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasFillings_inverse.size(); ++i ) { HasFillings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_HasFillings_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasFillings_inverse.size(); ++i )
+	{
+		HasFillings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_HasFillings_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasFillings_inverse", HasFillings_inverse_vec_obj ) );
 }
 void IfcOpeningElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

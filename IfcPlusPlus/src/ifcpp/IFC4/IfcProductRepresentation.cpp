@@ -39,7 +39,7 @@ void IfcProductRepresentation::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcProductRepresentation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPRODUCTREPRESENTATION" << "(";
+	stream << "#" << m_id << "= IFCPRODUCTREPRESENTATION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -63,6 +63,9 @@ void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string,
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	shared_ptr<IfcPPAttributeObjectVector> Representations_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Representations", Representations_vec_object ) );
 }
 void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

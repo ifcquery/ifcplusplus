@@ -53,12 +53,16 @@ public:
 	void convertIfcPropertySet(					const shared_ptr<IfcPropertySet>& property_set,	osg::Group* group );
 	void subtractOpenings(						const shared_ptr<IfcElement>& ifc_element, shared_ptr<ShapeInputData>& product_shape, std::stringstream& err );
 
-	shared_ptr<SolidModelConverter>& getSolidConverter() { return m_solid_converter; }
-	shared_ptr<ProfileCache>& getProfileCache() { return m_profile_cache; }
 	bool handleLayerAssignments() { return m_handle_layer_assignments; }
 	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
 	bool handleStyledItems() { return m_handle_styled_items; }
 	void setHandleStyledItems( bool handle ) { m_handle_styled_items = handle; }
+	void clearCache();
+	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter );
+	shared_ptr<UnitConverter>&			getUnitConverter()	{ return m_unit_converter;	}
+	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings;	}
+	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter;	}
+	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache;	}
 
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;

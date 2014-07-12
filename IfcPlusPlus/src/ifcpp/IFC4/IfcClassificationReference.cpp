@@ -47,14 +47,14 @@ void IfcClassificationReference::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCLASSIFICATIONREFERENCE" << "(";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCLASSIFICATIONREFERENCE" << "(";
+	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ReferencedSource ) { m_ReferencedSource->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_ReferencedSource ) { m_ReferencedSource->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -86,10 +86,16 @@ void IfcClassificationReference::getAttributes( std::vector<std::pair<std::strin
 void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ClassificationRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ClassificationRefForObjects_inverse.size(); ++i ) { ClassificationRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesClassification>( m_ClassificationRefForObjects_inverse[i] ) ); }
+	for( size_t i=0; i<m_ClassificationRefForObjects_inverse.size(); ++i )
+	{
+		ClassificationRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesClassification>( m_ClassificationRefForObjects_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ClassificationRefForObjects_inverse", ClassificationRefForObjects_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasReferences_inverse.size(); ++i ) { HasReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcClassificationReference>( m_HasReferences_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasReferences_inverse.size(); ++i )
+	{
+		HasReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcClassificationReference>( m_HasReferences_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasReferences_inverse", HasReferences_inverse_vec_obj ) );
 }
 void IfcClassificationReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

@@ -35,7 +35,7 @@ void IfcBoundaryCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBoundaryCondition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBOUNDARYCONDITION" << "(";
+	stream << "#" << m_id << "= IFCBOUNDARYCONDITION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }

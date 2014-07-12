@@ -40,12 +40,12 @@ void IfcBooleanResult::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBooleanResult::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBOOLEANRESULT" << "(";
+	stream << "#" << m_id << "= IFCBOOLEANRESULT" << "(";
 	if( m_Operator ) { m_Operator->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FirstOperand ) { m_FirstOperand->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_FirstOperand ) { m_FirstOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcBooleanResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -43,12 +43,12 @@ void IfcStyleModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcStyleModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTYLEMODEL" << "(";
-	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTYLEMODEL" << "(";
+	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RepresentationType ) { m_RepresentationType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RepresentationType ) { m_RepresentationType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Items );
 	stream << ");";

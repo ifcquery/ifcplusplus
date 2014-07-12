@@ -40,7 +40,7 @@ void IfcMaterialProfileSetUsage::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcMaterialProfileSetUsage::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALPROFILESETUSAGE" << "(";
+	stream << "#" << m_id << "= IFCMATERIALPROFILESETUSAGE" << "(";
 	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream ); } else { stream << "$"; }

@@ -35,7 +35,7 @@ void IfcTextureVertex::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextureVertex::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTUREVERTEX" << "(";
+	stream << "#" << m_id << "= IFCTEXTUREVERTEX" << "(";
 	writeTypeOfRealList( stream, m_Coordinates );
 	stream << ");";
 }

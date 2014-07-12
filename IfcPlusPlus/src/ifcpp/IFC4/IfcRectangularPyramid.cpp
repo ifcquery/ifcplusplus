@@ -41,8 +41,8 @@ void IfcRectangularPyramid::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRECTANGULARPYRAMID" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRECTANGULARPYRAMID" << "(";
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_XLength ) { m_XLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -39,8 +39,8 @@ void IfcStructuralLoadTemperature::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOADTEMPERATURE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALLOADTEMPERATURE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DeltaTConstant ) { m_DeltaTConstant->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

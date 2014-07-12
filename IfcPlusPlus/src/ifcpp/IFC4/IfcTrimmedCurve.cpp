@@ -43,7 +43,7 @@ void IfcTrimmedCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTRIMMEDCURVE" << "(";
+	stream << "#" << m_id << "= IFCTRIMMEDCURVE" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->getId(); } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_Trim1, true );

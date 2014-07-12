@@ -40,7 +40,7 @@ void IfcExternalReference::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcExternalReference::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEXTERNALREFERENCE" << "(";
+	stream << "#" << m_id << "= IFCEXTERNALREFERENCE" << "(";
 	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
@@ -69,7 +69,10 @@ void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, sha
 void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> ExternalReferenceForResources_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_ExternalReferenceForResources_inverse.size(); ++i ) { ExternalReferenceForResources_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_ExternalReferenceForResources_inverse[i] ) ); }
+	for( size_t i=0; i<m_ExternalReferenceForResources_inverse.size(); ++i )
+	{
+		ExternalReferenceForResources_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_ExternalReferenceForResources_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "ExternalReferenceForResources_inverse", ExternalReferenceForResources_inverse_vec_obj ) );
 }
 void IfcExternalReference::setInverseCounterparts( shared_ptr<IfcPPEntity> )

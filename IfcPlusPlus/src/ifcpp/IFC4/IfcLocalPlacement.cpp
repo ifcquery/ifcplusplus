@@ -38,10 +38,10 @@ void IfcLocalPlacement::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcLocalPlacement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCLOCALPLACEMENT" << "(";
+	stream << "#" << m_id << "= IFCLOCALPLACEMENT" << "(";
 	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelativePlacement ) { m_RelativePlacement->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_RelativePlacement ) { m_RelativePlacement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcLocalPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

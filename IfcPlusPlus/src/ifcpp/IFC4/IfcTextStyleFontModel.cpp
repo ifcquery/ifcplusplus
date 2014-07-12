@@ -45,8 +45,8 @@ void IfcTextStyleFontModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTSTYLEFONTMODEL" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTEXTSTYLEFONTMODEL" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_FontFamily );
 	stream << ",";
@@ -56,7 +56,7 @@ void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_FontWeight ) { m_FontWeight->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FontSize ) { m_FontSize->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_FontSize ) { m_FontSize->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

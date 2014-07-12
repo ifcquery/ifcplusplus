@@ -39,8 +39,8 @@ void IfcStructuralLoadConfiguration::setEntity( shared_ptr<IfcPPEntity> other_en
 }
 void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOADCONFIGURATION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALLOADCONFIGURATION" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Values );
 	stream << ",";
@@ -62,6 +62,9 @@ void IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::w
 void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcStructuralLoad::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> Values_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
 }
 void IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

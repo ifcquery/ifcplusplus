@@ -37,7 +37,7 @@ void IfcVirtualGridIntersection::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCVIRTUALGRIDINTERSECTION" << "(";
+	stream << "#" << m_id << "= IFCVIRTUALGRIDINTERSECTION" << "(";
 	writeEntityList( stream, m_IntersectingAxes );
 	stream << ",";
 	writeTypeOfRealList( stream, m_OffsetDistances );
@@ -56,6 +56,9 @@ void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstri
 }
 void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
+	shared_ptr<IfcPPAttributeObjectVector> IntersectingAxes_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
 	shared_ptr<IfcPPAttributeObjectVector> OffsetDistances_vec_object( new  IfcPPAttributeObjectVector() );
 	std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
 	vec_attributes.push_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );

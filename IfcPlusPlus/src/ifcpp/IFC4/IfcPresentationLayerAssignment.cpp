@@ -43,7 +43,7 @@ void IfcPresentationLayerAssignment::setEntity( shared_ptr<IfcPPEntity> other_en
 }
 void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPRESENTATIONLAYERASSIGNMENT" << "(";
+	stream << "#" << m_id << "= IFCPRESENTATIONLAYERASSIGNMENT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }

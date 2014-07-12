@@ -44,12 +44,10 @@ void IfcBSplineSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBSPLINESURFACE" << "(";
-	if( m_UDegree == m_UDegree ){ stream << m_UDegree; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCBSPLINESURFACE" << "(";
+	if( m_UDegree == m_UDegree ){ stream << m_UDegree; } else { stream << "$"; }
 	stream << ",";
-	if( m_VDegree == m_VDegree ){ stream << m_VDegree; }
-	else { stream << "$"; }
+	if( m_VDegree == m_VDegree ){ stream << m_VDegree; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";
@@ -57,15 +55,15 @@ void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_UClosed == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_UClosed == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_UClosed == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_VClosed == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_VClosed == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_VClosed == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ");";
 }
 void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -50,12 +50,12 @@ void IfcAppliedValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcAppliedValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCAPPLIEDVALUE" << "(";
+	stream << "#" << m_id << "= IFCAPPLIEDVALUE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_UnitBasis ) { stream << "#" << m_UnitBasis->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -102,11 +102,17 @@ void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
 	vec_attributes.push_back( std::make_pair( "Condition", m_Condition ) );
 	vec_attributes.push_back( std::make_pair( "ArithmeticOperator", m_ArithmeticOperator ) );
+	shared_ptr<IfcPPAttributeObjectVector> Components_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Components.begin(), m_Components.end(), std::back_inserter( Components_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Components", Components_vec_object ) );
 }
 void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> HasExternalReference_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasExternalReference_inverse.size(); ++i ) { HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
+	{
+		HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 }
 void IfcAppliedValue::setInverseCounterparts( shared_ptr<IfcPPEntity> )

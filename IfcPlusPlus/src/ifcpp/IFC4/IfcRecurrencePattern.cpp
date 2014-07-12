@@ -47,7 +47,7 @@ void IfcRecurrencePattern::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRECURRENCEPATTERN" << "(";
+	stream << "#" << m_id << "= IFCRECURRENCEPATTERN" << "(";
 	if( m_RecurrenceType ) { m_RecurrenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeOfIntList( stream, m_DayComponent );
@@ -97,6 +97,9 @@ void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, sha
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
 	vec_attributes.push_back( std::make_pair( "Interval", m_Interval ) );
 	vec_attributes.push_back( std::make_pair( "Occurrences", m_Occurrences ) );
+	shared_ptr<IfcPPAttributeObjectVector> TimePeriods_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_TimePeriods.begin(), m_TimePeriods.end(), std::back_inserter( TimePeriods_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
 }
 void IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

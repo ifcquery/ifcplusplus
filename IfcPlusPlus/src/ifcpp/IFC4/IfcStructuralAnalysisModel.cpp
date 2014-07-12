@@ -62,16 +62,16 @@ void IfcStructuralAnalysisModel::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcStructuralAnalysisModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALANALYSISMODEL" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALANALYSISMODEL" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -108,6 +108,12 @@ void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::strin
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "OrientationOf2DPlane", m_OrientationOf2DPlane ) );
+	shared_ptr<IfcPPAttributeObjectVector> LoadedBy_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> HasResults_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "HasResults", HasResults_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
 }
 void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

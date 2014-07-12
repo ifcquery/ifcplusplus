@@ -44,14 +44,14 @@ void IfcConversionBasedUnitWithOffset::setEntity( shared_ptr<IfcPPEntity> other_
 }
 void IfcConversionBasedUnitWithOffset::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCONVERSIONBASEDUNITWITHOFFSET" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCONVERSIONBASEDUNITWITHOFFSET" << "(";
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConversionFactor ) { stream << "#" << m_ConversionFactor->getId(); } else { stream << "$"; }
+	if( m_ConversionFactor ) { stream << "#" << m_ConversionFactor->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_ConversionOffset ) { m_ConversionOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

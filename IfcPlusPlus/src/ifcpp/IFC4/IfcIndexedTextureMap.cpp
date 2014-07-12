@@ -39,7 +39,7 @@ void IfcIndexedTextureMap::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcIndexedTextureMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCINDEXEDTEXTUREMAP" << "(";
+	stream << "#" << m_id << "= IFCINDEXEDTEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
 	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "$"; }

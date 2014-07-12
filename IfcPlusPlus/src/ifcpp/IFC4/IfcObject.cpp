@@ -50,14 +50,14 @@ void IfcObject::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcObject::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCOBJECT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCOBJECT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -84,16 +84,28 @@ void IfcObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> IsDeclaredBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsDeclaredBy_inverse.size(); ++i ) { IsDeclaredBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByObject>( m_IsDeclaredBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsDeclaredBy_inverse.size(); ++i )
+	{
+		IsDeclaredBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByObject>( m_IsDeclaredBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsDeclaredBy_inverse", IsDeclaredBy_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> Declares_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Declares_inverse.size(); ++i ) { Declares_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByObject>( m_Declares_inverse[i] ) ); }
+	for( size_t i=0; i<m_Declares_inverse.size(); ++i )
+	{
+		Declares_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByObject>( m_Declares_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Declares_inverse", Declares_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> IsTypedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsTypedBy_inverse.size(); ++i ) { IsTypedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByType>( m_IsTypedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsTypedBy_inverse.size(); ++i )
+	{
+		IsTypedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByType>( m_IsTypedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsTypedBy_inverse", IsTypedBy_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> IsDefinedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_IsDefinedBy_inverse.size(); ++i ) { IsDefinedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByProperties>( m_IsDefinedBy_inverse[i] ) ); }
+	for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
+	{
+		IsDefinedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByProperties>( m_IsDefinedBy_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 }
 void IfcObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

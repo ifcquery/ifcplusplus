@@ -15,10 +15,12 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include <locale.h>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPModel.h"
+#include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
 
@@ -36,9 +38,11 @@ void IfcStepWriter::writeStream( std::stringstream& stream, shared_ptr<IfcPPMode
 	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
 	setlocale(LC_NUMERIC,"C");
 	
-	stream << model->getFileHeader().c_str();
+	const std::wstring& file_header_wstr = model->getFileHeader();
+	std::string file_header_str = encodeStepString( file_header_wstr );
+	stream << file_header_str.c_str();
 	stream << "DATA;\n";
-
+	stream << std::setprecision( 15 );
 	const std::map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcObjects();
 	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it;
 	for( it=map.begin(); it!=map.end(); ++it )

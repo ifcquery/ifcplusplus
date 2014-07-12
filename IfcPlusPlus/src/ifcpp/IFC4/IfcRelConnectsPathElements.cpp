@@ -51,20 +51,20 @@ void IfcRelConnectsPathElements::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcRelConnectsPathElements::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELCONNECTSPATHELEMENTS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELCONNECTSPATHELEMENTS" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->getId(); } else { stream << "$"; }
+	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingElement ) { stream << "#" << m_RelatingElement->getId(); } else { stream << "$"; }
+	if( m_RelatingElement ) { stream << "#" << m_RelatingElement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->getId(); } else { stream << "$"; }
+	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeIntList( stream, m_RelatingPriorities );
 	stream << ",";
@@ -98,6 +98,18 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> RelatingPriorities_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_RelatingPriorities.size(); ++i )
+	{
+		RelatingPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_RelatingPriorities[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_obj ) );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedPriorities_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_RelatedPriorities.size(); ++i )
+	{
+		RelatedPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_RelatedPriorities[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_obj ) );
 	vec_attributes.push_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
 	vec_attributes.push_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
 }

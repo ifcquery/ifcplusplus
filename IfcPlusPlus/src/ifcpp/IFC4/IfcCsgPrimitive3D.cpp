@@ -37,7 +37,7 @@ void IfcCsgPrimitive3D::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCSGPRIMITIVE3D" << "(";
+	stream << "#" << m_id << "= IFCCSGPRIMITIVE3D" << "(";
 	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
 	stream << ");";
 }

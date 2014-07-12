@@ -39,7 +39,7 @@ void IfcSectionProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSECTIONPROPERTIES" << "(";
+	stream << "#" << m_id << "= IFCSECTIONPROPERTIES" << "(";
 	if( m_SectionType ) { m_SectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_StartProfile ) { stream << "#" << m_StartProfile->getId(); } else { stream << "$"; }

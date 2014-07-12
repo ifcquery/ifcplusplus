@@ -37,7 +37,7 @@ void IfcClosedShell::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcClosedShell::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCLOSEDSHELL" << "(";
+	stream << "#" << m_id << "= IFCCLOSEDSHELL" << "(";
 	writeEntityList( stream, m_CfsFaces );
 	stream << ");";
 }

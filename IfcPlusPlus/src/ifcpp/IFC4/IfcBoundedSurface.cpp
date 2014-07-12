@@ -35,7 +35,7 @@ void IfcBoundedSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBoundedSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBOUNDEDSURFACE" << "(";
+	stream << "#" << m_id << "= IFCBOUNDEDSURFACE" << "(";
 	stream << ");";
 }
 void IfcBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

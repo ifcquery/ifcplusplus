@@ -34,7 +34,7 @@ void IfcPreDefinedProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPreDefinedProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPREDEFINEDPROPERTIES" << "(";
+	stream << "#" << m_id << "= IFCPREDEFINEDPROPERTIES" << "(";
 	stream << ");";
 }
 void IfcPreDefinedProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

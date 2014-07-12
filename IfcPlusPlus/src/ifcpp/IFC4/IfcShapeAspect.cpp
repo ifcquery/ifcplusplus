@@ -44,7 +44,7 @@ void IfcShapeAspect::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSHAPEASPECT" << "(";
+	stream << "#" << m_id << "= IFCSHAPEASPECT" << "(";
 	writeEntityList( stream, m_ShapeRepresentations );
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
@@ -53,9 +53,9 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ProductDefinitional == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_ProductDefinitional == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_ProductDefinitional == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
-	if( m_PartOfProductDefinitionShape ) { m_PartOfProductDefinitionShape->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_PartOfProductDefinitionShape ) { m_PartOfProductDefinitionShape->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -76,6 +76,9 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
+	shared_ptr<IfcPPAttributeObjectVector> ShapeRepresentations_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "ProductDefinitional", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_ProductDefinitional ) ) ) );

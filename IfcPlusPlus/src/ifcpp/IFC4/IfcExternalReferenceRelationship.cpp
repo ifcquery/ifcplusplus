@@ -52,10 +52,10 @@ void IfcExternalReferenceRelationship::setEntity( shared_ptr<IfcPPEntity> other_
 }
 void IfcExternalReferenceRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEXTERNALREFERENCERELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCEXTERNALREFERENCERELATIONSHIP" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingReference ) { stream << "#" << m_RelatingReference->getId(); } else { stream << "$"; }
 	stream << ",";

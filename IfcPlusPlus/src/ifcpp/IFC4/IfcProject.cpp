@@ -54,24 +54,24 @@ void IfcProject::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcProject::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPROJECT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCPROJECT" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Phase ) { m_Phase->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Phase ) { m_Phase->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RepresentationContexts );
 	stream << ",";
-	if( m_UnitsInContext ) { stream << "#" << m_UnitsInContext->getId(); } else { stream << "$"; }
+	if( m_UnitsInContext ) { stream << "#" << m_UnitsInContext->getId(); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcProject::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

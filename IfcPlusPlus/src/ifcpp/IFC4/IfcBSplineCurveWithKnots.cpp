@@ -47,21 +47,20 @@ void IfcBSplineCurveWithKnots::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBSPLINECURVEWITHKNOTS" << "(";
-	if( m_Degree == m_Degree ){ stream << m_Degree; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCBSPLINECURVEWITHKNOTS" << "(";
+	if( m_Degree == m_Degree ){ stream << m_Degree; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ClosedCurve == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_ClosedCurve == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_ClosedCurve == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	writeIntList( stream, m_KnotMultiplicities );
 	stream << ",";
@@ -94,6 +93,12 @@ void IfcBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring
 void IfcBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBSplineCurve::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> KnotMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_KnotMultiplicities.size(); ++i )
+	{
+		KnotMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_KnotMultiplicities[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "KnotMultiplicities", KnotMultiplicities_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> Knots_vec_object( new  IfcPPAttributeObjectVector() );
 	std::copy( m_Knots.begin(), m_Knots.end(), std::back_inserter( Knots_vec_object->m_vec ) );
 	vec_attributes.push_back( std::make_pair( "Knots", Knots_vec_object ) );

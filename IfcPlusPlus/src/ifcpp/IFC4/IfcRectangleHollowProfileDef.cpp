@@ -48,16 +48,16 @@ void IfcRectangleHollowProfileDef::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRECTANGLEHOLLOWPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRECTANGLEHOLLOWPROFILEDEF" << "(";
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -35,7 +35,7 @@ void IfcTextureVertexList::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextureVertexList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTUREVERTEXLIST" << "(";
+	stream << "#" << m_id << "= IFCTEXTUREVERTEXLIST" << "(";
 	writeTypeOfRealList2D( stream, m_TexCoordsList );
 	stream << ");";
 }

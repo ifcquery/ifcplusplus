@@ -42,14 +42,14 @@ void IfcTextStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTSTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTEXTSTYLE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_TextStyle ) { stream << "#" << m_TextStyle->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ModelOrDraughting == false ) { stream << ".F."; }
 	else if( m_ModelOrDraughting == true ) { stream << ".T."; }

@@ -36,7 +36,7 @@ void IfcMaterialDefinition::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcMaterialDefinition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCMATERIALDEFINITION" << "(";
+	stream << "#" << m_id << "= IFCMATERIALDEFINITION" << "(";
 	stream << ");";
 }
 void IfcMaterialDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -49,13 +49,22 @@ void IfcMaterialDefinition::getAttributes( std::vector<std::pair<std::string, sh
 void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> AssociatedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_AssociatedTo_inverse.size(); ++i ) { AssociatedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesMaterial>( m_AssociatedTo_inverse[i] ) ); }
+	for( size_t i=0; i<m_AssociatedTo_inverse.size(); ++i )
+	{
+		AssociatedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesMaterial>( m_AssociatedTo_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "AssociatedTo_inverse", AssociatedTo_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasExternalReferences_inverse.size(); ++i ) { HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+	{
+		HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasProperties_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasProperties_inverse.size(); ++i ) { HasProperties_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMaterialProperties>( m_HasProperties_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasProperties_inverse.size(); ++i )
+	{
+		HasProperties_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMaterialProperties>( m_HasProperties_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasProperties_inverse", HasProperties_inverse_vec_obj ) );
 }
 void IfcMaterialDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> )

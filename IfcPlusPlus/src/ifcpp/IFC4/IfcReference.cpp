@@ -40,7 +40,7 @@ void IfcReference::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcReference::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCREFERENCE" << "(";
+	stream << "#" << m_id << "= IFCREFERENCE" << "(";
 	if( m_TypeIdentifier ) { m_TypeIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_AttributeIdentifier ) { m_AttributeIdentifier->getStepParameter( stream ); } else { stream << "$"; }
@@ -71,6 +71,12 @@ void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "TypeIdentifier", m_TypeIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "AttributeIdentifier", m_AttributeIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "InstanceName", m_InstanceName ) );
+	shared_ptr<IfcPPAttributeObjectVector> ListPositions_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_ListPositions.size(); ++i )
+	{
+		ListPositions_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ListPositions[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "ListPositions", ListPositions_vec_obj ) );
 	vec_attributes.push_back( std::make_pair( "InnerReference", m_InnerReference ) );
 }
 void IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

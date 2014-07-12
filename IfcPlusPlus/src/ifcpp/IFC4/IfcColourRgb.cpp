@@ -39,8 +39,8 @@ void IfcColourRgb::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcColourRgb::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOLOURRGB" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCCOLOURRGB" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Red ) { m_Red->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

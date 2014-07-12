@@ -37,7 +37,7 @@ void IfcFaceBasedSurfaceModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcFaceBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCFACEBASEDSURFACEMODEL" << "(";
+	stream << "#" << m_id << "= IFCFACEBASEDSURFACEMODEL" << "(";
 	writeEntityList( stream, m_FbsmFaces );
 	stream << ");";
 }
@@ -54,6 +54,9 @@ void IfcFaceBasedSurfaceModel::readStepArguments( const std::vector<std::wstring
 void IfcFaceBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> FbsmFaces_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_FbsmFaces.begin(), m_FbsmFaces.end(), std::back_inserter( FbsmFaces_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "FbsmFaces", FbsmFaces_vec_object ) );
 }
 void IfcFaceBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

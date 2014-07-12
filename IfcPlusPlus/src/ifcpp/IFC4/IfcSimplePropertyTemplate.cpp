@@ -57,14 +57,14 @@ void IfcSimplePropertyTemplate::setEntity( shared_ptr<IfcPPEntity> other_entity 
 }
 void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSIMPLEPROPERTYTEMPLATE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSIMPLEPROPERTYTEMPLATE" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TemplateType ) { m_TemplateType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -74,9 +74,9 @@ void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Enumerators ) { stream << "#" << m_Enumerators->getId(); } else { stream << "$"; }
 	stream << ",";
-	if( m_PrimaryUnit ) { m_PrimaryUnit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_PrimaryUnit ) { m_PrimaryUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SecondaryUnit ) { m_SecondaryUnit->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_SecondaryUnit ) { m_SecondaryUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

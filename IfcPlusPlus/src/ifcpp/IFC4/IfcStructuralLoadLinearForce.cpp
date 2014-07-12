@@ -43,8 +43,8 @@ void IfcStructuralLoadLinearForce::setEntity( shared_ptr<IfcPPEntity> other_enti
 }
 void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSTRUCTURALLOADLINEARFORCE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCSTRUCTURALLOADLINEARFORCE" << "(";
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_LinearForceX ) { m_LinearForceX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

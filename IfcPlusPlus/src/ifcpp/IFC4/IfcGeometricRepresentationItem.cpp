@@ -35,7 +35,7 @@ void IfcGeometricRepresentationItem::setEntity( shared_ptr<IfcPPEntity> other_en
 }
 void IfcGeometricRepresentationItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCGEOMETRICREPRESENTATIONITEM" << "(";
+	stream << "#" << m_id << "= IFCGEOMETRICREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
 void IfcGeometricRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -54,26 +54,26 @@ void IfcRelSpaceBoundary2ndLevel::setEntity( shared_ptr<IfcPPEntity> other_entit
 }
 void IfcRelSpaceBoundary2ndLevel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELSPACEBOUNDARY2NDLEVEL" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELSPACEBOUNDARY2NDLEVEL" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingSpace ) { m_RelatingSpace->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_RelatingSpace ) { m_RelatingSpace->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->getId(); } else { stream << "$"; }
+	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->getId(); } else { stream << "$"; }
+	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_PhysicalOrVirtualBoundary ) { m_PhysicalOrVirtualBoundary->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PhysicalOrVirtualBoundary ) { m_PhysicalOrVirtualBoundary->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ParentBoundary ) { stream << "#" << m_ParentBoundary->getId(); } else { stream << "$"; }
+	if( m_ParentBoundary ) { stream << "#" << m_ParentBoundary->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_CorrespondingBoundary ) { stream << "#" << m_CorrespondingBoundary->getId(); } else { stream << "$"; }
 	stream << ");";
@@ -106,7 +106,10 @@ void IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<std::stri
 void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> Corresponds_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_Corresponds_inverse.size(); ++i ) { Corresponds_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary2ndLevel>( m_Corresponds_inverse[i] ) ); }
+	for( size_t i=0; i<m_Corresponds_inverse.size(); ++i )
+	{
+		Corresponds_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary2ndLevel>( m_Corresponds_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "Corresponds_inverse", Corresponds_inverse_vec_obj ) );
 }
 void IfcRelSpaceBoundary2ndLevel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

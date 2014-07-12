@@ -41,8 +41,8 @@ void IfcBlock::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBlock::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBLOCK" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCBLOCK" << "(";
+	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_XLength ) { m_XLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

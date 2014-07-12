@@ -40,7 +40,7 @@ void IfcIndexedColourMap::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCINDEXEDCOLOURMAP" << "(";
+	stream << "#" << m_id << "= IFCINDEXEDCOLOURMAP" << "(";
 	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Overrides ) { stream << "#" << m_Overrides->getId(); } else { stream << "$"; }
@@ -69,6 +69,12 @@ void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
 	vec_attributes.push_back( std::make_pair( "Overrides", m_Overrides ) );
 	vec_attributes.push_back( std::make_pair( "Colours", m_Colours ) );
+	shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_ColourIndex.size(); ++i )
+	{
+		ColourIndex_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ColourIndex[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_obj ) );
 }
 void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

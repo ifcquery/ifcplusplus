@@ -51,28 +51,26 @@ void IfcBSplineSurfaceWithKnots::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBSPLINESURFACEWITHKNOTS" << "(";
-	if( m_UDegree == m_UDegree ){ stream << m_UDegree; }
-	else { stream << "$"; }
+	stream << "#" << m_id << "= IFCBSPLINESURFACEWITHKNOTS" << "(";
+	if( m_UDegree == m_UDegree ){ stream << m_UDegree; } else { stream << "*"; }
 	stream << ",";
-	if( m_VDegree == m_VDegree ){ stream << m_VDegree; }
-	else { stream << "$"; }
+	if( m_VDegree == m_VDegree ){ stream << m_VDegree; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_UClosed == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_UClosed == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_UClosed == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_VClosed == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_VClosed == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_VClosed == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
 	writeIntList( stream, m_UMultiplicities );
 	stream << ",";
@@ -115,6 +113,18 @@ void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstri
 void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBSplineSurface::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> UMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_UMultiplicities.size(); ++i )
+	{
+		UMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_UMultiplicities[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_obj ) );
+	shared_ptr<IfcPPAttributeObjectVector> VMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
+	for( size_t i=0; i<m_VMultiplicities.size(); ++i )
+	{
+		VMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_VMultiplicities[i] ) ) );
+	}
+	vec_attributes.push_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> UKnots_vec_object( new  IfcPPAttributeObjectVector() );
 	std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
 	vec_attributes.push_back( std::make_pair( "UKnots", UKnots_vec_object ) );

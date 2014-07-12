@@ -37,7 +37,7 @@ void IfcShellBasedSurfaceModel::setEntity( shared_ptr<IfcPPEntity> other_entity 
 }
 void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSHELLBASEDSURFACEMODEL" << "(";
+	stream << "#" << m_id << "= IFCSHELLBASEDSURFACEMODEL" << "(";
 	writeTypeList( stream, m_SbsmBoundary, true );
 	stream << ");";
 }

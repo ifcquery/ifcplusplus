@@ -40,7 +40,7 @@ void IfcCurveBoundedSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCURVEBOUNDEDSURFACE" << "(";
+	stream << "#" << m_id << "= IFCCURVEBOUNDEDSURFACE" << "(";
 	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->getId(); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Boundaries );
@@ -66,6 +66,9 @@ void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, s
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
+	shared_ptr<IfcPPAttributeObjectVector> Boundaries_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Boundaries.begin(), m_Boundaries.end(), std::back_inserter( Boundaries_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "ImplicitOuter", shared_ptr<IfcPPBool>( new IfcPPBool( m_ImplicitOuter ) ) ) );
 }
 void IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

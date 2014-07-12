@@ -35,7 +35,7 @@ void IfcPresentationStyleAssignment::setEntity( shared_ptr<IfcPPEntity> other_en
 }
 void IfcPresentationStyleAssignment::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPRESENTATIONSTYLEASSIGNMENT" << "(";
+	stream << "#" << m_id << "= IFCPRESENTATIONSTYLEASSIGNMENT" << "(";
 	writeTypeList( stream, m_Styles, true );
 	stream << ");";
 }

@@ -41,7 +41,7 @@ void IfcBoundingBox::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcBoundingBox::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCBOUNDINGBOX" << "(";
+	stream << "#" << m_id << "= IFCBOUNDINGBOX" << "(";
 	if( m_Corner ) { stream << "#" << m_Corner->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }

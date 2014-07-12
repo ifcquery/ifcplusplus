@@ -46,7 +46,7 @@ void IfcPerson::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcPerson::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCPERSON" << "(";
+	stream << "#" << m_id << "= IFCPERSON" << "(";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_FamilyName ) { m_FamilyName->getStepParameter( stream ); } else { stream << "$"; }
@@ -95,11 +95,20 @@ void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 	shared_ptr<IfcPPAttributeObjectVector> SuffixTitles_vec_object( new  IfcPPAttributeObjectVector() );
 	std::copy( m_SuffixTitles.begin(), m_SuffixTitles.end(), std::back_inserter( SuffixTitles_vec_object->m_vec ) );
 	vec_attributes.push_back( std::make_pair( "SuffixTitles", SuffixTitles_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+	shared_ptr<IfcPPAttributeObjectVector> Addresses_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 }
 void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> EngagedIn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_EngagedIn_inverse.size(); ++i ) { EngagedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_EngagedIn_inverse[i] ) ); }
+	for( size_t i=0; i<m_EngagedIn_inverse.size(); ++i )
+	{
+		EngagedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_EngagedIn_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "EngagedIn_inverse", EngagedIn_inverse_vec_obj ) );
 }
 void IfcPerson::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

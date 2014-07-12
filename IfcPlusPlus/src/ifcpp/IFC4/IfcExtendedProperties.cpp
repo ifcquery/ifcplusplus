@@ -40,7 +40,7 @@ void IfcExtendedProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcExtendedProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEXTENDEDPROPERTIES" << "(";
+	stream << "#" << m_id << "= IFCEXTENDEDPROPERTIES" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -65,6 +65,9 @@ void IfcExtendedProperties::getAttributes( std::vector<std::pair<std::string, sh
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	shared_ptr<IfcPPAttributeObjectVector> Properties_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Properties.begin(), m_Properties.end(), std::back_inserter( Properties_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Properties", Properties_vec_object ) );
 }
 void IfcExtendedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

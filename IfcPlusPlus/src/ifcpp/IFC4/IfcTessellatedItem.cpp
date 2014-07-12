@@ -35,7 +35,7 @@ void IfcTessellatedItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTessellatedItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTESSELLATEDITEM" << "(";
+	stream << "#" << m_id << "= IFCTESSELLATEDITEM" << "(";
 	stream << ");";
 }
 void IfcTessellatedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

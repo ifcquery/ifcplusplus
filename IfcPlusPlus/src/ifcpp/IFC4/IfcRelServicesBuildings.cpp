@@ -45,14 +45,14 @@ void IfcRelServicesBuildings::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcRelServicesBuildings::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELSERVICESBUILDINGS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELSERVICESBUILDINGS" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RelatingSystem ) { stream << "#" << m_RelatingSystem->getId(); } else { stream << "$"; }
 	stream << ",";
@@ -78,6 +78,9 @@ void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
+	shared_ptr<IfcPPAttributeObjectVector> RelatedBuildings_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
 }
 void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

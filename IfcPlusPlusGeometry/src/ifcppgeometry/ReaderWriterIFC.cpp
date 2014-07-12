@@ -98,15 +98,8 @@ ReaderWriterIFC::~ReaderWriterIFC()
 void ReaderWriterIFC::resetModel()
 {
 	progressTextCallback( L"Unloading model, cleaning up memory..." );
-	m_err.str(std::string());
-	m_messages.str(std::string());
-
-	deleteInputCache();
-	m_map_visited.clear();
-	m_map_outside_spatial_structure.clear();
-	AppearanceManagerOSG::clearAppearanceCache();
-
 	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
+	clearInputCache();
 	m_recent_progress = 0.0;
 	progressCallback( 0.0, "parse" );
 	progressTextCallback( L"Unloading model done" );
@@ -116,10 +109,16 @@ void ReaderWriterIFC::resetModel()
 #endif
 }
 
-void ReaderWriterIFC::deleteInputCache()
+void ReaderWriterIFC::clearInputCache()
 {
+	m_err.str(std::string());
+	m_messages.str(std::string());
 	m_shape_input_data.clear();
+	m_map_visited.clear();
+	m_map_outside_spatial_structure.clear();
 	AppearanceManagerOSG::clearAppearanceCache();
+	m_representation_converter->clearCache();
+	m_group_result = new osg::Group();
 }
 
 void ReaderWriterIFC::resetNumVerticesPerCircle()
@@ -129,20 +128,14 @@ void ReaderWriterIFC::resetNumVerticesPerCircle()
 
 void ReaderWriterIFC::setModel( shared_ptr<IfcPPModel> model )
 {
-	if( m_ifc_model )
-	{
-		m_ifc_model->clearIfcModel();
-	}
 	m_ifc_model = model;
-
 	m_unit_converter = m_ifc_model->getUnitConverter();
-	m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
+	m_representation_converter->clearCache();
+	m_representation_converter->setUnitConverter( m_unit_converter );
 }
 
 osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& filename, const osgDB::ReaderWriter::Options*)
 {
-	resetModel();
-
 	std::string ext = osgDB::getFileExtension(filename);
 	if( !acceptsExtension(ext) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
 	
@@ -167,11 +160,10 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 	infile.read (&buffer[0],length);
 	infile.close();
 	
-	m_ifc_model->clearIfcModel();
-	m_step_reader->setModel( m_ifc_model );
 	m_step_reader->removeComments( buffer );
-	m_step_reader->readStreamHeader( buffer );
-	std::wstring file_schema_version = m_ifc_model->getFileSchema();
+	m_step_reader->readStreamHeader( buffer, m_ifc_model );
+	IfcPPModel::IfcPPSchemaVersion& file_schema_version = m_ifc_model->getIfcSchemaVersion();
+	
 	std::map<int,shared_ptr<IfcPPEntity> > map_entities;
 	
 	m_err.clear();
@@ -181,7 +173,7 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 
 	try
 	{
-		m_step_reader->readStreamData( buffer, map_entities );
+		m_step_reader->readStreamData( buffer, file_schema_version, map_entities );
 	}
 	catch( IfcPPException& e )
 	{
@@ -269,15 +261,6 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 
 void ReaderWriterIFC::createGeometry()
 {
-	shared_ptr<IfcProject> project = m_ifc_model->getIfcProject();
-	if( !project )
-	{
-#ifdef _DEBUG
-		std::cout << "Warning: no valid IfcProject found in model!" << std::endl;
-#endif
-		//throw IfcPPException( "No valid IfcProject in model." , __func__ );
-	}
-
 	m_shape_input_data.clear();
 	m_map_outside_spatial_structure.clear();
 	m_representation_converter->getProfileCache()->clearProfileCache();
@@ -343,7 +326,7 @@ void ReaderWriterIFC::createGeometry()
 			catch( IfcPPException& e)
 			{
 				thread_err << e.what();
-			}		
+			}
 			catch( carve::exception& e)
 			{
 				thread_err << e.str();

@@ -38,12 +38,12 @@ void IfcCompositeCurveOnSurface::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcCompositeCurveOnSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCCOMPOSITECURVEONSURFACE" << "(";
+	stream << "#" << m_id << "= IFCCOMPOSITECURVEONSURFACE" << "(";
 	writeEntityList( stream, m_Segments );
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ");";
 }
 void IfcCompositeCurveOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

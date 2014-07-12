@@ -48,20 +48,20 @@ void IfcRelConnectsWithRealizingElements::setEntity( shared_ptr<IfcPPEntity> oth
 }
 void IfcRelConnectsWithRealizingElements::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCRELCONNECTSWITHREALIZINGELEMENTS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCRELCONNECTSWITHREALIZINGELEMENTS" << "(";
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "$"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->getId(); } else { stream << "$"; }
+	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingElement ) { stream << "#" << m_RelatingElement->getId(); } else { stream << "$"; }
+	if( m_RelatingElement ) { stream << "#" << m_RelatingElement->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->getId(); } else { stream << "$"; }
+	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->getId(); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_RealizingElements );
 	stream << ",";
@@ -89,6 +89,9 @@ void IfcRelConnectsWithRealizingElements::readStepArguments( const std::vector<s
 void IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> RealizingElements_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_RealizingElements.begin(), m_RealizingElements.end(), std::back_inserter( RealizingElements_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
 	vec_attributes.push_back( std::make_pair( "ConnectionType", m_ConnectionType ) );
 }
 void IfcRelConnectsWithRealizingElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

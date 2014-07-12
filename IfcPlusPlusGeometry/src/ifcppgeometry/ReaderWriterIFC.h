@@ -60,7 +60,7 @@ public:
 	std::stringstream& getErrors() { return m_err; }
 	std::stringstream& getMessages() { return m_messages; }
 	void resetNumVerticesPerCircle();
-	void deleteInputCache();
+	void clearInputCache();
 	void resetModel();
 
 	static void slotProgressValueWrapper( void* obj_ptr, double value, const std::string& progress_type );

@@ -41,7 +41,7 @@ void IfcGridAxis::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcGridAxis::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCGRIDAXIS" << "(";
+	stream << "#" << m_id << "= IFCGRIDAXIS" << "(";
 	if( m_AxisTag ) { m_AxisTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_AxisCurve ) { stream << "#" << m_AxisCurve->getId(); } else { stream << "$"; }
@@ -70,16 +70,28 @@ void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 	shared_ptr<IfcPPAttributeObjectVector> PartOfW_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_PartOfW_inverse.size(); ++i ) { PartOfW_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfW_inverse[i] ) ); }
+	for( size_t i=0; i<m_PartOfW_inverse.size(); ++i )
+	{
+		PartOfW_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfW_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "PartOfW_inverse", PartOfW_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> PartOfV_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_PartOfV_inverse.size(); ++i ) { PartOfV_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfV_inverse[i] ) ); }
+	for( size_t i=0; i<m_PartOfV_inverse.size(); ++i )
+	{
+		PartOfV_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfV_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "PartOfV_inverse", PartOfV_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> PartOfU_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_PartOfU_inverse.size(); ++i ) { PartOfU_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfU_inverse[i] ) ); }
+	for( size_t i=0; i<m_PartOfU_inverse.size(); ++i )
+	{
+		PartOfU_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfU_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "PartOfU_inverse", PartOfU_inverse_vec_obj ) );
 	shared_ptr<IfcPPAttributeObjectVector> HasIntersections_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( int i=0; i<m_HasIntersections_inverse.size(); ++i ) { HasIntersections_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcVirtualGridIntersection>( m_HasIntersections_inverse[i] ) ); }
+	for( size_t i=0; i<m_HasIntersections_inverse.size(); ++i )
+	{
+		HasIntersections_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcVirtualGridIntersection>( m_HasIntersections_inverse[i] ) );
+	}
 	vec_attributes_inverse.push_back( std::make_pair( "HasIntersections_inverse", HasIntersections_inverse_vec_obj ) );
 }
 void IfcGridAxis::setInverseCounterparts( shared_ptr<IfcPPEntity> )

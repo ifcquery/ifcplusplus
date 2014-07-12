@@ -36,10 +36,10 @@ void IfcTextStyleForDefinedFont::setEntity( shared_ptr<IfcPPEntity> other_entity
 }
 void IfcTextStyleForDefinedFont::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTSTYLEFORDEFINEDFONT" << "(";
-	if( m_Colour ) { m_Colour->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTEXTSTYLEFORDEFINEDFONT" << "(";
+	if( m_Colour ) { m_Colour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_BackgroundColour ) { m_BackgroundColour->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_BackgroundColour ) { m_BackgroundColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcTextStyleForDefinedFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

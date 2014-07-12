@@ -38,7 +38,7 @@ void IfcEdge::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcEdge::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCEDGE" << "(";
+	stream << "#" << m_id << "= IFCEDGE" << "(";
 	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "$"; }

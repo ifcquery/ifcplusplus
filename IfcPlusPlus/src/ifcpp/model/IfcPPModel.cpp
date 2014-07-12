@@ -34,11 +34,24 @@
 #include "IfcPPException.h"
 #include "IfcPPModel.h"
 
+IfcPPModel::IfcPPSchemaVersion::IfcPPSchemaVersion()
+{
+	m_IFC_FILE_SCHEMA = L"";
+	m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
+}
+IfcPPModel::IfcPPSchemaVersion::IfcPPSchemaVersion(std::wstring schema_str, IfcPPVersionEnum schema_enum)
+	: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)
+{
+}
+IfcPPModel::IfcPPSchemaVersion::~IfcPPSchemaVersion()
+{
+}
+
+
 IfcPPModel::IfcPPModel()
 {
 	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
 	initFileHeader( "IfcPlusPlus-export.ifc" );
-	m_ifc_schema_version = IfcPPModel::IFC_VERSION_UNDEFINED;
 }
 
 IfcPPModel::~IfcPPModel()
@@ -292,7 +305,13 @@ void IfcPPModel::setFileName( std::wstring schema )
 }
 void IfcPPModel::setFileSchema( std::wstring schema )
 {
-	m_IFC_FILE_SCHEMA = schema;
+	m_ifc_schema_version.m_IFC_FILE_SCHEMA = schema;
+}
+
+void IfcPPModel::setIfcSchemaVersion( IfcPPSchemaVersion& ver )
+{
+	m_ifc_schema_version.m_IFC_FILE_SCHEMA = ver.m_IFC_FILE_SCHEMA.c_str();
+	m_ifc_schema_version.m_ifc_file_schema_enum = ver.m_ifc_file_schema_enum;
 }
 
 void IfcPPModel::clearIfcModel()
@@ -307,11 +326,12 @@ void IfcPPModel::clearIfcModel()
 
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
-	m_ifc_schema_version = IFC_VERSION_UNKNOWN;
-	m_IFC_FILE_SCHEMA = L"";
+	m_ifc_schema_version.m_ifc_file_schema_enum = IFC_VERSION_UNDEFINED;
+	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"";
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";
+	m_unit_converter->m_loaded_prefix.reset();
 }
 
 void IfcPPModel::resetIfcModel()

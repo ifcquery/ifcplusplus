@@ -35,7 +35,7 @@ void IfcSurfaceStyleShading::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcSurfaceStyleShading::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCSURFACESTYLESHADING" << "(";
+	stream << "#" << m_id << "= IFCSURFACESTYLESHADING" << "(";
 	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->getId(); } else { stream << "$"; }
 	stream << ");";
 }

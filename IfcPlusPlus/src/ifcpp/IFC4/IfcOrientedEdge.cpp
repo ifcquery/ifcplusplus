@@ -41,10 +41,10 @@ void IfcOrientedEdge::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCORIENTEDEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCORIENTEDEDGE" << "(";
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "$"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "*"; }
 	stream << ",";
 	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->getId(); } else { stream << "$"; }
 	stream << ",";

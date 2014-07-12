@@ -40,14 +40,14 @@ void IfcOffsetCurve2D::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcOffsetCurve2D::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCOFFSETCURVE2D" << "(";
+	stream << "#" << m_id << "= IFCOFFSETCURVE2D" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->getId(); } else { stream << "$"; }
 	stream << ",";
 	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else if( m_SelfIntersect == LOGICAL_UNKNOWN ) { stream << ".U."; }
+	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ");";
 }
 void IfcOffsetCurve2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

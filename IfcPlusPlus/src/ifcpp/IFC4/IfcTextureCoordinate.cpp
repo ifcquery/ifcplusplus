@@ -35,7 +35,7 @@ void IfcTextureCoordinate::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextureCoordinate::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTURECOORDINATE" << "(";
+	stream << "#" << m_id << "= IFCTEXTURECOORDINATE" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ");";
 }
@@ -52,6 +52,9 @@ void IfcTextureCoordinate::readStepArguments( const std::vector<std::wstring>& a
 void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
+	shared_ptr<IfcPPAttributeObjectVector> Maps_vec_object( new  IfcPPAttributeObjectVector() );
+	std::copy( m_Maps.begin(), m_Maps.end(), std::back_inserter( Maps_vec_object->m_vec ) );
+	vec_attributes.push_back( std::make_pair( "Maps", Maps_vec_object ) );
 }
 void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

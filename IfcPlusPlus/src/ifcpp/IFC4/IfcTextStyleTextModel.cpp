@@ -44,20 +44,20 @@ void IfcTextStyleTextModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
 }
 void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "=IFCTEXTSTYLETEXTMODEL" << "(";
-	if( m_TextIndent ) { m_TextIndent->getStepParameter( stream, true ); } else { stream << "$"; }
+	stream << "#" << m_id << "= IFCTEXTSTYLETEXTMODEL" << "(";
+	if( m_TextIndent ) { m_TextIndent->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TextAlign ) { m_TextAlign->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TextDecoration ) { m_TextDecoration->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LetterSpacing ) { m_LetterSpacing->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_LetterSpacing ) { m_LetterSpacing->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_WordSpacing ) { m_WordSpacing->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_WordSpacing ) { m_WordSpacing->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TextTransform ) { m_TextTransform->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true ); } else { stream << "$"; }
+	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -33,7 +33,7 @@
 static std::map<std::string,IfcPPEntityEnum> map_string2entity_enum(initializers_IfcPP_entity, initializers_IfcPP_entity + sizeof(initializers_IfcPP_entity)/sizeof(initializers_IfcPP_entity[0]));
 static std::map<std::string,IfcPPTypeEnum> map_string2type_enum(initializers_IfcPP_type, initializers_IfcPP_type + sizeof(initializers_IfcPP_type)/sizeof(initializers_IfcPP_type[0]));
 
-void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args );
+void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args );
 void applyBackwardCompatibility( std::string& keyword, std::string& step_line );
 shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
 IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
@@ -214,26 +214,25 @@ void IfcStepReader::removeComments( std::string& buffer )
 	buffer = buffer.substr( 0, length_without_comments );
 }
 
-void IfcStepReader::readStreamHeader( const std::string& read_in )
+void IfcStepReader::readStreamHeader( const std::string& read_in, shared_ptr<IfcPPModel>& target_model )
 {
-	if( !m_model )
+	if( !target_model )
 	{
 		throw IfcPPException( "Model not set.", __func__ );
 	}
 
-	m_model->m_file_header = L"";
-	m_model->m_ifc_schema_version = IfcPPModel::IFC_VERSION_UNDEFINED;
-	m_model->m_IFC_FILE_DESCRIPTION = L"";
-	m_model->m_IFC_FILE_NAME = L"";
-	m_model->m_IFC_FILE_SCHEMA = L"";
+	target_model->m_file_header = L"";
+	target_model->m_IFC_FILE_DESCRIPTION = L"";
+	target_model->m_IFC_FILE_NAME = L"";
 	
 	size_t file_header_start = read_in.find("HEADER;");
 	size_t file_header_end = read_in.find("ENDSEC;");
 	if( file_header_start == std::string::npos || file_header_end == std::string::npos )
 	{
-		throw IfcPPException( "Missing file header", __func__ );
+		return;
 	}
-	
+
+	target_model->setIfcSchemaVersion( IfcPPModel::IfcPPSchemaVersion( L"", IfcPPModel::IFC_VERSION_UNDEFINED ) );
 	file_header_start += 7;
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
@@ -246,7 +245,7 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 	{
 		file_header_wstr = vec_header_wstr[0];
 	}
-	m_model->setFileHeader( file_header_wstr );
+	target_model->setFileHeader( file_header_wstr );
 	
 	std::vector<std::wstring> vec_header_lines;
 	// split into lines
@@ -282,20 +281,20 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 
 		if( header_line.find(L"FILE_DESCRIPTION") != std::string::npos )
 		{
-			m_model->setFileDescription( header_line );
+			target_model->setFileDescription( header_line );
 			continue;
 		}
 
 		if( header_line.find(L"FILE_NAME") != std::string::npos )
 		{
-			m_model->setFileName( header_line );
+			target_model->setFileName( header_line );
 			continue;
 		}
 
 		if( header_line.find(L"FILE_SCHEMA") != std::string::npos )
 		{
 			size_t file_schema_begin = header_line.find(L"FILE_SCHEMA") + 11;
-			m_model->setFileSchema( header_line );
+			target_model->setFileSchema( header_line );
 
 			std::wstring file_schema_args = header_line.substr( 11 );
 			size_t find_whitespace = file_schema_args.find(L" ");
@@ -316,31 +315,31 @@ void IfcStepReader::readStreamHeader( const std::string& read_in )
 				
 			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC2X2;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X2;
 			}
 			else if( file_schema_args.substr(0,6).compare(L"IFC2X3") == 0 )
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC2X3;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X3;
 			}
 			else if( file_schema_args.substr(0,6).compare(L"IFC2X4") == 0 )
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC2X4;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X4;
 			}
 			else if( file_schema_args.substr(0,5).compare(L"IFC2X") == 0 )
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC2X;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X;
 			}
 			else if( file_schema_args.compare(L"IFC4") == 0 )
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC4;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC4;
 			}
 			else if( file_schema_args.compare(L"IFC4RC4") == 0 )
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC4;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC4;
 			}
 			else
 			{
-				m_model->m_ifc_schema_version = IfcPPModel::IFC_VERSION_UNDEFINED;
+				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
 			}
 		}
 	}
@@ -534,7 +533,7 @@ void IfcStepReader::readStepLines( const std::vector<std::string>& step_lines, s
 	}
 }
 
-void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
+void IfcStepReader::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -572,12 +571,12 @@ void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntit
 			// character decoding:
 			decodeArgumentStrings( arguments, arguments_w );
 
-			if( m_model->getIfcSchemaVersion() != IfcPPModel::IFC4 )
+			if( ifc_version.m_ifc_file_schema_enum != IfcPPModel::IFC4 )
 			{
-				if( m_model->getIfcSchemaVersion() != IfcPPModel::IFC_VERSION_UNDEFINED && m_model->getIfcSchemaVersion() != IfcPPModel::IFC_VERSION_UNKNOWN )
+				if( ifc_version.m_ifc_file_schema_enum != IfcPPModel::IFC_VERSION_UNDEFINED && ifc_version.m_ifc_file_schema_enum != IfcPPModel::IFC_VERSION_UNKNOWN )
 				{
 					IfcPPEntityEnum entity_enum = entity->m_entity_enum;
-					applyBackwardCompatibility( m_model, entity_enum, arguments_w );
+					applyBackwardCompatibility( ifc_version, entity_enum, arguments_w );
 				}
 			}
 #ifdef _DEBUG
@@ -634,24 +633,26 @@ void IfcStepReader::readEntityArguments( const std::vector<shared_ptr<IfcPPEntit
 	}
 }
 
-void IfcStepReader::readStreamData(	std::string& read_in, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcStepReader::readStreamData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
 {
 	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
 	setlocale(LC_NUMERIC,"C");
 
-	if( m_model->getIfcSchemaVersion()  == IfcPPModel::IFC_VERSION_UNDEFINED || m_model->getIfcSchemaVersion() == IfcPPModel::IFC_VERSION_UNKNOWN )
+	if( ifc_version.m_ifc_file_schema_enum  == IfcPPModel::IFC_VERSION_UNDEFINED || ifc_version.m_ifc_file_schema_enum == IfcPPModel::IFC_VERSION_UNKNOWN )
 	{
 		std::wstring error_message;
 		error_message.append( L"Unsupported IFC version: " );
-		error_message.append( m_model->getFileSchema() );
+		error_message.append( ifc_version.m_IFC_FILE_SCHEMA );
 		errorCallback( error_message );
 		progressCallback(0.0, "parse");
 		return;
 	}
 	
-	//std::string message( "Detected IFC version: " );
-	//message.append( m_model->getFileSchema() );
-	messageCallback( std::wstring( L"Detected IFC version: ") + m_model->getFileSchema() );
+	if( read_in.size() == 0 )
+	{
+		return;
+	}
+	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version.m_IFC_FILE_SCHEMA );
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;
@@ -699,7 +700,7 @@ void IfcStepReader::readStreamData(	std::string& read_in, std::map<int,shared_pt
 
 	try
 	{
-		readEntityArguments( vec_entities, target_map );
+		readEntityArguments( ifc_version, vec_entities, target_map );
 	}
 	catch( IfcPPException& e )
 	{
@@ -807,13 +808,11 @@ static std::map<IfcPPEntityEnum, int> global_map_num_args = {
 	{ IfcPPEntityEnum::IFCZONE, 6 }
 };
 
-void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
+void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
 {
-	IfcPPModel::IfcVersion version = ifc_model->getIfcSchemaVersion();
-	std::wstring ifc_file_name = ifc_model->getFileName();
 
 	// TODO: replace this workaround with a systematic backward compatibility, possibly generated from schema diff
-	if( version < IfcPPModel::IFC2X )
+	if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC2X )
 	{
 		throw IfcPPException( "Unsupported IFC version", __func__ );
 	}
@@ -826,7 +825,7 @@ void applyBackwardCompatibility( shared_ptr<IfcPPModel>& ifc_model, IfcPPEntityE
 		while( args.size() < num_args ){ args.push_back( L"$" ); }
 	}
 
-	if( version < IfcPPModel::IFC4 )
+	if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC4 )
 	{
 		switch( type_enum )
 		{
