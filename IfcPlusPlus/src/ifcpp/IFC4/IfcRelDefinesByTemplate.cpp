@@ -77,13 +77,17 @@ void IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::wstring>
 void IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelDefines::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedPropertySets_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedPropertySets.begin(), m_RelatedPropertySets.end(), std::back_inserter( RelatedPropertySets_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedPropertySets", RelatedPropertySets_vec_object ) );
+	if( m_RelatedPropertySets.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedPropertySets_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedPropertySets.begin(), m_RelatedPropertySets.end(), std::back_inserter( RelatedPropertySets_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedPropertySets", RelatedPropertySets_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "RelatingTemplate", m_RelatingTemplate ) );
 }
 void IfcRelDefinesByTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelDefines::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelDefinesByTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

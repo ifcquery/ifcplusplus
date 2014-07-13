@@ -55,18 +55,28 @@ void IfcFace::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Bounds_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Bounds.begin(), m_Bounds.end(), std::back_inserter( Bounds_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Bounds", Bounds_vec_object ) );
+	if( m_Bounds.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Bounds_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Bounds.begin(), m_Bounds.end(), std::back_inserter( Bounds_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Bounds", Bounds_vec_object ) );
+	}
 }
 void IfcFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> HasTextureMaps_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasTextureMaps_inverse.size(); ++i )
+	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
+	if( m_HasTextureMaps_inverse.size() > 0 )
 	{
-		HasTextureMaps_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasTextureMaps_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasTextureMaps_inverse.size(); ++i )
+		{
+			if( !m_HasTextureMaps_inverse[i].expired() )
+			{
+				HasTextureMaps_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
 }
 void IfcFace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

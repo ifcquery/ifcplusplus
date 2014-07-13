@@ -106,6 +106,7 @@ void IfcCondenserType::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcCondenserType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDeviceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCondenserType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

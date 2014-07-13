@@ -91,6 +91,7 @@ void IfcRelAssignsToGroupByFactor::getAttributes( std::vector<std::pair<std::str
 }
 void IfcRelAssignsToGroupByFactor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelAssignsToGroup::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelAssignsToGroupByFactor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

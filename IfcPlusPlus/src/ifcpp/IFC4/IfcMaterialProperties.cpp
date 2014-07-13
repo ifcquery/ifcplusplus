@@ -72,6 +72,7 @@ void IfcMaterialProperties::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcMaterialProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcExtendedProperties::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

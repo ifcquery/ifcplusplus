@@ -61,6 +61,7 @@ void IfcConnectionCurveGeometry::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcConnectionCurveGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcConnectionGeometry::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcConnectionCurveGeometry::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

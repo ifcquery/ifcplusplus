@@ -75,17 +75,24 @@ void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
-	shared_ptr<IfcPPAttributeObjectVector> Trim1_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Trim1.begin(), m_Trim1.end(), std::back_inserter( Trim1_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Trim1", Trim1_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> Trim2_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Trim2", Trim2_vec_object ) );
+	if( m_Trim1.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Trim1_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Trim1.begin(), m_Trim1.end(), std::back_inserter( Trim1_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Trim1", Trim1_vec_object ) );
+	}
+	if( m_Trim2.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Trim2_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Trim2", Trim2_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "SenseAgreement", shared_ptr<IfcPPBool>( new IfcPPBool( m_SenseAgreement ) ) ) );
 	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
 void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTrimmedCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

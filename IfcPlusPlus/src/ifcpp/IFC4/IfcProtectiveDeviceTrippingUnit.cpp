@@ -115,6 +115,7 @@ void IfcProtectiveDeviceTrippingUnit::getAttributes( std::vector<std::pair<std::
 }
 void IfcProtectiveDeviceTrippingUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcDistributionControlElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcProtectiveDeviceTrippingUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

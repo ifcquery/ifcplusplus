@@ -62,12 +62,18 @@ void IfcTable::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcTable::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	shared_ptr<IfcPPAttributeObjectVector> Rows_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Rows.begin(), m_Rows.end(), std::back_inserter( Rows_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Rows", Rows_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> Columns_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Columns.begin(), m_Columns.end(), std::back_inserter( Columns_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Columns", Columns_vec_object ) );
+	if( m_Rows.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Rows_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Rows.begin(), m_Rows.end(), std::back_inserter( Rows_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Rows", Rows_vec_object ) );
+	}
+	if( m_Columns.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Columns_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Columns.begin(), m_Columns.end(), std::back_inserter( Columns_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Columns", Columns_vec_object ) );
+	}
 }
 void IfcTable::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

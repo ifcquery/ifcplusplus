@@ -48,6 +48,7 @@ void IfcVertex::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 }
 void IfcVertex::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcVertex::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

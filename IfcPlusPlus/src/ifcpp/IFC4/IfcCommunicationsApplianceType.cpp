@@ -106,6 +106,7 @@ void IfcCommunicationsApplianceType::getAttributes( std::vector<std::pair<std::s
 }
 void IfcCommunicationsApplianceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCommunicationsApplianceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

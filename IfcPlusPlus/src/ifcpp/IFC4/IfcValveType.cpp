@@ -106,6 +106,7 @@ void IfcValveType::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 }
 void IfcValveType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcValveType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

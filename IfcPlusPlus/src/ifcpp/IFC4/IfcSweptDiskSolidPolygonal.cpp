@@ -80,6 +80,7 @@ void IfcSweptDiskSolidPolygonal::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcSweptDiskSolidPolygonal::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSweptDiskSolid::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSweptDiskSolidPolygonal::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

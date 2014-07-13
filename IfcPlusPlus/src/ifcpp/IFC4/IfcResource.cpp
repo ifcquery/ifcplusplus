@@ -94,12 +94,19 @@ void IfcResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ResourceOf_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ResourceOf_inverse.size(); ++i )
+	IfcObject::getAttributesInverse( vec_attributes_inverse );
+	if( m_ResourceOf_inverse.size() > 0 )
 	{
-		ResourceOf_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToResource>( m_ResourceOf_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ResourceOf_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ResourceOf_inverse.size(); ++i )
+		{
+			if( !m_ResourceOf_inverse[i].expired() )
+			{
+				ResourceOf_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToResource>( m_ResourceOf_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ResourceOf_inverse", ResourceOf_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ResourceOf_inverse", ResourceOf_inverse_vec_obj ) );
 }
 void IfcResource::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

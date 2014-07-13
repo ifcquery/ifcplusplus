@@ -108,72 +108,139 @@ void IfcElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> FillsVoids_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_FillsVoids_inverse.size(); ++i )
+	IfcProduct::getAttributesInverse( vec_attributes_inverse );
+	if( m_FillsVoids_inverse.size() > 0 )
 	{
-		FillsVoids_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_FillsVoids_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> FillsVoids_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_FillsVoids_inverse.size(); ++i )
+		{
+			if( !m_FillsVoids_inverse[i].expired() )
+			{
+				FillsVoids_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_FillsVoids_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "FillsVoids_inverse", FillsVoids_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "FillsVoids_inverse", FillsVoids_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ConnectedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
+	if( m_ConnectedTo_inverse.size() > 0 )
 	{
-		ConnectedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedTo_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ConnectedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
+		{
+			if( !m_ConnectedTo_inverse[i].expired() )
+			{
+				ConnectedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedTo_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ConnectedTo_inverse", ConnectedTo_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ConnectedTo_inverse", ConnectedTo_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
+	if( m_IsInterferedByElements_inverse.size() > 0 )
 	{
-		IsInterferedByElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelInterferesElements>( m_IsInterferedByElements_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
+		{
+			if( !m_IsInterferedByElements_inverse[i].expired() )
+			{
+				IsInterferedByElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelInterferesElements>( m_IsInterferedByElements_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "IsInterferedByElements_inverse", IsInterferedByElements_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "IsInterferedByElements_inverse", IsInterferedByElements_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> InterferesElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
+	if( m_InterferesElements_inverse.size() > 0 )
 	{
-		InterferesElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelInterferesElements>( m_InterferesElements_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> InterferesElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
+		{
+			if( !m_InterferesElements_inverse[i].expired() )
+			{
+				InterferesElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelInterferesElements>( m_InterferesElements_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "InterferesElements_inverse", InterferesElements_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "InterferesElements_inverse", InterferesElements_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> HasProjections_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasProjections_inverse.size(); ++i )
+	if( m_HasProjections_inverse.size() > 0 )
 	{
-		HasProjections_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelProjectsElement>( m_HasProjections_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasProjections_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasProjections_inverse.size(); ++i )
+		{
+			if( !m_HasProjections_inverse[i].expired() )
+			{
+				HasProjections_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelProjectsElement>( m_HasProjections_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasProjections_inverse", HasProjections_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasProjections_inverse", HasProjections_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ReferencedInStructures_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ReferencedInStructures_inverse.size(); ++i )
+	if( m_ReferencedInStructures_inverse.size() > 0 )
 	{
-		ReferencedInStructures_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencedInStructures_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ReferencedInStructures_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ReferencedInStructures_inverse.size(); ++i )
+		{
+			if( !m_ReferencedInStructures_inverse[i].expired() )
+			{
+				ReferencedInStructures_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencedInStructures_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ReferencedInStructures_inverse", ReferencedInStructures_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ReferencedInStructures_inverse", ReferencedInStructures_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> HasOpenings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasOpenings_inverse.size(); ++i )
+	if( m_HasOpenings_inverse.size() > 0 )
 	{
-		HasOpenings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelVoidsElement>( m_HasOpenings_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasOpenings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasOpenings_inverse.size(); ++i )
+		{
+			if( !m_HasOpenings_inverse[i].expired() )
+			{
+				HasOpenings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelVoidsElement>( m_HasOpenings_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasOpenings_inverse", HasOpenings_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasOpenings_inverse", HasOpenings_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> IsConnectionRealization_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_IsConnectionRealization_inverse.size(); ++i )
+	if( m_IsConnectionRealization_inverse.size() > 0 )
 	{
-		IsConnectionRealization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsWithRealizingElements>( m_IsConnectionRealization_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> IsConnectionRealization_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_IsConnectionRealization_inverse.size(); ++i )
+		{
+			if( !m_IsConnectionRealization_inverse[i].expired() )
+			{
+				IsConnectionRealization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsWithRealizingElements>( m_IsConnectionRealization_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "IsConnectionRealization_inverse", IsConnectionRealization_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "IsConnectionRealization_inverse", IsConnectionRealization_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ProvidesBoundaries_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ProvidesBoundaries_inverse.size(); ++i )
+	if( m_ProvidesBoundaries_inverse.size() > 0 )
 	{
-		ProvidesBoundaries_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_ProvidesBoundaries_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ProvidesBoundaries_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ProvidesBoundaries_inverse.size(); ++i )
+		{
+			if( !m_ProvidesBoundaries_inverse[i].expired() )
+			{
+				ProvidesBoundaries_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_ProvidesBoundaries_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ProvidesBoundaries_inverse", ProvidesBoundaries_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ProvidesBoundaries_inverse", ProvidesBoundaries_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ConnectedFrom_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
+	if( m_ConnectedFrom_inverse.size() > 0 )
 	{
-		ConnectedFrom_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedFrom_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ConnectedFrom_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
+		{
+			if( !m_ConnectedFrom_inverse[i].expired() )
+			{
+				ConnectedFrom_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedFrom_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ConnectedFrom_inverse", ConnectedFrom_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ConnectedFrom_inverse", ConnectedFrom_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+	if( m_ContainedInStructure_inverse.size() > 0 )
 	{
-		ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+		{
+			if( !m_ContainedInStructure_inverse[i].expired() )
+			{
+				ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 }
 void IfcElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

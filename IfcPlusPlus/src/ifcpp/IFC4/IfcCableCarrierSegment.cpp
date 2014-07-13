@@ -115,6 +115,7 @@ void IfcCableCarrierSegment::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcCableCarrierSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowSegment::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCableCarrierSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

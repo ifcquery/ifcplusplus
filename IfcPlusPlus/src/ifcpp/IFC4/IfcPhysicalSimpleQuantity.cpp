@@ -68,6 +68,7 @@ void IfcPhysicalSimpleQuantity::getAttributes( std::vector<std::pair<std::string
 }
 void IfcPhysicalSimpleQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPhysicalQuantity::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPhysicalSimpleQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -58,6 +58,7 @@ void IfcConic::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 }
 void IfcConic::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcConic::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

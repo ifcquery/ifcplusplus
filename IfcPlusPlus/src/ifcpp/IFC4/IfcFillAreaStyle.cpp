@@ -63,13 +63,17 @@ void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args,
 void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> FillStyles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
+	if( m_FillStyles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> FillStyles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "ModelorDraughting", shared_ptr<IfcPPBool>( new IfcPPBool( m_ModelorDraughting ) ) ) );
 }
 void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFillAreaStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

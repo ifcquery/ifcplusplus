@@ -101,15 +101,19 @@ void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcConstraint::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> BenchmarkValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
+	if( m_BenchmarkValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> BenchmarkValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "LogicalAggregator", m_LogicalAggregator ) );
 	vec_attributes.push_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );
 }
 void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcConstraint::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcObjective::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

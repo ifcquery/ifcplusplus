@@ -106,6 +106,7 @@ void IfcFlowMeterType::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcFlowMeterType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFlowMeterType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

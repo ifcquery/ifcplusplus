@@ -114,18 +114,31 @@ void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_SourceOfResultGroup_inverse.size(); ++i )
+	IfcGroup::getAttributesInverse( vec_attributes_inverse );
+	if( m_SourceOfResultGroup_inverse.size() > 0 )
 	{
-		SourceOfResultGroup_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralResultGroup>( m_SourceOfResultGroup_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_SourceOfResultGroup_inverse.size(); ++i )
+		{
+			if( !m_SourceOfResultGroup_inverse[i].expired() )
+			{
+				SourceOfResultGroup_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralResultGroup>( m_SourceOfResultGroup_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "SourceOfResultGroup_inverse", SourceOfResultGroup_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "SourceOfResultGroup_inverse", SourceOfResultGroup_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> LoadGroupFor_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_LoadGroupFor_inverse.size(); ++i )
+	if( m_LoadGroupFor_inverse.size() > 0 )
 	{
-		LoadGroupFor_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralAnalysisModel>( m_LoadGroupFor_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> LoadGroupFor_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_LoadGroupFor_inverse.size(); ++i )
+		{
+			if( !m_LoadGroupFor_inverse[i].expired() )
+			{
+				LoadGroupFor_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralAnalysisModel>( m_LoadGroupFor_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
 }
 void IfcStructuralLoadGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

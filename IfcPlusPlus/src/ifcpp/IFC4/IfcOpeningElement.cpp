@@ -113,12 +113,19 @@ void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> HasFillings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasFillings_inverse.size(); ++i )
+	IfcFeatureElementSubtraction::getAttributesInverse( vec_attributes_inverse );
+	if( m_HasFillings_inverse.size() > 0 )
 	{
-		HasFillings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_HasFillings_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasFillings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasFillings_inverse.size(); ++i )
+		{
+			if( !m_HasFillings_inverse[i].expired() )
+			{
+				HasFillings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_HasFillings_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasFillings_inverse", HasFillings_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasFillings_inverse", HasFillings_inverse_vec_obj ) );
 }
 void IfcOpeningElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

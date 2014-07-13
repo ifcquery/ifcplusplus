@@ -73,6 +73,7 @@ void IfcOffsetCurve2D::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcOffsetCurve2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcOffsetCurve2D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

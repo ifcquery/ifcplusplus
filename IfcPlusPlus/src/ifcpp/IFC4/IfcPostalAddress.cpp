@@ -93,9 +93,12 @@ void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_
 {
 	IfcAddress::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "InternalLocation", m_InternalLocation ) );
-	shared_ptr<IfcPPAttributeObjectVector> AddressLines_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_AddressLines.begin(), m_AddressLines.end(), std::back_inserter( AddressLines_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
+	if( m_AddressLines.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> AddressLines_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_AddressLines.begin(), m_AddressLines.end(), std::back_inserter( AddressLines_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "PostalBox", m_PostalBox ) );
 	vec_attributes.push_back( std::make_pair( "Town", m_Town ) );
 	vec_attributes.push_back( std::make_pair( "Region", m_Region ) );
@@ -104,6 +107,7 @@ void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcPostalAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcAddress::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPostalAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

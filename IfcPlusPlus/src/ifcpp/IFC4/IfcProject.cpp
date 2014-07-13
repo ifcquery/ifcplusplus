@@ -98,6 +98,7 @@ void IfcProject::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcProject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcContext::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcProject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

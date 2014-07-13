@@ -71,13 +71,17 @@ void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<st
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedDocuments_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
+	if( m_RelatedDocuments.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedDocuments_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
 void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

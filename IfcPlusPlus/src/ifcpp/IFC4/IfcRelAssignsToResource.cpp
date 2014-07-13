@@ -88,6 +88,7 @@ void IfcRelAssignsToResource::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcRelAssignsToResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelAssignsToResource::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

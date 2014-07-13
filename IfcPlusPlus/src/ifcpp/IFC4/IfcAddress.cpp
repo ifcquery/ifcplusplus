@@ -69,18 +69,30 @@ void IfcAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> OfPerson_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
+	if( m_OfPerson_inverse.size() > 0 )
 	{
-		OfPerson_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> OfPerson_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
+		{
+			if( !m_OfPerson_inverse[i].expired() )
+			{
+				OfPerson_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> OfOrganization_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
+	if( m_OfOrganization_inverse.size() > 0 )
 	{
-		OfOrganization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> OfOrganization_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
+		{
+			if( !m_OfOrganization_inverse[i].expired() )
+			{
+				OfOrganization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
 }
 void IfcAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {

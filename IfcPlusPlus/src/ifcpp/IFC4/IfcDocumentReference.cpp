@@ -79,12 +79,19 @@ void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
+	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
+	if( m_DocumentRefForObjects_inverse.size() > 0 )
 	{
-		DocumentRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
+		{
+			if( !m_DocumentRefForObjects_inverse[i].expired() )
+			{
+				DocumentRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 }
 void IfcDocumentReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

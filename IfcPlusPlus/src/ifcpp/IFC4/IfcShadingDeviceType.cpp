@@ -106,6 +106,7 @@ void IfcShadingDeviceType::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcShadingDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcShadingDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

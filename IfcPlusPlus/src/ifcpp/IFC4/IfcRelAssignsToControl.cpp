@@ -86,6 +86,7 @@ void IfcRelAssignsToControl::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcRelAssignsToControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelAssignsToControl::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

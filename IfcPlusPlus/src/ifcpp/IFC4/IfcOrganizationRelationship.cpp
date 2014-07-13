@@ -67,12 +67,16 @@ void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::stri
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingOrganization", m_RelatingOrganization ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedOrganizations_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedOrganizations.begin(), m_RelatedOrganizations.end(), std::back_inserter( RelatedOrganizations_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
+	if( m_RelatedOrganizations.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedOrganizations_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedOrganizations.begin(), m_RelatedOrganizations.end(), std::back_inserter( RelatedOrganizations_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
+	}
 }
 void IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcOrganizationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

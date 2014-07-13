@@ -76,6 +76,7 @@ void IfcPropertySingleValue::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcPropertySingleValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPropertySingleValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

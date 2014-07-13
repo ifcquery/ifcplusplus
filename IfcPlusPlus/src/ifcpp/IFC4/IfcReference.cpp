@@ -71,12 +71,15 @@ void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "TypeIdentifier", m_TypeIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "AttributeIdentifier", m_AttributeIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "InstanceName", m_InstanceName ) );
-	shared_ptr<IfcPPAttributeObjectVector> ListPositions_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ListPositions.size(); ++i )
+	if( m_ListPositions.size() > 0 )
 	{
-		ListPositions_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ListPositions[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> ListPositions_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ListPositions.size(); ++i )
+		{
+			ListPositions_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ListPositions[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "ListPositions", ListPositions_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ListPositions", ListPositions_vec_obj ) );
 	vec_attributes.push_back( std::make_pair( "InnerReference", m_InnerReference ) );
 }
 void IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -55,6 +55,7 @@ void IfcColourRgbList::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcColourRgbList::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcColourRgbList::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

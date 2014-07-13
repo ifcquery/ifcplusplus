@@ -106,6 +106,7 @@ void IfcGeographicElementType::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcGeographicElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcGeographicElementType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -67,6 +67,7 @@ void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 }
 void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPlanarExtent::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPlanarBox::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

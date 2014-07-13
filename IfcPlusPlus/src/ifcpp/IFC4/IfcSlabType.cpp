@@ -106,6 +106,7 @@ void IfcSlabType::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcSlabType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSlabType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

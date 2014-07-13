@@ -77,6 +77,7 @@ void IfcCircleHollowProfileDef::getAttributes( std::vector<std::pair<std::string
 }
 void IfcCircleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCircleProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCircleHollowProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

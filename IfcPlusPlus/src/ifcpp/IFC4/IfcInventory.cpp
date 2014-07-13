@@ -111,15 +111,19 @@ void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "Jurisdiction", m_Jurisdiction ) );
-	shared_ptr<IfcPPAttributeObjectVector> ResponsiblePersons_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
+	if( m_ResponsiblePersons.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ResponsiblePersons_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "LastUpdateDate", m_LastUpdateDate ) );
 	vec_attributes.push_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
 	vec_attributes.push_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
 }
 void IfcInventory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcInventory::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

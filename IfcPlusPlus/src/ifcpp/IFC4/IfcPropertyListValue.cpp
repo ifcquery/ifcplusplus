@@ -71,13 +71,17 @@ void IfcPropertyListValue::readStepArguments( const std::vector<std::wstring>& a
 void IfcPropertyListValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> ListValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+	if( m_ListValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ListValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IfcPropertyListValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPropertyListValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

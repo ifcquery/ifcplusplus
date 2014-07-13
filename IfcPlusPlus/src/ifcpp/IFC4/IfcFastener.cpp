@@ -113,6 +113,7 @@ void IfcFastener::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcFastener::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementComponent::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFastener::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

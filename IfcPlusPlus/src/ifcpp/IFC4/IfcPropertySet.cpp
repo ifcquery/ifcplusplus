@@ -77,12 +77,16 @@ void IfcPropertySet::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcPropertySet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPropertySetDefinition::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> HasProperties_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+	if( m_HasProperties.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasProperties_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+	}
 }
 void IfcPropertySet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPropertySetDefinition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPropertySet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

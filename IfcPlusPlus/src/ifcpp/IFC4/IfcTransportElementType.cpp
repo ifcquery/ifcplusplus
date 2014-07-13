@@ -106,6 +106,7 @@ void IfcTransportElementType::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcTransportElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTransportElementType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

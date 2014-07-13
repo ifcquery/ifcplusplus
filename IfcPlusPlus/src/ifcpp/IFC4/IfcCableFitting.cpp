@@ -115,6 +115,7 @@ void IfcCableFitting::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcCableFitting::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowFitting::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCableFitting::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

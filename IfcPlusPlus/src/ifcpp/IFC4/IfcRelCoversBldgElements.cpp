@@ -79,12 +79,16 @@ void IfcRelCoversBldgElements::getAttributes( std::vector<std::pair<std::string,
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedCoverings_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
+	if( m_RelatedCoverings.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedCoverings_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
+	}
 }
 void IfcRelCoversBldgElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelCoversBldgElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

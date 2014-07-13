@@ -62,13 +62,17 @@ void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args
 void IfcCompositeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Segments_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Segments", Segments_vec_object ) );
+	if( m_Segments.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Segments_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Segments", Segments_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );
 }
 void IfcCompositeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCompositeCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

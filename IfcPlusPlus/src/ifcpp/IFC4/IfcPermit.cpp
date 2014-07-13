@@ -104,6 +104,7 @@ void IfcPermit::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 }
 void IfcPermit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPermit::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

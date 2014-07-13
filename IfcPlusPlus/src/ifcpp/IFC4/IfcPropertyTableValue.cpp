@@ -88,12 +88,18 @@ void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& 
 void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> DefiningValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> DefinedValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
+	if( m_DefiningValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> DefiningValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
+	}
+	if( m_DefinedValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> DefinedValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
 	vec_attributes.push_back( std::make_pair( "DefiningUnit", m_DefiningUnit ) );
 	vec_attributes.push_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );
@@ -101,6 +107,7 @@ void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPropertyTableValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -67,12 +67,16 @@ void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedApprovals_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedApprovals.begin(), m_RelatedApprovals.end(), std::back_inserter( RelatedApprovals_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
+	if( m_RelatedApprovals.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedApprovals_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedApprovals.begin(), m_RelatedApprovals.end(), std::back_inserter( RelatedApprovals_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
+	}
 }
 void IfcApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcApprovalRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

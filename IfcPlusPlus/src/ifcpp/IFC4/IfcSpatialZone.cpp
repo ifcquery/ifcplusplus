@@ -106,6 +106,7 @@ void IfcSpatialZone::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcSpatialZone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSpatialElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSpatialZone::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

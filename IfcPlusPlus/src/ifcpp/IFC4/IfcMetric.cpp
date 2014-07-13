@@ -108,6 +108,7 @@ void IfcMetric::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 }
 void IfcMetric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcConstraint::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMetric::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

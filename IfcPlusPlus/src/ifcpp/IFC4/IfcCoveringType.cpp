@@ -106,6 +106,7 @@ void IfcCoveringType::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcCoveringType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCoveringType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

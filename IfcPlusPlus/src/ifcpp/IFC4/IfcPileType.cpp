@@ -106,6 +106,7 @@ void IfcPileType::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcPileType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPileType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

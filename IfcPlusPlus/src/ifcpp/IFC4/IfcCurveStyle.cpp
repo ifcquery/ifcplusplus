@@ -80,6 +80,7 @@ void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCurveStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

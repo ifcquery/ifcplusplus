@@ -85,21 +85,33 @@ void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& a
 void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "RecurrenceType", m_RecurrenceType ) );
-	shared_ptr<IfcPPAttributeObjectVector> DayComponent_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_DayComponent.begin(), m_DayComponent.end(), std::back_inserter( DayComponent_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "DayComponent", DayComponent_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> WeekdayComponent_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_WeekdayComponent.begin(), m_WeekdayComponent.end(), std::back_inserter( WeekdayComponent_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "WeekdayComponent", WeekdayComponent_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> MonthComponent_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_MonthComponent.begin(), m_MonthComponent.end(), std::back_inserter( MonthComponent_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "MonthComponent", MonthComponent_vec_object ) );
+	if( m_DayComponent.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> DayComponent_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_DayComponent.begin(), m_DayComponent.end(), std::back_inserter( DayComponent_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "DayComponent", DayComponent_vec_object ) );
+	}
+	if( m_WeekdayComponent.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> WeekdayComponent_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_WeekdayComponent.begin(), m_WeekdayComponent.end(), std::back_inserter( WeekdayComponent_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "WeekdayComponent", WeekdayComponent_vec_object ) );
+	}
+	if( m_MonthComponent.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> MonthComponent_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_MonthComponent.begin(), m_MonthComponent.end(), std::back_inserter( MonthComponent_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "MonthComponent", MonthComponent_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
 	vec_attributes.push_back( std::make_pair( "Interval", m_Interval ) );
 	vec_attributes.push_back( std::make_pair( "Occurrences", m_Occurrences ) );
-	shared_ptr<IfcPPAttributeObjectVector> TimePeriods_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_TimePeriods.begin(), m_TimePeriods.end(), std::back_inserter( TimePeriods_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
+	if( m_TimePeriods.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> TimePeriods_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_TimePeriods.begin(), m_TimePeriods.end(), std::back_inserter( TimePeriods_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
+	}
 }
 void IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

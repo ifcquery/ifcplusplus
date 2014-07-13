@@ -144,6 +144,7 @@ void IfcTaskTimeRecurring::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcTaskTimeRecurring::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTaskTime::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTaskTimeRecurring::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -115,6 +115,7 @@ void IfcLaborResourceType::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcLaborResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcConstructionResourceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLaborResourceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

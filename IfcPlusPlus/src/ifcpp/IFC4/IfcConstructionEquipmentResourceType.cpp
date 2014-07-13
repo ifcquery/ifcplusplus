@@ -115,6 +115,7 @@ void IfcConstructionEquipmentResourceType::getAttributes( std::vector<std::pair<
 }
 void IfcConstructionEquipmentResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcConstructionResourceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcConstructionEquipmentResourceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

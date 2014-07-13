@@ -114,6 +114,7 @@ void IfcChimney::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcChimney::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcChimney::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

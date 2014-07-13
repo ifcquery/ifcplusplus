@@ -63,16 +63,23 @@ void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& 
 void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> TilingPattern_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_TilingPattern.begin(), m_TilingPattern.end(), std::back_inserter( TilingPattern_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> Tiles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Tiles.begin(), m_Tiles.end(), std::back_inserter( Tiles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Tiles", Tiles_vec_object ) );
+	if( m_TilingPattern.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> TilingPattern_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_TilingPattern.begin(), m_TilingPattern.end(), std::back_inserter( TilingPattern_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
+	}
+	if( m_Tiles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Tiles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Tiles.begin(), m_Tiles.end(), std::back_inserter( Tiles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Tiles", Tiles_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "TilingScale", m_TilingScale ) );
 }
 void IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFillAreaStyleTiles::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

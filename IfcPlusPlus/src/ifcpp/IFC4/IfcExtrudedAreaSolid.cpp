@@ -74,6 +74,7 @@ void IfcExtrudedAreaSolid::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcExtrudedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcExtrudedAreaSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

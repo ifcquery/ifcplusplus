@@ -66,6 +66,7 @@ void IfcBooleanClippingResult::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcBooleanClippingResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBooleanResult::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBooleanClippingResult::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

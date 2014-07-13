@@ -76,6 +76,7 @@ void IfcMaterialProfileSetUsageTapering::getAttributes( std::vector<std::pair<st
 }
 void IfcMaterialProfileSetUsageTapering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialProfileSetUsage::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialProfileSetUsageTapering::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

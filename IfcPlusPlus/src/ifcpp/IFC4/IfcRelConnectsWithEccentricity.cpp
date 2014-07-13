@@ -106,6 +106,7 @@ void IfcRelConnectsWithEccentricity::getAttributes( std::vector<std::pair<std::s
 }
 void IfcRelConnectsWithEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnectsStructuralMember::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelConnectsWithEccentricity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

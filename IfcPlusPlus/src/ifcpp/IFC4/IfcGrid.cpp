@@ -109,25 +109,41 @@ void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcProduct::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> UAxes_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "UAxes", UAxes_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> VAxes_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "VAxes", VAxes_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> WAxes_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "WAxes", WAxes_vec_object ) );
+	if( m_UAxes.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> UAxes_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "UAxes", UAxes_vec_object ) );
+	}
+	if( m_VAxes.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> VAxes_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "VAxes", VAxes_vec_object ) );
+	}
+	if( m_WAxes.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> WAxes_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "WAxes", WAxes_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+	IfcProduct::getAttributesInverse( vec_attributes_inverse );
+	if( m_ContainedInStructure_inverse.size() > 0 )
 	{
-		ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+		{
+			if( !m_ContainedInStructure_inverse[i].expired() )
+			{
+				ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 }
 void IfcGrid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

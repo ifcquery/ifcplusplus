@@ -100,6 +100,7 @@ void IfcSpatialStructureElementType::getAttributes( std::vector<std::pair<std::s
 }
 void IfcSpatialStructureElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSpatialElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSpatialStructureElementType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

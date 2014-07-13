@@ -115,6 +115,7 @@ void IfcTank::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcTank::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowStorageDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTank::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

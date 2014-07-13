@@ -62,13 +62,17 @@ void IfcTextureMap::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Vertices_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Vertices.begin(), m_Vertices.end(), std::back_inserter( Vertices_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Vertices", Vertices_vec_object ) );
+	if( m_Vertices.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Vertices_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Vertices.begin(), m_Vertices.end(), std::back_inserter( Vertices_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Vertices", Vertices_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
 }
 void IfcTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTextureCoordinate::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTextureMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

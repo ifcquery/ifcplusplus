@@ -105,13 +105,17 @@ void IfcConstructionResource::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcResource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
-	shared_ptr<IfcPPAttributeObjectVector> BaseCosts_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
+	if( m_BaseCosts.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> BaseCosts_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
 }
 void IfcConstructionResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcResource::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcConstructionResource::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

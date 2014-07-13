@@ -56,9 +56,12 @@ void IfcMaterialClassificationRelationship::readStepArguments( const std::vector
 }
 void IfcMaterialClassificationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> MaterialClassifications_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_MaterialClassifications.begin(), m_MaterialClassifications.end(), std::back_inserter( MaterialClassifications_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "MaterialClassifications", MaterialClassifications_vec_object ) );
+	if( m_MaterialClassifications.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> MaterialClassifications_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_MaterialClassifications.begin(), m_MaterialClassifications.end(), std::back_inserter( MaterialClassifications_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "MaterialClassifications", MaterialClassifications_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "ClassifiedMaterial", m_ClassifiedMaterial ) );
 }
 void IfcMaterialClassificationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

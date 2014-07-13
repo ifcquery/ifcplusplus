@@ -64,6 +64,7 @@ void IfcLine::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcLine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLine::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

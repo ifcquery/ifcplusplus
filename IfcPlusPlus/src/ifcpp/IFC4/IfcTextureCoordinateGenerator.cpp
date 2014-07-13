@@ -63,12 +63,16 @@ void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::st
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Mode", m_Mode ) );
-	shared_ptr<IfcPPAttributeObjectVector> Parameter_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
+	if( m_Parameter.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Parameter_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
+	}
 }
 void IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTextureCoordinate::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTextureCoordinateGenerator::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

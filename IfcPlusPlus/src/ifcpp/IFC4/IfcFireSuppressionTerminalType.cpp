@@ -106,6 +106,7 @@ void IfcFireSuppressionTerminalType::getAttributes( std::vector<std::pair<std::s
 }
 void IfcFireSuppressionTerminalType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFireSuppressionTerminalType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

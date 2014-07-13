@@ -47,6 +47,7 @@ void IfcPreDefinedProperties::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcPreDefinedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPreDefinedProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -78,6 +78,7 @@ void IfcQuantityVolume::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcQuantityVolume::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPhysicalSimpleQuantity::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcQuantityVolume::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -46,12 +46,18 @@ void IfcPropertyAbstraction::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcPropertyAbstraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+	if( m_HasExternalReferences_inverse.size() > 0 )
 	{
-		HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+		{
+			if( !m_HasExternalReferences_inverse[i].expired() )
+			{
+				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 }
 void IfcPropertyAbstraction::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {

@@ -113,6 +113,7 @@ void IfcPlateStandardCase::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcPlateStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPlate::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPlateStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

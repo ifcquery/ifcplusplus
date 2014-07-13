@@ -104,6 +104,7 @@ void IfcWindowPanelProperties::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcWindowPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWindowPanelProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

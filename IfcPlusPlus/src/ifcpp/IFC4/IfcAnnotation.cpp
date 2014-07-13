@@ -94,12 +94,19 @@ void IfcAnnotation::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcAnnotation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+	IfcProduct::getAttributesInverse( vec_attributes_inverse );
+	if( m_ContainedInStructure_inverse.size() > 0 )
 	{
-		ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+		{
+			if( !m_ContainedInStructure_inverse[i].expired() )
+			{
+				ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 }
 void IfcAnnotation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

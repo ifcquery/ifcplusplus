@@ -76,9 +76,12 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ShapeRepresentations_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
+	if( m_ShapeRepresentations.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ShapeRepresentations_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "ProductDefinitional", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_ProductDefinitional ) ) ) );

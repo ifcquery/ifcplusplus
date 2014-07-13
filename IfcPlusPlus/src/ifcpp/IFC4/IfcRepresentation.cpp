@@ -71,30 +71,51 @@ void IfcRepresentation::getAttributes( std::vector<std::pair<std::string, shared
 	vec_attributes.push_back( std::make_pair( "ContextOfItems", m_ContextOfItems ) );
 	vec_attributes.push_back( std::make_pair( "RepresentationIdentifier", m_RepresentationIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "RepresentationType", m_RepresentationType ) );
-	shared_ptr<IfcPPAttributeObjectVector> Items_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Items.begin(), m_Items.end(), std::back_inserter( Items_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Items", Items_vec_object ) );
+	if( m_Items.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Items_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Items.begin(), m_Items.end(), std::back_inserter( Items_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Items", Items_vec_object ) );
+	}
 }
 void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> RepresentationMap_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_RepresentationMap_inverse.size(); ++i )
+	if( m_RepresentationMap_inverse.size() > 0 )
 	{
-		RepresentationMap_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentationMap>( m_RepresentationMap_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> RepresentationMap_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_RepresentationMap_inverse.size(); ++i )
+		{
+			if( !m_RepresentationMap_inverse[i].expired() )
+			{
+				RepresentationMap_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentationMap>( m_RepresentationMap_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "RepresentationMap_inverse", RepresentationMap_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "RepresentationMap_inverse", RepresentationMap_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> LayerAssignments_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_LayerAssignments_inverse.size(); ++i )
+	if( m_LayerAssignments_inverse.size() > 0 )
 	{
-		LayerAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignments_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> LayerAssignments_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_LayerAssignments_inverse.size(); ++i )
+		{
+			if( !m_LayerAssignments_inverse[i].expired() )
+			{
+				LayerAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignments_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "LayerAssignments_inverse", LayerAssignments_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "LayerAssignments_inverse", LayerAssignments_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_OfProductRepresentation_inverse.size(); ++i )
+	if( m_OfProductRepresentation_inverse.size() > 0 )
 	{
-		OfProductRepresentation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProductRepresentation>( m_OfProductRepresentation_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_OfProductRepresentation_inverse.size(); ++i )
+		{
+			if( !m_OfProductRepresentation_inverse[i].expired() )
+			{
+				OfProductRepresentation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProductRepresentation>( m_OfProductRepresentation_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj ) );
 }
 void IfcRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -99,6 +99,7 @@ void IfcLightSourcePositional::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcLightSourcePositional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcLightSource::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLightSourcePositional::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

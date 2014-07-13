@@ -80,15 +80,19 @@ void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Degree", shared_ptr<IfcPPInt>( new IfcPPInt( m_Degree ) ) ) );
-	shared_ptr<IfcPPAttributeObjectVector> ControlPointsList_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
+	if( m_ControlPointsList.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ControlPointsList_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "CurveForm", m_CurveForm ) );
 	vec_attributes.push_back( std::make_pair( "ClosedCurve", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_ClosedCurve ) ) ) );
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );
 }
 void IfcBSplineCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBSplineCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

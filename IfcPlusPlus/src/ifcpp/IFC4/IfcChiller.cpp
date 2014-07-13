@@ -115,6 +115,7 @@ void IfcChiller::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcChiller::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcChiller::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

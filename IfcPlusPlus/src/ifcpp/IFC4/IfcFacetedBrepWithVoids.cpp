@@ -58,12 +58,16 @@ void IfcFacetedBrepWithVoids::readStepArguments( const std::vector<std::wstring>
 void IfcFacetedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcFacetedBrep::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Voids_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
+	if( m_Voids.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Voids_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
+	}
 }
 void IfcFacetedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFacetedBrep::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFacetedBrepWithVoids::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

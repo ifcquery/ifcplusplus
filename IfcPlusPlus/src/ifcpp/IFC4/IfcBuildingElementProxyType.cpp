@@ -106,6 +106,7 @@ void IfcBuildingElementProxyType::getAttributes( std::vector<std::pair<std::stri
 }
 void IfcBuildingElementProxyType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBuildingElementProxyType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

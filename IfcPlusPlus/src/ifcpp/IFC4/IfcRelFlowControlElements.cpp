@@ -77,13 +77,17 @@ void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstrin
 void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedControlElements_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedControlElements.begin(), m_RelatedControlElements.end(), std::back_inserter( RelatedControlElements_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
+	if( m_RelatedControlElements.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedControlElements_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedControlElements.begin(), m_RelatedControlElements.end(), std::back_inserter( RelatedControlElements_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "RelatingFlowElement", m_RelatingFlowElement ) );
 }
 void IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelFlowControlElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

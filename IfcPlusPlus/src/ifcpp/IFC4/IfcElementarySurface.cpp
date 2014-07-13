@@ -58,6 +58,7 @@ void IfcElementarySurface::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcElementarySurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSurface::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcElementarySurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

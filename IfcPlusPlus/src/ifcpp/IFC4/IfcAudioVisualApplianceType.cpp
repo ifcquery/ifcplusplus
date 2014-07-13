@@ -106,6 +106,7 @@ void IfcAudioVisualApplianceType::getAttributes( std::vector<std::pair<std::stri
 }
 void IfcAudioVisualApplianceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcAudioVisualApplianceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

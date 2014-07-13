@@ -54,12 +54,16 @@ void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Points_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Points", Points_vec_object ) );
+	if( m_Points.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Points_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Points", Points_vec_object ) );
+	}
 }
 void IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPolyline::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

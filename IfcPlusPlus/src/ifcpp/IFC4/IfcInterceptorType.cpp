@@ -106,6 +106,7 @@ void IfcInterceptorType::getAttributes( std::vector<std::pair<std::string, share
 }
 void IfcInterceptorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowTreatmentDeviceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcInterceptorType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

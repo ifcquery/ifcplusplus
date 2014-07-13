@@ -98,23 +98,30 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> RelatingPriorities_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_RelatingPriorities.size(); ++i )
+	if( m_RelatingPriorities.size() > 0 )
 	{
-		RelatingPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_RelatingPriorities[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> RelatingPriorities_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_RelatingPriorities.size(); ++i )
+		{
+			RelatingPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_RelatingPriorities[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedPriorities_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_RelatedPriorities.size(); ++i )
+	if( m_RelatedPriorities.size() > 0 )
 	{
-		RelatedPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_RelatedPriorities[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> RelatedPriorities_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_RelatedPriorities.size(); ++i )
+		{
+			RelatedPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_RelatedPriorities[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_obj ) );
 	vec_attributes.push_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
 	vec_attributes.push_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
 }
 void IfcRelConnectsPathElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnectsElements::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelConnectsPathElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

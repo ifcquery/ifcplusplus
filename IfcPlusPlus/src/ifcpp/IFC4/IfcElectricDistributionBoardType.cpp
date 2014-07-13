@@ -106,6 +106,7 @@ void IfcElectricDistributionBoardType::getAttributes( std::vector<std::pair<std:
 }
 void IfcElectricDistributionBoardType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcElectricDistributionBoardType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

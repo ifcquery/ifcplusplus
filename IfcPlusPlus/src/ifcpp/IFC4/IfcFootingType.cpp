@@ -106,6 +106,7 @@ void IfcFootingType::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcFootingType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFootingType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

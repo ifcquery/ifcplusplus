@@ -106,6 +106,7 @@ void IfcMedicalDeviceType::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcMedicalDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMedicalDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

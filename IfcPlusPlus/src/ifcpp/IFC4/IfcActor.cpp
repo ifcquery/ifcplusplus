@@ -89,12 +89,19 @@ void IfcActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 }
 void IfcActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> IsActingUpon_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_IsActingUpon_inverse.size(); ++i )
+	IfcObject::getAttributesInverse( vec_attributes_inverse );
+	if( m_IsActingUpon_inverse.size() > 0 )
 	{
-		IsActingUpon_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToActor>( m_IsActingUpon_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> IsActingUpon_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_IsActingUpon_inverse.size(); ++i )
+		{
+			if( !m_IsActingUpon_inverse[i].expired() )
+			{
+				IsActingUpon_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToActor>( m_IsActingUpon_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "IsActingUpon_inverse", IsActingUpon_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "IsActingUpon_inverse", IsActingUpon_inverse_vec_obj ) );
 }
 void IfcActor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

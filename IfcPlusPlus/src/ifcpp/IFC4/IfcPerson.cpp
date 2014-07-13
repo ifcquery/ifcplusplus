@@ -86,30 +86,51 @@ void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "FamilyName", m_FamilyName ) );
 	vec_attributes.push_back( std::make_pair( "GivenName", m_GivenName ) );
-	shared_ptr<IfcPPAttributeObjectVector> MiddleNames_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_MiddleNames.begin(), m_MiddleNames.end(), std::back_inserter( MiddleNames_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "MiddleNames", MiddleNames_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> PrefixTitles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_PrefixTitles.begin(), m_PrefixTitles.end(), std::back_inserter( PrefixTitles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "PrefixTitles", PrefixTitles_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> SuffixTitles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_SuffixTitles.begin(), m_SuffixTitles.end(), std::back_inserter( SuffixTitles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "SuffixTitles", SuffixTitles_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> Addresses_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
+	if( m_MiddleNames.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> MiddleNames_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_MiddleNames.begin(), m_MiddleNames.end(), std::back_inserter( MiddleNames_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "MiddleNames", MiddleNames_vec_object ) );
+	}
+	if( m_PrefixTitles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> PrefixTitles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_PrefixTitles.begin(), m_PrefixTitles.end(), std::back_inserter( PrefixTitles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "PrefixTitles", PrefixTitles_vec_object ) );
+	}
+	if( m_SuffixTitles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> SuffixTitles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_SuffixTitles.begin(), m_SuffixTitles.end(), std::back_inserter( SuffixTitles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "SuffixTitles", SuffixTitles_vec_object ) );
+	}
+	if( m_Roles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+	}
+	if( m_Addresses.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Addresses_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
+	}
 }
 void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> EngagedIn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_EngagedIn_inverse.size(); ++i )
+	if( m_EngagedIn_inverse.size() > 0 )
 	{
-		EngagedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_EngagedIn_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> EngagedIn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_EngagedIn_inverse.size(); ++i )
+		{
+			if( !m_EngagedIn_inverse[i].expired() )
+			{
+				EngagedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_EngagedIn_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "EngagedIn_inverse", EngagedIn_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "EngagedIn_inverse", EngagedIn_inverse_vec_obj ) );
 }
 void IfcPerson::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

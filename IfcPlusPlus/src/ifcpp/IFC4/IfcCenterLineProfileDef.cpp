@@ -73,6 +73,7 @@ void IfcCenterLineProfileDef::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcCenterLineProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcArbitraryOpenProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCenterLineProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -66,6 +66,7 @@ void IfcExternallyDefinedSurfaceStyle::getAttributes( std::vector<std::pair<std:
 }
 void IfcExternallyDefinedSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcExternallyDefinedSurfaceStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

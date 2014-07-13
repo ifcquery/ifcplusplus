@@ -107,12 +107,19 @@ void IfcExternalSpatialElement::getAttributes( std::vector<std::pair<std::string
 }
 void IfcExternalSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> BoundedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_BoundedBy_inverse.size(); ++i )
+	IfcExternalSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
+	if( m_BoundedBy_inverse.size() > 0 )
 	{
-		BoundedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> BoundedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_BoundedBy_inverse.size(); ++i )
+		{
+			if( !m_BoundedBy_inverse[i].expired() )
+			{
+				BoundedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
 }
 void IfcExternalSpatialElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

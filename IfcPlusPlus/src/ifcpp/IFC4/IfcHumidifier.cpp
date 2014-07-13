@@ -115,6 +115,7 @@ void IfcHumidifier::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcHumidifier::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcHumidifier::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

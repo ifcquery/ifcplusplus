@@ -64,6 +64,7 @@ void IfcGridPlacement::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcGridPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcObjectPlacement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcGridPlacement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

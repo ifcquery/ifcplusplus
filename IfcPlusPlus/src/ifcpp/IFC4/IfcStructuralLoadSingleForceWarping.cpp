@@ -87,6 +87,7 @@ void IfcStructuralLoadSingleForceWarping::getAttributes( std::vector<std::pair<s
 }
 void IfcStructuralLoadSingleForceWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralLoadSingleForce::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralLoadSingleForceWarping::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

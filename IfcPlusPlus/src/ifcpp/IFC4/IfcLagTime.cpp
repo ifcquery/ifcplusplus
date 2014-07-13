@@ -76,6 +76,7 @@ void IfcLagTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcLagTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLagTime::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

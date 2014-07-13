@@ -144,6 +144,7 @@ void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcDoorLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcDoorLiningProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

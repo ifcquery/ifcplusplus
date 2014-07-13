@@ -51,9 +51,12 @@ void IfcUnitAssignment::readStepArguments( const std::vector<std::wstring>& args
 }
 void IfcUnitAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> Units_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Units.begin(), m_Units.end(), std::back_inserter( Units_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Units", Units_vec_object ) );
+	if( m_Units.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Units_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Units.begin(), m_Units.end(), std::back_inserter( Units_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Units", Units_vec_object ) );
+	}
 }
 void IfcUnitAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

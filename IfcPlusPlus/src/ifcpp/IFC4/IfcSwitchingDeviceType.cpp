@@ -106,6 +106,7 @@ void IfcSwitchingDeviceType::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcSwitchingDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSwitchingDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

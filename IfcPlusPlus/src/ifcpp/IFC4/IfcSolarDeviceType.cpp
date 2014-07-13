@@ -106,6 +106,7 @@ void IfcSolarDeviceType::getAttributes( std::vector<std::pair<std::string, share
 }
 void IfcSolarDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDeviceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSolarDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

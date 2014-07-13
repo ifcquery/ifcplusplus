@@ -115,6 +115,7 @@ void IfcAirToAirHeatRecovery::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcAirToAirHeatRecovery::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcAirToAirHeatRecovery::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

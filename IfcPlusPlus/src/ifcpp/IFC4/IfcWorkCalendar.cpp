@@ -99,16 +99,23 @@ void IfcWorkCalendar::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcWorkCalendar::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcControl::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> WorkingTimes_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_WorkingTimes.begin(), m_WorkingTimes.end(), std::back_inserter( WorkingTimes_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "WorkingTimes", WorkingTimes_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> ExceptionTimes_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ExceptionTimes.begin(), m_ExceptionTimes.end(), std::back_inserter( ExceptionTimes_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ExceptionTimes", ExceptionTimes_vec_object ) );
+	if( m_WorkingTimes.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> WorkingTimes_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_WorkingTimes.begin(), m_WorkingTimes.end(), std::back_inserter( WorkingTimes_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "WorkingTimes", WorkingTimes_vec_object ) );
+	}
+	if( m_ExceptionTimes.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ExceptionTimes_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ExceptionTimes.begin(), m_ExceptionTimes.end(), std::back_inserter( ExceptionTimes_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ExceptionTimes", ExceptionTimes_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcWorkCalendar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWorkCalendar::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

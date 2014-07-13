@@ -92,6 +92,7 @@ void IfcRelAssignsToActor::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcRelAssignsToActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelAssignsToActor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

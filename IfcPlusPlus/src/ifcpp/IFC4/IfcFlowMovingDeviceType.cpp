@@ -100,6 +100,7 @@ void IfcFlowMovingDeviceType::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcFlowMovingDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcDistributionFlowElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFlowMovingDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

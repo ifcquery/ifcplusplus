@@ -115,6 +115,7 @@ void IfcBoiler::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 }
 void IfcBoiler::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBoiler::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -117,9 +117,12 @@ void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_pt
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
-	shared_ptr<IfcPPAttributeObjectVector> Creators_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Creators.begin(), m_Creators.end(), std::back_inserter( Creators_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Creators", Creators_vec_object ) );
+	if( m_Creators.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Creators_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Creators.begin(), m_Creators.end(), std::back_inserter( Creators_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Creators", Creators_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
 	vec_attributes.push_back( std::make_pair( "Duration", m_Duration ) );
 	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
@@ -128,6 +131,7 @@ void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcWorkControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWorkControl::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

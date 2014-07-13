@@ -54,12 +54,16 @@ void IfcPath::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcPath::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> EdgeList_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
+	if( m_EdgeList.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> EdgeList_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
+	}
 }
 void IfcPath::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPath::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -54,12 +54,16 @@ void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args
 void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPoint::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Coordinates_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
+	if( m_Coordinates.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Coordinates_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
+	}
 }
 void IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPoint::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCartesianPoint::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

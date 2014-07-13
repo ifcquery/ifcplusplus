@@ -69,6 +69,7 @@ void IfcBoxedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcBoxedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcHalfSpaceSolid::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBoxedHalfSpace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

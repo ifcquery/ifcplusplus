@@ -48,6 +48,7 @@ void IfcBoundedCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcBoundedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBoundedCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

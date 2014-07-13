@@ -68,6 +68,7 @@ void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSectionProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

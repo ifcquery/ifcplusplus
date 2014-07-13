@@ -106,12 +106,19 @@ void IfcStructuralActivity::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_AssignedToStructuralItem_inverse.size(); ++i )
+	IfcProduct::getAttributesInverse( vec_attributes_inverse );
+	if( m_AssignedToStructuralItem_inverse.size() > 0 )
 	{
-		AssignedToStructuralItem_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralActivity>( m_AssignedToStructuralItem_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_AssignedToStructuralItem_inverse.size(); ++i )
+		{
+			if( !m_AssignedToStructuralItem_inverse[i].expired() )
+			{
+				AssignedToStructuralItem_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralActivity>( m_AssignedToStructuralItem_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
 }
 void IfcStructuralActivity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

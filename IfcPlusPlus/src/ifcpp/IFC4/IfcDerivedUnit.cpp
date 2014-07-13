@@ -61,9 +61,12 @@ void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> Elements_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Elements", Elements_vec_object ) );
+	if( m_Elements.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Elements_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Elements", Elements_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedType", m_UserDefinedType ) );
 }

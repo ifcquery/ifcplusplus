@@ -96,12 +96,16 @@ void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::stri
 {
 	IfcMaterialLayer::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
-	shared_ptr<IfcPPAttributeObjectVector> OffsetValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
+	if( m_OffsetValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> OffsetValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
+	}
 }
 void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialLayer::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialLayerWithOffsets::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

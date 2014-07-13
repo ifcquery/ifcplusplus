@@ -68,6 +68,7 @@ void IfcEllipse::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcEllipse::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcConic::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcEllipse::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
