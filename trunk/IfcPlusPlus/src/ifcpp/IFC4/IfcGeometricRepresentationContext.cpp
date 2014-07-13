@@ -84,12 +84,19 @@ void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std
 }
 void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> HasSubContexts_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasSubContexts_inverse.size(); ++i )
+	IfcRepresentationContext::getAttributesInverse( vec_attributes_inverse );
+	if( m_HasSubContexts_inverse.size() > 0 )
 	{
-		HasSubContexts_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGeometricRepresentationSubContext>( m_HasSubContexts_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasSubContexts_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasSubContexts_inverse.size(); ++i )
+		{
+			if( !m_HasSubContexts_inverse[i].expired() )
+			{
+				HasSubContexts_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGeometricRepresentationSubContext>( m_HasSubContexts_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasSubContexts_inverse", HasSubContexts_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasSubContexts_inverse", HasSubContexts_inverse_vec_obj ) );
 }
 void IfcGeometricRepresentationContext::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

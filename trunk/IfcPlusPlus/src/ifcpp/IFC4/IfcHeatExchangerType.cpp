@@ -106,6 +106,7 @@ void IfcHeatExchangerType::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcHeatExchangerType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEnergyConversionDeviceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcHeatExchangerType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

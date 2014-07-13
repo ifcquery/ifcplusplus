@@ -115,6 +115,7 @@ void IfcPump::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcPump::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowMovingDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPump::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

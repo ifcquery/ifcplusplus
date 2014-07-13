@@ -95,24 +95,43 @@ void IfcPort::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcPort::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ContainedIn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ContainedIn_inverse.size(); ++i )
+	IfcProduct::getAttributesInverse( vec_attributes_inverse );
+	if( m_ContainedIn_inverse.size() > 0 )
 	{
-		ContainedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPortToElement>( m_ContainedIn_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ContainedIn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ContainedIn_inverse.size(); ++i )
+		{
+			if( !m_ContainedIn_inverse[i].expired() )
+			{
+				ContainedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPortToElement>( m_ContainedIn_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ContainedIn_inverse", ContainedIn_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ContainedIn_inverse", ContainedIn_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ConnectedFrom_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
+	if( m_ConnectedFrom_inverse.size() > 0 )
 	{
-		ConnectedFrom_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPorts>( m_ConnectedFrom_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ConnectedFrom_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
+		{
+			if( !m_ConnectedFrom_inverse[i].expired() )
+			{
+				ConnectedFrom_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPorts>( m_ConnectedFrom_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ConnectedFrom_inverse", ConnectedFrom_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ConnectedFrom_inverse", ConnectedFrom_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> ConnectedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
+	if( m_ConnectedTo_inverse.size() > 0 )
 	{
-		ConnectedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPorts>( m_ConnectedTo_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ConnectedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
+		{
+			if( !m_ConnectedTo_inverse[i].expired() )
+			{
+				ConnectedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPorts>( m_ConnectedTo_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ConnectedTo_inverse", ConnectedTo_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ConnectedTo_inverse", ConnectedTo_inverse_vec_obj ) );
 }
 void IfcPort::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -76,6 +76,7 @@ void IfcMirroredProfileDef::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcMirroredProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcDerivedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMirroredProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

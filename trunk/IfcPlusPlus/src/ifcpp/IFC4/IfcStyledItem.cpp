@@ -64,13 +64,17 @@ void IfcStyledItem::getAttributes( std::vector<std::pair<std::string, shared_ptr
 {
 	IfcRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Item", m_Item ) );
-	shared_ptr<IfcPPAttributeObjectVector> Styles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+	if( m_Styles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Styles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcStyledItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStyledItem::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

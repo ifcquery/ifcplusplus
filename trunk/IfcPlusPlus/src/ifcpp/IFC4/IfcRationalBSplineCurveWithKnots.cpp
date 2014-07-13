@@ -97,15 +97,19 @@ void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBSplineCurveWithKnots::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> WeightsData_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_WeightsData.size(); ++i )
+	if( m_WeightsData.size() > 0 )
 	{
-		WeightsData_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_WeightsData[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> WeightsData_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_WeightsData.size(); ++i )
+		{
+			WeightsData_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_WeightsData[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "WeightsData", WeightsData_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "WeightsData", WeightsData_vec_obj ) );
 }
 void IfcRationalBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBSplineCurveWithKnots::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRationalBSplineCurveWithKnots::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

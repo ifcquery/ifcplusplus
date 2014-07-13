@@ -54,12 +54,16 @@ void IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std::wstrin
 void IfcShellBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> SbsmBoundary_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_SbsmBoundary.begin(), m_SbsmBoundary.end(), std::back_inserter( SbsmBoundary_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
+	if( m_SbsmBoundary.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> SbsmBoundary_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_SbsmBoundary.begin(), m_SbsmBoundary.end(), std::back_inserter( SbsmBoundary_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
+	}
 }
 void IfcShellBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcShellBasedSurfaceModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

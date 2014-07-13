@@ -112,6 +112,7 @@ void IfcFurnitureType::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcFurnitureType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFurnishingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFurnitureType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

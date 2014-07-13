@@ -84,18 +84,28 @@ void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ApplicableOccurrence", m_ApplicableOccurrence ) );
-	shared_ptr<IfcPPAttributeObjectVector> HasPropertySets_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_HasPropertySets.begin(), m_HasPropertySets.end(), std::back_inserter( HasPropertySets_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
+	if( m_HasPropertySets.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasPropertySets_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_HasPropertySets.begin(), m_HasPropertySets.end(), std::back_inserter( HasPropertySets_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
+	}
 }
 void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> Types_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_Types_inverse.size(); ++i )
+	IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
+	if( m_Types_inverse.size() > 0 )
 	{
-		Types_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByType>( m_Types_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> Types_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_Types_inverse.size(); ++i )
+		{
+			if( !m_Types_inverse[i].expired() )
+			{
+				Types_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByType>( m_Types_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "Types_inverse", Types_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "Types_inverse", Types_inverse_vec_obj ) );
 }
 void IfcTypeObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

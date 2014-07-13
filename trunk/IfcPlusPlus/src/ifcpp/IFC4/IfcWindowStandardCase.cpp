@@ -131,6 +131,7 @@ void IfcWindowStandardCase::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcWindowStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcWindow::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWindowStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

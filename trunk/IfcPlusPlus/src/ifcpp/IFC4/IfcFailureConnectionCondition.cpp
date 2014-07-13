@@ -86,6 +86,7 @@ void IfcFailureConnectionCondition::getAttributes( std::vector<std::pair<std::st
 }
 void IfcFailureConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralConnectionCondition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFailureConnectionCondition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

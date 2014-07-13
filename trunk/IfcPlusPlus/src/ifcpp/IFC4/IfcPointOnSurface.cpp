@@ -69,6 +69,7 @@ void IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcPointOnSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPoint::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPointOnSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

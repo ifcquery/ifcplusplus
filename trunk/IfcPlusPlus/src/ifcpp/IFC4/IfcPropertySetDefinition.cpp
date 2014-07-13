@@ -75,24 +75,43 @@ void IfcPropertySetDefinition::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcPropertySetDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> DefinesType_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_DefinesType_inverse.size(); ++i )
+	IfcPropertyDefinition::getAttributesInverse( vec_attributes_inverse );
+	if( m_DefinesType_inverse.size() > 0 )
 	{
-		DefinesType_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTypeObject>( m_DefinesType_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> DefinesType_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_DefinesType_inverse.size(); ++i )
+		{
+			if( !m_DefinesType_inverse[i].expired() )
+			{
+				DefinesType_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTypeObject>( m_DefinesType_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "DefinesType_inverse", DefinesType_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "DefinesType_inverse", DefinesType_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> IsDefinedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
+	if( m_IsDefinedBy_inverse.size() > 0 )
 	{
-		IsDefinedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByTemplate>( m_IsDefinedBy_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> IsDefinedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
+		{
+			if( !m_IsDefinedBy_inverse[i].expired() )
+			{
+				IsDefinedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByTemplate>( m_IsDefinedBy_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> DefinesOccurrence_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_DefinesOccurrence_inverse.size(); ++i )
+	if( m_DefinesOccurrence_inverse.size() > 0 )
 	{
-		DefinesOccurrence_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByProperties>( m_DefinesOccurrence_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> DefinesOccurrence_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_DefinesOccurrence_inverse.size(); ++i )
+		{
+			if( !m_DefinesOccurrence_inverse[i].expired() )
+			{
+				DefinesOccurrence_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByProperties>( m_DefinesOccurrence_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "DefinesOccurrence_inverse", DefinesOccurrence_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "DefinesOccurrence_inverse", DefinesOccurrence_inverse_vec_obj ) );
 }
 void IfcPropertySetDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

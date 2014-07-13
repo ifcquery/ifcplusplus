@@ -133,6 +133,7 @@ void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 }
 void IfcAsset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcAsset::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

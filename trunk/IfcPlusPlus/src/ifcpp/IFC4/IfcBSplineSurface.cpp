@@ -100,6 +100,7 @@ void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBoundedSurface::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBSplineSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

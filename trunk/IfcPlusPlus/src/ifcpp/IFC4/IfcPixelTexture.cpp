@@ -95,15 +95,19 @@ void IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "Width", m_Width ) );
 	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
 	vec_attributes.push_back( std::make_pair( "ColourComponents", m_ColourComponents ) );
-	shared_ptr<IfcPPAttributeObjectVector> Pixel_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_Pixel.size(); ++i )
+	if( m_Pixel.size() > 0 )
 	{
-		Pixel_vec_obj->m_vec.push_back( shared_ptr<IfcPPBinary>( new IfcPPBinary(m_Pixel[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> Pixel_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_Pixel.size(); ++i )
+		{
+			Pixel_vec_obj->m_vec.push_back( shared_ptr<IfcPPBinary>( new IfcPPBinary(m_Pixel[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "Pixel", Pixel_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Pixel", Pixel_vec_obj ) );
 }
 void IfcPixelTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSurfaceTexture::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPixelTexture::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

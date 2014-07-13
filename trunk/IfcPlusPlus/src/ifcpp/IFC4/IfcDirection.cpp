@@ -53,15 +53,19 @@ void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> DirectionRatios_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_DirectionRatios.size(); ++i )
+	if( m_DirectionRatios.size() > 0 )
 	{
-		DirectionRatios_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_DirectionRatios[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> DirectionRatios_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_DirectionRatios.size(); ++i )
+		{
+			DirectionRatios_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_DirectionRatios[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_obj ) );
 }
 void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcDirection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -63,9 +63,12 @@ void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string,
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	shared_ptr<IfcPPAttributeObjectVector> Representations_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Representations", Representations_vec_object ) );
+	if( m_Representations.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Representations_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Representations", Representations_vec_object ) );
+	}
 }
 void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

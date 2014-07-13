@@ -114,6 +114,7 @@ void IfcShadingDevice::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcShadingDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcShadingDevice::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -68,13 +68,17 @@ void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Profiles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Profiles", Profiles_vec_object ) );
+	if( m_Profiles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Profiles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Profiles", Profiles_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
 }
 void IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCompositeProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

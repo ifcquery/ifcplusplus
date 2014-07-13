@@ -104,6 +104,7 @@ void IfcActionRequest::getAttributes( std::vector<std::pair<std::string, shared_
 }
 void IfcActionRequest::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcActionRequest::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

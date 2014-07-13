@@ -120,6 +120,7 @@ void IfcPile::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcPile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPile::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -65,6 +65,7 @@ void IfcFaceBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 }
 void IfcFaceBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFaceBound::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

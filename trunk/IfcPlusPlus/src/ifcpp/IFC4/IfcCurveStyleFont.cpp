@@ -58,12 +58,16 @@ void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	shared_ptr<IfcPPAttributeObjectVector> PatternList_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "PatternList", PatternList_vec_object ) );
+	if( m_PatternList.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> PatternList_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "PatternList", PatternList_vec_object ) );
+	}
 }
 void IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCurveStyleFont::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

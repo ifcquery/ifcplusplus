@@ -86,6 +86,7 @@ void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcPropertyBoundedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPropertyBoundedValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -72,12 +72,19 @@ void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> UsingCurves_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_UsingCurves_inverse.size(); ++i )
+	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
+	if( m_UsingCurves_inverse.size() > 0 )
 	{
-		UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> UsingCurves_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_UsingCurves_inverse.size(); ++i )
+		{
+			if( !m_UsingCurves_inverse[i].expired() )
+			{
+				UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "UsingCurves_inverse", UsingCurves_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "UsingCurves_inverse", UsingCurves_inverse_vec_obj ) );
 }
 void IfcCompositeCurveSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

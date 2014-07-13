@@ -68,12 +68,18 @@ void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ExternalReferenceForResources_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ExternalReferenceForResources_inverse.size(); ++i )
+	if( m_ExternalReferenceForResources_inverse.size() > 0 )
 	{
-		ExternalReferenceForResources_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_ExternalReferenceForResources_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ExternalReferenceForResources_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ExternalReferenceForResources_inverse.size(); ++i )
+		{
+			if( !m_ExternalReferenceForResources_inverse[i].expired() )
+			{
+				ExternalReferenceForResources_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_ExternalReferenceForResources_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ExternalReferenceForResources_inverse", ExternalReferenceForResources_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ExternalReferenceForResources_inverse", ExternalReferenceForResources_inverse_vec_obj ) );
 }
 void IfcExternalReference::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {

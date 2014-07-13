@@ -113,6 +113,7 @@ void IfcColumnStandardCase::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcColumnStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcColumn::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcColumnStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

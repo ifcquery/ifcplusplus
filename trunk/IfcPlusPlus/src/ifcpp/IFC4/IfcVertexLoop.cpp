@@ -58,6 +58,7 @@ void IfcVertexLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcVertexLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcLoop::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcVertexLoop::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

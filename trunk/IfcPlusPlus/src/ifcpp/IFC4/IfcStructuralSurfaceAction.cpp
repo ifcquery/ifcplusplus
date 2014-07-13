@@ -122,6 +122,7 @@ void IfcStructuralSurfaceAction::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcStructuralSurfaceAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralAction::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralSurfaceAction::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

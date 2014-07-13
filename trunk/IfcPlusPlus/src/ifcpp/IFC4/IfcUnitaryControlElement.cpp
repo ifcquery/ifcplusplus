@@ -115,6 +115,7 @@ void IfcUnitaryControlElement::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcUnitaryControlElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcDistributionControlElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcUnitaryControlElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

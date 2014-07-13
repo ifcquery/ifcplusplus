@@ -85,6 +85,7 @@ void IfcSurfaceCurveSweptAreaSolid::getAttributes( std::vector<std::pair<std::st
 }
 void IfcSurfaceCurveSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSurfaceCurveSweptAreaSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

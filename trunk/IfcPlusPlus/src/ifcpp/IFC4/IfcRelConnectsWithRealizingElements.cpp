@@ -89,13 +89,17 @@ void IfcRelConnectsWithRealizingElements::readStepArguments( const std::vector<s
 void IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> RealizingElements_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RealizingElements.begin(), m_RealizingElements.end(), std::back_inserter( RealizingElements_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
+	if( m_RealizingElements.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RealizingElements_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RealizingElements.begin(), m_RealizingElements.end(), std::back_inserter( RealizingElements_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "ConnectionType", m_ConnectionType ) );
 }
 void IfcRelConnectsWithRealizingElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnectsElements::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelConnectsWithRealizingElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

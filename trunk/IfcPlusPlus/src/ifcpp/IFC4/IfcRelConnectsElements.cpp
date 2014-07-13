@@ -87,6 +87,7 @@ void IfcRelConnectsElements::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcRelConnectsElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelConnectsElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

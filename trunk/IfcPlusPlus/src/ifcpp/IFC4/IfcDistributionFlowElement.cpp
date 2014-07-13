@@ -109,12 +109,19 @@ void IfcDistributionFlowElement::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> HasControlElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_HasControlElements_inverse.size(); ++i )
+	IfcDistributionElement::getAttributesInverse( vec_attributes_inverse );
+	if( m_HasControlElements_inverse.size() > 0 )
 	{
-		HasControlElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFlowControlElements>( m_HasControlElements_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> HasControlElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasControlElements_inverse.size(); ++i )
+		{
+			if( !m_HasControlElements_inverse[i].expired() )
+			{
+				HasControlElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFlowControlElements>( m_HasControlElements_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasControlElements_inverse", HasControlElements_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "HasControlElements_inverse", HasControlElements_inverse_vec_obj ) );
 }
 void IfcDistributionFlowElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

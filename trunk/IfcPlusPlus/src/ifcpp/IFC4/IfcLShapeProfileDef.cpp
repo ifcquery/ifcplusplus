@@ -100,6 +100,7 @@ void IfcLShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shar
 }
 void IfcLShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLShapeProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

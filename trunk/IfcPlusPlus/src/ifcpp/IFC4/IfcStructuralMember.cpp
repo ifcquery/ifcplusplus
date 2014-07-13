@@ -95,12 +95,19 @@ void IfcStructuralMember::getAttributes( std::vector<std::pair<std::string, shar
 }
 void IfcStructuralMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ConnectedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ConnectedBy_inverse.size(); ++i )
+	IfcStructuralItem::getAttributesInverse( vec_attributes_inverse );
+	if( m_ConnectedBy_inverse.size() > 0 )
 	{
-		ConnectedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralMember>( m_ConnectedBy_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ConnectedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ConnectedBy_inverse.size(); ++i )
+		{
+			if( !m_ConnectedBy_inverse[i].expired() )
+			{
+				ConnectedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralMember>( m_ConnectedBy_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ConnectedBy_inverse", ConnectedBy_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ConnectedBy_inverse", ConnectedBy_inverse_vec_obj ) );
 }
 void IfcStructuralMember::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

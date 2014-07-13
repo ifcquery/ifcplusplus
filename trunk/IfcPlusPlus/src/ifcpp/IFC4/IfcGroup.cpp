@@ -83,12 +83,19 @@ void IfcGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 }
 void IfcGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> IsGroupedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_IsGroupedBy_inverse.size(); ++i )
+	IfcObject::getAttributesInverse( vec_attributes_inverse );
+	if( m_IsGroupedBy_inverse.size() > 0 )
 	{
-		IsGroupedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToGroup>( m_IsGroupedBy_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> IsGroupedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_IsGroupedBy_inverse.size(); ++i )
+		{
+			if( !m_IsGroupedBy_inverse[i].expired() )
+			{
+				IsGroupedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToGroup>( m_IsGroupedBy_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "IsGroupedBy_inverse", IsGroupedBy_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "IsGroupedBy_inverse", IsGroupedBy_inverse_vec_obj ) );
 }
 void IfcGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

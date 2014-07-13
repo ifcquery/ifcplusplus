@@ -77,9 +77,12 @@ void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& 
 void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPreDefinedTextFont::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> FontFamily_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
+	if( m_FontFamily.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> FontFamily_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "FontStyle", m_FontStyle ) );
 	vec_attributes.push_back( std::make_pair( "FontVariant", m_FontVariant ) );
 	vec_attributes.push_back( std::make_pair( "FontWeight", m_FontWeight ) );
@@ -87,6 +90,7 @@ void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedTextFont::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTextStyleFontModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

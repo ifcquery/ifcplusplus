@@ -96,12 +96,19 @@ void IfcProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<If
 }
 void IfcProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ReferencedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
+	IfcObject::getAttributesInverse( vec_attributes_inverse );
+	if( m_ReferencedBy_inverse.size() > 0 )
 	{
-		ReferencedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ReferencedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
+		{
+			if( !m_ReferencedBy_inverse[i].expired() )
+			{
+				ReferencedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 }
 void IfcProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -63,6 +63,7 @@ void IfcAxis2Placement2D::getAttributes( std::vector<std::pair<std::string, shar
 }
 void IfcAxis2Placement2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPlacement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcAxis2Placement2D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

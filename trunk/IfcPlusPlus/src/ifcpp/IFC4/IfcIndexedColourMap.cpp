@@ -69,15 +69,19 @@ void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
 	vec_attributes.push_back( std::make_pair( "Overrides", m_Overrides ) );
 	vec_attributes.push_back( std::make_pair( "Colours", m_Colours ) );
-	shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ColourIndex.size(); ++i )
+	if( m_ColourIndex.size() > 0 )
 	{
-		ColourIndex_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ColourIndex[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ColourIndex.size(); ++i )
+		{
+			ColourIndex_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ColourIndex[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_obj ) );
 }
 void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcIndexedColourMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

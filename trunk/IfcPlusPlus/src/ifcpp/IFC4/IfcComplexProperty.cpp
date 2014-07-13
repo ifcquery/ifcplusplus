@@ -70,12 +70,16 @@ void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, share
 {
 	IfcProperty::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
-	shared_ptr<IfcPPAttributeObjectVector> HasProperties_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+	if( m_HasProperties.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasProperties_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+	}
 }
 void IfcComplexProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcProperty::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcComplexProperty::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

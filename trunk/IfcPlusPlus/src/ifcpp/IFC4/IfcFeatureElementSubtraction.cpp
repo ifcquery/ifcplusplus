@@ -107,6 +107,7 @@ void IfcFeatureElementSubtraction::getAttributes( std::vector<std::pair<std::str
 }
 void IfcFeatureElementSubtraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFeatureElement::getAttributesInverse( vec_attributes_inverse );
 	vec_attributes_inverse.push_back( std::make_pair( "VoidsElements_inverse", shared_ptr<IfcPPEntity>( m_VoidsElements_inverse ) ) );
 }
 void IfcFeatureElementSubtraction::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

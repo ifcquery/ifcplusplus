@@ -73,12 +73,19 @@ void IfcShapeModel::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcShapeModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> OfShapeAspect_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
+	IfcRepresentation::getAttributesInverse( vec_attributes_inverse );
+	if( m_OfShapeAspect_inverse.size() > 0 )
 	{
-		OfShapeAspect_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> OfShapeAspect_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
+		{
+			if( !m_OfShapeAspect_inverse[i].expired() )
+			{
+				OfShapeAspect_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 }
 void IfcShapeModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

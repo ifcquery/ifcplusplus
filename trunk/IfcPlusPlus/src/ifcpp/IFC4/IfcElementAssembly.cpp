@@ -119,6 +119,7 @@ void IfcElementAssembly::getAttributes( std::vector<std::pair<std::string, share
 }
 void IfcElementAssembly::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcElementAssembly::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

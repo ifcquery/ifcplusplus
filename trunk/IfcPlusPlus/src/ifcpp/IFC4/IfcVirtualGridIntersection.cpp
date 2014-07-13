@@ -56,12 +56,18 @@ void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstri
 }
 void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> IntersectingAxes_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> OffsetDistances_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
+	if( m_IntersectingAxes.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> IntersectingAxes_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
+	}
+	if( m_OffsetDistances.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> OffsetDistances_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
+	}
 }
 void IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

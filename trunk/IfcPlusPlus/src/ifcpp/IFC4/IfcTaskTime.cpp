@@ -155,6 +155,7 @@ void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcTaskTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTaskTime::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

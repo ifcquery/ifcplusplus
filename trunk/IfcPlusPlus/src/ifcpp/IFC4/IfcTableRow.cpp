@@ -58,9 +58,12 @@ void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, cons
 }
 void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> RowCells_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RowCells", RowCells_vec_object ) );
+	if( m_RowCells.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RowCells_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RowCells", RowCells_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "IsHeading", shared_ptr<IfcPPBool>( new IfcPPBool( m_IsHeading ) ) ) );
 }
 void IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -62,12 +62,16 @@ void IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::w
 void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcStructuralLoad::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Values_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
+	if( m_Values.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Values_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
+	}
 }
 void IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralLoad::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralLoadConfiguration::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

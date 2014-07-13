@@ -100,12 +100,19 @@ void IfcRelSpaceBoundary1stLevel::getAttributes( std::vector<std::pair<std::stri
 }
 void IfcRelSpaceBoundary1stLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> InnerBoundaries_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_InnerBoundaries_inverse.size(); ++i )
+	IfcRelSpaceBoundary::getAttributesInverse( vec_attributes_inverse );
+	if( m_InnerBoundaries_inverse.size() > 0 )
 	{
-		InnerBoundaries_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary1stLevel>( m_InnerBoundaries_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> InnerBoundaries_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_InnerBoundaries_inverse.size(); ++i )
+		{
+			if( !m_InnerBoundaries_inverse[i].expired() )
+			{
+				InnerBoundaries_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary1stLevel>( m_InnerBoundaries_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "InnerBoundaries_inverse", InnerBoundaries_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "InnerBoundaries_inverse", InnerBoundaries_inverse_vec_obj ) );
 }
 void IfcRelSpaceBoundary1stLevel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

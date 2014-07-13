@@ -81,12 +81,16 @@ void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std
 	vec_attributes.push_back( std::make_pair( "TransversePosition", m_TransversePosition ) );
 	vec_attributes.push_back( std::make_pair( "ReinforcementRole", m_ReinforcementRole ) );
 	vec_attributes.push_back( std::make_pair( "SectionDefinition", m_SectionDefinition ) );
-	shared_ptr<IfcPPAttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
+	if( m_CrossSectionReinforcementDefinitions.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
+	}
 }
 void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSectionReinforcementProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

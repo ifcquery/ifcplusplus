@@ -81,6 +81,7 @@ void IfcMaterialLayerSetUsage::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcMaterialLayerSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialUsageDefinition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialLayerSetUsage::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

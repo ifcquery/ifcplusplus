@@ -66,30 +66,55 @@ void IfcProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> PartOfPset_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_PartOfPset_inverse.size(); ++i )
+	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
+	if( m_PartOfPset_inverse.size() > 0 )
 	{
-		PartOfPset_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertySet>( m_PartOfPset_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> PartOfPset_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_PartOfPset_inverse.size(); ++i )
+		{
+			if( !m_PartOfPset_inverse[i].expired() )
+			{
+				PartOfPset_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertySet>( m_PartOfPset_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "PartOfPset_inverse", PartOfPset_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "PartOfPset_inverse", PartOfPset_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> PropertyForDependance_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_PropertyForDependance_inverse.size(); ++i )
+	if( m_PropertyForDependance_inverse.size() > 0 )
 	{
-		PropertyForDependance_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertyDependencyRelationship>( m_PropertyForDependance_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> PropertyForDependance_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_PropertyForDependance_inverse.size(); ++i )
+		{
+			if( !m_PropertyForDependance_inverse[i].expired() )
+			{
+				PropertyForDependance_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertyDependencyRelationship>( m_PropertyForDependance_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "PropertyForDependance_inverse", PropertyForDependance_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "PropertyForDependance_inverse", PropertyForDependance_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> PropertyDependsOn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_PropertyDependsOn_inverse.size(); ++i )
+	if( m_PropertyDependsOn_inverse.size() > 0 )
 	{
-		PropertyDependsOn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertyDependencyRelationship>( m_PropertyDependsOn_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> PropertyDependsOn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_PropertyDependsOn_inverse.size(); ++i )
+		{
+			if( !m_PropertyDependsOn_inverse[i].expired() )
+			{
+				PropertyDependsOn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertyDependencyRelationship>( m_PropertyDependsOn_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "PropertyDependsOn_inverse", PropertyDependsOn_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "PropertyDependsOn_inverse", PropertyDependsOn_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> PartOfComplex_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
+	if( m_PartOfComplex_inverse.size() > 0 )
 	{
-		PartOfComplex_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcComplexProperty>( m_PartOfComplex_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> PartOfComplex_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
+		{
+			if( !m_PartOfComplex_inverse[i].expired() )
+			{
+				PartOfComplex_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcComplexProperty>( m_PartOfComplex_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
 }
 void IfcProperty::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

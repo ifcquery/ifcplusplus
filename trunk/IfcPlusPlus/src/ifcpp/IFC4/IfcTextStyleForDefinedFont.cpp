@@ -61,6 +61,7 @@ void IfcTextStyleForDefinedFont::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcTextStyleForDefinedFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTextStyleForDefinedFont::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

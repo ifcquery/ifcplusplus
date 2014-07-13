@@ -66,6 +66,7 @@ void IfcExternallyDefinedTextFont::getAttributes( std::vector<std::pair<std::str
 }
 void IfcExternallyDefinedTextFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcExternallyDefinedTextFont::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

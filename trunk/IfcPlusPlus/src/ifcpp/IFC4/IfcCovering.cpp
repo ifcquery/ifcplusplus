@@ -115,18 +115,31 @@ void IfcCovering::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> CoversSpaces_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_CoversSpaces_inverse.size(); ++i )
+	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
+	if( m_CoversSpaces_inverse.size() > 0 )
 	{
-		CoversSpaces_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_CoversSpaces_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> CoversSpaces_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_CoversSpaces_inverse.size(); ++i )
+		{
+			if( !m_CoversSpaces_inverse[i].expired() )
+			{
+				CoversSpaces_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_CoversSpaces_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "CoversSpaces_inverse", CoversSpaces_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "CoversSpaces_inverse", CoversSpaces_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> CoversElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_CoversElements_inverse.size(); ++i )
+	if( m_CoversElements_inverse.size() > 0 )
 	{
-		CoversElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversBldgElements>( m_CoversElements_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> CoversElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_CoversElements_inverse.size(); ++i )
+		{
+			if( !m_CoversElements_inverse[i].expired() )
+			{
+				CoversElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversBldgElements>( m_CoversElements_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "CoversElements_inverse", CoversElements_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "CoversElements_inverse", CoversElements_inverse_vec_obj ) );
 }
 void IfcCovering::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

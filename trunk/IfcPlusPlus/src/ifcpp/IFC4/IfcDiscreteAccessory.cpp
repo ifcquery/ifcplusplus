@@ -113,6 +113,7 @@ void IfcDiscreteAccessory::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcDiscreteAccessory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementComponent::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcDiscreteAccessory::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

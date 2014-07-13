@@ -100,6 +100,7 @@ void IfcReinforcingElementType::getAttributes( std::vector<std::pair<std::string
 }
 void IfcReinforcingElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementComponentType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcReinforcingElementType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -68,6 +68,7 @@ void IfcArbitraryOpenProfileDef::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcArbitraryOpenProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcArbitraryOpenProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

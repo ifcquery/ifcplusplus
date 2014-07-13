@@ -106,6 +106,7 @@ void IfcRampFlightType::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcRampFlightType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRampFlightType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

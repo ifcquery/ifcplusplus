@@ -72,13 +72,17 @@ void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, sh
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	shared_ptr<IfcPPAttributeObjectVector> MaterialProfiles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_MaterialProfiles.begin(), m_MaterialProfiles.end(), std::back_inserter( MaterialProfiles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "MaterialProfiles", MaterialProfiles_vec_object ) );
+	if( m_MaterialProfiles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> MaterialProfiles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_MaterialProfiles.begin(), m_MaterialProfiles.end(), std::back_inserter( MaterialProfiles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "MaterialProfiles", MaterialProfiles_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "CompositeProfile", m_CompositeProfile ) );
 }
 void IfcMaterialProfileSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialProfileSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

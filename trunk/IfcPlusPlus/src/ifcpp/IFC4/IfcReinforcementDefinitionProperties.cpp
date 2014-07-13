@@ -82,12 +82,16 @@ void IfcReinforcementDefinitionProperties::getAttributes( std::vector<std::pair<
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DefinitionType", m_DefinitionType ) );
-	shared_ptr<IfcPPAttributeObjectVector> ReinforcementSectionDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ReinforcementSectionDefinitions.begin(), m_ReinforcementSectionDefinitions.end(), std::back_inserter( ReinforcementSectionDefinitions_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
+	if( m_ReinforcementSectionDefinitions.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ReinforcementSectionDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ReinforcementSectionDefinitions.begin(), m_ReinforcementSectionDefinitions.end(), std::back_inserter( ReinforcementSectionDefinitions_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
+	}
 }
 void IfcReinforcementDefinitionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcReinforcementDefinitionProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -78,12 +78,16 @@ void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedBuildings_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
+	if( m_RelatedBuildings.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedBuildings_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
+	}
 }
 void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelServicesBuildings::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

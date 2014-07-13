@@ -106,6 +106,7 @@ void IfcStructuralCurveConnection::getAttributes( std::vector<std::pair<std::str
 }
 void IfcStructuralCurveConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralConnection::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralCurveConnection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -75,15 +75,19 @@ void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstri
 void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPhysicalQuantity::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> HasQuantities_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
+	if( m_HasQuantities.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasQuantities_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Discrimination", m_Discrimination ) );
 	vec_attributes.push_back( std::make_pair( "Quality", m_Quality ) );
 	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
 }
 void IfcPhysicalComplexQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPhysicalQuantity::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPhysicalComplexQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -77,6 +77,7 @@ void IfcRevolvedAreaSolidTapered::getAttributes( std::vector<std::pair<std::stri
 }
 void IfcRevolvedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRevolvedAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRevolvedAreaSolidTapered::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

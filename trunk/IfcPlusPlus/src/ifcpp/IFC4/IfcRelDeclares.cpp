@@ -80,12 +80,16 @@ void IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_pt
 {
 	IfcRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingContext", m_RelatingContext ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedDefinitions.begin(), m_RelatedDefinitions.end(), std::back_inserter( RelatedDefinitions_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedDefinitions", RelatedDefinitions_vec_object ) );
+	if( m_RelatedDefinitions.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedDefinitions_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedDefinitions.begin(), m_RelatedDefinitions.end(), std::back_inserter( RelatedDefinitions_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedDefinitions", RelatedDefinitions_vec_object ) );
+	}
 }
 void IfcRelDeclares::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelationship::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelDeclares::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -52,12 +52,16 @@ void IfcTextureCoordinate::readStepArguments( const std::vector<std::wstring>& a
 void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Maps_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Maps.begin(), m_Maps.end(), std::back_inserter( Maps_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Maps", Maps_vec_object ) );
+	if( m_Maps.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Maps_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Maps.begin(), m_Maps.end(), std::back_inserter( Maps_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Maps", Maps_vec_object ) );
+	}
 }
 void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTextureCoordinate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

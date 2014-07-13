@@ -157,6 +157,7 @@ void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 }
 void IfcTendon::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTendon::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

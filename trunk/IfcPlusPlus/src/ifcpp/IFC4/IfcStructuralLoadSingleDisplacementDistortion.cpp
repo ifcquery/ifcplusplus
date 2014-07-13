@@ -87,6 +87,7 @@ void IfcStructuralLoadSingleDisplacementDistortion::getAttributes( std::vector<s
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralLoadSingleDisplacement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralLoadSingleDisplacementDistortion::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

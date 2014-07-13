@@ -65,14 +65,18 @@ void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> MaterialLayers_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
+	if( m_MaterialLayers.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> MaterialLayers_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcMaterialLayerSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialLayerSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

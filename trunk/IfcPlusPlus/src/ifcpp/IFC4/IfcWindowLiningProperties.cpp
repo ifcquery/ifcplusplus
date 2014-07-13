@@ -140,6 +140,7 @@ void IfcWindowLiningProperties::getAttributes( std::vector<std::pair<std::string
 }
 void IfcWindowLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWindowLiningProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

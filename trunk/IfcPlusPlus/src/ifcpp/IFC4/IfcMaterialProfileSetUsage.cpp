@@ -69,6 +69,7 @@ void IfcMaterialProfileSetUsage::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcMaterialProfileSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialUsageDefinition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialProfileSetUsage::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

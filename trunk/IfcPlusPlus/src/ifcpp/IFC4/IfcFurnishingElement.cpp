@@ -107,6 +107,7 @@ void IfcFurnishingElement::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcFurnishingElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcFurnishingElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

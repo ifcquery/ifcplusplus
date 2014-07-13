@@ -55,6 +55,7 @@ void IfcStructuralLoadOrResult::getAttributes( std::vector<std::pair<std::string
 }
 void IfcStructuralLoadOrResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralLoad::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralLoadOrResult::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

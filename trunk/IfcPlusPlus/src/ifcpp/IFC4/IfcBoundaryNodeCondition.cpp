@@ -87,6 +87,7 @@ void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcBoundaryNodeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBoundaryCondition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBoundaryNodeCondition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

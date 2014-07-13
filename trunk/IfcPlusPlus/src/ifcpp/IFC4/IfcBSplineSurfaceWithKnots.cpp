@@ -113,28 +113,41 @@ void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstri
 void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBSplineSurface::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> UMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_UMultiplicities.size(); ++i )
+	if( m_UMultiplicities.size() > 0 )
 	{
-		UMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_UMultiplicities[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> UMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_UMultiplicities.size(); ++i )
+		{
+			UMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_UMultiplicities[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> VMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_VMultiplicities.size(); ++i )
+	if( m_VMultiplicities.size() > 0 )
 	{
-		VMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_VMultiplicities[i] ) ) );
+		shared_ptr<IfcPPAttributeObjectVector> VMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_VMultiplicities.size(); ++i )
+		{
+			VMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_VMultiplicities[i] ) ) );
+		}
+		vec_attributes.push_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_obj ) );
 	}
-	vec_attributes.push_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> UKnots_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "UKnots", UKnots_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> VKnots_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_VKnots.begin(), m_VKnots.end(), std::back_inserter( VKnots_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "VKnots", VKnots_vec_object ) );
+	if( m_UKnots.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> UKnots_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "UKnots", UKnots_vec_object ) );
+	}
+	if( m_VKnots.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> VKnots_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_VKnots.begin(), m_VKnots.end(), std::back_inserter( VKnots_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "VKnots", VKnots_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
 }
 void IfcBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBSplineSurface::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBSplineSurfaceWithKnots::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

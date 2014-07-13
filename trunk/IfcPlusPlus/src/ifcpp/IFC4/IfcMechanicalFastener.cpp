@@ -124,6 +124,7 @@ void IfcMechanicalFastener::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcMechanicalFastener::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementComponent::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMechanicalFastener::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -61,6 +61,7 @@ void IfcSurfaceStyleRefraction::getAttributes( std::vector<std::pair<std::string
 }
 void IfcSurfaceStyleRefraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSurfaceStyleRefraction::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

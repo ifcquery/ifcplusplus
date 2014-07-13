@@ -125,6 +125,7 @@ void IfcWorkPlan::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcWorkPlan::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcWorkControl::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWorkPlan::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

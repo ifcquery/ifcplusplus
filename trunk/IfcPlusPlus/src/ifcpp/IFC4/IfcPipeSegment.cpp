@@ -115,6 +115,7 @@ void IfcPipeSegment::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcPipeSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowSegment::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPipeSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -70,9 +70,12 @@ void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::s
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	shared_ptr<IfcPPAttributeObjectVector> AssignedItems_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_AssignedItems.begin(), m_AssignedItems.end(), std::back_inserter( AssignedItems_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
+	if( m_AssignedItems.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> AssignedItems_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_AssignedItems.begin(), m_AssignedItems.end(), std::back_inserter( AssignedItems_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
 }
 void IfcPresentationLayerAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -68,6 +68,7 @@ void IfcRightCircularCylinder::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcRightCircularCylinder::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRightCircularCylinder::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

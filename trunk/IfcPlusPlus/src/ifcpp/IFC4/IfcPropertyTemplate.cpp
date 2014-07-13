@@ -74,18 +74,31 @@ void IfcPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shar
 }
 void IfcPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> PartOfComplexTemplate_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_PartOfComplexTemplate_inverse.size(); ++i )
+	IfcPropertyTemplateDefinition::getAttributesInverse( vec_attributes_inverse );
+	if( m_PartOfComplexTemplate_inverse.size() > 0 )
 	{
-		PartOfComplexTemplate_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcComplexPropertyTemplate>( m_PartOfComplexTemplate_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> PartOfComplexTemplate_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_PartOfComplexTemplate_inverse.size(); ++i )
+		{
+			if( !m_PartOfComplexTemplate_inverse[i].expired() )
+			{
+				PartOfComplexTemplate_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcComplexPropertyTemplate>( m_PartOfComplexTemplate_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "PartOfComplexTemplate_inverse", PartOfComplexTemplate_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "PartOfComplexTemplate_inverse", PartOfComplexTemplate_inverse_vec_obj ) );
-	shared_ptr<IfcPPAttributeObjectVector> PartOfPsetTemplate_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_PartOfPsetTemplate_inverse.size(); ++i )
+	if( m_PartOfPsetTemplate_inverse.size() > 0 )
 	{
-		PartOfPsetTemplate_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertySetTemplate>( m_PartOfPsetTemplate_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> PartOfPsetTemplate_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_PartOfPsetTemplate_inverse.size(); ++i )
+		{
+			if( !m_PartOfPsetTemplate_inverse[i].expired() )
+			{
+				PartOfPsetTemplate_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertySetTemplate>( m_PartOfPsetTemplate_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "PartOfPsetTemplate_inverse", PartOfPsetTemplate_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "PartOfPsetTemplate_inverse", PartOfPsetTemplate_inverse_vec_obj ) );
 }
 void IfcPropertyTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

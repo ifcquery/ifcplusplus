@@ -71,13 +71,17 @@ void IfcMaterialRelationship::getAttributes( std::vector<std::pair<std::string, 
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
-	shared_ptr<IfcPPAttributeObjectVector> RelatedMaterials_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
+	if( m_RelatedMaterials.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> RelatedMaterials_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
 }
 void IfcMaterialRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

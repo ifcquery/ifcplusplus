@@ -67,6 +67,7 @@ void IfcIndexedTextureMap::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcIndexedTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTextureCoordinate::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcIndexedTextureMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

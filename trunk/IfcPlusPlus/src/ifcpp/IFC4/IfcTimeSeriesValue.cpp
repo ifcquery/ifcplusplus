@@ -51,9 +51,12 @@ void IfcTimeSeriesValue::readStepArguments( const std::vector<std::wstring>& arg
 }
 void IfcTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ListValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+	if( m_ListValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> ListValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+	}
 }
 void IfcTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -75,6 +75,7 @@ void IfcCartesianTransformationOperator2DnonUniform::getAttributes( std::vector<
 }
 void IfcCartesianTransformationOperator2DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCartesianTransformationOperator2D::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCartesianTransformationOperator2DnonUniform::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

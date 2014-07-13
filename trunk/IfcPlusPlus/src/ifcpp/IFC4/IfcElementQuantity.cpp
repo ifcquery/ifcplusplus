@@ -82,12 +82,16 @@ void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, share
 {
 	IfcQuantitySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MethodOfMeasurement", m_MethodOfMeasurement ) );
-	shared_ptr<IfcPPAttributeObjectVector> Quantities_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Quantities.begin(), m_Quantities.end(), std::back_inserter( Quantities_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Quantities", Quantities_vec_object ) );
+	if( m_Quantities.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Quantities_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Quantities.begin(), m_Quantities.end(), std::back_inserter( Quantities_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Quantities", Quantities_vec_object ) );
+	}
 }
 void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcQuantitySet::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcElementQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

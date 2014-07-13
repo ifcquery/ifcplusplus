@@ -85,6 +85,7 @@ void IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcProjectedCRS::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCoordinateReferenceSystem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcProjectedCRS::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

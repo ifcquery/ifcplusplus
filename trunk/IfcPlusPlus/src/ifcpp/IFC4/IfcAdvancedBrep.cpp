@@ -57,6 +57,7 @@ void IfcAdvancedBrep::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcAdvancedBrep::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcManifoldSolidBrep::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcAdvancedBrep::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

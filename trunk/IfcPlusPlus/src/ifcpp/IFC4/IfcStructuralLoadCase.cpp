@@ -110,12 +110,16 @@ void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& 
 void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcStructuralLoadGroup::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> SelfWeightCoefficients_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_SelfWeightCoefficients.begin(), m_SelfWeightCoefficients.end(), std::back_inserter( SelfWeightCoefficients_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
+	if( m_SelfWeightCoefficients.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> SelfWeightCoefficients_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_SelfWeightCoefficients.begin(), m_SelfWeightCoefficients.end(), std::back_inserter( SelfWeightCoefficients_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
+	}
 }
 void IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralLoadGroup::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralLoadCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

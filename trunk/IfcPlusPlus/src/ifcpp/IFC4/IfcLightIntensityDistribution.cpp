@@ -57,9 +57,12 @@ void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::ws
 void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "LightDistributionCurve", m_LightDistributionCurve ) );
-	shared_ptr<IfcPPAttributeObjectVector> DistributionData_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_DistributionData.begin(), m_DistributionData.end(), std::back_inserter( DistributionData_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "DistributionData", DistributionData_vec_object ) );
+	if( m_DistributionData.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> DistributionData_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_DistributionData.begin(), m_DistributionData.end(), std::back_inserter( DistributionData_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "DistributionData", DistributionData_vec_object ) );
+	}
 }
 void IfcLightIntensityDistribution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

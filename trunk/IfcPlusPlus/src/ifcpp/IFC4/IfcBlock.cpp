@@ -73,6 +73,7 @@ void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 }
 void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBlock::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

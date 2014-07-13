@@ -71,6 +71,7 @@ void IfcStructuralLoadPlanarForce::getAttributes( std::vector<std::pair<std::str
 }
 void IfcStructuralLoadPlanarForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralLoadStatic::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralLoadPlanarForce::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

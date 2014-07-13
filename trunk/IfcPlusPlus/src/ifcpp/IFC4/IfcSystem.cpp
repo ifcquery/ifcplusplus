@@ -84,12 +84,19 @@ void IfcSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 }
 void IfcSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> ServicesBuildings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_ServicesBuildings_inverse.size(); ++i )
+	IfcGroup::getAttributesInverse( vec_attributes_inverse );
+	if( m_ServicesBuildings_inverse.size() > 0 )
 	{
-		ServicesBuildings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelServicesBuildings>( m_ServicesBuildings_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> ServicesBuildings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_ServicesBuildings_inverse.size(); ++i )
+		{
+			if( !m_ServicesBuildings_inverse[i].expired() )
+			{
+				ServicesBuildings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelServicesBuildings>( m_ServicesBuildings_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "ServicesBuildings_inverse", ServicesBuildings_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "ServicesBuildings_inverse", ServicesBuildings_inverse_vec_obj ) );
 }
 void IfcSystem::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

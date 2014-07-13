@@ -63,9 +63,12 @@ void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string,
 {
 	vec_attributes.push_back( std::make_pair( "ThePerson", m_ThePerson ) );
 	vec_attributes.push_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
-	shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+	if( m_Roles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+	}
 }
 void IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

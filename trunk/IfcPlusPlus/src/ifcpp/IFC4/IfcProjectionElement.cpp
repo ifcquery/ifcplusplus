@@ -113,6 +113,7 @@ void IfcProjectionElement::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcProjectionElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFeatureElementAddition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcProjectionElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

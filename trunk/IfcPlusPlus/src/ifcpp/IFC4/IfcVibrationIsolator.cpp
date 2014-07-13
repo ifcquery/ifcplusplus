@@ -113,6 +113,7 @@ void IfcVibrationIsolator::getAttributes( std::vector<std::pair<std::string, sha
 }
 void IfcVibrationIsolator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcElementComponent::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcVibrationIsolator::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

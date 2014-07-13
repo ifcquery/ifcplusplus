@@ -106,6 +106,7 @@ void IfcDamperType::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcDamperType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcDamperType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

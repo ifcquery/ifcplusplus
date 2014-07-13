@@ -105,6 +105,7 @@ void IfcStructuralCurveMemberVarying::getAttributes( std::vector<std::pair<std::
 }
 void IfcStructuralCurveMemberVarying::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralCurveMember::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralCurveMemberVarying::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

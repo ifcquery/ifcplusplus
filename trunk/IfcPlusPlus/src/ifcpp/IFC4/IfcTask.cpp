@@ -127,6 +127,7 @@ void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcTask::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcProcess::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTask::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

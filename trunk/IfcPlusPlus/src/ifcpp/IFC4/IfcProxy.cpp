@@ -104,6 +104,7 @@ void IfcProxy::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 }
 void IfcProxy::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcProxy::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

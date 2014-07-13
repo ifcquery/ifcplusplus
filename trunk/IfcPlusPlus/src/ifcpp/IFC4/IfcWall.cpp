@@ -114,6 +114,7 @@ void IfcWall::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 }
 void IfcWall::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWall::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

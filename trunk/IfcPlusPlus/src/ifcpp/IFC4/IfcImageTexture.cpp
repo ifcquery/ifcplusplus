@@ -84,6 +84,7 @@ void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcImageTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSurfaceTexture::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcImageTexture::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

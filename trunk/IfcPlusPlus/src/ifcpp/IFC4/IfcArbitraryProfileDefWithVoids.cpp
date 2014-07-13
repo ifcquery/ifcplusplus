@@ -68,12 +68,16 @@ void IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vector<std::
 void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcArbitraryClosedProfileDef::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> InnerCurves_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
+	if( m_InnerCurves.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> InnerCurves_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
+	}
 }
 void IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcArbitraryClosedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcArbitraryProfileDefWithVoids::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

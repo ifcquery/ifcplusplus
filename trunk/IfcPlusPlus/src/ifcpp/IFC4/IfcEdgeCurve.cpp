@@ -74,6 +74,7 @@ void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 }
 void IfcEdgeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcEdge::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcEdgeCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

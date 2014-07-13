@@ -71,6 +71,7 @@ void IfcSlippageConnectionCondition::getAttributes( std::vector<std::pair<std::s
 }
 void IfcSlippageConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcStructuralConnectionCondition::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSlippageConnectionCondition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

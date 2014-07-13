@@ -70,6 +70,7 @@ void IfcRelationship::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRoot::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

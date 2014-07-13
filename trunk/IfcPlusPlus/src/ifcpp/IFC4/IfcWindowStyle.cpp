@@ -122,6 +122,7 @@ void IfcWindowStyle::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcWindowStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTypeProduct::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWindowStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

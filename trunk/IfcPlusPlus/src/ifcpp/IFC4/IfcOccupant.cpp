@@ -94,6 +94,7 @@ void IfcOccupant::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 }
 void IfcOccupant::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcActor::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcOccupant::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

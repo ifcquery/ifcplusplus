@@ -79,6 +79,7 @@ void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string,
 }
 void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTextLiteral::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcTextLiteralWithExtent::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -76,6 +76,7 @@ void IfcPropertyDependencyRelationship::getAttributes( std::vector<std::pair<std
 }
 void IfcPropertyDependencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPropertyDependencyRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

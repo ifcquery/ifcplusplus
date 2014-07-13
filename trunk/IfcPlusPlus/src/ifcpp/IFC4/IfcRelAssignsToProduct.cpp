@@ -88,6 +88,7 @@ void IfcRelAssignsToProduct::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcRelAssignsToProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcRelAssignsToProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

@@ -106,6 +106,7 @@ void IfcElectricFlowStorageDeviceType::getAttributes( std::vector<std::pair<std:
 }
 void IfcElectricFlowStorageDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowStorageDeviceType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcElectricFlowStorageDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

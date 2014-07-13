@@ -63,6 +63,7 @@ void IfcLocalPlacement::getAttributes( std::vector<std::pair<std::string, shared
 }
 void IfcLocalPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcObjectPlacement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLocalPlacement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

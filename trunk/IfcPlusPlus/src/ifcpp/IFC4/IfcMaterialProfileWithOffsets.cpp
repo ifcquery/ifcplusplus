@@ -85,12 +85,16 @@ void IfcMaterialProfileWithOffsets::readStepArguments( const std::vector<std::ws
 void IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcMaterialProfile::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> OffsetValues_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
+	if( m_OffsetValues.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> OffsetValues_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
+	}
 }
 void IfcMaterialProfileWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcMaterialProfile::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialProfileWithOffsets::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

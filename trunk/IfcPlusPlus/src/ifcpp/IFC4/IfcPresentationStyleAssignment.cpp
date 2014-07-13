@@ -51,9 +51,12 @@ void IfcPresentationStyleAssignment::readStepArguments( const std::vector<std::w
 }
 void IfcPresentationStyleAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	shared_ptr<IfcPPAttributeObjectVector> Styles_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+	if( m_Styles.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Styles_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+	}
 }
 void IfcPresentationStyleAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

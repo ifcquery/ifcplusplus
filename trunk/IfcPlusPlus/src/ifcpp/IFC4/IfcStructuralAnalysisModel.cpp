@@ -108,16 +108,23 @@ void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::strin
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "OrientationOf2DPlane", m_OrientationOf2DPlane ) );
-	shared_ptr<IfcPPAttributeObjectVector> LoadedBy_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
-	shared_ptr<IfcPPAttributeObjectVector> HasResults_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "HasResults", HasResults_vec_object ) );
+	if( m_LoadedBy.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> LoadedBy_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
+	}
+	if( m_HasResults.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasResults_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "HasResults", HasResults_vec_object ) );
+	}
 	vec_attributes.push_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
 }
 void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcSystem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStructuralAnalysisModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

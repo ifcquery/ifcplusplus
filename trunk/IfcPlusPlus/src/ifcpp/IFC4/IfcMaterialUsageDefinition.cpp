@@ -46,12 +46,18 @@ void IfcMaterialUsageDefinition::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcMaterialUsageDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
-	shared_ptr<IfcPPAttributeObjectVector> AssociatedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
-	for( size_t i=0; i<m_AssociatedTo_inverse.size(); ++i )
+	if( m_AssociatedTo_inverse.size() > 0 )
 	{
-		AssociatedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesMaterial>( m_AssociatedTo_inverse[i] ) );
+		shared_ptr<IfcPPAttributeObjectVector> AssociatedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_AssociatedTo_inverse.size(); ++i )
+		{
+			if( !m_AssociatedTo_inverse[i].expired() )
+			{
+				AssociatedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesMaterial>( m_AssociatedTo_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "AssociatedTo_inverse", AssociatedTo_inverse_vec_obj ) );
 	}
-	vec_attributes_inverse.push_back( std::make_pair( "AssociatedTo_inverse", AssociatedTo_inverse_vec_obj ) );
 }
 void IfcMaterialUsageDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {

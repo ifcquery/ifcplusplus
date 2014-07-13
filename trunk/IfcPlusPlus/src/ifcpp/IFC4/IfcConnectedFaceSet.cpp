@@ -54,12 +54,16 @@ void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> CfsFaces_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
+	if( m_CfsFaces.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> CfsFaces_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
+	}
 }
 void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcConnectedFaceSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

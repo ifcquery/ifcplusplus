@@ -52,12 +52,16 @@ void IfcSurfaceStyleWithTextures::readStepArguments( const std::vector<std::wstr
 void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	shared_ptr<IfcPPAttributeObjectVector> Textures_vec_object( new  IfcPPAttributeObjectVector() );
-	std::copy( m_Textures.begin(), m_Textures.end(), std::back_inserter( Textures_vec_object->m_vec ) );
-	vec_attributes.push_back( std::make_pair( "Textures", Textures_vec_object ) );
+	if( m_Textures.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> Textures_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_Textures.begin(), m_Textures.end(), std::back_inserter( Textures_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "Textures", Textures_vec_object ) );
+	}
 }
 void IfcSurfaceStyleWithTextures::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSurfaceStyleWithTextures::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

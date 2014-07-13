@@ -71,6 +71,7 @@ void IfcMaterialDefinitionRepresentation::getAttributes( std::vector<std::pair<s
 }
 void IfcMaterialDefinitionRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcMaterialDefinitionRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

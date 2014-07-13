@@ -115,6 +115,7 @@ void IfcLightFixture::getAttributes( std::vector<std::pair<std::string, shared_p
 }
 void IfcLightFixture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowTerminal::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcLightFixture::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

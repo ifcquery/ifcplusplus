@@ -115,6 +115,7 @@ void IfcCompressor::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcCompressor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowMovingDevice::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcCompressor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {

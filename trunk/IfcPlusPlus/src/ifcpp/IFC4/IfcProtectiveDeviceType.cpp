@@ -106,6 +106,7 @@ void IfcProtectiveDeviceType::getAttributes( std::vector<std::pair<std::string, 
 }
 void IfcProtectiveDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcProtectiveDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
