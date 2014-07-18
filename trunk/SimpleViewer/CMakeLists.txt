@@ -82,6 +82,14 @@ set(IFCPPVIEWER_SOURCE_FILES
   src/viewer/ViewerWidget.cpp
 )
 
+set(IFCPPVIEWER_MOC_FILES
+  src/IfcPlusPlusSystem.h
+  src/gui/IfcTreeWidget.h
+  src/gui/MainWindow.h
+  src/gui/TabReadWrite.h
+  src/gui/TabView.h
+)
+
 find_package(Boost 1.49)
 if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
@@ -91,7 +99,7 @@ else(Boost_FOUND)
 endif(Boost_FOUND)
 add_definitions(-DCARVE_SYSTEM_BOOST)
 
-QT4_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_HEADER_FILES})
+QT4_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_MOC_FILES})
 
 LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}) 
 
@@ -102,8 +110,6 @@ LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CARVE_BINARY_DIR}/common)
 ADD_EXECUTABLE(IfcPlusPlusViewer 
   ${IFCPPVIEWER_MOC_GENERATED_FILES}
   ${IFCPPVIEWER_SOURCE_FILES}
-  ${IfcPlusPlusViewer_HEADERS_MOC} 
-  ${IfcPlusPlusViewer_FORMS_HEADERS} 
   ${IfcPlusPlusViewer_RESOURCES_RCC}
 )
 

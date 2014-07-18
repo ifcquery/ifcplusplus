@@ -273,10 +273,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\lib\aabb.cpp" />
     <ClCompile Include="src\lib\carve.cpp" />
     <ClCompile Include="src\lib\convex_hull.cpp" />
     <ClCompile Include="src\lib\csg.cpp" />
     <ClCompile Include="src\lib\csg_collector.cpp" />
+    <ClCompile Include="src\lib\edge.cpp" />
     <ClCompile Include="src\lib\face.cpp" />
     <ClCompile Include="src\lib\geom.cpp" />
     <ClCompile Include="src\lib\geom2d.cpp" />

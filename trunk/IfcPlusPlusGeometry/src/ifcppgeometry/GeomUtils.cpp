@@ -210,11 +210,11 @@ void GeomUtils::setMaterialTransparent( osg::Node* node, float transparency )
 		{
 			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );
 			
-			const osg::Vec4& ambient = mat->getAmbient( osg::Material::FRONT_AND_BACK );
-			mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( ambient.r(), ambient.g(), ambient.b(), transparency ) );
+			//const osg::Vec4& ambient = mat->getAmbient( osg::Material::FRONT_AND_BACK );
+			//mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( ambient.r(), ambient.g(), ambient.b(), transparency ) );
 
-			const osg::Vec4& diffuse = mat->getDiffuse( osg::Material::FRONT_AND_BACK );
-			mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( diffuse.r(), diffuse.g(), diffuse.b(), transparency ) );
+			//const osg::Vec4& diffuse = mat->getDiffuse( osg::Material::FRONT_AND_BACK );
+			//mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( diffuse.r(), diffuse.g(), diffuse.b(), transparency ) );
 
 			//const osg::Vec4& specular = mat->getSpecular( osg::Material::FRONT_AND_BACK );
 			//mat->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4( specular.r(), specular.g(), specular.b(), transparency ) );

@@ -232,7 +232,8 @@ void IfcStepReader::readStreamHeader( const std::string& read_in, shared_ptr<Ifc
 		return;
 	}
 
-	target_model->setIfcSchemaVersion( IfcPPModel::IfcPPSchemaVersion( L"", IfcPPModel::IFC_VERSION_UNDEFINED ) );
+	IfcPPModel::IfcPPSchemaVersion schema_version( L"", IfcPPModel::IFC_VERSION_UNDEFINED );
+	target_model->setIfcSchemaVersion( schema_version );
 	file_header_start += 7;
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;

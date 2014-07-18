@@ -51,9 +51,7 @@ set(CARVE_SOURCE_FILES
   src/lib/intersect.cpp
   src/lib/intersect_classify_edge.cpp
   src/lib/intersect_classify_group.cpp
-  src/lib/intersect_common.hpp
   src/lib/intersect_debug.cpp
-  src/lib/intersect_debug.hpp
   src/lib/intersect_face_division.cpp
   src/lib/intersect_group.cpp
   src/lib/intersect_half_classify_group.cpp

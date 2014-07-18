@@ -42,3 +42,13 @@ public:
 	static void clearMeshsetDump();
 #endif
 };
+
+class MeshOps
+{
+public:
+	static void applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos );
+	static void roundVertices( carve::mesh::MeshSet<3>* meshset );
+	static int getNumFaces( const carve::mesh::MeshSet<3>* meshset );
+	static int getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset );
+	static double getVolume( const carve::mesh::MeshSet<3>* meshset );
+};

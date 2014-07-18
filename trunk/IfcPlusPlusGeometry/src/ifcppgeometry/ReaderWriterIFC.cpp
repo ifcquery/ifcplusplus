@@ -113,7 +113,12 @@ void ReaderWriterIFC::clearInputCache()
 {
 	m_err.str(std::string());
 	m_messages.str(std::string());
-	m_shape_input_data.clear();
+	//m_shape_input_data.clear();
+	for( auto it = m_shape_input_data.begin(); it != m_shape_input_data.end(); ++it )
+	{
+		shared_ptr<ShapeInputData>& input_data = it->second;
+		input_data->vec_item_data.clear();
+	}
 	m_map_visited.clear();
 	m_map_outside_spatial_structure.clear();
 	AppearanceManagerOSG::clearAppearanceCache();
