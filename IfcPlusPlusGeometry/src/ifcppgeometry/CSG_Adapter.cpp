@@ -471,64 +471,6 @@ bool CSG_Adapter::checkFaceIntegrity( const carve::mesh::MeshSet<3>* mesh_set )
 	return true;
 }
 
-class MeshOps
-{
-public:
-	static void applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos )
-	{
-		for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
-		{
-			carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
-			point = point + pos;
-		}
-		for( size_t i = 0; i < meshset->meshes.size(); ++i )
-		{
-			meshset->meshes[i]->recalc();
-		}
-	}
-	static void roundVertices( carve::mesh::MeshSet<3>* meshset )
-	{
-		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
-		const size_t num_vertices = vertex_storage.size();
-		for( int i = 0; i < num_vertices; ++i )
-		{
-			carve::mesh::Vertex<3>& vertex = vertex_storage[i];
-			vertex.v.x = round( vertex.v.x*1000000.0 ) * 0.000001;
-			vertex.v.y = round( vertex.v.y*1000000.0 ) * 0.000001;
-			vertex.v.z = round( vertex.v.z*1000000.0 ) * 0.000001;
-		}
-	}
-	static int getNumFaces( const carve::mesh::MeshSet<3>* meshset )
-	{
-		int num_faces = 0;
-		for( int i = 0; i < meshset->meshes.size(); ++i )
-		{
-			num_faces += meshset->meshes[i]->faces.size();
-		}
-		return num_faces;
-	}
-	static int getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset )
-	{
-		int num_edges = 0;
-		for( int i = 0; i < meshset->meshes.size(); ++i )
-		{
-			num_edges += meshset->meshes[i]->closed_edges.size();
-		}
-		return num_edges;
-	}
-	static double getVolume( const carve::mesh::MeshSet<3>* meshset )
-	{
-		double meshset_volume = 0;
-		for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
-		{
-			carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-			double mesh_volume = mesh->volume();
-			meshset_volume += mesh_volume;
-		}
-		return meshset_volume;
-	}
-};
-
 bool CSG_Adapter::checkMeshSetValidAndClosed( const carve::mesh::MeshSet<3>* mesh_set, std::stringstream& err_poly, int entity_id )
 {
 	if( !mesh_set )
@@ -1018,6 +960,61 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 			result.reset();
 		}
 	}
+}
+
+
+void MeshOps::applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos )
+{
+	for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
+	{
+		carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
+		point = point + pos;
+	}
+	for( size_t i = 0; i < meshset->meshes.size(); ++i )
+	{
+		meshset->meshes[i]->recalc();
+	}
+}
+void MeshOps::roundVertices( carve::mesh::MeshSet<3>* meshset )
+{
+	std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
+	const size_t num_vertices = vertex_storage.size();
+	for( int i = 0; i < num_vertices; ++i )
+	{
+		carve::mesh::Vertex<3>& vertex = vertex_storage[i];
+		vertex.v.x = round( vertex.v.x*1000000.0 ) * 0.000001;
+		vertex.v.y = round( vertex.v.y*1000000.0 ) * 0.000001;
+		vertex.v.z = round( vertex.v.z*1000000.0 ) * 0.000001;
+	}
+}
+int MeshOps::getNumFaces( const carve::mesh::MeshSet<3>* meshset )
+{
+	int num_faces = 0;
+	for( int i = 0; i < meshset->meshes.size(); ++i )
+	{
+		num_faces += meshset->meshes[i]->faces.size();
+	}
+	return num_faces;
+}
+int MeshOps::getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset )
+{
+	int num_edges = 0;
+	for( int i = 0; i < meshset->meshes.size(); ++i )
+	{
+		num_edges += meshset->meshes[i]->closed_edges.size();
+	}
+	return num_edges;
+}
+double MeshOps::getVolume( const carve::mesh::MeshSet<3>* meshset )
+{
+	double meshset_volume = 0;
+	for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
+	{
+		carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
+		double mesh_volume = mesh->volume();
+		meshset_volume += mesh_volume;
+	}
+	return meshset_volume;
 }
 
 
