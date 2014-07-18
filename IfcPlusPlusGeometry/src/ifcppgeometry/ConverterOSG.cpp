@@ -145,7 +145,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 		const carve::geom::vector<3> face_normal = face->plane.N;
 		carve::geom::vector<3> intermediate_normal = face_normal;
 
-		if( intermediate_normal_angle )
+		if( intermediate_normal_angle > 0 )
 		{
 			carve::mesh::Edge<3>* e = face->edge;
 			for( size_t jj = 0; jj < n_vertices; ++jj )
@@ -223,7 +223,6 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 
 				std::vector<carve::mesh::Face<3>*>& vec_faces = it_vertex_normal->second;
 
-				bool use_intermediate_normal = false;
 				// check if angle between adjacent faces is smaller than intermediate_normal_angle
 				std::sort( vec_faces.begin(), vec_faces.end() );
 				for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
@@ -235,18 +234,15 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 					double cos_angle = dot( f1_normal, face_normal );
 					if( abs( cos_angle - 1.0 ) < intermediate_normal_angle )
 					{
-						use_intermediate_normal = true;
 						intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
 						intermediate_normal.normalize();
 					}
 				}
 
-				if( use_intermediate_normal )
-				{
-					//intermediate_normal.normalize();
-				}
 
-
+#ifdef __GNUC__ // for some reason this is not working under linux...
+				intermediate_normal = face_normal;
+#endif
 
 				if( face->n_edges == 3 )
 				{
