@@ -754,7 +754,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 								//unsigned char char_ascii = wctob(wc);
 								arg_str_new += wc;
 
-								stream_pos += 4;
+								stream_pos += 5;
 								continue;
 							}
 							else if( *(stream_pos+2) == '0' )

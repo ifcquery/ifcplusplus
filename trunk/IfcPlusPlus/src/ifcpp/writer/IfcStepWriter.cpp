@@ -43,7 +43,7 @@ void IfcStepWriter::writeStream( std::stringstream& stream, shared_ptr<IfcPPMode
 	stream << file_header_str.c_str();
 	stream << "DATA;\n";
 	stream << std::setprecision( 15 );
-	const std::map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcObjects();
+	const std::map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcEntities();
 	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it;
 	for( it=map.begin(); it!=map.end(); ++it )
 	{

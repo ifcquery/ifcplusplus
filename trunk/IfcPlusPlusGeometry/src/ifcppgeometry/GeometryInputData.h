@@ -96,6 +96,7 @@ public:
 	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return vec_appearances; }
 	void addAppearance( shared_ptr<AppearanceData>& appearance );
 	void clearAppearanceData();
+	void clearAll();
 
 	shared_ptr<IfcProduct> ifc_product;
 	shared_ptr<IfcRepresentation> representation;

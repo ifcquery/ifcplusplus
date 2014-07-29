@@ -87,17 +87,17 @@ void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, carve::geom::vecto
 	}
 }
 
-void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> colorOrFactor, carve::geom::vector<4>& src_color, carve::geom::vector<4>& target_color)
+void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, carve::geom::vector<4>& src_color, carve::geom::vector<4>& target_color)
 {
 	// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
-	shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>(colorOrFactor);
+	shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>(color_or_factor);
 	if( color_rgb )
 	{
 		convertIfcColourRgb( color_rgb, target_color );
 		return;
 	}
 
-	shared_ptr<IfcNormalisedRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>(colorOrFactor);
+	shared_ptr<IfcNormalisedRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>(color_or_factor);
 	if( ratio_measure )
 	{
 		float factor = ratio_measure->m_value;
@@ -149,11 +149,11 @@ void convertIfcColour( shared_ptr<IfcColour> ifc_color, carve::geom::vector<4>& 
 void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surface_style, shared_ptr<AppearanceData>& appearance_data )
 {
 	const int style_id = surface_style->getId();
-	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(style_id);
-	if( it_styles != m_map_ifc_styles.end() )
+	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
+	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{
 		// todo: check if appearance compare is faster here
-		appearance_data = it_styles->second;
+		appearance_data = it_find_existing_style->second;
 		return;
 	}
 
@@ -170,9 +170,9 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 		return;
 	}
 
-	for( std::vector<shared_ptr<IfcSurfaceStyleElementSelect> >::iterator it=vec_styles.begin(); it!=vec_styles.end(); ++it )
+	for( size_t ii_styles = 0; ii_styles < vec_styles.size(); ++ii_styles )
 	{
-		shared_ptr<IfcSurfaceStyleElementSelect> surf_style_element_select = (*it);
+		shared_ptr<IfcSurfaceStyleElementSelect> surf_style_element_select = vec_styles[ii_styles];
 		if( !surf_style_element_select )
 		{
 			continue;
@@ -182,24 +182,24 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 		shared_ptr<IfcSurfaceStyleShading> surface_style_shading = dynamic_pointer_cast<IfcSurfaceStyleShading>(surf_style_element_select);
 		if( surface_style_shading )
 		{
-			carve::geom::vector<4> color = carve::geom::VECTOR( 0.8, 0.82, 0.84, 1.f );
+			carve::geom::vector<4> surface_color = carve::geom::VECTOR( 0.8, 0.82, 0.84, 1.f );
 			if( surface_style_shading->m_SurfaceColour)
 			{
 				shared_ptr<IfcColourRgb> surf_color = surface_style_shading->m_SurfaceColour;
-				convertIfcColourRgb( surf_color, color );
+				convertIfcColourRgb( surf_color, surface_color );
 			}
 
-			if( color.x < 0.05 && color.y < 0.05 && color.z < 0.05 )
+			if( surface_color.x < 0.05 && surface_color.y < 0.05 && surface_color.z < 0.05 )
 			{
-				color = carve::geom::VECTOR( 0.1, 0.12, 0.15, color.w );
+				surface_color = carve::geom::VECTOR( 0.1, 0.12, 0.15, surface_color.w );
 			}
 
-			carve::geom::vector<4> ambientColor( color );
-			//carve::geom::vector<4> emissiveColor( 0.0f, 0.0f, 0.0f, 1.f );
-			carve::geom::vector<4> diffuseColor( color );
-			carve::geom::vector<4> specularColor( color );
+			carve::geom::vector<4> ambient_color( surface_color );
+			//carve::geom::vector<4> emissive_color( 0.0f, 0.0f, 0.0f, 1.f );
+			carve::geom::vector<4> diffuse_color( surface_color );
+			carve::geom::vector<4> specular_color( surface_color );
 			float shininess = 35.f;
-			float transparency = color.w;//0.7f;
+			float transparency = surface_color.w;//0.7f;
 			bool set_transparent = false;
 
 			shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>(surf_style_element_select);
@@ -208,7 +208,7 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 				if( surf_style_rendering->m_DiffuseColour)
 				{
 					shared_ptr<IfcColourOrFactor> color_or_factor = surf_style_rendering->m_DiffuseColour;
-					convertIfcColourOrFactor(color_or_factor, color, diffuseColor);
+					convertIfcColourOrFactor(color_or_factor, surface_color, diffuse_color);
 				}
 
 				if( surf_style_rendering->m_SpecularColour)
@@ -251,9 +251,9 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 				}
 			}
 
-			appearance_data->color_ambient = carve::geom::VECTOR(	ambientColor.x*0.8f,	ambientColor.y*0.8f,	ambientColor.z*0.8f,	transparency );
-			appearance_data->color_diffuse = carve::geom::VECTOR(	diffuseColor.x,			diffuseColor.y,			diffuseColor.z,			transparency );
-			appearance_data->color_specular = carve::geom::VECTOR(	specularColor.x*0.1,	specularColor.y*0.1,	specularColor.z*0.1,	transparency );
+			appearance_data->color_ambient = carve::geom::VECTOR(	ambient_color.x*0.8f,	ambient_color.y*0.8f,	ambient_color.z*0.8f,	transparency );
+			appearance_data->color_diffuse = carve::geom::VECTOR(	diffuse_color.x,		diffuse_color.y,		diffuse_color.z,		transparency );
+			appearance_data->color_specular = carve::geom::VECTOR(	specular_color.x*0.1,	specular_color.y*0.1,	specular_color.z*0.1,	transparency );
 			appearance_data->shininess = shininess;
 			appearance_data->set_transparent = set_transparent;
 			appearance_data->transparency = transparency;
@@ -305,10 +305,10 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 	shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
 	const int style_id = styled_item->getId();
 
-	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(style_id);
-	if( it_styles != m_map_ifc_styles.end() )
+	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
+	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{
-		vec_appearance_data.push_back( it_styles->second );
+		vec_appearance_data.push_back( it_find_existing_style->second );
 		return;
 	}
 
@@ -359,21 +359,6 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 	std::wstring usage_name = complex_property->m_UsageName->m_value;
 	if( !boost::iequals( usage_name.c_str(), L"Color" ) ) return;
 	
-	//int complex_property_id = complex_property->getId();
-	//std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(complex_property_id);
-	//if( it_styles != m_map_ifc_styles.end() )
-	//{
-	//	// use existing appearance
-	//	appearance_data = it_styles->second;
-	//	return;
-	//}
-
-	//if( !appearance_data )
-	//{
-	//	appearance_data = shared_ptr<AppearanceData>( new AppearanceData() );
-	//}
-	//m_map_ifc_styles[complex_property_id] = appearance_data;
-
 	if( complex_property->m_HasProperties.size() > 2 )
 	{
 		shared_ptr<IfcPropertySingleValue> prop1 = dynamic_pointer_cast<IfcPropertySingleValue>(complex_property->m_HasProperties[0]);
@@ -422,11 +407,11 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 {
 	int style_id = presentation_style->getId();
-	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(style_id);
-	if( it_styles != m_map_ifc_styles.end() )
+	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
+	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{
 		// use existing appearance
-		appearance_data = it_styles->second;
+		appearance_data = it_find_existing_style->second;
 		return;
 	}
 
@@ -505,8 +490,6 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 		return convertIfcSurfaceStyle( surface_style, appearance_data );
 	}
 
-
-
 	shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
 	if( text_style )
 	{
@@ -526,10 +509,10 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data )
 {
 	int style_id = curve_style->getId();
-	std::map<int, shared_ptr<AppearanceData> >::iterator it_styles = m_map_ifc_styles.find(style_id);
-	if( it_styles != m_map_ifc_styles.end() )
+	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
+	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{
-		appearance_data = it_styles->second;
+		appearance_data = it_find_existing_style->second;
 		return;
 	}
 	

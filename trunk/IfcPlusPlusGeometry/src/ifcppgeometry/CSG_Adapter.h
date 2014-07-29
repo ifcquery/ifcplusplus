@@ -32,6 +32,12 @@ public:
 	static bool checkMeshSetValidAndClosed(	const carve::mesh::MeshSet<3>* meshset, std::stringstream& err_poly, int entity_id );
 	static bool checkFaceIntegrity(	const carve::mesh::MeshSet<3>* meshset );
 
+	static void applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos );
+	static void roundVertices( carve::mesh::MeshSet<3>* meshset );
+	static int getNumFaces( const carve::mesh::MeshSet<3>* meshset );
+	static int getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset );
+	static double getVolume( const carve::mesh::MeshSet<3>* meshset );
+
 #ifdef _DEBUG
 	static void dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, carve::geom::vector<4>& color, bool append );
 	static void dumpPolyhedron( carve::poly::Polyhedron* poly, carve::geom::vector<4>& color, bool append );
@@ -41,14 +47,4 @@ public:
 	static void dumpEdges( const carve::mesh::MeshSet<3>* meshset, std::vector<edge_t* >& vec_edges );
 	static void clearMeshsetDump();
 #endif
-};
-
-class MeshOps
-{
-public:
-	static void applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos );
-	static void roundVertices( carve::mesh::MeshSet<3>* meshset );
-	static int getNumFaces( const carve::mesh::MeshSet<3>* meshset );
-	static int getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset );
-	static double getVolume( const carve::mesh::MeshSet<3>* meshset );
 };

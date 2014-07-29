@@ -17,7 +17,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include "ifcpp/model/shared_ptr.h"
+#include <ifcpp/model/shared_ptr.h>
 
 class IfcPPObject;
 

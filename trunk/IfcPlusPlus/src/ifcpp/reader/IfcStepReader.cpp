@@ -295,7 +295,7 @@ void IfcStepReader::readStreamHeader( const std::string& read_in, shared_ptr<Ifc
 		if( header_line.find(L"FILE_SCHEMA") != std::string::npos )
 		{
 			size_t file_schema_begin = header_line.find(L"FILE_SCHEMA") + 11;
-			target_model->setFileSchema( header_line );
+			target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = header_line;
 
 			std::wstring file_schema_args = header_line.substr( 11 );
 			size_t find_whitespace = file_schema_args.find(L" ");
@@ -799,6 +799,7 @@ static std::map<IfcPPEntityEnum, int> global_map_num_args = {
 	{ IfcPPEntityEnum::IFCSURFACESTYLE, 3 },
 	{ IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 },
 	{ IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 },
+	{ IfcPPEntityEnum::IFCTELECOMADDRESS, 9 },
 	{ IfcPPEntityEnum::IFCTEXTSTYLE, 5 },
 	{ IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 },
 	{ IfcPPEntityEnum::IFCUSHAPEPROFILEDEF, 10 },

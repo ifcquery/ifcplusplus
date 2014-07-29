@@ -276,7 +276,7 @@ void ReaderWriterIFC::createGeometry()
 	double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 	carve::setEpsilon( 1.4901161193847656e-08*length_to_meter_factor );
 
-	const std::map<int,shared_ptr<IfcPPEntity> >& map = m_ifc_model->getMapIfcObjects();
+	const std::map<int,shared_ptr<IfcPPEntity> >& map = m_ifc_model->getMapIfcEntities();
 	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it;
 	for( it=map.begin(); it!=map.end(); ++it )
 	{
@@ -447,24 +447,18 @@ void ReaderWriterIFC::createGeometry()
 	}
 }
 
-void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcPPObject>& obj, osg::Group* parent_group )
+void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::Group* parent_group )
 {
-	shared_ptr<IfcObjectDefinition> obj_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
-	if( !obj_def )
-	{
-		return;
-	}
-
-	int entity_id = obj_def->getId();
+	int entity_id = parent_obj_def->getId();
 	if( m_map_visited.find( entity_id ) != m_map_visited.end() )
 	{
 		return;
 	}
-	m_map_visited[entity_id] = obj_def;
+	m_map_visited[entity_id] = parent_obj_def;
 
 	osg::Group* item_grp = nullptr;
 
-	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>(obj_def);
+	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>(parent_obj_def);
 	if( building_storey )
 	{
 		int building_storey_id = building_storey->getId();
@@ -484,7 +478,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcPPObject>& ob
 		parent_group->addChild( switch_building_storey );
 	}
 		
-	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(obj_def);
+	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(parent_obj_def);
 	if( ifc_product )
 	{
 		std::map<int,shared_ptr<ShapeInputData> >::iterator it_product_map = m_shape_input_data.find(entity_id);
@@ -531,44 +525,58 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcPPObject>& ob
 	if( item_grp->getName().size() < 1 )
 	{
 		std::stringstream switch_name;
-		switch_name << "#" << entity_id << "=" << obj_def->classname();
+		switch_name << "#" << entity_id << "=" << parent_obj_def->classname();
 		item_grp->setName( switch_name.str().c_str() );
 	}
-	
-	if( obj_def->m_IsDecomposedBy_inverse.size() > 0 )
+
+	osg::Group* append_children_to_group = item_grp;
+
+	shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(parent_obj_def);
+	if( ifc_site )
 	{
-		std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = obj_def->m_IsDecomposedBy_inverse;
-		for( std::vector<weak_ptr<IfcRelAggregates> >::iterator it=vec_IsDecomposedBy.begin(); it!=vec_IsDecomposedBy.end(); ++it )
-		{
-			shared_ptr<IfcRelAggregates> rel_agg( *it );
-			std::vector<shared_ptr<IfcObjectDefinition> >& vec = rel_agg->m_RelatedObjects;
+		// Append representation of IfcSite (terrain) to a separate node.
+		// When selecting or deleting terrain, children (buildings and all child items) should not be selected or deleted as well.
+		//
+		// m_group_result
+		//    |- IfcProject
+		//    |     |- IfcBuilding
+		//    |     |     |- IfcBuildingStorey
+		//    |     |     |      |----- IfcProduct
+		//    |     |     |      |- ...
+		//    |     |     |- IfcBuildingStorey
+		//    |     |- IfcBuilding
+		//    |- IfcSite    
+		//                    
+			
+		append_children_to_group = m_group_result;
+	}
 	
-			for( std::vector<shared_ptr<IfcObjectDefinition> >::iterator it_object_def=vec.begin(); it_object_def!=vec.end(); ++it_object_def )
-			{
-				shared_ptr<IfcObjectDefinition> child_obj_def = (*it_object_def);
-				resolveProjectStructure( child_obj_def, item_grp );
-			}
+	std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = parent_obj_def->m_IsDecomposedBy_inverse;
+	for( auto it_decomposed_by=vec_IsDecomposedBy.begin(); it_decomposed_by!=vec_IsDecomposedBy.end(); ++it_decomposed_by )
+	{
+		shared_ptr<IfcRelAggregates> rel_aggregates( *it_decomposed_by );
+		std::vector<shared_ptr<IfcObjectDefinition> >& vec = rel_aggregates->m_RelatedObjects;
+	
+		for( auto it_object_def=vec.begin(); it_object_def!=vec.end(); ++it_object_def )
+		{
+			shared_ptr<IfcObjectDefinition> child_obj_def = (*it_object_def);
+			resolveProjectStructure( child_obj_def, append_children_to_group );
 		}
 	}
 
-	shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(obj_def);
+	shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(parent_obj_def);
 	if( spatial_ele )
 	{
 		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contained = spatial_ele->m_ContainsElements_inverse;
-		if( vec_contained.size() > 0 )
+		for( auto it_rel_contained=vec_contained.begin(); it_rel_contained!=vec_contained.end(); ++it_rel_contained )
 		{
-			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >::iterator it_rel_contained;
-			for( it_rel_contained=vec_contained.begin(); it_rel_contained!=vec_contained.end(); ++it_rel_contained )
+			shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( *it_rel_contained );
+			std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
+
+			for( auto it_related=vec_related_elements.begin(); it_related!=vec_related_elements.end(); ++it_related )
 			{
-				shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( *it_rel_contained );
-				std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
-				std::vector<shared_ptr<IfcProduct> >::iterator it;
-			
-				for( it=vec_related_elements.begin(); it!=vec_related_elements.end(); ++it )
-				{
-					shared_ptr<IfcProduct> related_product = (*it);
-					resolveProjectStructure( related_product, item_grp );
-				}
+				shared_ptr<IfcProduct> related_product = (*it_related);
+				resolveProjectStructure( related_product, append_children_to_group );
 			}
 		}
 	}
@@ -866,7 +874,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	{
 		// TODO: make only glass part of window transparent
 		product_switch->setStateSet( m_glass_stateset );
-		GeomUtils::setMaterialTransparent( product_switch, 0.6f );
+		GeomUtils::setMaterialAlpha( product_switch, 0.6f );
 	}
 	else if( dynamic_pointer_cast<IfcSite>(product) )
 	{

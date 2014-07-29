@@ -281,7 +281,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ifcpp\guid\CreateGuid_64.cpp" />
+    <ClCompile Include="src\ifcpp\model\IfcPPGuid.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcAbsorbedDoseMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcAccelerationMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcActionRequest.cpp" />
@@ -1457,7 +1457,7 @@
     <ClCompile Include="src\ifcpp\xml\XmlTools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ifcpp\guid\CreateGuid_64.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPGuid.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAbsorbedDoseMeasure.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAccelerationMeasure.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcActionRequest.h" />
