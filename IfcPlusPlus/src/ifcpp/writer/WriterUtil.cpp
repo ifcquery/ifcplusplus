@@ -147,7 +147,6 @@ void writeStringList( std::stringstream& stream, const std::vector<std::wstring>
 	stream << ")";
 }
 
-
 std::string encodeStepString( std::wstring str )
 {
 	wchar_t* stream_pos = (wchar_t*)str.c_str();
@@ -162,10 +161,23 @@ std::string encodeStepString( std::wstring str )
 		}
 		else
 		{
+			int value = (int)(append_char);      
+			wchar_t temporary[8];
+		    swprintf(temporary, 4, L"%02X ", value);
+
 			result_str.push_back( '\\' );
-			result_str.push_back( 'S' );
+			result_str.push_back( 'X' );
 			result_str.push_back( '\\' );
-			result_str.push_back( append_char-128 );
+			char mb[8];
+			int len1 = wctomb(mb, temporary[0]);
+			result_str.push_back( mb[0] );
+			int len2 = wctomb(mb, temporary[1]);
+			result_str.push_back( mb[0] );
+
+			//result_str.push_back( '\\' );
+			//result_str.push_back( 'S' );
+			//result_str.push_back( '\\' );
+			//result_str.push_back( append_char-128 );
 		}
 		++stream_pos;
 	}

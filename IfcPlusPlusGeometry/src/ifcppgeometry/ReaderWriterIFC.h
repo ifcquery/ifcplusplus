@@ -33,6 +33,7 @@
 #include "GeometryInputData.h"
 #include "GeometrySettings.h"
 
+// osg::Registry uses osg::ref_ptr, so always use it for ReaderWriterIFC too
 class ReaderWriterIFC : public osgDB::ReaderWriter, public StatusObservable
 {
 public:
@@ -44,7 +45,7 @@ public:
 
 	void createGeometry();
 	void convertIfcProduct(	const shared_ptr<IfcProduct>& product, shared_ptr<ShapeInputData>& product_shape );
-	void resolveProjectStructure( const shared_ptr<IfcPPObject>& obj, osg::Group* parent_group );
+	void resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::Group* parent_group );
 
 	// getters and setters
 	void setModel( shared_ptr<IfcPPModel> model );

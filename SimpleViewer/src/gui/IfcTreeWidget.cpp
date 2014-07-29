@@ -74,7 +74,7 @@ void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >
 
 void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous )
 {
-	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcObjects();
+	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
 	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
 	if( previous )
 	{

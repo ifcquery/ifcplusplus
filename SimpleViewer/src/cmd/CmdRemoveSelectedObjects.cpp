@@ -39,32 +39,10 @@ bool CmdRemoveSelectedObjects::doCmd()
 		shared_ptr<selectedEntity> selected_entity = it_selected->second;
 		shared_ptr<IfcPPEntity> entity = selected_entity->entity;
 		osg::Group* grp = selected_entity->osg_group.get();
-
-		shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>( entity );
-		if( ifc_site )
-		{
-			for( size_t ii = 0; ii < grp->getNumChildren(); ++ii )
-			{
-				osg::Node* child_node = grp->getChild( ii );
-				const std::string& child_name = child_node->getName();
-
-				if( child_name.size() > 0 )
-				{
-					if( child_name.at( 0 ) == '#' )
-					{
-						continue;
-					}
-				}
-				grp->removeChild( ii );
-				--ii;
-			}
-			continue;
-		}
 		
 		grp->removeChildren(0, grp->getNumChildren() );
 		// TODO: remove also from ifc model
-		
-		//m_system->remove
+
 		m_removed_objects[entity->getId()] = entity;
 	}
 	m_system->clearSelection();

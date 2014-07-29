@@ -200,7 +200,7 @@ void GeomUtils::cullFrontBack( bool front, bool back, osg::StateSet* stateset )
 	}
 }
 
-void GeomUtils::setMaterialTransparent( osg::Node* node, float transparency )
+void GeomUtils::setMaterialAlpha( osg::Node* node, float alpha )
 {
 	osg::StateSet* stateset = node->getStateSet();
 	if( stateset )
@@ -208,7 +208,8 @@ void GeomUtils::setMaterialTransparent( osg::Node* node, float transparency )
 		osg::ref_ptr<osg::Material> mat = dynamic_cast<osg::Material*>( stateset->getAttribute( osg::StateAttribute::MATERIAL ));
 		if( mat )
 		{
-			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );
+			//float transparency_restore = mat->getTransparency( osg::Material::FRONT_AND_BACK );
+			mat->setAlpha( osg::Material::FRONT_AND_BACK, alpha );
 			
 			//const osg::Vec4& ambient = mat->getAmbient( osg::Material::FRONT_AND_BACK );
 			//mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( ambient.r(), ambient.g(), ambient.b(), transparency ) );
@@ -229,11 +230,10 @@ void GeomUtils::setMaterialTransparent( osg::Node* node, float transparency )
 		for( unsigned int ii=0; ii<group->getNumChildren(); ++ii )
 		{
 			osg::Node* child_node = group->getChild( ii );
-			setMaterialTransparent( child_node, transparency );
+			setMaterialAlpha( child_node, alpha );
 		}
 	}
 }
-
 
 //#define COORDINATE_AXES_NO_COLORS
 
@@ -995,13 +995,22 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 		// close loop, insert first point at end if not already there
 //		while( loop_2d.size() > 2 )
 		{
-			carve::geom::vector<2> first = loop_2d.front();
+			carve::geom::vector<2>& first = loop_2d.front();
 			carve::geom::vector<2>& last = loop_2d.back();
 
 			if( std::abs(first.x-last.x) > 0.00001 || std::abs(first.y-last.y) > 0.00001 )
 			{
 				loop_2d.push_back( first );
 			}
+		}
+
+		double signed_area = carve::geom2d::signedArea( loop_2d );
+		if( abs( signed_area ) < 0.000001 )
+		{
+#ifdef _DEBUG
+			err << "extrude: abs( signed_area ) < 0.001" << std::endl;
+#endif
+			continue;
 		}
 
 		face_loops.push_back(loop_2d);
@@ -1069,6 +1078,29 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 	catch(...)
 	{
 		err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
+
+#ifdef _DEBUG
+		for( size_t ii = 0; ii < face_loops.size(); ++ii )
+		{
+			std::vector<carve::geom2d::P2>& face_loop_i = face_loops[ii];
+
+			carve::input::PolyhedronData poly_data;
+			std::vector<int> face_idx;
+			for( size_t jj = 0; jj < face_loop_i.size(); ++jj )
+			{
+				carve::geom2d::P2& point = face_loop_i[jj];
+				poly_data.addVertex( carve::geom::VECTOR( point.x, point.y, 0 ) );
+				face_idx.push_back( jj );
+			}
+
+			poly_data.addFace( face_idx.begin(), face_idx.end() );
+			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data.createMesh( carve::input::opts() ) );
+			double green_value = std::max(0.95 - ii*0.2, 0.3 );
+			CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.2, green_value, 0.2, 1.0 ), true );
+		}
+#endif
+			
+
 		return;
 	}
 

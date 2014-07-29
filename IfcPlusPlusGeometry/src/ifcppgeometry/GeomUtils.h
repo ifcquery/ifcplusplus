@@ -39,8 +39,8 @@ public:
 	static void HiddenLineModeOn( osg::Group* node );
 	static void HiddenLineModeOff( osg::Group* node );
 	static void cullFrontBack( bool front, bool back, osg::StateSet* stateset );
-	static void setMaterialTransparent( osg::Node* node, float transparency );
-
+	static void setMaterialAlpha( osg::Node* node, float alpha );
+	
 	static osg::Vec3d computePolygonNormal( const osg::Vec3dArray* polygon );
 	static osg::Vec3f computePolygonNormal( const osg::Vec3Array* polygon );
 	static carve::geom::vector<3> computePolygonCentroid( const std::vector<carve::geom::vector<3> >& polygon );

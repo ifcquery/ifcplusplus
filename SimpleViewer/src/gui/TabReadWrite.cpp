@@ -20,7 +20,7 @@
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/guid/CreateGuid_64.h>
+#include <ifcpp/model/IfcPPGuid.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
 #include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
@@ -280,7 +280,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	}
 
 	clock_t time_diff = clock() - millisecs;
-	int num_entities = m_system->getIfcModel()->getMapIfcObjects().size();
+	int num_entities = m_system->getIfcModel()->getMapIfcEntities().size();
 	slotTxtOut( tr("File loaded: ") + QString::number(num_entities) + " entities in " + QString::number( round(time_diff*0.1)*0.01 ) + " sec."  );
 
 	m_system->notifyModelLoadingDone();

@@ -34,46 +34,15 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} src/)
 
 LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}) 
 
-file (GLOB ifc4_headers "src/ifcpp/IFC4/include/*.h")
 file (GLOB ifc4_source "src/ifcpp/IFC4/*.cpp")
 
-set(IFCPP_HEADER_FILES 
-  src/ifcpp/IfcPPEntities.h 
-  src/ifcpp/IfcPPEntitiesMap.h
-  src/ifcpp/IfcPPEntityEnums.h
-  src/ifcpp/IfcPPTypeEnums.h
-  src/ifcpp/IfcPPTypeMap.h
-  src/ifcpp/IfcPPTypes.h
-  src/ifcpp/guid/CreateGuid_64.h
-  src/ifcpp/model/IfcPPAttributeObject.h
-  src/ifcpp/model/IfcPPException.h
-  src/ifcpp/model/IfcPPModel.h
-  src/ifcpp/model/IfcPPObject.h
-  src/ifcpp/model/IfcPPOpenMP.h
-  src/ifcpp/model/IfcPPUtil.h
-  src/ifcpp/model/StatusObservable.h
-  src/ifcpp/model/UnitConverter.h
-  src/ifcpp/model/UnknownEntityException.h
-  src/ifcpp/model/shared_ptr.h
-  src/ifcpp/reader/IfcPlusPlusReader.h
-  src/ifcpp/reader/IfcStepReader.h
-  src/ifcpp/reader/IfcXmlReader.h
-  src/ifcpp/reader/ReaderUtil.h
-  src/ifcpp/writer/IfcPlusPlusWriter.h
-  src/ifcpp/writer/IfcStepWriter.h
-  src/ifcpp/writer/IfcXmlWriter.h
-  src/ifcpp/writer/WriterUtil.h
-  src/ifcpp/xml/XmlTools.h
-
-  ${ifc4_headers}
-)
 
 set(IFCPP_SOURCE_FILES 
   src/ifcpp/IfcPPEntityBroker.cpp
   src/ifcpp/IfcPPTypeBroker.cpp
-  src/ifcpp/guid/CreateGuid_64.cpp
   src/ifcpp/model/IfcPPAttributeObject.cpp
   src/ifcpp/model/IfcPPException.cpp
+  src/ifcpp/model/IfcPPGuid.cpp
   src/ifcpp/model/IfcPPModel.cpp
   src/ifcpp/model/IfcPPObject.cpp
   src/ifcpp/model/StatusObservable.cpp
@@ -90,7 +59,7 @@ set(IFCPP_SOURCE_FILES
   ${ifc4_source}
 )
 
-ADD_LIBRARY(IfcPlusPlus SHARED ${IFCPP_HEADER_FILES} ${IFCPP_SOURCE_FILES})
+ADD_LIBRARY(IfcPlusPlus SHARED ${IFCPP_SOURCE_FILES})
 
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")

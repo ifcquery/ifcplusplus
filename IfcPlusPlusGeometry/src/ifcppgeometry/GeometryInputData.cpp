@@ -228,9 +228,31 @@ void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
 	}
 	vec_appearances.push_back( appearance );
 }
+
 void ShapeInputData::clearAppearanceData()
 {
 	vec_appearances.clear();
+}
+
+void ShapeInputData::clearAll()
+{
+	vec_appearances.clear();
+
+	ifc_product.reset();
+	representation.reset();
+	object_placement.reset();
+	if( product_switch )
+	{
+		product_switch->removeChildren( 0, product_switch->getNumChildren() );
+	}
+	if( product_switch_curves )
+	{
+		product_switch_curves->removeChildren( 0, product_switch_curves->getNumChildren() );
+	}
+	vec_item_data.clear();
+	added_to_storey = false;
+	representation_identifier = L"";
+	representation_type = L"";
 }
 
 // PolyInputCache

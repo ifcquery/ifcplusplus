@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ifcpp\guid\CreateGuid_64.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcpp\IFC4\IfcAbsorbedDoseMeasure.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -3537,11 +3534,11 @@
     <ClCompile Include="src\ifcpp\model\IfcPPAttributeObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcpp\model\IfcPPGuid.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ifcpp\guid\CreateGuid_64.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\model\IfcPPException.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -7086,6 +7083,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\IFC4\include\IfcZShapeProfileDef.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\model\IfcPPGuid.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
