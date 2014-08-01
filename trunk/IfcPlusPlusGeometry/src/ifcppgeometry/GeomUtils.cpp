@@ -798,6 +798,15 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 			continue;
 		}
 
+		double signed_area = carve::geom2d::signedArea( path_loop_2d );
+		if( abs( signed_area ) < 0.000001 )
+		{
+#ifdef _DEBUG
+			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+#endif
+			continue;
+		}
+
 		face_loops_2d.push_back(path_loop_2d);
 		face_loop_3rd_dim.push_back(path_loop_3rd_dim);
 	}
@@ -850,7 +859,9 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 		}
 		catch(...)
 		{
+#ifdef _DEBUG
 			err << __FUNC__ << ": carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
+#endif
 			return;
 		}
 
@@ -951,7 +962,6 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 
 		if( loop.size() < 3 )
 		{
-			//err << "loop.size() < 3" << std::endl;
 			if( it_face_loops == face_loops_input.begin() )
 			{
 				break;
@@ -993,22 +1003,19 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 		}
 		
 		// close loop, insert first point at end if not already there
-//		while( loop_2d.size() > 2 )
-		{
-			carve::geom::vector<2>& first = loop_2d.front();
-			carve::geom::vector<2>& last = loop_2d.back();
+		carve::geom::vector<2>& first = loop_2d.front();
+		carve::geom::vector<2>& last = loop_2d.back();
 
-			if( std::abs(first.x-last.x) > 0.00001 || std::abs(first.y-last.y) > 0.00001 )
-			{
-				loop_2d.push_back( first );
-			}
+		if( std::abs(first.x-last.x) > 0.00001 || std::abs(first.y-last.y) > 0.00001 )
+		{
+			loop_2d.push_back( first );
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
 		if( abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
-			err << "extrude: abs( signed_area ) < 0.001" << std::endl;
+			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
 #endif
 			continue;
 		}
@@ -1077,9 +1084,9 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 	}
 	catch(...)
 	{
-		err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
-
+		
 #ifdef _DEBUG
+		err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
 		for( size_t ii = 0; ii < face_loops.size(); ++ii )
 		{
 			std::vector<carve::geom2d::P2>& face_loop_i = face_loops[ii];
@@ -1670,6 +1677,15 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 			}
 		}
 
+		double signed_area = carve::geom2d::signedArea( loop_2d );
+		if( abs( signed_area ) < 0.000001 )
+		{
+#ifdef _DEBUG
+			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+#endif
+			continue;
+		}
+
 		face_loops.push_back(loop_2d);
 	}
 
@@ -1722,7 +1738,9 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 	}
 	catch(...)
 	{
+#ifdef _DEBUG
 		err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
+#endif
 		return;
 	}
 
