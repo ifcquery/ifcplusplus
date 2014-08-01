@@ -402,7 +402,9 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	shared_ptr<IfcProfileDef> swept_area_profile = revolved_area->m_SweptArea;
 	if( !swept_area_profile )
 	{
+#ifdef _DEBUG
 		strs_err << __FUNC__ << ": SweptArea not valid" << std::endl;
+#endif
 		return;
 	}
 	double revolution_angle = revolved_area->m_Angle->m_value*angle_factor;
@@ -457,6 +459,15 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 			}
 		}
 
+		double signed_area = carve::geom2d::signedArea( profile_loop_unchecked );
+		if( abs( signed_area ) < 0.000001 )
+		{
+#ifdef _DEBUG
+			strs_err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+#endif
+			continue;
+		}
+
 		profile_coords.push_back( std::vector<carve::geom::vector<2> >() );
 		std::vector<carve::geom::vector<2> >& profile_loop = profile_coords.back();
 
@@ -500,18 +511,24 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	}
 	catch(...)
 	{
+#ifdef _DEBUG
 		strs_err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
+#endif
 		return;
 	}
 
 	if( profile_coords.size() == 0 )
 	{
+#ifdef _DEBUG
 		strs_err << "#" << revolved_area->getId() << " = IfcRevolvedAreaSolid: convertIfcRevolvedAreaSolid: num_loops == 0";
+#endif
 		return;
 	}
 	if( profile_coords[0].size() < 3 )
 	{
+#ifdef _DEBUG
 		strs_err << "#" << revolved_area->getId() << " = IfcRevolvedAreaSolid: convertIfcRevolvedAreaSolid: num_polygon_points < 3";
+#endif
 		return;
 	}
 
@@ -681,7 +698,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
 {
 	const int boolean_result_id = bool_result->getId();
-	shared_ptr<IfcBooleanOperator> ifc_boolean_operator = bool_result->m_Operator;
+	shared_ptr<IfcBooleanOperator>& ifc_boolean_operator = bool_result->m_Operator;
 	shared_ptr<IfcBooleanOperand> ifc_first_operand = bool_result->m_FirstOperand;
 	shared_ptr<IfcBooleanOperand> ifc_second_operand = bool_result->m_SecondOperand;
 	if( !ifc_boolean_operator || !ifc_first_operand || !ifc_second_operand )

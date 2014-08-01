@@ -72,27 +72,32 @@ ProfileConverter::~ProfileConverter()
 
 void removeDuplicates( std::vector<std::vector<carve::geom::vector<2> > >&	paths )
 {
-	for( std::vector<std::vector<carve::geom::vector<2> > >::iterator it = paths.begin(); it != paths.end(); ++it )
+	for( auto it_all_loops = paths.begin(); it_all_loops != paths.end(); ++it_all_loops )
 	{
-		std::vector<carve::geom::vector<2> >& loop = (*it);
+		std::vector<carve::geom::vector<2> >& loop = *it_all_loops;
 		if( loop.size() > 1 )
 		{
-			std::vector<carve::geom::vector<2> >::iterator it_loop = loop.begin();
-			carve::geom::vector<2> previous_point = (*it_loop);
+			auto it_loop = loop.begin();
+			double previous_x = (*it_loop).x;
+			double previous_y = (*it_loop).y;
 			++it_loop;
-			for( ; it_loop != loop.end(); ++it_loop )
+
+			while( it_loop != loop.end() )
 			{
-				carve::geom::vector<2>& current_point = (*it_loop);
-				if( std::abs(current_point.x - previous_point.x ) < 0.00001 )
+				carve::geom::vector<2>& current_point = *it_loop;
+				if( std::abs( current_point.x - previous_x ) < 0.00001 )
 				{
-					if( std::abs(current_point.y - previous_point.y ) < 0.00001 )
+					if( std::abs( current_point.y - previous_y ) < 0.00001 )
 					{
+						previous_x = current_point.x;
+						previous_y = current_point.y;
 						it_loop = loop.erase( it_loop );
-						previous_point = (*it_loop);
 						continue;
 					}
 				}
-				previous_point = current_point;
+				previous_x = current_point.x;
+				previous_y = current_point.y;
+				++it_loop;
 			}
 		}
 	}
