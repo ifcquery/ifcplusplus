@@ -23,6 +23,12 @@
 // TYPE IfcReinforcingMeshTypeEnum 
 IfcReinforcingMeshTypeEnum::IfcReinforcingMeshTypeEnum() {}
 IfcReinforcingMeshTypeEnum::~IfcReinforcingMeshTypeEnum() {}
+shared_ptr<IfcPPObject> IfcReinforcingMeshTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcReinforcingMeshTypeEnum> copy_self( new IfcReinforcingMeshTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcReinforcingMeshTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGMESHTYPEENUM("; }

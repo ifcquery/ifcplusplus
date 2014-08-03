@@ -23,6 +23,12 @@
 // TYPE IfcCostScheduleTypeEnum 
 IfcCostScheduleTypeEnum::IfcCostScheduleTypeEnum() {}
 IfcCostScheduleTypeEnum::~IfcCostScheduleTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCostScheduleTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCostScheduleTypeEnum> copy_self( new IfcCostScheduleTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOSTSCHEDULETYPEENUM("; }

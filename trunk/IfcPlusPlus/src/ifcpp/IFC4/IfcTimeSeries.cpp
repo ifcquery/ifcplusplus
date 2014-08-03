@@ -31,20 +31,18 @@
 IfcTimeSeries::IfcTimeSeries() {}
 IfcTimeSeries::IfcTimeSeries( int id ) { m_id = id; }
 IfcTimeSeries::~IfcTimeSeries() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTimeSeries::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTimeSeries::getDeepCopy()
 {
-	shared_ptr<IfcTimeSeries> other = dynamic_pointer_cast<IfcTimeSeries>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_StartTime = other->m_StartTime;
-	m_EndTime = other->m_EndTime;
-	m_TimeSeriesDataType = other->m_TimeSeriesDataType;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
-	m_Unit = other->m_Unit;
+	shared_ptr<IfcTimeSeries> copy_self( new IfcTimeSeries() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy() ); }
+	if( m_EndTime ) { copy_self->m_EndTime = dynamic_pointer_cast<IfcDateTime>( m_EndTime->getDeepCopy() ); }
+	if( m_TimeSeriesDataType ) { copy_self->m_TimeSeriesDataType = dynamic_pointer_cast<IfcTimeSeriesDataTypeEnum>( m_TimeSeriesDataType->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTimeSeries::getStepLine( std::stringstream& stream ) const
 {

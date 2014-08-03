@@ -28,19 +28,17 @@
 IfcTextStyleTextModel::IfcTextStyleTextModel() {}
 IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_id = id; }
 IfcTextStyleTextModel::~IfcTextStyleTextModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextStyleTextModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextStyleTextModel::getDeepCopy()
 {
-	shared_ptr<IfcTextStyleTextModel> other = dynamic_pointer_cast<IfcTextStyleTextModel>(other_entity);
-	if( !other) { return; }
-	m_TextIndent = other->m_TextIndent;
-	m_TextAlign = other->m_TextAlign;
-	m_TextDecoration = other->m_TextDecoration;
-	m_LetterSpacing = other->m_LetterSpacing;
-	m_WordSpacing = other->m_WordSpacing;
-	m_TextTransform = other->m_TextTransform;
-	m_LineHeight = other->m_LineHeight;
+	shared_ptr<IfcTextStyleTextModel> copy_self( new IfcTextStyleTextModel() );
+	if( m_TextIndent ) { copy_self->m_TextIndent = dynamic_pointer_cast<IfcSizeSelect>( m_TextIndent->getDeepCopy() ); }
+	if( m_TextAlign ) { copy_self->m_TextAlign = dynamic_pointer_cast<IfcTextAlignment>( m_TextAlign->getDeepCopy() ); }
+	if( m_TextDecoration ) { copy_self->m_TextDecoration = dynamic_pointer_cast<IfcTextDecoration>( m_TextDecoration->getDeepCopy() ); }
+	if( m_LetterSpacing ) { copy_self->m_LetterSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_LetterSpacing->getDeepCopy() ); }
+	if( m_WordSpacing ) { copy_self->m_WordSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_WordSpacing->getDeepCopy() ); }
+	if( m_TextTransform ) { copy_self->m_TextTransform = dynamic_pointer_cast<IfcTextTransformation>( m_TextTransform->getDeepCopy() ); }
+	if( m_LineHeight ) { copy_self->m_LineHeight = dynamic_pointer_cast<IfcSizeSelect>( m_LineHeight->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 {

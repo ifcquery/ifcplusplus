@@ -27,16 +27,28 @@
 IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea() {}
 IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea( int id ) { m_id = id; }
 IfcSurfaceReinforcementArea::~IfcSurfaceReinforcementArea() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceReinforcementArea::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceReinforcementArea::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceReinforcementArea> other = dynamic_pointer_cast<IfcSurfaceReinforcementArea>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_SurfaceReinforcement1 = other->m_SurfaceReinforcement1;
-	m_SurfaceReinforcement2 = other->m_SurfaceReinforcement2;
-	m_ShearReinforcement = other->m_ShearReinforcement;
+	shared_ptr<IfcSurfaceReinforcementArea> copy_self( new IfcSurfaceReinforcementArea() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_SurfaceReinforcement1.size(); ++ii )
+	{
+		auto item_ii = m_SurfaceReinforcement1[ii];
+		if( item_ii )
+		{
+			copy_self->m_SurfaceReinforcement1.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_SurfaceReinforcement2.size(); ++ii )
+	{
+		auto item_ii = m_SurfaceReinforcement2[ii];
+		if( item_ii )
+		{
+			copy_self->m_SurfaceReinforcement2.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_ShearReinforcement ) { copy_self->m_ShearReinforcement = dynamic_pointer_cast<IfcRatioMeasure>( m_ShearReinforcement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 {

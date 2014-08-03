@@ -28,6 +28,7 @@ public:
 	IfcFrequencyMeasure( double value );
 	~IfcFrequencyMeasure();
 	virtual const char* classname() const { return "IfcFrequencyMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFrequencyMeasure> createObjectFromStepData( const std::wstring& arg );
 };

@@ -27,13 +27,11 @@
 IfcFacetedBrep::IfcFacetedBrep() {}
 IfcFacetedBrep::IfcFacetedBrep( int id ) { m_id = id; }
 IfcFacetedBrep::~IfcFacetedBrep() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFacetedBrep::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFacetedBrep::getDeepCopy()
 {
-	shared_ptr<IfcFacetedBrep> other = dynamic_pointer_cast<IfcFacetedBrep>(other_entity);
-	if( !other) { return; }
-	m_Outer = other->m_Outer;
+	shared_ptr<IfcFacetedBrep> copy_self( new IfcFacetedBrep() );
+	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcFacetedBrep::getStepLine( std::stringstream& stream ) const
 {

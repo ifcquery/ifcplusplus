@@ -31,21 +31,19 @@
 IfcRelSequence::IfcRelSequence() {}
 IfcRelSequence::IfcRelSequence( int id ) { m_id = id; }
 IfcRelSequence::~IfcRelSequence() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelSequence::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelSequence::getDeepCopy()
 {
-	shared_ptr<IfcRelSequence> other = dynamic_pointer_cast<IfcRelSequence>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingProcess = other->m_RelatingProcess;
-	m_RelatedProcess = other->m_RelatedProcess;
-	m_TimeLag = other->m_TimeLag;
-	m_SequenceType = other->m_SequenceType;
-	m_UserDefinedSequenceType = other->m_UserDefinedSequenceType;
+	shared_ptr<IfcRelSequence> copy_self( new IfcRelSequence() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingProcess ) { copy_self->m_RelatingProcess = dynamic_pointer_cast<IfcProcess>( m_RelatingProcess->getDeepCopy() ); }
+	if( m_RelatedProcess ) { copy_self->m_RelatedProcess = dynamic_pointer_cast<IfcProcess>( m_RelatedProcess->getDeepCopy() ); }
+	if( m_TimeLag ) { copy_self->m_TimeLag = dynamic_pointer_cast<IfcLagTime>( m_TimeLag->getDeepCopy() ); }
+	if( m_SequenceType ) { copy_self->m_SequenceType = dynamic_pointer_cast<IfcSequenceEnum>( m_SequenceType->getDeepCopy() ); }
+	if( m_UserDefinedSequenceType ) { copy_self->m_UserDefinedSequenceType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedSequenceType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelSequence::getStepLine( std::stringstream& stream ) const
 {

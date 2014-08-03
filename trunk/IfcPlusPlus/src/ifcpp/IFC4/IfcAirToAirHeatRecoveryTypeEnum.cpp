@@ -23,6 +23,12 @@
 // TYPE IfcAirToAirHeatRecoveryTypeEnum 
 IfcAirToAirHeatRecoveryTypeEnum::IfcAirToAirHeatRecoveryTypeEnum() {}
 IfcAirToAirHeatRecoveryTypeEnum::~IfcAirToAirHeatRecoveryTypeEnum() {}
+shared_ptr<IfcPPObject> IfcAirToAirHeatRecoveryTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> copy_self( new IfcAirToAirHeatRecoveryTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAirToAirHeatRecoveryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTOAIRHEATRECOVERYTYPEENUM("; }

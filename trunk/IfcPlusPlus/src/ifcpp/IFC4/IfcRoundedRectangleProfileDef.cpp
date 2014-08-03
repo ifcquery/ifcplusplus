@@ -30,18 +30,16 @@
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef() {}
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_id = id; }
 IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRoundedRectangleProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRoundedRectangleProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcRoundedRectangleProfileDef> other = dynamic_pointer_cast<IfcRoundedRectangleProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_XDim = other->m_XDim;
-	m_YDim = other->m_YDim;
-	m_RoundingRadius = other->m_RoundingRadius;
+	shared_ptr<IfcRoundedRectangleProfileDef> copy_self( new IfcRoundedRectangleProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy() ); }
+	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy() ); }
+	if( m_RoundingRadius ) { copy_self->m_RoundingRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_RoundingRadius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream ) const
 {

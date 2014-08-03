@@ -23,6 +23,12 @@
 // TYPE IfcLoadGroupTypeEnum 
 IfcLoadGroupTypeEnum::IfcLoadGroupTypeEnum() {}
 IfcLoadGroupTypeEnum::~IfcLoadGroupTypeEnum() {}
+shared_ptr<IfcPPObject> IfcLoadGroupTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcLoadGroupTypeEnum> copy_self( new IfcLoadGroupTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLoadGroupTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLOADGROUPTYPEENUM("; }

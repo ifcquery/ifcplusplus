@@ -33,16 +33,14 @@
 IfcPreDefinedPropertySet::IfcPreDefinedPropertySet() {}
 IfcPreDefinedPropertySet::IfcPreDefinedPropertySet( int id ) { m_id = id; }
 IfcPreDefinedPropertySet::~IfcPreDefinedPropertySet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPreDefinedPropertySet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPreDefinedPropertySet::getDeepCopy()
 {
-	shared_ptr<IfcPreDefinedPropertySet> other = dynamic_pointer_cast<IfcPreDefinedPropertySet>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
+	shared_ptr<IfcPreDefinedPropertySet> copy_self( new IfcPreDefinedPropertySet() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPreDefinedPropertySet::getStepLine( std::stringstream& stream ) const
 {

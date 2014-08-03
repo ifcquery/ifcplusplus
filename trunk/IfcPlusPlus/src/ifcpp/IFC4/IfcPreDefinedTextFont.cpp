@@ -25,13 +25,11 @@
 IfcPreDefinedTextFont::IfcPreDefinedTextFont() {}
 IfcPreDefinedTextFont::IfcPreDefinedTextFont( int id ) { m_id = id; }
 IfcPreDefinedTextFont::~IfcPreDefinedTextFont() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPreDefinedTextFont::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPreDefinedTextFont::getDeepCopy()
 {
-	shared_ptr<IfcPreDefinedTextFont> other = dynamic_pointer_cast<IfcPreDefinedTextFont>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcPreDefinedTextFont> copy_self( new IfcPreDefinedTextFont() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPreDefinedTextFont::getStepLine( std::stringstream& stream ) const
 {

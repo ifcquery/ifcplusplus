@@ -29,20 +29,32 @@
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle() {}
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int id ) { m_id = id; }
 IfcPresentationLayerWithStyle::~IfcPresentationLayerWithStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPresentationLayerWithStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPresentationLayerWithStyle::getDeepCopy()
 {
-	shared_ptr<IfcPresentationLayerWithStyle> other = dynamic_pointer_cast<IfcPresentationLayerWithStyle>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_AssignedItems = other->m_AssignedItems;
-	m_Identifier = other->m_Identifier;
-	m_LayerOn = other->m_LayerOn;
-	m_LayerFrozen = other->m_LayerFrozen;
-	m_LayerBlocked = other->m_LayerBlocked;
-	m_LayerStyles = other->m_LayerStyles;
+	shared_ptr<IfcPresentationLayerWithStyle> copy_self( new IfcPresentationLayerWithStyle() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
+	{
+		auto item_ii = m_AssignedItems[ii];
+		if( item_ii )
+		{
+			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy() ); }
+	if( m_LayerOn ) { copy_self->m_LayerOn = m_LayerOn; }
+	if( m_LayerFrozen ) { copy_self->m_LayerFrozen = m_LayerFrozen; }
+	if( m_LayerBlocked ) { copy_self->m_LayerBlocked = m_LayerBlocked; }
+	for( size_t ii=0; ii<m_LayerStyles.size(); ++ii )
+	{
+		auto item_ii = m_LayerStyles[ii];
+		if( item_ii )
+		{
+			copy_self->m_LayerStyles.push_back( dynamic_pointer_cast<IfcPresentationStyle>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) const
 {

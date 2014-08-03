@@ -25,6 +25,12 @@
 IfcDate::IfcDate() {}
 IfcDate::IfcDate( std::wstring value ) { m_value = value; }
 IfcDate::~IfcDate() {}
+shared_ptr<IfcPPObject> IfcDate::getDeepCopy()
+{
+	shared_ptr<IfcDate> copy_self( new IfcDate() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDate::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDATE("; }

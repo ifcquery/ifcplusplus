@@ -30,20 +30,46 @@
 IfcRecurrencePattern::IfcRecurrencePattern() {}
 IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_id = id; }
 IfcRecurrencePattern::~IfcRecurrencePattern() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRecurrencePattern::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy()
 {
-	shared_ptr<IfcRecurrencePattern> other = dynamic_pointer_cast<IfcRecurrencePattern>(other_entity);
-	if( !other) { return; }
-	m_RecurrenceType = other->m_RecurrenceType;
-	m_DayComponent = other->m_DayComponent;
-	m_WeekdayComponent = other->m_WeekdayComponent;
-	m_MonthComponent = other->m_MonthComponent;
-	m_Position = other->m_Position;
-	m_Interval = other->m_Interval;
-	m_Occurrences = other->m_Occurrences;
-	m_TimePeriods = other->m_TimePeriods;
+	shared_ptr<IfcRecurrencePattern> copy_self( new IfcRecurrencePattern() );
+	if( m_RecurrenceType ) { copy_self->m_RecurrenceType = dynamic_pointer_cast<IfcRecurrenceTypeEnum>( m_RecurrenceType->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_DayComponent.size(); ++ii )
+	{
+		auto item_ii = m_DayComponent[ii];
+		if( item_ii )
+		{
+			copy_self->m_DayComponent.push_back( dynamic_pointer_cast<IfcDayInMonthNumber>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_WeekdayComponent.size(); ++ii )
+	{
+		auto item_ii = m_WeekdayComponent[ii];
+		if( item_ii )
+		{
+			copy_self->m_WeekdayComponent.push_back( dynamic_pointer_cast<IfcDayInWeekNumber>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_MonthComponent.size(); ++ii )
+	{
+		auto item_ii = m_MonthComponent[ii];
+		if( item_ii )
+		{
+			copy_self->m_MonthComponent.push_back( dynamic_pointer_cast<IfcMonthInYearNumber>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcInteger>( m_Position->getDeepCopy() ); }
+	if( m_Interval ) { copy_self->m_Interval = dynamic_pointer_cast<IfcInteger>( m_Interval->getDeepCopy() ); }
+	if( m_Occurrences ) { copy_self->m_Occurrences = dynamic_pointer_cast<IfcInteger>( m_Occurrences->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_TimePeriods.size(); ++ii )
+	{
+		auto item_ii = m_TimePeriods[ii];
+		if( item_ii )
+		{
+			copy_self->m_TimePeriods.push_back( dynamic_pointer_cast<IfcTimePeriod>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 {

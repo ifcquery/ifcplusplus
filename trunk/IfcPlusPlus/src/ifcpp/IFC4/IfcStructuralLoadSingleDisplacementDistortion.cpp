@@ -28,20 +28,18 @@
 IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion() {}
 IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion( int id ) { m_id = id; }
 IfcStructuralLoadSingleDisplacementDistortion::~IfcStructuralLoadSingleDisplacementDistortion() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadSingleDisplacementDistortion::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacementDistortion::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadSingleDisplacementDistortion> other = dynamic_pointer_cast<IfcStructuralLoadSingleDisplacementDistortion>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DisplacementX = other->m_DisplacementX;
-	m_DisplacementY = other->m_DisplacementY;
-	m_DisplacementZ = other->m_DisplacementZ;
-	m_RotationalDisplacementRX = other->m_RotationalDisplacementRX;
-	m_RotationalDisplacementRY = other->m_RotationalDisplacementRY;
-	m_RotationalDisplacementRZ = other->m_RotationalDisplacementRZ;
-	m_Distortion = other->m_Distortion;
+	shared_ptr<IfcStructuralLoadSingleDisplacementDistortion> copy_self( new IfcStructuralLoadSingleDisplacementDistortion() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DisplacementX ) { copy_self->m_DisplacementX = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementX->getDeepCopy() ); }
+	if( m_DisplacementY ) { copy_self->m_DisplacementY = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementY->getDeepCopy() ); }
+	if( m_DisplacementZ ) { copy_self->m_DisplacementZ = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementZ->getDeepCopy() ); }
+	if( m_RotationalDisplacementRX ) { copy_self->m_RotationalDisplacementRX = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRX->getDeepCopy() ); }
+	if( m_RotationalDisplacementRY ) { copy_self->m_RotationalDisplacementRY = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRY->getDeepCopy() ); }
+	if( m_RotationalDisplacementRZ ) { copy_self->m_RotationalDisplacementRZ = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRZ->getDeepCopy() ); }
+	if( m_Distortion ) { copy_self->m_Distortion = dynamic_pointer_cast<IfcCurvatureMeasure>( m_Distortion->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstream& stream ) const
 {

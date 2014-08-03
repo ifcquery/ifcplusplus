@@ -39,22 +39,34 @@
 IfcChimneyType::IfcChimneyType() {}
 IfcChimneyType::IfcChimneyType( int id ) { m_id = id; }
 IfcChimneyType::~IfcChimneyType() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcChimneyType::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcChimneyType::getDeepCopy()
 {
-	shared_ptr<IfcChimneyType> other = dynamic_pointer_cast<IfcChimneyType>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ApplicableOccurrence = other->m_ApplicableOccurrence;
-	m_HasPropertySets = other->m_HasPropertySets;
-	m_RepresentationMaps = other->m_RepresentationMaps;
-	m_Tag = other->m_Tag;
-	m_ElementType = other->m_ElementType;
-	m_PredefinedType = other->m_PredefinedType;
+	shared_ptr<IfcChimneyType> copy_self( new IfcChimneyType() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
+	{
+		auto item_ii = m_HasPropertySets[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
+	{
+		auto item_ii = m_RepresentationMaps[ii];
+		if( item_ii )
+		{
+			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy() ); }
+	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcChimneyTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcChimneyType::getStepLine( std::stringstream& stream ) const
 {

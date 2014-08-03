@@ -36,24 +36,22 @@
 IfcSimplePropertyTemplate::IfcSimplePropertyTemplate() {}
 IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int id ) { m_id = id; }
 IfcSimplePropertyTemplate::~IfcSimplePropertyTemplate() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSimplePropertyTemplate::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSimplePropertyTemplate::getDeepCopy()
 {
-	shared_ptr<IfcSimplePropertyTemplate> other = dynamic_pointer_cast<IfcSimplePropertyTemplate>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_TemplateType = other->m_TemplateType;
-	m_PrimaryMeasureType = other->m_PrimaryMeasureType;
-	m_SecondaryMeasureType = other->m_SecondaryMeasureType;
-	m_Enumerators = other->m_Enumerators;
-	m_PrimaryUnit = other->m_PrimaryUnit;
-	m_SecondaryUnit = other->m_SecondaryUnit;
-	m_Expression = other->m_Expression;
-	m_AccessState = other->m_AccessState;
+	shared_ptr<IfcSimplePropertyTemplate> copy_self( new IfcSimplePropertyTemplate() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_TemplateType ) { copy_self->m_TemplateType = dynamic_pointer_cast<IfcSimplePropertyTemplateTypeEnum>( m_TemplateType->getDeepCopy() ); }
+	if( m_PrimaryMeasureType ) { copy_self->m_PrimaryMeasureType = dynamic_pointer_cast<IfcLabel>( m_PrimaryMeasureType->getDeepCopy() ); }
+	if( m_SecondaryMeasureType ) { copy_self->m_SecondaryMeasureType = dynamic_pointer_cast<IfcLabel>( m_SecondaryMeasureType->getDeepCopy() ); }
+	if( m_Enumerators ) { copy_self->m_Enumerators = dynamic_pointer_cast<IfcPropertyEnumeration>( m_Enumerators->getDeepCopy() ); }
+	if( m_PrimaryUnit ) { copy_self->m_PrimaryUnit = dynamic_pointer_cast<IfcUnit>( m_PrimaryUnit->getDeepCopy() ); }
+	if( m_SecondaryUnit ) { copy_self->m_SecondaryUnit = dynamic_pointer_cast<IfcUnit>( m_SecondaryUnit->getDeepCopy() ); }
+	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcLabel>( m_Expression->getDeepCopy() ); }
+	if( m_AccessState ) { copy_self->m_AccessState = dynamic_pointer_cast<IfcStateEnum>( m_AccessState->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 {

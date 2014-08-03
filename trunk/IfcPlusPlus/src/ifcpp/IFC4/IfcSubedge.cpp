@@ -28,15 +28,13 @@
 IfcSubedge::IfcSubedge() {}
 IfcSubedge::IfcSubedge( int id ) { m_id = id; }
 IfcSubedge::~IfcSubedge() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSubedge::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSubedge::getDeepCopy()
 {
-	shared_ptr<IfcSubedge> other = dynamic_pointer_cast<IfcSubedge>(other_entity);
-	if( !other) { return; }
-	m_EdgeStart = other->m_EdgeStart;
-	m_EdgeEnd = other->m_EdgeEnd;
-	m_ParentEdge = other->m_ParentEdge;
+	shared_ptr<IfcSubedge> copy_self( new IfcSubedge() );
+	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy() ); }
+	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy() ); }
+	if( m_ParentEdge ) { copy_self->m_ParentEdge = dynamic_pointer_cast<IfcEdge>( m_ParentEdge->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSubedge::getStepLine( std::stringstream& stream ) const
 {

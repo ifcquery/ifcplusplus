@@ -30,18 +30,16 @@
 IfcGeometricRepresentationContext::IfcGeometricRepresentationContext() {}
 IfcGeometricRepresentationContext::IfcGeometricRepresentationContext( int id ) { m_id = id; }
 IfcGeometricRepresentationContext::~IfcGeometricRepresentationContext() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGeometricRepresentationContext::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGeometricRepresentationContext::getDeepCopy()
 {
-	shared_ptr<IfcGeometricRepresentationContext> other = dynamic_pointer_cast<IfcGeometricRepresentationContext>(other_entity);
-	if( !other) { return; }
-	m_ContextIdentifier = other->m_ContextIdentifier;
-	m_ContextType = other->m_ContextType;
-	m_CoordinateSpaceDimension = other->m_CoordinateSpaceDimension;
-	m_Precision = other->m_Precision;
-	m_WorldCoordinateSystem = other->m_WorldCoordinateSystem;
-	m_TrueNorth = other->m_TrueNorth;
+	shared_ptr<IfcGeometricRepresentationContext> copy_self( new IfcGeometricRepresentationContext() );
+	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy() ); }
+	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy() ); }
+	if( m_CoordinateSpaceDimension ) { copy_self->m_CoordinateSpaceDimension = dynamic_pointer_cast<IfcDimensionCount>( m_CoordinateSpaceDimension->getDeepCopy() ); }
+	if( m_Precision ) { copy_self->m_Precision = m_Precision; }
+	if( m_WorldCoordinateSystem ) { copy_self->m_WorldCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement>( m_WorldCoordinateSystem->getDeepCopy() ); }
+	if( m_TrueNorth ) { copy_self->m_TrueNorth = dynamic_pointer_cast<IfcDirection>( m_TrueNorth->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream ) const
 {

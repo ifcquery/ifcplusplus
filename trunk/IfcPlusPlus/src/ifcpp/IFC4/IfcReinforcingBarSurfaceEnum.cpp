@@ -23,6 +23,12 @@
 // TYPE IfcReinforcingBarSurfaceEnum 
 IfcReinforcingBarSurfaceEnum::IfcReinforcingBarSurfaceEnum() {}
 IfcReinforcingBarSurfaceEnum::~IfcReinforcingBarSurfaceEnum() {}
+shared_ptr<IfcPPObject> IfcReinforcingBarSurfaceEnum::getDeepCopy()
+{
+	shared_ptr<IfcReinforcingBarSurfaceEnum> copy_self( new IfcReinforcingBarSurfaceEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARSURFACEENUM("; }

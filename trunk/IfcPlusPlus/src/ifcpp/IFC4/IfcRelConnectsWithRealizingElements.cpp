@@ -30,21 +30,26 @@
 IfcRelConnectsWithRealizingElements::IfcRelConnectsWithRealizingElements() {}
 IfcRelConnectsWithRealizingElements::IfcRelConnectsWithRealizingElements( int id ) { m_id = id; }
 IfcRelConnectsWithRealizingElements::~IfcRelConnectsWithRealizingElements() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelConnectsWithRealizingElements::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelConnectsWithRealizingElements::getDeepCopy()
 {
-	shared_ptr<IfcRelConnectsWithRealizingElements> other = dynamic_pointer_cast<IfcRelConnectsWithRealizingElements>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ConnectionGeometry = other->m_ConnectionGeometry;
-	m_RelatingElement = other->m_RelatingElement;
-	m_RelatedElement = other->m_RelatedElement;
-	m_RealizingElements = other->m_RealizingElements;
-	m_ConnectionType = other->m_ConnectionType;
+	shared_ptr<IfcRelConnectsWithRealizingElements> copy_self( new IfcRelConnectsWithRealizingElements() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ConnectionGeometry ) { copy_self->m_ConnectionGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionGeometry->getDeepCopy() ); }
+	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement->getDeepCopy() ); }
+	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RealizingElements.size(); ++ii )
+	{
+		auto item_ii = m_RealizingElements[ii];
+		if( item_ii )
+		{
+			copy_self->m_RealizingElements.push_back( dynamic_pointer_cast<IfcElement>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_ConnectionType ) { copy_self->m_ConnectionType = dynamic_pointer_cast<IfcLabel>( m_ConnectionType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelConnectsWithRealizingElements::getStepLine( std::stringstream& stream ) const
 {

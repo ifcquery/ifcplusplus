@@ -29,15 +29,27 @@
 IfcSectionedSpine::IfcSectionedSpine() {}
 IfcSectionedSpine::IfcSectionedSpine( int id ) { m_id = id; }
 IfcSectionedSpine::~IfcSectionedSpine() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSectionedSpine::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSectionedSpine::getDeepCopy()
 {
-	shared_ptr<IfcSectionedSpine> other = dynamic_pointer_cast<IfcSectionedSpine>(other_entity);
-	if( !other) { return; }
-	m_SpineCurve = other->m_SpineCurve;
-	m_CrossSections = other->m_CrossSections;
-	m_CrossSectionPositions = other->m_CrossSectionPositions;
+	shared_ptr<IfcSectionedSpine> copy_self( new IfcSectionedSpine() );
+	if( m_SpineCurve ) { copy_self->m_SpineCurve = dynamic_pointer_cast<IfcCompositeCurve>( m_SpineCurve->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_CrossSections.size(); ++ii )
+	{
+		auto item_ii = m_CrossSections[ii];
+		if( item_ii )
+		{
+			copy_self->m_CrossSections.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_CrossSectionPositions.size(); ++ii )
+	{
+		auto item_ii = m_CrossSectionPositions[ii];
+		if( item_ii )
+		{
+			copy_self->m_CrossSectionPositions.push_back( dynamic_pointer_cast<IfcAxis2Placement3D>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 {

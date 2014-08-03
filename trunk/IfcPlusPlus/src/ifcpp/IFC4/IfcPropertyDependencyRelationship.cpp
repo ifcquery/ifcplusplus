@@ -27,17 +27,15 @@
 IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship() {}
 IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int id ) { m_id = id; }
 IfcPropertyDependencyRelationship::~IfcPropertyDependencyRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertyDependencyRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertyDependencyRelationship::getDeepCopy()
 {
-	shared_ptr<IfcPropertyDependencyRelationship> other = dynamic_pointer_cast<IfcPropertyDependencyRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_DependingProperty = other->m_DependingProperty;
-	m_DependantProperty = other->m_DependantProperty;
-	m_Expression = other->m_Expression;
+	shared_ptr<IfcPropertyDependencyRelationship> copy_self( new IfcPropertyDependencyRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_DependingProperty ) { copy_self->m_DependingProperty = dynamic_pointer_cast<IfcProperty>( m_DependingProperty->getDeepCopy() ); }
+	if( m_DependantProperty ) { copy_self->m_DependantProperty = dynamic_pointer_cast<IfcProperty>( m_DependantProperty->getDeepCopy() ); }
+	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream ) const
 {

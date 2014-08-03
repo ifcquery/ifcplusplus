@@ -28,14 +28,12 @@
 IfcPointOnCurve::IfcPointOnCurve() {}
 IfcPointOnCurve::IfcPointOnCurve( int id ) { m_id = id; }
 IfcPointOnCurve::~IfcPointOnCurve() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPointOnCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPointOnCurve::getDeepCopy()
 {
-	shared_ptr<IfcPointOnCurve> other = dynamic_pointer_cast<IfcPointOnCurve>(other_entity);
-	if( !other) { return; }
-	m_BasisCurve = other->m_BasisCurve;
-	m_PointParameter = other->m_PointParameter;
+	shared_ptr<IfcPointOnCurve> copy_self( new IfcPointOnCurve() );
+	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy() ); }
+	if( m_PointParameter ) { copy_self->m_PointParameter = dynamic_pointer_cast<IfcParameterValue>( m_PointParameter->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPointOnCurve::getStepLine( std::stringstream& stream ) const
 {

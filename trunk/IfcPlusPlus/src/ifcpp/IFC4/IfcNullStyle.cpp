@@ -24,6 +24,12 @@
 // TYPE IfcNullStyle 
 IfcNullStyle::IfcNullStyle() {}
 IfcNullStyle::~IfcNullStyle() {}
+shared_ptr<IfcPPObject> IfcNullStyle::getDeepCopy()
+{
+	shared_ptr<IfcNullStyle> copy_self( new IfcNullStyle() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcNullStyle::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNULLSTYLE("; }

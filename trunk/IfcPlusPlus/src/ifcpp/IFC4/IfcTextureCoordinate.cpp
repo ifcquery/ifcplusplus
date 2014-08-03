@@ -25,13 +25,18 @@
 IfcTextureCoordinate::IfcTextureCoordinate() {}
 IfcTextureCoordinate::IfcTextureCoordinate( int id ) { m_id = id; }
 IfcTextureCoordinate::~IfcTextureCoordinate() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextureCoordinate::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextureCoordinate::getDeepCopy()
 {
-	shared_ptr<IfcTextureCoordinate> other = dynamic_pointer_cast<IfcTextureCoordinate>(other_entity);
-	if( !other) { return; }
-	m_Maps = other->m_Maps;
+	shared_ptr<IfcTextureCoordinate> copy_self( new IfcTextureCoordinate() );
+	for( size_t ii=0; ii<m_Maps.size(); ++ii )
+	{
+		auto item_ii = m_Maps[ii];
+		if( item_ii )
+		{
+			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcTextureCoordinate::getStepLine( std::stringstream& stream ) const
 {

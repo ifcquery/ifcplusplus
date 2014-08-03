@@ -23,6 +23,12 @@
 // TYPE IfcPhysicalOrVirtualEnum 
 IfcPhysicalOrVirtualEnum::IfcPhysicalOrVirtualEnum() {}
 IfcPhysicalOrVirtualEnum::~IfcPhysicalOrVirtualEnum() {}
+shared_ptr<IfcPPObject> IfcPhysicalOrVirtualEnum::getDeepCopy()
+{
+	shared_ptr<IfcPhysicalOrVirtualEnum> copy_self( new IfcPhysicalOrVirtualEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPHYSICALORVIRTUALENUM("; }

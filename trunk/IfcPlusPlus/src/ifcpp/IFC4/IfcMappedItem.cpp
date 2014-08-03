@@ -28,14 +28,12 @@
 IfcMappedItem::IfcMappedItem() {}
 IfcMappedItem::IfcMappedItem( int id ) { m_id = id; }
 IfcMappedItem::~IfcMappedItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMappedItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMappedItem::getDeepCopy()
 {
-	shared_ptr<IfcMappedItem> other = dynamic_pointer_cast<IfcMappedItem>(other_entity);
-	if( !other) { return; }
-	m_MappingSource = other->m_MappingSource;
-	m_MappingTarget = other->m_MappingTarget;
+	shared_ptr<IfcMappedItem> copy_self( new IfcMappedItem() );
+	if( m_MappingSource ) { copy_self->m_MappingSource = dynamic_pointer_cast<IfcRepresentationMap>( m_MappingSource->getDeepCopy() ); }
+	if( m_MappingTarget ) { copy_self->m_MappingTarget = dynamic_pointer_cast<IfcCartesianTransformationOperator>( m_MappingTarget->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMappedItem::getStepLine( std::stringstream& stream ) const
 {

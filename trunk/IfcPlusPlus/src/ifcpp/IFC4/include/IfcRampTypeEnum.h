@@ -39,6 +39,7 @@ public:
 	IfcRampTypeEnum( IfcRampTypeEnumEnum e ) { m_enum = e; }
 	~IfcRampTypeEnum();
 	virtual const char* classname() const { return "IfcRampTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcRampTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcRampTypeEnumEnum m_enum;

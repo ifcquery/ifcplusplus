@@ -25,6 +25,12 @@
 IfcThermalConductivityMeasure::IfcThermalConductivityMeasure() {}
 IfcThermalConductivityMeasure::IfcThermalConductivityMeasure( double value ) { m_value = value; }
 IfcThermalConductivityMeasure::~IfcThermalConductivityMeasure() {}
+shared_ptr<IfcPPObject> IfcThermalConductivityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcThermalConductivityMeasure> copy_self( new IfcThermalConductivityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcThermalConductivityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALCONDUCTIVITYMEASURE("; }

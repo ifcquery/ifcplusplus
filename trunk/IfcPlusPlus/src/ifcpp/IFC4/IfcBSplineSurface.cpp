@@ -28,19 +28,30 @@
 IfcBSplineSurface::IfcBSplineSurface() {}
 IfcBSplineSurface::IfcBSplineSurface( int id ) { m_id = id; }
 IfcBSplineSurface::~IfcBSplineSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBSplineSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy()
 {
-	shared_ptr<IfcBSplineSurface> other = dynamic_pointer_cast<IfcBSplineSurface>(other_entity);
-	if( !other) { return; }
-	m_UDegree = other->m_UDegree;
-	m_VDegree = other->m_VDegree;
-	m_ControlPointsList = other->m_ControlPointsList;
-	m_SurfaceForm = other->m_SurfaceForm;
-	m_UClosed = other->m_UClosed;
-	m_VClosed = other->m_VClosed;
-	m_SelfIntersect = other->m_SelfIntersect;
+	shared_ptr<IfcBSplineSurface> copy_self( new IfcBSplineSurface() );
+	if( m_UDegree ) { copy_self->m_UDegree = m_UDegree; }
+	if( m_VDegree ) { copy_self->m_VDegree = m_VDegree; }
+	copy_self->m_ControlPointsList.resize( m_ControlPointsList.size() );
+	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii = m_ControlPointsList[ii];
+		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii_target = copy_self->m_ControlPointsList[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy() ); }
+	if( m_UClosed ) { copy_self->m_UClosed = m_UClosed; }
+	if( m_VClosed ) { copy_self->m_VClosed = m_VClosed; }
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	return copy_self;
 }
 void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 {

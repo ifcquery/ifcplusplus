@@ -23,6 +23,12 @@
 // TYPE IfcElectricDistributionBoardTypeEnum 
 IfcElectricDistributionBoardTypeEnum::IfcElectricDistributionBoardTypeEnum() {}
 IfcElectricDistributionBoardTypeEnum::~IfcElectricDistributionBoardTypeEnum() {}
+shared_ptr<IfcPPObject> IfcElectricDistributionBoardTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcElectricDistributionBoardTypeEnum> copy_self( new IfcElectricDistributionBoardTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElectricDistributionBoardTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICDISTRIBUTIONBOARDTYPEENUM("; }

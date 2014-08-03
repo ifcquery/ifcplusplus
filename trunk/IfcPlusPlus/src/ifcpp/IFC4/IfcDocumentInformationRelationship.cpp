@@ -27,17 +27,22 @@
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship() {}
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_id = id; }
 IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDocumentInformationRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDocumentInformationRelationship::getDeepCopy()
 {
-	shared_ptr<IfcDocumentInformationRelationship> other = dynamic_pointer_cast<IfcDocumentInformationRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingDocument = other->m_RelatingDocument;
-	m_RelatedDocuments = other->m_RelatedDocuments;
-	m_RelationshipType = other->m_RelationshipType;
+	shared_ptr<IfcDocumentInformationRelationship> copy_self( new IfcDocumentInformationRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingDocument ) { copy_self->m_RelatingDocument = dynamic_pointer_cast<IfcDocumentInformation>( m_RelatingDocument->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedDocuments.size(); ++ii )
+	{
+		auto item_ii = m_RelatedDocuments[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedDocuments.push_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_RelationshipType ) { copy_self->m_RelationshipType = dynamic_pointer_cast<IfcLabel>( m_RelationshipType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream ) const
 {

@@ -38,18 +38,16 @@
 IfcActor::IfcActor() {}
 IfcActor::IfcActor( int id ) { m_id = id; }
 IfcActor::~IfcActor() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcActor::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcActor::getDeepCopy()
 {
-	shared_ptr<IfcActor> other = dynamic_pointer_cast<IfcActor>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_TheActor = other->m_TheActor;
+	shared_ptr<IfcActor> copy_self( new IfcActor() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_TheActor ) { copy_self->m_TheActor = dynamic_pointer_cast<IfcActorSelect>( m_TheActor->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcActor::getStepLine( std::stringstream& stream ) const
 {

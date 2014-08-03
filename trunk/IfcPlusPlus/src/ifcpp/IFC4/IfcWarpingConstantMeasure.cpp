@@ -25,6 +25,12 @@
 IfcWarpingConstantMeasure::IfcWarpingConstantMeasure() {}
 IfcWarpingConstantMeasure::IfcWarpingConstantMeasure( double value ) { m_value = value; }
 IfcWarpingConstantMeasure::~IfcWarpingConstantMeasure() {}
+shared_ptr<IfcPPObject> IfcWarpingConstantMeasure::getDeepCopy()
+{
+	shared_ptr<IfcWarpingConstantMeasure> copy_self( new IfcWarpingConstantMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcWarpingConstantMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWARPINGCONSTANTMEASURE("; }

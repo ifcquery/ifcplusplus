@@ -34,19 +34,24 @@
 IfcPropertySetTemplate::IfcPropertySetTemplate() {}
 IfcPropertySetTemplate::IfcPropertySetTemplate( int id ) { m_id = id; }
 IfcPropertySetTemplate::~IfcPropertySetTemplate() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertySetTemplate::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertySetTemplate::getDeepCopy()
 {
-	shared_ptr<IfcPropertySetTemplate> other = dynamic_pointer_cast<IfcPropertySetTemplate>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_TemplateType = other->m_TemplateType;
-	m_ApplicableEntity = other->m_ApplicableEntity;
-	m_HasPropertyTemplates = other->m_HasPropertyTemplates;
+	shared_ptr<IfcPropertySetTemplate> copy_self( new IfcPropertySetTemplate() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_TemplateType ) { copy_self->m_TemplateType = dynamic_pointer_cast<IfcPropertySetTemplateTypeEnum>( m_TemplateType->getDeepCopy() ); }
+	if( m_ApplicableEntity ) { copy_self->m_ApplicableEntity = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableEntity->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasPropertyTemplates.size(); ++ii )
+	{
+		auto item_ii = m_HasPropertyTemplates[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasPropertyTemplates.push_back( dynamic_pointer_cast<IfcPropertyTemplate>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPropertySetTemplate::getStepLine( std::stringstream& stream ) const
 {

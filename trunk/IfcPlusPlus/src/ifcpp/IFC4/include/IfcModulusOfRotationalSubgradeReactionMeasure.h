@@ -29,6 +29,7 @@ public:
 	IfcModulusOfRotationalSubgradeReactionMeasure( double value );
 	~IfcModulusOfRotationalSubgradeReactionMeasure();
 	virtual const char* classname() const { return "IfcModulusOfRotationalSubgradeReactionMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> createObjectFromStepData( const std::wstring& arg );
 };

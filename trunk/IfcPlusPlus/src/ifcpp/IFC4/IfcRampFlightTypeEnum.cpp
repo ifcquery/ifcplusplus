@@ -23,6 +23,12 @@
 // TYPE IfcRampFlightTypeEnum 
 IfcRampFlightTypeEnum::IfcRampFlightTypeEnum() {}
 IfcRampFlightTypeEnum::~IfcRampFlightTypeEnum() {}
+shared_ptr<IfcPPObject> IfcRampFlightTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcRampFlightTypeEnum> copy_self( new IfcRampFlightTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcRampFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAMPFLIGHTTYPEENUM("; }

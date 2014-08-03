@@ -25,13 +25,11 @@
 IfcMonetaryUnit::IfcMonetaryUnit() {}
 IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_id = id; }
 IfcMonetaryUnit::~IfcMonetaryUnit() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMonetaryUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMonetaryUnit::getDeepCopy()
 {
-	shared_ptr<IfcMonetaryUnit> other = dynamic_pointer_cast<IfcMonetaryUnit>(other_entity);
-	if( !other) { return; }
-	m_Currency = other->m_Currency;
+	shared_ptr<IfcMonetaryUnit> copy_self( new IfcMonetaryUnit() );
+	if( m_Currency ) { copy_self->m_Currency = dynamic_pointer_cast<IfcLabel>( m_Currency->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMonetaryUnit::getStepLine( std::stringstream& stream ) const
 {

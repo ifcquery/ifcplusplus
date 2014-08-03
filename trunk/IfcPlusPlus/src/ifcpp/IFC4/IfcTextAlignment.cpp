@@ -24,6 +24,12 @@
 IfcTextAlignment::IfcTextAlignment() {}
 IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
 IfcTextAlignment::~IfcTextAlignment() {}
+shared_ptr<IfcPPObject> IfcTextAlignment::getDeepCopy()
+{
+	shared_ptr<IfcTextAlignment> copy_self( new IfcTextAlignment() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTextAlignment::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTALIGNMENT("; }

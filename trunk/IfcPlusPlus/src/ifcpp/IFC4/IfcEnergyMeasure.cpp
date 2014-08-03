@@ -25,6 +25,12 @@
 IfcEnergyMeasure::IfcEnergyMeasure() {}
 IfcEnergyMeasure::IfcEnergyMeasure( double value ) { m_value = value; }
 IfcEnergyMeasure::~IfcEnergyMeasure() {}
+shared_ptr<IfcPPObject> IfcEnergyMeasure::getDeepCopy()
+{
+	shared_ptr<IfcEnergyMeasure> copy_self( new IfcEnergyMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcEnergyMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCENERGYMEASURE("; }

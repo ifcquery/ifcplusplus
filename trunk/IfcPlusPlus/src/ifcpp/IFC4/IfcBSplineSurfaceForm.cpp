@@ -23,6 +23,12 @@
 // TYPE IfcBSplineSurfaceForm 
 IfcBSplineSurfaceForm::IfcBSplineSurfaceForm() {}
 IfcBSplineSurfaceForm::~IfcBSplineSurfaceForm() {}
+shared_ptr<IfcPPObject> IfcBSplineSurfaceForm::getDeepCopy()
+{
+	shared_ptr<IfcBSplineSurfaceForm> copy_self( new IfcBSplineSurfaceForm() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBSplineSurfaceForm::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBSPLINESURFACEFORM("; }

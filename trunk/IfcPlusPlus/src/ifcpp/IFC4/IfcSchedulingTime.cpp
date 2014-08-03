@@ -26,15 +26,13 @@
 IfcSchedulingTime::IfcSchedulingTime() {}
 IfcSchedulingTime::IfcSchedulingTime( int id ) { m_id = id; }
 IfcSchedulingTime::~IfcSchedulingTime() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSchedulingTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSchedulingTime::getDeepCopy()
 {
-	shared_ptr<IfcSchedulingTime> other = dynamic_pointer_cast<IfcSchedulingTime>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
+	shared_ptr<IfcSchedulingTime> copy_self( new IfcSchedulingTime() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
 {

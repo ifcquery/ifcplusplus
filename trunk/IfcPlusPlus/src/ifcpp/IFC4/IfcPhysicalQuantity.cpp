@@ -28,14 +28,12 @@
 IfcPhysicalQuantity::IfcPhysicalQuantity() {}
 IfcPhysicalQuantity::IfcPhysicalQuantity( int id ) { m_id = id; }
 IfcPhysicalQuantity::~IfcPhysicalQuantity() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPhysicalQuantity::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPhysicalQuantity::getDeepCopy()
 {
-	shared_ptr<IfcPhysicalQuantity> other = dynamic_pointer_cast<IfcPhysicalQuantity>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
+	shared_ptr<IfcPhysicalQuantity> copy_self( new IfcPhysicalQuantity() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPhysicalQuantity::getStepLine( std::stringstream& stream ) const
 {

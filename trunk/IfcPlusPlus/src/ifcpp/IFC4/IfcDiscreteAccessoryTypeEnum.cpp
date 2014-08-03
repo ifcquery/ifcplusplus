@@ -23,6 +23,12 @@
 // TYPE IfcDiscreteAccessoryTypeEnum 
 IfcDiscreteAccessoryTypeEnum::IfcDiscreteAccessoryTypeEnum() {}
 IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() {}
+shared_ptr<IfcPPObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDiscreteAccessoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISCRETEACCESSORYTYPEENUM("; }

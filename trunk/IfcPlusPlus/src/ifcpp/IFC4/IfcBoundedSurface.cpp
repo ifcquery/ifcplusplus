@@ -26,12 +26,10 @@
 IfcBoundedSurface::IfcBoundedSurface() {}
 IfcBoundedSurface::IfcBoundedSurface( int id ) { m_id = id; }
 IfcBoundedSurface::~IfcBoundedSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundedSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundedSurface::getDeepCopy()
 {
-	shared_ptr<IfcBoundedSurface> other = dynamic_pointer_cast<IfcBoundedSurface>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcBoundedSurface> copy_self( new IfcBoundedSurface() );
+	return copy_self;
 }
 void IfcBoundedSurface::getStepLine( std::stringstream& stream ) const
 {

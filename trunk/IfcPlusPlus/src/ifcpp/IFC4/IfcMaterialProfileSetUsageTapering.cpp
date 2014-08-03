@@ -28,17 +28,15 @@
 IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering() {}
 IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering( int id ) { m_id = id; }
 IfcMaterialProfileSetUsageTapering::~IfcMaterialProfileSetUsageTapering() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialProfileSetUsageTapering::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialProfileSetUsageTapering::getDeepCopy()
 {
-	shared_ptr<IfcMaterialProfileSetUsageTapering> other = dynamic_pointer_cast<IfcMaterialProfileSetUsageTapering>(other_entity);
-	if( !other) { return; }
-	m_ForProfileSet = other->m_ForProfileSet;
-	m_CardinalPoint = other->m_CardinalPoint;
-	m_ReferenceExtent = other->m_ReferenceExtent;
-	m_ForProfileEndSet = other->m_ForProfileEndSet;
-	m_CardinalEndPoint = other->m_CardinalEndPoint;
+	shared_ptr<IfcMaterialProfileSetUsageTapering> copy_self( new IfcMaterialProfileSetUsageTapering() );
+	if( m_ForProfileSet ) { copy_self->m_ForProfileSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileSet->getDeepCopy() ); }
+	if( m_CardinalPoint ) { copy_self->m_CardinalPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalPoint->getDeepCopy() ); }
+	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy() ); }
+	if( m_ForProfileEndSet ) { copy_self->m_ForProfileEndSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileEndSet->getDeepCopy() ); }
+	if( m_CardinalEndPoint ) { copy_self->m_CardinalEndPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalEndPoint->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream ) const
 {

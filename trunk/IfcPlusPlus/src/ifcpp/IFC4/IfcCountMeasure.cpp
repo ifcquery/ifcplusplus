@@ -25,6 +25,12 @@
 IfcCountMeasure::IfcCountMeasure() {}
 IfcCountMeasure::IfcCountMeasure( int value ) { m_value = value; }
 IfcCountMeasure::~IfcCountMeasure() {}
+shared_ptr<IfcPPObject> IfcCountMeasure::getDeepCopy()
+{
+	shared_ptr<IfcCountMeasure> copy_self( new IfcCountMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcCountMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOUNTMEASURE("; }

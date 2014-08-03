@@ -33,6 +33,7 @@ public:
 	IfcChimneyTypeEnum( IfcChimneyTypeEnumEnum e ) { m_enum = e; }
 	~IfcChimneyTypeEnum();
 	virtual const char* classname() const { return "IfcChimneyTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcChimneyTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcChimneyTypeEnumEnum m_enum;

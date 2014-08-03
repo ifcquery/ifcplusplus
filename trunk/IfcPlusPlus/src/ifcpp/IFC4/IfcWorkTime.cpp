@@ -28,18 +28,16 @@
 IfcWorkTime::IfcWorkTime() {}
 IfcWorkTime::IfcWorkTime( int id ) { m_id = id; }
 IfcWorkTime::~IfcWorkTime() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcWorkTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcWorkTime::getDeepCopy()
 {
-	shared_ptr<IfcWorkTime> other = dynamic_pointer_cast<IfcWorkTime>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
-	m_RecurrencePattern = other->m_RecurrencePattern;
-	m_Start = other->m_Start;
-	m_Finish = other->m_Finish;
+	shared_ptr<IfcWorkTime> copy_self( new IfcWorkTime() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_RecurrencePattern ) { copy_self->m_RecurrencePattern = dynamic_pointer_cast<IfcRecurrencePattern>( m_RecurrencePattern->getDeepCopy() ); }
+	if( m_Start ) { copy_self->m_Start = dynamic_pointer_cast<IfcDate>( m_Start->getDeepCopy() ); }
+	if( m_Finish ) { copy_self->m_Finish = dynamic_pointer_cast<IfcDate>( m_Finish->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcWorkTime::getStepLine( std::stringstream& stream ) const
 {

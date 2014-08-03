@@ -25,6 +25,12 @@
 IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure() {}
 IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure( double value ) { m_value = value; }
 IfcDynamicViscosityMeasure::~IfcDynamicViscosityMeasure() {}
+shared_ptr<IfcPPObject> IfcDynamicViscosityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcDynamicViscosityMeasure> copy_self( new IfcDynamicViscosityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDynamicViscosityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDYNAMICVISCOSITYMEASURE("; }

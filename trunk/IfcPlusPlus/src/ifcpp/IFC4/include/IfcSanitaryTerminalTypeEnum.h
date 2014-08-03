@@ -43,6 +43,7 @@ public:
 	IfcSanitaryTerminalTypeEnum( IfcSanitaryTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcSanitaryTerminalTypeEnum();
 	virtual const char* classname() const { return "IfcSanitaryTerminalTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSanitaryTerminalTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcSanitaryTerminalTypeEnumEnum m_enum;

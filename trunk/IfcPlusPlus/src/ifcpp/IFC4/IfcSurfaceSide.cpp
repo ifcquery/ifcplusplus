@@ -23,6 +23,12 @@
 // TYPE IfcSurfaceSide 
 IfcSurfaceSide::IfcSurfaceSide() {}
 IfcSurfaceSide::~IfcSurfaceSide() {}
+shared_ptr<IfcPPObject> IfcSurfaceSide::getDeepCopy()
+{
+	shared_ptr<IfcSurfaceSide> copy_self( new IfcSurfaceSide() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACESIDE("; }

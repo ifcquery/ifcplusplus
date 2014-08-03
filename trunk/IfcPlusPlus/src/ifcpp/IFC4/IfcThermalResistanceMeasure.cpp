@@ -25,6 +25,12 @@
 IfcThermalResistanceMeasure::IfcThermalResistanceMeasure() {}
 IfcThermalResistanceMeasure::IfcThermalResistanceMeasure( double value ) { m_value = value; }
 IfcThermalResistanceMeasure::~IfcThermalResistanceMeasure() {}
+shared_ptr<IfcPPObject> IfcThermalResistanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcThermalResistanceMeasure> copy_self( new IfcThermalResistanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcThermalResistanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALRESISTANCEMEASURE("; }

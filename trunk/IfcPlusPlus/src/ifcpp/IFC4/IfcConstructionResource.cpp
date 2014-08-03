@@ -41,22 +41,27 @@
 IfcConstructionResource::IfcConstructionResource() {}
 IfcConstructionResource::IfcConstructionResource( int id ) { m_id = id; }
 IfcConstructionResource::~IfcConstructionResource() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConstructionResource::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConstructionResource::getDeepCopy()
 {
-	shared_ptr<IfcConstructionResource> other = dynamic_pointer_cast<IfcConstructionResource>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_Identification = other->m_Identification;
-	m_LongDescription = other->m_LongDescription;
-	m_Usage = other->m_Usage;
-	m_BaseCosts = other->m_BaseCosts;
-	m_BaseQuantity = other->m_BaseQuantity;
+	shared_ptr<IfcConstructionResource> copy_self( new IfcConstructionResource() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy() ); }
+	if( m_Usage ) { copy_self->m_Usage = dynamic_pointer_cast<IfcResourceTime>( m_Usage->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_BaseCosts.size(); ++ii )
+	{
+		auto item_ii = m_BaseCosts[ii];
+		if( item_ii )
+		{
+			copy_self->m_BaseCosts.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_BaseQuantity ) { copy_self->m_BaseQuantity = dynamic_pointer_cast<IfcPhysicalQuantity>( m_BaseQuantity->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConstructionResource::getStepLine( std::stringstream& stream ) const
 {

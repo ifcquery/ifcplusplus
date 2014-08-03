@@ -27,13 +27,24 @@
 IfcCartesianPointList3D::IfcCartesianPointList3D() {}
 IfcCartesianPointList3D::IfcCartesianPointList3D( int id ) { m_id = id; }
 IfcCartesianPointList3D::~IfcCartesianPointList3D() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCartesianPointList3D::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCartesianPointList3D::getDeepCopy()
 {
-	shared_ptr<IfcCartesianPointList3D> other = dynamic_pointer_cast<IfcCartesianPointList3D>(other_entity);
-	if( !other) { return; }
-	m_CoordList = other->m_CoordList;
+	shared_ptr<IfcCartesianPointList3D> copy_self( new IfcCartesianPointList3D() );
+	copy_self->m_CoordList.resize( m_CoordList.size() );
+	for( size_t ii=0; ii<m_CoordList.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_CoordList[ii];
+		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii_target = copy_self->m_CoordList[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	return copy_self;
 }
 void IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
 {

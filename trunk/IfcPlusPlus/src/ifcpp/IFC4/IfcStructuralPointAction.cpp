@@ -42,22 +42,20 @@
 IfcStructuralPointAction::IfcStructuralPointAction() {}
 IfcStructuralPointAction::IfcStructuralPointAction( int id ) { m_id = id; }
 IfcStructuralPointAction::~IfcStructuralPointAction() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralPointAction::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralPointAction::getDeepCopy()
 {
-	shared_ptr<IfcStructuralPointAction> other = dynamic_pointer_cast<IfcStructuralPointAction>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_ObjectPlacement = other->m_ObjectPlacement;
-	m_Representation = other->m_Representation;
-	m_AppliedLoad = other->m_AppliedLoad;
-	m_GlobalOrLocal = other->m_GlobalOrLocal;
-	m_DestabilizingLoad = other->m_DestabilizingLoad;
+	shared_ptr<IfcStructuralPointAction> copy_self( new IfcStructuralPointAction() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
+	if( m_AppliedLoad ) { copy_self->m_AppliedLoad = dynamic_pointer_cast<IfcStructuralLoad>( m_AppliedLoad->getDeepCopy() ); }
+	if( m_GlobalOrLocal ) { copy_self->m_GlobalOrLocal = dynamic_pointer_cast<IfcGlobalOrLocalEnum>( m_GlobalOrLocal->getDeepCopy() ); }
+	if( m_DestabilizingLoad ) { copy_self->m_DestabilizingLoad = m_DestabilizingLoad; }
+	return copy_self;
 }
 void IfcStructuralPointAction::getStepLine( std::stringstream& stream ) const
 {

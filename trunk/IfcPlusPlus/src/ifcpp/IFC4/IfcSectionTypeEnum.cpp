@@ -23,6 +23,12 @@
 // TYPE IfcSectionTypeEnum 
 IfcSectionTypeEnum::IfcSectionTypeEnum() {}
 IfcSectionTypeEnum::~IfcSectionTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSectionTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSectionTypeEnum> copy_self( new IfcSectionTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSECTIONTYPEENUM("; }

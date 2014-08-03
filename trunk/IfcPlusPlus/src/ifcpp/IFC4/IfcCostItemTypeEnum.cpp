@@ -23,6 +23,12 @@
 // TYPE IfcCostItemTypeEnum 
 IfcCostItemTypeEnum::IfcCostItemTypeEnum() {}
 IfcCostItemTypeEnum::~IfcCostItemTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCostItemTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCostItemTypeEnum> copy_self( new IfcCostItemTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCostItemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOSTITEMTYPEENUM("; }

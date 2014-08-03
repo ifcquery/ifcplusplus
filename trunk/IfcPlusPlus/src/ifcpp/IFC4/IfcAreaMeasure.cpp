@@ -25,6 +25,12 @@
 IfcAreaMeasure::IfcAreaMeasure() {}
 IfcAreaMeasure::IfcAreaMeasure( double value ) { m_value = value; }
 IfcAreaMeasure::~IfcAreaMeasure() {}
+shared_ptr<IfcPPObject> IfcAreaMeasure::getDeepCopy()
+{
+	shared_ptr<IfcAreaMeasure> copy_self( new IfcAreaMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcAreaMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAREAMEASURE("; }

@@ -27,13 +27,18 @@
 IfcEdgeLoop::IfcEdgeLoop() {}
 IfcEdgeLoop::IfcEdgeLoop( int id ) { m_id = id; }
 IfcEdgeLoop::~IfcEdgeLoop() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcEdgeLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcEdgeLoop::getDeepCopy()
 {
-	shared_ptr<IfcEdgeLoop> other = dynamic_pointer_cast<IfcEdgeLoop>(other_entity);
-	if( !other) { return; }
-	m_EdgeList = other->m_EdgeList;
+	shared_ptr<IfcEdgeLoop> copy_self( new IfcEdgeLoop() );
+	for( size_t ii=0; ii<m_EdgeList.size(); ++ii )
+	{
+		auto item_ii = m_EdgeList[ii];
+		if( item_ii )
+		{
+			copy_self->m_EdgeList.push_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcEdgeLoop::getStepLine( std::stringstream& stream ) const
 {

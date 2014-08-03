@@ -25,6 +25,12 @@
 IfcIlluminanceMeasure::IfcIlluminanceMeasure() {}
 IfcIlluminanceMeasure::IfcIlluminanceMeasure( double value ) { m_value = value; }
 IfcIlluminanceMeasure::~IfcIlluminanceMeasure() {}
+shared_ptr<IfcPPObject> IfcIlluminanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcIlluminanceMeasure> copy_self( new IfcIlluminanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcIlluminanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCILLUMINANCEMEASURE("; }

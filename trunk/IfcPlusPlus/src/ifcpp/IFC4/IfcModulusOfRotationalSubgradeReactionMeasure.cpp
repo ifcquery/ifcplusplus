@@ -26,6 +26,12 @@
 IfcModulusOfRotationalSubgradeReactionMeasure::IfcModulusOfRotationalSubgradeReactionMeasure() {}
 IfcModulusOfRotationalSubgradeReactionMeasure::IfcModulusOfRotationalSubgradeReactionMeasure( double value ) { m_value = value; }
 IfcModulusOfRotationalSubgradeReactionMeasure::~IfcModulusOfRotationalSubgradeReactionMeasure() {}
+shared_ptr<IfcPPObject> IfcModulusOfRotationalSubgradeReactionMeasure::getDeepCopy()
+{
+	shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> copy_self( new IfcModulusOfRotationalSubgradeReactionMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcModulusOfRotationalSubgradeReactionMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFROTATIONALSUBGRADEREACTIONMEASURE("; }

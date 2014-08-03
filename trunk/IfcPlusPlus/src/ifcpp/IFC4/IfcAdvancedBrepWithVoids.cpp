@@ -27,14 +27,19 @@
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids() {}
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids( int id ) { m_id = id; }
 IfcAdvancedBrepWithVoids::~IfcAdvancedBrepWithVoids() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAdvancedBrepWithVoids::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAdvancedBrepWithVoids::getDeepCopy()
 {
-	shared_ptr<IfcAdvancedBrepWithVoids> other = dynamic_pointer_cast<IfcAdvancedBrepWithVoids>(other_entity);
-	if( !other) { return; }
-	m_Outer = other->m_Outer;
-	m_Voids = other->m_Voids;
+	shared_ptr<IfcAdvancedBrepWithVoids> copy_self( new IfcAdvancedBrepWithVoids() );
+	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Voids.size(); ++ii )
+	{
+		auto item_ii = m_Voids[ii];
+		if( item_ii )
+		{
+			copy_self->m_Voids.push_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcAdvancedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 {

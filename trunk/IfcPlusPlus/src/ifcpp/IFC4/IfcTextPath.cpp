@@ -23,6 +23,12 @@
 // TYPE IfcTextPath 
 IfcTextPath::IfcTextPath() {}
 IfcTextPath::~IfcTextPath() {}
+shared_ptr<IfcPPObject> IfcTextPath::getDeepCopy()
+{
+	shared_ptr<IfcTextPath> copy_self( new IfcTextPath() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTextPath::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTPATH("; }

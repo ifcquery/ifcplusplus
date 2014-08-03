@@ -23,6 +23,12 @@
 // TYPE IfcSolarDeviceTypeEnum 
 IfcSolarDeviceTypeEnum::IfcSolarDeviceTypeEnum() {}
 IfcSolarDeviceTypeEnum::~IfcSolarDeviceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSolarDeviceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSolarDeviceTypeEnum> copy_self( new IfcSolarDeviceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSolarDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOLARDEVICETYPEENUM("; }

@@ -26,12 +26,10 @@
 IfcGeometricRepresentationItem::IfcGeometricRepresentationItem() {}
 IfcGeometricRepresentationItem::IfcGeometricRepresentationItem( int id ) { m_id = id; }
 IfcGeometricRepresentationItem::~IfcGeometricRepresentationItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGeometricRepresentationItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGeometricRepresentationItem::getDeepCopy()
 {
-	shared_ptr<IfcGeometricRepresentationItem> other = dynamic_pointer_cast<IfcGeometricRepresentationItem>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcGeometricRepresentationItem> copy_self( new IfcGeometricRepresentationItem() );
+	return copy_self;
 }
 void IfcGeometricRepresentationItem::getStepLine( std::stringstream& stream ) const
 {

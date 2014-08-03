@@ -26,14 +26,19 @@
 IfcMaterialClassificationRelationship::IfcMaterialClassificationRelationship() {}
 IfcMaterialClassificationRelationship::IfcMaterialClassificationRelationship( int id ) { m_id = id; }
 IfcMaterialClassificationRelationship::~IfcMaterialClassificationRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialClassificationRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialClassificationRelationship::getDeepCopy()
 {
-	shared_ptr<IfcMaterialClassificationRelationship> other = dynamic_pointer_cast<IfcMaterialClassificationRelationship>(other_entity);
-	if( !other) { return; }
-	m_MaterialClassifications = other->m_MaterialClassifications;
-	m_ClassifiedMaterial = other->m_ClassifiedMaterial;
+	shared_ptr<IfcMaterialClassificationRelationship> copy_self( new IfcMaterialClassificationRelationship() );
+	for( size_t ii=0; ii<m_MaterialClassifications.size(); ++ii )
+	{
+		auto item_ii = m_MaterialClassifications[ii];
+		if( item_ii )
+		{
+			copy_self->m_MaterialClassifications.push_back( dynamic_pointer_cast<IfcClassificationSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_ClassifiedMaterial ) { copy_self->m_ClassifiedMaterial = dynamic_pointer_cast<IfcMaterial>( m_ClassifiedMaterial->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialClassificationRelationship::getStepLine( std::stringstream& stream ) const
 {

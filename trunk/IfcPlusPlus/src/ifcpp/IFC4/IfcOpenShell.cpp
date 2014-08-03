@@ -27,13 +27,18 @@
 IfcOpenShell::IfcOpenShell() {}
 IfcOpenShell::IfcOpenShell( int id ) { m_id = id; }
 IfcOpenShell::~IfcOpenShell() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcOpenShell::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcOpenShell::getDeepCopy()
 {
-	shared_ptr<IfcOpenShell> other = dynamic_pointer_cast<IfcOpenShell>(other_entity);
-	if( !other) { return; }
-	m_CfsFaces = other->m_CfsFaces;
+	shared_ptr<IfcOpenShell> copy_self( new IfcOpenShell() );
+	for( size_t ii=0; ii<m_CfsFaces.size(); ++ii )
+	{
+		auto item_ii = m_CfsFaces[ii];
+		if( item_ii )
+		{
+			copy_self->m_CfsFaces.push_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcOpenShell::getStepLine( std::stringstream& stream ) const
 {

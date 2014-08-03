@@ -25,6 +25,12 @@
 IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure() {}
 IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure( double value ) { m_value = value; }
 IfcThermalAdmittanceMeasure::~IfcThermalAdmittanceMeasure() {}
+shared_ptr<IfcPPObject> IfcThermalAdmittanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcThermalAdmittanceMeasure> copy_self( new IfcThermalAdmittanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcThermalAdmittanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALADMITTANCEMEASURE("; }

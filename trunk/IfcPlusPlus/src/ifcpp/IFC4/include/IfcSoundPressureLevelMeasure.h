@@ -28,6 +28,7 @@ public:
 	IfcSoundPressureLevelMeasure( double value );
 	~IfcSoundPressureLevelMeasure();
 	virtual const char* classname() const { return "IfcSoundPressureLevelMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSoundPressureLevelMeasure> createObjectFromStepData( const std::wstring& arg );
 };

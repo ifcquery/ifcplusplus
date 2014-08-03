@@ -26,12 +26,10 @@
 IfcSurface::IfcSurface() {}
 IfcSurface::IfcSurface( int id ) { m_id = id; }
 IfcSurface::~IfcSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurface::getDeepCopy()
 {
-	shared_ptr<IfcSurface> other = dynamic_pointer_cast<IfcSurface>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcSurface> copy_self( new IfcSurface() );
+	return copy_self;
 }
 void IfcSurface::getStepLine( std::stringstream& stream ) const
 {

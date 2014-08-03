@@ -23,6 +23,12 @@
 // TYPE IfcCrewResourceTypeEnum 
 IfcCrewResourceTypeEnum::IfcCrewResourceTypeEnum() {}
 IfcCrewResourceTypeEnum::~IfcCrewResourceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCrewResourceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCrewResourceTypeEnum> copy_self( new IfcCrewResourceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCREWRESOURCETYPEENUM("; }

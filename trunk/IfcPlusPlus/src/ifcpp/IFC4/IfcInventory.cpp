@@ -42,23 +42,28 @@
 IfcInventory::IfcInventory() {}
 IfcInventory::IfcInventory( int id ) { m_id = id; }
 IfcInventory::~IfcInventory() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcInventory::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcInventory::getDeepCopy()
 {
-	shared_ptr<IfcInventory> other = dynamic_pointer_cast<IfcInventory>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_PredefinedType = other->m_PredefinedType;
-	m_Jurisdiction = other->m_Jurisdiction;
-	m_ResponsiblePersons = other->m_ResponsiblePersons;
-	m_LastUpdateDate = other->m_LastUpdateDate;
-	m_CurrentValue = other->m_CurrentValue;
-	m_OriginalValue = other->m_OriginalValue;
+	shared_ptr<IfcInventory> copy_self( new IfcInventory() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcInventoryTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_Jurisdiction ) { copy_self->m_Jurisdiction = dynamic_pointer_cast<IfcActorSelect>( m_Jurisdiction->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_ResponsiblePersons.size(); ++ii )
+	{
+		auto item_ii = m_ResponsiblePersons[ii];
+		if( item_ii )
+		{
+			copy_self->m_ResponsiblePersons.push_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_LastUpdateDate ) { copy_self->m_LastUpdateDate = dynamic_pointer_cast<IfcDate>( m_LastUpdateDate->getDeepCopy() ); }
+	if( m_CurrentValue ) { copy_self->m_CurrentValue = dynamic_pointer_cast<IfcCostValue>( m_CurrentValue->getDeepCopy() ); }
+	if( m_OriginalValue ) { copy_self->m_OriginalValue = dynamic_pointer_cast<IfcCostValue>( m_OriginalValue->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcInventory::getStepLine( std::stringstream& stream ) const
 {

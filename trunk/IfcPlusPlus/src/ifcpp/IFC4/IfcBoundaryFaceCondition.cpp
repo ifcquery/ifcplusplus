@@ -26,16 +26,14 @@
 IfcBoundaryFaceCondition::IfcBoundaryFaceCondition() {}
 IfcBoundaryFaceCondition::IfcBoundaryFaceCondition( int id ) { m_id = id; }
 IfcBoundaryFaceCondition::~IfcBoundaryFaceCondition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundaryFaceCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundaryFaceCondition::getDeepCopy()
 {
-	shared_ptr<IfcBoundaryFaceCondition> other = dynamic_pointer_cast<IfcBoundaryFaceCondition>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_TranslationalStiffnessByAreaX = other->m_TranslationalStiffnessByAreaX;
-	m_TranslationalStiffnessByAreaY = other->m_TranslationalStiffnessByAreaY;
-	m_TranslationalStiffnessByAreaZ = other->m_TranslationalStiffnessByAreaZ;
+	shared_ptr<IfcBoundaryFaceCondition> copy_self( new IfcBoundaryFaceCondition() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_TranslationalStiffnessByAreaX ) { copy_self->m_TranslationalStiffnessByAreaX = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaX->getDeepCopy() ); }
+	if( m_TranslationalStiffnessByAreaY ) { copy_self->m_TranslationalStiffnessByAreaY = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaY->getDeepCopy() ); }
+	if( m_TranslationalStiffnessByAreaZ ) { copy_self->m_TranslationalStiffnessByAreaZ = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBoundaryFaceCondition::getStepLine( std::stringstream& stream ) const
 {

@@ -26,13 +26,10 @@
 IfcDirection::IfcDirection() {}
 IfcDirection::IfcDirection( int id ) { m_id = id; }
 IfcDirection::~IfcDirection() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDirection::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDirection::getDeepCopy()
 {
-	shared_ptr<IfcDirection> other = dynamic_pointer_cast<IfcDirection>(other_entity);
-	if( !other) { return; }
-	m_DirectionRatios = other->m_DirectionRatios;
+	shared_ptr<IfcDirection> copy_self( new IfcDirection() );
+	return copy_self;
 }
 void IfcDirection::getStepLine( std::stringstream& stream ) const
 {

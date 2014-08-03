@@ -25,6 +25,12 @@
 IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure() {}
 IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure( double value ) { m_value = value; }
 IfcSoundPowerLevelMeasure::~IfcSoundPowerLevelMeasure() {}
+shared_ptr<IfcPPObject> IfcSoundPowerLevelMeasure::getDeepCopy()
+{
+	shared_ptr<IfcSoundPowerLevelMeasure> copy_self( new IfcSoundPowerLevelMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSoundPowerLevelMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOUNDPOWERLEVELMEASURE("; }

@@ -27,14 +27,12 @@
 IfcHalfSpaceSolid::IfcHalfSpaceSolid() {}
 IfcHalfSpaceSolid::IfcHalfSpaceSolid( int id ) { m_id = id; }
 IfcHalfSpaceSolid::~IfcHalfSpaceSolid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcHalfSpaceSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcHalfSpaceSolid::getDeepCopy()
 {
-	shared_ptr<IfcHalfSpaceSolid> other = dynamic_pointer_cast<IfcHalfSpaceSolid>(other_entity);
-	if( !other) { return; }
-	m_BaseSurface = other->m_BaseSurface;
-	m_AgreementFlag = other->m_AgreementFlag;
+	shared_ptr<IfcHalfSpaceSolid> copy_self( new IfcHalfSpaceSolid() );
+	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy() ); }
+	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = m_AgreementFlag; }
+	return copy_self;
 }
 void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 {

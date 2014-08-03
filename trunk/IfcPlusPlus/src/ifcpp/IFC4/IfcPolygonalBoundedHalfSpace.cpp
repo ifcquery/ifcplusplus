@@ -29,16 +29,14 @@
 IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace() {}
 IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_id = id; }
 IfcPolygonalBoundedHalfSpace::~IfcPolygonalBoundedHalfSpace() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPolygonalBoundedHalfSpace::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPolygonalBoundedHalfSpace::getDeepCopy()
 {
-	shared_ptr<IfcPolygonalBoundedHalfSpace> other = dynamic_pointer_cast<IfcPolygonalBoundedHalfSpace>(other_entity);
-	if( !other) { return; }
-	m_BaseSurface = other->m_BaseSurface;
-	m_AgreementFlag = other->m_AgreementFlag;
-	m_Position = other->m_Position;
-	m_PolygonalBoundary = other->m_PolygonalBoundary;
+	shared_ptr<IfcPolygonalBoundedHalfSpace> copy_self( new IfcPolygonalBoundedHalfSpace() );
+	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy() ); }
+	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = m_AgreementFlag; }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_PolygonalBoundary ) { copy_self->m_PolygonalBoundary = dynamic_pointer_cast<IfcBoundedCurve>( m_PolygonalBoundary->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) const
 {

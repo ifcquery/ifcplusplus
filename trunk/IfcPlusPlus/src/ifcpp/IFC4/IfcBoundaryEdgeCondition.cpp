@@ -27,19 +27,17 @@
 IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition() {}
 IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition( int id ) { m_id = id; }
 IfcBoundaryEdgeCondition::~IfcBoundaryEdgeCondition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundaryEdgeCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundaryEdgeCondition::getDeepCopy()
 {
-	shared_ptr<IfcBoundaryEdgeCondition> other = dynamic_pointer_cast<IfcBoundaryEdgeCondition>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_TranslationalStiffnessByLengthX = other->m_TranslationalStiffnessByLengthX;
-	m_TranslationalStiffnessByLengthY = other->m_TranslationalStiffnessByLengthY;
-	m_TranslationalStiffnessByLengthZ = other->m_TranslationalStiffnessByLengthZ;
-	m_RotationalStiffnessByLengthX = other->m_RotationalStiffnessByLengthX;
-	m_RotationalStiffnessByLengthY = other->m_RotationalStiffnessByLengthY;
-	m_RotationalStiffnessByLengthZ = other->m_RotationalStiffnessByLengthZ;
+	shared_ptr<IfcBoundaryEdgeCondition> copy_self( new IfcBoundaryEdgeCondition() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_TranslationalStiffnessByLengthX ) { copy_self->m_TranslationalStiffnessByLengthX = dynamic_pointer_cast<IfcModulusOfTranslationalSubgradeReactionSelect>( m_TranslationalStiffnessByLengthX->getDeepCopy() ); }
+	if( m_TranslationalStiffnessByLengthY ) { copy_self->m_TranslationalStiffnessByLengthY = dynamic_pointer_cast<IfcModulusOfTranslationalSubgradeReactionSelect>( m_TranslationalStiffnessByLengthY->getDeepCopy() ); }
+	if( m_TranslationalStiffnessByLengthZ ) { copy_self->m_TranslationalStiffnessByLengthZ = dynamic_pointer_cast<IfcModulusOfTranslationalSubgradeReactionSelect>( m_TranslationalStiffnessByLengthZ->getDeepCopy() ); }
+	if( m_RotationalStiffnessByLengthX ) { copy_self->m_RotationalStiffnessByLengthX = dynamic_pointer_cast<IfcModulusOfRotationalSubgradeReactionSelect>( m_RotationalStiffnessByLengthX->getDeepCopy() ); }
+	if( m_RotationalStiffnessByLengthY ) { copy_self->m_RotationalStiffnessByLengthY = dynamic_pointer_cast<IfcModulusOfRotationalSubgradeReactionSelect>( m_RotationalStiffnessByLengthY->getDeepCopy() ); }
+	if( m_RotationalStiffnessByLengthZ ) { copy_self->m_RotationalStiffnessByLengthZ = dynamic_pointer_cast<IfcModulusOfRotationalSubgradeReactionSelect>( m_RotationalStiffnessByLengthZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBoundaryEdgeCondition::getStepLine( std::stringstream& stream ) const
 {

@@ -28,17 +28,15 @@
 IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform() {}
 IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform( int id ) { m_id = id; }
 IfcCartesianTransformationOperator2DnonUniform::~IfcCartesianTransformationOperator2DnonUniform() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCartesianTransformationOperator2DnonUniform::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCartesianTransformationOperator2DnonUniform::getDeepCopy()
 {
-	shared_ptr<IfcCartesianTransformationOperator2DnonUniform> other = dynamic_pointer_cast<IfcCartesianTransformationOperator2DnonUniform>(other_entity);
-	if( !other) { return; }
-	m_Axis1 = other->m_Axis1;
-	m_Axis2 = other->m_Axis2;
-	m_LocalOrigin = other->m_LocalOrigin;
-	m_Scale = other->m_Scale;
-	m_Scale2 = other->m_Scale2;
+	shared_ptr<IfcCartesianTransformationOperator2DnonUniform> copy_self( new IfcCartesianTransformationOperator2DnonUniform() );
+	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy() ); }
+	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy() ); }
+	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy() ); }
+	if( m_Scale ) { copy_self->m_Scale = m_Scale; }
+	if( m_Scale2 ) { copy_self->m_Scale2 = m_Scale2; }
+	return copy_self;
 }
 void IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::stringstream& stream ) const
 {

@@ -25,6 +25,12 @@
 IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure() {}
 IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure( double value ) { m_value = value; }
 IfcVaporPermeabilityMeasure::~IfcVaporPermeabilityMeasure() {}
+shared_ptr<IfcPPObject> IfcVaporPermeabilityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcVaporPermeabilityMeasure> copy_self( new IfcVaporPermeabilityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcVaporPermeabilityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVAPORPERMEABILITYMEASURE("; }

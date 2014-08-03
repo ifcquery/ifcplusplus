@@ -28,6 +28,7 @@ public:
 	IfcElectricChargeMeasure( double value );
 	~IfcElectricChargeMeasure();
 	virtual const char* classname() const { return "IfcElectricChargeMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcElectricChargeMeasure> createObjectFromStepData( const std::wstring& arg );
 };

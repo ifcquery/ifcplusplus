@@ -27,13 +27,11 @@
 IfcPlane::IfcPlane() {}
 IfcPlane::IfcPlane( int id ) { m_id = id; }
 IfcPlane::~IfcPlane() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPlane::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPlane::getDeepCopy()
 {
-	shared_ptr<IfcPlane> other = dynamic_pointer_cast<IfcPlane>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
+	shared_ptr<IfcPlane> copy_self( new IfcPlane() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPlane::getStepLine( std::stringstream& stream ) const
 {

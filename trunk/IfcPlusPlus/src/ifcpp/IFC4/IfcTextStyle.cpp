@@ -28,17 +28,15 @@
 IfcTextStyle::IfcTextStyle() {}
 IfcTextStyle::IfcTextStyle( int id ) { m_id = id; }
 IfcTextStyle::~IfcTextStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextStyle::getDeepCopy()
 {
-	shared_ptr<IfcTextStyle> other = dynamic_pointer_cast<IfcTextStyle>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_TextCharacterAppearance = other->m_TextCharacterAppearance;
-	m_TextStyle = other->m_TextStyle;
-	m_TextFontStyle = other->m_TextFontStyle;
-	m_ModelOrDraughting = other->m_ModelOrDraughting;
+	shared_ptr<IfcTextStyle> copy_self( new IfcTextStyle() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_TextCharacterAppearance ) { copy_self->m_TextCharacterAppearance = dynamic_pointer_cast<IfcTextStyleForDefinedFont>( m_TextCharacterAppearance->getDeepCopy() ); }
+	if( m_TextStyle ) { copy_self->m_TextStyle = dynamic_pointer_cast<IfcTextStyleTextModel>( m_TextStyle->getDeepCopy() ); }
+	if( m_TextFontStyle ) { copy_self->m_TextFontStyle = dynamic_pointer_cast<IfcTextFontSelect>( m_TextFontStyle->getDeepCopy() ); }
+	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = m_ModelOrDraughting; }
+	return copy_self;
 }
 void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 {

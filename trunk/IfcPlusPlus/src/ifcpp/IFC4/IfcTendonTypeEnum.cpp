@@ -23,6 +23,12 @@
 // TYPE IfcTendonTypeEnum 
 IfcTendonTypeEnum::IfcTendonTypeEnum() {}
 IfcTendonTypeEnum::~IfcTendonTypeEnum() {}
+shared_ptr<IfcPPObject> IfcTendonTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcTendonTypeEnum> copy_self( new IfcTendonTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONTYPEENUM("; }

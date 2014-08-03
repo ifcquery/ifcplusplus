@@ -23,6 +23,12 @@
 // TYPE IfcOpeningElementTypeEnum 
 IfcOpeningElementTypeEnum::IfcOpeningElementTypeEnum() {}
 IfcOpeningElementTypeEnum::~IfcOpeningElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcOpeningElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcOpeningElementTypeEnum> copy_self( new IfcOpeningElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcOpeningElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOPENINGELEMENTTYPEENUM("; }

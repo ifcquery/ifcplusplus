@@ -23,6 +23,12 @@
 // TYPE IfcChimneyTypeEnum 
 IfcChimneyTypeEnum::IfcChimneyTypeEnum() {}
 IfcChimneyTypeEnum::~IfcChimneyTypeEnum() {}
+shared_ptr<IfcPPObject> IfcChimneyTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcChimneyTypeEnum> copy_self( new IfcChimneyTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcChimneyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCHIMNEYTYPEENUM("; }

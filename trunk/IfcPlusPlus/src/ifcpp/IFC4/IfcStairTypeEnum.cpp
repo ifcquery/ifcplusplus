@@ -23,6 +23,12 @@
 // TYPE IfcStairTypeEnum 
 IfcStairTypeEnum::IfcStairTypeEnum() {}
 IfcStairTypeEnum::~IfcStairTypeEnum() {}
+shared_ptr<IfcPPObject> IfcStairTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcStairTypeEnum> copy_self( new IfcStairTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcStairTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTAIRTYPEENUM("; }

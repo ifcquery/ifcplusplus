@@ -61,6 +61,7 @@ public:
 	IfcSIUnitName( IfcSIUnitNameEnum e ) { m_enum = e; }
 	~IfcSIUnitName();
 	virtual const char* classname() const { return "IfcSIUnitName"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSIUnitName> createObjectFromStepData( const std::wstring& arg );
 	IfcSIUnitNameEnum m_enum;

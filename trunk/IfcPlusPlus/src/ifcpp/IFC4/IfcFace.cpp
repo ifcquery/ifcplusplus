@@ -28,13 +28,18 @@
 IfcFace::IfcFace() {}
 IfcFace::IfcFace( int id ) { m_id = id; }
 IfcFace::~IfcFace() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFace::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFace::getDeepCopy()
 {
-	shared_ptr<IfcFace> other = dynamic_pointer_cast<IfcFace>(other_entity);
-	if( !other) { return; }
-	m_Bounds = other->m_Bounds;
+	shared_ptr<IfcFace> copy_self( new IfcFace() );
+	for( size_t ii=0; ii<m_Bounds.size(); ++ii )
+	{
+		auto item_ii = m_Bounds[ii];
+		if( item_ii )
+		{
+			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcFace::getStepLine( std::stringstream& stream ) const
 {

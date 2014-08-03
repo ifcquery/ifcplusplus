@@ -23,6 +23,12 @@
 // TYPE IfcRoofTypeEnum 
 IfcRoofTypeEnum::IfcRoofTypeEnum() {}
 IfcRoofTypeEnum::~IfcRoofTypeEnum() {}
+shared_ptr<IfcPPObject> IfcRoofTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcRoofTypeEnum> copy_self( new IfcRoofTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcRoofTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROOFTYPEENUM("; }

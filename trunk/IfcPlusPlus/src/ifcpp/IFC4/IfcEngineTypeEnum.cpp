@@ -23,6 +23,12 @@
 // TYPE IfcEngineTypeEnum 
 IfcEngineTypeEnum::IfcEngineTypeEnum() {}
 IfcEngineTypeEnum::~IfcEngineTypeEnum() {}
+shared_ptr<IfcPPObject> IfcEngineTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcEngineTypeEnum> copy_self( new IfcEngineTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcEngineTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCENGINETYPEENUM("; }

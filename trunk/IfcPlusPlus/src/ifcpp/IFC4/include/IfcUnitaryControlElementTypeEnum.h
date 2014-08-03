@@ -41,6 +41,7 @@ public:
 	IfcUnitaryControlElementTypeEnum( IfcUnitaryControlElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcUnitaryControlElementTypeEnum();
 	virtual const char* classname() const { return "IfcUnitaryControlElementTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcUnitaryControlElementTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcUnitaryControlElementTypeEnumEnum m_enum;

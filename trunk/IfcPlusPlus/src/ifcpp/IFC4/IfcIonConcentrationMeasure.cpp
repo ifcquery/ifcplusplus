@@ -25,6 +25,12 @@
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure() {}
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure( double value ) { m_value = value; }
 IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() {}
+shared_ptr<IfcPPObject> IfcIonConcentrationMeasure::getDeepCopy()
+{
+	shared_ptr<IfcIonConcentrationMeasure> copy_self( new IfcIonConcentrationMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcIonConcentrationMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCIONCONCENTRATIONMEASURE("; }

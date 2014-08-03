@@ -23,6 +23,12 @@
 // TYPE IfcGeometricProjectionEnum 
 IfcGeometricProjectionEnum::IfcGeometricProjectionEnum() {}
 IfcGeometricProjectionEnum::~IfcGeometricProjectionEnum() {}
+shared_ptr<IfcPPObject> IfcGeometricProjectionEnum::getDeepCopy()
+{
+	shared_ptr<IfcGeometricProjectionEnum> copy_self( new IfcGeometricProjectionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcGeometricProjectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGEOMETRICPROJECTIONENUM("; }

@@ -25,6 +25,12 @@
 IfcPHMeasure::IfcPHMeasure() {}
 IfcPHMeasure::IfcPHMeasure( double value ) { m_value = value; }
 IfcPHMeasure::~IfcPHMeasure() {}
+shared_ptr<IfcPPObject> IfcPHMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPHMeasure> copy_self( new IfcPHMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPHMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPHMEASURE("; }

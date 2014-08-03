@@ -25,13 +25,18 @@
 IfcTimeSeriesValue::IfcTimeSeriesValue() {}
 IfcTimeSeriesValue::IfcTimeSeriesValue( int id ) { m_id = id; }
 IfcTimeSeriesValue::~IfcTimeSeriesValue() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTimeSeriesValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTimeSeriesValue::getDeepCopy()
 {
-	shared_ptr<IfcTimeSeriesValue> other = dynamic_pointer_cast<IfcTimeSeriesValue>(other_entity);
-	if( !other) { return; }
-	m_ListValues = other->m_ListValues;
+	shared_ptr<IfcTimeSeriesValue> copy_self( new IfcTimeSeriesValue() );
+	for( size_t ii=0; ii<m_ListValues.size(); ++ii )
+	{
+		auto item_ii = m_ListValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_ListValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {

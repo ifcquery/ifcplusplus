@@ -30,17 +30,15 @@
 IfcQuantityArea::IfcQuantityArea() {}
 IfcQuantityArea::IfcQuantityArea( int id ) { m_id = id; }
 IfcQuantityArea::~IfcQuantityArea() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcQuantityArea::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcQuantityArea::getDeepCopy()
 {
-	shared_ptr<IfcQuantityArea> other = dynamic_pointer_cast<IfcQuantityArea>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Unit = other->m_Unit;
-	m_AreaValue = other->m_AreaValue;
-	m_Formula = other->m_Formula;
+	shared_ptr<IfcQuantityArea> copy_self( new IfcQuantityArea() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcNamedUnit>( m_Unit->getDeepCopy() ); }
+	if( m_AreaValue ) { copy_self->m_AreaValue = dynamic_pointer_cast<IfcAreaMeasure>( m_AreaValue->getDeepCopy() ); }
+	if( m_Formula ) { copy_self->m_Formula = dynamic_pointer_cast<IfcLabel>( m_Formula->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcQuantityArea::getStepLine( std::stringstream& stream ) const
 {

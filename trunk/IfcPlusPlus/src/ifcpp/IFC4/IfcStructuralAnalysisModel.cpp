@@ -43,22 +43,34 @@
 IfcStructuralAnalysisModel::IfcStructuralAnalysisModel() {}
 IfcStructuralAnalysisModel::IfcStructuralAnalysisModel( int id ) { m_id = id; }
 IfcStructuralAnalysisModel::~IfcStructuralAnalysisModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralAnalysisModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralAnalysisModel::getDeepCopy()
 {
-	shared_ptr<IfcStructuralAnalysisModel> other = dynamic_pointer_cast<IfcStructuralAnalysisModel>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_PredefinedType = other->m_PredefinedType;
-	m_OrientationOf2DPlane = other->m_OrientationOf2DPlane;
-	m_LoadedBy = other->m_LoadedBy;
-	m_HasResults = other->m_HasResults;
-	m_SharedPlacement = other->m_SharedPlacement;
+	shared_ptr<IfcStructuralAnalysisModel> copy_self( new IfcStructuralAnalysisModel() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcAnalysisModelTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_OrientationOf2DPlane ) { copy_self->m_OrientationOf2DPlane = dynamic_pointer_cast<IfcAxis2Placement3D>( m_OrientationOf2DPlane->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_LoadedBy.size(); ++ii )
+	{
+		auto item_ii = m_LoadedBy[ii];
+		if( item_ii )
+		{
+			copy_self->m_LoadedBy.push_back( dynamic_pointer_cast<IfcStructuralLoadGroup>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_HasResults.size(); ++ii )
+	{
+		auto item_ii = m_HasResults[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasResults.push_back( dynamic_pointer_cast<IfcStructuralResultGroup>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_SharedPlacement ) { copy_self->m_SharedPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_SharedPlacement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralAnalysisModel::getStepLine( std::stringstream& stream ) const
 {

@@ -30,14 +30,12 @@
 IfcProperty::IfcProperty() {}
 IfcProperty::IfcProperty( int id ) { m_id = id; }
 IfcProperty::~IfcProperty() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcProperty::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcProperty::getDeepCopy()
 {
-	shared_ptr<IfcProperty> other = dynamic_pointer_cast<IfcProperty>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
+	shared_ptr<IfcProperty> copy_self( new IfcProperty() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcProperty::getStepLine( std::stringstream& stream ) const
 {

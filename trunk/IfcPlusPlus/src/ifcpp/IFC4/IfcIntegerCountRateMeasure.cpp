@@ -25,6 +25,12 @@
 IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure() {}
 IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure( int value ) { m_value = value; }
 IfcIntegerCountRateMeasure::~IfcIntegerCountRateMeasure() {}
+shared_ptr<IfcPPObject> IfcIntegerCountRateMeasure::getDeepCopy()
+{
+	shared_ptr<IfcIntegerCountRateMeasure> copy_self( new IfcIntegerCountRateMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcIntegerCountRateMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTEGERCOUNTRATEMEASURE("; }

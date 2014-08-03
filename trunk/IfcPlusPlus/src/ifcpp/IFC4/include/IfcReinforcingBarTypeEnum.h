@@ -41,6 +41,7 @@ public:
 	IfcReinforcingBarTypeEnum( IfcReinforcingBarTypeEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingBarTypeEnum();
 	virtual const char* classname() const { return "IfcReinforcingBarTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcReinforcingBarTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcReinforcingBarTypeEnumEnum m_enum;

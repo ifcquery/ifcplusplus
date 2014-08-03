@@ -40,6 +40,7 @@ public:
 	IfcWasteTerminalTypeEnum( IfcWasteTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcWasteTerminalTypeEnum();
 	virtual const char* classname() const { return "IfcWasteTerminalTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcWasteTerminalTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcWasteTerminalTypeEnumEnum m_enum;

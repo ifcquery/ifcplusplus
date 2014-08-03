@@ -44,22 +44,20 @@
 IfcDistributionPort::IfcDistributionPort() {}
 IfcDistributionPort::IfcDistributionPort( int id ) { m_id = id; }
 IfcDistributionPort::~IfcDistributionPort() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDistributionPort::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDistributionPort::getDeepCopy()
 {
-	shared_ptr<IfcDistributionPort> other = dynamic_pointer_cast<IfcDistributionPort>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_ObjectPlacement = other->m_ObjectPlacement;
-	m_Representation = other->m_Representation;
-	m_FlowDirection = other->m_FlowDirection;
-	m_PredefinedType = other->m_PredefinedType;
-	m_SystemType = other->m_SystemType;
+	shared_ptr<IfcDistributionPort> copy_self( new IfcDistributionPort() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
+	if( m_FlowDirection ) { copy_self->m_FlowDirection = dynamic_pointer_cast<IfcFlowDirectionEnum>( m_FlowDirection->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcDistributionPortTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_SystemType ) { copy_self->m_SystemType = dynamic_pointer_cast<IfcDistributionSystemEnum>( m_SystemType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcDistributionPort::getStepLine( std::stringstream& stream ) const
 {

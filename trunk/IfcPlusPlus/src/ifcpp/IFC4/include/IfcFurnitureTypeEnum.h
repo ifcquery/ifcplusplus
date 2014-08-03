@@ -40,6 +40,7 @@ public:
 	IfcFurnitureTypeEnum( IfcFurnitureTypeEnumEnum e ) { m_enum = e; }
 	~IfcFurnitureTypeEnum();
 	virtual const char* classname() const { return "IfcFurnitureTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFurnitureTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcFurnitureTypeEnumEnum m_enum;

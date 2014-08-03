@@ -25,6 +25,12 @@
 IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure() {}
 IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure( double value ) { m_value = value; }
 IfcTemperatureGradientMeasure::~IfcTemperatureGradientMeasure() {}
+shared_ptr<IfcPPObject> IfcTemperatureGradientMeasure::getDeepCopy()
+{
+	shared_ptr<IfcTemperatureGradientMeasure> copy_self( new IfcTemperatureGradientMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTemperatureGradientMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEMPERATUREGRADIENTMEASURE("; }

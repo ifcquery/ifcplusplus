@@ -30,15 +30,26 @@
 IfcTessellatedFaceSet::IfcTessellatedFaceSet() {}
 IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_id = id; }
 IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTessellatedFaceSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy()
 {
-	shared_ptr<IfcTessellatedFaceSet> other = dynamic_pointer_cast<IfcTessellatedFaceSet>(other_entity);
-	if( !other) { return; }
-	m_Coordinates = other->m_Coordinates;
-	m_Normals = other->m_Normals;
-	m_Closed = other->m_Closed;
+	shared_ptr<IfcTessellatedFaceSet> copy_self( new IfcTessellatedFaceSet() );
+	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy() ); }
+	copy_self->m_Normals.resize( m_Normals.size() );
+	for( size_t ii=0; ii<m_Normals.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_Normals[ii];
+		std::vector<shared_ptr<IfcParameterValue> >& vec_ii_target = copy_self->m_Normals[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	if( m_Closed ) { copy_self->m_Closed = m_Closed; }
+	return copy_self;
 }
 void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 {

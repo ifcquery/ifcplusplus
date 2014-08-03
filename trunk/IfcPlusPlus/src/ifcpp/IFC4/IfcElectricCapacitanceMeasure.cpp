@@ -25,6 +25,12 @@
 IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure() {}
 IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure( double value ) { m_value = value; }
 IfcElectricCapacitanceMeasure::~IfcElectricCapacitanceMeasure() {}
+shared_ptr<IfcPPObject> IfcElectricCapacitanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcElectricCapacitanceMeasure> copy_self( new IfcElectricCapacitanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcElectricCapacitanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCAPACITANCEMEASURE("; }

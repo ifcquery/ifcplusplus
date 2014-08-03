@@ -26,16 +26,14 @@
 IfcColourRgb::IfcColourRgb() {}
 IfcColourRgb::IfcColourRgb( int id ) { m_id = id; }
 IfcColourRgb::~IfcColourRgb() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcColourRgb::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcColourRgb::getDeepCopy()
 {
-	shared_ptr<IfcColourRgb> other = dynamic_pointer_cast<IfcColourRgb>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Red = other->m_Red;
-	m_Green = other->m_Green;
-	m_Blue = other->m_Blue;
+	shared_ptr<IfcColourRgb> copy_self( new IfcColourRgb() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Red ) { copy_self->m_Red = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Red->getDeepCopy() ); }
+	if( m_Green ) { copy_self->m_Green = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Green->getDeepCopy() ); }
+	if( m_Blue ) { copy_self->m_Blue = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Blue->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcColourRgb::getStepLine( std::stringstream& stream ) const
 {

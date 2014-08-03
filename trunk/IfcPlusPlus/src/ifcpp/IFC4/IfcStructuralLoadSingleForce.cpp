@@ -27,19 +27,17 @@
 IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce() {}
 IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_id = id; }
 IfcStructuralLoadSingleForce::~IfcStructuralLoadSingleForce() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadSingleForce::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadSingleForce::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadSingleForce> other = dynamic_pointer_cast<IfcStructuralLoadSingleForce>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_ForceX = other->m_ForceX;
-	m_ForceY = other->m_ForceY;
-	m_ForceZ = other->m_ForceZ;
-	m_MomentX = other->m_MomentX;
-	m_MomentY = other->m_MomentY;
-	m_MomentZ = other->m_MomentZ;
+	shared_ptr<IfcStructuralLoadSingleForce> copy_self( new IfcStructuralLoadSingleForce() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_ForceX ) { copy_self->m_ForceX = dynamic_pointer_cast<IfcForceMeasure>( m_ForceX->getDeepCopy() ); }
+	if( m_ForceY ) { copy_self->m_ForceY = dynamic_pointer_cast<IfcForceMeasure>( m_ForceY->getDeepCopy() ); }
+	if( m_ForceZ ) { copy_self->m_ForceZ = dynamic_pointer_cast<IfcForceMeasure>( m_ForceZ->getDeepCopy() ); }
+	if( m_MomentX ) { copy_self->m_MomentX = dynamic_pointer_cast<IfcTorqueMeasure>( m_MomentX->getDeepCopy() ); }
+	if( m_MomentY ) { copy_self->m_MomentY = dynamic_pointer_cast<IfcTorqueMeasure>( m_MomentY->getDeepCopy() ); }
+	if( m_MomentZ ) { copy_self->m_MomentZ = dynamic_pointer_cast<IfcTorqueMeasure>( m_MomentZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadSingleForce::getStepLine( std::stringstream& stream ) const
 {

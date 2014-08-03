@@ -23,6 +23,12 @@
 // TYPE IfcPileTypeEnum 
 IfcPileTypeEnum::IfcPileTypeEnum() {}
 IfcPileTypeEnum::~IfcPileTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPileTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPileTypeEnum> copy_self( new IfcPileTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPILETYPEENUM("; }

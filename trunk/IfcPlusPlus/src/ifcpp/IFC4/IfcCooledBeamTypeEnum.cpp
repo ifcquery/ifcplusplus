@@ -23,6 +23,12 @@
 // TYPE IfcCooledBeamTypeEnum 
 IfcCooledBeamTypeEnum::IfcCooledBeamTypeEnum() {}
 IfcCooledBeamTypeEnum::~IfcCooledBeamTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCooledBeamTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCooledBeamTypeEnum> copy_self( new IfcCooledBeamTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLEDBEAMTYPEENUM("; }

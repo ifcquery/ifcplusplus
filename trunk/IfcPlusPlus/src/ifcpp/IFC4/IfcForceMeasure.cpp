@@ -25,6 +25,12 @@
 IfcForceMeasure::IfcForceMeasure() {}
 IfcForceMeasure::IfcForceMeasure( double value ) { m_value = value; }
 IfcForceMeasure::~IfcForceMeasure() {}
+shared_ptr<IfcPPObject> IfcForceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcForceMeasure> copy_self( new IfcForceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcForceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFORCEMEASURE("; }

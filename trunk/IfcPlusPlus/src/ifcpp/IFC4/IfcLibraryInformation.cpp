@@ -31,18 +31,16 @@
 IfcLibraryInformation::IfcLibraryInformation() {}
 IfcLibraryInformation::IfcLibraryInformation( int id ) { m_id = id; }
 IfcLibraryInformation::~IfcLibraryInformation() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLibraryInformation::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLibraryInformation::getDeepCopy()
 {
-	shared_ptr<IfcLibraryInformation> other = dynamic_pointer_cast<IfcLibraryInformation>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Version = other->m_Version;
-	m_Publisher = other->m_Publisher;
-	m_VersionDate = other->m_VersionDate;
-	m_Location = other->m_Location;
-	m_Description = other->m_Description;
+	shared_ptr<IfcLibraryInformation> copy_self( new IfcLibraryInformation() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy() ); }
+	if( m_Publisher ) { copy_self->m_Publisher = dynamic_pointer_cast<IfcActorSelect>( m_Publisher->getDeepCopy() ); }
+	if( m_VersionDate ) { copy_self->m_VersionDate = dynamic_pointer_cast<IfcDateTime>( m_VersionDate->getDeepCopy() ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLibraryInformation::getStepLine( std::stringstream& stream ) const
 {

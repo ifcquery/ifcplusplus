@@ -27,15 +27,13 @@
 IfcSectionProperties::IfcSectionProperties() {}
 IfcSectionProperties::IfcSectionProperties( int id ) { m_id = id; }
 IfcSectionProperties::~IfcSectionProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSectionProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSectionProperties::getDeepCopy()
 {
-	shared_ptr<IfcSectionProperties> other = dynamic_pointer_cast<IfcSectionProperties>(other_entity);
-	if( !other) { return; }
-	m_SectionType = other->m_SectionType;
-	m_StartProfile = other->m_StartProfile;
-	m_EndProfile = other->m_EndProfile;
+	shared_ptr<IfcSectionProperties> copy_self( new IfcSectionProperties() );
+	if( m_SectionType ) { copy_self->m_SectionType = dynamic_pointer_cast<IfcSectionTypeEnum>( m_SectionType->getDeepCopy() ); }
+	if( m_StartProfile ) { copy_self->m_StartProfile = dynamic_pointer_cast<IfcProfileDef>( m_StartProfile->getDeepCopy() ); }
+	if( m_EndProfile ) { copy_self->m_EndProfile = dynamic_pointer_cast<IfcProfileDef>( m_EndProfile->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
 {

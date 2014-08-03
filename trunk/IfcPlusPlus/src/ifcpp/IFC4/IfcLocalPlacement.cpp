@@ -27,14 +27,12 @@
 IfcLocalPlacement::IfcLocalPlacement() {}
 IfcLocalPlacement::IfcLocalPlacement( int id ) { m_id = id; }
 IfcLocalPlacement::~IfcLocalPlacement() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLocalPlacement::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLocalPlacement::getDeepCopy()
 {
-	shared_ptr<IfcLocalPlacement> other = dynamic_pointer_cast<IfcLocalPlacement>(other_entity);
-	if( !other) { return; }
-	m_PlacementRelTo = other->m_PlacementRelTo;
-	m_RelativePlacement = other->m_RelativePlacement;
+	shared_ptr<IfcLocalPlacement> copy_self( new IfcLocalPlacement() );
+	if( m_PlacementRelTo ) { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcObjectPlacement>( m_PlacementRelTo->getDeepCopy() ); }
+	if( m_RelativePlacement ) { copy_self->m_RelativePlacement = dynamic_pointer_cast<IfcAxis2Placement>( m_RelativePlacement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLocalPlacement::getStepLine( std::stringstream& stream ) const
 {

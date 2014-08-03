@@ -34,19 +34,24 @@
 IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets() {}
 IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets( int id ) { m_id = id; }
 IfcMaterialProfileWithOffsets::~IfcMaterialProfileWithOffsets() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialProfileWithOffsets::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialProfileWithOffsets::getDeepCopy()
 {
-	shared_ptr<IfcMaterialProfileWithOffsets> other = dynamic_pointer_cast<IfcMaterialProfileWithOffsets>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Material = other->m_Material;
-	m_Profile = other->m_Profile;
-	m_Priority = other->m_Priority;
-	m_Category = other->m_Category;
-	m_OffsetValues = other->m_OffsetValues;
+	shared_ptr<IfcMaterialProfileWithOffsets> copy_self( new IfcMaterialProfileWithOffsets() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
+	if( m_Profile ) { copy_self->m_Profile = dynamic_pointer_cast<IfcProfileDef>( m_Profile->getDeepCopy() ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy() ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_OffsetValues.size(); ++ii )
+	{
+		auto item_ii = m_OffsetValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) const
 {

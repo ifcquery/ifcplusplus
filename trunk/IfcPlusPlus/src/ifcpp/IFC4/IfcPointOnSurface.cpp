@@ -28,15 +28,13 @@
 IfcPointOnSurface::IfcPointOnSurface() {}
 IfcPointOnSurface::IfcPointOnSurface( int id ) { m_id = id; }
 IfcPointOnSurface::~IfcPointOnSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPointOnSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPointOnSurface::getDeepCopy()
 {
-	shared_ptr<IfcPointOnSurface> other = dynamic_pointer_cast<IfcPointOnSurface>(other_entity);
-	if( !other) { return; }
-	m_BasisSurface = other->m_BasisSurface;
-	m_PointParameterU = other->m_PointParameterU;
-	m_PointParameterV = other->m_PointParameterV;
+	shared_ptr<IfcPointOnSurface> copy_self( new IfcPointOnSurface() );
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy() ); }
+	if( m_PointParameterU ) { copy_self->m_PointParameterU = dynamic_pointer_cast<IfcParameterValue>( m_PointParameterU->getDeepCopy() ); }
+	if( m_PointParameterV ) { copy_self->m_PointParameterV = dynamic_pointer_cast<IfcParameterValue>( m_PointParameterV->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPointOnSurface::getStepLine( std::stringstream& stream ) const
 {

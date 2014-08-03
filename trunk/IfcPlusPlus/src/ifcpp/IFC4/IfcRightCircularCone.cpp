@@ -28,15 +28,13 @@
 IfcRightCircularCone::IfcRightCircularCone() {}
 IfcRightCircularCone::IfcRightCircularCone( int id ) { m_id = id; }
 IfcRightCircularCone::~IfcRightCircularCone() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRightCircularCone::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRightCircularCone::getDeepCopy()
 {
-	shared_ptr<IfcRightCircularCone> other = dynamic_pointer_cast<IfcRightCircularCone>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
-	m_Height = other->m_Height;
-	m_BottomRadius = other->m_BottomRadius;
+	shared_ptr<IfcRightCircularCone> copy_self( new IfcRightCircularCone() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_Height ) { copy_self->m_Height = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Height->getDeepCopy() ); }
+	if( m_BottomRadius ) { copy_self->m_BottomRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BottomRadius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 {

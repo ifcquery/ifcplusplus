@@ -32,17 +32,15 @@
 IfcMaterialConstituent::IfcMaterialConstituent() {}
 IfcMaterialConstituent::IfcMaterialConstituent( int id ) { m_id = id; }
 IfcMaterialConstituent::~IfcMaterialConstituent() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialConstituent::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialConstituent::getDeepCopy()
 {
-	shared_ptr<IfcMaterialConstituent> other = dynamic_pointer_cast<IfcMaterialConstituent>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Material = other->m_Material;
-	m_Fraction = other->m_Fraction;
-	m_Category = other->m_Category;
+	shared_ptr<IfcMaterialConstituent> copy_self( new IfcMaterialConstituent() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
+	if( m_Fraction ) { copy_self->m_Fraction = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Fraction->getDeepCopy() ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialConstituent::getStepLine( std::stringstream& stream ) const
 {

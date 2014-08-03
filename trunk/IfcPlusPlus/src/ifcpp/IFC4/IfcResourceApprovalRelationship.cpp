@@ -28,16 +28,21 @@
 IfcResourceApprovalRelationship::IfcResourceApprovalRelationship() {}
 IfcResourceApprovalRelationship::IfcResourceApprovalRelationship( int id ) { m_id = id; }
 IfcResourceApprovalRelationship::~IfcResourceApprovalRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcResourceApprovalRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcResourceApprovalRelationship::getDeepCopy()
 {
-	shared_ptr<IfcResourceApprovalRelationship> other = dynamic_pointer_cast<IfcResourceApprovalRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatedResourceObjects = other->m_RelatedResourceObjects;
-	m_RelatingApproval = other->m_RelatingApproval;
+	shared_ptr<IfcResourceApprovalRelationship> copy_self( new IfcResourceApprovalRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedResourceObjects.size(); ++ii )
+	{
+		auto item_ii = m_RelatedResourceObjects[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_RelatingApproval ) { copy_self->m_RelatingApproval = dynamic_pointer_cast<IfcApproval>( m_RelatingApproval->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcResourceApprovalRelationship::getStepLine( std::stringstream& stream ) const
 {

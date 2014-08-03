@@ -23,6 +23,12 @@
 // TYPE IfcVibrationIsolatorTypeEnum 
 IfcVibrationIsolatorTypeEnum::IfcVibrationIsolatorTypeEnum() {}
 IfcVibrationIsolatorTypeEnum::~IfcVibrationIsolatorTypeEnum() {}
+shared_ptr<IfcPPObject> IfcVibrationIsolatorTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcVibrationIsolatorTypeEnum> copy_self( new IfcVibrationIsolatorTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVIBRATIONISOLATORTYPEENUM("; }

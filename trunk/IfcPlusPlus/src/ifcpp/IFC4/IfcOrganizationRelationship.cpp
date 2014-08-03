@@ -27,16 +27,21 @@
 IfcOrganizationRelationship::IfcOrganizationRelationship() {}
 IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_id = id; }
 IfcOrganizationRelationship::~IfcOrganizationRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcOrganizationRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcOrganizationRelationship::getDeepCopy()
 {
-	shared_ptr<IfcOrganizationRelationship> other = dynamic_pointer_cast<IfcOrganizationRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingOrganization = other->m_RelatingOrganization;
-	m_RelatedOrganizations = other->m_RelatedOrganizations;
+	shared_ptr<IfcOrganizationRelationship> copy_self( new IfcOrganizationRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingOrganization ) { copy_self->m_RelatingOrganization = dynamic_pointer_cast<IfcOrganization>( m_RelatingOrganization->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedOrganizations.size(); ++ii )
+	{
+		auto item_ii = m_RelatedOrganizations[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedOrganizations.push_back( dynamic_pointer_cast<IfcOrganization>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 {

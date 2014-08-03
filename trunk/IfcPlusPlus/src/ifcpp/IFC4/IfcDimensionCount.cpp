@@ -24,6 +24,12 @@
 IfcDimensionCount::IfcDimensionCount() {}
 IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
 IfcDimensionCount::~IfcDimensionCount() {}
+shared_ptr<IfcPPObject> IfcDimensionCount::getDeepCopy()
+{
+	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDimensionCount::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDIMENSIONCOUNT("; }

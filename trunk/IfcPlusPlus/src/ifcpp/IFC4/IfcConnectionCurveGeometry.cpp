@@ -25,14 +25,12 @@
 IfcConnectionCurveGeometry::IfcConnectionCurveGeometry() {}
 IfcConnectionCurveGeometry::IfcConnectionCurveGeometry( int id ) { m_id = id; }
 IfcConnectionCurveGeometry::~IfcConnectionCurveGeometry() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConnectionCurveGeometry::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConnectionCurveGeometry::getDeepCopy()
 {
-	shared_ptr<IfcConnectionCurveGeometry> other = dynamic_pointer_cast<IfcConnectionCurveGeometry>(other_entity);
-	if( !other) { return; }
-	m_CurveOnRelatingElement = other->m_CurveOnRelatingElement;
-	m_CurveOnRelatedElement = other->m_CurveOnRelatedElement;
+	shared_ptr<IfcConnectionCurveGeometry> copy_self( new IfcConnectionCurveGeometry() );
+	if( m_CurveOnRelatingElement ) { copy_self->m_CurveOnRelatingElement = dynamic_pointer_cast<IfcCurveOrEdgeCurve>( m_CurveOnRelatingElement->getDeepCopy() ); }
+	if( m_CurveOnRelatedElement ) { copy_self->m_CurveOnRelatedElement = dynamic_pointer_cast<IfcCurveOrEdgeCurve>( m_CurveOnRelatedElement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConnectionCurveGeometry::getStepLine( std::stringstream& stream ) const
 {

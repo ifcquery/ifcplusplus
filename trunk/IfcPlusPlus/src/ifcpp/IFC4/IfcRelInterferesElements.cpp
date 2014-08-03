@@ -31,21 +31,19 @@
 IfcRelInterferesElements::IfcRelInterferesElements() {}
 IfcRelInterferesElements::IfcRelInterferesElements( int id ) { m_id = id; }
 IfcRelInterferesElements::~IfcRelInterferesElements() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelInterferesElements::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelInterferesElements::getDeepCopy()
 {
-	shared_ptr<IfcRelInterferesElements> other = dynamic_pointer_cast<IfcRelInterferesElements>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingElement = other->m_RelatingElement;
-	m_RelatedElement = other->m_RelatedElement;
-	m_InterferenceGeometry = other->m_InterferenceGeometry;
-	m_InterferenceType = other->m_InterferenceType;
-	m_ImpliedOrder = other->m_ImpliedOrder;
+	shared_ptr<IfcRelInterferesElements> copy_self( new IfcRelInterferesElements() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement->getDeepCopy() ); }
+	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement->getDeepCopy() ); }
+	if( m_InterferenceGeometry ) { copy_self->m_InterferenceGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_InterferenceGeometry->getDeepCopy() ); }
+	if( m_InterferenceType ) { copy_self->m_InterferenceType = dynamic_pointer_cast<IfcIdentifier>( m_InterferenceType->getDeepCopy() ); }
+	if( m_ImpliedOrder ) { copy_self->m_ImpliedOrder = m_ImpliedOrder; }
+	return copy_self;
 }
 void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 {

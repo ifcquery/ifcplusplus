@@ -28,14 +28,12 @@
 IfcCylindricalSurface::IfcCylindricalSurface() {}
 IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_id = id; }
 IfcCylindricalSurface::~IfcCylindricalSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCylindricalSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCylindricalSurface::getDeepCopy()
 {
-	shared_ptr<IfcCylindricalSurface> other = dynamic_pointer_cast<IfcCylindricalSurface>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
-	m_Radius = other->m_Radius;
+	shared_ptr<IfcCylindricalSurface> copy_self( new IfcCylindricalSurface() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 {

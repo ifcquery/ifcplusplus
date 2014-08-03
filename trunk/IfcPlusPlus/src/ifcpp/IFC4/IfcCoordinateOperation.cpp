@@ -26,14 +26,12 @@
 IfcCoordinateOperation::IfcCoordinateOperation() {}
 IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_id = id; }
 IfcCoordinateOperation::~IfcCoordinateOperation() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCoordinateOperation::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCoordinateOperation::getDeepCopy()
 {
-	shared_ptr<IfcCoordinateOperation> other = dynamic_pointer_cast<IfcCoordinateOperation>(other_entity);
-	if( !other) { return; }
-	m_SourceCRS = other->m_SourceCRS;
-	m_TargetCRS = other->m_TargetCRS;
+	shared_ptr<IfcCoordinateOperation> copy_self( new IfcCoordinateOperation() );
+	if( m_SourceCRS ) { copy_self->m_SourceCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystemSelect>( m_SourceCRS->getDeepCopy() ); }
+	if( m_TargetCRS ) { copy_self->m_TargetCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_TargetCRS->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 {

@@ -25,13 +25,11 @@
 IfcStructuralConnectionCondition::IfcStructuralConnectionCondition() {}
 IfcStructuralConnectionCondition::IfcStructuralConnectionCondition( int id ) { m_id = id; }
 IfcStructuralConnectionCondition::~IfcStructuralConnectionCondition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralConnectionCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralConnectionCondition::getDeepCopy()
 {
-	shared_ptr<IfcStructuralConnectionCondition> other = dynamic_pointer_cast<IfcStructuralConnectionCondition>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcStructuralConnectionCondition> copy_self( new IfcStructuralConnectionCondition() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralConnectionCondition::getStepLine( std::stringstream& stream ) const
 {

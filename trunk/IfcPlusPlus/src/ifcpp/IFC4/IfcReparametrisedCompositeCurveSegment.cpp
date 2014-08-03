@@ -30,16 +30,14 @@
 IfcReparametrisedCompositeCurveSegment::IfcReparametrisedCompositeCurveSegment() {}
 IfcReparametrisedCompositeCurveSegment::IfcReparametrisedCompositeCurveSegment( int id ) { m_id = id; }
 IfcReparametrisedCompositeCurveSegment::~IfcReparametrisedCompositeCurveSegment() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcReparametrisedCompositeCurveSegment::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcReparametrisedCompositeCurveSegment::getDeepCopy()
 {
-	shared_ptr<IfcReparametrisedCompositeCurveSegment> other = dynamic_pointer_cast<IfcReparametrisedCompositeCurveSegment>(other_entity);
-	if( !other) { return; }
-	m_Transition = other->m_Transition;
-	m_SameSense = other->m_SameSense;
-	m_ParentCurve = other->m_ParentCurve;
-	m_ParamLength = other->m_ParamLength;
+	shared_ptr<IfcReparametrisedCompositeCurveSegment> copy_self( new IfcReparametrisedCompositeCurveSegment() );
+	if( m_Transition ) { copy_self->m_Transition = dynamic_pointer_cast<IfcTransitionCode>( m_Transition->getDeepCopy() ); }
+	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
+	if( m_ParentCurve ) { copy_self->m_ParentCurve = dynamic_pointer_cast<IfcCurve>( m_ParentCurve->getDeepCopy() ); }
+	if( m_ParamLength ) { copy_self->m_ParamLength = dynamic_pointer_cast<IfcParameterValue>( m_ParamLength->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 {

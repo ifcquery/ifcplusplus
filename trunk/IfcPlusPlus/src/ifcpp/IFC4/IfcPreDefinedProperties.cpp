@@ -25,12 +25,10 @@
 IfcPreDefinedProperties::IfcPreDefinedProperties() {}
 IfcPreDefinedProperties::IfcPreDefinedProperties( int id ) { m_id = id; }
 IfcPreDefinedProperties::~IfcPreDefinedProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPreDefinedProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPreDefinedProperties::getDeepCopy()
 {
-	shared_ptr<IfcPreDefinedProperties> other = dynamic_pointer_cast<IfcPreDefinedProperties>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcPreDefinedProperties> copy_self( new IfcPreDefinedProperties() );
+	return copy_self;
 }
 void IfcPreDefinedProperties::getStepLine( std::stringstream& stream ) const
 {

@@ -27,13 +27,18 @@
 IfcGeometricSet::IfcGeometricSet() {}
 IfcGeometricSet::IfcGeometricSet( int id ) { m_id = id; }
 IfcGeometricSet::~IfcGeometricSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGeometricSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGeometricSet::getDeepCopy()
 {
-	shared_ptr<IfcGeometricSet> other = dynamic_pointer_cast<IfcGeometricSet>(other_entity);
-	if( !other) { return; }
-	m_Elements = other->m_Elements;
+	shared_ptr<IfcGeometricSet> copy_self( new IfcGeometricSet() );
+	for( size_t ii=0; ii<m_Elements.size(); ++ii )
+	{
+		auto item_ii = m_Elements[ii];
+		if( item_ii )
+		{
+			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcGeometricSet::getStepLine( std::stringstream& stream ) const
 {

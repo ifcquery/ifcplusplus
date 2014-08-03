@@ -23,6 +23,12 @@
 // TYPE IfcFanTypeEnum 
 IfcFanTypeEnum::IfcFanTypeEnum() {}
 IfcFanTypeEnum::~IfcFanTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFanTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFanTypeEnum> copy_self( new IfcFanTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFANTYPEENUM("; }

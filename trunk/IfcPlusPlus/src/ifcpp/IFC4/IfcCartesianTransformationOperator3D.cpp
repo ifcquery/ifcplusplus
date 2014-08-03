@@ -28,17 +28,15 @@
 IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D() {}
 IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D( int id ) { m_id = id; }
 IfcCartesianTransformationOperator3D::~IfcCartesianTransformationOperator3D() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCartesianTransformationOperator3D::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3D::getDeepCopy()
 {
-	shared_ptr<IfcCartesianTransformationOperator3D> other = dynamic_pointer_cast<IfcCartesianTransformationOperator3D>(other_entity);
-	if( !other) { return; }
-	m_Axis1 = other->m_Axis1;
-	m_Axis2 = other->m_Axis2;
-	m_LocalOrigin = other->m_LocalOrigin;
-	m_Scale = other->m_Scale;
-	m_Axis3 = other->m_Axis3;
+	shared_ptr<IfcCartesianTransformationOperator3D> copy_self( new IfcCartesianTransformationOperator3D() );
+	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy() ); }
+	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy() ); }
+	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy() ); }
+	if( m_Scale ) { copy_self->m_Scale = m_Scale; }
+	if( m_Axis3 ) { copy_self->m_Axis3 = dynamic_pointer_cast<IfcDirection>( m_Axis3->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCartesianTransformationOperator3D::getStepLine( std::stringstream& stream ) const
 {

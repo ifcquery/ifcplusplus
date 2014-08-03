@@ -25,6 +25,12 @@
 IfcNumericMeasure::IfcNumericMeasure() {}
 IfcNumericMeasure::IfcNumericMeasure( int value ) { m_value = value; }
 IfcNumericMeasure::~IfcNumericMeasure() {}
+shared_ptr<IfcPPObject> IfcNumericMeasure::getDeepCopy()
+{
+	shared_ptr<IfcNumericMeasure> copy_self( new IfcNumericMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcNumericMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNUMERICMEASURE("; }

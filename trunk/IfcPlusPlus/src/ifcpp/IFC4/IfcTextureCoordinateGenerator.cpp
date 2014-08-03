@@ -27,15 +27,27 @@
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator() {}
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_id = id; }
 IfcTextureCoordinateGenerator::~IfcTextureCoordinateGenerator() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextureCoordinateGenerator::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy()
 {
-	shared_ptr<IfcTextureCoordinateGenerator> other = dynamic_pointer_cast<IfcTextureCoordinateGenerator>(other_entity);
-	if( !other) { return; }
-	m_Maps = other->m_Maps;
-	m_Mode = other->m_Mode;
-	m_Parameter = other->m_Parameter;
+	shared_ptr<IfcTextureCoordinateGenerator> copy_self( new IfcTextureCoordinateGenerator() );
+	for( size_t ii=0; ii<m_Maps.size(); ++ii )
+	{
+		auto item_ii = m_Maps[ii];
+		if( item_ii )
+		{
+			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcLabel>( m_Mode->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
+	{
+		auto item_ii = m_Parameter[ii];
+		if( item_ii )
+		{
+			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) const
 {

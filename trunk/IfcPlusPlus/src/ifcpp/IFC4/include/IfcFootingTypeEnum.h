@@ -38,6 +38,7 @@ public:
 	IfcFootingTypeEnum( IfcFootingTypeEnumEnum e ) { m_enum = e; }
 	~IfcFootingTypeEnum();
 	virtual const char* classname() const { return "IfcFootingTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFootingTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcFootingTypeEnumEnum m_enum;

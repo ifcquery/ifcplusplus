@@ -41,25 +41,30 @@
 IfcWorkControl::IfcWorkControl() {}
 IfcWorkControl::IfcWorkControl( int id ) { m_id = id; }
 IfcWorkControl::~IfcWorkControl() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcWorkControl::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcWorkControl::getDeepCopy()
 {
-	shared_ptr<IfcWorkControl> other = dynamic_pointer_cast<IfcWorkControl>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_Identification = other->m_Identification;
-	m_CreationDate = other->m_CreationDate;
-	m_Creators = other->m_Creators;
-	m_Purpose = other->m_Purpose;
-	m_Duration = other->m_Duration;
-	m_TotalFloat = other->m_TotalFloat;
-	m_StartTime = other->m_StartTime;
-	m_FinishTime = other->m_FinishTime;
+	shared_ptr<IfcWorkControl> copy_self( new IfcWorkControl() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_CreationDate ) { copy_self->m_CreationDate = dynamic_pointer_cast<IfcDateTime>( m_CreationDate->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Creators.size(); ++ii )
+	{
+		auto item_ii = m_Creators[ii];
+		if( item_ii )
+		{
+			copy_self->m_Creators.push_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcLabel>( m_Purpose->getDeepCopy() ); }
+	if( m_Duration ) { copy_self->m_Duration = dynamic_pointer_cast<IfcDuration>( m_Duration->getDeepCopy() ); }
+	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy() ); }
+	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy() ); }
+	if( m_FinishTime ) { copy_self->m_FinishTime = dynamic_pointer_cast<IfcDateTime>( m_FinishTime->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcWorkControl::getStepLine( std::stringstream& stream ) const
 {

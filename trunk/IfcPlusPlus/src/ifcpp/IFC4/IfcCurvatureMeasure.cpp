@@ -25,6 +25,12 @@
 IfcCurvatureMeasure::IfcCurvatureMeasure() {}
 IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
 IfcCurvatureMeasure::~IfcCurvatureMeasure() {}
+shared_ptr<IfcPPObject> IfcCurvatureMeasure::getDeepCopy()
+{
+	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcCurvatureMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURVATUREMEASURE("; }

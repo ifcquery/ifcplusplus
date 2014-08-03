@@ -23,6 +23,12 @@
 // TYPE IfcConstraintEnum 
 IfcConstraintEnum::IfcConstraintEnum() {}
 IfcConstraintEnum::~IfcConstraintEnum() {}
+shared_ptr<IfcPPObject> IfcConstraintEnum::getDeepCopy()
+{
+	shared_ptr<IfcConstraintEnum> copy_self( new IfcConstraintEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRAINTENUM("; }

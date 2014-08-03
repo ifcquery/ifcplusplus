@@ -27,16 +27,13 @@
 IfcIndexedColourMap::IfcIndexedColourMap() {}
 IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_id = id; }
 IfcIndexedColourMap::~IfcIndexedColourMap() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcIndexedColourMap::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy()
 {
-	shared_ptr<IfcIndexedColourMap> other = dynamic_pointer_cast<IfcIndexedColourMap>(other_entity);
-	if( !other) { return; }
-	m_MappedTo = other->m_MappedTo;
-	m_Overrides = other->m_Overrides;
-	m_Colours = other->m_Colours;
-	m_ColourIndex = other->m_ColourIndex;
+	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
+	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy() ); }
+	if( m_Overrides ) { copy_self->m_Overrides = dynamic_pointer_cast<IfcSurfaceStyleShading>( m_Overrides->getDeepCopy() ); }
+	if( m_Colours ) { copy_self->m_Colours = dynamic_pointer_cast<IfcColourRgbList>( m_Colours->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 {

@@ -39,20 +39,18 @@
 IfcPerformanceHistory::IfcPerformanceHistory() {}
 IfcPerformanceHistory::IfcPerformanceHistory( int id ) { m_id = id; }
 IfcPerformanceHistory::~IfcPerformanceHistory() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPerformanceHistory::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPerformanceHistory::getDeepCopy()
 {
-	shared_ptr<IfcPerformanceHistory> other = dynamic_pointer_cast<IfcPerformanceHistory>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_Identification = other->m_Identification;
-	m_LifeCyclePhase = other->m_LifeCyclePhase;
-	m_PredefinedType = other->m_PredefinedType;
+	shared_ptr<IfcPerformanceHistory> copy_self( new IfcPerformanceHistory() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_LifeCyclePhase ) { copy_self->m_LifeCyclePhase = dynamic_pointer_cast<IfcLabel>( m_LifeCyclePhase->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcPerformanceHistoryTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPerformanceHistory::getStepLine( std::stringstream& stream ) const
 {

@@ -27,13 +27,18 @@
 IfcPolyLoop::IfcPolyLoop() {}
 IfcPolyLoop::IfcPolyLoop( int id ) { m_id = id; }
 IfcPolyLoop::~IfcPolyLoop() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPolyLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPolyLoop::getDeepCopy()
 {
-	shared_ptr<IfcPolyLoop> other = dynamic_pointer_cast<IfcPolyLoop>(other_entity);
-	if( !other) { return; }
-	m_Polygon = other->m_Polygon;
+	shared_ptr<IfcPolyLoop> copy_self( new IfcPolyLoop() );
+	for( size_t ii=0; ii<m_Polygon.size(); ++ii )
+	{
+		auto item_ii = m_Polygon[ii];
+		if( item_ii )
+		{
+			copy_self->m_Polygon.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPolyLoop::getStepLine( std::stringstream& stream ) const
 {

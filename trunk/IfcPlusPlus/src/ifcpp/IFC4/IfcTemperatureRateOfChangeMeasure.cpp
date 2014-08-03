@@ -25,6 +25,12 @@
 IfcTemperatureRateOfChangeMeasure::IfcTemperatureRateOfChangeMeasure() {}
 IfcTemperatureRateOfChangeMeasure::IfcTemperatureRateOfChangeMeasure( double value ) { m_value = value; }
 IfcTemperatureRateOfChangeMeasure::~IfcTemperatureRateOfChangeMeasure() {}
+shared_ptr<IfcPPObject> IfcTemperatureRateOfChangeMeasure::getDeepCopy()
+{
+	shared_ptr<IfcTemperatureRateOfChangeMeasure> copy_self( new IfcTemperatureRateOfChangeMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTemperatureRateOfChangeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEMPERATURERATEOFCHANGEMEASURE("; }

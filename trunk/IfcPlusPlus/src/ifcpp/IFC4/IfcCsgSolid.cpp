@@ -27,13 +27,11 @@
 IfcCsgSolid::IfcCsgSolid() {}
 IfcCsgSolid::IfcCsgSolid( int id ) { m_id = id; }
 IfcCsgSolid::~IfcCsgSolid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCsgSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCsgSolid::getDeepCopy()
 {
-	shared_ptr<IfcCsgSolid> other = dynamic_pointer_cast<IfcCsgSolid>(other_entity);
-	if( !other) { return; }
-	m_TreeRootExpression = other->m_TreeRootExpression;
+	shared_ptr<IfcCsgSolid> copy_self( new IfcCsgSolid() );
+	if( m_TreeRootExpression ) { copy_self->m_TreeRootExpression = dynamic_pointer_cast<IfcCsgSelect>( m_TreeRootExpression->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCsgSolid::getStepLine( std::stringstream& stream ) const
 {

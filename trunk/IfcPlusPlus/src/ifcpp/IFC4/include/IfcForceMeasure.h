@@ -28,6 +28,7 @@ public:
 	IfcForceMeasure( double value );
 	~IfcForceMeasure();
 	virtual const char* classname() const { return "IfcForceMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcForceMeasure> createObjectFromStepData( const std::wstring& arg );
 };

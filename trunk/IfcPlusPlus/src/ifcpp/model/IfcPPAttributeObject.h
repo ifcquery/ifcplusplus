@@ -26,3 +26,14 @@ public:
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {}
 	std::vector<shared_ptr<IfcPPObject> > m_vec;
 };
+
+template<typename T>
+class IfcPPEnumObject : public IfcPPObject
+{
+public:
+	IfcPPEnumObject(T en) : m_enum(en)
+	{
+	}
+	~IfcPPEnumObject(){}
+	T m_enum;
+};

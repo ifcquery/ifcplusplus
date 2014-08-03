@@ -26,14 +26,12 @@
 IfcRepresentationContext::IfcRepresentationContext() {}
 IfcRepresentationContext::IfcRepresentationContext( int id ) { m_id = id; }
 IfcRepresentationContext::~IfcRepresentationContext() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRepresentationContext::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRepresentationContext::getDeepCopy()
 {
-	shared_ptr<IfcRepresentationContext> other = dynamic_pointer_cast<IfcRepresentationContext>(other_entity);
-	if( !other) { return; }
-	m_ContextIdentifier = other->m_ContextIdentifier;
-	m_ContextType = other->m_ContextType;
+	shared_ptr<IfcRepresentationContext> copy_self( new IfcRepresentationContext() );
+	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy() ); }
+	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRepresentationContext::getStepLine( std::stringstream& stream ) const
 {

@@ -28,17 +28,15 @@
 IfcLagTime::IfcLagTime() {}
 IfcLagTime::IfcLagTime( int id ) { m_id = id; }
 IfcLagTime::~IfcLagTime() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLagTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLagTime::getDeepCopy()
 {
-	shared_ptr<IfcLagTime> other = dynamic_pointer_cast<IfcLagTime>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
-	m_LagValue = other->m_LagValue;
-	m_DurationType = other->m_DurationType;
+	shared_ptr<IfcLagTime> copy_self( new IfcLagTime() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_LagValue ) { copy_self->m_LagValue = dynamic_pointer_cast<IfcTimeOrRatioSelect>( m_LagValue->getDeepCopy() ); }
+	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLagTime::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcAnalysisTheoryTypeEnum 
 IfcAnalysisTheoryTypeEnum::IfcAnalysisTheoryTypeEnum() {}
 IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() {}
+shared_ptr<IfcPPObject> IfcAnalysisTheoryTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcAnalysisTheoryTypeEnum> copy_self( new IfcAnalysisTheoryTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAnalysisTheoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANALYSISTHEORYTYPEENUM("; }

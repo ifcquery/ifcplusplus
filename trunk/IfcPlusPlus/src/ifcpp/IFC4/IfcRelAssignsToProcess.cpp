@@ -34,20 +34,25 @@
 IfcRelAssignsToProcess::IfcRelAssignsToProcess() {}
 IfcRelAssignsToProcess::IfcRelAssignsToProcess( int id ) { m_id = id; }
 IfcRelAssignsToProcess::~IfcRelAssignsToProcess() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelAssignsToProcess::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelAssignsToProcess::getDeepCopy()
 {
-	shared_ptr<IfcRelAssignsToProcess> other = dynamic_pointer_cast<IfcRelAssignsToProcess>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatedObjects = other->m_RelatedObjects;
-	m_RelatedObjectsType = other->m_RelatedObjectsType;
-	m_RelatingProcess = other->m_RelatingProcess;
-	m_QuantityInProcess = other->m_QuantityInProcess;
+	shared_ptr<IfcRelAssignsToProcess> copy_self( new IfcRelAssignsToProcess() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedObjects.size(); ++ii )
+	{
+		auto item_ii = m_RelatedObjects[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy() ); }
+	if( m_RelatingProcess ) { copy_self->m_RelatingProcess = dynamic_pointer_cast<IfcProcessSelect>( m_RelatingProcess->getDeepCopy() ); }
+	if( m_QuantityInProcess ) { copy_self->m_QuantityInProcess = dynamic_pointer_cast<IfcMeasureWithUnit>( m_QuantityInProcess->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelAssignsToProcess::getStepLine( std::stringstream& stream ) const
 {

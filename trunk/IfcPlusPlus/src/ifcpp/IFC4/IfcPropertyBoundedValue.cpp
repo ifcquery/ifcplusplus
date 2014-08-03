@@ -32,18 +32,16 @@
 IfcPropertyBoundedValue::IfcPropertyBoundedValue() {}
 IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_id = id; }
 IfcPropertyBoundedValue::~IfcPropertyBoundedValue() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertyBoundedValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertyBoundedValue::getDeepCopy()
 {
-	shared_ptr<IfcPropertyBoundedValue> other = dynamic_pointer_cast<IfcPropertyBoundedValue>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_UpperBoundValue = other->m_UpperBoundValue;
-	m_LowerBoundValue = other->m_LowerBoundValue;
-	m_Unit = other->m_Unit;
-	m_SetPointValue = other->m_SetPointValue;
+	shared_ptr<IfcPropertyBoundedValue> copy_self( new IfcPropertyBoundedValue() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_UpperBoundValue ) { copy_self->m_UpperBoundValue = dynamic_pointer_cast<IfcValue>( m_UpperBoundValue->getDeepCopy() ); }
+	if( m_LowerBoundValue ) { copy_self->m_LowerBoundValue = dynamic_pointer_cast<IfcValue>( m_LowerBoundValue->getDeepCopy() ); }
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy() ); }
+	if( m_SetPointValue ) { copy_self->m_SetPointValue = dynamic_pointer_cast<IfcValue>( m_SetPointValue->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
 {

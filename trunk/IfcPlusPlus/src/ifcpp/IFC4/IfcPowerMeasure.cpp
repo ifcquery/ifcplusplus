@@ -25,6 +25,12 @@
 IfcPowerMeasure::IfcPowerMeasure() {}
 IfcPowerMeasure::IfcPowerMeasure( double value ) { m_value = value; }
 IfcPowerMeasure::~IfcPowerMeasure() {}
+shared_ptr<IfcPPObject> IfcPowerMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPowerMeasure> copy_self( new IfcPowerMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPowerMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOWERMEASURE("; }

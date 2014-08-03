@@ -27,14 +27,19 @@
 IfcCompositeCurveOnSurface::IfcCompositeCurveOnSurface() {}
 IfcCompositeCurveOnSurface::IfcCompositeCurveOnSurface( int id ) { m_id = id; }
 IfcCompositeCurveOnSurface::~IfcCompositeCurveOnSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCompositeCurveOnSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCompositeCurveOnSurface::getDeepCopy()
 {
-	shared_ptr<IfcCompositeCurveOnSurface> other = dynamic_pointer_cast<IfcCompositeCurveOnSurface>(other_entity);
-	if( !other) { return; }
-	m_Segments = other->m_Segments;
-	m_SelfIntersect = other->m_SelfIntersect;
+	shared_ptr<IfcCompositeCurveOnSurface> copy_self( new IfcCompositeCurveOnSurface() );
+	for( size_t ii=0; ii<m_Segments.size(); ++ii )
+	{
+		auto item_ii = m_Segments[ii];
+		if( item_ii )
+		{
+			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	return copy_self;
 }
 void IfcCompositeCurveOnSurface::getStepLine( std::stringstream& stream ) const
 {

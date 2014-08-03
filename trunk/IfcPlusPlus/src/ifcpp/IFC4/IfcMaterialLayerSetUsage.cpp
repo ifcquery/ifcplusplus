@@ -30,17 +30,15 @@
 IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage() {}
 IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage( int id ) { m_id = id; }
 IfcMaterialLayerSetUsage::~IfcMaterialLayerSetUsage() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialLayerSetUsage::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialLayerSetUsage::getDeepCopy()
 {
-	shared_ptr<IfcMaterialLayerSetUsage> other = dynamic_pointer_cast<IfcMaterialLayerSetUsage>(other_entity);
-	if( !other) { return; }
-	m_ForLayerSet = other->m_ForLayerSet;
-	m_LayerSetDirection = other->m_LayerSetDirection;
-	m_DirectionSense = other->m_DirectionSense;
-	m_OffsetFromReferenceLine = other->m_OffsetFromReferenceLine;
-	m_ReferenceExtent = other->m_ReferenceExtent;
+	shared_ptr<IfcMaterialLayerSetUsage> copy_self( new IfcMaterialLayerSetUsage() );
+	if( m_ForLayerSet ) { copy_self->m_ForLayerSet = dynamic_pointer_cast<IfcMaterialLayerSet>( m_ForLayerSet->getDeepCopy() ); }
+	if( m_LayerSetDirection ) { copy_self->m_LayerSetDirection = dynamic_pointer_cast<IfcLayerSetDirectionEnum>( m_LayerSetDirection->getDeepCopy() ); }
+	if( m_DirectionSense ) { copy_self->m_DirectionSense = dynamic_pointer_cast<IfcDirectionSenseEnum>( m_DirectionSense->getDeepCopy() ); }
+	if( m_OffsetFromReferenceLine ) { copy_self->m_OffsetFromReferenceLine = dynamic_pointer_cast<IfcLengthMeasure>( m_OffsetFromReferenceLine->getDeepCopy() ); }
+	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
 {

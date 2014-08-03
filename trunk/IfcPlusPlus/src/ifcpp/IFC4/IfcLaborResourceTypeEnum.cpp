@@ -23,6 +23,12 @@
 // TYPE IfcLaborResourceTypeEnum 
 IfcLaborResourceTypeEnum::IfcLaborResourceTypeEnum() {}
 IfcLaborResourceTypeEnum::~IfcLaborResourceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcLaborResourceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcLaborResourceTypeEnum> copy_self( new IfcLaborResourceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLaborResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLABORRESOURCETYPEENUM("; }

@@ -25,6 +25,12 @@
 IfcSpecificHeatCapacityMeasure::IfcSpecificHeatCapacityMeasure() {}
 IfcSpecificHeatCapacityMeasure::IfcSpecificHeatCapacityMeasure( double value ) { m_value = value; }
 IfcSpecificHeatCapacityMeasure::~IfcSpecificHeatCapacityMeasure() {}
+shared_ptr<IfcPPObject> IfcSpecificHeatCapacityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcSpecificHeatCapacityMeasure> copy_self( new IfcSpecificHeatCapacityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSpecificHeatCapacityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECIFICHEATCAPACITYMEASURE("; }

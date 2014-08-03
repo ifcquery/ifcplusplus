@@ -25,13 +25,18 @@
 IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures() {}
 IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures( int id ) { m_id = id; }
 IfcSurfaceStyleWithTextures::~IfcSurfaceStyleWithTextures() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceStyleWithTextures::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceStyleWithTextures::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceStyleWithTextures> other = dynamic_pointer_cast<IfcSurfaceStyleWithTextures>(other_entity);
-	if( !other) { return; }
-	m_Textures = other->m_Textures;
+	shared_ptr<IfcSurfaceStyleWithTextures> copy_self( new IfcSurfaceStyleWithTextures() );
+	for( size_t ii=0; ii<m_Textures.size(); ++ii )
+	{
+		auto item_ii = m_Textures[ii];
+		if( item_ii )
+		{
+			copy_self->m_Textures.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcSurfaceStyleWithTextures::getStepLine( std::stringstream& stream ) const
 {

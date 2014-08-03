@@ -25,6 +25,12 @@
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure() {}
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure( double value ) { m_value = value; }
 IfcIsothermalMoistureCapacityMeasure::~IfcIsothermalMoistureCapacityMeasure() {}
+shared_ptr<IfcPPObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcIsothermalMoistureCapacityMeasure> copy_self( new IfcIsothermalMoistureCapacityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcIsothermalMoistureCapacityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCISOTHERMALMOISTURECAPACITYMEASURE("; }

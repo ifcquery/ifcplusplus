@@ -25,6 +25,12 @@
 IfcTime::IfcTime() {}
 IfcTime::IfcTime( std::wstring value ) { m_value = value; }
 IfcTime::~IfcTime() {}
+shared_ptr<IfcPPObject> IfcTime::getDeepCopy()
+{
+	shared_ptr<IfcTime> copy_self( new IfcTime() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTime::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIME("; }

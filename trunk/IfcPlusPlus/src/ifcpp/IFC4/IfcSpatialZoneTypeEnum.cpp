@@ -23,6 +23,12 @@
 // TYPE IfcSpatialZoneTypeEnum 
 IfcSpatialZoneTypeEnum::IfcSpatialZoneTypeEnum() {}
 IfcSpatialZoneTypeEnum::~IfcSpatialZoneTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSpatialZoneTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSpatialZoneTypeEnum> copy_self( new IfcSpatialZoneTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSpatialZoneTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPATIALZONETYPEENUM("; }

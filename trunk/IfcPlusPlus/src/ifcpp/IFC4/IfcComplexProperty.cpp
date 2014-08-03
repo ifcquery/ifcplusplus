@@ -30,16 +30,21 @@
 IfcComplexProperty::IfcComplexProperty() {}
 IfcComplexProperty::IfcComplexProperty( int id ) { m_id = id; }
 IfcComplexProperty::~IfcComplexProperty() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcComplexProperty::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcComplexProperty::getDeepCopy()
 {
-	shared_ptr<IfcComplexProperty> other = dynamic_pointer_cast<IfcComplexProperty>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_UsageName = other->m_UsageName;
-	m_HasProperties = other->m_HasProperties;
+	shared_ptr<IfcComplexProperty> copy_self( new IfcComplexProperty() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcIdentifier>( m_UsageName->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasProperties.size(); ++ii )
+	{
+		auto item_ii = m_HasProperties[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasProperties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcComplexProperty::getStepLine( std::stringstream& stream ) const
 {

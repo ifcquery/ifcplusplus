@@ -29,18 +29,23 @@
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties() {}
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int id ) { m_id = id; }
 IfcSectionReinforcementProperties::~IfcSectionReinforcementProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSectionReinforcementProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSectionReinforcementProperties::getDeepCopy()
 {
-	shared_ptr<IfcSectionReinforcementProperties> other = dynamic_pointer_cast<IfcSectionReinforcementProperties>(other_entity);
-	if( !other) { return; }
-	m_LongitudinalStartPosition = other->m_LongitudinalStartPosition;
-	m_LongitudinalEndPosition = other->m_LongitudinalEndPosition;
-	m_TransversePosition = other->m_TransversePosition;
-	m_ReinforcementRole = other->m_ReinforcementRole;
-	m_SectionDefinition = other->m_SectionDefinition;
-	m_CrossSectionReinforcementDefinitions = other->m_CrossSectionReinforcementDefinitions;
+	shared_ptr<IfcSectionReinforcementProperties> copy_self( new IfcSectionReinforcementProperties() );
+	if( m_LongitudinalStartPosition ) { copy_self->m_LongitudinalStartPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalStartPosition->getDeepCopy() ); }
+	if( m_LongitudinalEndPosition ) { copy_self->m_LongitudinalEndPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalEndPosition->getDeepCopy() ); }
+	if( m_TransversePosition ) { copy_self->m_TransversePosition = dynamic_pointer_cast<IfcLengthMeasure>( m_TransversePosition->getDeepCopy() ); }
+	if( m_ReinforcementRole ) { copy_self->m_ReinforcementRole = dynamic_pointer_cast<IfcReinforcingBarRoleEnum>( m_ReinforcementRole->getDeepCopy() ); }
+	if( m_SectionDefinition ) { copy_self->m_SectionDefinition = dynamic_pointer_cast<IfcSectionProperties>( m_SectionDefinition->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_CrossSectionReinforcementDefinitions.size(); ++ii )
+	{
+		auto item_ii = m_CrossSectionReinforcementDefinitions[ii];
+		if( item_ii )
+		{
+			copy_self->m_CrossSectionReinforcementDefinitions.push_back( dynamic_pointer_cast<IfcReinforcementBarProperties>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream ) const
 {

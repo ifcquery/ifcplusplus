@@ -24,6 +24,12 @@
 IfcFontWeight::IfcFontWeight() {}
 IfcFontWeight::IfcFontWeight( std::wstring value ) { m_value = value; }
 IfcFontWeight::~IfcFontWeight() {}
+shared_ptr<IfcPPObject> IfcFontWeight::getDeepCopy()
+{
+	shared_ptr<IfcFontWeight> copy_self( new IfcFontWeight() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcFontWeight::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFONTWEIGHT("; }

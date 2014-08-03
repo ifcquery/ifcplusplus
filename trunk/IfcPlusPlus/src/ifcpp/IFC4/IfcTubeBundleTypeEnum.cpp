@@ -23,6 +23,12 @@
 // TYPE IfcTubeBundleTypeEnum 
 IfcTubeBundleTypeEnum::IfcTubeBundleTypeEnum() {}
 IfcTubeBundleTypeEnum::~IfcTubeBundleTypeEnum() {}
+shared_ptr<IfcPPObject> IfcTubeBundleTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcTubeBundleTypeEnum> copy_self( new IfcTubeBundleTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTubeBundleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTUBEBUNDLETYPEENUM("; }

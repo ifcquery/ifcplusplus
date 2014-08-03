@@ -36,21 +36,26 @@
 IfcContext::IfcContext() {}
 IfcContext::IfcContext( int id ) { m_id = id; }
 IfcContext::~IfcContext() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcContext::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcContext::getDeepCopy()
 {
-	shared_ptr<IfcContext> other = dynamic_pointer_cast<IfcContext>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_LongName = other->m_LongName;
-	m_Phase = other->m_Phase;
-	m_RepresentationContexts = other->m_RepresentationContexts;
-	m_UnitsInContext = other->m_UnitsInContext;
+	shared_ptr<IfcContext> copy_self( new IfcContext() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_LongName ) { copy_self->m_LongName = dynamic_pointer_cast<IfcLabel>( m_LongName->getDeepCopy() ); }
+	if( m_Phase ) { copy_self->m_Phase = dynamic_pointer_cast<IfcLabel>( m_Phase->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RepresentationContexts.size(); ++ii )
+	{
+		auto item_ii = m_RepresentationContexts[ii];
+		if( item_ii )
+		{
+			copy_self->m_RepresentationContexts.push_back( dynamic_pointer_cast<IfcRepresentationContext>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_UnitsInContext ) { copy_self->m_UnitsInContext = dynamic_pointer_cast<IfcUnitAssignment>( m_UnitsInContext->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcContext::getStepLine( std::stringstream& stream ) const
 {

@@ -26,16 +26,14 @@
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce() {}
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int id ) { m_id = id; }
 IfcStructuralLoadPlanarForce::~IfcStructuralLoadPlanarForce() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadPlanarForce::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadPlanarForce::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadPlanarForce> other = dynamic_pointer_cast<IfcStructuralLoadPlanarForce>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_PlanarForceX = other->m_PlanarForceX;
-	m_PlanarForceY = other->m_PlanarForceY;
-	m_PlanarForceZ = other->m_PlanarForceZ;
+	shared_ptr<IfcStructuralLoadPlanarForce> copy_self( new IfcStructuralLoadPlanarForce() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_PlanarForceX ) { copy_self->m_PlanarForceX = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceX->getDeepCopy() ); }
+	if( m_PlanarForceY ) { copy_self->m_PlanarForceY = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceY->getDeepCopy() ); }
+	if( m_PlanarForceZ ) { copy_self->m_PlanarForceZ = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) const
 {

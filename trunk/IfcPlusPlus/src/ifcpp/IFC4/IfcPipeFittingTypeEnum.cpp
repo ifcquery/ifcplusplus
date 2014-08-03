@@ -23,6 +23,12 @@
 // TYPE IfcPipeFittingTypeEnum 
 IfcPipeFittingTypeEnum::IfcPipeFittingTypeEnum() {}
 IfcPipeFittingTypeEnum::~IfcPipeFittingTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPipeFittingTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPipeFittingTypeEnum> copy_self( new IfcPipeFittingTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPIPEFITTINGTYPEENUM("; }

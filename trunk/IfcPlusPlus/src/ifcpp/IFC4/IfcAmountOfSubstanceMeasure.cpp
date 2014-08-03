@@ -25,6 +25,12 @@
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure() {}
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure( double value ) { m_value = value; }
 IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() {}
+shared_ptr<IfcPPObject> IfcAmountOfSubstanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcAmountOfSubstanceMeasure> copy_self( new IfcAmountOfSubstanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcAmountOfSubstanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAMOUNTOFSUBSTANCEMEASURE("; }

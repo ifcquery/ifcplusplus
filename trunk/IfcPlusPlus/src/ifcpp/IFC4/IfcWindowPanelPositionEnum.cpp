@@ -23,6 +23,12 @@
 // TYPE IfcWindowPanelPositionEnum 
 IfcWindowPanelPositionEnum::IfcWindowPanelPositionEnum() {}
 IfcWindowPanelPositionEnum::~IfcWindowPanelPositionEnum() {}
+shared_ptr<IfcPPObject> IfcWindowPanelPositionEnum::getDeepCopy()
+{
+	shared_ptr<IfcWindowPanelPositionEnum> copy_self( new IfcWindowPanelPositionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWindowPanelPositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWPANELPOSITIONENUM("; }

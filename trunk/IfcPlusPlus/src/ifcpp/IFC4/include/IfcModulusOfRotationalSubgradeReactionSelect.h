@@ -25,8 +25,8 @@ public:
 	IfcModulusOfRotationalSubgradeReactionSelect();
 	~IfcModulusOfRotationalSubgradeReactionSelect();
 	virtual const char* classname() const { return "IfcModulusOfRotationalSubgradeReactionSelect"; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {
-	}; // overwritten, abstract class
+	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
 	static shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

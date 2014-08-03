@@ -23,6 +23,12 @@
 // TYPE IfcShadingDeviceTypeEnum 
 IfcShadingDeviceTypeEnum::IfcShadingDeviceTypeEnum() {}
 IfcShadingDeviceTypeEnum::~IfcShadingDeviceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcShadingDeviceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcShadingDeviceTypeEnum> copy_self( new IfcShadingDeviceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSHADINGDEVICETYPEENUM("; }

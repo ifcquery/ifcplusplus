@@ -23,6 +23,12 @@
 // TYPE IfcProjectionElementTypeEnum 
 IfcProjectionElementTypeEnum::IfcProjectionElementTypeEnum() {}
 IfcProjectionElementTypeEnum::~IfcProjectionElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcProjectionElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcProjectionElementTypeEnum> copy_self( new IfcProjectionElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTIONELEMENTTYPEENUM("; }

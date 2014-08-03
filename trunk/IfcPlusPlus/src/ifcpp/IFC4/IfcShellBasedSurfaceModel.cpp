@@ -27,13 +27,18 @@
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel() {}
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel( int id ) { m_id = id; }
 IfcShellBasedSurfaceModel::~IfcShellBasedSurfaceModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcShellBasedSurfaceModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcShellBasedSurfaceModel::getDeepCopy()
 {
-	shared_ptr<IfcShellBasedSurfaceModel> other = dynamic_pointer_cast<IfcShellBasedSurfaceModel>(other_entity);
-	if( !other) { return; }
-	m_SbsmBoundary = other->m_SbsmBoundary;
+	shared_ptr<IfcShellBasedSurfaceModel> copy_self( new IfcShellBasedSurfaceModel() );
+	for( size_t ii=0; ii<m_SbsmBoundary.size(); ++ii )
+	{
+		auto item_ii = m_SbsmBoundary[ii];
+		if( item_ii )
+		{
+			copy_self->m_SbsmBoundary.push_back( dynamic_pointer_cast<IfcShell>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {

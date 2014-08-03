@@ -27,13 +27,18 @@
 IfcGeometricCurveSet::IfcGeometricCurveSet() {}
 IfcGeometricCurveSet::IfcGeometricCurveSet( int id ) { m_id = id; }
 IfcGeometricCurveSet::~IfcGeometricCurveSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGeometricCurveSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGeometricCurveSet::getDeepCopy()
 {
-	shared_ptr<IfcGeometricCurveSet> other = dynamic_pointer_cast<IfcGeometricCurveSet>(other_entity);
-	if( !other) { return; }
-	m_Elements = other->m_Elements;
+	shared_ptr<IfcGeometricCurveSet> copy_self( new IfcGeometricCurveSet() );
+	for( size_t ii=0; ii<m_Elements.size(); ++ii )
+	{
+		auto item_ii = m_Elements[ii];
+		if( item_ii )
+		{
+			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) const
 {

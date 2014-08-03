@@ -25,6 +25,12 @@
 IfcLogical::IfcLogical() {}
 IfcLogical::IfcLogical( LogicalEnum value ) { m_value = value; }
 IfcLogical::~IfcLogical() {}
+shared_ptr<IfcPPObject> IfcLogical::getDeepCopy()
+{
+	shared_ptr<IfcLogical> copy_self( new IfcLogical() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLOGICAL("; }

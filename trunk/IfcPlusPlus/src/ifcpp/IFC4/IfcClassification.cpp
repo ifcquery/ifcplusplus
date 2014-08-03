@@ -31,19 +31,24 @@
 IfcClassification::IfcClassification() {}
 IfcClassification::IfcClassification( int id ) { m_id = id; }
 IfcClassification::~IfcClassification() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcClassification::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcClassification::getDeepCopy()
 {
-	shared_ptr<IfcClassification> other = dynamic_pointer_cast<IfcClassification>(other_entity);
-	if( !other) { return; }
-	m_Source = other->m_Source;
-	m_Edition = other->m_Edition;
-	m_EditionDate = other->m_EditionDate;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Location = other->m_Location;
-	m_ReferenceTokens = other->m_ReferenceTokens;
+	shared_ptr<IfcClassification> copy_self( new IfcClassification() );
+	if( m_Source ) { copy_self->m_Source = dynamic_pointer_cast<IfcLabel>( m_Source->getDeepCopy() ); }
+	if( m_Edition ) { copy_self->m_Edition = dynamic_pointer_cast<IfcLabel>( m_Edition->getDeepCopy() ); }
+	if( m_EditionDate ) { copy_self->m_EditionDate = dynamic_pointer_cast<IfcDate>( m_EditionDate->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_ReferenceTokens.size(); ++ii )
+	{
+		auto item_ii = m_ReferenceTokens[ii];
+		if( item_ii )
+		{
+			copy_self->m_ReferenceTokens.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcClassification::getStepLine( std::stringstream& stream ) const
 {

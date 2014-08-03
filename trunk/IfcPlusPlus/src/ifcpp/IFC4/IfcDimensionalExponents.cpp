@@ -24,19 +24,17 @@
 IfcDimensionalExponents::IfcDimensionalExponents() {}
 IfcDimensionalExponents::IfcDimensionalExponents( int id ) { m_id = id; }
 IfcDimensionalExponents::~IfcDimensionalExponents() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDimensionalExponents::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDimensionalExponents::getDeepCopy()
 {
-	shared_ptr<IfcDimensionalExponents> other = dynamic_pointer_cast<IfcDimensionalExponents>(other_entity);
-	if( !other) { return; }
-	m_LengthExponent = other->m_LengthExponent;
-	m_MassExponent = other->m_MassExponent;
-	m_TimeExponent = other->m_TimeExponent;
-	m_ElectricCurrentExponent = other->m_ElectricCurrentExponent;
-	m_ThermodynamicTemperatureExponent = other->m_ThermodynamicTemperatureExponent;
-	m_AmountOfSubstanceExponent = other->m_AmountOfSubstanceExponent;
-	m_LuminousIntensityExponent = other->m_LuminousIntensityExponent;
+	shared_ptr<IfcDimensionalExponents> copy_self( new IfcDimensionalExponents() );
+	if( m_LengthExponent ) { copy_self->m_LengthExponent = m_LengthExponent; }
+	if( m_MassExponent ) { copy_self->m_MassExponent = m_MassExponent; }
+	if( m_TimeExponent ) { copy_self->m_TimeExponent = m_TimeExponent; }
+	if( m_ElectricCurrentExponent ) { copy_self->m_ElectricCurrentExponent = m_ElectricCurrentExponent; }
+	if( m_ThermodynamicTemperatureExponent ) { copy_self->m_ThermodynamicTemperatureExponent = m_ThermodynamicTemperatureExponent; }
+	if( m_AmountOfSubstanceExponent ) { copy_self->m_AmountOfSubstanceExponent = m_AmountOfSubstanceExponent; }
+	if( m_LuminousIntensityExponent ) { copy_self->m_LuminousIntensityExponent = m_LuminousIntensityExponent; }
+	return copy_self;
 }
 void IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 {

@@ -25,6 +25,12 @@
 IfcSpecularRoughness::IfcSpecularRoughness() {}
 IfcSpecularRoughness::IfcSpecularRoughness( double value ) { m_value = value; }
 IfcSpecularRoughness::~IfcSpecularRoughness() {}
+shared_ptr<IfcPPObject> IfcSpecularRoughness::getDeepCopy()
+{
+	shared_ptr<IfcSpecularRoughness> copy_self( new IfcSpecularRoughness() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSpecularRoughness::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECULARROUGHNESS("; }

@@ -23,6 +23,12 @@
 // TYPE IfcGlobalOrLocalEnum 
 IfcGlobalOrLocalEnum::IfcGlobalOrLocalEnum() {}
 IfcGlobalOrLocalEnum::~IfcGlobalOrLocalEnum() {}
+shared_ptr<IfcPPObject> IfcGlobalOrLocalEnum::getDeepCopy()
+{
+	shared_ptr<IfcGlobalOrLocalEnum> copy_self( new IfcGlobalOrLocalEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcGlobalOrLocalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGLOBALORLOCALENUM("; }

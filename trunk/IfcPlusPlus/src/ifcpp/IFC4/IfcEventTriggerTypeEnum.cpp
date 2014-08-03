@@ -23,6 +23,12 @@
 // TYPE IfcEventTriggerTypeEnum 
 IfcEventTriggerTypeEnum::IfcEventTriggerTypeEnum() {}
 IfcEventTriggerTypeEnum::~IfcEventTriggerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcEventTriggerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcEventTriggerTypeEnum> copy_self( new IfcEventTriggerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcEventTriggerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEVENTTRIGGERTYPEENUM("; }

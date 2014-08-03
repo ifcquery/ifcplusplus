@@ -24,6 +24,12 @@
 IfcFontVariant::IfcFontVariant() {}
 IfcFontVariant::IfcFontVariant( std::wstring value ) { m_value = value; }
 IfcFontVariant::~IfcFontVariant() {}
+shared_ptr<IfcPPObject> IfcFontVariant::getDeepCopy()
+{
+	shared_ptr<IfcFontVariant> copy_self( new IfcFontVariant() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcFontVariant::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFONTVARIANT("; }

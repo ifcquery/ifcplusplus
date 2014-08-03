@@ -28,14 +28,12 @@
 IfcLine::IfcLine() {}
 IfcLine::IfcLine( int id ) { m_id = id; }
 IfcLine::~IfcLine() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLine::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLine::getDeepCopy()
 {
-	shared_ptr<IfcLine> other = dynamic_pointer_cast<IfcLine>(other_entity);
-	if( !other) { return; }
-	m_Pnt = other->m_Pnt;
-	m_Dir = other->m_Dir;
+	shared_ptr<IfcLine> copy_self( new IfcLine() );
+	if( m_Pnt ) { copy_self->m_Pnt = dynamic_pointer_cast<IfcCartesianPoint>( m_Pnt->getDeepCopy() ); }
+	if( m_Dir ) { copy_self->m_Dir = dynamic_pointer_cast<IfcVector>( m_Dir->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLine::getStepLine( std::stringstream& stream ) const
 {

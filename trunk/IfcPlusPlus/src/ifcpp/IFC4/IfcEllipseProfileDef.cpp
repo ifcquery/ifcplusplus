@@ -30,17 +30,15 @@
 IfcEllipseProfileDef::IfcEllipseProfileDef() {}
 IfcEllipseProfileDef::IfcEllipseProfileDef( int id ) { m_id = id; }
 IfcEllipseProfileDef::~IfcEllipseProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcEllipseProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcEllipseProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcEllipseProfileDef> other = dynamic_pointer_cast<IfcEllipseProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_SemiAxis1 = other->m_SemiAxis1;
-	m_SemiAxis2 = other->m_SemiAxis2;
+	shared_ptr<IfcEllipseProfileDef> copy_self( new IfcEllipseProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_SemiAxis1 ) { copy_self->m_SemiAxis1 = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SemiAxis1->getDeepCopy() ); }
+	if( m_SemiAxis2 ) { copy_self->m_SemiAxis2 = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SemiAxis2->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcEllipseProfileDef::getStepLine( std::stringstream& stream ) const
 {

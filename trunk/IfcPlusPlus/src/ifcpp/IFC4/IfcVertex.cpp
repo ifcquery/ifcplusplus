@@ -26,12 +26,10 @@
 IfcVertex::IfcVertex() {}
 IfcVertex::IfcVertex( int id ) { m_id = id; }
 IfcVertex::~IfcVertex() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcVertex::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcVertex::getDeepCopy()
 {
-	shared_ptr<IfcVertex> other = dynamic_pointer_cast<IfcVertex>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcVertex> copy_self( new IfcVertex() );
+	return copy_self;
 }
 void IfcVertex::getStepLine( std::stringstream& stream ) const
 {

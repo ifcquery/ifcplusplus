@@ -23,6 +23,12 @@
 // TYPE IfcStructuralCurveMemberTypeEnum 
 IfcStructuralCurveMemberTypeEnum::IfcStructuralCurveMemberTypeEnum() {}
 IfcStructuralCurveMemberTypeEnum::~IfcStructuralCurveMemberTypeEnum() {}
+shared_ptr<IfcPPObject> IfcStructuralCurveMemberTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcStructuralCurveMemberTypeEnum> copy_self( new IfcStructuralCurveMemberTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEMEMBERTYPEENUM("; }

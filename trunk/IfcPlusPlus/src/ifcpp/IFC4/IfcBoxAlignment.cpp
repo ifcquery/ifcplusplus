@@ -23,6 +23,12 @@
 // TYPE IfcBoxAlignment 
 IfcBoxAlignment::IfcBoxAlignment() {}
 IfcBoxAlignment::~IfcBoxAlignment() {}
+shared_ptr<IfcPPObject> IfcBoxAlignment::getDeepCopy()
+{
+	shared_ptr<IfcBoxAlignment> copy_self( new IfcBoxAlignment() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcBoxAlignment::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOXALIGNMENT("; }

@@ -31,18 +31,16 @@
 IfcReinforcementBarProperties::IfcReinforcementBarProperties() {}
 IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_id = id; }
 IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcReinforcementBarProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcReinforcementBarProperties::getDeepCopy()
 {
-	shared_ptr<IfcReinforcementBarProperties> other = dynamic_pointer_cast<IfcReinforcementBarProperties>(other_entity);
-	if( !other) { return; }
-	m_TotalCrossSectionArea = other->m_TotalCrossSectionArea;
-	m_SteelGrade = other->m_SteelGrade;
-	m_BarSurface = other->m_BarSurface;
-	m_EffectiveDepth = other->m_EffectiveDepth;
-	m_NominalBarDiameter = other->m_NominalBarDiameter;
-	m_BarCount = other->m_BarCount;
+	shared_ptr<IfcReinforcementBarProperties> copy_self( new IfcReinforcementBarProperties() );
+	if( m_TotalCrossSectionArea ) { copy_self->m_TotalCrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_TotalCrossSectionArea->getDeepCopy() ); }
+	if( m_SteelGrade ) { copy_self->m_SteelGrade = dynamic_pointer_cast<IfcLabel>( m_SteelGrade->getDeepCopy() ); }
+	if( m_BarSurface ) { copy_self->m_BarSurface = dynamic_pointer_cast<IfcReinforcingBarSurfaceEnum>( m_BarSurface->getDeepCopy() ); }
+	if( m_EffectiveDepth ) { copy_self->m_EffectiveDepth = dynamic_pointer_cast<IfcLengthMeasure>( m_EffectiveDepth->getDeepCopy() ); }
+	if( m_NominalBarDiameter ) { copy_self->m_NominalBarDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalBarDiameter->getDeepCopy() ); }
+	if( m_BarCount ) { copy_self->m_BarCount = dynamic_pointer_cast<IfcCountMeasure>( m_BarCount->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) const
 {

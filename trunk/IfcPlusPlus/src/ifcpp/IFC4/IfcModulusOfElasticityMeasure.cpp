@@ -25,6 +25,12 @@
 IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure() {}
 IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure( double value ) { m_value = value; }
 IfcModulusOfElasticityMeasure::~IfcModulusOfElasticityMeasure() {}
+shared_ptr<IfcPPObject> IfcModulusOfElasticityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcModulusOfElasticityMeasure> copy_self( new IfcModulusOfElasticityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcModulusOfElasticityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFELASTICITYMEASURE("; }

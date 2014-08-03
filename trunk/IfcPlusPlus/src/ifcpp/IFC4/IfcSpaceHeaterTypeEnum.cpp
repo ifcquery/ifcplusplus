@@ -23,6 +23,12 @@
 // TYPE IfcSpaceHeaterTypeEnum 
 IfcSpaceHeaterTypeEnum::IfcSpaceHeaterTypeEnum() {}
 IfcSpaceHeaterTypeEnum::~IfcSpaceHeaterTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSpaceHeaterTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSpaceHeaterTypeEnum> copy_self( new IfcSpaceHeaterTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSpaceHeaterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPACEHEATERTYPEENUM("; }

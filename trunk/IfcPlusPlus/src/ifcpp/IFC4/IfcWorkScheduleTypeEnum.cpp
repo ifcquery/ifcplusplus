@@ -23,6 +23,12 @@
 // TYPE IfcWorkScheduleTypeEnum 
 IfcWorkScheduleTypeEnum::IfcWorkScheduleTypeEnum() {}
 IfcWorkScheduleTypeEnum::~IfcWorkScheduleTypeEnum() {}
+shared_ptr<IfcPPObject> IfcWorkScheduleTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcWorkScheduleTypeEnum> copy_self( new IfcWorkScheduleTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWorkScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKSCHEDULETYPEENUM("; }

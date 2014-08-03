@@ -25,6 +25,12 @@
 IfcRadioActivityMeasure::IfcRadioActivityMeasure() {}
 IfcRadioActivityMeasure::IfcRadioActivityMeasure( double value ) { m_value = value; }
 IfcRadioActivityMeasure::~IfcRadioActivityMeasure() {}
+shared_ptr<IfcPPObject> IfcRadioActivityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcRadioActivityMeasure> copy_self( new IfcRadioActivityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcRadioActivityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRADIOACTIVITYMEASURE("; }

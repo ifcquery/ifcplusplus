@@ -23,6 +23,12 @@
 // TYPE IfcFlowMeterTypeEnum 
 IfcFlowMeterTypeEnum::IfcFlowMeterTypeEnum() {}
 IfcFlowMeterTypeEnum::~IfcFlowMeterTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFlowMeterTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFlowMeterTypeEnum> copy_self( new IfcFlowMeterTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFlowMeterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWMETERTYPEENUM("; }

@@ -23,6 +23,12 @@
 // TYPE IfcReflectanceMethodEnum 
 IfcReflectanceMethodEnum::IfcReflectanceMethodEnum() {}
 IfcReflectanceMethodEnum::~IfcReflectanceMethodEnum() {}
+shared_ptr<IfcPPObject> IfcReflectanceMethodEnum::getDeepCopy()
+{
+	shared_ptr<IfcReflectanceMethodEnum> copy_self( new IfcReflectanceMethodEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcReflectanceMethodEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREFLECTANCEMETHODENUM("; }

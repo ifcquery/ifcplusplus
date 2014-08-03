@@ -28,15 +28,13 @@
 IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage() {}
 IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int id ) { m_id = id; }
 IfcMaterialProfileSetUsage::~IfcMaterialProfileSetUsage() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialProfileSetUsage::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialProfileSetUsage::getDeepCopy()
 {
-	shared_ptr<IfcMaterialProfileSetUsage> other = dynamic_pointer_cast<IfcMaterialProfileSetUsage>(other_entity);
-	if( !other) { return; }
-	m_ForProfileSet = other->m_ForProfileSet;
-	m_CardinalPoint = other->m_CardinalPoint;
-	m_ReferenceExtent = other->m_ReferenceExtent;
+	shared_ptr<IfcMaterialProfileSetUsage> copy_self( new IfcMaterialProfileSetUsage() );
+	if( m_ForProfileSet ) { copy_self->m_ForProfileSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileSet->getDeepCopy() ); }
+	if( m_CardinalPoint ) { copy_self->m_CardinalPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalPoint->getDeepCopy() ); }
+	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialProfileSetUsage::getStepLine( std::stringstream& stream ) const
 {

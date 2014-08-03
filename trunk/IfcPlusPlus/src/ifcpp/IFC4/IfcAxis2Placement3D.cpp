@@ -28,15 +28,13 @@
 IfcAxis2Placement3D::IfcAxis2Placement3D() {}
 IfcAxis2Placement3D::IfcAxis2Placement3D( int id ) { m_id = id; }
 IfcAxis2Placement3D::~IfcAxis2Placement3D() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAxis2Placement3D::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAxis2Placement3D::getDeepCopy()
 {
-	shared_ptr<IfcAxis2Placement3D> other = dynamic_pointer_cast<IfcAxis2Placement3D>(other_entity);
-	if( !other) { return; }
-	m_Location = other->m_Location;
-	m_Axis = other->m_Axis;
-	m_RefDirection = other->m_RefDirection;
+	shared_ptr<IfcAxis2Placement3D> copy_self( new IfcAxis2Placement3D() );
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy() ); }
+	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcDirection>( m_Axis->getDeepCopy() ); }
+	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcAxis2Placement3D::getStepLine( std::stringstream& stream ) const
 {

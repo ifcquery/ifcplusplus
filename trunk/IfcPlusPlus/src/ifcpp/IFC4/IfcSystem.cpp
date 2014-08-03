@@ -38,17 +38,15 @@
 IfcSystem::IfcSystem() {}
 IfcSystem::IfcSystem( int id ) { m_id = id; }
 IfcSystem::~IfcSystem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSystem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSystem::getDeepCopy()
 {
-	shared_ptr<IfcSystem> other = dynamic_pointer_cast<IfcSystem>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
+	shared_ptr<IfcSystem> copy_self( new IfcSystem() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSystem::getStepLine( std::stringstream& stream ) const
 {

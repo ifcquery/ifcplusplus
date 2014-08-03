@@ -30,18 +30,23 @@
 IfcTextStyleFontModel::IfcTextStyleFontModel() {}
 IfcTextStyleFontModel::IfcTextStyleFontModel( int id ) { m_id = id; }
 IfcTextStyleFontModel::~IfcTextStyleFontModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextStyleFontModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextStyleFontModel::getDeepCopy()
 {
-	shared_ptr<IfcTextStyleFontModel> other = dynamic_pointer_cast<IfcTextStyleFontModel>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_FontFamily = other->m_FontFamily;
-	m_FontStyle = other->m_FontStyle;
-	m_FontVariant = other->m_FontVariant;
-	m_FontWeight = other->m_FontWeight;
-	m_FontSize = other->m_FontSize;
+	shared_ptr<IfcTextStyleFontModel> copy_self( new IfcTextStyleFontModel() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_FontFamily.size(); ++ii )
+	{
+		auto item_ii = m_FontFamily[ii];
+		if( item_ii )
+		{
+			copy_self->m_FontFamily.push_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_FontStyle ) { copy_self->m_FontStyle = dynamic_pointer_cast<IfcFontStyle>( m_FontStyle->getDeepCopy() ); }
+	if( m_FontVariant ) { copy_self->m_FontVariant = dynamic_pointer_cast<IfcFontVariant>( m_FontVariant->getDeepCopy() ); }
+	if( m_FontWeight ) { copy_self->m_FontWeight = dynamic_pointer_cast<IfcFontWeight>( m_FontWeight->getDeepCopy() ); }
+	if( m_FontSize ) { copy_self->m_FontSize = dynamic_pointer_cast<IfcSizeSelect>( m_FontSize->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 {

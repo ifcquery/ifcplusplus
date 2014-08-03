@@ -24,6 +24,12 @@
 IfcMonthInYearNumber::IfcMonthInYearNumber() {}
 IfcMonthInYearNumber::IfcMonthInYearNumber( int value ) { m_value = value; }
 IfcMonthInYearNumber::~IfcMonthInYearNumber() {}
+shared_ptr<IfcPPObject> IfcMonthInYearNumber::getDeepCopy()
+{
+	shared_ptr<IfcMonthInYearNumber> copy_self( new IfcMonthInYearNumber() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMonthInYearNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMONTHINYEARNUMBER("; }

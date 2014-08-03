@@ -37,6 +37,7 @@ public:
 	IfcDocumentConfidentialityEnum( IfcDocumentConfidentialityEnumEnum e ) { m_enum = e; }
 	~IfcDocumentConfidentialityEnum();
 	virtual const char* classname() const { return "IfcDocumentConfidentialityEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDocumentConfidentialityEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcDocumentConfidentialityEnumEnum m_enum;

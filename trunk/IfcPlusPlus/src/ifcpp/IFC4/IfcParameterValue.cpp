@@ -26,6 +26,12 @@
 IfcParameterValue::IfcParameterValue() {}
 IfcParameterValue::IfcParameterValue( double value ) { m_value = value; }
 IfcParameterValue::~IfcParameterValue() {}
+shared_ptr<IfcPPObject> IfcParameterValue::getDeepCopy()
+{
+	shared_ptr<IfcParameterValue> copy_self( new IfcParameterValue() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcParameterValue::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPARAMETERVALUE("; }

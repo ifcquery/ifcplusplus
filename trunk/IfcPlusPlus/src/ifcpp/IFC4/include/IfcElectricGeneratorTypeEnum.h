@@ -36,6 +36,7 @@ public:
 	IfcElectricGeneratorTypeEnum( IfcElectricGeneratorTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricGeneratorTypeEnum();
 	virtual const char* classname() const { return "IfcElectricGeneratorTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcElectricGeneratorTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcElectricGeneratorTypeEnumEnum m_enum;

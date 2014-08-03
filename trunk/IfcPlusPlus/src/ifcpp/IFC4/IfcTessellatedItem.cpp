@@ -26,12 +26,10 @@
 IfcTessellatedItem::IfcTessellatedItem() {}
 IfcTessellatedItem::IfcTessellatedItem( int id ) { m_id = id; }
 IfcTessellatedItem::~IfcTessellatedItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTessellatedItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTessellatedItem::getDeepCopy()
 {
-	shared_ptr<IfcTessellatedItem> other = dynamic_pointer_cast<IfcTessellatedItem>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcTessellatedItem> copy_self( new IfcTessellatedItem() );
+	return copy_self;
 }
 void IfcTessellatedItem::getStepLine( std::stringstream& stream ) const
 {

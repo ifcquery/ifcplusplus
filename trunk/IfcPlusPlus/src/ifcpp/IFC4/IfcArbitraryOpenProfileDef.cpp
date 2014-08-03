@@ -29,15 +29,13 @@
 IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef() {}
 IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef( int id ) { m_id = id; }
 IfcArbitraryOpenProfileDef::~IfcArbitraryOpenProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcArbitraryOpenProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcArbitraryOpenProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcArbitraryOpenProfileDef> other = dynamic_pointer_cast<IfcArbitraryOpenProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Curve = other->m_Curve;
+	shared_ptr<IfcArbitraryOpenProfileDef> copy_self( new IfcArbitraryOpenProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Curve ) { copy_self->m_Curve = dynamic_pointer_cast<IfcBoundedCurve>( m_Curve->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcArbitraryOpenProfileDef::getStepLine( std::stringstream& stream ) const
 {

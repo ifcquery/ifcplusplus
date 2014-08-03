@@ -28,16 +28,14 @@
 IfcSIUnit::IfcSIUnit() {}
 IfcSIUnit::IfcSIUnit( int id ) { m_id = id; }
 IfcSIUnit::~IfcSIUnit() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSIUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSIUnit::getDeepCopy()
 {
-	shared_ptr<IfcSIUnit> other = dynamic_pointer_cast<IfcSIUnit>(other_entity);
-	if( !other) { return; }
-	m_Dimensions = other->m_Dimensions;
-	m_UnitType = other->m_UnitType;
-	m_Prefix = other->m_Prefix;
-	m_Name = other->m_Name;
+	shared_ptr<IfcSIUnit> copy_self( new IfcSIUnit() );
+	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy() ); }
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy() ); }
+	if( m_Prefix ) { copy_self->m_Prefix = dynamic_pointer_cast<IfcSIPrefix>( m_Prefix->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcSIUnitName>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {

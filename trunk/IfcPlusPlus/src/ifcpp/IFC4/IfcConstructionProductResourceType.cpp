@@ -40,24 +40,36 @@
 IfcConstructionProductResourceType::IfcConstructionProductResourceType() {}
 IfcConstructionProductResourceType::IfcConstructionProductResourceType( int id ) { m_id = id; }
 IfcConstructionProductResourceType::~IfcConstructionProductResourceType() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConstructionProductResourceType::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConstructionProductResourceType::getDeepCopy()
 {
-	shared_ptr<IfcConstructionProductResourceType> other = dynamic_pointer_cast<IfcConstructionProductResourceType>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ApplicableOccurrence = other->m_ApplicableOccurrence;
-	m_HasPropertySets = other->m_HasPropertySets;
-	m_Identification = other->m_Identification;
-	m_LongDescription = other->m_LongDescription;
-	m_ResourceType = other->m_ResourceType;
-	m_BaseCosts = other->m_BaseCosts;
-	m_BaseQuantity = other->m_BaseQuantity;
-	m_PredefinedType = other->m_PredefinedType;
+	shared_ptr<IfcConstructionProductResourceType> copy_self( new IfcConstructionProductResourceType() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
+	{
+		auto item_ii = m_HasPropertySets[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy() ); }
+	if( m_ResourceType ) { copy_self->m_ResourceType = dynamic_pointer_cast<IfcLabel>( m_ResourceType->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_BaseCosts.size(); ++ii )
+	{
+		auto item_ii = m_BaseCosts[ii];
+		if( item_ii )
+		{
+			copy_self->m_BaseCosts.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_BaseQuantity ) { copy_self->m_BaseQuantity = dynamic_pointer_cast<IfcPhysicalQuantity>( m_BaseQuantity->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcConstructionProductResourceTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConstructionProductResourceType::getStepLine( std::stringstream& stream ) const
 {

@@ -26,17 +26,15 @@
 IfcConnectionPointEccentricity::IfcConnectionPointEccentricity() {}
 IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_id = id; }
 IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConnectionPointEccentricity::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConnectionPointEccentricity::getDeepCopy()
 {
-	shared_ptr<IfcConnectionPointEccentricity> other = dynamic_pointer_cast<IfcConnectionPointEccentricity>(other_entity);
-	if( !other) { return; }
-	m_PointOnRelatingElement = other->m_PointOnRelatingElement;
-	m_PointOnRelatedElement = other->m_PointOnRelatedElement;
-	m_EccentricityInX = other->m_EccentricityInX;
-	m_EccentricityInY = other->m_EccentricityInY;
-	m_EccentricityInZ = other->m_EccentricityInZ;
+	shared_ptr<IfcConnectionPointEccentricity> copy_self( new IfcConnectionPointEccentricity() );
+	if( m_PointOnRelatingElement ) { copy_self->m_PointOnRelatingElement = dynamic_pointer_cast<IfcPointOrVertexPoint>( m_PointOnRelatingElement->getDeepCopy() ); }
+	if( m_PointOnRelatedElement ) { copy_self->m_PointOnRelatedElement = dynamic_pointer_cast<IfcPointOrVertexPoint>( m_PointOnRelatedElement->getDeepCopy() ); }
+	if( m_EccentricityInX ) { copy_self->m_EccentricityInX = dynamic_pointer_cast<IfcLengthMeasure>( m_EccentricityInX->getDeepCopy() ); }
+	if( m_EccentricityInY ) { copy_self->m_EccentricityInY = dynamic_pointer_cast<IfcLengthMeasure>( m_EccentricityInY->getDeepCopy() ); }
+	if( m_EccentricityInZ ) { copy_self->m_EccentricityInZ = dynamic_pointer_cast<IfcLengthMeasure>( m_EccentricityInZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) const
 {

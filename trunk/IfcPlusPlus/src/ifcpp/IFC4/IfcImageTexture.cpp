@@ -29,18 +29,23 @@
 IfcImageTexture::IfcImageTexture() {}
 IfcImageTexture::IfcImageTexture( int id ) { m_id = id; }
 IfcImageTexture::~IfcImageTexture() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcImageTexture::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy()
 {
-	shared_ptr<IfcImageTexture> other = dynamic_pointer_cast<IfcImageTexture>(other_entity);
-	if( !other) { return; }
-	m_RepeatS = other->m_RepeatS;
-	m_RepeatT = other->m_RepeatT;
-	m_Mode = other->m_Mode;
-	m_TextureTransform = other->m_TextureTransform;
-	m_Parameter = other->m_Parameter;
-	m_URLReference = other->m_URLReference;
+	shared_ptr<IfcImageTexture> copy_self( new IfcImageTexture() );
+	if( m_RepeatS ) { copy_self->m_RepeatS = m_RepeatS; }
+	if( m_RepeatT ) { copy_self->m_RepeatT = m_RepeatT; }
+	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy() ); }
+	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
+	{
+		auto item_ii = m_Parameter[ii];
+		if( item_ii )
+		{
+			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_URLReference ) { copy_self->m_URLReference = dynamic_pointer_cast<IfcURIReference>( m_URLReference->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcElementAssemblyTypeEnum 
 IfcElementAssemblyTypeEnum::IfcElementAssemblyTypeEnum() {}
 IfcElementAssemblyTypeEnum::~IfcElementAssemblyTypeEnum() {}
+shared_ptr<IfcPPObject> IfcElementAssemblyTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcElementAssemblyTypeEnum> copy_self( new IfcElementAssemblyTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTASSEMBLYTYPEENUM("; }

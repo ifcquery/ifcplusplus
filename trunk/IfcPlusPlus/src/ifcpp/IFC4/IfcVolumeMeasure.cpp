@@ -25,6 +25,12 @@
 IfcVolumeMeasure::IfcVolumeMeasure() {}
 IfcVolumeMeasure::IfcVolumeMeasure( double value ) { m_value = value; }
 IfcVolumeMeasure::~IfcVolumeMeasure() {}
+shared_ptr<IfcPPObject> IfcVolumeMeasure::getDeepCopy()
+{
+	shared_ptr<IfcVolumeMeasure> copy_self( new IfcVolumeMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcVolumeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOLUMEMEASURE("; }

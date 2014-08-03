@@ -23,6 +23,12 @@
 // TYPE IfcPumpTypeEnum 
 IfcPumpTypeEnum::IfcPumpTypeEnum() {}
 IfcPumpTypeEnum::~IfcPumpTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPumpTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPumpTypeEnum> copy_self( new IfcPumpTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPumpTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPUMPTYPEENUM("; }

@@ -23,6 +23,12 @@
 // TYPE IfcArithmeticOperatorEnum 
 IfcArithmeticOperatorEnum::IfcArithmeticOperatorEnum() {}
 IfcArithmeticOperatorEnum::~IfcArithmeticOperatorEnum() {}
+shared_ptr<IfcPPObject> IfcArithmeticOperatorEnum::getDeepCopy()
+{
+	shared_ptr<IfcArithmeticOperatorEnum> copy_self( new IfcArithmeticOperatorEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARITHMETICOPERATORENUM("; }

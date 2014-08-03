@@ -23,6 +23,12 @@
 // TYPE IfcInternalOrExternalEnum 
 IfcInternalOrExternalEnum::IfcInternalOrExternalEnum() {}
 IfcInternalOrExternalEnum::~IfcInternalOrExternalEnum() {}
+shared_ptr<IfcPPObject> IfcInternalOrExternalEnum::getDeepCopy()
+{
+	shared_ptr<IfcInternalOrExternalEnum> copy_self( new IfcInternalOrExternalEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcInternalOrExternalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTERNALOREXTERNALENUM("; }

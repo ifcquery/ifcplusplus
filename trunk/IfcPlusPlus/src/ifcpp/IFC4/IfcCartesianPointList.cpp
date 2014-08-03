@@ -26,12 +26,10 @@
 IfcCartesianPointList::IfcCartesianPointList() {}
 IfcCartesianPointList::IfcCartesianPointList( int id ) { m_id = id; }
 IfcCartesianPointList::~IfcCartesianPointList() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCartesianPointList::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCartesianPointList::getDeepCopy()
 {
-	shared_ptr<IfcCartesianPointList> other = dynamic_pointer_cast<IfcCartesianPointList>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcCartesianPointList> copy_self( new IfcCartesianPointList() );
+	return copy_self;
 }
 void IfcCartesianPointList::getStepLine( std::stringstream& stream ) const
 {

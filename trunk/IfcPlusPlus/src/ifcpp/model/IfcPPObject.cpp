@@ -17,6 +17,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "IfcPPObject.h"
 
+
 IfcPPBool::IfcPPBool(){}
 IfcPPBool::IfcPPBool( bool value ) : m_value(value) {}
 IfcPPBool::~IfcPPBool(){}
@@ -84,14 +85,37 @@ void IfcPPString::readArgument( const std::wstring& attribute_value )
 	}
 }
 
-IfcPPBinary::IfcPPBinary(){}
+IfcPPBinary::IfcPPBinary(){ m_value = nullptr; }
 IfcPPBinary::IfcPPBinary( const char* value ) : m_value(value) {}
-IfcPPBinary::~IfcPPBinary(){}
+IfcPPBinary::~IfcPPBinary()
+{
+	if( m_value != nullptr )
+	{
+		delete m_value;
+	}
+}
 void IfcPPBinary::readArgument( const char* attribute_value )
 {
 	m_value = attribute_value;
 }
 
+shared_ptr<IfcPPObject> IfcPPBinary::getDeepCopy()
+{
+	shared_ptr<IfcPPBinary> copy_self( new IfcPPBinary() );
+
+	if( m_value != nullptr )
+	{
+		const char* source_value = m_value;
+
+		const size_t len = strlen( source_value );
+		char* target_value = new char[len + 1];
+		strncpy( target_value, source_value, len );
+		target_value[len] = '\0';  // just to be sure
+		copy_self->m_value = target_value;
+	}
+
+	return copy_self;
+}
 
 
 // ENTITY

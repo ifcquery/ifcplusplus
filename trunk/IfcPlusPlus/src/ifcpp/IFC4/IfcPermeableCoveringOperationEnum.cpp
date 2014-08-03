@@ -23,6 +23,12 @@
 // TYPE IfcPermeableCoveringOperationEnum 
 IfcPermeableCoveringOperationEnum::IfcPermeableCoveringOperationEnum() {}
 IfcPermeableCoveringOperationEnum::~IfcPermeableCoveringOperationEnum() {}
+shared_ptr<IfcPPObject> IfcPermeableCoveringOperationEnum::getDeepCopy()
+{
+	shared_ptr<IfcPermeableCoveringOperationEnum> copy_self( new IfcPermeableCoveringOperationEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPermeableCoveringOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERMEABLECOVERINGOPERATIONENUM("; }

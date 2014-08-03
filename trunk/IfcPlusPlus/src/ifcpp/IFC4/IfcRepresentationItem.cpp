@@ -26,12 +26,10 @@
 IfcRepresentationItem::IfcRepresentationItem() {}
 IfcRepresentationItem::IfcRepresentationItem( int id ) { m_id = id; }
 IfcRepresentationItem::~IfcRepresentationItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRepresentationItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRepresentationItem::getDeepCopy()
 {
-	shared_ptr<IfcRepresentationItem> other = dynamic_pointer_cast<IfcRepresentationItem>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcRepresentationItem> copy_self( new IfcRepresentationItem() );
+	return copy_self;
 }
 void IfcRepresentationItem::getStepLine( std::stringstream& stream ) const
 {

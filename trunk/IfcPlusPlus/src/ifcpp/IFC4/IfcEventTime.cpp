@@ -27,19 +27,17 @@
 IfcEventTime::IfcEventTime() {}
 IfcEventTime::IfcEventTime( int id ) { m_id = id; }
 IfcEventTime::~IfcEventTime() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcEventTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcEventTime::getDeepCopy()
 {
-	shared_ptr<IfcEventTime> other = dynamic_pointer_cast<IfcEventTime>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
-	m_ActualDate = other->m_ActualDate;
-	m_EarlyDate = other->m_EarlyDate;
-	m_LateDate = other->m_LateDate;
-	m_ScheduleDate = other->m_ScheduleDate;
+	shared_ptr<IfcEventTime> copy_self( new IfcEventTime() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_ActualDate ) { copy_self->m_ActualDate = dynamic_pointer_cast<IfcDateTime>( m_ActualDate->getDeepCopy() ); }
+	if( m_EarlyDate ) { copy_self->m_EarlyDate = dynamic_pointer_cast<IfcDateTime>( m_EarlyDate->getDeepCopy() ); }
+	if( m_LateDate ) { copy_self->m_LateDate = dynamic_pointer_cast<IfcDateTime>( m_LateDate->getDeepCopy() ); }
+	if( m_ScheduleDate ) { copy_self->m_ScheduleDate = dynamic_pointer_cast<IfcDateTime>( m_ScheduleDate->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcEventTime::getStepLine( std::stringstream& stream ) const
 {

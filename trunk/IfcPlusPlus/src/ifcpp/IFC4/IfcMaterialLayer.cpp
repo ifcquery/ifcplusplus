@@ -34,19 +34,17 @@
 IfcMaterialLayer::IfcMaterialLayer() {}
 IfcMaterialLayer::IfcMaterialLayer( int id ) { m_id = id; }
 IfcMaterialLayer::~IfcMaterialLayer() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialLayer::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialLayer::getDeepCopy()
 {
-	shared_ptr<IfcMaterialLayer> other = dynamic_pointer_cast<IfcMaterialLayer>(other_entity);
-	if( !other) { return; }
-	m_Material = other->m_Material;
-	m_LayerThickness = other->m_LayerThickness;
-	m_IsVentilated = other->m_IsVentilated;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Category = other->m_Category;
-	m_Priority = other->m_Priority;
+	shared_ptr<IfcMaterialLayer> copy_self( new IfcMaterialLayer() );
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
+	if( m_LayerThickness ) { copy_self->m_LayerThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LayerThickness->getDeepCopy() ); }
+	if( m_IsVentilated ) { copy_self->m_IsVentilated = dynamic_pointer_cast<IfcLogical>( m_IsVentilated->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialLayer::getStepLine( std::stringstream& stream ) const
 {

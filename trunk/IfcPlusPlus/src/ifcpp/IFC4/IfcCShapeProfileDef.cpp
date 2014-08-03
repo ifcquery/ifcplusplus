@@ -31,20 +31,18 @@
 IfcCShapeProfileDef::IfcCShapeProfileDef() {}
 IfcCShapeProfileDef::IfcCShapeProfileDef( int id ) { m_id = id; }
 IfcCShapeProfileDef::~IfcCShapeProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCShapeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCShapeProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcCShapeProfileDef> other = dynamic_pointer_cast<IfcCShapeProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_Depth = other->m_Depth;
-	m_Width = other->m_Width;
-	m_WallThickness = other->m_WallThickness;
-	m_Girth = other->m_Girth;
-	m_InternalFilletRadius = other->m_InternalFilletRadius;
+	shared_ptr<IfcCShapeProfileDef> copy_self( new IfcCShapeProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy() ); }
+	if( m_Width ) { copy_self->m_Width = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Width->getDeepCopy() ); }
+	if( m_WallThickness ) { copy_self->m_WallThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WallThickness->getDeepCopy() ); }
+	if( m_Girth ) { copy_self->m_Girth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Girth->getDeepCopy() ); }
+	if( m_InternalFilletRadius ) { copy_self->m_InternalFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_InternalFilletRadius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {

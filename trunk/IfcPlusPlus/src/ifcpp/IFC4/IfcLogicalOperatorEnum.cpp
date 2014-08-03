@@ -23,6 +23,12 @@
 // TYPE IfcLogicalOperatorEnum 
 IfcLogicalOperatorEnum::IfcLogicalOperatorEnum() {}
 IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() {}
+shared_ptr<IfcPPObject> IfcLogicalOperatorEnum::getDeepCopy()
+{
+	shared_ptr<IfcLogicalOperatorEnum> copy_self( new IfcLogicalOperatorEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLOGICALOPERATORENUM("; }

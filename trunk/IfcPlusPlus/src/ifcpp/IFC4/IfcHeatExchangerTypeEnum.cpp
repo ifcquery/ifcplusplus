@@ -23,6 +23,12 @@
 // TYPE IfcHeatExchangerTypeEnum 
 IfcHeatExchangerTypeEnum::IfcHeatExchangerTypeEnum() {}
 IfcHeatExchangerTypeEnum::~IfcHeatExchangerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcHeatExchangerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcHeatExchangerTypeEnum> copy_self( new IfcHeatExchangerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcHeatExchangerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHEATEXCHANGERTYPEENUM("; }

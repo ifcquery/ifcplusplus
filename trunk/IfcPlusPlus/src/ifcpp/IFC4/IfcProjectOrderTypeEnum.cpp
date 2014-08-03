@@ -23,6 +23,12 @@
 // TYPE IfcProjectOrderTypeEnum 
 IfcProjectOrderTypeEnum::IfcProjectOrderTypeEnum() {}
 IfcProjectOrderTypeEnum::~IfcProjectOrderTypeEnum() {}
+shared_ptr<IfcPPObject> IfcProjectOrderTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcProjectOrderTypeEnum> copy_self( new IfcProjectOrderTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcProjectOrderTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTORDERTYPEENUM("; }

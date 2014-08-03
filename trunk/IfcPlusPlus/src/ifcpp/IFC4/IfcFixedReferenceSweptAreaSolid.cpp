@@ -31,18 +31,16 @@
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid() {}
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_id = id; }
 IfcFixedReferenceSweptAreaSolid::~IfcFixedReferenceSweptAreaSolid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFixedReferenceSweptAreaSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy()
 {
-	shared_ptr<IfcFixedReferenceSweptAreaSolid> other = dynamic_pointer_cast<IfcFixedReferenceSweptAreaSolid>(other_entity);
-	if( !other) { return; }
-	m_SweptArea = other->m_SweptArea;
-	m_Position = other->m_Position;
-	m_Directrix = other->m_Directrix;
-	m_StartParam = other->m_StartParam;
-	m_EndParam = other->m_EndParam;
-	m_FixedReference = other->m_FixedReference;
+	shared_ptr<IfcFixedReferenceSweptAreaSolid> copy_self( new IfcFixedReferenceSweptAreaSolid() );
+	if( m_SweptArea ) { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy() ); }
+	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy() ); }
+	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy() ); }
+	if( m_FixedReference ) { copy_self->m_FixedReference = dynamic_pointer_cast<IfcDirection>( m_FixedReference->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {

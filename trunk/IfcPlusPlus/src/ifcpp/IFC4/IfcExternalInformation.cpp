@@ -24,12 +24,10 @@
 IfcExternalInformation::IfcExternalInformation() {}
 IfcExternalInformation::IfcExternalInformation( int id ) { m_id = id; }
 IfcExternalInformation::~IfcExternalInformation() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcExternalInformation::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcExternalInformation::getDeepCopy()
 {
-	shared_ptr<IfcExternalInformation> other = dynamic_pointer_cast<IfcExternalInformation>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcExternalInformation> copy_self( new IfcExternalInformation() );
+	return copy_self;
 }
 void IfcExternalInformation::getStepLine( std::stringstream& stream ) const
 {

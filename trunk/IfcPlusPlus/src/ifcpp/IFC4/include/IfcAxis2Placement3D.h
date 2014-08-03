@@ -27,9 +27,7 @@ public:
 	IfcAxis2Placement3D();
 	IfcAxis2Placement3D( int id );
 	~IfcAxis2Placement3D();
-
-	// method setEntity takes over all attributes from another instance of the class
-	virtual void setEntity( shared_ptr<IfcPPEntity> other );
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

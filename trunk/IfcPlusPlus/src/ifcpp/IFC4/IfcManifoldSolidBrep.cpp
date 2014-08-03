@@ -27,13 +27,11 @@
 IfcManifoldSolidBrep::IfcManifoldSolidBrep() {}
 IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_id = id; }
 IfcManifoldSolidBrep::~IfcManifoldSolidBrep() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcManifoldSolidBrep::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcManifoldSolidBrep::getDeepCopy()
 {
-	shared_ptr<IfcManifoldSolidBrep> other = dynamic_pointer_cast<IfcManifoldSolidBrep>(other_entity);
-	if( !other) { return; }
-	m_Outer = other->m_Outer;
+	shared_ptr<IfcManifoldSolidBrep> copy_self( new IfcManifoldSolidBrep() );
+	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 {

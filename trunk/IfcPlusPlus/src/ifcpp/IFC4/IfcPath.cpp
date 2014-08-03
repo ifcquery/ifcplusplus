@@ -27,13 +27,18 @@
 IfcPath::IfcPath() {}
 IfcPath::IfcPath( int id ) { m_id = id; }
 IfcPath::~IfcPath() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPath::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPath::getDeepCopy()
 {
-	shared_ptr<IfcPath> other = dynamic_pointer_cast<IfcPath>(other_entity);
-	if( !other) { return; }
-	m_EdgeList = other->m_EdgeList;
+	shared_ptr<IfcPath> copy_self( new IfcPath() );
+	for( size_t ii=0; ii<m_EdgeList.size(); ++ii )
+	{
+		auto item_ii = m_EdgeList[ii];
+		if( item_ii )
+		{
+			copy_self->m_EdgeList.push_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPath::getStepLine( std::stringstream& stream ) const
 {

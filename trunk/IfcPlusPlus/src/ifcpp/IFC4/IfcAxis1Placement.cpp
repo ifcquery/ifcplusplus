@@ -28,14 +28,12 @@
 IfcAxis1Placement::IfcAxis1Placement() {}
 IfcAxis1Placement::IfcAxis1Placement( int id ) { m_id = id; }
 IfcAxis1Placement::~IfcAxis1Placement() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAxis1Placement::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAxis1Placement::getDeepCopy()
 {
-	shared_ptr<IfcAxis1Placement> other = dynamic_pointer_cast<IfcAxis1Placement>(other_entity);
-	if( !other) { return; }
-	m_Location = other->m_Location;
-	m_Axis = other->m_Axis;
+	shared_ptr<IfcAxis1Placement> copy_self( new IfcAxis1Placement() );
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy() ); }
+	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcDirection>( m_Axis->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcAxis1Placement::getStepLine( std::stringstream& stream ) const
 {

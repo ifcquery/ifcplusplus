@@ -27,15 +27,13 @@
 IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling() {}
 IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int id ) { m_id = id; }
 IfcCurveStyleFontAndScaling::~IfcCurveStyleFontAndScaling() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCurveStyleFontAndScaling::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCurveStyleFontAndScaling::getDeepCopy()
 {
-	shared_ptr<IfcCurveStyleFontAndScaling> other = dynamic_pointer_cast<IfcCurveStyleFontAndScaling>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_CurveFont = other->m_CurveFont;
-	m_CurveFontScaling = other->m_CurveFontScaling;
+	shared_ptr<IfcCurveStyleFontAndScaling> copy_self( new IfcCurveStyleFontAndScaling() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_CurveFont ) { copy_self->m_CurveFont = dynamic_pointer_cast<IfcCurveStyleFontSelect>( m_CurveFont->getDeepCopy() ); }
+	if( m_CurveFontScaling ) { copy_self->m_CurveFontScaling = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_CurveFontScaling->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCurveStyleFontAndScaling::getStepLine( std::stringstream& stream ) const
 {

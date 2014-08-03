@@ -23,6 +23,12 @@
 // TYPE IfcElectricFlowStorageDeviceTypeEnum 
 IfcElectricFlowStorageDeviceTypeEnum::IfcElectricFlowStorageDeviceTypeEnum() {}
 IfcElectricFlowStorageDeviceTypeEnum::~IfcElectricFlowStorageDeviceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcElectricFlowStorageDeviceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> copy_self( new IfcElectricFlowStorageDeviceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICFLOWSTORAGEDEVICETYPEENUM("; }

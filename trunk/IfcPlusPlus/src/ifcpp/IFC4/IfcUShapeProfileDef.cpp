@@ -32,22 +32,20 @@
 IfcUShapeProfileDef::IfcUShapeProfileDef() {}
 IfcUShapeProfileDef::IfcUShapeProfileDef( int id ) { m_id = id; }
 IfcUShapeProfileDef::~IfcUShapeProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcUShapeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcUShapeProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcUShapeProfileDef> other = dynamic_pointer_cast<IfcUShapeProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_Depth = other->m_Depth;
-	m_FlangeWidth = other->m_FlangeWidth;
-	m_WebThickness = other->m_WebThickness;
-	m_FlangeThickness = other->m_FlangeThickness;
-	m_FilletRadius = other->m_FilletRadius;
-	m_EdgeRadius = other->m_EdgeRadius;
-	m_FlangeSlope = other->m_FlangeSlope;
+	shared_ptr<IfcUShapeProfileDef> copy_self( new IfcUShapeProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy() ); }
+	if( m_FlangeWidth ) { copy_self->m_FlangeWidth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FlangeWidth->getDeepCopy() ); }
+	if( m_WebThickness ) { copy_self->m_WebThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WebThickness->getDeepCopy() ); }
+	if( m_FlangeThickness ) { copy_self->m_FlangeThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FlangeThickness->getDeepCopy() ); }
+	if( m_FilletRadius ) { copy_self->m_FilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_FilletRadius->getDeepCopy() ); }
+	if( m_EdgeRadius ) { copy_self->m_EdgeRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_EdgeRadius->getDeepCopy() ); }
+	if( m_FlangeSlope ) { copy_self->m_FlangeSlope = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_FlangeSlope->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcUShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {

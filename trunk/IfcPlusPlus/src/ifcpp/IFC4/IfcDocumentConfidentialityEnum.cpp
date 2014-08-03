@@ -23,6 +23,12 @@
 // TYPE IfcDocumentConfidentialityEnum 
 IfcDocumentConfidentialityEnum::IfcDocumentConfidentialityEnum() {}
 IfcDocumentConfidentialityEnum::~IfcDocumentConfidentialityEnum() {}
+shared_ptr<IfcPPObject> IfcDocumentConfidentialityEnum::getDeepCopy()
+{
+	shared_ptr<IfcDocumentConfidentialityEnum> copy_self( new IfcDocumentConfidentialityEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOCUMENTCONFIDENTIALITYENUM("; }

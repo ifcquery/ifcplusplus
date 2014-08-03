@@ -31,16 +31,21 @@
 IfcMaterialProfileSet::IfcMaterialProfileSet() {}
 IfcMaterialProfileSet::IfcMaterialProfileSet( int id ) { m_id = id; }
 IfcMaterialProfileSet::~IfcMaterialProfileSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialProfileSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialProfileSet::getDeepCopy()
 {
-	shared_ptr<IfcMaterialProfileSet> other = dynamic_pointer_cast<IfcMaterialProfileSet>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_MaterialProfiles = other->m_MaterialProfiles;
-	m_CompositeProfile = other->m_CompositeProfile;
+	shared_ptr<IfcMaterialProfileSet> copy_self( new IfcMaterialProfileSet() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_MaterialProfiles.size(); ++ii )
+	{
+		auto item_ii = m_MaterialProfiles[ii];
+		if( item_ii )
+		{
+			copy_self->m_MaterialProfiles.push_back( dynamic_pointer_cast<IfcMaterialProfile>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_CompositeProfile ) { copy_self->m_CompositeProfile = dynamic_pointer_cast<IfcCompositeProfileDef>( m_CompositeProfile->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialProfileSet::getStepLine( std::stringstream& stream ) const
 {

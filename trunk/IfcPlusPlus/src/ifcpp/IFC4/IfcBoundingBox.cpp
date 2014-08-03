@@ -28,16 +28,14 @@
 IfcBoundingBox::IfcBoundingBox() {}
 IfcBoundingBox::IfcBoundingBox( int id ) { m_id = id; }
 IfcBoundingBox::~IfcBoundingBox() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundingBox::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundingBox::getDeepCopy()
 {
-	shared_ptr<IfcBoundingBox> other = dynamic_pointer_cast<IfcBoundingBox>(other_entity);
-	if( !other) { return; }
-	m_Corner = other->m_Corner;
-	m_XDim = other->m_XDim;
-	m_YDim = other->m_YDim;
-	m_ZDim = other->m_ZDim;
+	shared_ptr<IfcBoundingBox> copy_self( new IfcBoundingBox() );
+	if( m_Corner ) { copy_self->m_Corner = dynamic_pointer_cast<IfcCartesianPoint>( m_Corner->getDeepCopy() ); }
+	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy() ); }
+	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy() ); }
+	if( m_ZDim ) { copy_self->m_ZDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ZDim->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBoundingBox::getStepLine( std::stringstream& stream ) const
 {

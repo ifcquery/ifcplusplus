@@ -29,15 +29,13 @@
 IfcCompositeCurveSegment::IfcCompositeCurveSegment() {}
 IfcCompositeCurveSegment::IfcCompositeCurveSegment( int id ) { m_id = id; }
 IfcCompositeCurveSegment::~IfcCompositeCurveSegment() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCompositeCurveSegment::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCompositeCurveSegment::getDeepCopy()
 {
-	shared_ptr<IfcCompositeCurveSegment> other = dynamic_pointer_cast<IfcCompositeCurveSegment>(other_entity);
-	if( !other) { return; }
-	m_Transition = other->m_Transition;
-	m_SameSense = other->m_SameSense;
-	m_ParentCurve = other->m_ParentCurve;
+	shared_ptr<IfcCompositeCurveSegment> copy_self( new IfcCompositeCurveSegment() );
+	if( m_Transition ) { copy_self->m_Transition = dynamic_pointer_cast<IfcTransitionCode>( m_Transition->getDeepCopy() ); }
+	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
+	if( m_ParentCurve ) { copy_self->m_ParentCurve = dynamic_pointer_cast<IfcCurve>( m_ParentCurve->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 {

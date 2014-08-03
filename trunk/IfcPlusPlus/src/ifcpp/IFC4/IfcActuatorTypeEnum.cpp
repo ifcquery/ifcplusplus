@@ -23,6 +23,12 @@
 // TYPE IfcActuatorTypeEnum 
 IfcActuatorTypeEnum::IfcActuatorTypeEnum() {}
 IfcActuatorTypeEnum::~IfcActuatorTypeEnum() {}
+shared_ptr<IfcPPObject> IfcActuatorTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcActuatorTypeEnum> copy_self( new IfcActuatorTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcActuatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTUATORTYPEENUM("; }

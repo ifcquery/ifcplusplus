@@ -23,6 +23,12 @@
 // TYPE IfcPlateTypeEnum 
 IfcPlateTypeEnum::IfcPlateTypeEnum() {}
 IfcPlateTypeEnum::~IfcPlateTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPlateTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPLATETYPEENUM("; }

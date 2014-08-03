@@ -31,17 +31,15 @@
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() {}
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_id = id; }
 IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextLiteralWithExtent::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextLiteralWithExtent::getDeepCopy()
 {
-	shared_ptr<IfcTextLiteralWithExtent> other = dynamic_pointer_cast<IfcTextLiteralWithExtent>(other_entity);
-	if( !other) { return; }
-	m_Literal = other->m_Literal;
-	m_Placement = other->m_Placement;
-	m_Path = other->m_Path;
-	m_Extent = other->m_Extent;
-	m_BoxAlignment = other->m_BoxAlignment;
+	shared_ptr<IfcTextLiteralWithExtent> copy_self( new IfcTextLiteralWithExtent() );
+	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy() ); }
+	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy() ); }
+	if( m_Path ) { copy_self->m_Path = dynamic_pointer_cast<IfcTextPath>( m_Path->getDeepCopy() ); }
+	if( m_Extent ) { copy_self->m_Extent = dynamic_pointer_cast<IfcPlanarExtent>( m_Extent->getDeepCopy() ); }
+	if( m_BoxAlignment ) { copy_self->m_BoxAlignment = dynamic_pointer_cast<IfcBoxAlignment>( m_BoxAlignment->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
 {

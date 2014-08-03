@@ -25,6 +25,12 @@
 IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure() {}
 IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure( double value ) { m_value = value; }
 IfcThermalExpansionCoefficientMeasure::~IfcThermalExpansionCoefficientMeasure() {}
+shared_ptr<IfcPPObject> IfcThermalExpansionCoefficientMeasure::getDeepCopy()
+{
+	shared_ptr<IfcThermalExpansionCoefficientMeasure> copy_self( new IfcThermalExpansionCoefficientMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcThermalExpansionCoefficientMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALEXPANSIONCOEFFICIENTMEASURE("; }

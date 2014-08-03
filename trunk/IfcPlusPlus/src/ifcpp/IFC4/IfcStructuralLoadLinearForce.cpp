@@ -27,19 +27,17 @@
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce() {}
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_id = id; }
 IfcStructuralLoadLinearForce::~IfcStructuralLoadLinearForce() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadLinearForce::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadLinearForce::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadLinearForce> other = dynamic_pointer_cast<IfcStructuralLoadLinearForce>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_LinearForceX = other->m_LinearForceX;
-	m_LinearForceY = other->m_LinearForceY;
-	m_LinearForceZ = other->m_LinearForceZ;
-	m_LinearMomentX = other->m_LinearMomentX;
-	m_LinearMomentY = other->m_LinearMomentY;
-	m_LinearMomentZ = other->m_LinearMomentZ;
+	shared_ptr<IfcStructuralLoadLinearForce> copy_self( new IfcStructuralLoadLinearForce() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_LinearForceX ) { copy_self->m_LinearForceX = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceX->getDeepCopy() ); }
+	if( m_LinearForceY ) { copy_self->m_LinearForceY = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceY->getDeepCopy() ); }
+	if( m_LinearForceZ ) { copy_self->m_LinearForceZ = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceZ->getDeepCopy() ); }
+	if( m_LinearMomentX ) { copy_self->m_LinearMomentX = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentX->getDeepCopy() ); }
+	if( m_LinearMomentY ) { copy_self->m_LinearMomentY = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentY->getDeepCopy() ); }
+	if( m_LinearMomentZ ) { copy_self->m_LinearMomentZ = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) const
 {

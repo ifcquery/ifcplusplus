@@ -51,23 +51,21 @@
 IfcMechanicalFastener::IfcMechanicalFastener() {}
 IfcMechanicalFastener::IfcMechanicalFastener( int id ) { m_id = id; }
 IfcMechanicalFastener::~IfcMechanicalFastener() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMechanicalFastener::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMechanicalFastener::getDeepCopy()
 {
-	shared_ptr<IfcMechanicalFastener> other = dynamic_pointer_cast<IfcMechanicalFastener>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_ObjectPlacement = other->m_ObjectPlacement;
-	m_Representation = other->m_Representation;
-	m_Tag = other->m_Tag;
-	m_NominalDiameter = other->m_NominalDiameter;
-	m_NominalLength = other->m_NominalLength;
-	m_PredefinedType = other->m_PredefinedType;
+	shared_ptr<IfcMechanicalFastener> copy_self( new IfcMechanicalFastener() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
+	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcIdentifier>( m_Tag->getDeepCopy() ); }
+	if( m_NominalDiameter ) { copy_self->m_NominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalDiameter->getDeepCopy() ); }
+	if( m_NominalLength ) { copy_self->m_NominalLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalLength->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcMechanicalFastenerTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMechanicalFastener::getStepLine( std::stringstream& stream ) const
 {

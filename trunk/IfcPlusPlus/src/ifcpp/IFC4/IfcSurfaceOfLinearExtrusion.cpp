@@ -30,16 +30,14 @@
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion() {}
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion( int id ) { m_id = id; }
 IfcSurfaceOfLinearExtrusion::~IfcSurfaceOfLinearExtrusion() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceOfLinearExtrusion::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceOfLinearExtrusion::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceOfLinearExtrusion> other = dynamic_pointer_cast<IfcSurfaceOfLinearExtrusion>(other_entity);
-	if( !other) { return; }
-	m_SweptCurve = other->m_SweptCurve;
-	m_Position = other->m_Position;
-	m_ExtrudedDirection = other->m_ExtrudedDirection;
-	m_Depth = other->m_Depth;
+	shared_ptr<IfcSurfaceOfLinearExtrusion> copy_self( new IfcSurfaceOfLinearExtrusion() );
+	if( m_SweptCurve ) { copy_self->m_SweptCurve = dynamic_pointer_cast<IfcProfileDef>( m_SweptCurve->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_ExtrudedDirection ) { copy_self->m_ExtrudedDirection = dynamic_pointer_cast<IfcDirection>( m_ExtrudedDirection->getDeepCopy() ); }
+	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcLengthMeasure>( m_Depth->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceOfLinearExtrusion::getStepLine( std::stringstream& stream ) const
 {

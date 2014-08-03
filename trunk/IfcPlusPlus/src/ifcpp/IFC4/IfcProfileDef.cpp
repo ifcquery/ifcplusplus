@@ -28,14 +28,12 @@
 IfcProfileDef::IfcProfileDef() {}
 IfcProfileDef::IfcProfileDef( int id ) { m_id = id; }
 IfcProfileDef::~IfcProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcProfileDef> other = dynamic_pointer_cast<IfcProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
+	shared_ptr<IfcProfileDef> copy_self( new IfcProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcProfileDef::getStepLine( std::stringstream& stream ) const
 {

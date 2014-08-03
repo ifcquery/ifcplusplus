@@ -23,6 +23,12 @@
 // TYPE IfcLightDistributionCurveEnum 
 IfcLightDistributionCurveEnum::IfcLightDistributionCurveEnum() {}
 IfcLightDistributionCurveEnum::~IfcLightDistributionCurveEnum() {}
+shared_ptr<IfcPPObject> IfcLightDistributionCurveEnum::getDeepCopy()
+{
+	shared_ptr<IfcLightDistributionCurveEnum> copy_self( new IfcLightDistributionCurveEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTDISTRIBUTIONCURVEENUM("; }

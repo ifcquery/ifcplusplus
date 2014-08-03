@@ -25,6 +25,12 @@
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure() {}
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure( double value ) { m_value = value; }
 IfcAbsorbedDoseMeasure::~IfcAbsorbedDoseMeasure() {}
+shared_ptr<IfcPPObject> IfcAbsorbedDoseMeasure::getDeepCopy()
+{
+	shared_ptr<IfcAbsorbedDoseMeasure> copy_self( new IfcAbsorbedDoseMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcAbsorbedDoseMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCABSORBEDDOSEMEASURE("; }

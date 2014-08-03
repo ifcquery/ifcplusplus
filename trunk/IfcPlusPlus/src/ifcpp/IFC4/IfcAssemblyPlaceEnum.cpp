@@ -23,6 +23,12 @@
 // TYPE IfcAssemblyPlaceEnum 
 IfcAssemblyPlaceEnum::IfcAssemblyPlaceEnum() {}
 IfcAssemblyPlaceEnum::~IfcAssemblyPlaceEnum() {}
+shared_ptr<IfcPPObject> IfcAssemblyPlaceEnum::getDeepCopy()
+{
+	shared_ptr<IfcAssemblyPlaceEnum> copy_self( new IfcAssemblyPlaceEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCASSEMBLYPLACEENUM("; }

@@ -42,32 +42,51 @@
 IfcReinforcingMeshType::IfcReinforcingMeshType() {}
 IfcReinforcingMeshType::IfcReinforcingMeshType( int id ) { m_id = id; }
 IfcReinforcingMeshType::~IfcReinforcingMeshType() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcReinforcingMeshType::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcReinforcingMeshType::getDeepCopy()
 {
-	shared_ptr<IfcReinforcingMeshType> other = dynamic_pointer_cast<IfcReinforcingMeshType>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ApplicableOccurrence = other->m_ApplicableOccurrence;
-	m_HasPropertySets = other->m_HasPropertySets;
-	m_RepresentationMaps = other->m_RepresentationMaps;
-	m_Tag = other->m_Tag;
-	m_ElementType = other->m_ElementType;
-	m_PredefinedType = other->m_PredefinedType;
-	m_MeshLength = other->m_MeshLength;
-	m_MeshWidth = other->m_MeshWidth;
-	m_LongitudinalBarNominalDiameter = other->m_LongitudinalBarNominalDiameter;
-	m_TransverseBarNominalDiameter = other->m_TransverseBarNominalDiameter;
-	m_LongitudinalBarCrossSectionArea = other->m_LongitudinalBarCrossSectionArea;
-	m_TransverseBarCrossSectionArea = other->m_TransverseBarCrossSectionArea;
-	m_LongitudinalBarSpacing = other->m_LongitudinalBarSpacing;
-	m_TransverseBarSpacing = other->m_TransverseBarSpacing;
-	m_BendingShapeCode = other->m_BendingShapeCode;
-	m_BendingParameters = other->m_BendingParameters;
+	shared_ptr<IfcReinforcingMeshType> copy_self( new IfcReinforcingMeshType() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
+	{
+		auto item_ii = m_HasPropertySets[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
+	{
+		auto item_ii = m_RepresentationMaps[ii];
+		if( item_ii )
+		{
+			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy() ); }
+	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcReinforcingMeshTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_MeshLength ) { copy_self->m_MeshLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_MeshLength->getDeepCopy() ); }
+	if( m_MeshWidth ) { copy_self->m_MeshWidth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_MeshWidth->getDeepCopy() ); }
+	if( m_LongitudinalBarNominalDiameter ) { copy_self->m_LongitudinalBarNominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LongitudinalBarNominalDiameter->getDeepCopy() ); }
+	if( m_TransverseBarNominalDiameter ) { copy_self->m_TransverseBarNominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_TransverseBarNominalDiameter->getDeepCopy() ); }
+	if( m_LongitudinalBarCrossSectionArea ) { copy_self->m_LongitudinalBarCrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_LongitudinalBarCrossSectionArea->getDeepCopy() ); }
+	if( m_TransverseBarCrossSectionArea ) { copy_self->m_TransverseBarCrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_TransverseBarCrossSectionArea->getDeepCopy() ); }
+	if( m_LongitudinalBarSpacing ) { copy_self->m_LongitudinalBarSpacing = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LongitudinalBarSpacing->getDeepCopy() ); }
+	if( m_TransverseBarSpacing ) { copy_self->m_TransverseBarSpacing = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_TransverseBarSpacing->getDeepCopy() ); }
+	if( m_BendingShapeCode ) { copy_self->m_BendingShapeCode = dynamic_pointer_cast<IfcLabel>( m_BendingShapeCode->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_BendingParameters.size(); ++ii )
+	{
+		auto item_ii = m_BendingParameters[ii];
+		if( item_ii )
+		{
+			copy_self->m_BendingParameters.push_back( dynamic_pointer_cast<IfcBendingParameterSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcReinforcingMeshType::getStepLine( std::stringstream& stream ) const
 {

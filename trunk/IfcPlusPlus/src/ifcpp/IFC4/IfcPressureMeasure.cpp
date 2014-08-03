@@ -25,6 +25,12 @@
 IfcPressureMeasure::IfcPressureMeasure() {}
 IfcPressureMeasure::IfcPressureMeasure( double value ) { m_value = value; }
 IfcPressureMeasure::~IfcPressureMeasure() {}
+shared_ptr<IfcPPObject> IfcPressureMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPressureMeasure> copy_self( new IfcPressureMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPressureMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPRESSUREMEASURE("; }

@@ -31,16 +31,21 @@
 IfcShapeModel::IfcShapeModel() {}
 IfcShapeModel::IfcShapeModel( int id ) { m_id = id; }
 IfcShapeModel::~IfcShapeModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcShapeModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcShapeModel::getDeepCopy()
 {
-	shared_ptr<IfcShapeModel> other = dynamic_pointer_cast<IfcShapeModel>(other_entity);
-	if( !other) { return; }
-	m_ContextOfItems = other->m_ContextOfItems;
-	m_RepresentationIdentifier = other->m_RepresentationIdentifier;
-	m_RepresentationType = other->m_RepresentationType;
-	m_Items = other->m_Items;
+	shared_ptr<IfcShapeModel> copy_self( new IfcShapeModel() );
+	if( m_ContextOfItems ) { copy_self->m_ContextOfItems = dynamic_pointer_cast<IfcRepresentationContext>( m_ContextOfItems->getDeepCopy() ); }
+	if( m_RepresentationIdentifier ) { copy_self->m_RepresentationIdentifier = dynamic_pointer_cast<IfcLabel>( m_RepresentationIdentifier->getDeepCopy() ); }
+	if( m_RepresentationType ) { copy_self->m_RepresentationType = dynamic_pointer_cast<IfcLabel>( m_RepresentationType->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Items.size(); ++ii )
+	{
+		auto item_ii = m_Items[ii];
+		if( item_ii )
+		{
+			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcShapeModel::getStepLine( std::stringstream& stream ) const
 {

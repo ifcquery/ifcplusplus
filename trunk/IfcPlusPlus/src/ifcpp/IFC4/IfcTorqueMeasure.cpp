@@ -25,6 +25,12 @@
 IfcTorqueMeasure::IfcTorqueMeasure() {}
 IfcTorqueMeasure::IfcTorqueMeasure( double value ) { m_value = value; }
 IfcTorqueMeasure::~IfcTorqueMeasure() {}
+shared_ptr<IfcPPObject> IfcTorqueMeasure::getDeepCopy()
+{
+	shared_ptr<IfcTorqueMeasure> copy_self( new IfcTorqueMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTorqueMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTORQUEMEASURE("; }

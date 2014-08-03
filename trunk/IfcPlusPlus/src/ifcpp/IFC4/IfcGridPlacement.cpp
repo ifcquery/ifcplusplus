@@ -28,14 +28,12 @@
 IfcGridPlacement::IfcGridPlacement() {}
 IfcGridPlacement::IfcGridPlacement( int id ) { m_id = id; }
 IfcGridPlacement::~IfcGridPlacement() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGridPlacement::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGridPlacement::getDeepCopy()
 {
-	shared_ptr<IfcGridPlacement> other = dynamic_pointer_cast<IfcGridPlacement>(other_entity);
-	if( !other) { return; }
-	m_PlacementLocation = other->m_PlacementLocation;
-	m_PlacementRefDirection = other->m_PlacementRefDirection;
+	shared_ptr<IfcGridPlacement> copy_self( new IfcGridPlacement() );
+	if( m_PlacementLocation ) { copy_self->m_PlacementLocation = dynamic_pointer_cast<IfcVirtualGridIntersection>( m_PlacementLocation->getDeepCopy() ); }
+	if( m_PlacementRefDirection ) { copy_self->m_PlacementRefDirection = dynamic_pointer_cast<IfcGridPlacementDirectionSelect>( m_PlacementRefDirection->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcGridPlacement::getStepLine( std::stringstream& stream ) const
 {

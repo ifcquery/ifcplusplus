@@ -42,23 +42,42 @@
 IfcGrid::IfcGrid() {}
 IfcGrid::IfcGrid( int id ) { m_id = id; }
 IfcGrid::~IfcGrid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGrid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGrid::getDeepCopy()
 {
-	shared_ptr<IfcGrid> other = dynamic_pointer_cast<IfcGrid>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_ObjectPlacement = other->m_ObjectPlacement;
-	m_Representation = other->m_Representation;
-	m_UAxes = other->m_UAxes;
-	m_VAxes = other->m_VAxes;
-	m_WAxes = other->m_WAxes;
-	m_PredefinedType = other->m_PredefinedType;
+	shared_ptr<IfcGrid> copy_self( new IfcGrid() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_UAxes.size(); ++ii )
+	{
+		auto item_ii = m_UAxes[ii];
+		if( item_ii )
+		{
+			copy_self->m_UAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_VAxes.size(); ++ii )
+	{
+		auto item_ii = m_VAxes[ii];
+		if( item_ii )
+		{
+			copy_self->m_VAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_WAxes.size(); ++ii )
+	{
+		auto item_ii = m_WAxes[ii];
+		if( item_ii )
+		{
+			copy_self->m_WAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcGridTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcGrid::getStepLine( std::stringstream& stream ) const
 {

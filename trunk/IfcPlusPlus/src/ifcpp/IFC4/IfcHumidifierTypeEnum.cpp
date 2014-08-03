@@ -23,6 +23,12 @@
 // TYPE IfcHumidifierTypeEnum 
 IfcHumidifierTypeEnum::IfcHumidifierTypeEnum() {}
 IfcHumidifierTypeEnum::~IfcHumidifierTypeEnum() {}
+shared_ptr<IfcPPObject> IfcHumidifierTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcHumidifierTypeEnum> copy_self( new IfcHumidifierTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcHumidifierTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHUMIDIFIERTYPEENUM("; }

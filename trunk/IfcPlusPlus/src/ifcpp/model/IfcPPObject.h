@@ -25,7 +25,10 @@ enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 class IfcPPObject
 {
 public:
+	IfcPPObject() {}
+	~IfcPPObject() {}
 	virtual const char* classname() const { return "IfcPPObject"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPObject() ); }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {}
 };
 
@@ -91,6 +94,7 @@ public:
 	IfcPPBinary( const char* value );
 	~IfcPPBinary();
 	virtual const char* classname() const { return "IfcPPBinary"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	void readArgument( const char* attribute_value );
 	const char* m_value;
 };
@@ -106,6 +110,7 @@ public:
 	IfcPPEntity( int id );
 	virtual ~IfcPPEntity();
 	virtual const char* classname() const { return "IfcPPEntity"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
 	virtual void getStepLine( std::stringstream& stream ) const = 0;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes ) = 0;

@@ -28,16 +28,14 @@
 IfcRectangularPyramid::IfcRectangularPyramid() {}
 IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_id = id; }
 IfcRectangularPyramid::~IfcRectangularPyramid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRectangularPyramid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRectangularPyramid::getDeepCopy()
 {
-	shared_ptr<IfcRectangularPyramid> other = dynamic_pointer_cast<IfcRectangularPyramid>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
-	m_XLength = other->m_XLength;
-	m_YLength = other->m_YLength;
-	m_Height = other->m_Height;
+	shared_ptr<IfcRectangularPyramid> copy_self( new IfcRectangularPyramid() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_XLength ) { copy_self->m_XLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XLength->getDeepCopy() ); }
+	if( m_YLength ) { copy_self->m_YLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YLength->getDeepCopy() ); }
+	if( m_Height ) { copy_self->m_Height = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Height->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 {

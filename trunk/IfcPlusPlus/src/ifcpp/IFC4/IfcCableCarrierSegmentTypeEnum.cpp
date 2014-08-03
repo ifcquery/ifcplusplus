@@ -23,6 +23,12 @@
 // TYPE IfcCableCarrierSegmentTypeEnum 
 IfcCableCarrierSegmentTypeEnum::IfcCableCarrierSegmentTypeEnum() {}
 IfcCableCarrierSegmentTypeEnum::~IfcCableCarrierSegmentTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCableCarrierSegmentTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCableCarrierSegmentTypeEnum> copy_self( new IfcCableCarrierSegmentTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCableCarrierSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLECARRIERSEGMENTTYPEENUM("; }

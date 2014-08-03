@@ -23,6 +23,12 @@
 // TYPE IfcFireSuppressionTerminalTypeEnum 
 IfcFireSuppressionTerminalTypeEnum::IfcFireSuppressionTerminalTypeEnum() {}
 IfcFireSuppressionTerminalTypeEnum::~IfcFireSuppressionTerminalTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFireSuppressionTerminalTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFireSuppressionTerminalTypeEnum> copy_self( new IfcFireSuppressionTerminalTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFireSuppressionTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFIRESUPPRESSIONTERMINALTYPEENUM("; }

@@ -25,14 +25,12 @@
 IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont() {}
 IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont( int id ) { m_id = id; }
 IfcTextStyleForDefinedFont::~IfcTextStyleForDefinedFont() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextStyleForDefinedFont::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextStyleForDefinedFont::getDeepCopy()
 {
-	shared_ptr<IfcTextStyleForDefinedFont> other = dynamic_pointer_cast<IfcTextStyleForDefinedFont>(other_entity);
-	if( !other) { return; }
-	m_Colour = other->m_Colour;
-	m_BackgroundColour = other->m_BackgroundColour;
+	shared_ptr<IfcTextStyleForDefinedFont> copy_self( new IfcTextStyleForDefinedFont() );
+	if( m_Colour ) { copy_self->m_Colour = dynamic_pointer_cast<IfcColour>( m_Colour->getDeepCopy() ); }
+	if( m_BackgroundColour ) { copy_self->m_BackgroundColour = dynamic_pointer_cast<IfcColour>( m_BackgroundColour->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTextStyleForDefinedFont::getStepLine( std::stringstream& stream ) const
 {

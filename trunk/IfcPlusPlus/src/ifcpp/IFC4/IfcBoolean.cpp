@@ -31,6 +31,12 @@
 IfcBoolean::IfcBoolean() {}
 IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
 IfcBoolean::~IfcBoolean() {}
+shared_ptr<IfcPPObject> IfcBoolean::getDeepCopy()
+{
+	shared_ptr<IfcBoolean> copy_self( new IfcBoolean() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEAN("; }

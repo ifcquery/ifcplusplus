@@ -55,29 +55,27 @@
 IfcTendon::IfcTendon() {}
 IfcTendon::IfcTendon( int id ) { m_id = id; }
 IfcTendon::~IfcTendon() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTendon::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTendon::getDeepCopy()
 {
-	shared_ptr<IfcTendon> other = dynamic_pointer_cast<IfcTendon>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_ObjectPlacement = other->m_ObjectPlacement;
-	m_Representation = other->m_Representation;
-	m_Tag = other->m_Tag;
-	m_SteelGrade = other->m_SteelGrade;
-	m_PredefinedType = other->m_PredefinedType;
-	m_NominalDiameter = other->m_NominalDiameter;
-	m_CrossSectionArea = other->m_CrossSectionArea;
-	m_TensionForce = other->m_TensionForce;
-	m_PreStress = other->m_PreStress;
-	m_FrictionCoefficient = other->m_FrictionCoefficient;
-	m_AnchorageSlip = other->m_AnchorageSlip;
-	m_MinCurvatureRadius = other->m_MinCurvatureRadius;
+	shared_ptr<IfcTendon> copy_self( new IfcTendon() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
+	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcIdentifier>( m_Tag->getDeepCopy() ); }
+	if( m_SteelGrade ) { copy_self->m_SteelGrade = dynamic_pointer_cast<IfcLabel>( m_SteelGrade->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTendonTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_NominalDiameter ) { copy_self->m_NominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalDiameter->getDeepCopy() ); }
+	if( m_CrossSectionArea ) { copy_self->m_CrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_CrossSectionArea->getDeepCopy() ); }
+	if( m_TensionForce ) { copy_self->m_TensionForce = dynamic_pointer_cast<IfcForceMeasure>( m_TensionForce->getDeepCopy() ); }
+	if( m_PreStress ) { copy_self->m_PreStress = dynamic_pointer_cast<IfcPressureMeasure>( m_PreStress->getDeepCopy() ); }
+	if( m_FrictionCoefficient ) { copy_self->m_FrictionCoefficient = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FrictionCoefficient->getDeepCopy() ); }
+	if( m_AnchorageSlip ) { copy_self->m_AnchorageSlip = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_AnchorageSlip->getDeepCopy() ); }
+	if( m_MinCurvatureRadius ) { copy_self->m_MinCurvatureRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_MinCurvatureRadius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTendon::getStepLine( std::stringstream& stream ) const
 {

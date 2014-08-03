@@ -25,6 +25,12 @@
 IfcIdentifier::IfcIdentifier() {}
 IfcIdentifier::IfcIdentifier( std::wstring value ) { m_value = value; }
 IfcIdentifier::~IfcIdentifier() {}
+shared_ptr<IfcPPObject> IfcIdentifier::getDeepCopy()
+{
+	shared_ptr<IfcIdentifier> copy_self( new IfcIdentifier() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCIDENTIFIER("; }

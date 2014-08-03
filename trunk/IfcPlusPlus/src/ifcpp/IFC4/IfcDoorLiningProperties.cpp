@@ -37,29 +37,27 @@
 IfcDoorLiningProperties::IfcDoorLiningProperties() {}
 IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_id = id; }
 IfcDoorLiningProperties::~IfcDoorLiningProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDoorLiningProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDoorLiningProperties::getDeepCopy()
 {
-	shared_ptr<IfcDoorLiningProperties> other = dynamic_pointer_cast<IfcDoorLiningProperties>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_LiningDepth = other->m_LiningDepth;
-	m_LiningThickness = other->m_LiningThickness;
-	m_ThresholdDepth = other->m_ThresholdDepth;
-	m_ThresholdThickness = other->m_ThresholdThickness;
-	m_TransomThickness = other->m_TransomThickness;
-	m_TransomOffset = other->m_TransomOffset;
-	m_LiningOffset = other->m_LiningOffset;
-	m_ThresholdOffset = other->m_ThresholdOffset;
-	m_CasingThickness = other->m_CasingThickness;
-	m_CasingDepth = other->m_CasingDepth;
-	m_ShapeAspectStyle = other->m_ShapeAspectStyle;
-	m_LiningToPanelOffsetX = other->m_LiningToPanelOffsetX;
-	m_LiningToPanelOffsetY = other->m_LiningToPanelOffsetY;
+	shared_ptr<IfcDoorLiningProperties> copy_self( new IfcDoorLiningProperties() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_LiningDepth ) { copy_self->m_LiningDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LiningDepth->getDeepCopy() ); }
+	if( m_LiningThickness ) { copy_self->m_LiningThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LiningThickness->getDeepCopy() ); }
+	if( m_ThresholdDepth ) { copy_self->m_ThresholdDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ThresholdDepth->getDeepCopy() ); }
+	if( m_ThresholdThickness ) { copy_self->m_ThresholdThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_ThresholdThickness->getDeepCopy() ); }
+	if( m_TransomThickness ) { copy_self->m_TransomThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TransomThickness->getDeepCopy() ); }
+	if( m_TransomOffset ) { copy_self->m_TransomOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_TransomOffset->getDeepCopy() ); }
+	if( m_LiningOffset ) { copy_self->m_LiningOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningOffset->getDeepCopy() ); }
+	if( m_ThresholdOffset ) { copy_self->m_ThresholdOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_ThresholdOffset->getDeepCopy() ); }
+	if( m_CasingThickness ) { copy_self->m_CasingThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_CasingThickness->getDeepCopy() ); }
+	if( m_CasingDepth ) { copy_self->m_CasingDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_CasingDepth->getDeepCopy() ); }
+	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy() ); }
+	if( m_LiningToPanelOffsetX ) { copy_self->m_LiningToPanelOffsetX = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetX->getDeepCopy() ); }
+	if( m_LiningToPanelOffsetY ) { copy_self->m_LiningToPanelOffsetY = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetY->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcDoorLiningProperties::getStepLine( std::stringstream& stream ) const
 {

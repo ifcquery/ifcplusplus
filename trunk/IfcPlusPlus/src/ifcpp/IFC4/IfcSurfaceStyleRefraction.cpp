@@ -25,14 +25,12 @@
 IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction() {}
 IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction( int id ) { m_id = id; }
 IfcSurfaceStyleRefraction::~IfcSurfaceStyleRefraction() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceStyleRefraction::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceStyleRefraction::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceStyleRefraction> other = dynamic_pointer_cast<IfcSurfaceStyleRefraction>(other_entity);
-	if( !other) { return; }
-	m_RefractionIndex = other->m_RefractionIndex;
-	m_DispersionFactor = other->m_DispersionFactor;
+	shared_ptr<IfcSurfaceStyleRefraction> copy_self( new IfcSurfaceStyleRefraction() );
+	if( m_RefractionIndex ) { copy_self->m_RefractionIndex = dynamic_pointer_cast<IfcReal>( m_RefractionIndex->getDeepCopy() ); }
+	if( m_DispersionFactor ) { copy_self->m_DispersionFactor = dynamic_pointer_cast<IfcReal>( m_DispersionFactor->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream ) const
 {

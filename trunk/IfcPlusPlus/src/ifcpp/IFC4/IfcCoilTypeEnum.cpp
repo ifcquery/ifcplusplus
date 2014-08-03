@@ -23,6 +23,12 @@
 // TYPE IfcCoilTypeEnum 
 IfcCoilTypeEnum::IfcCoilTypeEnum() {}
 IfcCoilTypeEnum::~IfcCoilTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCoilTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCoilTypeEnum> copy_self( new IfcCoilTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCoilTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOILTYPEENUM("; }

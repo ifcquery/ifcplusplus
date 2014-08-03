@@ -28,19 +28,17 @@
 IfcProjectedCRS::IfcProjectedCRS() {}
 IfcProjectedCRS::IfcProjectedCRS( int id ) { m_id = id; }
 IfcProjectedCRS::~IfcProjectedCRS() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcProjectedCRS::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcProjectedCRS::getDeepCopy()
 {
-	shared_ptr<IfcProjectedCRS> other = dynamic_pointer_cast<IfcProjectedCRS>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_GeodeticDatum = other->m_GeodeticDatum;
-	m_VerticalDatum = other->m_VerticalDatum;
-	m_MapProjection = other->m_MapProjection;
-	m_MapZone = other->m_MapZone;
-	m_MapUnit = other->m_MapUnit;
+	shared_ptr<IfcProjectedCRS> copy_self( new IfcProjectedCRS() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_GeodeticDatum ) { copy_self->m_GeodeticDatum = dynamic_pointer_cast<IfcIdentifier>( m_GeodeticDatum->getDeepCopy() ); }
+	if( m_VerticalDatum ) { copy_self->m_VerticalDatum = dynamic_pointer_cast<IfcIdentifier>( m_VerticalDatum->getDeepCopy() ); }
+	if( m_MapProjection ) { copy_self->m_MapProjection = dynamic_pointer_cast<IfcIdentifier>( m_MapProjection->getDeepCopy() ); }
+	if( m_MapZone ) { copy_self->m_MapZone = dynamic_pointer_cast<IfcIdentifier>( m_MapZone->getDeepCopy() ); }
+	if( m_MapUnit ) { copy_self->m_MapUnit = dynamic_pointer_cast<IfcNamedUnit>( m_MapUnit->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 {

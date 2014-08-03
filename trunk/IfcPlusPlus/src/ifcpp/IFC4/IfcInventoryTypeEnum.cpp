@@ -23,6 +23,12 @@
 // TYPE IfcInventoryTypeEnum 
 IfcInventoryTypeEnum::IfcInventoryTypeEnum() {}
 IfcInventoryTypeEnum::~IfcInventoryTypeEnum() {}
+shared_ptr<IfcPPObject> IfcInventoryTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcInventoryTypeEnum> copy_self( new IfcInventoryTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINVENTORYTYPEENUM("; }

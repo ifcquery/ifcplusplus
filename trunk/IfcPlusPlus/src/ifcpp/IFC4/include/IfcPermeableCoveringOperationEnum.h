@@ -36,6 +36,7 @@ public:
 	IfcPermeableCoveringOperationEnum( IfcPermeableCoveringOperationEnumEnum e ) { m_enum = e; }
 	~IfcPermeableCoveringOperationEnum();
 	virtual const char* classname() const { return "IfcPermeableCoveringOperationEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPermeableCoveringOperationEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcPermeableCoveringOperationEnumEnum m_enum;

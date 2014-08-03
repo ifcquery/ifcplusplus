@@ -40,21 +40,33 @@
 IfcWorkCalendar::IfcWorkCalendar() {}
 IfcWorkCalendar::IfcWorkCalendar( int id ) { m_id = id; }
 IfcWorkCalendar::~IfcWorkCalendar() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcWorkCalendar::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcWorkCalendar::getDeepCopy()
 {
-	shared_ptr<IfcWorkCalendar> other = dynamic_pointer_cast<IfcWorkCalendar>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_Identification = other->m_Identification;
-	m_WorkingTimes = other->m_WorkingTimes;
-	m_ExceptionTimes = other->m_ExceptionTimes;
-	m_PredefinedType = other->m_PredefinedType;
+	shared_ptr<IfcWorkCalendar> copy_self( new IfcWorkCalendar() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_WorkingTimes.size(); ++ii )
+	{
+		auto item_ii = m_WorkingTimes[ii];
+		if( item_ii )
+		{
+			copy_self->m_WorkingTimes.push_back( dynamic_pointer_cast<IfcWorkTime>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_ExceptionTimes.size(); ++ii )
+	{
+		auto item_ii = m_ExceptionTimes[ii];
+		if( item_ii )
+		{
+			copy_self->m_ExceptionTimes.push_back( dynamic_pointer_cast<IfcWorkTime>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcWorkCalendarTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcWorkCalendar::getStepLine( std::stringstream& stream ) const
 {

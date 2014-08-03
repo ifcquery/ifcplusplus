@@ -23,6 +23,12 @@
 // TYPE IfcSIPrefix 
 IfcSIPrefix::IfcSIPrefix() {}
 IfcSIPrefix::~IfcSIPrefix() {}
+shared_ptr<IfcPPObject> IfcSIPrefix::getDeepCopy()
+{
+	shared_ptr<IfcSIPrefix> copy_self( new IfcSIPrefix() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIPREFIX("; }

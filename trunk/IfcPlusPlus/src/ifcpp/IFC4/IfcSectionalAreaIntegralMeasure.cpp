@@ -25,6 +25,12 @@
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure() {}
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure( double value ) { m_value = value; }
 IfcSectionalAreaIntegralMeasure::~IfcSectionalAreaIntegralMeasure() {}
+shared_ptr<IfcPPObject> IfcSectionalAreaIntegralMeasure::getDeepCopy()
+{
+	shared_ptr<IfcSectionalAreaIntegralMeasure> copy_self( new IfcSectionalAreaIntegralMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSectionalAreaIntegralMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSECTIONALAREAINTEGRALMEASURE("; }

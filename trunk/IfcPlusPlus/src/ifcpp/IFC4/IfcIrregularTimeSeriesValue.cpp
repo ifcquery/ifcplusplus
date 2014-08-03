@@ -26,14 +26,19 @@
 IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue() {}
 IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int id ) { m_id = id; }
 IfcIrregularTimeSeriesValue::~IfcIrregularTimeSeriesValue() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcIrregularTimeSeriesValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcIrregularTimeSeriesValue::getDeepCopy()
 {
-	shared_ptr<IfcIrregularTimeSeriesValue> other = dynamic_pointer_cast<IfcIrregularTimeSeriesValue>(other_entity);
-	if( !other) { return; }
-	m_TimeStamp = other->m_TimeStamp;
-	m_ListValues = other->m_ListValues;
+	shared_ptr<IfcIrregularTimeSeriesValue> copy_self( new IfcIrregularTimeSeriesValue() );
+	if( m_TimeStamp ) { copy_self->m_TimeStamp = dynamic_pointer_cast<IfcDateTime>( m_TimeStamp->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_ListValues.size(); ++ii )
+	{
+		auto item_ii = m_ListValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_ListValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {

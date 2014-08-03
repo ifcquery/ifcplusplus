@@ -28,16 +28,14 @@
 IfcEdgeCurve::IfcEdgeCurve() {}
 IfcEdgeCurve::IfcEdgeCurve( int id ) { m_id = id; }
 IfcEdgeCurve::~IfcEdgeCurve() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcEdgeCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcEdgeCurve::getDeepCopy()
 {
-	shared_ptr<IfcEdgeCurve> other = dynamic_pointer_cast<IfcEdgeCurve>(other_entity);
-	if( !other) { return; }
-	m_EdgeStart = other->m_EdgeStart;
-	m_EdgeEnd = other->m_EdgeEnd;
-	m_EdgeGeometry = other->m_EdgeGeometry;
-	m_SameSense = other->m_SameSense;
+	shared_ptr<IfcEdgeCurve> copy_self( new IfcEdgeCurve() );
+	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy() ); }
+	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy() ); }
+	if( m_EdgeGeometry ) { copy_self->m_EdgeGeometry = dynamic_pointer_cast<IfcCurve>( m_EdgeGeometry->getDeepCopy() ); }
+	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
+	return copy_self;
 }
 void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 {

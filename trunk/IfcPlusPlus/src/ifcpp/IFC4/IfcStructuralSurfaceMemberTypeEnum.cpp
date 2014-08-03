@@ -23,6 +23,12 @@
 // TYPE IfcStructuralSurfaceMemberTypeEnum 
 IfcStructuralSurfaceMemberTypeEnum::IfcStructuralSurfaceMemberTypeEnum() {}
 IfcStructuralSurfaceMemberTypeEnum::~IfcStructuralSurfaceMemberTypeEnum() {}
+shared_ptr<IfcPPObject> IfcStructuralSurfaceMemberTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcStructuralSurfaceMemberTypeEnum> copy_self( new IfcStructuralSurfaceMemberTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcStructuralSurfaceMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALSURFACEMEMBERTYPEENUM("; }

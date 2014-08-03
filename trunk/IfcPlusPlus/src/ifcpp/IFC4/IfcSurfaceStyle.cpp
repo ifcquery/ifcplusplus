@@ -27,15 +27,20 @@
 IfcSurfaceStyle::IfcSurfaceStyle() {}
 IfcSurfaceStyle::IfcSurfaceStyle( int id ) { m_id = id; }
 IfcSurfaceStyle::~IfcSurfaceStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceStyle::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceStyle> other = dynamic_pointer_cast<IfcSurfaceStyle>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Side = other->m_Side;
-	m_Styles = other->m_Styles;
+	shared_ptr<IfcSurfaceStyle> copy_self( new IfcSurfaceStyle() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Side ) { copy_self->m_Side = dynamic_pointer_cast<IfcSurfaceSide>( m_Side->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Styles.size(); ++ii )
+	{
+		auto item_ii = m_Styles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcSurfaceStyleElementSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 {

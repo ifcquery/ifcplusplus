@@ -45,6 +45,7 @@ public:
 	IfcCommunicationsApplianceTypeEnum( IfcCommunicationsApplianceTypeEnumEnum e ) { m_enum = e; }
 	~IfcCommunicationsApplianceTypeEnum();
 	virtual const char* classname() const { return "IfcCommunicationsApplianceTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCommunicationsApplianceTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcCommunicationsApplianceTypeEnumEnum m_enum;

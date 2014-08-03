@@ -25,16 +25,14 @@
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting() {}
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_id = id; }
 IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceStyleLighting::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceStyleLighting::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceStyleLighting> other = dynamic_pointer_cast<IfcSurfaceStyleLighting>(other_entity);
-	if( !other) { return; }
-	m_DiffuseTransmissionColour = other->m_DiffuseTransmissionColour;
-	m_DiffuseReflectionColour = other->m_DiffuseReflectionColour;
-	m_TransmissionColour = other->m_TransmissionColour;
-	m_ReflectanceColour = other->m_ReflectanceColour;
+	shared_ptr<IfcSurfaceStyleLighting> copy_self( new IfcSurfaceStyleLighting() );
+	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseTransmissionColour->getDeepCopy() ); }
+	if( m_DiffuseReflectionColour ) { copy_self->m_DiffuseReflectionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseReflectionColour->getDeepCopy() ); }
+	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_TransmissionColour->getDeepCopy() ); }
+	if( m_ReflectanceColour ) { copy_self->m_ReflectanceColour = dynamic_pointer_cast<IfcColourRgb>( m_ReflectanceColour->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 {

@@ -30,17 +30,15 @@
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered() {}
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered( int id ) { m_id = id; }
 IfcExtrudedAreaSolidTapered::~IfcExtrudedAreaSolidTapered() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcExtrudedAreaSolidTapered::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcExtrudedAreaSolidTapered::getDeepCopy()
 {
-	shared_ptr<IfcExtrudedAreaSolidTapered> other = dynamic_pointer_cast<IfcExtrudedAreaSolidTapered>(other_entity);
-	if( !other) { return; }
-	m_SweptArea = other->m_SweptArea;
-	m_Position = other->m_Position;
-	m_ExtrudedDirection = other->m_ExtrudedDirection;
-	m_Depth = other->m_Depth;
-	m_EndSweptArea = other->m_EndSweptArea;
+	shared_ptr<IfcExtrudedAreaSolidTapered> copy_self( new IfcExtrudedAreaSolidTapered() );
+	if( m_SweptArea ) { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_ExtrudedDirection ) { copy_self->m_ExtrudedDirection = dynamic_pointer_cast<IfcDirection>( m_ExtrudedDirection->getDeepCopy() ); }
+	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy() ); }
+	if( m_EndSweptArea ) { copy_self->m_EndSweptArea = dynamic_pointer_cast<IfcProfileDef>( m_EndSweptArea->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {

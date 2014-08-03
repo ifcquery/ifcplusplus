@@ -31,19 +31,17 @@
 IfcTrapeziumProfileDef::IfcTrapeziumProfileDef() {}
 IfcTrapeziumProfileDef::IfcTrapeziumProfileDef( int id ) { m_id = id; }
 IfcTrapeziumProfileDef::~IfcTrapeziumProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTrapeziumProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTrapeziumProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcTrapeziumProfileDef> other = dynamic_pointer_cast<IfcTrapeziumProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_BottomXDim = other->m_BottomXDim;
-	m_TopXDim = other->m_TopXDim;
-	m_YDim = other->m_YDim;
-	m_TopXOffset = other->m_TopXOffset;
+	shared_ptr<IfcTrapeziumProfileDef> copy_self( new IfcTrapeziumProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_BottomXDim ) { copy_self->m_BottomXDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BottomXDim->getDeepCopy() ); }
+	if( m_TopXDim ) { copy_self->m_TopXDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_TopXDim->getDeepCopy() ); }
+	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy() ); }
+	if( m_TopXOffset ) { copy_self->m_TopXOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_TopXOffset->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTrapeziumProfileDef::getStepLine( std::stringstream& stream ) const
 {

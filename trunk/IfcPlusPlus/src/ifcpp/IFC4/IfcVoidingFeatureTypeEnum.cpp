@@ -23,6 +23,12 @@
 // TYPE IfcVoidingFeatureTypeEnum 
 IfcVoidingFeatureTypeEnum::IfcVoidingFeatureTypeEnum() {}
 IfcVoidingFeatureTypeEnum::~IfcVoidingFeatureTypeEnum() {}
+shared_ptr<IfcPPObject> IfcVoidingFeatureTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcVoidingFeatureTypeEnum> copy_self( new IfcVoidingFeatureTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcVoidingFeatureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOIDINGFEATURETYPEENUM("; }

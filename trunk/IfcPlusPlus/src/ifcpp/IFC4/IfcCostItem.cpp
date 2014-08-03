@@ -41,21 +41,33 @@
 IfcCostItem::IfcCostItem() {}
 IfcCostItem::IfcCostItem( int id ) { m_id = id; }
 IfcCostItem::~IfcCostItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCostItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCostItem::getDeepCopy()
 {
-	shared_ptr<IfcCostItem> other = dynamic_pointer_cast<IfcCostItem>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_Identification = other->m_Identification;
-	m_PredefinedType = other->m_PredefinedType;
-	m_CostValues = other->m_CostValues;
-	m_CostQuantities = other->m_CostQuantities;
+	shared_ptr<IfcCostItem> copy_self( new IfcCostItem() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcCostItemTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_CostValues.size(); ++ii )
+	{
+		auto item_ii = m_CostValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_CostValues.push_back( dynamic_pointer_cast<IfcCostValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_CostQuantities.size(); ++ii )
+	{
+		auto item_ii = m_CostQuantities[ii];
+		if( item_ii )
+		{
+			copy_self->m_CostQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcCostItem::getStepLine( std::stringstream& stream ) const
 {

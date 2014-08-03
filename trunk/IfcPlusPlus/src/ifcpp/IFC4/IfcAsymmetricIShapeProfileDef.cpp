@@ -32,27 +32,25 @@
 IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef() {}
 IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_id = id; }
 IfcAsymmetricIShapeProfileDef::~IfcAsymmetricIShapeProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAsymmetricIShapeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAsymmetricIShapeProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcAsymmetricIShapeProfileDef> other = dynamic_pointer_cast<IfcAsymmetricIShapeProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_BottomFlangeWidth = other->m_BottomFlangeWidth;
-	m_OverallDepth = other->m_OverallDepth;
-	m_WebThickness = other->m_WebThickness;
-	m_BottomFlangeThickness = other->m_BottomFlangeThickness;
-	m_BottomFlangeFilletRadius = other->m_BottomFlangeFilletRadius;
-	m_TopFlangeWidth = other->m_TopFlangeWidth;
-	m_TopFlangeThickness = other->m_TopFlangeThickness;
-	m_TopFlangeFilletRadius = other->m_TopFlangeFilletRadius;
-	m_BottomFlangeEdgeRadius = other->m_BottomFlangeEdgeRadius;
-	m_BottomFlangeSlope = other->m_BottomFlangeSlope;
-	m_TopFlangeEdgeRadius = other->m_TopFlangeEdgeRadius;
-	m_TopFlangeSlope = other->m_TopFlangeSlope;
+	shared_ptr<IfcAsymmetricIShapeProfileDef> copy_self( new IfcAsymmetricIShapeProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_BottomFlangeWidth ) { copy_self->m_BottomFlangeWidth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BottomFlangeWidth->getDeepCopy() ); }
+	if( m_OverallDepth ) { copy_self->m_OverallDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_OverallDepth->getDeepCopy() ); }
+	if( m_WebThickness ) { copy_self->m_WebThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WebThickness->getDeepCopy() ); }
+	if( m_BottomFlangeThickness ) { copy_self->m_BottomFlangeThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BottomFlangeThickness->getDeepCopy() ); }
+	if( m_BottomFlangeFilletRadius ) { copy_self->m_BottomFlangeFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_BottomFlangeFilletRadius->getDeepCopy() ); }
+	if( m_TopFlangeWidth ) { copy_self->m_TopFlangeWidth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_TopFlangeWidth->getDeepCopy() ); }
+	if( m_TopFlangeThickness ) { copy_self->m_TopFlangeThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_TopFlangeThickness->getDeepCopy() ); }
+	if( m_TopFlangeFilletRadius ) { copy_self->m_TopFlangeFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TopFlangeFilletRadius->getDeepCopy() ); }
+	if( m_BottomFlangeEdgeRadius ) { copy_self->m_BottomFlangeEdgeRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_BottomFlangeEdgeRadius->getDeepCopy() ); }
+	if( m_BottomFlangeSlope ) { copy_self->m_BottomFlangeSlope = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_BottomFlangeSlope->getDeepCopy() ); }
+	if( m_TopFlangeEdgeRadius ) { copy_self->m_TopFlangeEdgeRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TopFlangeEdgeRadius->getDeepCopy() ); }
+	if( m_TopFlangeSlope ) { copy_self->m_TopFlangeSlope = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_TopFlangeSlope->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {

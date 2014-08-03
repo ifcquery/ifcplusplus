@@ -28,6 +28,7 @@ public:
 	IfcMassDensityMeasure( double value );
 	~IfcMassDensityMeasure();
 	virtual const char* classname() const { return "IfcMassDensityMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcMassDensityMeasure> createObjectFromStepData( const std::wstring& arg );
 };

@@ -23,6 +23,12 @@
 // TYPE IfcSIUnitName 
 IfcSIUnitName::IfcSIUnitName() {}
 IfcSIUnitName::~IfcSIUnitName() {}
+shared_ptr<IfcPPObject> IfcSIUnitName::getDeepCopy()
+{
+	shared_ptr<IfcSIUnitName> copy_self( new IfcSIUnitName() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSIUnitName::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIUNITNAME("; }

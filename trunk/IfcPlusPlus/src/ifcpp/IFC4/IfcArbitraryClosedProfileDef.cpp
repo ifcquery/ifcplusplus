@@ -29,15 +29,13 @@
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef() {}
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int id ) { m_id = id; }
 IfcArbitraryClosedProfileDef::~IfcArbitraryClosedProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcArbitraryClosedProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcArbitraryClosedProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcArbitraryClosedProfileDef> other = dynamic_pointer_cast<IfcArbitraryClosedProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_OuterCurve = other->m_OuterCurve;
+	shared_ptr<IfcArbitraryClosedProfileDef> copy_self( new IfcArbitraryClosedProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) const
 {

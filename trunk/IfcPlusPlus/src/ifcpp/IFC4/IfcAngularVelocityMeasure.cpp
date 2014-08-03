@@ -25,6 +25,12 @@
 IfcAngularVelocityMeasure::IfcAngularVelocityMeasure() {}
 IfcAngularVelocityMeasure::IfcAngularVelocityMeasure( double value ) { m_value = value; }
 IfcAngularVelocityMeasure::~IfcAngularVelocityMeasure() {}
+shared_ptr<IfcPPObject> IfcAngularVelocityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcAngularVelocityMeasure> copy_self( new IfcAngularVelocityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcAngularVelocityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANGULARVELOCITYMEASURE("; }

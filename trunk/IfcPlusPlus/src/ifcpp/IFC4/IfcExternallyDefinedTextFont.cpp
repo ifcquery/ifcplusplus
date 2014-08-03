@@ -28,15 +28,13 @@
 IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont() {}
 IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont( int id ) { m_id = id; }
 IfcExternallyDefinedTextFont::~IfcExternallyDefinedTextFont() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcExternallyDefinedTextFont::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcExternallyDefinedTextFont::getDeepCopy()
 {
-	shared_ptr<IfcExternallyDefinedTextFont> other = dynamic_pointer_cast<IfcExternallyDefinedTextFont>(other_entity);
-	if( !other) { return; }
-	m_Location = other->m_Location;
-	m_Identification = other->m_Identification;
-	m_Name = other->m_Name;
+	shared_ptr<IfcExternallyDefinedTextFont> copy_self( new IfcExternallyDefinedTextFont() );
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcExternallyDefinedTextFont::getStepLine( std::stringstream& stream ) const
 {

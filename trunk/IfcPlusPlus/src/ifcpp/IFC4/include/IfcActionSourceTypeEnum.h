@@ -58,6 +58,7 @@ public:
 	IfcActionSourceTypeEnum( IfcActionSourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcActionSourceTypeEnum();
 	virtual const char* classname() const { return "IfcActionSourceTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcActionSourceTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcActionSourceTypeEnumEnum m_enum;

@@ -24,6 +24,12 @@
 IfcTextTransformation::IfcTextTransformation() {}
 IfcTextTransformation::IfcTextTransformation( std::wstring value ) { m_value = value; }
 IfcTextTransformation::~IfcTextTransformation() {}
+shared_ptr<IfcPPObject> IfcTextTransformation::getDeepCopy()
+{
+	shared_ptr<IfcTextTransformation> copy_self( new IfcTextTransformation() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTextTransformation::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTTRANSFORMATION("; }

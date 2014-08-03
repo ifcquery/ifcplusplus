@@ -23,6 +23,12 @@
 // TYPE IfcOutletTypeEnum 
 IfcOutletTypeEnum::IfcOutletTypeEnum() {}
 IfcOutletTypeEnum::~IfcOutletTypeEnum() {}
+shared_ptr<IfcPPObject> IfcOutletTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcOutletTypeEnum> copy_self( new IfcOutletTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcOutletTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOUTLETTYPEENUM("; }

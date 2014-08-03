@@ -23,6 +23,12 @@
 // TYPE IfcElementCompositionEnum 
 IfcElementCompositionEnum::IfcElementCompositionEnum() {}
 IfcElementCompositionEnum::~IfcElementCompositionEnum() {}
+shared_ptr<IfcPPObject> IfcElementCompositionEnum::getDeepCopy()
+{
+	shared_ptr<IfcElementCompositionEnum> copy_self( new IfcElementCompositionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTCOMPOSITIONENUM("; }

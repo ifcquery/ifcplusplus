@@ -25,6 +25,12 @@
 IfcMassMeasure::IfcMassMeasure() {}
 IfcMassMeasure::IfcMassMeasure( double value ) { m_value = value; }
 IfcMassMeasure::~IfcMassMeasure() {}
+shared_ptr<IfcPPObject> IfcMassMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMassMeasure> copy_self( new IfcMassMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMassMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMASSMEASURE("; }

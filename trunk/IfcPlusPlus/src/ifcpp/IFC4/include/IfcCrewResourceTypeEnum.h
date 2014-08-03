@@ -35,6 +35,7 @@ public:
 	IfcCrewResourceTypeEnum( IfcCrewResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcCrewResourceTypeEnum();
 	virtual const char* classname() const { return "IfcCrewResourceTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCrewResourceTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcCrewResourceTypeEnumEnum m_enum;

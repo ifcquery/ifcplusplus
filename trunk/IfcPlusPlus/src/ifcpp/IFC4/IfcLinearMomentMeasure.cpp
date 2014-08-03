@@ -25,6 +25,12 @@
 IfcLinearMomentMeasure::IfcLinearMomentMeasure() {}
 IfcLinearMomentMeasure::IfcLinearMomentMeasure( double value ) { m_value = value; }
 IfcLinearMomentMeasure::~IfcLinearMomentMeasure() {}
+shared_ptr<IfcPPObject> IfcLinearMomentMeasure::getDeepCopy()
+{
+	shared_ptr<IfcLinearMomentMeasure> copy_self( new IfcLinearMomentMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLinearMomentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEARMOMENTMEASURE("; }

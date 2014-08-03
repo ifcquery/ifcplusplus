@@ -25,14 +25,12 @@
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry() {}
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry( int id ) { m_id = id; }
 IfcConnectionVolumeGeometry::~IfcConnectionVolumeGeometry() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConnectionVolumeGeometry::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConnectionVolumeGeometry::getDeepCopy()
 {
-	shared_ptr<IfcConnectionVolumeGeometry> other = dynamic_pointer_cast<IfcConnectionVolumeGeometry>(other_entity);
-	if( !other) { return; }
-	m_VolumeOnRelatingElement = other->m_VolumeOnRelatingElement;
-	m_VolumeOnRelatedElement = other->m_VolumeOnRelatedElement;
+	shared_ptr<IfcConnectionVolumeGeometry> copy_self( new IfcConnectionVolumeGeometry() );
+	if( m_VolumeOnRelatingElement ) { copy_self->m_VolumeOnRelatingElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatingElement->getDeepCopy() ); }
+	if( m_VolumeOnRelatedElement ) { copy_self->m_VolumeOnRelatedElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatedElement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
 {

@@ -26,6 +26,12 @@
 IfcDuration::IfcDuration() {}
 IfcDuration::IfcDuration( std::wstring value ) { m_value = value; }
 IfcDuration::~IfcDuration() {}
+shared_ptr<IfcPPObject> IfcDuration::getDeepCopy()
+{
+	shared_ptr<IfcDuration> copy_self( new IfcDuration() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDuration::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDURATION("; }

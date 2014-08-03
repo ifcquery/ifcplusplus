@@ -25,6 +25,12 @@
 IfcMassDensityMeasure::IfcMassDensityMeasure() {}
 IfcMassDensityMeasure::IfcMassDensityMeasure( double value ) { m_value = value; }
 IfcMassDensityMeasure::~IfcMassDensityMeasure() {}
+shared_ptr<IfcPPObject> IfcMassDensityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMassDensityMeasure> copy_self( new IfcMassDensityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMassDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMASSDENSITYMEASURE("; }

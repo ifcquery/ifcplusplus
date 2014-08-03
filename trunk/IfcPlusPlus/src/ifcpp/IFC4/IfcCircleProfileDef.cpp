@@ -30,16 +30,14 @@
 IfcCircleProfileDef::IfcCircleProfileDef() {}
 IfcCircleProfileDef::IfcCircleProfileDef( int id ) { m_id = id; }
 IfcCircleProfileDef::~IfcCircleProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCircleProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCircleProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcCircleProfileDef> other = dynamic_pointer_cast<IfcCircleProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_Radius = other->m_Radius;
+	shared_ptr<IfcCircleProfileDef> copy_self( new IfcCircleProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCircleProfileDef::getStepLine( std::stringstream& stream ) const
 {

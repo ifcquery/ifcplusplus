@@ -28,20 +28,18 @@
 IfcMapConversion::IfcMapConversion() {}
 IfcMapConversion::IfcMapConversion( int id ) { m_id = id; }
 IfcMapConversion::~IfcMapConversion() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMapConversion::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMapConversion::getDeepCopy()
 {
-	shared_ptr<IfcMapConversion> other = dynamic_pointer_cast<IfcMapConversion>(other_entity);
-	if( !other) { return; }
-	m_SourceCRS = other->m_SourceCRS;
-	m_TargetCRS = other->m_TargetCRS;
-	m_Eastings = other->m_Eastings;
-	m_Northings = other->m_Northings;
-	m_OrthogonalHeight = other->m_OrthogonalHeight;
-	m_XAxisAbscissa = other->m_XAxisAbscissa;
-	m_XAxisOrdinate = other->m_XAxisOrdinate;
-	m_Scale = other->m_Scale;
+	shared_ptr<IfcMapConversion> copy_self( new IfcMapConversion() );
+	if( m_SourceCRS ) { copy_self->m_SourceCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystemSelect>( m_SourceCRS->getDeepCopy() ); }
+	if( m_TargetCRS ) { copy_self->m_TargetCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_TargetCRS->getDeepCopy() ); }
+	if( m_Eastings ) { copy_self->m_Eastings = dynamic_pointer_cast<IfcLengthMeasure>( m_Eastings->getDeepCopy() ); }
+	if( m_Northings ) { copy_self->m_Northings = dynamic_pointer_cast<IfcLengthMeasure>( m_Northings->getDeepCopy() ); }
+	if( m_OrthogonalHeight ) { copy_self->m_OrthogonalHeight = dynamic_pointer_cast<IfcLengthMeasure>( m_OrthogonalHeight->getDeepCopy() ); }
+	if( m_XAxisAbscissa ) { copy_self->m_XAxisAbscissa = dynamic_pointer_cast<IfcReal>( m_XAxisAbscissa->getDeepCopy() ); }
+	if( m_XAxisOrdinate ) { copy_self->m_XAxisOrdinate = dynamic_pointer_cast<IfcReal>( m_XAxisOrdinate->getDeepCopy() ); }
+	if( m_Scale ) { copy_self->m_Scale = dynamic_pointer_cast<IfcReal>( m_Scale->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcLanguageId 
 IfcLanguageId::IfcLanguageId() {}
 IfcLanguageId::~IfcLanguageId() {}
+shared_ptr<IfcPPObject> IfcLanguageId::getDeepCopy()
+{
+	shared_ptr<IfcLanguageId> copy_self( new IfcLanguageId() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLanguageId::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLANGUAGEID("; }

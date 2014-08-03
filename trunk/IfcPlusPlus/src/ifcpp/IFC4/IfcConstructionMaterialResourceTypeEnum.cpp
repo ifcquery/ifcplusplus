@@ -23,6 +23,12 @@
 // TYPE IfcConstructionMaterialResourceTypeEnum 
 IfcConstructionMaterialResourceTypeEnum::IfcConstructionMaterialResourceTypeEnum() {}
 IfcConstructionMaterialResourceTypeEnum::~IfcConstructionMaterialResourceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcConstructionMaterialResourceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcConstructionMaterialResourceTypeEnum> copy_self( new IfcConstructionMaterialResourceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcConstructionMaterialResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRUCTIONMATERIALRESOURCETYPEENUM("; }

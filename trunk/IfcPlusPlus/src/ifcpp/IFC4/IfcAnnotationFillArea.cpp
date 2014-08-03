@@ -27,14 +27,19 @@
 IfcAnnotationFillArea::IfcAnnotationFillArea() {}
 IfcAnnotationFillArea::IfcAnnotationFillArea( int id ) { m_id = id; }
 IfcAnnotationFillArea::~IfcAnnotationFillArea() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAnnotationFillArea::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAnnotationFillArea::getDeepCopy()
 {
-	shared_ptr<IfcAnnotationFillArea> other = dynamic_pointer_cast<IfcAnnotationFillArea>(other_entity);
-	if( !other) { return; }
-	m_OuterBoundary = other->m_OuterBoundary;
-	m_InnerBoundaries = other->m_InnerBoundaries;
+	shared_ptr<IfcAnnotationFillArea> copy_self( new IfcAnnotationFillArea() );
+	if( m_OuterBoundary ) { copy_self->m_OuterBoundary = dynamic_pointer_cast<IfcCurve>( m_OuterBoundary->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_InnerBoundaries.size(); ++ii )
+	{
+		auto item_ii = m_InnerBoundaries[ii];
+		if( item_ii )
+		{
+			copy_self->m_InnerBoundaries.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcAnnotationFillArea::getStepLine( std::stringstream& stream ) const
 {

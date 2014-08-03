@@ -23,6 +23,12 @@
 // TYPE IfcKnotType 
 IfcKnotType::IfcKnotType() {}
 IfcKnotType::~IfcKnotType() {}
+shared_ptr<IfcPPObject> IfcKnotType::getDeepCopy()
+{
+	shared_ptr<IfcKnotType> copy_self( new IfcKnotType() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCKNOTTYPE("; }

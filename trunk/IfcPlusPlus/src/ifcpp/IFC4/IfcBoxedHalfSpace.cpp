@@ -28,15 +28,13 @@
 IfcBoxedHalfSpace::IfcBoxedHalfSpace() {}
 IfcBoxedHalfSpace::IfcBoxedHalfSpace( int id ) { m_id = id; }
 IfcBoxedHalfSpace::~IfcBoxedHalfSpace() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoxedHalfSpace::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoxedHalfSpace::getDeepCopy()
 {
-	shared_ptr<IfcBoxedHalfSpace> other = dynamic_pointer_cast<IfcBoxedHalfSpace>(other_entity);
-	if( !other) { return; }
-	m_BaseSurface = other->m_BaseSurface;
-	m_AgreementFlag = other->m_AgreementFlag;
-	m_Enclosure = other->m_Enclosure;
+	shared_ptr<IfcBoxedHalfSpace> copy_self( new IfcBoxedHalfSpace() );
+	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy() ); }
+	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = m_AgreementFlag; }
+	if( m_Enclosure ) { copy_self->m_Enclosure = dynamic_pointer_cast<IfcBoundingBox>( m_Enclosure->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 {

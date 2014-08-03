@@ -28,15 +28,13 @@
 IfcActorRole::IfcActorRole() {}
 IfcActorRole::IfcActorRole( int id ) { m_id = id; }
 IfcActorRole::~IfcActorRole() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcActorRole::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcActorRole::getDeepCopy()
 {
-	shared_ptr<IfcActorRole> other = dynamic_pointer_cast<IfcActorRole>(other_entity);
-	if( !other) { return; }
-	m_Role = other->m_Role;
-	m_UserDefinedRole = other->m_UserDefinedRole;
-	m_Description = other->m_Description;
+	shared_ptr<IfcActorRole> copy_self( new IfcActorRole() );
+	if( m_Role ) { copy_self->m_Role = dynamic_pointer_cast<IfcRoleEnum>( m_Role->getDeepCopy() ); }
+	if( m_UserDefinedRole ) { copy_self->m_UserDefinedRole = dynamic_pointer_cast<IfcLabel>( m_UserDefinedRole->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcActorRole::getStepLine( std::stringstream& stream ) const
 {

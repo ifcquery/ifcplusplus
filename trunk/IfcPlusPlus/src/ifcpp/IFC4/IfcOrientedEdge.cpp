@@ -28,16 +28,14 @@
 IfcOrientedEdge::IfcOrientedEdge() {}
 IfcOrientedEdge::IfcOrientedEdge( int id ) { m_id = id; }
 IfcOrientedEdge::~IfcOrientedEdge() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcOrientedEdge::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcOrientedEdge::getDeepCopy()
 {
-	shared_ptr<IfcOrientedEdge> other = dynamic_pointer_cast<IfcOrientedEdge>(other_entity);
-	if( !other) { return; }
-	m_EdgeStart = other->m_EdgeStart;
-	m_EdgeEnd = other->m_EdgeEnd;
-	m_EdgeElement = other->m_EdgeElement;
-	m_Orientation = other->m_Orientation;
+	shared_ptr<IfcOrientedEdge> copy_self( new IfcOrientedEdge() );
+	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy() ); }
+	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy() ); }
+	if( m_EdgeElement ) { copy_self->m_EdgeElement = dynamic_pointer_cast<IfcEdge>( m_EdgeElement->getDeepCopy() ); }
+	if( m_Orientation ) { copy_self->m_Orientation = m_Orientation; }
+	return copy_self;
 }
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {

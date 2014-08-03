@@ -27,15 +27,20 @@
 IfcIndexedTextureMap::IfcIndexedTextureMap() {}
 IfcIndexedTextureMap::IfcIndexedTextureMap( int id ) { m_id = id; }
 IfcIndexedTextureMap::~IfcIndexedTextureMap() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcIndexedTextureMap::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcIndexedTextureMap::getDeepCopy()
 {
-	shared_ptr<IfcIndexedTextureMap> other = dynamic_pointer_cast<IfcIndexedTextureMap>(other_entity);
-	if( !other) { return; }
-	m_Maps = other->m_Maps;
-	m_MappedTo = other->m_MappedTo;
-	m_TexCoords = other->m_TexCoords;
+	shared_ptr<IfcIndexedTextureMap> copy_self( new IfcIndexedTextureMap() );
+	for( size_t ii=0; ii<m_Maps.size(); ++ii )
+	{
+		auto item_ii = m_Maps[ii];
+		if( item_ii )
+		{
+			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy() ); }
+	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcIndexedTextureMap::getStepLine( std::stringstream& stream ) const
 {

@@ -45,6 +45,7 @@ public:
 	IfcTaskTypeEnum( IfcTaskTypeEnumEnum e ) { m_enum = e; }
 	~IfcTaskTypeEnum();
 	virtual const char* classname() const { return "IfcTaskTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTaskTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcTaskTypeEnumEnum m_enum;

@@ -31,20 +31,18 @@
 IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef() {}
 IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef( int id ) { m_id = id; }
 IfcRectangleHollowProfileDef::~IfcRectangleHollowProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRectangleHollowProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRectangleHollowProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcRectangleHollowProfileDef> other = dynamic_pointer_cast<IfcRectangleHollowProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_XDim = other->m_XDim;
-	m_YDim = other->m_YDim;
-	m_WallThickness = other->m_WallThickness;
-	m_InnerFilletRadius = other->m_InnerFilletRadius;
-	m_OuterFilletRadius = other->m_OuterFilletRadius;
+	shared_ptr<IfcRectangleHollowProfileDef> copy_self( new IfcRectangleHollowProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy() ); }
+	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy() ); }
+	if( m_WallThickness ) { copy_self->m_WallThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WallThickness->getDeepCopy() ); }
+	if( m_InnerFilletRadius ) { copy_self->m_InnerFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_InnerFilletRadius->getDeepCopy() ); }
+	if( m_OuterFilletRadius ) { copy_self->m_OuterFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_OuterFilletRadius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 {

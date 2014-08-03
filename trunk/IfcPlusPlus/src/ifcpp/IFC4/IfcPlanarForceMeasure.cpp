@@ -25,6 +25,12 @@
 IfcPlanarForceMeasure::IfcPlanarForceMeasure() {}
 IfcPlanarForceMeasure::IfcPlanarForceMeasure( double value ) { m_value = value; }
 IfcPlanarForceMeasure::~IfcPlanarForceMeasure() {}
+shared_ptr<IfcPPObject> IfcPlanarForceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPlanarForceMeasure> copy_self( new IfcPlanarForceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPlanarForceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPLANARFORCEMEASURE("; }

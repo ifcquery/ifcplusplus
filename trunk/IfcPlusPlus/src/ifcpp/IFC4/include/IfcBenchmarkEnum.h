@@ -41,6 +41,7 @@ public:
 	IfcBenchmarkEnum( IfcBenchmarkEnumEnum e ) { m_enum = e; }
 	~IfcBenchmarkEnum();
 	virtual const char* classname() const { return "IfcBenchmarkEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBenchmarkEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcBenchmarkEnumEnum m_enum;
