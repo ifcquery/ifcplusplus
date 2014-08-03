@@ -39,21 +39,19 @@
 IfcProjectOrder::IfcProjectOrder() {}
 IfcProjectOrder::IfcProjectOrder( int id ) { m_id = id; }
 IfcProjectOrder::~IfcProjectOrder() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcProjectOrder::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcProjectOrder::getDeepCopy()
 {
-	shared_ptr<IfcProjectOrder> other = dynamic_pointer_cast<IfcProjectOrder>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_Identification = other->m_Identification;
-	m_PredefinedType = other->m_PredefinedType;
-	m_Status = other->m_Status;
-	m_LongDescription = other->m_LongDescription;
+	shared_ptr<IfcProjectOrder> copy_self( new IfcProjectOrder() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcProjectOrderTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy() ); }
+	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcProjectOrder::getStepLine( std::stringstream& stream ) const
 {

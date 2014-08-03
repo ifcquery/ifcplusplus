@@ -30,17 +30,15 @@
 IfcCircleHollowProfileDef::IfcCircleHollowProfileDef() {}
 IfcCircleHollowProfileDef::IfcCircleHollowProfileDef( int id ) { m_id = id; }
 IfcCircleHollowProfileDef::~IfcCircleHollowProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCircleHollowProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCircleHollowProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcCircleHollowProfileDef> other = dynamic_pointer_cast<IfcCircleHollowProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Position = other->m_Position;
-	m_Radius = other->m_Radius;
-	m_WallThickness = other->m_WallThickness;
+	shared_ptr<IfcCircleHollowProfileDef> copy_self( new IfcCircleHollowProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	if( m_WallThickness ) { copy_self->m_WallThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WallThickness->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCircleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 {

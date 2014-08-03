@@ -25,6 +25,12 @@
 IfcMassPerLengthMeasure::IfcMassPerLengthMeasure() {}
 IfcMassPerLengthMeasure::IfcMassPerLengthMeasure( double value ) { m_value = value; }
 IfcMassPerLengthMeasure::~IfcMassPerLengthMeasure() {}
+shared_ptr<IfcPPObject> IfcMassPerLengthMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMassPerLengthMeasure> copy_self( new IfcMassPerLengthMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMassPerLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMASSPERLENGTHMEASURE("; }

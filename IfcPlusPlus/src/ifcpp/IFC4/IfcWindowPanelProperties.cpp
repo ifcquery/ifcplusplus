@@ -37,21 +37,19 @@
 IfcWindowPanelProperties::IfcWindowPanelProperties() {}
 IfcWindowPanelProperties::IfcWindowPanelProperties( int id ) { m_id = id; }
 IfcWindowPanelProperties::~IfcWindowPanelProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcWindowPanelProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcWindowPanelProperties::getDeepCopy()
 {
-	shared_ptr<IfcWindowPanelProperties> other = dynamic_pointer_cast<IfcWindowPanelProperties>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_OperationType = other->m_OperationType;
-	m_PanelPosition = other->m_PanelPosition;
-	m_FrameDepth = other->m_FrameDepth;
-	m_FrameThickness = other->m_FrameThickness;
-	m_ShapeAspectStyle = other->m_ShapeAspectStyle;
+	shared_ptr<IfcWindowPanelProperties> copy_self( new IfcWindowPanelProperties() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_OperationType ) { copy_self->m_OperationType = dynamic_pointer_cast<IfcWindowPanelOperationEnum>( m_OperationType->getDeepCopy() ); }
+	if( m_PanelPosition ) { copy_self->m_PanelPosition = dynamic_pointer_cast<IfcWindowPanelPositionEnum>( m_PanelPosition->getDeepCopy() ); }
+	if( m_FrameDepth ) { copy_self->m_FrameDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FrameDepth->getDeepCopy() ); }
+	if( m_FrameThickness ) { copy_self->m_FrameThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FrameThickness->getDeepCopy() ); }
+	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcWindowPanelProperties::getStepLine( std::stringstream& stream ) const
 {

@@ -25,6 +25,12 @@
 IfcInteger::IfcInteger() {}
 IfcInteger::IfcInteger( int value ) { m_value = value; }
 IfcInteger::~IfcInteger() {}
+shared_ptr<IfcPPObject> IfcInteger::getDeepCopy()
+{
+	shared_ptr<IfcInteger> copy_self( new IfcInteger() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcInteger::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTEGER("; }

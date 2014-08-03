@@ -28,15 +28,13 @@
 IfcContextDependentUnit::IfcContextDependentUnit() {}
 IfcContextDependentUnit::IfcContextDependentUnit( int id ) { m_id = id; }
 IfcContextDependentUnit::~IfcContextDependentUnit() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcContextDependentUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcContextDependentUnit::getDeepCopy()
 {
-	shared_ptr<IfcContextDependentUnit> other = dynamic_pointer_cast<IfcContextDependentUnit>(other_entity);
-	if( !other) { return; }
-	m_Dimensions = other->m_Dimensions;
-	m_UnitType = other->m_UnitType;
-	m_Name = other->m_Name;
+	shared_ptr<IfcContextDependentUnit> copy_self( new IfcContextDependentUnit() );
+	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy() ); }
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcContextDependentUnit::getStepLine( std::stringstream& stream ) const
 {

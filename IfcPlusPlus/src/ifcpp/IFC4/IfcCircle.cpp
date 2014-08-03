@@ -28,14 +28,12 @@
 IfcCircle::IfcCircle() {}
 IfcCircle::IfcCircle( int id ) { m_id = id; }
 IfcCircle::~IfcCircle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCircle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCircle::getDeepCopy()
 {
-	shared_ptr<IfcCircle> other = dynamic_pointer_cast<IfcCircle>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
-	m_Radius = other->m_Radius;
+	shared_ptr<IfcCircle> copy_self( new IfcCircle() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCircle::getStepLine( std::stringstream& stream ) const
 {

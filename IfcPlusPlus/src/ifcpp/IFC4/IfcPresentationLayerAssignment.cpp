@@ -30,16 +30,21 @@
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment() {}
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int id ) { m_id = id; }
 IfcPresentationLayerAssignment::~IfcPresentationLayerAssignment() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPresentationLayerAssignment::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPresentationLayerAssignment::getDeepCopy()
 {
-	shared_ptr<IfcPresentationLayerAssignment> other = dynamic_pointer_cast<IfcPresentationLayerAssignment>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_AssignedItems = other->m_AssignedItems;
-	m_Identifier = other->m_Identifier;
+	shared_ptr<IfcPresentationLayerAssignment> copy_self( new IfcPresentationLayerAssignment() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
+	{
+		auto item_ii = m_AssignedItems[ii];
+		if( item_ii )
+		{
+			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) const
 {

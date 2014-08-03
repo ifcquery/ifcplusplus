@@ -27,6 +27,12 @@
 IfcRatioMeasure::IfcRatioMeasure() {}
 IfcRatioMeasure::IfcRatioMeasure( double value ) { m_value = value; }
 IfcRatioMeasure::~IfcRatioMeasure() {}
+shared_ptr<IfcPPObject> IfcRatioMeasure::getDeepCopy()
+{
+	shared_ptr<IfcRatioMeasure> copy_self( new IfcRatioMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcRatioMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRATIOMEASURE("; }

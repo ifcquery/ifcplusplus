@@ -30,17 +30,15 @@
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching() {}
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int id ) { m_id = id; }
 IfcFillAreaStyleHatching::~IfcFillAreaStyleHatching() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFillAreaStyleHatching::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFillAreaStyleHatching::getDeepCopy()
 {
-	shared_ptr<IfcFillAreaStyleHatching> other = dynamic_pointer_cast<IfcFillAreaStyleHatching>(other_entity);
-	if( !other) { return; }
-	m_HatchLineAppearance = other->m_HatchLineAppearance;
-	m_StartOfNextHatchLine = other->m_StartOfNextHatchLine;
-	m_PointOfReferenceHatchLine = other->m_PointOfReferenceHatchLine;
-	m_PatternStart = other->m_PatternStart;
-	m_HatchLineAngle = other->m_HatchLineAngle;
+	shared_ptr<IfcFillAreaStyleHatching> copy_self( new IfcFillAreaStyleHatching() );
+	if( m_HatchLineAppearance ) { copy_self->m_HatchLineAppearance = dynamic_pointer_cast<IfcCurveStyle>( m_HatchLineAppearance->getDeepCopy() ); }
+	if( m_StartOfNextHatchLine ) { copy_self->m_StartOfNextHatchLine = dynamic_pointer_cast<IfcHatchLineDistanceSelect>( m_StartOfNextHatchLine->getDeepCopy() ); }
+	if( m_PointOfReferenceHatchLine ) { copy_self->m_PointOfReferenceHatchLine = dynamic_pointer_cast<IfcCartesianPoint>( m_PointOfReferenceHatchLine->getDeepCopy() ); }
+	if( m_PatternStart ) { copy_self->m_PatternStart = dynamic_pointer_cast<IfcCartesianPoint>( m_PatternStart->getDeepCopy() ); }
+	if( m_HatchLineAngle ) { copy_self->m_HatchLineAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_HatchLineAngle->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
 {

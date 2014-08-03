@@ -26,15 +26,20 @@
 IfcFillAreaStyle::IfcFillAreaStyle() {}
 IfcFillAreaStyle::IfcFillAreaStyle( int id ) { m_id = id; }
 IfcFillAreaStyle::~IfcFillAreaStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFillAreaStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFillAreaStyle::getDeepCopy()
 {
-	shared_ptr<IfcFillAreaStyle> other = dynamic_pointer_cast<IfcFillAreaStyle>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_FillStyles = other->m_FillStyles;
-	m_ModelorDraughting = other->m_ModelorDraughting;
+	shared_ptr<IfcFillAreaStyle> copy_self( new IfcFillAreaStyle() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_FillStyles.size(); ++ii )
+	{
+		auto item_ii = m_FillStyles[ii];
+		if( item_ii )
+		{
+			copy_self->m_FillStyles.push_back( dynamic_pointer_cast<IfcFillStyleSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_ModelorDraughting ) { copy_self->m_ModelorDraughting = m_ModelorDraughting; }
+	return copy_self;
 }
 void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 {

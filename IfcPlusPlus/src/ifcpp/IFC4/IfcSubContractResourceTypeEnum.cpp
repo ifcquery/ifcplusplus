@@ -23,6 +23,12 @@
 // TYPE IfcSubContractResourceTypeEnum 
 IfcSubContractResourceTypeEnum::IfcSubContractResourceTypeEnum() {}
 IfcSubContractResourceTypeEnum::~IfcSubContractResourceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSubContractResourceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSubContractResourceTypeEnum> copy_self( new IfcSubContractResourceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSubContractResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSUBCONTRACTRESOURCETYPEENUM("; }

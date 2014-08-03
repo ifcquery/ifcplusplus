@@ -24,6 +24,16 @@
 // TYPE IfcCompoundPlaneAngleMeasure 
 IfcCompoundPlaneAngleMeasure::IfcCompoundPlaneAngleMeasure() {}
 IfcCompoundPlaneAngleMeasure::~IfcCompoundPlaneAngleMeasure() {}
+shared_ptr<IfcPPObject> IfcCompoundPlaneAngleMeasure::getDeepCopy()
+{
+	shared_ptr<IfcCompoundPlaneAngleMeasure> copy_self( new IfcCompoundPlaneAngleMeasure() );
+	for( size_t ii=0; ii<m_vec.size(); ++ii )
+	{
+		int item_ii = m_vec[ii];
+		copy_self->m_vec.push_back( item_ii );
+	}
+	return copy_self;
+}
 void IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPOUNDPLANEANGLEMEASURE("; }

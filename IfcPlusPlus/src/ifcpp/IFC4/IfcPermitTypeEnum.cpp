@@ -23,6 +23,12 @@
 // TYPE IfcPermitTypeEnum 
 IfcPermitTypeEnum::IfcPermitTypeEnum() {}
 IfcPermitTypeEnum::~IfcPermitTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPermitTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPermitTypeEnum> copy_self( new IfcPermitTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERMITTYPEENUM("; }

@@ -23,6 +23,12 @@
 // TYPE IfcDistributionSystemEnum 
 IfcDistributionSystemEnum::IfcDistributionSystemEnum() {}
 IfcDistributionSystemEnum::~IfcDistributionSystemEnum() {}
+shared_ptr<IfcPPObject> IfcDistributionSystemEnum::getDeepCopy()
+{
+	shared_ptr<IfcDistributionSystemEnum> copy_self( new IfcDistributionSystemEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDistributionSystemEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONSYSTEMENUM("; }

@@ -39,24 +39,29 @@
 IfcEventType::IfcEventType() {}
 IfcEventType::IfcEventType( int id ) { m_id = id; }
 IfcEventType::~IfcEventType() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcEventType::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcEventType::getDeepCopy()
 {
-	shared_ptr<IfcEventType> other = dynamic_pointer_cast<IfcEventType>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ApplicableOccurrence = other->m_ApplicableOccurrence;
-	m_HasPropertySets = other->m_HasPropertySets;
-	m_Identification = other->m_Identification;
-	m_LongDescription = other->m_LongDescription;
-	m_ProcessType = other->m_ProcessType;
-	m_PredefinedType = other->m_PredefinedType;
-	m_EventTriggerType = other->m_EventTriggerType;
-	m_UserDefinedEventTriggerType = other->m_UserDefinedEventTriggerType;
+	shared_ptr<IfcEventType> copy_self( new IfcEventType() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
+	{
+		auto item_ii = m_HasPropertySets[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy() ); }
+	if( m_ProcessType ) { copy_self->m_ProcessType = dynamic_pointer_cast<IfcLabel>( m_ProcessType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcEventTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_EventTriggerType ) { copy_self->m_EventTriggerType = dynamic_pointer_cast<IfcEventTriggerTypeEnum>( m_EventTriggerType->getDeepCopy() ); }
+	if( m_UserDefinedEventTriggerType ) { copy_self->m_UserDefinedEventTriggerType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedEventTriggerType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcEventType::getStepLine( std::stringstream& stream ) const
 {

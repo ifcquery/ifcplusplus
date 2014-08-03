@@ -31,16 +31,14 @@
 IfcPropertyReferenceValue::IfcPropertyReferenceValue() {}
 IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_id = id; }
 IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertyReferenceValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertyReferenceValue::getDeepCopy()
 {
-	shared_ptr<IfcPropertyReferenceValue> other = dynamic_pointer_cast<IfcPropertyReferenceValue>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_UsageName = other->m_UsageName;
-	m_PropertyReference = other->m_PropertyReference;
+	shared_ptr<IfcPropertyReferenceValue> copy_self( new IfcPropertyReferenceValue() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcText>( m_UsageName->getDeepCopy() ); }
+	if( m_PropertyReference ) { copy_self->m_PropertyReference = dynamic_pointer_cast<IfcObjectReferenceSelect>( m_PropertyReference->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 {

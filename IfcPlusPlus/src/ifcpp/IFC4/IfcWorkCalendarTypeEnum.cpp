@@ -23,6 +23,12 @@
 // TYPE IfcWorkCalendarTypeEnum 
 IfcWorkCalendarTypeEnum::IfcWorkCalendarTypeEnum() {}
 IfcWorkCalendarTypeEnum::~IfcWorkCalendarTypeEnum() {}
+shared_ptr<IfcPPObject> IfcWorkCalendarTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcWorkCalendarTypeEnum> copy_self( new IfcWorkCalendarTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKCALENDARTYPEENUM("; }

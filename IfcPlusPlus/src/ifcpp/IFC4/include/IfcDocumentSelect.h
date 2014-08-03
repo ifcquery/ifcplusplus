@@ -25,8 +25,8 @@ public:
 	IfcDocumentSelect();
 	~IfcDocumentSelect();
 	virtual const char* classname() const { return "IfcDocumentSelect"; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {
-	}; // overwritten, abstract class
+	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
 	static shared_ptr<IfcDocumentSelect> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

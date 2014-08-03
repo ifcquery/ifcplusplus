@@ -23,6 +23,12 @@
 // TYPE IfcBurnerTypeEnum 
 IfcBurnerTypeEnum::IfcBurnerTypeEnum() {}
 IfcBurnerTypeEnum::~IfcBurnerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcBurnerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcBurnerTypeEnum> copy_self( new IfcBurnerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBurnerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBURNERTYPEENUM("; }

@@ -28,15 +28,13 @@
 IfcExternalReference::IfcExternalReference() {}
 IfcExternalReference::IfcExternalReference( int id ) { m_id = id; }
 IfcExternalReference::~IfcExternalReference() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcExternalReference::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcExternalReference::getDeepCopy()
 {
-	shared_ptr<IfcExternalReference> other = dynamic_pointer_cast<IfcExternalReference>(other_entity);
-	if( !other) { return; }
-	m_Location = other->m_Location;
-	m_Identification = other->m_Identification;
-	m_Name = other->m_Name;
+	shared_ptr<IfcExternalReference> copy_self( new IfcExternalReference() );
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcExternalReference::getStepLine( std::stringstream& stream ) const
 {

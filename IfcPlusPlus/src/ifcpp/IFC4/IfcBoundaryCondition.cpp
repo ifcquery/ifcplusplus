@@ -25,13 +25,11 @@
 IfcBoundaryCondition::IfcBoundaryCondition() {}
 IfcBoundaryCondition::IfcBoundaryCondition( int id ) { m_id = id; }
 IfcBoundaryCondition::~IfcBoundaryCondition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundaryCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundaryCondition::getDeepCopy()
 {
-	shared_ptr<IfcBoundaryCondition> other = dynamic_pointer_cast<IfcBoundaryCondition>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcBoundaryCondition> copy_self( new IfcBoundaryCondition() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBoundaryCondition::getStepLine( std::stringstream& stream ) const
 {

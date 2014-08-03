@@ -25,6 +25,12 @@
 IfcElectricChargeMeasure::IfcElectricChargeMeasure() {}
 IfcElectricChargeMeasure::IfcElectricChargeMeasure( double value ) { m_value = value; }
 IfcElectricChargeMeasure::~IfcElectricChargeMeasure() {}
+shared_ptr<IfcPPObject> IfcElectricChargeMeasure::getDeepCopy()
+{
+	shared_ptr<IfcElectricChargeMeasure> copy_self( new IfcElectricChargeMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcElectricChargeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCHARGEMEASURE("; }

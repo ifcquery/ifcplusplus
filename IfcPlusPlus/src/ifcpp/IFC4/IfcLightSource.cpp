@@ -29,16 +29,14 @@
 IfcLightSource::IfcLightSource() {}
 IfcLightSource::IfcLightSource( int id ) { m_id = id; }
 IfcLightSource::~IfcLightSource() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLightSource::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLightSource::getDeepCopy()
 {
-	shared_ptr<IfcLightSource> other = dynamic_pointer_cast<IfcLightSource>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_LightColour = other->m_LightColour;
-	m_AmbientIntensity = other->m_AmbientIntensity;
-	m_Intensity = other->m_Intensity;
+	shared_ptr<IfcLightSource> copy_self( new IfcLightSource() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy() ); }
+	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy() ); }
+	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLightSource::getStepLine( std::stringstream& stream ) const
 {

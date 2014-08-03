@@ -28,15 +28,13 @@
 IfcBooleanResult::IfcBooleanResult() {}
 IfcBooleanResult::IfcBooleanResult( int id ) { m_id = id; }
 IfcBooleanResult::~IfcBooleanResult() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBooleanResult::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBooleanResult::getDeepCopy()
 {
-	shared_ptr<IfcBooleanResult> other = dynamic_pointer_cast<IfcBooleanResult>(other_entity);
-	if( !other) { return; }
-	m_Operator = other->m_Operator;
-	m_FirstOperand = other->m_FirstOperand;
-	m_SecondOperand = other->m_SecondOperand;
+	shared_ptr<IfcBooleanResult> copy_self( new IfcBooleanResult() );
+	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcBooleanOperator>( m_Operator->getDeepCopy() ); }
+	if( m_FirstOperand ) { copy_self->m_FirstOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_FirstOperand->getDeepCopy() ); }
+	if( m_SecondOperand ) { copy_self->m_SecondOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_SecondOperand->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBooleanResult::getStepLine( std::stringstream& stream ) const
 {

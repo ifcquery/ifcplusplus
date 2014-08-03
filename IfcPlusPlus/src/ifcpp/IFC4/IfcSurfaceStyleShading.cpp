@@ -25,13 +25,11 @@
 IfcSurfaceStyleShading::IfcSurfaceStyleShading() {}
 IfcSurfaceStyleShading::IfcSurfaceStyleShading( int id ) { m_id = id; }
 IfcSurfaceStyleShading::~IfcSurfaceStyleShading() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceStyleShading::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceStyleShading::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceStyleShading> other = dynamic_pointer_cast<IfcSurfaceStyleShading>(other_entity);
-	if( !other) { return; }
-	m_SurfaceColour = other->m_SurfaceColour;
+	shared_ptr<IfcSurfaceStyleShading> copy_self( new IfcSurfaceStyleShading() );
+	if( m_SurfaceColour ) { copy_self->m_SurfaceColour = dynamic_pointer_cast<IfcColourRgb>( m_SurfaceColour->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceStyleShading::getStepLine( std::stringstream& stream ) const
 {

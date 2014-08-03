@@ -25,6 +25,12 @@
 IfcFrequencyMeasure::IfcFrequencyMeasure() {}
 IfcFrequencyMeasure::IfcFrequencyMeasure( double value ) { m_value = value; }
 IfcFrequencyMeasure::~IfcFrequencyMeasure() {}
+shared_ptr<IfcPPObject> IfcFrequencyMeasure::getDeepCopy()
+{
+	shared_ptr<IfcFrequencyMeasure> copy_self( new IfcFrequencyMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcFrequencyMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFREQUENCYMEASURE("; }

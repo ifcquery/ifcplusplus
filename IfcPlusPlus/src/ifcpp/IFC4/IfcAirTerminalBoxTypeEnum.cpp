@@ -23,6 +23,12 @@
 // TYPE IfcAirTerminalBoxTypeEnum 
 IfcAirTerminalBoxTypeEnum::IfcAirTerminalBoxTypeEnum() {}
 IfcAirTerminalBoxTypeEnum::~IfcAirTerminalBoxTypeEnum() {}
+shared_ptr<IfcPPObject> IfcAirTerminalBoxTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcAirTerminalBoxTypeEnum> copy_self( new IfcAirTerminalBoxTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAirTerminalBoxTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTERMINALBOXTYPEENUM("; }

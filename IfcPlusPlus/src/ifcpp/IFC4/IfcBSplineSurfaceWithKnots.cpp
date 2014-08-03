@@ -30,24 +30,47 @@
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots() {}
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_id = id; }
 IfcBSplineSurfaceWithKnots::~IfcBSplineSurfaceWithKnots() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBSplineSurfaceWithKnots::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy()
 {
-	shared_ptr<IfcBSplineSurfaceWithKnots> other = dynamic_pointer_cast<IfcBSplineSurfaceWithKnots>(other_entity);
-	if( !other) { return; }
-	m_UDegree = other->m_UDegree;
-	m_VDegree = other->m_VDegree;
-	m_ControlPointsList = other->m_ControlPointsList;
-	m_SurfaceForm = other->m_SurfaceForm;
-	m_UClosed = other->m_UClosed;
-	m_VClosed = other->m_VClosed;
-	m_SelfIntersect = other->m_SelfIntersect;
-	m_UMultiplicities = other->m_UMultiplicities;
-	m_VMultiplicities = other->m_VMultiplicities;
-	m_UKnots = other->m_UKnots;
-	m_VKnots = other->m_VKnots;
-	m_KnotSpec = other->m_KnotSpec;
+	shared_ptr<IfcBSplineSurfaceWithKnots> copy_self( new IfcBSplineSurfaceWithKnots() );
+	if( m_UDegree ) { copy_self->m_UDegree = m_UDegree; }
+	if( m_VDegree ) { copy_self->m_VDegree = m_VDegree; }
+	copy_self->m_ControlPointsList.resize( m_ControlPointsList.size() );
+	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii = m_ControlPointsList[ii];
+		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii_target = copy_self->m_ControlPointsList[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy() ); }
+	if( m_UClosed ) { copy_self->m_UClosed = m_UClosed; }
+	if( m_VClosed ) { copy_self->m_VClosed = m_VClosed; }
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	for( size_t ii=0; ii<m_UKnots.size(); ++ii )
+	{
+		auto item_ii = m_UKnots[ii];
+		if( item_ii )
+		{
+			copy_self->m_UKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_VKnots.size(); ++ii )
+	{
+		auto item_ii = m_VKnots[ii];
+		if( item_ii )
+		{
+			copy_self->m_VKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcDamperTypeEnum 
 IfcDamperTypeEnum::IfcDamperTypeEnum() {}
 IfcDamperTypeEnum::~IfcDamperTypeEnum() {}
+shared_ptr<IfcPPObject> IfcDamperTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcDamperTypeEnum> copy_self( new IfcDamperTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDAMPERTYPEENUM("; }

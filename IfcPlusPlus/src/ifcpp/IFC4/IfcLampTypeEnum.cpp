@@ -23,6 +23,12 @@
 // TYPE IfcLampTypeEnum 
 IfcLampTypeEnum::IfcLampTypeEnum() {}
 IfcLampTypeEnum::~IfcLampTypeEnum() {}
+shared_ptr<IfcPPObject> IfcLampTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcLampTypeEnum> copy_self( new IfcLampTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLAMPTYPEENUM("; }

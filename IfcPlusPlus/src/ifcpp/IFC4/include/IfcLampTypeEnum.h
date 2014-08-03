@@ -42,6 +42,7 @@ public:
 	IfcLampTypeEnum( IfcLampTypeEnumEnum e ) { m_enum = e; }
 	~IfcLampTypeEnum();
 	virtual const char* classname() const { return "IfcLampTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLampTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcLampTypeEnumEnum m_enum;

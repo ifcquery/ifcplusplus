@@ -28,14 +28,12 @@
 IfcSweptAreaSolid::IfcSweptAreaSolid() {}
 IfcSweptAreaSolid::IfcSweptAreaSolid( int id ) { m_id = id; }
 IfcSweptAreaSolid::~IfcSweptAreaSolid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSweptAreaSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSweptAreaSolid::getDeepCopy()
 {
-	shared_ptr<IfcSweptAreaSolid> other = dynamic_pointer_cast<IfcSweptAreaSolid>(other_entity);
-	if( !other) { return; }
-	m_SweptArea = other->m_SweptArea;
-	m_Position = other->m_Position;
+	shared_ptr<IfcSweptAreaSolid> copy_self( new IfcSweptAreaSolid() );
+	if( m_SweptArea ) { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {

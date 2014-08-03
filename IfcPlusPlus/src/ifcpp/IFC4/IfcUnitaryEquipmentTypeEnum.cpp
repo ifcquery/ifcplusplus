@@ -23,6 +23,12 @@
 // TYPE IfcUnitaryEquipmentTypeEnum 
 IfcUnitaryEquipmentTypeEnum::IfcUnitaryEquipmentTypeEnum() {}
 IfcUnitaryEquipmentTypeEnum::~IfcUnitaryEquipmentTypeEnum() {}
+shared_ptr<IfcPPObject> IfcUnitaryEquipmentTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcUnitaryEquipmentTypeEnum> copy_self( new IfcUnitaryEquipmentTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcUnitaryEquipmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCUNITARYEQUIPMENTTYPEENUM("; }

@@ -26,6 +26,12 @@
 IfcModulusOfSubgradeReactionMeasure::IfcModulusOfSubgradeReactionMeasure() {}
 IfcModulusOfSubgradeReactionMeasure::IfcModulusOfSubgradeReactionMeasure( double value ) { m_value = value; }
 IfcModulusOfSubgradeReactionMeasure::~IfcModulusOfSubgradeReactionMeasure() {}
+shared_ptr<IfcPPObject> IfcModulusOfSubgradeReactionMeasure::getDeepCopy()
+{
+	shared_ptr<IfcModulusOfSubgradeReactionMeasure> copy_self( new IfcModulusOfSubgradeReactionMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcModulusOfSubgradeReactionMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFSUBGRADEREACTIONMEASURE("; }

@@ -36,29 +36,34 @@
 IfcDocumentInformation::IfcDocumentInformation() {}
 IfcDocumentInformation::IfcDocumentInformation( int id ) { m_id = id; }
 IfcDocumentInformation::~IfcDocumentInformation() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDocumentInformation::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDocumentInformation::getDeepCopy()
 {
-	shared_ptr<IfcDocumentInformation> other = dynamic_pointer_cast<IfcDocumentInformation>(other_entity);
-	if( !other) { return; }
-	m_Identification = other->m_Identification;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Location = other->m_Location;
-	m_Purpose = other->m_Purpose;
-	m_IntendedUse = other->m_IntendedUse;
-	m_Scope = other->m_Scope;
-	m_Revision = other->m_Revision;
-	m_DocumentOwner = other->m_DocumentOwner;
-	m_Editors = other->m_Editors;
-	m_CreationTime = other->m_CreationTime;
-	m_LastRevisionTime = other->m_LastRevisionTime;
-	m_ElectronicFormat = other->m_ElectronicFormat;
-	m_ValidFrom = other->m_ValidFrom;
-	m_ValidUntil = other->m_ValidUntil;
-	m_Confidentiality = other->m_Confidentiality;
-	m_Status = other->m_Status;
+	shared_ptr<IfcDocumentInformation> copy_self( new IfcDocumentInformation() );
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcText>( m_Purpose->getDeepCopy() ); }
+	if( m_IntendedUse ) { copy_self->m_IntendedUse = dynamic_pointer_cast<IfcText>( m_IntendedUse->getDeepCopy() ); }
+	if( m_Scope ) { copy_self->m_Scope = dynamic_pointer_cast<IfcText>( m_Scope->getDeepCopy() ); }
+	if( m_Revision ) { copy_self->m_Revision = dynamic_pointer_cast<IfcLabel>( m_Revision->getDeepCopy() ); }
+	if( m_DocumentOwner ) { copy_self->m_DocumentOwner = dynamic_pointer_cast<IfcActorSelect>( m_DocumentOwner->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Editors.size(); ++ii )
+	{
+		auto item_ii = m_Editors[ii];
+		if( item_ii )
+		{
+			copy_self->m_Editors.push_back( dynamic_pointer_cast<IfcActorSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy() ); }
+	if( m_LastRevisionTime ) { copy_self->m_LastRevisionTime = dynamic_pointer_cast<IfcDateTime>( m_LastRevisionTime->getDeepCopy() ); }
+	if( m_ElectronicFormat ) { copy_self->m_ElectronicFormat = dynamic_pointer_cast<IfcIdentifier>( m_ElectronicFormat->getDeepCopy() ); }
+	if( m_ValidFrom ) { copy_self->m_ValidFrom = dynamic_pointer_cast<IfcDate>( m_ValidFrom->getDeepCopy() ); }
+	if( m_ValidUntil ) { copy_self->m_ValidUntil = dynamic_pointer_cast<IfcDate>( m_ValidUntil->getDeepCopy() ); }
+	if( m_Confidentiality ) { copy_self->m_Confidentiality = dynamic_pointer_cast<IfcDocumentConfidentialityEnum>( m_Confidentiality->getDeepCopy() ); }
+	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcDocumentStatusEnum>( m_Status->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
 {

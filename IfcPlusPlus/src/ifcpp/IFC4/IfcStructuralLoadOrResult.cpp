@@ -25,13 +25,11 @@
 IfcStructuralLoadOrResult::IfcStructuralLoadOrResult() {}
 IfcStructuralLoadOrResult::IfcStructuralLoadOrResult( int id ) { m_id = id; }
 IfcStructuralLoadOrResult::~IfcStructuralLoadOrResult() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadOrResult::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadOrResult::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadOrResult> other = dynamic_pointer_cast<IfcStructuralLoadOrResult>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcStructuralLoadOrResult> copy_self( new IfcStructuralLoadOrResult() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadOrResult::getStepLine( std::stringstream& stream ) const
 {

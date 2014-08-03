@@ -28,15 +28,20 @@
 IfcExtendedProperties::IfcExtendedProperties() {}
 IfcExtendedProperties::IfcExtendedProperties( int id ) { m_id = id; }
 IfcExtendedProperties::~IfcExtendedProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcExtendedProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcExtendedProperties::getDeepCopy()
 {
-	shared_ptr<IfcExtendedProperties> other = dynamic_pointer_cast<IfcExtendedProperties>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Properties = other->m_Properties;
+	shared_ptr<IfcExtendedProperties> copy_self( new IfcExtendedProperties() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Properties.size(); ++ii )
+	{
+		auto item_ii = m_Properties[ii];
+		if( item_ii )
+		{
+			copy_self->m_Properties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcExtendedProperties::getStepLine( std::stringstream& stream ) const
 {

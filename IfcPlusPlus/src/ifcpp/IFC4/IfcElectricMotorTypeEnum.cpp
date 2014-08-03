@@ -23,6 +23,12 @@
 // TYPE IfcElectricMotorTypeEnum 
 IfcElectricMotorTypeEnum::IfcElectricMotorTypeEnum() {}
 IfcElectricMotorTypeEnum::~IfcElectricMotorTypeEnum() {}
+shared_ptr<IfcPPObject> IfcElectricMotorTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcElectricMotorTypeEnum> copy_self( new IfcElectricMotorTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElectricMotorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICMOTORTYPEENUM("; }

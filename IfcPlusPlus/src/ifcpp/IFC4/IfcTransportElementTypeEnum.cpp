@@ -23,6 +23,12 @@
 // TYPE IfcTransportElementTypeEnum 
 IfcTransportElementTypeEnum::IfcTransportElementTypeEnum() {}
 IfcTransportElementTypeEnum::~IfcTransportElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcTransportElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcTransportElementTypeEnum> copy_self( new IfcTransportElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTransportElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSPORTELEMENTTYPEENUM("; }

@@ -25,6 +25,12 @@
 IfcRotationalMassMeasure::IfcRotationalMassMeasure() {}
 IfcRotationalMassMeasure::IfcRotationalMassMeasure( double value ) { m_value = value; }
 IfcRotationalMassMeasure::~IfcRotationalMassMeasure() {}
+shared_ptr<IfcPPObject> IfcRotationalMassMeasure::getDeepCopy()
+{
+	shared_ptr<IfcRotationalMassMeasure> copy_self( new IfcRotationalMassMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcRotationalMassMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROTATIONALMASSMEASURE("; }

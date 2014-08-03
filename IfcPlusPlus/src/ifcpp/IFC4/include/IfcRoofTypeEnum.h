@@ -46,6 +46,7 @@ public:
 	IfcRoofTypeEnum( IfcRoofTypeEnumEnum e ) { m_enum = e; }
 	~IfcRoofTypeEnum();
 	virtual const char* classname() const { return "IfcRoofTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcRoofTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcRoofTypeEnumEnum m_enum;

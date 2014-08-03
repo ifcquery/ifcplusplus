@@ -23,6 +23,12 @@
 // TYPE IfcSurfaceFeatureTypeEnum 
 IfcSurfaceFeatureTypeEnum::IfcSurfaceFeatureTypeEnum() {}
 IfcSurfaceFeatureTypeEnum::~IfcSurfaceFeatureTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSurfaceFeatureTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSurfaceFeatureTypeEnum> copy_self( new IfcSurfaceFeatureTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSurfaceFeatureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACEFEATURETYPEENUM("; }

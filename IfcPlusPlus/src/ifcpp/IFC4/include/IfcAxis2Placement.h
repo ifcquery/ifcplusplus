@@ -25,8 +25,8 @@ public:
 	IfcAxis2Placement();
 	~IfcAxis2Placement();
 	virtual const char* classname() const { return "IfcAxis2Placement"; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {
-	}; // overwritten, abstract class
+	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
 	static shared_ptr<IfcAxis2Placement> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

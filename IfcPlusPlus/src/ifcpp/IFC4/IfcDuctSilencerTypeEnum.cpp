@@ -23,6 +23,12 @@
 // TYPE IfcDuctSilencerTypeEnum 
 IfcDuctSilencerTypeEnum::IfcDuctSilencerTypeEnum() {}
 IfcDuctSilencerTypeEnum::~IfcDuctSilencerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcDuctSilencerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcDuctSilencerTypeEnum> copy_self( new IfcDuctSilencerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSILENCERTYPEENUM("; }

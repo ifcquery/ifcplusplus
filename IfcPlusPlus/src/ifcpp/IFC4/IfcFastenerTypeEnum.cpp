@@ -23,6 +23,12 @@
 // TYPE IfcFastenerTypeEnum 
 IfcFastenerTypeEnum::IfcFastenerTypeEnum() {}
 IfcFastenerTypeEnum::~IfcFastenerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFastenerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFastenerTypeEnum> copy_self( new IfcFastenerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFASTENERTYPEENUM("; }

@@ -23,6 +23,12 @@
 // TYPE IfcCurtainWallTypeEnum 
 IfcCurtainWallTypeEnum::IfcCurtainWallTypeEnum() {}
 IfcCurtainWallTypeEnum::~IfcCurtainWallTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCurtainWallTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCurtainWallTypeEnum> copy_self( new IfcCurtainWallTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCurtainWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURTAINWALLTYPEENUM("; }

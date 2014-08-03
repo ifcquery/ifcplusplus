@@ -23,6 +23,12 @@
 // TYPE IfcTimeSeriesDataTypeEnum 
 IfcTimeSeriesDataTypeEnum::IfcTimeSeriesDataTypeEnum() {}
 IfcTimeSeriesDataTypeEnum::~IfcTimeSeriesDataTypeEnum() {}
+shared_ptr<IfcPPObject> IfcTimeSeriesDataTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcTimeSeriesDataTypeEnum> copy_self( new IfcTimeSeriesDataTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTimeSeriesDataTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMESERIESDATATYPEENUM("; }

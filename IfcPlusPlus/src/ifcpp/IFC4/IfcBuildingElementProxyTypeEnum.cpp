@@ -23,6 +23,12 @@
 // TYPE IfcBuildingElementProxyTypeEnum 
 IfcBuildingElementProxyTypeEnum::IfcBuildingElementProxyTypeEnum() {}
 IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() {}
+shared_ptr<IfcPPObject> IfcBuildingElementProxyTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcBuildingElementProxyTypeEnum> copy_self( new IfcBuildingElementProxyTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGELEMENTPROXYTYPEENUM("; }

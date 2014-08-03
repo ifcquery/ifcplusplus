@@ -23,6 +23,12 @@
 // TYPE IfcTaskDurationEnum 
 IfcTaskDurationEnum::IfcTaskDurationEnum() {}
 IfcTaskDurationEnum::~IfcTaskDurationEnum() {}
+shared_ptr<IfcPPObject> IfcTaskDurationEnum::getDeepCopy()
+{
+	shared_ptr<IfcTaskDurationEnum> copy_self( new IfcTaskDurationEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTASKDURATIONENUM("; }

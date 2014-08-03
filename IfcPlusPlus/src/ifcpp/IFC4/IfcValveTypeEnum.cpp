@@ -23,6 +23,12 @@
 // TYPE IfcValveTypeEnum 
 IfcValveTypeEnum::IfcValveTypeEnum() {}
 IfcValveTypeEnum::~IfcValveTypeEnum() {}
+shared_ptr<IfcPPObject> IfcValveTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcValveTypeEnum> copy_self( new IfcValveTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcValveTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVALVETYPEENUM("; }

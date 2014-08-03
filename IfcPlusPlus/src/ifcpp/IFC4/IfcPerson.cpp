@@ -29,20 +29,53 @@
 IfcPerson::IfcPerson() {}
 IfcPerson::IfcPerson( int id ) { m_id = id; }
 IfcPerson::~IfcPerson() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPerson::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPerson::getDeepCopy()
 {
-	shared_ptr<IfcPerson> other = dynamic_pointer_cast<IfcPerson>(other_entity);
-	if( !other) { return; }
-	m_Identification = other->m_Identification;
-	m_FamilyName = other->m_FamilyName;
-	m_GivenName = other->m_GivenName;
-	m_MiddleNames = other->m_MiddleNames;
-	m_PrefixTitles = other->m_PrefixTitles;
-	m_SuffixTitles = other->m_SuffixTitles;
-	m_Roles = other->m_Roles;
-	m_Addresses = other->m_Addresses;
+	shared_ptr<IfcPerson> copy_self( new IfcPerson() );
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_FamilyName ) { copy_self->m_FamilyName = dynamic_pointer_cast<IfcLabel>( m_FamilyName->getDeepCopy() ); }
+	if( m_GivenName ) { copy_self->m_GivenName = dynamic_pointer_cast<IfcLabel>( m_GivenName->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_MiddleNames.size(); ++ii )
+	{
+		auto item_ii = m_MiddleNames[ii];
+		if( item_ii )
+		{
+			copy_self->m_MiddleNames.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_PrefixTitles.size(); ++ii )
+	{
+		auto item_ii = m_PrefixTitles[ii];
+		if( item_ii )
+		{
+			copy_self->m_PrefixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_SuffixTitles.size(); ++ii )
+	{
+		auto item_ii = m_SuffixTitles[ii];
+		if( item_ii )
+		{
+			copy_self->m_SuffixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_Roles.size(); ++ii )
+	{
+		auto item_ii = m_Roles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_Addresses.size(); ++ii )
+	{
+		auto item_ii = m_Addresses[ii];
+		if( item_ii )
+		{
+			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPerson::getStepLine( std::stringstream& stream ) const
 {

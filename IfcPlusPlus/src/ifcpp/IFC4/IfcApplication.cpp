@@ -27,16 +27,14 @@
 IfcApplication::IfcApplication() {}
 IfcApplication::IfcApplication( int id ) { m_id = id; }
 IfcApplication::~IfcApplication() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcApplication::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcApplication::getDeepCopy()
 {
-	shared_ptr<IfcApplication> other = dynamic_pointer_cast<IfcApplication>(other_entity);
-	if( !other) { return; }
-	m_ApplicationDeveloper = other->m_ApplicationDeveloper;
-	m_Version = other->m_Version;
-	m_ApplicationFullName = other->m_ApplicationFullName;
-	m_ApplicationIdentifier = other->m_ApplicationIdentifier;
+	shared_ptr<IfcApplication> copy_self( new IfcApplication() );
+	if( m_ApplicationDeveloper ) { copy_self->m_ApplicationDeveloper = dynamic_pointer_cast<IfcOrganization>( m_ApplicationDeveloper->getDeepCopy() ); }
+	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy() ); }
+	if( m_ApplicationFullName ) { copy_self->m_ApplicationFullName = dynamic_pointer_cast<IfcLabel>( m_ApplicationFullName->getDeepCopy() ); }
+	if( m_ApplicationIdentifier ) { copy_self->m_ApplicationIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_ApplicationIdentifier->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcApplication::getStepLine( std::stringstream& stream ) const
 {

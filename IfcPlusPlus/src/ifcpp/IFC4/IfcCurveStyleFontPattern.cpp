@@ -26,14 +26,12 @@
 IfcCurveStyleFontPattern::IfcCurveStyleFontPattern() {}
 IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int id ) { m_id = id; }
 IfcCurveStyleFontPattern::~IfcCurveStyleFontPattern() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCurveStyleFontPattern::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCurveStyleFontPattern::getDeepCopy()
 {
-	shared_ptr<IfcCurveStyleFontPattern> other = dynamic_pointer_cast<IfcCurveStyleFontPattern>(other_entity);
-	if( !other) { return; }
-	m_VisibleSegmentLength = other->m_VisibleSegmentLength;
-	m_InvisibleSegmentLength = other->m_InvisibleSegmentLength;
+	shared_ptr<IfcCurveStyleFontPattern> copy_self( new IfcCurveStyleFontPattern() );
+	if( m_VisibleSegmentLength ) { copy_self->m_VisibleSegmentLength = dynamic_pointer_cast<IfcLengthMeasure>( m_VisibleSegmentLength->getDeepCopy() ); }
+	if( m_InvisibleSegmentLength ) { copy_self->m_InvisibleSegmentLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InvisibleSegmentLength->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream ) const
 {

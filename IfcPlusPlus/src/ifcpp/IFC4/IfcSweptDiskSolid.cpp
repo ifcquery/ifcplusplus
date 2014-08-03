@@ -29,17 +29,15 @@
 IfcSweptDiskSolid::IfcSweptDiskSolid() {}
 IfcSweptDiskSolid::IfcSweptDiskSolid( int id ) { m_id = id; }
 IfcSweptDiskSolid::~IfcSweptDiskSolid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSweptDiskSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSweptDiskSolid::getDeepCopy()
 {
-	shared_ptr<IfcSweptDiskSolid> other = dynamic_pointer_cast<IfcSweptDiskSolid>(other_entity);
-	if( !other) { return; }
-	m_Directrix = other->m_Directrix;
-	m_Radius = other->m_Radius;
-	m_InnerRadius = other->m_InnerRadius;
-	m_StartParam = other->m_StartParam;
-	m_EndParam = other->m_EndParam;
+	shared_ptr<IfcSweptDiskSolid> copy_self( new IfcSweptDiskSolid() );
+	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	if( m_InnerRadius ) { copy_self->m_InnerRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InnerRadius->getDeepCopy() ); }
+	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy() ); }
+	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSweptDiskSolid::getStepLine( std::stringstream& stream ) const
 {

@@ -26,6 +26,12 @@
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure() {}
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure( double value ) { m_value = value; }
 IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() {}
+shared_ptr<IfcPPObject> IfcRotationalStiffnessMeasure::getDeepCopy()
+{
+	shared_ptr<IfcRotationalStiffnessMeasure> copy_self( new IfcRotationalStiffnessMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcRotationalStiffnessMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROTATIONALSTIFFNESSMEASURE("; }

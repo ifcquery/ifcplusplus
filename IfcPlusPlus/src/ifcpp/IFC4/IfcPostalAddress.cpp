@@ -29,22 +29,27 @@
 IfcPostalAddress::IfcPostalAddress() {}
 IfcPostalAddress::IfcPostalAddress( int id ) { m_id = id; }
 IfcPostalAddress::~IfcPostalAddress() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPostalAddress::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPostalAddress::getDeepCopy()
 {
-	shared_ptr<IfcPostalAddress> other = dynamic_pointer_cast<IfcPostalAddress>(other_entity);
-	if( !other) { return; }
-	m_Purpose = other->m_Purpose;
-	m_Description = other->m_Description;
-	m_UserDefinedPurpose = other->m_UserDefinedPurpose;
-	m_InternalLocation = other->m_InternalLocation;
-	m_AddressLines = other->m_AddressLines;
-	m_PostalBox = other->m_PostalBox;
-	m_Town = other->m_Town;
-	m_Region = other->m_Region;
-	m_PostalCode = other->m_PostalCode;
-	m_Country = other->m_Country;
+	shared_ptr<IfcPostalAddress> copy_self( new IfcPostalAddress() );
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy() ); }
+	if( m_InternalLocation ) { copy_self->m_InternalLocation = dynamic_pointer_cast<IfcLabel>( m_InternalLocation->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_AddressLines.size(); ++ii )
+	{
+		auto item_ii = m_AddressLines[ii];
+		if( item_ii )
+		{
+			copy_self->m_AddressLines.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_PostalBox ) { copy_self->m_PostalBox = dynamic_pointer_cast<IfcLabel>( m_PostalBox->getDeepCopy() ); }
+	if( m_Town ) { copy_self->m_Town = dynamic_pointer_cast<IfcLabel>( m_Town->getDeepCopy() ); }
+	if( m_Region ) { copy_self->m_Region = dynamic_pointer_cast<IfcLabel>( m_Region->getDeepCopy() ); }
+	if( m_PostalCode ) { copy_self->m_PostalCode = dynamic_pointer_cast<IfcLabel>( m_PostalCode->getDeepCopy() ); }
+	if( m_Country ) { copy_self->m_Country = dynamic_pointer_cast<IfcLabel>( m_Country->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPostalAddress::getStepLine( std::stringstream& stream ) const
 {

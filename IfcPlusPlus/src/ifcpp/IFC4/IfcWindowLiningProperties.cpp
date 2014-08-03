@@ -38,28 +38,26 @@
 IfcWindowLiningProperties::IfcWindowLiningProperties() {}
 IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_id = id; }
 IfcWindowLiningProperties::~IfcWindowLiningProperties() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcWindowLiningProperties::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcWindowLiningProperties::getDeepCopy()
 {
-	shared_ptr<IfcWindowLiningProperties> other = dynamic_pointer_cast<IfcWindowLiningProperties>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_LiningDepth = other->m_LiningDepth;
-	m_LiningThickness = other->m_LiningThickness;
-	m_TransomThickness = other->m_TransomThickness;
-	m_MullionThickness = other->m_MullionThickness;
-	m_FirstTransomOffset = other->m_FirstTransomOffset;
-	m_SecondTransomOffset = other->m_SecondTransomOffset;
-	m_FirstMullionOffset = other->m_FirstMullionOffset;
-	m_SecondMullionOffset = other->m_SecondMullionOffset;
-	m_ShapeAspectStyle = other->m_ShapeAspectStyle;
-	m_LiningOffset = other->m_LiningOffset;
-	m_LiningToPanelOffsetX = other->m_LiningToPanelOffsetX;
-	m_LiningToPanelOffsetY = other->m_LiningToPanelOffsetY;
+	shared_ptr<IfcWindowLiningProperties> copy_self( new IfcWindowLiningProperties() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_LiningDepth ) { copy_self->m_LiningDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LiningDepth->getDeepCopy() ); }
+	if( m_LiningThickness ) { copy_self->m_LiningThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LiningThickness->getDeepCopy() ); }
+	if( m_TransomThickness ) { copy_self->m_TransomThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TransomThickness->getDeepCopy() ); }
+	if( m_MullionThickness ) { copy_self->m_MullionThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_MullionThickness->getDeepCopy() ); }
+	if( m_FirstTransomOffset ) { copy_self->m_FirstTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstTransomOffset->getDeepCopy() ); }
+	if( m_SecondTransomOffset ) { copy_self->m_SecondTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondTransomOffset->getDeepCopy() ); }
+	if( m_FirstMullionOffset ) { copy_self->m_FirstMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstMullionOffset->getDeepCopy() ); }
+	if( m_SecondMullionOffset ) { copy_self->m_SecondMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondMullionOffset->getDeepCopy() ); }
+	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy() ); }
+	if( m_LiningOffset ) { copy_self->m_LiningOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningOffset->getDeepCopy() ); }
+	if( m_LiningToPanelOffsetX ) { copy_self->m_LiningToPanelOffsetX = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetX->getDeepCopy() ); }
+	if( m_LiningToPanelOffsetY ) { copy_self->m_LiningToPanelOffsetY = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetY->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcDoorStyleConstructionEnum 
 IfcDoorStyleConstructionEnum::IfcDoorStyleConstructionEnum() {}
 IfcDoorStyleConstructionEnum::~IfcDoorStyleConstructionEnum() {}
+shared_ptr<IfcPPObject> IfcDoorStyleConstructionEnum::getDeepCopy()
+{
+	shared_ptr<IfcDoorStyleConstructionEnum> copy_self( new IfcDoorStyleConstructionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDoorStyleConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORSTYLECONSTRUCTIONENUM("; }

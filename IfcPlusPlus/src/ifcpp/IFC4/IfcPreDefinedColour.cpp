@@ -25,13 +25,11 @@
 IfcPreDefinedColour::IfcPreDefinedColour() {}
 IfcPreDefinedColour::IfcPreDefinedColour( int id ) { m_id = id; }
 IfcPreDefinedColour::~IfcPreDefinedColour() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPreDefinedColour::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPreDefinedColour::getDeepCopy()
 {
-	shared_ptr<IfcPreDefinedColour> other = dynamic_pointer_cast<IfcPreDefinedColour>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcPreDefinedColour> copy_self( new IfcPreDefinedColour() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPreDefinedColour::getStepLine( std::stringstream& stream ) const
 {

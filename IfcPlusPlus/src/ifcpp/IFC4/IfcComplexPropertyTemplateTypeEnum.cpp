@@ -23,6 +23,12 @@
 // TYPE IfcComplexPropertyTemplateTypeEnum 
 IfcComplexPropertyTemplateTypeEnum::IfcComplexPropertyTemplateTypeEnum() {}
 IfcComplexPropertyTemplateTypeEnum::~IfcComplexPropertyTemplateTypeEnum() {}
+shared_ptr<IfcPPObject> IfcComplexPropertyTemplateTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcComplexPropertyTemplateTypeEnum> copy_self( new IfcComplexPropertyTemplateTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcComplexPropertyTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXPROPERTYTEMPLATETYPEENUM("; }

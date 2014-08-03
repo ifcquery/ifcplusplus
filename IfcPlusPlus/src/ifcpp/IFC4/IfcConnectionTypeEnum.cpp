@@ -23,6 +23,12 @@
 // TYPE IfcConnectionTypeEnum 
 IfcConnectionTypeEnum::IfcConnectionTypeEnum() {}
 IfcConnectionTypeEnum::~IfcConnectionTypeEnum() {}
+shared_ptr<IfcPPObject> IfcConnectionTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcConnectionTypeEnum> copy_self( new IfcConnectionTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONNECTIONTYPEENUM("; }

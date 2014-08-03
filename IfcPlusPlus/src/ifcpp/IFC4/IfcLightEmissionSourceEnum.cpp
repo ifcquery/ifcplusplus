@@ -23,6 +23,12 @@
 // TYPE IfcLightEmissionSourceEnum 
 IfcLightEmissionSourceEnum::IfcLightEmissionSourceEnum() {}
 IfcLightEmissionSourceEnum::~IfcLightEmissionSourceEnum() {}
+shared_ptr<IfcPPObject> IfcLightEmissionSourceEnum::getDeepCopy()
+{
+	shared_ptr<IfcLightEmissionSourceEnum> copy_self( new IfcLightEmissionSourceEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLightEmissionSourceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTEMISSIONSOURCEENUM("; }

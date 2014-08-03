@@ -30,32 +30,30 @@
 IfcTaskTime::IfcTaskTime() {}
 IfcTaskTime::IfcTaskTime( int id ) { m_id = id; }
 IfcTaskTime::~IfcTaskTime() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTaskTime::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTaskTime::getDeepCopy()
 {
-	shared_ptr<IfcTaskTime> other = dynamic_pointer_cast<IfcTaskTime>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
-	m_DurationType = other->m_DurationType;
-	m_ScheduleDuration = other->m_ScheduleDuration;
-	m_ScheduleStart = other->m_ScheduleStart;
-	m_ScheduleFinish = other->m_ScheduleFinish;
-	m_EarlyStart = other->m_EarlyStart;
-	m_EarlyFinish = other->m_EarlyFinish;
-	m_LateStart = other->m_LateStart;
-	m_LateFinish = other->m_LateFinish;
-	m_FreeFloat = other->m_FreeFloat;
-	m_TotalFloat = other->m_TotalFloat;
-	m_IsCritical = other->m_IsCritical;
-	m_StatusTime = other->m_StatusTime;
-	m_ActualDuration = other->m_ActualDuration;
-	m_ActualStart = other->m_ActualStart;
-	m_ActualFinish = other->m_ActualFinish;
-	m_RemainingTime = other->m_RemainingTime;
-	m_Completion = other->m_Completion;
+	shared_ptr<IfcTaskTime> copy_self( new IfcTaskTime() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy() ); }
+	if( m_ScheduleDuration ) { copy_self->m_ScheduleDuration = dynamic_pointer_cast<IfcDuration>( m_ScheduleDuration->getDeepCopy() ); }
+	if( m_ScheduleStart ) { copy_self->m_ScheduleStart = dynamic_pointer_cast<IfcDateTime>( m_ScheduleStart->getDeepCopy() ); }
+	if( m_ScheduleFinish ) { copy_self->m_ScheduleFinish = dynamic_pointer_cast<IfcDateTime>( m_ScheduleFinish->getDeepCopy() ); }
+	if( m_EarlyStart ) { copy_self->m_EarlyStart = dynamic_pointer_cast<IfcDateTime>( m_EarlyStart->getDeepCopy() ); }
+	if( m_EarlyFinish ) { copy_self->m_EarlyFinish = dynamic_pointer_cast<IfcDateTime>( m_EarlyFinish->getDeepCopy() ); }
+	if( m_LateStart ) { copy_self->m_LateStart = dynamic_pointer_cast<IfcDateTime>( m_LateStart->getDeepCopy() ); }
+	if( m_LateFinish ) { copy_self->m_LateFinish = dynamic_pointer_cast<IfcDateTime>( m_LateFinish->getDeepCopy() ); }
+	if( m_FreeFloat ) { copy_self->m_FreeFloat = dynamic_pointer_cast<IfcDuration>( m_FreeFloat->getDeepCopy() ); }
+	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy() ); }
+	if( m_IsCritical ) { copy_self->m_IsCritical = m_IsCritical; }
+	if( m_StatusTime ) { copy_self->m_StatusTime = dynamic_pointer_cast<IfcDateTime>( m_StatusTime->getDeepCopy() ); }
+	if( m_ActualDuration ) { copy_self->m_ActualDuration = dynamic_pointer_cast<IfcDuration>( m_ActualDuration->getDeepCopy() ); }
+	if( m_ActualStart ) { copy_self->m_ActualStart = dynamic_pointer_cast<IfcDateTime>( m_ActualStart->getDeepCopy() ); }
+	if( m_ActualFinish ) { copy_self->m_ActualFinish = dynamic_pointer_cast<IfcDateTime>( m_ActualFinish->getDeepCopy() ); }
+	if( m_RemainingTime ) { copy_self->m_RemainingTime = dynamic_pointer_cast<IfcDuration>( m_RemainingTime->getDeepCopy() ); }
+	if( m_Completion ) { copy_self->m_Completion = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_Completion->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTaskTime::getStepLine( std::stringstream& stream ) const
 {

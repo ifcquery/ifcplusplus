@@ -27,13 +27,18 @@
 IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel() {}
 IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel( int id ) { m_id = id; }
 IfcFaceBasedSurfaceModel::~IfcFaceBasedSurfaceModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFaceBasedSurfaceModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFaceBasedSurfaceModel::getDeepCopy()
 {
-	shared_ptr<IfcFaceBasedSurfaceModel> other = dynamic_pointer_cast<IfcFaceBasedSurfaceModel>(other_entity);
-	if( !other) { return; }
-	m_FbsmFaces = other->m_FbsmFaces;
+	shared_ptr<IfcFaceBasedSurfaceModel> copy_self( new IfcFaceBasedSurfaceModel() );
+	for( size_t ii=0; ii<m_FbsmFaces.size(); ++ii )
+	{
+		auto item_ii = m_FbsmFaces[ii];
+		if( item_ii )
+		{
+			copy_self->m_FbsmFaces.push_back( dynamic_pointer_cast<IfcConnectedFaceSet>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcFaceBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {

@@ -25,6 +25,12 @@
 IfcTimeStamp::IfcTimeStamp() {}
 IfcTimeStamp::IfcTimeStamp( int value ) { m_value = value; }
 IfcTimeStamp::~IfcTimeStamp() {}
+shared_ptr<IfcPPObject> IfcTimeStamp::getDeepCopy()
+{
+	shared_ptr<IfcTimeStamp> copy_self( new IfcTimeStamp() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTimeStamp::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMESTAMP("; }

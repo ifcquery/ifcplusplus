@@ -24,6 +24,12 @@
 IfcDayInWeekNumber::IfcDayInWeekNumber() {}
 IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
 IfcDayInWeekNumber::~IfcDayInWeekNumber() {}
+shared_ptr<IfcPPObject> IfcDayInWeekNumber::getDeepCopy()
+{
+	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDayInWeekNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDAYINWEEKNUMBER("; }

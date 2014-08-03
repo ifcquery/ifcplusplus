@@ -28,6 +28,7 @@ public:
 	IfcTemperatureRateOfChangeMeasure( double value );
 	~IfcTemperatureRateOfChangeMeasure();
 	virtual const char* classname() const { return "IfcTemperatureRateOfChangeMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTemperatureRateOfChangeMeasure> createObjectFromStepData( const std::wstring& arg );
 };

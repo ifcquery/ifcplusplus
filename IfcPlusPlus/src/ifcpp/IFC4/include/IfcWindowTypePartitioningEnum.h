@@ -42,6 +42,7 @@ public:
 	IfcWindowTypePartitioningEnum( IfcWindowTypePartitioningEnumEnum e ) { m_enum = e; }
 	~IfcWindowTypePartitioningEnum();
 	virtual const char* classname() const { return "IfcWindowTypePartitioningEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcWindowTypePartitioningEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcWindowTypePartitioningEnumEnum m_enum;

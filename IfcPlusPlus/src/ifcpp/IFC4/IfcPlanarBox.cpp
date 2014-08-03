@@ -28,15 +28,13 @@
 IfcPlanarBox::IfcPlanarBox() {}
 IfcPlanarBox::IfcPlanarBox( int id ) { m_id = id; }
 IfcPlanarBox::~IfcPlanarBox() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPlanarBox::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy()
 {
-	shared_ptr<IfcPlanarBox> other = dynamic_pointer_cast<IfcPlanarBox>(other_entity);
-	if( !other) { return; }
-	m_SizeInX = other->m_SizeInX;
-	m_SizeInY = other->m_SizeInY;
-	m_Placement = other->m_Placement;
+	shared_ptr<IfcPlanarBox> copy_self( new IfcPlanarBox() );
+	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy() ); }
+	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy() ); }
+	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 {

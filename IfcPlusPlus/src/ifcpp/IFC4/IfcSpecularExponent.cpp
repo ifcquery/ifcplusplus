@@ -25,6 +25,12 @@
 IfcSpecularExponent::IfcSpecularExponent() {}
 IfcSpecularExponent::IfcSpecularExponent( double value ) { m_value = value; }
 IfcSpecularExponent::~IfcSpecularExponent() {}
+shared_ptr<IfcPPObject> IfcSpecularExponent::getDeepCopy()
+{
+	shared_ptr<IfcSpecularExponent> copy_self( new IfcSpecularExponent() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSpecularExponent::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECULAREXPONENT("; }

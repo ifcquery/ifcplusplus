@@ -27,6 +27,12 @@
 IfcLengthMeasure::IfcLengthMeasure() {}
 IfcLengthMeasure::IfcLengthMeasure( double value ) { m_value = value; }
 IfcLengthMeasure::~IfcLengthMeasure() {}
+shared_ptr<IfcPPObject> IfcLengthMeasure::getDeepCopy()
+{
+	shared_ptr<IfcLengthMeasure> copy_self( new IfcLengthMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLENGTHMEASURE("; }

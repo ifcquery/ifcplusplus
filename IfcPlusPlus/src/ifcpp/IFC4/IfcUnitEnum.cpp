@@ -23,6 +23,12 @@
 // TYPE IfcUnitEnum 
 IfcUnitEnum::IfcUnitEnum() {}
 IfcUnitEnum::~IfcUnitEnum() {}
+shared_ptr<IfcPPObject> IfcUnitEnum::getDeepCopy()
+{
+	shared_ptr<IfcUnitEnum> copy_self( new IfcUnitEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcUnitEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCUNITENUM("; }

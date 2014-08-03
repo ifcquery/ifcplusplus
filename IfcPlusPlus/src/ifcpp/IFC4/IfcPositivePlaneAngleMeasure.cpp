@@ -24,6 +24,12 @@
 // TYPE IfcPositivePlaneAngleMeasure 
 IfcPositivePlaneAngleMeasure::IfcPositivePlaneAngleMeasure() {}
 IfcPositivePlaneAngleMeasure::~IfcPositivePlaneAngleMeasure() {}
+shared_ptr<IfcPPObject> IfcPositivePlaneAngleMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPositivePlaneAngleMeasure> copy_self( new IfcPositivePlaneAngleMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPositivePlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVEPLANEANGLEMEASURE("; }

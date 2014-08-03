@@ -23,6 +23,12 @@
 // TYPE IfcTaskTypeEnum 
 IfcTaskTypeEnum::IfcTaskTypeEnum() {}
 IfcTaskTypeEnum::~IfcTaskTypeEnum() {}
+shared_ptr<IfcPPObject> IfcTaskTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcTaskTypeEnum> copy_self( new IfcTaskTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTaskTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTASKTYPEENUM("; }

@@ -25,13 +25,18 @@
 IfcPresentationStyleAssignment::IfcPresentationStyleAssignment() {}
 IfcPresentationStyleAssignment::IfcPresentationStyleAssignment( int id ) { m_id = id; }
 IfcPresentationStyleAssignment::~IfcPresentationStyleAssignment() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPresentationStyleAssignment::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPresentationStyleAssignment::getDeepCopy()
 {
-	shared_ptr<IfcPresentationStyleAssignment> other = dynamic_pointer_cast<IfcPresentationStyleAssignment>(other_entity);
-	if( !other) { return; }
-	m_Styles = other->m_Styles;
+	shared_ptr<IfcPresentationStyleAssignment> copy_self( new IfcPresentationStyleAssignment() );
+	for( size_t ii=0; ii<m_Styles.size(); ++ii )
+	{
+		auto item_ii = m_Styles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcPresentationStyleSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPresentationStyleAssignment::getStepLine( std::stringstream& stream ) const
 {

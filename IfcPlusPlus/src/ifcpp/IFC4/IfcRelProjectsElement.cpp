@@ -30,18 +30,16 @@
 IfcRelProjectsElement::IfcRelProjectsElement() {}
 IfcRelProjectsElement::IfcRelProjectsElement( int id ) { m_id = id; }
 IfcRelProjectsElement::~IfcRelProjectsElement() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelProjectsElement::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelProjectsElement::getDeepCopy()
 {
-	shared_ptr<IfcRelProjectsElement> other = dynamic_pointer_cast<IfcRelProjectsElement>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingElement = other->m_RelatingElement;
-	m_RelatedFeatureElement = other->m_RelatedFeatureElement;
+	shared_ptr<IfcRelProjectsElement> copy_self( new IfcRelProjectsElement() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement->getDeepCopy() ); }
+	if( m_RelatedFeatureElement ) { copy_self->m_RelatedFeatureElement = dynamic_pointer_cast<IfcFeatureElementAddition>( m_RelatedFeatureElement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelProjectsElement::getStepLine( std::stringstream& stream ) const
 {

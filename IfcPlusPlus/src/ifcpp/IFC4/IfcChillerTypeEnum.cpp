@@ -23,6 +23,12 @@
 // TYPE IfcChillerTypeEnum 
 IfcChillerTypeEnum::IfcChillerTypeEnum() {}
 IfcChillerTypeEnum::~IfcChillerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcChillerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcChillerTypeEnum> copy_self( new IfcChillerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCHILLERTYPEENUM("; }

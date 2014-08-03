@@ -34,18 +34,23 @@
 IfcElementQuantity::IfcElementQuantity() {}
 IfcElementQuantity::IfcElementQuantity( int id ) { m_id = id; }
 IfcElementQuantity::~IfcElementQuantity() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcElementQuantity::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcElementQuantity::getDeepCopy()
 {
-	shared_ptr<IfcElementQuantity> other = dynamic_pointer_cast<IfcElementQuantity>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_MethodOfMeasurement = other->m_MethodOfMeasurement;
-	m_Quantities = other->m_Quantities;
+	shared_ptr<IfcElementQuantity> copy_self( new IfcElementQuantity() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_MethodOfMeasurement ) { copy_self->m_MethodOfMeasurement = dynamic_pointer_cast<IfcLabel>( m_MethodOfMeasurement->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Quantities.size(); ++ii )
+	{
+		auto item_ii = m_Quantities[ii];
+		if( item_ii )
+		{
+			copy_self->m_Quantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcElementQuantity::getStepLine( std::stringstream& stream ) const
 {

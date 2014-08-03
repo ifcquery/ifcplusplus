@@ -29,6 +29,7 @@ public:
 	IfcPlaneAngleMeasure( double value );
 	~IfcPlaneAngleMeasure();
 	virtual const char* classname() const { return "IfcPlaneAngleMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPlaneAngleMeasure> createObjectFromStepData( const std::wstring& arg );
 };

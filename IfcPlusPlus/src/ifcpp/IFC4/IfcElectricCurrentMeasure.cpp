@@ -25,6 +25,12 @@
 IfcElectricCurrentMeasure::IfcElectricCurrentMeasure() {}
 IfcElectricCurrentMeasure::IfcElectricCurrentMeasure( double value ) { m_value = value; }
 IfcElectricCurrentMeasure::~IfcElectricCurrentMeasure() {}
+shared_ptr<IfcPPObject> IfcElectricCurrentMeasure::getDeepCopy()
+{
+	shared_ptr<IfcElectricCurrentMeasure> copy_self( new IfcElectricCurrentMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcElectricCurrentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCURRENTMEASURE("; }

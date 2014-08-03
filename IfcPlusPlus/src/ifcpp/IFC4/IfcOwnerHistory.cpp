@@ -29,20 +29,18 @@
 IfcOwnerHistory::IfcOwnerHistory() {}
 IfcOwnerHistory::IfcOwnerHistory( int id ) { m_id = id; }
 IfcOwnerHistory::~IfcOwnerHistory() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcOwnerHistory::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcOwnerHistory::getDeepCopy()
 {
-	shared_ptr<IfcOwnerHistory> other = dynamic_pointer_cast<IfcOwnerHistory>(other_entity);
-	if( !other) { return; }
-	m_OwningUser = other->m_OwningUser;
-	m_OwningApplication = other->m_OwningApplication;
-	m_State = other->m_State;
-	m_ChangeAction = other->m_ChangeAction;
-	m_LastModifiedDate = other->m_LastModifiedDate;
-	m_LastModifyingUser = other->m_LastModifyingUser;
-	m_LastModifyingApplication = other->m_LastModifyingApplication;
-	m_CreationDate = other->m_CreationDate;
+	shared_ptr<IfcOwnerHistory> copy_self( new IfcOwnerHistory() );
+	if( m_OwningUser ) { copy_self->m_OwningUser = dynamic_pointer_cast<IfcPersonAndOrganization>( m_OwningUser->getDeepCopy() ); }
+	if( m_OwningApplication ) { copy_self->m_OwningApplication = dynamic_pointer_cast<IfcApplication>( m_OwningApplication->getDeepCopy() ); }
+	if( m_State ) { copy_self->m_State = dynamic_pointer_cast<IfcStateEnum>( m_State->getDeepCopy() ); }
+	if( m_ChangeAction ) { copy_self->m_ChangeAction = dynamic_pointer_cast<IfcChangeActionEnum>( m_ChangeAction->getDeepCopy() ); }
+	if( m_LastModifiedDate ) { copy_self->m_LastModifiedDate = dynamic_pointer_cast<IfcTimeStamp>( m_LastModifiedDate->getDeepCopy() ); }
+	if( m_LastModifyingUser ) { copy_self->m_LastModifyingUser = dynamic_pointer_cast<IfcPersonAndOrganization>( m_LastModifyingUser->getDeepCopy() ); }
+	if( m_LastModifyingApplication ) { copy_self->m_LastModifyingApplication = dynamic_pointer_cast<IfcApplication>( m_LastModifyingApplication->getDeepCopy() ); }
+	if( m_CreationDate ) { copy_self->m_CreationDate = dynamic_pointer_cast<IfcTimeStamp>( m_CreationDate->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 {

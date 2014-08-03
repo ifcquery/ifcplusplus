@@ -26,14 +26,26 @@
 IfcVirtualGridIntersection::IfcVirtualGridIntersection() {}
 IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_id = id; }
 IfcVirtualGridIntersection::~IfcVirtualGridIntersection() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcVirtualGridIntersection::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy()
 {
-	shared_ptr<IfcVirtualGridIntersection> other = dynamic_pointer_cast<IfcVirtualGridIntersection>(other_entity);
-	if( !other) { return; }
-	m_IntersectingAxes = other->m_IntersectingAxes;
-	m_OffsetDistances = other->m_OffsetDistances;
+	shared_ptr<IfcVirtualGridIntersection> copy_self( new IfcVirtualGridIntersection() );
+	for( size_t ii=0; ii<m_IntersectingAxes.size(); ++ii )
+	{
+		auto item_ii = m_IntersectingAxes[ii];
+		if( item_ii )
+		{
+			copy_self->m_IntersectingAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_OffsetDistances.size(); ++ii )
+	{
+		auto item_ii = m_OffsetDistances[ii];
+		if( item_ii )
+		{
+			copy_self->m_OffsetDistances.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 {

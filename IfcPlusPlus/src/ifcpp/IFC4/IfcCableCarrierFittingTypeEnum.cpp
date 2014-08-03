@@ -23,6 +23,12 @@
 // TYPE IfcCableCarrierFittingTypeEnum 
 IfcCableCarrierFittingTypeEnum::IfcCableCarrierFittingTypeEnum() {}
 IfcCableCarrierFittingTypeEnum::~IfcCableCarrierFittingTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCableCarrierFittingTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCableCarrierFittingTypeEnum> copy_self( new IfcCableCarrierFittingTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCableCarrierFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLECARRIERFITTINGTYPEENUM("; }

@@ -24,6 +24,12 @@
 IfcURIReference::IfcURIReference() {}
 IfcURIReference::IfcURIReference( std::wstring value ) { m_value = value; }
 IfcURIReference::~IfcURIReference() {}
+shared_ptr<IfcPPObject> IfcURIReference::getDeepCopy()
+{
+	shared_ptr<IfcURIReference> copy_self( new IfcURIReference() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcURIReference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCURIREFERENCE("; }

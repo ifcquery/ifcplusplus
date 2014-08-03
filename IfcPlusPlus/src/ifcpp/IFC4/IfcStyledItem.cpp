@@ -28,15 +28,20 @@
 IfcStyledItem::IfcStyledItem() {}
 IfcStyledItem::IfcStyledItem( int id ) { m_id = id; }
 IfcStyledItem::~IfcStyledItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStyledItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStyledItem::getDeepCopy()
 {
-	shared_ptr<IfcStyledItem> other = dynamic_pointer_cast<IfcStyledItem>(other_entity);
-	if( !other) { return; }
-	m_Item = other->m_Item;
-	m_Styles = other->m_Styles;
-	m_Name = other->m_Name;
+	shared_ptr<IfcStyledItem> copy_self( new IfcStyledItem() );
+	if( m_Item ) { copy_self->m_Item = dynamic_pointer_cast<IfcRepresentationItem>( m_Item->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Styles.size(); ++ii )
+	{
+		auto item_ii = m_Styles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcStyleAssignmentSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 {

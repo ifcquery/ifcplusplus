@@ -28,6 +28,7 @@ public:
 	IfcSectionModulusMeasure( double value );
 	~IfcSectionModulusMeasure();
 	virtual const char* classname() const { return "IfcSectionModulusMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSectionModulusMeasure> createObjectFromStepData( const std::wstring& arg );
 };

@@ -25,6 +25,12 @@
 IfcText::IfcText() {}
 IfcText::IfcText( std::wstring value ) { m_value = value; }
 IfcText::~IfcText() {}
+shared_ptr<IfcPPObject> IfcText::getDeepCopy()
+{
+	shared_ptr<IfcText> copy_self( new IfcText() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcText::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXT("; }

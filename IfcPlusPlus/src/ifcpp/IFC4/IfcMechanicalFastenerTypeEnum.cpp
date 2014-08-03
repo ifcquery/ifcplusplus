@@ -23,6 +23,12 @@
 // TYPE IfcMechanicalFastenerTypeEnum 
 IfcMechanicalFastenerTypeEnum::IfcMechanicalFastenerTypeEnum() {}
 IfcMechanicalFastenerTypeEnum::~IfcMechanicalFastenerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcMechanicalFastenerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcMechanicalFastenerTypeEnum> copy_self( new IfcMechanicalFastenerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMECHANICALFASTENERTYPEENUM("; }

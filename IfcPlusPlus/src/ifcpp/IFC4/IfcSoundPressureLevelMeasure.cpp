@@ -25,6 +25,12 @@
 IfcSoundPressureLevelMeasure::IfcSoundPressureLevelMeasure() {}
 IfcSoundPressureLevelMeasure::IfcSoundPressureLevelMeasure( double value ) { m_value = value; }
 IfcSoundPressureLevelMeasure::~IfcSoundPressureLevelMeasure() {}
+shared_ptr<IfcPPObject> IfcSoundPressureLevelMeasure::getDeepCopy()
+{
+	shared_ptr<IfcSoundPressureLevelMeasure> copy_self( new IfcSoundPressureLevelMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSoundPressureLevelMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOUNDPRESSURELEVELMEASURE("; }

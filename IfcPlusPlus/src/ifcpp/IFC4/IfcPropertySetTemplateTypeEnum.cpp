@@ -23,6 +23,12 @@
 // TYPE IfcPropertySetTemplateTypeEnum 
 IfcPropertySetTemplateTypeEnum::IfcPropertySetTemplateTypeEnum() {}
 IfcPropertySetTemplateTypeEnum::~IfcPropertySetTemplateTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPropertySetTemplateTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPropertySetTemplateTypeEnum> copy_self( new IfcPropertySetTemplateTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPropertySetTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROPERTYSETTEMPLATETYPEENUM("; }

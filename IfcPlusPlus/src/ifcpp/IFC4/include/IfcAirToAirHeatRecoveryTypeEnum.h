@@ -42,6 +42,7 @@ public:
 	IfcAirToAirHeatRecoveryTypeEnum( IfcAirToAirHeatRecoveryTypeEnumEnum e ) { m_enum = e; }
 	~IfcAirToAirHeatRecoveryTypeEnum();
 	virtual const char* classname() const { return "IfcAirToAirHeatRecoveryTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcAirToAirHeatRecoveryTypeEnumEnum m_enum;

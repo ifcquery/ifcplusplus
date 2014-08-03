@@ -23,6 +23,12 @@
 // TYPE IfcRoleEnum 
 IfcRoleEnum::IfcRoleEnum() {}
 IfcRoleEnum::~IfcRoleEnum() {}
+shared_ptr<IfcPPObject> IfcRoleEnum::getDeepCopy()
+{
+	shared_ptr<IfcRoleEnum> copy_self( new IfcRoleEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROLEENUM("; }

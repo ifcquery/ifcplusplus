@@ -23,6 +23,12 @@
 // TYPE IfcProcedureTypeEnum 
 IfcProcedureTypeEnum::IfcProcedureTypeEnum() {}
 IfcProcedureTypeEnum::~IfcProcedureTypeEnum() {}
+shared_ptr<IfcPPObject> IfcProcedureTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcProcedureTypeEnum> copy_self( new IfcProcedureTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROCEDURETYPEENUM("; }

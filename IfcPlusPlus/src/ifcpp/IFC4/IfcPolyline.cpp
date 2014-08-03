@@ -27,13 +27,18 @@
 IfcPolyline::IfcPolyline() {}
 IfcPolyline::IfcPolyline( int id ) { m_id = id; }
 IfcPolyline::~IfcPolyline() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPolyline::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPolyline::getDeepCopy()
 {
-	shared_ptr<IfcPolyline> other = dynamic_pointer_cast<IfcPolyline>(other_entity);
-	if( !other) { return; }
-	m_Points = other->m_Points;
+	shared_ptr<IfcPolyline> copy_self( new IfcPolyline() );
+	for( size_t ii=0; ii<m_Points.size(); ++ii )
+	{
+		auto item_ii = m_Points[ii];
+		if( item_ii )
+		{
+			copy_self->m_Points.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPolyline::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcControllerTypeEnum 
 IfcControllerTypeEnum::IfcControllerTypeEnum() {}
 IfcControllerTypeEnum::~IfcControllerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcControllerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcControllerTypeEnum> copy_self( new IfcControllerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcControllerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONTROLLERTYPEENUM("; }

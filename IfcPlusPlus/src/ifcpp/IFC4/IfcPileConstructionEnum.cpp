@@ -23,6 +23,12 @@
 // TYPE IfcPileConstructionEnum 
 IfcPileConstructionEnum::IfcPileConstructionEnum() {}
 IfcPileConstructionEnum::~IfcPileConstructionEnum() {}
+shared_ptr<IfcPPObject> IfcPileConstructionEnum::getDeepCopy()
+{
+	shared_ptr<IfcPileConstructionEnum> copy_self( new IfcPileConstructionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPILECONSTRUCTIONENUM("; }

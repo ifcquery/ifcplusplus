@@ -23,6 +23,12 @@
 // TYPE IfcCoveringTypeEnum 
 IfcCoveringTypeEnum::IfcCoveringTypeEnum() {}
 IfcCoveringTypeEnum::~IfcCoveringTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCoveringTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCoveringTypeEnum> copy_self( new IfcCoveringTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOVERINGTYPEENUM("; }

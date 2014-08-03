@@ -28,6 +28,7 @@ public:
 	IfcEnergyMeasure( double value );
 	~IfcEnergyMeasure();
 	virtual const char* classname() const { return "IfcEnergyMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcEnergyMeasure> createObjectFromStepData( const std::wstring& arg );
 };

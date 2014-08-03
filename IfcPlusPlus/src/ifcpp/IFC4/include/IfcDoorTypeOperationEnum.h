@@ -51,6 +51,7 @@ public:
 	IfcDoorTypeOperationEnum( IfcDoorTypeOperationEnumEnum e ) { m_enum = e; }
 	~IfcDoorTypeOperationEnum();
 	virtual const char* classname() const { return "IfcDoorTypeOperationEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDoorTypeOperationEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcDoorTypeOperationEnumEnum m_enum;

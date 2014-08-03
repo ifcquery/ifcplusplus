@@ -23,6 +23,12 @@
 // TYPE IfcLightFixtureTypeEnum 
 IfcLightFixtureTypeEnum::IfcLightFixtureTypeEnum() {}
 IfcLightFixtureTypeEnum::~IfcLightFixtureTypeEnum() {}
+shared_ptr<IfcPPObject> IfcLightFixtureTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcLightFixtureTypeEnum> copy_self( new IfcLightFixtureTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTFIXTURETYPEENUM("; }

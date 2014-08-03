@@ -23,6 +23,12 @@
 // TYPE IfcJunctionBoxTypeEnum 
 IfcJunctionBoxTypeEnum::IfcJunctionBoxTypeEnum() {}
 IfcJunctionBoxTypeEnum::~IfcJunctionBoxTypeEnum() {}
+shared_ptr<IfcPPObject> IfcJunctionBoxTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcJunctionBoxTypeEnum> copy_self( new IfcJunctionBoxTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcJunctionBoxTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCJUNCTIONBOXTYPEENUM("; }

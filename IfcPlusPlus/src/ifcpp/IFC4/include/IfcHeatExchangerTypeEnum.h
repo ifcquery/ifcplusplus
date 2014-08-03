@@ -35,6 +35,7 @@ public:
 	IfcHeatExchangerTypeEnum( IfcHeatExchangerTypeEnumEnum e ) { m_enum = e; }
 	~IfcHeatExchangerTypeEnum();
 	virtual const char* classname() const { return "IfcHeatExchangerTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcHeatExchangerTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcHeatExchangerTypeEnumEnum m_enum;

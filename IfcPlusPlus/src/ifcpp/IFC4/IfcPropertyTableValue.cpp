@@ -33,20 +33,32 @@
 IfcPropertyTableValue::IfcPropertyTableValue() {}
 IfcPropertyTableValue::IfcPropertyTableValue( int id ) { m_id = id; }
 IfcPropertyTableValue::~IfcPropertyTableValue() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertyTableValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertyTableValue::getDeepCopy()
 {
-	shared_ptr<IfcPropertyTableValue> other = dynamic_pointer_cast<IfcPropertyTableValue>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_DefiningValues = other->m_DefiningValues;
-	m_DefinedValues = other->m_DefinedValues;
-	m_Expression = other->m_Expression;
-	m_DefiningUnit = other->m_DefiningUnit;
-	m_DefinedUnit = other->m_DefinedUnit;
-	m_CurveInterpolation = other->m_CurveInterpolation;
+	shared_ptr<IfcPropertyTableValue> copy_self( new IfcPropertyTableValue() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_DefiningValues.size(); ++ii )
+	{
+		auto item_ii = m_DefiningValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_DefiningValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_DefinedValues.size(); ++ii )
+	{
+		auto item_ii = m_DefinedValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_DefinedValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy() ); }
+	if( m_DefiningUnit ) { copy_self->m_DefiningUnit = dynamic_pointer_cast<IfcUnit>( m_DefiningUnit->getDeepCopy() ); }
+	if( m_DefinedUnit ) { copy_self->m_DefinedUnit = dynamic_pointer_cast<IfcUnit>( m_DefinedUnit->getDeepCopy() ); }
+	if( m_CurveInterpolation ) { copy_self->m_CurveInterpolation = dynamic_pointer_cast<IfcCurveInterpolationEnum>( m_CurveInterpolation->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 {

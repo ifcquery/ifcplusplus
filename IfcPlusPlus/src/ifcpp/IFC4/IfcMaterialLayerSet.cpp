@@ -30,15 +30,20 @@
 IfcMaterialLayerSet::IfcMaterialLayerSet() {}
 IfcMaterialLayerSet::IfcMaterialLayerSet( int id ) { m_id = id; }
 IfcMaterialLayerSet::~IfcMaterialLayerSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialLayerSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialLayerSet::getDeepCopy()
 {
-	shared_ptr<IfcMaterialLayerSet> other = dynamic_pointer_cast<IfcMaterialLayerSet>(other_entity);
-	if( !other) { return; }
-	m_MaterialLayers = other->m_MaterialLayers;
-	m_LayerSetName = other->m_LayerSetName;
-	m_Description = other->m_Description;
+	shared_ptr<IfcMaterialLayerSet> copy_self( new IfcMaterialLayerSet() );
+	for( size_t ii=0; ii<m_MaterialLayers.size(); ++ii )
+	{
+		auto item_ii = m_MaterialLayers[ii];
+		if( item_ii )
+		{
+			copy_self->m_MaterialLayers.push_back( dynamic_pointer_cast<IfcMaterialLayer>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_LayerSetName ) { copy_self->m_LayerSetName = dynamic_pointer_cast<IfcLabel>( m_LayerSetName->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialLayerSet::getStepLine( std::stringstream& stream ) const
 {

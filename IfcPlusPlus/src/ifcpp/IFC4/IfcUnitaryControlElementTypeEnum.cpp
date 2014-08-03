@@ -23,6 +23,12 @@
 // TYPE IfcUnitaryControlElementTypeEnum 
 IfcUnitaryControlElementTypeEnum::IfcUnitaryControlElementTypeEnum() {}
 IfcUnitaryControlElementTypeEnum::~IfcUnitaryControlElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcUnitaryControlElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCUNITARYCONTROLELEMENTTYPEENUM("; }

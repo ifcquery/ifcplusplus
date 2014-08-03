@@ -26,15 +26,27 @@
 IfcLightDistributionData::IfcLightDistributionData() {}
 IfcLightDistributionData::IfcLightDistributionData( int id ) { m_id = id; }
 IfcLightDistributionData::~IfcLightDistributionData() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLightDistributionData::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLightDistributionData::getDeepCopy()
 {
-	shared_ptr<IfcLightDistributionData> other = dynamic_pointer_cast<IfcLightDistributionData>(other_entity);
-	if( !other) { return; }
-	m_MainPlaneAngle = other->m_MainPlaneAngle;
-	m_SecondaryPlaneAngle = other->m_SecondaryPlaneAngle;
-	m_LuminousIntensity = other->m_LuminousIntensity;
+	shared_ptr<IfcLightDistributionData> copy_self( new IfcLightDistributionData() );
+	if( m_MainPlaneAngle ) { copy_self->m_MainPlaneAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_MainPlaneAngle->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_SecondaryPlaneAngle.size(); ++ii )
+	{
+		auto item_ii = m_SecondaryPlaneAngle[ii];
+		if( item_ii )
+		{
+			copy_self->m_SecondaryPlaneAngle.push_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_LuminousIntensity.size(); ++ii )
+	{
+		auto item_ii = m_LuminousIntensity[ii];
+		if( item_ii )
+		{
+			copy_self->m_LuminousIntensity.push_back( dynamic_pointer_cast<IfcLuminousIntensityDistributionMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 {

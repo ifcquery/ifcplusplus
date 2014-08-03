@@ -25,13 +25,24 @@
 IfcColourRgbList::IfcColourRgbList() {}
 IfcColourRgbList::IfcColourRgbList( int id ) { m_id = id; }
 IfcColourRgbList::~IfcColourRgbList() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcColourRgbList::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy()
 {
-	shared_ptr<IfcColourRgbList> other = dynamic_pointer_cast<IfcColourRgbList>(other_entity);
-	if( !other) { return; }
-	m_ColourList = other->m_ColourList;
+	shared_ptr<IfcColourRgbList> copy_self( new IfcColourRgbList() );
+	copy_self->m_ColourList.resize( m_ColourList.size() );
+	for( size_t ii=0; ii<m_ColourList.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii = m_ColourList[ii];
+		std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii_target = copy_self->m_ColourList[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcNormalisedRatioMeasure>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	return copy_self;
 }
 void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 {

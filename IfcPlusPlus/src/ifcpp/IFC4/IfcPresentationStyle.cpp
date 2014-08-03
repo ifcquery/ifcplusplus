@@ -25,13 +25,11 @@
 IfcPresentationStyle::IfcPresentationStyle() {}
 IfcPresentationStyle::IfcPresentationStyle( int id ) { m_id = id; }
 IfcPresentationStyle::~IfcPresentationStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPresentationStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPresentationStyle::getDeepCopy()
 {
-	shared_ptr<IfcPresentationStyle> other = dynamic_pointer_cast<IfcPresentationStyle>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcPresentationStyle> copy_self( new IfcPresentationStyle() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPresentationStyle::getStepLine( std::stringstream& stream ) const
 {

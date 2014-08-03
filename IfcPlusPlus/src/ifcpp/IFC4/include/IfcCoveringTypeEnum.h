@@ -43,6 +43,7 @@ public:
 	IfcCoveringTypeEnum( IfcCoveringTypeEnumEnum e ) { m_enum = e; }
 	~IfcCoveringTypeEnum();
 	virtual const char* classname() const { return "IfcCoveringTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCoveringTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcCoveringTypeEnumEnum m_enum;

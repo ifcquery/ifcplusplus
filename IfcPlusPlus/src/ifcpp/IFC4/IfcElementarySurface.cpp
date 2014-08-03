@@ -27,13 +27,11 @@
 IfcElementarySurface::IfcElementarySurface() {}
 IfcElementarySurface::IfcElementarySurface( int id ) { m_id = id; }
 IfcElementarySurface::~IfcElementarySurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcElementarySurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcElementarySurface::getDeepCopy()
 {
-	shared_ptr<IfcElementarySurface> other = dynamic_pointer_cast<IfcElementarySurface>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
+	shared_ptr<IfcElementarySurface> copy_self( new IfcElementarySurface() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcElementarySurface::getStepLine( std::stringstream& stream ) const
 {

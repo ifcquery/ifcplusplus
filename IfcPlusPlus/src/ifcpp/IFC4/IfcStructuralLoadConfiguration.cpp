@@ -27,15 +27,33 @@
 IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration() {}
 IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int id ) { m_id = id; }
 IfcStructuralLoadConfiguration::~IfcStructuralLoadConfiguration() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadConfiguration::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadConfiguration::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadConfiguration> other = dynamic_pointer_cast<IfcStructuralLoadConfiguration>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Values = other->m_Values;
-	m_Locations = other->m_Locations;
+	shared_ptr<IfcStructuralLoadConfiguration> copy_self( new IfcStructuralLoadConfiguration() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Values.size(); ++ii )
+	{
+		auto item_ii = m_Values[ii];
+		if( item_ii )
+		{
+			copy_self->m_Values.push_back( dynamic_pointer_cast<IfcStructuralLoadOrResult>(item_ii->getDeepCopy() ) );
+		}
+	}
+	copy_self->m_Locations.resize( m_Locations.size() );
+	for( size_t ii=0; ii<m_Locations.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_Locations[ii];
+		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii_target = copy_self->m_Locations[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	return copy_self;
 }
 void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) const
 {

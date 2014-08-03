@@ -34,23 +34,21 @@
 IfcRelSpaceBoundary2ndLevel::IfcRelSpaceBoundary2ndLevel() {}
 IfcRelSpaceBoundary2ndLevel::IfcRelSpaceBoundary2ndLevel( int id ) { m_id = id; }
 IfcRelSpaceBoundary2ndLevel::~IfcRelSpaceBoundary2ndLevel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelSpaceBoundary2ndLevel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelSpaceBoundary2ndLevel::getDeepCopy()
 {
-	shared_ptr<IfcRelSpaceBoundary2ndLevel> other = dynamic_pointer_cast<IfcRelSpaceBoundary2ndLevel>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingSpace = other->m_RelatingSpace;
-	m_RelatedBuildingElement = other->m_RelatedBuildingElement;
-	m_ConnectionGeometry = other->m_ConnectionGeometry;
-	m_PhysicalOrVirtualBoundary = other->m_PhysicalOrVirtualBoundary;
-	m_InternalOrExternalBoundary = other->m_InternalOrExternalBoundary;
-	m_ParentBoundary = other->m_ParentBoundary;
-	m_CorrespondingBoundary = other->m_CorrespondingBoundary;
+	shared_ptr<IfcRelSpaceBoundary2ndLevel> copy_self( new IfcRelSpaceBoundary2ndLevel() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingSpace ) { copy_self->m_RelatingSpace = dynamic_pointer_cast<IfcSpaceBoundarySelect>( m_RelatingSpace->getDeepCopy() ); }
+	if( m_RelatedBuildingElement ) { copy_self->m_RelatedBuildingElement = dynamic_pointer_cast<IfcElement>( m_RelatedBuildingElement->getDeepCopy() ); }
+	if( m_ConnectionGeometry ) { copy_self->m_ConnectionGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionGeometry->getDeepCopy() ); }
+	if( m_PhysicalOrVirtualBoundary ) { copy_self->m_PhysicalOrVirtualBoundary = dynamic_pointer_cast<IfcPhysicalOrVirtualEnum>( m_PhysicalOrVirtualBoundary->getDeepCopy() ); }
+	if( m_InternalOrExternalBoundary ) { copy_self->m_InternalOrExternalBoundary = dynamic_pointer_cast<IfcInternalOrExternalEnum>( m_InternalOrExternalBoundary->getDeepCopy() ); }
+	if( m_ParentBoundary ) { copy_self->m_ParentBoundary = dynamic_pointer_cast<IfcRelSpaceBoundary1stLevel>( m_ParentBoundary->getDeepCopy() ); }
+	if( m_CorrespondingBoundary ) { copy_self->m_CorrespondingBoundary = dynamic_pointer_cast<IfcRelSpaceBoundary2ndLevel>( m_CorrespondingBoundary->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelSpaceBoundary2ndLevel::getStepLine( std::stringstream& stream ) const
 {

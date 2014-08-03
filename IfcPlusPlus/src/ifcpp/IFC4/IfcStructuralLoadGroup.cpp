@@ -43,22 +43,20 @@
 IfcStructuralLoadGroup::IfcStructuralLoadGroup() {}
 IfcStructuralLoadGroup::IfcStructuralLoadGroup( int id ) { m_id = id; }
 IfcStructuralLoadGroup::~IfcStructuralLoadGroup() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadGroup::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadGroup::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadGroup> other = dynamic_pointer_cast<IfcStructuralLoadGroup>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ObjectType = other->m_ObjectType;
-	m_PredefinedType = other->m_PredefinedType;
-	m_ActionType = other->m_ActionType;
-	m_ActionSource = other->m_ActionSource;
-	m_Coefficient = other->m_Coefficient;
-	m_Purpose = other->m_Purpose;
+	shared_ptr<IfcStructuralLoadGroup> copy_self( new IfcStructuralLoadGroup() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcLoadGroupTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_ActionType ) { copy_self->m_ActionType = dynamic_pointer_cast<IfcActionTypeEnum>( m_ActionType->getDeepCopy() ); }
+	if( m_ActionSource ) { copy_self->m_ActionSource = dynamic_pointer_cast<IfcActionSourceTypeEnum>( m_ActionSource->getDeepCopy() ); }
+	if( m_Coefficient ) { copy_self->m_Coefficient = dynamic_pointer_cast<IfcRatioMeasure>( m_Coefficient->getDeepCopy() ); }
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcLabel>( m_Purpose->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadGroup::getStepLine( std::stringstream& stream ) const
 {

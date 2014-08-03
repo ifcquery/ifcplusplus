@@ -30,19 +30,24 @@
 IfcRelAssociatesConstraint::IfcRelAssociatesConstraint() {}
 IfcRelAssociatesConstraint::IfcRelAssociatesConstraint( int id ) { m_id = id; }
 IfcRelAssociatesConstraint::~IfcRelAssociatesConstraint() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelAssociatesConstraint::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelAssociatesConstraint::getDeepCopy()
 {
-	shared_ptr<IfcRelAssociatesConstraint> other = dynamic_pointer_cast<IfcRelAssociatesConstraint>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatedObjects = other->m_RelatedObjects;
-	m_Intent = other->m_Intent;
-	m_RelatingConstraint = other->m_RelatingConstraint;
+	shared_ptr<IfcRelAssociatesConstraint> copy_self( new IfcRelAssociatesConstraint() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedObjects.size(); ++ii )
+	{
+		auto item_ii = m_RelatedObjects[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Intent ) { copy_self->m_Intent = dynamic_pointer_cast<IfcLabel>( m_Intent->getDeepCopy() ); }
+	if( m_RelatingConstraint ) { copy_self->m_RelatingConstraint = dynamic_pointer_cast<IfcConstraint>( m_RelatingConstraint->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelAssociatesConstraint::getStepLine( std::stringstream& stream ) const
 {

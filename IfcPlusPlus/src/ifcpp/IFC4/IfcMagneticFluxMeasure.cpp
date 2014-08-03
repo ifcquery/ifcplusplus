@@ -25,6 +25,12 @@
 IfcMagneticFluxMeasure::IfcMagneticFluxMeasure() {}
 IfcMagneticFluxMeasure::IfcMagneticFluxMeasure( double value ) { m_value = value; }
 IfcMagneticFluxMeasure::~IfcMagneticFluxMeasure() {}
+shared_ptr<IfcPPObject> IfcMagneticFluxMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMagneticFluxMeasure> copy_self( new IfcMagneticFluxMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMagneticFluxMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMAGNETICFLUXMEASURE("; }

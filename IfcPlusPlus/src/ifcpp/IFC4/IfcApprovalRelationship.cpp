@@ -27,16 +27,21 @@
 IfcApprovalRelationship::IfcApprovalRelationship() {}
 IfcApprovalRelationship::IfcApprovalRelationship( int id ) { m_id = id; }
 IfcApprovalRelationship::~IfcApprovalRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcApprovalRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcApprovalRelationship::getDeepCopy()
 {
-	shared_ptr<IfcApprovalRelationship> other = dynamic_pointer_cast<IfcApprovalRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingApproval = other->m_RelatingApproval;
-	m_RelatedApprovals = other->m_RelatedApprovals;
+	shared_ptr<IfcApprovalRelationship> copy_self( new IfcApprovalRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingApproval ) { copy_self->m_RelatingApproval = dynamic_pointer_cast<IfcApproval>( m_RelatingApproval->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedApprovals.size(); ++ii )
+	{
+		auto item_ii = m_RelatedApprovals[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedApprovals.push_back( dynamic_pointer_cast<IfcApproval>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 {

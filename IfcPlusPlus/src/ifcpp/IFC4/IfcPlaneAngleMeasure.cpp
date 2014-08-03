@@ -26,6 +26,12 @@
 IfcPlaneAngleMeasure::IfcPlaneAngleMeasure() {}
 IfcPlaneAngleMeasure::IfcPlaneAngleMeasure( double value ) { m_value = value; }
 IfcPlaneAngleMeasure::~IfcPlaneAngleMeasure() {}
+shared_ptr<IfcPPObject> IfcPlaneAngleMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPlaneAngleMeasure> copy_self( new IfcPlaneAngleMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPLANEANGLEMEASURE("; }

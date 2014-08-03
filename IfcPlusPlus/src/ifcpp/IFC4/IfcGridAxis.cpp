@@ -29,15 +29,13 @@
 IfcGridAxis::IfcGridAxis() {}
 IfcGridAxis::IfcGridAxis( int id ) { m_id = id; }
 IfcGridAxis::~IfcGridAxis() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcGridAxis::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcGridAxis::getDeepCopy()
 {
-	shared_ptr<IfcGridAxis> other = dynamic_pointer_cast<IfcGridAxis>(other_entity);
-	if( !other) { return; }
-	m_AxisTag = other->m_AxisTag;
-	m_AxisCurve = other->m_AxisCurve;
-	m_SameSense = other->m_SameSense;
+	shared_ptr<IfcGridAxis> copy_self( new IfcGridAxis() );
+	if( m_AxisTag ) { copy_self->m_AxisTag = dynamic_pointer_cast<IfcLabel>( m_AxisTag->getDeepCopy() ); }
+	if( m_AxisCurve ) { copy_self->m_AxisCurve = dynamic_pointer_cast<IfcCurve>( m_AxisCurve->getDeepCopy() ); }
+	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcGridAxis::getStepLine( std::stringstream& stream ) const
 {

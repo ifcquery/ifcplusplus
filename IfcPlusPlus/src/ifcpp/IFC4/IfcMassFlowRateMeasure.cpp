@@ -25,6 +25,12 @@
 IfcMassFlowRateMeasure::IfcMassFlowRateMeasure() {}
 IfcMassFlowRateMeasure::IfcMassFlowRateMeasure( double value ) { m_value = value; }
 IfcMassFlowRateMeasure::~IfcMassFlowRateMeasure() {}
+shared_ptr<IfcPPObject> IfcMassFlowRateMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMassFlowRateMeasure> copy_self( new IfcMassFlowRateMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMassFlowRateMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMASSFLOWRATEMEASURE("; }

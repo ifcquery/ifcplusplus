@@ -25,6 +25,12 @@
 IfcContextDependentMeasure::IfcContextDependentMeasure() {}
 IfcContextDependentMeasure::IfcContextDependentMeasure( double value ) { m_value = value; }
 IfcContextDependentMeasure::~IfcContextDependentMeasure() {}
+shared_ptr<IfcPPObject> IfcContextDependentMeasure::getDeepCopy()
+{
+	shared_ptr<IfcContextDependentMeasure> copy_self( new IfcContextDependentMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcContextDependentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONTEXTDEPENDENTMEASURE("; }

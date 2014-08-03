@@ -23,6 +23,12 @@
 // TYPE IfcElectricTimeControlTypeEnum 
 IfcElectricTimeControlTypeEnum::IfcElectricTimeControlTypeEnum() {}
 IfcElectricTimeControlTypeEnum::~IfcElectricTimeControlTypeEnum() {}
+shared_ptr<IfcPPObject> IfcElectricTimeControlTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcElectricTimeControlTypeEnum> copy_self( new IfcElectricTimeControlTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElectricTimeControlTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICTIMECONTROLTYPEENUM("; }

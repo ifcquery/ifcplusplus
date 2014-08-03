@@ -25,13 +25,11 @@
 IfcPreDefinedCurveFont::IfcPreDefinedCurveFont() {}
 IfcPreDefinedCurveFont::IfcPreDefinedCurveFont( int id ) { m_id = id; }
 IfcPreDefinedCurveFont::~IfcPreDefinedCurveFont() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPreDefinedCurveFont::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPreDefinedCurveFont::getDeepCopy()
 {
-	shared_ptr<IfcPreDefinedCurveFont> other = dynamic_pointer_cast<IfcPreDefinedCurveFont>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
+	shared_ptr<IfcPreDefinedCurveFont> copy_self( new IfcPreDefinedCurveFont() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPreDefinedCurveFont::getStepLine( std::stringstream& stream ) const
 {

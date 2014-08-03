@@ -23,6 +23,12 @@
 // TYPE IfcFlowInstrumentTypeEnum 
 IfcFlowInstrumentTypeEnum::IfcFlowInstrumentTypeEnum() {}
 IfcFlowInstrumentTypeEnum::~IfcFlowInstrumentTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFlowInstrumentTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFlowInstrumentTypeEnum> copy_self( new IfcFlowInstrumentTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWINSTRUMENTTYPEENUM("; }

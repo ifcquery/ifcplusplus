@@ -28,17 +28,22 @@
 IfcBSplineCurve::IfcBSplineCurve() {}
 IfcBSplineCurve::IfcBSplineCurve( int id ) { m_id = id; }
 IfcBSplineCurve::~IfcBSplineCurve() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBSplineCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBSplineCurve::getDeepCopy()
 {
-	shared_ptr<IfcBSplineCurve> other = dynamic_pointer_cast<IfcBSplineCurve>(other_entity);
-	if( !other) { return; }
-	m_Degree = other->m_Degree;
-	m_ControlPointsList = other->m_ControlPointsList;
-	m_CurveForm = other->m_CurveForm;
-	m_ClosedCurve = other->m_ClosedCurve;
-	m_SelfIntersect = other->m_SelfIntersect;
+	shared_ptr<IfcBSplineCurve> copy_self( new IfcBSplineCurve() );
+	if( m_Degree ) { copy_self->m_Degree = m_Degree; }
+	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
+	{
+		auto item_ii = m_ControlPointsList[ii];
+		if( item_ii )
+		{
+			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy() ); }
+	if( m_ClosedCurve ) { copy_self->m_ClosedCurve = m_ClosedCurve; }
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	return copy_self;
 }
 void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 {

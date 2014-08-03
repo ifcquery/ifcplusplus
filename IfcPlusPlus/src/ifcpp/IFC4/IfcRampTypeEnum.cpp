@@ -23,6 +23,12 @@
 // TYPE IfcRampTypeEnum 
 IfcRampTypeEnum::IfcRampTypeEnum() {}
 IfcRampTypeEnum::~IfcRampTypeEnum() {}
+shared_ptr<IfcPPObject> IfcRampTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcRampTypeEnum> copy_self( new IfcRampTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcRampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAMPTYPEENUM("; }

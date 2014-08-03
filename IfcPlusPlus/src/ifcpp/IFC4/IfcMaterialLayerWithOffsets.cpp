@@ -36,21 +36,26 @@
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets() {}
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets( int id ) { m_id = id; }
 IfcMaterialLayerWithOffsets::~IfcMaterialLayerWithOffsets() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialLayerWithOffsets::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialLayerWithOffsets::getDeepCopy()
 {
-	shared_ptr<IfcMaterialLayerWithOffsets> other = dynamic_pointer_cast<IfcMaterialLayerWithOffsets>(other_entity);
-	if( !other) { return; }
-	m_Material = other->m_Material;
-	m_LayerThickness = other->m_LayerThickness;
-	m_IsVentilated = other->m_IsVentilated;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Category = other->m_Category;
-	m_Priority = other->m_Priority;
-	m_OffsetDirection = other->m_OffsetDirection;
-	m_OffsetValues = other->m_OffsetValues;
+	shared_ptr<IfcMaterialLayerWithOffsets> copy_self( new IfcMaterialLayerWithOffsets() );
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
+	if( m_LayerThickness ) { copy_self->m_LayerThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LayerThickness->getDeepCopy() ); }
+	if( m_IsVentilated ) { copy_self->m_IsVentilated = dynamic_pointer_cast<IfcLogical>( m_IsVentilated->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy() ); }
+	if( m_OffsetDirection ) { copy_self->m_OffsetDirection = dynamic_pointer_cast<IfcLayerSetDirectionEnum>( m_OffsetDirection->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_OffsetValues.size(); ++ii )
+	{
+		auto item_ii = m_OffsetValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcMaterialLayerWithOffsets::getStepLine( std::stringstream& stream ) const
 {

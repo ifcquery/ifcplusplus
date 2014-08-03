@@ -23,6 +23,12 @@
 // TYPE IfcCurveInterpolationEnum 
 IfcCurveInterpolationEnum::IfcCurveInterpolationEnum() {}
 IfcCurveInterpolationEnum::~IfcCurveInterpolationEnum() {}
+shared_ptr<IfcPPObject> IfcCurveInterpolationEnum::getDeepCopy()
+{
+	shared_ptr<IfcCurveInterpolationEnum> copy_self( new IfcCurveInterpolationEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURVEINTERPOLATIONENUM("; }

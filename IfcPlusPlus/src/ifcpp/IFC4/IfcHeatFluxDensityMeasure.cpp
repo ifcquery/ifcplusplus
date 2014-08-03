@@ -25,6 +25,12 @@
 IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure() {}
 IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure( double value ) { m_value = value; }
 IfcHeatFluxDensityMeasure::~IfcHeatFluxDensityMeasure() {}
+shared_ptr<IfcPPObject> IfcHeatFluxDensityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcHeatFluxDensityMeasure> copy_self( new IfcHeatFluxDensityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcHeatFluxDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHEATFLUXDENSITYMEASURE("; }

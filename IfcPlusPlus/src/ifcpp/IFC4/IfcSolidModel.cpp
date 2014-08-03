@@ -26,12 +26,10 @@
 IfcSolidModel::IfcSolidModel() {}
 IfcSolidModel::IfcSolidModel( int id ) { m_id = id; }
 IfcSolidModel::~IfcSolidModel() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSolidModel::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSolidModel::getDeepCopy()
 {
-	shared_ptr<IfcSolidModel> other = dynamic_pointer_cast<IfcSolidModel>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcSolidModel> copy_self( new IfcSolidModel() );
+	return copy_self;
 }
 void IfcSolidModel::getStepLine( std::stringstream& stream ) const
 {

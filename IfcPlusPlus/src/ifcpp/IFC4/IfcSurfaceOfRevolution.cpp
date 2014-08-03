@@ -29,15 +29,13 @@
 IfcSurfaceOfRevolution::IfcSurfaceOfRevolution() {}
 IfcSurfaceOfRevolution::IfcSurfaceOfRevolution( int id ) { m_id = id; }
 IfcSurfaceOfRevolution::~IfcSurfaceOfRevolution() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceOfRevolution::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceOfRevolution::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceOfRevolution> other = dynamic_pointer_cast<IfcSurfaceOfRevolution>(other_entity);
-	if( !other) { return; }
-	m_SweptCurve = other->m_SweptCurve;
-	m_Position = other->m_Position;
-	m_AxisPosition = other->m_AxisPosition;
+	shared_ptr<IfcSurfaceOfRevolution> copy_self( new IfcSurfaceOfRevolution() );
+	if( m_SweptCurve ) { copy_self->m_SweptCurve = dynamic_pointer_cast<IfcProfileDef>( m_SweptCurve->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_AxisPosition ) { copy_self->m_AxisPosition = dynamic_pointer_cast<IfcAxis1Placement>( m_AxisPosition->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) const
 {

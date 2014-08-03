@@ -23,6 +23,12 @@
 // TYPE IfcSwitchingDeviceTypeEnum 
 IfcSwitchingDeviceTypeEnum::IfcSwitchingDeviceTypeEnum() {}
 IfcSwitchingDeviceTypeEnum::~IfcSwitchingDeviceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSwitchingDeviceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSwitchingDeviceTypeEnum> copy_self( new IfcSwitchingDeviceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSWITCHINGDEVICETYPEENUM("; }

@@ -29,16 +29,21 @@
 IfcCompositeProfileDef::IfcCompositeProfileDef() {}
 IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_id = id; }
 IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCompositeProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCompositeProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcCompositeProfileDef> other = dynamic_pointer_cast<IfcCompositeProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Profiles = other->m_Profiles;
-	m_Label = other->m_Label;
+	shared_ptr<IfcCompositeProfileDef> copy_self( new IfcCompositeProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Profiles.size(); ++ii )
+	{
+		auto item_ii = m_Profiles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Profiles.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 {

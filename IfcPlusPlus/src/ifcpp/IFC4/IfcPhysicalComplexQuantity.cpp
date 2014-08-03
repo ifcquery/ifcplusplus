@@ -28,18 +28,23 @@
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity() {}
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity( int id ) { m_id = id; }
 IfcPhysicalComplexQuantity::~IfcPhysicalComplexQuantity() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPhysicalComplexQuantity::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPhysicalComplexQuantity::getDeepCopy()
 {
-	shared_ptr<IfcPhysicalComplexQuantity> other = dynamic_pointer_cast<IfcPhysicalComplexQuantity>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_HasQuantities = other->m_HasQuantities;
-	m_Discrimination = other->m_Discrimination;
-	m_Quality = other->m_Quality;
-	m_Usage = other->m_Usage;
+	shared_ptr<IfcPhysicalComplexQuantity> copy_self( new IfcPhysicalComplexQuantity() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_HasQuantities.size(); ++ii )
+	{
+		auto item_ii = m_HasQuantities[ii];
+		if( item_ii )
+		{
+			copy_self->m_HasQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Discrimination ) { copy_self->m_Discrimination = dynamic_pointer_cast<IfcLabel>( m_Discrimination->getDeepCopy() ); }
+	if( m_Quality ) { copy_self->m_Quality = dynamic_pointer_cast<IfcLabel>( m_Quality->getDeepCopy() ); }
+	if( m_Usage ) { copy_self->m_Usage = dynamic_pointer_cast<IfcLabel>( m_Usage->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
 {

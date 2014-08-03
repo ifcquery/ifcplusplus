@@ -28,15 +28,13 @@
 IfcEllipse::IfcEllipse() {}
 IfcEllipse::IfcEllipse( int id ) { m_id = id; }
 IfcEllipse::~IfcEllipse() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcEllipse::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcEllipse::getDeepCopy()
 {
-	shared_ptr<IfcEllipse> other = dynamic_pointer_cast<IfcEllipse>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
-	m_SemiAxis1 = other->m_SemiAxis1;
-	m_SemiAxis2 = other->m_SemiAxis2;
+	shared_ptr<IfcEllipse> copy_self( new IfcEllipse() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy() ); }
+	if( m_SemiAxis1 ) { copy_self->m_SemiAxis1 = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SemiAxis1->getDeepCopy() ); }
+	if( m_SemiAxis2 ) { copy_self->m_SemiAxis2 = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SemiAxis2->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcEllipse::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcPipeSegmentTypeEnum 
 IfcPipeSegmentTypeEnum::IfcPipeSegmentTypeEnum() {}
 IfcPipeSegmentTypeEnum::~IfcPipeSegmentTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPipeSegmentTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPipeSegmentTypeEnum> copy_self( new IfcPipeSegmentTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPipeSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPIPESEGMENTTYPEENUM("; }

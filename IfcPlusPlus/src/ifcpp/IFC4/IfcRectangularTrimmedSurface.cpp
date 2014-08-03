@@ -28,19 +28,17 @@
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface() {}
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_id = id; }
 IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRectangularTrimmedSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy()
 {
-	shared_ptr<IfcRectangularTrimmedSurface> other = dynamic_pointer_cast<IfcRectangularTrimmedSurface>(other_entity);
-	if( !other) { return; }
-	m_BasisSurface = other->m_BasisSurface;
-	m_U1 = other->m_U1;
-	m_V1 = other->m_V1;
-	m_U2 = other->m_U2;
-	m_V2 = other->m_V2;
-	m_Usense = other->m_Usense;
-	m_Vsense = other->m_Vsense;
+	shared_ptr<IfcRectangularTrimmedSurface> copy_self( new IfcRectangularTrimmedSurface() );
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy() ); }
+	if( m_U1 ) { copy_self->m_U1 = dynamic_pointer_cast<IfcParameterValue>( m_U1->getDeepCopy() ); }
+	if( m_V1 ) { copy_self->m_V1 = dynamic_pointer_cast<IfcParameterValue>( m_V1->getDeepCopy() ); }
+	if( m_U2 ) { copy_self->m_U2 = dynamic_pointer_cast<IfcParameterValue>( m_U2->getDeepCopy() ); }
+	if( m_V2 ) { copy_self->m_V2 = dynamic_pointer_cast<IfcParameterValue>( m_V2->getDeepCopy() ); }
+	if( m_Usense ) { copy_self->m_Usense = m_Usense; }
+	if( m_Vsense ) { copy_self->m_Vsense = m_Vsense; }
+	return copy_self;
 }
 void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
 {

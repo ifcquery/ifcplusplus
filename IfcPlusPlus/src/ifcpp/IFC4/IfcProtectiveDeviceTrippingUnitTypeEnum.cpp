@@ -23,6 +23,12 @@
 // TYPE IfcProtectiveDeviceTrippingUnitTypeEnum 
 IfcProtectiveDeviceTrippingUnitTypeEnum::IfcProtectiveDeviceTrippingUnitTypeEnum() {}
 IfcProtectiveDeviceTrippingUnitTypeEnum::~IfcProtectiveDeviceTrippingUnitTypeEnum() {}
+shared_ptr<IfcPPObject> IfcProtectiveDeviceTrippingUnitTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> copy_self( new IfcProtectiveDeviceTrippingUnitTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcProtectiveDeviceTrippingUnitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROTECTIVEDEVICETRIPPINGUNITTYPEENUM("; }

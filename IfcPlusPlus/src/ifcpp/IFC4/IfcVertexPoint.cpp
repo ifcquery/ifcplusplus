@@ -27,13 +27,11 @@
 IfcVertexPoint::IfcVertexPoint() {}
 IfcVertexPoint::IfcVertexPoint( int id ) { m_id = id; }
 IfcVertexPoint::~IfcVertexPoint() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcVertexPoint::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcVertexPoint::getDeepCopy()
 {
-	shared_ptr<IfcVertexPoint> other = dynamic_pointer_cast<IfcVertexPoint>(other_entity);
-	if( !other) { return; }
-	m_VertexGeometry = other->m_VertexGeometry;
+	shared_ptr<IfcVertexPoint> copy_self( new IfcVertexPoint() );
+	if( m_VertexGeometry ) { copy_self->m_VertexGeometry = dynamic_pointer_cast<IfcPoint>( m_VertexGeometry->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcVertexPoint::getStepLine( std::stringstream& stream ) const
 {

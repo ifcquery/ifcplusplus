@@ -27,14 +27,12 @@
 IfcPlanarExtent::IfcPlanarExtent() {}
 IfcPlanarExtent::IfcPlanarExtent( int id ) { m_id = id; }
 IfcPlanarExtent::~IfcPlanarExtent() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPlanarExtent::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPlanarExtent::getDeepCopy()
 {
-	shared_ptr<IfcPlanarExtent> other = dynamic_pointer_cast<IfcPlanarExtent>(other_entity);
-	if( !other) { return; }
-	m_SizeInX = other->m_SizeInX;
-	m_SizeInY = other->m_SizeInY;
+	shared_ptr<IfcPlanarExtent> copy_self( new IfcPlanarExtent() );
+	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy() ); }
+	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPlanarExtent::getStepLine( std::stringstream& stream ) const
 {

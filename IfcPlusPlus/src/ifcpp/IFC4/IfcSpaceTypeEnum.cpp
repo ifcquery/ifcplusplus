@@ -23,6 +23,12 @@
 // TYPE IfcSpaceTypeEnum 
 IfcSpaceTypeEnum::IfcSpaceTypeEnum() {}
 IfcSpaceTypeEnum::~IfcSpaceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSpaceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSpaceTypeEnum> copy_self( new IfcSpaceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSpaceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPACETYPEENUM("; }

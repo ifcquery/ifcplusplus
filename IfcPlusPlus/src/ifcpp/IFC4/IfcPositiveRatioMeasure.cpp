@@ -25,6 +25,12 @@
 // TYPE IfcPositiveRatioMeasure 
 IfcPositiveRatioMeasure::IfcPositiveRatioMeasure() {}
 IfcPositiveRatioMeasure::~IfcPositiveRatioMeasure() {}
+shared_ptr<IfcPPObject> IfcPositiveRatioMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPositiveRatioMeasure> copy_self( new IfcPositiveRatioMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPositiveRatioMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVERATIOMEASURE("; }

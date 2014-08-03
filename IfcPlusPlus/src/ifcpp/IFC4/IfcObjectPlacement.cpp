@@ -26,12 +26,10 @@
 IfcObjectPlacement::IfcObjectPlacement() {}
 IfcObjectPlacement::IfcObjectPlacement( int id ) { m_id = id; }
 IfcObjectPlacement::~IfcObjectPlacement() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcObjectPlacement::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcObjectPlacement::getDeepCopy()
 {
-	shared_ptr<IfcObjectPlacement> other = dynamic_pointer_cast<IfcObjectPlacement>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcObjectPlacement> copy_self( new IfcObjectPlacement() );
+	return copy_self;
 }
 void IfcObjectPlacement::getStepLine( std::stringstream& stream ) const
 {

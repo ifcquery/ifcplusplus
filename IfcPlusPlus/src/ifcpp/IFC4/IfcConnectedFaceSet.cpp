@@ -27,13 +27,18 @@
 IfcConnectedFaceSet::IfcConnectedFaceSet() {}
 IfcConnectedFaceSet::IfcConnectedFaceSet( int id ) { m_id = id; }
 IfcConnectedFaceSet::~IfcConnectedFaceSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConnectedFaceSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConnectedFaceSet::getDeepCopy()
 {
-	shared_ptr<IfcConnectedFaceSet> other = dynamic_pointer_cast<IfcConnectedFaceSet>(other_entity);
-	if( !other) { return; }
-	m_CfsFaces = other->m_CfsFaces;
+	shared_ptr<IfcConnectedFaceSet> copy_self( new IfcConnectedFaceSet() );
+	for( size_t ii=0; ii<m_CfsFaces.size(); ++ii )
+	{
+		auto item_ii = m_CfsFaces[ii];
+		if( item_ii )
+		{
+			copy_self->m_CfsFaces.push_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcConnectedFaceSet::getStepLine( std::stringstream& stream ) const
 {

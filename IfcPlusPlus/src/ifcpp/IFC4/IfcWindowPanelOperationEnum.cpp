@@ -23,6 +23,12 @@
 // TYPE IfcWindowPanelOperationEnum 
 IfcWindowPanelOperationEnum::IfcWindowPanelOperationEnum() {}
 IfcWindowPanelOperationEnum::~IfcWindowPanelOperationEnum() {}
+shared_ptr<IfcPPObject> IfcWindowPanelOperationEnum::getDeepCopy()
+{
+	shared_ptr<IfcWindowPanelOperationEnum> copy_self( new IfcWindowPanelOperationEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWindowPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWPANELOPERATIONENUM("; }

@@ -24,6 +24,12 @@
 // TYPE IfcNonNegativeLengthMeasure 
 IfcNonNegativeLengthMeasure::IfcNonNegativeLengthMeasure() {}
 IfcNonNegativeLengthMeasure::~IfcNonNegativeLengthMeasure() {}
+shared_ptr<IfcPPObject> IfcNonNegativeLengthMeasure::getDeepCopy()
+{
+	shared_ptr<IfcNonNegativeLengthMeasure> copy_self( new IfcNonNegativeLengthMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcNonNegativeLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNONNEGATIVELENGTHMEASURE("; }

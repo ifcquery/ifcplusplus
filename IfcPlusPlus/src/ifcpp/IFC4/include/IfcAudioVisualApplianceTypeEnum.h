@@ -44,6 +44,7 @@ public:
 	IfcAudioVisualApplianceTypeEnum( IfcAudioVisualApplianceTypeEnumEnum e ) { m_enum = e; }
 	~IfcAudioVisualApplianceTypeEnum();
 	virtual const char* classname() const { return "IfcAudioVisualApplianceTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAudioVisualApplianceTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcAudioVisualApplianceTypeEnumEnum m_enum;

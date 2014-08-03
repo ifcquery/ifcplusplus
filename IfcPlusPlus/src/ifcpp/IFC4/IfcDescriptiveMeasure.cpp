@@ -26,6 +26,12 @@
 IfcDescriptiveMeasure::IfcDescriptiveMeasure() {}
 IfcDescriptiveMeasure::IfcDescriptiveMeasure( std::wstring value ) { m_value = value; }
 IfcDescriptiveMeasure::~IfcDescriptiveMeasure() {}
+shared_ptr<IfcPPObject> IfcDescriptiveMeasure::getDeepCopy()
+{
+	shared_ptr<IfcDescriptiveMeasure> copy_self( new IfcDescriptiveMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDescriptiveMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDESCRIPTIVEMEASURE("; }

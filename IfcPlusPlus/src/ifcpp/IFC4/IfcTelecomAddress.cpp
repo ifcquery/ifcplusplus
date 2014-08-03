@@ -30,21 +30,47 @@
 IfcTelecomAddress::IfcTelecomAddress() {}
 IfcTelecomAddress::IfcTelecomAddress( int id ) { m_id = id; }
 IfcTelecomAddress::~IfcTelecomAddress() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTelecomAddress::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTelecomAddress::getDeepCopy()
 {
-	shared_ptr<IfcTelecomAddress> other = dynamic_pointer_cast<IfcTelecomAddress>(other_entity);
-	if( !other) { return; }
-	m_Purpose = other->m_Purpose;
-	m_Description = other->m_Description;
-	m_UserDefinedPurpose = other->m_UserDefinedPurpose;
-	m_TelephoneNumbers = other->m_TelephoneNumbers;
-	m_FacsimileNumbers = other->m_FacsimileNumbers;
-	m_PagerNumber = other->m_PagerNumber;
-	m_ElectronicMailAddresses = other->m_ElectronicMailAddresses;
-	m_WWWHomePageURL = other->m_WWWHomePageURL;
-	m_MessagingIDs = other->m_MessagingIDs;
+	shared_ptr<IfcTelecomAddress> copy_self( new IfcTelecomAddress() );
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_TelephoneNumbers.size(); ++ii )
+	{
+		auto item_ii = m_TelephoneNumbers[ii];
+		if( item_ii )
+		{
+			copy_self->m_TelephoneNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_FacsimileNumbers.size(); ++ii )
+	{
+		auto item_ii = m_FacsimileNumbers[ii];
+		if( item_ii )
+		{
+			copy_self->m_FacsimileNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_PagerNumber ) { copy_self->m_PagerNumber = dynamic_pointer_cast<IfcLabel>( m_PagerNumber->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_ElectronicMailAddresses.size(); ++ii )
+	{
+		auto item_ii = m_ElectronicMailAddresses[ii];
+		if( item_ii )
+		{
+			copy_self->m_ElectronicMailAddresses.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_WWWHomePageURL ) { copy_self->m_WWWHomePageURL = dynamic_pointer_cast<IfcURIReference>( m_WWWHomePageURL->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_MessagingIDs.size(); ++ii )
+	{
+		auto item_ii = m_MessagingIDs[ii];
+		if( item_ii )
+		{
+			copy_self->m_MessagingIDs.push_back( dynamic_pointer_cast<IfcURIReference>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 {

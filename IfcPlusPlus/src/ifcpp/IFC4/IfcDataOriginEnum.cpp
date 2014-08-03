@@ -23,6 +23,12 @@
 // TYPE IfcDataOriginEnum 
 IfcDataOriginEnum::IfcDataOriginEnum() {}
 IfcDataOriginEnum::~IfcDataOriginEnum() {}
+shared_ptr<IfcPPObject> IfcDataOriginEnum::getDeepCopy()
+{
+	shared_ptr<IfcDataOriginEnum> copy_self( new IfcDataOriginEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDATAORIGINENUM("; }

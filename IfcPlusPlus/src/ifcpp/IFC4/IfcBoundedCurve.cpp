@@ -26,12 +26,10 @@
 IfcBoundedCurve::IfcBoundedCurve() {}
 IfcBoundedCurve::IfcBoundedCurve( int id ) { m_id = id; }
 IfcBoundedCurve::~IfcBoundedCurve() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundedCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundedCurve::getDeepCopy()
 {
-	shared_ptr<IfcBoundedCurve> other = dynamic_pointer_cast<IfcBoundedCurve>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcBoundedCurve> copy_self( new IfcBoundedCurve() );
+	return copy_self;
 }
 void IfcBoundedCurve::getStepLine( std::stringstream& stream ) const
 {

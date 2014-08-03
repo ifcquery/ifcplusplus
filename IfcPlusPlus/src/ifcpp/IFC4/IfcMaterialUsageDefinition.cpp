@@ -25,12 +25,10 @@
 IfcMaterialUsageDefinition::IfcMaterialUsageDefinition() {}
 IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_id = id; }
 IfcMaterialUsageDefinition::~IfcMaterialUsageDefinition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialUsageDefinition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialUsageDefinition::getDeepCopy()
 {
-	shared_ptr<IfcMaterialUsageDefinition> other = dynamic_pointer_cast<IfcMaterialUsageDefinition>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcMaterialUsageDefinition> copy_self( new IfcMaterialUsageDefinition() );
+	return copy_self;
 }
 void IfcMaterialUsageDefinition::getStepLine( std::stringstream& stream ) const
 {

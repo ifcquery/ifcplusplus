@@ -29,17 +29,29 @@
 IfcTrimmedCurve::IfcTrimmedCurve() {}
 IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_id = id; }
 IfcTrimmedCurve::~IfcTrimmedCurve() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTrimmedCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTrimmedCurve::getDeepCopy()
 {
-	shared_ptr<IfcTrimmedCurve> other = dynamic_pointer_cast<IfcTrimmedCurve>(other_entity);
-	if( !other) { return; }
-	m_BasisCurve = other->m_BasisCurve;
-	m_Trim1 = other->m_Trim1;
-	m_Trim2 = other->m_Trim2;
-	m_SenseAgreement = other->m_SenseAgreement;
-	m_MasterRepresentation = other->m_MasterRepresentation;
+	shared_ptr<IfcTrimmedCurve> copy_self( new IfcTrimmedCurve() );
+	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Trim1.size(); ++ii )
+	{
+		auto item_ii = m_Trim1[ii];
+		if( item_ii )
+		{
+			copy_self->m_Trim1.push_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_Trim2.size(); ++ii )
+	{
+		auto item_ii = m_Trim2[ii];
+		if( item_ii )
+		{
+			copy_self->m_Trim2.push_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_SenseAgreement ) { copy_self->m_SenseAgreement = m_SenseAgreement; }
+	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcTrimmingPreference>( m_MasterRepresentation->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 {

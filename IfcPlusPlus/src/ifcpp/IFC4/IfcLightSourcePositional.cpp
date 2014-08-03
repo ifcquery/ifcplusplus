@@ -32,21 +32,19 @@
 IfcLightSourcePositional::IfcLightSourcePositional() {}
 IfcLightSourcePositional::IfcLightSourcePositional( int id ) { m_id = id; }
 IfcLightSourcePositional::~IfcLightSourcePositional() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLightSourcePositional::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLightSourcePositional::getDeepCopy()
 {
-	shared_ptr<IfcLightSourcePositional> other = dynamic_pointer_cast<IfcLightSourcePositional>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_LightColour = other->m_LightColour;
-	m_AmbientIntensity = other->m_AmbientIntensity;
-	m_Intensity = other->m_Intensity;
-	m_Position = other->m_Position;
-	m_Radius = other->m_Radius;
-	m_ConstantAttenuation = other->m_ConstantAttenuation;
-	m_DistanceAttenuation = other->m_DistanceAttenuation;
-	m_QuadricAttenuation = other->m_QuadricAttenuation;
+	shared_ptr<IfcLightSourcePositional> copy_self( new IfcLightSourcePositional() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy() ); }
+	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy() ); }
+	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcCartesianPoint>( m_Position->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	if( m_ConstantAttenuation ) { copy_self->m_ConstantAttenuation = dynamic_pointer_cast<IfcReal>( m_ConstantAttenuation->getDeepCopy() ); }
+	if( m_DistanceAttenuation ) { copy_self->m_DistanceAttenuation = dynamic_pointer_cast<IfcReal>( m_DistanceAttenuation->getDeepCopy() ); }
+	if( m_QuadricAttenuation ) { copy_self->m_QuadricAttenuation = dynamic_pointer_cast<IfcReal>( m_QuadricAttenuation->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLightSourcePositional::getStepLine( std::stringstream& stream ) const
 {

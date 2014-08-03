@@ -23,6 +23,12 @@
 // TYPE IfcExternalSpatialElementTypeEnum 
 IfcExternalSpatialElementTypeEnum::IfcExternalSpatialElementTypeEnum() {}
 IfcExternalSpatialElementTypeEnum::~IfcExternalSpatialElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcExternalSpatialElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcExternalSpatialElementTypeEnum> copy_self( new IfcExternalSpatialElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEXTERNALSPATIALELEMENTTYPEENUM("; }

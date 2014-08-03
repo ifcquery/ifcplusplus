@@ -23,6 +23,12 @@
 // TYPE IfcReinforcingBarRoleEnum 
 IfcReinforcingBarRoleEnum::IfcReinforcingBarRoleEnum() {}
 IfcReinforcingBarRoleEnum::~IfcReinforcingBarRoleEnum() {}
+shared_ptr<IfcPPObject> IfcReinforcingBarRoleEnum::getDeepCopy()
+{
+	shared_ptr<IfcReinforcingBarRoleEnum> copy_self( new IfcReinforcingBarRoleEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcReinforcingBarRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARROLEENUM("; }

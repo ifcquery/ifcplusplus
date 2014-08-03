@@ -25,6 +25,12 @@
 IfcTimeMeasure::IfcTimeMeasure() {}
 IfcTimeMeasure::IfcTimeMeasure( double value ) { m_value = value; }
 IfcTimeMeasure::~IfcTimeMeasure() {}
+shared_ptr<IfcPPObject> IfcTimeMeasure::getDeepCopy()
+{
+	shared_ptr<IfcTimeMeasure> copy_self( new IfcTimeMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcTimeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMEMEASURE("; }

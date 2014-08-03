@@ -34,6 +34,7 @@ public:
 	IfcAssemblyPlaceEnum( IfcAssemblyPlaceEnumEnum e ) { m_enum = e; }
 	~IfcAssemblyPlaceEnum();
 	virtual const char* classname() const { return "IfcAssemblyPlaceEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAssemblyPlaceEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcAssemblyPlaceEnumEnum m_enum;

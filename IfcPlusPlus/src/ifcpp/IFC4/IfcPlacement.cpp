@@ -27,13 +27,11 @@
 IfcPlacement::IfcPlacement() {}
 IfcPlacement::IfcPlacement( int id ) { m_id = id; }
 IfcPlacement::~IfcPlacement() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPlacement::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPlacement::getDeepCopy()
 {
-	shared_ptr<IfcPlacement> other = dynamic_pointer_cast<IfcPlacement>(other_entity);
-	if( !other) { return; }
-	m_Location = other->m_Location;
+	shared_ptr<IfcPlacement> copy_self( new IfcPlacement() );
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPlacement::getStepLine( std::stringstream& stream ) const
 {

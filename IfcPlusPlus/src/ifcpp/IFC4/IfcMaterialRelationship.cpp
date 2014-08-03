@@ -27,17 +27,22 @@
 IfcMaterialRelationship::IfcMaterialRelationship() {}
 IfcMaterialRelationship::IfcMaterialRelationship( int id ) { m_id = id; }
 IfcMaterialRelationship::~IfcMaterialRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMaterialRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMaterialRelationship::getDeepCopy()
 {
-	shared_ptr<IfcMaterialRelationship> other = dynamic_pointer_cast<IfcMaterialRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingMaterial = other->m_RelatingMaterial;
-	m_RelatedMaterials = other->m_RelatedMaterials;
-	m_Expression = other->m_Expression;
+	shared_ptr<IfcMaterialRelationship> copy_self( new IfcMaterialRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingMaterial ) { copy_self->m_RelatingMaterial = dynamic_pointer_cast<IfcMaterial>( m_RelatingMaterial->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedMaterials.size(); ++ii )
+	{
+		auto item_ii = m_RelatedMaterials[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedMaterials.push_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcLabel>( m_Expression->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMaterialRelationship::getStepLine( std::stringstream& stream ) const
 {

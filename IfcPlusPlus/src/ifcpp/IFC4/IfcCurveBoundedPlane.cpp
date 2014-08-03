@@ -28,15 +28,20 @@
 IfcCurveBoundedPlane::IfcCurveBoundedPlane() {}
 IfcCurveBoundedPlane::IfcCurveBoundedPlane( int id ) { m_id = id; }
 IfcCurveBoundedPlane::~IfcCurveBoundedPlane() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCurveBoundedPlane::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCurveBoundedPlane::getDeepCopy()
 {
-	shared_ptr<IfcCurveBoundedPlane> other = dynamic_pointer_cast<IfcCurveBoundedPlane>(other_entity);
-	if( !other) { return; }
-	m_BasisSurface = other->m_BasisSurface;
-	m_OuterBoundary = other->m_OuterBoundary;
-	m_InnerBoundaries = other->m_InnerBoundaries;
+	shared_ptr<IfcCurveBoundedPlane> copy_self( new IfcCurveBoundedPlane() );
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcPlane>( m_BasisSurface->getDeepCopy() ); }
+	if( m_OuterBoundary ) { copy_self->m_OuterBoundary = dynamic_pointer_cast<IfcCurve>( m_OuterBoundary->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_InnerBoundaries.size(); ++ii )
+	{
+		auto item_ii = m_InnerBoundaries[ii];
+		if( item_ii )
+		{
+			copy_self->m_InnerBoundaries.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcCurveBoundedPlane::getStepLine( std::stringstream& stream ) const
 {

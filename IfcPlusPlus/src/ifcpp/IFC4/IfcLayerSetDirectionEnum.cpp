@@ -23,6 +23,12 @@
 // TYPE IfcLayerSetDirectionEnum 
 IfcLayerSetDirectionEnum::IfcLayerSetDirectionEnum() {}
 IfcLayerSetDirectionEnum::~IfcLayerSetDirectionEnum() {}
+shared_ptr<IfcPPObject> IfcLayerSetDirectionEnum::getDeepCopy()
+{
+	shared_ptr<IfcLayerSetDirectionEnum> copy_self( new IfcLayerSetDirectionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcLayerSetDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLAYERSETDIRECTIONENUM("; }

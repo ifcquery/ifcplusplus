@@ -27,13 +27,11 @@
 IfcCsgPrimitive3D::IfcCsgPrimitive3D() {}
 IfcCsgPrimitive3D::IfcCsgPrimitive3D( int id ) { m_id = id; }
 IfcCsgPrimitive3D::~IfcCsgPrimitive3D() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCsgPrimitive3D::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCsgPrimitive3D::getDeepCopy()
 {
-	shared_ptr<IfcCsgPrimitive3D> other = dynamic_pointer_cast<IfcCsgPrimitive3D>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
+	shared_ptr<IfcCsgPrimitive3D> copy_self( new IfcCsgPrimitive3D() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 {

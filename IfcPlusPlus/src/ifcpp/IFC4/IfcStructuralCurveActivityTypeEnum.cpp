@@ -23,6 +23,12 @@
 // TYPE IfcStructuralCurveActivityTypeEnum 
 IfcStructuralCurveActivityTypeEnum::IfcStructuralCurveActivityTypeEnum() {}
 IfcStructuralCurveActivityTypeEnum::~IfcStructuralCurveActivityTypeEnum() {}
+shared_ptr<IfcPPObject> IfcStructuralCurveActivityTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcStructuralCurveActivityTypeEnum> copy_self( new IfcStructuralCurveActivityTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEACTIVITYTYPEENUM("; }

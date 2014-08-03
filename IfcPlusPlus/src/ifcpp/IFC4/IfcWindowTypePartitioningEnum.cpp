@@ -23,6 +23,12 @@
 // TYPE IfcWindowTypePartitioningEnum 
 IfcWindowTypePartitioningEnum::IfcWindowTypePartitioningEnum() {}
 IfcWindowTypePartitioningEnum::~IfcWindowTypePartitioningEnum() {}
+shared_ptr<IfcPPObject> IfcWindowTypePartitioningEnum::getDeepCopy()
+{
+	shared_ptr<IfcWindowTypePartitioningEnum> copy_self( new IfcWindowTypePartitioningEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWindowTypePartitioningEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWTYPEPARTITIONINGENUM("; }

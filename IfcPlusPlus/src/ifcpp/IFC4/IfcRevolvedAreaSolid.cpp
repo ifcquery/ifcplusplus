@@ -30,16 +30,14 @@
 IfcRevolvedAreaSolid::IfcRevolvedAreaSolid() {}
 IfcRevolvedAreaSolid::IfcRevolvedAreaSolid( int id ) { m_id = id; }
 IfcRevolvedAreaSolid::~IfcRevolvedAreaSolid() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRevolvedAreaSolid::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRevolvedAreaSolid::getDeepCopy()
 {
-	shared_ptr<IfcRevolvedAreaSolid> other = dynamic_pointer_cast<IfcRevolvedAreaSolid>(other_entity);
-	if( !other) { return; }
-	m_SweptArea = other->m_SweptArea;
-	m_Position = other->m_Position;
-	m_Axis = other->m_Axis;
-	m_Angle = other->m_Angle;
+	shared_ptr<IfcRevolvedAreaSolid> copy_self( new IfcRevolvedAreaSolid() );
+	if( m_SweptArea ) { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcAxis1Placement>( m_Axis->getDeepCopy() ); }
+	if( m_Angle ) { copy_self->m_Angle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_Angle->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRevolvedAreaSolid::getStepLine( std::stringstream& stream ) const
 {

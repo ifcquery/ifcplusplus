@@ -23,6 +23,12 @@
 // TYPE IfcProjectedOrTrueLengthEnum 
 IfcProjectedOrTrueLengthEnum::IfcProjectedOrTrueLengthEnum() {}
 IfcProjectedOrTrueLengthEnum::~IfcProjectedOrTrueLengthEnum() {}
+shared_ptr<IfcPPObject> IfcProjectedOrTrueLengthEnum::getDeepCopy()
+{
+	shared_ptr<IfcProjectedOrTrueLengthEnum> copy_self( new IfcProjectedOrTrueLengthEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTEDORTRUELENGTHENUM("; }

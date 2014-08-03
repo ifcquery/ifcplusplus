@@ -23,6 +23,12 @@
 // TYPE IfcRecurrenceTypeEnum 
 IfcRecurrenceTypeEnum::IfcRecurrenceTypeEnum() {}
 IfcRecurrenceTypeEnum::~IfcRecurrenceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcRecurrenceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcRecurrenceTypeEnum> copy_self( new IfcRecurrenceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRECURRENCETYPEENUM("; }

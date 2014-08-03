@@ -23,6 +23,12 @@
 // TYPE IfcPerformanceHistoryTypeEnum 
 IfcPerformanceHistoryTypeEnum::IfcPerformanceHistoryTypeEnum() {}
 IfcPerformanceHistoryTypeEnum::~IfcPerformanceHistoryTypeEnum() {}
+shared_ptr<IfcPPObject> IfcPerformanceHistoryTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcPerformanceHistoryTypeEnum> copy_self( new IfcPerformanceHistoryTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcPerformanceHistoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERFORMANCEHISTORYTYPEENUM("; }

@@ -24,6 +24,12 @@
 IfcDayInMonthNumber::IfcDayInMonthNumber() {}
 IfcDayInMonthNumber::IfcDayInMonthNumber( int value ) { m_value = value; }
 IfcDayInMonthNumber::~IfcDayInMonthNumber() {}
+shared_ptr<IfcPPObject> IfcDayInMonthNumber::getDeepCopy()
+{
+	shared_ptr<IfcDayInMonthNumber> copy_self( new IfcDayInMonthNumber() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDayInMonthNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDAYINMONTHNUMBER("; }

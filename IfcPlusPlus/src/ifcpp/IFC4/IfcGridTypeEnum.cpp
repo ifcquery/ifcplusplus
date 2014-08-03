@@ -23,6 +23,12 @@
 // TYPE IfcGridTypeEnum 
 IfcGridTypeEnum::IfcGridTypeEnum() {}
 IfcGridTypeEnum::~IfcGridTypeEnum() {}
+shared_ptr<IfcPPObject> IfcGridTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcGridTypeEnum> copy_self( new IfcGridTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGRIDTYPEENUM("; }

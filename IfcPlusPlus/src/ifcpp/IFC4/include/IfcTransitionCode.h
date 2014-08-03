@@ -35,6 +35,7 @@ public:
 	IfcTransitionCode( IfcTransitionCodeEnum e ) { m_enum = e; }
 	~IfcTransitionCode();
 	virtual const char* classname() const { return "IfcTransitionCode"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTransitionCode> createObjectFromStepData( const std::wstring& arg );
 	IfcTransitionCodeEnum m_enum;

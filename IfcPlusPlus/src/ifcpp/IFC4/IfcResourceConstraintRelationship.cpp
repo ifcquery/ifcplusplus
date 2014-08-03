@@ -28,16 +28,21 @@
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship() {}
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int id ) { m_id = id; }
 IfcResourceConstraintRelationship::~IfcResourceConstraintRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcResourceConstraintRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcResourceConstraintRelationship::getDeepCopy()
 {
-	shared_ptr<IfcResourceConstraintRelationship> other = dynamic_pointer_cast<IfcResourceConstraintRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingConstraint = other->m_RelatingConstraint;
-	m_RelatedResourceObjects = other->m_RelatedResourceObjects;
+	shared_ptr<IfcResourceConstraintRelationship> copy_self( new IfcResourceConstraintRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingConstraint ) { copy_self->m_RelatingConstraint = dynamic_pointer_cast<IfcConstraint>( m_RelatingConstraint->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedResourceObjects.size(); ++ii )
+	{
+		auto item_ii = m_RelatedResourceObjects[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream ) const
 {

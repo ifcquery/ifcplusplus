@@ -23,6 +23,12 @@
 // TYPE IfcWindowTypeEnum 
 IfcWindowTypeEnum::IfcWindowTypeEnum() {}
 IfcWindowTypeEnum::~IfcWindowTypeEnum() {}
+shared_ptr<IfcPPObject> IfcWindowTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcWindowTypeEnum> copy_self( new IfcWindowTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWindowTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWTYPEENUM("; }

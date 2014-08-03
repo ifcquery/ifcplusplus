@@ -29,21 +29,19 @@
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() {}
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_id = id; }
 IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSurfaceStyleRendering::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSurfaceStyleRendering::getDeepCopy()
 {
-	shared_ptr<IfcSurfaceStyleRendering> other = dynamic_pointer_cast<IfcSurfaceStyleRendering>(other_entity);
-	if( !other) { return; }
-	m_SurfaceColour = other->m_SurfaceColour;
-	m_Transparency = other->m_Transparency;
-	m_DiffuseColour = other->m_DiffuseColour;
-	m_TransmissionColour = other->m_TransmissionColour;
-	m_DiffuseTransmissionColour = other->m_DiffuseTransmissionColour;
-	m_ReflectionColour = other->m_ReflectionColour;
-	m_SpecularColour = other->m_SpecularColour;
-	m_SpecularHighlight = other->m_SpecularHighlight;
-	m_ReflectanceMethod = other->m_ReflectanceMethod;
+	shared_ptr<IfcSurfaceStyleRendering> copy_self( new IfcSurfaceStyleRendering() );
+	if( m_SurfaceColour ) { copy_self->m_SurfaceColour = dynamic_pointer_cast<IfcColourRgb>( m_SurfaceColour->getDeepCopy() ); }
+	if( m_Transparency ) { copy_self->m_Transparency = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Transparency->getDeepCopy() ); }
+	if( m_DiffuseColour ) { copy_self->m_DiffuseColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseColour->getDeepCopy() ); }
+	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_TransmissionColour->getDeepCopy() ); }
+	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseTransmissionColour->getDeepCopy() ); }
+	if( m_ReflectionColour ) { copy_self->m_ReflectionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_ReflectionColour->getDeepCopy() ); }
+	if( m_SpecularColour ) { copy_self->m_SpecularColour = dynamic_pointer_cast<IfcColourOrFactor>( m_SpecularColour->getDeepCopy() ); }
+	if( m_SpecularHighlight ) { copy_self->m_SpecularHighlight = dynamic_pointer_cast<IfcSpecularHighlightSelect>( m_SpecularHighlight->getDeepCopy() ); }
+	if( m_ReflectanceMethod ) { copy_self->m_ReflectanceMethod = dynamic_pointer_cast<IfcReflectanceMethodEnum>( m_ReflectanceMethod->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 {

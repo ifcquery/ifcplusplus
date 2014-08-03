@@ -29,15 +29,20 @@
 IfcProductDefinitionShape::IfcProductDefinitionShape() {}
 IfcProductDefinitionShape::IfcProductDefinitionShape( int id ) { m_id = id; }
 IfcProductDefinitionShape::~IfcProductDefinitionShape() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcProductDefinitionShape::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcProductDefinitionShape::getDeepCopy()
 {
-	shared_ptr<IfcProductDefinitionShape> other = dynamic_pointer_cast<IfcProductDefinitionShape>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Representations = other->m_Representations;
+	shared_ptr<IfcProductDefinitionShape> copy_self( new IfcProductDefinitionShape() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Representations.size(); ++ii )
+	{
+		auto item_ii = m_Representations[ii];
+		if( item_ii )
+		{
+			copy_self->m_Representations.push_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcProductDefinitionShape::getStepLine( std::stringstream& stream ) const
 {

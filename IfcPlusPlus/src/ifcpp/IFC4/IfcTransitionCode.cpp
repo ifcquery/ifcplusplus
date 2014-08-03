@@ -23,6 +23,12 @@
 // TYPE IfcTransitionCode 
 IfcTransitionCode::IfcTransitionCode() {}
 IfcTransitionCode::~IfcTransitionCode() {}
+shared_ptr<IfcPPObject> IfcTransitionCode::getDeepCopy()
+{
+	shared_ptr<IfcTransitionCode> copy_self( new IfcTransitionCode() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTransitionCode::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSITIONCODE("; }

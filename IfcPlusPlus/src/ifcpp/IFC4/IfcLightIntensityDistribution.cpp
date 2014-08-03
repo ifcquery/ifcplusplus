@@ -26,14 +26,19 @@
 IfcLightIntensityDistribution::IfcLightIntensityDistribution() {}
 IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_id = id; }
 IfcLightIntensityDistribution::~IfcLightIntensityDistribution() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLightIntensityDistribution::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLightIntensityDistribution::getDeepCopy()
 {
-	shared_ptr<IfcLightIntensityDistribution> other = dynamic_pointer_cast<IfcLightIntensityDistribution>(other_entity);
-	if( !other) { return; }
-	m_LightDistributionCurve = other->m_LightDistributionCurve;
-	m_DistributionData = other->m_DistributionData;
+	shared_ptr<IfcLightIntensityDistribution> copy_self( new IfcLightIntensityDistribution() );
+	if( m_LightDistributionCurve ) { copy_self->m_LightDistributionCurve = dynamic_pointer_cast<IfcLightDistributionCurveEnum>( m_LightDistributionCurve->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_DistributionData.size(); ++ii )
+	{
+		auto item_ii = m_DistributionData[ii];
+		if( item_ii )
+		{
+			copy_self->m_DistributionData.push_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) const
 {

@@ -25,6 +25,12 @@
 IfcMolecularWeightMeasure::IfcMolecularWeightMeasure() {}
 IfcMolecularWeightMeasure::IfcMolecularWeightMeasure( double value ) { m_value = value; }
 IfcMolecularWeightMeasure::~IfcMolecularWeightMeasure() {}
+shared_ptr<IfcPPObject> IfcMolecularWeightMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMolecularWeightMeasure> copy_self( new IfcMolecularWeightMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMolecularWeightMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOLECULARWEIGHTMEASURE("; }

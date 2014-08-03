@@ -29,16 +29,21 @@
 IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids() {}
 IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids( int id ) { m_id = id; }
 IfcArbitraryProfileDefWithVoids::~IfcArbitraryProfileDefWithVoids() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcArbitraryProfileDefWithVoids::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcArbitraryProfileDefWithVoids::getDeepCopy()
 {
-	shared_ptr<IfcArbitraryProfileDefWithVoids> other = dynamic_pointer_cast<IfcArbitraryProfileDefWithVoids>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_OuterCurve = other->m_OuterCurve;
-	m_InnerCurves = other->m_InnerCurves;
+	shared_ptr<IfcArbitraryProfileDefWithVoids> copy_self( new IfcArbitraryProfileDefWithVoids() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_InnerCurves.size(); ++ii )
+	{
+		auto item_ii = m_InnerCurves[ii];
+		if( item_ii )
+		{
+			copy_self->m_InnerCurves.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcArbitraryProfileDefWithVoids::getStepLine( std::stringstream& stream ) const
 {

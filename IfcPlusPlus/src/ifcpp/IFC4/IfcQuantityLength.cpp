@@ -30,17 +30,15 @@
 IfcQuantityLength::IfcQuantityLength() {}
 IfcQuantityLength::IfcQuantityLength( int id ) { m_id = id; }
 IfcQuantityLength::~IfcQuantityLength() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcQuantityLength::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcQuantityLength::getDeepCopy()
 {
-	shared_ptr<IfcQuantityLength> other = dynamic_pointer_cast<IfcQuantityLength>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_Unit = other->m_Unit;
-	m_LengthValue = other->m_LengthValue;
-	m_Formula = other->m_Formula;
+	shared_ptr<IfcQuantityLength> copy_self( new IfcQuantityLength() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcNamedUnit>( m_Unit->getDeepCopy() ); }
+	if( m_LengthValue ) { copy_self->m_LengthValue = dynamic_pointer_cast<IfcLengthMeasure>( m_LengthValue->getDeepCopy() ); }
+	if( m_Formula ) { copy_self->m_Formula = dynamic_pointer_cast<IfcLabel>( m_Formula->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcQuantityLength::getStepLine( std::stringstream& stream ) const
 {

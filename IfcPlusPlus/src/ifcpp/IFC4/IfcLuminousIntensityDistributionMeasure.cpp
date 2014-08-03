@@ -25,6 +25,12 @@
 IfcLuminousIntensityDistributionMeasure::IfcLuminousIntensityDistributionMeasure() {}
 IfcLuminousIntensityDistributionMeasure::IfcLuminousIntensityDistributionMeasure( double value ) { m_value = value; }
 IfcLuminousIntensityDistributionMeasure::~IfcLuminousIntensityDistributionMeasure() {}
+shared_ptr<IfcPPObject> IfcLuminousIntensityDistributionMeasure::getDeepCopy()
+{
+	shared_ptr<IfcLuminousIntensityDistributionMeasure> copy_self( new IfcLuminousIntensityDistributionMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLuminousIntensityDistributionMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLUMINOUSINTENSITYDISTRIBUTIONMEASURE("; }

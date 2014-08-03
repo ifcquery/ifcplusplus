@@ -23,6 +23,12 @@
 // TYPE IfcMotorConnectionTypeEnum 
 IfcMotorConnectionTypeEnum::IfcMotorConnectionTypeEnum() {}
 IfcMotorConnectionTypeEnum::~IfcMotorConnectionTypeEnum() {}
+shared_ptr<IfcPPObject> IfcMotorConnectionTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcMotorConnectionTypeEnum> copy_self( new IfcMotorConnectionTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcMotorConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOTORCONNECTIONTYPEENUM("; }

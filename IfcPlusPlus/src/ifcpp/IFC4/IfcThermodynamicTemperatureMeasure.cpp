@@ -25,6 +25,12 @@
 IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure() {}
 IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure( double value ) { m_value = value; }
 IfcThermodynamicTemperatureMeasure::~IfcThermodynamicTemperatureMeasure() {}
+shared_ptr<IfcPPObject> IfcThermodynamicTemperatureMeasure::getDeepCopy()
+{
+	shared_ptr<IfcThermodynamicTemperatureMeasure> copy_self( new IfcThermodynamicTemperatureMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcThermodynamicTemperatureMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMODYNAMICTEMPERATUREMEASURE("; }

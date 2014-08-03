@@ -25,6 +25,12 @@
 IfcInductanceMeasure::IfcInductanceMeasure() {}
 IfcInductanceMeasure::IfcInductanceMeasure( double value ) { m_value = value; }
 IfcInductanceMeasure::~IfcInductanceMeasure() {}
+shared_ptr<IfcPPObject> IfcInductanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcInductanceMeasure> copy_self( new IfcInductanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcInductanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINDUCTANCEMEASURE("; }

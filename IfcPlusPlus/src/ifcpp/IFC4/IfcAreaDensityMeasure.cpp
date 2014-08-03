@@ -25,6 +25,12 @@
 IfcAreaDensityMeasure::IfcAreaDensityMeasure() {}
 IfcAreaDensityMeasure::IfcAreaDensityMeasure( double value ) { m_value = value; }
 IfcAreaDensityMeasure::~IfcAreaDensityMeasure() {}
+shared_ptr<IfcPPObject> IfcAreaDensityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcAreaDensityMeasure> copy_self( new IfcAreaDensityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcAreaDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAREADENSITYMEASURE("; }

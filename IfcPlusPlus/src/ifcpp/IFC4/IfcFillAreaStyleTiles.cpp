@@ -28,15 +28,27 @@
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles() {}
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_id = id; }
 IfcFillAreaStyleTiles::~IfcFillAreaStyleTiles() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFillAreaStyleTiles::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy()
 {
-	shared_ptr<IfcFillAreaStyleTiles> other = dynamic_pointer_cast<IfcFillAreaStyleTiles>(other_entity);
-	if( !other) { return; }
-	m_TilingPattern = other->m_TilingPattern;
-	m_Tiles = other->m_Tiles;
-	m_TilingScale = other->m_TilingScale;
+	shared_ptr<IfcFillAreaStyleTiles> copy_self( new IfcFillAreaStyleTiles() );
+	for( size_t ii=0; ii<m_TilingPattern.size(); ++ii )
+	{
+		auto item_ii = m_TilingPattern[ii];
+		if( item_ii )
+		{
+			copy_self->m_TilingPattern.push_back( dynamic_pointer_cast<IfcVector>(item_ii->getDeepCopy() ) );
+		}
+	}
+	for( size_t ii=0; ii<m_Tiles.size(); ++ii )
+	{
+		auto item_ii = m_Tiles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Tiles.push_back( dynamic_pointer_cast<IfcStyledItem>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_TilingScale ) { copy_self->m_TilingScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TilingScale->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
 {

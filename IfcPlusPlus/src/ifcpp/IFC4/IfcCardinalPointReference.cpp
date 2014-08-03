@@ -24,6 +24,12 @@
 IfcCardinalPointReference::IfcCardinalPointReference() {}
 IfcCardinalPointReference::IfcCardinalPointReference( int value ) { m_value = value; }
 IfcCardinalPointReference::~IfcCardinalPointReference() {}
+shared_ptr<IfcPPObject> IfcCardinalPointReference::getDeepCopy()
+{
+	shared_ptr<IfcCardinalPointReference> copy_self( new IfcCardinalPointReference() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcCardinalPointReference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCARDINALPOINTREFERENCE("; }

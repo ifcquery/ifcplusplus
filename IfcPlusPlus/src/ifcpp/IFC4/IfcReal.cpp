@@ -25,6 +25,12 @@
 IfcReal::IfcReal() {}
 IfcReal::IfcReal( double value ) { m_value = value; }
 IfcReal::~IfcReal() {}
+shared_ptr<IfcPPObject> IfcReal::getDeepCopy()
+{
+	shared_ptr<IfcReal> copy_self( new IfcReal() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcReal::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREAL("; }

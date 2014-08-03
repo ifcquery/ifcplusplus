@@ -27,6 +27,7 @@ public:
 	IfcGloballyUniqueId( std::wstring value );
 	~IfcGloballyUniqueId();
 	virtual const char* classname() const { return "IfcGloballyUniqueId"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcGloballyUniqueId> createObjectFromStepData( const std::wstring& arg );
 };

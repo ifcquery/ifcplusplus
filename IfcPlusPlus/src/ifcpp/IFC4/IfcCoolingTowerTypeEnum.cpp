@@ -23,6 +23,12 @@
 // TYPE IfcCoolingTowerTypeEnum 
 IfcCoolingTowerTypeEnum::IfcCoolingTowerTypeEnum() {}
 IfcCoolingTowerTypeEnum::~IfcCoolingTowerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCoolingTowerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCoolingTowerTypeEnum> copy_self( new IfcCoolingTowerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCoolingTowerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLINGTOWERTYPEENUM("; }

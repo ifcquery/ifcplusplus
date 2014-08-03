@@ -33,22 +33,27 @@
 IfcRegularTimeSeries::IfcRegularTimeSeries() {}
 IfcRegularTimeSeries::IfcRegularTimeSeries( int id ) { m_id = id; }
 IfcRegularTimeSeries::~IfcRegularTimeSeries() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRegularTimeSeries::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRegularTimeSeries::getDeepCopy()
 {
-	shared_ptr<IfcRegularTimeSeries> other = dynamic_pointer_cast<IfcRegularTimeSeries>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_StartTime = other->m_StartTime;
-	m_EndTime = other->m_EndTime;
-	m_TimeSeriesDataType = other->m_TimeSeriesDataType;
-	m_DataOrigin = other->m_DataOrigin;
-	m_UserDefinedDataOrigin = other->m_UserDefinedDataOrigin;
-	m_Unit = other->m_Unit;
-	m_TimeStep = other->m_TimeStep;
-	m_Values = other->m_Values;
+	shared_ptr<IfcRegularTimeSeries> copy_self( new IfcRegularTimeSeries() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy() ); }
+	if( m_EndTime ) { copy_self->m_EndTime = dynamic_pointer_cast<IfcDateTime>( m_EndTime->getDeepCopy() ); }
+	if( m_TimeSeriesDataType ) { copy_self->m_TimeSeriesDataType = dynamic_pointer_cast<IfcTimeSeriesDataTypeEnum>( m_TimeSeriesDataType->getDeepCopy() ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy() ); }
+	if( m_TimeStep ) { copy_self->m_TimeStep = dynamic_pointer_cast<IfcTimeMeasure>( m_TimeStep->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Values.size(); ++ii )
+	{
+		auto item_ii = m_Values[ii];
+		if( item_ii )
+		{
+			copy_self->m_Values.push_back( dynamic_pointer_cast<IfcTimeSeriesValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcRegularTimeSeries::getStepLine( std::stringstream& stream ) const
 {

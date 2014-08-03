@@ -23,6 +23,12 @@
 // TYPE IfcMemberTypeEnum 
 IfcMemberTypeEnum::IfcMemberTypeEnum() {}
 IfcMemberTypeEnum::~IfcMemberTypeEnum() {}
+shared_ptr<IfcPPObject> IfcMemberTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcMemberTypeEnum> copy_self( new IfcMemberTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMEMBERTYPEENUM("; }

@@ -26,6 +26,12 @@
 IfcLinearStiffnessMeasure::IfcLinearStiffnessMeasure() {}
 IfcLinearStiffnessMeasure::IfcLinearStiffnessMeasure( double value ) { m_value = value; }
 IfcLinearStiffnessMeasure::~IfcLinearStiffnessMeasure() {}
+shared_ptr<IfcPPObject> IfcLinearStiffnessMeasure::getDeepCopy()
+{
+	shared_ptr<IfcLinearStiffnessMeasure> copy_self( new IfcLinearStiffnessMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLinearStiffnessMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEARSTIFFNESSMEASURE("; }

@@ -23,6 +23,12 @@
 // TYPE IfcFootingTypeEnum 
 IfcFootingTypeEnum::IfcFootingTypeEnum() {}
 IfcFootingTypeEnum::~IfcFootingTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFootingTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFootingTypeEnum> copy_self( new IfcFootingTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFootingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFOOTINGTYPEENUM("; }

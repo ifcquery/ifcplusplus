@@ -26,16 +26,14 @@
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition() {}
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int id ) { m_id = id; }
 IfcSlippageConnectionCondition::~IfcSlippageConnectionCondition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSlippageConnectionCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSlippageConnectionCondition::getDeepCopy()
 {
-	shared_ptr<IfcSlippageConnectionCondition> other = dynamic_pointer_cast<IfcSlippageConnectionCondition>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_SlippageX = other->m_SlippageX;
-	m_SlippageY = other->m_SlippageY;
-	m_SlippageZ = other->m_SlippageZ;
+	shared_ptr<IfcSlippageConnectionCondition> copy_self( new IfcSlippageConnectionCondition() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_SlippageX ) { copy_self->m_SlippageX = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageX->getDeepCopy() ); }
+	if( m_SlippageY ) { copy_self->m_SlippageY = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageY->getDeepCopy() ); }
+	if( m_SlippageZ ) { copy_self->m_SlippageZ = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) const
 {

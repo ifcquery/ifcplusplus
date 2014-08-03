@@ -26,12 +26,10 @@
 IfcPoint::IfcPoint() {}
 IfcPoint::IfcPoint( int id ) { m_id = id; }
 IfcPoint::~IfcPoint() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPoint::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPoint::getDeepCopy()
 {
-	shared_ptr<IfcPoint> other = dynamic_pointer_cast<IfcPoint>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcPoint> copy_self( new IfcPoint() );
+	return copy_self;
 }
 void IfcPoint::getStepLine( std::stringstream& stream ) const
 {

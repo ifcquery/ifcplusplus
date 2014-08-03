@@ -27,13 +27,11 @@
 IfcVertexLoop::IfcVertexLoop() {}
 IfcVertexLoop::IfcVertexLoop( int id ) { m_id = id; }
 IfcVertexLoop::~IfcVertexLoop() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcVertexLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcVertexLoop::getDeepCopy()
 {
-	shared_ptr<IfcVertexLoop> other = dynamic_pointer_cast<IfcVertexLoop>(other_entity);
-	if( !other) { return; }
-	m_LoopVertex = other->m_LoopVertex;
+	shared_ptr<IfcVertexLoop> copy_self( new IfcVertexLoop() );
+	if( m_LoopVertex ) { copy_self->m_LoopVertex = dynamic_pointer_cast<IfcVertex>( m_LoopVertex->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcVertexLoop::getStepLine( std::stringstream& stream ) const
 {

@@ -61,6 +61,7 @@ public:
 	IfcUnitEnum( IfcUnitEnumEnum e ) { m_enum = e; }
 	~IfcUnitEnum();
 	virtual const char* classname() const { return "IfcUnitEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcUnitEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcUnitEnumEnum m_enum;

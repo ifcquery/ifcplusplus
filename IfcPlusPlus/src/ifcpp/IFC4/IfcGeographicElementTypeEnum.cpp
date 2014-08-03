@@ -23,6 +23,12 @@
 // TYPE IfcGeographicElementTypeEnum 
 IfcGeographicElementTypeEnum::IfcGeographicElementTypeEnum() {}
 IfcGeographicElementTypeEnum::~IfcGeographicElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcGeographicElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcGeographicElementTypeEnum> copy_self( new IfcGeographicElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcGeographicElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGEOGRAPHICELEMENTTYPEENUM("; }

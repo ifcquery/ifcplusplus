@@ -23,6 +23,12 @@
 // TYPE IfcBuildingElementPartTypeEnum 
 IfcBuildingElementPartTypeEnum::IfcBuildingElementPartTypeEnum() {}
 IfcBuildingElementPartTypeEnum::~IfcBuildingElementPartTypeEnum() {}
+shared_ptr<IfcPPObject> IfcBuildingElementPartTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcBuildingElementPartTypeEnum> copy_self( new IfcBuildingElementPartTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBuildingElementPartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGELEMENTPARTTYPEENUM("; }

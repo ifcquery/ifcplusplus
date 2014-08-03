@@ -28,6 +28,7 @@ public:
 	IfcThermalExpansionCoefficientMeasure( double value );
 	~IfcThermalExpansionCoefficientMeasure();
 	virtual const char* classname() const { return "IfcThermalExpansionCoefficientMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcThermalExpansionCoefficientMeasure> createObjectFromStepData( const std::wstring& arg );
 };

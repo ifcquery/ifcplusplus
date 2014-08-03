@@ -25,6 +25,12 @@
 IfcSolidAngleMeasure::IfcSolidAngleMeasure() {}
 IfcSolidAngleMeasure::IfcSolidAngleMeasure( double value ) { m_value = value; }
 IfcSolidAngleMeasure::~IfcSolidAngleMeasure() {}
+shared_ptr<IfcPPObject> IfcSolidAngleMeasure::getDeepCopy()
+{
+	shared_ptr<IfcSolidAngleMeasure> copy_self( new IfcSolidAngleMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcSolidAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOLIDANGLEMEASURE("; }

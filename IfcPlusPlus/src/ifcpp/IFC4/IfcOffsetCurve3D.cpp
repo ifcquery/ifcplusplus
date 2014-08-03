@@ -29,16 +29,14 @@
 IfcOffsetCurve3D::IfcOffsetCurve3D() {}
 IfcOffsetCurve3D::IfcOffsetCurve3D( int id ) { m_id = id; }
 IfcOffsetCurve3D::~IfcOffsetCurve3D() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcOffsetCurve3D::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcOffsetCurve3D::getDeepCopy()
 {
-	shared_ptr<IfcOffsetCurve3D> other = dynamic_pointer_cast<IfcOffsetCurve3D>(other_entity);
-	if( !other) { return; }
-	m_BasisCurve = other->m_BasisCurve;
-	m_Distance = other->m_Distance;
-	m_SelfIntersect = other->m_SelfIntersect;
-	m_RefDirection = other->m_RefDirection;
+	shared_ptr<IfcOffsetCurve3D> copy_self( new IfcOffsetCurve3D() );
+	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy() ); }
+	if( m_Distance ) { copy_self->m_Distance = dynamic_pointer_cast<IfcLengthMeasure>( m_Distance->getDeepCopy() ); }
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
 {

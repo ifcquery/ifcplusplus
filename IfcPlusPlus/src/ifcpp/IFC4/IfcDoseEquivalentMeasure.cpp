@@ -25,6 +25,12 @@
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure() {}
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure( double value ) { m_value = value; }
 IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() {}
+shared_ptr<IfcPPObject> IfcDoseEquivalentMeasure::getDeepCopy()
+{
+	shared_ptr<IfcDoseEquivalentMeasure> copy_self( new IfcDoseEquivalentMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcDoseEquivalentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOSEEQUIVALENTMEASURE("; }

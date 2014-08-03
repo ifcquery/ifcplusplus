@@ -30,16 +30,14 @@
 IfcCenterLineProfileDef::IfcCenterLineProfileDef() {}
 IfcCenterLineProfileDef::IfcCenterLineProfileDef( int id ) { m_id = id; }
 IfcCenterLineProfileDef::~IfcCenterLineProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCenterLineProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCenterLineProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcCenterLineProfileDef> other = dynamic_pointer_cast<IfcCenterLineProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_Curve = other->m_Curve;
-	m_Thickness = other->m_Thickness;
+	shared_ptr<IfcCenterLineProfileDef> copy_self( new IfcCenterLineProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_Curve ) { copy_self->m_Curve = dynamic_pointer_cast<IfcBoundedCurve>( m_Curve->getDeepCopy() ); }
+	if( m_Thickness ) { copy_self->m_Thickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Thickness->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 {

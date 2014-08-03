@@ -23,6 +23,12 @@
 // TYPE IfcBuildingSystemTypeEnum 
 IfcBuildingSystemTypeEnum::IfcBuildingSystemTypeEnum() {}
 IfcBuildingSystemTypeEnum::~IfcBuildingSystemTypeEnum() {}
+shared_ptr<IfcPPObject> IfcBuildingSystemTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcBuildingSystemTypeEnum> copy_self( new IfcBuildingSystemTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBuildingSystemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGSYSTEMTYPEENUM("; }

@@ -26,12 +26,10 @@
 IfcLoop::IfcLoop() {}
 IfcLoop::IfcLoop( int id ) { m_id = id; }
 IfcLoop::~IfcLoop() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLoop::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLoop::getDeepCopy()
 {
-	shared_ptr<IfcLoop> other = dynamic_pointer_cast<IfcLoop>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcLoop> copy_self( new IfcLoop() );
+	return copy_self;
 }
 void IfcLoop::getStepLine( std::stringstream& stream ) const
 {

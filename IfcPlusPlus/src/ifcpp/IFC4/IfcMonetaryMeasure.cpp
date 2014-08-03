@@ -25,6 +25,12 @@
 IfcMonetaryMeasure::IfcMonetaryMeasure() {}
 IfcMonetaryMeasure::IfcMonetaryMeasure( double value ) { m_value = value; }
 IfcMonetaryMeasure::~IfcMonetaryMeasure() {}
+shared_ptr<IfcPPObject> IfcMonetaryMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMonetaryMeasure> copy_self( new IfcMonetaryMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMonetaryMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMONETARYMEASURE("; }

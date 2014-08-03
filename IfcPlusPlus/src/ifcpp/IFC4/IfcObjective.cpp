@@ -34,23 +34,28 @@
 IfcObjective::IfcObjective() {}
 IfcObjective::IfcObjective( int id ) { m_id = id; }
 IfcObjective::~IfcObjective() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcObjective::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcObjective::getDeepCopy()
 {
-	shared_ptr<IfcObjective> other = dynamic_pointer_cast<IfcObjective>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ConstraintGrade = other->m_ConstraintGrade;
-	m_ConstraintSource = other->m_ConstraintSource;
-	m_CreatingActor = other->m_CreatingActor;
-	m_CreationTime = other->m_CreationTime;
-	m_UserDefinedGrade = other->m_UserDefinedGrade;
-	m_BenchmarkValues = other->m_BenchmarkValues;
-	m_LogicalAggregator = other->m_LogicalAggregator;
-	m_ObjectiveQualifier = other->m_ObjectiveQualifier;
-	m_UserDefinedQualifier = other->m_UserDefinedQualifier;
+	shared_ptr<IfcObjective> copy_self( new IfcObjective() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ConstraintGrade ) { copy_self->m_ConstraintGrade = dynamic_pointer_cast<IfcConstraintEnum>( m_ConstraintGrade->getDeepCopy() ); }
+	if( m_ConstraintSource ) { copy_self->m_ConstraintSource = dynamic_pointer_cast<IfcLabel>( m_ConstraintSource->getDeepCopy() ); }
+	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy() ); }
+	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy() ); }
+	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_BenchmarkValues.size(); ++ii )
+	{
+		auto item_ii = m_BenchmarkValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_BenchmarkValues.push_back( dynamic_pointer_cast<IfcConstraint>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_LogicalAggregator ) { copy_self->m_LogicalAggregator = dynamic_pointer_cast<IfcLogicalOperatorEnum>( m_LogicalAggregator->getDeepCopy() ); }
+	if( m_ObjectiveQualifier ) { copy_self->m_ObjectiveQualifier = dynamic_pointer_cast<IfcObjectiveEnum>( m_ObjectiveQualifier->getDeepCopy() ); }
+	if( m_UserDefinedQualifier ) { copy_self->m_UserDefinedQualifier = dynamic_pointer_cast<IfcLabel>( m_UserDefinedQualifier->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcObjective::getStepLine( std::stringstream& stream ) const
 {

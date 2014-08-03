@@ -43,6 +43,7 @@ public:
 	IfcSimplePropertyTemplateTypeEnum( IfcSimplePropertyTemplateTypeEnumEnum e ) { m_enum = e; }
 	~IfcSimplePropertyTemplateTypeEnum();
 	virtual const char* classname() const { return "IfcSimplePropertyTemplateTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSimplePropertyTemplateTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcSimplePropertyTemplateTypeEnumEnum m_enum;

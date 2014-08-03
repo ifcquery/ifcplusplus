@@ -25,6 +25,12 @@
 IfcElectricConductanceMeasure::IfcElectricConductanceMeasure() {}
 IfcElectricConductanceMeasure::IfcElectricConductanceMeasure( double value ) { m_value = value; }
 IfcElectricConductanceMeasure::~IfcElectricConductanceMeasure() {}
+shared_ptr<IfcPPObject> IfcElectricConductanceMeasure::getDeepCopy()
+{
+	shared_ptr<IfcElectricConductanceMeasure> copy_self( new IfcElectricConductanceMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcElectricConductanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCONDUCTANCEMEASURE("; }

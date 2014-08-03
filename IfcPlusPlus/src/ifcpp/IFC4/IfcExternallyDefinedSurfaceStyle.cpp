@@ -28,15 +28,13 @@
 IfcExternallyDefinedSurfaceStyle::IfcExternallyDefinedSurfaceStyle() {}
 IfcExternallyDefinedSurfaceStyle::IfcExternallyDefinedSurfaceStyle( int id ) { m_id = id; }
 IfcExternallyDefinedSurfaceStyle::~IfcExternallyDefinedSurfaceStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcExternallyDefinedSurfaceStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcExternallyDefinedSurfaceStyle::getDeepCopy()
 {
-	shared_ptr<IfcExternallyDefinedSurfaceStyle> other = dynamic_pointer_cast<IfcExternallyDefinedSurfaceStyle>(other_entity);
-	if( !other) { return; }
-	m_Location = other->m_Location;
-	m_Identification = other->m_Identification;
-	m_Name = other->m_Name;
+	shared_ptr<IfcExternallyDefinedSurfaceStyle> copy_self( new IfcExternallyDefinedSurfaceStyle() );
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcExternallyDefinedSurfaceStyle::getStepLine( std::stringstream& stream ) const
 {

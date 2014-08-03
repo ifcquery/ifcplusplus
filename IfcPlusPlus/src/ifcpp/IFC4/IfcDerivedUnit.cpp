@@ -27,15 +27,20 @@
 IfcDerivedUnit::IfcDerivedUnit() {}
 IfcDerivedUnit::IfcDerivedUnit( int id ) { m_id = id; }
 IfcDerivedUnit::~IfcDerivedUnit() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcDerivedUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy()
 {
-	shared_ptr<IfcDerivedUnit> other = dynamic_pointer_cast<IfcDerivedUnit>(other_entity);
-	if( !other) { return; }
-	m_Elements = other->m_Elements;
-	m_UnitType = other->m_UnitType;
-	m_UserDefinedType = other->m_UserDefinedType;
+	shared_ptr<IfcDerivedUnit> copy_self( new IfcDerivedUnit() );
+	for( size_t ii=0; ii<m_Elements.size(); ++ii )
+	{
+		auto item_ii = m_Elements[ii];
+		if( item_ii )
+		{
+			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcDerivedUnitElement>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcDerivedUnitEnum>( m_UnitType->getDeepCopy() ); }
+	if( m_UserDefinedType ) { copy_self->m_UserDefinedType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedType->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcDerivedUnit::getStepLine( std::stringstream& stream ) const
 {

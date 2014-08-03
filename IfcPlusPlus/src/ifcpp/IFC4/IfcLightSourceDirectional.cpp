@@ -30,17 +30,15 @@
 IfcLightSourceDirectional::IfcLightSourceDirectional() {}
 IfcLightSourceDirectional::IfcLightSourceDirectional( int id ) { m_id = id; }
 IfcLightSourceDirectional::~IfcLightSourceDirectional() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLightSourceDirectional::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLightSourceDirectional::getDeepCopy()
 {
-	shared_ptr<IfcLightSourceDirectional> other = dynamic_pointer_cast<IfcLightSourceDirectional>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_LightColour = other->m_LightColour;
-	m_AmbientIntensity = other->m_AmbientIntensity;
-	m_Intensity = other->m_Intensity;
-	m_Orientation = other->m_Orientation;
+	shared_ptr<IfcLightSourceDirectional> copy_self( new IfcLightSourceDirectional() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy() ); }
+	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy() ); }
+	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy() ); }
+	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLightSourceDirectional::getStepLine( std::stringstream& stream ) const
 {

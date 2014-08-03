@@ -23,6 +23,12 @@
 // TYPE IfcFlowDirectionEnum 
 IfcFlowDirectionEnum::IfcFlowDirectionEnum() {}
 IfcFlowDirectionEnum::~IfcFlowDirectionEnum() {}
+shared_ptr<IfcPPObject> IfcFlowDirectionEnum::getDeepCopy()
+{
+	shared_ptr<IfcFlowDirectionEnum> copy_self( new IfcFlowDirectionEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFlowDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWDIRECTIONENUM("; }

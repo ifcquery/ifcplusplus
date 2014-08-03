@@ -34,22 +34,20 @@
 IfcLightSourceGoniometric::IfcLightSourceGoniometric() {}
 IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_id = id; }
 IfcLightSourceGoniometric::~IfcLightSourceGoniometric() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcLightSourceGoniometric::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcLightSourceGoniometric::getDeepCopy()
 {
-	shared_ptr<IfcLightSourceGoniometric> other = dynamic_pointer_cast<IfcLightSourceGoniometric>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_LightColour = other->m_LightColour;
-	m_AmbientIntensity = other->m_AmbientIntensity;
-	m_Intensity = other->m_Intensity;
-	m_Position = other->m_Position;
-	m_ColourAppearance = other->m_ColourAppearance;
-	m_ColourTemperature = other->m_ColourTemperature;
-	m_LuminousFlux = other->m_LuminousFlux;
-	m_LightEmissionSource = other->m_LightEmissionSource;
-	m_LightDistributionDataSource = other->m_LightDistributionDataSource;
+	shared_ptr<IfcLightSourceGoniometric> copy_self( new IfcLightSourceGoniometric() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy() ); }
+	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy() ); }
+	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_ColourAppearance ) { copy_self->m_ColourAppearance = dynamic_pointer_cast<IfcColourRgb>( m_ColourAppearance->getDeepCopy() ); }
+	if( m_ColourTemperature ) { copy_self->m_ColourTemperature = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_ColourTemperature->getDeepCopy() ); }
+	if( m_LuminousFlux ) { copy_self->m_LuminousFlux = dynamic_pointer_cast<IfcLuminousFluxMeasure>( m_LuminousFlux->getDeepCopy() ); }
+	if( m_LightEmissionSource ) { copy_self->m_LightEmissionSource = dynamic_pointer_cast<IfcLightEmissionSourceEnum>( m_LightEmissionSource->getDeepCopy() ); }
+	if( m_LightDistributionDataSource ) { copy_self->m_LightDistributionDataSource = dynamic_pointer_cast<IfcLightDistributionDataSourceSelect>( m_LightDistributionDataSource->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 {

@@ -30,17 +30,15 @@
 IfcMirroredProfileDef::IfcMirroredProfileDef() {}
 IfcMirroredProfileDef::IfcMirroredProfileDef( int id ) { m_id = id; }
 IfcMirroredProfileDef::~IfcMirroredProfileDef() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMirroredProfileDef::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMirroredProfileDef::getDeepCopy()
 {
-	shared_ptr<IfcMirroredProfileDef> other = dynamic_pointer_cast<IfcMirroredProfileDef>(other_entity);
-	if( !other) { return; }
-	m_ProfileType = other->m_ProfileType;
-	m_ProfileName = other->m_ProfileName;
-	m_ParentProfile = other->m_ParentProfile;
-	m_Operator = other->m_Operator;
-	m_Label = other->m_Label;
+	shared_ptr<IfcMirroredProfileDef> copy_self( new IfcMirroredProfileDef() );
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_ParentProfile ) { copy_self->m_ParentProfile = dynamic_pointer_cast<IfcProfileDef>( m_ParentProfile->getDeepCopy() ); }
+	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_Operator->getDeepCopy() ); }
+	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 {

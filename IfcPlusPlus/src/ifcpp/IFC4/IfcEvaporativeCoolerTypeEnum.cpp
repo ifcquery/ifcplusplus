@@ -23,6 +23,12 @@
 // TYPE IfcEvaporativeCoolerTypeEnum 
 IfcEvaporativeCoolerTypeEnum::IfcEvaporativeCoolerTypeEnum() {}
 IfcEvaporativeCoolerTypeEnum::~IfcEvaporativeCoolerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcEvaporativeCoolerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcEvaporativeCoolerTypeEnum> copy_self( new IfcEvaporativeCoolerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcEvaporativeCoolerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEVAPORATIVECOOLERTYPEENUM("; }

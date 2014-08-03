@@ -30,6 +30,7 @@ public:
 	IfcRatioMeasure( double value );
 	~IfcRatioMeasure();
 	virtual const char* classname() const { return "IfcRatioMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcRatioMeasure> createObjectFromStepData( const std::wstring& arg );
 };

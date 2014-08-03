@@ -30,19 +30,17 @@
 IfcCurrencyRelationship::IfcCurrencyRelationship() {}
 IfcCurrencyRelationship::IfcCurrencyRelationship( int id ) { m_id = id; }
 IfcCurrencyRelationship::~IfcCurrencyRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCurrencyRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCurrencyRelationship::getDeepCopy()
 {
-	shared_ptr<IfcCurrencyRelationship> other = dynamic_pointer_cast<IfcCurrencyRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingMonetaryUnit = other->m_RelatingMonetaryUnit;
-	m_RelatedMonetaryUnit = other->m_RelatedMonetaryUnit;
-	m_ExchangeRate = other->m_ExchangeRate;
-	m_RateDateTime = other->m_RateDateTime;
-	m_RateSource = other->m_RateSource;
+	shared_ptr<IfcCurrencyRelationship> copy_self( new IfcCurrencyRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingMonetaryUnit ) { copy_self->m_RelatingMonetaryUnit = dynamic_pointer_cast<IfcMonetaryUnit>( m_RelatingMonetaryUnit->getDeepCopy() ); }
+	if( m_RelatedMonetaryUnit ) { copy_self->m_RelatedMonetaryUnit = dynamic_pointer_cast<IfcMonetaryUnit>( m_RelatedMonetaryUnit->getDeepCopy() ); }
+	if( m_ExchangeRate ) { copy_self->m_ExchangeRate = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_ExchangeRate->getDeepCopy() ); }
+	if( m_RateDateTime ) { copy_self->m_RateDateTime = dynamic_pointer_cast<IfcDateTime>( m_RateDateTime->getDeepCopy() ); }
+	if( m_RateSource ) { copy_self->m_RateSource = dynamic_pointer_cast<IfcLibraryInformation>( m_RateSource->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
 {

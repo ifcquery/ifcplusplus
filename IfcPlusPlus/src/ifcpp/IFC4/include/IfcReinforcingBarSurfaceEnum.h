@@ -33,6 +33,7 @@ public:
 	IfcReinforcingBarSurfaceEnum( IfcReinforcingBarSurfaceEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingBarSurfaceEnum();
 	virtual const char* classname() const { return "IfcReinforcingBarSurfaceEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcReinforcingBarSurfaceEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcReinforcingBarSurfaceEnumEnum m_enum;

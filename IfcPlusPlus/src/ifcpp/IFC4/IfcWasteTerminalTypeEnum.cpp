@@ -23,6 +23,12 @@
 // TYPE IfcWasteTerminalTypeEnum 
 IfcWasteTerminalTypeEnum::IfcWasteTerminalTypeEnum() {}
 IfcWasteTerminalTypeEnum::~IfcWasteTerminalTypeEnum() {}
+shared_ptr<IfcPPObject> IfcWasteTerminalTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcWasteTerminalTypeEnum> copy_self( new IfcWasteTerminalTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWASTETERMINALTYPEENUM("; }

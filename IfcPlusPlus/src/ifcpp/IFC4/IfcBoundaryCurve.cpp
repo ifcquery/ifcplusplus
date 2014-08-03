@@ -27,14 +27,19 @@
 IfcBoundaryCurve::IfcBoundaryCurve() {}
 IfcBoundaryCurve::IfcBoundaryCurve( int id ) { m_id = id; }
 IfcBoundaryCurve::~IfcBoundaryCurve() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcBoundaryCurve::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcBoundaryCurve::getDeepCopy()
 {
-	shared_ptr<IfcBoundaryCurve> other = dynamic_pointer_cast<IfcBoundaryCurve>(other_entity);
-	if( !other) { return; }
-	m_Segments = other->m_Segments;
-	m_SelfIntersect = other->m_SelfIntersect;
+	shared_ptr<IfcBoundaryCurve> copy_self( new IfcBoundaryCurve() );
+	for( size_t ii=0; ii<m_Segments.size(); ++ii )
+	{
+		auto item_ii = m_Segments[ii];
+		if( item_ii )
+		{
+			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	return copy_self;
 }
 void IfcBoundaryCurve::getStepLine( std::stringstream& stream ) const
 {

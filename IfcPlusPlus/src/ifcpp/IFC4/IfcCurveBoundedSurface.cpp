@@ -28,15 +28,20 @@
 IfcCurveBoundedSurface::IfcCurveBoundedSurface() {}
 IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_id = id; }
 IfcCurveBoundedSurface::~IfcCurveBoundedSurface() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCurveBoundedSurface::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCurveBoundedSurface::getDeepCopy()
 {
-	shared_ptr<IfcCurveBoundedSurface> other = dynamic_pointer_cast<IfcCurveBoundedSurface>(other_entity);
-	if( !other) { return; }
-	m_BasisSurface = other->m_BasisSurface;
-	m_Boundaries = other->m_Boundaries;
-	m_ImplicitOuter = other->m_ImplicitOuter;
+	shared_ptr<IfcCurveBoundedSurface> copy_self( new IfcCurveBoundedSurface() );
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Boundaries.size(); ++ii )
+	{
+		auto item_ii = m_Boundaries[ii];
+		if( item_ii )
+		{
+			copy_self->m_Boundaries.push_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_ImplicitOuter ) { copy_self->m_ImplicitOuter = m_ImplicitOuter; }
+	return copy_self;
 }
 void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 {

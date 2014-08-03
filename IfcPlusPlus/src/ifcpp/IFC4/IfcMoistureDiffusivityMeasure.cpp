@@ -25,6 +25,12 @@
 IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure() {}
 IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure( double value ) { m_value = value; }
 IfcMoistureDiffusivityMeasure::~IfcMoistureDiffusivityMeasure() {}
+shared_ptr<IfcPPObject> IfcMoistureDiffusivityMeasure::getDeepCopy()
+{
+	shared_ptr<IfcMoistureDiffusivityMeasure> copy_self( new IfcMoistureDiffusivityMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcMoistureDiffusivityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOISTUREDIFFUSIVITYMEASURE("; }

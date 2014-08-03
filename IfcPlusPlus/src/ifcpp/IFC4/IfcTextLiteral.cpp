@@ -29,15 +29,13 @@
 IfcTextLiteral::IfcTextLiteral() {}
 IfcTextLiteral::IfcTextLiteral( int id ) { m_id = id; }
 IfcTextLiteral::~IfcTextLiteral() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTextLiteral::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTextLiteral::getDeepCopy()
 {
-	shared_ptr<IfcTextLiteral> other = dynamic_pointer_cast<IfcTextLiteral>(other_entity);
-	if( !other) { return; }
-	m_Literal = other->m_Literal;
-	m_Placement = other->m_Placement;
-	m_Path = other->m_Path;
+	shared_ptr<IfcTextLiteral> copy_self( new IfcTextLiteral() );
+	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy() ); }
+	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy() ); }
+	if( m_Path ) { copy_self->m_Path = dynamic_pointer_cast<IfcTextPath>( m_Path->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 {

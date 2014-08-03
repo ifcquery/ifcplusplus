@@ -23,6 +23,12 @@
 // TYPE IfcCondenserTypeEnum 
 IfcCondenserTypeEnum::IfcCondenserTypeEnum() {}
 IfcCondenserTypeEnum::~IfcCondenserTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCondenserTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCondenserTypeEnum> copy_self( new IfcCondenserTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCondenserTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONDENSERTYPEENUM("; }

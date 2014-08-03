@@ -35,23 +35,21 @@
 IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity() {}
 IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity( int id ) { m_id = id; }
 IfcRelConnectsWithEccentricity::~IfcRelConnectsWithEccentricity() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelConnectsWithEccentricity::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelConnectsWithEccentricity::getDeepCopy()
 {
-	shared_ptr<IfcRelConnectsWithEccentricity> other = dynamic_pointer_cast<IfcRelConnectsWithEccentricity>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingStructuralMember = other->m_RelatingStructuralMember;
-	m_RelatedStructuralConnection = other->m_RelatedStructuralConnection;
-	m_AppliedCondition = other->m_AppliedCondition;
-	m_AdditionalConditions = other->m_AdditionalConditions;
-	m_SupportedLength = other->m_SupportedLength;
-	m_ConditionCoordinateSystem = other->m_ConditionCoordinateSystem;
-	m_ConnectionConstraint = other->m_ConnectionConstraint;
+	shared_ptr<IfcRelConnectsWithEccentricity> copy_self( new IfcRelConnectsWithEccentricity() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingStructuralMember ) { copy_self->m_RelatingStructuralMember = dynamic_pointer_cast<IfcStructuralMember>( m_RelatingStructuralMember->getDeepCopy() ); }
+	if( m_RelatedStructuralConnection ) { copy_self->m_RelatedStructuralConnection = dynamic_pointer_cast<IfcStructuralConnection>( m_RelatedStructuralConnection->getDeepCopy() ); }
+	if( m_AppliedCondition ) { copy_self->m_AppliedCondition = dynamic_pointer_cast<IfcBoundaryCondition>( m_AppliedCondition->getDeepCopy() ); }
+	if( m_AdditionalConditions ) { copy_self->m_AdditionalConditions = dynamic_pointer_cast<IfcStructuralConnectionCondition>( m_AdditionalConditions->getDeepCopy() ); }
+	if( m_SupportedLength ) { copy_self->m_SupportedLength = dynamic_pointer_cast<IfcLengthMeasure>( m_SupportedLength->getDeepCopy() ); }
+	if( m_ConditionCoordinateSystem ) { copy_self->m_ConditionCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement3D>( m_ConditionCoordinateSystem->getDeepCopy() ); }
+	if( m_ConnectionConstraint ) { copy_self->m_ConnectionConstraint = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionConstraint->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcRelConnectsWithEccentricity::getStepLine( std::stringstream& stream ) const
 {

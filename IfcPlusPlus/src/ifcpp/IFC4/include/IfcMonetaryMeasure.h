@@ -28,6 +28,7 @@ public:
 	IfcMonetaryMeasure( double value );
 	~IfcMonetaryMeasure();
 	virtual const char* classname() const { return "IfcMonetaryMeasure"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcMonetaryMeasure> createObjectFromStepData( const std::wstring& arg );
 };

@@ -23,6 +23,12 @@
 // TYPE IfcTankTypeEnum 
 IfcTankTypeEnum::IfcTankTypeEnum() {}
 IfcTankTypeEnum::~IfcTankTypeEnum() {}
+shared_ptr<IfcPPObject> IfcTankTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcTankTypeEnum> copy_self( new IfcTankTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTANKTYPEENUM("; }

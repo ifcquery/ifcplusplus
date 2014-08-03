@@ -23,6 +23,12 @@
 // TYPE IfcCompressorTypeEnum 
 IfcCompressorTypeEnum::IfcCompressorTypeEnum() {}
 IfcCompressorTypeEnum::~IfcCompressorTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCompressorTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCompressorTypeEnum> copy_self( new IfcCompressorTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCompressorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPRESSORTYPEENUM("; }

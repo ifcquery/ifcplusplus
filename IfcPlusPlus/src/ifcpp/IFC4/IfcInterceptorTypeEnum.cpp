@@ -23,6 +23,12 @@
 // TYPE IfcInterceptorTypeEnum 
 IfcInterceptorTypeEnum::IfcInterceptorTypeEnum() {}
 IfcInterceptorTypeEnum::~IfcInterceptorTypeEnum() {}
+shared_ptr<IfcPPObject> IfcInterceptorTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcInterceptorTypeEnum> copy_self( new IfcInterceptorTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcInterceptorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTERCEPTORTYPEENUM("; }

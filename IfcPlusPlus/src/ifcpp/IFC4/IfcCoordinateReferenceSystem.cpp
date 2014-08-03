@@ -27,16 +27,14 @@
 IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem() {}
 IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int id ) { m_id = id; }
 IfcCoordinateReferenceSystem::~IfcCoordinateReferenceSystem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCoordinateReferenceSystem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCoordinateReferenceSystem::getDeepCopy()
 {
-	shared_ptr<IfcCoordinateReferenceSystem> other = dynamic_pointer_cast<IfcCoordinateReferenceSystem>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_GeodeticDatum = other->m_GeodeticDatum;
-	m_VerticalDatum = other->m_VerticalDatum;
+	shared_ptr<IfcCoordinateReferenceSystem> copy_self( new IfcCoordinateReferenceSystem() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_GeodeticDatum ) { copy_self->m_GeodeticDatum = dynamic_pointer_cast<IfcIdentifier>( m_GeodeticDatum->getDeepCopy() ); }
+	if( m_VerticalDatum ) { copy_self->m_VerticalDatum = dynamic_pointer_cast<IfcIdentifier>( m_VerticalDatum->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcCoordinateReferenceSystem::getStepLine( std::stringstream& stream ) const
 {

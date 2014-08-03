@@ -23,6 +23,12 @@
 // TYPE IfcSensorTypeEnum 
 IfcSensorTypeEnum::IfcSensorTypeEnum() {}
 IfcSensorTypeEnum::~IfcSensorTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSensorTypeEnum> copy_self( new IfcSensorTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSENSORTYPEENUM("; }

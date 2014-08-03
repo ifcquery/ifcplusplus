@@ -31,18 +31,23 @@
 IfcRelCoversBldgElements::IfcRelCoversBldgElements() {}
 IfcRelCoversBldgElements::IfcRelCoversBldgElements( int id ) { m_id = id; }
 IfcRelCoversBldgElements::~IfcRelCoversBldgElements() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelCoversBldgElements::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelCoversBldgElements::getDeepCopy()
 {
-	shared_ptr<IfcRelCoversBldgElements> other = dynamic_pointer_cast<IfcRelCoversBldgElements>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingBuildingElement = other->m_RelatingBuildingElement;
-	m_RelatedCoverings = other->m_RelatedCoverings;
+	shared_ptr<IfcRelCoversBldgElements> copy_self( new IfcRelCoversBldgElements() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingBuildingElement ) { copy_self->m_RelatingBuildingElement = dynamic_pointer_cast<IfcElement>( m_RelatingBuildingElement->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedCoverings.size(); ++ii )
+	{
+		auto item_ii = m_RelatedCoverings[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedCoverings.push_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcRelCoversBldgElements::getStepLine( std::stringstream& stream ) const
 {

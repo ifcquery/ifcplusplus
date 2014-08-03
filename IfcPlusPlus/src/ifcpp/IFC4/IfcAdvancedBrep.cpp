@@ -27,13 +27,11 @@
 IfcAdvancedBrep::IfcAdvancedBrep() {}
 IfcAdvancedBrep::IfcAdvancedBrep( int id ) { m_id = id; }
 IfcAdvancedBrep::~IfcAdvancedBrep() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAdvancedBrep::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAdvancedBrep::getDeepCopy()
 {
-	shared_ptr<IfcAdvancedBrep> other = dynamic_pointer_cast<IfcAdvancedBrep>(other_entity);
-	if( !other) { return; }
-	m_Outer = other->m_Outer;
+	shared_ptr<IfcAdvancedBrep> copy_self( new IfcAdvancedBrep() );
+	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcAdvancedBrep::getStepLine( std::stringstream& stream ) const
 {

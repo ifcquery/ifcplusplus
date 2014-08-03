@@ -26,14 +26,12 @@
 IfcResourceLevelRelationship::IfcResourceLevelRelationship() {}
 IfcResourceLevelRelationship::IfcResourceLevelRelationship( int id ) { m_id = id; }
 IfcResourceLevelRelationship::~IfcResourceLevelRelationship() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcResourceLevelRelationship::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcResourceLevelRelationship::getDeepCopy()
 {
-	shared_ptr<IfcResourceLevelRelationship> other = dynamic_pointer_cast<IfcResourceLevelRelationship>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
+	shared_ptr<IfcResourceLevelRelationship> copy_self( new IfcResourceLevelRelationship() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcResourceLevelRelationship::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcDistributionChamberElementTypeEnum 
 IfcDistributionChamberElementTypeEnum::IfcDistributionChamberElementTypeEnum() {}
 IfcDistributionChamberElementTypeEnum::~IfcDistributionChamberElementTypeEnum() {}
+shared_ptr<IfcPPObject> IfcDistributionChamberElementTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcDistributionChamberElementTypeEnum> copy_self( new IfcDistributionChamberElementTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcDistributionChamberElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONCHAMBERELEMENTTYPEENUM("; }

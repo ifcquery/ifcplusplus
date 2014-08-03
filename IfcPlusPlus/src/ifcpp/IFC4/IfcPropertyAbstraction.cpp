@@ -25,12 +25,10 @@
 IfcPropertyAbstraction::IfcPropertyAbstraction() {}
 IfcPropertyAbstraction::IfcPropertyAbstraction( int id ) { m_id = id; }
 IfcPropertyAbstraction::~IfcPropertyAbstraction() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertyAbstraction::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertyAbstraction::getDeepCopy()
 {
-	shared_ptr<IfcPropertyAbstraction> other = dynamic_pointer_cast<IfcPropertyAbstraction>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcPropertyAbstraction> copy_self( new IfcPropertyAbstraction() );
+	return copy_self;
 }
 void IfcPropertyAbstraction::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcActionSourceTypeEnum 
 IfcActionSourceTypeEnum::IfcActionSourceTypeEnum() {}
 IfcActionSourceTypeEnum::~IfcActionSourceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcActionSourceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcActionSourceTypeEnum> copy_self( new IfcActionSourceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcActionSourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONSOURCETYPEENUM("; }

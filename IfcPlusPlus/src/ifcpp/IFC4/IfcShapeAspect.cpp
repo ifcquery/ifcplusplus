@@ -30,17 +30,22 @@
 IfcShapeAspect::IfcShapeAspect() {}
 IfcShapeAspect::IfcShapeAspect( int id ) { m_id = id; }
 IfcShapeAspect::~IfcShapeAspect() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcShapeAspect::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy()
 {
-	shared_ptr<IfcShapeAspect> other = dynamic_pointer_cast<IfcShapeAspect>(other_entity);
-	if( !other) { return; }
-	m_ShapeRepresentations = other->m_ShapeRepresentations;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ProductDefinitional = other->m_ProductDefinitional;
-	m_PartOfProductDefinitionShape = other->m_PartOfProductDefinitionShape;
+	shared_ptr<IfcShapeAspect> copy_self( new IfcShapeAspect() );
+	for( size_t ii=0; ii<m_ShapeRepresentations.size(); ++ii )
+	{
+		auto item_ii = m_ShapeRepresentations[ii];
+		if( item_ii )
+		{
+			copy_self->m_ShapeRepresentations.push_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ProductDefinitional ) { copy_self->m_ProductDefinitional = m_ProductDefinitional; }
+	if( m_PartOfProductDefinitionShape ) { copy_self->m_PartOfProductDefinitionShape = dynamic_pointer_cast<IfcProductRepresentationSelect>( m_PartOfProductDefinitionShape->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 {

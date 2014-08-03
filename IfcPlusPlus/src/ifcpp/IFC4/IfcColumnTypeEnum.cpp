@@ -23,6 +23,12 @@
 // TYPE IfcColumnTypeEnum 
 IfcColumnTypeEnum::IfcColumnTypeEnum() {}
 IfcColumnTypeEnum::~IfcColumnTypeEnum() {}
+shared_ptr<IfcPPObject> IfcColumnTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcColumnTypeEnum> copy_self( new IfcColumnTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOLUMNTYPEENUM("; }

@@ -38,6 +38,7 @@ public:
 	IfcStairFlightTypeEnum( IfcStairFlightTypeEnumEnum e ) { m_enum = e; }
 	~IfcStairFlightTypeEnum();
 	virtual const char* classname() const { return "IfcStairFlightTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcStairFlightTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcStairFlightTypeEnumEnum m_enum;

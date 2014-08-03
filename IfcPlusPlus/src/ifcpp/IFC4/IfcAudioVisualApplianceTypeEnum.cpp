@@ -23,6 +23,12 @@
 // TYPE IfcAudioVisualApplianceTypeEnum 
 IfcAudioVisualApplianceTypeEnum::IfcAudioVisualApplianceTypeEnum() {}
 IfcAudioVisualApplianceTypeEnum::~IfcAudioVisualApplianceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcAudioVisualApplianceTypeEnum> copy_self( new IfcAudioVisualApplianceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAUDIOVISUALAPPLIANCETYPEENUM("; }

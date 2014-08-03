@@ -23,6 +23,12 @@
 // TYPE IfcBenchmarkEnum 
 IfcBenchmarkEnum::IfcBenchmarkEnum() {}
 IfcBenchmarkEnum::~IfcBenchmarkEnum() {}
+shared_ptr<IfcPPObject> IfcBenchmarkEnum::getDeepCopy()
+{
+	shared_ptr<IfcBenchmarkEnum> copy_self( new IfcBenchmarkEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBenchmarkEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBENCHMARKENUM("; }

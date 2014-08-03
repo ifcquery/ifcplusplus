@@ -23,6 +23,12 @@
 // TYPE IfcStateEnum 
 IfcStateEnum::IfcStateEnum() {}
 IfcStateEnum::~IfcStateEnum() {}
+shared_ptr<IfcPPObject> IfcStateEnum::getDeepCopy()
+{
+	shared_ptr<IfcStateEnum> copy_self( new IfcStateEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTATEENUM("; }

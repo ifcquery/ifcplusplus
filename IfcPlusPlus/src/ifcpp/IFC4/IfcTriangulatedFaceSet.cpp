@@ -30,17 +30,26 @@
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() {}
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_id = id; }
 IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTriangulatedFaceSet::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTriangulatedFaceSet::getDeepCopy()
 {
-	shared_ptr<IfcTriangulatedFaceSet> other = dynamic_pointer_cast<IfcTriangulatedFaceSet>(other_entity);
-	if( !other) { return; }
-	m_Coordinates = other->m_Coordinates;
-	m_Normals = other->m_Normals;
-	m_Closed = other->m_Closed;
-	m_CoordIndex = other->m_CoordIndex;
-	m_NormalIndex = other->m_NormalIndex;
+	shared_ptr<IfcTriangulatedFaceSet> copy_self( new IfcTriangulatedFaceSet() );
+	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy() ); }
+	copy_self->m_Normals.resize( m_Normals.size() );
+	for( size_t ii=0; ii<m_Normals.size(); ++ii )
+	{
+		std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_Normals[ii];
+		std::vector<shared_ptr<IfcParameterValue> >& vec_ii_target = copy_self->m_Normals[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		{
+			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy() ) );
+			}
+		}
+	}
+	if( m_Closed ) { copy_self->m_Closed = m_Closed; }
+	return copy_self;
 }
 void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 {

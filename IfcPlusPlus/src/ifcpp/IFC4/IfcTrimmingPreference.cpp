@@ -23,6 +23,12 @@
 // TYPE IfcTrimmingPreference 
 IfcTrimmingPreference::IfcTrimmingPreference() {}
 IfcTrimmingPreference::~IfcTrimmingPreference() {}
+shared_ptr<IfcPPObject> IfcTrimmingPreference::getDeepCopy()
+{
+	shared_ptr<IfcTrimmingPreference> copy_self( new IfcTrimmingPreference() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcTrimmingPreference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRIMMINGPREFERENCE("; }

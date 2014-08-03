@@ -23,6 +23,12 @@
 // TYPE IfcAddressTypeEnum 
 IfcAddressTypeEnum::IfcAddressTypeEnum() {}
 IfcAddressTypeEnum::~IfcAddressTypeEnum() {}
+shared_ptr<IfcPPObject> IfcAddressTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcAddressTypeEnum> copy_self( new IfcAddressTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAddressTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCADDRESSTYPEENUM("; }

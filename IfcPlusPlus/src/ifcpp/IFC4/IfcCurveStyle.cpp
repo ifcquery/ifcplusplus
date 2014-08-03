@@ -28,17 +28,15 @@
 IfcCurveStyle::IfcCurveStyle() {}
 IfcCurveStyle::IfcCurveStyle( int id ) { m_id = id; }
 IfcCurveStyle::~IfcCurveStyle() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcCurveStyle::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcCurveStyle::getDeepCopy()
 {
-	shared_ptr<IfcCurveStyle> other = dynamic_pointer_cast<IfcCurveStyle>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_CurveFont = other->m_CurveFont;
-	m_CurveWidth = other->m_CurveWidth;
-	m_CurveColour = other->m_CurveColour;
-	m_ModelOrDraughting = other->m_ModelOrDraughting;
+	shared_ptr<IfcCurveStyle> copy_self( new IfcCurveStyle() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_CurveFont ) { copy_self->m_CurveFont = dynamic_pointer_cast<IfcCurveFontOrScaledCurveFontSelect>( m_CurveFont->getDeepCopy() ); }
+	if( m_CurveWidth ) { copy_self->m_CurveWidth = dynamic_pointer_cast<IfcSizeSelect>( m_CurveWidth->getDeepCopy() ); }
+	if( m_CurveColour ) { copy_self->m_CurveColour = dynamic_pointer_cast<IfcColour>( m_CurveColour->getDeepCopy() ); }
+	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = m_ModelOrDraughting; }
+	return copy_self;
 }
 void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 {

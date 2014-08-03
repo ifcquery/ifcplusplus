@@ -29,16 +29,14 @@
 IfcConversionBasedUnit::IfcConversionBasedUnit() {}
 IfcConversionBasedUnit::IfcConversionBasedUnit( int id ) { m_id = id; }
 IfcConversionBasedUnit::~IfcConversionBasedUnit() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConversionBasedUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConversionBasedUnit::getDeepCopy()
 {
-	shared_ptr<IfcConversionBasedUnit> other = dynamic_pointer_cast<IfcConversionBasedUnit>(other_entity);
-	if( !other) { return; }
-	m_Dimensions = other->m_Dimensions;
-	m_UnitType = other->m_UnitType;
-	m_Name = other->m_Name;
-	m_ConversionFactor = other->m_ConversionFactor;
+	shared_ptr<IfcConversionBasedUnit> copy_self( new IfcConversionBasedUnit() );
+	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy() ); }
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_ConversionFactor ) { copy_self->m_ConversionFactor = dynamic_pointer_cast<IfcMeasureWithUnit>( m_ConversionFactor->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConversionBasedUnit::getStepLine( std::stringstream& stream ) const
 {

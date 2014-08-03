@@ -23,6 +23,12 @@
 // TYPE IfcCommunicationsApplianceTypeEnum 
 IfcCommunicationsApplianceTypeEnum::IfcCommunicationsApplianceTypeEnum() {}
 IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcCommunicationsApplianceTypeEnum> copy_self( new IfcCommunicationsApplianceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcCommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMMUNICATIONSAPPLIANCETYPEENUM("; }

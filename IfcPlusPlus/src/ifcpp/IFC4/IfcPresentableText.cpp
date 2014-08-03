@@ -24,6 +24,12 @@
 IfcPresentableText::IfcPresentableText() {}
 IfcPresentableText::IfcPresentableText( std::wstring value ) { m_value = value; }
 IfcPresentableText::~IfcPresentableText() {}
+shared_ptr<IfcPPObject> IfcPresentableText::getDeepCopy()
+{
+	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPresentableText::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPRESENTABLETEXT("; }

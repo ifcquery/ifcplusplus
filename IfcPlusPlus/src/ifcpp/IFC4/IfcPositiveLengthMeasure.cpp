@@ -26,6 +26,12 @@
 // TYPE IfcPositiveLengthMeasure 
 IfcPositiveLengthMeasure::IfcPositiveLengthMeasure() {}
 IfcPositiveLengthMeasure::~IfcPositiveLengthMeasure() {}
+shared_ptr<IfcPPObject> IfcPositiveLengthMeasure::getDeepCopy()
+{
+	shared_ptr<IfcPositiveLengthMeasure> copy_self( new IfcPositiveLengthMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcPositiveLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVELENGTHMEASURE("; }

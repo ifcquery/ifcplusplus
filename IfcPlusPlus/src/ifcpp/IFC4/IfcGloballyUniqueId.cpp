@@ -24,6 +24,12 @@
 IfcGloballyUniqueId::IfcGloballyUniqueId() {}
 IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
 IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
+shared_ptr<IfcPPObject> IfcGloballyUniqueId::getDeepCopy()
+{
+	shared_ptr<IfcGloballyUniqueId> copy_self( new IfcGloballyUniqueId() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGLOBALLYUNIQUEID("; }

@@ -38,6 +38,7 @@ public:
 	IfcUnitaryEquipmentTypeEnum( IfcUnitaryEquipmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcUnitaryEquipmentTypeEnum();
 	virtual const char* classname() const { return "IfcUnitaryEquipmentTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcUnitaryEquipmentTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcUnitaryEquipmentTypeEnumEnum m_enum;

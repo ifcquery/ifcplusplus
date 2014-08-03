@@ -26,19 +26,17 @@
 IfcFailureConnectionCondition::IfcFailureConnectionCondition() {}
 IfcFailureConnectionCondition::IfcFailureConnectionCondition( int id ) { m_id = id; }
 IfcFailureConnectionCondition::~IfcFailureConnectionCondition() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcFailureConnectionCondition::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcFailureConnectionCondition::getDeepCopy()
 {
-	shared_ptr<IfcFailureConnectionCondition> other = dynamic_pointer_cast<IfcFailureConnectionCondition>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_TensionFailureX = other->m_TensionFailureX;
-	m_TensionFailureY = other->m_TensionFailureY;
-	m_TensionFailureZ = other->m_TensionFailureZ;
-	m_CompressionFailureX = other->m_CompressionFailureX;
-	m_CompressionFailureY = other->m_CompressionFailureY;
-	m_CompressionFailureZ = other->m_CompressionFailureZ;
+	shared_ptr<IfcFailureConnectionCondition> copy_self( new IfcFailureConnectionCondition() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_TensionFailureX ) { copy_self->m_TensionFailureX = dynamic_pointer_cast<IfcForceMeasure>( m_TensionFailureX->getDeepCopy() ); }
+	if( m_TensionFailureY ) { copy_self->m_TensionFailureY = dynamic_pointer_cast<IfcForceMeasure>( m_TensionFailureY->getDeepCopy() ); }
+	if( m_TensionFailureZ ) { copy_self->m_TensionFailureZ = dynamic_pointer_cast<IfcForceMeasure>( m_TensionFailureZ->getDeepCopy() ); }
+	if( m_CompressionFailureX ) { copy_self->m_CompressionFailureX = dynamic_pointer_cast<IfcForceMeasure>( m_CompressionFailureX->getDeepCopy() ); }
+	if( m_CompressionFailureY ) { copy_self->m_CompressionFailureY = dynamic_pointer_cast<IfcForceMeasure>( m_CompressionFailureY->getDeepCopy() ); }
+	if( m_CompressionFailureZ ) { copy_self->m_CompressionFailureZ = dynamic_pointer_cast<IfcForceMeasure>( m_CompressionFailureZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) const
 {

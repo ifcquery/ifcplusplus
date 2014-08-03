@@ -23,6 +23,12 @@
 // TYPE IfcElectricApplianceTypeEnum 
 IfcElectricApplianceTypeEnum::IfcElectricApplianceTypeEnum() {}
 IfcElectricApplianceTypeEnum::~IfcElectricApplianceTypeEnum() {}
+shared_ptr<IfcPPObject> IfcElectricApplianceTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcElectricApplianceTypeEnum> copy_self( new IfcElectricApplianceTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcElectricApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICAPPLIANCETYPEENUM("; }

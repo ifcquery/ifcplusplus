@@ -31,19 +31,17 @@
 IfcConstraint::IfcConstraint() {}
 IfcConstraint::IfcConstraint( int id ) { m_id = id; }
 IfcConstraint::~IfcConstraint() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConstraint::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConstraint::getDeepCopy()
 {
-	shared_ptr<IfcConstraint> other = dynamic_pointer_cast<IfcConstraint>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_ConstraintGrade = other->m_ConstraintGrade;
-	m_ConstraintSource = other->m_ConstraintSource;
-	m_CreatingActor = other->m_CreatingActor;
-	m_CreationTime = other->m_CreationTime;
-	m_UserDefinedGrade = other->m_UserDefinedGrade;
+	shared_ptr<IfcConstraint> copy_self( new IfcConstraint() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_ConstraintGrade ) { copy_self->m_ConstraintGrade = dynamic_pointer_cast<IfcConstraintEnum>( m_ConstraintGrade->getDeepCopy() ); }
+	if( m_ConstraintSource ) { copy_self->m_ConstraintSource = dynamic_pointer_cast<IfcLabel>( m_ConstraintSource->getDeepCopy() ); }
+	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy() ); }
+	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy() ); }
+	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConstraint::getStepLine( std::stringstream& stream ) const
 {

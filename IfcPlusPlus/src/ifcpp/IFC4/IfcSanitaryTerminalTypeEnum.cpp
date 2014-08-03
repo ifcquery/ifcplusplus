@@ -23,6 +23,12 @@
 // TYPE IfcSanitaryTerminalTypeEnum 
 IfcSanitaryTerminalTypeEnum::IfcSanitaryTerminalTypeEnum() {}
 IfcSanitaryTerminalTypeEnum::~IfcSanitaryTerminalTypeEnum() {}
+shared_ptr<IfcPPObject> IfcSanitaryTerminalTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcSanitaryTerminalTypeEnum> copy_self( new IfcSanitaryTerminalTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSANITARYTERMINALTYPEENUM("; }

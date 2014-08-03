@@ -26,14 +26,19 @@
 IfcTableRow::IfcTableRow() {}
 IfcTableRow::IfcTableRow( int id ) { m_id = id; }
 IfcTableRow::~IfcTableRow() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTableRow::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy()
 {
-	shared_ptr<IfcTableRow> other = dynamic_pointer_cast<IfcTableRow>(other_entity);
-	if( !other) { return; }
-	m_RowCells = other->m_RowCells;
-	m_IsHeading = other->m_IsHeading;
+	shared_ptr<IfcTableRow> copy_self( new IfcTableRow() );
+	for( size_t ii=0; ii<m_RowCells.size(); ++ii )
+	{
+		auto item_ii = m_RowCells[ii];
+		if( item_ii )
+		{
+			copy_self->m_RowCells.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_IsHeading ) { copy_self->m_IsHeading = m_IsHeading; }
+	return copy_self;
 }
 void IfcTableRow::getStepLine( std::stringstream& stream ) const
 {

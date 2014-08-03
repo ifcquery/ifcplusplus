@@ -28,14 +28,12 @@
 IfcVector::IfcVector() {}
 IfcVector::IfcVector( int id ) { m_id = id; }
 IfcVector::~IfcVector() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcVector::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcVector::getDeepCopy()
 {
-	shared_ptr<IfcVector> other = dynamic_pointer_cast<IfcVector>(other_entity);
-	if( !other) { return; }
-	m_Orientation = other->m_Orientation;
-	m_Magnitude = other->m_Magnitude;
+	shared_ptr<IfcVector> copy_self( new IfcVector() );
+	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy() ); }
+	if( m_Magnitude ) { copy_self->m_Magnitude = dynamic_pointer_cast<IfcLengthMeasure>( m_Magnitude->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcVector::getStepLine( std::stringstream& stream ) const
 {

@@ -25,6 +25,12 @@
 IfcHeatingValueMeasure::IfcHeatingValueMeasure() {}
 IfcHeatingValueMeasure::IfcHeatingValueMeasure( double value ) { m_value = value; }
 IfcHeatingValueMeasure::~IfcHeatingValueMeasure() {}
+shared_ptr<IfcPPObject> IfcHeatingValueMeasure::getDeepCopy()
+{
+	shared_ptr<IfcHeatingValueMeasure> copy_self( new IfcHeatingValueMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcHeatingValueMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHEATINGVALUEMEASURE("; }

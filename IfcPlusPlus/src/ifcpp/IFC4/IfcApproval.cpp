@@ -33,21 +33,19 @@
 IfcApproval::IfcApproval() {}
 IfcApproval::IfcApproval( int id ) { m_id = id; }
 IfcApproval::~IfcApproval() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcApproval::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcApproval::getDeepCopy()
 {
-	shared_ptr<IfcApproval> other = dynamic_pointer_cast<IfcApproval>(other_entity);
-	if( !other) { return; }
-	m_Identifier = other->m_Identifier;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_TimeOfApproval = other->m_TimeOfApproval;
-	m_Status = other->m_Status;
-	m_Level = other->m_Level;
-	m_Qualifier = other->m_Qualifier;
-	m_RequestingApproval = other->m_RequestingApproval;
-	m_GivingApproval = other->m_GivingApproval;
+	shared_ptr<IfcApproval> copy_self( new IfcApproval() );
+	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_TimeOfApproval ) { copy_self->m_TimeOfApproval = dynamic_pointer_cast<IfcDateTime>( m_TimeOfApproval->getDeepCopy() ); }
+	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy() ); }
+	if( m_Level ) { copy_self->m_Level = dynamic_pointer_cast<IfcLabel>( m_Level->getDeepCopy() ); }
+	if( m_Qualifier ) { copy_self->m_Qualifier = dynamic_pointer_cast<IfcText>( m_Qualifier->getDeepCopy() ); }
+	if( m_RequestingApproval ) { copy_self->m_RequestingApproval = dynamic_pointer_cast<IfcActorSelect>( m_RequestingApproval->getDeepCopy() ); }
+	if( m_GivingApproval ) { copy_self->m_GivingApproval = dynamic_pointer_cast<IfcActorSelect>( m_GivingApproval->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcApproval::getStepLine( std::stringstream& stream ) const
 {

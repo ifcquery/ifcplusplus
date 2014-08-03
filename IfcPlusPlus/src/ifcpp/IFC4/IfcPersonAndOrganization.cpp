@@ -27,15 +27,20 @@
 IfcPersonAndOrganization::IfcPersonAndOrganization() {}
 IfcPersonAndOrganization::IfcPersonAndOrganization( int id ) { m_id = id; }
 IfcPersonAndOrganization::~IfcPersonAndOrganization() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPersonAndOrganization::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPersonAndOrganization::getDeepCopy()
 {
-	shared_ptr<IfcPersonAndOrganization> other = dynamic_pointer_cast<IfcPersonAndOrganization>(other_entity);
-	if( !other) { return; }
-	m_ThePerson = other->m_ThePerson;
-	m_TheOrganization = other->m_TheOrganization;
-	m_Roles = other->m_Roles;
+	shared_ptr<IfcPersonAndOrganization> copy_self( new IfcPersonAndOrganization() );
+	if( m_ThePerson ) { copy_self->m_ThePerson = dynamic_pointer_cast<IfcPerson>( m_ThePerson->getDeepCopy() ); }
+	if( m_TheOrganization ) { copy_self->m_TheOrganization = dynamic_pointer_cast<IfcOrganization>( m_TheOrganization->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Roles.size(); ++ii )
+	{
+		auto item_ii = m_Roles[ii];
+		if( item_ii )
+		{
+			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) const
 {

@@ -23,6 +23,12 @@
 // TYPE IfcBoilerTypeEnum 
 IfcBoilerTypeEnum::IfcBoilerTypeEnum() {}
 IfcBoilerTypeEnum::~IfcBoilerTypeEnum() {}
+shared_ptr<IfcPPObject> IfcBoilerTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcBoilerTypeEnum> copy_self( new IfcBoilerTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcBoilerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOILERTYPEENUM("; }

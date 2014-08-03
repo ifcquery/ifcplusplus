@@ -29,21 +29,25 @@
 IfcPixelTexture::IfcPixelTexture() {}
 IfcPixelTexture::IfcPixelTexture( int id ) { m_id = id; }
 IfcPixelTexture::~IfcPixelTexture() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPixelTexture::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPixelTexture::getDeepCopy()
 {
-	shared_ptr<IfcPixelTexture> other = dynamic_pointer_cast<IfcPixelTexture>(other_entity);
-	if( !other) { return; }
-	m_RepeatS = other->m_RepeatS;
-	m_RepeatT = other->m_RepeatT;
-	m_Mode = other->m_Mode;
-	m_TextureTransform = other->m_TextureTransform;
-	m_Parameter = other->m_Parameter;
-	m_Width = other->m_Width;
-	m_Height = other->m_Height;
-	m_ColourComponents = other->m_ColourComponents;
-	m_Pixel = other->m_Pixel;
+	shared_ptr<IfcPixelTexture> copy_self( new IfcPixelTexture() );
+	if( m_RepeatS ) { copy_self->m_RepeatS = m_RepeatS; }
+	if( m_RepeatT ) { copy_self->m_RepeatT = m_RepeatT; }
+	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy() ); }
+	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
+	{
+		auto item_ii = m_Parameter[ii];
+		if( item_ii )
+		{
+			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Width ) { copy_self->m_Width = dynamic_pointer_cast<IfcInteger>( m_Width->getDeepCopy() ); }
+	if( m_Height ) { copy_self->m_Height = dynamic_pointer_cast<IfcInteger>( m_Height->getDeepCopy() ); }
+	if( m_ColourComponents ) { copy_self->m_ColourComponents = dynamic_pointer_cast<IfcInteger>( m_ColourComponents->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPixelTexture::getStepLine( std::stringstream& stream ) const
 {

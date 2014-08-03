@@ -25,6 +25,12 @@
 IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure() {}
 IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure( double value ) { m_value = value; }
 IfcVolumetricFlowRateMeasure::~IfcVolumetricFlowRateMeasure() {}
+shared_ptr<IfcPPObject> IfcVolumetricFlowRateMeasure::getDeepCopy()
+{
+	shared_ptr<IfcVolumetricFlowRateMeasure> copy_self( new IfcVolumetricFlowRateMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcVolumetricFlowRateMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOLUMETRICFLOWRATEMEASURE("; }

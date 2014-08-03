@@ -23,6 +23,12 @@
 // TYPE IfcWorkPlanTypeEnum 
 IfcWorkPlanTypeEnum::IfcWorkPlanTypeEnum() {}
 IfcWorkPlanTypeEnum::~IfcWorkPlanTypeEnum() {}
+shared_ptr<IfcPPObject> IfcWorkPlanTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcWorkPlanTypeEnum> copy_self( new IfcWorkPlanTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKPLANTYPEENUM("; }

@@ -25,14 +25,12 @@
 IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry() {}
 IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry( int id ) { m_id = id; }
 IfcConnectionSurfaceGeometry::~IfcConnectionSurfaceGeometry() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcConnectionSurfaceGeometry::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcConnectionSurfaceGeometry::getDeepCopy()
 {
-	shared_ptr<IfcConnectionSurfaceGeometry> other = dynamic_pointer_cast<IfcConnectionSurfaceGeometry>(other_entity);
-	if( !other) { return; }
-	m_SurfaceOnRelatingElement = other->m_SurfaceOnRelatingElement;
-	m_SurfaceOnRelatedElement = other->m_SurfaceOnRelatedElement;
+	shared_ptr<IfcConnectionSurfaceGeometry> copy_self( new IfcConnectionSurfaceGeometry() );
+	if( m_SurfaceOnRelatingElement ) { copy_self->m_SurfaceOnRelatingElement = dynamic_pointer_cast<IfcSurfaceOrFaceSurface>( m_SurfaceOnRelatingElement->getDeepCopy() ); }
+	if( m_SurfaceOnRelatedElement ) { copy_self->m_SurfaceOnRelatedElement = dynamic_pointer_cast<IfcSurfaceOrFaceSurface>( m_SurfaceOnRelatedElement->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcConnectionSurfaceGeometry::getStepLine( std::stringstream& stream ) const
 {

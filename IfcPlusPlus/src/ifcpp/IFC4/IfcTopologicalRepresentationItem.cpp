@@ -26,12 +26,10 @@
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem() {}
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int id ) { m_id = id; }
 IfcTopologicalRepresentationItem::~IfcTopologicalRepresentationItem() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTopologicalRepresentationItem::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTopologicalRepresentationItem::getDeepCopy()
 {
-	shared_ptr<IfcTopologicalRepresentationItem> other = dynamic_pointer_cast<IfcTopologicalRepresentationItem>(other_entity);
-	if( !other) { return; }
+	shared_ptr<IfcTopologicalRepresentationItem> copy_self( new IfcTopologicalRepresentationItem() );
+	return copy_self;
 }
 void IfcTopologicalRepresentationItem::getStepLine( std::stringstream& stream ) const
 {

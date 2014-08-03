@@ -31,22 +31,27 @@
 IfcAppliedValue::IfcAppliedValue() {}
 IfcAppliedValue::IfcAppliedValue( int id ) { m_id = id; }
 IfcAppliedValue::~IfcAppliedValue() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAppliedValue::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAppliedValue::getDeepCopy()
 {
-	shared_ptr<IfcAppliedValue> other = dynamic_pointer_cast<IfcAppliedValue>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_AppliedValue = other->m_AppliedValue;
-	m_UnitBasis = other->m_UnitBasis;
-	m_ApplicableDate = other->m_ApplicableDate;
-	m_FixedUntilDate = other->m_FixedUntilDate;
-	m_Category = other->m_Category;
-	m_Condition = other->m_Condition;
-	m_ArithmeticOperator = other->m_ArithmeticOperator;
-	m_Components = other->m_Components;
+	shared_ptr<IfcAppliedValue> copy_self( new IfcAppliedValue() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_AppliedValue ) { copy_self->m_AppliedValue = dynamic_pointer_cast<IfcAppliedValueSelect>( m_AppliedValue->getDeepCopy() ); }
+	if( m_UnitBasis ) { copy_self->m_UnitBasis = dynamic_pointer_cast<IfcMeasureWithUnit>( m_UnitBasis->getDeepCopy() ); }
+	if( m_ApplicableDate ) { copy_self->m_ApplicableDate = dynamic_pointer_cast<IfcDate>( m_ApplicableDate->getDeepCopy() ); }
+	if( m_FixedUntilDate ) { copy_self->m_FixedUntilDate = dynamic_pointer_cast<IfcDate>( m_FixedUntilDate->getDeepCopy() ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	if( m_Condition ) { copy_self->m_Condition = dynamic_pointer_cast<IfcLabel>( m_Condition->getDeepCopy() ); }
+	if( m_ArithmeticOperator ) { copy_self->m_ArithmeticOperator = dynamic_pointer_cast<IfcArithmeticOperatorEnum>( m_ArithmeticOperator->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_Components.size(); ++ii )
+	{
+		auto item_ii = m_Components[ii];
+		if( item_ii )
+		{
+			copy_self->m_Components.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcAppliedValue::getStepLine( std::stringstream& stream ) const
 {

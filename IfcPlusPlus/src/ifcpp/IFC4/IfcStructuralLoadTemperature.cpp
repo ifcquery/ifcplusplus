@@ -26,16 +26,14 @@
 IfcStructuralLoadTemperature::IfcStructuralLoadTemperature() {}
 IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_id = id; }
 IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcStructuralLoadTemperature::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcStructuralLoadTemperature::getDeepCopy()
 {
-	shared_ptr<IfcStructuralLoadTemperature> other = dynamic_pointer_cast<IfcStructuralLoadTemperature>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_DeltaTConstant = other->m_DeltaTConstant;
-	m_DeltaTY = other->m_DeltaTY;
-	m_DeltaTZ = other->m_DeltaTZ;
+	shared_ptr<IfcStructuralLoadTemperature> copy_self( new IfcStructuralLoadTemperature() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_DeltaTConstant ) { copy_self->m_DeltaTConstant = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_DeltaTConstant->getDeepCopy() ); }
+	if( m_DeltaTY ) { copy_self->m_DeltaTY = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_DeltaTY->getDeepCopy() ); }
+	if( m_DeltaTZ ) { copy_self->m_DeltaTZ = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_DeltaTZ->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) const
 {

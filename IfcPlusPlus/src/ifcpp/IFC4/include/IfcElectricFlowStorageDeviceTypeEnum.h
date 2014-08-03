@@ -38,6 +38,7 @@ public:
 	IfcElectricFlowStorageDeviceTypeEnum( IfcElectricFlowStorageDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricFlowStorageDeviceTypeEnum();
 	virtual const char* classname() const { return "IfcElectricFlowStorageDeviceTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcElectricFlowStorageDeviceTypeEnumEnum m_enum;

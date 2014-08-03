@@ -29,18 +29,23 @@
 IfcRelAggregates::IfcRelAggregates() {}
 IfcRelAggregates::IfcRelAggregates( int id ) { m_id = id; }
 IfcRelAggregates::~IfcRelAggregates() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcRelAggregates::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcRelAggregates::getDeepCopy()
 {
-	shared_ptr<IfcRelAggregates> other = dynamic_pointer_cast<IfcRelAggregates>(other_entity);
-	if( !other) { return; }
-	m_GlobalId = other->m_GlobalId;
-	m_OwnerHistory = other->m_OwnerHistory;
-	m_Name = other->m_Name;
-	m_Description = other->m_Description;
-	m_RelatingObject = other->m_RelatingObject;
-	m_RelatedObjects = other->m_RelatedObjects;
+	shared_ptr<IfcRelAggregates> copy_self( new IfcRelAggregates() );
+	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
+	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_RelatingObject ) { copy_self->m_RelatingObject = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatingObject->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_RelatedObjects.size(); ++ii )
+	{
+		auto item_ii = m_RelatedObjects[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy() ) );
+		}
+	}
+	return copy_self;
 }
 void IfcRelAggregates::getStepLine( std::stringstream& stream ) const
 {

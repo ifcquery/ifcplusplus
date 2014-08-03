@@ -29,15 +29,13 @@
 IfcAddress::IfcAddress() {}
 IfcAddress::IfcAddress( int id ) { m_id = id; }
 IfcAddress::~IfcAddress() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcAddress::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcAddress::getDeepCopy()
 {
-	shared_ptr<IfcAddress> other = dynamic_pointer_cast<IfcAddress>(other_entity);
-	if( !other) { return; }
-	m_Purpose = other->m_Purpose;
-	m_Description = other->m_Description;
-	m_UserDefinedPurpose = other->m_UserDefinedPurpose;
+	shared_ptr<IfcAddress> copy_self( new IfcAddress() );
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy() ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcAddress::getStepLine( std::stringstream& stream ) const
 {

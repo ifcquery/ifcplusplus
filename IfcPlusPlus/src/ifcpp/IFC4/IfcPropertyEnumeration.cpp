@@ -28,15 +28,20 @@
 IfcPropertyEnumeration::IfcPropertyEnumeration() {}
 IfcPropertyEnumeration::IfcPropertyEnumeration( int id ) { m_id = id; }
 IfcPropertyEnumeration::~IfcPropertyEnumeration() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcPropertyEnumeration::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcPropertyEnumeration::getDeepCopy()
 {
-	shared_ptr<IfcPropertyEnumeration> other = dynamic_pointer_cast<IfcPropertyEnumeration>(other_entity);
-	if( !other) { return; }
-	m_Name = other->m_Name;
-	m_EnumerationValues = other->m_EnumerationValues;
-	m_Unit = other->m_Unit;
+	shared_ptr<IfcPropertyEnumeration> copy_self( new IfcPropertyEnumeration() );
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	for( size_t ii=0; ii<m_EnumerationValues.size(); ++ii )
+	{
+		auto item_ii = m_EnumerationValues[ii];
+		if( item_ii )
+		{
+			copy_self->m_EnumerationValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+		}
+	}
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
 {

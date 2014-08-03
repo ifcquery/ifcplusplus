@@ -25,14 +25,12 @@
 IfcTimePeriod::IfcTimePeriod() {}
 IfcTimePeriod::IfcTimePeriod( int id ) { m_id = id; }
 IfcTimePeriod::~IfcTimePeriod() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcTimePeriod::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcTimePeriod::getDeepCopy()
 {
-	shared_ptr<IfcTimePeriod> other = dynamic_pointer_cast<IfcTimePeriod>(other_entity);
-	if( !other) { return; }
-	m_StartTime = other->m_StartTime;
-	m_EndTime = other->m_EndTime;
+	shared_ptr<IfcTimePeriod> copy_self( new IfcTimePeriod() );
+	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcTime>( m_StartTime->getDeepCopy() ); }
+	if( m_EndTime ) { copy_self->m_EndTime = dynamic_pointer_cast<IfcTime>( m_EndTime->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcTimePeriod::getStepLine( std::stringstream& stream ) const
 {

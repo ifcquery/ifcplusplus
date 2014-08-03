@@ -25,6 +25,12 @@
 IfcElectricVoltageMeasure::IfcElectricVoltageMeasure() {}
 IfcElectricVoltageMeasure::IfcElectricVoltageMeasure( double value ) { m_value = value; }
 IfcElectricVoltageMeasure::~IfcElectricVoltageMeasure() {}
+shared_ptr<IfcPPObject> IfcElectricVoltageMeasure::getDeepCopy()
+{
+	shared_ptr<IfcElectricVoltageMeasure> copy_self( new IfcElectricVoltageMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcElectricVoltageMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICVOLTAGEMEASURE("; }

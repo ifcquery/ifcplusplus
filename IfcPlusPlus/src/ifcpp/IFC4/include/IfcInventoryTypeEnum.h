@@ -36,6 +36,7 @@ public:
 	IfcInventoryTypeEnum( IfcInventoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcInventoryTypeEnum();
 	virtual const char* classname() const { return "IfcInventoryTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcInventoryTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcInventoryTypeEnumEnum m_enum;

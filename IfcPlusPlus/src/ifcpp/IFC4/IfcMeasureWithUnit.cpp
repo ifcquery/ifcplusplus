@@ -26,14 +26,12 @@
 IfcMeasureWithUnit::IfcMeasureWithUnit() {}
 IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_id = id; }
 IfcMeasureWithUnit::~IfcMeasureWithUnit() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcMeasureWithUnit::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcMeasureWithUnit::getDeepCopy()
 {
-	shared_ptr<IfcMeasureWithUnit> other = dynamic_pointer_cast<IfcMeasureWithUnit>(other_entity);
-	if( !other) { return; }
-	m_ValueComponent = other->m_ValueComponent;
-	m_UnitComponent = other->m_UnitComponent;
+	shared_ptr<IfcMeasureWithUnit> copy_self( new IfcMeasureWithUnit() );
+	if( m_ValueComponent ) { copy_self->m_ValueComponent = dynamic_pointer_cast<IfcValue>( m_ValueComponent->getDeepCopy() ); }
+	if( m_UnitComponent ) { copy_self->m_UnitComponent = dynamic_pointer_cast<IfcUnit>( m_UnitComponent->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
 {

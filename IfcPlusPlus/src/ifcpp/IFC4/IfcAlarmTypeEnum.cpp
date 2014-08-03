@@ -23,6 +23,12 @@
 // TYPE IfcAlarmTypeEnum 
 IfcAlarmTypeEnum::IfcAlarmTypeEnum() {}
 IfcAlarmTypeEnum::~IfcAlarmTypeEnum() {}
+shared_ptr<IfcPPObject> IfcAlarmTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcAlarmTypeEnum> copy_self( new IfcAlarmTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcAlarmTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCALARMTYPEENUM("; }

@@ -25,6 +25,12 @@
 IfcLuminousFluxMeasure::IfcLuminousFluxMeasure() {}
 IfcLuminousFluxMeasure::IfcLuminousFluxMeasure( double value ) { m_value = value; }
 IfcLuminousFluxMeasure::~IfcLuminousFluxMeasure() {}
+shared_ptr<IfcPPObject> IfcLuminousFluxMeasure::getDeepCopy()
+{
+	shared_ptr<IfcLuminousFluxMeasure> copy_self( new IfcLuminousFluxMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLuminousFluxMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLUMINOUSFLUXMEASURE("; }

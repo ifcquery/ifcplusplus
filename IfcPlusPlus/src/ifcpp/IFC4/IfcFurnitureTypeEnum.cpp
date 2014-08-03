@@ -23,6 +23,12 @@
 // TYPE IfcFurnitureTypeEnum 
 IfcFurnitureTypeEnum::IfcFurnitureTypeEnum() {}
 IfcFurnitureTypeEnum::~IfcFurnitureTypeEnum() {}
+shared_ptr<IfcPPObject> IfcFurnitureTypeEnum::getDeepCopy()
+{
+	shared_ptr<IfcFurnitureTypeEnum> copy_self( new IfcFurnitureTypeEnum() );
+	copy_self->m_enum = m_enum;
+	return copy_self;
+}
 void IfcFurnitureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFURNITURETYPEENUM("; }

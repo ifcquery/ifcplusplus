@@ -28,14 +28,12 @@
 IfcSphere::IfcSphere() {}
 IfcSphere::IfcSphere( int id ) { m_id = id; }
 IfcSphere::~IfcSphere() {}
-
-// method setEntity takes over all attributes from another instance of the class
-void IfcSphere::setEntity( shared_ptr<IfcPPEntity> other_entity )
+shared_ptr<IfcPPObject> IfcSphere::getDeepCopy()
 {
-	shared_ptr<IfcSphere> other = dynamic_pointer_cast<IfcSphere>(other_entity);
-	if( !other) { return; }
-	m_Position = other->m_Position;
-	m_Radius = other->m_Radius;
+	shared_ptr<IfcSphere> copy_self( new IfcSphere() );
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	return copy_self;
 }
 void IfcSphere::getStepLine( std::stringstream& stream ) const
 {

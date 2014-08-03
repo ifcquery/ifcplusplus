@@ -25,6 +25,12 @@
 IfcAccelerationMeasure::IfcAccelerationMeasure() {}
 IfcAccelerationMeasure::IfcAccelerationMeasure( double value ) { m_value = value; }
 IfcAccelerationMeasure::~IfcAccelerationMeasure() {}
+shared_ptr<IfcPPObject> IfcAccelerationMeasure::getDeepCopy()
+{
+	shared_ptr<IfcAccelerationMeasure> copy_self( new IfcAccelerationMeasure() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcAccelerationMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACCELERATIONMEASURE("; }

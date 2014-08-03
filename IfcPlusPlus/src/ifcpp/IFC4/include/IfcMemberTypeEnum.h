@@ -45,6 +45,7 @@ public:
 	IfcMemberTypeEnum( IfcMemberTypeEnumEnum e ) { m_enum = e; }
 	~IfcMemberTypeEnum();
 	virtual const char* classname() const { return "IfcMemberTypeEnum"; }
+	virtual shared_ptr<IfcPPObject> getDeepCopy();
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcMemberTypeEnum> createObjectFromStepData( const std::wstring& arg );
 	IfcMemberTypeEnumEnum m_enum;

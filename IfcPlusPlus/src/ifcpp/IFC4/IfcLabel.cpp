@@ -25,6 +25,12 @@
 IfcLabel::IfcLabel() {}
 IfcLabel::IfcLabel( std::wstring value ) { m_value = value; }
 IfcLabel::~IfcLabel() {}
+shared_ptr<IfcPPObject> IfcLabel::getDeepCopy()
+{
+	shared_ptr<IfcLabel> copy_self( new IfcLabel() );
+	copy_self->m_value = m_value;
+	return copy_self;
+}
 void IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLABEL("; }
