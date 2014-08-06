@@ -28,7 +28,7 @@
 #include "ifcpp/IfcPPTypeMap.h"
 #include "ifcpp/IfcPPEntitiesMap.h"
 #include "ifcpp/reader/ReaderUtil.h"
-#include "ifcpp/reader/IfcStepReader.h"
+#include "ifcpp/reader/IfcPPReaderSTEP.h"
 
 static std::map<std::string,IfcPPEntityEnum> map_string2entity_enum(initializers_IfcPP_entity, initializers_IfcPP_entity + sizeof(initializers_IfcPP_entity)/sizeof(initializers_IfcPP_entity[0]));
 static std::map<std::string,IfcPPTypeEnum> map_string2type_enum(initializers_IfcPP_type, initializers_IfcPP_type + sizeof(initializers_IfcPP_type)/sizeof(initializers_IfcPP_type[0]));
@@ -166,15 +166,15 @@ void readSingleStepLine( const std::string& line, shared_ptr<IfcPPEntity>& entit
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-IfcStepReader::IfcStepReader()
+IfcPPReaderSTEP::IfcPPReaderSTEP()
 {
 }
 
-IfcStepReader::~IfcStepReader()
+IfcPPReaderSTEP::~IfcPPReaderSTEP()
 {
 }
 
-void IfcStepReader::removeComments( std::string& buffer )
+void IfcPPReaderSTEP::removeComments( std::string& buffer )
 {
 	const size_t length = buffer.length();
 	size_t length_without_comments = 0;
@@ -214,7 +214,7 @@ void IfcStepReader::removeComments( std::string& buffer )
 	buffer = buffer.substr( 0, length_without_comments );
 }
 
-void IfcStepReader::readStreamHeader( const std::string& read_in, shared_ptr<IfcPPModel>& target_model )
+void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<IfcPPModel>& target_model )
 {
 	if( !target_model )
 	{
@@ -346,7 +346,7 @@ void IfcStepReader::readStreamHeader( const std::string& read_in, shared_ptr<Ifc
 	}
 }
 
-void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<std::string>& target_vec)
+void IfcPPReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std::string>& target_vec)
 {
 	// set progress to 0
 	double progress = 0.0;
@@ -436,7 +436,7 @@ void IfcStepReader::splitIntoStepLines(const std::string& read_in, std::vector<s
 	}
 }
 
-void IfcStepReader::readStepLines( const std::vector<std::string>& step_lines, std::vector<shared_ptr<IfcPPEntity> >& target_entity_vec )
+void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std::vector<shared_ptr<IfcPPEntity> >& target_entity_vec )
 {
 	std::set<std::string> unkown_entities;
 	std::stringstream err_unknown_entity;
@@ -534,7 +534,7 @@ void IfcStepReader::readStepLines( const std::vector<std::string>& step_lines, s
 	}
 }
 
-void IfcStepReader::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
+void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -634,7 +634,15 @@ void IfcStepReader::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& i
 	}
 }
 
-void IfcStepReader::readStreamData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcPPReaderSTEP::readStreamData( std::string& read_in, shared_ptr<IfcPPModel>& model )
+{
+	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
+	std::map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
+	readStreamData( read_in, file_schema_version, map_entities );
+	
+}
+
+void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
 {
 	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
 	setlocale(LC_NUMERIC,"C");

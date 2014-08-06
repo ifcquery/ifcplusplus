@@ -11,14 +11,17 @@
  * OpenSceneGraph Public License for more details.
 */
 
-#include "IfcPlusPlusReader.h"
+#pragma once
 
-IfcPlusPlusReader::IfcPlusPlusReader()
+#include <map>
+#include "ifcpp/model/shared_ptr.h"
+
+class IfcPPObject;
+class IfcPPModel;
+
+class IfcPPWriter
 {
-	unsetProgressCallBack();
-	unsetMessageCallBack();
-	unsetErrorCallBack();
-}
-IfcPlusPlusReader::~IfcPlusPlusReader()
-{
-}
+public:
+	virtual void writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model ) = 0;
+
+};

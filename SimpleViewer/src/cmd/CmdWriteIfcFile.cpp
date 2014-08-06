@@ -21,7 +21,7 @@
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/writer/IfcStepWriter.h>
+#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 
 #include "Command.h"

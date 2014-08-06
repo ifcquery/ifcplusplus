@@ -903,32 +903,32 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 #endif
 	catch( carve::exception& ce )
 	{
-		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
+		err << "csg operation failed, Entity ID 1: " << entity1 << ", Entity ID 2:" << entity2 << ", ";
 		err << ce.str() << std::endl;
 		csg_op_ok = false;
 	}
 	catch( const std::out_of_range& oor )
 	{
-		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
+		err << "csg operation failed, Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << ", ";
 		err << oor.what() << std::endl;
 		csg_op_ok = false;
 	}
 	catch( std::exception& e )
 	{
-		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << ", ";
+		err << "csg operation failed, Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << ", ";
 		err << e.what() << std::endl;
 		csg_op_ok = false;
 	}
 	catch( ... )
 	{
-		err << "csg operation failed, id1=" << entity1 << ", id2=" << entity2 << std::endl;
+		err << "csg operation failed, Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << std::endl;
 		csg_op_ok = false;
 	}
 
 #ifdef _DEBUG
 	if( !csg_op_ok )
 	{
-		std::cout << "!csg_operation_ok. id1=" << entity1 << ", id2=" << entity2 << std::endl;
+		std::cout << "!csg_operation_ok. Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << std::endl;
 
 		shared_ptr<carve::mesh::MeshSet<3> > op1_copy( op1->clone() );
 		//CSG_Adapter::applyTranslate( op1_copy.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
