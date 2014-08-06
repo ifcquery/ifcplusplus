@@ -18,13 +18,13 @@
 
 class IfcPlusPlusSystem;
 
-class CmdLoadIfcFile : public Command
+class LoadIfcFileCommand : public Command
 {
 public:
-	CmdLoadIfcFile( IfcPlusPlusSystem* system );
-	virtual ~CmdLoadIfcFile();
-	virtual shared_ptr<Command> copy() { return shared_ptr<CmdLoadIfcFile>( new CmdLoadIfcFile(m_system) ); }
-	virtual const char* classname() { return "CmdLoadIfcFile"; }
+	LoadIfcFileCommand( IfcPlusPlusSystem* system );
+	virtual ~LoadIfcFileCommand();
+	virtual shared_ptr<Command> copy() { return shared_ptr<LoadIfcFileCommand>( new LoadIfcFileCommand(m_system) ); }
+	virtual const char* classname() { return "LoadIfcFileCommand"; }
 
 	virtual bool doCmd();
 	virtual bool undo();

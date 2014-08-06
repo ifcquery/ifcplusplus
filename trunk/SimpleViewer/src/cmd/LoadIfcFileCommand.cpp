@@ -23,24 +23,24 @@
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
-#include "CmdLoadIfcFile.h"
+#include "LoadIfcFileCommand.h"
 
-CmdLoadIfcFile::CmdLoadIfcFile( IfcPlusPlusSystem* system ): Command(system)
+LoadIfcFileCommand::LoadIfcFileCommand( IfcPlusPlusSystem* system ): Command(system)
 {
 	
 }
 
-CmdLoadIfcFile::~CmdLoadIfcFile()
+LoadIfcFileCommand::~LoadIfcFileCommand()
 {
 
 }
 
-void CmdLoadIfcFile::setFilePath( std::string& path_in )
+void LoadIfcFileCommand::setFilePath( std::string& path_in )
 {
 	m_file_path = path_in;
 }
 
-bool CmdLoadIfcFile::doCmd()
+bool LoadIfcFileCommand::doCmd()
 {
 	if( m_file_path.length() == 0 )
 	{
@@ -139,9 +139,6 @@ bool CmdLoadIfcFile::doCmd()
 	reader_writer->clearInputCache();
 	vc->switchCurveRepresentation( model_group, vc->m_show_curve_representation );
 
-	//ifc_model->clearIfcModel();
-	//model_group->removeChildren( 0, model_group->getNumChildren() );
-
 	if( err.tellp() > 0 )
 	{
 		throw IfcPPException( err.str().c_str() );
@@ -150,12 +147,12 @@ bool CmdLoadIfcFile::doCmd()
 	return true;
 }
 
-bool CmdLoadIfcFile::undo()
+bool LoadIfcFileCommand::undo()
 {
 	return true;
 }
 
-bool CmdLoadIfcFile::redo()
+bool LoadIfcFileCommand::redo()
 {
 	return true;
 }

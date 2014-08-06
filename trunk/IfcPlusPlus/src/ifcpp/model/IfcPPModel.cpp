@@ -237,6 +237,21 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		// the key does not exist in the map
 		m_map_entities.insert( lb, std::map<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
 	}
+#ifdef _DEBUG
+	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );
+	if( product )
+	{
+		if( !product->m_GlobalId )
+		{
+			std::cout << "IfcProduct->m_GlobalId not set" << std::endl;
+			return;
+		}
+		if( product->m_GlobalId->m_value.length() < 22 )
+		{
+			std::cout << "IfcProduct->m_GlobalId.length() < 22" << std::endl;
+		}
+	}
+#endif
 
 	// TODO: if type is IfcRoot (or subtype), and GlobalID not set, create one
 }

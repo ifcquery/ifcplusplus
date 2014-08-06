@@ -32,7 +32,7 @@
 #include "ViewController.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/Orbit3DManipulator.h"
-#include "cmd/CmdLoadIfcFile.h"
+#include "cmd/LoadIfcFileCommand.h"
 #include "cmd/CmdWriteIfcFile.h"
 #include "cmd/CommandManager.h"
 #include "TabReadWrite.h"
@@ -247,7 +247,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 
 	try
 	{
-		shared_ptr<CmdLoadIfcFile> cmd_load( new CmdLoadIfcFile( m_system ) );
+		shared_ptr<LoadIfcFileCommand> cmd_load( new LoadIfcFileCommand( m_system ) );
 		m_system->getReaderWriterIFC()->setProgressCallBack( this, &TabReadWrite::slotProgressValueWrapper );
 		m_system->getReaderWriterIFC()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
 		m_system->getReaderWriterIFC()->setErrorCallBack( this, &TabReadWrite::slotErrorWrapper );

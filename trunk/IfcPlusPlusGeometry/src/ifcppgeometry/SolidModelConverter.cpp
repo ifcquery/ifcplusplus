@@ -89,7 +89,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcProfileDef>& swept_area = swept_area_solid->m_SweptArea;
 		if( !swept_area )
 		{
-			strs_err << __FUNC__ << ": SweptArea not valid" << std::endl;
+			strs_err << __FUNC__ << ": SweptArea not valid. Entity ID: " << swept_area_solid->getId() << std::endl;
 			return;
 		}
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
@@ -214,9 +214,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		{
 			// first convert outer shell
 			std::vector<shared_ptr<IfcFace> >& vec_faces_outer_shell = outer_shell->m_CfsFaces;
-			shared_ptr<ItemData> input_data_outer_shell( new ItemData() );
-			m_face_converter->convertIfcFaceList( vec_faces_outer_shell, input_data_outer_shell, strs_err );
-			std::copy( input_data_outer_shell->open_or_closed_polyhedrons.begin(), input_data_outer_shell->open_or_closed_polyhedrons.end(), std::back_inserter(item_data->closed_polyhedrons) );
+			m_face_converter->convertIfcFaceList( vec_faces_outer_shell, item_data, strs_err );
 		}
 
 		shared_ptr<IfcFacetedBrep> faceted_brep = dynamic_pointer_cast<IfcFacetedBrep>(manifold_solid_brep);
@@ -307,19 +305,14 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			radius_inner = swept_disp_solid->m_InnerRadius->m_value*length_in_meter;
 		}
 
-		// TODO: handle inner radius, start param, end param
+		// TODO: handle start param, end param
 
 		std::vector<carve::geom::vector<3> > segment_start_points;
 		std::vector<carve::geom::vector<3> > basis_curve_points;
 		m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
-		//shared_ptr<carve::input::PolyhedronData> pipe_data( new carve::input::PolyhedronData() );
-		//item_data->closed_polyhedrons.push_back(pipe_data);
-		//GeomUtils::sweepDisk( basis_curve_points, pipe_data, nvc, radius, radius_inner );
-
 		shared_ptr<ItemData> item_data_solid( new ItemData() );
 		GeomUtils::sweepDisk( basis_curve_points, item_data_solid, nvc, radius, radius_inner );
-		//item_data_solid->applyPosition( swept_area_pos );
 		item_data->addItemData( item_data_solid );
 
 		return;
@@ -333,13 +326,13 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	const int entity_id = extruded_area->getId();
 	if( !extruded_area->m_ExtrudedDirection )
 	{
-		strs_err << "Invalid ExtrudedDirection " << __func__ << std::endl;
+		strs_err << __func__ << ": Invalid ExtrudedDirection. Entity ID: " << entity_id << std::endl;
 		return;
 	}
 
 	if( !extruded_area->m_Depth )
 	{
-		strs_err << "Invalid Depth " << __func__ << std::endl;
+		strs_err << __func__ << ": Invalid Depth. Entity ID: " << entity_id << std::endl;
 		return;
 	}
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -361,7 +354,7 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	shared_ptr<IfcProfileDef>	swept_area = extruded_area->m_SweptArea;
 	if( !swept_area )
 	{
-		strs_err << __FUNC__ << ": SweptArea not valid" << std::endl;
+		strs_err << __func__ << ": Invalid SweptArea. Entity ID: " << entity_id << std::endl;
 		return;
 	}
 	shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter(swept_area);
@@ -374,7 +367,7 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	}
 	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
 	GeomUtils::extrude( paths, extrusion_vector, poly_data, strs_err );
-	item_data->closed_polyhedrons.push_back( poly_data );
+	item_data->addOpenOrClosedPolyhedron( poly_data );
 
 #ifdef _DEBUG
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
@@ -403,7 +396,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	if( !swept_area_profile )
 	{
 #ifdef _DEBUG
-		strs_err << __FUNC__ << ": SweptArea not valid" << std::endl;
+		strs_err << __func__ << ": Invalid SweptArea. Entity ID: " << revolved_area->getId() << std::endl;
 #endif
 		return;
 	}
@@ -463,7 +456,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		if( abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
-			strs_err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+			strs_err << __func__ << ": abs( signed_area ) < 0.001. Entity ID: " << revolved_area->getId() << std::endl;
 #endif
 			continue;
 		}
@@ -496,7 +489,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 			if( loop_number >= profile_coords.size() )
 			{
 #ifdef _DEBUG
-				std::cout << __FUNC__ << ": loop_number >= profile_coords.size()" << std::endl;
+				strs_err << __func__ << ": loop_number >= profile_coords.size(). Entity ID: " << revolved_area->getId() << std::endl;
 #endif
 				continue;
 			}
@@ -512,7 +505,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	catch(...)
 	{
 #ifdef _DEBUG
-		strs_err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
+		strs_err << __func__ << ": carve::triangulate::incorporateHolesIntoPolygon failed. Entity ID: " << revolved_area->getId() << std::endl;
 #endif
 		return;
 	}
@@ -520,14 +513,14 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	if( profile_coords.size() == 0 )
 	{
 #ifdef _DEBUG
-		strs_err << "#" << revolved_area->getId() << " = IfcRevolvedAreaSolid: convertIfcRevolvedAreaSolid: num_loops == 0";
+		strs_err << __func__ << ": profile_coords.size() == 0. Entity ID: " << revolved_area->getId() << std::endl;
 #endif
 		return;
 	}
 	if( profile_coords[0].size() < 3 )
 	{
 #ifdef _DEBUG
-		strs_err << "#" << revolved_area->getId() << " = IfcRevolvedAreaSolid: convertIfcRevolvedAreaSolid: num_polygon_points < 3";
+		strs_err << __func__ << ": profile_coords[0].size() < 3. Entity ID: " << revolved_area->getId() << std::endl;
 #endif
 		return;
 	}
@@ -556,8 +549,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	}
 
 	shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-	item_data->closed_polyhedrons.push_back(polyhedron_data);
-
+	
 	// create vertices
 	carve::math::Matrix m;
 	for( int ii = 0; ii <= num_segments; ++ii )
@@ -637,7 +629,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			std::cout << __FUNC__ << ": area < 0.000000001\n" << std::endl;
+			strs_err << __func__ << ": std::abs(A) < 0.000000001. Entity ID: " << revolved_area->getId() << std::endl;
 		}
 #endif
 
@@ -677,12 +669,14 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		polyhedron_data->addFace( j_offset+num_vertices_per_section, j_offset+num_vertices_per_section*2-1, j_offset+num_vertices_per_section-1 );
 	}
 
+	item_data->addOpenOrClosedPolyhedron(polyhedron_data);
+
 #ifdef _DEBUG
 	std::stringstream strs_err;
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh(carve::input::opts()) );
 	if( meshset->meshes.size() != 1 )
 	{
-		std::cout << __FUNC__ << ": meshset->meshes.size() != 1" << std::endl;
+		strs_err << __func__ << ": meshset->meshes.size() != 1. Entity ID: " << revolved_area->getId() << std::endl;
 	}
 	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err, -1 );
 
@@ -697,14 +691,14 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 
 void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
 {
-	const int boolean_result_id = bool_result->getId();
+	const int entity_id = bool_result->getId();
 	shared_ptr<IfcBooleanOperator>& ifc_boolean_operator = bool_result->m_Operator;
 	shared_ptr<IfcBooleanOperand> ifc_first_operand = bool_result->m_FirstOperand;
 	shared_ptr<IfcBooleanOperand> ifc_second_operand = bool_result->m_SecondOperand;
 	if( !ifc_boolean_operator || !ifc_first_operand || !ifc_second_operand )
 	{
 #ifdef _DEBUG
-		std::cout << __FUNC__ << ": invalid IfcBooleanOperator or IfcBooleanOperand" << std::endl;
+		strs_err << __func__ << ": invalid IfcBooleanOperator or IfcBooleanOperand. Entity ID: " << entity_id << std::endl;
 #endif
 		return;
 	}
@@ -723,7 +717,7 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	}
 	else
 	{
-		strs_err << __FUNC__ << ": invalid IfcBooleanOperator" << std::endl;
+		strs_err << __FUNC__ << ": invalid IfcBooleanOperator. Entity id:" << entity_id << std::endl;
 	}
 
 	int id1 = 0;
@@ -742,12 +736,10 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	shared_ptr<ItemData> first_operand_data( new ItemData() );
 	shared_ptr<ItemData> empty_operand;
 	convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand, strs_err );
-	first_operand_data->createMeshSetsFromClosedPolyhedrons();
 
 	// convert the second operand
 	shared_ptr<ItemData> second_operand_data( new ItemData() );
 	convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data, strs_err );
-	second_operand_data->createMeshSetsFromClosedPolyhedrons();
 		
 	// for every first operand polyhedrons, apply all second operand polyhedrons
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_first_operands;
@@ -840,7 +832,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		polyhedron_data->addFace(3, 7, 4);
 		polyhedron_data->addFace(4, 0, 3);
 
-		item_data->closed_polyhedrons.push_back( polyhedron_data );
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
 
@@ -877,7 +869,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		polyhedron_data->addFace(0,	4, 3);
 		polyhedron_data->addFace(0,	3, 2);
 
-		item_data->closed_polyhedrons.push_back( polyhedron_data );
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
 
@@ -887,14 +879,14 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !right_circular_cone->m_Height )
 		{
 #ifdef _DEBUG
-			std::cout << "IfcRightCircularCone: height not given" << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCone: invalid Height. Entity ID: " << csg_primitive->getId() << std::endl;
 #endif
 			return;
 		}
 		if( !right_circular_cone->m_BottomRadius )
 		{
 #ifdef _DEBUG
-			std::cout << "IfcRightCircularCone: radius not given" << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCone: invalid BottomRadius. Entity ID: " << csg_primitive->getId() << std::endl;
 #endif
 			return;
 		}
@@ -927,7 +919,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		}
 		polyhedron_data->addFace(1, m_geom_settings->m_num_vertices_per_circle+1, 2 );
 
-		item_data->closed_polyhedrons.push_back( polyhedron_data );
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
 
@@ -937,7 +929,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !right_circular_cylinder->m_Height )
 		{
 #ifdef _DEBUG
-			std::cout << "IfcRightCircularCylinder: height not given" << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCylinder: invalid Height. Entity ID: " << csg_primitive->getId() << std::endl;
 #endif
 			return;
 		}
@@ -945,7 +937,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !right_circular_cylinder->m_Radius )
 		{
 #ifdef _DEBUG
-			std::cout << "IfcRightCircularCylinder: radius not given" << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCylinder: invalid Radius. Entity ID: " << csg_primitive->getId() << std::endl;
 #endif
 			return;
 		}
@@ -953,7 +945,6 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		int slices = m_geom_settings->m_num_vertices_per_circle;
 		double rad = 0;
 
-		//carve::mesh::MeshSet<3> * cylinder_mesh = makeCylinder( slices, rad, height, primitive_placement_matrix);
 		double height = right_circular_cylinder->m_Height->m_value*length_factor;
 		double radius = right_circular_cylinder->m_Radius->m_value*length_factor;
 
@@ -970,16 +961,14 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		{
 			polyhedron_data->addFace( 0, i*2+2, i*2+4 );		// top cap:		0-2-4	0-4-6		0-6-8
 			polyhedron_data->addFace( 1, i*2+3, i*2+5 );		// bottom cap:	1-3-5	1-5-7		1-7-9
-			//polyhedron_data->addFace( i, i+1, i+3, i+2 );		// side
 			polyhedron_data->addFace( i, i+1, i+3 );		// side
 			polyhedron_data->addFace( i+3, i+2, i );		// side
 		}
 
-		//polyhedron_data->addFace( 2*m_geom_settings->m_num_vertices_per_circle-2,	2*m_geom_settings->m_num_vertices_per_circle-1,		1,	0 );		// side
 		polyhedron_data->addFace( 2*m_geom_settings->m_num_vertices_per_circle-2,	2*m_geom_settings->m_num_vertices_per_circle-1,		1 );		// side
 		polyhedron_data->addFace( 1,	0,	2*m_geom_settings->m_num_vertices_per_circle-2 );		// side
 
-		item_data->closed_polyhedrons.push_back( polyhedron_data );
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
 
@@ -989,7 +978,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !sphere->m_Radius )
 		{
 #ifdef _DEBUG
-			std::cout << "IfcSphere: radius not given" << std::endl;
+			strs_err << __func__ << ": IfcSphere: invalid Radius. Entity ID: " << csg_primitive->getId() << std::endl;
 #endif
 			return;
 		}
@@ -1041,11 +1030,9 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 			int offset_outer = nvc*vertical + 1;
 			for( int i = 0; i < nvc-1; ++i )
 			{
-				//polyhedron_data->addFace( offset_inner+i, offset_inner+1+i, offset_outer+1+i,  offset_outer+i );
 				polyhedron_data->addFace( offset_inner+i,		offset_inner+1+i,	offset_outer+1+i );
 				polyhedron_data->addFace( offset_outer+1+i,		offset_outer+i,		offset_inner+i );
 			}
-			//polyhedron_data->addFace( offset_inner+nvc-1, offset_inner, offset_outer,  offset_outer+nvc-1 );
 			polyhedron_data->addFace( offset_inner+nvc-1,	offset_inner,			offset_outer );
 			polyhedron_data->addFace( offset_outer,			offset_outer+nvc-1,		offset_inner+nvc-1 );
 
@@ -1058,7 +1045,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 			polyhedron_data->addFace(last_index, last_index-(i+2), last_index-(i+1) );
 		}
 		polyhedron_data->addFace(last_index, last_index-1, last_index-nvc);
-		item_data->closed_polyhedrons.push_back( polyhedron_data );
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
 	strs_err << "Unhandled IFC Representation: #" << csg_primitive->getId() << "=" << csg_primitive->classname() << std::endl;
@@ -1098,7 +1085,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 		return;
 	}
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
-
+	
 	shared_ptr<IfcHalfSpaceSolid> half_space_solid = dynamic_pointer_cast<IfcHalfSpaceSolid>(operand);
 	if( half_space_solid )
 	{
@@ -1109,7 +1096,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 		shared_ptr<IfcElementarySurface> elem_base_surface = dynamic_pointer_cast<IfcElementarySurface>(base_surface);
 		if( !elem_base_surface )
 		{
-			strs_err << __FUNC__ << ": The base surface shall be an unbounded surface (subtype of IfcElementarySurface)" << std::endl;
+			strs_err << __FUNC__ << ": The base surface shall be an unbounded surface (subtype of IfcElementarySurface). Entity ID: " << half_space_solid->getId() << std::endl;
 			return;
 		}
 		shared_ptr<IfcAxis2Placement3D>& base_surface_pos = elem_base_surface->m_Position;
@@ -1135,13 +1122,13 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			shared_ptr<IfcBoundingBox> bbox = boxed_half_space->m_Enclosure;
 			if( !bbox )
 			{
-				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not given" << std::endl;
+				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not given. Entity ID: " << half_space_solid->getId() << std::endl;
 				return;
 			}
 
 			if( !bbox->m_Corner || !bbox->m_XDim || !bbox->m_YDim || !bbox->m_ZDim )
 			{
-				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not valid" << std::endl;
+				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not valid. Entity ID: " << half_space_solid->getId() << std::endl;
 				return;
 			}
 			shared_ptr<IfcCartesianPoint>&			bbox_corner = bbox->m_Corner;
@@ -1177,8 +1164,6 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			polyhedron_data->addFace(3, 7, 4);
 			polyhedron_data->addFace(4, 0, 3);
 
-			item_data->closed_polyhedrons.push_back( polyhedron_data );
-
 			// apply box coordinate system
 			for( std::vector<carve::geom::vector<3> >::iterator it_points = polyhedron_data->points.begin(); it_points != polyhedron_data->points.end(); ++it_points )
 			{
@@ -1186,6 +1171,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				poly_point = box_position_matrix*poly_point;
 			}
 
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 
@@ -1195,7 +1181,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 		if( other_operand )
 		{
 			carve::geom::aabb<3> aabb;
-			other_operand->createMeshSetsFromClosedPolyhedrons();
+			
 			for( int ii=0; ii<other_operand->meshsets.size(); ++ii )
 			{
 				shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->meshsets[ii];
@@ -1242,10 +1228,6 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			ProfileConverter::deleteLastPointIfEqualToFirst( polygonal_boundary );
 			ProfileConverter::simplifyPath( polygonal_boundary );
 
-			//if( other_operand )
-			//{
-			//	extrusion_depth = extrusion_depth*2.0;
-			//}
 			carve::geom::vector<3> solid_extrusion_direction = boundary_plane_normal;
 			double agreement_check = dot( base_surface_plane.N, boundary_plane_normal );
 			if( agreement_check > 0 )
@@ -1262,7 +1244,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			const int num_poly_boundary_points = polygonal_boundary.size();
 			if( poly_data->points.size() != 2*num_poly_boundary_points )
 			{
-				strs_err << __FUNC__ << " problems in extrude: poly_data->points.size() != 2*polygonal_boundary.size()" << std::endl;
+				strs_err << __FUNC__ << " problems in extrude: poly_data->points.size() != 2*polygonal_boundary.size(). Entity ID: " << polygonal_half_space->getId() << std::endl;
 				return;
 			}
 
@@ -1275,7 +1257,6 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				carve::geom::vector<3>& poly_point = poly_data->points[i_base_point];//(*it_points);
 
 				// points below the base surface are projected into plane
-				//double distance_to_base_surface = carve::geom::distance(base_surface_plane, poly_point);
 				carve::geom::vector<3> v;
 				double t;
 				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( base_surface_plane, poly_point, poly_point + boundary_plane_normal, v, t);
@@ -1307,12 +1288,12 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				else
 				{
 #ifdef _DEBUG
-					std::cout << "no intersection found" << std::endl;
+					strs_err << __FUNC__ << ": no intersection found. Entity ID: " << polygonal_half_space->getId() << std::endl;
 #endif
 				}
 			}
 
-			item_data->closed_polyhedrons.push_back( poly_data );
+			item_data->addOpenOrClosedPolyhedron( poly_data );
 		}
 		else
 		{
@@ -1330,7 +1311,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				if( base_surface_points.size() != 4 )
 				{
 #ifdef _DEBUG
-					std::cout << __FUNC__ << ": invalid IfcHalfSpaceSolid.BaseSurface" << std::endl;
+					strs_err << __FUNC__ << ": invalid IfcHalfSpaceSolid.BaseSurface. Entity ID: " << polygonal_half_space->getId() << std::endl;
 #endif
 					return;
 				}
@@ -1341,12 +1322,11 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 					std::reverse( base_surface_points.begin(), base_surface_points.end() );
 				}
 				carve::geom::vector<3>  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
-
 				carve::geom::vector<3>  half_space_extrusion_direction = -base_surface_normal;
 				carve::geom::vector<3>  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
 				shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
-				item_data->closed_polyhedrons.push_back(half_space_box_data);
 				extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
+				item_data->addOpenOrClosedPolyhedron(half_space_box_data);
 			}
 			
 			if( var == 1 )
@@ -1368,8 +1348,8 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				}
 
 				shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
-				item_data->closed_polyhedrons.push_back(half_space_box_data);
 				extrudeBox( box_base_points, half_space_extrusion_vector, half_space_box_data );
+				item_data->addOpenOrClosedPolyhedron(half_space_box_data);
 			}
 
 			return;

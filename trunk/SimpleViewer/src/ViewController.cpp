@@ -31,12 +31,13 @@ ViewController::ViewController()
 	m_rootnode->setName("m_rootnode");
 	m_sw_model = new osg::Switch();
 	m_rootnode->addChild( m_sw_model.get() );
-
+	
 	m_sw_bound = new osg::Switch();
 	m_sw_bound->setName("m_sw_bound");
 	m_rootnode->addChild( m_sw_bound );
 	m_transparent_model = false;
 	m_viewer_mode = VIEWER_MODE_SHADED;
+	m_show_curve_representation = true;
 
 	m_shinyness = 35.f;
 	m_material_default = new osg::Material();

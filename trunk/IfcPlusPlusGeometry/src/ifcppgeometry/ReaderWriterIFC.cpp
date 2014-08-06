@@ -626,8 +626,6 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	for( size_t i_item=0; i_item<product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
-		// create shape for closed shells
-		item_data->createMeshSetsFromClosedPolyhedrons();
 		item_data->applyPosition( product_placement_matrix );
 	}
 
@@ -647,37 +645,15 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
 
 		// create shape for open shells
-		for( size_t i=0; i<item_data->open_polyhedrons.size(); ++i )
+		for( auto it_meshsets = item_data->meshsets_open.begin(); it_meshsets != item_data->meshsets_open.end(); ++it_meshsets )
 		{
-			shared_ptr<carve::input::PolyhedronData>& shell_data = item_data->open_polyhedrons[i];
-			if( shell_data->getVertexCount() < 3 )
-			{
-				continue;
-			}
-			
-			shared_ptr<carve::mesh::MeshSet<3> > open_shell_meshset( shell_data->createMesh(carve::input::opts()) );
-			CSG_Adapter::retriangulateMeshSet( open_shell_meshset );
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
+			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			ConverterOSG::drawMeshSet( open_shell_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
-			item_group->addChild(geode);
+			ConverterOSG::drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 
 			// disable back face culling for open meshes
 			geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
-		}
-
-		// create shape for open or closed shells
-		for( size_t i_poly=0; i_poly<item_data->open_or_closed_polyhedrons.size(); ++i_poly )
-		{
-			shared_ptr<carve::input::PolyhedronData>& shell_data = item_data->open_or_closed_polyhedrons[i_poly];
-			if( shell_data->getVertexCount() < 3 )
-			{
-				continue;
-			}
-
-			shared_ptr<carve::mesh::MeshSet<3> > open_or_closed_shell_meshset( shell_data->createMesh(carve::input::opts()) );
-			CSG_Adapter::retriangulateMeshSet( open_or_closed_shell_meshset );
-			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			ConverterOSG::drawMeshSet( open_or_closed_shell_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild(geode);
 		}
 
@@ -746,7 +722,6 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 						item_group->setStateSet( item_stateset );
 
 						osg::StateSet* existing_item_stateset = item_group->getStateSet();
-
 						if( existing_item_stateset )
 						{
 							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
@@ -833,7 +808,6 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 						}
 					}
 				}
-				
 				continue;
 			}
 		}
@@ -849,12 +823,10 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 
 		osg::StateSet* next_product_stateset = AppearanceManagerOSG::convertToStateSet( appearance );
-
 		osg::StateSet* existing_item_stateset = product_switch->getStateSet();
 		if( existing_item_stateset )
 		{
 			osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-			
 			merged_product_stateset->merge( *next_product_stateset );
 			product_switch->setStateSet( merged_product_stateset );
 		}
@@ -863,7 +835,6 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			product_switch->setStateSet( next_product_stateset );
 		}
 	}
-
 
 	// enable transparency for certain objects
 	if( dynamic_pointer_cast<IfcSpace>(product) )

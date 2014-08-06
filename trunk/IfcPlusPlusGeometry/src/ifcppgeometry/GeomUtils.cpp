@@ -724,7 +724,7 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 		std::vector<carve::geom2d::P2> path_loop_2d;
 		std::vector<double> path_loop_3rd_dim;
 
-		for( int i=0; i<loop_points.size(); ++i )
+		for( size_t i=0; i<loop_points.size(); ++i )
 		{
 			const carve::geom::vector<3>& point = loop_points[i];
 
@@ -1293,7 +1293,7 @@ void GeomUtils::sweepDisk( std::vector<carve::geom::vector<3> >& basis_curve_poi
 	}
 
 	shared_ptr<carve::input::PolyhedronData> pipe_data( new carve::input::PolyhedronData() );
-	item_data_solid->closed_polyhedrons.push_back( pipe_data );
+	
 	carve::geom::vector<3>  curve_point_first = basis_curve_points[0];
 	carve::geom::vector<3>  curve_point_second = basis_curve_points[1];
 
@@ -1574,6 +1574,8 @@ void GeomUtils::sweepDisk( std::vector<carve::geom::vector<3> >& basis_curve_poi
 			pipe_data->addFace( back_offset, back_offset+jj+2, back_offset+jj+1 );
 		}
 	}
+
+	item_data_solid->addOpenOrClosedPolyhedron( pipe_data );
 
 #ifdef _DEBUG
 	std::stringstream strs_err;
@@ -2099,7 +2101,7 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 	}
 #endif
 
-	item_data_solid->closed_polyhedrons.push_back( poly_cache.m_poly_data );
+	item_data_solid->addOpenOrClosedPolyhedron( poly_cache.m_poly_data );
 }
 
 void GeomUtils::computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv ) 
