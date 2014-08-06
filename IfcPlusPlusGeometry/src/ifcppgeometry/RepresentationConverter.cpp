@@ -425,10 +425,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		{
 			shared_ptr<IfcConnectedFaceSet> face_set = ( *it_face_sets );
 			std::vector<shared_ptr<IfcFace> >& vec_ifc_faces = face_set->m_CfsFaces;
-
-			shared_ptr<ItemData> input_data_face_set( new ItemData );
-			m_face_converter->convertIfcFaceList( vec_ifc_faces, input_data_face_set, strs_err );
-			std::copy( input_data_face_set->open_or_closed_polyhedrons.begin(), input_data_face_set->open_or_closed_polyhedrons.end(), std::back_inserter( item_data->open_polyhedrons ) );
+			m_face_converter->convertIfcFaceList( vec_ifc_faces, item_data, strs_err );
 		}
 
 		return;
@@ -480,10 +477,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			if( closed_shell )
 			{
 				std::vector<shared_ptr<IfcFace> >& vec_ifc_faces = closed_shell->m_CfsFaces;
-
-				shared_ptr<ItemData> input_data( new ItemData() );
-				m_face_converter->convertIfcFaceList( vec_ifc_faces, input_data, strs_err );
-				std::copy( input_data->open_or_closed_polyhedrons.begin(), input_data->open_or_closed_polyhedrons.end(), std::back_inserter( item_data->closed_polyhedrons ) );
+				m_face_converter->convertIfcFaceList( vec_ifc_faces, item_data, strs_err );
 
 				if( closed_shell->m_StyledByItem_inverse.size() > 0 )
 				{
@@ -510,9 +504,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			if( open_shell )
 			{
 				std::vector<shared_ptr<IfcFace> >& vec_ifc_faces = open_shell->m_CfsFaces;
-				shared_ptr<ItemData> input_data( new ItemData() );
-				m_face_converter->convertIfcFaceList( vec_ifc_faces, input_data, strs_err );
-				std::copy( input_data->open_or_closed_polyhedrons.begin(), input_data->open_or_closed_polyhedrons.end(), std::back_inserter( item_data->open_polyhedrons ) );
+				m_face_converter->convertIfcFaceList( vec_ifc_faces, item_data, strs_err );
 
 				if( open_shell->m_StyledByItem_inverse.size() > 0 )
 				{
@@ -705,7 +697,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 
 		PolyInputCache3D poly_cache;
 		GeomUtils::createFace( face_loops, poly_cache, strs_err );
-		item_data->open_polyhedrons.push_back( poly_cache.m_poly_data );
+		item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 
 		return;
 	}
@@ -786,10 +778,8 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		for( int i_item = 0; i_item < vec_opening_items.size(); ++i_item )
 		{
 			shared_ptr<ItemData>& opening_item_data = vec_opening_items[i_item];
-			opening_item_data->createMeshSetsFromClosedPolyhedrons();
 
-			std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_opening_meshsets = opening_item_data->meshsets.begin();
-			for( ; it_opening_meshsets != opening_item_data->meshsets.end(); ++it_opening_meshsets )
+			for( auto it_opening_meshsets = opening_item_data->meshsets.begin(); it_opening_meshsets != opening_item_data->meshsets.end(); ++it_opening_meshsets )
 			{
 				shared_ptr<carve::mesh::MeshSet<3> > opening_meshset = ( *it_opening_meshsets );
 
@@ -807,27 +797,29 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		}
 	}
 
-	std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
-	for( int i_item = 0; i_item < product_items.size(); ++i_item )
+	if( unified_opening_meshset )
 	{
-		shared_ptr<ItemData> item_data = product_items[i_item];
-
-		// now go through all meshsets of the item
-		for( int i_product_meshset = 0; i_product_meshset < item_data->meshsets.size(); ++i_product_meshset )
+		std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
+		for( int i_item = 0; i_item < product_items.size(); ++i_item )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->meshsets[i_product_meshset];
-			std::stringstream strs_meshset_err;
-			bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset.get(), strs_meshset_err, product_id );
-			if( !product_meshset_valid_for_csg )
+			shared_ptr<ItemData> item_data = product_items[i_item];
+
+			// now go through all meshsets of the item
+			for( int i_product_meshset = 0; i_product_meshset < item_data->meshsets.size(); ++i_product_meshset )
 			{
-				continue;
+				shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->meshsets[i_product_meshset];
+				std::stringstream strs_meshset_err;
+				bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset.get(), strs_meshset_err, product_id );
+				if( !product_meshset_valid_for_csg )
+				{
+					continue;
+				}
+
+				// do the subtraction
+				shared_ptr<carve::mesh::MeshSet<3> > result;
+				CSG_Adapter::computeCSG( product_meshset, unified_opening_meshset, carve::csg::CSG::A_MINUS_B, product_id, -1, strs_err, result );
+				product_meshset = result;
 			}
-
-
-			// do the subtraction
-			shared_ptr<carve::mesh::MeshSet<3> > result;
-			CSG_Adapter::computeCSG( product_meshset, unified_opening_meshset, carve::csg::CSG::A_MINUS_B, product_id, -1, strs_err, result );
-			product_meshset = result;
 		}
 	}
 }

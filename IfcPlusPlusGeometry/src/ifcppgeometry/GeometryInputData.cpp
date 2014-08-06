@@ -7,34 +7,41 @@ ItemData::~ItemData()
 {
 }
 
-void ItemData::createMeshSetsFromClosedPolyhedrons()
+void ItemData::addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
 {
-	for( size_t i=0; i<closed_polyhedrons.size(); ++i )
+	// check if it is open or closed
+	if( poly_data->getVertexCount() < 3 )
 	{
-		shared_ptr<carve::input::PolyhedronData>& poly_data = closed_polyhedrons[i];
-		if( poly_data->getVertexCount() < 3 )
-		{
-			continue;
-		}
-
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-		//if( meshset->isClosed() )
-		{
-			meshsets.push_back( meshset );
-		}
-		//else
-		//{
-		//	item_meshsets_open.push_back( meshset );
-		//}
+		return;
 	}
-	closed_polyhedrons.clear();
+
+	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+	if( meshset->isClosed() )
+	{
+		meshsets.push_back( meshset );
+	}
+	else
+	{
+		meshsets_open.push_back( meshset );
+	}
 }
+
+void ItemData::addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
+{
+	if( poly_data->getVertexCount() < 3 )
+	{
+		return;
+	}
+
+	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+	meshsets_open.push_back( meshset );
+
+}
+
 
 void ItemData::addItemData( shared_ptr<ItemData>& other )
 {
-	std::copy( other->closed_polyhedrons.begin(),			other->closed_polyhedrons.end(),			std::back_inserter( closed_polyhedrons ) );
-	std::copy( other->open_polyhedrons.begin(),				other->open_polyhedrons.end(),				std::back_inserter( open_polyhedrons ) );
-	std::copy( other->open_or_closed_polyhedrons.begin(),	other->open_or_closed_polyhedrons.end(),	std::back_inserter( open_or_closed_polyhedrons ) );
+	std::copy( other->meshsets_open.begin(),				other->meshsets_open.end(),					std::back_inserter( meshsets_open ) );
 	std::copy( other->polylines.begin(),					other->polylines.end(),						std::back_inserter( polylines ) );
 	std::copy( other->meshsets.begin(),						other->meshsets.end(),						std::back_inserter( meshsets ) );
 	std::copy( other->vec_item_appearances.begin(),			other->vec_item_appearances.end(),			std::back_inserter( vec_item_appearances ) );
@@ -42,9 +49,7 @@ void ItemData::addItemData( shared_ptr<ItemData>& other )
 
 bool ItemData::isEmpty()
 {
-	if( closed_polyhedrons.size() > 0 )			{ return false; }
-	if( open_polyhedrons.size() > 0 )			{ return false; }
-	if( open_or_closed_polyhedrons.size() > 0 ) { return false; }
+	if( meshsets_open.size() > 0 )				{ return false; }
 	if( polylines.size() > 0 )					{ return false; }
 	if( meshsets.size() > 0 )					{ return false; }
 	if( vec_item_appearances.size() > 0 )		{ return false; }
@@ -79,48 +84,31 @@ bool isIdentity( const carve::math::Matrix& mat )
 }
 
 
-
 void ItemData::applyPosition( const carve::math::Matrix& mat )
 {
 	if( isIdentity( mat ) )
 	{
 		return;
 	}
-	for( size_t i=0; i<open_polyhedrons.size(); ++i )
-	{
-		shared_ptr<carve::input::PolyhedronData>& shell_data = open_polyhedrons[i];
-		for( size_t j=0; j<shell_data->points.size(); ++j )
-		{
-			carve::geom::vector<3>& point = shell_data->points[j];
-			point = mat*point;
-		}
-	}
 
-	for( size_t i=0; i<closed_polyhedrons.size(); ++i )
-	{
-		shared_ptr<carve::input::PolyhedronData>& shell_data = closed_polyhedrons[i];
-		for( size_t j=0; j<shell_data->points.size(); ++j )
-		{
-			carve::geom::vector<3>& point = shell_data->points[j];
-			point = mat*point;
-		}
-	}
-
-	for( size_t i_poly=0; i_poly<open_or_closed_polyhedrons.size(); ++i_poly )
-	{
-		shared_ptr<carve::input::PolyhedronData>& shell_data = open_or_closed_polyhedrons[i_poly];
-
-		for( size_t j=0; j<shell_data->points.size(); ++j )
-		{
-			carve::geom::vector<3>& point = shell_data->points[j];
-			point = mat*point;
-		}
-	}
-
-	for( std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_meshsets = meshsets.begin(); it_meshsets != meshsets.end(); ++it_meshsets )
+	for( auto it_meshsets = meshsets_open.begin(); it_meshsets != meshsets_open.end(); ++it_meshsets )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-		//item_meshset->transform( mat );
+
+		for (size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
+		{
+			carve::geom::vector<3>& point = item_meshset->vertex_storage[i].v;
+			point = mat*point;
+		}
+		for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
+		{
+			item_meshset->meshes[i]->recalc();
+        }
+	}
+
+	for( auto it_meshsets = meshsets.begin(); it_meshsets != meshsets.end(); ++it_meshsets )
+	{
+		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
 
 		for (size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
 		{
@@ -154,32 +142,19 @@ shared_ptr<ItemData> ItemData::getDeepCopy()
 {
 	shared_ptr<ItemData> copy_item( new ItemData() );
 
-	for( size_t i=0; i<open_polyhedrons.size(); ++i )
-	{
-		shared_ptr<carve::input::PolyhedronData>& shell_data_ptr = open_polyhedrons[i];
-		carve::input::PolyhedronData& shell_data = *(shell_data_ptr.get());
-		copy_item->open_polyhedrons.push_back( shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData( shell_data ) ) );
-	}
-
-	for( size_t i=0; i<closed_polyhedrons.size(); ++i )
-	{
-		shared_ptr<carve::input::PolyhedronData>& shell_data = closed_polyhedrons[i];
-		copy_item->closed_polyhedrons.push_back( shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData( *(shell_data.get()) ) ) );
-	}
-
-	for( size_t i_poly=0; i_poly<open_or_closed_polyhedrons.size(); ++i_poly )
-	{
-		shared_ptr<carve::input::PolyhedronData>& shell_data = open_or_closed_polyhedrons[i_poly];
-		copy_item->open_or_closed_polyhedrons.push_back( shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData( *(shell_data.get()) ) ) );
-	}
-
-	for( std::vector<shared_ptr<carve::mesh::MeshSet<3> > >::iterator it_meshsets = meshsets.begin(); it_meshsets != meshsets.end(); ++it_meshsets )
+	for( auto it_meshsets = meshsets_open.begin(); it_meshsets != meshsets_open.end(); ++it_meshsets )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
 		copy_item->meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
 	}
 
-	for( int polyline_i = 0; polyline_i < polylines.size(); ++polyline_i )
+	for( auto it_meshsets = meshsets.begin(); it_meshsets != meshsets.end(); ++it_meshsets )
+	{
+		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
+		copy_item->meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
+	}
+
+	for( size_t polyline_i = 0; polyline_i < polylines.size(); ++polyline_i )
 	{
 		shared_ptr<carve::input::PolylineSetData>& polyline_data = polylines[polyline_i];
 		copy_item->polylines.push_back( shared_ptr<carve::input::PolylineSetData>( new carve::input::PolylineSetData( *(polyline_data.get()) ) ) );
@@ -208,7 +183,6 @@ void ShapeInputData::deepCopyFrom( shared_ptr<ShapeInputData>& other )
 		vec_item_data.push_back( shared_ptr<ItemData>( item_data->getDeepCopy() ) );
 	}
 	std::copy( other->vec_appearances.begin(), other->vec_appearances.end(), std::back_inserter( vec_appearances ) );
-	//addInputData( other );
 }
 
 void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )

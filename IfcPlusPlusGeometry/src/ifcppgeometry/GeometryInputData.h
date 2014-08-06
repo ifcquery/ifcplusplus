@@ -62,16 +62,16 @@ class ItemData
 public:
 	ItemData();
 	~ItemData();
-	std::vector<shared_ptr<carve::input::PolyhedronData> >	closed_polyhedrons;
-	std::vector<shared_ptr<carve::input::PolyhedronData> >	open_polyhedrons;
-	std::vector<shared_ptr<carve::input::PolyhedronData> >	open_or_closed_polyhedrons;
+	
 	std::vector<shared_ptr<carve::input::PolylineSetData> > polylines;
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		meshsets;
+	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		meshsets_open;
 	std::vector<shared_ptr<AppearanceData> >				vec_item_appearances;
 	std::vector<shared_ptr<TextItemData> >					vec_text_literals;
 
 	bool isEmpty();
-	void createMeshSetsFromClosedPolyhedrons();
+	void addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data );
+	void addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data );
 	void applyPosition( const carve::math::Matrix& mat );
 	shared_ptr<ItemData> getDeepCopy();
 	

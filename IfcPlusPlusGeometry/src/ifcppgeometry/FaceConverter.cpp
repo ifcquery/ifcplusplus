@@ -309,8 +309,8 @@ void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >&
 		}
 		GeomUtils::createFace( face_loops, poly_cache, strs_err );
 	}
-	// IfcFaceList can be a closed or open shell, so let the calling function decide where to put it
-	item_data->open_or_closed_polyhedrons.push_back( poly_cache.m_poly_data );
+	// IfcFaceList can be a closed or open shell
+	item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data );
 }
 
 

@@ -160,6 +160,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -470,7 +471,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseNoOptimization|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="src\cmd\CmdLoadIfcFile.cpp" />
+    <ClCompile Include="src\cmd\LoadIfcFileCommand.cpp" />
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp" />
     <ClCompile Include="src\cmd\CmdWriteIfcFile.cpp" />
     <ClCompile Include="src\cmd\Command.cpp" />
@@ -487,7 +488,7 @@
     <ClCompile Include="src\viewer\ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\cmd\CmdLoadIfcFile.h" />
+    <ClInclude Include="src\cmd\LoadIfcFileCommand.h" />
     <ClInclude Include="src\cmd\CmdRemoveSelectedObjects.h" />
     <ClInclude Include="src\cmd\CmdWriteIfcFile.h" />
     <ClInclude Include="src\cmd\Command.h" />
