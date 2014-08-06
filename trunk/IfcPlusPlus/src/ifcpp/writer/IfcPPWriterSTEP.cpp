@@ -24,16 +24,16 @@
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
 
-#include "ifcpp/writer/IfcStepWriter.h"
+#include "ifcpp/writer/IfcPPWriterSTEP.h"
 
-IfcStepWriter::IfcStepWriter()
+IfcPPWriterSTEP::IfcPPWriterSTEP()
 {
 }
-IfcStepWriter::~IfcStepWriter()
+IfcPPWriterSTEP::~IfcPPWriterSTEP()
 {
 }
 
-void IfcStepWriter::writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
+void IfcPPWriterSTEP::writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {
 	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
 	setlocale(LC_NUMERIC,"C");

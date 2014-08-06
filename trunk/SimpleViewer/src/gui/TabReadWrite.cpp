@@ -15,8 +15,8 @@
 #include <QtGui/qevent.h>
 #include <QtCore/QSettings>
 
-#include <ifcpp/reader/IfcPlusPlusReader.h>
-#include <ifcpp/writer/IfcStepWriter.h>
+#include <ifcpp/reader/IfcPPReader.h>
+#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>

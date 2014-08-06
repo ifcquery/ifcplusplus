@@ -70,7 +70,8 @@ public:
 	void clearCache();
 	void initFileHeader( std::string file_name );
 
-	friend class IfcStepReader;
+	friend class IfcPPReaderSTEP;
+	friend class IfcPPReaderXML;
 
 private:
 	std::map<int,shared_ptr<IfcPPEntity> >			m_map_entities;

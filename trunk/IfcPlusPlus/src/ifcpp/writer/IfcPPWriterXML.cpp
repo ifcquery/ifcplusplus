@@ -11,14 +11,15 @@
  * OpenSceneGraph Public License for more details.
 */
 
-#pragma once
+#include <vector>
+#include <map>
+#include <string>
+#include <sstream>
+#include "ifcpp/model/IfcPPModel.h"
 
-#include "IfcPlusPlusWriter.h"
+#include "ifcpp/writer/IfcPPWriterXML.h"
 
-class IfcXmlWriter : public IfcPlusPlusWriter
+void IfcPPWriterXML::writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {
-public:
-	IfcXmlWriter();
-	~IfcXmlWriter();
-	virtual void writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model );
-};
+	// not implemented
+}

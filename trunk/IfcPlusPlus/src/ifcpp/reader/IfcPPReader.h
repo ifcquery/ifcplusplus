@@ -13,12 +13,20 @@
 
 #pragma once
 
-#include "IfcPlusPlusWriter.h"
+#include <vector>
+#include <map>
+#include "ifcpp/model/shared_ptr.h"
+#include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPModel.h"
+#include "ifcpp/model/StatusObservable.h"
 
-class IfcStepWriter : public IfcPlusPlusWriter
+class IfcPPReader : public StatusObservable
 {
 public:
-	IfcStepWriter();
-	~IfcStepWriter();
-	virtual void writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model );
+	IfcPPReader();
+	~IfcPPReader();
+	virtual void removeComments( std::string& buffer ) = 0;
+	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model ) = 0;
+	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
+	virtual void readStreamData( std::string& in, shared_ptr<IfcPPModel>& model ) = 0;
 };

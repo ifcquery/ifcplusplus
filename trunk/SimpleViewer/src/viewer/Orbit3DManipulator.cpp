@@ -12,8 +12,8 @@
 
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/reader/IfcStepReader.h>
-#include <ifcpp/writer/IfcStepWriter.h>
+#include <ifcpp/reader/IfcPPReaderSTEP.h>
+#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcRelationship.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>

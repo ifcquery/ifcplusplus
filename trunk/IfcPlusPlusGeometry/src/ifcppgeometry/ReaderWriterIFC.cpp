@@ -50,9 +50,8 @@
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/IfcPPOpenMP.h>
-#include <ifcpp/reader/IfcStepReader.h>
-#include <ifcpp/reader/IfcPlusPlusReader.h>
-#include <ifcpp/writer/IfcStepWriter.h>
+#include <ifcpp/reader/IfcPPReaderSTEP.h>
+#include <ifcpp/writer/IfcPPWriterSTEP.h>
 
 #include "GeometrySettings.h"
 #include "GeomUtils.h"
@@ -70,8 +69,8 @@ ReaderWriterIFC::ReaderWriterIFC()
 	osgDB::ReaderWriter::supportsExtension("ifc","Industry Foundation Classes");
 	osgDB::ReaderWriter::supportsExtension("stp","Step");
 	m_ifc_model		= shared_ptr<IfcPPModel>(new IfcPPModel());
-	m_step_reader	= shared_ptr<IfcStepReader>(new IfcStepReader());
-	m_step_writer	= shared_ptr<IfcStepWriter>(new IfcStepWriter());
+	m_step_reader	= shared_ptr<IfcPPReaderSTEP>(new IfcPPReaderSTEP());
+	m_step_writer	= shared_ptr<IfcPPWriterSTEP>(new IfcPPWriterSTEP());
 	
 	m_step_reader->setProgressCallBack( this, &ReaderWriterIFC::slotProgressValueWrapper );
 	m_step_reader->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
@@ -143,7 +142,9 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 {
 	std::string ext = osgDB::getFileExtension(filename);
 	if( !acceptsExtension(ext) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
-	
+	m_err.clear();
+	m_err.str( std::string() );
+
 	// open file
 	std::ifstream infile;
 	infile.open ( filename.c_str(), std::ifstream::in);
@@ -167,75 +168,92 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 	
 	m_step_reader->removeComments( buffer );
 	m_step_reader->readStreamHeader( buffer, m_ifc_model );
-	IfcPPModel::IfcPPSchemaVersion& file_schema_version = m_ifc_model->getIfcSchemaVersion();
-	
-	std::map<int,shared_ptr<IfcPPEntity> > map_entities;
-	
-	m_err.clear();
-	m_err.str( std::string() );
+	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
 
 	progressTextCallback( L"Reading STEP data..." );
 
-	try
+	bool read_into_map_directly = true;
+	if( read_into_map_directly )
 	{
-		m_step_reader->readStreamData( buffer, file_schema_version, map_entities );
-	}
-	catch( IfcPPException& e )
-	{
-		m_err << e.what();
-	}
-	catch( std::exception& e )
-	{
-		m_err << e.what();
-	}
-	catch( ... )
-	{
-		m_err << "An error occured in ReaderWriterIFC::readNode";
-	}
-
-	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
-
-	try
-	{
-		// insert entities into model
-		std::map<int,shared_ptr<IfcPPEntity> >::iterator it_model;
-		for( it_model=map_entities.begin(); it_model != map_entities.end(); ++it_model )
+		try
 		{
-			shared_ptr<IfcPPEntity>& ent = it_model->second;
-				
-			try
-			{
-				m_ifc_model->insertEntity( ent );
-			}
-			catch( IfcPPException& e )
-			{
-				m_err << e.what();
-			}
-
+			m_step_reader->readStreamData( buffer, m_ifc_model );
+		}
+		catch( IfcPPException& e )
+		{
+			m_err << e.what();
+		}
+		catch( std::exception& e )
+		{
+			m_err << e.what();
+		}
+		catch( ... )
+		{
+			m_err << "An error occured in ReaderWriterIFC::readNode";
+		}
+	}
+	else
+	{
+		std::map<int, shared_ptr<IfcPPEntity> > map_entities;
+		IfcPPModel::IfcPPSchemaVersion& file_schema_version = m_ifc_model->getIfcSchemaVersion();
+		try
+		{
+			m_step_reader->readStreamData( buffer, file_schema_version, map_entities );
+		}
+		catch( IfcPPException& e )
+		{
+			m_err << e.what();
+		}
+		catch( std::exception& e )
+		{
+			m_err << e.what();
+		}
+		catch( ... )
+		{
+			m_err << "An error occured in ReaderWriterIFC::readNode";
 		}
 
-		m_ifc_model->resolveInverseAttributes();
-		m_ifc_model->updateCache();
+		try
+		{
+			// insert entities into model
+			std::map<int, shared_ptr<IfcPPEntity> >::iterator it_model;
+			for( it_model = map_entities.begin(); it_model != map_entities.end(); ++it_model )
+			{
+				shared_ptr<IfcPPEntity>& ent = it_model->second;
 
-		m_unit_converter = m_ifc_model->getUnitConverter();
-		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
-	}
-	catch( IfcPPException& e )
-	{
-		m_err << e.what();
-	}
-	catch( std::exception& e )
-	{
-		m_err << e.what();
-	}
-	catch( ... )
-	{
-		m_err << "An error occured in ReaderWriterIFC::readNode";
+				try
+				{
+					m_ifc_model->insertEntity( ent );
+				}
+				catch( IfcPPException& e )
+				{
+					m_err << e.what();
+				}
+			}
+		}
+		catch( IfcPPException& e )
+		{
+			m_err << e.what();
+		}
+		catch( std::exception& e )
+		{
+			m_err << e.what();
+		}
+		catch( ... )
+		{
+			m_err << "An error occured in ReaderWriterIFC::readNode";
+		}
 	}
 
 	progressTextCallback( L"Creating geometry..." );
 	try
 	{
+		m_ifc_model->resolveInverseAttributes();
+		m_ifc_model->updateCache();
+
+		m_unit_converter = m_ifc_model->getUnitConverter();
+		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
+
 		createGeometry();
 	}
 	catch( IfcPPException& e )

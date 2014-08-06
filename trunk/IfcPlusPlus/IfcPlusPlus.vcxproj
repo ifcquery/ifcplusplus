@@ -1447,12 +1447,12 @@
     <ClCompile Include="src\ifcpp\model\IfcPPObject.cpp" />
     <ClCompile Include="src\ifcpp\model\StatusObservable.cpp" />
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
-    <ClCompile Include="src\ifcpp\reader\IfcPlusPlusReader.cpp" />
-    <ClCompile Include="src\ifcpp\reader\IfcStepReader.cpp" />
-    <ClCompile Include="src\ifcpp\reader\IfcXmlReader.cpp" />
+    <ClCompile Include="src\ifcpp\reader\IfcPPReader.cpp" />
+    <ClCompile Include="src\ifcpp\reader\IfcPPReaderSTEP.cpp" />
+    <ClCompile Include="src\ifcpp\reader\IfcPPReaderXML.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp" />
-    <ClCompile Include="src\ifcpp\writer\IfcStepWriter.cpp" />
-    <ClCompile Include="src\ifcpp\writer\IfcXmlWriter.cpp" />
+    <ClCompile Include="src\ifcpp\writer\IfcPPWriterSTEP.cpp" />
+    <ClCompile Include="src\ifcpp\writer\IfcPPWriterXML.cpp" />
     <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp" />
     <ClCompile Include="src\ifcpp\xml\XmlTools.cpp" />
   </ItemGroup>
@@ -2631,13 +2631,13 @@
     <ClInclude Include="src\ifcpp\model\StatusObservable.h" />
     <ClInclude Include="src\ifcpp\model\UnitConverter.h" />
     <ClInclude Include="src\ifcpp\model\UnknownEntityException.h" />
-    <ClInclude Include="src\ifcpp\reader\IfcPlusPlusReader.h" />
-    <ClInclude Include="src\ifcpp\reader\IfcStepReader.h" />
-    <ClInclude Include="src\ifcpp\reader\IfcXmlReader.h" />
+    <ClInclude Include="src\ifcpp\reader\IfcPPReader.h" />
+    <ClInclude Include="src\ifcpp\reader\IfcPPReaderSTEP.h" />
+    <ClInclude Include="src\ifcpp\reader\IfcPPReaderXML.h" />
     <ClInclude Include="src\ifcpp\reader\ReaderUtil.h" />
-    <ClInclude Include="src\ifcpp\writer\IfcPlusPlusWriter.h" />
-    <ClInclude Include="src\ifcpp\writer\IfcStepWriter.h" />
-    <ClInclude Include="src\ifcpp\writer\IfcXmlWriter.h" />
+    <ClInclude Include="src\ifcpp\writer\IfcPPWriter.h" />
+    <ClInclude Include="src\ifcpp\writer\IfcPPWriterSTEP.h" />
+    <ClInclude Include="src\ifcpp\writer\IfcPPWriterXML.h" />
     <ClInclude Include="src\ifcpp\writer\WriterUtil.h" />
     <ClInclude Include="src\ifcpp\xml\XmlTools.h" />
   </ItemGroup>

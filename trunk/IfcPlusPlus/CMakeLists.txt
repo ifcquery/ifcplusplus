@@ -47,12 +47,12 @@ set(IFCPP_SOURCE_FILES
   src/ifcpp/model/IfcPPObject.cpp
   src/ifcpp/model/StatusObservable.cpp
   src/ifcpp/model/UnitConverter.cpp
-  src/ifcpp/reader/IfcPlusPlusReader.cpp
-  src/ifcpp/reader/IfcStepReader.cpp
-  src/ifcpp/reader/IfcXmlReader.cpp
+  src/ifcpp/reader/IfcPPReader.cpp
+  src/ifcpp/reader/IfcPPReaderSTEP.cpp
+  src/ifcpp/reader/IfcPPReaderXML.cpp
   src/ifcpp/reader/ReaderUtil.cpp
-  src/ifcpp/writer/IfcStepWriter.cpp
-  src/ifcpp/writer/IfcXmlWriter.cpp
+  src/ifcpp/writer/IfcPPWriterSTEP.cpp
+  src/ifcpp/writer/IfcPPWriterXML.cpp
   src/ifcpp/writer/WriterUtil.cpp
   src/ifcpp/xml/XmlTools.cpp
 
