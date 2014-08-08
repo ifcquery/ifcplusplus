@@ -8,8 +8,9 @@
 
 For VS IDE you do not have to use CMake, just proceed as follows:
 
-  * install Qt, OpenSceneGraph
+  * Install Qt, OpenSceneGraph
   * Set environment variables for Qt and your development environment with a script like this: [http://ifcplusplus.googlecode.com/svn/trunk/set_devenv64-VS2013.cmd set_devenv64-VS2013.cmd].
+  * Install Qt VS addin, configure it to use the same Qt files like the environment variable QTDIR
   * Type "devenv" to start VS.
   * Hit F7 to compile, F5 to run the debugger.
 
@@ -18,8 +19,9 @@ Tested with
   * OpenSceneGraph 3.2.1rc3 (http://svn.openscenegraph.org/osg/OpenSceneGraph/tags/OpenSceneGraph-3.2.1-rc3)
   * Visual Studio 2013
 
+----
 == Linux ==
-CMake files and build instructions below are kindly provided by Bernd Hahnebach, bernd@bimstatik.org
+CMake files and build instructions below are kindly provided by Bernd Hahnebach, bernd(at)bimstatik(dot)org
 
 
 === Packagelist ===
