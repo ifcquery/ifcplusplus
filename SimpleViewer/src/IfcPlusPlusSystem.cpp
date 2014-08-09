@@ -20,15 +20,11 @@
 
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/reader/IfcPPReader.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
+#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
-#include <ifcppgeometry/RepresentationConverter.h>
 #include <ifcppgeometry/GeomUtils.h>
 
-#include "viewer/Orbit3DManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
 

@@ -23,8 +23,6 @@
 
 #include <osgGA/OrbitManipulator>
 
-#include <ifcpp/reader/IfcPPReader.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcppgeometry/GeomUtils.h>
 #include <ifcppgeometry/GeometrySettings.h>

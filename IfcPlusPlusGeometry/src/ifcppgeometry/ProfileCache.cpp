@@ -11,7 +11,8 @@
  * OpenSceneGraph Public License for more details.
 */
 
-#include "ifcpp/IFC4/include/IfcProfileDef.h"
+#include <ifcpp/IFC4/include/IfcProfileDef.h>
+#include <ifcpp/model/IfcPPException.h>
 
 #include "ProfileConverter.h"
 #include "PointConverter.h"
@@ -47,6 +48,10 @@ shared_ptr<ProfileConverter> ProfileCache::getProfileConverter( shared_ptr<IfcPr
 	}
 
 	shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
+	if( !profile_converter )
+	{
+		throw IfcPPException( "out of memory", __FUNC__ );
+	}
 	profile_converter->computeProfile( ifc_profile );
 
 #ifdef IFCPP_OPENMP

@@ -1,15 +1,15 @@
 /* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
  *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * This library is open source and may be redistributed and/or modified under
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
  * (at your option) any later version.  The full license is in LICENSE file
  * included with this distribution, and on the openscenegraph.org website.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
-*/
+ */
 
 #include <utility>
 #include <string>
@@ -66,12 +66,12 @@
 
 ReaderWriterIFC::ReaderWriterIFC()
 {
-	osgDB::ReaderWriter::supportsExtension("ifc","Industry Foundation Classes");
-	osgDB::ReaderWriter::supportsExtension("stp","Step");
-	m_ifc_model		= shared_ptr<IfcPPModel>(new IfcPPModel());
-	m_step_reader	= shared_ptr<IfcPPReaderSTEP>(new IfcPPReaderSTEP());
-	m_step_writer	= shared_ptr<IfcPPWriterSTEP>(new IfcPPWriterSTEP());
-	
+	osgDB::ReaderWriter::supportsExtension( "ifc", "Industry Foundation Classes" );
+	osgDB::ReaderWriter::supportsExtension( "stp", "Step" );
+	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
+	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
+	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
+
 	m_step_reader->setProgressCallBack( this, &ReaderWriterIFC::slotProgressValueWrapper );
 	m_step_reader->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
 	m_step_reader->setErrorCallBack( this, &ReaderWriterIFC::slotErrorWrapper );
@@ -86,7 +86,6 @@ ReaderWriterIFC::ReaderWriterIFC()
 	m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 
 	m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
-
 	m_group_result = new osg::Group();
 }
 
@@ -110,8 +109,8 @@ void ReaderWriterIFC::resetModel()
 
 void ReaderWriterIFC::clearInputCache()
 {
-	m_err.str(std::string());
-	m_messages.str(std::string());
+	m_err.str( std::string() );
+	m_messages.str( std::string() );
 	//m_shape_input_data.clear();
 	for( auto it = m_shape_input_data.begin(); it != m_shape_input_data.end(); ++it )
 	{
@@ -138,34 +137,34 @@ void ReaderWriterIFC::setModel( shared_ptr<IfcPPModel> model )
 	m_representation_converter->setUnitConverter( m_unit_converter );
 }
 
-osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& filename, const osgDB::ReaderWriter::Options*)
+osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& filename, const osgDB::ReaderWriter::Options* )
 {
-	std::string ext = osgDB::getFileExtension(filename);
-	if( !acceptsExtension(ext) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
+	std::string ext = osgDB::getFileExtension( filename );
+	if( !acceptsExtension( ext ) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
 	m_err.clear();
 	m_err.str( std::string() );
 
 	// open file
 	std::ifstream infile;
-	infile.open ( filename.c_str(), std::ifstream::in);
-	
+	infile.open( filename.c_str(), std::ifstream::in );
+
 	if( !infile.is_open() )
 	{
 		return osgDB::ReaderWriter::ReadResult::FILE_NOT_FOUND;
 	}
 
 	// get length of file:
-	infile.seekg (0, std::ios::end);
+	infile.seekg( 0, std::ios::end );
 	const int length = infile.tellg();
-	infile.seekg (0, std::ios::beg);
+	infile.seekg( 0, std::ios::beg );
 
 	// allocate memory:
 	std::string buffer( length, '\0' );
 
 	// read data as a block:
-	infile.read (&buffer[0],length);
+	infile.read( &buffer[0], length );
 	infile.close();
-	
+
 	m_step_reader->removeComments( buffer );
 	m_step_reader->readStreamHeader( buffer, m_ifc_model );
 	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
@@ -281,7 +280,6 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode(const std::string& fil
 	return osgDB::ReaderWriter::ReadResult( m_group_result, status );
 }
 
-
 void ReaderWriterIFC::createGeometry()
 {
 	m_shape_input_data.clear();
@@ -294,9 +292,9 @@ void ReaderWriterIFC::createGeometry()
 	double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 	carve::setEpsilon( 1.4901161193847656e-08*length_to_meter_factor );
 
-	const std::map<int,shared_ptr<IfcPPEntity> >& map = m_ifc_model->getMapIfcEntities();
-	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it;
-	for( it=map.begin(); it!=map.end(); ++it )
+	const std::map<int, shared_ptr<IfcPPEntity> >& map = m_ifc_model->getMapIfcEntities();
+	std::map<int, shared_ptr<IfcPPEntity> >::const_iterator it;
+	for( it = map.begin(); it != map.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> obj = it->second;
 		shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( obj );
@@ -305,24 +303,24 @@ void ReaderWriterIFC::createGeometry()
 			vec_products.push_back( product );
 		}
 	}
-	
+
 	// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-	std::map<int,shared_ptr<ShapeInputData> > *map_products_ptr = &m_shape_input_data;
+	std::map<int, shared_ptr<ShapeInputData> > *map_products_ptr = &m_shape_input_data;
 	const int num_products = vec_products.size();
 
 #ifdef IFCPP_OPENMP
 	Mutex writelock_map;
-		
-	#pragma omp parallel firstprivate(num_products) shared(map_products_ptr)
+
+#pragma omp parallel firstprivate(num_products) shared(map_products_ptr)
 	{
 		// time for one product may vary significantly, so schedule not so many
-		#pragma omp for schedule(dynamic,10)
+#pragma omp for schedule(dynamic,10)
 #endif
-		for( int i=0; i<num_products; ++i )
+		for( int i = 0; i < num_products; ++i )
 		{
 			shared_ptr<IfcProduct> product = vec_products[i];
 			std::stringstream thread_err;
-			if( dynamic_pointer_cast<IfcFeatureElementSubtraction>(product) )
+			if( dynamic_pointer_cast<IfcFeatureElementSubtraction>( product ) )
 			{
 				// geometry will be created in method subtractOpenings
 				continue;
@@ -346,11 +344,11 @@ void ReaderWriterIFC::createGeometry()
 				throw dbge;
 			}
 #endif
-			catch( IfcPPException& e)
+			catch( IfcPPException& e )
 			{
 				thread_err << e.what();
 			}
-			catch( carve::exception& e)
+			catch( carve::exception& e )
 			{
 				thread_err << e.str();
 			}
@@ -363,10 +361,9 @@ void ReaderWriterIFC::createGeometry()
 				thread_err << "error in " << __FUNC__ << ", product id " << product_id << std::endl;
 			}
 
-#ifdef IFCPP_OPENMP
-			#pragma omp critical
 			{
-				ScopedLock scoped_lock(writelock_map);
+#ifdef IFCPP_OPENMP
+				ScopedLock scoped_lock( writelock_map );
 #endif
 				map_products_ptr->insert( std::make_pair( product_id, product_shape ) );
 
@@ -374,16 +371,16 @@ void ReaderWriterIFC::createGeometry()
 				{
 					err << thread_err.str().c_str();
 				}
-#ifdef IFCPP_OPENMP
 			}
 
-			if( omp_get_thread_num() == 0 )
-#endif
+			// progress callback
+			double progress = (double)i / (double)num_products;
+			if( progress - m_recent_progress > 0.02 )
 			{
 
-				// progress callback
-				double progress = (double)i/(double)num_products;
-				if( progress - m_recent_progress > 0.02 )
+#ifdef IFCPP_OPENMP
+				if( omp_get_thread_num() == 0 )
+#endif
 				{
 					// leave 10% of progress to openscenegraph internals
 					progressCallback( progress*0.9, "geometry" );
@@ -392,8 +389,7 @@ void ReaderWriterIFC::createGeometry()
 			}
 		}
 #ifdef IFCPP_OPENMP
-	}
-#pragma omp barrier
+	} // implicit barrier
 #endif
 
 	try
@@ -412,13 +408,13 @@ void ReaderWriterIFC::createGeometry()
 		group_outside_spatial_structure->setName( group_name.append( ", IfcProduct outside spatial structure" ) );
 		m_group_result->addChild( group_outside_spatial_structure );
 
-		for( std::map<int,shared_ptr<ShapeInputData> >::iterator it_product_shapes = m_shape_input_data.begin(); it_product_shapes!=m_shape_input_data.end(); ++it_product_shapes )
+		for( std::map<int, shared_ptr<ShapeInputData> >::iterator it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
 		{
 			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
 			shared_ptr<IfcProduct> ifc_product = product_shape->ifc_product;
 			if( !product_shape->added_to_storey )
 			{
-				shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_product);
+				shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
 				if( opening )
 				{
 					continue;
@@ -441,11 +437,11 @@ void ReaderWriterIFC::createGeometry()
 			}
 		}
 	}
-	catch( IfcPPException& e)
+	catch( IfcPPException& e )
 	{
 		err << e.what();
 	}
-	catch(std::exception& e)
+	catch( std::exception& e )
 	{
 		err << e.what();
 	}
@@ -476,18 +472,26 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 
 	osg::Group* item_grp = nullptr;
 
-	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>(parent_obj_def);
+	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>( parent_obj_def );
 	if( building_storey )
 	{
 		int building_storey_id = building_storey->getId();
 		osg::Switch* switch_building_storey = new osg::Switch();
+		if( !switch_building_storey )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		std::stringstream storey_switch_name;
 		storey_switch_name << "#" << building_storey_id << "=IfcBuildingStorey switch";
 		switch_building_storey->setName( storey_switch_name.str().c_str() );
 
 		osg::ref_ptr<osg::MatrixTransform> transform_building_storey = new osg::MatrixTransform();
+		if( !transform_building_storey )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		switch_building_storey->addChild( transform_building_storey );
-				
+
 		std::stringstream storey_name;
 		storey_name << "#" << building_storey_id << "=IfcBuildingStorey transform";
 		transform_building_storey->setName( storey_name.str().c_str() );
@@ -495,11 +499,11 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		item_grp = transform_building_storey;
 		parent_group->addChild( switch_building_storey );
 	}
-		
-	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(parent_obj_def);
+
+	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( parent_obj_def );
 	if( ifc_product )
 	{
-		std::map<int,shared_ptr<ShapeInputData> >::iterator it_product_map = m_shape_input_data.find(entity_id);
+		std::map<int, shared_ptr<ShapeInputData> >::iterator it_product_map = m_shape_input_data.find( entity_id );
 		if( it_product_map != m_shape_input_data.end() )
 		{
 			shared_ptr<ShapeInputData>& product_shape = it_product_map->second;
@@ -537,9 +541,13 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 	if( item_grp == nullptr )
 	{
 		item_grp = new osg::Switch();
+		if( !item_grp )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		parent_group->addChild( item_grp );
 	}
-	
+
 	if( item_grp->getName().size() < 1 )
 	{
 		std::stringstream switch_name;
@@ -549,7 +557,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 
 	osg::Group* append_children_to_group = item_grp;
 
-	shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(parent_obj_def);
+	shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>( parent_obj_def );
 	if( ifc_site )
 	{
 		// Append representation of IfcSite (terrain) to a separate node.
@@ -565,35 +573,35 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		//    |     |- IfcBuilding
 		//    |- IfcSite    
 		//                    
-			
+
 		append_children_to_group = m_group_result;
 	}
-	
+
 	std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = parent_obj_def->m_IsDecomposedBy_inverse;
-	for( auto it_decomposed_by=vec_IsDecomposedBy.begin(); it_decomposed_by!=vec_IsDecomposedBy.end(); ++it_decomposed_by )
+	for( auto it_decomposed_by = vec_IsDecomposedBy.begin(); it_decomposed_by != vec_IsDecomposedBy.end(); ++it_decomposed_by )
 	{
 		shared_ptr<IfcRelAggregates> rel_aggregates( *it_decomposed_by );
 		std::vector<shared_ptr<IfcObjectDefinition> >& vec = rel_aggregates->m_RelatedObjects;
-	
-		for( auto it_object_def=vec.begin(); it_object_def!=vec.end(); ++it_object_def )
+
+		for( auto it_object_def = vec.begin(); it_object_def != vec.end(); ++it_object_def )
 		{
-			shared_ptr<IfcObjectDefinition> child_obj_def = (*it_object_def);
+			shared_ptr<IfcObjectDefinition> child_obj_def = ( *it_object_def );
 			resolveProjectStructure( child_obj_def, append_children_to_group );
 		}
 	}
 
-	shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(parent_obj_def);
+	shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>( parent_obj_def );
 	if( spatial_ele )
 	{
 		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contained = spatial_ele->m_ContainsElements_inverse;
-		for( auto it_rel_contained=vec_contained.begin(); it_rel_contained!=vec_contained.end(); ++it_rel_contained )
+		for( auto it_rel_contained = vec_contained.begin(); it_rel_contained != vec_contained.end(); ++it_rel_contained )
 		{
 			shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( *it_rel_contained );
 			std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
 
-			for( auto it_related=vec_related_elements.begin(); it_related!=vec_related_elements.end(); ++it_related )
+			for( auto it_related = vec_related_elements.begin(); it_related != vec_related_elements.end(); ++it_related )
 			{
-				shared_ptr<IfcProduct> related_product = (*it_related);
+				shared_ptr<IfcProduct> related_product = ( *it_related );
 				resolveProjectStructure( related_product, append_children_to_group );
 			}
 		}
@@ -610,22 +618,26 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		// IfcProduct needs to have a representation
 		return;
 	}
-	
+
 	const int product_id = product->getId();
 	std::stringstream strs_err;
 	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
 	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
+	if( !product_switch || !product_switch_curves )
+	{
+		throw IfcPPException( "out of memory", __FUNC__ );
+	}
 	std::stringstream group_name;
 	group_name << "#" << product_id << "=IfcProduct group";
 	product_switch->setName( group_name.str().c_str() );
-	product_switch_curves->setName("CurveRepresentation");
+	product_switch_curves->setName( "CurveRepresentation" );
 
 	// evaluate IFC geometry
 	shared_ptr<IfcProductRepresentation>& product_representation = product->m_Representation;
 	std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
-	for( auto it_representations=vec_representations.begin(); it_representations!=vec_representations.end(); ++it_representations )
+	for( auto it_representations = vec_representations.begin(); it_representations != vec_representations.end(); ++it_representations )
 	{
-		shared_ptr<IfcRepresentation> representation = (*it_representations);
+		shared_ptr<IfcRepresentation> representation = ( *it_representations );
 		m_representation_converter->convertIfcRepresentation( representation, product_shape, strs_err );
 	}
 
@@ -639,9 +651,9 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		std::set<int> placement_already_applied;
 		PlacementConverter::convertIfcObjectPlacement( product->m_ObjectPlacement, product_placement_matrix, length_factor, placement_already_applied );
 	}
-	
+
 	std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
-	for( size_t i_item=0; i_item<product_items.size(); ++i_item )
+	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
 		item_data->applyPosition( product_placement_matrix );
@@ -649,40 +661,53 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 	// handle openings
 	std::vector<shared_ptr<ShapeInputData> > vec_opening_data;
-	const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(product);
+	const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>( product );
 	if( ifc_element )
 	{
 		m_representation_converter->subtractOpenings( ifc_element, product_shape, strs_err );
 	}
 
 	// create OSG objects
-	for( size_t i_item=0; i_item<product_items.size(); ++i_item )
+	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
 		osg::ref_ptr<osg::Group> item_group = new osg::Group();
 		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
 
+		if( !item_group || !item_group_curves )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
+
 		// create shape for open shells
 		for( auto it_meshsets = item_data->meshsets_open.begin(); it_meshsets != item_data->meshsets_open.end(); ++it_meshsets )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+			if( !geode )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			ConverterOSG::drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 
 			// disable back face culling for open meshes
 			geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
-			item_group->addChild(geode);
+			item_group->addChild( geode );
 		}
 
 		// create shape for meshsets
 		for( auto it_meshsets = item_data->meshsets.begin(); it_meshsets != item_data->meshsets.end(); ++it_meshsets )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
+			if( !geode_result )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
-			item_group->addChild(geode_result);
+			item_group->addChild( geode_result );
 		}
 
 		// create shape for polylines
@@ -690,6 +715,10 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		{
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+			if( !geode )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			ConverterOSG::drawPolyline( polyline_data.get(), geode );
 			item_group_curves->addChild( geode );
 		}
@@ -705,14 +734,18 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				}
 				carve::math::Matrix& text_pos = text_data->m_text_position;
 				// TODO: handle rotation
-			
+
 				std::string text_str;
-				text_str.assign(text_data->m_text.begin(), text_data->m_text.end());
-				
+				text_str.assign( text_data->m_text.begin(), text_data->m_text.end() );
+
 				osg::Vec3 pos2( text_pos._41, text_pos._42, text_pos._43 );
 
 				osgText::Text* txt = new osgText::Text();
-				txt->setFont("fonts/arial.ttf");
+				if( !txt )
+				{
+					throw IfcPPException( "out of memory", __FUNC__ );
+				}
+				txt->setFont( "fonts/arial.ttf" );
 				txt->setColor( osg::Vec4f( 0, 0, 0, 1 ) );
 				txt->setCharacterSize( 0.1f );
 				txt->setAutoRotateToScreen( true );
@@ -721,6 +754,10 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
 				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+				if( !geode )
+				{
+					throw IfcPPException( "out of memory", __FUNC__ );
+				}
 				geode->addDrawable( txt );
 				item_group->addChild( geode );
 			}
@@ -729,12 +766,12 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		// apply statesets if there are any
 		if( item_data->vec_item_appearances.size() > 0 )
 		{
-			for( size_t i_appearance=0; i_appearance<item_data->vec_item_appearances.size(); ++i_appearance )
+			for( size_t i_appearance = 0; i_appearance < item_data->vec_item_appearances.size(); ++i_appearance )
 			{
 				shared_ptr<AppearanceData>& appearance = item_data->vec_item_appearances[i_appearance];
 				if( appearance->apply_to_geometry_type == AppearanceData::SURFACE )
 				{
-					osg::StateSet* item_stateset =  AppearanceManagerOSG::convertToStateSet( appearance );
+					osg::StateSet* item_stateset = AppearanceManagerOSG::convertToStateSet( appearance );
 					if( item_stateset != nullptr )
 					{
 						item_group->setStateSet( item_stateset );
@@ -743,6 +780,10 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 						if( existing_item_stateset )
 						{
 							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+							if( !merged_product_stateset )
+							{
+								throw IfcPPException( "out of memory", __FUNC__ );
+							}
 							merged_product_stateset->merge( *item_stateset );
 							item_group->setStateSet( merged_product_stateset );
 						}
@@ -753,7 +794,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 					}
 					else if( appearance->apply_to_geometry_type == AppearanceData::CURVE )
 					{
-						osg::StateSet* item_stateset =  AppearanceManagerOSG::convertToStateSet( appearance );
+						osg::StateSet* item_stateset = AppearanceManagerOSG::convertToStateSet( appearance );
 						if( item_stateset != nullptr )
 						{
 							item_group->setStateSet( item_stateset );
@@ -763,6 +804,10 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 							if( existing_item_stateset )
 							{
 								osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+								if( !merged_product_stateset )
+								{
+									throw IfcPPException( "out of memory", __FUNC__ );
+								}
 								merged_product_stateset->merge( *item_stateset );
 								item_group->setStateSet( merged_product_stateset );
 							}
@@ -779,12 +824,12 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		// If anything has been created, add it to the product group
 		if( item_group->getNumChildren() > 0 )
 		{
-			product_switch->addChild(item_group);
+			product_switch->addChild( item_group );
 		}
 
 		if( item_group_curves->getNumChildren() > 0 )
 		{
-			product_switch_curves->addChild(item_group_curves);
+			product_switch_curves->addChild( item_group_curves );
 		}
 	}
 
@@ -792,16 +837,16 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	if( product->m_IsDefinedBy_inverse.size() > 0 )
 	{
 		std::vector<weak_ptr<IfcRelDefinesByProperties> >& vec_IsDefinedBy_inverse = product->m_IsDefinedBy_inverse;
-		for( size_t i=0; i<vec_IsDefinedBy_inverse.size(); ++i )
+		for( size_t i = 0; i < vec_IsDefinedBy_inverse.size(); ++i )
 		{
 			shared_ptr<IfcRelDefinesByProperties> rel_def( vec_IsDefinedBy_inverse[i] );
 			shared_ptr<IfcPropertySetDefinitionSelect> relating_property_definition_select = rel_def->m_RelatingPropertyDefinition;
 
 			// TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
-			shared_ptr<IfcPropertySetDefinition> property_set_def = dynamic_pointer_cast<IfcPropertySetDefinition>(relating_property_definition_select );
+			shared_ptr<IfcPropertySetDefinition> property_set_def = dynamic_pointer_cast<IfcPropertySetDefinition>( relating_property_definition_select );
 			if( property_set_def )
 			{
-				shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def);
+				shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
 				if( property_set )
 				{
 					m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
@@ -809,17 +854,17 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				continue;
 			}
 
-			shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>(relating_property_definition_select );
+			shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>( relating_property_definition_select );
 			if( property_set_def_set )
 			{
 				std::vector<shared_ptr<IfcPropertySetDefinition> >& vec_propterty_set_def = property_set_def_set->m_vec;
 				std::vector<shared_ptr<IfcPropertySetDefinition> >::iterator it_property_set_def;
-				for( it_property_set_def=vec_propterty_set_def.begin(); it_property_set_def!=vec_propterty_set_def.end(); ++it_property_set_def )
+				for( it_property_set_def = vec_propterty_set_def.begin(); it_property_set_def != vec_propterty_set_def.end(); ++it_property_set_def )
 				{
-					shared_ptr<IfcPropertySetDefinition> property_set_def = (*it_property_set_def);
+					shared_ptr<IfcPropertySetDefinition> property_set_def = ( *it_property_set_def );
 					if( property_set_def )
 					{
-						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def);
+						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
 						if( property_set )
 						{
 							m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
@@ -831,7 +876,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 	}
 
-	for( size_t i=0; i<product_shape->getAppearances().size(); ++i )
+	for( size_t i = 0; i < product_shape->getAppearances().size(); ++i )
 	{
 		// TODO: handle appearances of curves separately
 		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];
@@ -845,6 +890,10 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		if( existing_item_stateset )
 		{
 			osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+			if( !merged_product_stateset )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			merged_product_stateset->merge( *next_product_stateset );
 			product_switch->setStateSet( merged_product_stateset );
 		}
@@ -855,17 +904,17 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 
 	// enable transparency for certain objects
-	if( dynamic_pointer_cast<IfcSpace>(product) )
+	if( dynamic_pointer_cast<IfcSpace>( product ) )
 	{
 		product_switch->setStateSet( m_glass_stateset );
 	}
-	else if( dynamic_pointer_cast<IfcCurtainWall>(product) || dynamic_pointer_cast<IfcWindow>(product) )
+	else if( dynamic_pointer_cast<IfcCurtainWall>( product ) || dynamic_pointer_cast<IfcWindow>( product ) )
 	{
 		// TODO: make only glass part of window transparent
 		product_switch->setStateSet( m_glass_stateset );
 		GeomUtils::setMaterialAlpha( product_switch, 0.6f );
 	}
-	else if( dynamic_pointer_cast<IfcSite>(product) )
+	else if( dynamic_pointer_cast<IfcSite>( product ) )
 	{
 		std::stringstream group_name;
 		group_name << "#" << product_id << "=IfcSite";
@@ -877,7 +926,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	{
 		product_shape->product_switch = product_switch;
 	}
-	
+
 	if( product_switch_curves->getNumChildren() > 0 )
 	{
 		product_shape->product_switch_curves = product_switch_curves;
@@ -920,4 +969,4 @@ void ReaderWriterIFC::slotErrorWrapper( void* ptr, const std::wstring& str )
 }
 
 // register with Registry to instantiate the above reader/writer.
-REGISTER_OSGPLUGIN(ifc, ReaderWriterIFC)
+REGISTER_OSGPLUGIN( ifc, ReaderWriterIFC )

@@ -71,7 +71,7 @@ public:
 	IfcPPReal();
 	IfcPPReal( double value );
 	~IfcPPReal();
-	virtual const char* classname() const { return "IfcPPReal"; }
+	//virtual const char* classname() const = 0;
 	void readArgument( const std::wstring& attribute_value );
 	double m_value;
 };

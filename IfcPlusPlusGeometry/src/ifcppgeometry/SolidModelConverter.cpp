@@ -85,7 +85,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		//	WHERE
 		//	SweptAreaType	 :	SweptArea.ProfileType = IfcProfileTypeEnum.Area;
 		//END_ENTITY;
-
+		
 		shared_ptr<IfcProfileDef>& swept_area = swept_area_solid->m_SweptArea;
 		if( !swept_area )
 		{
@@ -94,6 +94,12 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		}
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
 		const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths = profile_converter->getCoordinates();
+
+		shared_ptr<ItemData> item_data_solid( new ItemData() );
+		if( !item_data_solid )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 
 		// check if local coordinate system is specified for extrusion
 		carve::math::Matrix swept_area_pos;
@@ -107,10 +113,9 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcExtrudedAreaSolid> extruded_area = dynamic_pointer_cast<IfcExtrudedAreaSolid>(swept_area_solid);
 		if( extruded_area )
 		{
-			shared_ptr<ItemData> item_data_extruded( new ItemData() );
-			convertIfcExtrudedAreaSolid( extruded_area, item_data_extruded, strs_err );
-			item_data_extruded->applyPosition( swept_area_pos );
-			item_data->addItemData( item_data_extruded );
+			convertIfcExtrudedAreaSolid( extruded_area, item_data_solid, strs_err );
+			item_data_solid->applyPosition( swept_area_pos );
+			item_data->addItemData( item_data_solid );
 			return;
 		}
 
@@ -136,7 +141,6 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			std::vector<carve::geom::vector<3> > basis_curve_points;
 			m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
-			shared_ptr<ItemData> item_data_solid( new ItemData() );
 			GeomUtils::sweepArea( basis_curve_points, profile_paths, item_data_solid );
 			item_data_solid->applyPosition( swept_area_pos );
 			item_data->addItemData( item_data_solid );
@@ -146,7 +150,6 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcRevolvedAreaSolid> revolved_area_solid = dynamic_pointer_cast<IfcRevolvedAreaSolid>(swept_area_solid);
 		if( revolved_area_solid )
 		{
-			shared_ptr<ItemData> item_data_solid( new ItemData() );
 			convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid, strs_err );
 			item_data_solid->applyPosition( swept_area_pos );
 			item_data->addItemData( item_data_solid );
@@ -187,7 +190,6 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 				}
 			}
 
-			shared_ptr<ItemData> item_data_solid( new ItemData() );
 			GeomUtils::sweepArea( directrix_curve_points, profile_paths, item_data_solid );
 			item_data_solid->applyPosition( swept_area_pos );
 			item_data->addItemData( item_data_solid );
@@ -312,6 +314,10 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
 		shared_ptr<ItemData> item_data_solid( new ItemData() );
+		if( !item_data_solid )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		GeomUtils::sweepDisk( basis_curve_points, item_data_solid, nvc, radius, radius_inner );
 		item_data->addItemData( item_data_solid );
 
@@ -366,6 +372,10 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 		return;
 	}
 	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
+	if( !poly_data )
+	{
+		throw IfcPPException( "out of memory", __FUNC__ );
+	}
 	GeomUtils::extrude( paths, extrusion_vector, poly_data, strs_err );
 	item_data->addOpenOrClosedPolyhedron( poly_data );
 
@@ -549,7 +559,11 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	}
 
 	shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-	
+	if( !polyhedron_data )
+	{
+		throw IfcPPException( "out of memory", __FUNC__ );
+	}
+
 	// create vertices
 	carve::math::Matrix m;
 	for( int ii = 0; ii <= num_segments; ++ii )
@@ -734,11 +748,19 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 
 	// convert the first operand
 	shared_ptr<ItemData> first_operand_data( new ItemData() );
+	if( !first_operand_data )
+	{
+		throw IfcPPException( "out of memory", __FUNC__ );
+	}
 	shared_ptr<ItemData> empty_operand;
 	convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand, strs_err );
 
 	// convert the second operand
 	shared_ptr<ItemData> second_operand_data( new ItemData() );
+	if( !second_operand_data )
+	{
+		throw IfcPPException( "out of memory", __FUNC__ );
+	}
 	convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data, strs_err );
 		
 	// for every first operand polyhedrons, apply all second operand polyhedrons
@@ -994,6 +1016,10 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		//        /   |   \
 
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
+		if( !polyhedron_data )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR(0.0, 0.0, radius) ); // top
 
 		const int nvc = m_geom_settings->m_num_vertices_per_circle;
