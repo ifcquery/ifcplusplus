@@ -15,16 +15,10 @@
 #include <QtGui/qevent.h>
 #include <QtCore/QSettings>
 
-#include <ifcpp/reader/IfcPPReader.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/IfcPPGuid.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
-#include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
-#include <ifcpp/IFC4/include/IfcDirection.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 #include <ifcppgeometry/GeomUtils.h>
 
@@ -296,6 +290,7 @@ void TabReadWrite::slotTxtOutWarning( QString txt )
 {
 	m_txt_out->append( "<div style=\"color:#a97878;\">Warning: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
+
 void TabReadWrite::slotTxtOutError( QString txt )
 {
 	m_txt_out->append( "<div style=\"color:red;\">Error: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );

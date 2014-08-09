@@ -321,10 +321,8 @@ int IfcPPModel::getMaxUsedEntityId()
 	{
 		return 0;
 	}
-
-	std::map<int,shared_ptr<IfcPPEntity> >::iterator it_entities = m_map_entities.end();
-	--it_entities;
-	int max_used_id = it_entities->first;
+	 
+	int max_used_id = m_map_entities.rbegin()->first;
 	return max_used_id;
 }
 
@@ -335,6 +333,7 @@ void IfcPPModel::removeUnreferencedEntities()
 		shared_ptr<IfcPPEntity>& entity = it_entities->second;
 		if( entity.use_count() < 2 )
 		{
+			// if use_count is only 1, the entity is only referenced in m_map_entities, so no other entity or other object holds a shared_ptr
 			bool erase_entity = true;
 			shared_ptr<IfcRelationship> ifc_relationship = dynamic_pointer_cast<IfcRelationship>( entity );
 			if( ifc_relationship )
@@ -344,6 +343,7 @@ void IfcPPModel::removeUnreferencedEntities()
 				ifc_relationship->getAttributes( vec_attributes );
 				if( vec_attributes.size() > 4 )
 				{
+					// check if the object has relevant pointers
 					size_t num_relevant_attributes = 0;
 					// first 4 attributes are GlobalId, OwnerHistory, Name, Description
 					for( size_t ii = 4; ii < vec_attributes.size(); ++ii )

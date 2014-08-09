@@ -37,6 +37,7 @@ public:
 	int m_num_vertices_per_circle_default;
 	int m_min_num_vertices_per_arc;
 	bool m_show_text_literals;
+	bool m_ignore_profile_radius;
 	
 	/** if angle between two faces is smaller than m_intermediate_normal_angle, the normals will be added and normalized.
 	set to negative value to deactivate intermediate normals */

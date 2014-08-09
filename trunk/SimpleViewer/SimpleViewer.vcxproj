@@ -167,7 +167,7 @@
       <OutputFile>$(OutDir)\$(ProjectName)d.exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\plugins\platforms;$(OSG_DIR)\lib;$(OSG_DIR)\..\freetype\2.5.3\objs;..\Carve\bin;..\IfcPlusPlus\bin;..\IfcPlusPlusGeometry\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Rpcrt4.lib;opengl32.lib;glu32.lib;imm32.lib;winmm.lib;Ws2_32.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PlatformSupport.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgQtd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;freetype253_D.lib;Carved.lib;IfcPlusPlusd.lib;IfcPlusPlusGeometryd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PlatformSupport.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgQtd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;freetype253_D.lib;Carved.lib;IfcPlusPlusd.lib;IfcPlusPlusGeometryd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>
       </LinkTimeCodeGeneration>
     </Link>

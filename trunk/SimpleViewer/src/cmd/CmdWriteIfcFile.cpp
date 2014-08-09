@@ -15,7 +15,6 @@
 #include <QtCore/QTextStream>
 #include <osgDB/Registry>
 #include <osg/Switch>
-#include <osgUtil/Optimizer>
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
@@ -24,7 +23,6 @@
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 
-#include "Command.h"
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "CmdWriteIfcFile.h"

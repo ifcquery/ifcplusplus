@@ -192,6 +192,10 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 		if( geom_item )
 		{
 			shared_ptr<ItemData> geom_item_data( new ItemData() );
+			if( !geom_item_data )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			input_data->vec_item_data.push_back( geom_item_data );
 
 			if( m_handle_styled_items )
@@ -252,6 +256,10 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 
 			shared_ptr<ShapeInputData> mapped_input_data( new ShapeInputData() );
+			if( !mapped_input_data )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			convertIfcRepresentation( mapped_representation, mapped_input_data, strs_err );
 
 			if( m_handle_styled_items )
@@ -299,6 +307,10 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 		if( topo_item )
 		{
 			shared_ptr<ItemData> topo_item_data( new ItemData() );
+			if( !topo_item_data )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			input_data->vec_item_data.push_back( topo_item_data );
 
 			//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
@@ -312,6 +324,10 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			if( topo_edge )
 			{
 				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+				if( !polyline_data )
+				{
+					throw IfcPPException( "out of memory", __FUNC__ );
+				}
 				polyline_data->beginPolyline();
 				shared_ptr<IfcVertex>& vertex_start = topo_edge->m_EdgeStart;
 
@@ -453,6 +469,10 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		m_curve_converter->convertIfcCurve( curve, loops, segment_start_points );
 
 		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+		if( !polyline_data )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		polyline_data->beginPolyline();
 		for( int i = 0; i < loops.size(); ++i )
 		{
@@ -532,12 +552,16 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 	shared_ptr<IfcSurface> surface = dynamic_pointer_cast<IfcSurface>( geom_item );
 	if( surface )
 	{
-		shared_ptr<carve::input::PolylineSetData> polyline( new carve::input::PolylineSetData() );
-		shared_ptr<SurfaceProxy> surface_proxy;
-		m_face_converter->convertIfcSurface( surface, polyline, surface_proxy );
-		if( polyline->getVertexCount() > 1 )
+		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+		if( !polyline_data )
 		{
-			item_data->polylines.push_back( polyline );
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
+		shared_ptr<SurfaceProxy> surface_proxy;
+		m_face_converter->convertIfcSurface( surface, polyline_data, surface_proxy );
+		if( polyline_data->getVertexCount() > 1 )
+		{
+			item_data->polylines.push_back( polyline_data );
 		}
 		return;
 	}
@@ -550,7 +574,10 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 
 		const size_t num_points = poly_vertices.size();
 		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-
+		if( !polyline_data )
+		{
+			throw IfcPPException( "out of memory", __FUNC__ );
+		}
 		polyline_data->beginPolyline();
 
 		// apply position
@@ -592,6 +619,10 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 				m_curve_converter->convertIfcCurve( select_curve, loops, segment_start_points );
 
 				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+				if( !polyline_data )
+				{
+					throw IfcPPException( "out of memory", __FUNC__ );
+				}
 				polyline_data->beginPolyline();
 				for( int i = 0; i < loops.size(); ++i )
 				{
@@ -607,12 +638,16 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			shared_ptr<IfcSurface> select_surface = dynamic_pointer_cast<IfcSurface>( geom_select );
 			if( select_surface )
 			{
-				shared_ptr<carve::input::PolylineSetData> polyline( new carve::input::PolylineSetData() );
-				shared_ptr<SurfaceProxy> surface_proxy;
-				m_face_converter->convertIfcSurface( select_surface, polyline, surface_proxy );
-				if( polyline->getVertexCount() > 1 )
+				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+				if( !polyline_data )
 				{
-					item_data->polylines.push_back( polyline );
+					throw IfcPPException( "out of memory", __FUNC__ );
+				}
+				shared_ptr<SurfaceProxy> surface_proxy;
+				m_face_converter->convertIfcSurface( select_surface, polyline_data, surface_proxy );
+				if( polyline_data->getVertexCount() > 1 )
+				{
+					item_data->polylines.push_back( polyline_data );
 				}
 
 				continue;
@@ -665,6 +700,10 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 
 			shared_ptr<IfcTextPath>& path = text_literal->m_Path;
 			shared_ptr<TextItemData> text_item_data( new TextItemData() );
+			if( !text_item_data )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			text_item_data->m_text_position = text_position_matrix;
 			text_item_data->m_text = literal_text;
 
@@ -751,6 +790,10 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		{
 			shared_ptr<IfcRepresentation> ifc_opening_representation = ( *it_representations );
 			shared_ptr<ShapeInputData> opening_representation_data( new ShapeInputData() );
+			if( !opening_representation_data )
+			{
+				throw IfcPPException( "out of memory", __FUNC__ );
+			}
 			opening_representation_data->representation = ifc_opening_representation;
 
 			// TODO: Representation caching, one element could be used for several openings
@@ -878,6 +921,10 @@ void RepresentationConverter::convertIfcPropertySet( const shared_ptr<IfcPropert
 				carve::geom::vector<4> vec_color;
 				m_styles_converter->convertIfcComplexPropertyColor( complex_property, vec_color );
 				shared_ptr<AppearanceData> temp_appearance_data( new AppearanceData( -1 ) );
+				if( !temp_appearance_data )
+				{
+					throw IfcPPException( "out of memory", __FUNC__ );
+				}
 				temp_appearance_data->color_ambient = vec_color;
 				temp_appearance_data->color_diffuse = vec_color;
 				temp_appearance_data->color_specular = vec_color;
