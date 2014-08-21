@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSlabTypeEnum.h"
 
-// TYPE IfcSlabTypeEnum 
+// TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,USERDEFINED	,NOTDEFINED);
 IfcSlabTypeEnum::IfcSlabTypeEnum() {}
 IfcSlabTypeEnum::~IfcSlabTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSlabTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSlabTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSlabTypeEnum> copy_self( new IfcSlabTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }

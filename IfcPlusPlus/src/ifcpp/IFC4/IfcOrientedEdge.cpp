@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,23 +29,23 @@
 IfcOrientedEdge::IfcOrientedEdge() {}
 IfcOrientedEdge::IfcOrientedEdge( int id ) { m_id = id; }
 IfcOrientedEdge::~IfcOrientedEdge() {}
-shared_ptr<IfcPPObject> IfcOrientedEdge::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOrientedEdge::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOrientedEdge> copy_self( new IfcOrientedEdge() );
-	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy() ); }
-	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy() ); }
-	if( m_EdgeElement ) { copy_self->m_EdgeElement = dynamic_pointer_cast<IfcEdge>( m_EdgeElement->getDeepCopy() ); }
+	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
+	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy(options) ); }
+	if( m_EdgeElement ) { copy_self->m_EdgeElement = dynamic_pointer_cast<IfcEdge>( m_EdgeElement->getDeepCopy(options) ); }
 	if( m_Orientation ) { copy_self->m_Orientation = m_Orientation; }
 	return copy_self;
 }
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCORIENTEDEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->getId(); } else { stream << "$"; }
+	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Orientation == false ) { stream << ".F."; }
 	else if( m_Orientation == true ) { stream << ".T."; }
@@ -54,10 +55,7 @@ void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeElement, map );
@@ -68,7 +66,7 @@ void IfcOrientedEdge::getAttributes( std::vector<std::pair<std::string, shared_p
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeElement", m_EdgeElement ) );
-	vec_attributes.push_back( std::make_pair( "Orientation", shared_ptr<IfcPPBool>( new IfcPPBool( m_Orientation ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Orientation", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Orientation ) ) ) );
 }
 void IfcOrientedEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

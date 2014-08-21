@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,21 +28,21 @@
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship() {}
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_id = id; }
 IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() {}
-shared_ptr<IfcPPObject> IfcDocumentInformationRelationship::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDocumentInformationRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDocumentInformationRelationship> copy_self( new IfcDocumentInformationRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingDocument ) { copy_self->m_RelatingDocument = dynamic_pointer_cast<IfcDocumentInformation>( m_RelatingDocument->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingDocument ) { copy_self->m_RelatingDocument = dynamic_pointer_cast<IfcDocumentInformation>( m_RelatingDocument->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedDocuments.size(); ++ii )
 	{
 		auto item_ii = m_RelatedDocuments[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedDocuments.push_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedDocuments.push_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_RelationshipType ) { copy_self->m_RelationshipType = dynamic_pointer_cast<IfcLabel>( m_RelationshipType->getDeepCopy() ); }
+	if( m_RelationshipType ) { copy_self->m_RelationshipType = dynamic_pointer_cast<IfcLabel>( m_RelationshipType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream ) const
@@ -51,7 +52,7 @@ void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream 
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingDocument ) { stream << "#" << m_RelatingDocument->getId(); } else { stream << "$"; }
+	if( m_RelatingDocument ) { stream << "#" << m_RelatingDocument->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedDocuments );
 	stream << ",";
@@ -62,15 +63,12 @@ void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& st
 void IfcDocumentInformationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_RelatingDocument, map );
 	readEntityReferenceList( args[3], m_RelatedDocuments, map );
-	m_RelationshipType = IfcLabel::createObjectFromStepData( args[4] );
+	m_RelationshipType = IfcLabel::createObjectFromSTEP( args[4] );
 }
 void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -93,7 +91,7 @@ void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<IfcP
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcDocumentInformationRelationship> ptr_self = dynamic_pointer_cast<IfcDocumentInformationRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcDocumentInformationRelationship::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_RelatedDocuments.size(); ++i )
+	for( size_t i=0; i<m_RelatedDocuments.size(); ++i )
 	{
 		if( m_RelatedDocuments[i] )
 		{
@@ -108,16 +106,15 @@ void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<IfcP
 void IfcDocumentInformationRelationship::unlinkSelf()
 {
 	IfcResourceLevelRelationship::unlinkSelf();
-	for( int i=0; i<m_RelatedDocuments.size(); ++i )
+	for( size_t i=0; i<m_RelatedDocuments.size(); ++i )
 	{
 		if( m_RelatedDocuments[i] )
 		{
 			std::vector<weak_ptr<IfcDocumentInformationRelationship> >& IsPointedTo_inverse = m_RelatedDocuments[i]->m_IsPointedTo_inverse;
-			std::vector<weak_ptr<IfcDocumentInformationRelationship> >::iterator it_IsPointedTo_inverse;
-			for( it_IsPointedTo_inverse = IsPointedTo_inverse.begin(); it_IsPointedTo_inverse != IsPointedTo_inverse.end(); ++it_IsPointedTo_inverse)
+			for( auto it_IsPointedTo_inverse = IsPointedTo_inverse.begin(); it_IsPointedTo_inverse != IsPointedTo_inverse.end(); ++it_IsPointedTo_inverse)
 			{
 				shared_ptr<IfcDocumentInformationRelationship> self_candidate( *it_IsPointedTo_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					IsPointedTo_inverse.erase( it_IsPointedTo_inverse );
 					break;
@@ -128,11 +125,10 @@ void IfcDocumentInformationRelationship::unlinkSelf()
 	if( m_RelatingDocument )
 	{
 		std::vector<weak_ptr<IfcDocumentInformationRelationship> >& IsPointer_inverse = m_RelatingDocument->m_IsPointer_inverse;
-		std::vector<weak_ptr<IfcDocumentInformationRelationship> >::iterator it_IsPointer_inverse;
-		for( it_IsPointer_inverse = IsPointer_inverse.begin(); it_IsPointer_inverse != IsPointer_inverse.end(); ++it_IsPointer_inverse)
+		for( auto it_IsPointer_inverse = IsPointer_inverse.begin(); it_IsPointer_inverse != IsPointer_inverse.end(); ++it_IsPointer_inverse)
 		{
 			shared_ptr<IfcDocumentInformationRelationship> self_candidate( *it_IsPointer_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				IsPointer_inverse.erase( it_IsPointer_inverse );
 				break;

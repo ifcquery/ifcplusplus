@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,13 +27,13 @@
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition() {}
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int id ) { m_id = id; }
 IfcSlippageConnectionCondition::~IfcSlippageConnectionCondition() {}
-shared_ptr<IfcPPObject> IfcSlippageConnectionCondition::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSlippageConnectionCondition::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSlippageConnectionCondition> copy_self( new IfcSlippageConnectionCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_SlippageX ) { copy_self->m_SlippageX = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageX->getDeepCopy() ); }
-	if( m_SlippageY ) { copy_self->m_SlippageY = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageY->getDeepCopy() ); }
-	if( m_SlippageZ ) { copy_self->m_SlippageZ = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageZ->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_SlippageX ) { copy_self->m_SlippageX = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageX->getDeepCopy(options) ); }
+	if( m_SlippageY ) { copy_self->m_SlippageY = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageY->getDeepCopy(options) ); }
+	if( m_SlippageZ ) { copy_self->m_SlippageZ = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageZ->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) const
@@ -51,14 +52,11 @@ void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream
 void IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_SlippageX = IfcLengthMeasure::createObjectFromStepData( args[1] );
-	m_SlippageY = IfcLengthMeasure::createObjectFromStepData( args[2] );
-	m_SlippageZ = IfcLengthMeasure::createObjectFromStepData( args[3] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_SlippageX = IfcLengthMeasure::createObjectFromSTEP( args[1] );
+	m_SlippageY = IfcLengthMeasure::createObjectFromSTEP( args[2] );
+	m_SlippageZ = IfcLengthMeasure::createObjectFromSTEP( args[3] );
 }
 void IfcSlippageConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

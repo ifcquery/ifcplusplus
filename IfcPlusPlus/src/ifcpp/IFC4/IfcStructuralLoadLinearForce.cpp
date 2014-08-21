@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce() {}
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_id = id; }
 IfcStructuralLoadLinearForce::~IfcStructuralLoadLinearForce() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadLinearForce::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralLoadLinearForce::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadLinearForce> copy_self( new IfcStructuralLoadLinearForce() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_LinearForceX ) { copy_self->m_LinearForceX = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceX->getDeepCopy() ); }
-	if( m_LinearForceY ) { copy_self->m_LinearForceY = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceY->getDeepCopy() ); }
-	if( m_LinearForceZ ) { copy_self->m_LinearForceZ = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceZ->getDeepCopy() ); }
-	if( m_LinearMomentX ) { copy_self->m_LinearMomentX = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentX->getDeepCopy() ); }
-	if( m_LinearMomentY ) { copy_self->m_LinearMomentY = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentY->getDeepCopy() ); }
-	if( m_LinearMomentZ ) { copy_self->m_LinearMomentZ = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentZ->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_LinearForceX ) { copy_self->m_LinearForceX = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceX->getDeepCopy(options) ); }
+	if( m_LinearForceY ) { copy_self->m_LinearForceY = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceY->getDeepCopy(options) ); }
+	if( m_LinearForceZ ) { copy_self->m_LinearForceZ = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceZ->getDeepCopy(options) ); }
+	if( m_LinearMomentX ) { copy_self->m_LinearMomentX = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentX->getDeepCopy(options) ); }
+	if( m_LinearMomentY ) { copy_self->m_LinearMomentY = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentY->getDeepCopy(options) ); }
+	if( m_LinearMomentZ ) { copy_self->m_LinearMomentZ = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentZ->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) const
@@ -61,17 +62,14 @@ void IfcStructuralLoadLinearForce::getStepParameter( std::stringstream& stream, 
 void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_LinearForceX = IfcLinearForceMeasure::createObjectFromStepData( args[1] );
-	m_LinearForceY = IfcLinearForceMeasure::createObjectFromStepData( args[2] );
-	m_LinearForceZ = IfcLinearForceMeasure::createObjectFromStepData( args[3] );
-	m_LinearMomentX = IfcLinearMomentMeasure::createObjectFromStepData( args[4] );
-	m_LinearMomentY = IfcLinearMomentMeasure::createObjectFromStepData( args[5] );
-	m_LinearMomentZ = IfcLinearMomentMeasure::createObjectFromStepData( args[6] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_LinearForceX = IfcLinearForceMeasure::createObjectFromSTEP( args[1] );
+	m_LinearForceY = IfcLinearForceMeasure::createObjectFromSTEP( args[2] );
+	m_LinearForceZ = IfcLinearForceMeasure::createObjectFromSTEP( args[3] );
+	m_LinearMomentX = IfcLinearMomentMeasure::createObjectFromSTEP( args[4] );
+	m_LinearMomentY = IfcLinearMomentMeasure::createObjectFromSTEP( args[5] );
+	m_LinearMomentZ = IfcLinearMomentMeasure::createObjectFromSTEP( args[6] );
 }
 void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

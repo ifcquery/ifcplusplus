@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,23 +32,31 @@
 IfcRelAssignsToControl::IfcRelAssignsToControl() {}
 IfcRelAssignsToControl::IfcRelAssignsToControl( int id ) { m_id = id; }
 IfcRelAssignsToControl::~IfcRelAssignsToControl() {}
-shared_ptr<IfcPPObject> IfcRelAssignsToControl::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelAssignsToControl::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToControl> copy_self( new IfcRelAssignsToControl() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedObjects.size(); ++ii )
 	{
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy() ); }
-	if( m_RelatingControl ) { copy_self->m_RelatingControl = dynamic_pointer_cast<IfcControl>( m_RelatingControl->getDeepCopy() ); }
+	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
+	if( m_RelatingControl ) { copy_self->m_RelatingControl = dynamic_pointer_cast<IfcControl>( m_RelatingControl->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelAssignsToControl::getStepLine( std::stringstream& stream ) const
@@ -55,7 +64,7 @@ void IfcRelAssignsToControl::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELASSIGNSTOCONTROL" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -65,23 +74,20 @@ void IfcRelAssignsToControl::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingControl ) { stream << "#" << m_RelatingControl->getId(); } else { stream << "$"; }
+	if( m_RelatingControl ) { stream << "#" << m_RelatingControl->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRelAssignsToControl::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcRelAssignsToControl::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelAssignsToControl, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcRelAssignsToControl, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelAssignsToControl, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReferenceList( args[4], m_RelatedObjects, map );
-	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromStepData( args[5] );
+	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5] );
 	readEntityReference( args[6], m_RelatingControl, map );
 }
 void IfcRelAssignsToControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -109,11 +115,10 @@ void IfcRelAssignsToControl::unlinkSelf()
 	if( m_RelatingControl )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToControl> >& Controls_inverse = m_RelatingControl->m_Controls_inverse;
-		std::vector<weak_ptr<IfcRelAssignsToControl> >::iterator it_Controls_inverse;
-		for( it_Controls_inverse = Controls_inverse.begin(); it_Controls_inverse != Controls_inverse.end(); ++it_Controls_inverse)
+		for( auto it_Controls_inverse = Controls_inverse.begin(); it_Controls_inverse != Controls_inverse.end(); ++it_Controls_inverse)
 		{
 			shared_ptr<IfcRelAssignsToControl> self_candidate( *it_Controls_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				Controls_inverse.erase( it_Controls_inverse );
 				break;

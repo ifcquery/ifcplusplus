@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcUnitaryControlElementTypeEnum.h"
 
-// TYPE IfcUnitaryControlElementTypeEnum 
+// TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
 IfcUnitaryControlElementTypeEnum::IfcUnitaryControlElementTypeEnum() {}
 IfcUnitaryControlElementTypeEnum::~IfcUnitaryControlElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcUnitaryControlElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stre
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }

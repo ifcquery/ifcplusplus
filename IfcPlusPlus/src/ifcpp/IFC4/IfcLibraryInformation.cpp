@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,15 +32,15 @@
 IfcLibraryInformation::IfcLibraryInformation() {}
 IfcLibraryInformation::IfcLibraryInformation( int id ) { m_id = id; }
 IfcLibraryInformation::~IfcLibraryInformation() {}
-shared_ptr<IfcPPObject> IfcLibraryInformation::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLibraryInformation::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLibraryInformation> copy_self( new IfcLibraryInformation() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy() ); }
-	if( m_Publisher ) { copy_self->m_Publisher = dynamic_pointer_cast<IfcActorSelect>( m_Publisher->getDeepCopy() ); }
-	if( m_VersionDate ) { copy_self->m_VersionDate = dynamic_pointer_cast<IfcDateTime>( m_VersionDate->getDeepCopy() ); }
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy(options) ); }
+	if( m_Publisher ) { copy_self->m_Publisher = dynamic_pointer_cast<IfcActorSelect>( m_Publisher->getDeepCopy(options) ); }
+	if( m_VersionDate ) { copy_self->m_VersionDate = dynamic_pointer_cast<IfcDateTime>( m_VersionDate->getDeepCopy(options) ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcLibraryInformation::getStepLine( std::stringstream& stream ) const
@@ -62,16 +63,13 @@ void IfcLibraryInformation::getStepParameter( std::stringstream& stream, bool ) 
 void IfcLibraryInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Version = IfcLabel::createObjectFromStepData( args[1] );
-	m_Publisher = IfcActorSelect::createObjectFromStepData( args[2], map );
-	m_VersionDate = IfcDateTime::createObjectFromStepData( args[3] );
-	m_Location = IfcURIReference::createObjectFromStepData( args[4] );
-	m_Description = IfcText::createObjectFromStepData( args[5] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Version = IfcLabel::createObjectFromSTEP( args[1] );
+	m_Publisher = IfcActorSelect::createObjectFromSTEP( args[2], map );
+	m_VersionDate = IfcDateTime::createObjectFromSTEP( args[3] );
+	m_Location = IfcURIReference::createObjectFromSTEP( args[4] );
+	m_Description = IfcText::createObjectFromSTEP( args[5] );
 }
 void IfcLibraryInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

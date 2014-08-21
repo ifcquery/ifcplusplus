@@ -21,15 +21,16 @@
 #include "IfcSimpleValue.h"
 
 // TYPE IfcLabel = STRING(255);
-class IfcLabel : public IfcSimpleValue, public IfcPPString
+class IfcLabel : public IfcSimpleValue
 {
 public:
 	IfcLabel();
 	IfcLabel( std::wstring value );
 	~IfcLabel();
 	virtual const char* classname() const { return "IfcLabel"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLabel> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcLabel> createObjectFromSTEP( const std::wstring& arg );
+	std::wstring m_value;
 };
 

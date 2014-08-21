@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcFrequencyMeasure.h"
 
-// TYPE IfcFrequencyMeasure 
+// TYPE IfcFrequencyMeasure = REAL;
 IfcFrequencyMeasure::IfcFrequencyMeasure() {}
 IfcFrequencyMeasure::IfcFrequencyMeasure( double value ) { m_value = value; }
 IfcFrequencyMeasure::~IfcFrequencyMeasure() {}
-shared_ptr<IfcPPObject> IfcFrequencyMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFrequencyMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFrequencyMeasure> copy_self( new IfcFrequencyMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcFrequencyMeasure::getStepParameter( std::stringstream& stream, bool is_s
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFrequencyMeasure> IfcFrequencyMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFrequencyMeasure> IfcFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
 	shared_ptr<IfcFrequencyMeasure> type_object( new IfcFrequencyMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

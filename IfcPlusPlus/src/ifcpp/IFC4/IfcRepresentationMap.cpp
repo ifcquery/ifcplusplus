@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,11 +29,11 @@
 IfcRepresentationMap::IfcRepresentationMap() {}
 IfcRepresentationMap::IfcRepresentationMap( int id ) { m_id = id; }
 IfcRepresentationMap::~IfcRepresentationMap() {}
-shared_ptr<IfcPPObject> IfcRepresentationMap::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRepresentationMap::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRepresentationMap> copy_self( new IfcRepresentationMap() );
-	if( m_MappingOrigin ) { copy_self->m_MappingOrigin = dynamic_pointer_cast<IfcAxis2Placement>( m_MappingOrigin->getDeepCopy() ); }
-	if( m_MappedRepresentation ) { copy_self->m_MappedRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_MappedRepresentation->getDeepCopy() ); }
+	if( m_MappingOrigin ) { copy_self->m_MappingOrigin = dynamic_pointer_cast<IfcAxis2Placement>( m_MappingOrigin->getDeepCopy(options) ); }
+	if( m_MappedRepresentation ) { copy_self->m_MappedRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_MappedRepresentation->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRepresentationMap::getStepLine( std::stringstream& stream ) const
@@ -40,18 +41,15 @@ void IfcRepresentationMap::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCREPRESENTATIONMAP" << "(";
 	if( m_MappingOrigin ) { m_MappingOrigin->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_MappedRepresentation ) { stream << "#" << m_MappedRepresentation->getId(); } else { stream << "$"; }
+	if( m_MappedRepresentation ) { stream << "#" << m_MappedRepresentation->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRepresentationMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcRepresentationMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_MappingOrigin = IfcAxis2Placement::createObjectFromStepData( args[0], map );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_MappingOrigin = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_MappedRepresentation, map );
 }
 void IfcRepresentationMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -100,11 +98,10 @@ void IfcRepresentationMap::unlinkSelf()
 	if( m_MappedRepresentation )
 	{
 		std::vector<weak_ptr<IfcRepresentationMap> >& RepresentationMap_inverse = m_MappedRepresentation->m_RepresentationMap_inverse;
-		std::vector<weak_ptr<IfcRepresentationMap> >::iterator it_RepresentationMap_inverse;
-		for( it_RepresentationMap_inverse = RepresentationMap_inverse.begin(); it_RepresentationMap_inverse != RepresentationMap_inverse.end(); ++it_RepresentationMap_inverse)
+		for( auto it_RepresentationMap_inverse = RepresentationMap_inverse.begin(); it_RepresentationMap_inverse != RepresentationMap_inverse.end(); ++it_RepresentationMap_inverse)
 		{
 			shared_ptr<IfcRepresentationMap> self_candidate( *it_RepresentationMap_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				RepresentationMap_inverse.erase( it_RepresentationMap_inverse );
 				break;

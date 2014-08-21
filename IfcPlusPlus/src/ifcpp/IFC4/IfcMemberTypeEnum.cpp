@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcMemberTypeEnum.h"
 
-// TYPE IfcMemberTypeEnum 
+// TYPE IfcMemberTypeEnum = ENUMERATION OF	(BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STRINGER	,STRUT	,STUD	,USERDEFINED	,NOTDEFINED);
 IfcMemberTypeEnum::IfcMemberTypeEnum() {}
 IfcMemberTypeEnum::~IfcMemberTypeEnum() {}
-shared_ptr<IfcPPObject> IfcMemberTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMemberTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMemberTypeEnum> copy_self( new IfcMemberTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -90,7 +90,7 @@ void IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMemberTypeEnum> IfcMemberTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMemberTypeEnum> IfcMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMemberTypeEnum>(); }

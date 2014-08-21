@@ -41,9 +41,9 @@ public:
 	IfcConstructionEquipmentResourceTypeEnum( IfcConstructionEquipmentResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcConstructionEquipmentResourceTypeEnum();
 	virtual const char* classname() const { return "IfcConstructionEquipmentResourceTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcConstructionEquipmentResourceTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcConstructionEquipmentResourceTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcConstructionEquipmentResourceTypeEnumEnum m_enum;
 };
 

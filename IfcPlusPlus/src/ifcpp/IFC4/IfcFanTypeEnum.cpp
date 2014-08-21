@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFanTypeEnum.h"
 
-// TYPE IfcFanTypeEnum 
+// TYPE IfcFanTypeEnum = ENUMERATION OF	(CENTRIFUGALFORWARDCURVED	,CENTRIFUGALRADIAL	,CENTRIFUGALBACKWARDINCLINEDCURVED	,CENTRIFUGALAIRFOIL	,TUBEAXIAL	,VANEAXIAL	,PROPELLORAXIAL	,USERDEFINED	,NOTDEFINED);
 IfcFanTypeEnum::IfcFanTypeEnum() {}
 IfcFanTypeEnum::~IfcFanTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFanTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFanTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFanTypeEnum> copy_self( new IfcFanTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcFanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }

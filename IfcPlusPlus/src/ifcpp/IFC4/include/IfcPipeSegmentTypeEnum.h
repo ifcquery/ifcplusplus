@@ -38,9 +38,9 @@ public:
 	IfcPipeSegmentTypeEnum( IfcPipeSegmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcPipeSegmentTypeEnum();
 	virtual const char* classname() const { return "IfcPipeSegmentTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcPipeSegmentTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcPipeSegmentTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcPipeSegmentTypeEnumEnum m_enum;
 };
 

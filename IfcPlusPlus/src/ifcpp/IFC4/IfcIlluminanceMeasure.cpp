@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcIlluminanceMeasure.h"
 
-// TYPE IfcIlluminanceMeasure 
+// TYPE IfcIlluminanceMeasure = REAL;
 IfcIlluminanceMeasure::IfcIlluminanceMeasure() {}
 IfcIlluminanceMeasure::IfcIlluminanceMeasure( double value ) { m_value = value; }
 IfcIlluminanceMeasure::~IfcIlluminanceMeasure() {}
-shared_ptr<IfcPPObject> IfcIlluminanceMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIlluminanceMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIlluminanceMeasure> copy_self( new IfcIlluminanceMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcIlluminanceMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIlluminanceMeasure> IfcIlluminanceMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcIlluminanceMeasure> IfcIlluminanceMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	shared_ptr<IfcIlluminanceMeasure> type_object( new IfcIlluminanceMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

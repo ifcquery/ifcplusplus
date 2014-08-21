@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,22 +29,22 @@
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity() {}
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity( int id ) { m_id = id; }
 IfcPhysicalComplexQuantity::~IfcPhysicalComplexQuantity() {}
-shared_ptr<IfcPPObject> IfcPhysicalComplexQuantity::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPhysicalComplexQuantity::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalComplexQuantity> copy_self( new IfcPhysicalComplexQuantity() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_HasQuantities.size(); ++ii )
 	{
 		auto item_ii = m_HasQuantities[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy() ) );
+			copy_self->m_HasQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Discrimination ) { copy_self->m_Discrimination = dynamic_pointer_cast<IfcLabel>( m_Discrimination->getDeepCopy() ); }
-	if( m_Quality ) { copy_self->m_Quality = dynamic_pointer_cast<IfcLabel>( m_Quality->getDeepCopy() ); }
-	if( m_Usage ) { copy_self->m_Usage = dynamic_pointer_cast<IfcLabel>( m_Usage->getDeepCopy() ); }
+	if( m_Discrimination ) { copy_self->m_Discrimination = dynamic_pointer_cast<IfcLabel>( m_Discrimination->getDeepCopy(options) ); }
+	if( m_Quality ) { copy_self->m_Quality = dynamic_pointer_cast<IfcLabel>( m_Quality->getDeepCopy(options) ); }
+	if( m_Usage ) { copy_self->m_Usage = dynamic_pointer_cast<IfcLabel>( m_Usage->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
@@ -66,16 +67,13 @@ void IfcPhysicalComplexQuantity::getStepParameter( std::stringstream& stream, bo
 void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPhysicalComplexQuantity, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcPhysicalComplexQuantity, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPhysicalComplexQuantity, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReferenceList( args[2], m_HasQuantities, map );
-	m_Discrimination = IfcLabel::createObjectFromStepData( args[3] );
-	m_Quality = IfcLabel::createObjectFromStepData( args[4] );
-	m_Usage = IfcLabel::createObjectFromStepData( args[5] );
+	m_Discrimination = IfcLabel::createObjectFromSTEP( args[3] );
+	m_Quality = IfcLabel::createObjectFromSTEP( args[4] );
+	m_Usage = IfcLabel::createObjectFromSTEP( args[5] );
 }
 void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -99,7 +97,7 @@ void IfcPhysicalComplexQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity>
 	IfcPhysicalQuantity::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcPhysicalComplexQuantity> ptr_self = dynamic_pointer_cast<IfcPhysicalComplexQuantity>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcPhysicalComplexQuantity::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_HasQuantities.size(); ++i )
+	for( size_t i=0; i<m_HasQuantities.size(); ++i )
 	{
 		if( m_HasQuantities[i] )
 		{
@@ -110,16 +108,15 @@ void IfcPhysicalComplexQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity>
 void IfcPhysicalComplexQuantity::unlinkSelf()
 {
 	IfcPhysicalQuantity::unlinkSelf();
-	for( int i=0; i<m_HasQuantities.size(); ++i )
+	for( size_t i=0; i<m_HasQuantities.size(); ++i )
 	{
 		if( m_HasQuantities[i] )
 		{
 			std::vector<weak_ptr<IfcPhysicalComplexQuantity> >& PartOfComplex_inverse = m_HasQuantities[i]->m_PartOfComplex_inverse;
-			std::vector<weak_ptr<IfcPhysicalComplexQuantity> >::iterator it_PartOfComplex_inverse;
-			for( it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); ++it_PartOfComplex_inverse)
+			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); ++it_PartOfComplex_inverse)
 			{
 				shared_ptr<IfcPhysicalComplexQuantity> self_candidate( *it_PartOfComplex_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					PartOfComplex_inverse.erase( it_PartOfComplex_inverse );
 					break;

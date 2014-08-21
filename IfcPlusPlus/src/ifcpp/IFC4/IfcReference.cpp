@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,13 +27,14 @@
 IfcReference::IfcReference() {}
 IfcReference::IfcReference( int id ) { m_id = id; }
 IfcReference::~IfcReference() {}
-shared_ptr<IfcPPObject> IfcReference::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReference::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReference> copy_self( new IfcReference() );
-	if( m_TypeIdentifier ) { copy_self->m_TypeIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_TypeIdentifier->getDeepCopy() ); }
-	if( m_AttributeIdentifier ) { copy_self->m_AttributeIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_AttributeIdentifier->getDeepCopy() ); }
-	if( m_InstanceName ) { copy_self->m_InstanceName = dynamic_pointer_cast<IfcLabel>( m_InstanceName->getDeepCopy() ); }
-	if( m_InnerReference ) { copy_self->m_InnerReference = dynamic_pointer_cast<IfcReference>( m_InnerReference->getDeepCopy() ); }
+	if( m_TypeIdentifier ) { copy_self->m_TypeIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_TypeIdentifier->getDeepCopy(options) ); }
+	if( m_AttributeIdentifier ) { copy_self->m_AttributeIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_AttributeIdentifier->getDeepCopy(options) ); }
+	if( m_InstanceName ) { copy_self->m_InstanceName = dynamic_pointer_cast<IfcLabel>( m_InstanceName->getDeepCopy(options) ); }
+	if( m_ListPositions.size() > 0 ) { std::copy( m_ListPositions.begin(), m_ListPositions.end(), std::back_inserter( copy_self->m_ListPositions ) ); }
+	if( m_InnerReference ) { copy_self->m_InnerReference = dynamic_pointer_cast<IfcReference>( m_InnerReference->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcReference::getStepLine( std::stringstream& stream ) const
@@ -46,20 +48,17 @@ void IfcReference::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeIntList( stream, m_ListPositions );
 	stream << ",";
-	if( m_InnerReference ) { stream << "#" << m_InnerReference->getId(); } else { stream << "$"; }
+	if( m_InnerReference ) { stream << "#" << m_InnerReference->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReference, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcReference, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_TypeIdentifier = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_AttributeIdentifier = IfcIdentifier::createObjectFromStepData( args[1] );
-	m_InstanceName = IfcLabel::createObjectFromStepData( args[2] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReference, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_TypeIdentifier = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_AttributeIdentifier = IfcIdentifier::createObjectFromSTEP( args[1] );
+	m_InstanceName = IfcLabel::createObjectFromSTEP( args[2] );
 	readIntList(  args[3], m_ListPositions );
 	readEntityReference( args[4], m_InnerReference, map );
 }
@@ -73,7 +72,7 @@ void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 		shared_ptr<IfcPPAttributeObjectVector> ListPositions_vec_obj( new IfcPPAttributeObjectVector() );
 		for( size_t i=0; i<m_ListPositions.size(); ++i )
 		{
-			ListPositions_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ListPositions[i] ) ) );
+			ListPositions_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_ListPositions[i] ) ) );
 		}
 		vec_attributes.push_back( std::make_pair( "ListPositions", ListPositions_vec_obj ) );
 	}

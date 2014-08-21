@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcProcedureTypeEnum.h"
 
-// TYPE IfcProcedureTypeEnum 
+// TYPE IfcProcedureTypeEnum = ENUMERATION OF	(ADVICE_CAUTION	,ADVICE_NOTE	,ADVICE_WARNING	,CALIBRATION	,DIAGNOSTIC	,SHUTDOWN	,STARTUP	,USERDEFINED	,NOTDEFINED);
 IfcProcedureTypeEnum::IfcProcedureTypeEnum() {}
 IfcProcedureTypeEnum::~IfcProcedureTypeEnum() {}
-shared_ptr<IfcPPObject> IfcProcedureTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProcedureTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProcedureTypeEnum> copy_self( new IfcProcedureTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }

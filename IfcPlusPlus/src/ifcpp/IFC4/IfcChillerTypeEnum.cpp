@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcChillerTypeEnum.h"
 
-// TYPE IfcChillerTypeEnum 
+// TYPE IfcChillerTypeEnum = ENUMERATION OF	(AIRCOOLED	,WATERCOOLED	,HEATRECOVERY	,USERDEFINED	,NOTDEFINED);
 IfcChillerTypeEnum::IfcChillerTypeEnum() {}
 IfcChillerTypeEnum::~IfcChillerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcChillerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcChillerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcChillerTypeEnum> copy_self( new IfcChillerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }

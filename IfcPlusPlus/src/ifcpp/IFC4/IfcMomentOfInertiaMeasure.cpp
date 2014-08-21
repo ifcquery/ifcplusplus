@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcMomentOfInertiaMeasure.h"
 
-// TYPE IfcMomentOfInertiaMeasure 
+// TYPE IfcMomentOfInertiaMeasure = REAL;
 IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure() {}
 IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure( double value ) { m_value = value; }
 IfcMomentOfInertiaMeasure::~IfcMomentOfInertiaMeasure() {}
-shared_ptr<IfcPPObject> IfcMomentOfInertiaMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMomentOfInertiaMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMomentOfInertiaMeasure> copy_self( new IfcMomentOfInertiaMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMomentOfInertiaMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMomentOfInertiaMeasure> IfcMomentOfInertiaMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMomentOfInertiaMeasure> IfcMomentOfInertiaMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
 	shared_ptr<IfcMomentOfInertiaMeasure> type_object( new IfcMomentOfInertiaMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSurfaceSide.h"
 
-// TYPE IfcSurfaceSide 
+// TYPE IfcSurfaceSide = ENUMERATION OF	(POSITIVE	,NEGATIVE	,BOTH);
 IfcSurfaceSide::IfcSurfaceSide() {}
 IfcSurfaceSide::~IfcSurfaceSide() {}
-shared_ptr<IfcPPObject> IfcSurfaceSide::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSurfaceSide::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceSide> copy_self( new IfcSurfaceSide() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }

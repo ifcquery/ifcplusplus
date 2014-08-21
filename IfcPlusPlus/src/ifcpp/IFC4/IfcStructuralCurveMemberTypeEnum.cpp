@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcStructuralCurveMemberTypeEnum.h"
 
-// TYPE IfcStructuralCurveMemberTypeEnum 
+// TYPE IfcStructuralCurveMemberTypeEnum = ENUMERATION OF	(RIGID_JOINED_MEMBER	,PIN_JOINED_MEMBER	,CABLE	,TENSION_MEMBER	,COMPRESSION_MEMBER	,USERDEFINED	,NOTDEFINED);
 IfcStructuralCurveMemberTypeEnum::IfcStructuralCurveMemberTypeEnum() {}
 IfcStructuralCurveMemberTypeEnum::~IfcStructuralCurveMemberTypeEnum() {}
-shared_ptr<IfcPPObject> IfcStructuralCurveMemberTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralCurveMemberTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveMemberTypeEnum> copy_self( new IfcStructuralCurveMemberTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstream& stre
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStructuralCurveMemberTypeEnum> IfcStructuralCurveMemberTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcStructuralCurveMemberTypeEnum> IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }

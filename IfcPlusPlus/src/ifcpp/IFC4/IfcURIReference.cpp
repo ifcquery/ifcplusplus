@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcURIReference.h"
 
-// TYPE IfcURIReference 
+// TYPE IfcURIReference = STRING;
 IfcURIReference::IfcURIReference() {}
 IfcURIReference::IfcURIReference( std::wstring value ) { m_value = value; }
 IfcURIReference::~IfcURIReference() {}
-shared_ptr<IfcPPObject> IfcURIReference::getDeepCopy()
+shared_ptr<IfcPPObject> IfcURIReference::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcURIReference> copy_self( new IfcURIReference() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcURIReference::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcURIReference> IfcURIReference::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcURIReference> IfcURIReference::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
 	shared_ptr<IfcURIReference> type_object( new IfcURIReference() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

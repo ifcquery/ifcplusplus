@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcConstraintEnum.h"
 
-// TYPE IfcConstraintEnum 
+// TYPE IfcConstraintEnum = ENUMERATION OF	(HARD	,SOFT	,ADVISORY	,USERDEFINED	,NOTDEFINED);
 IfcConstraintEnum::IfcConstraintEnum() {}
 IfcConstraintEnum::~IfcConstraintEnum() {}
-shared_ptr<IfcPPObject> IfcConstraintEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConstraintEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConstraintEnum> copy_self( new IfcConstraintEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }

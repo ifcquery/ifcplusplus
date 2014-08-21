@@ -21,13 +21,13 @@
 #include "IfcSolidOrShell.h"
 #include "IfcGeometricRepresentationItem.h"
 //ENTITY
-class IfcSolidModel : public IfcBooleanOperand, public IfcSolidOrShell, public IfcGeometricRepresentationItem
+class IfcSolidModel : virtual public IfcBooleanOperand, virtual public IfcSolidOrShell, public IfcGeometricRepresentationItem
 {
 public:
 	IfcSolidModel();
 	IfcSolidModel( int id );
 	~IfcSolidModel();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

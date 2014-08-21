@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,22 +30,22 @@
 IfcImageTexture::IfcImageTexture() {}
 IfcImageTexture::IfcImageTexture( int id ) { m_id = id; }
 IfcImageTexture::~IfcImageTexture() {}
-shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy()
+shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcImageTexture> copy_self( new IfcImageTexture() );
 	if( m_RepeatS ) { copy_self->m_RepeatS = m_RepeatS; }
 	if( m_RepeatT ) { copy_self->m_RepeatT = m_RepeatT; }
-	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy() ); }
-	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy() ); }
+	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy(options) ); }
+	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
 	{
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy() ) );
+			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_URLReference ) { copy_self->m_URLReference = dynamic_pointer_cast<IfcURIReference>( m_URLReference->getDeepCopy() ); }
+	if( m_URLReference ) { copy_self->m_URLReference = dynamic_pointer_cast<IfcURIReference>( m_URLReference->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcImageTexture::getStepLine( std::stringstream& stream ) const
@@ -58,7 +59,7 @@ void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->getId(); } else { stream << "*"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_id; } else { stream << "*"; }
 	stream << ",";
 	writeTypeList( stream, m_Parameter );
 	stream << ",";
@@ -69,18 +70,15 @@ void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	if( boost::iequals( args[0], L".F." ) ) { m_RepeatS = false; }
 	else if( boost::iequals( args[0], L".T." ) ) { m_RepeatS = true; }
 	if( boost::iequals( args[1], L".F." ) ) { m_RepeatT = false; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_RepeatT = true; }
-	m_Mode = IfcIdentifier::createObjectFromStepData( args[2] );
+	m_Mode = IfcIdentifier::createObjectFromSTEP( args[2] );
 	readEntityReference( args[3], m_TextureTransform, map );
-	readTypeList( args[4], m_Parameter );
-	m_URLReference = IfcURIReference::createObjectFromStepData( args[5] );
+	readSelectList( args[4], m_Parameter, map );
+	m_URLReference = IfcURIReference::createObjectFromSTEP( args[5] );
 }
 void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

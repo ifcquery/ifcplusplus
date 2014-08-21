@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcAddressTypeEnum.h"
 
-// TYPE IfcAddressTypeEnum 
+// TYPE IfcAddressTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,HOME	,DISTRIBUTIONPOINT	,USERDEFINED);
 IfcAddressTypeEnum::IfcAddressTypeEnum() {}
 IfcAddressTypeEnum::~IfcAddressTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAddressTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAddressTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAddressTypeEnum> copy_self( new IfcAddressTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcAddressTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }

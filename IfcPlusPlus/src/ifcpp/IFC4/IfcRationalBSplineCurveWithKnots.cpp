@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,7 +31,7 @@
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots() {}
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_id = id; }
 IfcRationalBSplineCurveWithKnots::~IfcRationalBSplineCurveWithKnots() {}
-shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRationalBSplineCurveWithKnots> copy_self( new IfcRationalBSplineCurveWithKnots() );
 	if( m_Degree ) { copy_self->m_Degree = m_Degree; }
@@ -39,21 +40,23 @@ shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy()
 		auto item_ii = m_ControlPointsList[ii];
 		if( item_ii )
 		{
-			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy() ) );
+			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy() ); }
+	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy(options) ); }
 	if( m_ClosedCurve ) { copy_self->m_ClosedCurve = m_ClosedCurve; }
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	if( m_KnotMultiplicities.size() > 0 ) { std::copy( m_KnotMultiplicities.begin(), m_KnotMultiplicities.end(), std::back_inserter( copy_self->m_KnotMultiplicities ) ); }
 	for( size_t ii=0; ii<m_Knots.size(); ++ii )
 	{
 		auto item_ii = m_Knots[ii];
 		if( item_ii )
 		{
-			copy_self->m_Knots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_Knots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy() ); }
+	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy(options) ); }
+	if( m_WeightsData.size() > 0 ) { std::copy( m_WeightsData.begin(), m_WeightsData.end(), std::back_inserter( copy_self->m_WeightsData ) ); }
 	return copy_self;
 }
 void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
@@ -86,13 +89,10 @@ void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stre
 void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>9 ){ std::cout << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readIntValue( args[0], m_Degree );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
-	m_CurveForm = IfcBSplineCurveForm::createObjectFromStepData( args[2] );
+	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2] );
 	if( boost::iequals( args[3], L".F." ) ) { m_ClosedCurve = LOGICAL_FALSE; }
 	else if( boost::iequals( args[3], L".T." ) ) { m_ClosedCurve = LOGICAL_TRUE; }
 	else if( boost::iequals( args[3], L".U." ) ) { m_ClosedCurve = LOGICAL_UNKNOWN; }
@@ -101,8 +101,8 @@ void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 	else if( boost::iequals( args[4], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
 	readIntList(  args[5], m_KnotMultiplicities );
 	readTypeOfRealList( args[6], m_Knots );
-	m_KnotSpec = IfcKnotType::createObjectFromStepData( args[7] );
-	readDoubleList( args[8], m_WeightsData );
+	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[7] );
+	readRealList( args[8], m_WeightsData );
 }
 void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -112,7 +112,7 @@ void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std:
 		shared_ptr<IfcPPAttributeObjectVector> WeightsData_vec_obj( new IfcPPAttributeObjectVector() );
 		for( size_t i=0; i<m_WeightsData.size(); ++i )
 		{
-			WeightsData_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_WeightsData[i] ) ) );
+			WeightsData_vec_obj->m_vec.push_back( shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute(m_WeightsData[i] ) ) );
 		}
 		vec_attributes.push_back( std::make_pair( "WeightsData", WeightsData_vec_obj ) );
 	}

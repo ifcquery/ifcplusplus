@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcMechanicalFastenerTypeEnum.h"
 
-// TYPE IfcMechanicalFastenerTypeEnum 
+// TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,DOWEL	,NAIL	,NAILPLATE	,RIVET	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
 IfcMechanicalFastenerTypeEnum::IfcMechanicalFastenerTypeEnum() {}
 IfcMechanicalFastenerTypeEnum::~IfcMechanicalFastenerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcMechanicalFastenerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMechanicalFastenerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMechanicalFastenerTypeEnum> copy_self( new IfcMechanicalFastenerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -82,7 +82,7 @@ void IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream,
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }

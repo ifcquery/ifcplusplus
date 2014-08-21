@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLightEmissionSourceEnum.h"
 
-// TYPE IfcLightEmissionSourceEnum 
+// TYPE IfcLightEmissionSourceEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LIGHTEMITTINGDIODE	,LOWPRESSURESODIUM	,LOWVOLTAGEHALOGEN	,MAINVOLTAGEHALOGEN	,METALHALIDE	,TUNGSTENFILAMENT	,NOTDEFINED);
 IfcLightEmissionSourceEnum::IfcLightEmissionSourceEnum() {}
 IfcLightEmissionSourceEnum::~IfcLightEmissionSourceEnum() {}
-shared_ptr<IfcPPObject> IfcLightEmissionSourceEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightEmissionSourceEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightEmissionSourceEnum> copy_self( new IfcLightEmissionSourceEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcLightEmissionSourceEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLightEmissionSourceEnum> IfcLightEmissionSourceEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLightEmissionSourceEnum> IfcLightEmissionSourceEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }

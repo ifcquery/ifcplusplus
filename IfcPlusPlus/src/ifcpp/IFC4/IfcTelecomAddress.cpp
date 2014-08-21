@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,18 +31,18 @@
 IfcTelecomAddress::IfcTelecomAddress() {}
 IfcTelecomAddress::IfcTelecomAddress( int id ) { m_id = id; }
 IfcTelecomAddress::~IfcTelecomAddress() {}
-shared_ptr<IfcPPObject> IfcTelecomAddress::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTelecomAddress::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTelecomAddress> copy_self( new IfcTelecomAddress() );
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy() ); }
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_TelephoneNumbers.size(); ++ii )
 	{
 		auto item_ii = m_TelephoneNumbers[ii];
 		if( item_ii )
 		{
-			copy_self->m_TelephoneNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_TelephoneNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_FacsimileNumbers.size(); ++ii )
@@ -49,25 +50,25 @@ shared_ptr<IfcPPObject> IfcTelecomAddress::getDeepCopy()
 		auto item_ii = m_FacsimileNumbers[ii];
 		if( item_ii )
 		{
-			copy_self->m_FacsimileNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_FacsimileNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_PagerNumber ) { copy_self->m_PagerNumber = dynamic_pointer_cast<IfcLabel>( m_PagerNumber->getDeepCopy() ); }
+	if( m_PagerNumber ) { copy_self->m_PagerNumber = dynamic_pointer_cast<IfcLabel>( m_PagerNumber->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_ElectronicMailAddresses.size(); ++ii )
 	{
 		auto item_ii = m_ElectronicMailAddresses[ii];
 		if( item_ii )
 		{
-			copy_self->m_ElectronicMailAddresses.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_ElectronicMailAddresses.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_WWWHomePageURL ) { copy_self->m_WWWHomePageURL = dynamic_pointer_cast<IfcURIReference>( m_WWWHomePageURL->getDeepCopy() ); }
+	if( m_WWWHomePageURL ) { copy_self->m_WWWHomePageURL = dynamic_pointer_cast<IfcURIReference>( m_WWWHomePageURL->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_MessagingIDs.size(); ++ii )
 	{
 		auto item_ii = m_MessagingIDs[ii];
 		if( item_ii )
 		{
-			copy_self->m_MessagingIDs.push_back( dynamic_pointer_cast<IfcURIReference>(item_ii->getDeepCopy() ) );
+			copy_self->m_MessagingIDs.push_back( dynamic_pointer_cast<IfcURIReference>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -98,19 +99,16 @@ void IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTelecomAddress, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>9 ){ std::cout << "Wrong parameter count for entity IfcTelecomAddress, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Purpose = IfcAddressTypeEnum::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_UserDefinedPurpose = IfcLabel::createObjectFromStepData( args[2] );
-	readTypeList( args[3], m_TelephoneNumbers );
-	readTypeList( args[4], m_FacsimileNumbers );
-	m_PagerNumber = IfcLabel::createObjectFromStepData( args[5] );
-	readTypeList( args[6], m_ElectronicMailAddresses );
-	m_WWWHomePageURL = IfcURIReference::createObjectFromStepData( args[7] );
-	readTypeList( args[8], m_MessagingIDs );
+	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTelecomAddress, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2] );
+	readSelectList( args[3], m_TelephoneNumbers, map );
+	readSelectList( args[4], m_FacsimileNumbers, map );
+	m_PagerNumber = IfcLabel::createObjectFromSTEP( args[5] );
+	readSelectList( args[6], m_ElectronicMailAddresses, map );
+	m_WWWHomePageURL = IfcURIReference::createObjectFromSTEP( args[7] );
+	readSelectList( args[8], m_MessagingIDs, map );
 }
 void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

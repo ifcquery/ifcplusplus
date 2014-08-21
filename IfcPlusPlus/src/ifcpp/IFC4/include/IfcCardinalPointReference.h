@@ -20,15 +20,16 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcCardinalPointReference = INTEGER;
-class IfcCardinalPointReference : public IfcPPInt
+class IfcCardinalPointReference : public IfcPPObject
 {
 public:
 	IfcCardinalPointReference();
 	IfcCardinalPointReference( int value );
 	~IfcCardinalPointReference();
 	virtual const char* classname() const { return "IfcCardinalPointReference"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCardinalPointReference> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCardinalPointReference> createObjectFromSTEP( const std::wstring& arg );
+	int m_value;
 };
 

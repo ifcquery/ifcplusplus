@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcGloballyUniqueId.h"
 
-// TYPE IfcGloballyUniqueId 
+// TYPE IfcGloballyUniqueId = STRING(22) FIXED;
 IfcGloballyUniqueId::IfcGloballyUniqueId() {}
 IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
 IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
-shared_ptr<IfcPPObject> IfcGloballyUniqueId::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGloballyUniqueId::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGloballyUniqueId> copy_self( new IfcGloballyUniqueId() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_s
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	shared_ptr<IfcGloballyUniqueId> type_object( new IfcGloballyUniqueId() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

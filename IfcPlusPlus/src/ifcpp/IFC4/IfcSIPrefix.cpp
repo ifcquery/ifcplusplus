@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSIPrefix.h"
 
-// TYPE IfcSIPrefix 
+// TYPE IfcSIPrefix = ENUMERATION OF	(EXA	,PETA	,TERA	,GIGA	,MEGA	,KILO	,HECTO	,DECA	,DECI	,CENTI	,MILLI	,MICRO	,NANO	,PICO	,FEMTO	,ATTO);
 IfcSIPrefix::IfcSIPrefix() {}
 IfcSIPrefix::~IfcSIPrefix() {}
-shared_ptr<IfcPPObject> IfcSIPrefix::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSIPrefix::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSIPrefix> copy_self( new IfcSIPrefix() );
 	copy_self->m_enum = m_enum;
@@ -98,7 +98,7 @@ void IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }

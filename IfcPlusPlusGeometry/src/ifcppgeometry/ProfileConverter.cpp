@@ -573,35 +573,39 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 	shared_ptr<IfcCircleProfileDef> circle_profile_def = dynamic_pointer_cast<IfcCircleProfileDef>( profile );
 	if( circle_profile_def )
 	{
-		double radius = circle_profile_def->m_Radius->m_value*length_factor;
-		if( radius < 0.000001 )
+		shared_ptr<IfcPositiveLengthMeasure> radius_measure = circle_profile_def->m_Radius;
+		if( radius_measure )
 		{
-			return;
-		}
-		int num_segments = m_geom_settings->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
-		double angle = 0;
-		for( int i = 0; i < num_segments; ++i )
-		{
-			outer_loop.push_back( carve::geom::VECTOR( ( radius * cos( angle ) ), ( radius * sin( angle ) ) ) );
-			angle += 2.0*M_PI / double( num_segments );
-		}
-		paths.push_back( outer_loop );
-
-		// CircleHollow
-		std::vector<carve::geom::vector<2> > inner_loop;
-		shared_ptr<IfcCircleHollowProfileDef> hollow = dynamic_pointer_cast<IfcCircleHollowProfileDef>( profile );
-		if( hollow )
-		{
-			angle = 0;
-			radius -= hollow->m_WallThickness->m_value*length_factor;
-
-			int num_segments2 = m_geom_settings->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
-			for( int i = 0; i < num_segments2; ++i )
+			double radius = radius_measure->m_value*length_factor;
+			if( radius < 0.000001 )
 			{
-				inner_loop.push_back( carve::geom::VECTOR( ( radius * cos( angle ) ), ( radius * sin( angle ) ) ) );
-				angle += 2.0*M_PI / double( num_segments2 );
+				return;
 			}
-			paths.push_back( inner_loop );
+			int num_segments = m_geom_settings->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
+			double angle = 0;
+			for( int i = 0; i < num_segments; ++i )
+			{
+				outer_loop.push_back( carve::geom::VECTOR( ( radius * cos( angle ) ), ( radius * sin( angle ) ) ) );
+				angle += 2.0*M_PI / double( num_segments );
+			}
+			paths.push_back( outer_loop );
+
+			// CircleHollow
+			std::vector<carve::geom::vector<2> > inner_loop;
+			shared_ptr<IfcCircleHollowProfileDef> hollow = dynamic_pointer_cast<IfcCircleHollowProfileDef>( profile );
+			if( hollow )
+			{
+				angle = 0;
+				radius -= hollow->m_WallThickness->m_value*length_factor;
+
+				int num_segments2 = m_geom_settings->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
+				for( int i = 0; i < num_segments2; ++i )
+				{
+					inner_loop.push_back( carve::geom::VECTOR( ( radius * cos( angle ) ), ( radius * sin( angle ) ) ) );
+					angle += 2.0*M_PI / double( num_segments2 );
+				}
+				paths.push_back( inner_loop );
+			}
 		}
 		return;
 	}

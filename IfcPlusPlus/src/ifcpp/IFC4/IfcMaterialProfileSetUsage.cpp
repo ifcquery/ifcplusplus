@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,18 +29,18 @@
 IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage() {}
 IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int id ) { m_id = id; }
 IfcMaterialProfileSetUsage::~IfcMaterialProfileSetUsage() {}
-shared_ptr<IfcPPObject> IfcMaterialProfileSetUsage::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialProfileSetUsage::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialProfileSetUsage> copy_self( new IfcMaterialProfileSetUsage() );
-	if( m_ForProfileSet ) { copy_self->m_ForProfileSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileSet->getDeepCopy() ); }
-	if( m_CardinalPoint ) { copy_self->m_CardinalPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalPoint->getDeepCopy() ); }
-	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy() ); }
+	if( m_ForProfileSet ) { copy_self->m_ForProfileSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileSet->getDeepCopy(options) ); }
+	if( m_CardinalPoint ) { copy_self->m_CardinalPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalPoint->getDeepCopy(options) ); }
+	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMaterialProfileSetUsage::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCMATERIALPROFILESETUSAGE" << "(";
-	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->getId(); } else { stream << "$"; }
+	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -50,13 +51,10 @@ void IfcMaterialProfileSetUsage::getStepParameter( std::stringstream& stream, bo
 void IfcMaterialProfileSetUsage::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialProfileSetUsage, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcMaterialProfileSetUsage, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialProfileSetUsage, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_ForProfileSet, map );
-	m_CardinalPoint = IfcCardinalPointReference::createObjectFromStepData( args[1] );
-	m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromStepData( args[2] );
+	m_CardinalPoint = IfcCardinalPointReference::createObjectFromSTEP( args[1] );
+	m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );
 }
 void IfcMaterialProfileSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

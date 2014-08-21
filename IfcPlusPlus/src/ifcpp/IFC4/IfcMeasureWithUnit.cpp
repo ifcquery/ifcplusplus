@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,11 +27,11 @@
 IfcMeasureWithUnit::IfcMeasureWithUnit() {}
 IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_id = id; }
 IfcMeasureWithUnit::~IfcMeasureWithUnit() {}
-shared_ptr<IfcPPObject> IfcMeasureWithUnit::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMeasureWithUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMeasureWithUnit> copy_self( new IfcMeasureWithUnit() );
-	if( m_ValueComponent ) { copy_self->m_ValueComponent = dynamic_pointer_cast<IfcValue>( m_ValueComponent->getDeepCopy() ); }
-	if( m_UnitComponent ) { copy_self->m_UnitComponent = dynamic_pointer_cast<IfcUnit>( m_UnitComponent->getDeepCopy() ); }
+	if( m_ValueComponent ) { copy_self->m_ValueComponent = dynamic_pointer_cast<IfcValue>( m_ValueComponent->getDeepCopy(options) ); }
+	if( m_UnitComponent ) { copy_self->m_UnitComponent = dynamic_pointer_cast<IfcUnit>( m_UnitComponent->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
@@ -45,12 +46,9 @@ void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool ) con
 void IfcMeasureWithUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ValueComponent = IfcValue::createObjectFromStepData( args[0], map );
-	m_UnitComponent = IfcUnit::createObjectFromStepData( args[1], map );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ValueComponent = IfcValue::createObjectFromSTEP( args[0], map );
+	m_UnitComponent = IfcUnit::createObjectFromSTEP( args[1], map );
 }
 void IfcMeasureWithUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,20 +30,20 @@
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties() {}
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int id ) { m_id = id; }
 IfcSectionReinforcementProperties::~IfcSectionReinforcementProperties() {}
-shared_ptr<IfcPPObject> IfcSectionReinforcementProperties::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSectionReinforcementProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSectionReinforcementProperties> copy_self( new IfcSectionReinforcementProperties() );
-	if( m_LongitudinalStartPosition ) { copy_self->m_LongitudinalStartPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalStartPosition->getDeepCopy() ); }
-	if( m_LongitudinalEndPosition ) { copy_self->m_LongitudinalEndPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalEndPosition->getDeepCopy() ); }
-	if( m_TransversePosition ) { copy_self->m_TransversePosition = dynamic_pointer_cast<IfcLengthMeasure>( m_TransversePosition->getDeepCopy() ); }
-	if( m_ReinforcementRole ) { copy_self->m_ReinforcementRole = dynamic_pointer_cast<IfcReinforcingBarRoleEnum>( m_ReinforcementRole->getDeepCopy() ); }
-	if( m_SectionDefinition ) { copy_self->m_SectionDefinition = dynamic_pointer_cast<IfcSectionProperties>( m_SectionDefinition->getDeepCopy() ); }
+	if( m_LongitudinalStartPosition ) { copy_self->m_LongitudinalStartPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalStartPosition->getDeepCopy(options) ); }
+	if( m_LongitudinalEndPosition ) { copy_self->m_LongitudinalEndPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalEndPosition->getDeepCopy(options) ); }
+	if( m_TransversePosition ) { copy_self->m_TransversePosition = dynamic_pointer_cast<IfcLengthMeasure>( m_TransversePosition->getDeepCopy(options) ); }
+	if( m_ReinforcementRole ) { copy_self->m_ReinforcementRole = dynamic_pointer_cast<IfcReinforcingBarRoleEnum>( m_ReinforcementRole->getDeepCopy(options) ); }
+	if( m_SectionDefinition ) { copy_self->m_SectionDefinition = dynamic_pointer_cast<IfcSectionProperties>( m_SectionDefinition->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_CrossSectionReinforcementDefinitions.size(); ++ii )
 	{
 		auto item_ii = m_CrossSectionReinforcementDefinitions[ii];
 		if( item_ii )
 		{
-			copy_self->m_CrossSectionReinforcementDefinitions.push_back( dynamic_pointer_cast<IfcReinforcementBarProperties>(item_ii->getDeepCopy() ) );
+			copy_self->m_CrossSectionReinforcementDefinitions.push_back( dynamic_pointer_cast<IfcReinforcementBarProperties>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -58,7 +59,7 @@ void IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream )
 	stream << ",";
 	if( m_ReinforcementRole ) { m_ReinforcementRole->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SectionDefinition ) { stream << "#" << m_SectionDefinition->getId(); } else { stream << "$"; }
+	if( m_SectionDefinition ) { stream << "#" << m_SectionDefinition->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_CrossSectionReinforcementDefinitions );
 	stream << ");";
@@ -67,14 +68,11 @@ void IfcSectionReinforcementProperties::getStepParameter( std::stringstream& str
 void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_LongitudinalStartPosition = IfcLengthMeasure::createObjectFromStepData( args[0] );
-	m_LongitudinalEndPosition = IfcLengthMeasure::createObjectFromStepData( args[1] );
-	m_TransversePosition = IfcLengthMeasure::createObjectFromStepData( args[2] );
-	m_ReinforcementRole = IfcReinforcingBarRoleEnum::createObjectFromStepData( args[3] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_LongitudinalStartPosition = IfcLengthMeasure::createObjectFromSTEP( args[0] );
+	m_LongitudinalEndPosition = IfcLengthMeasure::createObjectFromSTEP( args[1] );
+	m_TransversePosition = IfcLengthMeasure::createObjectFromSTEP( args[2] );
+	m_ReinforcementRole = IfcReinforcingBarRoleEnum::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_SectionDefinition, map );
 	readEntityReferenceList( args[5], m_CrossSectionReinforcementDefinitions, map );
 }

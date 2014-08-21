@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,19 +29,19 @@
 IfcBoundingBox::IfcBoundingBox() {}
 IfcBoundingBox::IfcBoundingBox( int id ) { m_id = id; }
 IfcBoundingBox::~IfcBoundingBox() {}
-shared_ptr<IfcPPObject> IfcBoundingBox::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoundingBox::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoundingBox> copy_self( new IfcBoundingBox() );
-	if( m_Corner ) { copy_self->m_Corner = dynamic_pointer_cast<IfcCartesianPoint>( m_Corner->getDeepCopy() ); }
-	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy() ); }
-	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy() ); }
-	if( m_ZDim ) { copy_self->m_ZDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ZDim->getDeepCopy() ); }
+	if( m_Corner ) { copy_self->m_Corner = dynamic_pointer_cast<IfcCartesianPoint>( m_Corner->getDeepCopy(options) ); }
+	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy(options) ); }
+	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy(options) ); }
+	if( m_ZDim ) { copy_self->m_ZDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ZDim->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBoundingBox::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCBOUNDINGBOX" << "(";
-	if( m_Corner ) { stream << "#" << m_Corner->getId(); } else { stream << "$"; }
+	if( m_Corner ) { stream << "#" << m_Corner->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -53,14 +54,11 @@ void IfcBoundingBox::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcBoundingBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoundingBox, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcBoundingBox, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoundingBox, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Corner, map );
-	m_XDim = IfcPositiveLengthMeasure::createObjectFromStepData( args[1] );
-	m_YDim = IfcPositiveLengthMeasure::createObjectFromStepData( args[2] );
-	m_ZDim = IfcPositiveLengthMeasure::createObjectFromStepData( args[3] );
+	m_XDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
+	m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );
+	m_ZDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3] );
 }
 void IfcBoundingBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

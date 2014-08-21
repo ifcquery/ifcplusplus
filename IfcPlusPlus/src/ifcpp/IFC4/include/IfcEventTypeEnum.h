@@ -36,9 +36,9 @@ public:
 	IfcEventTypeEnum( IfcEventTypeEnumEnum e ) { m_enum = e; }
 	~IfcEventTypeEnum();
 	virtual const char* classname() const { return "IfcEventTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcEventTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcEventTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcEventTypeEnumEnum m_enum;
 };
 

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDoorPanelPositionEnum.h"
 
-// TYPE IfcDoorPanelPositionEnum 
+// TYPE IfcDoorPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,NOTDEFINED);
 IfcDoorPanelPositionEnum::IfcDoorPanelPositionEnum() {}
 IfcDoorPanelPositionEnum::~IfcDoorPanelPositionEnum() {}
-shared_ptr<IfcPPObject> IfcDoorPanelPositionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDoorPanelPositionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelPositionEnum> copy_self( new IfcDoorPanelPositionEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcDoorPanelPositionEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }

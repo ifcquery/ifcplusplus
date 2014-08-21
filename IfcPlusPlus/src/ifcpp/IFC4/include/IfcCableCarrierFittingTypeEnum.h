@@ -37,9 +37,9 @@ public:
 	IfcCableCarrierFittingTypeEnum( IfcCableCarrierFittingTypeEnumEnum e ) { m_enum = e; }
 	~IfcCableCarrierFittingTypeEnum();
 	virtual const char* classname() const { return "IfcCableCarrierFittingTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCableCarrierFittingTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCableCarrierFittingTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcCableCarrierFittingTypeEnumEnum m_enum;
 };
 

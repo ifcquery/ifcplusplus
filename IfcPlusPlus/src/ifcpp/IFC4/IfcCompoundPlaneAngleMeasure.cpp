@@ -21,10 +21,10 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcCompoundPlaneAngleMeasure.h"
 
-// TYPE IfcCompoundPlaneAngleMeasure 
+// TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
 IfcCompoundPlaneAngleMeasure::IfcCompoundPlaneAngleMeasure() {}
 IfcCompoundPlaneAngleMeasure::~IfcCompoundPlaneAngleMeasure() {}
-shared_ptr<IfcPPObject> IfcCompoundPlaneAngleMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCompoundPlaneAngleMeasure> copy_self( new IfcCompoundPlaneAngleMeasure() );
 	for( size_t ii=0; ii<m_vec.size(); ++ii )
@@ -40,12 +40,12 @@ void IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, 
 	writeIntList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCompoundPlaneAngleMeasure> IfcCompoundPlaneAngleMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCompoundPlaneAngleMeasure> IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
 	shared_ptr<IfcCompoundPlaneAngleMeasure> type_object( new IfcCompoundPlaneAngleMeasure() );
-	readIntList(  arg, type_object->m_vec );
+	readIntList( arg, type_object->m_vec );
 	return type_object;
 }

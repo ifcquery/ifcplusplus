@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWindowTypeEnum.h"
 
-// TYPE IfcWindowTypeEnum 
+// TYPE IfcWindowTypeEnum = ENUMERATION OF	(WINDOW	,SKYLIGHT	,LIGHTDOME	,USERDEFINED	,NOTDEFINED);
 IfcWindowTypeEnum::IfcWindowTypeEnum() {}
 IfcWindowTypeEnum::~IfcWindowTypeEnum() {}
-shared_ptr<IfcPPObject> IfcWindowTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWindowTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWindowTypeEnum> copy_self( new IfcWindowTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcWindowTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }

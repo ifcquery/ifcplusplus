@@ -37,9 +37,9 @@ public:
 	IfcInterceptorTypeEnum( IfcInterceptorTypeEnumEnum e ) { m_enum = e; }
 	~IfcInterceptorTypeEnum();
 	virtual const char* classname() const { return "IfcInterceptorTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcInterceptorTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcInterceptorTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcInterceptorTypeEnumEnum m_enum;
 };
 

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSpatialZoneTypeEnum.h"
 
-// TYPE IfcSpatialZoneTypeEnum 
+// TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,LIGHTING	,OCCUPANCY	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,USERDEFINED	,NOTDEFINED);
 IfcSpatialZoneTypeEnum::IfcSpatialZoneTypeEnum() {}
 IfcSpatialZoneTypeEnum::~IfcSpatialZoneTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSpatialZoneTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSpatialZoneTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSpatialZoneTypeEnum> copy_self( new IfcSpatialZoneTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcSpatialZoneTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }

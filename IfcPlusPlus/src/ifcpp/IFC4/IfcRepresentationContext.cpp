@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,11 +27,11 @@
 IfcRepresentationContext::IfcRepresentationContext() {}
 IfcRepresentationContext::IfcRepresentationContext( int id ) { m_id = id; }
 IfcRepresentationContext::~IfcRepresentationContext() {}
-shared_ptr<IfcPPObject> IfcRepresentationContext::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRepresentationContext::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRepresentationContext> copy_self( new IfcRepresentationContext() );
-	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy() ); }
-	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy() ); }
+	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
+	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRepresentationContext::getStepLine( std::stringstream& stream ) const
@@ -45,12 +46,9 @@ void IfcRepresentationContext::getStepParameter( std::stringstream& stream, bool
 void IfcRepresentationContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRepresentationContext, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcRepresentationContext, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ContextIdentifier = IfcLabel::createObjectFromStepData( args[0] );
-	m_ContextType = IfcLabel::createObjectFromStepData( args[1] );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRepresentationContext, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0] );
+	m_ContextType = IfcLabel::createObjectFromSTEP( args[1] );
 }
 void IfcRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

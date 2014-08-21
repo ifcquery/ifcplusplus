@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcElectricTimeControlTypeEnum.h"
 
-// TYPE IfcElectricTimeControlTypeEnum 
+// TYPE IfcElectricTimeControlTypeEnum = ENUMERATION OF	(TIMECLOCK	,TIMEDELAY	,RELAY	,USERDEFINED	,NOTDEFINED);
 IfcElectricTimeControlTypeEnum::IfcElectricTimeControlTypeEnum() {}
 IfcElectricTimeControlTypeEnum::~IfcElectricTimeControlTypeEnum() {}
-shared_ptr<IfcPPObject> IfcElectricTimeControlTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElectricTimeControlTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElectricTimeControlTypeEnum> copy_self( new IfcElectricTimeControlTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcElectricTimeControlTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }

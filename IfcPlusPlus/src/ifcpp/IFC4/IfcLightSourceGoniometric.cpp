@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -34,19 +35,19 @@
 IfcLightSourceGoniometric::IfcLightSourceGoniometric() {}
 IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_id = id; }
 IfcLightSourceGoniometric::~IfcLightSourceGoniometric() {}
-shared_ptr<IfcPPObject> IfcLightSourceGoniometric::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightSourceGoniometric::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceGoniometric> copy_self( new IfcLightSourceGoniometric() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy() ); }
-	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy() ); }
-	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy() ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
-	if( m_ColourAppearance ) { copy_self->m_ColourAppearance = dynamic_pointer_cast<IfcColourRgb>( m_ColourAppearance->getDeepCopy() ); }
-	if( m_ColourTemperature ) { copy_self->m_ColourTemperature = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_ColourTemperature->getDeepCopy() ); }
-	if( m_LuminousFlux ) { copy_self->m_LuminousFlux = dynamic_pointer_cast<IfcLuminousFluxMeasure>( m_LuminousFlux->getDeepCopy() ); }
-	if( m_LightEmissionSource ) { copy_self->m_LightEmissionSource = dynamic_pointer_cast<IfcLightEmissionSourceEnum>( m_LightEmissionSource->getDeepCopy() ); }
-	if( m_LightDistributionDataSource ) { copy_self->m_LightDistributionDataSource = dynamic_pointer_cast<IfcLightDistributionDataSourceSelect>( m_LightDistributionDataSource->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy(options) ); }
+	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy(options) ); }
+	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy(options) ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
+	if( m_ColourAppearance ) { copy_self->m_ColourAppearance = dynamic_pointer_cast<IfcColourRgb>( m_ColourAppearance->getDeepCopy(options) ); }
+	if( m_ColourTemperature ) { copy_self->m_ColourTemperature = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_ColourTemperature->getDeepCopy(options) ); }
+	if( m_LuminousFlux ) { copy_self->m_LuminousFlux = dynamic_pointer_cast<IfcLuminousFluxMeasure>( m_LuminousFlux->getDeepCopy(options) ); }
+	if( m_LightEmissionSource ) { copy_self->m_LightEmissionSource = dynamic_pointer_cast<IfcLightEmissionSourceEnum>( m_LightEmissionSource->getDeepCopy(options) ); }
+	if( m_LightDistributionDataSource ) { copy_self->m_LightDistributionDataSource = dynamic_pointer_cast<IfcLightDistributionDataSourceSelect>( m_LightDistributionDataSource->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
@@ -54,15 +55,15 @@ void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCLIGHTSOURCEGONIOMETRIC" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->getId(); } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ColourAppearance ) { stream << "#" << m_ColourAppearance->getId(); } else { stream << "$"; }
+	if( m_ColourAppearance ) { stream << "#" << m_ColourAppearance->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ColourTemperature ) { m_ColourTemperature->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -77,20 +78,17 @@ void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, boo
 void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>10 ){ std::cout << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
+	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_LightColour, map );
-	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromStepData( args[2] );
-	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromStepData( args[3] );
+	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2] );
+	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_Position, map );
 	readEntityReference( args[5], m_ColourAppearance, map );
-	m_ColourTemperature = IfcThermodynamicTemperatureMeasure::createObjectFromStepData( args[6] );
-	m_LuminousFlux = IfcLuminousFluxMeasure::createObjectFromStepData( args[7] );
-	m_LightEmissionSource = IfcLightEmissionSourceEnum::createObjectFromStepData( args[8] );
-	m_LightDistributionDataSource = IfcLightDistributionDataSourceSelect::createObjectFromStepData( args[9], map );
+	m_ColourTemperature = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[6] );
+	m_LuminousFlux = IfcLuminousFluxMeasure::createObjectFromSTEP( args[7] );
+	m_LightEmissionSource = IfcLightEmissionSourceEnum::createObjectFromSTEP( args[8] );
+	m_LightDistributionDataSource = IfcLightDistributionDataSourceSelect::createObjectFromSTEP( args[9], map );
 }
 void IfcLightSourceGoniometric::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

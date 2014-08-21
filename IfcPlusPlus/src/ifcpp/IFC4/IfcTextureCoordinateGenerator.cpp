@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator() {}
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_id = id; }
 IfcTextureCoordinateGenerator::~IfcTextureCoordinateGenerator() {}
-shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextureCoordinateGenerator> copy_self( new IfcTextureCoordinateGenerator() );
 	for( size_t ii=0; ii<m_Maps.size(); ++ii )
@@ -35,16 +36,16 @@ shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy()
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcLabel>( m_Mode->getDeepCopy() ); }
+	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcLabel>( m_Mode->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
 	{
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy() ) );
+			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -63,12 +64,9 @@ void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream,
 void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
-	m_Mode = IfcLabel::createObjectFromStepData( args[1] );
+	m_Mode = IfcLabel::createObjectFromSTEP( args[1] );
 	readTypeOfRealList( args[2], m_Parameter );
 }
 void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

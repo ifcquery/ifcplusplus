@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcHeatingValueMeasure.h"
 
-// TYPE IfcHeatingValueMeasure 
+// TYPE IfcHeatingValueMeasure = REAL;
 IfcHeatingValueMeasure::IfcHeatingValueMeasure() {}
 IfcHeatingValueMeasure::IfcHeatingValueMeasure( double value ) { m_value = value; }
 IfcHeatingValueMeasure::~IfcHeatingValueMeasure() {}
-shared_ptr<IfcPPObject> IfcHeatingValueMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcHeatingValueMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcHeatingValueMeasure> copy_self( new IfcHeatingValueMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcHeatingValueMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcHeatingValueMeasure> IfcHeatingValueMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcHeatingValueMeasure> IfcHeatingValueMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatingValueMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatingValueMeasure>(); }
 	shared_ptr<IfcHeatingValueMeasure> type_object( new IfcHeatingValueMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

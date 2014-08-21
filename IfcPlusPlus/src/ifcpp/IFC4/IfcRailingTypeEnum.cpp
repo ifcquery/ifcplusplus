@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcRailingTypeEnum.h"
 
-// TYPE IfcRailingTypeEnum 
+// TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,USERDEFINED	,NOTDEFINED);
 IfcRailingTypeEnum::IfcRailingTypeEnum() {}
 IfcRailingTypeEnum::~IfcRailingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcRailingTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRailingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRailingTypeEnum> copy_self( new IfcRailingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }

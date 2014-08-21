@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcCurvatureMeasure = REAL;
-class IfcCurvatureMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcCurvatureMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcCurvatureMeasure();
 	IfcCurvatureMeasure( double value );
 	~IfcCurvatureMeasure();
 	virtual const char* classname() const { return "IfcCurvatureMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCurvatureMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCurvatureMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

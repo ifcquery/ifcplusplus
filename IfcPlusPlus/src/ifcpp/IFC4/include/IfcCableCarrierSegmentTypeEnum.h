@@ -37,9 +37,9 @@ public:
 	IfcCableCarrierSegmentTypeEnum( IfcCableCarrierSegmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcCableCarrierSegmentTypeEnum();
 	virtual const char* classname() const { return "IfcCableCarrierSegmentTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCableCarrierSegmentTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCableCarrierSegmentTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcCableCarrierSegmentTypeEnumEnum m_enum;
 };
 

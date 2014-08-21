@@ -21,13 +21,13 @@
 #include "IfcSolidOrShell.h"
 #include "IfcConnectedFaceSet.h"
 //ENTITY
-class IfcClosedShell : public IfcShell, public IfcSolidOrShell, public IfcConnectedFaceSet
+class IfcClosedShell : virtual public IfcShell, virtual public IfcSolidOrShell, public IfcConnectedFaceSet
 {
 public:
 	IfcClosedShell();
 	IfcClosedShell( int id );
 	~IfcClosedShell();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

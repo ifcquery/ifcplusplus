@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,11 +28,11 @@
 IfcPlanarExtent::IfcPlanarExtent() {}
 IfcPlanarExtent::IfcPlanarExtent( int id ) { m_id = id; }
 IfcPlanarExtent::~IfcPlanarExtent() {}
-shared_ptr<IfcPPObject> IfcPlanarExtent::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPlanarExtent::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPlanarExtent> copy_self( new IfcPlanarExtent() );
-	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy() ); }
-	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy() ); }
+	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy(options) ); }
+	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPlanarExtent::getStepLine( std::stringstream& stream ) const
@@ -46,12 +47,9 @@ void IfcPlanarExtent::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcPlanarExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlanarExtent, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcPlanarExtent, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_SizeInX = IfcLengthMeasure::createObjectFromStepData( args[0] );
-	m_SizeInY = IfcLengthMeasure::createObjectFromStepData( args[1] );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlanarExtent, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0] );
+	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1] );
 }
 void IfcPlanarExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

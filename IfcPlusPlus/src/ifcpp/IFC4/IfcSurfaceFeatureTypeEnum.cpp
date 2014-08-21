@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSurfaceFeatureTypeEnum.h"
 
-// TYPE IfcSurfaceFeatureTypeEnum 
+// TYPE IfcSurfaceFeatureTypeEnum = ENUMERATION OF	(MARK	,TAG	,TREATMENT	,USERDEFINED	,NOTDEFINED);
 IfcSurfaceFeatureTypeEnum::IfcSurfaceFeatureTypeEnum() {}
 IfcSurfaceFeatureTypeEnum::~IfcSurfaceFeatureTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSurfaceFeatureTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSurfaceFeatureTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceFeatureTypeEnum> copy_self( new IfcSurfaceFeatureTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcSurfaceFeatureTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }

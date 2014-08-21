@@ -36,9 +36,9 @@ public:
 	IfcChillerTypeEnum( IfcChillerTypeEnumEnum e ) { m_enum = e; }
 	~IfcChillerTypeEnum();
 	virtual const char* classname() const { return "IfcChillerTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcChillerTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcChillerTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcChillerTypeEnumEnum m_enum;
 };
 

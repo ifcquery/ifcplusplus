@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,14 +29,14 @@
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform() {}
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform( int id ) { m_id = id; }
 IfcCartesianTransformationOperator3DnonUniform::~IfcCartesianTransformationOperator3DnonUniform() {}
-shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator3DnonUniform> copy_self( new IfcCartesianTransformationOperator3DnonUniform() );
-	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy() ); }
-	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy() ); }
-	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy() ); }
+	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
+	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy(options) ); }
+	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy(options) ); }
 	if( m_Scale ) { copy_self->m_Scale = m_Scale; }
-	if( m_Axis3 ) { copy_self->m_Axis3 = dynamic_pointer_cast<IfcDirection>( m_Axis3->getDeepCopy() ); }
+	if( m_Axis3 ) { copy_self->m_Axis3 = dynamic_pointer_cast<IfcDirection>( m_Axis3->getDeepCopy(options) ); }
 	if( m_Scale2 ) { copy_self->m_Scale2 = m_Scale2; }
 	if( m_Scale3 ) { copy_self->m_Scale3 = m_Scale3; }
 	return copy_self;
@@ -43,15 +44,15 @@ shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepC
 void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->getId(); } else { stream << "*"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis2 ) { stream << "#" << m_Axis2->getId(); } else { stream << "*"; }
+	if( m_Axis2 ) { stream << "#" << m_Axis2->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->getId(); } else { stream << "*"; }
+	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis3 ) { stream << "#" << m_Axis3->getId(); } else { stream << "*"; }
+	if( m_Axis3 ) { stream << "#" << m_Axis3->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Scale2 == m_Scale2 ){ stream << m_Scale2; } else { stream << "$"; }
 	stream << ",";
@@ -62,10 +63,7 @@ void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stri
 void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
@@ -77,8 +75,8 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPReal>( new IfcPPReal( m_Scale2 ) ) ) );
-	vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPReal>( new IfcPPReal( m_Scale3 ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale2 ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale3 ) ) ) );
 }
 void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

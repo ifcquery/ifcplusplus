@@ -22,11 +22,11 @@
 #include "include/IfcModulusOfRotationalSubgradeReactionSelect.h"
 #include "include/IfcModulusOfRotationalSubgradeReactionMeasure.h"
 
-// TYPE IfcModulusOfRotationalSubgradeReactionMeasure 
+// TYPE IfcModulusOfRotationalSubgradeReactionMeasure = REAL;
 IfcModulusOfRotationalSubgradeReactionMeasure::IfcModulusOfRotationalSubgradeReactionMeasure() {}
 IfcModulusOfRotationalSubgradeReactionMeasure::IfcModulusOfRotationalSubgradeReactionMeasure( double value ) { m_value = value; }
 IfcModulusOfRotationalSubgradeReactionMeasure::~IfcModulusOfRotationalSubgradeReactionMeasure() {}
-shared_ptr<IfcPPObject> IfcModulusOfRotationalSubgradeReactionMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcModulusOfRotationalSubgradeReactionMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> copy_self( new IfcModulusOfRotationalSubgradeReactionMeasure() );
 	copy_self->m_value = m_value;
@@ -38,12 +38,12 @@ void IfcModulusOfRotationalSubgradeReactionMeasure::getStepParameter( std::strin
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> IfcModulusOfRotationalSubgradeReactionMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> IfcModulusOfRotationalSubgradeReactionMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure>(); }
 	shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> type_object( new IfcModulusOfRotationalSubgradeReactionMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFontVariant.h"
 
-// TYPE IfcFontVariant 
+// TYPE IfcFontVariant = STRING;
 IfcFontVariant::IfcFontVariant() {}
 IfcFontVariant::IfcFontVariant( std::wstring value ) { m_value = value; }
 IfcFontVariant::~IfcFontVariant() {}
-shared_ptr<IfcPPObject> IfcFontVariant::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFontVariant::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFontVariant> copy_self( new IfcFontVariant() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcFontVariant::getStepParameter( std::stringstream& stream, bool is_select
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFontVariant> IfcFontVariant::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFontVariant> IfcFontVariant::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontVariant>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontVariant>(); }
 	shared_ptr<IfcFontVariant> type_object( new IfcFontVariant() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

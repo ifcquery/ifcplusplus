@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,21 +30,21 @@
 IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal() {}
 IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int id ) { m_id = id; }
 IfcSweptDiskSolidPolygonal::~IfcSweptDiskSolidPolygonal() {}
-shared_ptr<IfcPPObject> IfcSweptDiskSolidPolygonal::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSweptDiskSolidPolygonal::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSweptDiskSolidPolygonal> copy_self( new IfcSweptDiskSolidPolygonal() );
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy() ); }
-	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
-	if( m_InnerRadius ) { copy_self->m_InnerRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InnerRadius->getDeepCopy() ); }
-	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy() ); }
-	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy() ); }
-	if( m_FilletRadius ) { copy_self->m_FilletRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FilletRadius->getDeepCopy() ); }
+	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy(options) ); }
+	if( m_InnerRadius ) { copy_self->m_InnerRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InnerRadius->getDeepCopy(options) ); }
+	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy(options) ); }
+	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy(options) ); }
+	if( m_FilletRadius ) { copy_self->m_FilletRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FilletRadius->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSWEPTDISKSOLIDPOLYGONAL" << "(";
-	if( m_Directrix ) { stream << "#" << m_Directrix->getId(); } else { stream << "*"; }
+	if( m_Directrix ) { stream << "#" << m_Directrix->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -60,16 +61,13 @@ void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bo
 void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Directrix, map );
-	m_Radius = IfcPositiveLengthMeasure::createObjectFromStepData( args[1] );
-	m_InnerRadius = IfcPositiveLengthMeasure::createObjectFromStepData( args[2] );
-	m_StartParam = IfcParameterValue::createObjectFromStepData( args[3] );
-	m_EndParam = IfcParameterValue::createObjectFromStepData( args[4] );
-	m_FilletRadius = IfcPositiveLengthMeasure::createObjectFromStepData( args[5] );
+	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
+	m_InnerRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );
+	m_StartParam = IfcParameterValue::createObjectFromSTEP( args[3] );
+	m_EndParam = IfcParameterValue::createObjectFromSTEP( args[4] );
+	m_FilletRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5] );
 }
 void IfcSweptDiskSolidPolygonal::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

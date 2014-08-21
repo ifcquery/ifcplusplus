@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,18 +32,26 @@
 IfcRelSequence::IfcRelSequence() {}
 IfcRelSequence::IfcRelSequence( int id ) { m_id = id; }
 IfcRelSequence::~IfcRelSequence() {}
-shared_ptr<IfcPPObject> IfcRelSequence::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelSequence::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelSequence> copy_self( new IfcRelSequence() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingProcess ) { copy_self->m_RelatingProcess = dynamic_pointer_cast<IfcProcess>( m_RelatingProcess->getDeepCopy() ); }
-	if( m_RelatedProcess ) { copy_self->m_RelatedProcess = dynamic_pointer_cast<IfcProcess>( m_RelatedProcess->getDeepCopy() ); }
-	if( m_TimeLag ) { copy_self->m_TimeLag = dynamic_pointer_cast<IfcLagTime>( m_TimeLag->getDeepCopy() ); }
-	if( m_SequenceType ) { copy_self->m_SequenceType = dynamic_pointer_cast<IfcSequenceEnum>( m_SequenceType->getDeepCopy() ); }
-	if( m_UserDefinedSequenceType ) { copy_self->m_UserDefinedSequenceType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedSequenceType->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingProcess ) { copy_self->m_RelatingProcess = dynamic_pointer_cast<IfcProcess>( m_RelatingProcess->getDeepCopy(options) ); }
+	if( m_RelatedProcess ) { copy_self->m_RelatedProcess = dynamic_pointer_cast<IfcProcess>( m_RelatedProcess->getDeepCopy(options) ); }
+	if( m_TimeLag ) { copy_self->m_TimeLag = dynamic_pointer_cast<IfcLagTime>( m_TimeLag->getDeepCopy(options) ); }
+	if( m_SequenceType ) { copy_self->m_SequenceType = dynamic_pointer_cast<IfcSequenceEnum>( m_SequenceType->getDeepCopy(options) ); }
+	if( m_UserDefinedSequenceType ) { copy_self->m_UserDefinedSequenceType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedSequenceType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelSequence::getStepLine( std::stringstream& stream ) const
@@ -50,17 +59,17 @@ void IfcRelSequence::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELSEQUENCE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingProcess ) { stream << "#" << m_RelatingProcess->getId(); } else { stream << "$"; }
+	if( m_RelatingProcess ) { stream << "#" << m_RelatingProcess->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatedProcess ) { stream << "#" << m_RelatedProcess->getId(); } else { stream << "$"; }
+	if( m_RelatedProcess ) { stream << "#" << m_RelatedProcess->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TimeLag ) { stream << "#" << m_TimeLag->getId(); } else { stream << "$"; }
+	if( m_TimeLag ) { stream << "#" << m_TimeLag->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SequenceType ) { m_SequenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -71,19 +80,16 @@ void IfcRelSequence::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>9 ){ std::cout << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_RelatingProcess, map );
 	readEntityReference( args[5], m_RelatedProcess, map );
 	readEntityReference( args[6], m_TimeLag, map );
-	m_SequenceType = IfcSequenceEnum::createObjectFromStepData( args[7] );
-	m_UserDefinedSequenceType = IfcLabel::createObjectFromStepData( args[8] );
+	m_SequenceType = IfcSequenceEnum::createObjectFromSTEP( args[7] );
+	m_UserDefinedSequenceType = IfcLabel::createObjectFromSTEP( args[8] );
 }
 void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -118,11 +124,10 @@ void IfcRelSequence::unlinkSelf()
 	if( m_RelatedProcess )
 	{
 		std::vector<weak_ptr<IfcRelSequence> >& IsSuccessorFrom_inverse = m_RelatedProcess->m_IsSuccessorFrom_inverse;
-		std::vector<weak_ptr<IfcRelSequence> >::iterator it_IsSuccessorFrom_inverse;
-		for( it_IsSuccessorFrom_inverse = IsSuccessorFrom_inverse.begin(); it_IsSuccessorFrom_inverse != IsSuccessorFrom_inverse.end(); ++it_IsSuccessorFrom_inverse)
+		for( auto it_IsSuccessorFrom_inverse = IsSuccessorFrom_inverse.begin(); it_IsSuccessorFrom_inverse != IsSuccessorFrom_inverse.end(); ++it_IsSuccessorFrom_inverse)
 		{
 			shared_ptr<IfcRelSequence> self_candidate( *it_IsSuccessorFrom_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				IsSuccessorFrom_inverse.erase( it_IsSuccessorFrom_inverse );
 				break;
@@ -132,11 +137,10 @@ void IfcRelSequence::unlinkSelf()
 	if( m_RelatingProcess )
 	{
 		std::vector<weak_ptr<IfcRelSequence> >& IsPredecessorTo_inverse = m_RelatingProcess->m_IsPredecessorTo_inverse;
-		std::vector<weak_ptr<IfcRelSequence> >::iterator it_IsPredecessorTo_inverse;
-		for( it_IsPredecessorTo_inverse = IsPredecessorTo_inverse.begin(); it_IsPredecessorTo_inverse != IsPredecessorTo_inverse.end(); ++it_IsPredecessorTo_inverse)
+		for( auto it_IsPredecessorTo_inverse = IsPredecessorTo_inverse.begin(); it_IsPredecessorTo_inverse != IsPredecessorTo_inverse.end(); ++it_IsPredecessorTo_inverse)
 		{
 			shared_ptr<IfcRelSequence> self_candidate( *it_IsPredecessorTo_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				IsPredecessorTo_inverse.erase( it_IsPredecessorTo_inverse );
 				break;

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,12 +29,12 @@
 IfcPlanarBox::IfcPlanarBox() {}
 IfcPlanarBox::IfcPlanarBox( int id ) { m_id = id; }
 IfcPlanarBox::~IfcPlanarBox() {}
-shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPlanarBox> copy_self( new IfcPlanarBox() );
-	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy() ); }
-	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy() ); }
-	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy() ); }
+	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy(options) ); }
+	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy(options) ); }
+	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
@@ -50,13 +51,10 @@ void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_SizeInX = IfcLengthMeasure::createObjectFromStepData( args[0] );
-	m_SizeInY = IfcLengthMeasure::createObjectFromStepData( args[1] );
-	m_Placement = IfcAxis2Placement::createObjectFromStepData( args[2], map );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0] );
+	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1] );
+	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[2], map );
 }
 void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

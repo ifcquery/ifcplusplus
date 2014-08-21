@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcElementCompositionEnum.h"
 
-// TYPE IfcElementCompositionEnum 
+// TYPE IfcElementCompositionEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL);
 IfcElementCompositionEnum::IfcElementCompositionEnum() {}
 IfcElementCompositionEnum::~IfcElementCompositionEnum() {}
-shared_ptr<IfcPPObject> IfcElementCompositionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElementCompositionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElementCompositionEnum> copy_self( new IfcElementCompositionEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }

@@ -40,9 +40,9 @@ public:
 	IfcFanTypeEnum( IfcFanTypeEnumEnum e ) { m_enum = e; }
 	~IfcFanTypeEnum();
 	virtual const char* classname() const { return "IfcFanTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcFanTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcFanTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcFanTypeEnumEnum m_enum;
 };
 

@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcLinearForceMeasure.h"
 
-// TYPE IfcLinearForceMeasure 
+// TYPE IfcLinearForceMeasure = REAL;
 IfcLinearForceMeasure::IfcLinearForceMeasure() {}
 IfcLinearForceMeasure::IfcLinearForceMeasure( double value ) { m_value = value; }
 IfcLinearForceMeasure::~IfcLinearForceMeasure() {}
-shared_ptr<IfcPPObject> IfcLinearForceMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLinearForceMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLinearForceMeasure> copy_self( new IfcLinearForceMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcLinearForceMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
 	shared_ptr<IfcLinearForceMeasure> type_object( new IfcLinearForceMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

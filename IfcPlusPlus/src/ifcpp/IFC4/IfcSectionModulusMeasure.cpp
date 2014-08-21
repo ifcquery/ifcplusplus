@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcSectionModulusMeasure.h"
 
-// TYPE IfcSectionModulusMeasure 
+// TYPE IfcSectionModulusMeasure = REAL;
 IfcSectionModulusMeasure::IfcSectionModulusMeasure() {}
 IfcSectionModulusMeasure::IfcSectionModulusMeasure( double value ) { m_value = value; }
 IfcSectionModulusMeasure::~IfcSectionModulusMeasure() {}
-shared_ptr<IfcPPObject> IfcSectionModulusMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSectionModulusMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSectionModulusMeasure> copy_self( new IfcSectionModulusMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcSectionModulusMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSectionModulusMeasure> IfcSectionModulusMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSectionModulusMeasure> IfcSectionModulusMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
 	shared_ptr<IfcSectionModulusMeasure> type_object( new IfcSectionModulusMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

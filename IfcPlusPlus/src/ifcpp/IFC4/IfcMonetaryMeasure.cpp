@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcMonetaryMeasure.h"
 
-// TYPE IfcMonetaryMeasure 
+// TYPE IfcMonetaryMeasure = REAL;
 IfcMonetaryMeasure::IfcMonetaryMeasure() {}
 IfcMonetaryMeasure::IfcMonetaryMeasure( double value ) { m_value = value; }
 IfcMonetaryMeasure::~IfcMonetaryMeasure() {}
-shared_ptr<IfcPPObject> IfcMonetaryMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMonetaryMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMonetaryMeasure> copy_self( new IfcMonetaryMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMonetaryMeasure::getStepParameter( std::stringstream& stream, bool is_se
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
 	shared_ptr<IfcMonetaryMeasure> type_object( new IfcMonetaryMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

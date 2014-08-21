@@ -18,6 +18,7 @@
 #include "ifcpp/IFC4/include/IfcApplication.h"
 #include "ifcpp/IFC4/include/IfcSIUnit.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
+#include "ifcpp/IFC4/include/IfcAxis2Placement.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
 #include "ifcpp/IFC4/include/IfcOwnerHistory.h"
 #include "ifcpp/IFC4/include/IfcDimensionalExponents.h"
@@ -30,6 +31,7 @@
 #include "ifcpp/IFC4/include/IfcDirection.h"
 #include "ifcpp/IFC4/include/IfcRelationship.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
+#include "ifcpp/IFC4/include/IfcUnit.h"
 
 #include "IfcPPGuid.h"
 #include "IfcPPAttributeObject.h"
@@ -130,7 +132,11 @@ void IfcPPModel::initIfcModel()
 
 	// assign units
 	shared_ptr<IfcUnitAssignment> unit_assignment( new IfcUnitAssignment() );
+	//shared_ptr<IfcUnit> si_unit_select( new IfcUnit() );
+	//si_unit_select->setObject( si_unit );
 	unit_assignment->m_Units.push_back( si_unit );
+	//shared_ptr<IfcUnit> plane_angle_unit_select( new IfcUnit() );
+	//plane_angle_unit_select->setObject( plane_angle_unit );
 	unit_assignment->m_Units.push_back( plane_angle_unit );
 	insertEntity(unit_assignment);
 
@@ -208,11 +214,11 @@ void IfcPPModel::setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> 
 
 void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing )
 {
-	int entity_id = e->getId();
+	int entity_id = e->m_id;
 	if( entity_id < 0 )
 	{
 		int next_unused_id = getMaxUsedEntityId() + 1;
-		e->setId( next_unused_id );
+		e->m_id = next_unused_id;
 		entity_id = next_unused_id;
 	}
 
@@ -258,7 +264,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 
 void IfcPPModel::removeEntity( shared_ptr<IfcPPEntity> e )
 {
-	int remove_id = e->getId();
+	int remove_id = e->m_id;
 	auto it_find = m_map_entities.find(remove_id);
 	if( it_find == m_map_entities.end() )
 	{
@@ -392,7 +398,7 @@ void IfcPPModel::removeUnreferencedEntities()
 				entity->unlinkSelf();
 				auto erase_it = it_entities;
 #ifdef _DEBUG
-				int entity_id = entity->getId();
+				int entity_id = entity->m_id;
 				const char* entity_classname = entity->classname();
 #endif
 				++it_entities;

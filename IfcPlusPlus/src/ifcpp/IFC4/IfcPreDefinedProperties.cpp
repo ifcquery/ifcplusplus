@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,7 +26,7 @@
 IfcPreDefinedProperties::IfcPreDefinedProperties() {}
 IfcPreDefinedProperties::IfcPreDefinedProperties( int id ) { m_id = id; }
 IfcPreDefinedProperties::~IfcPreDefinedProperties() {}
-shared_ptr<IfcPPObject> IfcPreDefinedProperties::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPreDefinedProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPreDefinedProperties> copy_self( new IfcPreDefinedProperties() );
 	return copy_self;

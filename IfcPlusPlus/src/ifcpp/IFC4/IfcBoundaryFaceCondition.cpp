@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,13 +27,13 @@
 IfcBoundaryFaceCondition::IfcBoundaryFaceCondition() {}
 IfcBoundaryFaceCondition::IfcBoundaryFaceCondition( int id ) { m_id = id; }
 IfcBoundaryFaceCondition::~IfcBoundaryFaceCondition() {}
-shared_ptr<IfcPPObject> IfcBoundaryFaceCondition::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoundaryFaceCondition::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryFaceCondition> copy_self( new IfcBoundaryFaceCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_TranslationalStiffnessByAreaX ) { copy_self->m_TranslationalStiffnessByAreaX = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaX->getDeepCopy() ); }
-	if( m_TranslationalStiffnessByAreaY ) { copy_self->m_TranslationalStiffnessByAreaY = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaY->getDeepCopy() ); }
-	if( m_TranslationalStiffnessByAreaZ ) { copy_self->m_TranslationalStiffnessByAreaZ = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaZ->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_TranslationalStiffnessByAreaX ) { copy_self->m_TranslationalStiffnessByAreaX = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaX->getDeepCopy(options) ); }
+	if( m_TranslationalStiffnessByAreaY ) { copy_self->m_TranslationalStiffnessByAreaY = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaY->getDeepCopy(options) ); }
+	if( m_TranslationalStiffnessByAreaZ ) { copy_self->m_TranslationalStiffnessByAreaZ = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaZ->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBoundaryFaceCondition::getStepLine( std::stringstream& stream ) const
@@ -51,14 +52,11 @@ void IfcBoundaryFaceCondition::getStepParameter( std::stringstream& stream, bool
 void IfcBoundaryFaceCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoundaryFaceCondition, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcBoundaryFaceCondition, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_TranslationalStiffnessByAreaX = IfcModulusOfSubgradeReactionSelect::createObjectFromStepData( args[1], map );
-	m_TranslationalStiffnessByAreaY = IfcModulusOfSubgradeReactionSelect::createObjectFromStepData( args[2], map );
-	m_TranslationalStiffnessByAreaZ = IfcModulusOfSubgradeReactionSelect::createObjectFromStepData( args[3], map );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoundaryFaceCondition, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_TranslationalStiffnessByAreaX = IfcModulusOfSubgradeReactionSelect::createObjectFromSTEP( args[1], map );
+	m_TranslationalStiffnessByAreaY = IfcModulusOfSubgradeReactionSelect::createObjectFromSTEP( args[2], map );
+	m_TranslationalStiffnessByAreaZ = IfcModulusOfSubgradeReactionSelect::createObjectFromSTEP( args[3], map );
 }
 void IfcBoundaryFaceCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

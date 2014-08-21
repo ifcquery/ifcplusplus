@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcHumidifierTypeEnum.h"
 
-// TYPE IfcHumidifierTypeEnum 
+// TYPE IfcHumidifierTypeEnum = ENUMERATION OF	(STEAMINJECTION	,ADIABATICAIRWASHER	,ADIABATICPAN	,ADIABATICWETTEDELEMENT	,ADIABATICATOMIZING	,ADIABATICULTRASONIC	,ADIABATICRIGIDMEDIA	,ADIABATICCOMPRESSEDAIRNOZZLE	,ASSISTEDELECTRIC	,ASSISTEDNATURALGAS	,ASSISTEDPROPANE	,ASSISTEDBUTANE	,ASSISTEDSTEAM	,USERDEFINED	,NOTDEFINED);
 IfcHumidifierTypeEnum::IfcHumidifierTypeEnum() {}
 IfcHumidifierTypeEnum::~IfcHumidifierTypeEnum() {}
-shared_ptr<IfcPPObject> IfcHumidifierTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcHumidifierTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcHumidifierTypeEnum> copy_self( new IfcHumidifierTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -94,7 +94,7 @@ void IfcHumidifierTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }

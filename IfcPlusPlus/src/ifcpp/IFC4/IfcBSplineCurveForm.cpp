@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBSplineCurveForm.h"
 
-// TYPE IfcBSplineCurveForm 
+// TYPE IfcBSplineCurveForm = ENUMERATION OF	(POLYLINE_FORM	,CIRCULAR_ARC	,ELLIPTIC_ARC	,PARABOLIC_ARC	,HYPERBOLIC_ARC	,UNSPECIFIED);
 IfcBSplineCurveForm::IfcBSplineCurveForm() {}
 IfcBSplineCurveForm::~IfcBSplineCurveForm() {}
-shared_ptr<IfcPPObject> IfcBSplineCurveForm::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBSplineCurveForm::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBSplineCurveForm> copy_self( new IfcBSplineCurveForm() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcBSplineCurveForm::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBSplineCurveForm> IfcBSplineCurveForm::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBSplineCurveForm> IfcBSplineCurveForm::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }

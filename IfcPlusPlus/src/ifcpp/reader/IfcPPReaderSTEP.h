@@ -14,11 +14,19 @@
 #pragma once
 
 #include "ifcpp/model/shared_ptr.h"
+#include "ifcpp/model/IfcPPObject.h"
 #include "IfcPPReader.h"
 
 class IfcPPReaderSTEP : public IfcPPReader
 {
 public:
+	struct EntityReadContainer
+	{
+	public:
+		shared_ptr<IfcPPEntity> m_entity;
+		std::string m_entity_argument_str;
+	};
+
 	IfcPPReaderSTEP();
 	~IfcPPReaderSTEP();
 	virtual void removeComments( std::string& buffer );
@@ -27,6 +35,6 @@ public:
 	virtual void readStreamData( std::string& in, shared_ptr<IfcPPModel>& model );
 	
 	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& step_lines );
-	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<shared_ptr<IfcPPEntity> >& vec_target_entity );
-	void readEntityArguments(	const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<EntityReadContainer>& vec_target_entity );
+	void readEntityArguments(	const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<EntityReadContainer>& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };

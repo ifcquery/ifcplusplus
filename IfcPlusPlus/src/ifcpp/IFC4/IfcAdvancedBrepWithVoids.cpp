@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids() {}
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids( int id ) { m_id = id; }
 IfcAdvancedBrepWithVoids::~IfcAdvancedBrepWithVoids() {}
-shared_ptr<IfcPPObject> IfcAdvancedBrepWithVoids::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAdvancedBrepWithVoids::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAdvancedBrepWithVoids> copy_self( new IfcAdvancedBrepWithVoids() );
-	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy() ); }
+	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Voids.size(); ++ii )
 	{
 		auto item_ii = m_Voids[ii];
 		if( item_ii )
 		{
-			copy_self->m_Voids.push_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy() ) );
+			copy_self->m_Voids.push_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -44,7 +45,7 @@ shared_ptr<IfcPPObject> IfcAdvancedBrepWithVoids::getDeepCopy()
 void IfcAdvancedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCADVANCEDBREPWITHVOIDS" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->getId(); } else { stream << "*"; }
+	if( m_Outer ) { stream << "#" << m_Outer->m_id; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Voids );
 	stream << ");";
@@ -53,10 +54,7 @@ void IfcAdvancedBrepWithVoids::getStepParameter( std::stringstream& stream, bool
 void IfcAdvancedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAdvancedBrepWithVoids, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcAdvancedBrepWithVoids, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAdvancedBrepWithVoids, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 	readEntityReferenceList( args[1], m_Voids, map );
 }

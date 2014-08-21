@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcConstructionProductResourceTypeEnum.h"
 
-// TYPE IfcConstructionProductResourceTypeEnum 
+// TYPE IfcConstructionProductResourceTypeEnum = ENUMERATION OF	(ASSEMBLY	,FORMWORK	,USERDEFINED	,NOTDEFINED);
 IfcConstructionProductResourceTypeEnum::IfcConstructionProductResourceTypeEnum() {}
 IfcConstructionProductResourceTypeEnum::~IfcConstructionProductResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcConstructionProductResourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConstructionProductResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConstructionProductResourceTypeEnum> copy_self( new IfcConstructionProductResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcConstructionProductResourceTypeEnum::getStepParameter( std::stringstream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }

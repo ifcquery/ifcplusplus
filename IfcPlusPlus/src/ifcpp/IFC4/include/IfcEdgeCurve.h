@@ -21,13 +21,13 @@
 #include "IfcEdge.h"
 class IfcCurve;
 //ENTITY
-class IfcEdgeCurve : public IfcCurveOrEdgeCurve, public IfcEdge
+class IfcEdgeCurve : virtual public IfcCurveOrEdgeCurve, public IfcEdge
 {
 public:
 	IfcEdgeCurve();
 	IfcEdgeCurve( int id );
 	~IfcEdgeCurve();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

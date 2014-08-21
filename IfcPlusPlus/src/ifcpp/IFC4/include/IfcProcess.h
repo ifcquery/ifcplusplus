@@ -24,13 +24,13 @@ class IfcText;
 class IfcRelSequence;
 class IfcRelAssignsToProcess;
 //ENTITY
-class IfcProcess : public IfcProcessSelect, public IfcObject
+class IfcProcess : virtual public IfcProcessSelect, public IfcObject
 {
 public:
 	IfcProcess();
 	IfcProcess( int id );
 	~IfcProcess();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

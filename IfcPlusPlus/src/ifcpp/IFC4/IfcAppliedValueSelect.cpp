@@ -126,57 +126,20 @@
 #include "include/IfcTimeStamp.h"
 #include "include/IfcAppliedValueSelect.h"
 
-// TYPE IfcAppliedValueSelect 
-IfcAppliedValueSelect::IfcAppliedValueSelect() {}
-IfcAppliedValueSelect::~IfcAppliedValueSelect() {}
-shared_ptr<IfcAppliedValueSelect> IfcAppliedValueSelect::createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+// TYPE IfcAppliedValueSelect = SELECT	(IfcMeasureWithUnit	,IfcReference	,IfcValue);
+shared_ptr<IfcAppliedValueSelect> IfcAppliedValueSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// Read SELECT TYPE
+	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcAppliedValueSelect>(); }
-	if( arg[0] == '#' )
-	{
-		int id=std::stoi( arg.substr(1,arg.length()-1).c_str() );
-		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map.find( id );
-		if( it_entity != map.end() )
-		{
-			shared_ptr<IfcAppliedValueSelect> type_object = dynamic_pointer_cast<IfcAppliedValueSelect>(it_entity->second);
-			return type_object;
-		}
-		else
-		{
-			std::stringstream strs;
-			strs << "Object width id " << id << " not found";
-			throw IfcPPException( strs.str() );
-		}
-	}
-	else if( arg.compare(L"$")==0 )
+	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcAppliedValueSelect>();
 	}
-	else if( arg.compare(L"*")==0 )
+	if( arg.compare(L"*")==0 )
 	{
 		return shared_ptr<IfcAppliedValueSelect>();
 	}
-	else
-	{
-		// inline arguments
-		std::wstring keyword;
-		std::wstring inline_arg;
-		tokenizeInlineArgument( arg, keyword, inline_arg );
-		shared_ptr<IfcPPObject> result_object;
-		readInlineTypeOrEntity( keyword, inline_arg, result_object, map );
-		if( result_object )
-		{
-			shared_ptr<IfcPPObject> result_ptr( result_object );
-			shared_ptr<IfcAppliedValueSelect> result_ptr_self = dynamic_pointer_cast<IfcAppliedValueSelect>( result_ptr );
-			if( result_ptr_self )
-			{
-				return result_ptr_self;
-			}
-		}
-		std::wstringstream strs;
-		strs << "unhandled inline argument: " << arg << " in function IfcAppliedValueSelect::readStepData" << std::endl;
-		throw IfcPPException( strs.str() );
-	}
-	return shared_ptr<IfcAppliedValueSelect>();
+	shared_ptr<IfcAppliedValueSelect> result_object;
+	readSelectType( arg, result_object, map );
+	return result_object;
 }

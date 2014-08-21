@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,7 +29,7 @@
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles() {}
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_id = id; }
 IfcFillAreaStyleTiles::~IfcFillAreaStyleTiles() {}
-shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyleTiles> copy_self( new IfcFillAreaStyleTiles() );
 	for( size_t ii=0; ii<m_TilingPattern.size(); ++ii )
@@ -36,7 +37,7 @@ shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy()
 		auto item_ii = m_TilingPattern[ii];
 		if( item_ii )
 		{
-			copy_self->m_TilingPattern.push_back( dynamic_pointer_cast<IfcVector>(item_ii->getDeepCopy() ) );
+			copy_self->m_TilingPattern.push_back( dynamic_pointer_cast<IfcVector>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Tiles.size(); ++ii )
@@ -44,10 +45,10 @@ shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy()
 		auto item_ii = m_Tiles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Tiles.push_back( dynamic_pointer_cast<IfcStyledItem>(item_ii->getDeepCopy() ) );
+			copy_self->m_Tiles.push_back( dynamic_pointer_cast<IfcStyledItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_TilingScale ) { copy_self->m_TilingScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TilingScale->getDeepCopy() ); }
+	if( m_TilingScale ) { copy_self->m_TilingScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TilingScale->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
@@ -64,13 +65,10 @@ void IfcFillAreaStyleTiles::getStepParameter( std::stringstream& stream, bool ) 
 void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_TilingPattern, map );
 	readEntityReferenceList( args[1], m_Tiles, map );
-	m_TilingScale = IfcPositiveRatioMeasure::createObjectFromStepData( args[2] );
+	m_TilingScale = IfcPositiveRatioMeasure::createObjectFromSTEP( args[2] );
 }
 void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

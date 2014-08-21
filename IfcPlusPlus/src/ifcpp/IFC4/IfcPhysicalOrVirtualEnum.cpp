@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPhysicalOrVirtualEnum.h"
 
-// TYPE IfcPhysicalOrVirtualEnum 
+// TYPE IfcPhysicalOrVirtualEnum = ENUMERATION OF	(PHYSICAL	,VIRTUAL	,NOTDEFINED);
 IfcPhysicalOrVirtualEnum::IfcPhysicalOrVirtualEnum() {}
 IfcPhysicalOrVirtualEnum::~IfcPhysicalOrVirtualEnum() {}
-shared_ptr<IfcPPObject> IfcPhysicalOrVirtualEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPhysicalOrVirtualEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalOrVirtualEnum> copy_self( new IfcPhysicalOrVirtualEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }

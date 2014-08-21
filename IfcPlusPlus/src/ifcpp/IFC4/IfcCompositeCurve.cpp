@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcCompositeCurve::IfcCompositeCurve() {}
 IfcCompositeCurve::IfcCompositeCurve( int id ) { m_id = id; }
 IfcCompositeCurve::~IfcCompositeCurve() {}
-shared_ptr<IfcPPObject> IfcCompositeCurve::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCompositeCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCompositeCurve> copy_self( new IfcCompositeCurve() );
 	for( size_t ii=0; ii<m_Segments.size(); ++ii )
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcCompositeCurve::getDeepCopy()
 		auto item_ii = m_Segments[ii];
 		if( item_ii )
 		{
-			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy() ) );
+			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
@@ -55,10 +56,7 @@ void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
@@ -73,7 +71,7 @@ void IfcCompositeCurve::getAttributes( std::vector<std::pair<std::string, shared
 		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Segments", Segments_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_SelfIntersect ) ) ) );
 }
 void IfcCompositeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
@@ -84,7 +82,7 @@ void IfcCompositeCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 	IfcBoundedCurve::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcCompositeCurve> ptr_self = dynamic_pointer_cast<IfcCompositeCurve>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcCompositeCurve::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_Segments.size(); ++i )
+	for( size_t i=0; i<m_Segments.size(); ++i )
 	{
 		if( m_Segments[i] )
 		{
@@ -95,16 +93,15 @@ void IfcCompositeCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 void IfcCompositeCurve::unlinkSelf()
 {
 	IfcBoundedCurve::unlinkSelf();
-	for( int i=0; i<m_Segments.size(); ++i )
+	for( size_t i=0; i<m_Segments.size(); ++i )
 	{
 		if( m_Segments[i] )
 		{
 			std::vector<weak_ptr<IfcCompositeCurve> >& UsingCurves_inverse = m_Segments[i]->m_UsingCurves_inverse;
-			std::vector<weak_ptr<IfcCompositeCurve> >::iterator it_UsingCurves_inverse;
-			for( it_UsingCurves_inverse = UsingCurves_inverse.begin(); it_UsingCurves_inverse != UsingCurves_inverse.end(); ++it_UsingCurves_inverse)
+			for( auto it_UsingCurves_inverse = UsingCurves_inverse.begin(); it_UsingCurves_inverse != UsingCurves_inverse.end(); ++it_UsingCurves_inverse)
 			{
 				shared_ptr<IfcCompositeCurve> self_candidate( *it_UsingCurves_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					UsingCurves_inverse.erase( it_UsingCurves_inverse );
 					break;

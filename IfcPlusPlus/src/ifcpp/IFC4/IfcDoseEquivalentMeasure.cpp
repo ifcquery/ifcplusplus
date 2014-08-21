@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcDoseEquivalentMeasure.h"
 
-// TYPE IfcDoseEquivalentMeasure 
+// TYPE IfcDoseEquivalentMeasure = REAL;
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure() {}
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure( double value ) { m_value = value; }
 IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() {}
-shared_ptr<IfcPPObject> IfcDoseEquivalentMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDoseEquivalentMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDoseEquivalentMeasure> copy_self( new IfcDoseEquivalentMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcDoseEquivalentMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoseEquivalentMeasure> IfcDoseEquivalentMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDoseEquivalentMeasure> IfcDoseEquivalentMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	shared_ptr<IfcDoseEquivalentMeasure> type_object( new IfcDoseEquivalentMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

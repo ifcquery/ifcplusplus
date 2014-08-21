@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcInventoryTypeEnum.h"
 
-// TYPE IfcInventoryTypeEnum 
+// TYPE IfcInventoryTypeEnum = ENUMERATION OF	(ASSETINVENTORY	,SPACEINVENTORY	,FURNITUREINVENTORY	,USERDEFINED	,NOTDEFINED);
 IfcInventoryTypeEnum::IfcInventoryTypeEnum() {}
 IfcInventoryTypeEnum::~IfcInventoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcInventoryTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcInventoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcInventoryTypeEnum> copy_self( new IfcInventoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -36,33 +37,33 @@
 IfcDocumentInformation::IfcDocumentInformation() {}
 IfcDocumentInformation::IfcDocumentInformation( int id ) { m_id = id; }
 IfcDocumentInformation::~IfcDocumentInformation() {}
-shared_ptr<IfcPPObject> IfcDocumentInformation::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDocumentInformation::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDocumentInformation> copy_self( new IfcDocumentInformation() );
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcText>( m_Purpose->getDeepCopy() ); }
-	if( m_IntendedUse ) { copy_self->m_IntendedUse = dynamic_pointer_cast<IfcText>( m_IntendedUse->getDeepCopy() ); }
-	if( m_Scope ) { copy_self->m_Scope = dynamic_pointer_cast<IfcText>( m_Scope->getDeepCopy() ); }
-	if( m_Revision ) { copy_self->m_Revision = dynamic_pointer_cast<IfcLabel>( m_Revision->getDeepCopy() ); }
-	if( m_DocumentOwner ) { copy_self->m_DocumentOwner = dynamic_pointer_cast<IfcActorSelect>( m_DocumentOwner->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcText>( m_Purpose->getDeepCopy(options) ); }
+	if( m_IntendedUse ) { copy_self->m_IntendedUse = dynamic_pointer_cast<IfcText>( m_IntendedUse->getDeepCopy(options) ); }
+	if( m_Scope ) { copy_self->m_Scope = dynamic_pointer_cast<IfcText>( m_Scope->getDeepCopy(options) ); }
+	if( m_Revision ) { copy_self->m_Revision = dynamic_pointer_cast<IfcLabel>( m_Revision->getDeepCopy(options) ); }
+	if( m_DocumentOwner ) { copy_self->m_DocumentOwner = dynamic_pointer_cast<IfcActorSelect>( m_DocumentOwner->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Editors.size(); ++ii )
 	{
 		auto item_ii = m_Editors[ii];
 		if( item_ii )
 		{
-			copy_self->m_Editors.push_back( dynamic_pointer_cast<IfcActorSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_Editors.push_back( dynamic_pointer_cast<IfcActorSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy() ); }
-	if( m_LastRevisionTime ) { copy_self->m_LastRevisionTime = dynamic_pointer_cast<IfcDateTime>( m_LastRevisionTime->getDeepCopy() ); }
-	if( m_ElectronicFormat ) { copy_self->m_ElectronicFormat = dynamic_pointer_cast<IfcIdentifier>( m_ElectronicFormat->getDeepCopy() ); }
-	if( m_ValidFrom ) { copy_self->m_ValidFrom = dynamic_pointer_cast<IfcDate>( m_ValidFrom->getDeepCopy() ); }
-	if( m_ValidUntil ) { copy_self->m_ValidUntil = dynamic_pointer_cast<IfcDate>( m_ValidUntil->getDeepCopy() ); }
-	if( m_Confidentiality ) { copy_self->m_Confidentiality = dynamic_pointer_cast<IfcDocumentConfidentialityEnum>( m_Confidentiality->getDeepCopy() ); }
-	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcDocumentStatusEnum>( m_Status->getDeepCopy() ); }
+	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy(options) ); }
+	if( m_LastRevisionTime ) { copy_self->m_LastRevisionTime = dynamic_pointer_cast<IfcDateTime>( m_LastRevisionTime->getDeepCopy(options) ); }
+	if( m_ElectronicFormat ) { copy_self->m_ElectronicFormat = dynamic_pointer_cast<IfcIdentifier>( m_ElectronicFormat->getDeepCopy(options) ); }
+	if( m_ValidFrom ) { copy_self->m_ValidFrom = dynamic_pointer_cast<IfcDate>( m_ValidFrom->getDeepCopy(options) ); }
+	if( m_ValidUntil ) { copy_self->m_ValidUntil = dynamic_pointer_cast<IfcDate>( m_ValidUntil->getDeepCopy(options) ); }
+	if( m_Confidentiality ) { copy_self->m_Confidentiality = dynamic_pointer_cast<IfcDocumentConfidentialityEnum>( m_Confidentiality->getDeepCopy(options) ); }
+	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcDocumentStatusEnum>( m_Status->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
@@ -107,27 +108,24 @@ void IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool )
 void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<17 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>17 ){ std::cout << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Identification = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Name = IfcLabel::createObjectFromStepData( args[1] );
-	m_Description = IfcText::createObjectFromStepData( args[2] );
-	m_Location = IfcURIReference::createObjectFromStepData( args[3] );
-	m_Purpose = IfcText::createObjectFromStepData( args[4] );
-	m_IntendedUse = IfcText::createObjectFromStepData( args[5] );
-	m_Scope = IfcText::createObjectFromStepData( args[6] );
-	m_Revision = IfcLabel::createObjectFromStepData( args[7] );
-	m_DocumentOwner = IfcActorSelect::createObjectFromStepData( args[8], map );
+	if( num_args != 17 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
+	m_Description = IfcText::createObjectFromSTEP( args[2] );
+	m_Location = IfcURIReference::createObjectFromSTEP( args[3] );
+	m_Purpose = IfcText::createObjectFromSTEP( args[4] );
+	m_IntendedUse = IfcText::createObjectFromSTEP( args[5] );
+	m_Scope = IfcText::createObjectFromSTEP( args[6] );
+	m_Revision = IfcLabel::createObjectFromSTEP( args[7] );
+	m_DocumentOwner = IfcActorSelect::createObjectFromSTEP( args[8], map );
 	readSelectList( args[9], m_Editors, map );
-	m_CreationTime = IfcDateTime::createObjectFromStepData( args[10] );
-	m_LastRevisionTime = IfcDateTime::createObjectFromStepData( args[11] );
-	m_ElectronicFormat = IfcIdentifier::createObjectFromStepData( args[12] );
-	m_ValidFrom = IfcDate::createObjectFromStepData( args[13] );
-	m_ValidUntil = IfcDate::createObjectFromStepData( args[14] );
-	m_Confidentiality = IfcDocumentConfidentialityEnum::createObjectFromStepData( args[15] );
-	m_Status = IfcDocumentStatusEnum::createObjectFromStepData( args[16] );
+	m_CreationTime = IfcDateTime::createObjectFromSTEP( args[10] );
+	m_LastRevisionTime = IfcDateTime::createObjectFromSTEP( args[11] );
+	m_ElectronicFormat = IfcIdentifier::createObjectFromSTEP( args[12] );
+	m_ValidFrom = IfcDate::createObjectFromSTEP( args[13] );
+	m_ValidUntil = IfcDate::createObjectFromSTEP( args[14] );
+	m_Confidentiality = IfcDocumentConfidentialityEnum::createObjectFromSTEP( args[15] );
+	m_Status = IfcDocumentStatusEnum::createObjectFromSTEP( args[16] );
 }
 void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

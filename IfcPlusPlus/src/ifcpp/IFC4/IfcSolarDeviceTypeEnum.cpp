@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSolarDeviceTypeEnum.h"
 
-// TYPE IfcSolarDeviceTypeEnum 
+// TYPE IfcSolarDeviceTypeEnum = ENUMERATION OF	(SOLARCOLLECTOR	,SOLARPANEL	,USERDEFINED	,NOTDEFINED);
 IfcSolarDeviceTypeEnum::IfcSolarDeviceTypeEnum() {}
 IfcSolarDeviceTypeEnum::~IfcSolarDeviceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSolarDeviceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSolarDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSolarDeviceTypeEnum> copy_self( new IfcSolarDeviceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcSolarDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }

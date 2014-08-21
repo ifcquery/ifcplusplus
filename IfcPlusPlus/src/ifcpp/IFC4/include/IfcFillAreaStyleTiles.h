@@ -23,13 +23,13 @@ class IfcVector;
 class IfcStyledItem;
 class IfcPositiveRatioMeasure;
 //ENTITY
-class IfcFillAreaStyleTiles : public IfcFillStyleSelect, public IfcGeometricRepresentationItem
+class IfcFillAreaStyleTiles : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
 {
 public:
 	IfcFillAreaStyleTiles();
 	IfcFillAreaStyleTiles( int id );
 	~IfcFillAreaStyleTiles();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

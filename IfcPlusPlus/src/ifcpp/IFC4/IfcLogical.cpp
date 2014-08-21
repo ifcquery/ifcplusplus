@@ -21,11 +21,11 @@
 #include "include/IfcSimpleValue.h"
 #include "include/IfcLogical.h"
 
-// TYPE IfcLogical 
+// TYPE IfcLogical = LOGICAL;
 IfcLogical::IfcLogical() {}
 IfcLogical::IfcLogical( LogicalEnum value ) { m_value = value; }
 IfcLogical::~IfcLogical() {}
-shared_ptr<IfcPPObject> IfcLogical::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLogical::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLogical> copy_self( new IfcLogical() );
 	copy_self->m_value = m_value;
@@ -48,12 +48,12 @@ void IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_typ
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLogical> IfcLogical::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLogical> IfcLogical::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	shared_ptr<IfcLogical> type_object( new IfcLogical() );
-	type_object->readArgument( arg );
+	readLogical( arg, type_object->m_value );
 	return type_object;
 }

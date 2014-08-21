@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCoveringTypeEnum.h"
 
-// TYPE IfcCoveringTypeEnum 
+// TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,FLOORING	,CLADDING	,ROOFING	,MOLDING	,SKIRTINGBOARD	,INSULATION	,MEMBRANE	,SLEEVING	,WRAPPING	,USERDEFINED	,NOTDEFINED);
 IfcCoveringTypeEnum::IfcCoveringTypeEnum() {}
 IfcCoveringTypeEnum::~IfcCoveringTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCoveringTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCoveringTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCoveringTypeEnum> copy_self( new IfcCoveringTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -82,7 +82,7 @@ void IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }

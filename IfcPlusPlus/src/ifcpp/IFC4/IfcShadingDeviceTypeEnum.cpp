@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcShadingDeviceTypeEnum.h"
 
-// TYPE IfcShadingDeviceTypeEnum 
+// TYPE IfcShadingDeviceTypeEnum = ENUMERATION OF	(JALOUSIE	,SHUTTER	,AWNING	,USERDEFINED	,NOTDEFINED);
 IfcShadingDeviceTypeEnum::IfcShadingDeviceTypeEnum() {}
 IfcShadingDeviceTypeEnum::~IfcShadingDeviceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcShadingDeviceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcShadingDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcShadingDeviceTypeEnum> copy_self( new IfcShadingDeviceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }

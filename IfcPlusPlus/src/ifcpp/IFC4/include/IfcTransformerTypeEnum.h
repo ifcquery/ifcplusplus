@@ -38,9 +38,9 @@ public:
 	IfcTransformerTypeEnum( IfcTransformerTypeEnumEnum e ) { m_enum = e; }
 	~IfcTransformerTypeEnum();
 	virtual const char* classname() const { return "IfcTransformerTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTransformerTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcTransformerTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcTransformerTypeEnumEnum m_enum;
 };
 

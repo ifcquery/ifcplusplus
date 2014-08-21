@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcTableRow::IfcTableRow() {}
 IfcTableRow::IfcTableRow( int id ) { m_id = id; }
 IfcTableRow::~IfcTableRow() {}
-shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTableRow> copy_self( new IfcTableRow() );
 	for( size_t ii=0; ii<m_RowCells.size(); ++ii )
@@ -34,7 +35,7 @@ shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy()
 		auto item_ii = m_RowCells[ii];
 		if( item_ii )
 		{
-			copy_self->m_RowCells.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_RowCells.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_IsHeading ) { copy_self->m_IsHeading = m_IsHeading; }
@@ -53,10 +54,7 @@ void IfcTableRow::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readSelectList( args[0], m_RowCells, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_IsHeading = false; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_IsHeading = true; }
@@ -69,7 +67,7 @@ void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 		std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RowCells", RowCells_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "IsHeading", shared_ptr<IfcPPBool>( new IfcPPBool( m_IsHeading ) ) ) );
+	vec_attributes.push_back( std::make_pair( "IsHeading", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsHeading ) ) ) );
 }
 void IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

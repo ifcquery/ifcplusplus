@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDocumentConfidentialityEnum.h"
 
-// TYPE IfcDocumentConfidentialityEnum 
+// TYPE IfcDocumentConfidentialityEnum = ENUMERATION OF	(PUBLIC	,RESTRICTED	,CONFIDENTIAL	,PERSONAL	,USERDEFINED	,NOTDEFINED);
 IfcDocumentConfidentialityEnum::IfcDocumentConfidentialityEnum() {}
 IfcDocumentConfidentialityEnum::~IfcDocumentConfidentialityEnum() {}
-shared_ptr<IfcPPObject> IfcDocumentConfidentialityEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDocumentConfidentialityEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDocumentConfidentialityEnum> copy_self( new IfcDocumentConfidentialityEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }

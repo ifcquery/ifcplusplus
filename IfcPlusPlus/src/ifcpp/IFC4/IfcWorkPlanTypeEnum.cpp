@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWorkPlanTypeEnum.h"
 
-// TYPE IfcWorkPlanTypeEnum 
+// TYPE IfcWorkPlanTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
 IfcWorkPlanTypeEnum::IfcWorkPlanTypeEnum() {}
 IfcWorkPlanTypeEnum::~IfcWorkPlanTypeEnum() {}
-shared_ptr<IfcPPObject> IfcWorkPlanTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWorkPlanTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWorkPlanTypeEnum> copy_self( new IfcWorkPlanTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWorkPlanTypeEnum> IfcWorkPlanTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWorkPlanTypeEnum> IfcWorkPlanTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }

@@ -21,15 +21,16 @@
 #include "IfcMeasureValue.h"
 
 // TYPE IfcTimeMeasure = REAL;
-class IfcTimeMeasure : public IfcMeasureValue, public IfcPPReal
+class IfcTimeMeasure : public IfcMeasureValue
 {
 public:
 	IfcTimeMeasure();
 	IfcTimeMeasure( double value );
 	~IfcTimeMeasure();
 	virtual const char* classname() const { return "IfcTimeMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTimeMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcTimeMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

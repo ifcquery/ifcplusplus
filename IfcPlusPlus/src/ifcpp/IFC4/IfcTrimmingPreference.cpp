@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTrimmingPreference.h"
 
-// TYPE IfcTrimmingPreference 
+// TYPE IfcTrimmingPreference = ENUMERATION OF	(CARTESIAN	,PARAMETER	,UNSPECIFIED);
 IfcTrimmingPreference::IfcTrimmingPreference() {}
 IfcTrimmingPreference::~IfcTrimmingPreference() {}
-shared_ptr<IfcPPObject> IfcTrimmingPreference::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTrimmingPreference::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTrimmingPreference> copy_self( new IfcTrimmingPreference() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcTrimmingPreference::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }

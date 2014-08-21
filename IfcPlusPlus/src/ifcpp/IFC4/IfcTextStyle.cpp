@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,13 +29,13 @@
 IfcTextStyle::IfcTextStyle() {}
 IfcTextStyle::IfcTextStyle( int id ) { m_id = id; }
 IfcTextStyle::~IfcTextStyle() {}
-shared_ptr<IfcPPObject> IfcTextStyle::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextStyle> copy_self( new IfcTextStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_TextCharacterAppearance ) { copy_self->m_TextCharacterAppearance = dynamic_pointer_cast<IfcTextStyleForDefinedFont>( m_TextCharacterAppearance->getDeepCopy() ); }
-	if( m_TextStyle ) { copy_self->m_TextStyle = dynamic_pointer_cast<IfcTextStyleTextModel>( m_TextStyle->getDeepCopy() ); }
-	if( m_TextFontStyle ) { copy_self->m_TextFontStyle = dynamic_pointer_cast<IfcTextFontSelect>( m_TextFontStyle->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_TextCharacterAppearance ) { copy_self->m_TextCharacterAppearance = dynamic_pointer_cast<IfcTextStyleForDefinedFont>( m_TextCharacterAppearance->getDeepCopy(options) ); }
+	if( m_TextStyle ) { copy_self->m_TextStyle = dynamic_pointer_cast<IfcTextStyleTextModel>( m_TextStyle->getDeepCopy(options) ); }
+	if( m_TextFontStyle ) { copy_self->m_TextFontStyle = dynamic_pointer_cast<IfcTextFontSelect>( m_TextFontStyle->getDeepCopy(options) ); }
 	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = m_ModelOrDraughting; }
 	return copy_self;
 }
@@ -43,9 +44,9 @@ void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCTEXTSTYLE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->getId(); } else { stream << "$"; }
+	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TextStyle ) { stream << "#" << m_TextStyle->getId(); } else { stream << "$"; }
+	if( m_TextStyle ) { stream << "#" << m_TextStyle->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
@@ -57,14 +58,11 @@ void IfcTextStyle::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_TextCharacterAppearance, map );
 	readEntityReference( args[2], m_TextStyle, map );
-	m_TextFontStyle = IfcTextFontSelect::createObjectFromStepData( args[3], map );
+	m_TextFontStyle = IfcTextFontSelect::createObjectFromSTEP( args[3], map );
 	if( boost::iequals( args[4], L".F." ) ) { m_ModelOrDraughting = false; }
 	else if( boost::iequals( args[4], L".T." ) ) { m_ModelOrDraughting = true; }
 }
@@ -74,7 +72,7 @@ void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "TextCharacterAppearance", m_TextCharacterAppearance ) );
 	vec_attributes.push_back( std::make_pair( "TextStyle", m_TextStyle ) );
 	vec_attributes.push_back( std::make_pair( "TextFontStyle", m_TextFontStyle ) );
-	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBool>( new IfcPPBool( m_ModelOrDraughting ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelOrDraughting ) ) ) );
 }
 void IfcTextStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

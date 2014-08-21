@@ -23,11 +23,11 @@
 #include "include/IfcTimeOrRatioSelect.h"
 #include "include/IfcRatioMeasure.h"
 
-// TYPE IfcRatioMeasure 
+// TYPE IfcRatioMeasure = REAL;
 IfcRatioMeasure::IfcRatioMeasure() {}
 IfcRatioMeasure::IfcRatioMeasure( double value ) { m_value = value; }
 IfcRatioMeasure::~IfcRatioMeasure() {}
-shared_ptr<IfcPPObject> IfcRatioMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRatioMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRatioMeasure> copy_self( new IfcRatioMeasure() );
 	copy_self->m_value = m_value;
@@ -39,12 +39,12 @@ void IfcRatioMeasure::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRatioMeasure> IfcRatioMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRatioMeasure> IfcRatioMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
 	shared_ptr<IfcRatioMeasure> type_object( new IfcRatioMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

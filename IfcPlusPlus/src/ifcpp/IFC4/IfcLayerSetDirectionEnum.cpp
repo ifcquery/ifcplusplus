@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLayerSetDirectionEnum.h"
 
-// TYPE IfcLayerSetDirectionEnum 
+// TYPE IfcLayerSetDirectionEnum = ENUMERATION OF	(AXIS1	,AXIS2	,AXIS3);
 IfcLayerSetDirectionEnum::IfcLayerSetDirectionEnum() {}
 IfcLayerSetDirectionEnum::~IfcLayerSetDirectionEnum() {}
-shared_ptr<IfcPPObject> IfcLayerSetDirectionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLayerSetDirectionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLayerSetDirectionEnum> copy_self( new IfcLayerSetDirectionEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcLayerSetDirectionEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }

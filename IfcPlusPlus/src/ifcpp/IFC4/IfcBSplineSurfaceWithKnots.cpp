@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,7 +31,7 @@
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots() {}
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_id = id; }
 IfcBSplineSurfaceWithKnots::~IfcBSplineSurfaceWithKnots() {}
-shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurfaceWithKnots> copy_self( new IfcBSplineSurfaceWithKnots() );
 	if( m_UDegree ) { copy_self->m_UDegree = m_UDegree; }
@@ -45,20 +46,22 @@ shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy()
 			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy() ) );
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
-	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy() ); }
+	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy(options) ); }
 	if( m_UClosed ) { copy_self->m_UClosed = m_UClosed; }
 	if( m_VClosed ) { copy_self->m_VClosed = m_VClosed; }
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	if( m_UMultiplicities.size() > 0 ) { std::copy( m_UMultiplicities.begin(), m_UMultiplicities.end(), std::back_inserter( copy_self->m_UMultiplicities ) ); }
+	if( m_VMultiplicities.size() > 0 ) { std::copy( m_VMultiplicities.begin(), m_VMultiplicities.end(), std::back_inserter( copy_self->m_VMultiplicities ) ); }
 	for( size_t ii=0; ii<m_UKnots.size(); ++ii )
 	{
 		auto item_ii = m_UKnots[ii];
 		if( item_ii )
 		{
-			copy_self->m_UKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_UKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_VKnots.size(); ++ii )
@@ -66,10 +69,10 @@ shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy()
 		auto item_ii = m_VKnots[ii];
 		if( item_ii )
 		{
-			copy_self->m_VKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_VKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy() ); }
+	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
@@ -110,14 +113,11 @@ void IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bo
 void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>12 ){ std::cout << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readIntValue( args[0], m_UDegree );
 	readIntValue( args[1], m_VDegree );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
-	m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromStepData( args[3] );
+	m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromSTEP( args[3] );
 	if( boost::iequals( args[4], L".F." ) ) { m_UClosed = LOGICAL_FALSE; }
 	else if( boost::iequals( args[4], L".T." ) ) { m_UClosed = LOGICAL_TRUE; }
 	else if( boost::iequals( args[4], L".U." ) ) { m_UClosed = LOGICAL_UNKNOWN; }
@@ -131,7 +131,7 @@ void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstri
 	readIntList(  args[8], m_VMultiplicities );
 	readTypeOfRealList( args[9], m_UKnots );
 	readTypeOfRealList( args[10], m_VKnots );
-	m_KnotSpec = IfcKnotType::createObjectFromStepData( args[11] );
+	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11] );
 }
 void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -141,7 +141,7 @@ void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::strin
 		shared_ptr<IfcPPAttributeObjectVector> UMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
 		for( size_t i=0; i<m_UMultiplicities.size(); ++i )
 		{
-			UMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_UMultiplicities[i] ) ) );
+			UMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_UMultiplicities[i] ) ) );
 		}
 		vec_attributes.push_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_obj ) );
 	}
@@ -150,7 +150,7 @@ void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::strin
 		shared_ptr<IfcPPAttributeObjectVector> VMultiplicities_vec_obj( new IfcPPAttributeObjectVector() );
 		for( size_t i=0; i<m_VMultiplicities.size(); ++i )
 		{
-			VMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_VMultiplicities[i] ) ) );
+			VMultiplicities_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_VMultiplicities[i] ) ) );
 		}
 		vec_attributes.push_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_obj ) );
 	}

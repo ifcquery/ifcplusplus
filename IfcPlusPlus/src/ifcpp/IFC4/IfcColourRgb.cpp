@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,13 +27,13 @@
 IfcColourRgb::IfcColourRgb() {}
 IfcColourRgb::IfcColourRgb( int id ) { m_id = id; }
 IfcColourRgb::~IfcColourRgb() {}
-shared_ptr<IfcPPObject> IfcColourRgb::getDeepCopy()
+shared_ptr<IfcPPObject> IfcColourRgb::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcColourRgb> copy_self( new IfcColourRgb() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Red ) { copy_self->m_Red = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Red->getDeepCopy() ); }
-	if( m_Green ) { copy_self->m_Green = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Green->getDeepCopy() ); }
-	if( m_Blue ) { copy_self->m_Blue = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Blue->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Red ) { copy_self->m_Red = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Red->getDeepCopy(options) ); }
+	if( m_Green ) { copy_self->m_Green = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Green->getDeepCopy(options) ); }
+	if( m_Blue ) { copy_self->m_Blue = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Blue->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcColourRgb::getStepLine( std::stringstream& stream ) const
@@ -51,14 +52,11 @@ void IfcColourRgb::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcColourRgb::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcColourRgb, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcColourRgb, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Red = IfcNormalisedRatioMeasure::createObjectFromStepData( args[1] );
-	m_Green = IfcNormalisedRatioMeasure::createObjectFromStepData( args[2] );
-	m_Blue = IfcNormalisedRatioMeasure::createObjectFromStepData( args[3] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcColourRgb, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Red = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1] );
+	m_Green = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2] );
+	m_Blue = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3] );
 }
 void IfcColourRgb::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

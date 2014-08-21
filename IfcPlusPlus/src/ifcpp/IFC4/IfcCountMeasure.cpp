@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcCountMeasure.h"
 
-// TYPE IfcCountMeasure 
+// TYPE IfcCountMeasure = NUMBER;
 IfcCountMeasure::IfcCountMeasure() {}
 IfcCountMeasure::IfcCountMeasure( int value ) { m_value = value; }
 IfcCountMeasure::~IfcCountMeasure() {}
-shared_ptr<IfcPPObject> IfcCountMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCountMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCountMeasure> copy_self( new IfcCountMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcCountMeasure::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCountMeasure> IfcCountMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCountMeasure> IfcCountMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
 	shared_ptr<IfcCountMeasure> type_object( new IfcCountMeasure() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

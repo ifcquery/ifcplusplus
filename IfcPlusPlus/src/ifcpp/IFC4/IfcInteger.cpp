@@ -21,11 +21,11 @@
 #include "include/IfcSimpleValue.h"
 #include "include/IfcInteger.h"
 
-// TYPE IfcInteger 
+// TYPE IfcInteger = INTEGER;
 IfcInteger::IfcInteger() {}
 IfcInteger::IfcInteger( int value ) { m_value = value; }
 IfcInteger::~IfcInteger() {}
-shared_ptr<IfcPPObject> IfcInteger::getDeepCopy()
+shared_ptr<IfcPPObject> IfcInteger::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcInteger> copy_self( new IfcInteger() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcInteger::getStepParameter( std::stringstream& stream, bool is_select_typ
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInteger> IfcInteger::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcInteger> IfcInteger::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	shared_ptr<IfcInteger> type_object( new IfcInteger() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

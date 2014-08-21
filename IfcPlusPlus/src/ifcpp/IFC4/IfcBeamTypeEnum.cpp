@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBeamTypeEnum.h"
 
-// TYPE IfcBeamTypeEnum 
+// TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,JOIST	,HOLLOWCORE	,LINTEL	,SPANDREL	,T_BEAM	,USERDEFINED	,NOTDEFINED);
 IfcBeamTypeEnum::IfcBeamTypeEnum() {}
 IfcBeamTypeEnum::~IfcBeamTypeEnum() {}
-shared_ptr<IfcPPObject> IfcBeamTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBeamTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBeamTypeEnum> copy_self( new IfcBeamTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }

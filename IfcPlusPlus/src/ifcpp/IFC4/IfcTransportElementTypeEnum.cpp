@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTransportElementTypeEnum.h"
 
-// TYPE IfcTransportElementTypeEnum 
+// TYPE IfcTransportElementTypeEnum = ENUMERATION OF	(ELEVATOR	,ESCALATOR	,MOVINGWALKWAY	,CRANEWAY	,LIFTINGGEAR	,USERDEFINED	,NOTDEFINED);
 IfcTransportElementTypeEnum::IfcTransportElementTypeEnum() {}
 IfcTransportElementTypeEnum::~IfcTransportElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTransportElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTransportElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTransportElementTypeEnum> copy_self( new IfcTransportElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcTransportElementTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }

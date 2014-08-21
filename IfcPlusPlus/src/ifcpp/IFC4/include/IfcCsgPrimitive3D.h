@@ -22,13 +22,13 @@
 #include "IfcGeometricRepresentationItem.h"
 class IfcAxis2Placement3D;
 //ENTITY
-class IfcCsgPrimitive3D : public IfcBooleanOperand, public IfcCsgSelect, public IfcGeometricRepresentationItem
+class IfcCsgPrimitive3D : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
 {
 public:
 	IfcCsgPrimitive3D();
 	IfcCsgPrimitive3D( int id );
 	~IfcCsgPrimitive3D();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

@@ -16,57 +16,20 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "include/IfcSolidOrShell.h"
 
-// TYPE IfcSolidOrShell 
-IfcSolidOrShell::IfcSolidOrShell() {}
-IfcSolidOrShell::~IfcSolidOrShell() {}
-shared_ptr<IfcSolidOrShell> IfcSolidOrShell::createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+// TYPE IfcSolidOrShell = SELECT	(IfcClosedShell	,IfcSolidModel);
+shared_ptr<IfcSolidOrShell> IfcSolidOrShell::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// Read SELECT TYPE
+	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcSolidOrShell>(); }
-	if( arg[0] == '#' )
-	{
-		int id=std::stoi( arg.substr(1,arg.length()-1).c_str() );
-		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map.find( id );
-		if( it_entity != map.end() )
-		{
-			shared_ptr<IfcSolidOrShell> type_object = dynamic_pointer_cast<IfcSolidOrShell>(it_entity->second);
-			return type_object;
-		}
-		else
-		{
-			std::stringstream strs;
-			strs << "Object width id " << id << " not found";
-			throw IfcPPException( strs.str() );
-		}
-	}
-	else if( arg.compare(L"$")==0 )
+	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcSolidOrShell>();
 	}
-	else if( arg.compare(L"*")==0 )
+	if( arg.compare(L"*")==0 )
 	{
 		return shared_ptr<IfcSolidOrShell>();
 	}
-	else
-	{
-		// inline arguments
-		std::wstring keyword;
-		std::wstring inline_arg;
-		tokenizeInlineArgument( arg, keyword, inline_arg );
-		shared_ptr<IfcPPObject> result_object;
-		readInlineTypeOrEntity( keyword, inline_arg, result_object, map );
-		if( result_object )
-		{
-			shared_ptr<IfcPPObject> result_ptr( result_object );
-			shared_ptr<IfcSolidOrShell> result_ptr_self = dynamic_pointer_cast<IfcSolidOrShell>( result_ptr );
-			if( result_ptr_self )
-			{
-				return result_ptr_self;
-			}
-		}
-		std::wstringstream strs;
-		strs << "unhandled inline argument: " << arg << " in function IfcSolidOrShell::readStepData" << std::endl;
-		throw IfcPPException( strs.str() );
-	}
-	return shared_ptr<IfcSolidOrShell>();
+	shared_ptr<IfcSolidOrShell> result_object;
+	readSelectType( arg, result_object, map );
+	return result_object;
 }

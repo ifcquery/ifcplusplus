@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,35 +26,32 @@
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting() {}
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_id = id; }
 IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() {}
-shared_ptr<IfcPPObject> IfcSurfaceStyleLighting::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSurfaceStyleLighting::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleLighting> copy_self( new IfcSurfaceStyleLighting() );
-	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseTransmissionColour->getDeepCopy() ); }
-	if( m_DiffuseReflectionColour ) { copy_self->m_DiffuseReflectionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseReflectionColour->getDeepCopy() ); }
-	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_TransmissionColour->getDeepCopy() ); }
-	if( m_ReflectanceColour ) { copy_self->m_ReflectanceColour = dynamic_pointer_cast<IfcColourRgb>( m_ReflectanceColour->getDeepCopy() ); }
+	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseTransmissionColour->getDeepCopy(options) ); }
+	if( m_DiffuseReflectionColour ) { copy_self->m_DiffuseReflectionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseReflectionColour->getDeepCopy(options) ); }
+	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_TransmissionColour->getDeepCopy(options) ); }
+	if( m_ReflectanceColour ) { copy_self->m_ReflectanceColour = dynamic_pointer_cast<IfcColourRgb>( m_ReflectanceColour->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSURFACESTYLELIGHTING" << "(";
-	if( m_DiffuseTransmissionColour ) { stream << "#" << m_DiffuseTransmissionColour->getId(); } else { stream << "$"; }
+	if( m_DiffuseTransmissionColour ) { stream << "#" << m_DiffuseTransmissionColour->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_DiffuseReflectionColour ) { stream << "#" << m_DiffuseReflectionColour->getId(); } else { stream << "$"; }
+	if( m_DiffuseReflectionColour ) { stream << "#" << m_DiffuseReflectionColour->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TransmissionColour ) { stream << "#" << m_TransmissionColour->getId(); } else { stream << "$"; }
+	if( m_TransmissionColour ) { stream << "#" << m_TransmissionColour->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ReflectanceColour ) { stream << "#" << m_ReflectanceColour->getId(); } else { stream << "$"; }
+	if( m_ReflectanceColour ) { stream << "#" << m_ReflectanceColour->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_DiffuseTransmissionColour, map );
 	readEntityReference( args[1], m_DiffuseReflectionColour, map );
 	readEntityReference( args[2], m_TransmissionColour, map );

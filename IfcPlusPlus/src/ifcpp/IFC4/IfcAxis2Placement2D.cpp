@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,29 +29,26 @@
 IfcAxis2Placement2D::IfcAxis2Placement2D() {}
 IfcAxis2Placement2D::IfcAxis2Placement2D( int id ) { m_id = id; }
 IfcAxis2Placement2D::~IfcAxis2Placement2D() {}
-shared_ptr<IfcPPObject> IfcAxis2Placement2D::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAxis2Placement2D::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAxis2Placement2D> copy_self( new IfcAxis2Placement2D() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy() ); }
-	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy() ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy(options) ); }
+	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcAxis2Placement2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCAXIS2PLACEMENT2D" << "(";
-	if( m_Location ) { stream << "#" << m_Location->getId(); } else { stream << "*"; }
+	if( m_Location ) { stream << "#" << m_Location->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_RefDirection ) { stream << "#" << m_RefDirection->getId(); } else { stream << "$"; }
+	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcAxis2Placement2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcAxis2Placement2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAxis2Placement2D, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcAxis2Placement2D, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAxis2Placement2D, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Location, map );
 	readEntityReference( args[1], m_RefDirection, map );
 }

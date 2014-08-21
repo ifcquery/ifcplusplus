@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcCartesianPointList::IfcCartesianPointList() {}
 IfcCartesianPointList::IfcCartesianPointList( int id ) { m_id = id; }
 IfcCartesianPointList::~IfcCartesianPointList() {}
-shared_ptr<IfcPPObject> IfcCartesianPointList::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCartesianPointList::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPointList> copy_self( new IfcCartesianPointList() );
 	return copy_self;

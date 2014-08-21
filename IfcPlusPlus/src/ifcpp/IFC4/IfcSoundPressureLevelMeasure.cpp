@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcSoundPressureLevelMeasure.h"
 
-// TYPE IfcSoundPressureLevelMeasure 
+// TYPE IfcSoundPressureLevelMeasure = REAL;
 IfcSoundPressureLevelMeasure::IfcSoundPressureLevelMeasure() {}
 IfcSoundPressureLevelMeasure::IfcSoundPressureLevelMeasure( double value ) { m_value = value; }
 IfcSoundPressureLevelMeasure::~IfcSoundPressureLevelMeasure() {}
-shared_ptr<IfcPPObject> IfcSoundPressureLevelMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSoundPressureLevelMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSoundPressureLevelMeasure> copy_self( new IfcSoundPressureLevelMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcSoundPressureLevelMeasure::getStepParameter( std::stringstream& stream, 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSoundPressureLevelMeasure> IfcSoundPressureLevelMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSoundPressureLevelMeasure> IfcSoundPressureLevelMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSoundPressureLevelMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPressureLevelMeasure>(); }
 	shared_ptr<IfcSoundPressureLevelMeasure> type_object( new IfcSoundPressureLevelMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

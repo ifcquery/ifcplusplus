@@ -38,10 +38,10 @@ void readBoolList( const std::wstring& str, std::vector<bool>& vec );
 void readIntList( const std::wstring& str, std::vector<int>& vec );
 void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec );
 void readIntList3D( const std::wstring& str, std::vector<std::vector<std::vector<int> > >& vec );
-void readDoubleList( const std::wstring& str, std::vector<double>& vec );
-void readDoubleList2D( const std::wstring& str, std::vector<std::vector<double> >& vec );
-void readDoubleList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec );
-void readConstCharList( const std::wstring& str, std::vector<const char*>& vec );
+void readRealList( const std::wstring& str, std::vector<double>& vec );
+void readRealList2D( const std::wstring& str, std::vector<std::vector<double> >& vec );
+void readRealList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec );
+void readBinaryList( const std::wstring& str, std::vector<const char*>& vec );
 void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
 void checkOpeningClosingParenthesis( const wchar_t* ch_check );
@@ -56,13 +56,69 @@ void readIntValue( const std::wstring& str, int& value );
 void readRealValue( const std::wstring& str, double& value );
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
+shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int, shared_ptr<IfcPPEntity> >& map_entities );
+IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name );
 IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name );
-void readInlineTypeOrEntity( const std::wstring& arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
-void readInlineTypeOrEntity( const std::wstring& keyword, const std::wstring& inline_arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
+
+inline void readBool( const std::wstring& attribute_value, bool& target )
+{
+	if( boost::iequals( attribute_value, L".F." ) )
+	{
+		target = false;
+	}
+	else if( boost::iequals( attribute_value, L".T." ) )
+	{
+		target = true;;
+	}
+}
+
+inline void readLogical( const std::wstring& attribute_value, LogicalEnum& target )
+{
+	if( boost::iequals(attribute_value, L".F." ) )
+	{
+		target = LOGICAL_FALSE;
+	}
+	else if( boost::iequals( attribute_value, L".T." ) )
+	{
+		target = LOGICAL_TRUE;
+	}
+	else if( boost::iequals( attribute_value, L".U." ) )
+	{
+		target = LOGICAL_UNKNOWN;;
+	}
+}
+
+inline void readInt( const std::wstring& attribute_value, int& target )
+{
+	target = std::stoi( attribute_value );
+}
+
+inline void readReal( const std::wstring& attribute_value, double& target )
+{
+	target = std::stod( attribute_value.c_str() );
+}
+
+inline void readString( const std::wstring& attribute_value, std::wstring& target )
+{
+	if( attribute_value.size() < 2 )
+	{
+		target = attribute_value.c_str();
+		return;
+	}
+	if( attribute_value[0] == '\'' && attribute_value[attribute_value.size()-1] == '\'' )
+	{
+		target = attribute_value.substr( 1, attribute_value.size()-2 ).c_str();
+	}
+}
+
+inline void readBinary( const char* attribute_value, const char* target )
+{
+	target = attribute_value;
+}
 
 template<typename T>
-void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& vec )
+void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
 {
 	//(38,12,4)
 	wchar_t* ch = (wchar_t*)str.c_str();
@@ -110,7 +166,7 @@ void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& ve
 				{
 
 				}
-				vec.push_back(shared_ptr<T>(new T(int_value)));
+				target_vec.push_back(shared_ptr<T>(new T(int_value)));
 			}
 		}
 
@@ -136,7 +192,7 @@ void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& ve
 }
 
 template<typename T>
-void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& vec )
+void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
 {
 	//(.38,12.0,.04)
 	wchar_t* ch = (wchar_t*)str;
@@ -185,7 +241,7 @@ void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& vec )
 
 				}
 				
-				vec.push_back(shared_ptr<T>(new T(real_value)));
+				target_vec.push_back(shared_ptr<T>(new T(real_value)));
 			}
 		}
 
@@ -211,16 +267,16 @@ void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& vec )
 }
 
 template<typename T>
-void readTypeOfRealList( const std::wstring& str, std::vector<shared_ptr<T> >& vec )
+void readTypeOfRealList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
 {
 	//(.38,12.0,.04)
 	wchar_t* ch = (wchar_t*)str.c_str();
-	readTypeOfRealList( ch, vec );
+	readTypeOfRealList( ch, target_vec );
 }
 
 
 template<typename T>
-void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& vec )
+void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& target_vec )
 {
 	//((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
 	char* ch = (char*)str.c_str();
@@ -244,9 +300,9 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 		{
 			if( num_par_open == 1 )
 			{
-				vec.resize(vec.size()+1);
+				target_vec.resize(target_vec.size()+1);
 				std::wstring s = str.substr( last_token, i-last_token );
-				readTypeOfRealList( s, vec.back() );
+				readTypeOfRealList( s, target_vec.back() );
 				last_token = i+1;
 			}
 		}
@@ -260,9 +316,9 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 			if( num_par_open == 0 )
 			{
 				// closing paranthesis found
-				vec.resize(vec.size()+1);
+				target_vec.resize(target_vec.size()+1);
 				std::wstring s = str.substr( last_token, i-last_token );
-				readTypeOfRealList( s, vec.back() );
+				readTypeOfRealList( s, target_vec.back() );
 				return;
 			}
 		}
@@ -276,7 +332,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 }
 
 template<typename T>
-void readEntityReference( const std::wstring& str, shared_ptr<T>& smart, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	if( str.length() == 0)
 	{
@@ -289,7 +345,7 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& smart, const s
 		if( it_entity != map_entities.end() )
 		{
 			shared_ptr<IfcPPEntity> found_obj = it_entity->second;
-			smart = dynamic_pointer_cast<T>(found_obj);
+			target = dynamic_pointer_cast<T>(found_obj);
 		}
 		else
 		{
@@ -313,9 +369,9 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& smart, const s
 }
 
 template<typename T>
-void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec )
+void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
+	//(IFCPARAMETERVALUE(0.5),*,IFCPARAMETERVALUE(2.0))
 	wchar_t* pos_opening = nullptr;
 	wchar_t* pos_closing = nullptr;
 	wchar_t* ch = (wchar_t*)arg_complete.c_str();
@@ -338,14 +394,77 @@ void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >&
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		std::wstring& item = list_items[i];
-		vec.push_back( T::createObjectFromStepData( item ) );
+		shared_ptr<T> type_obj = T::createObjectFromSTEP( item, map_entities );
+		if( type_obj )
+		{
+			vec.push_back( type_obj );
+		}
 	}
 }
 
-template<typename T>
-void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+template<typename select_t>
+void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, const std::map<int, shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(#287,#291,#295,#299)
+	wchar_t* ch = (wchar_t*)item.c_str();
+	if( *ch == '#' )
+	{
+		++ch;
+		const int id = std::stoi( ch );
+		auto it_entity = map_entities.find( id );
+		if( it_entity != map_entities.end() )
+		{
+			shared_ptr<IfcPPEntity> found_obj = it_entity->second;
+			result = dynamic_pointer_cast<select_t>(found_obj);
+		}
+		return;
+	}
+	
+	// could be type like IFCPARAMETERVALUE(90)
+	std::wstring keyword;
+	std::wstring inline_arg;
+	tokenizeInlineArgument( item, keyword, inline_arg );
+
+	if( keyword.size() == 0 )
+	{
+		return;
+	}
+
+	IfcPPTypeEnum type_enum = findTypeEnumForString( keyword );
+	if( type_enum != IfcPPTypeEnum::IFC_TYPE_UNDEFINED )
+	{
+		shared_ptr<IfcPPObject> type_instance = createIfcPPType( type_enum, inline_arg, map_entities );
+		if( type_instance )
+		{
+			result = dynamic_pointer_cast<select_t>(type_instance);
+			return;
+		}
+	}
+
+	IfcPPEntityEnum entity_enum = findEntityEnumForString( keyword );
+	if( entity_enum != IfcPPEntityEnum::IFC_ENTITY_UNDEFINED )
+	{
+		shared_ptr<IfcPPEntity> entity_instance( createIfcPPEntity( entity_enum ) );
+		if( entity_instance )
+		{
+			entity_instance->m_id = -1;
+			entity_instance->m_entity_enum = entity_enum;
+			std::vector<std::wstring> args;
+			args.push_back( inline_arg );
+			entity_instance->readStepArguments( args, map_entities );
+			result = dynamic_pointer_cast<select_t>(entity_instance);
+			return;	
+		}
+	}
+	
+	std::wstringstream strs;
+	strs << "unhandled select argument: " << item << " in function " << __FUNC__ << std::endl;
+	throw IfcPPException( strs.str() );
+}
+
+template<typename select_t>
+void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<select_t> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+{
+	//(#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
 	wchar_t* pos_opening = nullptr;
 	wchar_t* pos_closing = nullptr;
 	wchar_t* ch = (wchar_t*)arg_complete.c_str();
@@ -359,49 +478,35 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<T>
 		}
 		std::stringstream err;
 		err << "num_opening != num_closing : " << arg_complete.c_str() << std::endl;
-		throw IfcPPException( err.str(), __func__ );
+		throw IfcPPException( err.str().c_str(), __func__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<std::wstring> list_items;
 	tokenizeList( arg, list_items );
-
+	
+	std::stringstream err;
 	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity;
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		std::wstring& item = list_items[i];
-		wchar_t* ch = (wchar_t*)item.c_str();
-		if( *ch == '#' )
+
+		shared_ptr<select_t> select_object;
+		try
 		{
-			++ch;
-			const int id = std::stoi( ch );
-			it_entity = map_entities.find( id );
-			if( it_entity != map_entities.end() )
-			{
-				shared_ptr<IfcPPEntity> found_obj = it_entity->second;
-				vec.push_back( dynamic_pointer_cast<T>(found_obj) );
-			}
+			readSelectType( item, select_object, map_entities );
 		}
-		else
+		catch( IfcPPException& e )
 		{
-			// could be type like IFCPARAMETERVALUE(90)
-			std::wstring keyword;
-			std::wstring inline_arg;
-			tokenizeInlineArgument( item, keyword, inline_arg );
-			shared_ptr<IfcPPObject> result_object;
-			readInlineTypeOrEntity( item, result_object, map_entities );
-			if( result_object )
-			{
-				shared_ptr<T> ptr_t = dynamic_pointer_cast<T>( result_object );
-				if( ptr_t )
-				{
-					vec.push_back( ptr_t );
-					continue;
-				}
-			}
-			std::wstringstream strs;
-			strs << "unhandled inline argument: " << item << " in function IfcAppliedValueSelect::readStepData" << std::endl;
-			throw IfcPPException( strs.str() );
+			err << e.what();
 		}
+		if( select_object )
+		{
+			vec.push_back( select_object );
+		}
+	}
+	if( err.tellp() > 0 )
+	{
+		throw IfcPPException( err.str().c_str(), __func__ );
 	}
 	return;
 }

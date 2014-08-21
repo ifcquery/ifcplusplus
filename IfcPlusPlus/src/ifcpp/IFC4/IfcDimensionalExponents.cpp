@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -24,7 +25,7 @@
 IfcDimensionalExponents::IfcDimensionalExponents() {}
 IfcDimensionalExponents::IfcDimensionalExponents( int id ) { m_id = id; }
 IfcDimensionalExponents::~IfcDimensionalExponents() {}
-shared_ptr<IfcPPObject> IfcDimensionalExponents::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDimensionalExponents::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDimensionalExponents> copy_self( new IfcDimensionalExponents() );
 	if( m_LengthExponent ) { copy_self->m_LengthExponent = m_LengthExponent; }
@@ -58,10 +59,7 @@ void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool 
 void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDimensionalExponents, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcDimensionalExponents, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDimensionalExponents, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readIntValue( args[0], m_LengthExponent );
 	readIntValue( args[1], m_MassExponent );
 	readIntValue( args[2], m_TimeExponent );
@@ -72,13 +70,13 @@ void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>
 }
 void IfcDimensionalExponents::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
-	vec_attributes.push_back( std::make_pair( "LengthExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_LengthExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "MassExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_MassExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "TimeExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_TimeExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "ElectricCurrentExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_ElectricCurrentExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "ThermodynamicTemperatureExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_ThermodynamicTemperatureExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "AmountOfSubstanceExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_AmountOfSubstanceExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "LuminousIntensityExponent", shared_ptr<IfcPPInt>( new IfcPPInt( m_LuminousIntensityExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "LengthExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_LengthExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "MassExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_MassExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "TimeExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_TimeExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ElectricCurrentExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_ElectricCurrentExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ThermodynamicTemperatureExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_ThermodynamicTemperatureExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "AmountOfSubstanceExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_AmountOfSubstanceExponent ) ) ) );
+	vec_attributes.push_back( std::make_pair( "LuminousIntensityExponent", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_LuminousIntensityExponent ) ) ) );
 }
 void IfcDimensionalExponents::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

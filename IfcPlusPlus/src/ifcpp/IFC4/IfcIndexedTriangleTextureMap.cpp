@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap() {}
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int id ) { m_id = id; }
 IfcIndexedTriangleTextureMap::~IfcIndexedTriangleTextureMap() {}
-shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIndexedTriangleTextureMap> copy_self( new IfcIndexedTriangleTextureMap() );
 	for( size_t ii=0; ii<m_Maps.size(); ++ii )
@@ -35,11 +36,19 @@ shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy()
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy() ); }
-	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy() ); }
+	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
+	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy(options) ); }
+	if( m_TexCoordIndex.size() > 0 )
+	{
+		copy_self->m_TexCoordIndex.resize( m_TexCoordIndex.size() );
+		for( size_t i = 0; i < m_TexCoordIndex.size(); ++i )
+		{
+			std::copy( m_TexCoordIndex[i].begin(), m_TexCoordIndex[i].end(), std::back_inserter( copy_self->m_TexCoordIndex[i] ) );
+		}
+	}
 	return copy_self;
 }
 void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) const
@@ -47,9 +56,9 @@ void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) cons
 	stream << "#" << m_id << "= IFCINDEXEDTRIANGLETEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "*"; }
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_TexCoords ) { stream << "#" << m_TexCoords->getId(); } else { stream << "*"; }
+	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_id; } else { stream << "*"; }
 	stream << ",";
 	writeIntList2D( stream, m_TexCoordIndex );
 	stream << ");";
@@ -58,10 +67,7 @@ void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, 
 void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );

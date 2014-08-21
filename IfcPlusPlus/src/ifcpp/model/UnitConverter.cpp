@@ -20,11 +20,13 @@
 #include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
 #include "ifcpp/IFC4/include/IfcRatioMeasure.h"
+#include "ifcpp/IFC4/include/IfcUnit.h"
 #include "ifcpp/IFC4/include/IfcSIUnit.h"
 #include "ifcpp/IFC4/include/IfcSIUnitName.h"
 #include "ifcpp/IFC4/include/IfcSIPrefix.h"
 #include "ifcpp/IFC4/include/IfcUnitAssignment.h"
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
+#include "ifcpp/IFC4/include/IfcValue.h"
 
 #include "UnitConverter.h"
 
@@ -74,47 +76,49 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 	for( it=units.begin(); it!=units.end(); ++it )
 	{
 		shared_ptr<IfcUnit> unit = (*it);
-
-		shared_ptr<IfcSIUnit> si_unit = dynamic_pointer_cast<IfcSIUnit>( unit );
-		if( si_unit )
+		if( unit )
 		{
-			shared_ptr<IfcUnitEnum> unit_type = si_unit->m_UnitType;
-			shared_ptr<IfcSIUnitName> unit_name = si_unit->m_Name;
-
-			if( unit_type )
+			shared_ptr<IfcSIUnit> si_unit = dynamic_pointer_cast<IfcSIUnit>( unit );
+			if( si_unit )
 			{
-				if( unit_type->m_enum == IfcUnitEnum::ENUM_LENGTHUNIT )
+				shared_ptr<IfcUnitEnum> unit_type = si_unit->m_UnitType;
+				shared_ptr<IfcSIUnitName> unit_name = si_unit->m_Name;
+
+				if( unit_type )
 				{
-					if( si_unit->m_Prefix )
+					if( unit_type->m_enum == IfcUnitEnum::ENUM_LENGTHUNIT )
 					{
-						m_loaded_prefix = si_unit->m_Prefix;
-						if( m_prefix_map.find( si_unit->m_Prefix->m_enum ) != m_prefix_map.end() )
+						if( si_unit->m_Prefix )
 						{
-							m_length_unit_factor = m_prefix_map[si_unit->m_Prefix->m_enum];
+							m_loaded_prefix = si_unit->m_Prefix;
+							if( m_prefix_map.find( si_unit->m_Prefix->m_enum ) != m_prefix_map.end() )
+							{
+								m_length_unit_factor = m_prefix_map[si_unit->m_Prefix->m_enum];
+							}
+						}
+					}
+					else if( unit_type->m_enum == IfcUnitEnum::ENUM_PLANEANGLEUNIT )
+					{
+						if( unit_name->m_enum == IfcSIUnitName::ENUM_RADIAN )
+						{
+							m_plane_angle_factor = 1.0;
+							angle_factor_found = true;
 						}
 					}
 				}
-				else if( unit_type->m_enum == IfcUnitEnum::ENUM_PLANEANGLEUNIT )
-				{
-					if( unit_name->m_enum == IfcSIUnitName::ENUM_RADIAN )
-					{
-						m_plane_angle_factor = 1.0;
-						angle_factor_found = true;
-					}
-				}
+				continue;
 			}
-			continue;
 		}
 
 		shared_ptr<IfcConversionBasedUnit> conversion_based_unit = dynamic_pointer_cast<IfcConversionBasedUnit>(unit);
 		if( conversion_based_unit )
 		{
-			if( conversion_based_unit->m_ConversionFactor )
+			shared_ptr<IfcMeasureWithUnit> conversion_factor = conversion_based_unit->m_ConversionFactor;
+			if( conversion_factor )
 			{
-				shared_ptr<IfcMeasureWithUnit> conversion_factor = conversion_based_unit->m_ConversionFactor;
-				if( conversion_factor->m_UnitComponent )
+				shared_ptr<IfcUnit> unit_component = conversion_factor->m_UnitComponent;
+				if( unit_component )
 				{
-					shared_ptr<IfcUnit> unit_component = conversion_factor->m_UnitComponent;
 					shared_ptr<IfcSIUnit> unit_component_si = dynamic_pointer_cast<IfcSIUnit>(unit_component);
 					if( unit_component_si )
 					{
@@ -123,12 +127,12 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 						{
 							if( type->m_enum == IfcUnitEnum::ENUM_LENGTHUNIT )
 							{
-								if( conversion_factor->m_ValueComponent )
+								shared_ptr<IfcValue> length_value_select = conversion_factor->m_ValueComponent;
+								if( length_value_select )
 								{
-									shared_ptr<IfcValue> length_value = conversion_factor->m_ValueComponent;
-									if( dynamic_pointer_cast<IfcRatioMeasure>(length_value) )
+									shared_ptr<IfcRatioMeasure> length_measure = dynamic_pointer_cast<IfcRatioMeasure>(length_value_select);
+									if( length_measure )
 									{
-										shared_ptr<IfcRatioMeasure> length_measure = dynamic_pointer_cast<IfcRatioMeasure>(length_value);
 										m_length_unit_factor = length_measure->m_value;
 									}
 								}

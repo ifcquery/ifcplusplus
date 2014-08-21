@@ -21,11 +21,11 @@
 #include "include/IfcSimpleValue.h"
 #include "include/IfcLabel.h"
 
-// TYPE IfcLabel 
+// TYPE IfcLabel = STRING(255);
 IfcLabel::IfcLabel() {}
 IfcLabel::IfcLabel( std::wstring value ) { m_value = value; }
 IfcLabel::~IfcLabel() {}
-shared_ptr<IfcPPObject> IfcLabel::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLabel::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLabel> copy_self( new IfcLabel() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type 
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLabel> IfcLabel::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLabel> IfcLabel::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	shared_ptr<IfcLabel> type_object( new IfcLabel() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcConnectionTypeEnum.h"
 
-// TYPE IfcConnectionTypeEnum 
+// TYPE IfcConnectionTypeEnum = ENUMERATION OF	(ATPATH	,ATSTART	,ATEND	,NOTDEFINED);
 IfcConnectionTypeEnum::IfcConnectionTypeEnum() {}
 IfcConnectionTypeEnum::~IfcConnectionTypeEnum() {}
-shared_ptr<IfcPPObject> IfcConnectionTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConnectionTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConnectionTypeEnum> copy_self( new IfcConnectionTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }

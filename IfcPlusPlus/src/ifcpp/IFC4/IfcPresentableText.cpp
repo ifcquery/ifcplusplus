@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPresentableText.h"
 
-// TYPE IfcPresentableText 
+// TYPE IfcPresentableText = STRING;
 IfcPresentableText::IfcPresentableText() {}
 IfcPresentableText::IfcPresentableText( std::wstring value ) { m_value = value; }
 IfcPresentableText::~IfcPresentableText() {}
-shared_ptr<IfcPPObject> IfcPresentableText::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPresentableText::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcPresentableText::getStepParameter( std::stringstream& stream, bool is_se
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPresentableText> IfcPresentableText::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPresentableText> IfcPresentableText::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }
 	shared_ptr<IfcPresentableText> type_object( new IfcPresentableText() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

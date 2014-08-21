@@ -21,11 +21,11 @@
 #include "include/IfcSimpleValue.h"
 #include "include/IfcTime.h"
 
-// TYPE IfcTime 
+// TYPE IfcTime = STRING;
 IfcTime::IfcTime() {}
 IfcTime::IfcTime( std::wstring value ) { m_value = value; }
 IfcTime::~IfcTime() {}
-shared_ptr<IfcPPObject> IfcTime::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTime::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTime> copy_self( new IfcTime() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcTime::getStepParameter( std::stringstream& stream, bool is_select_type )
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTime> IfcTime::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTime> IfcTime::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTime>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTime>(); }
 	shared_ptr<IfcTime> type_object( new IfcTime() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

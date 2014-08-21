@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcTable::IfcTable() {}
 IfcTable::IfcTable( int id ) { m_id = id; }
 IfcTable::~IfcTable() {}
-shared_ptr<IfcPPObject> IfcTable::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTable::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTable> copy_self( new IfcTable() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Rows.size(); ++ii )
 	{
 		auto item_ii = m_Rows[ii];
 		if( item_ii )
 		{
-			copy_self->m_Rows.push_back( dynamic_pointer_cast<IfcTableRow>(item_ii->getDeepCopy() ) );
+			copy_self->m_Rows.push_back( dynamic_pointer_cast<IfcTableRow>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Columns.size(); ++ii )
@@ -44,7 +45,7 @@ shared_ptr<IfcPPObject> IfcTable::getDeepCopy()
 		auto item_ii = m_Columns[ii];
 		if( item_ii )
 		{
-			copy_self->m_Columns.push_back( dynamic_pointer_cast<IfcTableColumn>(item_ii->getDeepCopy() ) );
+			copy_self->m_Columns.push_back( dynamic_pointer_cast<IfcTableColumn>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -63,11 +64,8 @@ void IfcTable::getStepParameter( std::stringstream& stream, bool ) const { strea
 void IfcTable::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTable, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcTable, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTable, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReferenceList( args[1], m_Rows, map );
 	readEntityReferenceList( args[2], m_Columns, map );
 }
@@ -94,7 +92,7 @@ void IfcTable::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	shared_ptr<IfcTable> ptr_self = dynamic_pointer_cast<IfcTable>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcTable::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_Rows.size(); ++i )
+	for( size_t i=0; i<m_Rows.size(); ++i )
 	{
 		if( m_Rows[i] )
 		{
@@ -104,12 +102,12 @@ void IfcTable::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 }
 void IfcTable::unlinkSelf()
 {
-	for( int i=0; i<m_Rows.size(); ++i )
+	for( size_t i=0; i<m_Rows.size(); ++i )
 	{
 		if( m_Rows[i] )
 		{
 			shared_ptr<IfcTable> self_candidate( m_Rows[i]->m_OfTable_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				weak_ptr<IfcTable>& self_candidate_weak = m_Rows[i]->m_OfTable_inverse;
 				self_candidate_weak.reset();

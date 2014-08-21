@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,25 +29,25 @@
 IfcStyledItem::IfcStyledItem() {}
 IfcStyledItem::IfcStyledItem( int id ) { m_id = id; }
 IfcStyledItem::~IfcStyledItem() {}
-shared_ptr<IfcPPObject> IfcStyledItem::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStyledItem::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStyledItem> copy_self( new IfcStyledItem() );
-	if( m_Item ) { copy_self->m_Item = dynamic_pointer_cast<IfcRepresentationItem>( m_Item->getDeepCopy() ); }
+	if( m_Item ) { copy_self->m_Item = dynamic_pointer_cast<IfcRepresentationItem>( m_Item->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Styles.size(); ++ii )
 	{
 		auto item_ii = m_Styles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcStyleAssignmentSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcStyleAssignmentSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSTYLEDITEM" << "(";
-	if( m_Item ) { stream << "#" << m_Item->getId(); } else { stream << "$"; }
+	if( m_Item ) { stream << "#" << m_Item->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_Styles, true );
 	stream << ",";
@@ -57,13 +58,10 @@ void IfcStyledItem::getStepParameter( std::stringstream& stream, bool ) const { 
 void IfcStyledItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Item, map );
 	readSelectList( args[1], m_Styles, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
 }
 void IfcStyledItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -97,11 +95,10 @@ void IfcStyledItem::unlinkSelf()
 	if( m_Item )
 	{
 		std::vector<weak_ptr<IfcStyledItem> >& StyledByItem_inverse = m_Item->m_StyledByItem_inverse;
-		std::vector<weak_ptr<IfcStyledItem> >::iterator it_StyledByItem_inverse;
-		for( it_StyledByItem_inverse = StyledByItem_inverse.begin(); it_StyledByItem_inverse != StyledByItem_inverse.end(); ++it_StyledByItem_inverse)
+		for( auto it_StyledByItem_inverse = StyledByItem_inverse.begin(); it_StyledByItem_inverse != StyledByItem_inverse.end(); ++it_StyledByItem_inverse)
 		{
 			shared_ptr<IfcStyledItem> self_candidate( *it_StyledByItem_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				StyledByItem_inverse.erase( it_StyledByItem_inverse );
 				break;

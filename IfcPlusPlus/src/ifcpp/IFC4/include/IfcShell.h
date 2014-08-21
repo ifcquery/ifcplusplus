@@ -22,11 +22,8 @@
 class IfcShell : virtual public IfcPPObject
 {
 public:
-	IfcShell();
-	~IfcShell();
-	virtual const char* classname() const { return "IfcShell"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	static shared_ptr<IfcShell> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcShell> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

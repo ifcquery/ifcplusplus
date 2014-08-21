@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcSoundPressureMeasure = REAL;
-class IfcSoundPressureMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcSoundPressureMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcSoundPressureMeasure();
 	IfcSoundPressureMeasure( double value );
 	~IfcSoundPressureMeasure();
 	virtual const char* classname() const { return "IfcSoundPressureMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcSoundPressureMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcSoundPressureMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

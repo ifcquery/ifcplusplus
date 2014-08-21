@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcRadioActivityMeasure.h"
 
-// TYPE IfcRadioActivityMeasure 
+// TYPE IfcRadioActivityMeasure = REAL;
 IfcRadioActivityMeasure::IfcRadioActivityMeasure() {}
 IfcRadioActivityMeasure::IfcRadioActivityMeasure( double value ) { m_value = value; }
 IfcRadioActivityMeasure::~IfcRadioActivityMeasure() {}
-shared_ptr<IfcPPObject> IfcRadioActivityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRadioActivityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRadioActivityMeasure> copy_self( new IfcRadioActivityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcRadioActivityMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRadioActivityMeasure> IfcRadioActivityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRadioActivityMeasure> IfcRadioActivityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	shared_ptr<IfcRadioActivityMeasure> type_object( new IfcRadioActivityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

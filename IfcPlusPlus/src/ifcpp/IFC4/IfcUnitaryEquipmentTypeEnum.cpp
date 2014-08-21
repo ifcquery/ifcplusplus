@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcUnitaryEquipmentTypeEnum.h"
 
-// TYPE IfcUnitaryEquipmentTypeEnum 
+// TYPE IfcUnitaryEquipmentTypeEnum = ENUMERATION OF	(AIRHANDLER	,AIRCONDITIONINGUNIT	,DEHUMIDIFIER	,SPLITSYSTEM	,ROOFTOPUNIT	,USERDEFINED	,NOTDEFINED);
 IfcUnitaryEquipmentTypeEnum::IfcUnitaryEquipmentTypeEnum() {}
 IfcUnitaryEquipmentTypeEnum::~IfcUnitaryEquipmentTypeEnum() {}
-shared_ptr<IfcPPObject> IfcUnitaryEquipmentTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcUnitaryEquipmentTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> copy_self( new IfcUnitaryEquipmentTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcUnitaryEquipmentTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }

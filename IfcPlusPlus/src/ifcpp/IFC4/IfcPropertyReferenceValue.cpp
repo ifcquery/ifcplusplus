@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,13 +32,13 @@
 IfcPropertyReferenceValue::IfcPropertyReferenceValue() {}
 IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_id = id; }
 IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
-shared_ptr<IfcPPObject> IfcPropertyReferenceValue::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPropertyReferenceValue::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPropertyReferenceValue> copy_self( new IfcPropertyReferenceValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcText>( m_UsageName->getDeepCopy() ); }
-	if( m_PropertyReference ) { copy_self->m_PropertyReference = dynamic_pointer_cast<IfcObjectReferenceSelect>( m_PropertyReference->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcText>( m_UsageName->getDeepCopy(options) ); }
+	if( m_PropertyReference ) { copy_self->m_PropertyReference = dynamic_pointer_cast<IfcObjectReferenceSelect>( m_PropertyReference->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
@@ -56,14 +57,11 @@ void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, boo
 void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_UsageName = IfcText::createObjectFromStepData( args[2] );
-	m_PropertyReference = IfcObjectReferenceSelect::createObjectFromStepData( args[3], map );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_UsageName = IfcText::createObjectFromSTEP( args[2] );
+	m_PropertyReference = IfcObjectReferenceSelect::createObjectFromSTEP( args[3], map );
 }
 void IfcPropertyReferenceValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

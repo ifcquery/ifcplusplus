@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcBoundaryNodeCondition::IfcBoundaryNodeCondition() {}
 IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int id ) { m_id = id; }
 IfcBoundaryNodeCondition::~IfcBoundaryNodeCondition() {}
-shared_ptr<IfcPPObject> IfcBoundaryNodeCondition::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoundaryNodeCondition::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryNodeCondition> copy_self( new IfcBoundaryNodeCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_TranslationalStiffnessX ) { copy_self->m_TranslationalStiffnessX = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessX->getDeepCopy() ); }
-	if( m_TranslationalStiffnessY ) { copy_self->m_TranslationalStiffnessY = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessY->getDeepCopy() ); }
-	if( m_TranslationalStiffnessZ ) { copy_self->m_TranslationalStiffnessZ = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessZ->getDeepCopy() ); }
-	if( m_RotationalStiffnessX ) { copy_self->m_RotationalStiffnessX = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessX->getDeepCopy() ); }
-	if( m_RotationalStiffnessY ) { copy_self->m_RotationalStiffnessY = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessY->getDeepCopy() ); }
-	if( m_RotationalStiffnessZ ) { copy_self->m_RotationalStiffnessZ = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessZ->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_TranslationalStiffnessX ) { copy_self->m_TranslationalStiffnessX = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessX->getDeepCopy(options) ); }
+	if( m_TranslationalStiffnessY ) { copy_self->m_TranslationalStiffnessY = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessY->getDeepCopy(options) ); }
+	if( m_TranslationalStiffnessZ ) { copy_self->m_TranslationalStiffnessZ = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessZ->getDeepCopy(options) ); }
+	if( m_RotationalStiffnessX ) { copy_self->m_RotationalStiffnessX = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessX->getDeepCopy(options) ); }
+	if( m_RotationalStiffnessY ) { copy_self->m_RotationalStiffnessY = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessY->getDeepCopy(options) ); }
+	if( m_RotationalStiffnessZ ) { copy_self->m_RotationalStiffnessZ = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessZ->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream ) const
@@ -61,17 +62,14 @@ void IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool
 void IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_TranslationalStiffnessX = IfcTranslationalStiffnessSelect::createObjectFromStepData( args[1], map );
-	m_TranslationalStiffnessY = IfcTranslationalStiffnessSelect::createObjectFromStepData( args[2], map );
-	m_TranslationalStiffnessZ = IfcTranslationalStiffnessSelect::createObjectFromStepData( args[3], map );
-	m_RotationalStiffnessX = IfcRotationalStiffnessSelect::createObjectFromStepData( args[4], map );
-	m_RotationalStiffnessY = IfcRotationalStiffnessSelect::createObjectFromStepData( args[5], map );
-	m_RotationalStiffnessZ = IfcRotationalStiffnessSelect::createObjectFromStepData( args[6], map );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_TranslationalStiffnessX = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[1], map );
+	m_TranslationalStiffnessY = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[2], map );
+	m_TranslationalStiffnessZ = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[3], map );
+	m_RotationalStiffnessX = IfcRotationalStiffnessSelect::createObjectFromSTEP( args[4], map );
+	m_RotationalStiffnessY = IfcRotationalStiffnessSelect::createObjectFromSTEP( args[5], map );
+	m_RotationalStiffnessZ = IfcRotationalStiffnessSelect::createObjectFromSTEP( args[6], map );
 }
 void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

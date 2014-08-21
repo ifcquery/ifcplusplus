@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcPHMeasure.h"
 
-// TYPE IfcPHMeasure 
+// TYPE IfcPHMeasure = REAL;
 IfcPHMeasure::IfcPHMeasure() {}
 IfcPHMeasure::IfcPHMeasure( double value ) { m_value = value; }
 IfcPHMeasure::~IfcPHMeasure() {}
-shared_ptr<IfcPPObject> IfcPHMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPHMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPHMeasure> copy_self( new IfcPHMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcPHMeasure::getStepParameter( std::stringstream& stream, bool is_select_t
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPHMeasure> IfcPHMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPHMeasure> IfcPHMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPHMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPHMeasure>(); }
 	shared_ptr<IfcPHMeasure> type_object( new IfcPHMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

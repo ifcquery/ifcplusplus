@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcAmountOfSubstanceMeasure.h"
 
-// TYPE IfcAmountOfSubstanceMeasure 
+// TYPE IfcAmountOfSubstanceMeasure = REAL;
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure() {}
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure( double value ) { m_value = value; }
 IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() {}
-shared_ptr<IfcPPObject> IfcAmountOfSubstanceMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAmountOfSubstanceMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAmountOfSubstanceMeasure> copy_self( new IfcAmountOfSubstanceMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcAmountOfSubstanceMeasure::getStepParameter( std::stringstream& stream, b
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAmountOfSubstanceMeasure> IfcAmountOfSubstanceMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAmountOfSubstanceMeasure> IfcAmountOfSubstanceMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	shared_ptr<IfcAmountOfSubstanceMeasure> type_object( new IfcAmountOfSubstanceMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

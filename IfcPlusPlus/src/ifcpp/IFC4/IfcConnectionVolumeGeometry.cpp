@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,11 +26,11 @@
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry() {}
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry( int id ) { m_id = id; }
 IfcConnectionVolumeGeometry::~IfcConnectionVolumeGeometry() {}
-shared_ptr<IfcPPObject> IfcConnectionVolumeGeometry::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConnectionVolumeGeometry::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConnectionVolumeGeometry> copy_self( new IfcConnectionVolumeGeometry() );
-	if( m_VolumeOnRelatingElement ) { copy_self->m_VolumeOnRelatingElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatingElement->getDeepCopy() ); }
-	if( m_VolumeOnRelatedElement ) { copy_self->m_VolumeOnRelatedElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatedElement->getDeepCopy() ); }
+	if( m_VolumeOnRelatingElement ) { copy_self->m_VolumeOnRelatingElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatingElement->getDeepCopy(options) ); }
+	if( m_VolumeOnRelatedElement ) { copy_self->m_VolumeOnRelatedElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatedElement->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
@@ -44,12 +45,9 @@ void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, b
 void IfcConnectionVolumeGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConnectionVolumeGeometry, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcConnectionVolumeGeometry, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_VolumeOnRelatingElement = IfcSolidOrShell::createObjectFromStepData( args[0], map );
-	m_VolumeOnRelatedElement = IfcSolidOrShell::createObjectFromStepData( args[1], map );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConnectionVolumeGeometry, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_VolumeOnRelatingElement = IfcSolidOrShell::createObjectFromSTEP( args[0], map );
+	m_VolumeOnRelatedElement = IfcSolidOrShell::createObjectFromSTEP( args[1], map );
 }
 void IfcConnectionVolumeGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

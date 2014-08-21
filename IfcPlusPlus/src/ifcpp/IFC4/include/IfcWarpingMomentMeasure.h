@@ -22,15 +22,16 @@
 #include "IfcWarpingStiffnessSelect.h"
 
 // TYPE IfcWarpingMomentMeasure = REAL;
-class IfcWarpingMomentMeasure : public IfcDerivedMeasureValue, public IfcWarpingStiffnessSelect, public IfcPPReal
+class IfcWarpingMomentMeasure : public IfcDerivedMeasureValue, public IfcWarpingStiffnessSelect
 {
 public:
 	IfcWarpingMomentMeasure();
 	IfcWarpingMomentMeasure( double value );
 	~IfcWarpingMomentMeasure();
 	virtual const char* classname() const { return "IfcWarpingMomentMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcWarpingMomentMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcWarpingMomentMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

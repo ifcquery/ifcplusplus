@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,26 +31,26 @@
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching() {}
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int id ) { m_id = id; }
 IfcFillAreaStyleHatching::~IfcFillAreaStyleHatching() {}
-shared_ptr<IfcPPObject> IfcFillAreaStyleHatching::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFillAreaStyleHatching::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyleHatching> copy_self( new IfcFillAreaStyleHatching() );
-	if( m_HatchLineAppearance ) { copy_self->m_HatchLineAppearance = dynamic_pointer_cast<IfcCurveStyle>( m_HatchLineAppearance->getDeepCopy() ); }
-	if( m_StartOfNextHatchLine ) { copy_self->m_StartOfNextHatchLine = dynamic_pointer_cast<IfcHatchLineDistanceSelect>( m_StartOfNextHatchLine->getDeepCopy() ); }
-	if( m_PointOfReferenceHatchLine ) { copy_self->m_PointOfReferenceHatchLine = dynamic_pointer_cast<IfcCartesianPoint>( m_PointOfReferenceHatchLine->getDeepCopy() ); }
-	if( m_PatternStart ) { copy_self->m_PatternStart = dynamic_pointer_cast<IfcCartesianPoint>( m_PatternStart->getDeepCopy() ); }
-	if( m_HatchLineAngle ) { copy_self->m_HatchLineAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_HatchLineAngle->getDeepCopy() ); }
+	if( m_HatchLineAppearance ) { copy_self->m_HatchLineAppearance = dynamic_pointer_cast<IfcCurveStyle>( m_HatchLineAppearance->getDeepCopy(options) ); }
+	if( m_StartOfNextHatchLine ) { copy_self->m_StartOfNextHatchLine = dynamic_pointer_cast<IfcHatchLineDistanceSelect>( m_StartOfNextHatchLine->getDeepCopy(options) ); }
+	if( m_PointOfReferenceHatchLine ) { copy_self->m_PointOfReferenceHatchLine = dynamic_pointer_cast<IfcCartesianPoint>( m_PointOfReferenceHatchLine->getDeepCopy(options) ); }
+	if( m_PatternStart ) { copy_self->m_PatternStart = dynamic_pointer_cast<IfcCartesianPoint>( m_PatternStart->getDeepCopy(options) ); }
+	if( m_HatchLineAngle ) { copy_self->m_HatchLineAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_HatchLineAngle->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCFILLAREASTYLEHATCHING" << "(";
-	if( m_HatchLineAppearance ) { stream << "#" << m_HatchLineAppearance->getId(); } else { stream << "$"; }
+	if( m_HatchLineAppearance ) { stream << "#" << m_HatchLineAppearance->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_StartOfNextHatchLine ) { m_StartOfNextHatchLine->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_PointOfReferenceHatchLine ) { stream << "#" << m_PointOfReferenceHatchLine->getId(); } else { stream << "$"; }
+	if( m_PointOfReferenceHatchLine ) { stream << "#" << m_PointOfReferenceHatchLine->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_PatternStart ) { stream << "#" << m_PatternStart->getId(); } else { stream << "$"; }
+	if( m_PatternStart ) { stream << "#" << m_PatternStart->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_HatchLineAngle ) { m_HatchLineAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -58,15 +59,12 @@ void IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool
 void IfcFillAreaStyleHatching::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFillAreaStyleHatching, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcFillAreaStyleHatching, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFillAreaStyleHatching, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_HatchLineAppearance, map );
-	m_StartOfNextHatchLine = IfcHatchLineDistanceSelect::createObjectFromStepData( args[1], map );
+	m_StartOfNextHatchLine = IfcHatchLineDistanceSelect::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_PointOfReferenceHatchLine, map );
 	readEntityReference( args[3], m_PatternStart, map );
-	m_HatchLineAngle = IfcPlaneAngleMeasure::createObjectFromStepData( args[4] );
+	m_HatchLineAngle = IfcPlaneAngleMeasure::createObjectFromSTEP( args[4] );
 }
 void IfcFillAreaStyleHatching::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -37,9 +37,9 @@ public:
 	IfcAirTerminalTypeEnum( IfcAirTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcAirTerminalTypeEnum();
 	virtual const char* classname() const { return "IfcAirTerminalTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcAirTerminalTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcAirTerminalTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcAirTerminalTypeEnumEnum m_enum;
 };
 

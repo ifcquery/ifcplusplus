@@ -36,9 +36,9 @@ public:
 	IfcAddressTypeEnum( IfcAddressTypeEnumEnum e ) { m_enum = e; }
 	~IfcAddressTypeEnum();
 	virtual const char* classname() const { return "IfcAddressTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcAddressTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcAddressTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcAddressTypeEnumEnum m_enum;
 };
 

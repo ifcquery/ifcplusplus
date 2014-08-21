@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -33,18 +34,18 @@
 IfcApproval::IfcApproval() {}
 IfcApproval::IfcApproval( int id ) { m_id = id; }
 IfcApproval::~IfcApproval() {}
-shared_ptr<IfcPPObject> IfcApproval::getDeepCopy()
+shared_ptr<IfcPPObject> IfcApproval::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcApproval> copy_self( new IfcApproval() );
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_TimeOfApproval ) { copy_self->m_TimeOfApproval = dynamic_pointer_cast<IfcDateTime>( m_TimeOfApproval->getDeepCopy() ); }
-	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy() ); }
-	if( m_Level ) { copy_self->m_Level = dynamic_pointer_cast<IfcLabel>( m_Level->getDeepCopy() ); }
-	if( m_Qualifier ) { copy_self->m_Qualifier = dynamic_pointer_cast<IfcText>( m_Qualifier->getDeepCopy() ); }
-	if( m_RequestingApproval ) { copy_self->m_RequestingApproval = dynamic_pointer_cast<IfcActorSelect>( m_RequestingApproval->getDeepCopy() ); }
-	if( m_GivingApproval ) { copy_self->m_GivingApproval = dynamic_pointer_cast<IfcActorSelect>( m_GivingApproval->getDeepCopy() ); }
+	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_TimeOfApproval ) { copy_self->m_TimeOfApproval = dynamic_pointer_cast<IfcDateTime>( m_TimeOfApproval->getDeepCopy(options) ); }
+	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy(options) ); }
+	if( m_Level ) { copy_self->m_Level = dynamic_pointer_cast<IfcLabel>( m_Level->getDeepCopy(options) ); }
+	if( m_Qualifier ) { copy_self->m_Qualifier = dynamic_pointer_cast<IfcText>( m_Qualifier->getDeepCopy(options) ); }
+	if( m_RequestingApproval ) { copy_self->m_RequestingApproval = dynamic_pointer_cast<IfcActorSelect>( m_RequestingApproval->getDeepCopy(options) ); }
+	if( m_GivingApproval ) { copy_self->m_GivingApproval = dynamic_pointer_cast<IfcActorSelect>( m_GivingApproval->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcApproval::getStepLine( std::stringstream& stream ) const
@@ -73,19 +74,16 @@ void IfcApproval::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>9 ){ std::cout << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Identifier = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Name = IfcLabel::createObjectFromStepData( args[1] );
-	m_Description = IfcText::createObjectFromStepData( args[2] );
-	m_TimeOfApproval = IfcDateTime::createObjectFromStepData( args[3] );
-	m_Status = IfcLabel::createObjectFromStepData( args[4] );
-	m_Level = IfcLabel::createObjectFromStepData( args[5] );
-	m_Qualifier = IfcText::createObjectFromStepData( args[6] );
-	m_RequestingApproval = IfcActorSelect::createObjectFromStepData( args[7], map );
-	m_GivingApproval = IfcActorSelect::createObjectFromStepData( args[8], map );
+	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
+	m_Description = IfcText::createObjectFromSTEP( args[2] );
+	m_TimeOfApproval = IfcDateTime::createObjectFromSTEP( args[3] );
+	m_Status = IfcLabel::createObjectFromSTEP( args[4] );
+	m_Level = IfcLabel::createObjectFromSTEP( args[5] );
+	m_Qualifier = IfcText::createObjectFromSTEP( args[6] );
+	m_RequestingApproval = IfcActorSelect::createObjectFromSTEP( args[7], map );
+	m_GivingApproval = IfcActorSelect::createObjectFromSTEP( args[8], map );
 }
 void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

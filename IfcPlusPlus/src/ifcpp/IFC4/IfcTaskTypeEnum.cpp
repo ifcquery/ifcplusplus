@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTaskTypeEnum.h"
 
-// TYPE IfcTaskTypeEnum 
+// TYPE IfcTaskTypeEnum = ENUMERATION OF	(ATTENDANCE	,CONSTRUCTION	,DEMOLITION	,DISMANTLE	,DISPOSAL	,INSTALLATION	,LOGISTIC	,MAINTENANCE	,MOVE	,OPERATION	,REMOVAL	,RENOVATION	,USERDEFINED	,NOTDEFINED);
 IfcTaskTypeEnum::IfcTaskTypeEnum() {}
 IfcTaskTypeEnum::~IfcTaskTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTaskTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTaskTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTaskTypeEnum> copy_self( new IfcTaskTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -90,7 +90,7 @@ void IfcTaskTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }

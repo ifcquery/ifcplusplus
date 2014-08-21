@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcEngineTypeEnum.h"
 
-// TYPE IfcEngineTypeEnum 
+// TYPE IfcEngineTypeEnum = ENUMERATION OF	(EXTERNALCOMBUSTION	,INTERNALCOMBUSTION	,USERDEFINED	,NOTDEFINED);
 IfcEngineTypeEnum::IfcEngineTypeEnum() {}
 IfcEngineTypeEnum::~IfcEngineTypeEnum() {}
-shared_ptr<IfcPPObject> IfcEngineTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEngineTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEngineTypeEnum> copy_self( new IfcEngineTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcEngineTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,13 +30,13 @@
 IfcLightSource::IfcLightSource() {}
 IfcLightSource::IfcLightSource( int id ) { m_id = id; }
 IfcLightSource::~IfcLightSource() {}
-shared_ptr<IfcPPObject> IfcLightSource::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightSource::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightSource> copy_self( new IfcLightSource() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy() ); }
-	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy() ); }
-	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy(options) ); }
+	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy(options) ); }
+	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcLightSource::getStepLine( std::stringstream& stream ) const
@@ -43,7 +44,7 @@ void IfcLightSource::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCLIGHTSOURCE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->getId(); } else { stream << "$"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -54,14 +55,11 @@ void IfcLightSource::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_LightColour, map );
-	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromStepData( args[2] );
-	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromStepData( args[3] );
+	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2] );
+	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3] );
 }
 void IfcLightSource::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

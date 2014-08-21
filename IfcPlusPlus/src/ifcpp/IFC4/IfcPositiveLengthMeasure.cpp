@@ -23,10 +23,10 @@
 #include "include/IfcSizeSelect.h"
 #include "include/IfcPositiveLengthMeasure.h"
 
-// TYPE IfcPositiveLengthMeasure 
+// TYPE IfcPositiveLengthMeasure = IfcLengthMeasure;
 IfcPositiveLengthMeasure::IfcPositiveLengthMeasure() {}
 IfcPositiveLengthMeasure::~IfcPositiveLengthMeasure() {}
-shared_ptr<IfcPPObject> IfcPositiveLengthMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPositiveLengthMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPositiveLengthMeasure> copy_self( new IfcPositiveLengthMeasure() );
 	copy_self->m_value = m_value;
@@ -38,13 +38,13 @@ void IfcPositiveLengthMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	shared_ptr<IfcPositiveLengthMeasure> type_object( new IfcPositiveLengthMeasure() );
 	// read TYPE
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

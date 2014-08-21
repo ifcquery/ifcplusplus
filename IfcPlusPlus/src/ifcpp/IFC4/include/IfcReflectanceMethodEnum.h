@@ -41,9 +41,9 @@ public:
 	IfcReflectanceMethodEnum( IfcReflectanceMethodEnumEnum e ) { m_enum = e; }
 	~IfcReflectanceMethodEnum();
 	virtual const char* classname() const { return "IfcReflectanceMethodEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcReflectanceMethodEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcReflectanceMethodEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcReflectanceMethodEnumEnum m_enum;
 };
 

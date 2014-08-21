@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcObjectiveEnum.h"
 
-// TYPE IfcObjectiveEnum 
+// TYPE IfcObjectiveEnum = ENUMERATION OF	(CODECOMPLIANCE	,CODEWAIVER	,DESIGNINTENT	,EXTERNAL	,HEALTHANDSAFETY	,MERGECONFLICT	,MODELVIEW	,PARAMETER	,REQUIREMENT	,SPECIFICATION	,TRIGGERCONDITION	,USERDEFINED	,NOTDEFINED);
 IfcObjectiveEnum::IfcObjectiveEnum() {}
 IfcObjectiveEnum::~IfcObjectiveEnum() {}
-shared_ptr<IfcPPObject> IfcObjectiveEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcObjectiveEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcObjectiveEnum> copy_self( new IfcObjectiveEnum() );
 	copy_self->m_enum = m_enum;
@@ -86,7 +86,7 @@ void IfcObjectiveEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }

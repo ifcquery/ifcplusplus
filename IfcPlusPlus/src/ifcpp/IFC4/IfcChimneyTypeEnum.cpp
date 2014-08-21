@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcChimneyTypeEnum.h"
 
-// TYPE IfcChimneyTypeEnum 
+// TYPE IfcChimneyTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcChimneyTypeEnum::IfcChimneyTypeEnum() {}
 IfcChimneyTypeEnum::~IfcChimneyTypeEnum() {}
-shared_ptr<IfcPPObject> IfcChimneyTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcChimneyTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcChimneyTypeEnum> copy_self( new IfcChimneyTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcChimneyTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }

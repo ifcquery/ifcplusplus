@@ -25,13 +25,13 @@ class IfcRepresentationMap;
 class IfcPresentationLayerAssignment;
 class IfcProductRepresentation;
 //ENTITY
-class IfcRepresentation : public IfcLayeredItem, public IfcPPEntity
+class IfcRepresentation : virtual public IfcLayeredItem, public IfcPPEntity
 {
 public:
 	IfcRepresentation();
 	IfcRepresentation( int id );
 	~IfcRepresentation();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

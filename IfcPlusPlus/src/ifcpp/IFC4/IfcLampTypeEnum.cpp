@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLampTypeEnum.h"
 
-// TYPE IfcLampTypeEnum 
+// TYPE IfcLampTypeEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HALOGEN	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LED	,METALHALIDE	,OLED	,TUNGSTENFILAMENT	,USERDEFINED	,NOTDEFINED);
 IfcLampTypeEnum::IfcLampTypeEnum() {}
 IfcLampTypeEnum::~IfcLampTypeEnum() {}
-shared_ptr<IfcPPObject> IfcLampTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLampTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLampTypeEnum> copy_self( new IfcLampTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcLampTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }

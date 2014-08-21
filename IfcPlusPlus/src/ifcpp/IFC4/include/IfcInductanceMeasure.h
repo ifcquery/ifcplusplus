@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcInductanceMeasure = REAL;
-class IfcInductanceMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcInductanceMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcInductanceMeasure();
 	IfcInductanceMeasure( double value );
 	~IfcInductanceMeasure();
 	virtual const char* classname() const { return "IfcInductanceMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcInductanceMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcInductanceMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcProjectionElementTypeEnum.h"
 
-// TYPE IfcProjectionElementTypeEnum 
+// TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcProjectionElementTypeEnum::IfcProjectionElementTypeEnum() {}
 IfcProjectionElementTypeEnum::~IfcProjectionElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcProjectionElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProjectionElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProjectionElementTypeEnum> copy_self( new IfcProjectionElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }

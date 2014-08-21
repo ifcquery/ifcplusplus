@@ -22,11 +22,11 @@
 #include "include/IfcRotationalStiffnessSelect.h"
 #include "include/IfcRotationalStiffnessMeasure.h"
 
-// TYPE IfcRotationalStiffnessMeasure 
+// TYPE IfcRotationalStiffnessMeasure = REAL;
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure() {}
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure( double value ) { m_value = value; }
 IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() {}
-shared_ptr<IfcPPObject> IfcRotationalStiffnessMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRotationalStiffnessMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRotationalStiffnessMeasure> copy_self( new IfcRotationalStiffnessMeasure() );
 	copy_self->m_value = m_value;
@@ -38,12 +38,12 @@ void IfcRotationalStiffnessMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRotationalStiffnessMeasure> IfcRotationalStiffnessMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRotationalStiffnessMeasure> IfcRotationalStiffnessMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }
 	shared_ptr<IfcRotationalStiffnessMeasure> type_object( new IfcRotationalStiffnessMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

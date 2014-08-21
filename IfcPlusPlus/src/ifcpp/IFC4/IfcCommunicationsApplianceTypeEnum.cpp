@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCommunicationsApplianceTypeEnum.h"
 
-// TYPE IfcCommunicationsApplianceTypeEnum 
+// TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,USERDEFINED	,NOTDEFINED);
 IfcCommunicationsApplianceTypeEnum::IfcCommunicationsApplianceTypeEnum() {}
 IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> copy_self( new IfcCommunicationsApplianceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -90,7 +90,7 @@ void IfcCommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& st
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }

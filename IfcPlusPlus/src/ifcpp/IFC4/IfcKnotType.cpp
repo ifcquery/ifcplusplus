@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcKnotType.h"
 
-// TYPE IfcKnotType 
+// TYPE IfcKnotType = ENUMERATION OF	(UNIFORM_KNOTS	,QUASI_UNIFORM_KNOTS	,PIECEWISE_BEZIER_KNOTS	,UNSPECIFIED);
 IfcKnotType::IfcKnotType() {}
 IfcKnotType::~IfcKnotType() {}
-shared_ptr<IfcPPObject> IfcKnotType::getDeepCopy()
+shared_ptr<IfcPPObject> IfcKnotType::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcKnotType> copy_self( new IfcKnotType() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcKnotType> IfcKnotType::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcKnotType> IfcKnotType::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKnotType>(); }

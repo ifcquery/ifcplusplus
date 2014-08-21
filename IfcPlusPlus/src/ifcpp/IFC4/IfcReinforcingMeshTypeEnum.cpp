@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcReinforcingMeshTypeEnum.h"
 
-// TYPE IfcReinforcingMeshTypeEnum 
+// TYPE IfcReinforcingMeshTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcReinforcingMeshTypeEnum::IfcReinforcingMeshTypeEnum() {}
 IfcReinforcingMeshTypeEnum::~IfcReinforcingMeshTypeEnum() {}
-shared_ptr<IfcPPObject> IfcReinforcingMeshTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReinforcingMeshTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingMeshTypeEnum> copy_self( new IfcReinforcingMeshTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcReinforcingMeshTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReinforcingMeshTypeEnum> IfcReinforcingMeshTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcReinforcingMeshTypeEnum> IfcReinforcingMeshTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }

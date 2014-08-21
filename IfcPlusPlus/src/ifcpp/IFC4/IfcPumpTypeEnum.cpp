@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPumpTypeEnum.h"
 
-// TYPE IfcPumpTypeEnum 
+// TYPE IfcPumpTypeEnum = ENUMERATION OF	(CIRCULATOR	,ENDSUCTION	,SPLITCASE	,SUBMERSIBLEPUMP	,SUMPPUMP	,VERTICALINLINE	,VERTICALTURBINE	,USERDEFINED	,NOTDEFINED);
 IfcPumpTypeEnum::IfcPumpTypeEnum() {}
 IfcPumpTypeEnum::~IfcPumpTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPumpTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPumpTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPumpTypeEnum> copy_self( new IfcPumpTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcPumpTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }

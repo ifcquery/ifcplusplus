@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -44,21 +45,29 @@
 IfcStructuralPlanarAction::IfcStructuralPlanarAction() {}
 IfcStructuralPlanarAction::IfcStructuralPlanarAction( int id ) { m_id = id; }
 IfcStructuralPlanarAction::~IfcStructuralPlanarAction() {}
-shared_ptr<IfcPPObject> IfcStructuralPlanarAction::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralPlanarAction::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralPlanarAction> copy_self( new IfcStructuralPlanarAction() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
-	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
-	if( m_AppliedLoad ) { copy_self->m_AppliedLoad = dynamic_pointer_cast<IfcStructuralLoad>( m_AppliedLoad->getDeepCopy() ); }
-	if( m_GlobalOrLocal ) { copy_self->m_GlobalOrLocal = dynamic_pointer_cast<IfcGlobalOrLocalEnum>( m_GlobalOrLocal->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
+	if( m_AppliedLoad ) { copy_self->m_AppliedLoad = dynamic_pointer_cast<IfcStructuralLoad>( m_AppliedLoad->getDeepCopy(options) ); }
+	if( m_GlobalOrLocal ) { copy_self->m_GlobalOrLocal = dynamic_pointer_cast<IfcGlobalOrLocalEnum>( m_GlobalOrLocal->getDeepCopy(options) ); }
 	if( m_DestabilizingLoad ) { copy_self->m_DestabilizingLoad = m_DestabilizingLoad; }
-	if( m_ProjectedOrTrue ) { copy_self->m_ProjectedOrTrue = dynamic_pointer_cast<IfcProjectedOrTrueLengthEnum>( m_ProjectedOrTrue->getDeepCopy() ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcStructuralSurfaceActivityTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_ProjectedOrTrue ) { copy_self->m_ProjectedOrTrue = dynamic_pointer_cast<IfcProjectedOrTrueLengthEnum>( m_ProjectedOrTrue->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcStructuralSurfaceActivityTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStructuralPlanarAction::getStepLine( std::stringstream& stream ) const
@@ -66,7 +75,7 @@ void IfcStructuralPlanarAction::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCSTRUCTURALPLANARACTION" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -74,11 +83,11 @@ void IfcStructuralPlanarAction::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_AppliedLoad ) { stream << "#" << m_AppliedLoad->getId(); } else { stream << "*"; }
+	if( m_AppliedLoad ) { stream << "#" << m_AppliedLoad->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_GlobalOrLocal ) { m_GlobalOrLocal->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -94,23 +103,20 @@ void IfcStructuralPlanarAction::getStepParameter( std::stringstream& stream, boo
 void IfcStructuralPlanarAction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralPlanarAction, expecting 12, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>12 ){ std::cout << "Wrong parameter count for entity IfcStructuralPlanarAction, expecting 12, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralPlanarAction, expecting 12, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
 	readEntityReference( args[5], m_ObjectPlacement, map );
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReference( args[7], m_AppliedLoad, map );
-	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromStepData( args[8] );
+	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8] );
 	if( boost::iequals( args[9], L".F." ) ) { m_DestabilizingLoad = false; }
 	else if( boost::iequals( args[9], L".T." ) ) { m_DestabilizingLoad = true; }
-	m_ProjectedOrTrue = IfcProjectedOrTrueLengthEnum::createObjectFromStepData( args[10] );
-	m_PredefinedType = IfcStructuralSurfaceActivityTypeEnum::createObjectFromStepData( args[11] );
+	m_ProjectedOrTrue = IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( args[10] );
+	m_PredefinedType = IfcStructuralSurfaceActivityTypeEnum::createObjectFromSTEP( args[11] );
 }
 void IfcStructuralPlanarAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

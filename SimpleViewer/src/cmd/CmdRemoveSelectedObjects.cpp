@@ -43,7 +43,7 @@ bool CmdRemoveSelectedObjects::doCmd()
 		grp->removeChildren(0, grp->getNumChildren() );
 		// TODO: remove also from ifc model
 
-		m_removed_objects[entity->getId()] = entity;
+		m_removed_objects[entity->m_id] = entity;
 	}
 	m_system->clearSelection();
 

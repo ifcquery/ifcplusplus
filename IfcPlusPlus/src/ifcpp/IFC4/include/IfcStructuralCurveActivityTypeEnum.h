@@ -40,9 +40,9 @@ public:
 	IfcStructuralCurveActivityTypeEnum( IfcStructuralCurveActivityTypeEnumEnum e ) { m_enum = e; }
 	~IfcStructuralCurveActivityTypeEnum();
 	virtual const char* classname() const { return "IfcStructuralCurveActivityTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcStructuralCurveActivityTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcStructuralCurveActivityTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcStructuralCurveActivityTypeEnumEnum m_enum;
 };
 

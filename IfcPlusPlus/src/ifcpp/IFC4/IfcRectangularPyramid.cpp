@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,19 +29,19 @@
 IfcRectangularPyramid::IfcRectangularPyramid() {}
 IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_id = id; }
 IfcRectangularPyramid::~IfcRectangularPyramid() {}
-shared_ptr<IfcPPObject> IfcRectangularPyramid::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRectangularPyramid::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRectangularPyramid> copy_self( new IfcRectangularPyramid() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
-	if( m_XLength ) { copy_self->m_XLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XLength->getDeepCopy() ); }
-	if( m_YLength ) { copy_self->m_YLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YLength->getDeepCopy() ); }
-	if( m_Height ) { copy_self->m_Height = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Height->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
+	if( m_XLength ) { copy_self->m_XLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XLength->getDeepCopy(options) ); }
+	if( m_YLength ) { copy_self->m_YLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YLength->getDeepCopy(options) ); }
+	if( m_Height ) { copy_self->m_Height = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Height->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCRECTANGULARPYRAMID" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_XLength ) { m_XLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -53,14 +54,11 @@ void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool ) 
 void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
-	m_XLength = IfcPositiveLengthMeasure::createObjectFromStepData( args[1] );
-	m_YLength = IfcPositiveLengthMeasure::createObjectFromStepData( args[2] );
-	m_Height = IfcPositiveLengthMeasure::createObjectFromStepData( args[3] );
+	m_XLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
+	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );
+	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3] );
 }
 void IfcRectangularPyramid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

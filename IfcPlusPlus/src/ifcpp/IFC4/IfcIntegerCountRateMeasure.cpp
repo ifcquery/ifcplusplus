@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcIntegerCountRateMeasure.h"
 
-// TYPE IfcIntegerCountRateMeasure 
+// TYPE IfcIntegerCountRateMeasure = INTEGER;
 IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure() {}
 IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure( int value ) { m_value = value; }
 IfcIntegerCountRateMeasure::~IfcIntegerCountRateMeasure() {}
-shared_ptr<IfcPPObject> IfcIntegerCountRateMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIntegerCountRateMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIntegerCountRateMeasure> copy_self( new IfcIntegerCountRateMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcIntegerCountRateMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIntegerCountRateMeasure> IfcIntegerCountRateMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcIntegerCountRateMeasure> IfcIntegerCountRateMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	shared_ptr<IfcIntegerCountRateMeasure> type_object( new IfcIntegerCountRateMeasure() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

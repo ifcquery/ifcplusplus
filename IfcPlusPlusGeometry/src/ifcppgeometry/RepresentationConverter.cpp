@@ -26,6 +26,7 @@
 #include <ifcpp/IFC4/include/IfcMappedItem.h>
 #include <ifcpp/IFC4/include/IfcRepresentationMap.h>
 #include <ifcpp/IFC4/include/IfcCartesianTransformationOperator.h>
+#include <ifcpp/IFC4/include/IfcAxis2Placement.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement2D.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
 #include <ifcpp/IFC4/include/IfcPlacement.h>
@@ -55,8 +56,10 @@
 #include <ifcpp/IFC4/include/IfcShellBasedSurfaceModel.h>
 #include <ifcpp/IFC4/include/IfcOpenShell.h>
 #include <ifcpp/IFC4/include/IfcFace.h>
+#include <ifcpp/IFC4/include/IfcPoint.h>
 #include <ifcpp/IFC4/include/IfcVertexPoint.h>
 #include <ifcpp/IFC4/include/IfcVertex.h>
+#include <ifcpp/IFC4/include/IfcGeometricSetSelect.h>
 #include <ifcpp/IFC4/include/IfcGeometricSet.h>
 #include <ifcpp/IFC4/include/IfcGeometricCurveSet.h>
 #include <ifcpp/IFC4/include/IfcCurve.h>
@@ -66,6 +69,7 @@
 #include <ifcpp/IFC4/include/IfcSolidModel.h>
 #include <ifcpp/IFC4/include/IfcSectionedSpine.h>
 #include <ifcpp/IFC4/include/IfcBooleanResult.h>
+#include <ifcpp/IFC4/include/IfcShell.h>
 #include <ifcpp/IFC4/include/IfcPresentationLayerWithStyle.h>
 
 #include <ifcpp/model/IfcPPModel.h>
@@ -224,13 +228,13 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			shared_ptr<IfcRepresentationMap> map_source = mapped_item->m_MappingSource;
 			if( !map_source )
 			{
-				strs_err << "unhandled representation: #" << representation_item->getId() << " = " << representation_item->classname() << std::endl;
+				strs_err << "unhandled representation: #" << representation_item->m_id << " = " << representation_item->classname() << std::endl;
 				continue;
 			}
 			shared_ptr<IfcRepresentation> mapped_representation = map_source->m_MappedRepresentation;
 			if( !mapped_representation )
 			{
-				strs_err << "unhandled representation: #" << representation_item->getId() << " = " << representation_item->classname() << std::endl;
+				strs_err << "unhandled representation: #" << representation_item->m_id << " = " << representation_item->classname() << std::endl;
 				continue;
 			}
 
@@ -242,17 +246,19 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 
 			carve::math::Matrix map_matrix_origin( carve::math::Matrix::IDENT() );
-			shared_ptr<IfcAxis2Placement> mapping_origin = map_source->m_MappingOrigin;
-
-			shared_ptr<IfcPlacement> mapping_origin_placement = dynamic_pointer_cast<IfcPlacement>( mapping_origin );
-			if( mapping_origin_placement )
+			shared_ptr<IfcAxis2Placement> mapping_origin_select = map_source->m_MappingOrigin;
+			if( mapping_origin_select )
 			{
-				PlacementConverter::convertIfcPlacement( mapping_origin_placement, map_matrix_origin, length_factor );
-			}
-			else
-			{
-				strs_err << "#" << mapping_origin_placement->getId() << " = IfcPlacement: !dynamic_pointer_cast<IfcPlacement>( mapping_origin ) )";
-				continue;
+				shared_ptr<IfcPlacement> mapping_origin_placement = dynamic_pointer_cast<IfcPlacement>( mapping_origin_select );
+				if( mapping_origin_placement )
+				{
+					PlacementConverter::convertIfcPlacement( mapping_origin_placement, map_matrix_origin, length_factor );
+				}
+				else
+				{
+					strs_err << "#" << mapping_origin_placement->m_id << " = IfcPlacement: !dynamic_pointer_cast<IfcPlacement>( mapping_origin ) )";
+					continue;
+				}
 			}
 
 			shared_ptr<ShapeInputData> mapped_input_data( new ShapeInputData() );
@@ -375,7 +381,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 		}
 
-		strs_err << "unhandled representation: #" << representation_item->getId() << " = " << representation_item->classname() << std::endl;
+		strs_err << "unhandled representation: #" << representation_item->m_id << " = " << representation_item->classname() << std::endl;
 	}
 
 	if( m_handle_layer_assignments )
@@ -602,9 +608,9 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		{
 			// TYPE IfcGeometricSetSelect = SELECT (IfcPoint, IfcCurve, IfcSurface);
 			shared_ptr<IfcGeometricSetSelect>& geom_select = ( *it_set_elements );
-
-			shared_ptr<IfcPoint> select_point = dynamic_pointer_cast<IfcPoint>( geom_select );
-			if( select_point )
+	
+			shared_ptr<IfcPoint> point = dynamic_pointer_cast<IfcPoint>( geom_select );
+			if( point )
 			{
 
 				continue;
@@ -680,21 +686,25 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		{
 			shared_ptr<IfcPresentableText>& ifc_literal = text_literal->m_Literal;
 			std::wstring& literal_text = ifc_literal->m_value;
-			shared_ptr<IfcAxis2Placement>& text_placement = text_literal->m_Placement;
 
+			// check if text has a local placemnt
 			carve::math::Matrix text_position_matrix( carve::math::Matrix::IDENT() );
-			double length_factor = m_unit_converter->getLengthInMeterFactor();
-			shared_ptr<IfcAxis2Placement3D> placement_3d = dynamic_pointer_cast<IfcAxis2Placement3D>( text_placement );
-			if( placement_3d )
+			shared_ptr<IfcAxis2Placement>& text_placement_select = text_literal->m_Placement;
+			if( text_placement_select )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( placement_3d, text_position_matrix, length_factor );
-			}
-			else
-			{
-				shared_ptr<IfcAxis2Placement2D> placement_2d = dynamic_pointer_cast<IfcAxis2Placement2D>( text_placement );
-				if( placement_2d )
+				double length_factor = m_unit_converter->getLengthInMeterFactor();
+				shared_ptr<IfcAxis2Placement3D> placement_3d = dynamic_pointer_cast<IfcAxis2Placement3D>( text_placement_select );
+				if( placement_3d )
 				{
-					PlacementConverter::convertIfcAxis2Placement2D( placement_2d, text_position_matrix, length_factor );
+					PlacementConverter::convertIfcAxis2Placement3D( placement_3d, text_position_matrix, length_factor );
+				}
+				else
+				{
+					shared_ptr<IfcAxis2Placement2D> placement_2d = dynamic_pointer_cast<IfcAxis2Placement2D>( text_placement_select );
+					if( placement_2d )
+					{
+						PlacementConverter::convertIfcAxis2Placement2D( placement_2d, text_position_matrix, length_factor );
+					}
 				}
 			}
 
@@ -741,7 +751,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		return;
 	}
 
-	strs_err << "Unhandled IFC Representation: #" << geom_item->getId() << "=" << geom_item->classname() << std::endl;
+	strs_err << "Unhandled IFC Representation: #" << geom_item->m_id << "=" << geom_item->classname() << std::endl;
 }
 
 void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ShapeInputData>& product_shape, std::stringstream& strs_err )
@@ -752,7 +762,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 	{
 		return;
 	}
-	const int product_id = ifc_element->getId();
+	const int product_id = ifc_element->m_id;
 	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 	// convert opening representation
@@ -774,14 +784,14 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 			continue;
 		}
 
-		const int opening_id = opening->getId();
+		const int opening_id = opening->m_id;
 
 		// opening can have its own relative placement
 		shared_ptr<IfcObjectPlacement>	opening_placement = opening->m_ObjectPlacement;			//optional
 		carve::math::Matrix opening_placement_matrix( carve::math::Matrix::IDENT() );
 		if( opening_placement )
 		{
-			std::set<int> opening_placements_applied;
+			std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
 			PlacementConverter::convertIfcObjectPlacement( opening_placement, opening_placement_matrix, length_factor, opening_placements_applied );
 		}
 
@@ -814,7 +824,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		int representation_id = -1;
 		if( opening_representation_data->representation )
 		{
-			representation_id = opening_representation_data->representation->getId();
+			representation_id = opening_representation_data->representation->m_id;
 		}
 
 		std::vector<shared_ptr<ItemData> >& vec_opening_items = opening_representation_data->vec_item_data;

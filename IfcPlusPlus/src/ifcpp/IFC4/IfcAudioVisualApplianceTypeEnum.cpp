@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcAudioVisualApplianceTypeEnum.h"
 
-// TYPE IfcAudioVisualApplianceTypeEnum 
+// TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,USERDEFINED	,NOTDEFINED);
 IfcAudioVisualApplianceTypeEnum::IfcAudioVisualApplianceTypeEnum() {}
 IfcAudioVisualApplianceTypeEnum::~IfcAudioVisualApplianceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> copy_self( new IfcAudioVisualApplianceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -86,7 +86,7 @@ void IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& strea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }

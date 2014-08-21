@@ -37,9 +37,9 @@ public:
 	IfcGridTypeEnum( IfcGridTypeEnumEnum e ) { m_enum = e; }
 	~IfcGridTypeEnum();
 	virtual const char* classname() const { return "IfcGridTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcGridTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcGridTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcGridTypeEnumEnum m_enum;
 };
 

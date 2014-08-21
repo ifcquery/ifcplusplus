@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcMagneticFluxDensityMeasure.h"
 
-// TYPE IfcMagneticFluxDensityMeasure 
+// TYPE IfcMagneticFluxDensityMeasure = REAL;
 IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure() {}
 IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure( double value ) { m_value = value; }
 IfcMagneticFluxDensityMeasure::~IfcMagneticFluxDensityMeasure() {}
-shared_ptr<IfcPPObject> IfcMagneticFluxDensityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMagneticFluxDensityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMagneticFluxDensityMeasure> copy_self( new IfcMagneticFluxDensityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMagneticFluxDensityMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMagneticFluxDensityMeasure> IfcMagneticFluxDensityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMagneticFluxDensityMeasure> IfcMagneticFluxDensityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }
 	shared_ptr<IfcMagneticFluxDensityMeasure> type_object( new IfcMagneticFluxDensityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcAirTerminalBoxTypeEnum.h"
 
-// TYPE IfcAirTerminalBoxTypeEnum 
+// TYPE IfcAirTerminalBoxTypeEnum = ENUMERATION OF	(CONSTANTFLOW	,VARIABLEFLOWPRESSUREDEPENDANT	,VARIABLEFLOWPRESSUREINDEPENDANT	,USERDEFINED	,NOTDEFINED);
 IfcAirTerminalBoxTypeEnum::IfcAirTerminalBoxTypeEnum() {}
 IfcAirTerminalBoxTypeEnum::~IfcAirTerminalBoxTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAirTerminalBoxTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAirTerminalBoxTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalBoxTypeEnum> copy_self( new IfcAirTerminalBoxTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcAirTerminalBoxTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAirTerminalBoxTypeEnum> IfcAirTerminalBoxTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAirTerminalBoxTypeEnum> IfcAirTerminalBoxTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalBoxTypeEnum>(); }

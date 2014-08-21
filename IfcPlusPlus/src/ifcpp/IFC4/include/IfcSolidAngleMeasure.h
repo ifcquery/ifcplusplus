@@ -21,15 +21,16 @@
 #include "IfcMeasureValue.h"
 
 // TYPE IfcSolidAngleMeasure = REAL;
-class IfcSolidAngleMeasure : public IfcMeasureValue, public IfcPPReal
+class IfcSolidAngleMeasure : public IfcMeasureValue
 {
 public:
 	IfcSolidAngleMeasure();
 	IfcSolidAngleMeasure( double value );
 	~IfcSolidAngleMeasure();
 	virtual const char* classname() const { return "IfcSolidAngleMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcSolidAngleMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcSolidAngleMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

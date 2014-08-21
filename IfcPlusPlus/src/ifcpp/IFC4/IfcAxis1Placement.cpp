@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,29 +29,26 @@
 IfcAxis1Placement::IfcAxis1Placement() {}
 IfcAxis1Placement::IfcAxis1Placement( int id ) { m_id = id; }
 IfcAxis1Placement::~IfcAxis1Placement() {}
-shared_ptr<IfcPPObject> IfcAxis1Placement::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAxis1Placement::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAxis1Placement> copy_self( new IfcAxis1Placement() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy() ); }
-	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcDirection>( m_Axis->getDeepCopy() ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcCartesianPoint>( m_Location->getDeepCopy(options) ); }
+	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcDirection>( m_Axis->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcAxis1Placement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCAXIS1PLACEMENT" << "(";
-	if( m_Location ) { stream << "#" << m_Location->getId(); } else { stream << "*"; }
+	if( m_Location ) { stream << "#" << m_Location->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis ) { stream << "#" << m_Axis->getId(); } else { stream << "$"; }
+	if( m_Axis ) { stream << "#" << m_Axis->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcAxis1Placement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcAxis1Placement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAxis1Placement, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcAxis1Placement, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAxis1Placement, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Location, map );
 	readEntityReference( args[1], m_Axis, map );
 }

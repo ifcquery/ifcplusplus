@@ -34,9 +34,9 @@ public:
 	IfcTaskDurationEnum( IfcTaskDurationEnumEnum e ) { m_enum = e; }
 	~IfcTaskDurationEnum();
 	virtual const char* classname() const { return "IfcTaskDurationEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTaskDurationEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcTaskDurationEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcTaskDurationEnumEnum m_enum;
 };
 

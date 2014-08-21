@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLogicalOperatorEnum.h"
 
-// TYPE IfcLogicalOperatorEnum 
+// TYPE IfcLogicalOperatorEnum = ENUMERATION OF	(LOGICALAND	,LOGICALOR	,LOGICALXOR	,LOGICALNOTAND	,LOGICALNOTOR);
 IfcLogicalOperatorEnum::IfcLogicalOperatorEnum() {}
 IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() {}
-shared_ptr<IfcPPObject> IfcLogicalOperatorEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLogicalOperatorEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLogicalOperatorEnum> copy_self( new IfcLogicalOperatorEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }

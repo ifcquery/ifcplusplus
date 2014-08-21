@@ -21,11 +21,11 @@
 #include "include/IfcSpecularHighlightSelect.h"
 #include "include/IfcSpecularExponent.h"
 
-// TYPE IfcSpecularExponent 
+// TYPE IfcSpecularExponent = REAL;
 IfcSpecularExponent::IfcSpecularExponent() {}
 IfcSpecularExponent::IfcSpecularExponent( double value ) { m_value = value; }
 IfcSpecularExponent::~IfcSpecularExponent() {}
-shared_ptr<IfcPPObject> IfcSpecularExponent::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSpecularExponent::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSpecularExponent> copy_self( new IfcSpecularExponent() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcSpecularExponent::getStepParameter( std::stringstream& stream, bool is_s
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpecularExponent> IfcSpecularExponent::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSpecularExponent> IfcSpecularExponent::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
 	shared_ptr<IfcSpecularExponent> type_object( new IfcSpecularExponent() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

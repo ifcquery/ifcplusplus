@@ -20,15 +20,16 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcDimensionCount = INTEGER;
-class IfcDimensionCount : public IfcPPInt
+class IfcDimensionCount : public IfcPPObject
 {
 public:
 	IfcDimensionCount();
 	IfcDimensionCount( int value );
 	~IfcDimensionCount();
 	virtual const char* classname() const { return "IfcDimensionCount"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDimensionCount> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcDimensionCount> createObjectFromSTEP( const std::wstring& arg );
+	int m_value;
 };
 

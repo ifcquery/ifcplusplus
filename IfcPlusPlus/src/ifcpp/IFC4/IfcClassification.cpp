@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,21 +32,21 @@
 IfcClassification::IfcClassification() {}
 IfcClassification::IfcClassification( int id ) { m_id = id; }
 IfcClassification::~IfcClassification() {}
-shared_ptr<IfcPPObject> IfcClassification::getDeepCopy()
+shared_ptr<IfcPPObject> IfcClassification::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcClassification> copy_self( new IfcClassification() );
-	if( m_Source ) { copy_self->m_Source = dynamic_pointer_cast<IfcLabel>( m_Source->getDeepCopy() ); }
-	if( m_Edition ) { copy_self->m_Edition = dynamic_pointer_cast<IfcLabel>( m_Edition->getDeepCopy() ); }
-	if( m_EditionDate ) { copy_self->m_EditionDate = dynamic_pointer_cast<IfcDate>( m_EditionDate->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy() ); }
+	if( m_Source ) { copy_self->m_Source = dynamic_pointer_cast<IfcLabel>( m_Source->getDeepCopy(options) ); }
+	if( m_Edition ) { copy_self->m_Edition = dynamic_pointer_cast<IfcLabel>( m_Edition->getDeepCopy(options) ); }
+	if( m_EditionDate ) { copy_self->m_EditionDate = dynamic_pointer_cast<IfcDate>( m_EditionDate->getDeepCopy(options) ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_ReferenceTokens.size(); ++ii )
 	{
 		auto item_ii = m_ReferenceTokens[ii];
 		if( item_ii )
 		{
-			copy_self->m_ReferenceTokens.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy() ) );
+			copy_self->m_ReferenceTokens.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -72,17 +73,14 @@ void IfcClassification::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcClassification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Source = IfcLabel::createObjectFromStepData( args[0] );
-	m_Edition = IfcLabel::createObjectFromStepData( args[1] );
-	m_EditionDate = IfcDate::createObjectFromStepData( args[2] );
-	m_Name = IfcLabel::createObjectFromStepData( args[3] );
-	m_Description = IfcText::createObjectFromStepData( args[4] );
-	m_Location = IfcURIReference::createObjectFromStepData( args[5] );
-	readTypeList( args[6], m_ReferenceTokens );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Source = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Edition = IfcLabel::createObjectFromSTEP( args[1] );
+	m_EditionDate = IfcDate::createObjectFromSTEP( args[2] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[3] );
+	m_Description = IfcText::createObjectFromSTEP( args[4] );
+	m_Location = IfcURIReference::createObjectFromSTEP( args[5] );
+	readSelectList( args[6], m_ReferenceTokens, map );
 }
 void IfcClassification::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -39,9 +39,9 @@ public:
 	IfcAlarmTypeEnum( IfcAlarmTypeEnumEnum e ) { m_enum = e; }
 	~IfcAlarmTypeEnum();
 	virtual const char* classname() const { return "IfcAlarmTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcAlarmTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcAlarmTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcAlarmTypeEnumEnum m_enum;
 };
 

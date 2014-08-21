@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcRepresentationItem::IfcRepresentationItem() {}
 IfcRepresentationItem::IfcRepresentationItem( int id ) { m_id = id; }
 IfcRepresentationItem::~IfcRepresentationItem() {}
-shared_ptr<IfcPPObject> IfcRepresentationItem::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRepresentationItem::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRepresentationItem> copy_self( new IfcRepresentationItem() );
 	return copy_self;

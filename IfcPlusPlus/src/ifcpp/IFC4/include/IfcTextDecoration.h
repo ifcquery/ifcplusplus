@@ -20,15 +20,16 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcTextDecoration = STRING;
-class IfcTextDecoration : public IfcPPString
+class IfcTextDecoration : public IfcPPObject
 {
 public:
 	IfcTextDecoration();
 	IfcTextDecoration( std::wstring value );
 	~IfcTextDecoration();
 	virtual const char* classname() const { return "IfcTextDecoration"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTextDecoration> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcTextDecoration> createObjectFromSTEP( const std::wstring& arg );
+	std::wstring m_value;
 };
 

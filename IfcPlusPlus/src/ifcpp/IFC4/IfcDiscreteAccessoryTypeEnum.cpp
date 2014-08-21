@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDiscreteAccessoryTypeEnum.h"
 
-// TYPE IfcDiscreteAccessoryTypeEnum 
+// TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,USERDEFINED	,NOTDEFINED);
 IfcDiscreteAccessoryTypeEnum::IfcDiscreteAccessoryTypeEnum() {}
 IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcDiscreteAccessoryTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }

@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcThermalExpansionCoefficientMeasure.h"
 
-// TYPE IfcThermalExpansionCoefficientMeasure 
+// TYPE IfcThermalExpansionCoefficientMeasure = REAL;
 IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure() {}
 IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure( double value ) { m_value = value; }
 IfcThermalExpansionCoefficientMeasure::~IfcThermalExpansionCoefficientMeasure() {}
-shared_ptr<IfcPPObject> IfcThermalExpansionCoefficientMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcThermalExpansionCoefficientMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcThermalExpansionCoefficientMeasure> copy_self( new IfcThermalExpansionCoefficientMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcThermalExpansionCoefficientMeasure::getStepParameter( std::stringstream&
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcThermalExpansionCoefficientMeasure> IfcThermalExpansionCoefficientMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcThermalExpansionCoefficientMeasure> IfcThermalExpansionCoefficientMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	shared_ptr<IfcThermalExpansionCoefficientMeasure> type_object( new IfcThermalExpansionCoefficientMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

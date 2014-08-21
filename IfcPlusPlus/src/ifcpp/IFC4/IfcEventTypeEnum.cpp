@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcEventTypeEnum.h"
 
-// TYPE IfcEventTypeEnum 
+// TYPE IfcEventTypeEnum = ENUMERATION OF	(STARTEVENT	,ENDEVENT	,INTERMEDIATEEVENT	,USERDEFINED	,NOTDEFINED);
 IfcEventTypeEnum::IfcEventTypeEnum() {}
 IfcEventTypeEnum::~IfcEventTypeEnum() {}
-shared_ptr<IfcPPObject> IfcEventTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEventTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEventTypeEnum> copy_self( new IfcEventTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcEventTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }

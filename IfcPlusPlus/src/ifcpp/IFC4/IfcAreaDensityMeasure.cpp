@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcAreaDensityMeasure.h"
 
-// TYPE IfcAreaDensityMeasure 
+// TYPE IfcAreaDensityMeasure = REAL;
 IfcAreaDensityMeasure::IfcAreaDensityMeasure() {}
 IfcAreaDensityMeasure::IfcAreaDensityMeasure( double value ) { m_value = value; }
 IfcAreaDensityMeasure::~IfcAreaDensityMeasure() {}
-shared_ptr<IfcPPObject> IfcAreaDensityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAreaDensityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAreaDensityMeasure> copy_self( new IfcAreaDensityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcAreaDensityMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAreaDensityMeasure> IfcAreaDensityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAreaDensityMeasure> IfcAreaDensityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAreaDensityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAreaDensityMeasure>(); }
 	shared_ptr<IfcAreaDensityMeasure> type_object( new IfcAreaDensityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

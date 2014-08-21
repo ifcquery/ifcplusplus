@@ -29,13 +29,13 @@ class IfcArithmeticOperatorEnum;
 class IfcAppliedValue;
 class IfcExternalReferenceRelationship;
 //ENTITY
-class IfcAppliedValue : public IfcMetricValueSelect, public IfcObjectReferenceSelect, public IfcResourceObjectSelect, public IfcPPEntity
+class IfcAppliedValue : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
 {
 public:
 	IfcAppliedValue();
 	IfcAppliedValue( int id );
 	~IfcAppliedValue();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

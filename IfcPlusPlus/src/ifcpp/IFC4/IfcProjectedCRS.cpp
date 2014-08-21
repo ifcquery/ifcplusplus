@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,16 +29,16 @@
 IfcProjectedCRS::IfcProjectedCRS() {}
 IfcProjectedCRS::IfcProjectedCRS( int id ) { m_id = id; }
 IfcProjectedCRS::~IfcProjectedCRS() {}
-shared_ptr<IfcPPObject> IfcProjectedCRS::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProjectedCRS::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProjectedCRS> copy_self( new IfcProjectedCRS() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_GeodeticDatum ) { copy_self->m_GeodeticDatum = dynamic_pointer_cast<IfcIdentifier>( m_GeodeticDatum->getDeepCopy() ); }
-	if( m_VerticalDatum ) { copy_self->m_VerticalDatum = dynamic_pointer_cast<IfcIdentifier>( m_VerticalDatum->getDeepCopy() ); }
-	if( m_MapProjection ) { copy_self->m_MapProjection = dynamic_pointer_cast<IfcIdentifier>( m_MapProjection->getDeepCopy() ); }
-	if( m_MapZone ) { copy_self->m_MapZone = dynamic_pointer_cast<IfcIdentifier>( m_MapZone->getDeepCopy() ); }
-	if( m_MapUnit ) { copy_self->m_MapUnit = dynamic_pointer_cast<IfcNamedUnit>( m_MapUnit->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_GeodeticDatum ) { copy_self->m_GeodeticDatum = dynamic_pointer_cast<IfcIdentifier>( m_GeodeticDatum->getDeepCopy(options) ); }
+	if( m_VerticalDatum ) { copy_self->m_VerticalDatum = dynamic_pointer_cast<IfcIdentifier>( m_VerticalDatum->getDeepCopy(options) ); }
+	if( m_MapProjection ) { copy_self->m_MapProjection = dynamic_pointer_cast<IfcIdentifier>( m_MapProjection->getDeepCopy(options) ); }
+	if( m_MapZone ) { copy_self->m_MapZone = dynamic_pointer_cast<IfcIdentifier>( m_MapZone->getDeepCopy(options) ); }
+	if( m_MapUnit ) { copy_self->m_MapUnit = dynamic_pointer_cast<IfcNamedUnit>( m_MapUnit->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
@@ -55,23 +56,20 @@ void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_MapZone ) { m_MapZone->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MapUnit ) { stream << "#" << m_MapUnit->getId(); } else { stream << "$"; }
+	if( m_MapUnit ) { stream << "#" << m_MapUnit->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_GeodeticDatum = IfcIdentifier::createObjectFromStepData( args[2] );
-	m_VerticalDatum = IfcIdentifier::createObjectFromStepData( args[3] );
-	m_MapProjection = IfcIdentifier::createObjectFromStepData( args[4] );
-	m_MapZone = IfcIdentifier::createObjectFromStepData( args[5] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2] );
+	m_VerticalDatum = IfcIdentifier::createObjectFromSTEP( args[3] );
+	m_MapProjection = IfcIdentifier::createObjectFromSTEP( args[4] );
+	m_MapZone = IfcIdentifier::createObjectFromSTEP( args[5] );
 	readEntityReference( args[6], m_MapUnit, map );
 }
 void IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

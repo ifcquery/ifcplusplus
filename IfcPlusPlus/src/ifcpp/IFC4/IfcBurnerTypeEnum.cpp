@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBurnerTypeEnum.h"
 
-// TYPE IfcBurnerTypeEnum 
+// TYPE IfcBurnerTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcBurnerTypeEnum::IfcBurnerTypeEnum() {}
 IfcBurnerTypeEnum::~IfcBurnerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcBurnerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBurnerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBurnerTypeEnum> copy_self( new IfcBurnerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcBurnerTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBurnerTypeEnum> IfcBurnerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBurnerTypeEnum> IfcBurnerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }

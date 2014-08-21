@@ -21,15 +21,15 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
-class IfcCompoundPlaneAngleMeasure : public IfcDerivedMeasureValue, public IfcPPInt
+class IfcCompoundPlaneAngleMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcCompoundPlaneAngleMeasure();
 	~IfcCompoundPlaneAngleMeasure();
 	virtual const char* classname() const { return "IfcCompoundPlaneAngleMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCompoundPlaneAngleMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCompoundPlaneAngleMeasure> createObjectFromSTEP( const std::wstring& arg );
 	std::vector<int> m_vec;
 };
 

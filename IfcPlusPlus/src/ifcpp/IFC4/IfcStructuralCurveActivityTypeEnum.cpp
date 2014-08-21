@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcStructuralCurveActivityTypeEnum.h"
 
-// TYPE IfcStructuralCurveActivityTypeEnum 
+// TYPE IfcStructuralCurveActivityTypeEnum = ENUMERATION OF	(CONST	,LINEAR	,POLYGONAL	,EQUIDISTANT	,SINUS	,PARABOLA	,DISCRETE	,USERDEFINED	,NOTDEFINED);
 IfcStructuralCurveActivityTypeEnum::IfcStructuralCurveActivityTypeEnum() {}
 IfcStructuralCurveActivityTypeEnum::~IfcStructuralCurveActivityTypeEnum() {}
-shared_ptr<IfcPPObject> IfcStructuralCurveActivityTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralCurveActivityTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveActivityTypeEnum> copy_self( new IfcStructuralCurveActivityTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& st
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }

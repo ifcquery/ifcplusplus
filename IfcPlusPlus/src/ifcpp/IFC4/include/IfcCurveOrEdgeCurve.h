@@ -22,11 +22,8 @@
 class IfcCurveOrEdgeCurve : virtual public IfcPPObject
 {
 public:
-	IfcCurveOrEdgeCurve();
-	~IfcCurveOrEdgeCurve();
-	virtual const char* classname() const { return "IfcCurveOrEdgeCurve"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	static shared_ptr<IfcCurveOrEdgeCurve> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcCurveOrEdgeCurve> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

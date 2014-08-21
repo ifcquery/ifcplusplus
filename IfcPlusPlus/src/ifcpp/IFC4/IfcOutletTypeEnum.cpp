@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcOutletTypeEnum.h"
 
-// TYPE IfcOutletTypeEnum 
+// TYPE IfcOutletTypeEnum = ENUMERATION OF	(AUDIOVISUALOUTLET	,COMMUNICATIONSOUTLET	,POWEROUTLET	,DATAOUTLET	,TELEPHONEOUTLET	,USERDEFINED	,NOTDEFINED);
 IfcOutletTypeEnum::IfcOutletTypeEnum() {}
 IfcOutletTypeEnum::~IfcOutletTypeEnum() {}
-shared_ptr<IfcPPObject> IfcOutletTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOutletTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOutletTypeEnum> copy_self( new IfcOutletTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcOutletTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }

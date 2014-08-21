@@ -20,15 +20,16 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcMonthInYearNumber = INTEGER;
-class IfcMonthInYearNumber : public IfcPPInt
+class IfcMonthInYearNumber : public IfcPPObject
 {
 public:
 	IfcMonthInYearNumber();
 	IfcMonthInYearNumber( int value );
 	~IfcMonthInYearNumber();
 	virtual const char* classname() const { return "IfcMonthInYearNumber"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMonthInYearNumber> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMonthInYearNumber> createObjectFromSTEP( const std::wstring& arg );
+	int m_value;
 };
 

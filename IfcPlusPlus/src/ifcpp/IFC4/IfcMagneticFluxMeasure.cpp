@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcMagneticFluxMeasure.h"
 
-// TYPE IfcMagneticFluxMeasure 
+// TYPE IfcMagneticFluxMeasure = REAL;
 IfcMagneticFluxMeasure::IfcMagneticFluxMeasure() {}
 IfcMagneticFluxMeasure::IfcMagneticFluxMeasure( double value ) { m_value = value; }
 IfcMagneticFluxMeasure::~IfcMagneticFluxMeasure() {}
-shared_ptr<IfcPPObject> IfcMagneticFluxMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMagneticFluxMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMagneticFluxMeasure> copy_self( new IfcMagneticFluxMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMagneticFluxMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMagneticFluxMeasure> IfcMagneticFluxMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMagneticFluxMeasure> IfcMagneticFluxMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
 	shared_ptr<IfcMagneticFluxMeasure> type_object( new IfcMagneticFluxMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

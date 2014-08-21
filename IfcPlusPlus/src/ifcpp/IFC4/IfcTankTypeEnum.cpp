@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTankTypeEnum.h"
 
-// TYPE IfcTankTypeEnum 
+// TYPE IfcTankTypeEnum = ENUMERATION OF	(BASIN	,BREAKPRESSURE	,EXPANSION	,FEEDANDEXPANSION	,PRESSUREVESSEL	,STORAGE	,VESSEL	,USERDEFINED	,NOTDEFINED);
 IfcTankTypeEnum::IfcTankTypeEnum() {}
 IfcTankTypeEnum::~IfcTankTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTankTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTankTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTankTypeEnum> copy_self( new IfcTankTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }

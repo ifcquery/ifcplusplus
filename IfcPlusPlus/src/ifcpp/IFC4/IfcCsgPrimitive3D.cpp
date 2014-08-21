@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,26 +28,23 @@
 IfcCsgPrimitive3D::IfcCsgPrimitive3D() {}
 IfcCsgPrimitive3D::IfcCsgPrimitive3D( int id ) { m_id = id; }
 IfcCsgPrimitive3D::~IfcCsgPrimitive3D() {}
-shared_ptr<IfcPPObject> IfcCsgPrimitive3D::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCsgPrimitive3D::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCsgPrimitive3D> copy_self( new IfcCsgPrimitive3D() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCSGPRIMITIVE3D" << "(";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCsgPrimitive3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcCsgPrimitive3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCsgPrimitive3D, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcCsgPrimitive3D, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCsgPrimitive3D, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 }
 void IfcCsgPrimitive3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -32,20 +33,28 @@
 IfcRelDeclares::IfcRelDeclares() {}
 IfcRelDeclares::IfcRelDeclares( int id ) { m_id = id; }
 IfcRelDeclares::~IfcRelDeclares() {}
-shared_ptr<IfcPPObject> IfcRelDeclares::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelDeclares::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelDeclares> copy_self( new IfcRelDeclares() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingContext ) { copy_self->m_RelatingContext = dynamic_pointer_cast<IfcContext>( m_RelatingContext->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingContext ) { copy_self->m_RelatingContext = dynamic_pointer_cast<IfcContext>( m_RelatingContext->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedDefinitions.size(); ++ii )
 	{
 		auto item_ii = m_RelatedDefinitions[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedDefinitions.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedDefinitions.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -55,13 +64,13 @@ void IfcRelDeclares::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELDECLARES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingContext ) { stream << "#" << m_RelatingContext->getId(); } else { stream << "$"; }
+	if( m_RelatingContext ) { stream << "#" << m_RelatingContext->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_RelatedDefinitions, true );
 	stream << ");";
@@ -70,14 +79,11 @@ void IfcRelDeclares::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcRelDeclares::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelDeclares, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcRelDeclares, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelDeclares, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_RelatingContext, map );
 	readSelectList( args[5], m_RelatedDefinitions, map );
 }
@@ -101,7 +107,7 @@ void IfcRelDeclares::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 	IfcRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelDeclares> ptr_self = dynamic_pointer_cast<IfcRelDeclares>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcRelDeclares::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_RelatedDefinitions.size(); ++i )
+	for( size_t i=0; i<m_RelatedDefinitions.size(); ++i )
 	{
 		shared_ptr<IfcObjectDefinition>  RelatedDefinitions_IfcObjectDefinition = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatedDefinitions[i] );
 		if( RelatedDefinitions_IfcObjectDefinition )
@@ -122,17 +128,16 @@ void IfcRelDeclares::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 void IfcRelDeclares::unlinkSelf()
 {
 	IfcRelationship::unlinkSelf();
-	for( int i=0; i<m_RelatedDefinitions.size(); ++i )
+	for( size_t i=0; i<m_RelatedDefinitions.size(); ++i )
 	{
 		shared_ptr<IfcObjectDefinition>  RelatedDefinitions_IfcObjectDefinition = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatedDefinitions[i] );
 		if( RelatedDefinitions_IfcObjectDefinition )
 		{
 			std::vector<weak_ptr<IfcRelDeclares> >& HasContext_inverse = RelatedDefinitions_IfcObjectDefinition->m_HasContext_inverse;
-			std::vector<weak_ptr<IfcRelDeclares> >::iterator it_HasContext_inverse;
-			for( it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); ++it_HasContext_inverse)
+			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); ++it_HasContext_inverse)
 			{
 				shared_ptr<IfcRelDeclares> self_candidate( *it_HasContext_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasContext_inverse.erase( it_HasContext_inverse );
 					break;
@@ -143,11 +148,10 @@ void IfcRelDeclares::unlinkSelf()
 		if( RelatedDefinitions_IfcPropertyDefinition )
 		{
 			std::vector<weak_ptr<IfcRelDeclares> >& HasContext_inverse = RelatedDefinitions_IfcPropertyDefinition->m_HasContext_inverse;
-			std::vector<weak_ptr<IfcRelDeclares> >::iterator it_HasContext_inverse;
-			for( it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); ++it_HasContext_inverse)
+			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); ++it_HasContext_inverse)
 			{
 				shared_ptr<IfcRelDeclares> self_candidate( *it_HasContext_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasContext_inverse.erase( it_HasContext_inverse );
 					break;
@@ -158,11 +162,10 @@ void IfcRelDeclares::unlinkSelf()
 	if( m_RelatingContext )
 	{
 		std::vector<weak_ptr<IfcRelDeclares> >& Declares_inverse = m_RelatingContext->m_Declares_inverse;
-		std::vector<weak_ptr<IfcRelDeclares> >::iterator it_Declares_inverse;
-		for( it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); ++it_Declares_inverse)
+		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); ++it_Declares_inverse)
 		{
 			shared_ptr<IfcRelDeclares> self_candidate( *it_Declares_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				Declares_inverse.erase( it_Declares_inverse );
 				break;

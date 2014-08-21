@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLaborResourceTypeEnum.h"
 
-// TYPE IfcLaborResourceTypeEnum 
+// TYPE IfcLaborResourceTypeEnum = ENUMERATION OF	(ADMINISTRATION	,CARPENTRY	,CLEANING	,CONCRETE	,DRYWALL	,ELECTRIC	,FINISHING	,FLOORING	,GENERAL	,HVAC	,LANDSCAPING	,MASONRY	,PAINTING	,PAVING	,PLUMBING	,ROOFING	,SITEGRADING	,STEELWORK	,SURVEYING	,USERDEFINED	,NOTDEFINED);
 IfcLaborResourceTypeEnum::IfcLaborResourceTypeEnum() {}
 IfcLaborResourceTypeEnum::~IfcLaborResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcLaborResourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLaborResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLaborResourceTypeEnum> copy_self( new IfcLaborResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -118,7 +118,7 @@ void IfcLaborResourceTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLaborResourceTypeEnum> IfcLaborResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLaborResourceTypeEnum> IfcLaborResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }

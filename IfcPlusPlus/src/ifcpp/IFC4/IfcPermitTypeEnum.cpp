@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPermitTypeEnum.h"
 
-// TYPE IfcPermitTypeEnum 
+// TYPE IfcPermitTypeEnum = ENUMERATION OF	(ACCESS	,BUILDING	,WORK	,USERDEFINED	,NOTDEFINED);
 IfcPermitTypeEnum::IfcPermitTypeEnum() {}
 IfcPermitTypeEnum::~IfcPermitTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPermitTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPermitTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPermitTypeEnum> copy_self( new IfcPermitTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }

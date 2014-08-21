@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcBoundedSurface::IfcBoundedSurface() {}
 IfcBoundedSurface::IfcBoundedSurface( int id ) { m_id = id; }
 IfcBoundedSurface::~IfcBoundedSurface() {}
-shared_ptr<IfcPPObject> IfcBoundedSurface::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoundedSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoundedSurface> copy_self( new IfcBoundedSurface() );
 	return copy_self;

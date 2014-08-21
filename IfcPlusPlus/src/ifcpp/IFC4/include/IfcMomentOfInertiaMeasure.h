@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMomentOfInertiaMeasure = REAL;
-class IfcMomentOfInertiaMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcMomentOfInertiaMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMomentOfInertiaMeasure();
 	IfcMomentOfInertiaMeasure( double value );
 	~IfcMomentOfInertiaMeasure();
 	virtual const char* classname() const { return "IfcMomentOfInertiaMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMomentOfInertiaMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMomentOfInertiaMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

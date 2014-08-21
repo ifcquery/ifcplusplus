@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,22 +31,30 @@
 IfcRelFlowControlElements::IfcRelFlowControlElements() {}
 IfcRelFlowControlElements::IfcRelFlowControlElements( int id ) { m_id = id; }
 IfcRelFlowControlElements::~IfcRelFlowControlElements() {}
-shared_ptr<IfcPPObject> IfcRelFlowControlElements::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelFlowControlElements::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelFlowControlElements> copy_self( new IfcRelFlowControlElements() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedControlElements.size(); ++ii )
 	{
 		auto item_ii = m_RelatedControlElements[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedControlElements.push_back( dynamic_pointer_cast<IfcDistributionControlElement>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedControlElements.push_back( dynamic_pointer_cast<IfcDistributionControlElement>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_RelatingFlowElement ) { copy_self->m_RelatingFlowElement = dynamic_pointer_cast<IfcDistributionFlowElement>( m_RelatingFlowElement->getDeepCopy() ); }
+	if( m_RelatingFlowElement ) { copy_self->m_RelatingFlowElement = dynamic_pointer_cast<IfcDistributionFlowElement>( m_RelatingFlowElement->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
@@ -53,7 +62,7 @@ void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELFLOWCONTROLELEMENTS" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -61,21 +70,18 @@ void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeEntityList( stream, m_RelatedControlElements );
 	stream << ",";
-	if( m_RelatingFlowElement ) { stream << "#" << m_RelatingFlowElement->getId(); } else { stream << "$"; }
+	if( m_RelatingFlowElement ) { stream << "#" << m_RelatingFlowElement->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReferenceList( args[4], m_RelatedControlElements, map );
 	readEntityReference( args[5], m_RelatingFlowElement, map );
 }
@@ -99,7 +105,7 @@ void IfcRelFlowControlElements::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelFlowControlElements> ptr_self = dynamic_pointer_cast<IfcRelFlowControlElements>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcRelFlowControlElements::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_RelatedControlElements.size(); ++i )
+	for( size_t i=0; i<m_RelatedControlElements.size(); ++i )
 	{
 		if( m_RelatedControlElements[i] )
 		{
@@ -114,16 +120,15 @@ void IfcRelFlowControlElements::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 void IfcRelFlowControlElements::unlinkSelf()
 {
 	IfcRelConnects::unlinkSelf();
-	for( int i=0; i<m_RelatedControlElements.size(); ++i )
+	for( size_t i=0; i<m_RelatedControlElements.size(); ++i )
 	{
 		if( m_RelatedControlElements[i] )
 		{
 			std::vector<weak_ptr<IfcRelFlowControlElements> >& AssignedToFlowElement_inverse = m_RelatedControlElements[i]->m_AssignedToFlowElement_inverse;
-			std::vector<weak_ptr<IfcRelFlowControlElements> >::iterator it_AssignedToFlowElement_inverse;
-			for( it_AssignedToFlowElement_inverse = AssignedToFlowElement_inverse.begin(); it_AssignedToFlowElement_inverse != AssignedToFlowElement_inverse.end(); ++it_AssignedToFlowElement_inverse)
+			for( auto it_AssignedToFlowElement_inverse = AssignedToFlowElement_inverse.begin(); it_AssignedToFlowElement_inverse != AssignedToFlowElement_inverse.end(); ++it_AssignedToFlowElement_inverse)
 			{
 				shared_ptr<IfcRelFlowControlElements> self_candidate( *it_AssignedToFlowElement_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					AssignedToFlowElement_inverse.erase( it_AssignedToFlowElement_inverse );
 					break;
@@ -134,11 +139,10 @@ void IfcRelFlowControlElements::unlinkSelf()
 	if( m_RelatingFlowElement )
 	{
 		std::vector<weak_ptr<IfcRelFlowControlElements> >& HasControlElements_inverse = m_RelatingFlowElement->m_HasControlElements_inverse;
-		std::vector<weak_ptr<IfcRelFlowControlElements> >::iterator it_HasControlElements_inverse;
-		for( it_HasControlElements_inverse = HasControlElements_inverse.begin(); it_HasControlElements_inverse != HasControlElements_inverse.end(); ++it_HasControlElements_inverse)
+		for( auto it_HasControlElements_inverse = HasControlElements_inverse.begin(); it_HasControlElements_inverse != HasControlElements_inverse.end(); ++it_HasControlElements_inverse)
 		{
 			shared_ptr<IfcRelFlowControlElements> self_candidate( *it_HasControlElements_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasControlElements_inverse.erase( it_HasControlElements_inverse );
 				break;

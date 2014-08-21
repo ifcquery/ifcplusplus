@@ -35,9 +35,9 @@ public:
 	IfcCurveInterpolationEnum( IfcCurveInterpolationEnumEnum e ) { m_enum = e; }
 	~IfcCurveInterpolationEnum();
 	virtual const char* classname() const { return "IfcCurveInterpolationEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCurveInterpolationEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCurveInterpolationEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcCurveInterpolationEnumEnum m_enum;
 };
 

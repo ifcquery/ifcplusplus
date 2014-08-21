@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcUnitEnum.h"
 
-// TYPE IfcUnitEnum 
+// TYPE IfcUnitEnum = ENUMERATION OF	(ABSORBEDDOSEUNIT	,AMOUNTOFSUBSTANCEUNIT	,AREAUNIT	,DOSEEQUIVALENTUNIT	,ELECTRICCAPACITANCEUNIT	,ELECTRICCHARGEUNIT	,ELECTRICCONDUCTANCEUNIT	,ELECTRICCURRENTUNIT	,ELECTRICRESISTANCEUNIT	,ELECTRICVOLTAGEUNIT	,ENERGYUNIT	,FORCEUNIT	,FREQUENCYUNIT	,ILLUMINANCEUNIT	,INDUCTANCEUNIT	,LENGTHUNIT	,LUMINOUSFLUXUNIT	,LUMINOUSINTENSITYUNIT	,MAGNETICFLUXDENSITYUNIT	,MAGNETICFLUXUNIT	,MASSUNIT	,PLANEANGLEUNIT	,POWERUNIT	,PRESSUREUNIT	,RADIOACTIVITYUNIT	,SOLIDANGLEUNIT	,THERMODYNAMICTEMPERATUREUNIT	,TIMEUNIT	,VOLUMEUNIT	,USERDEFINED);
 IfcUnitEnum::IfcUnitEnum() {}
 IfcUnitEnum::~IfcUnitEnum() {}
-shared_ptr<IfcPPObject> IfcUnitEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcUnitEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcUnitEnum> copy_self( new IfcUnitEnum() );
 	copy_self->m_enum = m_enum;
@@ -154,7 +154,7 @@ void IfcUnitEnum::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcUnitEnum> IfcUnitEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcUnitEnum> IfcUnitEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitEnum>(); }

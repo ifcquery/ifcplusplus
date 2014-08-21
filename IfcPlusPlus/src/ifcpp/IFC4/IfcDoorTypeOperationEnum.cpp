@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDoorTypeOperationEnum.h"
 
-// TYPE IfcDoorTypeOperationEnum 
+// TYPE IfcDoorTypeOperationEnum = ENUMERATION OF	(SINGLE_SWING_LEFT	,SINGLE_SWING_RIGHT	,DOUBLE_DOOR_SINGLE_SWING	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT	,DOUBLE_SWING_LEFT	,DOUBLE_SWING_RIGHT	,DOUBLE_DOOR_DOUBLE_SWING	,SLIDING_TO_LEFT	,SLIDING_TO_RIGHT	,DOUBLE_DOOR_SLIDING	,FOLDING_TO_LEFT	,FOLDING_TO_RIGHT	,DOUBLE_DOOR_FOLDING	,REVOLVING	,ROLLINGUP	,SWING_FIXED_LEFT	,SWING_FIXED_RIGHT	,USERDEFINED	,NOTDEFINED);
 IfcDoorTypeOperationEnum::IfcDoorTypeOperationEnum() {}
 IfcDoorTypeOperationEnum::~IfcDoorTypeOperationEnum() {}
-shared_ptr<IfcPPObject> IfcDoorTypeOperationEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDoorTypeOperationEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDoorTypeOperationEnum> copy_self( new IfcDoorTypeOperationEnum() );
 	copy_self->m_enum = m_enum;
@@ -114,7 +114,7 @@ void IfcDoorTypeOperationEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorTypeOperationEnum> IfcDoorTypeOperationEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDoorTypeOperationEnum> IfcDoorTypeOperationEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorTypeOperationEnum>(); }

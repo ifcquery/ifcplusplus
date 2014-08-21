@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCurveInterpolationEnum.h"
 
-// TYPE IfcCurveInterpolationEnum 
+// TYPE IfcCurveInterpolationEnum = ENUMERATION OF	(LINEAR	,LOG_LINEAR	,LOG_LOG	,NOTDEFINED);
 IfcCurveInterpolationEnum::IfcCurveInterpolationEnum() {}
 IfcCurveInterpolationEnum::~IfcCurveInterpolationEnum() {}
-shared_ptr<IfcPPObject> IfcCurveInterpolationEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCurveInterpolationEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCurveInterpolationEnum> copy_self( new IfcCurveInterpolationEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }

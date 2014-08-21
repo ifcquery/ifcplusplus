@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcArithmeticOperatorEnum.h"
 
-// TYPE IfcArithmeticOperatorEnum 
+// TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
 IfcArithmeticOperatorEnum::IfcArithmeticOperatorEnum() {}
 IfcArithmeticOperatorEnum::~IfcArithmeticOperatorEnum() {}
-shared_ptr<IfcPPObject> IfcArithmeticOperatorEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcArithmeticOperatorEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcArithmeticOperatorEnum> copy_self( new IfcArithmeticOperatorEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }

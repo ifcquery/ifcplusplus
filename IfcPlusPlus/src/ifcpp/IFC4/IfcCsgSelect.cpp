@@ -16,57 +16,20 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "include/IfcCsgSelect.h"
 
-// TYPE IfcCsgSelect 
-IfcCsgSelect::IfcCsgSelect() {}
-IfcCsgSelect::~IfcCsgSelect() {}
-shared_ptr<IfcCsgSelect> IfcCsgSelect::createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+// TYPE IfcCsgSelect = SELECT	(IfcBooleanResult	,IfcCsgPrimitive3D);
+shared_ptr<IfcCsgSelect> IfcCsgSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// Read SELECT TYPE
+	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcCsgSelect>(); }
-	if( arg[0] == '#' )
-	{
-		int id=std::stoi( arg.substr(1,arg.length()-1).c_str() );
-		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map.find( id );
-		if( it_entity != map.end() )
-		{
-			shared_ptr<IfcCsgSelect> type_object = dynamic_pointer_cast<IfcCsgSelect>(it_entity->second);
-			return type_object;
-		}
-		else
-		{
-			std::stringstream strs;
-			strs << "Object width id " << id << " not found";
-			throw IfcPPException( strs.str() );
-		}
-	}
-	else if( arg.compare(L"$")==0 )
+	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcCsgSelect>();
 	}
-	else if( arg.compare(L"*")==0 )
+	if( arg.compare(L"*")==0 )
 	{
 		return shared_ptr<IfcCsgSelect>();
 	}
-	else
-	{
-		// inline arguments
-		std::wstring keyword;
-		std::wstring inline_arg;
-		tokenizeInlineArgument( arg, keyword, inline_arg );
-		shared_ptr<IfcPPObject> result_object;
-		readInlineTypeOrEntity( keyword, inline_arg, result_object, map );
-		if( result_object )
-		{
-			shared_ptr<IfcPPObject> result_ptr( result_object );
-			shared_ptr<IfcCsgSelect> result_ptr_self = dynamic_pointer_cast<IfcCsgSelect>( result_ptr );
-			if( result_ptr_self )
-			{
-				return result_ptr_self;
-			}
-		}
-		std::wstringstream strs;
-		strs << "unhandled inline argument: " << arg << " in function IfcCsgSelect::readStepData" << std::endl;
-		throw IfcPPException( strs.str() );
-	}
-	return shared_ptr<IfcCsgSelect>();
+	shared_ptr<IfcCsgSelect> result_object;
+	readSelectType( arg, result_object, map );
+	return result_object;
 }

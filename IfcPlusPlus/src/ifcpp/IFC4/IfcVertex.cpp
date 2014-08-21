@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcVertex::IfcVertex() {}
 IfcVertex::IfcVertex( int id ) { m_id = id; }
 IfcVertex::~IfcVertex() {}
-shared_ptr<IfcPPObject> IfcVertex::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVertex::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVertex> copy_self( new IfcVertex() );
 	return copy_self;

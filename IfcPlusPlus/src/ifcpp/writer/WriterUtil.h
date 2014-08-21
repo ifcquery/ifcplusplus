@@ -100,7 +100,7 @@ void writeEntityList( std::stringstream& stream, const std::vector<shared_ptr<T>
 
 		if( (*it) )
 		{
-			stream << "#" << (*it)->getId();
+			stream << "#" << (*it)->m_id;
 		}
 		else
 		{

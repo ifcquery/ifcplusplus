@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,11 +29,11 @@
 IfcCircle::IfcCircle() {}
 IfcCircle::IfcCircle( int id ) { m_id = id; }
 IfcCircle::~IfcCircle() {}
-shared_ptr<IfcPPObject> IfcCircle::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCircle::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCircle> copy_self( new IfcCircle() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy() ); }
-	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
+	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCircle::getStepLine( std::stringstream& stream ) const
@@ -47,12 +48,9 @@ void IfcCircle::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcCircle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Position = IfcAxis2Placement::createObjectFromStepData( args[0], map );
-	m_Radius = IfcPositiveLengthMeasure::createObjectFromStepData( args[1] );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
+	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 }
 void IfcCircle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

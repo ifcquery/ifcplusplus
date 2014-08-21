@@ -38,9 +38,9 @@ public:
 	IfcActionRequestTypeEnum( IfcActionRequestTypeEnumEnum e ) { m_enum = e; }
 	~IfcActionRequestTypeEnum();
 	virtual const char* classname() const { return "IfcActionRequestTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcActionRequestTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcActionRequestTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcActionRequestTypeEnumEnum m_enum;
 };
 

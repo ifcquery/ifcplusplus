@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcIndexedTextureMap::IfcIndexedTextureMap() {}
 IfcIndexedTextureMap::IfcIndexedTextureMap( int id ) { m_id = id; }
 IfcIndexedTextureMap::~IfcIndexedTextureMap() {}
-shared_ptr<IfcPPObject> IfcIndexedTextureMap::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIndexedTextureMap::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIndexedTextureMap> copy_self( new IfcIndexedTextureMap() );
 	for( size_t ii=0; ii<m_Maps.size(); ++ii )
@@ -35,11 +36,11 @@ shared_ptr<IfcPPObject> IfcIndexedTextureMap::getDeepCopy()
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy() ) );
+			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy() ); }
-	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy() ); }
+	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
+	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcIndexedTextureMap::getStepLine( std::stringstream& stream ) const
@@ -47,19 +48,16 @@ void IfcIndexedTextureMap::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCINDEXEDTEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "$"; }
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TexCoords ) { stream << "#" << m_TexCoords->getId(); } else { stream << "$"; }
+	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcIndexedTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcIndexedTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedTextureMap, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcIndexedTextureMap, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedTextureMap, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );
@@ -90,11 +88,10 @@ void IfcIndexedTextureMap::unlinkSelf()
 	if( m_MappedTo )
 	{
 		std::vector<weak_ptr<IfcIndexedTextureMap> >& HasTextures_inverse = m_MappedTo->m_HasTextures_inverse;
-		std::vector<weak_ptr<IfcIndexedTextureMap> >::iterator it_HasTextures_inverse;
-		for( it_HasTextures_inverse = HasTextures_inverse.begin(); it_HasTextures_inverse != HasTextures_inverse.end(); ++it_HasTextures_inverse)
+		for( auto it_HasTextures_inverse = HasTextures_inverse.begin(); it_HasTextures_inverse != HasTextures_inverse.end(); ++it_HasTextures_inverse)
 		{
 			shared_ptr<IfcIndexedTextureMap> self_candidate( *it_HasTextures_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasTextures_inverse.erase( it_HasTextures_inverse );
 				break;

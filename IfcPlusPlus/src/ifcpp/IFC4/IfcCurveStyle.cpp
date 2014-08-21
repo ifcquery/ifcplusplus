@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,13 +29,13 @@
 IfcCurveStyle::IfcCurveStyle() {}
 IfcCurveStyle::IfcCurveStyle( int id ) { m_id = id; }
 IfcCurveStyle::~IfcCurveStyle() {}
-shared_ptr<IfcPPObject> IfcCurveStyle::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCurveStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyle> copy_self( new IfcCurveStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_CurveFont ) { copy_self->m_CurveFont = dynamic_pointer_cast<IfcCurveFontOrScaledCurveFontSelect>( m_CurveFont->getDeepCopy() ); }
-	if( m_CurveWidth ) { copy_self->m_CurveWidth = dynamic_pointer_cast<IfcSizeSelect>( m_CurveWidth->getDeepCopy() ); }
-	if( m_CurveColour ) { copy_self->m_CurveColour = dynamic_pointer_cast<IfcColour>( m_CurveColour->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_CurveFont ) { copy_self->m_CurveFont = dynamic_pointer_cast<IfcCurveFontOrScaledCurveFontSelect>( m_CurveFont->getDeepCopy(options) ); }
+	if( m_CurveWidth ) { copy_self->m_CurveWidth = dynamic_pointer_cast<IfcSizeSelect>( m_CurveWidth->getDeepCopy(options) ); }
+	if( m_CurveColour ) { copy_self->m_CurveColour = dynamic_pointer_cast<IfcColour>( m_CurveColour->getDeepCopy(options) ); }
 	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = m_ModelOrDraughting; }
 	return copy_self;
 }
@@ -57,14 +58,11 @@ void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool ) const { 
 void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyle, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcCurveStyle, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_CurveFont = IfcCurveFontOrScaledCurveFontSelect::createObjectFromStepData( args[1], map );
-	m_CurveWidth = IfcSizeSelect::createObjectFromStepData( args[2], map );
-	m_CurveColour = IfcColour::createObjectFromStepData( args[3], map );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyle, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_CurveFont = IfcCurveFontOrScaledCurveFontSelect::createObjectFromSTEP( args[1], map );
+	m_CurveWidth = IfcSizeSelect::createObjectFromSTEP( args[2], map );
+	m_CurveColour = IfcColour::createObjectFromSTEP( args[3], map );
 	if( boost::iequals( args[4], L".F." ) ) { m_ModelOrDraughting = false; }
 	else if( boost::iequals( args[4], L".T." ) ) { m_ModelOrDraughting = true; }
 }
@@ -74,7 +72,7 @@ void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "CurveFont", m_CurveFont ) );
 	vec_attributes.push_back( std::make_pair( "CurveWidth", m_CurveWidth ) );
 	vec_attributes.push_back( std::make_pair( "CurveColour", m_CurveColour ) );
-	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBool>( new IfcPPBool( m_ModelOrDraughting ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelOrDraughting ) ) ) );
 }
 void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

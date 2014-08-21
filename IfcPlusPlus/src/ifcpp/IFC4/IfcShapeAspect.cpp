@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,7 +31,7 @@
 IfcShapeAspect::IfcShapeAspect() {}
 IfcShapeAspect::IfcShapeAspect( int id ) { m_id = id; }
 IfcShapeAspect::~IfcShapeAspect() {}
-shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy()
+shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcShapeAspect> copy_self( new IfcShapeAspect() );
 	for( size_t ii=0; ii<m_ShapeRepresentations.size(); ++ii )
@@ -38,13 +39,13 @@ shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy()
 		auto item_ii = m_ShapeRepresentations[ii];
 		if( item_ii )
 		{
-			copy_self->m_ShapeRepresentations.push_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy() ) );
+			copy_self->m_ShapeRepresentations.push_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_ProductDefinitional ) { copy_self->m_ProductDefinitional = m_ProductDefinitional; }
-	if( m_PartOfProductDefinitionShape ) { copy_self->m_PartOfProductDefinitionShape = dynamic_pointer_cast<IfcProductRepresentationSelect>( m_PartOfProductDefinitionShape->getDeepCopy() ); }
+	if( m_PartOfProductDefinitionShape ) { copy_self->m_PartOfProductDefinitionShape = dynamic_pointer_cast<IfcProductRepresentationSelect>( m_PartOfProductDefinitionShape->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
@@ -67,17 +68,14 @@ void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_ShapeRepresentations, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[1] );
-	m_Description = IfcText::createObjectFromStepData( args[2] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
+	m_Description = IfcText::createObjectFromSTEP( args[2] );
 	if( boost::iequals( args[3], L".F." ) ) { m_ProductDefinitional = LOGICAL_FALSE; }
 	else if( boost::iequals( args[3], L".T." ) ) { m_ProductDefinitional = LOGICAL_TRUE; }
 	else if( boost::iequals( args[3], L".U." ) ) { m_ProductDefinitional = LOGICAL_UNKNOWN; }
-	m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromStepData( args[4], map );
+	m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromSTEP( args[4], map );
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -89,7 +87,7 @@ void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_pt
 	}
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "ProductDefinitional", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_ProductDefinitional ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ProductDefinitional", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_ProductDefinitional ) ) ) );
 	vec_attributes.push_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
 }
 void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
@@ -109,7 +107,7 @@ void IfcShapeAspect::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 	{
 		PartOfProductDefinitionShape_IfcRepresentationMap->m_HasShapeAspects_inverse.push_back( ptr_self );
 	}
-	for( int i=0; i<m_ShapeRepresentations.size(); ++i )
+	for( size_t i=0; i<m_ShapeRepresentations.size(); ++i )
 	{
 		if( m_ShapeRepresentations[i] )
 		{
@@ -123,11 +121,10 @@ void IfcShapeAspect::unlinkSelf()
 	if( PartOfProductDefinitionShape_IfcProductDefinitionShape )
 	{
 		std::vector<weak_ptr<IfcShapeAspect> >& HasShapeAspects_inverse = PartOfProductDefinitionShape_IfcProductDefinitionShape->m_HasShapeAspects_inverse;
-		std::vector<weak_ptr<IfcShapeAspect> >::iterator it_HasShapeAspects_inverse;
-		for( it_HasShapeAspects_inverse = HasShapeAspects_inverse.begin(); it_HasShapeAspects_inverse != HasShapeAspects_inverse.end(); ++it_HasShapeAspects_inverse)
+		for( auto it_HasShapeAspects_inverse = HasShapeAspects_inverse.begin(); it_HasShapeAspects_inverse != HasShapeAspects_inverse.end(); ++it_HasShapeAspects_inverse)
 		{
 			shared_ptr<IfcShapeAspect> self_candidate( *it_HasShapeAspects_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasShapeAspects_inverse.erase( it_HasShapeAspects_inverse );
 				break;
@@ -138,27 +135,25 @@ void IfcShapeAspect::unlinkSelf()
 	if( PartOfProductDefinitionShape_IfcRepresentationMap )
 	{
 		std::vector<weak_ptr<IfcShapeAspect> >& HasShapeAspects_inverse = PartOfProductDefinitionShape_IfcRepresentationMap->m_HasShapeAspects_inverse;
-		std::vector<weak_ptr<IfcShapeAspect> >::iterator it_HasShapeAspects_inverse;
-		for( it_HasShapeAspects_inverse = HasShapeAspects_inverse.begin(); it_HasShapeAspects_inverse != HasShapeAspects_inverse.end(); ++it_HasShapeAspects_inverse)
+		for( auto it_HasShapeAspects_inverse = HasShapeAspects_inverse.begin(); it_HasShapeAspects_inverse != HasShapeAspects_inverse.end(); ++it_HasShapeAspects_inverse)
 		{
 			shared_ptr<IfcShapeAspect> self_candidate( *it_HasShapeAspects_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasShapeAspects_inverse.erase( it_HasShapeAspects_inverse );
 				break;
 			}
 		}
 	}
-	for( int i=0; i<m_ShapeRepresentations.size(); ++i )
+	for( size_t i=0; i<m_ShapeRepresentations.size(); ++i )
 	{
 		if( m_ShapeRepresentations[i] )
 		{
 			std::vector<weak_ptr<IfcShapeAspect> >& OfShapeAspect_inverse = m_ShapeRepresentations[i]->m_OfShapeAspect_inverse;
-			std::vector<weak_ptr<IfcShapeAspect> >::iterator it_OfShapeAspect_inverse;
-			for( it_OfShapeAspect_inverse = OfShapeAspect_inverse.begin(); it_OfShapeAspect_inverse != OfShapeAspect_inverse.end(); ++it_OfShapeAspect_inverse)
+			for( auto it_OfShapeAspect_inverse = OfShapeAspect_inverse.begin(); it_OfShapeAspect_inverse != OfShapeAspect_inverse.end(); ++it_OfShapeAspect_inverse)
 			{
 				shared_ptr<IfcShapeAspect> self_candidate( *it_OfShapeAspect_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					OfShapeAspect_inverse.erase( it_OfShapeAspect_inverse );
 					break;

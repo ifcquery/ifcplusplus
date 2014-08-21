@@ -21,11 +21,11 @@
 #include "include/IfcSimpleValue.h"
 #include "include/IfcText.h"
 
-// TYPE IfcText 
+// TYPE IfcText = STRING;
 IfcText::IfcText() {}
 IfcText::IfcText( std::wstring value ) { m_value = value; }
 IfcText::~IfcText() {}
-shared_ptr<IfcPPObject> IfcText::getDeepCopy()
+shared_ptr<IfcPPObject> IfcText::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcText> copy_self( new IfcText() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcText::getStepParameter( std::stringstream& stream, bool is_select_type )
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcText> IfcText::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcText> IfcText::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcText>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcText>(); }
 	shared_ptr<IfcText> type_object( new IfcText() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

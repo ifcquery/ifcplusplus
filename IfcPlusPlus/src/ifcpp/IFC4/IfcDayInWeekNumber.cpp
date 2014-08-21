@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDayInWeekNumber.h"
 
-// TYPE IfcDayInWeekNumber 
+// TYPE IfcDayInWeekNumber = INTEGER;
 IfcDayInWeekNumber::IfcDayInWeekNumber() {}
 IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
 IfcDayInWeekNumber::~IfcDayInWeekNumber() {}
-shared_ptr<IfcPPObject> IfcDayInWeekNumber::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDayInWeekNumber::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcDayInWeekNumber::getStepParameter( std::stringstream& stream, bool is_se
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDayInWeekNumber> IfcDayInWeekNumber::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDayInWeekNumber> IfcDayInWeekNumber::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	shared_ptr<IfcDayInWeekNumber> type_object( new IfcDayInWeekNumber() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

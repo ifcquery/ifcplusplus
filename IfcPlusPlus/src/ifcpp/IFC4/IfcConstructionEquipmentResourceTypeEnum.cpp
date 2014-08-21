@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcConstructionEquipmentResourceTypeEnum.h"
 
-// TYPE IfcConstructionEquipmentResourceTypeEnum 
+// TYPE IfcConstructionEquipmentResourceTypeEnum = ENUMERATION OF	(DEMOLISHING	,EARTHMOVING	,ERECTING	,HEATING	,LIGHTING	,PAVING	,PUMPING	,TRANSPORTING	,USERDEFINED	,NOTDEFINED);
 IfcConstructionEquipmentResourceTypeEnum::IfcConstructionEquipmentResourceTypeEnum() {}
 IfcConstructionEquipmentResourceTypeEnum::~IfcConstructionEquipmentResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcConstructionEquipmentResourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConstructionEquipmentResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConstructionEquipmentResourceTypeEnum> copy_self( new IfcConstructionEquipmentResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcConstructionEquipmentResourceTypeEnum::getStepParameter( std::stringstre
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstructionEquipmentResourceTypeEnum> IfcConstructionEquipmentResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcConstructionEquipmentResourceTypeEnum> IfcConstructionEquipmentResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionEquipmentResourceTypeEnum>(); }

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcStairTypeEnum.h"
 
-// TYPE IfcStairTypeEnum 
+// TYPE IfcStairTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_STAIR	,TWO_STRAIGHT_RUN_STAIR	,QUARTER_WINDING_STAIR	,QUARTER_TURN_STAIR	,HALF_WINDING_STAIR	,HALF_TURN_STAIR	,TWO_QUARTER_WINDING_STAIR	,TWO_QUARTER_TURN_STAIR	,THREE_QUARTER_WINDING_STAIR	,THREE_QUARTER_TURN_STAIR	,SPIRAL_STAIR	,DOUBLE_RETURN_STAIR	,CURVED_RUN_STAIR	,TWO_CURVED_RUN_STAIR	,USERDEFINED	,NOTDEFINED);
 IfcStairTypeEnum::IfcStairTypeEnum() {}
 IfcStairTypeEnum::~IfcStairTypeEnum() {}
-shared_ptr<IfcPPObject> IfcStairTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStairTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStairTypeEnum> copy_self( new IfcStairTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -98,7 +98,7 @@ void IfcStairTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStairTypeEnum> IfcStairTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcStairTypeEnum> IfcStairTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStairTypeEnum>(); }

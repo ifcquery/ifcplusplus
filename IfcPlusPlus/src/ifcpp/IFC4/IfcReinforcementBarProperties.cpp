@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,15 +32,15 @@
 IfcReinforcementBarProperties::IfcReinforcementBarProperties() {}
 IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_id = id; }
 IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
-shared_ptr<IfcPPObject> IfcReinforcementBarProperties::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReinforcementBarProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReinforcementBarProperties> copy_self( new IfcReinforcementBarProperties() );
-	if( m_TotalCrossSectionArea ) { copy_self->m_TotalCrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_TotalCrossSectionArea->getDeepCopy() ); }
-	if( m_SteelGrade ) { copy_self->m_SteelGrade = dynamic_pointer_cast<IfcLabel>( m_SteelGrade->getDeepCopy() ); }
-	if( m_BarSurface ) { copy_self->m_BarSurface = dynamic_pointer_cast<IfcReinforcingBarSurfaceEnum>( m_BarSurface->getDeepCopy() ); }
-	if( m_EffectiveDepth ) { copy_self->m_EffectiveDepth = dynamic_pointer_cast<IfcLengthMeasure>( m_EffectiveDepth->getDeepCopy() ); }
-	if( m_NominalBarDiameter ) { copy_self->m_NominalBarDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalBarDiameter->getDeepCopy() ); }
-	if( m_BarCount ) { copy_self->m_BarCount = dynamic_pointer_cast<IfcCountMeasure>( m_BarCount->getDeepCopy() ); }
+	if( m_TotalCrossSectionArea ) { copy_self->m_TotalCrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_TotalCrossSectionArea->getDeepCopy(options) ); }
+	if( m_SteelGrade ) { copy_self->m_SteelGrade = dynamic_pointer_cast<IfcLabel>( m_SteelGrade->getDeepCopy(options) ); }
+	if( m_BarSurface ) { copy_self->m_BarSurface = dynamic_pointer_cast<IfcReinforcingBarSurfaceEnum>( m_BarSurface->getDeepCopy(options) ); }
+	if( m_EffectiveDepth ) { copy_self->m_EffectiveDepth = dynamic_pointer_cast<IfcLengthMeasure>( m_EffectiveDepth->getDeepCopy(options) ); }
+	if( m_NominalBarDiameter ) { copy_self->m_NominalBarDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalBarDiameter->getDeepCopy(options) ); }
+	if( m_BarCount ) { copy_self->m_BarCount = dynamic_pointer_cast<IfcCountMeasure>( m_BarCount->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) const
@@ -62,16 +63,13 @@ void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream,
 void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_TotalCrossSectionArea = IfcAreaMeasure::createObjectFromStepData( args[0] );
-	m_SteelGrade = IfcLabel::createObjectFromStepData( args[1] );
-	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromStepData( args[2] );
-	m_EffectiveDepth = IfcLengthMeasure::createObjectFromStepData( args[3] );
-	m_NominalBarDiameter = IfcPositiveLengthMeasure::createObjectFromStepData( args[4] );
-	m_BarCount = IfcCountMeasure::createObjectFromStepData( args[5] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_TotalCrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[0] );
+	m_SteelGrade = IfcLabel::createObjectFromSTEP( args[1] );
+	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[2] );
+	m_EffectiveDepth = IfcLengthMeasure::createObjectFromSTEP( args[3] );
+	m_NominalBarDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4] );
+	m_BarCount = IfcCountMeasure::createObjectFromSTEP( args[5] );
 }
 void IfcReinforcementBarProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

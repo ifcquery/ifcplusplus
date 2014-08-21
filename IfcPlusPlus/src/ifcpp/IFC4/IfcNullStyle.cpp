@@ -21,10 +21,10 @@
 #include "include/IfcPresentationStyleSelect.h"
 #include "include/IfcNullStyle.h"
 
-// TYPE IfcNullStyle 
+// TYPE IfcNullStyle = ENUMERATION OF	(NULL);
 IfcNullStyle::IfcNullStyle() {}
 IfcNullStyle::~IfcNullStyle() {}
-shared_ptr<IfcPPObject> IfcNullStyle::getDeepCopy()
+shared_ptr<IfcPPObject> IfcNullStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcNullStyle> copy_self( new IfcNullStyle() );
 	copy_self->m_enum = m_enum;
@@ -39,7 +39,7 @@ void IfcNullStyle::getStepParameter( std::stringstream& stream, bool is_select_t
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }

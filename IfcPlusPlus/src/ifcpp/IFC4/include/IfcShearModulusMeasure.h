@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcShearModulusMeasure = REAL;
-class IfcShearModulusMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcShearModulusMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcShearModulusMeasure();
 	IfcShearModulusMeasure( double value );
 	~IfcShearModulusMeasure();
 	virtual const char* classname() const { return "IfcShearModulusMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcShearModulusMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcShearModulusMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

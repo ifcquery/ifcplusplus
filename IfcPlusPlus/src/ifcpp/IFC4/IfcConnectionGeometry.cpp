@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -24,7 +25,7 @@
 IfcConnectionGeometry::IfcConnectionGeometry() {}
 IfcConnectionGeometry::IfcConnectionGeometry( int id ) { m_id = id; }
 IfcConnectionGeometry::~IfcConnectionGeometry() {}
-shared_ptr<IfcPPObject> IfcConnectionGeometry::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConnectionGeometry::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConnectionGeometry> copy_self( new IfcConnectionGeometry() );
 	return copy_self;

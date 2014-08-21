@@ -40,57 +40,20 @@
 #include "include/IfcValue.h"
 #include "include/IfcMeasureValue.h"
 
-// TYPE IfcMeasureValue 
-IfcMeasureValue::IfcMeasureValue() {}
-IfcMeasureValue::~IfcMeasureValue() {}
-shared_ptr<IfcMeasureValue> IfcMeasureValue::createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+// TYPE IfcMeasureValue = SELECT	(IfcAmountOfSubstanceMeasure	,IfcAreaMeasure	,IfcComplexNumber	,IfcContextDependentMeasure	,IfcCountMeasure	,IfcDescriptiveMeasure	,IfcElectricCurrentMeasure	,IfcLengthMeasure	,IfcLuminousIntensityMeasure	,IfcMassMeasure	,IfcNonNegativeLengthMeasure	,IfcNormalisedRatioMeasure	,IfcNumericMeasure	,IfcParameterValue	,IfcPlaneAngleMeasure	,IfcPositiveLengthMeasure	,IfcPositivePlaneAngleMeasure	,IfcPositiveRatioMeasure	,IfcRatioMeasure	,IfcSolidAngleMeasure	,IfcThermodynamicTemperatureMeasure	,IfcTimeMeasure	,IfcVolumeMeasure);
+shared_ptr<IfcMeasureValue> IfcMeasureValue::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// Read SELECT TYPE
+	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcMeasureValue>(); }
-	if( arg[0] == '#' )
-	{
-		int id=std::stoi( arg.substr(1,arg.length()-1).c_str() );
-		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map.find( id );
-		if( it_entity != map.end() )
-		{
-			shared_ptr<IfcMeasureValue> type_object = dynamic_pointer_cast<IfcMeasureValue>(it_entity->second);
-			return type_object;
-		}
-		else
-		{
-			std::stringstream strs;
-			strs << "Object width id " << id << " not found";
-			throw IfcPPException( strs.str() );
-		}
-	}
-	else if( arg.compare(L"$")==0 )
+	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcMeasureValue>();
 	}
-	else if( arg.compare(L"*")==0 )
+	if( arg.compare(L"*")==0 )
 	{
 		return shared_ptr<IfcMeasureValue>();
 	}
-	else
-	{
-		// inline arguments
-		std::wstring keyword;
-		std::wstring inline_arg;
-		tokenizeInlineArgument( arg, keyword, inline_arg );
-		shared_ptr<IfcPPObject> result_object;
-		readInlineTypeOrEntity( keyword, inline_arg, result_object, map );
-		if( result_object )
-		{
-			shared_ptr<IfcPPObject> result_ptr( result_object );
-			shared_ptr<IfcMeasureValue> result_ptr_self = dynamic_pointer_cast<IfcMeasureValue>( result_ptr );
-			if( result_ptr_self )
-			{
-				return result_ptr_self;
-			}
-		}
-		std::wstringstream strs;
-		strs << "unhandled inline argument: " << arg << " in function IfcMeasureValue::readStepData" << std::endl;
-		throw IfcPPException( strs.str() );
-	}
-	return shared_ptr<IfcMeasureValue>();
+	shared_ptr<IfcMeasureValue> result_object;
+	readSelectType( arg, result_object, map );
+	return result_object;
 }

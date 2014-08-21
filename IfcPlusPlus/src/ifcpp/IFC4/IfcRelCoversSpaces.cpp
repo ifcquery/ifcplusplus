@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,20 +31,28 @@
 IfcRelCoversSpaces::IfcRelCoversSpaces() {}
 IfcRelCoversSpaces::IfcRelCoversSpaces( int id ) { m_id = id; }
 IfcRelCoversSpaces::~IfcRelCoversSpaces() {}
-shared_ptr<IfcPPObject> IfcRelCoversSpaces::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelCoversSpaces::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelCoversSpaces> copy_self( new IfcRelCoversSpaces() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingSpace ) { copy_self->m_RelatingSpace = dynamic_pointer_cast<IfcSpace>( m_RelatingSpace->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingSpace ) { copy_self->m_RelatingSpace = dynamic_pointer_cast<IfcSpace>( m_RelatingSpace->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedCoverings.size(); ++ii )
 	{
 		auto item_ii = m_RelatedCoverings[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedCoverings.push_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedCoverings.push_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -53,13 +62,13 @@ void IfcRelCoversSpaces::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELCOVERSSPACES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingSpace ) { stream << "#" << m_RelatingSpace->getId(); } else { stream << "$"; }
+	if( m_RelatingSpace ) { stream << "#" << m_RelatingSpace->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedCoverings );
 	stream << ");";
@@ -68,14 +77,11 @@ void IfcRelCoversSpaces::getStepParameter( std::stringstream& stream, bool ) con
 void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelCoversSpaces, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcRelCoversSpaces, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelCoversSpaces, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_RelatingSpace, map );
 	readEntityReferenceList( args[5], m_RelatedCoverings, map );
 }
@@ -99,7 +105,7 @@ void IfcRelCoversSpaces::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelCoversSpaces> ptr_self = dynamic_pointer_cast<IfcRelCoversSpaces>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcRelCoversSpaces::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_RelatedCoverings.size(); ++i )
+	for( size_t i=0; i<m_RelatedCoverings.size(); ++i )
 	{
 		if( m_RelatedCoverings[i] )
 		{
@@ -114,16 +120,15 @@ void IfcRelCoversSpaces::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 void IfcRelCoversSpaces::unlinkSelf()
 {
 	IfcRelConnects::unlinkSelf();
-	for( int i=0; i<m_RelatedCoverings.size(); ++i )
+	for( size_t i=0; i<m_RelatedCoverings.size(); ++i )
 	{
 		if( m_RelatedCoverings[i] )
 		{
 			std::vector<weak_ptr<IfcRelCoversSpaces> >& CoversSpaces_inverse = m_RelatedCoverings[i]->m_CoversSpaces_inverse;
-			std::vector<weak_ptr<IfcRelCoversSpaces> >::iterator it_CoversSpaces_inverse;
-			for( it_CoversSpaces_inverse = CoversSpaces_inverse.begin(); it_CoversSpaces_inverse != CoversSpaces_inverse.end(); ++it_CoversSpaces_inverse)
+			for( auto it_CoversSpaces_inverse = CoversSpaces_inverse.begin(); it_CoversSpaces_inverse != CoversSpaces_inverse.end(); ++it_CoversSpaces_inverse)
 			{
 				shared_ptr<IfcRelCoversSpaces> self_candidate( *it_CoversSpaces_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					CoversSpaces_inverse.erase( it_CoversSpaces_inverse );
 					break;
@@ -134,11 +139,10 @@ void IfcRelCoversSpaces::unlinkSelf()
 	if( m_RelatingSpace )
 	{
 		std::vector<weak_ptr<IfcRelCoversSpaces> >& HasCoverings_inverse = m_RelatingSpace->m_HasCoverings_inverse;
-		std::vector<weak_ptr<IfcRelCoversSpaces> >::iterator it_HasCoverings_inverse;
-		for( it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); ++it_HasCoverings_inverse)
+		for( auto it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); ++it_HasCoverings_inverse)
 		{
 			shared_ptr<IfcRelCoversSpaces> self_candidate( *it_HasCoverings_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasCoverings_inverse.erase( it_HasCoverings_inverse );
 				break;

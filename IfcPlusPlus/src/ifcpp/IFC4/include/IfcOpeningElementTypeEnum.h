@@ -35,9 +35,9 @@ public:
 	IfcOpeningElementTypeEnum( IfcOpeningElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcOpeningElementTypeEnum();
 	virtual const char* classname() const { return "IfcOpeningElementTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcOpeningElementTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcOpeningElementTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcOpeningElementTypeEnumEnum m_enum;
 };
 

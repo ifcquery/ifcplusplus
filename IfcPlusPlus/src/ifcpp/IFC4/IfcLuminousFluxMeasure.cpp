@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcLuminousFluxMeasure.h"
 
-// TYPE IfcLuminousFluxMeasure 
+// TYPE IfcLuminousFluxMeasure = REAL;
 IfcLuminousFluxMeasure::IfcLuminousFluxMeasure() {}
 IfcLuminousFluxMeasure::IfcLuminousFluxMeasure( double value ) { m_value = value; }
 IfcLuminousFluxMeasure::~IfcLuminousFluxMeasure() {}
-shared_ptr<IfcPPObject> IfcLuminousFluxMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLuminousFluxMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLuminousFluxMeasure> copy_self( new IfcLuminousFluxMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcLuminousFluxMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLuminousFluxMeasure> IfcLuminousFluxMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLuminousFluxMeasure> IfcLuminousFluxMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }
 	shared_ptr<IfcLuminousFluxMeasure> type_object( new IfcLuminousFluxMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -24,13 +24,13 @@ class IfcText;
 class IfcLabel;
 class IfcRelAssignsToResource;
 //ENTITY
-class IfcTypeResource : public IfcResourceSelect, public IfcTypeObject
+class IfcTypeResource : virtual public IfcResourceSelect, public IfcTypeObject
 {
 public:
 	IfcTypeResource();
 	IfcTypeResource( int id );
 	~IfcTypeResource();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

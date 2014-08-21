@@ -35,9 +35,9 @@ public:
 	IfcColumnTypeEnum( IfcColumnTypeEnumEnum e ) { m_enum = e; }
 	~IfcColumnTypeEnum();
 	virtual const char* classname() const { return "IfcColumnTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcColumnTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcColumnTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcColumnTypeEnumEnum m_enum;
 };
 

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDoorStyleConstructionEnum.h"
 
-// TYPE IfcDoorStyleConstructionEnum 
+// TYPE IfcDoorStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,ALUMINIUM_PLASTIC	,PLASTIC	,USERDEFINED	,NOTDEFINED);
 IfcDoorStyleConstructionEnum::IfcDoorStyleConstructionEnum() {}
 IfcDoorStyleConstructionEnum::~IfcDoorStyleConstructionEnum() {}
-shared_ptr<IfcPPObject> IfcDoorStyleConstructionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDoorStyleConstructionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDoorStyleConstructionEnum> copy_self( new IfcDoorStyleConstructionEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcDoorStyleConstructionEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }

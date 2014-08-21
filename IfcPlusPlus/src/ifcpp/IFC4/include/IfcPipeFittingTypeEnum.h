@@ -40,9 +40,9 @@ public:
 	IfcPipeFittingTypeEnum( IfcPipeFittingTypeEnumEnum e ) { m_enum = e; }
 	~IfcPipeFittingTypeEnum();
 	virtual const char* classname() const { return "IfcPipeFittingTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcPipeFittingTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcPipeFittingTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcPipeFittingTypeEnumEnum m_enum;
 };
 

@@ -33,9 +33,9 @@ public:
 	IfcSectionTypeEnum( IfcSectionTypeEnumEnum e ) { m_enum = e; }
 	~IfcSectionTypeEnum();
 	virtual const char* classname() const { return "IfcSectionTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcSectionTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcSectionTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcSectionTypeEnumEnum m_enum;
 };
 

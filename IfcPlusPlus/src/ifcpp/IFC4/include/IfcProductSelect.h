@@ -22,11 +22,8 @@
 class IfcProductSelect : virtual public IfcPPObject
 {
 public:
-	IfcProductSelect();
-	~IfcProductSelect();
-	virtual const char* classname() const { return "IfcProductSelect"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	static shared_ptr<IfcProductSelect> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcProductSelect> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

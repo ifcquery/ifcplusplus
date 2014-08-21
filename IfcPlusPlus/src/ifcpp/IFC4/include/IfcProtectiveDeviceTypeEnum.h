@@ -40,9 +40,9 @@ public:
 	IfcProtectiveDeviceTypeEnum( IfcProtectiveDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcProtectiveDeviceTypeEnum();
 	virtual const char* classname() const { return "IfcProtectiveDeviceTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcProtectiveDeviceTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcProtectiveDeviceTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcProtectiveDeviceTypeEnumEnum m_enum;
 };
 

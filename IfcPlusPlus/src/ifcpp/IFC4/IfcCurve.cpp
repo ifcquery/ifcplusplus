@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcCurve::IfcCurve() {}
 IfcCurve::IfcCurve( int id ) { m_id = id; }
 IfcCurve::~IfcCurve() {}
-shared_ptr<IfcPPObject> IfcCurve::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCurve> copy_self( new IfcCurve() );
 	return copy_self;

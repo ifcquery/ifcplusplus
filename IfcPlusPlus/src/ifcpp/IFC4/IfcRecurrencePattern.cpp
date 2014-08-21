@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,16 +31,16 @@
 IfcRecurrencePattern::IfcRecurrencePattern() {}
 IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_id = id; }
 IfcRecurrencePattern::~IfcRecurrencePattern() {}
-shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRecurrencePattern> copy_self( new IfcRecurrencePattern() );
-	if( m_RecurrenceType ) { copy_self->m_RecurrenceType = dynamic_pointer_cast<IfcRecurrenceTypeEnum>( m_RecurrenceType->getDeepCopy() ); }
+	if( m_RecurrenceType ) { copy_self->m_RecurrenceType = dynamic_pointer_cast<IfcRecurrenceTypeEnum>( m_RecurrenceType->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_DayComponent.size(); ++ii )
 	{
 		auto item_ii = m_DayComponent[ii];
 		if( item_ii )
 		{
-			copy_self->m_DayComponent.push_back( dynamic_pointer_cast<IfcDayInMonthNumber>(item_ii->getDeepCopy() ) );
+			copy_self->m_DayComponent.push_back( dynamic_pointer_cast<IfcDayInMonthNumber>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_WeekdayComponent.size(); ++ii )
@@ -47,7 +48,7 @@ shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy()
 		auto item_ii = m_WeekdayComponent[ii];
 		if( item_ii )
 		{
-			copy_self->m_WeekdayComponent.push_back( dynamic_pointer_cast<IfcDayInWeekNumber>(item_ii->getDeepCopy() ) );
+			copy_self->m_WeekdayComponent.push_back( dynamic_pointer_cast<IfcDayInWeekNumber>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_MonthComponent.size(); ++ii )
@@ -55,18 +56,18 @@ shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy()
 		auto item_ii = m_MonthComponent[ii];
 		if( item_ii )
 		{
-			copy_self->m_MonthComponent.push_back( dynamic_pointer_cast<IfcMonthInYearNumber>(item_ii->getDeepCopy() ) );
+			copy_self->m_MonthComponent.push_back( dynamic_pointer_cast<IfcMonthInYearNumber>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcInteger>( m_Position->getDeepCopy() ); }
-	if( m_Interval ) { copy_self->m_Interval = dynamic_pointer_cast<IfcInteger>( m_Interval->getDeepCopy() ); }
-	if( m_Occurrences ) { copy_self->m_Occurrences = dynamic_pointer_cast<IfcInteger>( m_Occurrences->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcInteger>( m_Position->getDeepCopy(options) ); }
+	if( m_Interval ) { copy_self->m_Interval = dynamic_pointer_cast<IfcInteger>( m_Interval->getDeepCopy(options) ); }
+	if( m_Occurrences ) { copy_self->m_Occurrences = dynamic_pointer_cast<IfcInteger>( m_Occurrences->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_TimePeriods.size(); ++ii )
 	{
 		auto item_ii = m_TimePeriods[ii];
 		if( item_ii )
 		{
-			copy_self->m_TimePeriods.push_back( dynamic_pointer_cast<IfcTimePeriod>(item_ii->getDeepCopy() ) );
+			copy_self->m_TimePeriods.push_back( dynamic_pointer_cast<IfcTimePeriod>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -95,17 +96,14 @@ void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool ) c
 void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>8 ){ std::cout << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_RecurrenceType = IfcRecurrenceTypeEnum::createObjectFromStepData( args[0] );
+	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_RecurrenceType = IfcRecurrenceTypeEnum::createObjectFromSTEP( args[0] );
 	readTypeOfIntList( args[1], m_DayComponent );
 	readTypeOfIntList( args[2], m_WeekdayComponent );
 	readTypeOfIntList( args[3], m_MonthComponent );
-	m_Position = IfcInteger::createObjectFromStepData( args[4] );
-	m_Interval = IfcInteger::createObjectFromStepData( args[5] );
-	m_Occurrences = IfcInteger::createObjectFromStepData( args[6] );
+	m_Position = IfcInteger::createObjectFromSTEP( args[4] );
+	m_Interval = IfcInteger::createObjectFromSTEP( args[5] );
+	m_Occurrences = IfcInteger::createObjectFromSTEP( args[6] );
 	readEntityReferenceList( args[7], m_TimePeriods, map );
 }
 void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

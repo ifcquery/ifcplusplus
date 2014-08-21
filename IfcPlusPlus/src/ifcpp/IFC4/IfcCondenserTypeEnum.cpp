@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCondenserTypeEnum.h"
 
-// TYPE IfcCondenserTypeEnum 
+// TYPE IfcCondenserTypeEnum = ENUMERATION OF	(AIRCOOLED	,EVAPORATIVECOOLED	,WATERCOOLED	,WATERCOOLEDBRAZEDPLATE	,WATERCOOLEDSHELLCOIL	,WATERCOOLEDSHELLTUBE	,WATERCOOLEDTUBEINTUBE	,USERDEFINED	,NOTDEFINED);
 IfcCondenserTypeEnum::IfcCondenserTypeEnum() {}
 IfcCondenserTypeEnum::~IfcCondenserTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCondenserTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCondenserTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCondenserTypeEnum> copy_self( new IfcCondenserTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcCondenserTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }

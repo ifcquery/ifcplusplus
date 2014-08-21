@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcObjectPlacement::IfcObjectPlacement() {}
 IfcObjectPlacement::IfcObjectPlacement( int id ) { m_id = id; }
 IfcObjectPlacement::~IfcObjectPlacement() {}
-shared_ptr<IfcPPObject> IfcObjectPlacement::getDeepCopy()
+shared_ptr<IfcPPObject> IfcObjectPlacement::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcObjectPlacement> copy_self( new IfcObjectPlacement() );
 	return copy_self;

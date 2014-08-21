@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -42,22 +43,30 @@
 IfcGrid::IfcGrid() {}
 IfcGrid::IfcGrid( int id ) { m_id = id; }
 IfcGrid::~IfcGrid() {}
-shared_ptr<IfcPPObject> IfcGrid::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGrid::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGrid> copy_self( new IfcGrid() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
-	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_UAxes.size(); ++ii )
 	{
 		auto item_ii = m_UAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_UAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+			copy_self->m_UAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_VAxes.size(); ++ii )
@@ -65,7 +74,7 @@ shared_ptr<IfcPPObject> IfcGrid::getDeepCopy()
 		auto item_ii = m_VAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_VAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+			copy_self->m_VAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_WAxes.size(); ++ii )
@@ -73,10 +82,10 @@ shared_ptr<IfcPPObject> IfcGrid::getDeepCopy()
 		auto item_ii = m_WAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_WAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+			copy_self->m_WAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcGridTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcGridTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcGrid::getStepLine( std::stringstream& stream ) const
@@ -84,7 +93,7 @@ void IfcGrid::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCGRID" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -92,9 +101,9 @@ void IfcGrid::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_UAxes );
 	stream << ",";
@@ -109,21 +118,18 @@ void IfcGrid::getStepParameter( std::stringstream& stream, bool ) const { stream
 void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>11 ){ std::cout << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
 	readEntityReference( args[5], m_ObjectPlacement, map );
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReferenceList( args[7], m_UAxes, map );
 	readEntityReferenceList( args[8], m_VAxes, map );
 	readEntityReferenceList( args[9], m_WAxes, map );
-	m_PredefinedType = IfcGridTypeEnum::createObjectFromStepData( args[10] );
+	m_PredefinedType = IfcGridTypeEnum::createObjectFromSTEP( args[10] );
 }
 void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -169,21 +175,21 @@ void IfcGrid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcGrid> ptr_self = dynamic_pointer_cast<IfcGrid>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcGrid::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_UAxes.size(); ++i )
+	for( size_t i=0; i<m_UAxes.size(); ++i )
 	{
 		if( m_UAxes[i] )
 		{
 			m_UAxes[i]->m_PartOfU_inverse.push_back( ptr_self );
 		}
 	}
-	for( int i=0; i<m_VAxes.size(); ++i )
+	for( size_t i=0; i<m_VAxes.size(); ++i )
 	{
 		if( m_VAxes[i] )
 		{
 			m_VAxes[i]->m_PartOfV_inverse.push_back( ptr_self );
 		}
 	}
-	for( int i=0; i<m_WAxes.size(); ++i )
+	for( size_t i=0; i<m_WAxes.size(); ++i )
 	{
 		if( m_WAxes[i] )
 		{
@@ -194,16 +200,15 @@ void IfcGrid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 void IfcGrid::unlinkSelf()
 {
 	IfcProduct::unlinkSelf();
-	for( int i=0; i<m_UAxes.size(); ++i )
+	for( size_t i=0; i<m_UAxes.size(); ++i )
 	{
 		if( m_UAxes[i] )
 		{
 			std::vector<weak_ptr<IfcGrid> >& PartOfU_inverse = m_UAxes[i]->m_PartOfU_inverse;
-			std::vector<weak_ptr<IfcGrid> >::iterator it_PartOfU_inverse;
-			for( it_PartOfU_inverse = PartOfU_inverse.begin(); it_PartOfU_inverse != PartOfU_inverse.end(); ++it_PartOfU_inverse)
+			for( auto it_PartOfU_inverse = PartOfU_inverse.begin(); it_PartOfU_inverse != PartOfU_inverse.end(); ++it_PartOfU_inverse)
 			{
 				shared_ptr<IfcGrid> self_candidate( *it_PartOfU_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					PartOfU_inverse.erase( it_PartOfU_inverse );
 					break;
@@ -211,16 +216,15 @@ void IfcGrid::unlinkSelf()
 			}
 		}
 	}
-	for( int i=0; i<m_VAxes.size(); ++i )
+	for( size_t i=0; i<m_VAxes.size(); ++i )
 	{
 		if( m_VAxes[i] )
 		{
 			std::vector<weak_ptr<IfcGrid> >& PartOfV_inverse = m_VAxes[i]->m_PartOfV_inverse;
-			std::vector<weak_ptr<IfcGrid> >::iterator it_PartOfV_inverse;
-			for( it_PartOfV_inverse = PartOfV_inverse.begin(); it_PartOfV_inverse != PartOfV_inverse.end(); ++it_PartOfV_inverse)
+			for( auto it_PartOfV_inverse = PartOfV_inverse.begin(); it_PartOfV_inverse != PartOfV_inverse.end(); ++it_PartOfV_inverse)
 			{
 				shared_ptr<IfcGrid> self_candidate( *it_PartOfV_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					PartOfV_inverse.erase( it_PartOfV_inverse );
 					break;
@@ -228,16 +232,15 @@ void IfcGrid::unlinkSelf()
 			}
 		}
 	}
-	for( int i=0; i<m_WAxes.size(); ++i )
+	for( size_t i=0; i<m_WAxes.size(); ++i )
 	{
 		if( m_WAxes[i] )
 		{
 			std::vector<weak_ptr<IfcGrid> >& PartOfW_inverse = m_WAxes[i]->m_PartOfW_inverse;
-			std::vector<weak_ptr<IfcGrid> >::iterator it_PartOfW_inverse;
-			for( it_PartOfW_inverse = PartOfW_inverse.begin(); it_PartOfW_inverse != PartOfW_inverse.end(); ++it_PartOfW_inverse)
+			for( auto it_PartOfW_inverse = PartOfW_inverse.begin(); it_PartOfW_inverse != PartOfW_inverse.end(); ++it_PartOfW_inverse)
 			{
 				shared_ptr<IfcGrid> self_candidate( *it_PartOfW_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					PartOfW_inverse.erase( it_PartOfW_inverse );
 					break;

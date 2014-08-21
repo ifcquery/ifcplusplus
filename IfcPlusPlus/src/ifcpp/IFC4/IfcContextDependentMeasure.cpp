@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcContextDependentMeasure.h"
 
-// TYPE IfcContextDependentMeasure 
+// TYPE IfcContextDependentMeasure = REAL;
 IfcContextDependentMeasure::IfcContextDependentMeasure() {}
 IfcContextDependentMeasure::IfcContextDependentMeasure( double value ) { m_value = value; }
 IfcContextDependentMeasure::~IfcContextDependentMeasure() {}
-shared_ptr<IfcPPObject> IfcContextDependentMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcContextDependentMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcContextDependentMeasure> copy_self( new IfcContextDependentMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcContextDependentMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcContextDependentMeasure> IfcContextDependentMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcContextDependentMeasure> IfcContextDependentMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
 	shared_ptr<IfcContextDependentMeasure> type_object( new IfcContextDependentMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

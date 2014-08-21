@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcAreaMeasure.h"
 
-// TYPE IfcAreaMeasure 
+// TYPE IfcAreaMeasure = REAL;
 IfcAreaMeasure::IfcAreaMeasure() {}
 IfcAreaMeasure::IfcAreaMeasure( double value ) { m_value = value; }
 IfcAreaMeasure::~IfcAreaMeasure() {}
-shared_ptr<IfcPPObject> IfcAreaMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAreaMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAreaMeasure> copy_self( new IfcAreaMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcAreaMeasure::getStepParameter( std::stringstream& stream, bool is_select
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAreaMeasure> IfcAreaMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAreaMeasure> IfcAreaMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAreaMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAreaMeasure>(); }
 	shared_ptr<IfcAreaMeasure> type_object( new IfcAreaMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,15 +29,15 @@
 IfcWorkTime::IfcWorkTime() {}
 IfcWorkTime::IfcWorkTime( int id ) { m_id = id; }
 IfcWorkTime::~IfcWorkTime() {}
-shared_ptr<IfcPPObject> IfcWorkTime::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWorkTime::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWorkTime> copy_self( new IfcWorkTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
-	if( m_RecurrencePattern ) { copy_self->m_RecurrencePattern = dynamic_pointer_cast<IfcRecurrencePattern>( m_RecurrencePattern->getDeepCopy() ); }
-	if( m_Start ) { copy_self->m_Start = dynamic_pointer_cast<IfcDate>( m_Start->getDeepCopy() ); }
-	if( m_Finish ) { copy_self->m_Finish = dynamic_pointer_cast<IfcDate>( m_Finish->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
+	if( m_RecurrencePattern ) { copy_self->m_RecurrencePattern = dynamic_pointer_cast<IfcRecurrencePattern>( m_RecurrencePattern->getDeepCopy(options) ); }
+	if( m_Start ) { copy_self->m_Start = dynamic_pointer_cast<IfcDate>( m_Start->getDeepCopy(options) ); }
+	if( m_Finish ) { copy_self->m_Finish = dynamic_pointer_cast<IfcDate>( m_Finish->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcWorkTime::getStepLine( std::stringstream& stream ) const
@@ -48,7 +49,7 @@ void IfcWorkTime::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RecurrencePattern ) { stream << "#" << m_RecurrencePattern->getId(); } else { stream << "$"; }
+	if( m_RecurrencePattern ) { stream << "#" << m_RecurrencePattern->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Start ) { m_Start->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -59,16 +60,13 @@ void IfcWorkTime::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcWorkTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_DataOrigin = IfcDataOriginEnum::createObjectFromStepData( args[1] );
-	m_UserDefinedDataOrigin = IfcLabel::createObjectFromStepData( args[2] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
+	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );
 	readEntityReference( args[3], m_RecurrencePattern, map );
-	m_Start = IfcDate::createObjectFromStepData( args[4] );
-	m_Finish = IfcDate::createObjectFromStepData( args[5] );
+	m_Start = IfcDate::createObjectFromSTEP( args[4] );
+	m_Finish = IfcDate::createObjectFromSTEP( args[5] );
 }
 void IfcWorkTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

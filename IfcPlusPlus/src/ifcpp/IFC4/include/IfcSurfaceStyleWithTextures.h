@@ -21,13 +21,13 @@
 #include "IfcPresentationItem.h"
 class IfcSurfaceTexture;
 //ENTITY
-class IfcSurfaceStyleWithTextures : public IfcSurfaceStyleElementSelect, public IfcPresentationItem
+class IfcSurfaceStyleWithTextures : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
 {
 public:
 	IfcSurfaceStyleWithTextures();
 	IfcSurfaceStyleWithTextures( int id );
 	~IfcSurfaceStyleWithTextures();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

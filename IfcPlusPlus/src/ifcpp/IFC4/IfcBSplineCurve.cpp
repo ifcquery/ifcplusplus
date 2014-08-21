@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,7 +29,7 @@
 IfcBSplineCurve::IfcBSplineCurve() {}
 IfcBSplineCurve::IfcBSplineCurve( int id ) { m_id = id; }
 IfcBSplineCurve::~IfcBSplineCurve() {}
-shared_ptr<IfcPPObject> IfcBSplineCurve::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBSplineCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBSplineCurve> copy_self( new IfcBSplineCurve() );
 	if( m_Degree ) { copy_self->m_Degree = m_Degree; }
@@ -37,10 +38,10 @@ shared_ptr<IfcPPObject> IfcBSplineCurve::getDeepCopy()
 		auto item_ii = m_ControlPointsList[ii];
 		if( item_ii )
 		{
-			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy() ) );
+			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy() ); }
+	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy(options) ); }
 	if( m_ClosedCurve ) { copy_self->m_ClosedCurve = m_ClosedCurve; }
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
 	return copy_self;
@@ -67,13 +68,10 @@ void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readIntValue( args[0], m_Degree );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
-	m_CurveForm = IfcBSplineCurveForm::createObjectFromStepData( args[2] );
+	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2] );
 	if( boost::iequals( args[3], L".F." ) ) { m_ClosedCurve = LOGICAL_FALSE; }
 	else if( boost::iequals( args[3], L".T." ) ) { m_ClosedCurve = LOGICAL_TRUE; }
 	else if( boost::iequals( args[3], L".U." ) ) { m_ClosedCurve = LOGICAL_UNKNOWN; }
@@ -84,7 +82,7 @@ void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Degree", shared_ptr<IfcPPInt>( new IfcPPInt( m_Degree ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Degree", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_Degree ) ) ) );
 	if( m_ControlPointsList.size() > 0 )
 	{
 		shared_ptr<IfcPPAttributeObjectVector> ControlPointsList_vec_object( new  IfcPPAttributeObjectVector() );
@@ -92,8 +90,8 @@ void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 		vec_attributes.push_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "CurveForm", m_CurveForm ) );
-	vec_attributes.push_back( std::make_pair( "ClosedCurve", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_ClosedCurve ) ) ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ClosedCurve", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_ClosedCurve ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_SelfIntersect ) ) ) );
 }
 void IfcBSplineCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

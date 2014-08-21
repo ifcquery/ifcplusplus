@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPermeableCoveringOperationEnum.h"
 
-// TYPE IfcPermeableCoveringOperationEnum 
+// TYPE IfcPermeableCoveringOperationEnum = ENUMERATION OF	(GRILL	,LOUVER	,SCREEN	,USERDEFINED	,NOTDEFINED);
 IfcPermeableCoveringOperationEnum::IfcPermeableCoveringOperationEnum() {}
 IfcPermeableCoveringOperationEnum::~IfcPermeableCoveringOperationEnum() {}
-shared_ptr<IfcPPObject> IfcPermeableCoveringOperationEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPermeableCoveringOperationEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPermeableCoveringOperationEnum> copy_self( new IfcPermeableCoveringOperationEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcPermeableCoveringOperationEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }

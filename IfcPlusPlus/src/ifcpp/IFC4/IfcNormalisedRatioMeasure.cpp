@@ -23,10 +23,10 @@
 #include "include/IfcSizeSelect.h"
 #include "include/IfcNormalisedRatioMeasure.h"
 
-// TYPE IfcNormalisedRatioMeasure 
+// TYPE IfcNormalisedRatioMeasure = IfcRatioMeasure;
 IfcNormalisedRatioMeasure::IfcNormalisedRatioMeasure() {}
 IfcNormalisedRatioMeasure::~IfcNormalisedRatioMeasure() {}
-shared_ptr<IfcPPObject> IfcNormalisedRatioMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcNormalisedRatioMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcNormalisedRatioMeasure> copy_self( new IfcNormalisedRatioMeasure() );
 	copy_self->m_value = m_value;
@@ -38,13 +38,13 @@ void IfcNormalisedRatioMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcNormalisedRatioMeasure> IfcNormalisedRatioMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcNormalisedRatioMeasure> IfcNormalisedRatioMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
 	shared_ptr<IfcNormalisedRatioMeasure> type_object( new IfcNormalisedRatioMeasure() );
 	// read TYPE
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

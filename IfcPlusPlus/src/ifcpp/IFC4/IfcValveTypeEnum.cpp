@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcValveTypeEnum.h"
 
-// TYPE IfcValveTypeEnum 
+// TYPE IfcValveTypeEnum = ENUMERATION OF	(AIRRELEASE	,ANTIVACUUM	,CHANGEOVER	,CHECK	,COMMISSIONING	,DIVERTING	,DRAWOFFCOCK	,DOUBLECHECK	,DOUBLEREGULATING	,FAUCET	,FLUSHING	,GASCOCK	,GASTAP	,ISOLATING	,MIXING	,PRESSUREREDUCING	,PRESSURERELIEF	,REGULATING	,SAFETYCUTOFF	,STEAMTRAP	,STOPCOCK	,USERDEFINED	,NOTDEFINED);
 IfcValveTypeEnum::IfcValveTypeEnum() {}
 IfcValveTypeEnum::~IfcValveTypeEnum() {}
-shared_ptr<IfcPPObject> IfcValveTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcValveTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcValveTypeEnum> copy_self( new IfcValveTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -126,7 +126,7 @@ void IfcValveTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcValveTypeEnum> IfcValveTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcValveTypeEnum> IfcValveTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }

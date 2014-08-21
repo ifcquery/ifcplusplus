@@ -21,15 +21,16 @@
 #include "IfcSimpleValue.h"
 
 // TYPE IfcLogical = LOGICAL;
-class IfcLogical : public IfcSimpleValue, public IfcPPLogical
+class IfcLogical : public IfcSimpleValue
 {
 public:
 	IfcLogical();
 	IfcLogical( LogicalEnum value );
 	~IfcLogical();
 	virtual const char* classname() const { return "IfcLogical"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLogical> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcLogical> createObjectFromSTEP( const std::wstring& arg );
+	LogicalEnum m_value;
 };
 

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,7 +30,7 @@
 IfcAdvancedFace::IfcAdvancedFace() {}
 IfcAdvancedFace::IfcAdvancedFace( int id ) { m_id = id; }
 IfcAdvancedFace::~IfcAdvancedFace() {}
-shared_ptr<IfcPPObject> IfcAdvancedFace::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAdvancedFace::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAdvancedFace> copy_self( new IfcAdvancedFace() );
 	for( size_t ii=0; ii<m_Bounds.size(); ++ii )
@@ -37,10 +38,10 @@ shared_ptr<IfcPPObject> IfcAdvancedFace::getDeepCopy()
 		auto item_ii = m_Bounds[ii];
 		if( item_ii )
 		{
-			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy() ) );
+			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy() ); }
+	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy(options) ); }
 	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
 	return copy_self;
 }
@@ -49,7 +50,7 @@ void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCADVANCEDFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ",";
-	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->getId(); } else { stream << "*"; }
+	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_SameSense == false ) { stream << ".F."; }
 	else if( m_SameSense == true ) { stream << ".T."; }
@@ -59,10 +60,7 @@ void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcAdvancedFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAdvancedFace, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcAdvancedFace, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAdvancedFace, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 	readEntityReference( args[1], m_FaceSurface, map );
 	if( boost::iequals( args[2], L".F." ) ) { m_SameSense = false; }

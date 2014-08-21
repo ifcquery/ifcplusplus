@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcMedicalDeviceTypeEnum.h"
 
-// TYPE IfcMedicalDeviceTypeEnum 
+// TYPE IfcMedicalDeviceTypeEnum = ENUMERATION OF	(AIRSTATION	,FEEDAIRUNIT	,OXYGENGENERATOR	,OXYGENPLANT	,VACUUMSTATION	,USERDEFINED	,NOTDEFINED);
 IfcMedicalDeviceTypeEnum::IfcMedicalDeviceTypeEnum() {}
 IfcMedicalDeviceTypeEnum::~IfcMedicalDeviceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcMedicalDeviceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMedicalDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMedicalDeviceTypeEnum> copy_self( new IfcMedicalDeviceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcMedicalDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }

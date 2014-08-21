@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcCartesianPoint::IfcCartesianPoint() {}
 IfcCartesianPoint::IfcCartesianPoint( int id ) { m_id = id; }
 IfcCartesianPoint::~IfcCartesianPoint() {}
-shared_ptr<IfcPPObject> IfcCartesianPoint::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCartesianPoint::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPoint> copy_self( new IfcCartesianPoint() );
 	for( size_t ii=0; ii<m_Coordinates.size(); ++ii )
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcCartesianPoint::getDeepCopy()
 		auto item_ii = m_Coordinates[ii];
 		if( item_ii )
 		{
-			copy_self->m_Coordinates.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+			copy_self->m_Coordinates.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -50,10 +51,7 @@ void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readTypeOfRealList( args[0], m_Coordinates );
 }
 void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

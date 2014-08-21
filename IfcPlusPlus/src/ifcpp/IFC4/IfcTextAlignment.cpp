@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTextAlignment.h"
 
-// TYPE IfcTextAlignment 
+// TYPE IfcTextAlignment = STRING;
 IfcTextAlignment::IfcTextAlignment() {}
 IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
 IfcTextAlignment::~IfcTextAlignment() {}
-shared_ptr<IfcPPObject> IfcTextAlignment::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextAlignment::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextAlignment> copy_self( new IfcTextAlignment() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcTextAlignment::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	shared_ptr<IfcTextAlignment> type_object( new IfcTextAlignment() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

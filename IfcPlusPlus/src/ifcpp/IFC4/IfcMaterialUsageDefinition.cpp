@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,7 +26,7 @@
 IfcMaterialUsageDefinition::IfcMaterialUsageDefinition() {}
 IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_id = id; }
 IfcMaterialUsageDefinition::~IfcMaterialUsageDefinition() {}
-shared_ptr<IfcPPObject> IfcMaterialUsageDefinition::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialUsageDefinition::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialUsageDefinition> copy_self( new IfcMaterialUsageDefinition() );
 	return copy_self;
