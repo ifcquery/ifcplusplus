@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcAssemblyPlaceEnum.h"
 
-// TYPE IfcAssemblyPlaceEnum 
+// TYPE IfcAssemblyPlaceEnum = ENUMERATION OF	(SITE	,FACTORY	,NOTDEFINED);
 IfcAssemblyPlaceEnum::IfcAssemblyPlaceEnum() {}
 IfcAssemblyPlaceEnum::~IfcAssemblyPlaceEnum() {}
-shared_ptr<IfcPPObject> IfcAssemblyPlaceEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAssemblyPlaceEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAssemblyPlaceEnum> copy_self( new IfcAssemblyPlaceEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }

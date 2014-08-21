@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,17 +27,17 @@
 IfcNamedUnit::IfcNamedUnit() {}
 IfcNamedUnit::IfcNamedUnit( int id ) { m_id = id; }
 IfcNamedUnit::~IfcNamedUnit() {}
-shared_ptr<IfcPPObject> IfcNamedUnit::getDeepCopy()
+shared_ptr<IfcPPObject> IfcNamedUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcNamedUnit> copy_self( new IfcNamedUnit() );
-	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy() ); }
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy() ); }
+	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcNamedUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCNAMEDUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "$"; }
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -45,12 +46,9 @@ void IfcNamedUnit::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcNamedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
-	m_UnitType = IfcUnitEnum::createObjectFromStepData( args[1] );
+	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1] );
 }
 void IfcNamedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

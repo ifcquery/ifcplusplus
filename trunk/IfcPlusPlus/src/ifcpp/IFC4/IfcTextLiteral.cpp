@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,12 +30,12 @@
 IfcTextLiteral::IfcTextLiteral() {}
 IfcTextLiteral::IfcTextLiteral( int id ) { m_id = id; }
 IfcTextLiteral::~IfcTextLiteral() {}
-shared_ptr<IfcPPObject> IfcTextLiteral::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextLiteral::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextLiteral> copy_self( new IfcTextLiteral() );
-	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy() ); }
-	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy() ); }
-	if( m_Path ) { copy_self->m_Path = dynamic_pointer_cast<IfcTextPath>( m_Path->getDeepCopy() ); }
+	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy(options) ); }
+	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy(options) ); }
+	if( m_Path ) { copy_self->m_Path = dynamic_pointer_cast<IfcTextPath>( m_Path->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
@@ -51,13 +52,10 @@ void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcTextLiteral::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Literal = IfcPresentableText::createObjectFromStepData( args[0] );
-	m_Placement = IfcAxis2Placement::createObjectFromStepData( args[1], map );
-	m_Path = IfcTextPath::createObjectFromStepData( args[2] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0] );
+	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
+	m_Path = IfcTextPath::createObjectFromSTEP( args[2] );
 }
 void IfcTextLiteral::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

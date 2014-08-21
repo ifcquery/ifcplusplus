@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcColumnTypeEnum.h"
 
-// TYPE IfcColumnTypeEnum 
+// TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,USERDEFINED	,NOTDEFINED);
 IfcColumnTypeEnum::IfcColumnTypeEnum() {}
 IfcColumnTypeEnum::~IfcColumnTypeEnum() {}
-shared_ptr<IfcPPObject> IfcColumnTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcColumnTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcColumnTypeEnum> copy_self( new IfcColumnTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }

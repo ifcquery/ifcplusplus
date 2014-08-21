@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,7 +26,7 @@
 IfcColourRgbList::IfcColourRgbList() {}
 IfcColourRgbList::IfcColourRgbList( int id ) { m_id = id; }
 IfcColourRgbList::~IfcColourRgbList() {}
-shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy()
+shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcColourRgbList> copy_self( new IfcColourRgbList() );
 	copy_self->m_ColourList.resize( m_ColourList.size() );
@@ -38,7 +39,7 @@ shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy()
 			shared_ptr<IfcNormalisedRatioMeasure>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy() ) );
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -54,10 +55,7 @@ void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const
 void IfcColourRgbList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList2D( args[0], m_ColourList, map );
 }
 void IfcColourRgbList::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

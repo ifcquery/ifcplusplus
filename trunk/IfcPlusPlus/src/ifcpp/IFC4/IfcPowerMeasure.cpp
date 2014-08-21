@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcPowerMeasure.h"
 
-// TYPE IfcPowerMeasure 
+// TYPE IfcPowerMeasure = REAL;
 IfcPowerMeasure::IfcPowerMeasure() {}
 IfcPowerMeasure::IfcPowerMeasure( double value ) { m_value = value; }
 IfcPowerMeasure::~IfcPowerMeasure() {}
-shared_ptr<IfcPPObject> IfcPowerMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPowerMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPowerMeasure> copy_self( new IfcPowerMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcPowerMeasure::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPowerMeasure> IfcPowerMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPowerMeasure> IfcPowerMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
 	shared_ptr<IfcPowerMeasure> type_object( new IfcPowerMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

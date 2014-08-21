@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,7 +30,7 @@
 IfcFaceSurface::IfcFaceSurface() {}
 IfcFaceSurface::IfcFaceSurface( int id ) { m_id = id; }
 IfcFaceSurface::~IfcFaceSurface() {}
-shared_ptr<IfcPPObject> IfcFaceSurface::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFaceSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFaceSurface> copy_self( new IfcFaceSurface() );
 	for( size_t ii=0; ii<m_Bounds.size(); ++ii )
@@ -37,10 +38,10 @@ shared_ptr<IfcPPObject> IfcFaceSurface::getDeepCopy()
 		auto item_ii = m_Bounds[ii];
 		if( item_ii )
 		{
-			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy() ) );
+			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy() ); }
+	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy(options) ); }
 	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
 	return copy_self;
 }
@@ -49,7 +50,7 @@ void IfcFaceSurface::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCFACESURFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ",";
-	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->getId(); } else { stream << "$"; }
+	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense == false ) { stream << ".F."; }
 	else if( m_SameSense == true ) { stream << ".T."; }
@@ -59,10 +60,7 @@ void IfcFaceSurface::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcFaceSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceSurface, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcFaceSurface, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceSurface, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 	readEntityReference( args[1], m_FaceSurface, map );
 	if( boost::iequals( args[2], L".F." ) ) { m_SameSense = false; }
@@ -72,7 +70,7 @@ void IfcFaceSurface::getAttributes( std::vector<std::pair<std::string, shared_pt
 {
 	IfcFace::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "FaceSurface", m_FaceSurface ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", shared_ptr<IfcPPBool>( new IfcPPBool( m_SameSense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SameSense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_SameSense ) ) ) );
 }
 void IfcFaceSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -23,13 +23,13 @@
 class IfcBooleanOperator;
 class IfcBooleanOperand;
 //ENTITY
-class IfcBooleanResult : public IfcBooleanOperand, public IfcCsgSelect, public IfcGeometricRepresentationItem
+class IfcBooleanResult : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
 {
 public:
 	IfcBooleanResult();
 	IfcBooleanResult( int id );
 	~IfcBooleanResult();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

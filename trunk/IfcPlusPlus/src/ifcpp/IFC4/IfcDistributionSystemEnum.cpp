@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDistributionSystemEnum.h"
 
-// TYPE IfcDistributionSystemEnum 
+// TYPE IfcDistributionSystemEnum = ENUMERATION OF	(AIRCONDITIONING	,AUDIOVISUAL	,CHEMICAL	,CHILLEDWATER	,COMMUNICATION	,COMPRESSEDAIR	,CONDENSERWATER	,CONTROL	,CONVEYING	,DATA	,DISPOSAL	,DOMESTICCOLDWATER	,DOMESTICHOTWATER	,DRAINAGE	,EARTHING	,ELECTRICAL	,ELECTROACOUSTIC	,EXHAUST	,FIREPROTECTION	,FUEL	,GAS	,HAZARDOUS	,HEATING	,LIGHTING	,LIGHTNINGPROTECTION	,MUNICIPALSOLIDWASTE	,OIL	,OPERATIONAL	,POWERGENERATION	,RAINWATER	,REFRIGERATION	,SECURITY	,SEWAGE	,SIGNAL	,STORMWATER	,TELEPHONE	,TV	,VACUUM	,VENT	,VENTILATION	,WASTEWATER	,WATERSUPPLY	,USERDEFINED	,NOTDEFINED);
 IfcDistributionSystemEnum::IfcDistributionSystemEnum() {}
 IfcDistributionSystemEnum::~IfcDistributionSystemEnum() {}
-shared_ptr<IfcPPObject> IfcDistributionSystemEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDistributionSystemEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDistributionSystemEnum> copy_self( new IfcDistributionSystemEnum() );
 	copy_self->m_enum = m_enum;
@@ -210,7 +210,7 @@ void IfcDistributionSystemEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }

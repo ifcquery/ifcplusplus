@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcHeatExchangerTypeEnum.h"
 
-// TYPE IfcHeatExchangerTypeEnum 
+// TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,USERDEFINED	,NOTDEFINED);
 IfcHeatExchangerTypeEnum::IfcHeatExchangerTypeEnum() {}
 IfcHeatExchangerTypeEnum::~IfcHeatExchangerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcHeatExchangerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcHeatExchangerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcHeatExchangerTypeEnum> copy_self( new IfcHeatExchangerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcHeatExchangerTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }

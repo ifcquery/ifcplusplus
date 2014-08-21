@@ -22,13 +22,13 @@
 class IfcValue;
 class IfcUnit;
 //ENTITY
-class IfcMeasureWithUnit : public IfcAppliedValueSelect, public IfcMetricValueSelect, public IfcPPEntity
+class IfcMeasureWithUnit : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public IfcPPEntity
 {
 public:
 	IfcMeasureWithUnit();
 	IfcMeasureWithUnit( int id );
 	~IfcMeasureWithUnit();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

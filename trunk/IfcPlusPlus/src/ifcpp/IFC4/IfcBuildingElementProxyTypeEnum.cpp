@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBuildingElementProxyTypeEnum.h"
 
-// TYPE IfcBuildingElementProxyTypeEnum 
+// TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORVOID	,USERDEFINED	,NOTDEFINED);
 IfcBuildingElementProxyTypeEnum::IfcBuildingElementProxyTypeEnum() {}
 IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() {}
-shared_ptr<IfcPPObject> IfcBuildingElementProxyTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBuildingElementProxyTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementProxyTypeEnum> copy_self( new IfcBuildingElementProxyTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& strea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }

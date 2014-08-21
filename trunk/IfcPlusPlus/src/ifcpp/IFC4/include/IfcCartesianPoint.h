@@ -21,13 +21,13 @@
 #include "IfcPoint.h"
 class IfcLengthMeasure;
 //ENTITY
-class IfcCartesianPoint : public IfcTrimmingSelect, public IfcPoint
+class IfcCartesianPoint : virtual public IfcTrimmingSelect, public IfcPoint
 {
 public:
 	IfcCartesianPoint();
 	IfcCartesianPoint( int id );
 	~IfcCartesianPoint();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

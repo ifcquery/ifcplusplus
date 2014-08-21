@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTaskDurationEnum.h"
 
-// TYPE IfcTaskDurationEnum 
+// TYPE IfcTaskDurationEnum = ENUMERATION OF	(ELAPSEDTIME	,WORKTIME	,NOTDEFINED);
 IfcTaskDurationEnum::IfcTaskDurationEnum() {}
 IfcTaskDurationEnum::~IfcTaskDurationEnum() {}
-shared_ptr<IfcPPObject> IfcTaskDurationEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTaskDurationEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTaskDurationEnum> copy_self( new IfcTaskDurationEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }

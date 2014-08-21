@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBuildingSystemTypeEnum.h"
 
-// TYPE IfcBuildingSystemTypeEnum 
+// TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,SHADING	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
 IfcBuildingSystemTypeEnum::IfcBuildingSystemTypeEnum() {}
 IfcBuildingSystemTypeEnum::~IfcBuildingSystemTypeEnum() {}
-shared_ptr<IfcPPObject> IfcBuildingSystemTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBuildingSystemTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBuildingSystemTypeEnum> copy_self( new IfcBuildingSystemTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcBuildingSystemTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }

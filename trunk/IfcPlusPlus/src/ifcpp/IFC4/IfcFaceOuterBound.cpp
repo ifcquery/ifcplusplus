@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,17 +28,17 @@
 IfcFaceOuterBound::IfcFaceOuterBound() {}
 IfcFaceOuterBound::IfcFaceOuterBound( int id ) { m_id = id; }
 IfcFaceOuterBound::~IfcFaceOuterBound() {}
-shared_ptr<IfcPPObject> IfcFaceOuterBound::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFaceOuterBound::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFaceOuterBound> copy_self( new IfcFaceOuterBound() );
-	if( m_Bound ) { copy_self->m_Bound = dynamic_pointer_cast<IfcLoop>( m_Bound->getDeepCopy() ); }
+	if( m_Bound ) { copy_self->m_Bound = dynamic_pointer_cast<IfcLoop>( m_Bound->getDeepCopy(options) ); }
 	if( m_Orientation ) { copy_self->m_Orientation = m_Orientation; }
 	return copy_self;
 }
 void IfcFaceOuterBound::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCFACEOUTERBOUND" << "(";
-	if( m_Bound ) { stream << "#" << m_Bound->getId(); } else { stream << "*"; }
+	if( m_Bound ) { stream << "#" << m_Bound->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Orientation == false ) { stream << ".F."; }
 	else if( m_Orientation == true ) { stream << ".T."; }
@@ -47,10 +48,7 @@ void IfcFaceOuterBound::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcFaceOuterBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Bound, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_Orientation = false; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_Orientation = true; }

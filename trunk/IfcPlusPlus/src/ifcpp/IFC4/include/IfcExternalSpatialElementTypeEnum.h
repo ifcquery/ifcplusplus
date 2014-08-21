@@ -37,9 +37,9 @@ public:
 	IfcExternalSpatialElementTypeEnum( IfcExternalSpatialElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcExternalSpatialElementTypeEnum();
 	virtual const char* classname() const { return "IfcExternalSpatialElementTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcExternalSpatialElementTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcExternalSpatialElementTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcExternalSpatialElementTypeEnumEnum m_enum;
 };
 

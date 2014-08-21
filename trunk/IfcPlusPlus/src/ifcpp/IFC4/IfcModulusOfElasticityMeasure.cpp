@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcModulusOfElasticityMeasure.h"
 
-// TYPE IfcModulusOfElasticityMeasure 
+// TYPE IfcModulusOfElasticityMeasure = REAL;
 IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure() {}
 IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure( double value ) { m_value = value; }
 IfcModulusOfElasticityMeasure::~IfcModulusOfElasticityMeasure() {}
-shared_ptr<IfcPPObject> IfcModulusOfElasticityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcModulusOfElasticityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcModulusOfElasticityMeasure> copy_self( new IfcModulusOfElasticityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcModulusOfElasticityMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcModulusOfElasticityMeasure> IfcModulusOfElasticityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcModulusOfElasticityMeasure> IfcModulusOfElasticityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
 	shared_ptr<IfcModulusOfElasticityMeasure> type_object( new IfcModulusOfElasticityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

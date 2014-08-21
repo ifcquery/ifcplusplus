@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,29 +29,26 @@
 IfcPcurve::IfcPcurve() {}
 IfcPcurve::IfcPcurve( int id ) { m_id = id; }
 IfcPcurve::~IfcPcurve() {}
-shared_ptr<IfcPPObject> IfcPcurve::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPcurve::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPcurve> copy_self( new IfcPcurve() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy() ); }
-	if( m_ReferenceCurve ) { copy_self->m_ReferenceCurve = dynamic_pointer_cast<IfcCurve>( m_ReferenceCurve->getDeepCopy() ); }
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
+	if( m_ReferenceCurve ) { copy_self->m_ReferenceCurve = dynamic_pointer_cast<IfcCurve>( m_ReferenceCurve->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPcurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCPCURVE" << "(";
-	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->getId(); } else { stream << "$"; }
+	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ReferenceCurve ) { stream << "#" << m_ReferenceCurve->getId(); } else { stream << "$"; }
+	if( m_ReferenceCurve ) { stream << "#" << m_ReferenceCurve->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcPcurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcPcurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReference( args[1], m_ReferenceCurve, map );
 }

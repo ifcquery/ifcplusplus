@@ -36,9 +36,9 @@ public:
 	IfcStateEnum( IfcStateEnumEnum e ) { m_enum = e; }
 	~IfcStateEnum();
 	virtual const char* classname() const { return "IfcStateEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcStateEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcStateEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcStateEnumEnum m_enum;
 };
 

@@ -46,9 +46,9 @@ public:
 	IfcHumidifierTypeEnum( IfcHumidifierTypeEnumEnum e ) { m_enum = e; }
 	~IfcHumidifierTypeEnum();
 	virtual const char* classname() const { return "IfcHumidifierTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcHumidifierTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcHumidifierTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcHumidifierTypeEnumEnum m_enum;
 };
 

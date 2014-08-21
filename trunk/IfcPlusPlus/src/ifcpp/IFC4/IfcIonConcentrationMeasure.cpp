@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcIonConcentrationMeasure.h"
 
-// TYPE IfcIonConcentrationMeasure 
+// TYPE IfcIonConcentrationMeasure = REAL;
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure() {}
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure( double value ) { m_value = value; }
 IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() {}
-shared_ptr<IfcPPObject> IfcIonConcentrationMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIonConcentrationMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIonConcentrationMeasure> copy_self( new IfcIonConcentrationMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcIonConcentrationMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIonConcentrationMeasure> IfcIonConcentrationMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcIonConcentrationMeasure> IfcIonConcentrationMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	shared_ptr<IfcIonConcentrationMeasure> type_object( new IfcIonConcentrationMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWorkCalendarTypeEnum.h"
 
-// TYPE IfcWorkCalendarTypeEnum 
+// TYPE IfcWorkCalendarTypeEnum = ENUMERATION OF	(FIRSTSHIFT	,SECONDSHIFT	,THIRDSHIFT	,USERDEFINED	,NOTDEFINED);
 IfcWorkCalendarTypeEnum::IfcWorkCalendarTypeEnum() {}
 IfcWorkCalendarTypeEnum::~IfcWorkCalendarTypeEnum() {}
-shared_ptr<IfcPPObject> IfcWorkCalendarTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWorkCalendarTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWorkCalendarTypeEnum> copy_self( new IfcWorkCalendarTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }

@@ -28,13 +28,13 @@ class IfcIdentifier;
 class IfcRelAssociatesClassification;
 class IfcClassificationReference;
 //ENTITY
-class IfcClassification : public IfcClassificationReferenceSelect, public IfcClassificationSelect, public IfcExternalInformation
+class IfcClassification : virtual public IfcClassificationReferenceSelect, virtual public IfcClassificationSelect, public IfcExternalInformation
 {
 public:
 	IfcClassification();
 	IfcClassification( int id );
 	~IfcClassification();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

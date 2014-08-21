@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,7 +26,7 @@
 IfcMaterialList::IfcMaterialList() {}
 IfcMaterialList::IfcMaterialList( int id ) { m_id = id; }
 IfcMaterialList::~IfcMaterialList() {}
-shared_ptr<IfcPPObject> IfcMaterialList::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialList::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialList> copy_self( new IfcMaterialList() );
 	for( size_t ii=0; ii<m_Materials.size(); ++ii )
@@ -33,7 +34,7 @@ shared_ptr<IfcPPObject> IfcMaterialList::getDeepCopy()
 		auto item_ii = m_Materials[ii];
 		if( item_ii )
 		{
-			copy_self->m_Materials.push_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy() ) );
+			copy_self->m_Materials.push_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -48,10 +49,7 @@ void IfcMaterialList::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcMaterialList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialList, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcMaterialList, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialList, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Materials, map );
 }
 void IfcMaterialList::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

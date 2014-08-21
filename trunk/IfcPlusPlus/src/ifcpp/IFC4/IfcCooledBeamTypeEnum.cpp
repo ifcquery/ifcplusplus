@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCooledBeamTypeEnum.h"
 
-// TYPE IfcCooledBeamTypeEnum 
+// TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
 IfcCooledBeamTypeEnum::IfcCooledBeamTypeEnum() {}
 IfcCooledBeamTypeEnum::~IfcCooledBeamTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCooledBeamTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCooledBeamTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCooledBeamTypeEnum> copy_self( new IfcCooledBeamTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }

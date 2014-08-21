@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPipeFittingTypeEnum.h"
 
-// TYPE IfcPipeFittingTypeEnum 
+// TYPE IfcPipeFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
 IfcPipeFittingTypeEnum::IfcPipeFittingTypeEnum() {}
 IfcPipeFittingTypeEnum::~IfcPipeFittingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPipeFittingTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPipeFittingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPipeFittingTypeEnum> copy_self( new IfcPipeFittingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPipeFittingTypeEnum> IfcPipeFittingTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPipeFittingTypeEnum> IfcPipeFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }

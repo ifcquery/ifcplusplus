@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,29 +31,29 @@
 IfcTaskTime::IfcTaskTime() {}
 IfcTaskTime::IfcTaskTime( int id ) { m_id = id; }
 IfcTaskTime::~IfcTaskTime() {}
-shared_ptr<IfcPPObject> IfcTaskTime::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTaskTime::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTaskTime> copy_self( new IfcTaskTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
-	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy() ); }
-	if( m_ScheduleDuration ) { copy_self->m_ScheduleDuration = dynamic_pointer_cast<IfcDuration>( m_ScheduleDuration->getDeepCopy() ); }
-	if( m_ScheduleStart ) { copy_self->m_ScheduleStart = dynamic_pointer_cast<IfcDateTime>( m_ScheduleStart->getDeepCopy() ); }
-	if( m_ScheduleFinish ) { copy_self->m_ScheduleFinish = dynamic_pointer_cast<IfcDateTime>( m_ScheduleFinish->getDeepCopy() ); }
-	if( m_EarlyStart ) { copy_self->m_EarlyStart = dynamic_pointer_cast<IfcDateTime>( m_EarlyStart->getDeepCopy() ); }
-	if( m_EarlyFinish ) { copy_self->m_EarlyFinish = dynamic_pointer_cast<IfcDateTime>( m_EarlyFinish->getDeepCopy() ); }
-	if( m_LateStart ) { copy_self->m_LateStart = dynamic_pointer_cast<IfcDateTime>( m_LateStart->getDeepCopy() ); }
-	if( m_LateFinish ) { copy_self->m_LateFinish = dynamic_pointer_cast<IfcDateTime>( m_LateFinish->getDeepCopy() ); }
-	if( m_FreeFloat ) { copy_self->m_FreeFloat = dynamic_pointer_cast<IfcDuration>( m_FreeFloat->getDeepCopy() ); }
-	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
+	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy(options) ); }
+	if( m_ScheduleDuration ) { copy_self->m_ScheduleDuration = dynamic_pointer_cast<IfcDuration>( m_ScheduleDuration->getDeepCopy(options) ); }
+	if( m_ScheduleStart ) { copy_self->m_ScheduleStart = dynamic_pointer_cast<IfcDateTime>( m_ScheduleStart->getDeepCopy(options) ); }
+	if( m_ScheduleFinish ) { copy_self->m_ScheduleFinish = dynamic_pointer_cast<IfcDateTime>( m_ScheduleFinish->getDeepCopy(options) ); }
+	if( m_EarlyStart ) { copy_self->m_EarlyStart = dynamic_pointer_cast<IfcDateTime>( m_EarlyStart->getDeepCopy(options) ); }
+	if( m_EarlyFinish ) { copy_self->m_EarlyFinish = dynamic_pointer_cast<IfcDateTime>( m_EarlyFinish->getDeepCopy(options) ); }
+	if( m_LateStart ) { copy_self->m_LateStart = dynamic_pointer_cast<IfcDateTime>( m_LateStart->getDeepCopy(options) ); }
+	if( m_LateFinish ) { copy_self->m_LateFinish = dynamic_pointer_cast<IfcDateTime>( m_LateFinish->getDeepCopy(options) ); }
+	if( m_FreeFloat ) { copy_self->m_FreeFloat = dynamic_pointer_cast<IfcDuration>( m_FreeFloat->getDeepCopy(options) ); }
+	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy(options) ); }
 	if( m_IsCritical ) { copy_self->m_IsCritical = m_IsCritical; }
-	if( m_StatusTime ) { copy_self->m_StatusTime = dynamic_pointer_cast<IfcDateTime>( m_StatusTime->getDeepCopy() ); }
-	if( m_ActualDuration ) { copy_self->m_ActualDuration = dynamic_pointer_cast<IfcDuration>( m_ActualDuration->getDeepCopy() ); }
-	if( m_ActualStart ) { copy_self->m_ActualStart = dynamic_pointer_cast<IfcDateTime>( m_ActualStart->getDeepCopy() ); }
-	if( m_ActualFinish ) { copy_self->m_ActualFinish = dynamic_pointer_cast<IfcDateTime>( m_ActualFinish->getDeepCopy() ); }
-	if( m_RemainingTime ) { copy_self->m_RemainingTime = dynamic_pointer_cast<IfcDuration>( m_RemainingTime->getDeepCopy() ); }
-	if( m_Completion ) { copy_self->m_Completion = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_Completion->getDeepCopy() ); }
+	if( m_StatusTime ) { copy_self->m_StatusTime = dynamic_pointer_cast<IfcDateTime>( m_StatusTime->getDeepCopy(options) ); }
+	if( m_ActualDuration ) { copy_self->m_ActualDuration = dynamic_pointer_cast<IfcDuration>( m_ActualDuration->getDeepCopy(options) ); }
+	if( m_ActualStart ) { copy_self->m_ActualStart = dynamic_pointer_cast<IfcDateTime>( m_ActualStart->getDeepCopy(options) ); }
+	if( m_ActualFinish ) { copy_self->m_ActualFinish = dynamic_pointer_cast<IfcDateTime>( m_ActualFinish->getDeepCopy(options) ); }
+	if( m_RemainingTime ) { copy_self->m_RemainingTime = dynamic_pointer_cast<IfcDuration>( m_RemainingTime->getDeepCopy(options) ); }
+	if( m_Completion ) { copy_self->m_Completion = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_Completion->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTaskTime::getStepLine( std::stringstream& stream ) const
@@ -104,31 +105,28 @@ void IfcTaskTime::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcTaskTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<20 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTaskTime, expecting 20, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>20 ){ std::cout << "Wrong parameter count for entity IfcTaskTime, expecting 20, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_DataOrigin = IfcDataOriginEnum::createObjectFromStepData( args[1] );
-	m_UserDefinedDataOrigin = IfcLabel::createObjectFromStepData( args[2] );
-	m_DurationType = IfcTaskDurationEnum::createObjectFromStepData( args[3] );
-	m_ScheduleDuration = IfcDuration::createObjectFromStepData( args[4] );
-	m_ScheduleStart = IfcDateTime::createObjectFromStepData( args[5] );
-	m_ScheduleFinish = IfcDateTime::createObjectFromStepData( args[6] );
-	m_EarlyStart = IfcDateTime::createObjectFromStepData( args[7] );
-	m_EarlyFinish = IfcDateTime::createObjectFromStepData( args[8] );
-	m_LateStart = IfcDateTime::createObjectFromStepData( args[9] );
-	m_LateFinish = IfcDateTime::createObjectFromStepData( args[10] );
-	m_FreeFloat = IfcDuration::createObjectFromStepData( args[11] );
-	m_TotalFloat = IfcDuration::createObjectFromStepData( args[12] );
+	if( num_args != 20 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTaskTime, expecting 20, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
+	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );
+	m_DurationType = IfcTaskDurationEnum::createObjectFromSTEP( args[3] );
+	m_ScheduleDuration = IfcDuration::createObjectFromSTEP( args[4] );
+	m_ScheduleStart = IfcDateTime::createObjectFromSTEP( args[5] );
+	m_ScheduleFinish = IfcDateTime::createObjectFromSTEP( args[6] );
+	m_EarlyStart = IfcDateTime::createObjectFromSTEP( args[7] );
+	m_EarlyFinish = IfcDateTime::createObjectFromSTEP( args[8] );
+	m_LateStart = IfcDateTime::createObjectFromSTEP( args[9] );
+	m_LateFinish = IfcDateTime::createObjectFromSTEP( args[10] );
+	m_FreeFloat = IfcDuration::createObjectFromSTEP( args[11] );
+	m_TotalFloat = IfcDuration::createObjectFromSTEP( args[12] );
 	if( boost::iequals( args[13], L".F." ) ) { m_IsCritical = false; }
 	else if( boost::iequals( args[13], L".T." ) ) { m_IsCritical = true; }
-	m_StatusTime = IfcDateTime::createObjectFromStepData( args[14] );
-	m_ActualDuration = IfcDuration::createObjectFromStepData( args[15] );
-	m_ActualStart = IfcDateTime::createObjectFromStepData( args[16] );
-	m_ActualFinish = IfcDateTime::createObjectFromStepData( args[17] );
-	m_RemainingTime = IfcDuration::createObjectFromStepData( args[18] );
-	m_Completion = IfcPositiveRatioMeasure::createObjectFromStepData( args[19] );
+	m_StatusTime = IfcDateTime::createObjectFromSTEP( args[14] );
+	m_ActualDuration = IfcDuration::createObjectFromSTEP( args[15] );
+	m_ActualStart = IfcDateTime::createObjectFromSTEP( args[16] );
+	m_ActualFinish = IfcDateTime::createObjectFromSTEP( args[17] );
+	m_RemainingTime = IfcDuration::createObjectFromSTEP( args[18] );
+	m_Completion = IfcPositiveRatioMeasure::createObjectFromSTEP( args[19] );
 }
 void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -143,7 +141,7 @@ void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 	vec_attributes.push_back( std::make_pair( "LateFinish", m_LateFinish ) );
 	vec_attributes.push_back( std::make_pair( "FreeFloat", m_FreeFloat ) );
 	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
-	vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBool>( new IfcPPBool( m_IsCritical ) ) ) );
+	vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsCritical ) ) ) );
 	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
 	vec_attributes.push_back( std::make_pair( "ActualDuration", m_ActualDuration ) );
 	vec_attributes.push_back( std::make_pair( "ActualStart", m_ActualStart ) );

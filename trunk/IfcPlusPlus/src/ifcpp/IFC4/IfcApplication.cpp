@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,19 +28,19 @@
 IfcApplication::IfcApplication() {}
 IfcApplication::IfcApplication( int id ) { m_id = id; }
 IfcApplication::~IfcApplication() {}
-shared_ptr<IfcPPObject> IfcApplication::getDeepCopy()
+shared_ptr<IfcPPObject> IfcApplication::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcApplication> copy_self( new IfcApplication() );
-	if( m_ApplicationDeveloper ) { copy_self->m_ApplicationDeveloper = dynamic_pointer_cast<IfcOrganization>( m_ApplicationDeveloper->getDeepCopy() ); }
-	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy() ); }
-	if( m_ApplicationFullName ) { copy_self->m_ApplicationFullName = dynamic_pointer_cast<IfcLabel>( m_ApplicationFullName->getDeepCopy() ); }
-	if( m_ApplicationIdentifier ) { copy_self->m_ApplicationIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_ApplicationIdentifier->getDeepCopy() ); }
+	if( m_ApplicationDeveloper ) { copy_self->m_ApplicationDeveloper = dynamic_pointer_cast<IfcOrganization>( m_ApplicationDeveloper->getDeepCopy(options) ); }
+	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy(options) ); }
+	if( m_ApplicationFullName ) { copy_self->m_ApplicationFullName = dynamic_pointer_cast<IfcLabel>( m_ApplicationFullName->getDeepCopy(options) ); }
+	if( m_ApplicationIdentifier ) { copy_self->m_ApplicationIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_ApplicationIdentifier->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcApplication::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCAPPLICATION" << "(";
-	if( m_ApplicationDeveloper ) { stream << "#" << m_ApplicationDeveloper->getId(); } else { stream << "$"; }
+	if( m_ApplicationDeveloper ) { stream << "#" << m_ApplicationDeveloper->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Version ) { m_Version->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -52,14 +53,11 @@ void IfcApplication::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_ApplicationDeveloper, map );
-	m_Version = IfcLabel::createObjectFromStepData( args[1] );
-	m_ApplicationFullName = IfcLabel::createObjectFromStepData( args[2] );
-	m_ApplicationIdentifier = IfcIdentifier::createObjectFromStepData( args[3] );
+	m_Version = IfcLabel::createObjectFromSTEP( args[1] );
+	m_ApplicationFullName = IfcLabel::createObjectFromSTEP( args[2] );
+	m_ApplicationIdentifier = IfcIdentifier::createObjectFromSTEP( args[3] );
 }
 void IfcApplication::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

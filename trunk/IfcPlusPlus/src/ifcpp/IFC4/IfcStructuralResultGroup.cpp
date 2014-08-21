@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -40,16 +41,24 @@
 IfcStructuralResultGroup::IfcStructuralResultGroup() {}
 IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_id = id; }
 IfcStructuralResultGroup::~IfcStructuralResultGroup() {}
-shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralResultGroup> copy_self( new IfcStructuralResultGroup() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_TheoryType ) { copy_self->m_TheoryType = dynamic_pointer_cast<IfcAnalysisTheoryTypeEnum>( m_TheoryType->getDeepCopy() ); }
-	if( m_ResultForLoadGroup ) { copy_self->m_ResultForLoadGroup = dynamic_pointer_cast<IfcStructuralLoadGroup>( m_ResultForLoadGroup->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_TheoryType ) { copy_self->m_TheoryType = dynamic_pointer_cast<IfcAnalysisTheoryTypeEnum>( m_TheoryType->getDeepCopy(options) ); }
+	if( m_ResultForLoadGroup ) { copy_self->m_ResultForLoadGroup = dynamic_pointer_cast<IfcStructuralLoadGroup>( m_ResultForLoadGroup->getDeepCopy(options) ); }
 	if( m_IsLinear ) { copy_self->m_IsLinear = m_IsLinear; }
 	return copy_self;
 }
@@ -58,7 +67,7 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCSTRUCTURALRESULTGROUP" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -68,7 +77,7 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TheoryType ) { m_TheoryType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ResultForLoadGroup ) { stream << "#" << m_ResultForLoadGroup->getId(); } else { stream << "$"; }
+	if( m_ResultForLoadGroup ) { stream << "#" << m_ResultForLoadGroup->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_IsLinear == false ) { stream << ".F."; }
 	else if( m_IsLinear == true ) { stream << ".T."; }
@@ -78,16 +87,13 @@ void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool
 void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>8 ){ std::cout << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
-	m_TheoryType = IfcAnalysisTheoryTypeEnum::createObjectFromStepData( args[5] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
+	m_TheoryType = IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( args[5] );
 	readEntityReference( args[6], m_ResultForLoadGroup, map );
 	if( boost::iequals( args[7], L".F." ) ) { m_IsLinear = false; }
 	else if( boost::iequals( args[7], L".T." ) ) { m_IsLinear = true; }
@@ -97,7 +103,7 @@ void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string,
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TheoryType", m_TheoryType ) );
 	vec_attributes.push_back( std::make_pair( "ResultForLoadGroup", m_ResultForLoadGroup ) );
-	vec_attributes.push_back( std::make_pair( "IsLinear", shared_ptr<IfcPPBool>( new IfcPPBool( m_IsLinear ) ) ) );
+	vec_attributes.push_back( std::make_pair( "IsLinear", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsLinear ) ) ) );
 }
 void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
@@ -131,11 +137,10 @@ void IfcStructuralResultGroup::unlinkSelf()
 	if( m_ResultForLoadGroup )
 	{
 		std::vector<weak_ptr<IfcStructuralResultGroup> >& SourceOfResultGroup_inverse = m_ResultForLoadGroup->m_SourceOfResultGroup_inverse;
-		std::vector<weak_ptr<IfcStructuralResultGroup> >::iterator it_SourceOfResultGroup_inverse;
-		for( it_SourceOfResultGroup_inverse = SourceOfResultGroup_inverse.begin(); it_SourceOfResultGroup_inverse != SourceOfResultGroup_inverse.end(); ++it_SourceOfResultGroup_inverse)
+		for( auto it_SourceOfResultGroup_inverse = SourceOfResultGroup_inverse.begin(); it_SourceOfResultGroup_inverse != SourceOfResultGroup_inverse.end(); ++it_SourceOfResultGroup_inverse)
 		{
 			shared_ptr<IfcStructuralResultGroup> self_candidate( *it_SourceOfResultGroup_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				SourceOfResultGroup_inverse.erase( it_SourceOfResultGroup_inverse );
 				break;

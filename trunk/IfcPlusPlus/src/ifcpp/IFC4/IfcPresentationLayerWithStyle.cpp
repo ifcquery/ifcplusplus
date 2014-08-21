@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,20 +30,20 @@
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle() {}
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int id ) { m_id = id; }
 IfcPresentationLayerWithStyle::~IfcPresentationLayerWithStyle() {}
-shared_ptr<IfcPPObject> IfcPresentationLayerWithStyle::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPresentationLayerWithStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerWithStyle> copy_self( new IfcPresentationLayerWithStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
 	{
 		auto item_ii = m_AssignedItems[ii];
 		if( item_ii )
 		{
-			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy() ) );
+			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy() ); }
+	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
 	if( m_LayerOn ) { copy_self->m_LayerOn = m_LayerOn; }
 	if( m_LayerFrozen ) { copy_self->m_LayerFrozen = m_LayerFrozen; }
 	if( m_LayerBlocked ) { copy_self->m_LayerBlocked = m_LayerBlocked; }
@@ -51,7 +52,7 @@ shared_ptr<IfcPPObject> IfcPresentationLayerWithStyle::getDeepCopy()
 		auto item_ii = m_LayerStyles[ii];
 		if( item_ii )
 		{
-			copy_self->m_LayerStyles.push_back( dynamic_pointer_cast<IfcPresentationStyle>(item_ii->getDeepCopy() ) );
+			copy_self->m_LayerStyles.push_back( dynamic_pointer_cast<IfcPresentationStyle>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -86,14 +87,11 @@ void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream,
 void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>8 ){ std::cout << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readSelectList( args[2], m_AssignedItems, map );
-	m_Identifier = IfcIdentifier::createObjectFromStepData( args[3] );
+	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[3] );
 	if( boost::iequals( args[4], L".F." ) ) { m_LayerOn = LOGICAL_FALSE; }
 	else if( boost::iequals( args[4], L".T." ) ) { m_LayerOn = LOGICAL_TRUE; }
 	else if( boost::iequals( args[4], L".U." ) ) { m_LayerOn = LOGICAL_UNKNOWN; }
@@ -108,9 +106,9 @@ void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::ws
 void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationLayerAssignment::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LayerOn", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_LayerOn ) ) ) );
-	vec_attributes.push_back( std::make_pair( "LayerFrozen", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_LayerFrozen ) ) ) );
-	vec_attributes.push_back( std::make_pair( "LayerBlocked", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_LayerBlocked ) ) ) );
+	vec_attributes.push_back( std::make_pair( "LayerOn", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_LayerOn ) ) ) );
+	vec_attributes.push_back( std::make_pair( "LayerFrozen", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_LayerFrozen ) ) ) );
+	vec_attributes.push_back( std::make_pair( "LayerBlocked", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_LayerBlocked ) ) ) );
 	if( m_LayerStyles.size() > 0 )
 	{
 		shared_ptr<IfcPPAttributeObjectVector> LayerStyles_vec_object( new  IfcPPAttributeObjectVector() );

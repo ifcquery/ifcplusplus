@@ -48,9 +48,9 @@ public:
 	IfcCompressorTypeEnum( IfcCompressorTypeEnumEnum e ) { m_enum = e; }
 	~IfcCompressorTypeEnum();
 	virtual const char* classname() const { return "IfcCompressorTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcCompressorTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcCompressorTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcCompressorTypeEnumEnum m_enum;
 };
 

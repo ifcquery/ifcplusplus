@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,18 +30,18 @@
 IfcPerson::IfcPerson() {}
 IfcPerson::IfcPerson( int id ) { m_id = id; }
 IfcPerson::~IfcPerson() {}
-shared_ptr<IfcPPObject> IfcPerson::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPerson::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPerson> copy_self( new IfcPerson() );
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
-	if( m_FamilyName ) { copy_self->m_FamilyName = dynamic_pointer_cast<IfcLabel>( m_FamilyName->getDeepCopy() ); }
-	if( m_GivenName ) { copy_self->m_GivenName = dynamic_pointer_cast<IfcLabel>( m_GivenName->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
+	if( m_FamilyName ) { copy_self->m_FamilyName = dynamic_pointer_cast<IfcLabel>( m_FamilyName->getDeepCopy(options) ); }
+	if( m_GivenName ) { copy_self->m_GivenName = dynamic_pointer_cast<IfcLabel>( m_GivenName->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_MiddleNames.size(); ++ii )
 	{
 		auto item_ii = m_MiddleNames[ii];
 		if( item_ii )
 		{
-			copy_self->m_MiddleNames.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_MiddleNames.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_PrefixTitles.size(); ++ii )
@@ -48,7 +49,7 @@ shared_ptr<IfcPPObject> IfcPerson::getDeepCopy()
 		auto item_ii = m_PrefixTitles[ii];
 		if( item_ii )
 		{
-			copy_self->m_PrefixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_PrefixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_SuffixTitles.size(); ++ii )
@@ -56,7 +57,7 @@ shared_ptr<IfcPPObject> IfcPerson::getDeepCopy()
 		auto item_ii = m_SuffixTitles[ii];
 		if( item_ii )
 		{
-			copy_self->m_SuffixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_SuffixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Roles.size(); ++ii )
@@ -64,7 +65,7 @@ shared_ptr<IfcPPObject> IfcPerson::getDeepCopy()
 		auto item_ii = m_Roles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy() ) );
+			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Addresses.size(); ++ii )
@@ -72,7 +73,7 @@ shared_ptr<IfcPPObject> IfcPerson::getDeepCopy()
 		auto item_ii = m_Addresses[ii];
 		if( item_ii )
 		{
-			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy() ) );
+			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -101,16 +102,13 @@ void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>8 ){ std::cout << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Identification = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_FamilyName = IfcLabel::createObjectFromStepData( args[1] );
-	m_GivenName = IfcLabel::createObjectFromStepData( args[2] );
-	readTypeList( args[3], m_MiddleNames );
-	readTypeList( args[4], m_PrefixTitles );
-	readTypeList( args[5], m_SuffixTitles );
+	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_FamilyName = IfcLabel::createObjectFromSTEP( args[1] );
+	m_GivenName = IfcLabel::createObjectFromSTEP( args[2] );
+	readSelectList( args[3], m_MiddleNames, map );
+	readSelectList( args[4], m_PrefixTitles, map );
+	readSelectList( args[5], m_SuffixTitles, map );
 	readEntityReferenceList( args[6], m_Roles, map );
 	readEntityReferenceList( args[7], m_Addresses, map );
 }
@@ -169,7 +167,7 @@ void IfcPerson::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity 
 {
 	shared_ptr<IfcPerson> ptr_self = dynamic_pointer_cast<IfcPerson>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcPerson::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_Addresses.size(); ++i )
+	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )
 		{
@@ -179,16 +177,15 @@ void IfcPerson::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity 
 }
 void IfcPerson::unlinkSelf()
 {
-	for( int i=0; i<m_Addresses.size(); ++i )
+	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )
 		{
 			std::vector<weak_ptr<IfcPerson> >& OfPerson_inverse = m_Addresses[i]->m_OfPerson_inverse;
-			std::vector<weak_ptr<IfcPerson> >::iterator it_OfPerson_inverse;
-			for( it_OfPerson_inverse = OfPerson_inverse.begin(); it_OfPerson_inverse != OfPerson_inverse.end(); ++it_OfPerson_inverse)
+			for( auto it_OfPerson_inverse = OfPerson_inverse.begin(); it_OfPerson_inverse != OfPerson_inverse.end(); ++it_OfPerson_inverse)
 			{
 				shared_ptr<IfcPerson> self_candidate( *it_OfPerson_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					OfPerson_inverse.erase( it_OfPerson_inverse );
 					break;

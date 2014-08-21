@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,18 +28,18 @@
 IfcOrganizationRelationship::IfcOrganizationRelationship() {}
 IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_id = id; }
 IfcOrganizationRelationship::~IfcOrganizationRelationship() {}
-shared_ptr<IfcPPObject> IfcOrganizationRelationship::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOrganizationRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOrganizationRelationship> copy_self( new IfcOrganizationRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingOrganization ) { copy_self->m_RelatingOrganization = dynamic_pointer_cast<IfcOrganization>( m_RelatingOrganization->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingOrganization ) { copy_self->m_RelatingOrganization = dynamic_pointer_cast<IfcOrganization>( m_RelatingOrganization->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedOrganizations.size(); ++ii )
 	{
 		auto item_ii = m_RelatedOrganizations[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedOrganizations.push_back( dynamic_pointer_cast<IfcOrganization>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedOrganizations.push_back( dynamic_pointer_cast<IfcOrganization>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -50,7 +51,7 @@ void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingOrganization ) { stream << "#" << m_RelatingOrganization->getId(); } else { stream << "$"; }
+	if( m_RelatingOrganization ) { stream << "#" << m_RelatingOrganization->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedOrganizations );
 	stream << ");";
@@ -59,12 +60,9 @@ void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, b
 void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_RelatingOrganization, map );
 	readEntityReferenceList( args[3], m_RelatedOrganizations, map );
 }
@@ -88,7 +86,7 @@ void IfcOrganizationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcOrganizationRelationship> ptr_self = dynamic_pointer_cast<IfcOrganizationRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcOrganizationRelationship::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_RelatedOrganizations.size(); ++i )
+	for( size_t i=0; i<m_RelatedOrganizations.size(); ++i )
 	{
 		if( m_RelatedOrganizations[i] )
 		{
@@ -103,16 +101,15 @@ void IfcOrganizationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity
 void IfcOrganizationRelationship::unlinkSelf()
 {
 	IfcResourceLevelRelationship::unlinkSelf();
-	for( int i=0; i<m_RelatedOrganizations.size(); ++i )
+	for( size_t i=0; i<m_RelatedOrganizations.size(); ++i )
 	{
 		if( m_RelatedOrganizations[i] )
 		{
 			std::vector<weak_ptr<IfcOrganizationRelationship> >& IsRelatedBy_inverse = m_RelatedOrganizations[i]->m_IsRelatedBy_inverse;
-			std::vector<weak_ptr<IfcOrganizationRelationship> >::iterator it_IsRelatedBy_inverse;
-			for( it_IsRelatedBy_inverse = IsRelatedBy_inverse.begin(); it_IsRelatedBy_inverse != IsRelatedBy_inverse.end(); ++it_IsRelatedBy_inverse)
+			for( auto it_IsRelatedBy_inverse = IsRelatedBy_inverse.begin(); it_IsRelatedBy_inverse != IsRelatedBy_inverse.end(); ++it_IsRelatedBy_inverse)
 			{
 				shared_ptr<IfcOrganizationRelationship> self_candidate( *it_IsRelatedBy_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					IsRelatedBy_inverse.erase( it_IsRelatedBy_inverse );
 					break;
@@ -123,11 +120,10 @@ void IfcOrganizationRelationship::unlinkSelf()
 	if( m_RelatingOrganization )
 	{
 		std::vector<weak_ptr<IfcOrganizationRelationship> >& Relates_inverse = m_RelatingOrganization->m_Relates_inverse;
-		std::vector<weak_ptr<IfcOrganizationRelationship> >::iterator it_Relates_inverse;
-		for( it_Relates_inverse = Relates_inverse.begin(); it_Relates_inverse != Relates_inverse.end(); ++it_Relates_inverse)
+		for( auto it_Relates_inverse = Relates_inverse.begin(); it_Relates_inverse != Relates_inverse.end(); ++it_Relates_inverse)
 		{
 			shared_ptr<IfcOrganizationRelationship> self_candidate( *it_Relates_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				Relates_inverse.erase( it_Relates_inverse );
 				break;

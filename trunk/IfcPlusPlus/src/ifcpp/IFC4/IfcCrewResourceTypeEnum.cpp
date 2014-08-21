@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCrewResourceTypeEnum.h"
 
-// TYPE IfcCrewResourceTypeEnum 
+// TYPE IfcCrewResourceTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,USERDEFINED	,NOTDEFINED);
 IfcCrewResourceTypeEnum::IfcCrewResourceTypeEnum() {}
 IfcCrewResourceTypeEnum::~IfcCrewResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCrewResourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCrewResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCrewResourceTypeEnum> copy_self( new IfcCrewResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }

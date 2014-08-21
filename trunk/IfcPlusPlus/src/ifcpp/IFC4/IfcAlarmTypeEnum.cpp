@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcAlarmTypeEnum.h"
 
-// TYPE IfcAlarmTypeEnum 
+// TYPE IfcAlarmTypeEnum = ENUMERATION OF	(BELL	,BREAKGLASSBUTTON	,LIGHT	,MANUALPULLBOX	,SIREN	,WHISTLE	,USERDEFINED	,NOTDEFINED);
 IfcAlarmTypeEnum::IfcAlarmTypeEnum() {}
 IfcAlarmTypeEnum::~IfcAlarmTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAlarmTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAlarmTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAlarmTypeEnum> copy_self( new IfcAlarmTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcAlarmTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }

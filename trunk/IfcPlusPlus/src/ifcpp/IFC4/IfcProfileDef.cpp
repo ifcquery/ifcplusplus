@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,11 +29,11 @@
 IfcProfileDef::IfcProfileDef() {}
 IfcProfileDef::IfcProfileDef( int id ) { m_id = id; }
 IfcProfileDef::~IfcProfileDef() {}
-shared_ptr<IfcPPObject> IfcProfileDef::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProfileDef> copy_self( new IfcProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcProfileDef::getStepLine( std::stringstream& stream ) const
@@ -47,12 +48,9 @@ void IfcProfileDef::getStepParameter( std::stringstream& stream, bool ) const { 
 void IfcProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcProfileDef, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcProfileDef, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ProfileType = IfcProfileTypeEnum::createObjectFromStepData( args[0] );
-	m_ProfileName = IfcLabel::createObjectFromStepData( args[1] );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcProfileDef, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
+	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 }
 void IfcProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

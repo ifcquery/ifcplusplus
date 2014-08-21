@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,42 +31,47 @@
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered() {}
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered( int id ) { m_id = id; }
 IfcExtrudedAreaSolidTapered::~IfcExtrudedAreaSolidTapered() {}
-shared_ptr<IfcPPObject> IfcExtrudedAreaSolidTapered::getDeepCopy()
+shared_ptr<IfcPPObject> IfcExtrudedAreaSolidTapered::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcExtrudedAreaSolidTapered> copy_self( new IfcExtrudedAreaSolidTapered() );
-	if( m_SweptArea ) { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy() ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
-	if( m_ExtrudedDirection ) { copy_self->m_ExtrudedDirection = dynamic_pointer_cast<IfcDirection>( m_ExtrudedDirection->getDeepCopy() ); }
-	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy() ); }
-	if( m_EndSweptArea ) { copy_self->m_EndSweptArea = dynamic_pointer_cast<IfcProfileDef>( m_EndSweptArea->getDeepCopy() ); }
+	if( m_SweptArea )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptArea = m_SweptArea; }
+		else { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy(options) ); }
+	}
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
+	if( m_ExtrudedDirection ) { copy_self->m_ExtrudedDirection = dynamic_pointer_cast<IfcDirection>( m_ExtrudedDirection->getDeepCopy(options) ); }
+	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy(options) ); }
+	if( m_EndSweptArea )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_EndSweptArea = m_EndSweptArea; }
+		else { copy_self->m_EndSweptArea = dynamic_pointer_cast<IfcProfileDef>( m_EndSweptArea->getDeepCopy(options) ); }
+	}
 	return copy_self;
 }
 void IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCEXTRUDEDAREASOLIDTAPERED" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->getId(); } else { stream << "*"; }
+	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->getId(); } else { stream << "$"; }
+	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcExtrudedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcExtrudedAreaSolidTapered::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcExtrudedAreaSolidTapered, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcExtrudedAreaSolidTapered, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcExtrudedAreaSolidTapered, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_ExtrudedDirection, map );
-	m_Depth = IfcPositiveLengthMeasure::createObjectFromStepData( args[3] );
+	m_Depth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_EndSweptArea, map );
 }
 void IfcExtrudedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,15 +31,23 @@
 IfcRelFillsElement::IfcRelFillsElement() {}
 IfcRelFillsElement::IfcRelFillsElement( int id ) { m_id = id; }
 IfcRelFillsElement::~IfcRelFillsElement() {}
-shared_ptr<IfcPPObject> IfcRelFillsElement::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelFillsElement::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelFillsElement> copy_self( new IfcRelFillsElement() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingOpeningElement ) { copy_self->m_RelatingOpeningElement = dynamic_pointer_cast<IfcOpeningElement>( m_RelatingOpeningElement->getDeepCopy() ); }
-	if( m_RelatedBuildingElement ) { copy_self->m_RelatedBuildingElement = dynamic_pointer_cast<IfcElement>( m_RelatedBuildingElement->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingOpeningElement ) { copy_self->m_RelatingOpeningElement = dynamic_pointer_cast<IfcOpeningElement>( m_RelatingOpeningElement->getDeepCopy(options) ); }
+	if( m_RelatedBuildingElement ) { copy_self->m_RelatedBuildingElement = dynamic_pointer_cast<IfcElement>( m_RelatedBuildingElement->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelFillsElement::getStepLine( std::stringstream& stream ) const
@@ -46,29 +55,26 @@ void IfcRelFillsElement::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELFILLSELEMENT" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingOpeningElement ) { stream << "#" << m_RelatingOpeningElement->getId(); } else { stream << "$"; }
+	if( m_RelatingOpeningElement ) { stream << "#" << m_RelatingOpeningElement->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->getId(); } else { stream << "$"; }
+	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRelFillsElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcRelFillsElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelFillsElement, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcRelFillsElement, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelFillsElement, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_RelatingOpeningElement, map );
 	readEntityReference( args[5], m_RelatedBuildingElement, map );
 }
@@ -102,11 +108,10 @@ void IfcRelFillsElement::unlinkSelf()
 	if( m_RelatedBuildingElement )
 	{
 		std::vector<weak_ptr<IfcRelFillsElement> >& FillsVoids_inverse = m_RelatedBuildingElement->m_FillsVoids_inverse;
-		std::vector<weak_ptr<IfcRelFillsElement> >::iterator it_FillsVoids_inverse;
-		for( it_FillsVoids_inverse = FillsVoids_inverse.begin(); it_FillsVoids_inverse != FillsVoids_inverse.end(); ++it_FillsVoids_inverse)
+		for( auto it_FillsVoids_inverse = FillsVoids_inverse.begin(); it_FillsVoids_inverse != FillsVoids_inverse.end(); ++it_FillsVoids_inverse)
 		{
 			shared_ptr<IfcRelFillsElement> self_candidate( *it_FillsVoids_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				FillsVoids_inverse.erase( it_FillsVoids_inverse );
 				break;
@@ -116,11 +121,10 @@ void IfcRelFillsElement::unlinkSelf()
 	if( m_RelatingOpeningElement )
 	{
 		std::vector<weak_ptr<IfcRelFillsElement> >& HasFillings_inverse = m_RelatingOpeningElement->m_HasFillings_inverse;
-		std::vector<weak_ptr<IfcRelFillsElement> >::iterator it_HasFillings_inverse;
-		for( it_HasFillings_inverse = HasFillings_inverse.begin(); it_HasFillings_inverse != HasFillings_inverse.end(); ++it_HasFillings_inverse)
+		for( auto it_HasFillings_inverse = HasFillings_inverse.begin(); it_HasFillings_inverse != HasFillings_inverse.end(); ++it_HasFillings_inverse)
 		{
 			shared_ptr<IfcRelFillsElement> self_candidate( *it_HasFillings_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasFillings_inverse.erase( it_HasFillings_inverse );
 				break;

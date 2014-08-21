@@ -17,11 +17,13 @@
 #include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
 #include <ifcpp/IFC4/include/IfcSpecularExponent.h>
 #include <ifcpp/IFC4/include/IfcSpecularRoughness.h>
+#include <ifcpp/IFC4/include/IfcColour.h>
 #include <ifcpp/IFC4/include/IfcColourOrFactor.h>
 #include <ifcpp/IFC4/include/IfcColourRgb.h>
 #include <ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h>
 #include <ifcpp/IFC4/include/IfcDraughtingPreDefinedColour.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
+#include <ifcpp/IFC4/include/IfcStyleAssignmentSelect.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleElementSelect.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyle.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleShading.h>
@@ -44,6 +46,7 @@
 #include <ifcpp/IFC4/include/IfcSurfaceStyleLighting.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleRefraction.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleWithTextures.h>
+#include <ifcpp/IFC4/include/IfcValue.h>
 
 #include "GeometryInputData.h"
 #include "StylesConverter.h"
@@ -106,10 +109,10 @@ void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, ca
 	}
 }
 
-void convertIfcColour( shared_ptr<IfcColour> ifc_color, carve::geom::vector<4>& color )
+void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, carve::geom::vector<4>& color )
 {
 	// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
-	shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>(ifc_color);
+	shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>(ifc_color_select);
 	if( color_spec )
 	{
 		// ENTITY IfcColourSpecification ABSTRACT SUPERTYPE OF(IfcColourRgb);
@@ -121,7 +124,7 @@ void convertIfcColour( shared_ptr<IfcColour> ifc_color, carve::geom::vector<4>& 
 		return;
 	}
 
-	shared_ptr<IfcPreDefinedColour> predefined_color = dynamic_pointer_cast<IfcPreDefinedColour>(ifc_color);
+	shared_ptr<IfcPreDefinedColour> predefined_color = dynamic_pointer_cast<IfcPreDefinedColour>(ifc_color_select);
 	if( predefined_color )
 	{
 		// ENTITY IfcPreDefinedColour ABSTRACT SUPERTYPE OF(IfcDraughtingPreDefinedColour)
@@ -148,7 +151,7 @@ void convertIfcColour( shared_ptr<IfcColour> ifc_color, carve::geom::vector<4>& 
 
 void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surface_style, shared_ptr<AppearanceData>& appearance_data )
 {
-	const int style_id = surface_style->getId();
+	const int style_id = surface_style->m_id;
 	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{
@@ -178,7 +181,6 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 			continue;
 		}
 		// TYPE IfcSurfaceStyleElementSelect = SELECT	(IfcExternallyDefinedSurfaceStyle	,IfcSurfaceStyleLighting	,IfcSurfaceStyleRefraction	,IfcSurfaceStyleShading	,IfcSurfaceStyleWithTextures);
-
 		shared_ptr<IfcSurfaceStyleShading> surface_style_shading = dynamic_pointer_cast<IfcSurfaceStyleShading>(surf_style_element_select);
 		if( surface_style_shading )
 		{
@@ -303,7 +305,7 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_weak, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
 {
 	shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
-	const int style_id = styled_item->getId();
+	const int style_id = styled_item->m_id;
 
 	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 	if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -313,22 +315,24 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 	}
 
 	std::vector<shared_ptr<IfcStyleAssignmentSelect> >& vec_style_assigns = styled_item->m_Styles;
-	std::vector<shared_ptr<IfcStyleAssignmentSelect> >::iterator it_style_assigns;
-	
-	for( it_style_assigns=vec_style_assigns.begin(); it_style_assigns!=vec_style_assigns.end(); ++it_style_assigns )
+	for( auto it_style_assigns=vec_style_assigns.begin(); it_style_assigns!=vec_style_assigns.end(); ++it_style_assigns )
 	{
 		// TYPE IfcStyleAssignmentSelect = SELECT	(IfcPresentationStyle	,IfcPresentationStyleAssignment);
 		shared_ptr<IfcStyleAssignmentSelect> style_assign_select = (*it_style_assigns);
-		shared_ptr<IfcPresentationStyleAssignment> style_assign = dynamic_pointer_cast<IfcPresentationStyleAssignment>(style_assign_select);    
-		if( style_assign )
+		if( !style_assign_select )
 		{
-			std::vector<shared_ptr<IfcPresentationStyleSelect> >& vec_styles = style_assign->m_Styles;
-		
-			std::vector<shared_ptr<IfcPresentationStyleSelect> >::iterator it_presentation_styles;
-			for( it_presentation_styles=vec_styles.begin(); it_presentation_styles!=vec_styles.end(); ++it_presentation_styles )
+			continue;
+		}
+
+		shared_ptr<IfcPresentationStyleAssignment> presentation_style_assign = dynamic_pointer_cast<IfcPresentationStyleAssignment>( style_assign_select );
+		if( presentation_style_assign )
+		{
+			std::vector<shared_ptr<IfcPresentationStyleSelect> >& vec_styles = presentation_style_assign->m_Styles;
+
+			for( auto it_presentation_styles = vec_styles.begin(); it_presentation_styles != vec_styles.end(); ++it_presentation_styles )
 			{
 				// TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcSymbolStyle	,IfcTextStyle);
-				shared_ptr<IfcPresentationStyleSelect> pres_style_select = (*it_presentation_styles);
+				shared_ptr<IfcPresentationStyleSelect> pres_style_select = ( *it_presentation_styles );
 
 				shared_ptr<AppearanceData> appearance_data;
 				convertIfcPresentationStyleSelect( pres_style_select, appearance_data );
@@ -338,7 +342,7 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 		}
 
 		// ENTITY IfcPresentationStyle ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
-		shared_ptr<IfcPresentationStyle> presentation_style = dynamic_pointer_cast<IfcPresentationStyle>(style_assign_select);
+		shared_ptr<IfcPresentationStyle> presentation_style = dynamic_pointer_cast<IfcPresentationStyle>( style_assign_select );
 		if( presentation_style )
 		{
 			shared_ptr<AppearanceData> appearance_data;
@@ -348,6 +352,7 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 		}
 
 		continue;
+		
 	}
 }
 
@@ -367,17 +372,20 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 
 		if( prop1 && prop2 && prop3 )
 		{
-			if( prop1->m_NominalValue && prop2->m_NominalValue && prop3->m_NominalValue )
+			shared_ptr<IfcValue>	v1_select = prop1->m_NominalValue;
+			shared_ptr<IfcValue>	v2_select = prop2->m_NominalValue;
+			shared_ptr<IfcValue>	v3_select = prop3->m_NominalValue;
+			if( v1_select && v2_select && v3_select )
 			{
-				shared_ptr<IfcInteger> prop1v = dynamic_pointer_cast<IfcInteger>(prop1->m_NominalValue);
-				shared_ptr<IfcInteger> prop2v = dynamic_pointer_cast<IfcInteger>(prop2->m_NominalValue);
-				shared_ptr<IfcInteger> prop3v = dynamic_pointer_cast<IfcInteger>(prop3->m_NominalValue);
+				shared_ptr<IfcInteger> v1_int = dynamic_pointer_cast<IfcInteger>(v1_select);
+				shared_ptr<IfcInteger> v2_int = dynamic_pointer_cast<IfcInteger>(v2_select);
+				shared_ptr<IfcInteger> v3_int = dynamic_pointer_cast<IfcInteger>(v3_select);
 
-				if( prop1v && prop2v && prop3v )
+				if( v1_int && v2_int && v3_int )
 				{
-					double r = prop1v->m_value/255.0;
-					double g = prop2v->m_value/255.0;
-					double b = prop3v->m_value/255.0;
+					double r = v1_int->m_value/255.0;
+					double g = v2_int->m_value/255.0;
+					double b = v3_int->m_value/255.0;
 
 					if( r < 0.05 && g < 0.05 && b < 0.05 )
 					{
@@ -406,7 +414,7 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 
 void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 {
-	int style_id = presentation_style->getId();
+	int style_id = presentation_style->m_id;
 	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{
@@ -456,17 +464,17 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 	return;
 }
 
-void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentationStyleSelect> presentation_style, shared_ptr<AppearanceData>& appearance_data )
+void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentationStyleSelect> presentation_style_select, shared_ptr<AppearanceData>& appearance_data )
 {
 	// TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcSymbolStyle	,IfcTextStyle);
-	shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
+	shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style_select );
 	if( curve_style )
 	{
 		convertIfcCurveStyle( curve_style, appearance_data );
 		return;
 	}
 
-	shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
+	shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style_select );
 	if( fill_area_style )
 	{
 #ifdef _DEBUG
@@ -475,7 +483,7 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 		return;
 	}
 
-	shared_ptr<IfcNullStyle> null_style = dynamic_pointer_cast<IfcNullStyle>( presentation_style );
+	shared_ptr<IfcNullStyle> null_style = dynamic_pointer_cast<IfcNullStyle>( presentation_style_select );
 	if( null_style )
 	{
 #ifdef _DEBUG
@@ -484,18 +492,18 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 		return;
 	}
 
-	shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style );
+	shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style_select );
 	if( surface_style )
 	{
 		return convertIfcSurfaceStyle( surface_style, appearance_data );
 	}
 
-	shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
+	shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style_select );
 	if( text_style )
 	{
 		if (!appearance_data)
 		{
-			int style_id = text_style->getId();
+			int style_id = text_style->m_id;
 			appearance_data = shared_ptr<AppearanceData>(new AppearanceData(style_id));
 		}
 
@@ -508,7 +516,7 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 
 void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data )
 {
-	int style_id = curve_style->getId();
+	int style_id = curve_style->m_id;
 	auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 	if( it_find_existing_style != m_map_ifc_styles.end() )
 	{

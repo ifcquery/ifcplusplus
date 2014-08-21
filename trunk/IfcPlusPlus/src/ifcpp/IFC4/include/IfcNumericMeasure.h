@@ -21,15 +21,16 @@
 #include "IfcMeasureValue.h"
 
 // TYPE IfcNumericMeasure = NUMBER;
-class IfcNumericMeasure : public IfcMeasureValue, public IfcPPInt
+class IfcNumericMeasure : public IfcMeasureValue
 {
 public:
 	IfcNumericMeasure();
 	IfcNumericMeasure( int value );
 	~IfcNumericMeasure();
 	virtual const char* classname() const { return "IfcNumericMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcNumericMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcNumericMeasure> createObjectFromSTEP( const std::wstring& arg );
+	int m_value;
 };
 

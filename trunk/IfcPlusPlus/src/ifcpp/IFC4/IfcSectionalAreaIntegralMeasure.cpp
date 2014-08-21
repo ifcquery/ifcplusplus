@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcSectionalAreaIntegralMeasure.h"
 
-// TYPE IfcSectionalAreaIntegralMeasure 
+// TYPE IfcSectionalAreaIntegralMeasure = REAL;
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure() {}
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure( double value ) { m_value = value; }
 IfcSectionalAreaIntegralMeasure::~IfcSectionalAreaIntegralMeasure() {}
-shared_ptr<IfcPPObject> IfcSectionalAreaIntegralMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSectionalAreaIntegralMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSectionalAreaIntegralMeasure> copy_self( new IfcSectionalAreaIntegralMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcSectionalAreaIntegralMeasure::getStepParameter( std::stringstream& strea
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
 	shared_ptr<IfcSectionalAreaIntegralMeasure> type_object( new IfcSectionalAreaIntegralMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

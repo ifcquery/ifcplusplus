@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,12 +29,12 @@
 IfcBooleanResult::IfcBooleanResult() {}
 IfcBooleanResult::IfcBooleanResult( int id ) { m_id = id; }
 IfcBooleanResult::~IfcBooleanResult() {}
-shared_ptr<IfcPPObject> IfcBooleanResult::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBooleanResult::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBooleanResult> copy_self( new IfcBooleanResult() );
-	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcBooleanOperator>( m_Operator->getDeepCopy() ); }
-	if( m_FirstOperand ) { copy_self->m_FirstOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_FirstOperand->getDeepCopy() ); }
-	if( m_SecondOperand ) { copy_self->m_SecondOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_SecondOperand->getDeepCopy() ); }
+	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcBooleanOperator>( m_Operator->getDeepCopy(options) ); }
+	if( m_FirstOperand ) { copy_self->m_FirstOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_FirstOperand->getDeepCopy(options) ); }
+	if( m_SecondOperand ) { copy_self->m_SecondOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_SecondOperand->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBooleanResult::getStepLine( std::stringstream& stream ) const
@@ -50,13 +51,10 @@ void IfcBooleanResult::getStepParameter( std::stringstream& stream, bool ) const
 void IfcBooleanResult::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBooleanResult, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcBooleanResult, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Operator = IfcBooleanOperator::createObjectFromStepData( args[0] );
-	m_FirstOperand = IfcBooleanOperand::createObjectFromStepData( args[1], map );
-	m_SecondOperand = IfcBooleanOperand::createObjectFromStepData( args[2], map );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBooleanResult, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Operator = IfcBooleanOperator::createObjectFromSTEP( args[0] );
+	m_FirstOperand = IfcBooleanOperand::createObjectFromSTEP( args[1], map );
+	m_SecondOperand = IfcBooleanOperand::createObjectFromSTEP( args[2], map );
 }
 void IfcBooleanResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -24,13 +24,13 @@ class IfcLabel;
 class IfcPerson;
 class IfcOrganization;
 //ENTITY
-class IfcAddress : public IfcObjectReferenceSelect, public IfcPPEntity
+class IfcAddress : virtual public IfcObjectReferenceSelect, public IfcPPEntity
 {
 public:
 	IfcAddress();
 	IfcAddress( int id );
 	~IfcAddress();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,12 +30,12 @@
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef() {}
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int id ) { m_id = id; }
 IfcArbitraryClosedProfileDef::~IfcArbitraryClosedProfileDef() {}
-shared_ptr<IfcPPObject> IfcArbitraryClosedProfileDef::getDeepCopy()
+shared_ptr<IfcPPObject> IfcArbitraryClosedProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcArbitraryClosedProfileDef> copy_self( new IfcArbitraryClosedProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
-	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy() ); }
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
+	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) const
@@ -44,19 +45,16 @@ void IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) cons
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->getId(); } else { stream << "$"; }
+	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcArbitraryClosedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ProfileType = IfcProfileTypeEnum::createObjectFromStepData( args[0] );
-	m_ProfileName = IfcLabel::createObjectFromStepData( args[1] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
+	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_OuterCurve, map );
 }
 void IfcArbitraryClosedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

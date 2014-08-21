@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,16 +27,16 @@
 IfcLightDistributionData::IfcLightDistributionData() {}
 IfcLightDistributionData::IfcLightDistributionData( int id ) { m_id = id; }
 IfcLightDistributionData::~IfcLightDistributionData() {}
-shared_ptr<IfcPPObject> IfcLightDistributionData::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightDistributionData::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightDistributionData> copy_self( new IfcLightDistributionData() );
-	if( m_MainPlaneAngle ) { copy_self->m_MainPlaneAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_MainPlaneAngle->getDeepCopy() ); }
+	if( m_MainPlaneAngle ) { copy_self->m_MainPlaneAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_MainPlaneAngle->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_SecondaryPlaneAngle.size(); ++ii )
 	{
 		auto item_ii = m_SecondaryPlaneAngle[ii];
 		if( item_ii )
 		{
-			copy_self->m_SecondaryPlaneAngle.push_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy() ) );
+			copy_self->m_SecondaryPlaneAngle.push_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_LuminousIntensity.size(); ++ii )
@@ -43,7 +44,7 @@ shared_ptr<IfcPPObject> IfcLightDistributionData::getDeepCopy()
 		auto item_ii = m_LuminousIntensity[ii];
 		if( item_ii )
 		{
-			copy_self->m_LuminousIntensity.push_back( dynamic_pointer_cast<IfcLuminousIntensityDistributionMeasure>(item_ii->getDeepCopy() ) );
+			copy_self->m_LuminousIntensity.push_back( dynamic_pointer_cast<IfcLuminousIntensityDistributionMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -62,11 +63,8 @@ void IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool
 void IfcLightDistributionData::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightDistributionData, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcLightDistributionData, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_MainPlaneAngle = IfcPlaneAngleMeasure::createObjectFromStepData( args[0] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightDistributionData, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_MainPlaneAngle = IfcPlaneAngleMeasure::createObjectFromSTEP( args[0] );
 	readTypeOfRealList( args[1], m_SecondaryPlaneAngle );
 	readTypeOfRealList( args[2], m_LuminousIntensity );
 }

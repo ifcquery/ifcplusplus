@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcPressureMeasure.h"
 
-// TYPE IfcPressureMeasure 
+// TYPE IfcPressureMeasure = REAL;
 IfcPressureMeasure::IfcPressureMeasure() {}
 IfcPressureMeasure::IfcPressureMeasure( double value ) { m_value = value; }
 IfcPressureMeasure::~IfcPressureMeasure() {}
-shared_ptr<IfcPPObject> IfcPressureMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPressureMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPressureMeasure> copy_self( new IfcPressureMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcPressureMeasure::getStepParameter( std::stringstream& stream, bool is_se
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPressureMeasure> IfcPressureMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPressureMeasure> IfcPressureMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPressureMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPressureMeasure>(); }
 	shared_ptr<IfcPressureMeasure> type_object( new IfcPressureMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

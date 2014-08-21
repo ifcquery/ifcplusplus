@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPlateTypeEnum.h"
 
-// TYPE IfcPlateTypeEnum 
+// TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,USERDEFINED	,NOTDEFINED);
 IfcPlateTypeEnum::IfcPlateTypeEnum() {}
 IfcPlateTypeEnum::~IfcPlateTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPlateTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPlateTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }

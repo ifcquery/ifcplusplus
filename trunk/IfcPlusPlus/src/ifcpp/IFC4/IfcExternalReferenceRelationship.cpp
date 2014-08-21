@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -39,18 +40,18 @@
 IfcExternalReferenceRelationship::IfcExternalReferenceRelationship() {}
 IfcExternalReferenceRelationship::IfcExternalReferenceRelationship( int id ) { m_id = id; }
 IfcExternalReferenceRelationship::~IfcExternalReferenceRelationship() {}
-shared_ptr<IfcPPObject> IfcExternalReferenceRelationship::getDeepCopy()
+shared_ptr<IfcPPObject> IfcExternalReferenceRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcExternalReferenceRelationship> copy_self( new IfcExternalReferenceRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingReference ) { copy_self->m_RelatingReference = dynamic_pointer_cast<IfcExternalReference>( m_RelatingReference->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingReference ) { copy_self->m_RelatingReference = dynamic_pointer_cast<IfcExternalReference>( m_RelatingReference->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedResourceObjects.size(); ++ii )
 	{
 		auto item_ii = m_RelatedResourceObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -62,7 +63,7 @@ void IfcExternalReferenceRelationship::getStepLine( std::stringstream& stream ) 
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingReference ) { stream << "#" << m_RelatingReference->getId(); } else { stream << "$"; }
+	if( m_RelatingReference ) { stream << "#" << m_RelatingReference->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_RelatedResourceObjects, true );
 	stream << ");";
@@ -71,12 +72,9 @@ void IfcExternalReferenceRelationship::getStepParameter( std::stringstream& stre
 void IfcExternalReferenceRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcExternalReferenceRelationship, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcExternalReferenceRelationship, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcExternalReferenceRelationship, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_RelatingReference, map );
 	readSelectList( args[3], m_RelatedResourceObjects, map );
 }
@@ -100,7 +98,7 @@ void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<IfcPPE
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcExternalReferenceRelationship> ptr_self = dynamic_pointer_cast<IfcExternalReferenceRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcExternalReferenceRelationship::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_RelatedResourceObjects.size(); ++i )
+	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
 	{
 		shared_ptr<IfcActorRole>  RelatedResourceObjects_IfcActorRole = dynamic_pointer_cast<IfcActorRole>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcActorRole )
@@ -166,17 +164,16 @@ void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<IfcPPE
 void IfcExternalReferenceRelationship::unlinkSelf()
 {
 	IfcResourceLevelRelationship::unlinkSelf();
-	for( int i=0; i<m_RelatedResourceObjects.size(); ++i )
+	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
 	{
 		shared_ptr<IfcActorRole>  RelatedResourceObjects_IfcActorRole = dynamic_pointer_cast<IfcActorRole>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcActorRole )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcActorRole->m_HasExternalReference_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReference_inverse;
-			for( it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
 					break;
@@ -187,11 +184,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcAppliedValue )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcAppliedValue->m_HasExternalReference_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReference_inverse;
-			for( it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
 					break;
@@ -202,11 +198,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcApproval )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcApproval->m_HasExternalReferences_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReferences_inverse;
-			for( it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
 					break;
@@ -217,11 +212,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcConstraint )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcConstraint->m_HasExternalReferences_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReferences_inverse;
-			for( it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
 					break;
@@ -232,11 +226,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcContextDependentUnit )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcContextDependentUnit->m_HasExternalReference_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReference_inverse;
-			for( it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
 					break;
@@ -247,11 +240,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcConversionBasedUnit )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcConversionBasedUnit->m_HasExternalReference_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReference_inverse;
-			for( it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
 					break;
@@ -262,11 +254,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcMaterialDefinition )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcMaterialDefinition->m_HasExternalReferences_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReferences_inverse;
-			for( it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
 					break;
@@ -277,11 +268,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcPhysicalQuantity )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcPhysicalQuantity->m_HasExternalReferences_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReferences_inverse;
-			for( it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
 					break;
@@ -292,11 +282,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcProfileDef )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcProfileDef->m_HasExternalReference_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReference_inverse;
-			for( it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
 					break;
@@ -307,11 +296,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcPropertyAbstraction )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcPropertyAbstraction->m_HasExternalReferences_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReferences_inverse;
-			for( it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
 					break;
@@ -322,11 +310,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcTimeSeries )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcTimeSeries->m_HasExternalReference_inverse;
-			std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_HasExternalReference_inverse;
-			for( it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
 					break;
@@ -337,11 +324,10 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 	if( m_RelatingReference )
 	{
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >& ExternalReferenceForResources_inverse = m_RelatingReference->m_ExternalReferenceForResources_inverse;
-		std::vector<weak_ptr<IfcExternalReferenceRelationship> >::iterator it_ExternalReferenceForResources_inverse;
-		for( it_ExternalReferenceForResources_inverse = ExternalReferenceForResources_inverse.begin(); it_ExternalReferenceForResources_inverse != ExternalReferenceForResources_inverse.end(); ++it_ExternalReferenceForResources_inverse)
+		for( auto it_ExternalReferenceForResources_inverse = ExternalReferenceForResources_inverse.begin(); it_ExternalReferenceForResources_inverse != ExternalReferenceForResources_inverse.end(); ++it_ExternalReferenceForResources_inverse)
 		{
 			shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_ExternalReferenceForResources_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				ExternalReferenceForResources_inverse.erase( it_ExternalReferenceForResources_inverse );
 				break;

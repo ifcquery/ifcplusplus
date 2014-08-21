@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcRoleEnum.h"
 
-// TYPE IfcRoleEnum 
+// TYPE IfcRoleEnum = ENUMERATION OF	(SUPPLIER	,MANUFACTURER	,CONTRACTOR	,SUBCONTRACTOR	,ARCHITECT	,STRUCTURALENGINEER	,COSTENGINEER	,CLIENT	,BUILDINGOWNER	,BUILDINGOPERATOR	,MECHANICALENGINEER	,ELECTRICALENGINEER	,PROJECTMANAGER	,FACILITIESMANAGER	,CIVILENGINEER	,COMMISSIONINGENGINEER	,ENGINEER	,OWNER	,CONSULTANT	,CONSTRUCTIONMANAGER	,FIELDCONSTRUCTIONMANAGER	,RESELLER	,USERDEFINED);
 IfcRoleEnum::IfcRoleEnum() {}
 IfcRoleEnum::~IfcRoleEnum() {}
-shared_ptr<IfcPPObject> IfcRoleEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRoleEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRoleEnum> copy_self( new IfcRoleEnum() );
 	copy_self->m_enum = m_enum;
@@ -126,7 +126,7 @@ void IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }

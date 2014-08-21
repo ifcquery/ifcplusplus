@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPerformanceHistoryTypeEnum.h"
 
-// TYPE IfcPerformanceHistoryTypeEnum 
+// TYPE IfcPerformanceHistoryTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcPerformanceHistoryTypeEnum::IfcPerformanceHistoryTypeEnum() {}
 IfcPerformanceHistoryTypeEnum::~IfcPerformanceHistoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPerformanceHistoryTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPerformanceHistoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPerformanceHistoryTypeEnum> copy_self( new IfcPerformanceHistoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcPerformanceHistoryTypeEnum::getStepParameter( std::stringstream& stream,
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPerformanceHistoryTypeEnum> IfcPerformanceHistoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPerformanceHistoryTypeEnum> IfcPerformanceHistoryTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }

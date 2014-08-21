@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,18 +29,18 @@
 IfcOffsetCurve2D::IfcOffsetCurve2D() {}
 IfcOffsetCurve2D::IfcOffsetCurve2D( int id ) { m_id = id; }
 IfcOffsetCurve2D::~IfcOffsetCurve2D() {}
-shared_ptr<IfcPPObject> IfcOffsetCurve2D::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOffsetCurve2D::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOffsetCurve2D> copy_self( new IfcOffsetCurve2D() );
-	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy() ); }
-	if( m_Distance ) { copy_self->m_Distance = dynamic_pointer_cast<IfcLengthMeasure>( m_Distance->getDeepCopy() ); }
+	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy(options) ); }
+	if( m_Distance ) { copy_self->m_Distance = dynamic_pointer_cast<IfcLengthMeasure>( m_Distance->getDeepCopy(options) ); }
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
 	return copy_self;
 }
 void IfcOffsetCurve2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCOFFSETCURVE2D" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->getId(); } else { stream << "$"; }
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -52,12 +53,9 @@ void IfcOffsetCurve2D::getStepParameter( std::stringstream& stream, bool ) const
 void IfcOffsetCurve2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOffsetCurve2D, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcOffsetCurve2D, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOffsetCurve2D, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
-	m_Distance = IfcLengthMeasure::createObjectFromStepData( args[1] );
+	m_Distance = IfcLengthMeasure::createObjectFromSTEP( args[1] );
 	if( boost::iequals( args[2], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
 	else if( boost::iequals( args[2], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
 	else if( boost::iequals( args[2], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
@@ -67,7 +65,7 @@ void IfcOffsetCurve2D::getAttributes( std::vector<std::pair<std::string, shared_
 	IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
 	vec_attributes.push_back( std::make_pair( "Distance", m_Distance ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_SelfIntersect ) ) ) );
 }
 void IfcOffsetCurve2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

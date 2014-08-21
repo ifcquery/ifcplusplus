@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,29 +29,26 @@
 IfcLine::IfcLine() {}
 IfcLine::IfcLine( int id ) { m_id = id; }
 IfcLine::~IfcLine() {}
-shared_ptr<IfcPPObject> IfcLine::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLine::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLine> copy_self( new IfcLine() );
-	if( m_Pnt ) { copy_self->m_Pnt = dynamic_pointer_cast<IfcCartesianPoint>( m_Pnt->getDeepCopy() ); }
-	if( m_Dir ) { copy_self->m_Dir = dynamic_pointer_cast<IfcVector>( m_Dir->getDeepCopy() ); }
+	if( m_Pnt ) { copy_self->m_Pnt = dynamic_pointer_cast<IfcCartesianPoint>( m_Pnt->getDeepCopy(options) ); }
+	if( m_Dir ) { copy_self->m_Dir = dynamic_pointer_cast<IfcVector>( m_Dir->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcLine::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCLINE" << "(";
-	if( m_Pnt ) { stream << "#" << m_Pnt->getId(); } else { stream << "$"; }
+	if( m_Pnt ) { stream << "#" << m_Pnt->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Dir ) { stream << "#" << m_Dir->getId(); } else { stream << "$"; }
+	if( m_Dir ) { stream << "#" << m_Dir->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcLine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcLine::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLine, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcLine, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLine, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Pnt, map );
 	readEntityReference( args[1], m_Dir, map );
 }

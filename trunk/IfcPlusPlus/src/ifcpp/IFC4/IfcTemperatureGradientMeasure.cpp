@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcTemperatureGradientMeasure.h"
 
-// TYPE IfcTemperatureGradientMeasure 
+// TYPE IfcTemperatureGradientMeasure = REAL;
 IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure() {}
 IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure( double value ) { m_value = value; }
 IfcTemperatureGradientMeasure::~IfcTemperatureGradientMeasure() {}
-shared_ptr<IfcPPObject> IfcTemperatureGradientMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTemperatureGradientMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTemperatureGradientMeasure> copy_self( new IfcTemperatureGradientMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcTemperatureGradientMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTemperatureGradientMeasure> IfcTemperatureGradientMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTemperatureGradientMeasure> IfcTemperatureGradientMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
 	shared_ptr<IfcTemperatureGradientMeasure> type_object( new IfcTemperatureGradientMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,20 +30,20 @@
 IfcCompositeProfileDef::IfcCompositeProfileDef() {}
 IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_id = id; }
 IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
-shared_ptr<IfcPPObject> IfcCompositeProfileDef::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCompositeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCompositeProfileDef> copy_self( new IfcCompositeProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Profiles.size(); ++ii )
 	{
 		auto item_ii = m_Profiles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Profiles.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy() ) );
+			copy_self->m_Profiles.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy() ); }
+	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
@@ -61,14 +62,11 @@ void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool )
 void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ProfileType = IfcProfileTypeEnum::createObjectFromStepData( args[0] );
-	m_ProfileName = IfcLabel::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
+	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReferenceList( args[2], m_Profiles, map );
-	m_Label = IfcLabel::createObjectFromStepData( args[3] );
+	m_Label = IfcLabel::createObjectFromSTEP( args[3] );
 }
 void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

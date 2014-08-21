@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,22 +31,22 @@
 IfcTextStyleFontModel::IfcTextStyleFontModel() {}
 IfcTextStyleFontModel::IfcTextStyleFontModel( int id ) { m_id = id; }
 IfcTextStyleFontModel::~IfcTextStyleFontModel() {}
-shared_ptr<IfcPPObject> IfcTextStyleFontModel::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextStyleFontModel::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleFontModel> copy_self( new IfcTextStyleFontModel() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_FontFamily.size(); ++ii )
 	{
 		auto item_ii = m_FontFamily[ii];
 		if( item_ii )
 		{
-			copy_self->m_FontFamily.push_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy() ) );
+			copy_self->m_FontFamily.push_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_FontStyle ) { copy_self->m_FontStyle = dynamic_pointer_cast<IfcFontStyle>( m_FontStyle->getDeepCopy() ); }
-	if( m_FontVariant ) { copy_self->m_FontVariant = dynamic_pointer_cast<IfcFontVariant>( m_FontVariant->getDeepCopy() ); }
-	if( m_FontWeight ) { copy_self->m_FontWeight = dynamic_pointer_cast<IfcFontWeight>( m_FontWeight->getDeepCopy() ); }
-	if( m_FontSize ) { copy_self->m_FontSize = dynamic_pointer_cast<IfcSizeSelect>( m_FontSize->getDeepCopy() ); }
+	if( m_FontStyle ) { copy_self->m_FontStyle = dynamic_pointer_cast<IfcFontStyle>( m_FontStyle->getDeepCopy(options) ); }
+	if( m_FontVariant ) { copy_self->m_FontVariant = dynamic_pointer_cast<IfcFontVariant>( m_FontVariant->getDeepCopy(options) ); }
+	if( m_FontWeight ) { copy_self->m_FontWeight = dynamic_pointer_cast<IfcFontWeight>( m_FontWeight->getDeepCopy(options) ); }
+	if( m_FontSize ) { copy_self->m_FontSize = dynamic_pointer_cast<IfcSizeSelect>( m_FontSize->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
@@ -68,16 +69,13 @@ void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool ) 
 void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	readTypeList( args[1], m_FontFamily );
-	m_FontStyle = IfcFontStyle::createObjectFromStepData( args[2] );
-	m_FontVariant = IfcFontVariant::createObjectFromStepData( args[3] );
-	m_FontWeight = IfcFontWeight::createObjectFromStepData( args[4] );
-	m_FontSize = IfcSizeSelect::createObjectFromStepData( args[5], map );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	readSelectList( args[1], m_FontFamily, map );
+	m_FontStyle = IfcFontStyle::createObjectFromSTEP( args[2] );
+	m_FontVariant = IfcFontVariant::createObjectFromSTEP( args[3] );
+	m_FontWeight = IfcFontWeight::createObjectFromSTEP( args[4] );
+	m_FontSize = IfcSizeSelect::createObjectFromSTEP( args[5], map );
 }
 void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

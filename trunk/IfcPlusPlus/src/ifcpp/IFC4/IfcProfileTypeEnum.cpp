@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcProfileTypeEnum.h"
 
-// TYPE IfcProfileTypeEnum 
+// TYPE IfcProfileTypeEnum = ENUMERATION OF	(CURVE	,AREA);
 IfcProfileTypeEnum::IfcProfileTypeEnum() {}
 IfcProfileTypeEnum::~IfcProfileTypeEnum() {}
-shared_ptr<IfcPPObject> IfcProfileTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProfileTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProfileTypeEnum> copy_self( new IfcProfileTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcProfileTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }

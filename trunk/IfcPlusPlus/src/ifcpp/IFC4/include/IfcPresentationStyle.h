@@ -20,13 +20,13 @@
 #include "IfcStyleAssignmentSelect.h"
 class IfcLabel;
 //ENTITY
-class IfcPresentationStyle : public IfcStyleAssignmentSelect, public IfcPPEntity
+class IfcPresentationStyle : virtual public IfcStyleAssignmentSelect, public IfcPPEntity
 {
 public:
 	IfcPresentationStyle();
 	IfcPresentationStyle( int id );
 	~IfcPresentationStyle();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

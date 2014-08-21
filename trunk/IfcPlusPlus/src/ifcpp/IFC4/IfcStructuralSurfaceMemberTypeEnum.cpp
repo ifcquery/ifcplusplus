@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcStructuralSurfaceMemberTypeEnum.h"
 
-// TYPE IfcStructuralSurfaceMemberTypeEnum 
+// TYPE IfcStructuralSurfaceMemberTypeEnum = ENUMERATION OF	(BENDING_ELEMENT	,MEMBRANE_ELEMENT	,SHELL	,USERDEFINED	,NOTDEFINED);
 IfcStructuralSurfaceMemberTypeEnum::IfcStructuralSurfaceMemberTypeEnum() {}
 IfcStructuralSurfaceMemberTypeEnum::~IfcStructuralSurfaceMemberTypeEnum() {}
-shared_ptr<IfcPPObject> IfcStructuralSurfaceMemberTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralSurfaceMemberTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralSurfaceMemberTypeEnum> copy_self( new IfcStructuralSurfaceMemberTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcStructuralSurfaceMemberTypeEnum::getStepParameter( std::stringstream& st
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStructuralSurfaceMemberTypeEnum> IfcStructuralSurfaceMemberTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcStructuralSurfaceMemberTypeEnum> IfcStructuralSurfaceMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceMemberTypeEnum>(); }

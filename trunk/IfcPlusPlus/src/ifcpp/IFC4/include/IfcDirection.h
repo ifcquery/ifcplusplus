@@ -21,13 +21,13 @@
 #include "IfcVectorOrDirection.h"
 #include "IfcGeometricRepresentationItem.h"
 //ENTITY
-class IfcDirection : public IfcGridPlacementDirectionSelect, public IfcVectorOrDirection, public IfcGeometricRepresentationItem
+class IfcDirection : virtual public IfcGridPlacementDirectionSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
 {
 public:
 	IfcDirection();
 	IfcDirection( int id );
 	~IfcDirection();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTubeBundleTypeEnum.h"
 
-// TYPE IfcTubeBundleTypeEnum 
+// TYPE IfcTubeBundleTypeEnum = ENUMERATION OF	(FINNED	,USERDEFINED	,NOTDEFINED);
 IfcTubeBundleTypeEnum::IfcTubeBundleTypeEnum() {}
 IfcTubeBundleTypeEnum::~IfcTubeBundleTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTubeBundleTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTubeBundleTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTubeBundleTypeEnum> copy_self( new IfcTubeBundleTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcTubeBundleTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTubeBundleTypeEnum> IfcTubeBundleTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTubeBundleTypeEnum> IfcTubeBundleTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTubeBundleTypeEnum>(); }

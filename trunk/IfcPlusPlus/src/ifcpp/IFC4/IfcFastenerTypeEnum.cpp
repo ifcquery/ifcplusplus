@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFastenerTypeEnum.h"
 
-// TYPE IfcFastenerTypeEnum 
+// TYPE IfcFastenerTypeEnum = ENUMERATION OF	(GLUE	,MORTAR	,WELD	,USERDEFINED	,NOTDEFINED);
 IfcFastenerTypeEnum::IfcFastenerTypeEnum() {}
 IfcFastenerTypeEnum::~IfcFastenerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFastenerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFastenerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFastenerTypeEnum> copy_self( new IfcFastenerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }

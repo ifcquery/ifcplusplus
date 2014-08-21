@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcRoofTypeEnum.h"
 
-// TYPE IfcRoofTypeEnum 
+// TYPE IfcRoofTypeEnum = ENUMERATION OF	(FLAT_ROOF	,SHED_ROOF	,GABLE_ROOF	,HIP_ROOF	,HIPPED_GABLE_ROOF	,GAMBREL_ROOF	,MANSARD_ROOF	,BARREL_ROOF	,RAINBOW_ROOF	,BUTTERFLY_ROOF	,PAVILION_ROOF	,DOME_ROOF	,FREEFORM	,USERDEFINED	,NOTDEFINED);
 IfcRoofTypeEnum::IfcRoofTypeEnum() {}
 IfcRoofTypeEnum::~IfcRoofTypeEnum() {}
-shared_ptr<IfcPPObject> IfcRoofTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRoofTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRoofTypeEnum> copy_self( new IfcRoofTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -94,7 +94,7 @@ void IfcRoofTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRoofTypeEnum> IfcRoofTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRoofTypeEnum> IfcRoofTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcVirtualGridIntersection::IfcVirtualGridIntersection() {}
 IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_id = id; }
 IfcVirtualGridIntersection::~IfcVirtualGridIntersection() {}
-shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVirtualGridIntersection> copy_self( new IfcVirtualGridIntersection() );
 	for( size_t ii=0; ii<m_IntersectingAxes.size(); ++ii )
@@ -34,7 +35,7 @@ shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy()
 		auto item_ii = m_IntersectingAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_IntersectingAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy() ) );
+			copy_self->m_IntersectingAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_OffsetDistances.size(); ++ii )
@@ -42,7 +43,7 @@ shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy()
 		auto item_ii = m_OffsetDistances[ii];
 		if( item_ii )
 		{
-			copy_self->m_OffsetDistances.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+			copy_self->m_OffsetDistances.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -59,10 +60,7 @@ void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bo
 void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_IntersectingAxes, map );
 	readTypeOfRealList( args[1], m_OffsetDistances );
 }
@@ -88,7 +86,7 @@ void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	shared_ptr<IfcVirtualGridIntersection> ptr_self = dynamic_pointer_cast<IfcVirtualGridIntersection>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcVirtualGridIntersection::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_IntersectingAxes.size(); ++i )
+	for( size_t i=0; i<m_IntersectingAxes.size(); ++i )
 	{
 		if( m_IntersectingAxes[i] )
 		{
@@ -98,16 +96,15 @@ void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<IfcPPEntity>
 }
 void IfcVirtualGridIntersection::unlinkSelf()
 {
-	for( int i=0; i<m_IntersectingAxes.size(); ++i )
+	for( size_t i=0; i<m_IntersectingAxes.size(); ++i )
 	{
 		if( m_IntersectingAxes[i] )
 		{
 			std::vector<weak_ptr<IfcVirtualGridIntersection> >& HasIntersections_inverse = m_IntersectingAxes[i]->m_HasIntersections_inverse;
-			std::vector<weak_ptr<IfcVirtualGridIntersection> >::iterator it_HasIntersections_inverse;
-			for( it_HasIntersections_inverse = HasIntersections_inverse.begin(); it_HasIntersections_inverse != HasIntersections_inverse.end(); ++it_HasIntersections_inverse)
+			for( auto it_HasIntersections_inverse = HasIntersections_inverse.begin(); it_HasIntersections_inverse != HasIntersections_inverse.end(); ++it_HasIntersections_inverse)
 			{
 				shared_ptr<IfcVirtualGridIntersection> self_candidate( *it_HasIntersections_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					HasIntersections_inverse.erase( it_HasIntersections_inverse );
 					break;

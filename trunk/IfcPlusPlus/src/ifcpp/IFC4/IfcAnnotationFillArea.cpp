@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcAnnotationFillArea::IfcAnnotationFillArea() {}
 IfcAnnotationFillArea::IfcAnnotationFillArea( int id ) { m_id = id; }
 IfcAnnotationFillArea::~IfcAnnotationFillArea() {}
-shared_ptr<IfcPPObject> IfcAnnotationFillArea::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAnnotationFillArea::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAnnotationFillArea> copy_self( new IfcAnnotationFillArea() );
-	if( m_OuterBoundary ) { copy_self->m_OuterBoundary = dynamic_pointer_cast<IfcCurve>( m_OuterBoundary->getDeepCopy() ); }
+	if( m_OuterBoundary ) { copy_self->m_OuterBoundary = dynamic_pointer_cast<IfcCurve>( m_OuterBoundary->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_InnerBoundaries.size(); ++ii )
 	{
 		auto item_ii = m_InnerBoundaries[ii];
 		if( item_ii )
 		{
-			copy_self->m_InnerBoundaries.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy() ) );
+			copy_self->m_InnerBoundaries.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -44,7 +45,7 @@ shared_ptr<IfcPPObject> IfcAnnotationFillArea::getDeepCopy()
 void IfcAnnotationFillArea::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCANNOTATIONFILLAREA" << "(";
-	if( m_OuterBoundary ) { stream << "#" << m_OuterBoundary->getId(); } else { stream << "$"; }
+	if( m_OuterBoundary ) { stream << "#" << m_OuterBoundary->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_InnerBoundaries );
 	stream << ");";
@@ -53,10 +54,7 @@ void IfcAnnotationFillArea::getStepParameter( std::stringstream& stream, bool ) 
 void IfcAnnotationFillArea::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAnnotationFillArea, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcAnnotationFillArea, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAnnotationFillArea, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_OuterBoundary, map );
 	readEntityReferenceList( args[1], m_InnerBoundaries, map );
 }

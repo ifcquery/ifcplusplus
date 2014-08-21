@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBSplineSurfaceForm.h"
 
-// TYPE IfcBSplineSurfaceForm 
+// TYPE IfcBSplineSurfaceForm = ENUMERATION OF	(PLANE_SURF	,CYLINDRICAL_SURF	,CONICAL_SURF	,SPHERICAL_SURF	,TOROIDAL_SURF	,SURF_OF_REVOLUTION	,RULED_SURF	,GENERALISED_CONE	,QUADRIC_SURF	,SURF_OF_LINEAR_EXTRUSION	,UNSPECIFIED);
 IfcBSplineSurfaceForm::IfcBSplineSurfaceForm() {}
 IfcBSplineSurfaceForm::~IfcBSplineSurfaceForm() {}
-shared_ptr<IfcPPObject> IfcBSplineSurfaceForm::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBSplineSurfaceForm::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurfaceForm> copy_self( new IfcBSplineSurfaceForm() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcBSplineSurfaceForm::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }

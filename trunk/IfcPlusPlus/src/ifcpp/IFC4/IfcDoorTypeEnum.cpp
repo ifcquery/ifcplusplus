@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDoorTypeEnum.h"
 
-// TYPE IfcDoorTypeEnum 
+// TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,USERDEFINED	,NOTDEFINED);
 IfcDoorTypeEnum::IfcDoorTypeEnum() {}
 IfcDoorTypeEnum::~IfcDoorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDoorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDoorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDoorTypeEnum> copy_self( new IfcDoorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcDoorTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }

@@ -22,11 +22,11 @@
 #include "include/IfcSizeSelect.h"
 #include "include/IfcDescriptiveMeasure.h"
 
-// TYPE IfcDescriptiveMeasure 
+// TYPE IfcDescriptiveMeasure = STRING;
 IfcDescriptiveMeasure::IfcDescriptiveMeasure() {}
 IfcDescriptiveMeasure::IfcDescriptiveMeasure( std::wstring value ) { m_value = value; }
 IfcDescriptiveMeasure::~IfcDescriptiveMeasure() {}
-shared_ptr<IfcPPObject> IfcDescriptiveMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDescriptiveMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDescriptiveMeasure> copy_self( new IfcDescriptiveMeasure() );
 	copy_self->m_value = m_value;
@@ -38,12 +38,12 @@ void IfcDescriptiveMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDescriptiveMeasure> IfcDescriptiveMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDescriptiveMeasure> IfcDescriptiveMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
 	shared_ptr<IfcDescriptiveMeasure> type_object( new IfcDescriptiveMeasure() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -32,20 +33,20 @@
 IfcPropertyEnumeratedValue::IfcPropertyEnumeratedValue() {}
 IfcPropertyEnumeratedValue::IfcPropertyEnumeratedValue( int id ) { m_id = id; }
 IfcPropertyEnumeratedValue::~IfcPropertyEnumeratedValue() {}
-shared_ptr<IfcPPObject> IfcPropertyEnumeratedValue::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPropertyEnumeratedValue::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPropertyEnumeratedValue> copy_self( new IfcPropertyEnumeratedValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_EnumerationValues.size(); ++ii )
 	{
 		auto item_ii = m_EnumerationValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_EnumerationValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_EnumerationValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_EnumerationReference ) { copy_self->m_EnumerationReference = dynamic_pointer_cast<IfcPropertyEnumeration>( m_EnumerationReference->getDeepCopy() ); }
+	if( m_EnumerationReference ) { copy_self->m_EnumerationReference = dynamic_pointer_cast<IfcPropertyEnumeration>( m_EnumerationReference->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPropertyEnumeratedValue::getStepLine( std::stringstream& stream ) const
@@ -57,19 +58,16 @@ void IfcPropertyEnumeratedValue::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeTypeList( stream, m_EnumerationValues, true );
 	stream << ",";
-	if( m_EnumerationReference ) { stream << "#" << m_EnumerationReference->getId(); } else { stream << "$"; }
+	if( m_EnumerationReference ) { stream << "#" << m_EnumerationReference->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcPropertyEnumeratedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcPropertyEnumeratedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyEnumeratedValue, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcPropertyEnumeratedValue, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyEnumeratedValue, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readSelectList( args[2], m_EnumerationValues, map );
 	readEntityReference( args[3], m_EnumerationReference, map );
 }

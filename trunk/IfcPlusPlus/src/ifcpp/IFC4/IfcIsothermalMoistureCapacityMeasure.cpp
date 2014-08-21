@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcIsothermalMoistureCapacityMeasure.h"
 
-// TYPE IfcIsothermalMoistureCapacityMeasure 
+// TYPE IfcIsothermalMoistureCapacityMeasure = REAL;
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure() {}
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure( double value ) { m_value = value; }
 IfcIsothermalMoistureCapacityMeasure::~IfcIsothermalMoistureCapacityMeasure() {}
-shared_ptr<IfcPPObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIsothermalMoistureCapacityMeasure> copy_self( new IfcIsothermalMoistureCapacityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcIsothermalMoistureCapacityMeasure::getStepParameter( std::stringstream& 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIsothermalMoistureCapacityMeasure> IfcIsothermalMoistureCapacityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcIsothermalMoistureCapacityMeasure> IfcIsothermalMoistureCapacityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	shared_ptr<IfcIsothermalMoistureCapacityMeasure> type_object( new IfcIsothermalMoistureCapacityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

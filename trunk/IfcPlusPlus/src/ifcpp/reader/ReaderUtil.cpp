@@ -26,7 +26,6 @@
 #define CP_UTF8 65001
 #endif
 
-
 static short HexD(unsigned char mc)
 {
 	short returnValue;
@@ -54,10 +53,6 @@ static wchar_t Hex4Wchar(unsigned char h1, unsigned char h2, unsigned char h3, u
 	wchar_t returnValue = (HexD(h1)<< 12) + (HexD(h2) << 8) +(HexD(h3) << 4) + HexD(h4);
 	return (returnValue);
 }
-
-
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
-IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 
 void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 {
@@ -359,7 +354,7 @@ void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec
 	}
 }
 
-void readDoubleList( const std::wstring& str, std::vector<double>& vec )
+void readRealList( const std::wstring& str, std::vector<double>& vec )
 {
 	const wchar_t* ch = str.c_str();
 	const size_t argsize = str.size();
@@ -396,7 +391,7 @@ void readDoubleList( const std::wstring& str, std::vector<double>& vec )
 	}
 }
 
-void readDoubleList2D( const std::wstring& str, std::vector<std::vector<double> >& vec )
+void readRealList2D( const std::wstring& str, std::vector<std::vector<double> >& vec )
 {
 	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
 	const wchar_t* ch = str.c_str();
@@ -416,7 +411,7 @@ void readDoubleList2D( const std::wstring& str, std::vector<std::vector<double> 
 			{
 				std::vector<double> inner_vec;
 				vec.push_back(inner_vec);
-				readDoubleList( str.substr( last_token, i-last_token ), vec.back() );
+				readRealList( str.substr( last_token, i-last_token ), vec.back() );
 				last_token = i;
 			}
 		}
@@ -432,7 +427,7 @@ void readDoubleList2D( const std::wstring& str, std::vector<std::vector<double> 
 			{
 				std::vector<double> inner_vec;
 				vec.push_back(inner_vec);
-				readDoubleList( str.substr( last_token, i-last_token ), vec.back() );
+				readRealList( str.substr( last_token, i-last_token ), vec.back() );
 				return;
 			}
 		}
@@ -440,7 +435,7 @@ void readDoubleList2D( const std::wstring& str, std::vector<std::vector<double> 
 	}
 }
 
-void readDoubleList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec )
+void readRealList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec )
 {
 	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
 	const wchar_t* ch = str.c_str();
@@ -460,7 +455,7 @@ void readDoubleList3D( const std::wstring& str, std::vector<std::vector<std::vec
 			{
 				std::vector<std::vector<double> > inner_vec;
 				vec.push_back(inner_vec);
-				readDoubleList2D( str.substr( last_token, i-last_token ), vec.back() );
+				readRealList2D( str.substr( last_token, i-last_token ), vec.back() );
 				last_token = i;
 			}
 		}
@@ -476,7 +471,7 @@ void readDoubleList3D( const std::wstring& str, std::vector<std::vector<std::vec
 			{
 				std::vector<std::vector<double> > inner_vec;
 				vec.push_back(inner_vec);
-				readDoubleList2D( str.substr( last_token, i-last_token ), vec.back() );
+				readRealList2D( str.substr( last_token, i-last_token ), vec.back() );
 				return;
 			}
 		}
@@ -484,8 +479,7 @@ void readDoubleList3D( const std::wstring& str, std::vector<std::vector<std::vec
 	}
 }
 
-//void readConstCharList( const std::wstring& str, std::vector<const char*>& vec );
-void readConstCharList( const std::wstring& str, std::vector<const char*>& vec )
+void readBinaryList( const std::wstring& str, std::vector<const char*>& vec )
 {
 	const wchar_t* ch = str.c_str();
 	const size_t argsize = str.size();
@@ -1086,84 +1080,4 @@ void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source )
 	size_t length = stream_pos_source - pos_begin;
 	memcpy( stream_pos, pos_begin, (length)*sizeof( char) );
 	stream_pos += length;
-}
-
-void readInlineTypeOrEntity( const std::wstring& arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
-{
-	std::wstring keyword;
-	std::wstring inline_arg;
-	tokenizeInlineArgument( arg, keyword, inline_arg );
-
-	if( keyword.size() == 0 )
-	{
-		return;
-	}
-
-	IfcPPTypeEnum type_enum = findTypeEnumForString( keyword );
-	if( type_enum != IfcPPTypeEnum::IFC_TYPE_UNDEFINED )
-	{
-		shared_ptr<IfcPPObject> type_instance = createIfcPPType( type_enum, inline_arg, map_entities );
-		if( type_instance )
-		{
-			//type_instance->m_type_enum = type_enum;
-			result = type_instance;
-			return;
-		}
-	}
-
-	IfcPPEntityEnum entity_enum = findEntityEnumForString( keyword );
-	if( entity_enum != IfcPPEntityEnum::IFC_ENTITY_UNDEFINED )
-	{
-		shared_ptr<IfcPPEntity> entity_instance( createIfcPPEntity( entity_enum ) );
-		if( entity_instance )
-		{
-			entity_instance->setId( -1 );
-			entity_instance->m_entity_enum = entity_enum;
-			entity_instance->m_entity_argument_str.assign( inline_arg.begin(), inline_arg.end() );
-			std::vector<std::wstring> args;
-			args.push_back( inline_arg );
-			entity_instance->readStepArguments( args, map_entities );
-
-			result = entity_instance;
-			return;
-		}
-	}
-}
-
-void readInlineTypeOrEntity( const std::wstring& keyword, const std::wstring& inline_arg, shared_ptr<IfcPPObject>& result, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
-{
-	if( keyword.size() == 0 )
-	{
-		return;
-	}
-
-	IfcPPTypeEnum type_enum = findTypeEnumForString( keyword );
-	if( type_enum != IfcPPTypeEnum::IFC_TYPE_UNDEFINED )
-	{
-		shared_ptr<IfcPPObject> type_instance = createIfcPPType( type_enum, inline_arg, map_entities );
-		if( type_instance )
-		{
-			//type_instance->m_type_enum = type_enum;
-			result = type_instance;
-			return;
-		}
-	}
-
-	IfcPPEntityEnum entity_enum = findEntityEnumForString( keyword );
-	if( entity_enum != IfcPPEntityEnum::IFC_ENTITY_UNDEFINED )
-	{
-		shared_ptr<IfcPPEntity> entity_instance( createIfcPPEntity( entity_enum ) );
-		if( entity_instance )
-		{
-			entity_instance->setId( -1 );
-			entity_instance->m_entity_enum = entity_enum;
-			entity_instance->m_entity_argument_str.assign( inline_arg.begin(), inline_arg.end() );
-			std::vector<std::wstring> args;
-			args.push_back( inline_arg );
-			entity_instance->readStepArguments( args, map_entities );
-
-			result = entity_instance;
-			return;
-		}
-	}
 }

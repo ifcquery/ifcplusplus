@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFontStyle.h"
 
-// TYPE IfcFontStyle 
+// TYPE IfcFontStyle = STRING;
 IfcFontStyle::IfcFontStyle() {}
 IfcFontStyle::IfcFontStyle( std::wstring value ) { m_value = value; }
 IfcFontStyle::~IfcFontStyle() {}
-shared_ptr<IfcPPObject> IfcFontStyle::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFontStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFontStyle> copy_self( new IfcFontStyle() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcFontStyle::getStepParameter( std::stringstream& stream, bool is_select_t
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	shared_ptr<IfcFontStyle> type_object( new IfcFontStyle() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

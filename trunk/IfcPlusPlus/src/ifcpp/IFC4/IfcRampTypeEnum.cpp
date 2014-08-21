@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcRampTypeEnum.h"
 
-// TYPE IfcRampTypeEnum 
+// TYPE IfcRampTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_RAMP	,TWO_STRAIGHT_RUN_RAMP	,QUARTER_TURN_RAMP	,TWO_QUARTER_TURN_RAMP	,HALF_TURN_RAMP	,SPIRAL_RAMP	,USERDEFINED	,NOTDEFINED);
 IfcRampTypeEnum::IfcRampTypeEnum() {}
 IfcRampTypeEnum::~IfcRampTypeEnum() {}
-shared_ptr<IfcPPObject> IfcRampTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRampTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRampTypeEnum> copy_self( new IfcRampTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcRampTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }

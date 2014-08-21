@@ -35,9 +35,9 @@ public:
 	IfcJunctionBoxTypeEnum( IfcJunctionBoxTypeEnumEnum e ) { m_enum = e; }
 	~IfcJunctionBoxTypeEnum();
 	virtual const char* classname() const { return "IfcJunctionBoxTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcJunctionBoxTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcJunctionBoxTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcJunctionBoxTypeEnumEnum m_enum;
 };
 

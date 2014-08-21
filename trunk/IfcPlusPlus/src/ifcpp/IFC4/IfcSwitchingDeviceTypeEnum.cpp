@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSwitchingDeviceTypeEnum.h"
 
-// TYPE IfcSwitchingDeviceTypeEnum 
+// TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,SELECTORSWITCH	,STARTER	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,USERDEFINED	,NOTDEFINED);
 IfcSwitchingDeviceTypeEnum::IfcSwitchingDeviceTypeEnum() {}
 IfcSwitchingDeviceTypeEnum::~IfcSwitchingDeviceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSwitchingDeviceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSwitchingDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSwitchingDeviceTypeEnum> copy_self( new IfcSwitchingDeviceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }

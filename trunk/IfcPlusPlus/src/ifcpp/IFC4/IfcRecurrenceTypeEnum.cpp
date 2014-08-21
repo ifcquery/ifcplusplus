@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcRecurrenceTypeEnum.h"
 
-// TYPE IfcRecurrenceTypeEnum 
+// TYPE IfcRecurrenceTypeEnum = ENUMERATION OF	(DAILY	,WEEKLY	,MONTHLY_BY_DAY_OF_MONTH	,MONTHLY_BY_POSITION	,BY_DAY_COUNT	,BY_WEEKDAY_COUNT	,YEARLY_BY_DAY_OF_MONTH	,YEARLY_BY_POSITION);
 IfcRecurrenceTypeEnum::IfcRecurrenceTypeEnum() {}
 IfcRecurrenceTypeEnum::~IfcRecurrenceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcRecurrenceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRecurrenceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRecurrenceTypeEnum> copy_self( new IfcRecurrenceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }

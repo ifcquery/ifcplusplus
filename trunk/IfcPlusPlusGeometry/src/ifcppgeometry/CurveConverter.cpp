@@ -19,6 +19,7 @@
 #include "ifcpp/model/UnitConverter.h"
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPUtil.h"
+#include "ifcpp/IFC4/include/IfcAxis2Placement.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement2D.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
 #include "ifcpp/IFC4/include/IfcBoundedCurve.h"
@@ -182,18 +183,22 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 	if( conic )
 	{
 		// ENTITY IfcConic ABSTRACT SUPERTYPE OF(ONEOF(IfcCircle, IfcEllipse))
-		shared_ptr<IfcAxis2Placement> conic_placement = conic->m_Position;
-		carve::math::Matrix conic_position_matrix( carve::math::Matrix::IDENT() );
 
-		shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( conic_placement );
-		if( axis2placement2d )
+		carve::math::Matrix conic_position_matrix( carve::math::Matrix::IDENT() );
+		// TYPE IfcAxis2Placement = SELECT	(IfcAxis2Placement2D	,IfcAxis2Placement3D);
+		shared_ptr<IfcAxis2Placement> conic_placement_select = conic->m_Position;
+		if( conic_placement_select )
 		{
-			PlacementConverter::convertIfcAxis2Placement2D( axis2placement2d, conic_position_matrix, length_factor );
-		}
-		else if( dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement ) )
-		{
-			shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement );
-			PlacementConverter::convertIfcAxis2Placement3D( axis2placement3d, conic_position_matrix, length_factor );
+			shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( conic_placement_select );
+			if( axis2placement2d )
+			{
+				PlacementConverter::convertIfcAxis2Placement2D( axis2placement2d, conic_position_matrix, length_factor );
+			}
+			else if( dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select ) )
+			{
+				shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select );
+				PlacementConverter::convertIfcAxis2Placement3D( axis2placement3d, conic_position_matrix, length_factor );
+			}
 		}
 
 		shared_ptr<IfcCircle> circle = dynamic_pointer_cast<IfcCircle>(conic);

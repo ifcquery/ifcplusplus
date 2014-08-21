@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSensorTypeEnum.h"
 
-// TYPE IfcSensorTypeEnum 
+// TYPE IfcSensorTypeEnum = ENUMERATION OF	(CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
 IfcSensorTypeEnum::IfcSensorTypeEnum() {}
 IfcSensorTypeEnum::~IfcSensorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSensorTypeEnum> copy_self( new IfcSensorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -122,7 +122,7 @@ void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }

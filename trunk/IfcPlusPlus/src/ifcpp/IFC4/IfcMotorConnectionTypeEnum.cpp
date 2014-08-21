@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcMotorConnectionTypeEnum.h"
 
-// TYPE IfcMotorConnectionTypeEnum 
+// TYPE IfcMotorConnectionTypeEnum = ENUMERATION OF	(BELTDRIVE	,COUPLING	,DIRECTDRIVE	,USERDEFINED	,NOTDEFINED);
 IfcMotorConnectionTypeEnum::IfcMotorConnectionTypeEnum() {}
 IfcMotorConnectionTypeEnum::~IfcMotorConnectionTypeEnum() {}
-shared_ptr<IfcPPObject> IfcMotorConnectionTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMotorConnectionTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMotorConnectionTypeEnum> copy_self( new IfcMotorConnectionTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcMotorConnectionTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }

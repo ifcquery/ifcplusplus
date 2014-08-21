@@ -164,7 +164,7 @@ osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
 
 void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, bool selected, osg::Group* grp )
 {
-	const int id = ifc_object->getId();
+	const int id = ifc_object->m_id;
 	if( grp == 0 )
 	{
 		osg::Group* model_group = m_view_controller->m_sw_model;
@@ -201,7 +201,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 		shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( ifc_object );
 		if( product )
 		{
-			const int product_id = product->getId();
+			const int product_id = product->m_id;
 			shared_ptr<ShapeInputData> product_shape( new ShapeInputData() );
 			product_shape->ifc_product = product;
 

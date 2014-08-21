@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem() {}
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int id ) { m_id = id; }
 IfcTopologicalRepresentationItem::~IfcTopologicalRepresentationItem() {}
-shared_ptr<IfcPPObject> IfcTopologicalRepresentationItem::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTopologicalRepresentationItem::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTopologicalRepresentationItem> copy_self( new IfcTopologicalRepresentationItem() );
 	return copy_self;

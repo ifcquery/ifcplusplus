@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,26 +30,26 @@
 IfcPostalAddress::IfcPostalAddress() {}
 IfcPostalAddress::IfcPostalAddress( int id ) { m_id = id; }
 IfcPostalAddress::~IfcPostalAddress() {}
-shared_ptr<IfcPPObject> IfcPostalAddress::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPostalAddress::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPostalAddress> copy_self( new IfcPostalAddress() );
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy() ); }
-	if( m_InternalLocation ) { copy_self->m_InternalLocation = dynamic_pointer_cast<IfcLabel>( m_InternalLocation->getDeepCopy() ); }
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy(options) ); }
+	if( m_InternalLocation ) { copy_self->m_InternalLocation = dynamic_pointer_cast<IfcLabel>( m_InternalLocation->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_AddressLines.size(); ++ii )
 	{
 		auto item_ii = m_AddressLines[ii];
 		if( item_ii )
 		{
-			copy_self->m_AddressLines.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy() ) );
+			copy_self->m_AddressLines.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_PostalBox ) { copy_self->m_PostalBox = dynamic_pointer_cast<IfcLabel>( m_PostalBox->getDeepCopy() ); }
-	if( m_Town ) { copy_self->m_Town = dynamic_pointer_cast<IfcLabel>( m_Town->getDeepCopy() ); }
-	if( m_Region ) { copy_self->m_Region = dynamic_pointer_cast<IfcLabel>( m_Region->getDeepCopy() ); }
-	if( m_PostalCode ) { copy_self->m_PostalCode = dynamic_pointer_cast<IfcLabel>( m_PostalCode->getDeepCopy() ); }
-	if( m_Country ) { copy_self->m_Country = dynamic_pointer_cast<IfcLabel>( m_Country->getDeepCopy() ); }
+	if( m_PostalBox ) { copy_self->m_PostalBox = dynamic_pointer_cast<IfcLabel>( m_PostalBox->getDeepCopy(options) ); }
+	if( m_Town ) { copy_self->m_Town = dynamic_pointer_cast<IfcLabel>( m_Town->getDeepCopy(options) ); }
+	if( m_Region ) { copy_self->m_Region = dynamic_pointer_cast<IfcLabel>( m_Region->getDeepCopy(options) ); }
+	if( m_PostalCode ) { copy_self->m_PostalCode = dynamic_pointer_cast<IfcLabel>( m_PostalCode->getDeepCopy(options) ); }
+	if( m_Country ) { copy_self->m_Country = dynamic_pointer_cast<IfcLabel>( m_Country->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPostalAddress::getStepLine( std::stringstream& stream ) const
@@ -79,20 +80,17 @@ void IfcPostalAddress::getStepParameter( std::stringstream& stream, bool ) const
 void IfcPostalAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPostalAddress, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>10 ){ std::cout << "Wrong parameter count for entity IfcPostalAddress, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Purpose = IfcAddressTypeEnum::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_UserDefinedPurpose = IfcLabel::createObjectFromStepData( args[2] );
-	m_InternalLocation = IfcLabel::createObjectFromStepData( args[3] );
-	readTypeList( args[4], m_AddressLines );
-	m_PostalBox = IfcLabel::createObjectFromStepData( args[5] );
-	m_Town = IfcLabel::createObjectFromStepData( args[6] );
-	m_Region = IfcLabel::createObjectFromStepData( args[7] );
-	m_PostalCode = IfcLabel::createObjectFromStepData( args[8] );
-	m_Country = IfcLabel::createObjectFromStepData( args[9] );
+	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPostalAddress, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2] );
+	m_InternalLocation = IfcLabel::createObjectFromSTEP( args[3] );
+	readSelectList( args[4], m_AddressLines, map );
+	m_PostalBox = IfcLabel::createObjectFromSTEP( args[5] );
+	m_Town = IfcLabel::createObjectFromSTEP( args[6] );
+	m_Region = IfcLabel::createObjectFromSTEP( args[7] );
+	m_PostalCode = IfcLabel::createObjectFromSTEP( args[8] );
+	m_Country = IfcLabel::createObjectFromSTEP( args[9] );
 }
 void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

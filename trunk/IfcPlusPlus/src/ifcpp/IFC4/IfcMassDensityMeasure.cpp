@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcMassDensityMeasure.h"
 
-// TYPE IfcMassDensityMeasure 
+// TYPE IfcMassDensityMeasure = REAL;
 IfcMassDensityMeasure::IfcMassDensityMeasure() {}
 IfcMassDensityMeasure::IfcMassDensityMeasure( double value ) { m_value = value; }
 IfcMassDensityMeasure::~IfcMassDensityMeasure() {}
-shared_ptr<IfcPPObject> IfcMassDensityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMassDensityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMassDensityMeasure> copy_self( new IfcMassDensityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMassDensityMeasure::getStepParameter( std::stringstream& stream, bool is
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMassDensityMeasure> IfcMassDensityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMassDensityMeasure> IfcMassDensityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
 	shared_ptr<IfcMassDensityMeasure> type_object( new IfcMassDensityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

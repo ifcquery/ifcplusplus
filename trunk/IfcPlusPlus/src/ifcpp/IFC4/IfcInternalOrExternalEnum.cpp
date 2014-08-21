@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcInternalOrExternalEnum.h"
 
-// TYPE IfcInternalOrExternalEnum 
+// TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(INTERNAL	,EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,NOTDEFINED);
 IfcInternalOrExternalEnum::IfcInternalOrExternalEnum() {}
 IfcInternalOrExternalEnum::~IfcInternalOrExternalEnum() {}
-shared_ptr<IfcPPObject> IfcInternalOrExternalEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcInternalOrExternalEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcInternalOrExternalEnum> copy_self( new IfcInternalOrExternalEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcInternalOrExternalEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }

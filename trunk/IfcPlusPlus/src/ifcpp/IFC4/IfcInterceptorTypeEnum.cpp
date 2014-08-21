@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcInterceptorTypeEnum.h"
 
-// TYPE IfcInterceptorTypeEnum 
+// TYPE IfcInterceptorTypeEnum = ENUMERATION OF	(CYCLONIC	,GREASE	,OIL	,PETROL	,USERDEFINED	,NOTDEFINED);
 IfcInterceptorTypeEnum::IfcInterceptorTypeEnum() {}
 IfcInterceptorTypeEnum::~IfcInterceptorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcInterceptorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcInterceptorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcInterceptorTypeEnum> copy_self( new IfcInterceptorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcInterceptorTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }

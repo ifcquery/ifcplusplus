@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcGeometricCurveSet::IfcGeometricCurveSet() {}
 IfcGeometricCurveSet::IfcGeometricCurveSet( int id ) { m_id = id; }
 IfcGeometricCurveSet::~IfcGeometricCurveSet() {}
-shared_ptr<IfcPPObject> IfcGeometricCurveSet::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGeometricCurveSet::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGeometricCurveSet> copy_self( new IfcGeometricCurveSet() );
 	for( size_t ii=0; ii<m_Elements.size(); ++ii )
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcGeometricCurveSet::getDeepCopy()
 		auto item_ii = m_Elements[ii];
 		if( item_ii )
 		{
-			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -50,10 +51,7 @@ void IfcGeometricCurveSet::getStepParameter( std::stringstream& stream, bool ) c
 void IfcGeometricCurveSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGeometricCurveSet, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcGeometricCurveSet, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGeometricCurveSet, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readSelectList( args[0], m_Elements, map );
 }
 void IfcGeometricCurveSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

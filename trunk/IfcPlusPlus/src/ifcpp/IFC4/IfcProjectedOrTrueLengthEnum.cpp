@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcProjectedOrTrueLengthEnum.h"
 
-// TYPE IfcProjectedOrTrueLengthEnum 
+// TYPE IfcProjectedOrTrueLengthEnum = ENUMERATION OF	(PROJECTED_LENGTH	,TRUE_LENGTH);
 IfcProjectedOrTrueLengthEnum::IfcProjectedOrTrueLengthEnum() {}
 IfcProjectedOrTrueLengthEnum::~IfcProjectedOrTrueLengthEnum() {}
-shared_ptr<IfcPPObject> IfcProjectedOrTrueLengthEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProjectedOrTrueLengthEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProjectedOrTrueLengthEnum> copy_self( new IfcProjectedOrTrueLengthEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }

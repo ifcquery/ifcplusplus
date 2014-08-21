@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -34,22 +35,22 @@
 IfcMaterialLayer::IfcMaterialLayer() {}
 IfcMaterialLayer::IfcMaterialLayer( int id ) { m_id = id; }
 IfcMaterialLayer::~IfcMaterialLayer() {}
-shared_ptr<IfcPPObject> IfcMaterialLayer::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialLayer::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayer> copy_self( new IfcMaterialLayer() );
-	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
-	if( m_LayerThickness ) { copy_self->m_LayerThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LayerThickness->getDeepCopy() ); }
-	if( m_IsVentilated ) { copy_self->m_IsVentilated = dynamic_pointer_cast<IfcLogical>( m_IsVentilated->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
-	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy() ); }
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy(options) ); }
+	if( m_LayerThickness ) { copy_self->m_LayerThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LayerThickness->getDeepCopy(options) ); }
+	if( m_IsVentilated ) { copy_self->m_IsVentilated = dynamic_pointer_cast<IfcLogical>( m_IsVentilated->getDeepCopy(options) ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMaterialLayer::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCMATERIALLAYER" << "(";
-	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "$"; }
+	if( m_Material ) { stream << "#" << m_Material->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_LayerThickness ) { m_LayerThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -68,17 +69,14 @@ void IfcMaterialLayer::getStepParameter( std::stringstream& stream, bool ) const
 void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Material, map );
-	m_LayerThickness = IfcNonNegativeLengthMeasure::createObjectFromStepData( args[1] );
-	m_IsVentilated = IfcLogical::createObjectFromStepData( args[2] );
-	m_Name = IfcLabel::createObjectFromStepData( args[3] );
-	m_Description = IfcText::createObjectFromStepData( args[4] );
-	m_Category = IfcLabel::createObjectFromStepData( args[5] );
-	m_Priority = IfcNormalisedRatioMeasure::createObjectFromStepData( args[6] );
+	m_LayerThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[1] );
+	m_IsVentilated = IfcLogical::createObjectFromSTEP( args[2] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[3] );
+	m_Description = IfcText::createObjectFromSTEP( args[4] );
+	m_Category = IfcLabel::createObjectFromSTEP( args[5] );
+	m_Priority = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[6] );
 }
 void IfcMaterialLayer::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

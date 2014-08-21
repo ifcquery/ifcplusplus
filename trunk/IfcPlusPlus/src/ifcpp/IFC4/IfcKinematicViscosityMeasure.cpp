@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcKinematicViscosityMeasure.h"
 
-// TYPE IfcKinematicViscosityMeasure 
+// TYPE IfcKinematicViscosityMeasure = REAL;
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure() {}
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure( double value ) { m_value = value; }
 IfcKinematicViscosityMeasure::~IfcKinematicViscosityMeasure() {}
-shared_ptr<IfcPPObject> IfcKinematicViscosityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcKinematicViscosityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcKinematicViscosityMeasure> copy_self( new IfcKinematicViscosityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcKinematicViscosityMeasure::getStepParameter( std::stringstream& stream, 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcKinematicViscosityMeasure> IfcKinematicViscosityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcKinematicViscosityMeasure> IfcKinematicViscosityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }
 	shared_ptr<IfcKinematicViscosityMeasure> type_object( new IfcKinematicViscosityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

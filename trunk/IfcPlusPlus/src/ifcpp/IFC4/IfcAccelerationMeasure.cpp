@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcAccelerationMeasure.h"
 
-// TYPE IfcAccelerationMeasure 
+// TYPE IfcAccelerationMeasure = REAL;
 IfcAccelerationMeasure::IfcAccelerationMeasure() {}
 IfcAccelerationMeasure::IfcAccelerationMeasure( double value ) { m_value = value; }
 IfcAccelerationMeasure::~IfcAccelerationMeasure() {}
-shared_ptr<IfcPPObject> IfcAccelerationMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAccelerationMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAccelerationMeasure> copy_self( new IfcAccelerationMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcAccelerationMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAccelerationMeasure> IfcAccelerationMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAccelerationMeasure> IfcAccelerationMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
 	shared_ptr<IfcAccelerationMeasure> type_object( new IfcAccelerationMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

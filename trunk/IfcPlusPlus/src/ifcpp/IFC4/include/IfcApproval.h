@@ -28,13 +28,13 @@ class IfcRelAssociatesApproval;
 class IfcResourceApprovalRelationship;
 class IfcApprovalRelationship;
 //ENTITY
-class IfcApproval : public IfcResourceObjectSelect, public IfcPPEntity
+class IfcApproval : virtual public IfcResourceObjectSelect, public IfcPPEntity
 {
 public:
 	IfcApproval();
 	IfcApproval( int id );
 	~IfcApproval();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

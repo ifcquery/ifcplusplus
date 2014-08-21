@@ -20,13 +20,13 @@
 #include "IfcCurveStyleFontSelect.h"
 #include "IfcPreDefinedItem.h"
 //ENTITY
-class IfcPreDefinedCurveFont : public IfcCurveStyleFontSelect, public IfcPreDefinedItem
+class IfcPreDefinedCurveFont : virtual public IfcCurveStyleFontSelect, public IfcPreDefinedItem
 {
 public:
 	IfcPreDefinedCurveFont();
 	IfcPreDefinedCurveFont( int id );
 	~IfcPreDefinedCurveFont();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

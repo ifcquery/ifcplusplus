@@ -22,11 +22,8 @@
 class IfcObjectReferenceSelect : virtual public IfcPPObject
 {
 public:
-	IfcObjectReferenceSelect();
-	~IfcObjectReferenceSelect();
-	virtual const char* classname() const { return "IfcObjectReferenceSelect"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	static shared_ptr<IfcObjectReferenceSelect> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcObjectReferenceSelect> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

@@ -21,13 +21,13 @@
 #include "IfcPlacement.h"
 class IfcDirection;
 //ENTITY
-class IfcAxis2Placement2D : public IfcAxis2Placement, public IfcPlacement
+class IfcAxis2Placement2D : virtual public IfcAxis2Placement, public IfcPlacement
 {
 public:
 	IfcAxis2Placement2D();
 	IfcAxis2Placement2D( int id );
 	~IfcAxis2Placement2D();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

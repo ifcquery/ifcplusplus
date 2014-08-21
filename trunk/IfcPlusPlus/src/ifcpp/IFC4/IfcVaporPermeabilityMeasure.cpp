@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcVaporPermeabilityMeasure.h"
 
-// TYPE IfcVaporPermeabilityMeasure 
+// TYPE IfcVaporPermeabilityMeasure = REAL;
 IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure() {}
 IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure( double value ) { m_value = value; }
 IfcVaporPermeabilityMeasure::~IfcVaporPermeabilityMeasure() {}
-shared_ptr<IfcPPObject> IfcVaporPermeabilityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVaporPermeabilityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVaporPermeabilityMeasure> copy_self( new IfcVaporPermeabilityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcVaporPermeabilityMeasure::getStepParameter( std::stringstream& stream, b
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVaporPermeabilityMeasure> IfcVaporPermeabilityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcVaporPermeabilityMeasure> IfcVaporPermeabilityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
 	shared_ptr<IfcVaporPermeabilityMeasure> type_object( new IfcVaporPermeabilityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

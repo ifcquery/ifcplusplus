@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcElectricDistributionBoardTypeEnum.h"
 
-// TYPE IfcElectricDistributionBoardTypeEnum 
+// TYPE IfcElectricDistributionBoardTypeEnum = ENUMERATION OF	(CONSUMERUNIT	,DISTRIBUTIONBOARD	,MOTORCONTROLCENTRE	,SWITCHBOARD	,USERDEFINED	,NOTDEFINED);
 IfcElectricDistributionBoardTypeEnum::IfcElectricDistributionBoardTypeEnum() {}
 IfcElectricDistributionBoardTypeEnum::~IfcElectricDistributionBoardTypeEnum() {}
-shared_ptr<IfcPPObject> IfcElectricDistributionBoardTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElectricDistributionBoardTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElectricDistributionBoardTypeEnum> copy_self( new IfcElectricDistributionBoardTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcElectricDistributionBoardTypeEnum::getStepParameter( std::stringstream& 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }

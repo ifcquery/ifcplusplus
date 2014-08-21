@@ -22,11 +22,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcPlaneAngleMeasure.h"
 
-// TYPE IfcPlaneAngleMeasure 
+// TYPE IfcPlaneAngleMeasure = REAL;
 IfcPlaneAngleMeasure::IfcPlaneAngleMeasure() {}
 IfcPlaneAngleMeasure::IfcPlaneAngleMeasure( double value ) { m_value = value; }
 IfcPlaneAngleMeasure::~IfcPlaneAngleMeasure() {}
-shared_ptr<IfcPPObject> IfcPlaneAngleMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPlaneAngleMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPlaneAngleMeasure> copy_self( new IfcPlaneAngleMeasure() );
 	copy_self->m_value = m_value;
@@ -38,12 +38,12 @@ void IfcPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPlaneAngleMeasure> IfcPlaneAngleMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPlaneAngleMeasure> IfcPlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
 	shared_ptr<IfcPlaneAngleMeasure> type_object( new IfcPlaneAngleMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

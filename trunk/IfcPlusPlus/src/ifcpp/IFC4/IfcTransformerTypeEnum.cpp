@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTransformerTypeEnum.h"
 
-// TYPE IfcTransformerTypeEnum 
+// TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,USERDEFINED	,NOTDEFINED);
 IfcTransformerTypeEnum::IfcTransformerTypeEnum() {}
 IfcTransformerTypeEnum::~IfcTransformerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTransformerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTransformerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTransformerTypeEnum> copy_self( new IfcTransformerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcTransformerTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }

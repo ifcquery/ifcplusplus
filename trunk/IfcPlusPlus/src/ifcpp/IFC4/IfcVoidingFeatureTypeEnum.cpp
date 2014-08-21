@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcVoidingFeatureTypeEnum.h"
 
-// TYPE IfcVoidingFeatureTypeEnum 
+// TYPE IfcVoidingFeatureTypeEnum = ENUMERATION OF	(CUTOUT	,NOTCH	,HOLE	,MITER	,CHAMFER	,EDGE	,USERDEFINED	,NOTDEFINED);
 IfcVoidingFeatureTypeEnum::IfcVoidingFeatureTypeEnum() {}
 IfcVoidingFeatureTypeEnum::~IfcVoidingFeatureTypeEnum() {}
-shared_ptr<IfcPPObject> IfcVoidingFeatureTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVoidingFeatureTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVoidingFeatureTypeEnum> copy_self( new IfcVoidingFeatureTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcVoidingFeatureTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }

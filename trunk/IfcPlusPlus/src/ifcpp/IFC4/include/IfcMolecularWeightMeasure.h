@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMolecularWeightMeasure = REAL;
-class IfcMolecularWeightMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcMolecularWeightMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMolecularWeightMeasure();
 	IfcMolecularWeightMeasure( double value );
 	~IfcMolecularWeightMeasure();
 	virtual const char* classname() const { return "IfcMolecularWeightMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMolecularWeightMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMolecularWeightMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

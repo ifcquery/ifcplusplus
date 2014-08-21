@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDuctSilencerTypeEnum.h"
 
-// TYPE IfcDuctSilencerTypeEnum 
+// TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
 IfcDuctSilencerTypeEnum::IfcDuctSilencerTypeEnum() {}
 IfcDuctSilencerTypeEnum::~IfcDuctSilencerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDuctSilencerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDuctSilencerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDuctSilencerTypeEnum> copy_self( new IfcDuctSilencerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }

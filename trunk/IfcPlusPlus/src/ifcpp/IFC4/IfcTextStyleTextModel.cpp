@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,16 +29,16 @@
 IfcTextStyleTextModel::IfcTextStyleTextModel() {}
 IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_id = id; }
 IfcTextStyleTextModel::~IfcTextStyleTextModel() {}
-shared_ptr<IfcPPObject> IfcTextStyleTextModel::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextStyleTextModel::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleTextModel> copy_self( new IfcTextStyleTextModel() );
-	if( m_TextIndent ) { copy_self->m_TextIndent = dynamic_pointer_cast<IfcSizeSelect>( m_TextIndent->getDeepCopy() ); }
-	if( m_TextAlign ) { copy_self->m_TextAlign = dynamic_pointer_cast<IfcTextAlignment>( m_TextAlign->getDeepCopy() ); }
-	if( m_TextDecoration ) { copy_self->m_TextDecoration = dynamic_pointer_cast<IfcTextDecoration>( m_TextDecoration->getDeepCopy() ); }
-	if( m_LetterSpacing ) { copy_self->m_LetterSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_LetterSpacing->getDeepCopy() ); }
-	if( m_WordSpacing ) { copy_self->m_WordSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_WordSpacing->getDeepCopy() ); }
-	if( m_TextTransform ) { copy_self->m_TextTransform = dynamic_pointer_cast<IfcTextTransformation>( m_TextTransform->getDeepCopy() ); }
-	if( m_LineHeight ) { copy_self->m_LineHeight = dynamic_pointer_cast<IfcSizeSelect>( m_LineHeight->getDeepCopy() ); }
+	if( m_TextIndent ) { copy_self->m_TextIndent = dynamic_pointer_cast<IfcSizeSelect>( m_TextIndent->getDeepCopy(options) ); }
+	if( m_TextAlign ) { copy_self->m_TextAlign = dynamic_pointer_cast<IfcTextAlignment>( m_TextAlign->getDeepCopy(options) ); }
+	if( m_TextDecoration ) { copy_self->m_TextDecoration = dynamic_pointer_cast<IfcTextDecoration>( m_TextDecoration->getDeepCopy(options) ); }
+	if( m_LetterSpacing ) { copy_self->m_LetterSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_LetterSpacing->getDeepCopy(options) ); }
+	if( m_WordSpacing ) { copy_self->m_WordSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_WordSpacing->getDeepCopy(options) ); }
+	if( m_TextTransform ) { copy_self->m_TextTransform = dynamic_pointer_cast<IfcTextTransformation>( m_TextTransform->getDeepCopy(options) ); }
+	if( m_LineHeight ) { copy_self->m_LineHeight = dynamic_pointer_cast<IfcSizeSelect>( m_LineHeight->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
@@ -62,17 +63,14 @@ void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool ) 
 void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_TextIndent = IfcSizeSelect::createObjectFromStepData( args[0], map );
-	m_TextAlign = IfcTextAlignment::createObjectFromStepData( args[1] );
-	m_TextDecoration = IfcTextDecoration::createObjectFromStepData( args[2] );
-	m_LetterSpacing = IfcSizeSelect::createObjectFromStepData( args[3], map );
-	m_WordSpacing = IfcSizeSelect::createObjectFromStepData( args[4], map );
-	m_TextTransform = IfcTextTransformation::createObjectFromStepData( args[5] );
-	m_LineHeight = IfcSizeSelect::createObjectFromStepData( args[6], map );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_TextIndent = IfcSizeSelect::createObjectFromSTEP( args[0], map );
+	m_TextAlign = IfcTextAlignment::createObjectFromSTEP( args[1] );
+	m_TextDecoration = IfcTextDecoration::createObjectFromSTEP( args[2] );
+	m_LetterSpacing = IfcSizeSelect::createObjectFromSTEP( args[3], map );
+	m_WordSpacing = IfcSizeSelect::createObjectFromSTEP( args[4], map );
+	m_TextTransform = IfcTextTransformation::createObjectFromSTEP( args[5] );
+	m_LineHeight = IfcSizeSelect::createObjectFromSTEP( args[6], map );
 }
 void IfcTextStyleTextModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

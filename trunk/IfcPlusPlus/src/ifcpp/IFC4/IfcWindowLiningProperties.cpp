@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -38,25 +39,33 @@
 IfcWindowLiningProperties::IfcWindowLiningProperties() {}
 IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_id = id; }
 IfcWindowLiningProperties::~IfcWindowLiningProperties() {}
-shared_ptr<IfcPPObject> IfcWindowLiningProperties::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWindowLiningProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWindowLiningProperties> copy_self( new IfcWindowLiningProperties() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_LiningDepth ) { copy_self->m_LiningDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LiningDepth->getDeepCopy() ); }
-	if( m_LiningThickness ) { copy_self->m_LiningThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LiningThickness->getDeepCopy() ); }
-	if( m_TransomThickness ) { copy_self->m_TransomThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TransomThickness->getDeepCopy() ); }
-	if( m_MullionThickness ) { copy_self->m_MullionThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_MullionThickness->getDeepCopy() ); }
-	if( m_FirstTransomOffset ) { copy_self->m_FirstTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstTransomOffset->getDeepCopy() ); }
-	if( m_SecondTransomOffset ) { copy_self->m_SecondTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondTransomOffset->getDeepCopy() ); }
-	if( m_FirstMullionOffset ) { copy_self->m_FirstMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstMullionOffset->getDeepCopy() ); }
-	if( m_SecondMullionOffset ) { copy_self->m_SecondMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondMullionOffset->getDeepCopy() ); }
-	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy() ); }
-	if( m_LiningOffset ) { copy_self->m_LiningOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningOffset->getDeepCopy() ); }
-	if( m_LiningToPanelOffsetX ) { copy_self->m_LiningToPanelOffsetX = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetX->getDeepCopy() ); }
-	if( m_LiningToPanelOffsetY ) { copy_self->m_LiningToPanelOffsetY = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetY->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_LiningDepth ) { copy_self->m_LiningDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LiningDepth->getDeepCopy(options) ); }
+	if( m_LiningThickness ) { copy_self->m_LiningThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LiningThickness->getDeepCopy(options) ); }
+	if( m_TransomThickness ) { copy_self->m_TransomThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TransomThickness->getDeepCopy(options) ); }
+	if( m_MullionThickness ) { copy_self->m_MullionThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_MullionThickness->getDeepCopy(options) ); }
+	if( m_FirstTransomOffset ) { copy_self->m_FirstTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstTransomOffset->getDeepCopy(options) ); }
+	if( m_SecondTransomOffset ) { copy_self->m_SecondTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondTransomOffset->getDeepCopy(options) ); }
+	if( m_FirstMullionOffset ) { copy_self->m_FirstMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstMullionOffset->getDeepCopy(options) ); }
+	if( m_SecondMullionOffset ) { copy_self->m_SecondMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondMullionOffset->getDeepCopy(options) ); }
+	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy(options) ); }
+	if( m_LiningOffset ) { copy_self->m_LiningOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningOffset->getDeepCopy(options) ); }
+	if( m_LiningToPanelOffsetX ) { copy_self->m_LiningToPanelOffsetX = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetX->getDeepCopy(options) ); }
+	if( m_LiningToPanelOffsetY ) { copy_self->m_LiningToPanelOffsetY = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetY->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
@@ -64,7 +73,7 @@ void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCWINDOWLININGPROPERTIES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -86,7 +95,7 @@ void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_SecondMullionOffset ) { m_SecondMullionOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->getId(); } else { stream << "$"; }
+	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_LiningOffset ) { m_LiningOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -99,26 +108,23 @@ void IfcWindowLiningProperties::getStepParameter( std::stringstream& stream, boo
 void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<16 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>16 ){ std::cout << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 16 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_LiningDepth = IfcPositiveLengthMeasure::createObjectFromStepData( args[4] );
-	m_LiningThickness = IfcNonNegativeLengthMeasure::createObjectFromStepData( args[5] );
-	m_TransomThickness = IfcNonNegativeLengthMeasure::createObjectFromStepData( args[6] );
-	m_MullionThickness = IfcNonNegativeLengthMeasure::createObjectFromStepData( args[7] );
-	m_FirstTransomOffset = IfcNormalisedRatioMeasure::createObjectFromStepData( args[8] );
-	m_SecondTransomOffset = IfcNormalisedRatioMeasure::createObjectFromStepData( args[9] );
-	m_FirstMullionOffset = IfcNormalisedRatioMeasure::createObjectFromStepData( args[10] );
-	m_SecondMullionOffset = IfcNormalisedRatioMeasure::createObjectFromStepData( args[11] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_LiningDepth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4] );
+	m_LiningThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[5] );
+	m_TransomThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[6] );
+	m_MullionThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7] );
+	m_FirstTransomOffset = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[8] );
+	m_SecondTransomOffset = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[9] );
+	m_FirstMullionOffset = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[10] );
+	m_SecondMullionOffset = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[11] );
 	readEntityReference( args[12], m_ShapeAspectStyle, map );
-	m_LiningOffset = IfcLengthMeasure::createObjectFromStepData( args[13] );
-	m_LiningToPanelOffsetX = IfcLengthMeasure::createObjectFromStepData( args[14] );
-	m_LiningToPanelOffsetY = IfcLengthMeasure::createObjectFromStepData( args[15] );
+	m_LiningOffset = IfcLengthMeasure::createObjectFromSTEP( args[13] );
+	m_LiningToPanelOffsetX = IfcLengthMeasure::createObjectFromSTEP( args[14] );
+	m_LiningToPanelOffsetY = IfcLengthMeasure::createObjectFromSTEP( args[15] );
 }
 void IfcWindowLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

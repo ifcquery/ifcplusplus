@@ -21,15 +21,16 @@
 #include "IfcMeasureValue.h"
 
 // TYPE IfcElectricCurrentMeasure = REAL;
-class IfcElectricCurrentMeasure : public IfcMeasureValue, public IfcPPReal
+class IfcElectricCurrentMeasure : public IfcMeasureValue
 {
 public:
 	IfcElectricCurrentMeasure();
 	IfcElectricCurrentMeasure( double value );
 	~IfcElectricCurrentMeasure();
 	virtual const char* classname() const { return "IfcElectricCurrentMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcElectricCurrentMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcElectricCurrentMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

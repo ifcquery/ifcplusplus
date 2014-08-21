@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,16 +27,16 @@
 IfcLightIntensityDistribution::IfcLightIntensityDistribution() {}
 IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_id = id; }
 IfcLightIntensityDistribution::~IfcLightIntensityDistribution() {}
-shared_ptr<IfcPPObject> IfcLightIntensityDistribution::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightIntensityDistribution::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightIntensityDistribution> copy_self( new IfcLightIntensityDistribution() );
-	if( m_LightDistributionCurve ) { copy_self->m_LightDistributionCurve = dynamic_pointer_cast<IfcLightDistributionCurveEnum>( m_LightDistributionCurve->getDeepCopy() ); }
+	if( m_LightDistributionCurve ) { copy_self->m_LightDistributionCurve = dynamic_pointer_cast<IfcLightDistributionCurveEnum>( m_LightDistributionCurve->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_DistributionData.size(); ++ii )
 	{
 		auto item_ii = m_DistributionData[ii];
 		if( item_ii )
 		{
-			copy_self->m_DistributionData.push_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy() ) );
+			copy_self->m_DistributionData.push_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -52,11 +53,8 @@ void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream,
 void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_LightDistributionCurve = IfcLightDistributionCurveEnum::createObjectFromStepData( args[0] );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_LightDistributionCurve = IfcLightDistributionCurveEnum::createObjectFromSTEP( args[0] );
 	readEntityReferenceList( args[1], m_DistributionData, map );
 }
 void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

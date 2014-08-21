@@ -22,11 +22,8 @@
 class IfcBendingParameterSelect : virtual public IfcPPObject
 {
 public:
-	IfcBendingParameterSelect();
-	~IfcBendingParameterSelect();
-	virtual const char* classname() const { return "IfcBendingParameterSelect"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	static shared_ptr<IfcBendingParameterSelect> createObjectFromStepData( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcBendingParameterSelect> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

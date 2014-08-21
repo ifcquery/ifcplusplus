@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcEnergyMeasure.h"
 
-// TYPE IfcEnergyMeasure 
+// TYPE IfcEnergyMeasure = REAL;
 IfcEnergyMeasure::IfcEnergyMeasure() {}
 IfcEnergyMeasure::IfcEnergyMeasure( double value ) { m_value = value; }
 IfcEnergyMeasure::~IfcEnergyMeasure() {}
-shared_ptr<IfcPPObject> IfcEnergyMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEnergyMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEnergyMeasure> copy_self( new IfcEnergyMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcEnergyMeasure::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
 	shared_ptr<IfcEnergyMeasure> type_object( new IfcEnergyMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

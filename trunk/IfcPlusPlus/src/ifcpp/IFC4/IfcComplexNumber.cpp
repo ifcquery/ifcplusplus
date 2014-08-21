@@ -21,10 +21,10 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcComplexNumber.h"
 
-// TYPE IfcComplexNumber 
+// TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
 IfcComplexNumber::IfcComplexNumber() {}
 IfcComplexNumber::~IfcComplexNumber() {}
-shared_ptr<IfcPPObject> IfcComplexNumber::getDeepCopy()
+shared_ptr<IfcPPObject> IfcComplexNumber::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcComplexNumber> copy_self( new IfcComplexNumber() );
 	for( size_t ii=0; ii<m_vec.size(); ++ii )
@@ -40,12 +40,12 @@ void IfcComplexNumber::getStepParameter( std::stringstream& stream, bool is_sele
 	writeDoubleList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	shared_ptr<IfcComplexNumber> type_object( new IfcComplexNumber() );
-	readDoubleList( arg, type_object->m_vec );
+	readRealList( arg, type_object->m_vec );
 	return type_object;
 }

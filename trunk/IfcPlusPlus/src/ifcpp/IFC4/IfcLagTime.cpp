@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,14 +29,14 @@
 IfcLagTime::IfcLagTime() {}
 IfcLagTime::IfcLagTime( int id ) { m_id = id; }
 IfcLagTime::~IfcLagTime() {}
-shared_ptr<IfcPPObject> IfcLagTime::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLagTime::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLagTime> copy_self( new IfcLagTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
-	if( m_LagValue ) { copy_self->m_LagValue = dynamic_pointer_cast<IfcTimeOrRatioSelect>( m_LagValue->getDeepCopy() ); }
-	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
+	if( m_LagValue ) { copy_self->m_LagValue = dynamic_pointer_cast<IfcTimeOrRatioSelect>( m_LagValue->getDeepCopy(options) ); }
+	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcLagTime::getStepLine( std::stringstream& stream ) const
@@ -56,15 +57,12 @@ void IfcLagTime::getStepParameter( std::stringstream& stream, bool ) const { str
 void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_DataOrigin = IfcDataOriginEnum::createObjectFromStepData( args[1] );
-	m_UserDefinedDataOrigin = IfcLabel::createObjectFromStepData( args[2] );
-	m_LagValue = IfcTimeOrRatioSelect::createObjectFromStepData( args[3], map );
-	m_DurationType = IfcTaskDurationEnum::createObjectFromStepData( args[4] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
+	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );
+	m_LagValue = IfcTimeOrRatioSelect::createObjectFromSTEP( args[3], map );
+	m_DurationType = IfcTaskDurationEnum::createObjectFromSTEP( args[4] );
 }
 void IfcLagTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

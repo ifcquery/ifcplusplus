@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,24 +30,24 @@
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() {}
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_id = id; }
 IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
-shared_ptr<IfcPPObject> IfcSurfaceStyleRendering::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSurfaceStyleRendering::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleRendering> copy_self( new IfcSurfaceStyleRendering() );
-	if( m_SurfaceColour ) { copy_self->m_SurfaceColour = dynamic_pointer_cast<IfcColourRgb>( m_SurfaceColour->getDeepCopy() ); }
-	if( m_Transparency ) { copy_self->m_Transparency = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Transparency->getDeepCopy() ); }
-	if( m_DiffuseColour ) { copy_self->m_DiffuseColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseColour->getDeepCopy() ); }
-	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_TransmissionColour->getDeepCopy() ); }
-	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseTransmissionColour->getDeepCopy() ); }
-	if( m_ReflectionColour ) { copy_self->m_ReflectionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_ReflectionColour->getDeepCopy() ); }
-	if( m_SpecularColour ) { copy_self->m_SpecularColour = dynamic_pointer_cast<IfcColourOrFactor>( m_SpecularColour->getDeepCopy() ); }
-	if( m_SpecularHighlight ) { copy_self->m_SpecularHighlight = dynamic_pointer_cast<IfcSpecularHighlightSelect>( m_SpecularHighlight->getDeepCopy() ); }
-	if( m_ReflectanceMethod ) { copy_self->m_ReflectanceMethod = dynamic_pointer_cast<IfcReflectanceMethodEnum>( m_ReflectanceMethod->getDeepCopy() ); }
+	if( m_SurfaceColour ) { copy_self->m_SurfaceColour = dynamic_pointer_cast<IfcColourRgb>( m_SurfaceColour->getDeepCopy(options) ); }
+	if( m_Transparency ) { copy_self->m_Transparency = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Transparency->getDeepCopy(options) ); }
+	if( m_DiffuseColour ) { copy_self->m_DiffuseColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseColour->getDeepCopy(options) ); }
+	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_TransmissionColour->getDeepCopy(options) ); }
+	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseTransmissionColour->getDeepCopy(options) ); }
+	if( m_ReflectionColour ) { copy_self->m_ReflectionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_ReflectionColour->getDeepCopy(options) ); }
+	if( m_SpecularColour ) { copy_self->m_SpecularColour = dynamic_pointer_cast<IfcColourOrFactor>( m_SpecularColour->getDeepCopy(options) ); }
+	if( m_SpecularHighlight ) { copy_self->m_SpecularHighlight = dynamic_pointer_cast<IfcSpecularHighlightSelect>( m_SpecularHighlight->getDeepCopy(options) ); }
+	if( m_ReflectanceMethod ) { copy_self->m_ReflectanceMethod = dynamic_pointer_cast<IfcReflectanceMethodEnum>( m_ReflectanceMethod->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSURFACESTYLERENDERING" << "(";
-	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->getId(); } else { stream << "*"; }
+	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -69,19 +70,16 @@ void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool
 void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>9 ){ std::cout << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_SurfaceColour, map );
-	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromStepData( args[1] );
-	m_DiffuseColour = IfcColourOrFactor::createObjectFromStepData( args[2], map );
-	m_TransmissionColour = IfcColourOrFactor::createObjectFromStepData( args[3], map );
-	m_DiffuseTransmissionColour = IfcColourOrFactor::createObjectFromStepData( args[4], map );
-	m_ReflectionColour = IfcColourOrFactor::createObjectFromStepData( args[5], map );
-	m_SpecularColour = IfcColourOrFactor::createObjectFromStepData( args[6], map );
-	m_SpecularHighlight = IfcSpecularHighlightSelect::createObjectFromStepData( args[7], map );
-	m_ReflectanceMethod = IfcReflectanceMethodEnum::createObjectFromStepData( args[8] );
+	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1] );
+	m_DiffuseColour = IfcColourOrFactor::createObjectFromSTEP( args[2], map );
+	m_TransmissionColour = IfcColourOrFactor::createObjectFromSTEP( args[3], map );
+	m_DiffuseTransmissionColour = IfcColourOrFactor::createObjectFromSTEP( args[4], map );
+	m_ReflectionColour = IfcColourOrFactor::createObjectFromSTEP( args[5], map );
+	m_SpecularColour = IfcColourOrFactor::createObjectFromSTEP( args[6], map );
+	m_SpecularHighlight = IfcSpecularHighlightSelect::createObjectFromSTEP( args[7], map );
+	m_ReflectanceMethod = IfcReflectanceMethodEnum::createObjectFromSTEP( args[8] );
 }
 void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

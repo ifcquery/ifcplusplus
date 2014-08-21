@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -42,20 +43,28 @@
 IfcEvent::IfcEvent() {}
 IfcEvent::IfcEvent( int id ) { m_id = id; }
 IfcEvent::~IfcEvent() {}
-shared_ptr<IfcPPObject> IfcEvent::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEvent::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEvent> copy_self( new IfcEvent() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
-	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy() ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcEventTypeEnum>( m_PredefinedType->getDeepCopy() ); }
-	if( m_EventTriggerType ) { copy_self->m_EventTriggerType = dynamic_pointer_cast<IfcEventTriggerTypeEnum>( m_EventTriggerType->getDeepCopy() ); }
-	if( m_UserDefinedEventTriggerType ) { copy_self->m_UserDefinedEventTriggerType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedEventTriggerType->getDeepCopy() ); }
-	if( m_EventOccurenceTime ) { copy_self->m_EventOccurenceTime = dynamic_pointer_cast<IfcEventTime>( m_EventOccurenceTime->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
+	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcEventTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
+	if( m_EventTriggerType ) { copy_self->m_EventTriggerType = dynamic_pointer_cast<IfcEventTriggerTypeEnum>( m_EventTriggerType->getDeepCopy(options) ); }
+	if( m_UserDefinedEventTriggerType ) { copy_self->m_UserDefinedEventTriggerType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedEventTriggerType->getDeepCopy(options) ); }
+	if( m_EventOccurenceTime ) { copy_self->m_EventOccurenceTime = dynamic_pointer_cast<IfcEventTime>( m_EventOccurenceTime->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcEvent::getStepLine( std::stringstream& stream ) const
@@ -63,7 +72,7 @@ void IfcEvent::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCEVENT" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -81,27 +90,24 @@ void IfcEvent::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_UserDefinedEventTriggerType ) { m_UserDefinedEventTriggerType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EventOccurenceTime ) { stream << "#" << m_EventOccurenceTime->getId(); } else { stream << "$"; }
+	if( m_EventOccurenceTime ) { stream << "#" << m_EventOccurenceTime->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcEvent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcEvent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEvent, expecting 11, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>11 ){ std::cout << "Wrong parameter count for entity IfcEvent, expecting 11, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEvent, expecting 11, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
-	m_Identification = IfcIdentifier::createObjectFromStepData( args[5] );
-	m_LongDescription = IfcText::createObjectFromStepData( args[6] );
-	m_PredefinedType = IfcEventTypeEnum::createObjectFromStepData( args[7] );
-	m_EventTriggerType = IfcEventTriggerTypeEnum::createObjectFromStepData( args[8] );
-	m_UserDefinedEventTriggerType = IfcLabel::createObjectFromStepData( args[9] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
+	m_Identification = IfcIdentifier::createObjectFromSTEP( args[5] );
+	m_LongDescription = IfcText::createObjectFromSTEP( args[6] );
+	m_PredefinedType = IfcEventTypeEnum::createObjectFromSTEP( args[7] );
+	m_EventTriggerType = IfcEventTriggerTypeEnum::createObjectFromSTEP( args[8] );
+	m_UserDefinedEventTriggerType = IfcLabel::createObjectFromSTEP( args[9] );
 	readEntityReference( args[10], m_EventOccurenceTime, map );
 }
 void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

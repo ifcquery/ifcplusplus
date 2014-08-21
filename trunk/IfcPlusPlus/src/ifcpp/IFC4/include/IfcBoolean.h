@@ -27,15 +27,16 @@
 #include "IfcWarpingStiffnessSelect.h"
 
 // TYPE IfcBoolean = BOOLEAN;
-class IfcBoolean : public IfcModulusOfRotationalSubgradeReactionSelect, public IfcModulusOfSubgradeReactionSelect, public IfcModulusOfTranslationalSubgradeReactionSelect, public IfcRotationalStiffnessSelect, public IfcSimpleValue, public IfcTranslationalStiffnessSelect, public IfcWarpingStiffnessSelect, public IfcPPBool
+class IfcBoolean : public IfcModulusOfRotationalSubgradeReactionSelect, public IfcModulusOfSubgradeReactionSelect, public IfcModulusOfTranslationalSubgradeReactionSelect, public IfcRotationalStiffnessSelect, public IfcSimpleValue, public IfcTranslationalStiffnessSelect, public IfcWarpingStiffnessSelect
 {
 public:
 	IfcBoolean();
 	IfcBoolean( bool value );
 	~IfcBoolean();
 	virtual const char* classname() const { return "IfcBoolean"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcBoolean> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcBoolean> createObjectFromSTEP( const std::wstring& arg );
+	bool m_value;
 };
 

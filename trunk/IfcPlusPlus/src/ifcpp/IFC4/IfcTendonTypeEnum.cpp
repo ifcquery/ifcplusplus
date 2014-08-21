@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTendonTypeEnum.h"
 
-// TYPE IfcTendonTypeEnum 
+// TYPE IfcTendonTypeEnum = ENUMERATION OF	(BAR	,COATED	,STRAND	,WIRE	,USERDEFINED	,NOTDEFINED);
 IfcTendonTypeEnum::IfcTendonTypeEnum() {}
 IfcTendonTypeEnum::~IfcTendonTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTendonTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTendonTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTendonTypeEnum> copy_self( new IfcTendonTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }

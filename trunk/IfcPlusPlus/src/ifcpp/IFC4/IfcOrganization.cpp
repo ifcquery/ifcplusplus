@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,18 +32,18 @@
 IfcOrganization::IfcOrganization() {}
 IfcOrganization::IfcOrganization( int id ) { m_id = id; }
 IfcOrganization::~IfcOrganization() {}
-shared_ptr<IfcPPObject> IfcOrganization::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOrganization::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOrganization> copy_self( new IfcOrganization() );
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Roles.size(); ++ii )
 	{
 		auto item_ii = m_Roles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy() ) );
+			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Addresses.size(); ++ii )
@@ -50,7 +51,7 @@ shared_ptr<IfcPPObject> IfcOrganization::getDeepCopy()
 		auto item_ii = m_Addresses[ii];
 		if( item_ii )
 		{
-			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy() ) );
+			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -73,13 +74,10 @@ void IfcOrganization::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcOrganization::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOrganization, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcOrganization, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Identification = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Name = IfcLabel::createObjectFromStepData( args[1] );
-	m_Description = IfcText::createObjectFromStepData( args[2] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOrganization, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
+	m_Description = IfcText::createObjectFromSTEP( args[2] );
 	readEntityReferenceList( args[3], m_Roles, map );
 	readEntityReferenceList( args[4], m_Addresses, map );
 }
@@ -144,7 +142,7 @@ void IfcOrganization::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	shared_ptr<IfcOrganization> ptr_self = dynamic_pointer_cast<IfcOrganization>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcOrganization::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_Addresses.size(); ++i )
+	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )
 		{
@@ -154,16 +152,15 @@ void IfcOrganization::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 }
 void IfcOrganization::unlinkSelf()
 {
-	for( int i=0; i<m_Addresses.size(); ++i )
+	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )
 		{
 			std::vector<weak_ptr<IfcOrganization> >& OfOrganization_inverse = m_Addresses[i]->m_OfOrganization_inverse;
-			std::vector<weak_ptr<IfcOrganization> >::iterator it_OfOrganization_inverse;
-			for( it_OfOrganization_inverse = OfOrganization_inverse.begin(); it_OfOrganization_inverse != OfOrganization_inverse.end(); ++it_OfOrganization_inverse)
+			for( auto it_OfOrganization_inverse = OfOrganization_inverse.begin(); it_OfOrganization_inverse != OfOrganization_inverse.end(); ++it_OfOrganization_inverse)
 			{
 				shared_ptr<IfcOrganization> self_candidate( *it_OfOrganization_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					OfOrganization_inverse.erase( it_OfOrganization_inverse );
 					break;

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcReinforcingBarSurfaceEnum.h"
 
-// TYPE IfcReinforcingBarSurfaceEnum 
+// TYPE IfcReinforcingBarSurfaceEnum = ENUMERATION OF	(PLAIN	,TEXTURED);
 IfcReinforcingBarSurfaceEnum::IfcReinforcingBarSurfaceEnum() {}
 IfcReinforcingBarSurfaceEnum::~IfcReinforcingBarSurfaceEnum() {}
-shared_ptr<IfcPPObject> IfcReinforcingBarSurfaceEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReinforcingBarSurfaceEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarSurfaceEnum> copy_self( new IfcReinforcingBarSurfaceEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }

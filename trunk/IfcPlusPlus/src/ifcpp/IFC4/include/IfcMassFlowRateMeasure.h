@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMassFlowRateMeasure = REAL;
-class IfcMassFlowRateMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcMassFlowRateMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMassFlowRateMeasure();
 	IfcMassFlowRateMeasure( double value );
 	~IfcMassFlowRateMeasure();
 	virtual const char* classname() const { return "IfcMassFlowRateMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMassFlowRateMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMassFlowRateMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

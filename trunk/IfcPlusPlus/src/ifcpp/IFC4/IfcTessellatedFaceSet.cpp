@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,10 +31,10 @@
 IfcTessellatedFaceSet::IfcTessellatedFaceSet() {}
 IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_id = id; }
 IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
-shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTessellatedFaceSet> copy_self( new IfcTessellatedFaceSet() );
-	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy() ); }
+	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
 	copy_self->m_Normals.resize( m_Normals.size() );
 	for( size_t ii=0; ii<m_Normals.size(); ++ii )
 	{
@@ -44,7 +45,7 @@ shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy()
 			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy() ) );
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -54,7 +55,7 @@ shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy()
 void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCTESSELLATEDFACESET" << "(";
-	if( m_Coordinates ) { stream << "#" << m_Coordinates->getId(); } else { stream << "$"; }
+	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeTypeOfRealList2D( stream, m_Normals );
 	stream << ",";
@@ -66,10 +67,7 @@ void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) 
 void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
 	if( boost::iequals( args[2], L".F." ) ) { m_Closed = false; }
@@ -79,7 +77,7 @@ void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, sh
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Coordinates", m_Coordinates ) );
-	vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBool>( new IfcPPBool( m_Closed ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Closed ) ) ) );
 }
 void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

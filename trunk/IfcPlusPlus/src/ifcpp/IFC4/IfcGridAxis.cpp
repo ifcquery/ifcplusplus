@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -29,12 +30,12 @@
 IfcGridAxis::IfcGridAxis() {}
 IfcGridAxis::IfcGridAxis( int id ) { m_id = id; }
 IfcGridAxis::~IfcGridAxis() {}
-shared_ptr<IfcPPObject> IfcGridAxis::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGridAxis::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGridAxis> copy_self( new IfcGridAxis() );
-	if( m_AxisTag ) { copy_self->m_AxisTag = dynamic_pointer_cast<IfcLabel>( m_AxisTag->getDeepCopy() ); }
-	if( m_AxisCurve ) { copy_self->m_AxisCurve = dynamic_pointer_cast<IfcCurve>( m_AxisCurve->getDeepCopy() ); }
-	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy() ); }
+	if( m_AxisTag ) { copy_self->m_AxisTag = dynamic_pointer_cast<IfcLabel>( m_AxisTag->getDeepCopy(options) ); }
+	if( m_AxisCurve ) { copy_self->m_AxisCurve = dynamic_pointer_cast<IfcCurve>( m_AxisCurve->getDeepCopy(options) ); }
+	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcGridAxis::getStepLine( std::stringstream& stream ) const
@@ -42,7 +43,7 @@ void IfcGridAxis::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCGRIDAXIS" << "(";
 	if( m_AxisTag ) { m_AxisTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AxisCurve ) { stream << "#" << m_AxisCurve->getId(); } else { stream << "$"; }
+	if( m_AxisCurve ) { stream << "#" << m_AxisCurve->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -51,13 +52,10 @@ void IfcGridAxis::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_AxisTag = IfcLabel::createObjectFromStepData( args[0] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_AxisTag = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_AxisCurve, map );
-	m_SameSense = IfcBoolean::createObjectFromStepData( args[2] );
+	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2] );
 }
 void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

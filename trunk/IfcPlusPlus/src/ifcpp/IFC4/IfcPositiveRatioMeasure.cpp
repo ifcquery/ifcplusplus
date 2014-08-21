@@ -22,10 +22,10 @@
 #include "include/IfcSizeSelect.h"
 #include "include/IfcPositiveRatioMeasure.h"
 
-// TYPE IfcPositiveRatioMeasure 
+// TYPE IfcPositiveRatioMeasure = IfcRatioMeasure;
 IfcPositiveRatioMeasure::IfcPositiveRatioMeasure() {}
 IfcPositiveRatioMeasure::~IfcPositiveRatioMeasure() {}
-shared_ptr<IfcPPObject> IfcPositiveRatioMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPositiveRatioMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPositiveRatioMeasure> copy_self( new IfcPositiveRatioMeasure() );
 	copy_self->m_value = m_value;
@@ -37,13 +37,13 @@ void IfcPositiveRatioMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	shared_ptr<IfcPositiveRatioMeasure> type_object( new IfcPositiveRatioMeasure() );
 	// read TYPE
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

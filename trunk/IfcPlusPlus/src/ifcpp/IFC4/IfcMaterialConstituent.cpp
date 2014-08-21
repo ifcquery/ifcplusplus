@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -32,14 +33,14 @@
 IfcMaterialConstituent::IfcMaterialConstituent() {}
 IfcMaterialConstituent::IfcMaterialConstituent( int id ) { m_id = id; }
 IfcMaterialConstituent::~IfcMaterialConstituent() {}
-shared_ptr<IfcPPObject> IfcMaterialConstituent::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialConstituent::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialConstituent> copy_self( new IfcMaterialConstituent() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
-	if( m_Fraction ) { copy_self->m_Fraction = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Fraction->getDeepCopy() ); }
-	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy(options) ); }
+	if( m_Fraction ) { copy_self->m_Fraction = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Fraction->getDeepCopy(options) ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMaterialConstituent::getStepLine( std::stringstream& stream ) const
@@ -49,7 +50,7 @@ void IfcMaterialConstituent::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "$"; }
+	if( m_Material ) { stream << "#" << m_Material->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Fraction ) { m_Fraction->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -60,15 +61,12 @@ void IfcMaterialConstituent::getStepParameter( std::stringstream& stream, bool )
 void IfcMaterialConstituent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialConstituent, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcMaterialConstituent, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialConstituent, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Material, map );
-	m_Fraction = IfcNormalisedRatioMeasure::createObjectFromStepData( args[3] );
-	m_Category = IfcLabel::createObjectFromStepData( args[4] );
+	m_Fraction = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3] );
+	m_Category = IfcLabel::createObjectFromSTEP( args[4] );
 }
 void IfcMaterialConstituent::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

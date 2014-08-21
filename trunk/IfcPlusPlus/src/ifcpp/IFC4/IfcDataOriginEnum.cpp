@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDataOriginEnum.h"
 
-// TYPE IfcDataOriginEnum 
+// TYPE IfcDataOriginEnum = ENUMERATION OF	(MEASURED	,PREDICTED	,SIMULATED	,USERDEFINED	,NOTDEFINED);
 IfcDataOriginEnum::IfcDataOriginEnum() {}
 IfcDataOriginEnum::~IfcDataOriginEnum() {}
-shared_ptr<IfcPPObject> IfcDataOriginEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDataOriginEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDataOriginEnum> copy_self( new IfcDataOriginEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }

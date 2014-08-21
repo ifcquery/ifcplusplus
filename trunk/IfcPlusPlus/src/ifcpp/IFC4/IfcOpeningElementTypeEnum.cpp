@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcOpeningElementTypeEnum.h"
 
-// TYPE IfcOpeningElementTypeEnum 
+// TYPE IfcOpeningElementTypeEnum = ENUMERATION OF	(OPENING	,RECESS	,USERDEFINED	,NOTDEFINED);
 IfcOpeningElementTypeEnum::IfcOpeningElementTypeEnum() {}
 IfcOpeningElementTypeEnum::~IfcOpeningElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcOpeningElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOpeningElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOpeningElementTypeEnum> copy_self( new IfcOpeningElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcOpeningElementTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }

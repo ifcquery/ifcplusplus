@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDirectionSenseEnum.h"
 
-// TYPE IfcDirectionSenseEnum 
+// TYPE IfcDirectionSenseEnum = ENUMERATION OF	(POSITIVE	,NEGATIVE);
 IfcDirectionSenseEnum::IfcDirectionSenseEnum() {}
 IfcDirectionSenseEnum::~IfcDirectionSenseEnum() {}
-shared_ptr<IfcPPObject> IfcDirectionSenseEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDirectionSenseEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDirectionSenseEnum> copy_self( new IfcDirectionSenseEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcDirectionSenseEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement() {}
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement( int id ) { m_id = id; }
 IfcStructuralLoadSingleDisplacement::~IfcStructuralLoadSingleDisplacement() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacement::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleDisplacement> copy_self( new IfcStructuralLoadSingleDisplacement() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_DisplacementX ) { copy_self->m_DisplacementX = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementX->getDeepCopy() ); }
-	if( m_DisplacementY ) { copy_self->m_DisplacementY = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementY->getDeepCopy() ); }
-	if( m_DisplacementZ ) { copy_self->m_DisplacementZ = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementZ->getDeepCopy() ); }
-	if( m_RotationalDisplacementRX ) { copy_self->m_RotationalDisplacementRX = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRX->getDeepCopy() ); }
-	if( m_RotationalDisplacementRY ) { copy_self->m_RotationalDisplacementRY = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRY->getDeepCopy() ); }
-	if( m_RotationalDisplacementRZ ) { copy_self->m_RotationalDisplacementRZ = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRZ->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_DisplacementX ) { copy_self->m_DisplacementX = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementX->getDeepCopy(options) ); }
+	if( m_DisplacementY ) { copy_self->m_DisplacementY = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementY->getDeepCopy(options) ); }
+	if( m_DisplacementZ ) { copy_self->m_DisplacementZ = dynamic_pointer_cast<IfcLengthMeasure>( m_DisplacementZ->getDeepCopy(options) ); }
+	if( m_RotationalDisplacementRX ) { copy_self->m_RotationalDisplacementRX = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRX->getDeepCopy(options) ); }
+	if( m_RotationalDisplacementRY ) { copy_self->m_RotationalDisplacementRY = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRY->getDeepCopy(options) ); }
+	if( m_RotationalDisplacementRZ ) { copy_self->m_RotationalDisplacementRZ = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_RotationalDisplacementRZ->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStructuralLoadSingleDisplacement::getStepLine( std::stringstream& stream ) const
@@ -61,17 +62,14 @@ void IfcStructuralLoadSingleDisplacement::getStepParameter( std::stringstream& s
 void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_DisplacementX = IfcLengthMeasure::createObjectFromStepData( args[1] );
-	m_DisplacementY = IfcLengthMeasure::createObjectFromStepData( args[2] );
-	m_DisplacementZ = IfcLengthMeasure::createObjectFromStepData( args[3] );
-	m_RotationalDisplacementRX = IfcPlaneAngleMeasure::createObjectFromStepData( args[4] );
-	m_RotationalDisplacementRY = IfcPlaneAngleMeasure::createObjectFromStepData( args[5] );
-	m_RotationalDisplacementRZ = IfcPlaneAngleMeasure::createObjectFromStepData( args[6] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_DisplacementX = IfcLengthMeasure::createObjectFromSTEP( args[1] );
+	m_DisplacementY = IfcLengthMeasure::createObjectFromSTEP( args[2] );
+	m_DisplacementZ = IfcLengthMeasure::createObjectFromSTEP( args[3] );
+	m_RotationalDisplacementRX = IfcPlaneAngleMeasure::createObjectFromSTEP( args[4] );
+	m_RotationalDisplacementRY = IfcPlaneAngleMeasure::createObjectFromSTEP( args[5] );
+	m_RotationalDisplacementRZ = IfcPlaneAngleMeasure::createObjectFromSTEP( args[6] );
 }
 void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

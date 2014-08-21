@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSubContractResourceTypeEnum.h"
 
-// TYPE IfcSubContractResourceTypeEnum 
+// TYPE IfcSubContractResourceTypeEnum = ENUMERATION OF	(PURCHASE	,WORK	,USERDEFINED	,NOTDEFINED);
 IfcSubContractResourceTypeEnum::IfcSubContractResourceTypeEnum() {}
 IfcSubContractResourceTypeEnum::~IfcSubContractResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSubContractResourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSubContractResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSubContractResourceTypeEnum> copy_self( new IfcSubContractResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcSubContractResourceTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }

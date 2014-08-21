@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLanguageId.h"
 
-// TYPE IfcLanguageId 
+// TYPE IfcLanguageId = IfcIdentifier;
 IfcLanguageId::IfcLanguageId() {}
 IfcLanguageId::~IfcLanguageId() {}
-shared_ptr<IfcPPObject> IfcLanguageId::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLanguageId::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLanguageId> copy_self( new IfcLanguageId() );
 	copy_self->m_value = m_value;
@@ -35,13 +35,13 @@ void IfcLanguageId::getStepParameter( std::stringstream& stream, bool is_select_
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	shared_ptr<IfcLanguageId> type_object( new IfcLanguageId() );
 	// read TYPE
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

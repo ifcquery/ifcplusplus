@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFilterTypeEnum.h"
 
-// TYPE IfcFilterTypeEnum 
+// TYPE IfcFilterTypeEnum = ENUMERATION OF	(AIRPARTICLEFILTER	,COMPRESSEDAIRFILTER	,ODORFILTER	,OILFILTER	,STRAINER	,WATERFILTER	,USERDEFINED	,NOTDEFINED);
 IfcFilterTypeEnum::IfcFilterTypeEnum() {}
 IfcFilterTypeEnum::~IfcFilterTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFilterTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFilterTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFilterTypeEnum> copy_self( new IfcFilterTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcFilterTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,10 +28,10 @@
 IfcConic::IfcConic() {}
 IfcConic::IfcConic( int id ) { m_id = id; }
 IfcConic::~IfcConic() {}
-shared_ptr<IfcPPObject> IfcConic::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConic::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConic> copy_self( new IfcConic() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy() ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcConic::getStepLine( std::stringstream& stream ) const
@@ -43,11 +44,8 @@ void IfcConic::getStepParameter( std::stringstream& stream, bool ) const { strea
 void IfcConic::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConic, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcConic, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Position = IfcAxis2Placement::createObjectFromStepData( args[0], map );
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConic, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 }
 void IfcConic::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

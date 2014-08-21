@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTendonAnchorTypeEnum.h"
 
-// TYPE IfcTendonAnchorTypeEnum 
+// TYPE IfcTendonAnchorTypeEnum = ENUMERATION OF	(COUPLER	,FIXED_END	,TENSIONING_END	,USERDEFINED	,NOTDEFINED);
 IfcTendonAnchorTypeEnum::IfcTendonAnchorTypeEnum() {}
 IfcTendonAnchorTypeEnum::~IfcTendonAnchorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTendonAnchorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTendonAnchorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTendonAnchorTypeEnum> copy_self( new IfcTendonAnchorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcTendonAnchorTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }

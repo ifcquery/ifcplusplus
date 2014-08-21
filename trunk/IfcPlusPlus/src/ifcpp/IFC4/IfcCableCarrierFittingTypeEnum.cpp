@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCableCarrierFittingTypeEnum.h"
 
-// TYPE IfcCableCarrierFittingTypeEnum 
+// TYPE IfcCableCarrierFittingTypeEnum = ENUMERATION OF	(BEND	,CROSS	,REDUCER	,TEE	,USERDEFINED	,NOTDEFINED);
 IfcCableCarrierFittingTypeEnum::IfcCableCarrierFittingTypeEnum() {}
 IfcCableCarrierFittingTypeEnum::~IfcCableCarrierFittingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCableCarrierFittingTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCableCarrierFittingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierFittingTypeEnum> copy_self( new IfcCableCarrierFittingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcCableCarrierFittingTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }

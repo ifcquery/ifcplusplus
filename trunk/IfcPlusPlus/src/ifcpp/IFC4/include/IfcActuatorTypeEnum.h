@@ -38,9 +38,9 @@ public:
 	IfcActuatorTypeEnum( IfcActuatorTypeEnumEnum e ) { m_enum = e; }
 	~IfcActuatorTypeEnum();
 	virtual const char* classname() const { return "IfcActuatorTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcActuatorTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcActuatorTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcActuatorTypeEnumEnum m_enum;
 };
 

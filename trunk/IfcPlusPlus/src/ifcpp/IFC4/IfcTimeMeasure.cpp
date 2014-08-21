@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcTimeMeasure.h"
 
-// TYPE IfcTimeMeasure 
+// TYPE IfcTimeMeasure = REAL;
 IfcTimeMeasure::IfcTimeMeasure() {}
 IfcTimeMeasure::IfcTimeMeasure( double value ) { m_value = value; }
 IfcTimeMeasure::~IfcTimeMeasure() {}
-shared_ptr<IfcPPObject> IfcTimeMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTimeMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTimeMeasure> copy_self( new IfcTimeMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcTimeMeasure::getStepParameter( std::stringstream& stream, bool is_select
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTimeMeasure> IfcTimeMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTimeMeasure> IfcTimeMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
 	shared_ptr<IfcTimeMeasure> type_object( new IfcTimeMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

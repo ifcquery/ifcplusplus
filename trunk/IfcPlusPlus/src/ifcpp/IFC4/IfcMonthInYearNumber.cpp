@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcMonthInYearNumber.h"
 
-// TYPE IfcMonthInYearNumber 
+// TYPE IfcMonthInYearNumber = INTEGER;
 IfcMonthInYearNumber::IfcMonthInYearNumber() {}
 IfcMonthInYearNumber::IfcMonthInYearNumber( int value ) { m_value = value; }
 IfcMonthInYearNumber::~IfcMonthInYearNumber() {}
-shared_ptr<IfcPPObject> IfcMonthInYearNumber::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMonthInYearNumber::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMonthInYearNumber> copy_self( new IfcMonthInYearNumber() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcMonthInYearNumber::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	shared_ptr<IfcMonthInYearNumber> type_object( new IfcMonthInYearNumber() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

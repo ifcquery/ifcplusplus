@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,23 +29,23 @@
 IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D() {}
 IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D( int id ) { m_id = id; }
 IfcCartesianTransformationOperator2D::~IfcCartesianTransformationOperator2D() {}
-shared_ptr<IfcPPObject> IfcCartesianTransformationOperator2D::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCartesianTransformationOperator2D::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator2D> copy_self( new IfcCartesianTransformationOperator2D() );
-	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy() ); }
-	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy() ); }
-	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy() ); }
+	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
+	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy(options) ); }
+	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy(options) ); }
 	if( m_Scale ) { copy_self->m_Scale = m_Scale; }
 	return copy_self;
 }
 void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR2D" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->getId(); } else { stream << "*"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis2 ) { stream << "#" << m_Axis2->getId(); } else { stream << "*"; }
+	if( m_Axis2 ) { stream << "#" << m_Axis2->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->getId(); } else { stream << "*"; }
+	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "*"; }
 	stream << ");";
@@ -53,10 +54,7 @@ void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& 
 void IfcCartesianTransformationOperator2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );

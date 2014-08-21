@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcVolumeMeasure.h"
 
-// TYPE IfcVolumeMeasure 
+// TYPE IfcVolumeMeasure = REAL;
 IfcVolumeMeasure::IfcVolumeMeasure() {}
 IfcVolumeMeasure::IfcVolumeMeasure( double value ) { m_value = value; }
 IfcVolumeMeasure::~IfcVolumeMeasure() {}
-shared_ptr<IfcPPObject> IfcVolumeMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVolumeMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVolumeMeasure> copy_self( new IfcVolumeMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcVolumeMeasure::getStepParameter( std::stringstream& stream, bool is_sele
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
 	shared_ptr<IfcVolumeMeasure> type_object( new IfcVolumeMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

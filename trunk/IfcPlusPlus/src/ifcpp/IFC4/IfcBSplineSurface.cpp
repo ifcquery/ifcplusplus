@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,7 +29,7 @@
 IfcBSplineSurface::IfcBSplineSurface() {}
 IfcBSplineSurface::IfcBSplineSurface( int id ) { m_id = id; }
 IfcBSplineSurface::~IfcBSplineSurface() {}
-shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurface> copy_self( new IfcBSplineSurface() );
 	if( m_UDegree ) { copy_self->m_UDegree = m_UDegree; }
@@ -43,11 +44,11 @@ shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy()
 			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy() ) );
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
-	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy() ); }
+	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy(options) ); }
 	if( m_UClosed ) { copy_self->m_UClosed = m_UClosed; }
 	if( m_VClosed ) { copy_self->m_VClosed = m_VClosed; }
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
@@ -81,14 +82,11 @@ void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readIntValue( args[0], m_UDegree );
 	readIntValue( args[1], m_VDegree );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
-	m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromStepData( args[3] );
+	m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromSTEP( args[3] );
 	if( boost::iequals( args[4], L".F." ) ) { m_UClosed = LOGICAL_FALSE; }
 	else if( boost::iequals( args[4], L".T." ) ) { m_UClosed = LOGICAL_TRUE; }
 	else if( boost::iequals( args[4], L".U." ) ) { m_UClosed = LOGICAL_UNKNOWN; }
@@ -102,12 +100,12 @@ void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args
 void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "UDegree", shared_ptr<IfcPPInt>( new IfcPPInt( m_UDegree ) ) ) );
-	vec_attributes.push_back( std::make_pair( "VDegree", shared_ptr<IfcPPInt>( new IfcPPInt( m_VDegree ) ) ) );
+	vec_attributes.push_back( std::make_pair( "UDegree", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_UDegree ) ) ) );
+	vec_attributes.push_back( std::make_pair( "VDegree", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_VDegree ) ) ) );
 	vec_attributes.push_back( std::make_pair( "SurfaceForm", m_SurfaceForm ) );
-	vec_attributes.push_back( std::make_pair( "UClosed", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_UClosed ) ) ) );
-	vec_attributes.push_back( std::make_pair( "VClosed", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_VClosed ) ) ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogical>( new IfcPPLogical( m_SelfIntersect ) ) ) );
+	vec_attributes.push_back( std::make_pair( "UClosed", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_UClosed ) ) ) );
+	vec_attributes.push_back( std::make_pair( "VClosed", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_VClosed ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_SelfIntersect ) ) ) );
 }
 void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -21,15 +21,16 @@
 #include "IfcSpecularHighlightSelect.h"
 
 // TYPE IfcSpecularExponent = REAL;
-class IfcSpecularExponent : public IfcSpecularHighlightSelect, public IfcPPReal
+class IfcSpecularExponent : public IfcSpecularHighlightSelect
 {
 public:
 	IfcSpecularExponent();
 	IfcSpecularExponent( double value );
 	~IfcSpecularExponent();
 	virtual const char* classname() const { return "IfcSpecularExponent"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcSpecularExponent> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcSpecularExponent> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

@@ -37,9 +37,9 @@ public:
 	IfcPileConstructionEnum( IfcPileConstructionEnumEnum e ) { m_enum = e; }
 	~IfcPileConstructionEnum();
 	virtual const char* classname() const { return "IfcPileConstructionEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcPileConstructionEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcPileConstructionEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcPileConstructionEnumEnum m_enum;
 };
 

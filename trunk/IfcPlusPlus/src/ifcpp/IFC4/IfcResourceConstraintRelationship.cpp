@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,18 +29,18 @@
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship() {}
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int id ) { m_id = id; }
 IfcResourceConstraintRelationship::~IfcResourceConstraintRelationship() {}
-shared_ptr<IfcPPObject> IfcResourceConstraintRelationship::getDeepCopy()
+shared_ptr<IfcPPObject> IfcResourceConstraintRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcResourceConstraintRelationship> copy_self( new IfcResourceConstraintRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingConstraint ) { copy_self->m_RelatingConstraint = dynamic_pointer_cast<IfcConstraint>( m_RelatingConstraint->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingConstraint ) { copy_self->m_RelatingConstraint = dynamic_pointer_cast<IfcConstraint>( m_RelatingConstraint->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedResourceObjects.size(); ++ii )
 	{
 		auto item_ii = m_RelatedResourceObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -51,7 +52,7 @@ void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream )
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->getId(); } else { stream << "$"; }
+	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeTypeList( stream, m_RelatedResourceObjects, true );
 	stream << ");";
@@ -60,12 +61,9 @@ void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& str
 void IfcResourceConstraintRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcResourceConstraintRelationship, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcResourceConstraintRelationship, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcResourceConstraintRelationship, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_RelatingConstraint, map );
 	readSelectList( args[3], m_RelatedResourceObjects, map );
 }
@@ -100,11 +98,10 @@ void IfcResourceConstraintRelationship::unlinkSelf()
 	if( m_RelatingConstraint )
 	{
 		std::vector<weak_ptr<IfcResourceConstraintRelationship> >& PropertiesForConstraint_inverse = m_RelatingConstraint->m_PropertiesForConstraint_inverse;
-		std::vector<weak_ptr<IfcResourceConstraintRelationship> >::iterator it_PropertiesForConstraint_inverse;
-		for( it_PropertiesForConstraint_inverse = PropertiesForConstraint_inverse.begin(); it_PropertiesForConstraint_inverse != PropertiesForConstraint_inverse.end(); ++it_PropertiesForConstraint_inverse)
+		for( auto it_PropertiesForConstraint_inverse = PropertiesForConstraint_inverse.begin(); it_PropertiesForConstraint_inverse != PropertiesForConstraint_inverse.end(); ++it_PropertiesForConstraint_inverse)
 		{
 			shared_ptr<IfcResourceConstraintRelationship> self_candidate( *it_PropertiesForConstraint_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				PropertiesForConstraint_inverse.erase( it_PropertiesForConstraint_inverse );
 				break;

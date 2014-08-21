@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -32,19 +33,19 @@
 IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext() {}
 IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_id = id; }
 IfcGeometricRepresentationSubContext::~IfcGeometricRepresentationSubContext() {}
-shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGeometricRepresentationSubContext> copy_self( new IfcGeometricRepresentationSubContext() );
-	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy() ); }
-	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy() ); }
-	if( m_CoordinateSpaceDimension ) { copy_self->m_CoordinateSpaceDimension = dynamic_pointer_cast<IfcDimensionCount>( m_CoordinateSpaceDimension->getDeepCopy() ); }
+	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
+	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy(options) ); }
+	if( m_CoordinateSpaceDimension ) { copy_self->m_CoordinateSpaceDimension = dynamic_pointer_cast<IfcDimensionCount>( m_CoordinateSpaceDimension->getDeepCopy(options) ); }
 	if( m_Precision ) { copy_self->m_Precision = m_Precision; }
-	if( m_WorldCoordinateSystem ) { copy_self->m_WorldCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement>( m_WorldCoordinateSystem->getDeepCopy() ); }
-	if( m_TrueNorth ) { copy_self->m_TrueNorth = dynamic_pointer_cast<IfcDirection>( m_TrueNorth->getDeepCopy() ); }
-	if( m_ParentContext ) { copy_self->m_ParentContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_ParentContext->getDeepCopy() ); }
-	if( m_TargetScale ) { copy_self->m_TargetScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TargetScale->getDeepCopy() ); }
-	if( m_TargetView ) { copy_self->m_TargetView = dynamic_pointer_cast<IfcGeometricProjectionEnum>( m_TargetView->getDeepCopy() ); }
-	if( m_UserDefinedTargetView ) { copy_self->m_UserDefinedTargetView = dynamic_pointer_cast<IfcLabel>( m_UserDefinedTargetView->getDeepCopy() ); }
+	if( m_WorldCoordinateSystem ) { copy_self->m_WorldCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement>( m_WorldCoordinateSystem->getDeepCopy(options) ); }
+	if( m_TrueNorth ) { copy_self->m_TrueNorth = dynamic_pointer_cast<IfcDirection>( m_TrueNorth->getDeepCopy(options) ); }
+	if( m_ParentContext ) { copy_self->m_ParentContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_ParentContext->getDeepCopy(options) ); }
+	if( m_TargetScale ) { copy_self->m_TargetScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TargetScale->getDeepCopy(options) ); }
+	if( m_TargetView ) { copy_self->m_TargetView = dynamic_pointer_cast<IfcGeometricProjectionEnum>( m_TargetView->getDeepCopy(options) ); }
+	if( m_UserDefinedTargetView ) { copy_self->m_UserDefinedTargetView = dynamic_pointer_cast<IfcLabel>( m_UserDefinedTargetView->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& stream ) const
@@ -60,9 +61,9 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	stream << ",";
 	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->getId(); } else { stream << "*"; }
+	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_ParentContext ) { stream << "#" << m_ParentContext->getId(); } else { stream << "$"; }
+	if( m_ParentContext ) { stream << "#" << m_ParentContext->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_TargetScale ) { m_TargetScale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -75,20 +76,17 @@ void IfcGeometricRepresentationSubContext::getStepParameter( std::stringstream& 
 void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>10 ){ std::cout << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ContextIdentifier = IfcLabel::createObjectFromStepData( args[0] );
-	m_ContextType = IfcLabel::createObjectFromStepData( args[1] );
-	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromStepData( args[2] );
+	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0] );
+	m_ContextType = IfcLabel::createObjectFromSTEP( args[1] );
+	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromSTEP( args[2] );
 	readRealValue( args[3], m_Precision );
-	m_WorldCoordinateSystem = IfcAxis2Placement::createObjectFromStepData( args[4], map );
+	m_WorldCoordinateSystem = IfcAxis2Placement::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_TrueNorth, map );
 	readEntityReference( args[6], m_ParentContext, map );
-	m_TargetScale = IfcPositiveRatioMeasure::createObjectFromStepData( args[7] );
-	m_TargetView = IfcGeometricProjectionEnum::createObjectFromStepData( args[8] );
-	m_UserDefinedTargetView = IfcLabel::createObjectFromStepData( args[9] );
+	m_TargetScale = IfcPositiveRatioMeasure::createObjectFromSTEP( args[7] );
+	m_TargetView = IfcGeometricProjectionEnum::createObjectFromSTEP( args[8] );
+	m_UserDefinedTargetView = IfcLabel::createObjectFromSTEP( args[9] );
 }
 void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -118,11 +116,10 @@ void IfcGeometricRepresentationSubContext::unlinkSelf()
 	if( m_ParentContext )
 	{
 		std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >& HasSubContexts_inverse = m_ParentContext->m_HasSubContexts_inverse;
-		std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >::iterator it_HasSubContexts_inverse;
-		for( it_HasSubContexts_inverse = HasSubContexts_inverse.begin(); it_HasSubContexts_inverse != HasSubContexts_inverse.end(); ++it_HasSubContexts_inverse)
+		for( auto it_HasSubContexts_inverse = HasSubContexts_inverse.begin(); it_HasSubContexts_inverse != HasSubContexts_inverse.end(); ++it_HasSubContexts_inverse)
 		{
 			shared_ptr<IfcGeometricRepresentationSubContext> self_candidate( *it_HasSubContexts_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasSubContexts_inverse.erase( it_HasSubContexts_inverse );
 				break;

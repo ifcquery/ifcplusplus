@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcRotationalMassMeasure.h"
 
-// TYPE IfcRotationalMassMeasure 
+// TYPE IfcRotationalMassMeasure = REAL;
 IfcRotationalMassMeasure::IfcRotationalMassMeasure() {}
 IfcRotationalMassMeasure::IfcRotationalMassMeasure( double value ) { m_value = value; }
 IfcRotationalMassMeasure::~IfcRotationalMassMeasure() {}
-shared_ptr<IfcPPObject> IfcRotationalMassMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRotationalMassMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRotationalMassMeasure> copy_self( new IfcRotationalMassMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcRotationalMassMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRotationalMassMeasure> IfcRotationalMassMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRotationalMassMeasure> IfcRotationalMassMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalMassMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalMassMeasure>(); }
 	shared_ptr<IfcRotationalMassMeasure> type_object( new IfcRotationalMassMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

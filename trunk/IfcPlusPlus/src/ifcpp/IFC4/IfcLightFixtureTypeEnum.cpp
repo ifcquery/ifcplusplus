@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLightFixtureTypeEnum.h"
 
-// TYPE IfcLightFixtureTypeEnum 
+// TYPE IfcLightFixtureTypeEnum = ENUMERATION OF	(POINTSOURCE	,DIRECTIONSOURCE	,SECURITYLIGHTING	,USERDEFINED	,NOTDEFINED);
 IfcLightFixtureTypeEnum::IfcLightFixtureTypeEnum() {}
 IfcLightFixtureTypeEnum::~IfcLightFixtureTypeEnum() {}
-shared_ptr<IfcPPObject> IfcLightFixtureTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightFixtureTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightFixtureTypeEnum> copy_self( new IfcLightFixtureTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }

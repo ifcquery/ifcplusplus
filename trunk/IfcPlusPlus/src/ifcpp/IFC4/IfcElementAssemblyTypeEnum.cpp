@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcElementAssemblyTypeEnum.h"
 
-// TYPE IfcElementAssemblyTypeEnum 
+// TYPE IfcElementAssemblyTypeEnum = ENUMERATION OF	(ACCESSORY_ASSEMBLY	,ARCH	,BEAM_GRID	,BRACED_FRAME	,GIRDER	,REINFORCEMENT_UNIT	,RIGID_FRAME	,SLAB_FIELD	,TRUSS	,USERDEFINED	,NOTDEFINED);
 IfcElementAssemblyTypeEnum::IfcElementAssemblyTypeEnum() {}
 IfcElementAssemblyTypeEnum::~IfcElementAssemblyTypeEnum() {}
-shared_ptr<IfcPPObject> IfcElementAssemblyTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElementAssemblyTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElementAssemblyTypeEnum> copy_self( new IfcElementAssemblyTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }

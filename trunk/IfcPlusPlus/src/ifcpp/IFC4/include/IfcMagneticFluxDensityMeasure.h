@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMagneticFluxDensityMeasure = REAL;
-class IfcMagneticFluxDensityMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcMagneticFluxDensityMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMagneticFluxDensityMeasure();
 	IfcMagneticFluxDensityMeasure( double value );
 	~IfcMagneticFluxDensityMeasure();
 	virtual const char* classname() const { return "IfcMagneticFluxDensityMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMagneticFluxDensityMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMagneticFluxDensityMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

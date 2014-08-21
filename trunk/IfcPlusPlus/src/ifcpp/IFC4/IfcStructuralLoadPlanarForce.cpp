@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,13 +27,13 @@
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce() {}
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int id ) { m_id = id; }
 IfcStructuralLoadPlanarForce::~IfcStructuralLoadPlanarForce() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadPlanarForce::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStructuralLoadPlanarForce::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadPlanarForce> copy_self( new IfcStructuralLoadPlanarForce() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_PlanarForceX ) { copy_self->m_PlanarForceX = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceX->getDeepCopy() ); }
-	if( m_PlanarForceY ) { copy_self->m_PlanarForceY = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceY->getDeepCopy() ); }
-	if( m_PlanarForceZ ) { copy_self->m_PlanarForceZ = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceZ->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_PlanarForceX ) { copy_self->m_PlanarForceX = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceX->getDeepCopy(options) ); }
+	if( m_PlanarForceY ) { copy_self->m_PlanarForceY = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceY->getDeepCopy(options) ); }
+	if( m_PlanarForceZ ) { copy_self->m_PlanarForceZ = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceZ->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) const
@@ -51,14 +52,11 @@ void IfcStructuralLoadPlanarForce::getStepParameter( std::stringstream& stream, 
 void IfcStructuralLoadPlanarForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadPlanarForce, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcStructuralLoadPlanarForce, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_PlanarForceX = IfcPlanarForceMeasure::createObjectFromStepData( args[1] );
-	m_PlanarForceY = IfcPlanarForceMeasure::createObjectFromStepData( args[2] );
-	m_PlanarForceZ = IfcPlanarForceMeasure::createObjectFromStepData( args[3] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadPlanarForce, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_PlanarForceX = IfcPlanarForceMeasure::createObjectFromSTEP( args[1] );
+	m_PlanarForceY = IfcPlanarForceMeasure::createObjectFromSTEP( args[2] );
+	m_PlanarForceZ = IfcPlanarForceMeasure::createObjectFromSTEP( args[3] );
 }
 void IfcStructuralLoadPlanarForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

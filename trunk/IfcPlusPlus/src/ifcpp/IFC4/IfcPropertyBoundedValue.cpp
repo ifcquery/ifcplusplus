@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -32,15 +33,15 @@
 IfcPropertyBoundedValue::IfcPropertyBoundedValue() {}
 IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_id = id; }
 IfcPropertyBoundedValue::~IfcPropertyBoundedValue() {}
-shared_ptr<IfcPPObject> IfcPropertyBoundedValue::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPropertyBoundedValue::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPropertyBoundedValue> copy_self( new IfcPropertyBoundedValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_UpperBoundValue ) { copy_self->m_UpperBoundValue = dynamic_pointer_cast<IfcValue>( m_UpperBoundValue->getDeepCopy() ); }
-	if( m_LowerBoundValue ) { copy_self->m_LowerBoundValue = dynamic_pointer_cast<IfcValue>( m_LowerBoundValue->getDeepCopy() ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy() ); }
-	if( m_SetPointValue ) { copy_self->m_SetPointValue = dynamic_pointer_cast<IfcValue>( m_SetPointValue->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_UpperBoundValue ) { copy_self->m_UpperBoundValue = dynamic_pointer_cast<IfcValue>( m_UpperBoundValue->getDeepCopy(options) ); }
+	if( m_LowerBoundValue ) { copy_self->m_LowerBoundValue = dynamic_pointer_cast<IfcValue>( m_LowerBoundValue->getDeepCopy(options) ); }
+	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
+	if( m_SetPointValue ) { copy_self->m_SetPointValue = dynamic_pointer_cast<IfcValue>( m_SetPointValue->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
@@ -63,16 +64,13 @@ void IfcPropertyBoundedValue::getStepParameter( std::stringstream& stream, bool 
 void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_UpperBoundValue = IfcValue::createObjectFromStepData( args[2], map );
-	m_LowerBoundValue = IfcValue::createObjectFromStepData( args[3], map );
-	m_Unit = IfcUnit::createObjectFromStepData( args[4], map );
-	m_SetPointValue = IfcValue::createObjectFromStepData( args[5], map );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_UpperBoundValue = IfcValue::createObjectFromSTEP( args[2], map );
+	m_LowerBoundValue = IfcValue::createObjectFromSTEP( args[3], map );
+	m_Unit = IfcUnit::createObjectFromSTEP( args[4], map );
+	m_SetPointValue = IfcValue::createObjectFromSTEP( args[5], map );
 }
 void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

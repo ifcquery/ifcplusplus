@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcRampFlightTypeEnum.h"
 
-// TYPE IfcRampFlightTypeEnum 
+// TYPE IfcRampFlightTypeEnum = ENUMERATION OF	(STRAIGHT	,SPIRAL	,USERDEFINED	,NOTDEFINED);
 IfcRampFlightTypeEnum::IfcRampFlightTypeEnum() {}
 IfcRampFlightTypeEnum::~IfcRampFlightTypeEnum() {}
-shared_ptr<IfcPPObject> IfcRampFlightTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRampFlightTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRampFlightTypeEnum> copy_self( new IfcRampFlightTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcRampFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }

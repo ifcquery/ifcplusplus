@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcActionRequestTypeEnum.h"
 
-// TYPE IfcActionRequestTypeEnum 
+// TYPE IfcActionRequestTypeEnum = ENUMERATION OF	(EMAIL	,FAX	,PHONE	,POST	,VERBAL	,USERDEFINED	,NOTDEFINED);
 IfcActionRequestTypeEnum::IfcActionRequestTypeEnum() {}
 IfcActionRequestTypeEnum::~IfcActionRequestTypeEnum() {}
-shared_ptr<IfcPPObject> IfcActionRequestTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcActionRequestTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcActionRequestTypeEnum> copy_self( new IfcActionRequestTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcActionRequestTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }

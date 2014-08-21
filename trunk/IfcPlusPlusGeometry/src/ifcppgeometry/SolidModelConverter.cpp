@@ -34,6 +34,7 @@
 #include <ifcpp/IFC4/include/IfcAdvancedBrep.h>
 #include <ifcpp/IFC4/include/IfcAdvancedBrepWithVoids.h>
 
+#include <ifcpp/IFC4/include/IfcCsgSelect.h>
 #include <ifcpp/IFC4/include/IfcCsgSolid.h>
 #include <ifcpp/IFC4/include/IfcBlock.h>
 #include <ifcpp/IFC4/include/IfcSphere.h>
@@ -89,7 +90,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcProfileDef>& swept_area = swept_area_solid->m_SweptArea;
 		if( !swept_area )
 		{
-			strs_err << __FUNC__ << ": SweptArea not valid. Entity ID: " << swept_area_solid->getId() << std::endl;
+			strs_err << __FUNC__ << ": SweptArea not valid. Entity ID: " << swept_area_solid->m_id << std::endl;
 			return;
 		}
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
@@ -197,7 +198,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			return;
 		}
 
-		strs_err << "Unhandled IFC Representation: #" << solid_model->getId() << "=" << solid_model->classname() << std::endl;
+		strs_err << "Unhandled IFC Representation: #" << solid_model->m_id << "=" << solid_model->classname() << std::endl;
 		return;
 	}
 
@@ -243,7 +244,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			return;
 		}
 
-		strs_err << "Unhandled IFC Representation: #" << solid_model->getId() << "=" << solid_model->classname() << std::endl;
+		strs_err << "Unhandled IFC Representation: #" << solid_model->m_id << "=" << solid_model->classname() << std::endl;
 		return;
 	}
 
@@ -252,15 +253,19 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 	{
 		shared_ptr<IfcCsgSelect> csg_select = csg_solid->m_TreeRootExpression;
 
-		if( dynamic_pointer_cast<IfcBooleanResult>(csg_select) )
+		shared_ptr<IfcBooleanResult> csg_select_boolean_result = dynamic_pointer_cast<IfcBooleanResult>(csg_select);
+		if( csg_select_boolean_result )
 		{
-			shared_ptr<IfcBooleanResult> csg_select_boolean_result = dynamic_pointer_cast<IfcBooleanResult>(csg_select);
+			
 			convertIfcBooleanResult( csg_select_boolean_result, item_data, strs_err );
 		}
-		else if( dynamic_pointer_cast<IfcCsgPrimitive3D>(csg_select) )
+		else
 		{
 			shared_ptr<IfcCsgPrimitive3D> csg_select_primitive_3d = dynamic_pointer_cast<IfcCsgPrimitive3D>(csg_select);
-			convertIfcCsgPrimitive3D( csg_select_primitive_3d, item_data, strs_err );
+			if( csg_select_primitive_3d )
+			{
+				convertIfcCsgPrimitive3D( csg_select_primitive_3d, item_data, strs_err );
+			}
 		}
 		return;
 	}
@@ -324,12 +329,12 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		return;
 	}
 
-	strs_err << "Unhandled IFC Representation: #" << solid_model->getId() << "=" << solid_model->classname() << std::endl;
+	strs_err << "Unhandled IFC Representation: #" << solid_model->m_id << "=" << solid_model->classname() << std::endl;
 }
 
 void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
 {
-	const int entity_id = extruded_area->getId();
+	const int entity_id = extruded_area->m_id;
 	if( !extruded_area->m_ExtrudedDirection )
 	{
 		strs_err << __func__ << ": Invalid ExtrudedDirection. Entity ID: " << entity_id << std::endl;
@@ -406,7 +411,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	if( !swept_area_profile )
 	{
 #ifdef _DEBUG
-		strs_err << __func__ << ": Invalid SweptArea. Entity ID: " << revolved_area->getId() << std::endl;
+		strs_err << __func__ << ": Invalid SweptArea. Entity ID: " << revolved_area->m_id << std::endl;
 #endif
 		return;
 	}
@@ -466,7 +471,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		if( abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
-			strs_err << __func__ << ": abs( signed_area ) < 0.001. Entity ID: " << revolved_area->getId() << std::endl;
+			strs_err << __func__ << ": abs( signed_area ) < 0.001. Entity ID: " << revolved_area->m_id << std::endl;
 #endif
 			continue;
 		}
@@ -499,7 +504,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 			if( loop_number >= profile_coords.size() )
 			{
 #ifdef _DEBUG
-				strs_err << __func__ << ": loop_number >= profile_coords.size(). Entity ID: " << revolved_area->getId() << std::endl;
+				strs_err << __func__ << ": loop_number >= profile_coords.size(). Entity ID: " << revolved_area->m_id << std::endl;
 #endif
 				continue;
 			}
@@ -515,7 +520,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	catch(...)
 	{
 #ifdef _DEBUG
-		strs_err << __func__ << ": carve::triangulate::incorporateHolesIntoPolygon failed. Entity ID: " << revolved_area->getId() << std::endl;
+		strs_err << __func__ << ": carve::triangulate::incorporateHolesIntoPolygon failed. Entity ID: " << revolved_area->m_id << std::endl;
 #endif
 		return;
 	}
@@ -523,14 +528,14 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	if( profile_coords.size() == 0 )
 	{
 #ifdef _DEBUG
-		strs_err << __func__ << ": profile_coords.size() == 0. Entity ID: " << revolved_area->getId() << std::endl;
+		strs_err << __func__ << ": profile_coords.size() == 0. Entity ID: " << revolved_area->m_id << std::endl;
 #endif
 		return;
 	}
 	if( profile_coords[0].size() < 3 )
 	{
 #ifdef _DEBUG
-		strs_err << __func__ << ": profile_coords[0].size() < 3. Entity ID: " << revolved_area->getId() << std::endl;
+		strs_err << __func__ << ": profile_coords[0].size() < 3. Entity ID: " << revolved_area->m_id << std::endl;
 #endif
 		return;
 	}
@@ -643,7 +648,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			strs_err << __func__ << ": std::abs(A) < 0.000000001. Entity ID: " << revolved_area->getId() << std::endl;
+			strs_err << __func__ << ": std::abs(A) < 0.000000001. Entity ID: " << revolved_area->m_id << std::endl;
 		}
 #endif
 
@@ -690,7 +695,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh(carve::input::opts()) );
 	if( meshset->meshes.size() != 1 )
 	{
-		strs_err << __func__ << ": meshset->meshes.size() != 1. Entity ID: " << revolved_area->getId() << std::endl;
+		strs_err << __func__ << ": meshset->meshes.size() != 1. Entity ID: " << revolved_area->m_id << std::endl;
 	}
 	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err, -1 );
 
@@ -705,7 +710,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 
 void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
 {
-	const int entity_id = bool_result->getId();
+	const int entity_id = bool_result->m_id;
 	shared_ptr<IfcBooleanOperator>& ifc_boolean_operator = bool_result->m_Operator;
 	shared_ptr<IfcBooleanOperand> ifc_first_operand = bool_result->m_FirstOperand;
 	shared_ptr<IfcBooleanOperand> ifc_second_operand = bool_result->m_SecondOperand;
@@ -717,6 +722,7 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 		return;
 	}
 	carve::csg::CSG::OP csg_operation = carve::csg::CSG::A_MINUS_B;
+
 	if( ifc_boolean_operator->m_enum == IfcBooleanOperator::ENUM_UNION )
 	{
 		csg_operation = carve::csg::CSG::UNION;
@@ -737,13 +743,13 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	int id1 = 0;
 	if( dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand ) )
 	{
-		id1 = dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand )->getId();
+		id1 = dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand )->m_id;
 	}
 
 	int id2 = 0;
 	if( dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand ) )
 	{
-		id2 = dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand )->getId();
+		id2 = dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand )->m_id;
 	}
 
 	// convert the first operand
@@ -901,14 +907,14 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !right_circular_cone->m_Height )
 		{
 #ifdef _DEBUG
-			strs_err << __func__ << ": IfcRightCircularCone: invalid Height. Entity ID: " << csg_primitive->getId() << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCone: invalid Height. Entity ID: " << csg_primitive->m_id << std::endl;
 #endif
 			return;
 		}
 		if( !right_circular_cone->m_BottomRadius )
 		{
 #ifdef _DEBUG
-			strs_err << __func__ << ": IfcRightCircularCone: invalid BottomRadius. Entity ID: " << csg_primitive->getId() << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCone: invalid BottomRadius. Entity ID: " << csg_primitive->m_id << std::endl;
 #endif
 			return;
 		}
@@ -951,7 +957,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !right_circular_cylinder->m_Height )
 		{
 #ifdef _DEBUG
-			strs_err << __func__ << ": IfcRightCircularCylinder: invalid Height. Entity ID: " << csg_primitive->getId() << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCylinder: invalid Height. Entity ID: " << csg_primitive->m_id << std::endl;
 #endif
 			return;
 		}
@@ -959,7 +965,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !right_circular_cylinder->m_Radius )
 		{
 #ifdef _DEBUG
-			strs_err << __func__ << ": IfcRightCircularCylinder: invalid Radius. Entity ID: " << csg_primitive->getId() << std::endl;
+			strs_err << __func__ << ": IfcRightCircularCylinder: invalid Radius. Entity ID: " << csg_primitive->m_id << std::endl;
 #endif
 			return;
 		}
@@ -1000,7 +1006,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		if( !sphere->m_Radius )
 		{
 #ifdef _DEBUG
-			strs_err << __func__ << ": IfcSphere: invalid Radius. Entity ID: " << csg_primitive->getId() << std::endl;
+			strs_err << __func__ << ": IfcSphere: invalid Radius. Entity ID: " << csg_primitive->m_id << std::endl;
 #endif
 			return;
 		}
@@ -1074,7 +1080,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
-	strs_err << "Unhandled IFC Representation: #" << csg_primitive->getId() << "=" << csg_primitive->classname() << std::endl;
+	strs_err << "Unhandled IFC Representation: #" << csg_primitive->m_id << "=" << csg_primitive->classname() << std::endl;
 }
 
 
@@ -1102,9 +1108,10 @@ void extrudeBox( const std::vector<carve::geom::vector<3> >& boundary_points, co
 	box_data->addFace( 7,3,2 );
 }
 
-void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand, shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand, std::stringstream& strs_err )
+void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand, std::stringstream& strs_err )
 {
-	shared_ptr<IfcSolidModel> solid_model = dynamic_pointer_cast<IfcSolidModel>(operand);
+	// TYPE IfcBooleanOperand = SELECT	(IfcBooleanResult	,IfcCsgPrimitive3D	,IfcHalfSpaceSolid	,IfcSolidModel);
+	shared_ptr<IfcSolidModel> solid_model = dynamic_pointer_cast<IfcSolidModel>(operand_select);
 	if( solid_model )
 	{
 		convertIfcSolidModel( solid_model, item_data, strs_err );
@@ -1112,7 +1119,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 	}
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
 	
-	shared_ptr<IfcHalfSpaceSolid> half_space_solid = dynamic_pointer_cast<IfcHalfSpaceSolid>(operand);
+	shared_ptr<IfcHalfSpaceSolid> half_space_solid = dynamic_pointer_cast<IfcHalfSpaceSolid>(operand_select);
 	if( half_space_solid )
 	{
 		//ENTITY IfcHalfSpaceSolid SUPERTYPE OF(ONEOF(IfcBoxedHalfSpace, IfcPolygonalBoundedHalfSpace))
@@ -1122,7 +1129,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 		shared_ptr<IfcElementarySurface> elem_base_surface = dynamic_pointer_cast<IfcElementarySurface>(base_surface);
 		if( !elem_base_surface )
 		{
-			strs_err << __FUNC__ << ": The base surface shall be an unbounded surface (subtype of IfcElementarySurface). Entity ID: " << half_space_solid->getId() << std::endl;
+			strs_err << __FUNC__ << ": The base surface shall be an unbounded surface (subtype of IfcElementarySurface). Entity ID: " << half_space_solid->m_id << std::endl;
 			return;
 		}
 		shared_ptr<IfcAxis2Placement3D>& base_surface_pos = elem_base_surface->m_Position;
@@ -1148,13 +1155,13 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			shared_ptr<IfcBoundingBox> bbox = boxed_half_space->m_Enclosure;
 			if( !bbox )
 			{
-				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not given. Entity ID: " << half_space_solid->getId() << std::endl;
+				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not given. Entity ID: " << half_space_solid->m_id << std::endl;
 				return;
 			}
 
 			if( !bbox->m_Corner || !bbox->m_XDim || !bbox->m_YDim || !bbox->m_ZDim )
 			{
-				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not valid. Entity ID: " << half_space_solid->getId() << std::endl;
+				strs_err << __FUNC__ << ": IfcBoxedHalfSpace: Enclosure not valid. Entity ID: " << half_space_solid->m_id << std::endl;
 				return;
 			}
 			shared_ptr<IfcCartesianPoint>&			bbox_corner = bbox->m_Corner;
@@ -1270,7 +1277,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			const int num_poly_boundary_points = polygonal_boundary.size();
 			if( poly_data->points.size() != 2*num_poly_boundary_points )
 			{
-				strs_err << __FUNC__ << " problems in extrude: poly_data->points.size() != 2*polygonal_boundary.size(). Entity ID: " << polygonal_half_space->getId() << std::endl;
+				strs_err << __FUNC__ << " problems in extrude: poly_data->points.size() != 2*polygonal_boundary.size(). Entity ID: " << polygonal_half_space->m_id << std::endl;
 				return;
 			}
 
@@ -1314,7 +1321,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				else
 				{
 #ifdef _DEBUG
-					strs_err << __FUNC__ << ": no intersection found. Entity ID: " << polygonal_half_space->getId() << std::endl;
+					strs_err << __FUNC__ << ": no intersection found. Entity ID: " << polygonal_half_space->m_id << std::endl;
 #endif
 				}
 			}
@@ -1337,7 +1344,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 				if( base_surface_points.size() != 4 )
 				{
 #ifdef _DEBUG
-					strs_err << __FUNC__ << ": invalid IfcHalfSpaceSolid.BaseSurface. Entity ID: " << polygonal_half_space->getId() << std::endl;
+					strs_err << __FUNC__ << ": invalid IfcHalfSpaceSolid.BaseSurface. Entity ID: " << polygonal_half_space->m_id << std::endl;
 #endif
 					return;
 				}
@@ -1383,19 +1390,19 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 		return;
 	}
 
-	shared_ptr<IfcBooleanResult> boolean_result = dynamic_pointer_cast<IfcBooleanResult>(operand);
+	shared_ptr<IfcBooleanResult> boolean_result = dynamic_pointer_cast<IfcBooleanResult>(operand_select);
 	if( boolean_result )
 	{
 		convertIfcBooleanResult( boolean_result, item_data, strs_err );
 		return;
 	}
 
-	shared_ptr<IfcCsgPrimitive3D> csg_primitive3D = dynamic_pointer_cast<IfcCsgPrimitive3D>(operand);
+	shared_ptr<IfcCsgPrimitive3D> csg_primitive3D = dynamic_pointer_cast<IfcCsgPrimitive3D>(operand_select);
 	if( csg_primitive3D )
 	{
 		convertIfcCsgPrimitive3D( csg_primitive3D, item_data, strs_err );
 		return;
 	}
 
-	strs_err << "Unhandled IFC Representation: " << operand->classname() << std::endl;
+	strs_err << "Unhandled IFC Representation: " << operand_select->classname() << std::endl;
 }

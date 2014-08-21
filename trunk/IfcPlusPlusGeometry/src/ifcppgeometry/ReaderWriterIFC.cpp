@@ -22,6 +22,7 @@
 #include <osgDB/ReaderWriter>
 #include <osgDB/FileNameUtils>
 #include <osg/CullFace>
+#include <osg/ValueObject>
 #include <osgText/Text>
 
 #include <ifcpp/IFC4/include/IfcProduct.h>
@@ -36,6 +37,7 @@
 #include <ifcpp/IFC4/include/IfcPropertySet.h>
 #include <ifcpp/IFC4/include/IfcPropertySetDefinition.h>
 #include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
+#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSelect.h>
 #include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
 #include <ifcpp/IFC4/include/IfcSpace.h>
 #include <ifcpp/IFC4/include/IfcBeam.h>
@@ -137,7 +139,7 @@ void ReaderWriterIFC::setModel( shared_ptr<IfcPPModel> model )
 	m_representation_converter->setUnitConverter( m_unit_converter );
 }
 
-osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& filename, const osgDB::ReaderWriter::Options* )
+osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& filename, const osgDB::ReaderWriter::Options* options )
 {
 	std::string ext = osgDB::getFileExtension( filename );
 	if( !acceptsExtension( ext ) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
@@ -253,7 +255,13 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 		m_unit_converter = m_ifc_model->getUnitConverter();
 		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
 
-		createGeometry();
+		bool create_geometry = true;
+		options->getUserValue( "createGeometry", create_geometry );
+
+		if( create_geometry )
+		{
+			createGeometry();
+		}
 	}
 	catch( IfcPPException& e )
 	{
@@ -330,13 +338,13 @@ void ReaderWriterIFC::createGeometry()
 				continue;
 			}
 
-			const int product_id = product->getId();
-			shared_ptr<ShapeInputData> product_shape( new ShapeInputData() );
-			product_shape->ifc_product = product;
+			const int product_id = product->m_id;
+			shared_ptr<ShapeInputData> product_geom_input_data( new ShapeInputData() );
+			product_geom_input_data->ifc_product = product;
 
 			try
 			{
-				convertIfcProduct( product, product_shape );
+				convertIfcProduct( product, product_geom_input_data );
 			}
 #ifdef _DEBUG
 			catch( DebugBreakException& dbge )
@@ -365,7 +373,7 @@ void ReaderWriterIFC::createGeometry()
 #ifdef IFCPP_OPENMP
 				ScopedLock scoped_lock( writelock_map );
 #endif
-				map_products_ptr->insert( std::make_pair( product_id, product_shape ) );
+				map_products_ptr->insert( std::make_pair( product_id, product_geom_input_data ) );
 
 				if( thread_err.tellp() > 0 )
 				{
@@ -406,8 +414,7 @@ void ReaderWriterIFC::createGeometry()
 		osg::ref_ptr<osg::Group> group_outside_spatial_structure = new osg::Group();
 		std::string group_name = group_outside_spatial_structure->getName();
 		group_outside_spatial_structure->setName( group_name.append( ", IfcProduct outside spatial structure" ) );
-		m_group_result->addChild( group_outside_spatial_structure );
-
+		
 		for( std::map<int, shared_ptr<ShapeInputData> >::iterator it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
 		{
 			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
@@ -433,8 +440,13 @@ void ReaderWriterIFC::createGeometry()
 				}
 
 				product_shape->added_to_storey = true;
-				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->getId(), ifc_product ) );
+				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->m_id, ifc_product ) );
 			}
+		}
+
+		if( group_outside_spatial_structure->getNumChildren() > 0 )
+		{
+			m_group_result->addChild( group_outside_spatial_structure );
 		}
 	}
 	catch( IfcPPException& e )
@@ -463,7 +475,7 @@ void ReaderWriterIFC::createGeometry()
 
 void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::Group* parent_group )
 {
-	int entity_id = parent_obj_def->getId();
+	int entity_id = parent_obj_def->m_id;
 	if( m_map_visited.find( entity_id ) != m_map_visited.end() )
 	{
 		return;
@@ -475,7 +487,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>( parent_obj_def );
 	if( building_storey )
 	{
-		int building_storey_id = building_storey->getId();
+		int building_storey_id = building_storey->m_id;
 		osg::Switch* switch_building_storey = new osg::Switch();
 		if( !switch_building_storey )
 		{
@@ -507,7 +519,14 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		if( it_product_map != m_shape_input_data.end() )
 		{
 			shared_ptr<ShapeInputData>& product_shape = it_product_map->second;
+
+			if( product_shape->added_to_storey )
+			{
+				std::cout << "already product_shape->added_to_storey" << std::endl;
+			}
 			product_shape->added_to_storey = true;
+			bool item_added_to_parent = false;
+
 			osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
 			if( product_switch.valid() )
 			{
@@ -520,6 +539,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 					item_grp->addChild( product_switch );
 				}
 				parent_group->addChild( item_grp );
+				item_added_to_parent = true;
 			}
 
 			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
@@ -533,7 +553,10 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 				{
 					item_grp->addChild( product_switch_curves );
 				}
-				parent_group->addChild( item_grp );
+				if( !item_added_to_parent )
+				{
+					parent_group->addChild( item_grp );
+				}
 			}
 		}
 	}
@@ -619,7 +642,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		return;
 	}
 
-	const int product_id = product->getId();
+	const int product_id = product->m_id;
 	std::stringstream strs_err;
 	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
 	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
@@ -648,7 +671,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	if( product->m_ObjectPlacement )
 	{
 		// IfcPlacement2Matrix follows related placements in case of local coordinate systems
-		std::set<int> placement_already_applied;
+		std::unordered_set<IfcObjectPlacement*> placement_already_applied;
 		PlacementConverter::convertIfcObjectPlacement( product->m_ObjectPlacement, product_placement_matrix, length_factor, placement_already_applied );
 	}
 
@@ -841,37 +864,40 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		{
 			shared_ptr<IfcRelDefinesByProperties> rel_def( vec_IsDefinedBy_inverse[i] );
 			shared_ptr<IfcPropertySetDefinitionSelect> relating_property_definition_select = rel_def->m_RelatingPropertyDefinition;
-
-			// TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
-			shared_ptr<IfcPropertySetDefinition> property_set_def = dynamic_pointer_cast<IfcPropertySetDefinition>( relating_property_definition_select );
-			if( property_set_def )
+			if( relating_property_definition_select )
 			{
-				shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
-				if( property_set )
+				// TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
+				shared_ptr<IfcPropertySetDefinition> property_set_def = dynamic_pointer_cast<IfcPropertySetDefinition>( relating_property_definition_select );
+				if( property_set_def )
 				{
-					m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
-				}
-				continue;
-			}
-
-			shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>( relating_property_definition_select );
-			if( property_set_def_set )
-			{
-				std::vector<shared_ptr<IfcPropertySetDefinition> >& vec_propterty_set_def = property_set_def_set->m_vec;
-				std::vector<shared_ptr<IfcPropertySetDefinition> >::iterator it_property_set_def;
-				for( it_property_set_def = vec_propterty_set_def.begin(); it_property_set_def != vec_propterty_set_def.end(); ++it_property_set_def )
-				{
-					shared_ptr<IfcPropertySetDefinition> property_set_def = ( *it_property_set_def );
-					if( property_set_def )
+					shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
+					if( property_set )
 					{
-						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
-						if( property_set )
+						m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
+					}
+					continue;
+				}
+			
+
+				shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>( relating_property_definition_select );
+				if( property_set_def_set )
+				{
+					std::vector<shared_ptr<IfcPropertySetDefinition> >& vec_propterty_set_def = property_set_def_set->m_vec;
+					std::vector<shared_ptr<IfcPropertySetDefinition> >::iterator it_property_set_def;
+					for( it_property_set_def = vec_propterty_set_def.begin(); it_property_set_def != vec_propterty_set_def.end(); ++it_property_set_def )
+					{
+						shared_ptr<IfcPropertySetDefinition> property_set_def = ( *it_property_set_def );
+						if( property_set_def )
 						{
-							m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
+							shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
+							if( property_set )
+							{
+								m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
+							}
 						}
 					}
+					continue;
 				}
-				continue;
 			}
 		}
 	}

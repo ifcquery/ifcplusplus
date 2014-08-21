@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,20 +31,20 @@
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment() {}
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int id ) { m_id = id; }
 IfcPresentationLayerAssignment::~IfcPresentationLayerAssignment() {}
-shared_ptr<IfcPPObject> IfcPresentationLayerAssignment::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPresentationLayerAssignment::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerAssignment> copy_self( new IfcPresentationLayerAssignment() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
 	{
 		auto item_ii = m_AssignedItems[ii];
 		if( item_ii )
 		{
-			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy() ) );
+			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy() ); }
+	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) const
@@ -62,14 +63,11 @@ void IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream
 void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationLayerAssignment, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcPresentationLayerAssignment, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationLayerAssignment, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readSelectList( args[2], m_AssignedItems, map );
-	m_Identifier = IfcIdentifier::createObjectFromStepData( args[3] );
+	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[3] );
 }
 void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -90,7 +88,7 @@ void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<IfcPPEnt
 {
 	shared_ptr<IfcPresentationLayerAssignment> ptr_self = dynamic_pointer_cast<IfcPresentationLayerAssignment>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcPresentationLayerAssignment::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_AssignedItems.size(); ++i )
+	for( size_t i=0; i<m_AssignedItems.size(); ++i )
 	{
 		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItems[i] );
 		if( AssignedItems_IfcRepresentation )
@@ -106,17 +104,16 @@ void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<IfcPPEnt
 }
 void IfcPresentationLayerAssignment::unlinkSelf()
 {
-	for( int i=0; i<m_AssignedItems.size(); ++i )
+	for( size_t i=0; i<m_AssignedItems.size(); ++i )
 	{
 		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItems[i] );
 		if( AssignedItems_IfcRepresentation )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignments_inverse = AssignedItems_IfcRepresentation->m_LayerAssignments_inverse;
-			std::vector<weak_ptr<IfcPresentationLayerAssignment> >::iterator it_LayerAssignments_inverse;
-			for( it_LayerAssignments_inverse = LayerAssignments_inverse.begin(); it_LayerAssignments_inverse != LayerAssignments_inverse.end(); ++it_LayerAssignments_inverse)
+			for( auto it_LayerAssignments_inverse = LayerAssignments_inverse.begin(); it_LayerAssignments_inverse != LayerAssignments_inverse.end(); ++it_LayerAssignments_inverse)
 			{
 				shared_ptr<IfcPresentationLayerAssignment> self_candidate( *it_LayerAssignments_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					LayerAssignments_inverse.erase( it_LayerAssignments_inverse );
 					break;
@@ -127,11 +124,10 @@ void IfcPresentationLayerAssignment::unlinkSelf()
 		if( AssignedItems_IfcRepresentationItem )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignment_inverse = AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse;
-			std::vector<weak_ptr<IfcPresentationLayerAssignment> >::iterator it_LayerAssignment_inverse;
-			for( it_LayerAssignment_inverse = LayerAssignment_inverse.begin(); it_LayerAssignment_inverse != LayerAssignment_inverse.end(); ++it_LayerAssignment_inverse)
+			for( auto it_LayerAssignment_inverse = LayerAssignment_inverse.begin(); it_LayerAssignment_inverse != LayerAssignment_inverse.end(); ++it_LayerAssignment_inverse)
 			{
 				shared_ptr<IfcPresentationLayerAssignment> self_candidate( *it_LayerAssignment_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					LayerAssignment_inverse.erase( it_LayerAssignment_inverse );
 					break;

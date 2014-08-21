@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,15 +31,23 @@
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement() {}
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement( int id ) { m_id = id; }
 IfcRelConnectsPortToElement::~IfcRelConnectsPortToElement() {}
-shared_ptr<IfcPPObject> IfcRelConnectsPortToElement::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelConnectsPortToElement::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsPortToElement> copy_self( new IfcRelConnectsPortToElement() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_RelatingPort ) { copy_self->m_RelatingPort = dynamic_pointer_cast<IfcPort>( m_RelatingPort->getDeepCopy() ); }
-	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcDistributionElement>( m_RelatedElement->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_RelatingPort ) { copy_self->m_RelatingPort = dynamic_pointer_cast<IfcPort>( m_RelatingPort->getDeepCopy(options) ); }
+	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcDistributionElement>( m_RelatedElement->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelConnectsPortToElement::getStepLine( std::stringstream& stream ) const
@@ -46,29 +55,26 @@ void IfcRelConnectsPortToElement::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELCONNECTSPORTTOELEMENT" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingPort ) { stream << "#" << m_RelatingPort->getId(); } else { stream << "$"; }
+	if( m_RelatingPort ) { stream << "#" << m_RelatingPort->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->getId(); } else { stream << "$"; }
+	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_RelatingPort, map );
 	readEntityReference( args[5], m_RelatedElement, map );
 }
@@ -102,11 +108,10 @@ void IfcRelConnectsPortToElement::unlinkSelf()
 	if( m_RelatedElement )
 	{
 		std::vector<weak_ptr<IfcRelConnectsPortToElement> >& HasPorts_inverse = m_RelatedElement->m_HasPorts_inverse;
-		std::vector<weak_ptr<IfcRelConnectsPortToElement> >::iterator it_HasPorts_inverse;
-		for( it_HasPorts_inverse = HasPorts_inverse.begin(); it_HasPorts_inverse != HasPorts_inverse.end(); ++it_HasPorts_inverse)
+		for( auto it_HasPorts_inverse = HasPorts_inverse.begin(); it_HasPorts_inverse != HasPorts_inverse.end(); ++it_HasPorts_inverse)
 		{
 			shared_ptr<IfcRelConnectsPortToElement> self_candidate( *it_HasPorts_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasPorts_inverse.erase( it_HasPorts_inverse );
 				break;
@@ -116,11 +121,10 @@ void IfcRelConnectsPortToElement::unlinkSelf()
 	if( m_RelatingPort )
 	{
 		std::vector<weak_ptr<IfcRelConnectsPortToElement> >& ContainedIn_inverse = m_RelatingPort->m_ContainedIn_inverse;
-		std::vector<weak_ptr<IfcRelConnectsPortToElement> >::iterator it_ContainedIn_inverse;
-		for( it_ContainedIn_inverse = ContainedIn_inverse.begin(); it_ContainedIn_inverse != ContainedIn_inverse.end(); ++it_ContainedIn_inverse)
+		for( auto it_ContainedIn_inverse = ContainedIn_inverse.begin(); it_ContainedIn_inverse != ContainedIn_inverse.end(); ++it_ContainedIn_inverse)
 		{
 			shared_ptr<IfcRelConnectsPortToElement> self_candidate( *it_ContainedIn_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				ContainedIn_inverse.erase( it_ContainedIn_inverse );
 				break;

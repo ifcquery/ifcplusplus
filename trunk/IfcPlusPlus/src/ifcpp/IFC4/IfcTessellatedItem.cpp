@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcTessellatedItem::IfcTessellatedItem() {}
 IfcTessellatedItem::IfcTessellatedItem( int id ) { m_id = id; }
 IfcTessellatedItem::~IfcTessellatedItem() {}
-shared_ptr<IfcPPObject> IfcTessellatedItem::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTessellatedItem::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTessellatedItem> copy_self( new IfcTessellatedItem() );
 	return copy_self;

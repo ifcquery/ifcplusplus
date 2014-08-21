@@ -39,8 +39,14 @@ shared_ptr<ProfileConverter> ProfileCache::getProfileConverter( shared_ptr<IfcPr
 	{
 		return shared_ptr<ProfileConverter>();
 	}
-	const int profile_id = ifc_profile->getId();
-	
+	const int profile_id = ifc_profile->m_id;
+	if( profile_id < 0 )
+	{
+		std::stringstream strs;
+		strs << "Entity ID is invalid, type: " << ifc_profile->classname();
+		throw IfcPPException( strs.str().c_str(), __FUNC__ );
+	}
+
 	std::map<int,shared_ptr<ProfileConverter> >::iterator it_profile_cache = m_profile_cache.find(profile_id);
 	if( it_profile_cache != m_profile_cache.end() )
 	{

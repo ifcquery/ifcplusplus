@@ -37,9 +37,9 @@ public:
 	IfcFlowMeterTypeEnum( IfcFlowMeterTypeEnumEnum e ) { m_enum = e; }
 	~IfcFlowMeterTypeEnum();
 	virtual const char* classname() const { return "IfcFlowMeterTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcFlowMeterTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcFlowMeterTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcFlowMeterTypeEnumEnum m_enum;
 };
 

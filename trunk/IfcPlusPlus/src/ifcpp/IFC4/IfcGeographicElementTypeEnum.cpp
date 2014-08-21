@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcGeographicElementTypeEnum.h"
 
-// TYPE IfcGeographicElementTypeEnum 
+// TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,USERDEFINED	,NOTDEFINED);
 IfcGeographicElementTypeEnum::IfcGeographicElementTypeEnum() {}
 IfcGeographicElementTypeEnum::~IfcGeographicElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcGeographicElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGeographicElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGeographicElementTypeEnum> copy_self( new IfcGeographicElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcGeographicElementTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGeographicElementTypeEnum> IfcGeographicElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcGeographicElementTypeEnum> IfcGeographicElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }

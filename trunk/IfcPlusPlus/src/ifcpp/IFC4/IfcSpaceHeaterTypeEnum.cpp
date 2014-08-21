@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSpaceHeaterTypeEnum.h"
 
-// TYPE IfcSpaceHeaterTypeEnum 
+// TYPE IfcSpaceHeaterTypeEnum = ENUMERATION OF	(CONVECTOR	,RADIATOR	,USERDEFINED	,NOTDEFINED);
 IfcSpaceHeaterTypeEnum::IfcSpaceHeaterTypeEnum() {}
 IfcSpaceHeaterTypeEnum::~IfcSpaceHeaterTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSpaceHeaterTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSpaceHeaterTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSpaceHeaterTypeEnum> copy_self( new IfcSpaceHeaterTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcSpaceHeaterTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpaceHeaterTypeEnum> IfcSpaceHeaterTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSpaceHeaterTypeEnum> IfcSpaceHeaterTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }

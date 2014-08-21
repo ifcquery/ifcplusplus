@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTimeSeriesDataTypeEnum.h"
 
-// TYPE IfcTimeSeriesDataTypeEnum 
+// TYPE IfcTimeSeriesDataTypeEnum = ENUMERATION OF	(CONTINUOUS	,DISCRETE	,DISCRETEBINARY	,PIECEWISEBINARY	,PIECEWISECONSTANT	,PIECEWISECONTINUOUS	,NOTDEFINED);
 IfcTimeSeriesDataTypeEnum::IfcTimeSeriesDataTypeEnum() {}
 IfcTimeSeriesDataTypeEnum::~IfcTimeSeriesDataTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTimeSeriesDataTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTimeSeriesDataTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTimeSeriesDataTypeEnum> copy_self( new IfcTimeSeriesDataTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcTimeSeriesDataTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }

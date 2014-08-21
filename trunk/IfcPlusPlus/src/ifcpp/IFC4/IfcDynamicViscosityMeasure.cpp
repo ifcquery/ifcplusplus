@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcDynamicViscosityMeasure.h"
 
-// TYPE IfcDynamicViscosityMeasure 
+// TYPE IfcDynamicViscosityMeasure = REAL;
 IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure() {}
 IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure( double value ) { m_value = value; }
 IfcDynamicViscosityMeasure::~IfcDynamicViscosityMeasure() {}
-shared_ptr<IfcPPObject> IfcDynamicViscosityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDynamicViscosityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDynamicViscosityMeasure> copy_self( new IfcDynamicViscosityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcDynamicViscosityMeasure::getStepParameter( std::stringstream& stream, bo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDynamicViscosityMeasure> IfcDynamicViscosityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDynamicViscosityMeasure> IfcDynamicViscosityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
 	shared_ptr<IfcDynamicViscosityMeasure> type_object( new IfcDynamicViscosityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

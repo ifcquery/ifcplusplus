@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -42,30 +43,38 @@
 IfcWorkSchedule::IfcWorkSchedule() {}
 IfcWorkSchedule::IfcWorkSchedule( int id ) { m_id = id; }
 IfcWorkSchedule::~IfcWorkSchedule() {}
-shared_ptr<IfcPPObject> IfcWorkSchedule::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWorkSchedule::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWorkSchedule> copy_self( new IfcWorkSchedule() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
-	if( m_CreationDate ) { copy_self->m_CreationDate = dynamic_pointer_cast<IfcDateTime>( m_CreationDate->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
+	if( m_CreationDate ) { copy_self->m_CreationDate = dynamic_pointer_cast<IfcDateTime>( m_CreationDate->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Creators.size(); ++ii )
 	{
 		auto item_ii = m_Creators[ii];
 		if( item_ii )
 		{
-			copy_self->m_Creators.push_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy() ) );
+			copy_self->m_Creators.push_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcLabel>( m_Purpose->getDeepCopy() ); }
-	if( m_Duration ) { copy_self->m_Duration = dynamic_pointer_cast<IfcDuration>( m_Duration->getDeepCopy() ); }
-	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy() ); }
-	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy() ); }
-	if( m_FinishTime ) { copy_self->m_FinishTime = dynamic_pointer_cast<IfcDateTime>( m_FinishTime->getDeepCopy() ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcWorkScheduleTypeEnum>( m_PredefinedType->getDeepCopy() ); }
+	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcLabel>( m_Purpose->getDeepCopy(options) ); }
+	if( m_Duration ) { copy_self->m_Duration = dynamic_pointer_cast<IfcDuration>( m_Duration->getDeepCopy(options) ); }
+	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy(options) ); }
+	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy(options) ); }
+	if( m_FinishTime ) { copy_self->m_FinishTime = dynamic_pointer_cast<IfcDateTime>( m_FinishTime->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcWorkScheduleTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcWorkSchedule::getStepLine( std::stringstream& stream ) const
@@ -73,7 +82,7 @@ void IfcWorkSchedule::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCWORKSCHEDULE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -104,24 +113,21 @@ void IfcWorkSchedule::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcWorkSchedule::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<14 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWorkSchedule, expecting 14, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>14 ){ std::cout << "Wrong parameter count for entity IfcWorkSchedule, expecting 14, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 14 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcWorkSchedule, expecting 14, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
-	m_Identification = IfcIdentifier::createObjectFromStepData( args[5] );
-	m_CreationDate = IfcDateTime::createObjectFromStepData( args[6] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
+	m_Identification = IfcIdentifier::createObjectFromSTEP( args[5] );
+	m_CreationDate = IfcDateTime::createObjectFromSTEP( args[6] );
 	readEntityReferenceList( args[7], m_Creators, map );
-	m_Purpose = IfcLabel::createObjectFromStepData( args[8] );
-	m_Duration = IfcDuration::createObjectFromStepData( args[9] );
-	m_TotalFloat = IfcDuration::createObjectFromStepData( args[10] );
-	m_StartTime = IfcDateTime::createObjectFromStepData( args[11] );
-	m_FinishTime = IfcDateTime::createObjectFromStepData( args[12] );
-	m_PredefinedType = IfcWorkScheduleTypeEnum::createObjectFromStepData( args[13] );
+	m_Purpose = IfcLabel::createObjectFromSTEP( args[8] );
+	m_Duration = IfcDuration::createObjectFromSTEP( args[9] );
+	m_TotalFloat = IfcDuration::createObjectFromSTEP( args[10] );
+	m_StartTime = IfcDateTime::createObjectFromSTEP( args[11] );
+	m_FinishTime = IfcDateTime::createObjectFromSTEP( args[12] );
+	m_PredefinedType = IfcWorkScheduleTypeEnum::createObjectFromSTEP( args[13] );
 }
 void IfcWorkSchedule::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

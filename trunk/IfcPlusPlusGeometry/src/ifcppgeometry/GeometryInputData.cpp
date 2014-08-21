@@ -235,9 +235,6 @@ PolyInputCache3D::PolyInputCache3D()
 	m_poly_data = shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData() );
 }
 
-
-#define ROUND_POLY_COORDINATES_UP 1000000.0
-#define ROUND_POLY_COORDINATES_DOWN 0.000001
 int PolyInputCache3D::addPointPrecise( const carve::geom::vector<3>& v )
 {
 	const double vertex_x = v.x;
@@ -264,6 +261,8 @@ int PolyInputCache3D::addPointPrecise( const carve::geom::vector<3>& v )
 	}
 }
 
+#define ROUND_POLY_COORDINATES_UP 1000000.0
+#define ROUND_POLY_COORDINATES_DOWN 0.000001
 int PolyInputCache3D::addPoint( const carve::geom::vector<3>& v )
 {
 	const double vertex_x = round(v.x*ROUND_POLY_COORDINATES_UP)*ROUND_POLY_COORDINATES_DOWN;

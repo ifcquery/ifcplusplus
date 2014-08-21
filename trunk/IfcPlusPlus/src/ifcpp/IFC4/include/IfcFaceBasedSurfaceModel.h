@@ -21,13 +21,13 @@
 #include "IfcGeometricRepresentationItem.h"
 class IfcConnectedFaceSet;
 //ENTITY
-class IfcFaceBasedSurfaceModel : public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
+class IfcFaceBasedSurfaceModel : virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
 {
 public:
 	IfcFaceBasedSurfaceModel();
 	IfcFaceBasedSurfaceModel( int id );
 	~IfcFaceBasedSurfaceModel();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcObjectTypeEnum.h"
 
-// TYPE IfcObjectTypeEnum 
+// TYPE IfcObjectTypeEnum = ENUMERATION OF	(PRODUCT	,PROCESS	,CONTROL	,RESOURCE	,ACTOR	,GROUP	,PROJECT	,NOTDEFINED);
 IfcObjectTypeEnum::IfcObjectTypeEnum() {}
 IfcObjectTypeEnum::~IfcObjectTypeEnum() {}
-shared_ptr<IfcPPObject> IfcObjectTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcObjectTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcObjectTypeEnum> copy_self( new IfcObjectTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcObjectTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }

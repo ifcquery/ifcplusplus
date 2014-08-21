@@ -22,13 +22,13 @@
 class IfcProduct;
 class IfcShapeAspect;
 //ENTITY
-class IfcProductDefinitionShape : public IfcProductRepresentationSelect, public IfcProductRepresentation
+class IfcProductDefinitionShape : virtual public IfcProductRepresentationSelect, public IfcProductRepresentation
 {
 public:
 	IfcProductDefinitionShape();
 	IfcProductDefinitionShape( int id );
 	~IfcProductDefinitionShape();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

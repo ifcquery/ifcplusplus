@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSIUnitName.h"
 
-// TYPE IfcSIUnitName 
+// TYPE IfcSIUnitName = ENUMERATION OF	(AMPERE	,BECQUEREL	,CANDELA	,COULOMB	,CUBIC_METRE	,DEGREE_CELSIUS	,FARAD	,GRAM	,GRAY	,HENRY	,HERTZ	,JOULE	,KELVIN	,LUMEN	,LUX	,METRE	,MOLE	,NEWTON	,OHM	,PASCAL	,RADIAN	,SECOND	,SIEMENS	,SIEVERT	,SQUARE_METRE	,STERADIAN	,TESLA	,VOLT	,WATT	,WEBER);
 IfcSIUnitName::IfcSIUnitName() {}
 IfcSIUnitName::~IfcSIUnitName() {}
-shared_ptr<IfcPPObject> IfcSIUnitName::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSIUnitName::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSIUnitName> copy_self( new IfcSIUnitName() );
 	copy_self->m_enum = m_enum;
@@ -154,7 +154,7 @@ void IfcSIUnitName::getStepParameter( std::stringstream& stream, bool is_select_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }

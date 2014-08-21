@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,11 +26,11 @@
 IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont() {}
 IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont( int id ) { m_id = id; }
 IfcTextStyleForDefinedFont::~IfcTextStyleForDefinedFont() {}
-shared_ptr<IfcPPObject> IfcTextStyleForDefinedFont::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextStyleForDefinedFont::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleForDefinedFont> copy_self( new IfcTextStyleForDefinedFont() );
-	if( m_Colour ) { copy_self->m_Colour = dynamic_pointer_cast<IfcColour>( m_Colour->getDeepCopy() ); }
-	if( m_BackgroundColour ) { copy_self->m_BackgroundColour = dynamic_pointer_cast<IfcColour>( m_BackgroundColour->getDeepCopy() ); }
+	if( m_Colour ) { copy_self->m_Colour = dynamic_pointer_cast<IfcColour>( m_Colour->getDeepCopy(options) ); }
+	if( m_BackgroundColour ) { copy_self->m_BackgroundColour = dynamic_pointer_cast<IfcColour>( m_BackgroundColour->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTextStyleForDefinedFont::getStepLine( std::stringstream& stream ) const
@@ -44,12 +45,9 @@ void IfcTextStyleForDefinedFont::getStepParameter( std::stringstream& stream, bo
 void IfcTextStyleForDefinedFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyleForDefinedFont, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcTextStyleForDefinedFont, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Colour = IfcColour::createObjectFromStepData( args[0], map );
-	m_BackgroundColour = IfcColour::createObjectFromStepData( args[1], map );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextStyleForDefinedFont, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Colour = IfcColour::createObjectFromSTEP( args[0], map );
+	m_BackgroundColour = IfcColour::createObjectFromSTEP( args[1], map );
 }
 void IfcTextStyleForDefinedFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

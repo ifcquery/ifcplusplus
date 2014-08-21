@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFontWeight.h"
 
-// TYPE IfcFontWeight 
+// TYPE IfcFontWeight = STRING;
 IfcFontWeight::IfcFontWeight() {}
 IfcFontWeight::IfcFontWeight( std::wstring value ) { m_value = value; }
 IfcFontWeight::~IfcFontWeight() {}
-shared_ptr<IfcPPObject> IfcFontWeight::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFontWeight::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFontWeight> copy_self( new IfcFontWeight() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcFontWeight::getStepParameter( std::stringstream& stream, bool is_select_
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFontWeight> IfcFontWeight::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFontWeight> IfcFontWeight::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
 	shared_ptr<IfcFontWeight> type_object( new IfcFontWeight() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

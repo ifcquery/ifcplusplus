@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,7 +31,7 @@
 IfcMaterialLayerSet::IfcMaterialLayerSet() {}
 IfcMaterialLayerSet::IfcMaterialLayerSet( int id ) { m_id = id; }
 IfcMaterialLayerSet::~IfcMaterialLayerSet() {}
-shared_ptr<IfcPPObject> IfcMaterialLayerSet::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialLayerSet::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerSet> copy_self( new IfcMaterialLayerSet() );
 	for( size_t ii=0; ii<m_MaterialLayers.size(); ++ii )
@@ -38,11 +39,11 @@ shared_ptr<IfcPPObject> IfcMaterialLayerSet::getDeepCopy()
 		auto item_ii = m_MaterialLayers[ii];
 		if( item_ii )
 		{
-			copy_self->m_MaterialLayers.push_back( dynamic_pointer_cast<IfcMaterialLayer>(item_ii->getDeepCopy() ) );
+			copy_self->m_MaterialLayers.push_back( dynamic_pointer_cast<IfcMaterialLayer>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_LayerSetName ) { copy_self->m_LayerSetName = dynamic_pointer_cast<IfcLabel>( m_LayerSetName->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_LayerSetName ) { copy_self->m_LayerSetName = dynamic_pointer_cast<IfcLabel>( m_LayerSetName->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMaterialLayerSet::getStepLine( std::stringstream& stream ) const
@@ -59,13 +60,10 @@ void IfcMaterialLayerSet::getStepParameter( std::stringstream& stream, bool ) co
 void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialLayerSet, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcMaterialLayerSet, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialLayerSet, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_MaterialLayers, map );
-	m_LayerSetName = IfcLabel::createObjectFromStepData( args[1] );
-	m_Description = IfcText::createObjectFromStepData( args[2] );
+	m_LayerSetName = IfcLabel::createObjectFromSTEP( args[1] );
+	m_Description = IfcText::createObjectFromSTEP( args[2] );
 }
 void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -88,7 +86,7 @@ void IfcMaterialLayerSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 	IfcMaterialDefinition::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcMaterialLayerSet> ptr_self = dynamic_pointer_cast<IfcMaterialLayerSet>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcMaterialLayerSet::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_MaterialLayers.size(); ++i )
+	for( size_t i=0; i<m_MaterialLayers.size(); ++i )
 	{
 		if( m_MaterialLayers[i] )
 		{
@@ -99,12 +97,12 @@ void IfcMaterialLayerSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 void IfcMaterialLayerSet::unlinkSelf()
 {
 	IfcMaterialDefinition::unlinkSelf();
-	for( int i=0; i<m_MaterialLayers.size(); ++i )
+	for( size_t i=0; i<m_MaterialLayers.size(); ++i )
 	{
 		if( m_MaterialLayers[i] )
 		{
 			shared_ptr<IfcMaterialLayerSet> self_candidate( m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				weak_ptr<IfcMaterialLayerSet>& self_candidate_weak = m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse;
 				self_candidate_weak.reset();

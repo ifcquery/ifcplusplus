@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDoorPanelOperationEnum.h"
 
-// TYPE IfcDoorPanelOperationEnum 
+// TYPE IfcDoorPanelOperationEnum = ENUMERATION OF	(SWINGING	,DOUBLE_ACTING	,SLIDING	,FOLDING	,REVOLVING	,ROLLINGUP	,FIXEDPANEL	,USERDEFINED	,NOTDEFINED);
 IfcDoorPanelOperationEnum::IfcDoorPanelOperationEnum() {}
 IfcDoorPanelOperationEnum::~IfcDoorPanelOperationEnum() {}
-shared_ptr<IfcPPObject> IfcDoorPanelOperationEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDoorPanelOperationEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelOperationEnum> copy_self( new IfcDoorPanelOperationEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcDoorPanelOperationEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }

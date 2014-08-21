@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcElectricGeneratorTypeEnum.h"
 
-// TYPE IfcElectricGeneratorTypeEnum 
+// TYPE IfcElectricGeneratorTypeEnum = ENUMERATION OF	(CHP	,ENGINEGENERATOR	,STANDALONE	,USERDEFINED	,NOTDEFINED);
 IfcElectricGeneratorTypeEnum::IfcElectricGeneratorTypeEnum() {}
 IfcElectricGeneratorTypeEnum::~IfcElectricGeneratorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcElectricGeneratorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElectricGeneratorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElectricGeneratorTypeEnum> copy_self( new IfcElectricGeneratorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcElectricGeneratorTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }

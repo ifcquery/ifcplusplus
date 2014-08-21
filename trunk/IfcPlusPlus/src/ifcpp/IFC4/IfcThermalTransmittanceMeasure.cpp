@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcThermalTransmittanceMeasure.h"
 
-// TYPE IfcThermalTransmittanceMeasure 
+// TYPE IfcThermalTransmittanceMeasure = REAL;
 IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure() {}
 IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure( double value ) { m_value = value; }
 IfcThermalTransmittanceMeasure::~IfcThermalTransmittanceMeasure() {}
-shared_ptr<IfcPPObject> IfcThermalTransmittanceMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcThermalTransmittanceMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcThermalTransmittanceMeasure> copy_self( new IfcThermalTransmittanceMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcThermalTransmittanceMeasure::getStepParameter( std::stringstream& stream
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcThermalTransmittanceMeasure> IfcThermalTransmittanceMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcThermalTransmittanceMeasure> IfcThermalTransmittanceMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
 	shared_ptr<IfcThermalTransmittanceMeasure> type_object( new IfcThermalTransmittanceMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

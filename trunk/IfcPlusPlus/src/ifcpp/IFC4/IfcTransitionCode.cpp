@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTransitionCode.h"
 
-// TYPE IfcTransitionCode 
+// TYPE IfcTransitionCode = ENUMERATION OF	(DISCONTINUOUS	,CONTINUOUS	,CONTSAMEGRADIENT	,CONTSAMEGRADIENTSAMECURVATURE);
 IfcTransitionCode::IfcTransitionCode() {}
 IfcTransitionCode::~IfcTransitionCode() {}
-shared_ptr<IfcPPObject> IfcTransitionCode::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTransitionCode::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTransitionCode> copy_self( new IfcTransitionCode() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcTransitionCode::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }

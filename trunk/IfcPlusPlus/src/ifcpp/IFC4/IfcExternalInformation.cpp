@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -24,7 +25,7 @@
 IfcExternalInformation::IfcExternalInformation() {}
 IfcExternalInformation::IfcExternalInformation( int id ) { m_id = id; }
 IfcExternalInformation::~IfcExternalInformation() {}
-shared_ptr<IfcPPObject> IfcExternalInformation::getDeepCopy()
+shared_ptr<IfcPPObject> IfcExternalInformation::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcExternalInformation> copy_self( new IfcExternalInformation() );
 	return copy_self;

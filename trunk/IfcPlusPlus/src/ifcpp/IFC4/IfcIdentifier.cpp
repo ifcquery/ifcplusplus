@@ -21,11 +21,11 @@
 #include "include/IfcSimpleValue.h"
 #include "include/IfcIdentifier.h"
 
-// TYPE IfcIdentifier 
+// TYPE IfcIdentifier = STRING(255);
 IfcIdentifier::IfcIdentifier() {}
 IfcIdentifier::IfcIdentifier( std::wstring value ) { m_value = value; }
 IfcIdentifier::~IfcIdentifier() {}
-shared_ptr<IfcPPObject> IfcIdentifier::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIdentifier::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIdentifier> copy_self( new IfcIdentifier() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	shared_ptr<IfcIdentifier> type_object( new IfcIdentifier() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

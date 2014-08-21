@@ -39,9 +39,9 @@ public:
 	IfcEvaporatorTypeEnum( IfcEvaporatorTypeEnumEnum e ) { m_enum = e; }
 	~IfcEvaporatorTypeEnum();
 	virtual const char* classname() const { return "IfcEvaporatorTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcEvaporatorTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcEvaporatorTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcEvaporatorTypeEnumEnum m_enum;
 };
 

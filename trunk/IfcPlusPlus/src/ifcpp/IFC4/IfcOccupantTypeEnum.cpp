@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcOccupantTypeEnum.h"
 
-// TYPE IfcOccupantTypeEnum 
+// TYPE IfcOccupantTypeEnum = ENUMERATION OF	(ASSIGNEE	,ASSIGNOR	,LESSEE	,LESSOR	,LETTINGAGENT	,OWNER	,TENANT	,USERDEFINED	,NOTDEFINED);
 IfcOccupantTypeEnum::IfcOccupantTypeEnum() {}
 IfcOccupantTypeEnum::~IfcOccupantTypeEnum() {}
-shared_ptr<IfcPPObject> IfcOccupantTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcOccupantTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcOccupantTypeEnum> copy_self( new IfcOccupantTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcOccupantTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }

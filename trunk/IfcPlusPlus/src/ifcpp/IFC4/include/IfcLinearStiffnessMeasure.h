@@ -22,15 +22,16 @@
 #include "IfcTranslationalStiffnessSelect.h"
 
 // TYPE IfcLinearStiffnessMeasure = REAL;
-class IfcLinearStiffnessMeasure : public IfcDerivedMeasureValue, public IfcTranslationalStiffnessSelect, public IfcPPReal
+class IfcLinearStiffnessMeasure : public IfcDerivedMeasureValue, public IfcTranslationalStiffnessSelect
 {
 public:
 	IfcLinearStiffnessMeasure();
 	IfcLinearStiffnessMeasure( double value );
 	~IfcLinearStiffnessMeasure();
 	virtual const char* classname() const { return "IfcLinearStiffnessMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcLinearStiffnessMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcLinearStiffnessMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

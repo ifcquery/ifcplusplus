@@ -36,9 +36,9 @@ public:
 	IfcDuctSilencerTypeEnum( IfcDuctSilencerTypeEnumEnum e ) { m_enum = e; }
 	~IfcDuctSilencerTypeEnum();
 	virtual const char* classname() const { return "IfcDuctSilencerTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDuctSilencerTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcDuctSilencerTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcDuctSilencerTypeEnumEnum m_enum;
 };
 

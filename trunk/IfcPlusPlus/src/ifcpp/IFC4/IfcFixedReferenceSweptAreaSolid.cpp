@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,46 +32,47 @@
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid() {}
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_id = id; }
 IfcFixedReferenceSweptAreaSolid::~IfcFixedReferenceSweptAreaSolid() {}
-shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFixedReferenceSweptAreaSolid> copy_self( new IfcFixedReferenceSweptAreaSolid() );
-	if( m_SweptArea ) { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy() ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy() ); }
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy() ); }
-	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy() ); }
-	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy() ); }
-	if( m_FixedReference ) { copy_self->m_FixedReference = dynamic_pointer_cast<IfcDirection>( m_FixedReference->getDeepCopy() ); }
+	if( m_SweptArea )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptArea = m_SweptArea; }
+		else { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy(options) ); }
+	}
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
+	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
+	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy(options) ); }
+	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy(options) ); }
+	if( m_FixedReference ) { copy_self->m_FixedReference = dynamic_pointer_cast<IfcDirection>( m_FixedReference->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->getId(); } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Directrix ) { stream << "#" << m_Directrix->getId(); } else { stream << "$"; }
+	if( m_Directrix ) { stream << "#" << m_Directrix->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_StartParam ) { m_StartParam->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndParam ) { m_EndParam->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FixedReference ) { stream << "#" << m_FixedReference->getId(); } else { stream << "$"; }
+	if( m_FixedReference ) { stream << "#" << m_FixedReference->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Directrix, map );
-	m_StartParam = IfcParameterValue::createObjectFromStepData( args[3] );
-	m_EndParam = IfcParameterValue::createObjectFromStepData( args[4] );
+	m_StartParam = IfcParameterValue::createObjectFromSTEP( args[3] );
+	m_EndParam = IfcParameterValue::createObjectFromSTEP( args[4] );
 	readEntityReference( args[5], m_FixedReference, map );
 }
 void IfcFixedReferenceSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

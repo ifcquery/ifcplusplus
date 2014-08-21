@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcGeometricProjectionEnum.h"
 
-// TYPE IfcGeometricProjectionEnum 
+// TYPE IfcGeometricProjectionEnum = ENUMERATION OF	(GRAPH_VIEW	,SKETCH_VIEW	,MODEL_VIEW	,PLAN_VIEW	,REFLECTED_PLAN_VIEW	,SECTION_VIEW	,ELEVATION_VIEW	,USERDEFINED	,NOTDEFINED);
 IfcGeometricProjectionEnum::IfcGeometricProjectionEnum() {}
 IfcGeometricProjectionEnum::~IfcGeometricProjectionEnum() {}
-shared_ptr<IfcPPObject> IfcGeometricProjectionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGeometricProjectionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGeometricProjectionEnum> copy_self( new IfcGeometricProjectionEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcGeometricProjectionEnum::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcReflectanceMethodEnum.h"
 
-// TYPE IfcReflectanceMethodEnum 
+// TYPE IfcReflectanceMethodEnum = ENUMERATION OF	(BLINN	,FLAT	,GLASS	,MATT	,METAL	,MIRROR	,PHONG	,PLASTIC	,STRAUSS	,NOTDEFINED);
 IfcReflectanceMethodEnum::IfcReflectanceMethodEnum() {}
 IfcReflectanceMethodEnum::~IfcReflectanceMethodEnum() {}
-shared_ptr<IfcPPObject> IfcReflectanceMethodEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReflectanceMethodEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReflectanceMethodEnum> copy_self( new IfcReflectanceMethodEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcReflectanceMethodEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }

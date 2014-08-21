@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,7 +26,7 @@
 IfcPropertyAbstraction::IfcPropertyAbstraction() {}
 IfcPropertyAbstraction::IfcPropertyAbstraction( int id ) { m_id = id; }
 IfcPropertyAbstraction::~IfcPropertyAbstraction() {}
-shared_ptr<IfcPPObject> IfcPropertyAbstraction::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPropertyAbstraction::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPropertyAbstraction> copy_self( new IfcPropertyAbstraction() );
 	return copy_self;

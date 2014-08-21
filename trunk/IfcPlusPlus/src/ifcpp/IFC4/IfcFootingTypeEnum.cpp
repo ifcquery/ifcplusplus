@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFootingTypeEnum.h"
 
-// TYPE IfcFootingTypeEnum 
+// TYPE IfcFootingTypeEnum = ENUMERATION OF	(CAISSON_FOUNDATION	,FOOTING_BEAM	,PAD_FOOTING	,PILE_CAP	,STRIP_FOOTING	,USERDEFINED	,NOTDEFINED);
 IfcFootingTypeEnum::IfcFootingTypeEnum() {}
 IfcFootingTypeEnum::~IfcFootingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFootingTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFootingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFootingTypeEnum> copy_self( new IfcFootingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcFootingTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }

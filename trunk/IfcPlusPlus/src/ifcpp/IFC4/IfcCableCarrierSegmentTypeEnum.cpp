@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCableCarrierSegmentTypeEnum.h"
 
-// TYPE IfcCableCarrierSegmentTypeEnum 
+// TYPE IfcCableCarrierSegmentTypeEnum = ENUMERATION OF	(CABLELADDERSEGMENT	,CABLETRAYSEGMENT	,CABLETRUNKINGSEGMENT	,CONDUITSEGMENT	,USERDEFINED	,NOTDEFINED);
 IfcCableCarrierSegmentTypeEnum::IfcCableCarrierSegmentTypeEnum() {}
 IfcCableCarrierSegmentTypeEnum::~IfcCableCarrierSegmentTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCableCarrierSegmentTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCableCarrierSegmentTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierSegmentTypeEnum> copy_self( new IfcCableCarrierSegmentTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcCableCarrierSegmentTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCableCarrierSegmentTypeEnum> IfcCableCarrierSegmentTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCableCarrierSegmentTypeEnum> IfcCableCarrierSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierSegmentTypeEnum>(); }

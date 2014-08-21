@@ -21,11 +21,11 @@
 #include "include/IfcSpecularHighlightSelect.h"
 #include "include/IfcSpecularRoughness.h"
 
-// TYPE IfcSpecularRoughness 
+// TYPE IfcSpecularRoughness = REAL;
 IfcSpecularRoughness::IfcSpecularRoughness() {}
 IfcSpecularRoughness::IfcSpecularRoughness( double value ) { m_value = value; }
 IfcSpecularRoughness::~IfcSpecularRoughness() {}
-shared_ptr<IfcPPObject> IfcSpecularRoughness::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSpecularRoughness::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSpecularRoughness> copy_self( new IfcSpecularRoughness() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcSpecularRoughness::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
 	shared_ptr<IfcSpecularRoughness> type_object( new IfcSpecularRoughness() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

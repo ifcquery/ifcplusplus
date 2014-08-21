@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,9 +27,10 @@
 IfcDirection::IfcDirection() {}
 IfcDirection::IfcDirection( int id ) { m_id = id; }
 IfcDirection::~IfcDirection() {}
-shared_ptr<IfcPPObject> IfcDirection::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDirection::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDirection> copy_self( new IfcDirection() );
+	if( m_DirectionRatios.size() > 0 ) { std::copy( m_DirectionRatios.begin(), m_DirectionRatios.end(), std::back_inserter( copy_self->m_DirectionRatios ) ); }
 	return copy_self;
 }
 void IfcDirection::getStepLine( std::stringstream& stream ) const
@@ -41,11 +43,8 @@ void IfcDirection::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	readDoubleList( args[0], m_DirectionRatios );
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	readRealList( args[0], m_DirectionRatios );
 }
 void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -55,7 +54,7 @@ void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 		shared_ptr<IfcPPAttributeObjectVector> DirectionRatios_vec_obj( new IfcPPAttributeObjectVector() );
 		for( size_t i=0; i<m_DirectionRatios.size(); ++i )
 		{
-			DirectionRatios_vec_obj->m_vec.push_back( shared_ptr<IfcPPReal>( new IfcPPReal(m_DirectionRatios[i] ) ) );
+			DirectionRatios_vec_obj->m_vec.push_back( shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute(m_DirectionRatios[i] ) ) );
 		}
 		vec_attributes.push_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_obj ) );
 	}

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPileTypeEnum.h"
 
-// TYPE IfcPileTypeEnum 
+// TYPE IfcPileTypeEnum = ENUMERATION OF	(BORED	,DRIVEN	,JETGROUTING	,COHESION	,FRICTION	,SUPPORT	,USERDEFINED	,NOTDEFINED);
 IfcPileTypeEnum::IfcPileTypeEnum() {}
 IfcPileTypeEnum::~IfcPileTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPileTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPileTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPileTypeEnum> copy_self( new IfcPileTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcPileTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }

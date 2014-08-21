@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -34,21 +35,25 @@
 IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets() {}
 IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets( int id ) { m_id = id; }
 IfcMaterialProfileWithOffsets::~IfcMaterialProfileWithOffsets() {}
-shared_ptr<IfcPPObject> IfcMaterialProfileWithOffsets::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialProfileWithOffsets::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialProfileWithOffsets> copy_self( new IfcMaterialProfileWithOffsets() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy() ); }
-	if( m_Profile ) { copy_self->m_Profile = dynamic_pointer_cast<IfcProfileDef>( m_Profile->getDeepCopy() ); }
-	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy() ); }
-	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy(options) ); }
+	if( m_Profile )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_Profile = m_Profile; }
+		else { copy_self->m_Profile = dynamic_pointer_cast<IfcProfileDef>( m_Profile->getDeepCopy(options) ); }
+	}
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy(options) ); }
+	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_OffsetValues.size(); ++ii )
 	{
 		auto item_ii = m_OffsetValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy() ) );
+			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,9 +65,9 @@ void IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) con
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Material ) { stream << "#" << m_Material->getId(); } else { stream << "*"; }
+	if( m_Material ) { stream << "#" << m_Material->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Profile ) { stream << "#" << m_Profile->getId(); } else { stream << "*"; }
+	if( m_Profile ) { stream << "#" << m_Profile->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -75,16 +80,13 @@ void IfcMaterialProfileWithOffsets::getStepParameter( std::stringstream& stream,
 void IfcMaterialProfileWithOffsets::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialProfileWithOffsets, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcMaterialProfileWithOffsets, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialProfileWithOffsets, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Material, map );
 	readEntityReference( args[3], m_Profile, map );
-	m_Priority = IfcNormalisedRatioMeasure::createObjectFromStepData( args[4] );
-	m_Category = IfcLabel::createObjectFromStepData( args[5] );
+	m_Priority = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[4] );
+	m_Category = IfcLabel::createObjectFromSTEP( args[5] );
 	readTypeOfRealList( args[6], m_OffsetValues );
 }
 void IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,16 +29,16 @@
 IfcCurveBoundedSurface::IfcCurveBoundedSurface() {}
 IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_id = id; }
 IfcCurveBoundedSurface::~IfcCurveBoundedSurface() {}
-shared_ptr<IfcPPObject> IfcCurveBoundedSurface::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCurveBoundedSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCurveBoundedSurface> copy_self( new IfcCurveBoundedSurface() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy() ); }
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Boundaries.size(); ++ii )
 	{
 		auto item_ii = m_Boundaries[ii];
 		if( item_ii )
 		{
-			copy_self->m_Boundaries.push_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy() ) );
+			copy_self->m_Boundaries.push_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ImplicitOuter ) { copy_self->m_ImplicitOuter = m_ImplicitOuter; }
@@ -46,7 +47,7 @@ shared_ptr<IfcPPObject> IfcCurveBoundedSurface::getDeepCopy()
 void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCURVEBOUNDEDSURFACE" << "(";
-	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->getId(); } else { stream << "$"; }
+	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Boundaries );
 	stream << ",";
@@ -58,10 +59,7 @@ void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool )
 void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReferenceList( args[1], m_Boundaries, map );
 	if( boost::iequals( args[2], L".F." ) ) { m_ImplicitOuter = false; }
@@ -77,7 +75,7 @@ void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, s
 		std::copy( m_Boundaries.begin(), m_Boundaries.end(), std::back_inserter( Boundaries_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ImplicitOuter", shared_ptr<IfcPPBool>( new IfcPPBool( m_ImplicitOuter ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ImplicitOuter", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ImplicitOuter ) ) ) );
 }
 void IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

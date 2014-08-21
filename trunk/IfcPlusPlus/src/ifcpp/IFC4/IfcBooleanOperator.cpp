@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBooleanOperator.h"
 
-// TYPE IfcBooleanOperator 
+// TYPE IfcBooleanOperator = ENUMERATION OF	(UNION	,INTERSECTION	,DIFFERENCE);
 IfcBooleanOperator::IfcBooleanOperator() {}
 IfcBooleanOperator::~IfcBooleanOperator() {}
-shared_ptr<IfcPPObject> IfcBooleanOperator::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBooleanOperator::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBooleanOperator> copy_self( new IfcBooleanOperator() );
 	copy_self->m_enum = m_enum;
@@ -46,7 +46,7 @@ void IfcBooleanOperator::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }

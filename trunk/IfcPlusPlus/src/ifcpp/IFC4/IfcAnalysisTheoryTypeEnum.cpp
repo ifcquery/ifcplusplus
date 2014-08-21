@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcAnalysisTheoryTypeEnum.h"
 
-// TYPE IfcAnalysisTheoryTypeEnum 
+// TYPE IfcAnalysisTheoryTypeEnum = ENUMERATION OF	(FIRST_ORDER_THEORY	,SECOND_ORDER_THEORY	,THIRD_ORDER_THEORY	,FULL_NONLINEAR_THEORY	,USERDEFINED	,NOTDEFINED);
 IfcAnalysisTheoryTypeEnum::IfcAnalysisTheoryTypeEnum() {}
 IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAnalysisTheoryTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAnalysisTheoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAnalysisTheoryTypeEnum> copy_self( new IfcAnalysisTheoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcAnalysisTheoryTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }

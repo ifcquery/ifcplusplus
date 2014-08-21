@@ -23,13 +23,13 @@ class IfcTypeObject;
 class IfcRelDefinesByTemplate;
 class IfcRelDefinesByProperties;
 //ENTITY
-class IfcPropertySetDefinition : public IfcPropertySetDefinitionSelect, public IfcPropertyDefinition
+class IfcPropertySetDefinition : virtual public IfcPropertySetDefinitionSelect, public IfcPropertyDefinition
 {
 public:
 	IfcPropertySetDefinition();
 	IfcPropertySetDefinition( int id );
 	~IfcPropertySetDefinition();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

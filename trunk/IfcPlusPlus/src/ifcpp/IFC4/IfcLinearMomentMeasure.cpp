@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcLinearMomentMeasure.h"
 
-// TYPE IfcLinearMomentMeasure 
+// TYPE IfcLinearMomentMeasure = REAL;
 IfcLinearMomentMeasure::IfcLinearMomentMeasure() {}
 IfcLinearMomentMeasure::IfcLinearMomentMeasure( double value ) { m_value = value; }
 IfcLinearMomentMeasure::~IfcLinearMomentMeasure() {}
-shared_ptr<IfcPPObject> IfcLinearMomentMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLinearMomentMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLinearMomentMeasure> copy_self( new IfcLinearMomentMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcLinearMomentMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLinearMomentMeasure> IfcLinearMomentMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLinearMomentMeasure> IfcLinearMomentMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
 	shared_ptr<IfcLinearMomentMeasure> type_object( new IfcLinearMomentMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

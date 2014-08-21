@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcRotationalFrequencyMeasure.h"
 
-// TYPE IfcRotationalFrequencyMeasure 
+// TYPE IfcRotationalFrequencyMeasure = REAL;
 IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure() {}
 IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure( double value ) { m_value = value; }
 IfcRotationalFrequencyMeasure::~IfcRotationalFrequencyMeasure() {}
-shared_ptr<IfcPPObject> IfcRotationalFrequencyMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRotationalFrequencyMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRotationalFrequencyMeasure> copy_self( new IfcRotationalFrequencyMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcRotationalFrequencyMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcRotationalFrequencyMeasure> IfcRotationalFrequencyMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcRotationalFrequencyMeasure> IfcRotationalFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	shared_ptr<IfcRotationalFrequencyMeasure> type_object( new IfcRotationalFrequencyMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

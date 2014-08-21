@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcElectricMotorTypeEnum.h"
 
-// TYPE IfcElectricMotorTypeEnum 
+// TYPE IfcElectricMotorTypeEnum = ENUMERATION OF	(DC	,INDUCTION	,POLYPHASE	,RELUCTANCESYNCHRONOUS	,SYNCHRONOUS	,USERDEFINED	,NOTDEFINED);
 IfcElectricMotorTypeEnum::IfcElectricMotorTypeEnum() {}
 IfcElectricMotorTypeEnum::~IfcElectricMotorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcElectricMotorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElectricMotorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElectricMotorTypeEnum> copy_self( new IfcElectricMotorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcElectricMotorTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }

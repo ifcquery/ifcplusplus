@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,16 +28,16 @@
 IfcEventTime::IfcEventTime() {}
 IfcEventTime::IfcEventTime( int id ) { m_id = id; }
 IfcEventTime::~IfcEventTime() {}
-shared_ptr<IfcPPObject> IfcEventTime::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEventTime::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEventTime> copy_self( new IfcEventTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
-	if( m_ActualDate ) { copy_self->m_ActualDate = dynamic_pointer_cast<IfcDateTime>( m_ActualDate->getDeepCopy() ); }
-	if( m_EarlyDate ) { copy_self->m_EarlyDate = dynamic_pointer_cast<IfcDateTime>( m_EarlyDate->getDeepCopy() ); }
-	if( m_LateDate ) { copy_self->m_LateDate = dynamic_pointer_cast<IfcDateTime>( m_LateDate->getDeepCopy() ); }
-	if( m_ScheduleDate ) { copy_self->m_ScheduleDate = dynamic_pointer_cast<IfcDateTime>( m_ScheduleDate->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
+	if( m_ActualDate ) { copy_self->m_ActualDate = dynamic_pointer_cast<IfcDateTime>( m_ActualDate->getDeepCopy(options) ); }
+	if( m_EarlyDate ) { copy_self->m_EarlyDate = dynamic_pointer_cast<IfcDateTime>( m_EarlyDate->getDeepCopy(options) ); }
+	if( m_LateDate ) { copy_self->m_LateDate = dynamic_pointer_cast<IfcDateTime>( m_LateDate->getDeepCopy(options) ); }
+	if( m_ScheduleDate ) { copy_self->m_ScheduleDate = dynamic_pointer_cast<IfcDateTime>( m_ScheduleDate->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcEventTime::getStepLine( std::stringstream& stream ) const
@@ -61,17 +62,14 @@ void IfcEventTime::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcEventTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEventTime, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcEventTime, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_DataOrigin = IfcDataOriginEnum::createObjectFromStepData( args[1] );
-	m_UserDefinedDataOrigin = IfcLabel::createObjectFromStepData( args[2] );
-	m_ActualDate = IfcDateTime::createObjectFromStepData( args[3] );
-	m_EarlyDate = IfcDateTime::createObjectFromStepData( args[4] );
-	m_LateDate = IfcDateTime::createObjectFromStepData( args[5] );
-	m_ScheduleDate = IfcDateTime::createObjectFromStepData( args[6] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEventTime, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
+	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );
+	m_ActualDate = IfcDateTime::createObjectFromSTEP( args[3] );
+	m_EarlyDate = IfcDateTime::createObjectFromSTEP( args[4] );
+	m_LateDate = IfcDateTime::createObjectFromSTEP( args[5] );
+	m_ScheduleDate = IfcDateTime::createObjectFromSTEP( args[6] );
 }
 void IfcEventTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

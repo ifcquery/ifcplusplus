@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDistributionChamberElementTypeEnum.h"
 
-// TYPE IfcDistributionChamberElementTypeEnum 
+// TYPE IfcDistributionChamberElementTypeEnum = ENUMERATION OF	(FORMEDDUCT	,INSPECTIONCHAMBER	,INSPECTIONPIT	,MANHOLE	,METERCHAMBER	,SUMP	,TRENCH	,VALVECHAMBER	,USERDEFINED	,NOTDEFINED);
 IfcDistributionChamberElementTypeEnum::IfcDistributionChamberElementTypeEnum() {}
 IfcDistributionChamberElementTypeEnum::~IfcDistributionChamberElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDistributionChamberElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDistributionChamberElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDistributionChamberElementTypeEnum> copy_self( new IfcDistributionChamberElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcDistributionChamberElementTypeEnum::getStepParameter( std::stringstream&
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }

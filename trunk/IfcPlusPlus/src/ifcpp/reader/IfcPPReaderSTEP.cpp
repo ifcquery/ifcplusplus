@@ -35,7 +35,6 @@ static std::map<std::string,IfcPPTypeEnum> map_string2type_enum(initializers_Ifc
 
 void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args );
 void applyBackwardCompatibility( std::string& keyword, std::string& step_line );
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities );
 IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 void findEndOfString( char*& stream_pos );
 void findEndOfWString( wchar_t*& stream_pos );
@@ -67,7 +66,7 @@ IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name_w )
 	return IFC_ENTITY_UNDEFINED;
 }
 
-void readSingleStepLine( const std::string& line, shared_ptr<IfcPPEntity>& entity )
+void readSingleStepLine( const std::string& line, IfcPPReaderSTEP::EntityReadContainer& target_read_object )
 {
 	char* stream_pos = (char*)line.c_str();
 	if( *stream_pos != '#' )
@@ -156,13 +155,12 @@ void readSingleStepLine( const std::string& line, shared_ptr<IfcPPEntity>& entit
 				strs << __func__ << ": could not create object of type " << keyword << ", entity id " << entity_id << std::endl;
 				throw IfcPPException( strs.str().c_str() );
 			}
-			obj->setId( entity_id );
-			entity = obj;
-			entity->m_entity_enum = entity_enum;
-				
+			obj->m_id = entity_id;
+			obj->m_entity_enum = entity_enum;
+			target_read_object.m_entity = obj;
 			size_t sub_length = line.size() -(stream_pos-line.c_str());
 			std::string entity_arg(stream_pos, sub_length);
-			entity->m_entity_argument_str.assign( entity_arg.begin(), entity_arg.end() );
+			target_read_object.m_entity_argument_str.assign( entity_arg.begin(), entity_arg.end() );
 		}
 	}
 }
@@ -439,7 +437,7 @@ void IfcPPReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector
 	}
 }
 
-void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std::vector<shared_ptr<IfcPPEntity> >& target_entity_vec )
+void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std::vector<EntityReadContainer>& target_entity_vec )
 {
 	std::set<std::string> unkown_entities;
 	std::stringstream err_unknown_entity;
@@ -449,7 +447,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 	const size_t num_lines = step_lines.size();
 	
 	target_entity_vec.resize( num_lines );
-	std::vector<shared_ptr<IfcPPEntity> >* target_vec_ptr = &target_entity_vec;
+	std::vector<EntityReadContainer>* target_vec_ptr = &target_entity_vec;
 	std::set<std::string>* unkown_entities_ptr = &unkown_entities;
 	const std::vector<std::string>* step_lines_ptr = &step_lines;
 
@@ -462,12 +460,12 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 		for( int i=0; i<num_lines; ++i )
 		{
 			const std::string& step_line = (*step_lines_ptr)[i];
-			shared_ptr<IfcPPEntity>& entity = (*target_vec_ptr)[i];;
+			EntityReadContainer& entity_read_obj = (*target_vec_ptr)[i];;
 
 			// read lines: #1234=IFCOBJECTNAME(...,...,(...,...),...)
 			try
 			{
-				readSingleStepLine( step_line,  entity );
+				readSingleStepLine( step_line,  entity_read_obj );
 			}
 			catch(UnknownEntityException& e)
 			{
@@ -476,7 +474,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 				applyBackwardCompatibility( unknown_keyword, step_line );
 				try
 				{
-					readSingleStepLine( step_line, entity );
+					readSingleStepLine( step_line, entity_read_obj );
 				}
 				catch( UnknownEntityException& )
 				{
@@ -518,7 +516,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 	}
 }
 
-void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<shared_ptr<IfcPPEntity> >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
+void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<EntityReadContainer>& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -530,7 +528,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	progressCallback( progress, "parse" );
 	double last_progress = 0.3;
 	const std::map<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
-	const std::vector<shared_ptr<IfcPPEntity> >* vec_entities_ptr = &vec_entities;
+	const std::vector<EntityReadContainer>* vec_entities_ptr = &vec_entities;
 
 #ifdef IFCPP_OPENMP
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
@@ -543,19 +541,17 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 #endif
 		for( int i=0; i<num_objects; ++i )
 		{
-			shared_ptr<IfcPPEntity> entity = (*vec_entities_ptr)[i];
+			const EntityReadContainer& entity_read_object = (*vec_entities_ptr)[i];
+			const shared_ptr<IfcPPEntity>& entity = entity_read_object.m_entity;
 			if( !entity )
 			{
 				continue;
 			}
-			std::string& argument_str = entity->m_entity_argument_str;
+			const std::string& argument_str = entity_read_object.m_entity_argument_str;
 			std::vector<std::string> arguments;
 			std::vector<std::wstring> arguments_w;
 			tokenizeEntityArguments( argument_str, arguments );
 
-#ifndef SET_ENTIY_ARGUMENT_STRING
-			entity->m_entity_argument_str = "";
-#endif
 			// character decoding:
 			decodeArgumentStrings( arguments, arguments_w );
 
@@ -568,7 +564,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 				}
 			}
 #ifdef _DEBUG
-			int entity_id = entity->getId();
+			int entity_id = entity->m_id;
 #endif
 
 			try
@@ -580,21 +576,21 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->getId() << "=" << typeid(*entity).name() << ": " << e.what();
+				err << "#" << entity->m_id << "=" << typeid(*entity).name() << ": " << e.what();
 			}
 			catch( std::exception* e )
 			{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->getId() << "=" << typeid(*entity).name() << ": " << e->what();
+				err << "#" << entity->m_id << "=" << typeid(*entity).name() << ": " << e->what();
 			}
 			catch(...)
 			{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->getId() << "=" << typeid(*entity).name() << " readStepData: error occurred" << std::endl;
+				err << "#" << entity->m_id << "=" << typeid(*entity).name() << " readStepData: error occurred" << std::endl;
 			}
 
 			if( i%10 == 0 )
@@ -661,7 +657,8 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	// the input string is not needed any more
 	read_in.clear();
 	
-	std::vector<shared_ptr<IfcPPEntity> > vec_entities;
+	std::vector<EntityReadContainer> vec_entities;
+	vec_entities.resize( step_lines.size() );
 	try
 	{
 		readStepLines( step_lines, vec_entities );
@@ -685,11 +682,11 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	}
 	
 	// copy entities into map so that they can be found during entity attribute initialization
-	std::vector<shared_ptr<IfcPPEntity> >::const_iterator it_entity_vec = vec_entities.begin();
-	for( ; it_entity_vec!=vec_entities.end(); ++it_entity_vec )
+	for( auto it_entity_vec = vec_entities.begin(); it_entity_vec!=vec_entities.end(); ++it_entity_vec )
 	{
-		shared_ptr<IfcPPEntity> entity = (*it_entity_vec);
-		target_map.insert( std::make_pair(entity->getId(), entity ) );
+		EntityReadContainer& entity_read_object = (*it_entity_vec);
+		shared_ptr<IfcPPEntity>& entity = entity_read_object.m_entity;
+		target_map.insert( std::make_pair(entity->m_id, entity ) );
 	}
 
 	try
@@ -744,6 +741,7 @@ static std::map<IfcPPEntityEnum, int> global_map_num_args = {
 	{ IfcPPEntityEnum::IFCBUILDINGELEMENTPART, 9 },
 	{ IfcPPEntityEnum::IFCCLASSIFICATION, 7 },
 	{ IfcPPEntityEnum::IFCCLASSIFICATIONREFERENCE, 6 },
+	{ IfcPPEntityEnum::IFCCOLOURRGB, 4 },
 	{ IfcPPEntityEnum::IFCCOLUMN, 9 },
 	{ IfcPPEntityEnum::IFCCSHAPEPROFILEDEF, 8 },
 	{ IfcPPEntityEnum::IFCCURTAINWALL, 9 },
@@ -820,19 +818,19 @@ void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_versi
 		while( args.size() < num_args ){ args.push_back( L"$" ); }
 	}
 
-	if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC4 )
-	{
-		switch( type_enum )
-		{
-		
-		case IFCCOLOURRGB:
-			if( args.size() == 3 ) //#315= IFCCOLOURRGB($,0.65882353,0.6627451,0.61960784);
-			{
-				args.insert( args.begin(), L"$" );
-			}
-			break;
-		}
-	}
+	//if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC4 )
+	//{
+	//	switch( type_enum )
+	//	{
+	//	
+	//	case IFCCOLOURRGB:
+	//		if( args.size() == 3 ) //#315= IFCCOLOURRGB($,0.65882353,0.6627451,0.61960784);
+	//		{
+	//			args.insert( args.begin(), L"$" );
+	//		}
+	//		break;
+	//	}
+	//}
 
 	//IfcRelDecomposes -> IfcRelAggregates
 }

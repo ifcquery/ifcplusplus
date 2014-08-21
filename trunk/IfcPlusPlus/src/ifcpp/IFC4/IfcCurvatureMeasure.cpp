@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcCurvatureMeasure.h"
 
-// TYPE IfcCurvatureMeasure 
+// TYPE IfcCurvatureMeasure = REAL;
 IfcCurvatureMeasure::IfcCurvatureMeasure() {}
 IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
 IfcCurvatureMeasure::~IfcCurvatureMeasure() {}
-shared_ptr<IfcPPObject> IfcCurvatureMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCurvatureMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcCurvatureMeasure::getStepParameter( std::stringstream& stream, bool is_s
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
 	shared_ptr<IfcCurvatureMeasure> type_object( new IfcCurvatureMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

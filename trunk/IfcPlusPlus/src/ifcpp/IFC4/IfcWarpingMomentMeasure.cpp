@@ -22,11 +22,11 @@
 #include "include/IfcWarpingStiffnessSelect.h"
 #include "include/IfcWarpingMomentMeasure.h"
 
-// TYPE IfcWarpingMomentMeasure 
+// TYPE IfcWarpingMomentMeasure = REAL;
 IfcWarpingMomentMeasure::IfcWarpingMomentMeasure() {}
 IfcWarpingMomentMeasure::IfcWarpingMomentMeasure( double value ) { m_value = value; }
 IfcWarpingMomentMeasure::~IfcWarpingMomentMeasure() {}
-shared_ptr<IfcPPObject> IfcWarpingMomentMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWarpingMomentMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWarpingMomentMeasure> copy_self( new IfcWarpingMomentMeasure() );
 	copy_self->m_value = m_value;
@@ -38,12 +38,12 @@ void IfcWarpingMomentMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWarpingMomentMeasure> IfcWarpingMomentMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWarpingMomentMeasure> IfcWarpingMomentMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	shared_ptr<IfcWarpingMomentMeasure> type_object( new IfcWarpingMomentMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

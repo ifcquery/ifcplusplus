@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWallTypeEnum.h"
 
-// TYPE IfcWallTypeEnum 
+// TYPE IfcWallTypeEnum = ENUMERATION OF	(MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,POLYGONAL	,ELEMENTEDWALL	,USERDEFINED	,NOTDEFINED);
 IfcWallTypeEnum::IfcWallTypeEnum() {}
 IfcWallTypeEnum::~IfcWallTypeEnum() {}
-shared_ptr<IfcPPObject> IfcWallTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWallTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWallTypeEnum> copy_self( new IfcWallTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }

@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcElectricConductanceMeasure.h"
 
-// TYPE IfcElectricConductanceMeasure 
+// TYPE IfcElectricConductanceMeasure = REAL;
 IfcElectricConductanceMeasure::IfcElectricConductanceMeasure() {}
 IfcElectricConductanceMeasure::IfcElectricConductanceMeasure( double value ) { m_value = value; }
 IfcElectricConductanceMeasure::~IfcElectricConductanceMeasure() {}
-shared_ptr<IfcPPObject> IfcElectricConductanceMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElectricConductanceMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElectricConductanceMeasure> copy_self( new IfcElectricConductanceMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcElectricConductanceMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricConductanceMeasure> IfcElectricConductanceMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElectricConductanceMeasure> IfcElectricConductanceMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	shared_ptr<IfcElectricConductanceMeasure> type_object( new IfcElectricConductanceMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

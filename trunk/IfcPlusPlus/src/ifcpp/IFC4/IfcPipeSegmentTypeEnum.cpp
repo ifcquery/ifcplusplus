@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPipeSegmentTypeEnum.h"
 
-// TYPE IfcPipeSegmentTypeEnum 
+// TYPE IfcPipeSegmentTypeEnum = ENUMERATION OF	(CULVERT	,FLEXIBLESEGMENT	,RIGIDSEGMENT	,GUTTER	,SPOOL	,USERDEFINED	,NOTDEFINED);
 IfcPipeSegmentTypeEnum::IfcPipeSegmentTypeEnum() {}
 IfcPipeSegmentTypeEnum::~IfcPipeSegmentTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPipeSegmentTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPipeSegmentTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPipeSegmentTypeEnum> copy_self( new IfcPipeSegmentTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcPipeSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool i
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }

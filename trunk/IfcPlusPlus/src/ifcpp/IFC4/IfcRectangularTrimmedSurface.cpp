@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,14 +29,14 @@
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface() {}
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_id = id; }
 IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() {}
-shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRectangularTrimmedSurface> copy_self( new IfcRectangularTrimmedSurface() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy() ); }
-	if( m_U1 ) { copy_self->m_U1 = dynamic_pointer_cast<IfcParameterValue>( m_U1->getDeepCopy() ); }
-	if( m_V1 ) { copy_self->m_V1 = dynamic_pointer_cast<IfcParameterValue>( m_V1->getDeepCopy() ); }
-	if( m_U2 ) { copy_self->m_U2 = dynamic_pointer_cast<IfcParameterValue>( m_U2->getDeepCopy() ); }
-	if( m_V2 ) { copy_self->m_V2 = dynamic_pointer_cast<IfcParameterValue>( m_V2->getDeepCopy() ); }
+	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
+	if( m_U1 ) { copy_self->m_U1 = dynamic_pointer_cast<IfcParameterValue>( m_U1->getDeepCopy(options) ); }
+	if( m_V1 ) { copy_self->m_V1 = dynamic_pointer_cast<IfcParameterValue>( m_V1->getDeepCopy(options) ); }
+	if( m_U2 ) { copy_self->m_U2 = dynamic_pointer_cast<IfcParameterValue>( m_U2->getDeepCopy(options) ); }
+	if( m_V2 ) { copy_self->m_V2 = dynamic_pointer_cast<IfcParameterValue>( m_V2->getDeepCopy(options) ); }
 	if( m_Usense ) { copy_self->m_Usense = m_Usense; }
 	if( m_Vsense ) { copy_self->m_Vsense = m_Vsense; }
 	return copy_self;
@@ -43,7 +44,7 @@ shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy()
 void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCRECTANGULARTRIMMEDSURFACE" << "(";
-	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->getId(); } else { stream << "$"; }
+	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_U1 ) { m_U1->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -64,15 +65,12 @@ void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, 
 void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
-	m_U1 = IfcParameterValue::createObjectFromStepData( args[1] );
-	m_V1 = IfcParameterValue::createObjectFromStepData( args[2] );
-	m_U2 = IfcParameterValue::createObjectFromStepData( args[3] );
-	m_V2 = IfcParameterValue::createObjectFromStepData( args[4] );
+	m_U1 = IfcParameterValue::createObjectFromSTEP( args[1] );
+	m_V1 = IfcParameterValue::createObjectFromSTEP( args[2] );
+	m_U2 = IfcParameterValue::createObjectFromSTEP( args[3] );
+	m_V2 = IfcParameterValue::createObjectFromSTEP( args[4] );
 	if( boost::iequals( args[5], L".F." ) ) { m_Usense = false; }
 	else if( boost::iequals( args[5], L".T." ) ) { m_Usense = true; }
 	if( boost::iequals( args[6], L".F." ) ) { m_Vsense = false; }
@@ -86,8 +84,8 @@ void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::str
 	vec_attributes.push_back( std::make_pair( "V1", m_V1 ) );
 	vec_attributes.push_back( std::make_pair( "U2", m_U2 ) );
 	vec_attributes.push_back( std::make_pair( "V2", m_V2 ) );
-	vec_attributes.push_back( std::make_pair( "Usense", shared_ptr<IfcPPBool>( new IfcPPBool( m_Usense ) ) ) );
-	vec_attributes.push_back( std::make_pair( "Vsense", shared_ptr<IfcPPBool>( new IfcPPBool( m_Vsense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Usense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Usense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Vsense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Vsense ) ) ) );
 }
 void IfcRectangularTrimmedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

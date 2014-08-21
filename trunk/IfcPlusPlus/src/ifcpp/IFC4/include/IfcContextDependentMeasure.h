@@ -21,15 +21,16 @@
 #include "IfcMeasureValue.h"
 
 // TYPE IfcContextDependentMeasure = REAL;
-class IfcContextDependentMeasure : public IfcMeasureValue, public IfcPPReal
+class IfcContextDependentMeasure : public IfcMeasureValue
 {
 public:
 	IfcContextDependentMeasure();
 	IfcContextDependentMeasure( double value );
 	~IfcContextDependentMeasure();
 	virtual const char* classname() const { return "IfcContextDependentMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcContextDependentMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcContextDependentMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -32,22 +33,30 @@
 IfcRelAssociatesLibrary::IfcRelAssociatesLibrary() {}
 IfcRelAssociatesLibrary::IfcRelAssociatesLibrary( int id ) { m_id = id; }
 IfcRelAssociatesLibrary::~IfcRelAssociatesLibrary() {}
-shared_ptr<IfcPPObject> IfcRelAssociatesLibrary::getDeepCopy()
+shared_ptr<IfcPPObject> IfcRelAssociatesLibrary::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesLibrary> copy_self( new IfcRelAssociatesLibrary() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_RelatedObjects.size(); ++ii )
 	{
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_RelatingLibrary ) { copy_self->m_RelatingLibrary = dynamic_pointer_cast<IfcLibrarySelect>( m_RelatingLibrary->getDeepCopy() ); }
+	if( m_RelatingLibrary ) { copy_self->m_RelatingLibrary = dynamic_pointer_cast<IfcLibrarySelect>( m_RelatingLibrary->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelAssociatesLibrary::getStepLine( std::stringstream& stream ) const
@@ -55,7 +64,7 @@ void IfcRelAssociatesLibrary::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRELASSOCIATESLIBRARY" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -70,16 +79,13 @@ void IfcRelAssociatesLibrary::getStepParameter( std::stringstream& stream, bool 
 void IfcRelAssociatesLibrary::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelAssociatesLibrary, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>6 ){ std::cout << "Wrong parameter count for entity IfcRelAssociatesLibrary, expecting 6, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelAssociatesLibrary, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	readSelectList( args[4], m_RelatedObjects, map );
-	m_RelatingLibrary = IfcLibrarySelect::createObjectFromStepData( args[5], map );
+	m_RelatingLibrary = IfcLibrarySelect::createObjectFromSTEP( args[5], map );
 }
 void IfcRelAssociatesLibrary::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -113,11 +119,10 @@ void IfcRelAssociatesLibrary::unlinkSelf()
 	if( RelatingLibrary_IfcLibraryInformation )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >& LibraryInfoForObjects_inverse = RelatingLibrary_IfcLibraryInformation->m_LibraryInfoForObjects_inverse;
-		std::vector<weak_ptr<IfcRelAssociatesLibrary> >::iterator it_LibraryInfoForObjects_inverse;
-		for( it_LibraryInfoForObjects_inverse = LibraryInfoForObjects_inverse.begin(); it_LibraryInfoForObjects_inverse != LibraryInfoForObjects_inverse.end(); ++it_LibraryInfoForObjects_inverse)
+		for( auto it_LibraryInfoForObjects_inverse = LibraryInfoForObjects_inverse.begin(); it_LibraryInfoForObjects_inverse != LibraryInfoForObjects_inverse.end(); ++it_LibraryInfoForObjects_inverse)
 		{
 			shared_ptr<IfcRelAssociatesLibrary> self_candidate( *it_LibraryInfoForObjects_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				LibraryInfoForObjects_inverse.erase( it_LibraryInfoForObjects_inverse );
 				break;
@@ -128,11 +133,10 @@ void IfcRelAssociatesLibrary::unlinkSelf()
 	if( RelatingLibrary_IfcLibraryReference )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >& LibraryRefForObjects_inverse = RelatingLibrary_IfcLibraryReference->m_LibraryRefForObjects_inverse;
-		std::vector<weak_ptr<IfcRelAssociatesLibrary> >::iterator it_LibraryRefForObjects_inverse;
-		for( it_LibraryRefForObjects_inverse = LibraryRefForObjects_inverse.begin(); it_LibraryRefForObjects_inverse != LibraryRefForObjects_inverse.end(); ++it_LibraryRefForObjects_inverse)
+		for( auto it_LibraryRefForObjects_inverse = LibraryRefForObjects_inverse.begin(); it_LibraryRefForObjects_inverse != LibraryRefForObjects_inverse.end(); ++it_LibraryRefForObjects_inverse)
 		{
 			shared_ptr<IfcRelAssociatesLibrary> self_candidate( *it_LibraryRefForObjects_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				LibraryRefForObjects_inverse.erase( it_LibraryRefForObjects_inverse );
 				break;

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -33,17 +34,17 @@
 IfcPropertyTableValue::IfcPropertyTableValue() {}
 IfcPropertyTableValue::IfcPropertyTableValue( int id ) { m_id = id; }
 IfcPropertyTableValue::~IfcPropertyTableValue() {}
-shared_ptr<IfcPPObject> IfcPropertyTableValue::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPropertyTableValue::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPropertyTableValue> copy_self( new IfcPropertyTableValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_DefiningValues.size(); ++ii )
 	{
 		auto item_ii = m_DefiningValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_DefiningValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_DefiningValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_DefinedValues.size(); ++ii )
@@ -51,13 +52,13 @@ shared_ptr<IfcPPObject> IfcPropertyTableValue::getDeepCopy()
 		auto item_ii = m_DefinedValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_DefinedValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy() ) );
+			copy_self->m_DefinedValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy() ); }
-	if( m_DefiningUnit ) { copy_self->m_DefiningUnit = dynamic_pointer_cast<IfcUnit>( m_DefiningUnit->getDeepCopy() ); }
-	if( m_DefinedUnit ) { copy_self->m_DefinedUnit = dynamic_pointer_cast<IfcUnit>( m_DefinedUnit->getDeepCopy() ); }
-	if( m_CurveInterpolation ) { copy_self->m_CurveInterpolation = dynamic_pointer_cast<IfcCurveInterpolationEnum>( m_CurveInterpolation->getDeepCopy() ); }
+	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy(options) ); }
+	if( m_DefiningUnit ) { copy_self->m_DefiningUnit = dynamic_pointer_cast<IfcUnit>( m_DefiningUnit->getDeepCopy(options) ); }
+	if( m_DefinedUnit ) { copy_self->m_DefinedUnit = dynamic_pointer_cast<IfcUnit>( m_DefinedUnit->getDeepCopy(options) ); }
+	if( m_CurveInterpolation ) { copy_self->m_CurveInterpolation = dynamic_pointer_cast<IfcCurveInterpolationEnum>( m_CurveInterpolation->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
@@ -84,18 +85,15 @@ void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool ) 
 void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>8 ){ std::cout << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readSelectList( args[2], m_DefiningValues, map );
 	readSelectList( args[3], m_DefinedValues, map );
-	m_Expression = IfcText::createObjectFromStepData( args[4] );
-	m_DefiningUnit = IfcUnit::createObjectFromStepData( args[5], map );
-	m_DefinedUnit = IfcUnit::createObjectFromStepData( args[6], map );
-	m_CurveInterpolation = IfcCurveInterpolationEnum::createObjectFromStepData( args[7] );
+	m_Expression = IfcText::createObjectFromSTEP( args[4] );
+	m_DefiningUnit = IfcUnit::createObjectFromSTEP( args[5], map );
+	m_DefinedUnit = IfcUnit::createObjectFromSTEP( args[6], map );
+	m_CurveInterpolation = IfcCurveInterpolationEnum::createObjectFromSTEP( args[7] );
 }
 void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcLightDistributionCurveEnum.h"
 
-// TYPE IfcLightDistributionCurveEnum 
+// TYPE IfcLightDistributionCurveEnum = ENUMERATION OF	(TYPE_A	,TYPE_B	,TYPE_C	,NOTDEFINED);
 IfcLightDistributionCurveEnum::IfcLightDistributionCurveEnum() {}
 IfcLightDistributionCurveEnum::~IfcLightDistributionCurveEnum() {}
-shared_ptr<IfcPPObject> IfcLightDistributionCurveEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcLightDistributionCurveEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcLightDistributionCurveEnum> copy_self( new IfcLightDistributionCurveEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream,
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }

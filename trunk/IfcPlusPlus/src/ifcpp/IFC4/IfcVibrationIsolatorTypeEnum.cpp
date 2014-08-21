@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcVibrationIsolatorTypeEnum.h"
 
-// TYPE IfcVibrationIsolatorTypeEnum 
+// TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
 IfcVibrationIsolatorTypeEnum::IfcVibrationIsolatorTypeEnum() {}
 IfcVibrationIsolatorTypeEnum::~IfcVibrationIsolatorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcVibrationIsolatorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVibrationIsolatorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVibrationIsolatorTypeEnum> copy_self( new IfcVibrationIsolatorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }

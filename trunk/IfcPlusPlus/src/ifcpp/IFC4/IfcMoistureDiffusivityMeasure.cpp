@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcMoistureDiffusivityMeasure.h"
 
-// TYPE IfcMoistureDiffusivityMeasure 
+// TYPE IfcMoistureDiffusivityMeasure = REAL;
 IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure() {}
 IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure( double value ) { m_value = value; }
 IfcMoistureDiffusivityMeasure::~IfcMoistureDiffusivityMeasure() {}
-shared_ptr<IfcPPObject> IfcMoistureDiffusivityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMoistureDiffusivityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMoistureDiffusivityMeasure> copy_self( new IfcMoistureDiffusivityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMoistureDiffusivityMeasure::getStepParameter( std::stringstream& stream,
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMoistureDiffusivityMeasure> IfcMoistureDiffusivityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMoistureDiffusivityMeasure> IfcMoistureDiffusivityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
 	shared_ptr<IfcMoistureDiffusivityMeasure> type_object( new IfcMoistureDiffusivityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

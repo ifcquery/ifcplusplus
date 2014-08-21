@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,19 +29,19 @@
 IfcSIUnit::IfcSIUnit() {}
 IfcSIUnit::IfcSIUnit( int id ) { m_id = id; }
 IfcSIUnit::~IfcSIUnit() {}
-shared_ptr<IfcPPObject> IfcSIUnit::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSIUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSIUnit> copy_self( new IfcSIUnit() );
-	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy() ); }
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy() ); }
-	if( m_Prefix ) { copy_self->m_Prefix = dynamic_pointer_cast<IfcSIPrefix>( m_Prefix->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcSIUnitName>( m_Name->getDeepCopy() ); }
+	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy(options) ); }
+	if( m_Prefix ) { copy_self->m_Prefix = dynamic_pointer_cast<IfcSIPrefix>( m_Prefix->getDeepCopy(options) ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcSIUnitName>( m_Name->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSIUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->getId(); } else { stream << "*"; }
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -53,14 +54,11 @@ void IfcSIUnit::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcSIUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSIUnit, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcSIUnit, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSIUnit, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
-	m_UnitType = IfcUnitEnum::createObjectFromStepData( args[1] );
-	m_Prefix = IfcSIPrefix::createObjectFromStepData( args[2] );
-	m_Name = IfcSIUnitName::createObjectFromStepData( args[3] );
+	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1] );
+	m_Prefix = IfcSIPrefix::createObjectFromSTEP( args[2] );
+	m_Name = IfcSIUnitName::createObjectFromSTEP( args[3] );
 }
 void IfcSIUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

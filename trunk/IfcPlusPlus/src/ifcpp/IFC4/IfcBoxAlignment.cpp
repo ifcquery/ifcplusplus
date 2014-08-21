@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBoxAlignment.h"
 
-// TYPE IfcBoxAlignment 
+// TYPE IfcBoxAlignment = IfcLabel;
 IfcBoxAlignment::IfcBoxAlignment() {}
 IfcBoxAlignment::~IfcBoxAlignment() {}
-shared_ptr<IfcPPObject> IfcBoxAlignment::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoxAlignment::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoxAlignment> copy_self( new IfcBoxAlignment() );
 	copy_self->m_value = m_value;
@@ -35,13 +35,13 @@ void IfcBoxAlignment::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBoxAlignment> IfcBoxAlignment::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBoxAlignment> IfcBoxAlignment::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
 	shared_ptr<IfcBoxAlignment> type_object( new IfcBoxAlignment() );
 	// read TYPE
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

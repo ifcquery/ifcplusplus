@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcElectricChargeMeasure.h"
 
-// TYPE IfcElectricChargeMeasure 
+// TYPE IfcElectricChargeMeasure = REAL;
 IfcElectricChargeMeasure::IfcElectricChargeMeasure() {}
 IfcElectricChargeMeasure::IfcElectricChargeMeasure( double value ) { m_value = value; }
 IfcElectricChargeMeasure::~IfcElectricChargeMeasure() {}
-shared_ptr<IfcPPObject> IfcElectricChargeMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcElectricChargeMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcElectricChargeMeasure> copy_self( new IfcElectricChargeMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcElectricChargeMeasure::getStepParameter( std::stringstream& stream, bool
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcElectricChargeMeasure> IfcElectricChargeMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcElectricChargeMeasure> IfcElectricChargeMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	shared_ptr<IfcElectricChargeMeasure> type_object( new IfcElectricChargeMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

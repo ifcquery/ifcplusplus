@@ -21,15 +21,16 @@
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMonetaryMeasure = REAL;
-class IfcMonetaryMeasure : public IfcDerivedMeasureValue, public IfcPPReal
+class IfcMonetaryMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMonetaryMeasure();
 	IfcMonetaryMeasure( double value );
 	~IfcMonetaryMeasure();
 	virtual const char* classname() const { return "IfcMonetaryMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMonetaryMeasure> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMonetaryMeasure> createObjectFromSTEP( const std::wstring& arg );
+	double m_value;
 };
 

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcEvaporativeCoolerTypeEnum.h"
 
-// TYPE IfcEvaporativeCoolerTypeEnum 
+// TYPE IfcEvaporativeCoolerTypeEnum = ENUMERATION OF	(DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER	,DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER	,DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER	,DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER	,DIRECTEVAPORATIVEAIRWASHER	,INDIRECTEVAPORATIVEPACKAGEAIRCOOLER	,INDIRECTEVAPORATIVEWETCOIL	,INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER	,INDIRECTDIRECTCOMBINATION	,USERDEFINED	,NOTDEFINED);
 IfcEvaporativeCoolerTypeEnum::IfcEvaporativeCoolerTypeEnum() {}
 IfcEvaporativeCoolerTypeEnum::~IfcEvaporativeCoolerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcEvaporativeCoolerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEvaporativeCoolerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEvaporativeCoolerTypeEnum> copy_self( new IfcEvaporativeCoolerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcEvaporativeCoolerTypeEnum::getStepParameter( std::stringstream& stream, 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEvaporativeCoolerTypeEnum> IfcEvaporativeCoolerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcEvaporativeCoolerTypeEnum> IfcEvaporativeCoolerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,16 +32,16 @@
 IfcConstraint::IfcConstraint() {}
 IfcConstraint::IfcConstraint( int id ) { m_id = id; }
 IfcConstraint::~IfcConstraint() {}
-shared_ptr<IfcPPObject> IfcConstraint::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConstraint::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConstraint> copy_self( new IfcConstraint() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ConstraintGrade ) { copy_self->m_ConstraintGrade = dynamic_pointer_cast<IfcConstraintEnum>( m_ConstraintGrade->getDeepCopy() ); }
-	if( m_ConstraintSource ) { copy_self->m_ConstraintSource = dynamic_pointer_cast<IfcLabel>( m_ConstraintSource->getDeepCopy() ); }
-	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy() ); }
-	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy() ); }
-	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ConstraintGrade ) { copy_self->m_ConstraintGrade = dynamic_pointer_cast<IfcConstraintEnum>( m_ConstraintGrade->getDeepCopy(options) ); }
+	if( m_ConstraintSource ) { copy_self->m_ConstraintSource = dynamic_pointer_cast<IfcLabel>( m_ConstraintSource->getDeepCopy(options) ); }
+	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy(options) ); }
+	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy(options) ); }
+	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcConstraint::getStepLine( std::stringstream& stream ) const
@@ -65,17 +66,14 @@ void IfcConstraint::getStepParameter( std::stringstream& stream, bool ) const { 
 void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>7 ){ std::cout << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_ConstraintGrade = IfcConstraintEnum::createObjectFromStepData( args[2] );
-	m_ConstraintSource = IfcLabel::createObjectFromStepData( args[3] );
-	m_CreatingActor = IfcActorSelect::createObjectFromStepData( args[4], map );
-	m_CreationTime = IfcDateTime::createObjectFromStepData( args[5] );
-	m_UserDefinedGrade = IfcLabel::createObjectFromStepData( args[6] );
+	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_ConstraintGrade = IfcConstraintEnum::createObjectFromSTEP( args[2] );
+	m_ConstraintSource = IfcLabel::createObjectFromSTEP( args[3] );
+	m_CreatingActor = IfcActorSelect::createObjectFromSTEP( args[4], map );
+	m_CreationTime = IfcDateTime::createObjectFromSTEP( args[5] );
+	m_UserDefinedGrade = IfcLabel::createObjectFromSTEP( args[6] );
 }
 void IfcConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

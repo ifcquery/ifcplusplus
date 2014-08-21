@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcVolumetricFlowRateMeasure.h"
 
-// TYPE IfcVolumetricFlowRateMeasure 
+// TYPE IfcVolumetricFlowRateMeasure = REAL;
 IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure() {}
 IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure( double value ) { m_value = value; }
 IfcVolumetricFlowRateMeasure::~IfcVolumetricFlowRateMeasure() {}
-shared_ptr<IfcPPObject> IfcVolumetricFlowRateMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVolumetricFlowRateMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVolumetricFlowRateMeasure> copy_self( new IfcVolumetricFlowRateMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcVolumetricFlowRateMeasure::getStepParameter( std::stringstream& stream, 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcVolumetricFlowRateMeasure> IfcVolumetricFlowRateMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcVolumetricFlowRateMeasure> IfcVolumetricFlowRateMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVolumetricFlowRateMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVolumetricFlowRateMeasure>(); }
 	shared_ptr<IfcVolumetricFlowRateMeasure> type_object( new IfcVolumetricFlowRateMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

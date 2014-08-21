@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcStateEnum.h"
 
-// TYPE IfcStateEnum 
+// TYPE IfcStateEnum = ENUMERATION OF	(READWRITE	,READONLY	,LOCKED	,READWRITELOCKED	,READONLYLOCKED);
 IfcStateEnum::IfcStateEnum() {}
 IfcStateEnum::~IfcStateEnum() {}
-shared_ptr<IfcPPObject> IfcStateEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStateEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStateEnum> copy_self( new IfcStateEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_t
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }

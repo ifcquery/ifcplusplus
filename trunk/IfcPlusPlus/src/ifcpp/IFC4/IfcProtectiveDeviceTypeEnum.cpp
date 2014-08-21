@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcProtectiveDeviceTypeEnum.h"
 
-// TYPE IfcProtectiveDeviceTypeEnum 
+// TYPE IfcProtectiveDeviceTypeEnum = ENUMERATION OF	(CIRCUITBREAKER	,EARTHLEAKAGECIRCUITBREAKER	,EARTHINGSWITCH	,FUSEDISCONNECTOR	,RESIDUALCURRENTCIRCUITBREAKER	,RESIDUALCURRENTSWITCH	,VARISTOR	,USERDEFINED	,NOTDEFINED);
 IfcProtectiveDeviceTypeEnum::IfcProtectiveDeviceTypeEnum() {}
 IfcProtectiveDeviceTypeEnum::~IfcProtectiveDeviceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcProtectiveDeviceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcProtectiveDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceTypeEnum> copy_self( new IfcProtectiveDeviceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcProtectiveDeviceTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }

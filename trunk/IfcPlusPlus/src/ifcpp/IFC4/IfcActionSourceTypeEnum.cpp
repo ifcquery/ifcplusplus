@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcActionSourceTypeEnum.h"
 
-// TYPE IfcActionSourceTypeEnum 
+// TYPE IfcActionSourceTypeEnum = ENUMERATION OF	(DEAD_LOAD_G	,COMPLETION_G1	,LIVE_LOAD_Q	,SNOW_S	,WIND_W	,PRESTRESSING_P	,SETTLEMENT_U	,TEMPERATURE_T	,EARTHQUAKE_E	,FIRE	,IMPULSE	,IMPACT	,TRANSPORT	,ERECTION	,PROPPING	,SYSTEM_IMPERFECTION	,SHRINKAGE	,CREEP	,LACK_OF_FIT	,BUOYANCY	,ICE	,CURRENT	,WAVE	,RAIN	,BRAKES	,USERDEFINED	,NOTDEFINED);
 IfcActionSourceTypeEnum::IfcActionSourceTypeEnum() {}
 IfcActionSourceTypeEnum::~IfcActionSourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcActionSourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcActionSourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcActionSourceTypeEnum> copy_self( new IfcActionSourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -142,7 +142,7 @@ void IfcActionSourceTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -43,20 +44,28 @@
 IfcReinforcingBarType::IfcReinforcingBarType() {}
 IfcReinforcingBarType::IfcReinforcingBarType( int id ) { m_id = id; }
 IfcReinforcingBarType::~IfcReinforcingBarType() {}
-shared_ptr<IfcPPObject> IfcReinforcingBarType::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReinforcingBarType::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarType> copy_self( new IfcReinforcingBarType() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
 	{
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy() ) );
+			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
@@ -64,23 +73,23 @@ shared_ptr<IfcPPObject> IfcReinforcingBarType::getDeepCopy()
 		auto item_ii = m_RepresentationMaps[ii];
 		if( item_ii )
 		{
-			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy() ) );
+			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy() ); }
-	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy() ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcReinforcingBarTypeEnum>( m_PredefinedType->getDeepCopy() ); }
-	if( m_NominalDiameter ) { copy_self->m_NominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalDiameter->getDeepCopy() ); }
-	if( m_CrossSectionArea ) { copy_self->m_CrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_CrossSectionArea->getDeepCopy() ); }
-	if( m_BarLength ) { copy_self->m_BarLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BarLength->getDeepCopy() ); }
-	if( m_BarSurface ) { copy_self->m_BarSurface = dynamic_pointer_cast<IfcReinforcingBarSurfaceEnum>( m_BarSurface->getDeepCopy() ); }
-	if( m_BendingShapeCode ) { copy_self->m_BendingShapeCode = dynamic_pointer_cast<IfcLabel>( m_BendingShapeCode->getDeepCopy() ); }
+	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
+	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcReinforcingBarTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
+	if( m_NominalDiameter ) { copy_self->m_NominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalDiameter->getDeepCopy(options) ); }
+	if( m_CrossSectionArea ) { copy_self->m_CrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_CrossSectionArea->getDeepCopy(options) ); }
+	if( m_BarLength ) { copy_self->m_BarLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BarLength->getDeepCopy(options) ); }
+	if( m_BarSurface ) { copy_self->m_BarSurface = dynamic_pointer_cast<IfcReinforcingBarSurfaceEnum>( m_BarSurface->getDeepCopy(options) ); }
+	if( m_BendingShapeCode ) { copy_self->m_BendingShapeCode = dynamic_pointer_cast<IfcLabel>( m_BendingShapeCode->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_BendingParameters.size(); ++ii )
 	{
 		auto item_ii = m_BendingParameters[ii];
 		if( item_ii )
 		{
-			copy_self->m_BendingParameters.push_back( dynamic_pointer_cast<IfcBendingParameterSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_BendingParameters.push_back( dynamic_pointer_cast<IfcBendingParameterSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -90,7 +99,7 @@ void IfcReinforcingBarType::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCREINFORCINGBARTYPE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -125,25 +134,22 @@ void IfcReinforcingBarType::getStepParameter( std::stringstream& stream, bool ) 
 void IfcReinforcingBarType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<16 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReinforcingBarType, expecting 16, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>16 ){ std::cout << "Wrong parameter count for entity IfcReinforcingBarType, expecting 16, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 16 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReinforcingBarType, expecting 16, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ApplicableOccurrence = IfcIdentifier::createObjectFromStepData( args[4] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ApplicableOccurrence = IfcIdentifier::createObjectFromSTEP( args[4] );
 	readEntityReferenceList( args[5], m_HasPropertySets, map );
 	readEntityReferenceList( args[6], m_RepresentationMaps, map );
-	m_Tag = IfcLabel::createObjectFromStepData( args[7] );
-	m_ElementType = IfcLabel::createObjectFromStepData( args[8] );
-	m_PredefinedType = IfcReinforcingBarTypeEnum::createObjectFromStepData( args[9] );
-	m_NominalDiameter = IfcPositiveLengthMeasure::createObjectFromStepData( args[10] );
-	m_CrossSectionArea = IfcAreaMeasure::createObjectFromStepData( args[11] );
-	m_BarLength = IfcPositiveLengthMeasure::createObjectFromStepData( args[12] );
-	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromStepData( args[13] );
-	m_BendingShapeCode = IfcLabel::createObjectFromStepData( args[14] );
+	m_Tag = IfcLabel::createObjectFromSTEP( args[7] );
+	m_ElementType = IfcLabel::createObjectFromSTEP( args[8] );
+	m_PredefinedType = IfcReinforcingBarTypeEnum::createObjectFromSTEP( args[9] );
+	m_NominalDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[10] );
+	m_CrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[11] );
+	m_BarLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[12] );
+	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[13] );
+	m_BendingShapeCode = IfcLabel::createObjectFromSTEP( args[14] );
 	readSelectList( args[15], m_BendingParameters, map );
 }
 void IfcReinforcingBarType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

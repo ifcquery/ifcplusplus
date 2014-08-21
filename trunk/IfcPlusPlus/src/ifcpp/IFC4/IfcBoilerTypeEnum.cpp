@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBoilerTypeEnum.h"
 
-// TYPE IfcBoilerTypeEnum 
+// TYPE IfcBoilerTypeEnum = ENUMERATION OF	(WATER	,STEAM	,USERDEFINED	,NOTDEFINED);
 IfcBoilerTypeEnum::IfcBoilerTypeEnum() {}
 IfcBoilerTypeEnum::~IfcBoilerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcBoilerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoilerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoilerTypeEnum> copy_self( new IfcBoilerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcBoilerTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -46,23 +47,31 @@
 IfcSite::IfcSite() {}
 IfcSite::IfcSite( int id ) { m_id = id; }
 IfcSite::~IfcSite() {}
-shared_ptr<IfcPPObject> IfcSite::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSite::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSite> copy_self( new IfcSite() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy() ); }
-	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy() ); }
-	if( m_LongName ) { copy_self->m_LongName = dynamic_pointer_cast<IfcLabel>( m_LongName->getDeepCopy() ); }
-	if( m_CompositionType ) { copy_self->m_CompositionType = dynamic_pointer_cast<IfcElementCompositionEnum>( m_CompositionType->getDeepCopy() ); }
-	if( m_RefLatitude ) { copy_self->m_RefLatitude = dynamic_pointer_cast<IfcCompoundPlaneAngleMeasure>( m_RefLatitude->getDeepCopy() ); }
-	if( m_RefLongitude ) { copy_self->m_RefLongitude = dynamic_pointer_cast<IfcCompoundPlaneAngleMeasure>( m_RefLongitude->getDeepCopy() ); }
-	if( m_RefElevation ) { copy_self->m_RefElevation = dynamic_pointer_cast<IfcLengthMeasure>( m_RefElevation->getDeepCopy() ); }
-	if( m_LandTitleNumber ) { copy_self->m_LandTitleNumber = dynamic_pointer_cast<IfcLabel>( m_LandTitleNumber->getDeepCopy() ); }
-	if( m_SiteAddress ) { copy_self->m_SiteAddress = dynamic_pointer_cast<IfcPostalAddress>( m_SiteAddress->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
+	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
+	if( m_LongName ) { copy_self->m_LongName = dynamic_pointer_cast<IfcLabel>( m_LongName->getDeepCopy(options) ); }
+	if( m_CompositionType ) { copy_self->m_CompositionType = dynamic_pointer_cast<IfcElementCompositionEnum>( m_CompositionType->getDeepCopy(options) ); }
+	if( m_RefLatitude ) { copy_self->m_RefLatitude = dynamic_pointer_cast<IfcCompoundPlaneAngleMeasure>( m_RefLatitude->getDeepCopy(options) ); }
+	if( m_RefLongitude ) { copy_self->m_RefLongitude = dynamic_pointer_cast<IfcCompoundPlaneAngleMeasure>( m_RefLongitude->getDeepCopy(options) ); }
+	if( m_RefElevation ) { copy_self->m_RefElevation = dynamic_pointer_cast<IfcLengthMeasure>( m_RefElevation->getDeepCopy(options) ); }
+	if( m_LandTitleNumber ) { copy_self->m_LandTitleNumber = dynamic_pointer_cast<IfcLabel>( m_LandTitleNumber->getDeepCopy(options) ); }
+	if( m_SiteAddress ) { copy_self->m_SiteAddress = dynamic_pointer_cast<IfcPostalAddress>( m_SiteAddress->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSite::getStepLine( std::stringstream& stream ) const
@@ -70,7 +79,7 @@ void IfcSite::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCSITE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -78,9 +87,9 @@ void IfcSite::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->getId(); } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->getId(); } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -94,30 +103,27 @@ void IfcSite::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_LandTitleNumber ) { m_LandTitleNumber->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SiteAddress ) { stream << "#" << m_SiteAddress->getId(); } else { stream << "$"; }
+	if( m_SiteAddress ) { stream << "#" << m_SiteAddress->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcSite::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcSite::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<14 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSite, expecting 14, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>14 ){ std::cout << "Wrong parameter count for entity IfcSite, expecting 14, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 14 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSite, expecting 14, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
 	readEntityReference( args[5], m_ObjectPlacement, map );
 	readEntityReference( args[6], m_Representation, map );
-	m_LongName = IfcLabel::createObjectFromStepData( args[7] );
-	m_CompositionType = IfcElementCompositionEnum::createObjectFromStepData( args[8] );
-	m_RefLatitude = IfcCompoundPlaneAngleMeasure::createObjectFromStepData( args[9] );
-	m_RefLongitude = IfcCompoundPlaneAngleMeasure::createObjectFromStepData( args[10] );
-	m_RefElevation = IfcLengthMeasure::createObjectFromStepData( args[11] );
-	m_LandTitleNumber = IfcLabel::createObjectFromStepData( args[12] );
+	m_LongName = IfcLabel::createObjectFromSTEP( args[7] );
+	m_CompositionType = IfcElementCompositionEnum::createObjectFromSTEP( args[8] );
+	m_RefLatitude = IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( args[9] );
+	m_RefLongitude = IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( args[10] );
+	m_RefElevation = IfcLengthMeasure::createObjectFromSTEP( args[11] );
+	m_LandTitleNumber = IfcLabel::createObjectFromSTEP( args[12] );
 	readEntityReference( args[13], m_SiteAddress, map );
 }
 void IfcSite::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

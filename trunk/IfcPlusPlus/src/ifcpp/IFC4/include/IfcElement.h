@@ -30,13 +30,13 @@ class IfcRelConnectsWithRealizingElements;
 class IfcRelSpaceBoundary;
 class IfcRelContainedInSpatialStructure;
 //ENTITY
-class IfcElement : public IfcStructuralActivityAssignmentSelect, public IfcProduct
+class IfcElement : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
 {
 public:
 	IfcElement();
 	IfcElement( int id );
 	~IfcElement();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

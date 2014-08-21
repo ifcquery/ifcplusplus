@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcMassMeasure.h"
 
-// TYPE IfcMassMeasure 
+// TYPE IfcMassMeasure = REAL;
 IfcMassMeasure::IfcMassMeasure() {}
 IfcMassMeasure::IfcMassMeasure( double value ) { m_value = value; }
 IfcMassMeasure::~IfcMassMeasure() {}
-shared_ptr<IfcPPObject> IfcMassMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMassMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMassMeasure> copy_self( new IfcMassMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcMassMeasure::getStepParameter( std::stringstream& stream, bool is_select
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcMassMeasure> IfcMassMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcMassMeasure> IfcMassMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassMeasure>(); }
 	shared_ptr<IfcMassMeasure> type_object( new IfcMassMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

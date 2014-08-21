@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcConstructionMaterialResourceTypeEnum.h"
 
-// TYPE IfcConstructionMaterialResourceTypeEnum 
+// TYPE IfcConstructionMaterialResourceTypeEnum = ENUMERATION OF	(AGGREGATES	,CONCRETE	,DRYWALL	,FUEL	,GYPSUM	,MASONRY	,METAL	,PLASTIC	,WOOD	,NOTDEFINED	,USERDEFINED);
 IfcConstructionMaterialResourceTypeEnum::IfcConstructionMaterialResourceTypeEnum() {}
 IfcConstructionMaterialResourceTypeEnum::~IfcConstructionMaterialResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcConstructionMaterialResourceTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcConstructionMaterialResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcConstructionMaterialResourceTypeEnum> copy_self( new IfcConstructionMaterialResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -78,7 +78,7 @@ void IfcConstructionMaterialResourceTypeEnum::getStepParameter( std::stringstrea
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcConstructionMaterialResourceTypeEnum> IfcConstructionMaterialResourceTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcConstructionMaterialResourceTypeEnum> IfcConstructionMaterialResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionMaterialResourceTypeEnum>(); }

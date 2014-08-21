@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,14 +31,18 @@
 IfcDerivedProfileDef::IfcDerivedProfileDef() {}
 IfcDerivedProfileDef::IfcDerivedProfileDef( int id ) { m_id = id; }
 IfcDerivedProfileDef::~IfcDerivedProfileDef() {}
-shared_ptr<IfcPPObject> IfcDerivedProfileDef::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDerivedProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDerivedProfileDef> copy_self( new IfcDerivedProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
-	if( m_ParentProfile ) { copy_self->m_ParentProfile = dynamic_pointer_cast<IfcProfileDef>( m_ParentProfile->getDeepCopy() ); }
-	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_Operator->getDeepCopy() ); }
-	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy() ); }
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
+	if( m_ParentProfile )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_ParentProfile = m_ParentProfile; }
+		else { copy_self->m_ParentProfile = dynamic_pointer_cast<IfcProfileDef>( m_ParentProfile->getDeepCopy(options) ); }
+	}
+	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_Operator->getDeepCopy(options) ); }
+	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcDerivedProfileDef::getStepLine( std::stringstream& stream ) const
@@ -47,9 +52,9 @@ void IfcDerivedProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->getId(); } else { stream << "$"; }
+	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Operator ) { stream << "#" << m_Operator->getId(); } else { stream << "$"; }
+	if( m_Operator ) { stream << "#" << m_Operator->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -58,15 +63,12 @@ void IfcDerivedProfileDef::getStepParameter( std::stringstream& stream, bool ) c
 void IfcDerivedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDerivedProfileDef, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>5 ){ std::cout << "Wrong parameter count for entity IfcDerivedProfileDef, expecting 5, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ProfileType = IfcProfileTypeEnum::createObjectFromStepData( args[0] );
-	m_ProfileName = IfcLabel::createObjectFromStepData( args[1] );
+	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDerivedProfileDef, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
+	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_ParentProfile, map );
 	readEntityReference( args[3], m_Operator, map );
-	m_Label = IfcLabel::createObjectFromStepData( args[4] );
+	m_Label = IfcLabel::createObjectFromSTEP( args[4] );
 }
 void IfcDerivedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

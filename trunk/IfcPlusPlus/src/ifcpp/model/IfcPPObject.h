@@ -22,103 +22,59 @@
 
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 
+struct IfcPPCopyOptions
+{
+public:
+	bool shallow_copy_IfcOwnerHistory = true;			// If set to true, references to the existing IfcOwnerHistory are set, instead of creating a deep copy
+	bool shallow_copy_IfcRepresentationContext = true;	// If set to true, references to the existing IfcRepresentationContext (or derived) are set, instead of creating a deep copy
+	bool shallow_copy_IfcProfileDef = true;				// If set to true, references to the existing IfcProfileDef (or derived) are set, instead of creating a deep copy
+	bool shallow_copy_IfcLocalPlacement_PlacementRelTo = true; // If set to true, not the complete coordinate system hierarchy is copied, create shallow copy instead
+	bool create_new_IfcGloballyUniqueId = true;			// If set to true, all copies of type IfcGloballyUniqueId get a new GUID.
+};
+
 class IfcPPObject
 {
 public:
-	IfcPPObject() {}
-	~IfcPPObject() {}
-	virtual const char* classname() const { return "IfcPPObject"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPObject() ); }
-	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {}
-};
-
-class IfcPPBool : virtual public IfcPPObject
-{
-public:
-	IfcPPBool();
-	IfcPPBool( bool value );
-	~IfcPPBool();
-	virtual const char* classname() const { return "IfcPPBool"; }
-	void readArgument( const std::wstring& attribute_value );
-	bool m_value;
-};
-
-class IfcPPLogical : virtual public IfcPPObject
-{
-public:
-	IfcPPLogical();
-	IfcPPLogical( LogicalEnum value );
-	~IfcPPLogical();
-	virtual const char* classname() const { return "IfcPPLogical"; }
-	void readArgument( const std::wstring& attribute_value );
-	LogicalEnum m_value;
-};
-
-class IfcPPInt : virtual public IfcPPObject
-{
-public:
-	IfcPPInt();
-	IfcPPInt( int value );
-	~IfcPPInt();
-	virtual const char* classname() const { return "IfcPPInt"; }
-	void readArgument( const std::wstring& attribute_value );
-	int m_value;
-};
-
-class IfcPPReal : virtual public IfcPPObject
-{
-public:
-	IfcPPReal();
-	IfcPPReal( double value );
-	~IfcPPReal();
-	//virtual const char* classname() const = 0;
-	void readArgument( const std::wstring& attribute_value );
-	double m_value;
-};
-
-class IfcPPString : virtual public IfcPPObject
-{
-public:
-	IfcPPString();
-	IfcPPString( std::wstring& value );
-	~IfcPPString();
-	virtual const char* classname() const { return "IfcPPString"; }
-	void readArgument( const std::wstring& attribute_value );
-	std::wstring m_value;
-};
-
-class IfcPPBinary : virtual public IfcPPObject
-{
-public:
-	IfcPPBinary();
-	IfcPPBinary( const char* value );
-	~IfcPPBinary();
-	virtual const char* classname() const { return "IfcPPBinary"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
-	void readArgument( const char* attribute_value );
-	const char* m_value;
+	virtual const char* classname() const = 0;
 };
 
 // ENTITY
 class IfcPPEntity : virtual public IfcPPObject
 {
-protected:
-	int m_id;
-
 public:
 	IfcPPEntity();
 	IfcPPEntity( int id );
 	virtual ~IfcPPEntity();
-	virtual const char* classname() const { return "IfcPPEntity"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy() = 0;
+	virtual const char* classname() const = 0;
+
+	/** \brief Creates a deep copy of the object, recursively creating deep copies of attributes.
+	 *  Usually it makes sense to create only a shallow copy (not a new object) for entities like IfcOwnerHistory, IfcRepresentationContext and others.
+	 *  The exact copying behaviour can be set with IfcPPCopyOptions.
+	 *	Inverse attributes are not copied.
+	*/
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
+	
+	/** \brief Appends a line in STEP format to stream, including all attributes. */
 	virtual void getStepLine( std::stringstream& stream ) const = 0;
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
+
+	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities ) = 0;
+
+	/** \brief Adds all attributes (including inherited attributes) with name and value to vec_attributes. Single attributes can be accessed directly, without this method.*/
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes ) = 0;
+
+	/** \brief Same as getAttributes, but for inverse attributes.*/
 	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& map_attributes ) = 0;
+
+	/** \brief If there is a reference from object a to object b, and b has an inverse reference to a, the inverse reference is established here.*/
 	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self ) = 0;
+
+	/** \brief Removes the inverse reference established in setInverseCounterparts.*/
 	virtual void unlinkSelf() = 0;
-	virtual const int getId() const { return m_id; }
-	void setId( int id );
-	std::string m_entity_argument_str;
+
+	/// Entity ID (same as STEP ID)
+	int m_id;
+	
+	/// Enum reqresenting the entity type
 	IfcPPEntityEnum m_entity_enum;
 };

@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWindowStyleConstructionEnum.h"
 
-// TYPE IfcWindowStyleConstructionEnum 
+// TYPE IfcWindowStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,PLASTIC	,OTHER_CONSTRUCTION	,NOTDEFINED);
 IfcWindowStyleConstructionEnum::IfcWindowStyleConstructionEnum() {}
 IfcWindowStyleConstructionEnum::~IfcWindowStyleConstructionEnum() {}
-shared_ptr<IfcPPObject> IfcWindowStyleConstructionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWindowStyleConstructionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWindowStyleConstructionEnum> copy_self( new IfcWindowStyleConstructionEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcWindowStyleConstructionEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWindowStyleConstructionEnum> IfcWindowStyleConstructionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWindowStyleConstructionEnum> IfcWindowStyleConstructionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }

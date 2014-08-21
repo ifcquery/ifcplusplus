@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDistributionPortTypeEnum.h"
 
-// TYPE IfcDistributionPortTypeEnum 
+// TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
 IfcDistributionPortTypeEnum::IfcDistributionPortTypeEnum() {}
 IfcDistributionPortTypeEnum::~IfcDistributionPortTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDistributionPortTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDistributionPortTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDistributionPortTypeEnum> copy_self( new IfcDistributionPortTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcDistributionPortTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }

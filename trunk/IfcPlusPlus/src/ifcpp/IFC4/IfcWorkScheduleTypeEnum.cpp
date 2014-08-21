@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWorkScheduleTypeEnum.h"
 
-// TYPE IfcWorkScheduleTypeEnum 
+// TYPE IfcWorkScheduleTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
 IfcWorkScheduleTypeEnum::IfcWorkScheduleTypeEnum() {}
 IfcWorkScheduleTypeEnum::~IfcWorkScheduleTypeEnum() {}
-shared_ptr<IfcPPObject> IfcWorkScheduleTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWorkScheduleTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWorkScheduleTypeEnum> copy_self( new IfcWorkScheduleTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcWorkScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWorkScheduleTypeEnum> IfcWorkScheduleTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWorkScheduleTypeEnum> IfcWorkScheduleTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }

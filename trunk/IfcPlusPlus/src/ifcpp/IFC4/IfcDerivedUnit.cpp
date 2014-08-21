@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,7 +28,7 @@
 IfcDerivedUnit::IfcDerivedUnit() {}
 IfcDerivedUnit::IfcDerivedUnit( int id ) { m_id = id; }
 IfcDerivedUnit::~IfcDerivedUnit() {}
-shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDerivedUnit> copy_self( new IfcDerivedUnit() );
 	for( size_t ii=0; ii<m_Elements.size(); ++ii )
@@ -35,11 +36,11 @@ shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy()
 		auto item_ii = m_Elements[ii];
 		if( item_ii )
 		{
-			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcDerivedUnitElement>(item_ii->getDeepCopy() ) );
+			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcDerivedUnitElement>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcDerivedUnitEnum>( m_UnitType->getDeepCopy() ); }
-	if( m_UserDefinedType ) { copy_self->m_UserDefinedType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedType->getDeepCopy() ); }
+	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcDerivedUnitEnum>( m_UnitType->getDeepCopy(options) ); }
+	if( m_UserDefinedType ) { copy_self->m_UserDefinedType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcDerivedUnit::getStepLine( std::stringstream& stream ) const
@@ -56,13 +57,10 @@ void IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Elements, map );
-	m_UnitType = IfcDerivedUnitEnum::createObjectFromStepData( args[1] );
-	m_UserDefinedType = IfcLabel::createObjectFromStepData( args[2] );
+	m_UnitType = IfcDerivedUnitEnum::createObjectFromSTEP( args[1] );
+	m_UserDefinedType = IfcLabel::createObjectFromSTEP( args[2] );
 }
 void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

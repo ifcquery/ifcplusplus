@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,12 +28,20 @@
 IfcSectionProperties::IfcSectionProperties() {}
 IfcSectionProperties::IfcSectionProperties( int id ) { m_id = id; }
 IfcSectionProperties::~IfcSectionProperties() {}
-shared_ptr<IfcPPObject> IfcSectionProperties::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSectionProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSectionProperties> copy_self( new IfcSectionProperties() );
-	if( m_SectionType ) { copy_self->m_SectionType = dynamic_pointer_cast<IfcSectionTypeEnum>( m_SectionType->getDeepCopy() ); }
-	if( m_StartProfile ) { copy_self->m_StartProfile = dynamic_pointer_cast<IfcProfileDef>( m_StartProfile->getDeepCopy() ); }
-	if( m_EndProfile ) { copy_self->m_EndProfile = dynamic_pointer_cast<IfcProfileDef>( m_EndProfile->getDeepCopy() ); }
+	if( m_SectionType ) { copy_self->m_SectionType = dynamic_pointer_cast<IfcSectionTypeEnum>( m_SectionType->getDeepCopy(options) ); }
+	if( m_StartProfile )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_StartProfile = m_StartProfile; }
+		else { copy_self->m_StartProfile = dynamic_pointer_cast<IfcProfileDef>( m_StartProfile->getDeepCopy(options) ); }
+	}
+	if( m_EndProfile )
+	{
+		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_EndProfile = m_EndProfile; }
+		else { copy_self->m_EndProfile = dynamic_pointer_cast<IfcProfileDef>( m_EndProfile->getDeepCopy(options) ); }
+	}
 	return copy_self;
 }
 void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
@@ -40,20 +49,17 @@ void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCSECTIONPROPERTIES" << "(";
 	if( m_SectionType ) { m_SectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartProfile ) { stream << "#" << m_StartProfile->getId(); } else { stream << "$"; }
+	if( m_StartProfile ) { stream << "#" << m_StartProfile->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EndProfile ) { stream << "#" << m_EndProfile->getId(); } else { stream << "$"; }
+	if( m_EndProfile ) { stream << "#" << m_EndProfile->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcSectionProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_SectionType = IfcSectionTypeEnum::createObjectFromStepData( args[0] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_SectionType = IfcSectionTypeEnum::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_StartProfile, map );
 	readEntityReference( args[2], m_EndProfile, map );
 }

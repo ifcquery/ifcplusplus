@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBenchmarkEnum.h"
 
-// TYPE IfcBenchmarkEnum 
+// TYPE IfcBenchmarkEnum = ENUMERATION OF	(GREATERTHAN	,GREATERTHANOREQUALTO	,LESSTHAN	,LESSTHANOREQUALTO	,EQUALTO	,NOTEQUALTO	,INCLUDES	,NOTINCLUDES	,INCLUDEDIN	,NOTINCLUDEDIN);
 IfcBenchmarkEnum::IfcBenchmarkEnum() {}
 IfcBenchmarkEnum::~IfcBenchmarkEnum() {}
-shared_ptr<IfcPPObject> IfcBenchmarkEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBenchmarkEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBenchmarkEnum> copy_self( new IfcBenchmarkEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcBenchmarkEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }

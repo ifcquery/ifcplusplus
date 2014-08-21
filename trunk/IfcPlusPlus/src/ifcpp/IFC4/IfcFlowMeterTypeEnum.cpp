@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcFlowMeterTypeEnum.h"
 
-// TYPE IfcFlowMeterTypeEnum 
+// TYPE IfcFlowMeterTypeEnum = ENUMERATION OF	(ENERGYMETER	,GASMETER	,OILMETER	,WATERMETER	,USERDEFINED	,NOTDEFINED);
 IfcFlowMeterTypeEnum::IfcFlowMeterTypeEnum() {}
 IfcFlowMeterTypeEnum::~IfcFlowMeterTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFlowMeterTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcFlowMeterTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcFlowMeterTypeEnum> copy_self( new IfcFlowMeterTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcFlowMeterTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }

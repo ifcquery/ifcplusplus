@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcStackTerminalTypeEnum.h"
 
-// TYPE IfcStackTerminalTypeEnum 
+// TYPE IfcStackTerminalTypeEnum = ENUMERATION OF	(BIRDCAGE	,COWL	,RAINWATERHOPPER	,USERDEFINED	,NOTDEFINED);
 IfcStackTerminalTypeEnum::IfcStackTerminalTypeEnum() {}
 IfcStackTerminalTypeEnum::~IfcStackTerminalTypeEnum() {}
-shared_ptr<IfcPPObject> IfcStackTerminalTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcStackTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcStackTerminalTypeEnum> copy_self( new IfcStackTerminalTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcStackTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }

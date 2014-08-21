@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,29 +29,26 @@
 IfcMappedItem::IfcMappedItem() {}
 IfcMappedItem::IfcMappedItem( int id ) { m_id = id; }
 IfcMappedItem::~IfcMappedItem() {}
-shared_ptr<IfcPPObject> IfcMappedItem::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMappedItem::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMappedItem> copy_self( new IfcMappedItem() );
-	if( m_MappingSource ) { copy_self->m_MappingSource = dynamic_pointer_cast<IfcRepresentationMap>( m_MappingSource->getDeepCopy() ); }
-	if( m_MappingTarget ) { copy_self->m_MappingTarget = dynamic_pointer_cast<IfcCartesianTransformationOperator>( m_MappingTarget->getDeepCopy() ); }
+	if( m_MappingSource ) { copy_self->m_MappingSource = dynamic_pointer_cast<IfcRepresentationMap>( m_MappingSource->getDeepCopy(options) ); }
+	if( m_MappingTarget ) { copy_self->m_MappingTarget = dynamic_pointer_cast<IfcCartesianTransformationOperator>( m_MappingTarget->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMappedItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCMAPPEDITEM" << "(";
-	if( m_MappingSource ) { stream << "#" << m_MappingSource->getId(); } else { stream << "$"; }
+	if( m_MappingSource ) { stream << "#" << m_MappingSource->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_MappingTarget ) { stream << "#" << m_MappingTarget->getId(); } else { stream << "$"; }
+	if( m_MappingTarget ) { stream << "#" << m_MappingTarget->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcMappedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcMappedItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMappedItem, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcMappedItem, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMappedItem, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_MappingSource, map );
 	readEntityReference( args[1], m_MappingTarget, map );
 }
@@ -80,11 +78,10 @@ void IfcMappedItem::unlinkSelf()
 	if( m_MappingSource )
 	{
 		std::vector<weak_ptr<IfcMappedItem> >& MapUsage_inverse = m_MappingSource->m_MapUsage_inverse;
-		std::vector<weak_ptr<IfcMappedItem> >::iterator it_MapUsage_inverse;
-		for( it_MapUsage_inverse = MapUsage_inverse.begin(); it_MapUsage_inverse != MapUsage_inverse.end(); ++it_MapUsage_inverse)
+		for( auto it_MapUsage_inverse = MapUsage_inverse.begin(); it_MapUsage_inverse != MapUsage_inverse.end(); ++it_MapUsage_inverse)
 		{
 			shared_ptr<IfcMappedItem> self_candidate( *it_MapUsage_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				MapUsage_inverse.erase( it_MapUsage_inverse );
 				break;

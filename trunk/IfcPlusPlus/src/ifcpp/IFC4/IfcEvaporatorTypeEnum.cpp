@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcEvaporatorTypeEnum.h"
 
-// TYPE IfcEvaporatorTypeEnum 
+// TYPE IfcEvaporatorTypeEnum = ENUMERATION OF	(DIRECTEXPANSION	,DIRECTEXPANSIONSHELLANDTUBE	,DIRECTEXPANSIONTUBEINTUBE	,DIRECTEXPANSIONBRAZEDPLATE	,FLOODEDSHELLANDTUBE	,SHELLANDCOIL	,USERDEFINED	,NOTDEFINED);
 IfcEvaporatorTypeEnum::IfcEvaporatorTypeEnum() {}
 IfcEvaporatorTypeEnum::~IfcEvaporatorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcEvaporatorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEvaporatorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEvaporatorTypeEnum> copy_self( new IfcEvaporatorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -66,7 +66,7 @@ void IfcEvaporatorTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }

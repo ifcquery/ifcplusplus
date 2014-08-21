@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSequenceEnum.h"
 
-// TYPE IfcSequenceEnum 
+// TYPE IfcSequenceEnum = ENUMERATION OF	(START_START	,START_FINISH	,FINISH_START	,FINISH_FINISH	,USERDEFINED	,NOTDEFINED);
 IfcSequenceEnum::IfcSequenceEnum() {}
 IfcSequenceEnum::~IfcSequenceEnum() {}
-shared_ptr<IfcPPObject> IfcSequenceEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSequenceEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSequenceEnum> copy_self( new IfcSequenceEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcSequenceEnum::getStepParameter( std::stringstream& stream, bool is_selec
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }

@@ -20,11 +20,11 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDimensionCount.h"
 
-// TYPE IfcDimensionCount 
+// TYPE IfcDimensionCount = INTEGER;
 IfcDimensionCount::IfcDimensionCount() {}
 IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
 IfcDimensionCount::~IfcDimensionCount() {}
-shared_ptr<IfcPPObject> IfcDimensionCount::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDimensionCount::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );
 	copy_self->m_value = m_value;
@@ -36,12 +36,12 @@ void IfcDimensionCount::getStepParameter( std::stringstream& stream, bool is_sel
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	shared_ptr<IfcDimensionCount> type_object( new IfcDimensionCount() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

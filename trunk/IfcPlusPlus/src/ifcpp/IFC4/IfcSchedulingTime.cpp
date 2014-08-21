@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,12 +27,12 @@
 IfcSchedulingTime::IfcSchedulingTime() {}
 IfcSchedulingTime::IfcSchedulingTime( int id ) { m_id = id; }
 IfcSchedulingTime::~IfcSchedulingTime() {}
-shared_ptr<IfcPPObject> IfcSchedulingTime::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSchedulingTime::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSchedulingTime> copy_self( new IfcSchedulingTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy() ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
+	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
@@ -48,13 +49,10 @@ void IfcSchedulingTime::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcSchedulingTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>3 ){ std::cout << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_DataOrigin = IfcDataOriginEnum::createObjectFromStepData( args[1] );
-	m_UserDefinedDataOrigin = IfcLabel::createObjectFromStepData( args[2] );
+	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
+	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );
 }
 void IfcSchedulingTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

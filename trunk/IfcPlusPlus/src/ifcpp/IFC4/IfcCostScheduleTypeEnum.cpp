@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCostScheduleTypeEnum.h"
 
-// TYPE IfcCostScheduleTypeEnum 
+// TYPE IfcCostScheduleTypeEnum = ENUMERATION OF	(BUDGET	,COSTPLAN	,ESTIMATE	,TENDER	,PRICEDBILLOFQUANTITIES	,UNPRICEDBILLOFQUANTITIES	,SCHEDULEOFRATES	,USERDEFINED	,NOTDEFINED);
 IfcCostScheduleTypeEnum::IfcCostScheduleTypeEnum() {}
 IfcCostScheduleTypeEnum::~IfcCostScheduleTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCostScheduleTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCostScheduleTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCostScheduleTypeEnum> copy_self( new IfcCostScheduleTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }

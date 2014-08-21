@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSanitaryTerminalTypeEnum.h"
 
-// TYPE IfcSanitaryTerminalTypeEnum 
+// TYPE IfcSanitaryTerminalTypeEnum = ENUMERATION OF	(BATH	,BIDET	,CISTERN	,SHOWER	,SINK	,SANITARYFOUNTAIN	,TOILETPAN	,URINAL	,WASHHANDBASIN	,WCSEAT	,USERDEFINED	,NOTDEFINED);
 IfcSanitaryTerminalTypeEnum::IfcSanitaryTerminalTypeEnum() {}
 IfcSanitaryTerminalTypeEnum::~IfcSanitaryTerminalTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSanitaryTerminalTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSanitaryTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSanitaryTerminalTypeEnum> copy_self( new IfcSanitaryTerminalTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -82,7 +82,7 @@ void IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }

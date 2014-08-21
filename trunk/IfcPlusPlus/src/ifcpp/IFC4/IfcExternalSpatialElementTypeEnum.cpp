@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcExternalSpatialElementTypeEnum.h"
 
-// TYPE IfcExternalSpatialElementTypeEnum 
+// TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFIEND);
 IfcExternalSpatialElementTypeEnum::IfcExternalSpatialElementTypeEnum() {}
 IfcExternalSpatialElementTypeEnum::~IfcExternalSpatialElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcExternalSpatialElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcExternalSpatialElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcExternalSpatialElementTypeEnum> copy_self( new IfcExternalSpatialElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }

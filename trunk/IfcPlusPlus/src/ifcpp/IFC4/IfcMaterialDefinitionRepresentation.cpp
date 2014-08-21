@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,20 +29,20 @@
 IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation() {}
 IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation( int id ) { m_id = id; }
 IfcMaterialDefinitionRepresentation::~IfcMaterialDefinitionRepresentation() {}
-shared_ptr<IfcPPObject> IfcMaterialDefinitionRepresentation::getDeepCopy()
+shared_ptr<IfcPPObject> IfcMaterialDefinitionRepresentation::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcMaterialDefinitionRepresentation> copy_self( new IfcMaterialDefinitionRepresentation() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Representations.size(); ++ii )
 	{
 		auto item_ii = m_Representations[ii];
 		if( item_ii )
 		{
-			copy_self->m_Representations.push_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy() ) );
+			copy_self->m_Representations.push_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_RepresentedMaterial ) { copy_self->m_RepresentedMaterial = dynamic_pointer_cast<IfcMaterial>( m_RepresentedMaterial->getDeepCopy() ); }
+	if( m_RepresentedMaterial ) { copy_self->m_RepresentedMaterial = dynamic_pointer_cast<IfcMaterial>( m_RepresentedMaterial->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMaterialDefinitionRepresentation::getStepLine( std::stringstream& stream ) const
@@ -53,19 +54,16 @@ void IfcMaterialDefinitionRepresentation::getStepLine( std::stringstream& stream
 	stream << ",";
 	writeEntityList( stream, m_Representations );
 	stream << ",";
-	if( m_RepresentedMaterial ) { stream << "#" << m_RepresentedMaterial->getId(); } else { stream << "$"; }
+	if( m_RepresentedMaterial ) { stream << "#" << m_RepresentedMaterial->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcMaterialDefinitionRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcLabel::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReferenceList( args[2], m_Representations, map );
 	readEntityReference( args[3], m_RepresentedMaterial, map );
 }
@@ -94,11 +92,10 @@ void IfcMaterialDefinitionRepresentation::unlinkSelf()
 	if( m_RepresentedMaterial )
 	{
 		std::vector<weak_ptr<IfcMaterialDefinitionRepresentation> >& HasRepresentation_inverse = m_RepresentedMaterial->m_HasRepresentation_inverse;
-		std::vector<weak_ptr<IfcMaterialDefinitionRepresentation> >::iterator it_HasRepresentation_inverse;
-		for( it_HasRepresentation_inverse = HasRepresentation_inverse.begin(); it_HasRepresentation_inverse != HasRepresentation_inverse.end(); ++it_HasRepresentation_inverse)
+		for( auto it_HasRepresentation_inverse = HasRepresentation_inverse.begin(); it_HasRepresentation_inverse != HasRepresentation_inverse.end(); ++it_HasRepresentation_inverse)
 		{
 			shared_ptr<IfcMaterialDefinitionRepresentation> self_candidate( *it_HasRepresentation_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasRepresentation_inverse.erase( it_HasRepresentation_inverse );
 				break;

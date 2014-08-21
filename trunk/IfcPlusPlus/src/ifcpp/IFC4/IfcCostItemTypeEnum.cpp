@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCostItemTypeEnum.h"
 
-// TYPE IfcCostItemTypeEnum 
+// TYPE IfcCostItemTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcCostItemTypeEnum::IfcCostItemTypeEnum() {}
 IfcCostItemTypeEnum::~IfcCostItemTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCostItemTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCostItemTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCostItemTypeEnum> copy_self( new IfcCostItemTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcCostItemTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCostItemTypeEnum> IfcCostItemTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCostItemTypeEnum> IfcCostItemTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }

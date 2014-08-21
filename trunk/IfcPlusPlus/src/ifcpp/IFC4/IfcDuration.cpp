@@ -22,11 +22,11 @@
 #include "include/IfcTimeOrRatioSelect.h"
 #include "include/IfcDuration.h"
 
-// TYPE IfcDuration 
+// TYPE IfcDuration = STRING;
 IfcDuration::IfcDuration() {}
 IfcDuration::IfcDuration( std::wstring value ) { m_value = value; }
 IfcDuration::~IfcDuration() {}
-shared_ptr<IfcPPObject> IfcDuration::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDuration::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDuration> copy_self( new IfcDuration() );
 	copy_self->m_value = m_value;
@@ -38,12 +38,12 @@ void IfcDuration::getStepParameter( std::stringstream& stream, bool is_select_ty
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDuration> IfcDuration::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDuration> IfcDuration::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuration>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuration>(); }
 	shared_ptr<IfcDuration> type_object( new IfcDuration() );
-	type_object->readArgument( arg );
+	readString( arg, type_object->m_value );
 	return type_object;
 }

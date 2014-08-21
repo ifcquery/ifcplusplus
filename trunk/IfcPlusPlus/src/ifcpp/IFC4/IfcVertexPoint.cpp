@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,26 +28,23 @@
 IfcVertexPoint::IfcVertexPoint() {}
 IfcVertexPoint::IfcVertexPoint( int id ) { m_id = id; }
 IfcVertexPoint::~IfcVertexPoint() {}
-shared_ptr<IfcPPObject> IfcVertexPoint::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVertexPoint::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVertexPoint> copy_self( new IfcVertexPoint() );
-	if( m_VertexGeometry ) { copy_self->m_VertexGeometry = dynamic_pointer_cast<IfcPoint>( m_VertexGeometry->getDeepCopy() ); }
+	if( m_VertexGeometry ) { copy_self->m_VertexGeometry = dynamic_pointer_cast<IfcPoint>( m_VertexGeometry->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcVertexPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCVERTEXPOINT" << "(";
-	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->getId(); } else { stream << "$"; }
+	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcVertexPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcVertexPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_VertexGeometry, map );
 }
 void IfcVertexPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

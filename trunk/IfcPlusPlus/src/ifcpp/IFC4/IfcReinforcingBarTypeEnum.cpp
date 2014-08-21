@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcReinforcingBarTypeEnum.h"
 
-// TYPE IfcReinforcingBarTypeEnum 
+// TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,USERDEFINED	,NOTDEFINED);
 IfcReinforcingBarTypeEnum::IfcReinforcingBarTypeEnum() {}
 IfcReinforcingBarTypeEnum::~IfcReinforcingBarTypeEnum() {}
-shared_ptr<IfcPPObject> IfcReinforcingBarTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcReinforcingBarTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarTypeEnum> copy_self( new IfcReinforcingBarTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -74,7 +74,7 @@ void IfcReinforcingBarTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcReinforcingBarTypeEnum> IfcReinforcingBarTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcReinforcingBarTypeEnum> IfcReinforcingBarTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }

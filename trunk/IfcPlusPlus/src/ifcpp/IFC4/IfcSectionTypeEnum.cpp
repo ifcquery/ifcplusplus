@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSectionTypeEnum.h"
 
-// TYPE IfcSectionTypeEnum 
+// TYPE IfcSectionTypeEnum = ENUMERATION OF	(UNIFORM	,TAPERED);
 IfcSectionTypeEnum::IfcSectionTypeEnum() {}
 IfcSectionTypeEnum::~IfcSectionTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSectionTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSectionTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSectionTypeEnum> copy_self( new IfcSectionTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }

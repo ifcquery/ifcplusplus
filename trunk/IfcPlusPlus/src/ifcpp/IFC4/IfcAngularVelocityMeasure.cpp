@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcAngularVelocityMeasure.h"
 
-// TYPE IfcAngularVelocityMeasure 
+// TYPE IfcAngularVelocityMeasure = REAL;
 IfcAngularVelocityMeasure::IfcAngularVelocityMeasure() {}
 IfcAngularVelocityMeasure::IfcAngularVelocityMeasure( double value ) { m_value = value; }
 IfcAngularVelocityMeasure::~IfcAngularVelocityMeasure() {}
-shared_ptr<IfcPPObject> IfcAngularVelocityMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAngularVelocityMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAngularVelocityMeasure> copy_self( new IfcAngularVelocityMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcAngularVelocityMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcAngularVelocityMeasure> IfcAngularVelocityMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcAngularVelocityMeasure> IfcAngularVelocityMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
 	shared_ptr<IfcAngularVelocityMeasure> type_object( new IfcAngularVelocityMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

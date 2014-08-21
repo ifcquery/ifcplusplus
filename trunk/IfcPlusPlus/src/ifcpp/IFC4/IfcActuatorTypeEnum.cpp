@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcActuatorTypeEnum.h"
 
-// TYPE IfcActuatorTypeEnum 
+// TYPE IfcActuatorTypeEnum = ENUMERATION OF	(ELECTRICACTUATOR	,HANDOPERATEDACTUATOR	,HYDRAULICACTUATOR	,PNEUMATICACTUATOR	,THERMOSTATICACTUATOR	,USERDEFINED	,NOTDEFINED);
 IfcActuatorTypeEnum::IfcActuatorTypeEnum() {}
 IfcActuatorTypeEnum::~IfcActuatorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcActuatorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcActuatorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcActuatorTypeEnum> copy_self( new IfcActuatorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcActuatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }

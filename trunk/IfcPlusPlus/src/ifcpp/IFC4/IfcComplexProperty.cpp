@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -30,18 +31,18 @@
 IfcComplexProperty::IfcComplexProperty() {}
 IfcComplexProperty::IfcComplexProperty( int id ) { m_id = id; }
 IfcComplexProperty::~IfcComplexProperty() {}
-shared_ptr<IfcPPObject> IfcComplexProperty::getDeepCopy()
+shared_ptr<IfcPPObject> IfcComplexProperty::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcComplexProperty> copy_self( new IfcComplexProperty() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcIdentifier>( m_UsageName->getDeepCopy() ); }
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcIdentifier>( m_UsageName->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_HasProperties.size(); ++ii )
 	{
 		auto item_ii = m_HasProperties[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasProperties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy() ) );
+			copy_self->m_HasProperties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -62,13 +63,10 @@ void IfcComplexProperty::getStepParameter( std::stringstream& stream, bool ) con
 void IfcComplexProperty::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_Name = IfcIdentifier::createObjectFromStepData( args[0] );
-	m_Description = IfcText::createObjectFromStepData( args[1] );
-	m_UsageName = IfcIdentifier::createObjectFromStepData( args[2] );
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_Name = IfcIdentifier::createObjectFromSTEP( args[0] );
+	m_Description = IfcText::createObjectFromSTEP( args[1] );
+	m_UsageName = IfcIdentifier::createObjectFromSTEP( args[2] );
 	readEntityReferenceList( args[3], m_HasProperties, map );
 }
 void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -91,7 +89,7 @@ void IfcComplexProperty::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 	IfcProperty::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcComplexProperty> ptr_self = dynamic_pointer_cast<IfcComplexProperty>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcComplexProperty::setInverseCounterparts: type mismatch" ); }
-	for( int i=0; i<m_HasProperties.size(); ++i )
+	for( size_t i=0; i<m_HasProperties.size(); ++i )
 	{
 		if( m_HasProperties[i] )
 		{
@@ -102,16 +100,15 @@ void IfcComplexProperty::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 void IfcComplexProperty::unlinkSelf()
 {
 	IfcProperty::unlinkSelf();
-	for( int i=0; i<m_HasProperties.size(); ++i )
+	for( size_t i=0; i<m_HasProperties.size(); ++i )
 	{
 		if( m_HasProperties[i] )
 		{
 			std::vector<weak_ptr<IfcComplexProperty> >& PartOfComplex_inverse = m_HasProperties[i]->m_PartOfComplex_inverse;
-			std::vector<weak_ptr<IfcComplexProperty> >::iterator it_PartOfComplex_inverse;
-			for( it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); ++it_PartOfComplex_inverse)
+			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); ++it_PartOfComplex_inverse)
 			{
 				shared_ptr<IfcComplexProperty> self_candidate( *it_PartOfComplex_inverse );
-				if( self_candidate->getId() == this->getId() )
+				if( self_candidate.get() == this )
 				{
 					PartOfComplex_inverse.erase( it_PartOfComplex_inverse );
 					break;

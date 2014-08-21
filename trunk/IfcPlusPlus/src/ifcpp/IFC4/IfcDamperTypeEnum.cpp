@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDamperTypeEnum.h"
 
-// TYPE IfcDamperTypeEnum 
+// TYPE IfcDamperTypeEnum = ENUMERATION OF	(BACKDRAFTDAMPER	,BALANCINGDAMPER	,BLASTDAMPER	,CONTROLDAMPER	,FIREDAMPER	,FIRESMOKEDAMPER	,FUMEHOODEXHAUST	,GRAVITYDAMPER	,GRAVITYRELIEFDAMPER	,RELIEFDAMPER	,SMOKEDAMPER	,USERDEFINED	,NOTDEFINED);
 IfcDamperTypeEnum::IfcDamperTypeEnum() {}
 IfcDamperTypeEnum::~IfcDamperTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDamperTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDamperTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDamperTypeEnum> copy_self( new IfcDamperTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -86,7 +86,7 @@ void IfcDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDamperTypeEnum> IfcDamperTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDamperTypeEnum> IfcDamperTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }

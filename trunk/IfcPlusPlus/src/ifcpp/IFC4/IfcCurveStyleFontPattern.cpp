@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,11 +27,11 @@
 IfcCurveStyleFontPattern::IfcCurveStyleFontPattern() {}
 IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int id ) { m_id = id; }
 IfcCurveStyleFontPattern::~IfcCurveStyleFontPattern() {}
-shared_ptr<IfcPPObject> IfcCurveStyleFontPattern::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCurveStyleFontPattern::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyleFontPattern> copy_self( new IfcCurveStyleFontPattern() );
-	if( m_VisibleSegmentLength ) { copy_self->m_VisibleSegmentLength = dynamic_pointer_cast<IfcLengthMeasure>( m_VisibleSegmentLength->getDeepCopy() ); }
-	if( m_InvisibleSegmentLength ) { copy_self->m_InvisibleSegmentLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InvisibleSegmentLength->getDeepCopy() ); }
+	if( m_VisibleSegmentLength ) { copy_self->m_VisibleSegmentLength = dynamic_pointer_cast<IfcLengthMeasure>( m_VisibleSegmentLength->getDeepCopy(options) ); }
+	if( m_InvisibleSegmentLength ) { copy_self->m_InvisibleSegmentLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InvisibleSegmentLength->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream ) const
@@ -45,12 +46,9 @@ void IfcCurveStyleFontPattern::getStepParameter( std::stringstream& stream, bool
 void IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyleFontPattern, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcCurveStyleFontPattern, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_VisibleSegmentLength = IfcLengthMeasure::createObjectFromStepData( args[0] );
-	m_InvisibleSegmentLength = IfcPositiveLengthMeasure::createObjectFromStepData( args[1] );
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyleFontPattern, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_VisibleSegmentLength = IfcLengthMeasure::createObjectFromSTEP( args[0] );
+	m_InvisibleSegmentLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 }
 void IfcCurveStyleFontPattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

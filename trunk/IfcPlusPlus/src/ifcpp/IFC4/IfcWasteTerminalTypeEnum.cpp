@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcWasteTerminalTypeEnum.h"
 
-// TYPE IfcWasteTerminalTypeEnum 
+// TYPE IfcWasteTerminalTypeEnum = ENUMERATION OF	(FLOORTRAP	,FLOORWASTE	,GULLYSUMP	,GULLYTRAP	,ROOFDRAIN	,WASTEDISPOSALUNIT	,WASTETRAP	,USERDEFINED	,NOTDEFINED);
 IfcWasteTerminalTypeEnum::IfcWasteTerminalTypeEnum() {}
 IfcWasteTerminalTypeEnum::~IfcWasteTerminalTypeEnum() {}
-shared_ptr<IfcPPObject> IfcWasteTerminalTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcWasteTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcWasteTerminalTypeEnum> copy_self( new IfcWasteTerminalTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -70,7 +70,7 @@ void IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }

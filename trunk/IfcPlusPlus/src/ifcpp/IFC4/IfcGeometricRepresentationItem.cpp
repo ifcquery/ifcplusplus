@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -26,7 +27,7 @@
 IfcGeometricRepresentationItem::IfcGeometricRepresentationItem() {}
 IfcGeometricRepresentationItem::IfcGeometricRepresentationItem( int id ) { m_id = id; }
 IfcGeometricRepresentationItem::~IfcGeometricRepresentationItem() {}
-shared_ptr<IfcPPObject> IfcGeometricRepresentationItem::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGeometricRepresentationItem::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGeometricRepresentationItem> copy_self( new IfcGeometricRepresentationItem() );
 	return copy_self;

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,17 +29,17 @@
 IfcVector::IfcVector() {}
 IfcVector::IfcVector( int id ) { m_id = id; }
 IfcVector::~IfcVector() {}
-shared_ptr<IfcPPObject> IfcVector::getDeepCopy()
+shared_ptr<IfcPPObject> IfcVector::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcVector> copy_self( new IfcVector() );
-	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy() ); }
-	if( m_Magnitude ) { copy_self->m_Magnitude = dynamic_pointer_cast<IfcLengthMeasure>( m_Magnitude->getDeepCopy() ); }
+	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy(options) ); }
+	if( m_Magnitude ) { copy_self->m_Magnitude = dynamic_pointer_cast<IfcLengthMeasure>( m_Magnitude->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcVector::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCVECTOR" << "(";
-	if( m_Orientation ) { stream << "#" << m_Orientation->getId(); } else { stream << "$"; }
+	if( m_Orientation ) { stream << "#" << m_Orientation->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Magnitude ) { m_Magnitude->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -47,12 +48,9 @@ void IfcVector::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcVector::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVector, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcVector, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcVector, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Orientation, map );
-	m_Magnitude = IfcLengthMeasure::createObjectFromStepData( args[1] );
+	m_Magnitude = IfcLengthMeasure::createObjectFromSTEP( args[1] );
 }
 void IfcVector::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

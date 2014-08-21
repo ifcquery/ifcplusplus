@@ -43,9 +43,9 @@ public:
 	IfcMechanicalFastenerTypeEnum( IfcMechanicalFastenerTypeEnumEnum e ) { m_enum = e; }
 	~IfcMechanicalFastenerTypeEnum();
 	virtual const char* classname() const { return "IfcMechanicalFastenerTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcMechanicalFastenerTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcMechanicalFastenerTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcMechanicalFastenerTypeEnumEnum m_enum;
 };
 

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -42,23 +43,31 @@
 IfcAsset::IfcAsset() {}
 IfcAsset::IfcAsset( int id ) { m_id = id; }
 IfcAsset::~IfcAsset() {}
-shared_ptr<IfcPPObject> IfcAsset::getDeepCopy()
+shared_ptr<IfcPPObject> IfcAsset::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcAsset> copy_self( new IfcAsset() );
-	if( m_GlobalId ) { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy() ); }
-	if( m_OwnerHistory ) { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy() ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy() ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy() ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy() ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy() ); }
-	if( m_OriginalValue ) { copy_self->m_OriginalValue = dynamic_pointer_cast<IfcCostValue>( m_OriginalValue->getDeepCopy() ); }
-	if( m_CurrentValue ) { copy_self->m_CurrentValue = dynamic_pointer_cast<IfcCostValue>( m_CurrentValue->getDeepCopy() ); }
-	if( m_TotalReplacementCost ) { copy_self->m_TotalReplacementCost = dynamic_pointer_cast<IfcCostValue>( m_TotalReplacementCost->getDeepCopy() ); }
-	if( m_Owner ) { copy_self->m_Owner = dynamic_pointer_cast<IfcActorSelect>( m_Owner->getDeepCopy() ); }
-	if( m_User ) { copy_self->m_User = dynamic_pointer_cast<IfcActorSelect>( m_User->getDeepCopy() ); }
-	if( m_ResponsiblePerson ) { copy_self->m_ResponsiblePerson = dynamic_pointer_cast<IfcPerson>( m_ResponsiblePerson->getDeepCopy() ); }
-	if( m_IncorporationDate ) { copy_self->m_IncorporationDate = dynamic_pointer_cast<IfcDate>( m_IncorporationDate->getDeepCopy() ); }
-	if( m_DepreciatedValue ) { copy_self->m_DepreciatedValue = dynamic_pointer_cast<IfcCostValue>( m_DepreciatedValue->getDeepCopy() ); }
+	if( m_GlobalId )
+	{
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) ); }
+		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
+	}
+	if( m_OwnerHistory )
+	{
+		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
+		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
+	}
+	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
+	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
+	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
+	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
+	if( m_OriginalValue ) { copy_self->m_OriginalValue = dynamic_pointer_cast<IfcCostValue>( m_OriginalValue->getDeepCopy(options) ); }
+	if( m_CurrentValue ) { copy_self->m_CurrentValue = dynamic_pointer_cast<IfcCostValue>( m_CurrentValue->getDeepCopy(options) ); }
+	if( m_TotalReplacementCost ) { copy_self->m_TotalReplacementCost = dynamic_pointer_cast<IfcCostValue>( m_TotalReplacementCost->getDeepCopy(options) ); }
+	if( m_Owner ) { copy_self->m_Owner = dynamic_pointer_cast<IfcActorSelect>( m_Owner->getDeepCopy(options) ); }
+	if( m_User ) { copy_self->m_User = dynamic_pointer_cast<IfcActorSelect>( m_User->getDeepCopy(options) ); }
+	if( m_ResponsiblePerson ) { copy_self->m_ResponsiblePerson = dynamic_pointer_cast<IfcPerson>( m_ResponsiblePerson->getDeepCopy(options) ); }
+	if( m_IncorporationDate ) { copy_self->m_IncorporationDate = dynamic_pointer_cast<IfcDate>( m_IncorporationDate->getDeepCopy(options) ); }
+	if( m_DepreciatedValue ) { copy_self->m_DepreciatedValue = dynamic_pointer_cast<IfcCostValue>( m_DepreciatedValue->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcAsset::getStepLine( std::stringstream& stream ) const
@@ -66,7 +75,7 @@ void IfcAsset::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCASSET" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->getId(); } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -76,44 +85,41 @@ void IfcAsset::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OriginalValue ) { stream << "#" << m_OriginalValue->getId(); } else { stream << "$"; }
+	if( m_OriginalValue ) { stream << "#" << m_OriginalValue->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_CurrentValue ) { stream << "#" << m_CurrentValue->getId(); } else { stream << "$"; }
+	if( m_CurrentValue ) { stream << "#" << m_CurrentValue->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TotalReplacementCost ) { stream << "#" << m_TotalReplacementCost->getId(); } else { stream << "$"; }
+	if( m_TotalReplacementCost ) { stream << "#" << m_TotalReplacementCost->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Owner ) { m_Owner->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_User ) { m_User->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ResponsiblePerson ) { stream << "#" << m_ResponsiblePerson->getId(); } else { stream << "$"; }
+	if( m_ResponsiblePerson ) { stream << "#" << m_ResponsiblePerson->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_IncorporationDate ) { m_IncorporationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DepreciatedValue ) { stream << "#" << m_DepreciatedValue->getId(); } else { stream << "$"; }
+	if( m_DepreciatedValue ) { stream << "#" << m_DepreciatedValue->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcAsset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<14 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>14 ){ std::cout << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_GlobalId = IfcGloballyUniqueId::createObjectFromStepData( args[0] );
+	if( num_args != 14 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
-	m_Name = IfcLabel::createObjectFromStepData( args[2] );
-	m_Description = IfcText::createObjectFromStepData( args[3] );
-	m_ObjectType = IfcLabel::createObjectFromStepData( args[4] );
-	m_Identification = IfcIdentifier::createObjectFromStepData( args[5] );
+	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
+	m_Description = IfcText::createObjectFromSTEP( args[3] );
+	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
+	m_Identification = IfcIdentifier::createObjectFromSTEP( args[5] );
 	readEntityReference( args[6], m_OriginalValue, map );
 	readEntityReference( args[7], m_CurrentValue, map );
 	readEntityReference( args[8], m_TotalReplacementCost, map );
-	m_Owner = IfcActorSelect::createObjectFromStepData( args[9], map );
-	m_User = IfcActorSelect::createObjectFromStepData( args[10], map );
+	m_Owner = IfcActorSelect::createObjectFromSTEP( args[9], map );
+	m_User = IfcActorSelect::createObjectFromSTEP( args[10], map );
 	readEntityReference( args[11], m_ResponsiblePerson, map );
-	m_IncorporationDate = IfcDate::createObjectFromStepData( args[12] );
+	m_IncorporationDate = IfcDate::createObjectFromSTEP( args[12] );
 	readEntityReference( args[13], m_DepreciatedValue, map );
 }
 void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

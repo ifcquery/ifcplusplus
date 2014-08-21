@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcDocumentStatusEnum.h"
 
-// TYPE IfcDocumentStatusEnum 
+// TYPE IfcDocumentStatusEnum = ENUMERATION OF	(DRAFT	,FINALDRAFT	,FINAL	,REVISION	,NOTDEFINED);
 IfcDocumentStatusEnum::IfcDocumentStatusEnum() {}
 IfcDocumentStatusEnum::~IfcDocumentStatusEnum() {}
-shared_ptr<IfcPPObject> IfcDocumentStatusEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcDocumentStatusEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcDocumentStatusEnum> copy_self( new IfcDocumentStatusEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcDocumentStatusEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcDocumentStatusEnum> IfcDocumentStatusEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcDocumentStatusEnum> IfcDocumentStatusEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentStatusEnum>(); }

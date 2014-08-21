@@ -21,15 +21,16 @@
 #include "IfcSimpleValue.h"
 
 // TYPE IfcDateTime = STRING;
-class IfcDateTime : public IfcSimpleValue, public IfcPPString
+class IfcDateTime : public IfcSimpleValue
 {
 public:
 	IfcDateTime();
 	IfcDateTime( std::wstring value );
 	~IfcDateTime();
 	virtual const char* classname() const { return "IfcDateTime"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDateTime> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcDateTime> createObjectFromSTEP( const std::wstring& arg );
+	std::wstring m_value;
 };
 

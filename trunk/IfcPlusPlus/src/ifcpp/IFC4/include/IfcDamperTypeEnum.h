@@ -44,9 +44,9 @@ public:
 	IfcDamperTypeEnum( IfcDamperTypeEnumEnum e ) { m_enum = e; }
 	~IfcDamperTypeEnum();
 	virtual const char* classname() const { return "IfcDamperTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcDamperTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcDamperTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcDamperTypeEnumEnum m_enum;
 };
 

@@ -25,13 +25,13 @@ class IfcIdentifier;
 class IfcLabel;
 class IfcExternalReferenceRelationship;
 //ENTITY
-class IfcExternalReference : public IfcLightDistributionDataSourceSelect, public IfcObjectReferenceSelect, public IfcResourceObjectSelect, public IfcPPEntity
+class IfcExternalReference : virtual public IfcLightDistributionDataSourceSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
 {
 public:
 	IfcExternalReference();
 	IfcExternalReference( int id );
 	~IfcExternalReference();
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );

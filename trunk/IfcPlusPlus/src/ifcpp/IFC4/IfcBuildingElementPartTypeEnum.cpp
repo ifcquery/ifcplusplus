@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBuildingElementPartTypeEnum.h"
 
-// TYPE IfcBuildingElementPartTypeEnum 
+// TYPE IfcBuildingElementPartTypeEnum = ENUMERATION OF	(INSULATION	,PRECASTPANEL	,USERDEFINED	,NOTDEFINED);
 IfcBuildingElementPartTypeEnum::IfcBuildingElementPartTypeEnum() {}
 IfcBuildingElementPartTypeEnum::~IfcBuildingElementPartTypeEnum() {}
-shared_ptr<IfcPPObject> IfcBuildingElementPartTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBuildingElementPartTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementPartTypeEnum> copy_self( new IfcBuildingElementPartTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcBuildingElementPartTypeEnum::getStepParameter( std::stringstream& stream
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }

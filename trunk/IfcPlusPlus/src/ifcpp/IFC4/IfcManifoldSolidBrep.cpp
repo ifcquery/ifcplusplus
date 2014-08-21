@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,26 +28,23 @@
 IfcManifoldSolidBrep::IfcManifoldSolidBrep() {}
 IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_id = id; }
 IfcManifoldSolidBrep::~IfcManifoldSolidBrep() {}
-shared_ptr<IfcPPObject> IfcManifoldSolidBrep::getDeepCopy()
+shared_ptr<IfcPPObject> IfcManifoldSolidBrep::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcManifoldSolidBrep> copy_self( new IfcManifoldSolidBrep() );
-	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy() ); }
+	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCMANIFOLDSOLIDBREP" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->getId(); } else { stream << "$"; }
+	if( m_Outer ) { stream << "#" << m_Outer->m_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcManifoldSolidBrep::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 }
 void IfcManifoldSolidBrep::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

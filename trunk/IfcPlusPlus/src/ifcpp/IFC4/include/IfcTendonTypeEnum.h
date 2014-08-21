@@ -37,9 +37,9 @@ public:
 	IfcTendonTypeEnum( IfcTendonTypeEnumEnum e ) { m_enum = e; }
 	~IfcTendonTypeEnum();
 	virtual const char* classname() const { return "IfcTendonTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy();
+	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	static shared_ptr<IfcTendonTypeEnum> createObjectFromStepData( const std::wstring& arg );
+	static shared_ptr<IfcTendonTypeEnum> createObjectFromSTEP( const std::wstring& arg );
 	IfcTendonTypeEnumEnum m_enum;
 };
 

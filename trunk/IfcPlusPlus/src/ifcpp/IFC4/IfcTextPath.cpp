@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcTextPath.h"
 
-// TYPE IfcTextPath 
+// TYPE IfcTextPath = ENUMERATION OF	(LEFT	,RIGHT	,UP	,DOWN);
 IfcTextPath::IfcTextPath() {}
 IfcTextPath::~IfcTextPath() {}
-shared_ptr<IfcPPObject> IfcTextPath::getDeepCopy()
+shared_ptr<IfcPPObject> IfcTextPath::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcTextPath> copy_self( new IfcTextPath() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcTextPath::getStepParameter( std::stringstream& stream, bool is_select_ty
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcTextPath> IfcTextPath::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcTextPath> IfcTextPath::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextPath>(); }

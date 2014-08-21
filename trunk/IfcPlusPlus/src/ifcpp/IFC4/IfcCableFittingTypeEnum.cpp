@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCableFittingTypeEnum.h"
 
-// TYPE IfcCableFittingTypeEnum 
+// TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
 IfcCableFittingTypeEnum::IfcCableFittingTypeEnum() {}
 IfcCableFittingTypeEnum::~IfcCableFittingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCableFittingTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCableFittingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCableFittingTypeEnum> copy_self( new IfcCableFittingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcCableFittingTypeEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }

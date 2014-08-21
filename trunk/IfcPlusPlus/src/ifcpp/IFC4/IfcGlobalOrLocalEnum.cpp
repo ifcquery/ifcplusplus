@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcGlobalOrLocalEnum.h"
 
-// TYPE IfcGlobalOrLocalEnum 
+// TYPE IfcGlobalOrLocalEnum = ENUMERATION OF	(GLOBAL_COORDS	,LOCAL_COORDS);
 IfcGlobalOrLocalEnum::IfcGlobalOrLocalEnum() {}
 IfcGlobalOrLocalEnum::~IfcGlobalOrLocalEnum() {}
-shared_ptr<IfcPPObject> IfcGlobalOrLocalEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcGlobalOrLocalEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcGlobalOrLocalEnum> copy_self( new IfcGlobalOrLocalEnum() );
 	copy_self->m_enum = m_enum;
@@ -42,7 +42,7 @@ void IfcGlobalOrLocalEnum::getStepParameter( std::stringstream& stream, bool is_
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }

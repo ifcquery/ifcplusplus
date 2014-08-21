@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSystemFurnitureElementTypeEnum.h"
 
-// TYPE IfcSystemFurnitureElementTypeEnum 
+// TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
 IfcSystemFurnitureElementTypeEnum::IfcSystemFurnitureElementTypeEnum() {}
 IfcSystemFurnitureElementTypeEnum::~IfcSystemFurnitureElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSystemFurnitureElementTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSystemFurnitureElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> copy_self( new IfcSystemFurnitureElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -50,7 +50,7 @@ void IfcSystemFurnitureElementTypeEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }

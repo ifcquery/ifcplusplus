@@ -27,11 +27,11 @@
 #include "include/IfcWarpingStiffnessSelect.h"
 #include "include/IfcBoolean.h"
 
-// TYPE IfcBoolean 
+// TYPE IfcBoolean = BOOLEAN;
 IfcBoolean::IfcBoolean() {}
 IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
 IfcBoolean::~IfcBoolean() {}
-shared_ptr<IfcPPObject> IfcBoolean::getDeepCopy()
+shared_ptr<IfcPPObject> IfcBoolean::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcBoolean> copy_self( new IfcBoolean() );
 	copy_self->m_value = m_value;
@@ -50,12 +50,12 @@ void IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_typ
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcBoolean> IfcBoolean::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcBoolean> IfcBoolean::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
 	shared_ptr<IfcBoolean> type_object( new IfcBoolean() );
-	type_object->readArgument( arg );
+	readBool( arg, type_object->m_value );
 	return type_object;
 }

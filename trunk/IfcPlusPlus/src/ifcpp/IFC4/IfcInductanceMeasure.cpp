@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcInductanceMeasure.h"
 
-// TYPE IfcInductanceMeasure 
+// TYPE IfcInductanceMeasure = REAL;
 IfcInductanceMeasure::IfcInductanceMeasure() {}
 IfcInductanceMeasure::IfcInductanceMeasure( double value ) { m_value = value; }
 IfcInductanceMeasure::~IfcInductanceMeasure() {}
-shared_ptr<IfcPPObject> IfcInductanceMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcInductanceMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcInductanceMeasure> copy_self( new IfcInductanceMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcInductanceMeasure::getStepParameter( std::stringstream& stream, bool is_
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
 	shared_ptr<IfcInductanceMeasure> type_object( new IfcInductanceMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

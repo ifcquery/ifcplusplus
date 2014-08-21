@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcActionTypeEnum.h"
 
-// TYPE IfcActionTypeEnum 
+// TYPE IfcActionTypeEnum = ENUMERATION OF	(PERMANENT_G	,VARIABLE_Q	,EXTRAORDINARY_A	,USERDEFINED	,NOTDEFINED);
 IfcActionTypeEnum::IfcActionTypeEnum() {}
 IfcActionTypeEnum::~IfcActionTypeEnum() {}
-shared_ptr<IfcPPObject> IfcActionTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcActionTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcActionTypeEnum> copy_self( new IfcActionTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -54,7 +54,7 @@ void IfcActionTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }

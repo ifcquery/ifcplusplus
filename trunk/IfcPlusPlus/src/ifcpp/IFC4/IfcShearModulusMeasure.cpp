@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcShearModulusMeasure.h"
 
-// TYPE IfcShearModulusMeasure 
+// TYPE IfcShearModulusMeasure = REAL;
 IfcShearModulusMeasure::IfcShearModulusMeasure() {}
 IfcShearModulusMeasure::IfcShearModulusMeasure( double value ) { m_value = value; }
 IfcShearModulusMeasure::~IfcShearModulusMeasure() {}
-shared_ptr<IfcPPObject> IfcShearModulusMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcShearModulusMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcShearModulusMeasure> copy_self( new IfcShearModulusMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcShearModulusMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcShearModulusMeasure> IfcShearModulusMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcShearModulusMeasure> IfcShearModulusMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcShearModulusMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShearModulusMeasure>(); }
 	shared_ptr<IfcShearModulusMeasure> type_object( new IfcShearModulusMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

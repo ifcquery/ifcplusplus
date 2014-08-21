@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,22 +28,23 @@
 IfcIndexedColourMap::IfcIndexedColourMap() {}
 IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_id = id; }
 IfcIndexedColourMap::~IfcIndexedColourMap() {}
-shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy()
+shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy() ); }
-	if( m_Overrides ) { copy_self->m_Overrides = dynamic_pointer_cast<IfcSurfaceStyleShading>( m_Overrides->getDeepCopy() ); }
-	if( m_Colours ) { copy_self->m_Colours = dynamic_pointer_cast<IfcColourRgbList>( m_Colours->getDeepCopy() ); }
+	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
+	if( m_Overrides ) { copy_self->m_Overrides = dynamic_pointer_cast<IfcSurfaceStyleShading>( m_Overrides->getDeepCopy(options) ); }
+	if( m_Colours ) { copy_self->m_Colours = dynamic_pointer_cast<IfcColourRgbList>( m_Colours->getDeepCopy(options) ); }
+	if( m_ColourIndex.size() > 0 ) { std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( copy_self->m_ColourIndex ) ); }
 	return copy_self;
 }
 void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCINDEXEDCOLOURMAP" << "(";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->getId(); } else { stream << "$"; }
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Overrides ) { stream << "#" << m_Overrides->getId(); } else { stream << "$"; }
+	if( m_Overrides ) { stream << "#" << m_Overrides->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Colours ) { stream << "#" << m_Colours->getId(); } else { stream << "$"; }
+	if( m_Colours ) { stream << "#" << m_Colours->m_id; } else { stream << "$"; }
 	stream << ",";
 	writeIntList( stream, m_ColourIndex );
 	stream << ");";
@@ -51,10 +53,7 @@ void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) co
 void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_MappedTo, map );
 	readEntityReference( args[1], m_Overrides, map );
 	readEntityReference( args[2], m_Colours, map );
@@ -71,7 +70,7 @@ void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shar
 		shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_obj( new IfcPPAttributeObjectVector() );
 		for( size_t i=0; i<m_ColourIndex.size(); ++i )
 		{
-			ColourIndex_vec_obj->m_vec.push_back( shared_ptr<IfcPPInt>( new IfcPPInt(m_ColourIndex[i] ) ) );
+			ColourIndex_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_ColourIndex[i] ) ) );
 		}
 		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_obj ) );
 	}
@@ -96,11 +95,10 @@ void IfcIndexedColourMap::unlinkSelf()
 	if( m_MappedTo )
 	{
 		std::vector<weak_ptr<IfcIndexedColourMap> >& HasColours_inverse = m_MappedTo->m_HasColours_inverse;
-		std::vector<weak_ptr<IfcIndexedColourMap> >::iterator it_HasColours_inverse;
-		for( it_HasColours_inverse = HasColours_inverse.begin(); it_HasColours_inverse != HasColours_inverse.end(); ++it_HasColours_inverse)
+		for( auto it_HasColours_inverse = HasColours_inverse.begin(); it_HasColours_inverse != HasColours_inverse.end(); ++it_HasColours_inverse)
 		{
 			shared_ptr<IfcIndexedColourMap> self_candidate( *it_HasColours_inverse );
-			if( self_candidate->getId() == this->getId() )
+			if( self_candidate.get() == this )
 			{
 				HasColours_inverse.erase( it_HasColours_inverse );
 				break;

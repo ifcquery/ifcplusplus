@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -25,7 +26,7 @@
 IfcPresentationStyleAssignment::IfcPresentationStyleAssignment() {}
 IfcPresentationStyleAssignment::IfcPresentationStyleAssignment( int id ) { m_id = id; }
 IfcPresentationStyleAssignment::~IfcPresentationStyleAssignment() {}
-shared_ptr<IfcPPObject> IfcPresentationStyleAssignment::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPresentationStyleAssignment::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPresentationStyleAssignment> copy_self( new IfcPresentationStyleAssignment() );
 	for( size_t ii=0; ii<m_Styles.size(); ++ii )
@@ -33,7 +34,7 @@ shared_ptr<IfcPPObject> IfcPresentationStyleAssignment::getDeepCopy()
 		auto item_ii = m_Styles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcPresentationStyleSelect>(item_ii->getDeepCopy() ) );
+			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcPresentationStyleSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -48,10 +49,7 @@ void IfcPresentationStyleAssignment::getStepParameter( std::stringstream& stream
 void IfcPresentationStyleAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationStyleAssignment, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>1 ){ std::cout << "Wrong parameter count for entity IfcPresentationStyleAssignment, expecting 1, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationStyleAssignment, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readSelectList( args[0], m_Styles, map );
 }
 void IfcPresentationStyleAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

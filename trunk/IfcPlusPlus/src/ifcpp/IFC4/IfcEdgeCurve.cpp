@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -28,23 +29,23 @@
 IfcEdgeCurve::IfcEdgeCurve() {}
 IfcEdgeCurve::IfcEdgeCurve( int id ) { m_id = id; }
 IfcEdgeCurve::~IfcEdgeCurve() {}
-shared_ptr<IfcPPObject> IfcEdgeCurve::getDeepCopy()
+shared_ptr<IfcPPObject> IfcEdgeCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcEdgeCurve> copy_self( new IfcEdgeCurve() );
-	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy() ); }
-	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy() ); }
-	if( m_EdgeGeometry ) { copy_self->m_EdgeGeometry = dynamic_pointer_cast<IfcCurve>( m_EdgeGeometry->getDeepCopy() ); }
+	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
+	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy(options) ); }
+	if( m_EdgeGeometry ) { copy_self->m_EdgeGeometry = dynamic_pointer_cast<IfcCurve>( m_EdgeGeometry->getDeepCopy(options) ); }
 	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
 	return copy_self;
 }
 void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCEDGECURVE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->getId(); } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->getId(); } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeGeometry ) { stream << "#" << m_EdgeGeometry->getId(); } else { stream << "$"; }
+	if( m_EdgeGeometry ) { stream << "#" << m_EdgeGeometry->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense == false ) { stream << ".F."; }
 	else if( m_SameSense == true ) { stream << ".T."; }
@@ -54,10 +55,7 @@ void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEdgeCurve, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>4 ){ std::cout << "Wrong parameter count for entity IfcEdgeCurve, expecting 4, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEdgeCurve, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeGeometry, map );
@@ -68,7 +66,7 @@ void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeGeometry", m_EdgeGeometry ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", shared_ptr<IfcPPBool>( new IfcPPBool( m_SameSense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SameSense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_SameSense ) ) ) );
 }
 void IfcEdgeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -31,17 +32,17 @@
 IfcCShapeProfileDef::IfcCShapeProfileDef() {}
 IfcCShapeProfileDef::IfcCShapeProfileDef( int id ) { m_id = id; }
 IfcCShapeProfileDef::~IfcCShapeProfileDef() {}
-shared_ptr<IfcPPObject> IfcCShapeProfileDef::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCShapeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCShapeProfileDef> copy_self( new IfcCShapeProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy() ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy() ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy() ); }
-	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy() ); }
-	if( m_Width ) { copy_self->m_Width = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Width->getDeepCopy() ); }
-	if( m_WallThickness ) { copy_self->m_WallThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WallThickness->getDeepCopy() ); }
-	if( m_Girth ) { copy_self->m_Girth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Girth->getDeepCopy() ); }
-	if( m_InternalFilletRadius ) { copy_self->m_InternalFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_InternalFilletRadius->getDeepCopy() ); }
+	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
+	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
+	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy(options) ); }
+	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy(options) ); }
+	if( m_Width ) { copy_self->m_Width = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Width->getDeepCopy(options) ); }
+	if( m_WallThickness ) { copy_self->m_WallThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WallThickness->getDeepCopy(options) ); }
+	if( m_Girth ) { copy_self->m_Girth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Girth->getDeepCopy(options) ); }
+	if( m_InternalFilletRadius ) { copy_self->m_InternalFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_InternalFilletRadius->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
@@ -51,7 +52,7 @@ void IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->getId(); } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -68,18 +69,15 @@ void IfcCShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) co
 void IfcCShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCShapeProfileDef, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>8 ){ std::cout << "Wrong parameter count for entity IfcCShapeProfileDef, expecting 8, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
-	m_ProfileType = IfcProfileTypeEnum::createObjectFromStepData( args[0] );
-	m_ProfileName = IfcLabel::createObjectFromStepData( args[1] );
+	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCShapeProfileDef, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
+	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Position, map );
-	m_Depth = IfcPositiveLengthMeasure::createObjectFromStepData( args[3] );
-	m_Width = IfcPositiveLengthMeasure::createObjectFromStepData( args[4] );
-	m_WallThickness = IfcPositiveLengthMeasure::createObjectFromStepData( args[5] );
-	m_Girth = IfcPositiveLengthMeasure::createObjectFromStepData( args[6] );
-	m_InternalFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromStepData( args[7] );
+	m_Depth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3] );
+	m_Width = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4] );
+	m_WallThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5] );
+	m_Girth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[6] );
+	m_InternalFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7] );
 }
 void IfcCShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

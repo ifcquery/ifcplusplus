@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcCompressorTypeEnum.h"
 
-// TYPE IfcCompressorTypeEnum 
+// TYPE IfcCompressorTypeEnum = ENUMERATION OF	(DYNAMIC	,RECIPROCATING	,ROTARY	,SCROLL	,TROCHOIDAL	,SINGLESTAGE	,BOOSTER	,OPENTYPE	,HERMETIC	,SEMIHERMETIC	,WELDEDSHELLHERMETIC	,ROLLINGPISTON	,ROTARYVANE	,SINGLESCREW	,TWINSCREW	,USERDEFINED	,NOTDEFINED);
 IfcCompressorTypeEnum::IfcCompressorTypeEnum() {}
 IfcCompressorTypeEnum::~IfcCompressorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCompressorTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcCompressorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcCompressorTypeEnum> copy_self( new IfcCompressorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -102,7 +102,7 @@ void IfcCompressorTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcCompressorTypeEnum> IfcCompressorTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcCompressorTypeEnum> IfcCompressorTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }

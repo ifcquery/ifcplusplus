@@ -21,11 +21,11 @@
 #include "include/IfcMeasureValue.h"
 #include "include/IfcNumericMeasure.h"
 
-// TYPE IfcNumericMeasure 
+// TYPE IfcNumericMeasure = NUMBER;
 IfcNumericMeasure::IfcNumericMeasure() {}
 IfcNumericMeasure::IfcNumericMeasure( int value ) { m_value = value; }
 IfcNumericMeasure::~IfcNumericMeasure() {}
-shared_ptr<IfcPPObject> IfcNumericMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcNumericMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcNumericMeasure> copy_self( new IfcNumericMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcNumericMeasure::getStepParameter( std::stringstream& stream, bool is_sel
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	shared_ptr<IfcNumericMeasure> type_object( new IfcNumericMeasure() );
-	type_object->readArgument( arg );
+	readInt( arg, type_object->m_value );
 	return type_object;
 }

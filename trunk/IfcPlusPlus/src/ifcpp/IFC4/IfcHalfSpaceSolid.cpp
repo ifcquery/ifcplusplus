@@ -15,6 +15,7 @@
 
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPAttributeObject.h"
+#include "ifcpp/model/IfcPPGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
@@ -27,17 +28,17 @@
 IfcHalfSpaceSolid::IfcHalfSpaceSolid() {}
 IfcHalfSpaceSolid::IfcHalfSpaceSolid( int id ) { m_id = id; }
 IfcHalfSpaceSolid::~IfcHalfSpaceSolid() {}
-shared_ptr<IfcPPObject> IfcHalfSpaceSolid::getDeepCopy()
+shared_ptr<IfcPPObject> IfcHalfSpaceSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcHalfSpaceSolid> copy_self( new IfcHalfSpaceSolid() );
-	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy() ); }
+	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy(options) ); }
 	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = m_AgreementFlag; }
 	return copy_self;
 }
 void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCHALFSPACESOLID" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->getId(); } else { stream << "$"; }
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_AgreementFlag == false ) { stream << ".F."; }
 	else if( m_AgreementFlag == true ) { stream << ".T."; }
@@ -47,10 +48,7 @@ void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcHalfSpaceSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args<2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcHalfSpaceSolid, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; throw IfcPPException( strserr.str().c_str() ); }
-	#ifdef _DEBUG
-	if( num_args>2 ){ std::cout << "Wrong parameter count for entity IfcHalfSpaceSolid, expecting 2, having " << num_args << ". Object id: " << getId() << std::endl; }
-	#endif
+	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcHalfSpaceSolid, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_AgreementFlag = false; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_AgreementFlag = true; }
@@ -59,7 +57,7 @@ void IfcHalfSpaceSolid::getAttributes( std::vector<std::pair<std::string, shared
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BaseSurface", m_BaseSurface ) );
-	vec_attributes.push_back( std::make_pair( "AgreementFlag", shared_ptr<IfcPPBool>( new IfcPPBool( m_AgreementFlag ) ) ) );
+	vec_attributes.push_back( std::make_pair( "AgreementFlag", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_AgreementFlag ) ) ) );
 }
 void IfcHalfSpaceSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

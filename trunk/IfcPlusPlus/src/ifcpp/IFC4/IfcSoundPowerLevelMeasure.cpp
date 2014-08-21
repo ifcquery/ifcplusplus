@@ -21,11 +21,11 @@
 #include "include/IfcDerivedMeasureValue.h"
 #include "include/IfcSoundPowerLevelMeasure.h"
 
-// TYPE IfcSoundPowerLevelMeasure 
+// TYPE IfcSoundPowerLevelMeasure = REAL;
 IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure() {}
 IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure( double value ) { m_value = value; }
 IfcSoundPowerLevelMeasure::~IfcSoundPowerLevelMeasure() {}
-shared_ptr<IfcPPObject> IfcSoundPowerLevelMeasure::getDeepCopy()
+shared_ptr<IfcPPObject> IfcSoundPowerLevelMeasure::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSoundPowerLevelMeasure> copy_self( new IfcSoundPowerLevelMeasure() );
 	copy_self->m_value = m_value;
@@ -37,12 +37,12 @@ void IfcSoundPowerLevelMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcSoundPowerLevelMeasure> IfcSoundPowerLevelMeasure::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcSoundPowerLevelMeasure> IfcSoundPowerLevelMeasure::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
 	shared_ptr<IfcSoundPowerLevelMeasure> type_object( new IfcSoundPowerLevelMeasure() );
-	type_object->readArgument( arg );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

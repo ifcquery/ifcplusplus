@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcPileConstructionEnum.h"
 
-// TYPE IfcPileConstructionEnum 
+// TYPE IfcPileConstructionEnum = ENUMERATION OF	(CAST_IN_PLACE	,COMPOSITE	,PRECAST_CONCRETE	,PREFAB_STEEL	,USERDEFINED	,NOTDEFINED);
 IfcPileConstructionEnum::IfcPileConstructionEnum() {}
 IfcPileConstructionEnum::~IfcPileConstructionEnum() {}
-shared_ptr<IfcPPObject> IfcPileConstructionEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcPileConstructionEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcPileConstructionEnum> copy_self( new IfcPileConstructionEnum() );
 	copy_self->m_enum = m_enum;
@@ -58,7 +58,7 @@ void IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool 
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }

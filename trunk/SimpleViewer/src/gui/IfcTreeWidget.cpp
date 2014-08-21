@@ -56,7 +56,7 @@ void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >
 
 	// take the first object from map and highlight it
 	shared_ptr<IfcPPEntity>& object = (*(map.begin())).second;
-	int selected_id = object->getId();
+	int selected_id = object->m_id;
 
 	for( int i=0; i<topLevelItemCount(); ++i )
 	{
@@ -131,11 +131,11 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 	shared_ptr<IfcObjectDefinition> obj_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
 	if( obj_def )
 	{
-		if( set_visited.find( obj_def->getId() ) != set_visited.end() )
+		if( set_visited.find( obj_def->m_id ) != set_visited.end() )
 		{
 			return nullptr;
 		}
-		set_visited.insert( obj_def->getId() );
+		set_visited.insert( obj_def->m_id );
 
 
 		item = new QTreeWidgetItem();
@@ -148,7 +148,7 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 			}
 		}
 
-		item->setText( 1, QString::number( obj_def->getId() ) );
+		item->setText( 1, QString::number( obj_def->m_id ) );
 		item->setText( 2, obj_def->classname() );
 
 		if( obj_def->m_IsDecomposedBy_inverse.size() > 0 )

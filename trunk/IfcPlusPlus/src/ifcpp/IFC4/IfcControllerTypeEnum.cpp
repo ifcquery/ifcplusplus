@@ -20,10 +20,10 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcControllerTypeEnum.h"
 
-// TYPE IfcControllerTypeEnum 
+// TYPE IfcControllerTypeEnum = ENUMERATION OF	(FLOATING	,PROGRAMMABLE	,PROPORTIONAL	,MULTIPOSITION	,TWOPOSITION	,USERDEFINED	,NOTDEFINED);
 IfcControllerTypeEnum::IfcControllerTypeEnum() {}
 IfcControllerTypeEnum::~IfcControllerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcControllerTypeEnum::getDeepCopy()
+shared_ptr<IfcPPObject> IfcControllerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcControllerTypeEnum> copy_self( new IfcControllerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -62,7 +62,7 @@ void IfcControllerTypeEnum::getStepParameter( std::stringstream& stream, bool is
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromStepData( const std::wstring& arg )
+shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromSTEP( const std::wstring& arg )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
