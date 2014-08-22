@@ -612,7 +612,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			shared_ptr<IfcPoint> point = dynamic_pointer_cast<IfcPoint>( geom_select );
 			if( point )
 			{
-
+				// TODO: implement
 				continue;
 			}
 

@@ -121,7 +121,7 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 				sement12.normalize();
 				sement23.normalize();
 				double dot_angle = dot( sement12, sement23 );
-				if( abs( abs( dot_angle ) - 1.0 ) < 0.001 )
+				if( std::abs( std::abs( dot_angle ) - 1.0 ) < 0.001 )
 				{
 					// edges are in line
 					if( v1 == v3 )
@@ -171,7 +171,7 @@ void mergeAlignedEdges( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::me
 
 
 					double dot_face_angle = dot( normal_face_i, normal_face_i_rev );
-					if( abs( dot_face_angle - 1.0 ) > 0.001 )
+					if( std::abs( dot_face_angle - 1.0 ) > 0.001 )
 					{
 						std::cout << __func__ << ": abs( dot_face_angle - 1.0 ) > 0.001" << std::endl;
 					}

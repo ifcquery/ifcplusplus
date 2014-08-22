@@ -79,16 +79,10 @@ public:
 	void addItemData( shared_ptr<ItemData>& other );
 };
 
-struct PlacementData
-{
-	std::set<int> placement_already_applied;
-	carve::math::Matrix pos;
-};
-
 class ShapeInputData
 {
 public:
-	ShapeInputData() { added_to_storey = false; }
+	ShapeInputData() { added_to_node = false; }
 	~ShapeInputData() {}
 
 	void addInputData( shared_ptr<ShapeInputData>& other );
@@ -104,7 +98,7 @@ public:
 	osg::ref_ptr<osg::Switch>	product_switch;
 	osg::ref_ptr<osg::Switch>	product_switch_curves;
 	std::vector<shared_ptr<ItemData> >			vec_item_data;
-	bool added_to_storey;
+	bool added_to_node;
 	std::wstring representation_identifier;
 	std::wstring representation_type;
 
