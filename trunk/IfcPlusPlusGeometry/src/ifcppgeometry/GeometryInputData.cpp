@@ -166,6 +166,7 @@ shared_ptr<ItemData> ItemData::getDeepCopy()
 	return copy_item;
 }
 
+// ShapeInputData /////////////////////
 void ShapeInputData::addInputData( shared_ptr<ShapeInputData>& other )
 {
 	std::copy( other->vec_item_data.begin(), other->vec_item_data.end(), std::back_inserter( vec_item_data ) );
@@ -224,12 +225,12 @@ void ShapeInputData::clearAll()
 		product_switch_curves->removeChildren( 0, product_switch_curves->getNumChildren() );
 	}
 	vec_item_data.clear();
-	added_to_storey = false;
+	added_to_node = false;
 	representation_identifier = L"";
 	representation_type = L"";
 }
 
-// PolyInputCache
+// PolyInputCache3D ///////////////////////
 PolyInputCache3D::PolyInputCache3D()
 {
 	m_poly_data = shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData() );

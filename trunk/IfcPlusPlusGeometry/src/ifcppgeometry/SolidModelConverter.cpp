@@ -468,7 +468,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		}
 
 		double signed_area = carve::geom2d::signedArea( profile_loop_unchecked );
-		if( abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
 			strs_err << __func__ << ": abs( signed_area ) < 0.001. Entity ID: " << revolved_area->m_id << std::endl;

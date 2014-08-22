@@ -799,7 +799,7 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 		}
 
 		double signed_area = carve::geom2d::signedArea( path_loop_2d );
-		if( abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
 			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
@@ -1012,7 +1012,7 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
 			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
@@ -1680,7 +1680,7 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < 0.000001 )
 		{
 #ifdef _DEBUG
 			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
@@ -2152,15 +2152,15 @@ void GeomUtils::computeInverse( const carve::math::Matrix& matrix_a, carve::math
 	s = 0;
 	do
 	{
-		max = fabs(a[s][s]);
+		max = std::abs(a[s][s]);
 		if( pivot )
 		{
 			prow = s;
 			for( i = s+1; i < 4; ++i )
 			{
-				if( fabs(a[i][s]) > max)
+				if( std::abs(a[i][s]) > max)
 				{
-					max = fabs(a[i][s]);
+					max = std::abs(a[i][s]);
 					prow = i;
 				}
 			}

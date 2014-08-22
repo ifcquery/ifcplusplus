@@ -232,7 +232,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 					// TODO: if face f1 is much bigger than the adjacent face f2, use f1->plane.N as normals for all its vertices
 					carve::geom::vector<3> f1_normal = f->plane.N;
 					double cos_angle = dot( f1_normal, face_normal );
-					if( abs( cos_angle - 1.0 ) < intermediate_normal_angle )
+					if( std::abs( cos_angle - 1.0 ) < intermediate_normal_angle )
 					{
 						intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
 						intermediate_normal.normalize();

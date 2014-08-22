@@ -256,6 +256,7 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
 
 		bool create_geometry = true;
+		// if the user value is not set, create_geometry remains true (default)
 		options->getUserValue( "createGeometry", create_geometry );
 
 		if( create_geometry )
@@ -419,7 +420,7 @@ void ReaderWriterIFC::createGeometry()
 		{
 			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
 			shared_ptr<IfcProduct> ifc_product = product_shape->ifc_product;
-			if( !product_shape->added_to_storey )
+			if( !product_shape->added_to_node )
 			{
 				shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
 				if( opening )
@@ -439,7 +440,7 @@ void ReaderWriterIFC::createGeometry()
 					group_outside_spatial_structure->addChild( product_switch_curves );
 				}
 
-				product_shape->added_to_storey = true;
+				product_shape->added_to_node = true;
 				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->m_id, ifc_product ) );
 			}
 		}
@@ -483,11 +484,11 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 	m_map_visited[entity_id] = parent_obj_def;
 
 	osg::Group* item_grp = nullptr;
-
 	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>( parent_obj_def );
 	if( building_storey )
 	{
-		int building_storey_id = building_storey->m_id;
+		// building storeys need a switch and also a transform node
+		const int building_storey_id = building_storey->m_id;
 		osg::Switch* switch_building_storey = new osg::Switch();
 		if( !switch_building_storey )
 		{
@@ -509,7 +510,6 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		transform_building_storey->setName( storey_name.str().c_str() );
 
 		item_grp = transform_building_storey;
-		parent_group->addChild( switch_building_storey );
 	}
 
 	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( parent_obj_def );
@@ -520,12 +520,11 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		{
 			shared_ptr<ShapeInputData>& product_shape = it_product_map->second;
 
-			if( product_shape->added_to_storey )
+			if( product_shape->added_to_node )
 			{
-				std::cout << "already product_shape->added_to_storey" << std::endl;
+				std::cout << "already product_shape->added_to_node" << std::endl;
 			}
-			product_shape->added_to_storey = true;
-			bool item_added_to_parent = false;
+			product_shape->added_to_node = true;
 
 			osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
 			if( product_switch.valid() )
@@ -538,8 +537,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 				{
 					item_grp->addChild( product_switch );
 				}
-				parent_group->addChild( item_grp );
-				item_added_to_parent = true;
+
 			}
 
 			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
@@ -553,10 +551,6 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 				{
 					item_grp->addChild( product_switch_curves );
 				}
-				if( !item_added_to_parent )
-				{
-					parent_group->addChild( item_grp );
-				}
 			}
 		}
 	}
@@ -568,8 +562,9 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		{
 			throw IfcPPException( "out of memory", __FUNC__ );
 		}
-		parent_group->addChild( item_grp );
 	}
+
+	parent_group->addChild( item_grp );
 
 	if( item_grp->getName().size() < 1 )
 	{
@@ -629,6 +624,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 			}
 		}
 	}
+
 }
 
 
@@ -651,7 +647,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		throw IfcPPException( "out of memory", __FUNC__ );
 	}
 	std::stringstream group_name;
-	group_name << "#" << product_id << "=IfcProduct group";
+	group_name << "#" << product_id << "=" << product->classname() << " group";
 	product_switch->setName( group_name.str().c_str() );
 	product_switch_curves->setName( "CurveRepresentation" );
 
