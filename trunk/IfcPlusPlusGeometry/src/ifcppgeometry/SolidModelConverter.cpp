@@ -1274,20 +1274,24 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 			shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
 			GeomUtils::extrude( paths, carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), poly_data, err );
 
-			const int num_poly_boundary_points = polygonal_boundary.size();
-			if( poly_data->points.size() != 2*num_poly_boundary_points )
+			
+			const size_t num_poly_points = poly_data->points.size();
+			if( num_poly_points % 2 )
 			{
-				strs_err << __FUNC__ << " problems in extrude: poly_data->points.size() != 2*polygonal_boundary.size(). Entity ID: " << polygonal_half_space->m_id << std::endl;
+				// num_poly_points is odd
+				strs_err << __FUNC__ << ", problems in extrude: num_poly_points should be an even number. Entity ID: " << polygonal_half_space->m_id << std::endl;
 				return;
 			}
+
+			const size_t num_poly_boundary_points = num_poly_points / 2;
 
 			// apply position of PolygonalBoundary
 			GeomUtils::applyPosition( poly_data, boundary_position_matrix );
 
 			// project to base surface
-			for( int i_base_point = 0; i_base_point < poly_data->points.size(); ++i_base_point )
+			for( size_t i_base_point = 0; i_base_point < poly_data->points.size(); ++i_base_point )
 			{
-				carve::geom::vector<3>& poly_point = poly_data->points[i_base_point];//(*it_points);
+				carve::geom::vector<3>& poly_point = poly_data->points[i_base_point];
 
 				// points below the base surface are projected into plane
 				carve::geom::vector<3> v;
