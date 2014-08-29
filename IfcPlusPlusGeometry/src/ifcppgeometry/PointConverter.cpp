@@ -114,8 +114,13 @@ void PointConverter::convertIfcCartesianPointVector( const std::vector<shared_pt
 	const size_t num_points = points.size();
 	for( size_t i_point=0; i_point < num_points; ++i_point )
 	{
-		const std::vector<shared_ptr<IfcLengthMeasure> >& coords = points[i_point]->m_Coordinates;
+		const shared_ptr<IfcCartesianPoint>& ifc_cartesian_point = points[i_point];
+		if( !ifc_cartesian_point )
+		{
+			continue;
+		}
 
+		const std::vector<shared_ptr<IfcLengthMeasure> >& coords = ifc_cartesian_point->m_Coordinates;
 		if( coords.size() > 2  )
 		{
 			// round to 0.1 mm
