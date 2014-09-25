@@ -17,6 +17,11 @@ message(STATUS "source: " ${CARVE_SOURCE_DIR})
 message(STATUS "binary: " ${CARVE_BINARY_DIR})
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include)
+set(HAVE_TR1_UNORDERED_COLLECTIONS FALSE)set(HAVE_STD_UNORDERED_COLLECTIONS FALSE)set(HAVE_LIBSTDCPP_UNORDERED_COLLECTIONS FALSE)set(HAVE_BOOST_UNORDERED_COLLECTIONS FALSE)if(CARVE_SYSTEM_BOOST)	find_package(Boost 1.40)	if(Boost_FOUND)		include_directories(${Boost_INCLUDE_DIRS})		message(STATUS "Using system boost")	else(Boost_FOUND)		set(CARVE_SYSTEM_BOOST OFF)	endif(Boost_FOUND)endif(CARVE_SYSTEM_BOOST)if(CARVE_BOOST_COLLECTIONS)	set(HAVE_BOOST_UNORDERED_COLLECTIONS TRUE)else(CARVE_BOOST_COLLECTIONS)	# attempt to work out which unordered collection implementation we can use	try_compile(_HAVE_STD_UNORDERED_COLLECTIONS ${CMAKE_BINARY_DIR} "${carve_SOURCE_DIR}/cmake/test_std_unordered.cpp" OUTPUT_VARIABLE OUTPUT)	try_compile(_HAVE_TR1_UNORDERED_COLLECTIONS ${CMAKE_BINARY_DIR} "${carve_SOURCE_DIR}/cmake/test_tr1_unordered.cpp" OUTPUT_VARIABLE OUTPUT)
+	try_compile(_HAVE_LIBSTDCPP_UNORDERED_COLLECTIONS ${CMAKE_BINARY_DIR} "${carve_SOURCE_DIR}/cmake/test_libstdcpp_unordered.cpp" OUTPUT_VARIABLE OUTPUT)
+	if(_HAVE_STD_UNORDERED_COLLECTIONS)		set(HAVE_STD_UNORDERED_COLLECTIONS TRUE)
+		message(STATUS "Using std::unordered_map")	elseif(_HAVE_TR1_UNORDERED_COLLECTIONS)		set(HAVE_TR1_UNORDERED_COLLECTIONS TRUE)		message(STATUS "Using tr1::unordered_map")	elseif(_HAVE_LIBSTDCPP_UNORDERED_COLLECTIONS)		set(HAVE_LIBSTDCPP_UNORDERED_COLLECTIONS TRUE)		message(STATUS "Using __gnu_cxx::unordered_map ")	endif(_HAVE_STD_UNORDERED_COLLECTIONS)endif(CARVE_BOOST_COLLECTIONS)
+set(carve_VERSION_MAJOR 2)set(carve_VERSION_MINOR 0)set(carve_VERSION_PATCH 0a)set(CARVE_VERSION ${carve_VERSION_MAJOR}.${carve_VERSION_MINOR}.${carve_VERSION_PATCH})
 
 configure_file (
   "${CARVE_SOURCE_DIR}/src/include/carve/cmake-config.h.in"
@@ -25,17 +30,6 @@ configure_file (
 add_definitions(-DCMAKE_BUILD)
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_BINARY_DIR}/include) # For the generated Config file
-
-
-find_package(Boost 1.53)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-  message(STATUS "Using Boost libraries for Carve")
-else(Boost_FOUND)
-  message(FATAL_ERROR "Could not find Boost libraries for Carve")
-endif(Boost_FOUND)
-add_definitions(-DCARVE_SYSTEM_BOOST)
-
 
 set(CARVE_SOURCE_FILES 
   src/lib/aabb.cpp

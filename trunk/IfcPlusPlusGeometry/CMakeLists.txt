@@ -56,7 +56,6 @@ if(Boost_FOUND)
 else(Boost_FOUND)
   message(FATAL_ERROR "Could not find Boost libraries for Carve")
 endif(Boost_FOUND)
-add_definitions(-DCARVE_SYSTEM_BOOST)
 
 # Carve library
 message(STATUS "IfcPlusPlusGeometry: directories of Carve")
@@ -65,7 +64,7 @@ message(STATUS "binary: " ${CARVE_BINARY_DIR})
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src)
-INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/common)
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/common) # When using Carve as an external dependencyINCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/common) # When using the supplied Carve source code
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include)
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_BINARY_DIR}/include) # For the generated Config file
 
