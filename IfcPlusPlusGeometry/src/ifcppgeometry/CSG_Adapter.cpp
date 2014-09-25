@@ -730,8 +730,6 @@ void CSG_Adapter::simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, b
 }
 
 
-
-
 void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation,
 	const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result )
 {
@@ -750,7 +748,7 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 		return;
 	}
 
-	bool csg_op_ok = true;
+	std::string error_message;
 	try
 	{
 		bool meshset1_ok = CSG_Adapter::checkMeshSetValidAndClosed( op1.get(), err, entity1 );
@@ -879,10 +877,7 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 		}
 		else
 		{
-			csg_op_ok = false;
-#ifdef _DEBUG
-			std::cout << "csg.compute result nok ok." << std::endl;
-#endif
+			error_message.append( "csg.compute result not ok.\n" );
 		}
 
 		if( translate_avoid_large_numbers.length2() > 1000.0 )
@@ -903,32 +898,27 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 #endif
 	catch( carve::exception& ce )
 	{
-		err << "csg operation failed, Entity ID 1: " << entity1 << ", Entity ID 2:" << entity2 << ", ";
-		err << ce.str() << std::endl;
-		csg_op_ok = false;
+		error_message.append( ce.str() );
 	}
 	catch( const std::out_of_range& oor )
 	{
-		err << "csg operation failed, Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << ", ";
-		err << oor.what() << std::endl;
-		csg_op_ok = false;
+		error_message.append( oor.what() );
 	}
 	catch( std::exception& e )
 	{
-		err << "csg operation failed, Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << ", ";
-		err << e.what() << std::endl;
-		csg_op_ok = false;
+		error_message.append( e.what() );
 	}
 	catch( ... )
 	{
-		err << "csg operation failed, Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << std::endl;
-		csg_op_ok = false;
+		error_message.append( "exception occured." );
 	}
 
-#ifdef _DEBUG
-	if( !csg_op_ok )
+
+
+	if( error_message.size() > 0 )
 	{
-		std::cout << "!csg_operation_ok. Entity ID 1:" << entity1 << ", Entity ID 2:" << entity2 << std::endl;
+#ifdef _DEBUG
+		err << "csg operation failed, Entity ID 1: " << entity1 << ", Entity ID 2:" << entity2 << ", " << error_message << std::endl;
 
 		shared_ptr<carve::mesh::MeshSet<3> > op1_copy( op1->clone() );
 		//CSG_Adapter::applyTranslate( op1_copy.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
@@ -947,11 +937,8 @@ void CSG_Adapter::computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_
 			CSG_Adapter::dumpMeshset( result_copy.get(), carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 ), true );
 			dump_y_pos += result_copy->getAABB().extent.y*2.2;
 		}
-	}
 #endif
 
-	if( !csg_op_ok )
-	{
 		if( operation == carve::csg::CSG::A_MINUS_B )
 		{
 			result = op1;

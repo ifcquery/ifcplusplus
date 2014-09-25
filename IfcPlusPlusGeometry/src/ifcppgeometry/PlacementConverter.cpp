@@ -189,7 +189,11 @@ void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, share
 {
 	if( !axis2placement3d )
 	{
-		axis2placement3d = shared_ptr<IfcAxis2Placement3D>( new IfcAxis2Placement3D( entity_id++ ) );
+		axis2placement3d = shared_ptr<IfcAxis2Placement3D>( new IfcAxis2Placement3D() );
+		if( entity_id > 0 )
+		{
+			axis2placement3d->m_id = entity_id++;
+		}
 		vec_entities.push_back( axis2placement3d );
 	}
 
@@ -218,19 +222,31 @@ void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, share
 	local_y.normalize();
 	local_z.normalize();
 
-	axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>( new IfcCartesianPoint( entity_id++ ) );
+	axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>( new IfcCartesianPoint() );
+	if( entity_id > 0 )
+	{
+		axis2placement3d->m_Location->m_id = entity_id++;
+	}
 	vec_entities.push_back( axis2placement3d->m_Location );
 	axis2placement3d->m_Location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( translate.x/length_factor ) ) );
 	axis2placement3d->m_Location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( translate.y/length_factor ) ) );
 	axis2placement3d->m_Location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( translate.z/length_factor ) ) );
 
-	axis2placement3d->m_Axis = shared_ptr<IfcDirection>( new IfcDirection( entity_id++ ) );
+	axis2placement3d->m_Axis = shared_ptr<IfcDirection>( new IfcDirection() );
+	if( entity_id > 0 )
+	{
+		axis2placement3d->m_Axis->m_id = entity_id++;
+	}
 	vec_entities.push_back( axis2placement3d->m_Axis );
 	axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.x );
 	axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.y );
 	axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.z );
 
 	axis2placement3d->m_RefDirection = shared_ptr<IfcDirection>( new IfcDirection( entity_id++ ) );
+	if( entity_id > 0 )
+	{
+		axis2placement3d->m_RefDirection->m_id = entity_id++;
+	}
 	vec_entities.push_back( axis2placement3d->m_RefDirection );
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.x );
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.y );
