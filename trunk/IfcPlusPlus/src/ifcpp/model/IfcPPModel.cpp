@@ -214,6 +214,10 @@ void IfcPPModel::setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> 
 
 void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing )
 {
+	if( !e )
+	{
+		return;
+	}
 	int entity_id = e->m_id;
 	if( entity_id < 0 )
 	{

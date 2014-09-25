@@ -83,7 +83,7 @@ public:
 	class Plane : public osg::Referenced
 	{
 	public:
-		bool intersetRay( const Ray* ray, osg::Vec3d& intersect_point );
+		bool intersectRay( const Ray* ray, osg::Vec3d& intersect_point );
 		osg::Vec3d position;
 		osg::Vec3d normal;
 	};

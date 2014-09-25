@@ -46,12 +46,10 @@ PointConverter::~PointConverter()
 
 void PointConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point,	carve::geom::vector<3> & point ) const
 {
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
+	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 	std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
 	if( coords1.size() > 2 )
 	{
-		// round to 0.1 mm
-		// TODO: round only when digits are noise
 #ifdef ROUND_IFC_COORDINATES
 		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
 		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
@@ -65,7 +63,6 @@ void PointConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoin
 	}
 	else if( coords1.size() > 1 )
 	{
-		// round to 0.1 mm
 #ifdef ROUND_IFC_COORDINATES
 		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
 		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
@@ -82,7 +79,6 @@ void PointConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoin
 	std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
 	if( coords1.size() > 2 )
 	{
-		// round to 0.1 mm
 #ifdef ROUND_IFC_COORDINATES
 		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
 		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
@@ -96,7 +92,6 @@ void PointConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoin
 	}
 	else if( coords1.size() > 1 )
 	{
-		// round to 0.1 mm
 #ifdef ROUND_IFC_COORDINATES
 		double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
 		double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
@@ -110,7 +105,7 @@ void PointConverter::convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoin
 
 void PointConverter::convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<carve::geom::vector<3> >& loop ) const
 {
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
+	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 	const size_t num_points = points.size();
 	for( size_t i_point=0; i_point < num_points; ++i_point )
 	{
@@ -123,7 +118,6 @@ void PointConverter::convertIfcCartesianPointVector( const std::vector<shared_pt
 		const std::vector<shared_ptr<IfcLengthMeasure> >& coords = ifc_cartesian_point->m_Coordinates;
 		if( coords.size() > 2  )
 		{
-			// round to 0.1 mm
 #ifdef ROUND_IFC_COORDINATES
 			double x = round(coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
 			double y = round(coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
@@ -137,7 +131,6 @@ void PointConverter::convertIfcCartesianPointVector( const std::vector<shared_pt
 		}
 		else if( coords.size() > 1  )
 		{
-			// round to 0.1 mm
 #ifdef ROUND_IFC_COORDINATES
 			double x = round(coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
 			double y = round(coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
@@ -158,7 +151,7 @@ void PointConverter::convertIfcCartesianPointVector( const std::vector<shared_pt
 
 void PointConverter::convertIfcCartesianPointVector2D( std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& points, std::vector<carve::geom::vector<3> >& vertices )
 {
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
+	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 	std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >::iterator it_cp_outer;
 	for( it_cp_outer=points.begin(); it_cp_outer!=points.end(); ++it_cp_outer )
 	{
@@ -188,7 +181,7 @@ void PointConverter::convertIfcCartesianPointVector2D( std::vector<std::vector<s
 
 void PointConverter::convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& ifc_points, std::vector<carve::geom::vector<3> >& loop ) const
 {
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
+	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 	std::vector<shared_ptr<IfcCartesianPoint> >::const_iterator it_cp;
 	int i=0;
 	carve::geom::vector<3>  vertex_previous;

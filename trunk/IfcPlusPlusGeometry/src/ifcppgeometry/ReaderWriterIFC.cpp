@@ -411,12 +411,11 @@ void ReaderWriterIFC::createGeometry()
 			resolveProjectStructure( ifc_project, m_group_result );
 		}
 
-		// check if there are items outside of spatial structure
+		// check if there are entities that are not in spatial structure
 		osg::ref_ptr<osg::Group> group_outside_spatial_structure = new osg::Group();
-		std::string group_name = group_outside_spatial_structure->getName();
-		group_outside_spatial_structure->setName( group_name.append( ", IfcProduct outside spatial structure" ) );
+		group_outside_spatial_structure->setName( "Entities not in spatial structure" );
 		
-		for( std::map<int, shared_ptr<ShapeInputData> >::iterator it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
+		for( auto it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
 		{
 			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
 			shared_ptr<IfcProduct> ifc_product = product_shape->ifc_product;

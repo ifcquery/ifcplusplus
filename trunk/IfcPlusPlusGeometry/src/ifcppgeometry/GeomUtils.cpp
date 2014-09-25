@@ -39,6 +39,8 @@
 #include "RepresentationConverter.h"
 #include "GeomUtils.h"
 
+static double MIN_FACE_AREA = 1e-8;
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GeomUtils::WireFrameModeOn( osg::StateSet* state )
 {
@@ -799,10 +801,10 @@ void GeomUtils::createFace( const std::vector<std::vector<carve::geom::vector<3>
 		}
 
 		double signed_area = carve::geom2d::signedArea( path_loop_2d );
-		if( std::abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < MIN_FACE_AREA )
 		{
 #ifdef _DEBUG
-			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+			err << __FUNC__ << ": abs( signed_area ) < " << MIN_FACE_AREA << std::endl;
 #endif
 			continue;
 		}
@@ -1012,10 +1014,10 @@ void GeomUtils::extrude( const std::vector<std::vector<carve::geom::vector<2> > 
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( std::abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < MIN_FACE_AREA )
 		{
 #ifdef _DEBUG
-			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+			err << __FUNC__ << ": abs( signed_area ) < " << MIN_FACE_AREA << std::endl;
 #endif
 			continue;
 		}
@@ -1680,10 +1682,10 @@ void GeomUtils::sweepArea( const std::vector<carve::geom::vector<3> >& curve_poi
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( std::abs( signed_area ) < 0.000001 )
+		if( std::abs( signed_area ) < MIN_FACE_AREA )
 		{
 #ifdef _DEBUG
-			err << __FUNC__ << ": abs( signed_area ) < 0.001" << std::endl;
+			err << __FUNC__ << ": abs( signed_area ) < " << MIN_FACE_AREA << std::endl;
 #endif
 			continue;
 		}
@@ -2234,26 +2236,26 @@ void GeomUtils::computeInverse( const carve::math::Matrix& matrix_a, carve::math
 
 void GeomUtils::closestPointOnLine( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_origin, const carve::geom::vector<3>& line_direction, carve::geom::vector<3>& closest )
 {
-	double denom = point.x*line_direction.x + point.y*line_direction.y + point.z*line_direction.z - line_direction.x*line_origin.x - line_direction.y*line_origin.y - line_direction.z*line_origin.z;
-	double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y + line_direction.z*line_direction.z;
-	if(numer == 0)
+	const double denom = point.x*line_direction.x + point.y*line_direction.y + point.z*line_direction.z - line_direction.x*line_origin.x - line_direction.y*line_origin.y - line_direction.z*line_origin.z;
+	const double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y + line_direction.z*line_direction.z;
+	if(numer == 0.0)
 	{
 		throw IfcPPException("Line is degenerated: the line's direction vector is a null vector!", __func__);
 	}
-	double lambda = denom/numer;
-	closest = carve::geom::VECTOR(line_origin.x+lambda*line_direction.x, line_origin.y+lambda*line_direction.y, line_origin.z+lambda*line_direction.z);
+	const double lambda = denom/numer;
+	closest = carve::geom::VECTOR( line_origin.x + lambda*line_direction.x, line_origin.y + lambda*line_direction.y, line_origin.z + lambda*line_direction.z );
 }
 
 void GeomUtils::closestPointOnLine( const carve::geom::vector<2>& point, const carve::geom::vector<2>& line_origin, const carve::geom::vector<2>& line_direction, carve::geom::vector<2>& closest )
 {
-	double denom = point.x*line_direction.x + point.y*line_direction.y + - line_direction.x*line_origin.x - line_direction.y*line_origin.y;
-	double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y;
-	if(numer == 0)
+	const double denom = point.x*line_direction.x + point.y*line_direction.y + - line_direction.x*line_origin.x - line_direction.y*line_origin.y;
+	const double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y;
+	if(numer == 0.0)
 	{
 		throw IfcPPException("Line is degenerated: the line's direction vector is a null vector!", __func__);
 	}
-	double lambda = denom/numer;
-	closest = carve::geom::VECTOR(line_origin.x+lambda*line_direction.x, line_origin.y+lambda*line_direction.y);
+	const double lambda = denom/numer;
+	closest = carve::geom::VECTOR( line_origin.x + lambda*line_direction.x, line_origin.y + lambda*line_direction.y );
 }
 
 bool LineToLineIntersectionHelper(carve::geom::vector<2>& v1, carve::geom::vector<2>& v2, carve::geom::vector<2>& v3, carve::geom::vector<2>& v4, double & r, double & s)
@@ -2617,11 +2619,11 @@ void GeomUtils::applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_da
 	}
 }
 
-bool GeomUtils::Plane::intersetRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point )
+bool GeomUtils::Plane::intersectRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point )
 {
-	carve::geom::vector<3>  location( carve::geom::VECTOR( position.x(), position.y(), position.z()) );
-	carve::geom::vector<3>  local_z( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
-	carve::geom::plane<3> plane( local_z, location );
+	carve::geom::vector<3>  plane_pos( carve::geom::VECTOR( position.x(), position.y(), position.z()) );
+	carve::geom::vector<3>  plane_normal( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
+	carve::geom::plane<3> plane( plane_normal, plane_pos );
 	carve::geom::vector<3>  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
 	carve::geom::vector<3>  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
 	carve::geom::vector<3>  v_intersect;
