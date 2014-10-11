@@ -28,6 +28,8 @@ GeometrySettings::GeometrySettings()
 	m_min_delta_v = 1.0;
 	m_min_normal_angle = M_PI / 180.0;
 	m_min_length = 0.0002;
+
+	m_min_face_area = 1e-8;
 }
 
 GeometrySettings::~GeometrySettings()

@@ -15,12 +15,12 @@
 
 #include <map>
 #include "shared_ptr.h"
+#include "StatusCallback.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
 #include "ifcpp/IFC4/include/IfcSIPrefix.h"
 
 //\brief class to convert values from different units into meter and radian
-
-class UnitConverter
+class UnitConverter : public StatusCallback
 {
 public:
 	UnitConverter();

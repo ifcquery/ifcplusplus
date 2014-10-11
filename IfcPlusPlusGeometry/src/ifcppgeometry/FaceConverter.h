@@ -14,6 +14,7 @@
 #pragma once
 
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
 
@@ -21,6 +22,7 @@ class GeometrySettings;
 class UnitConverter;
 class CurveConverter;
 class SplineConverter;
+class Sweeper;
 class IfcFace;
 class IfcRationalBSplineSurfaceWithKnots;
 
@@ -37,18 +39,20 @@ public:
 	carve::math::Matrix m_surface_matrix;
 };
 
-class FaceConverter
+class FaceConverter : public StatusCallback
 {
 public:
-	FaceConverter( shared_ptr<GeometrySettings>	geom_settings, shared_ptr<UnitConverter> unit_converter, shared_ptr<CurveConverter>	cc, shared_ptr<SplineConverter>& spline_converter );
+	enum ShellType { SHELL_TYPE_UNKONWN, OPEN_SHELL, CLOSED_SHELL };
+	FaceConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc, shared_ptr<Sweeper>& sw );
 	~FaceConverter();
 
-	void convertIfcFaceList(		const std::vector<shared_ptr<IfcFace> >& faces,						shared_ptr<ItemData> item_data, std::stringstream& strs_err );
-	void convertIfcSurface(			const shared_ptr<IfcSurface>& surface,								shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy );
+	void convertIfcFaceList(		const std::vector<shared_ptr<IfcFace> >& faces,		shared_ptr<ItemData> item_data, ShellType st );
+	void convertIfcSurface(			const shared_ptr<IfcSurface>& surface,				shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy );
 
 protected:
 	shared_ptr<GeometrySettings>	m_geom_settings;
 	shared_ptr<UnitConverter>		m_unit_converter;
 	shared_ptr<CurveConverter>		m_curve_converter;
 	shared_ptr<SplineConverter>		m_spline_converter;
+	shared_ptr<Sweeper>				m_sweeper;
 };

@@ -16,17 +16,20 @@
 #include <map>
 #include <ifcpp/model/IfcPPOpenMP.h>
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
+
 class GeometrySettings;
 class UnitConverter;
 class PointConverter;
+class CurveConverter;
 class SplineConverter;
 class IfcProfileDef;
 class ProfileConverter;
 
-class ProfileCache
+class ProfileCache : public StatusCallback
 {
 public:	
-	ProfileCache( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc );
+	ProfileCache( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
 	~ProfileCache();
 
 	shared_ptr<ProfileConverter> getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile );
@@ -36,6 +39,7 @@ protected:
 	shared_ptr<GeometrySettings>				m_geom_settings;
 	shared_ptr<UnitConverter>					m_unit_converter;
 	shared_ptr<PointConverter>					m_point_converter;
+	shared_ptr<CurveConverter>					m_curve_converter;
 	shared_ptr<SplineConverter>					m_spline_converter;
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 

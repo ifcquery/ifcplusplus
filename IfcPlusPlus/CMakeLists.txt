@@ -44,7 +44,7 @@ set(IFCPP_SOURCE_FILES
   src/ifcpp/model/IfcPPGuid.cpp
   src/ifcpp/model/IfcPPModel.cpp
   src/ifcpp/model/IfcPPObject.cpp
-  src/ifcpp/model/StatusObservable.cpp
+  src/ifcpp/model/StatusCallback.cpp
   src/ifcpp/model/UnitConverter.cpp
   src/ifcpp/reader/IfcPPReader.cpp
   src/ifcpp/reader/IfcPPReaderSTEP.cpp

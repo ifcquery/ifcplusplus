@@ -238,7 +238,7 @@ void PointConverter::convertIfcCartesianPointVectorSkipDuplicates( const std::ve
 	}
 }
 
-// @brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
+//\brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
 double PointConverter::getAngleOnCircle( const carve::geom::vector<3>& circle_center, double circle_radius, const carve::geom::vector<3>& trim_point )
 {
 	double result_angle = -1.0;

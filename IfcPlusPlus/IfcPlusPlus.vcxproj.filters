@@ -3495,9 +3495,6 @@
     <ClCompile Include="src\ifcpp\model\IfcPPObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcpp\model\StatusObservable.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -3537,6 +3534,9 @@
     <ClCompile Include="src\ifcpp\writer\IfcPPWriterXML.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcpp\model\StatusCallback.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcpp\model\IfcPPException.h">
@@ -3552,9 +3552,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\model\shared_ptr.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\model\StatusObservable.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\model\UnitConverter.h">
@@ -7086,6 +7083,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\writer\IfcPPWriterXML.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\model\StatusCallback.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

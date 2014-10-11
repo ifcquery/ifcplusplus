@@ -16,7 +16,7 @@
 #include <vector>
 #include "shared_ptr.h"
 
-// @brief: finds the first occurrence of T in vector
+//\brief: finds the first occurrence of T in vector
 template<typename T, typename U>
 bool findFirstInVector( std::vector<shared_ptr<U> > vec, shared_ptr<T>& ptr )
 {

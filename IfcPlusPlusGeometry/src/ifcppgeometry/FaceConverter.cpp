@@ -45,10 +45,11 @@
 #include "PlacementConverter.h"
 #include "CurveConverter.h"
 #include "SplineConverter.h"
+#include "Sweeper.h"
 #include "FaceConverter.h"
 
-FaceConverter::FaceConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> uc, shared_ptr<CurveConverter>	cc, shared_ptr<SplineConverter>& sc )
-	: m_geom_settings(geom_settings), m_unit_converter(uc), m_curve_converter(cc), m_spline_converter(sc)
+FaceConverter::FaceConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc, shared_ptr<Sweeper>& sw )
+	: m_geom_settings(gs), m_unit_converter(uc), m_curve_converter(cc), m_spline_converter(sc), m_sweeper(sw)
 {
 }
 
@@ -257,16 +258,18 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 	throw UnhandledRepresentationException(surface);
 }
 
-void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& faces, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
+void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& faces, shared_ptr<ItemData> item_data, ShellType st )
 {
 	PolyInputCache3D poly_cache;
-	for( std::vector<shared_ptr<IfcFace> >::const_iterator it_ifc_faces=faces.begin(); it_ifc_faces!=faces.end(); ++it_ifc_faces )
+	IfcPPEntity* report_entity = nullptr;
+	for( auto it_ifc_faces=faces.begin(); it_ifc_faces!=faces.end(); ++it_ifc_faces )
 	{
-		const shared_ptr<IfcFace>& face = *it_ifc_faces;
-		std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = face->m_Bounds;
+		const shared_ptr<IfcFace>& ifc_face = *it_ifc_faces;
+		std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
 		std::vector<std::vector<carve::geom::vector<3> > > face_loops;
+		report_entity = ifc_face.get();
 
-		for( std::vector<shared_ptr<IfcFaceBound> >::iterator it_bounds=vec_bounds.begin(); it_bounds!=vec_bounds.end(); ++it_bounds )
+		for( auto it_bounds=vec_bounds.begin(); it_bounds!=vec_bounds.end(); ++it_bounds )
 		{
 			shared_ptr<IfcFaceBound> face_bound = (*it_bounds);
 
@@ -307,14 +310,38 @@ void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >&
 			}
 
 		}
-		GeomUtils::createFace( face_loops, poly_cache, strs_err );
+		m_sweeper->createFace( face_loops, poly_cache );
 	}
+
 	// IfcFaceList can be a closed or open shell
-	item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data );
+	if( st == SHELL_TYPE_UNKONWN )
+	{
+		item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data );
+	}
+	else if( st == OPEN_SHELL )
+	{
+		item_data->addOpenPolyhedron( poly_cache.m_poly_data );
+	}
+	else if( st == CLOSED_SHELL )
+	{
+		try
+		{
+			item_data->addClosedPolyhedron( poly_cache.m_poly_data );
+		}
+		catch( IfcPPException& e )
+		{
+			// not a fatal error, just mesh is not closed
+			if( report_entity )
+			{
+				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_WARNING, "", report_entity );  // calling function already in e.what()
+			}
+			else
+			{
+				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_WARNING, "" );  // calling function already in e.what()
+			}
+		}
+	}
 }
-
-
-
 
 void SurfaceProxyLinear::computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out)
 {

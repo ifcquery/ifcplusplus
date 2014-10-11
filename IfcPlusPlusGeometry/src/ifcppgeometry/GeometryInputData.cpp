@@ -1,3 +1,5 @@
+#include <ifcpp/model/IfcPPException.h>
+#include "CSG_Adapter.h"
 #include "GeometryInputData.h"
 
 ItemData::ItemData()
@@ -35,9 +37,30 @@ void ItemData::addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly
 
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 	meshsets_open.push_back( meshset );
-
 }
 
+void ItemData::addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
+{
+	if( poly_data->getVertexCount() < 3 )
+	{
+		return;
+	}
+
+	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+	if( meshset->isClosed() )
+	{
+		meshsets.push_back( meshset );
+	}
+	else
+	{
+		meshsets_open.push_back( meshset ); // still may be useful as open mesh
+
+#ifdef _DEBUG
+		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+#endif
+		throw IfcPPException( "Meshset is not closed", __FUNC__ );
+	}
+}
 
 void ItemData::addItemData( shared_ptr<ItemData>& other )
 {

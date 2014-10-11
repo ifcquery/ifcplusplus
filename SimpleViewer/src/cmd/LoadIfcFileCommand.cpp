@@ -57,12 +57,17 @@ bool LoadIfcFileCommand::doCmd()
 	carve::setEpsilon( carve::EPSILON*1.5 );
 	osg::ref_ptr<osgDB::ReaderWriter::Options> options = new osgDB::ReaderWriter::Options();
 	std::stringstream err;
+
 	osgDB::ReaderWriter::ReadResult res = osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
 	try
 	{
 		res = reader_writer->readNode( m_file_path, options.get() );
 	}
-	catch( IfcPPException& e)
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
+	catch( IfcPPException& e )
 	{
 		err << e.what();
 	}
@@ -74,8 +79,7 @@ bool LoadIfcFileCommand::doCmd()
 	{
 		err << "ReaderWriterIFC::readNode failed" << std::endl;
 	}
-	err << reader_writer->getErrors().str().c_str();
-
+	
 	try
 	{
 		osg::Object* obj = res.getObject();
@@ -123,15 +127,17 @@ bool LoadIfcFileCommand::doCmd()
 			}
 		}
 	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
 	catch( IfcPPException& e)
 	{
 		err << e.what();
-		err << reader_writer->getErrors().str().c_str();
 	}
 	catch(std::exception& e)
 	{
 		err << e.what();
-		err << reader_writer->getErrors().str().c_str();
 	}
 
 	shared_ptr<IfcPPModel> ifc_model = reader_writer->getIfcPPModel();

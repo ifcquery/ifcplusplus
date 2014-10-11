@@ -28,6 +28,7 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 #include "ifcpp/IFC4/include/IfcValue.h"
 
+#include "IfcPPException.h"
 #include "UnitConverter.h"
 
 UnitConverter::UnitConverter()
@@ -173,6 +174,6 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 
 	if( !angle_factor_found )
 	{
-		std::cout << "Warning: no plane angle unit definition found in model!" << std::endl;
+		messageCallback( "No plane angle unit definition found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
 	}
 }

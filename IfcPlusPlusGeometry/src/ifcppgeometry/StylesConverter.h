@@ -14,6 +14,7 @@
 #pragma once
 
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 
 class IfcStyledItem;
 class IfcPresentationStyle;
@@ -22,7 +23,7 @@ class IfcCurveStyle;
 class IfcSurfaceStyle;
 class AppearanceData;
 
-class StylesConverter
+class StylesConverter : public StatusCallback
 {
 public:
 	StylesConverter();
@@ -35,6 +36,5 @@ public:
 	void convertIfcPresentationStyleSelect( shared_ptr<IfcPresentationStyleSelect> presentation_style, shared_ptr<AppearanceData>& appearance_data );
 	void convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data );
 	
-	//std::map<int,osg::ref_ptr<osg::StateSet> > m_map_ifc_styles;
 	std::map<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
 };

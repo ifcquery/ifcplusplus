@@ -29,6 +29,15 @@ public:
 	IfcPPException( std::wstring reason, const char* function_name );
 	~IfcPPException() throw();
 	virtual const char* what() const throw();
+	std::string m_reason_str;
+};
 
+class IfcPPOutOfMemoryException : public std::exception
+{
+public:
+	IfcPPOutOfMemoryException();
+	IfcPPOutOfMemoryException( const char* function_name );
+	~IfcPPOutOfMemoryException() throw();
+	virtual const char* what() const throw();
 	std::string m_reason_str;
 };

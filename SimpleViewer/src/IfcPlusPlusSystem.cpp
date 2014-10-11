@@ -104,6 +104,10 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 				break;
 		}
 	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
 	catch( IfcPPException& e )
 	{
 #ifdef _DEBUG

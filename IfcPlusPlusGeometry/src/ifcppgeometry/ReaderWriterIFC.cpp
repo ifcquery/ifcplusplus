@@ -74,14 +74,13 @@ ReaderWriterIFC::ReaderWriterIFC()
 	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
 	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
 
-	m_step_reader->setProgressCallBack( this, &ReaderWriterIFC::slotProgressValueWrapper );
-	m_step_reader->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
-	m_step_reader->setErrorCallBack( this, &ReaderWriterIFC::slotErrorWrapper );
-
 	m_geom_settings = shared_ptr<GeometrySettings>( new GeometrySettings() );
 	resetNumVerticesPerCircle();
 	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
 	m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
+	addCallbackChild( m_step_reader.get() );
+	addCallbackChild( m_step_writer.get() );
+	addCallbackChild( m_representation_converter.get() );
 
 	m_glass_stateset = new osg::StateSet();
 	m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
@@ -111,14 +110,7 @@ void ReaderWriterIFC::resetModel()
 
 void ReaderWriterIFC::clearInputCache()
 {
-	m_err.str( std::string() );
-	m_messages.str( std::string() );
-	//m_shape_input_data.clear();
-	for( auto it = m_shape_input_data.begin(); it != m_shape_input_data.end(); ++it )
-	{
-		shared_ptr<ShapeInputData>& input_data = it->second;
-		input_data->vec_item_data.clear();
-	}
+	m_shape_input_data.clear();
 	m_map_visited.clear();
 	m_map_outside_spatial_structure.clear();
 	AppearanceManagerOSG::clearAppearanceCache();
@@ -143,9 +135,7 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 {
 	std::string ext = osgDB::getFileExtension( filename );
 	if( !acceptsExtension( ext ) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
-	m_err.clear();
-	m_err.str( std::string() );
-
+	
 	// open file
 	std::ifstream infile;
 	infile.open( filename.c_str(), std::ifstream::in );
@@ -180,17 +170,21 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 		{
 			m_step_reader->readStreamData( buffer, m_ifc_model );
 		}
+		catch( IfcPPOutOfMemoryException& e)
+		{
+			throw e;
+		}
 		catch( IfcPPException& e )
 		{
-			m_err << e.what();
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 		}
 		catch( std::exception& e )
 		{
-			m_err << e.what();
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 		}
 		catch( ... )
 		{
-			m_err << "An error occured in ReaderWriterIFC::readNode";
+			messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 		}
 	}
 	else
@@ -201,17 +195,21 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 		{
 			m_step_reader->readStreamData( buffer, file_schema_version, map_entities );
 		}
+		catch( IfcPPOutOfMemoryException& e)
+		{
+			throw e;
+		}
 		catch( IfcPPException& e )
 		{
-			m_err << e.what();
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 		}
 		catch( std::exception& e )
 		{
-			m_err << e.what();
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 		}
 		catch( ... )
 		{
-			m_err << "An error occured in ReaderWriterIFC::readNode";
+			messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 		}
 
 		try
@@ -228,21 +226,21 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 				}
 				catch( IfcPPException& e )
 				{
-					m_err << e.what();
+					messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 				}
 			}
 		}
 		catch( IfcPPException& e )
 		{
-			m_err << e.what();
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 		}
 		catch( std::exception& e )
 		{
-			m_err << e.what();
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 		}
 		catch( ... )
 		{
-			m_err << "An error occured in ReaderWriterIFC::readNode";
+			messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 		}
 	}
 
@@ -253,7 +251,12 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 		m_ifc_model->updateCache();
 
 		m_unit_converter = m_ifc_model->getUnitConverter();
+		if( m_representation_converter )
+		{
+			removeCallbackChild( m_representation_converter.get() );
+		}
 		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
+		addCallbackChild( m_representation_converter.get() );
 
 		bool create_geometry = true;
 		// if the user value is not set, create_geometry remains true (default)
@@ -264,28 +267,24 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 			createGeometry();
 		}
 	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
 	catch( IfcPPException& e )
 	{
-		m_err << e.what();
+		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 	}
 	catch( std::exception& e )
 	{
-		m_err << e.what();
+		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 	}
 	catch( ... )
 	{
-		m_err << "An error occured in ReaderWriterIFC::readNode";
+		messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 	}
 
 	osgDB::ReaderWriter::ReadResult::ReadStatus status = osgDB::ReaderWriter::ReadResult::FILE_LOADED;
-	if( m_err.tellp() > 0 )
-	{
-		status = osgDB::ReaderWriter::ReadResult::ERROR_IN_READING_FILE;
-#ifdef _DEBUG
-		std::cout << m_err.str().c_str();
-#endif
-	}
-
 	return osgDB::ReaderWriter::ReadResult( m_group_result, status );
 }
 
@@ -296,14 +295,11 @@ void ReaderWriterIFC::createGeometry()
 	m_representation_converter->getProfileCache()->clearProfileCache();
 
 	std::vector<shared_ptr<IfcProduct> > vec_products;
-	std::stringstream err;
-
 	double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 	carve::setEpsilon( 1.4901161193847656e-08*length_to_meter_factor );
 
 	const std::map<int, shared_ptr<IfcPPEntity> >& map = m_ifc_model->getMapIfcEntities();
-	std::map<int, shared_ptr<IfcPPEntity> >::const_iterator it;
-	for( it = map.begin(); it != map.end(); ++it )
+	for( auto it = map.begin(); it != map.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> obj = it->second;
 		shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( obj );
@@ -353,6 +349,10 @@ void ReaderWriterIFC::createGeometry()
 				throw dbge;
 			}
 #endif
+			catch( IfcPPOutOfMemoryException& e)
+			{
+				throw e;
+			}
 			catch( IfcPPException& e )
 			{
 				thread_err << e.what();
@@ -367,7 +367,7 @@ void ReaderWriterIFC::createGeometry()
 			}
 			catch( ... )
 			{
-				thread_err << "error in " << __FUNC__ << ", product id " << product_id << std::endl;
+				thread_err << "undefined error, product id " << product_id;
 			}
 
 			{
@@ -378,7 +378,7 @@ void ReaderWriterIFC::createGeometry()
 
 				if( thread_err.tellp() > 0 )
 				{
-					err << thread_err.str().c_str();
+					messageCallback( thread_err.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 				}
 			}
 
@@ -449,28 +449,27 @@ void ReaderWriterIFC::createGeometry()
 			m_group_result->addChild( group_outside_spatial_structure );
 		}
 	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
 	catch( IfcPPException& e )
 	{
-		err << e.what();
+		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 	}
 	catch( std::exception& e )
 	{
-		err << e.what();
+		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
 	}
 	catch( ... )
 	{
-		err << "error in " << __FUNC__ << std::endl;
+		messageCallback( "undefined error", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 	}
 
 	m_representation_converter->getProfileCache()->clearProfileCache();
 
 	progressCallback( 1.0, "geometry" );
 	progressTextCallback( L"Loading file done" );
-
-	if( err.tellp() > 0 )
-	{
-		throw IfcPPException( err.str().c_str() );
-	}
 }
 
 void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::Group* parent_group )
@@ -491,7 +490,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		osg::Switch* switch_building_storey = new osg::Switch();
 		if( !switch_building_storey )
 		{
-			throw IfcPPException( "out of memory", __FUNC__ );
+			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
 		std::stringstream storey_switch_name;
 		storey_switch_name << "#" << building_storey_id << "=IfcBuildingStorey switch";
@@ -500,7 +499,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		osg::ref_ptr<osg::MatrixTransform> transform_building_storey = new osg::MatrixTransform();
 		if( !transform_building_storey )
 		{
-			throw IfcPPException( "out of memory", __FUNC__ );
+			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
 		switch_building_storey->addChild( transform_building_storey );
 
@@ -536,7 +535,6 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 				{
 					item_grp->addChild( product_switch );
 				}
-
 			}
 
 			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
@@ -559,7 +557,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		item_grp = new osg::Switch();
 		if( !item_grp )
 		{
-			throw IfcPPException( "out of memory", __FUNC__ );
+			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
 	}
 
@@ -627,7 +625,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 }
 
 
-// @brief creates geometry objects from an IfcProduct object
+//\brief creates geometry objects from an IfcProduct object
 // caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
 void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, shared_ptr<ShapeInputData>& product_shape )
 {
@@ -638,12 +636,11 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 
 	const int product_id = product->m_id;
-	std::stringstream strs_err;
 	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
 	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
 	if( !product_switch || !product_switch_curves )
 	{
-		throw IfcPPException( "out of memory", __FUNC__ );
+		throw IfcPPOutOfMemoryException( __FUNC__ );
 	}
 	std::stringstream group_name;
 	group_name << "#" << product_id << "=" << product->classname() << " group";
@@ -656,7 +653,22 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	for( auto it_representations = vec_representations.begin(); it_representations != vec_representations.end(); ++it_representations )
 	{
 		shared_ptr<IfcRepresentation> representation = ( *it_representations );
-		m_representation_converter->convertIfcRepresentation( representation, product_shape, strs_err );
+		try
+		{
+			m_representation_converter->convertIfcRepresentation( representation, product_shape );
+		}
+		catch( IfcPPOutOfMemoryException& e)
+		{
+			throw e;
+		}
+		catch( IfcPPException& e )
+		{
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+		}
+		catch( std::exception& e )
+		{
+			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+		}
 	}
 
 	// IfcProduct has an ObjectPlacement that can be local or global
@@ -682,7 +694,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>( product );
 	if( ifc_element )
 	{
-		m_representation_converter->subtractOpenings( ifc_element, product_shape, strs_err );
+		m_representation_converter->subtractOpenings( ifc_element, product_shape );
 	}
 
 	// create OSG objects
@@ -694,7 +706,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 		if( !item_group || !item_group_curves )
 		{
-			throw IfcPPException( "out of memory", __FUNC__ );
+			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
 
 		// create shape for open shells
@@ -705,7 +717,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			if( !geode )
 			{
-				throw IfcPPException( "out of memory", __FUNC__ );
+				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
 			ConverterOSG::drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 
@@ -722,7 +734,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
 			if( !geode_result )
 			{
-				throw IfcPPException( "out of memory", __FUNC__ );
+				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
 			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild( geode_result );
@@ -735,7 +747,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			if( !geode )
 			{
-				throw IfcPPException( "out of memory", __FUNC__ );
+				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
 			ConverterOSG::drawPolyline( polyline_data.get(), geode );
 			item_group_curves->addChild( geode );
@@ -761,7 +773,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				osgText::Text* txt = new osgText::Text();
 				if( !txt )
 				{
-					throw IfcPPException( "out of memory", __FUNC__ );
+					throw IfcPPOutOfMemoryException( __FUNC__ );
 				}
 				txt->setFont( "fonts/arial.ttf" );
 				txt->setColor( osg::Vec4f( 0, 0, 0, 1 ) );
@@ -774,7 +786,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 				if( !geode )
 				{
-					throw IfcPPException( "out of memory", __FUNC__ );
+					throw IfcPPOutOfMemoryException( __FUNC__ );
 				}
 				geode->addDrawable( txt );
 				item_group->addChild( geode );
@@ -800,7 +812,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
 							if( !merged_product_stateset )
 							{
-								throw IfcPPException( "out of memory", __FUNC__ );
+								throw IfcPPOutOfMemoryException( __FUNC__ );
 							}
 							merged_product_stateset->merge( *item_stateset );
 							item_group->setStateSet( merged_product_stateset );
@@ -824,7 +836,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 								osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
 								if( !merged_product_stateset )
 								{
-									throw IfcPPException( "out of memory", __FUNC__ );
+									throw IfcPPOutOfMemoryException( __FUNC__ );
 								}
 								merged_product_stateset->merge( *item_stateset );
 								item_group->setStateSet( merged_product_stateset );
@@ -872,7 +884,6 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 					}
 					continue;
 				}
-			
 
 				shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>( relating_property_definition_select );
 				if( property_set_def_set )
@@ -913,7 +924,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
 			if( !merged_product_stateset )
 			{
-				throw IfcPPException( "out of memory", __FUNC__ );
+				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
 			merged_product_stateset->merge( *next_product_stateset );
 			product_switch->setStateSet( merged_product_stateset );
@@ -951,41 +962,6 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	if( product_switch_curves->getNumChildren() > 0 )
 	{
 		product_shape->product_switch_curves = product_switch_curves;
-	}
-
-	if( strs_err.tellp() > 0 )
-	{
-		throw IfcPPException( strs_err.str().c_str() );
-	}
-}
-
-void ReaderWriterIFC::slotProgressValueWrapper( void* ptr, double progress_value, const std::string& progress_type )
-{
-	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
-	myself->progressCallback( progress_value, progress_type );
-}
-
-void ReaderWriterIFC::slotProgressTextWrapper( void* ptr, const std::wstring& str )
-{
-	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
-	myself->progressTextCallback( str );
-}
-
-void ReaderWriterIFC::slotMessageWrapper( void* ptr, const std::wstring& str )
-{
-	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
-	if( myself )
-	{
-		myself->messageCallback( str );
-	}
-}
-
-void ReaderWriterIFC::slotErrorWrapper( void* ptr, const std::wstring& str )
-{
-	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
-	if( myself )
-	{
-		myself->errorCallback( str );
 	}
 }
 

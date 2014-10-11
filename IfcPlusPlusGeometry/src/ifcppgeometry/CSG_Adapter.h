@@ -13,38 +13,40 @@
 
 #pragma once
 
-#include "IncludeCarveHeaders.h"
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
+#include "IncludeCarveHeaders.h"
 
 typedef carve::mesh::Edge<3> edge_t;
 typedef carve::mesh::Face<3> face_t;
+typedef carve::mesh::MeshSet<3> meshset_t;
 
-class CSG_Adapter
+class CSG_Adapter : public StatusCallback
 {
 public:
 	CSG_Adapter();
 	~CSG_Adapter();
 
-	static void simplifyMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool triangulate );
-	static void retriangulateMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset );
-	static void computeCSG( shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const carve::csg::CSG::OP operation, 
-		const int entity1, const int entity2, std::stringstream& err, shared_ptr<carve::mesh::MeshSet<3> >& result );
-	static bool checkMeshSetValidAndClosed(	const carve::mesh::MeshSet<3>* meshset, std::stringstream& err_poly, int entity_id );
-	static bool checkFaceIntegrity(	const carve::mesh::MeshSet<3>* meshset );
+	static void simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate );
+	static void retriangulateMeshSet( shared_ptr<meshset_t >& meshset );
+	static void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, 
+		const int entity1, const int entity2, shared_ptr<meshset_t >& result );
+	static bool checkMeshSetValidAndClosed(	const meshset_t* meshset, std::stringstream& err_poly, int entity_id );
+	static bool checkFaceIntegrity(	const meshset_t* meshset );
 
-	static void applyTranslate( carve::mesh::MeshSet<3>* meshset, const carve::geom::vector<3>& pos );
-	static void roundVertices( carve::mesh::MeshSet<3>* meshset );
-	static int getNumFaces( const carve::mesh::MeshSet<3>* meshset );
-	static int getNumClosedEdges( const carve::mesh::MeshSet<3>* meshset );
-	static double getVolume( const carve::mesh::MeshSet<3>* meshset );
+	static void applyTranslate( meshset_t* meshset, const carve::geom::vector<3>& pos );
+	static void roundVertices( meshset_t* meshset );
+	static int getNumFaces( const meshset_t* meshset );
+	static int getNumClosedEdges( const meshset_t* meshset );
+	static double getVolume( const meshset_t* meshset );
 
 #ifdef _DEBUG
 	static void dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, carve::geom::vector<4>& color, bool append );
 	static void dumpPolyhedron( carve::poly::Polyhedron* poly, carve::geom::vector<4>& color, bool append );
-	static void dumpMeshset( carve::mesh::MeshSet<3>* meshset, carve::geom::vector<4>& color, bool append );
-	static void dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& meshset, std::vector<carve::geom::vector<4> >& vec_colors, bool append );
-	static void dumpFaces( const carve::mesh::MeshSet<3>* meshset, std::vector<face_t* >& vec_faces );
-	static void dumpEdges( const carve::mesh::MeshSet<3>* meshset, std::vector<edge_t* >& vec_edges );
+	static void dumpMeshset( meshset_t* meshset, carve::geom::vector<4>& color, bool append );
+	static void dumpMeshsets( std::vector<meshset_t* >& meshset, std::vector<carve::geom::vector<4> >& vec_colors, bool append );
+	static void dumpFaces( const meshset_t* meshset, std::vector<face_t* >& vec_faces );
+	static void dumpEdges( const meshset_t* meshset, std::vector<edge_t* >& vec_edges );
 	static void clearMeshsetDump();
 #endif
 };
