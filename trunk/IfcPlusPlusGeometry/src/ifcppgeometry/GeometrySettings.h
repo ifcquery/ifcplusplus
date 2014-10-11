@@ -47,4 +47,6 @@ public:
 	double m_min_delta_v;
 	double m_min_normal_angle;
 	double m_min_length;
+
+	double m_min_face_area;
 };

@@ -18,9 +18,9 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPModel.h"
-#include "ifcpp/model/StatusObservable.h"
+#include "ifcpp/model/StatusCallback.h"
 
-class IfcPPReader : public StatusObservable
+class IfcPPReader : public StatusCallback
 {
 public:
 	IfcPPReader();

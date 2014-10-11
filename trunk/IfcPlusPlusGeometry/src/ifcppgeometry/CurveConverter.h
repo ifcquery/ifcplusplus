@@ -14,6 +14,7 @@
 #pragma once
 
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 
 class UnitConverter;
@@ -27,8 +28,7 @@ class IfcCartesianPoint;
 class IfcTrimmingSelect;
 
 //\brief class to convert different kinds of IFC curve representations into carve input geometry
-
-class CurveConverter
+class CurveConverter : public StatusCallback
 {
 public:
 	CurveConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& unit_converter, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc );

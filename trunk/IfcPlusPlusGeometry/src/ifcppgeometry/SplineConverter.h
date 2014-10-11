@@ -13,14 +13,15 @@
 
 #pragma once
 
-#include "ifcpp/model/shared_ptr.h"
+#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 
 class PointConverter;
 class IfcBSplineCurve;
 class IfcBSplineSurface;
 
-class SplineConverter
+class SplineConverter : public StatusCallback
 {
 public:
 	SplineConverter( shared_ptr<PointConverter>& point_converter );

@@ -21,8 +21,11 @@ IfcPPException::IfcPPException( std::string reason )
 IfcPPException::IfcPPException( std::string reason, const char* function_name )
 {
 	m_reason_str.append(function_name);
-	m_reason_str.append( ": " );
-	m_reason_str.append( reason );
+	if( reason.size() > 0 )
+	{
+		m_reason_str.append( ": " );
+		m_reason_str.append( reason );
+	}
 }
 
 IfcPPException::IfcPPException(std::wstring reason)
@@ -33,11 +36,13 @@ IfcPPException::IfcPPException(std::wstring reason)
 IfcPPException::IfcPPException(std::wstring reason, const char* function_name)
 {
 	m_reason_str.append(function_name);
-	m_reason_str.append( ": " );
-
-	std::string reason_str;
-	reason_str.assign(reason.begin(), reason.end());
-	m_reason_str.append(reason_str);
+	if( reason.size() > 0 )
+	{
+		m_reason_str.append( ": " );
+		std::string reason_str;
+		reason_str.assign( reason.begin(), reason.end() );
+		m_reason_str.append( reason_str );
+	}
 }
 
 IfcPPException::~IfcPPException() throw()
@@ -46,6 +51,27 @@ IfcPPException::~IfcPPException() throw()
 }
 
 const char* IfcPPException::what() const throw()
+{
+	return m_reason_str.c_str();
+}
+
+// IfcPPOutOfMemoryException ///////////////////////////////////////////////
+IfcPPOutOfMemoryException::IfcPPOutOfMemoryException()
+{
+	m_reason_str = "Out of memory";
+}
+
+IfcPPOutOfMemoryException::IfcPPOutOfMemoryException( const char* function_name )
+{
+	m_reason_str = "Out of memory in function: ";
+	m_reason_str.append( function_name );
+}
+
+IfcPPOutOfMemoryException::~IfcPPOutOfMemoryException() throw( )
+{
+}
+
+const char* IfcPPOutOfMemoryException::what() const throw()
 {
 	return m_reason_str.c_str();
 }

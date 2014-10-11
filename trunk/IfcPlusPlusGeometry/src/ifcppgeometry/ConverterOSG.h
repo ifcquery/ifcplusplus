@@ -16,11 +16,12 @@
 #include <osg/Matrix>
 #include <osg/Geode>
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 
 class AppearanceData;
 
-class ConverterOSG
+class ConverterOSG : public StatusCallback
 {
 public:
 	static void drawFace(		const carve::mesh::Face<3>* face,					osg::Geode* geode, bool add_color_array = false );

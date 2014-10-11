@@ -14,11 +14,13 @@
 #pragma once
 
 #include "ifcpp/model/shared_ptr.h"
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 
 class GeometrySettings;
 class UnitConverter;
 class PointConverter;
+class CurveConverter;
 class SplineConverter;
 class IfcProfileDef;
 class IfcArbitraryClosedProfileDef;
@@ -27,36 +29,39 @@ class IfcCompositeProfileDef;
 class IfcDerivedProfileDef;
 class IfcParameterizedProfileDef;
 
-class ProfileConverter
+typedef carve::geom::vector<2> vector2d_t;
+
+class ProfileConverter : public StatusCallback
 {
 public:
-	ProfileConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter, shared_ptr<PointConverter> pc, shared_ptr<SplineConverter>& sc );
+	ProfileConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
 	~ProfileConverter();
 
 	void computeProfile( shared_ptr<IfcProfileDef> profile_def );
-	void convertIfcArbitraryClosedProfileDef(				const shared_ptr<IfcArbitraryClosedProfileDef>& profile_def,	std::vector<std::vector<carve::geom::vector<2> > >& paths );
-	void convertIfcArbitraryOpenProfileDef(					const shared_ptr<IfcArbitraryOpenProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths );
-	void convertIfcCompositeProfileDef(						const shared_ptr<IfcCompositeProfileDef>& profile_def,			std::vector<std::vector<carve::geom::vector<2> > >& paths );
-	void convertIfcDerivedProfileDef(						const shared_ptr<IfcDerivedProfileDef>& profile_def,			std::vector<std::vector<carve::geom::vector<2> > >& paths );
-	void convertIfcParameterizedProfileDef(					const shared_ptr<IfcParameterizedProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
-	void convertIfcParameterizedProfileDefWithPosition(		const shared_ptr<IfcParameterizedProfileDef>& profile_def,		std::vector<std::vector<carve::geom::vector<2> > >& paths ) const;
-	void addArc(					std::vector<carve::geom::vector<2> >& coords, double radius, double start_angle, double opening_angle, double xM, double yM, int segments = -1 ) const;
-	void addArcWithEndPoint(		std::vector<carve::geom::vector<2> >& coords, double radius, double start_angle, double opening_angle, double xM, double yM ) const;
+	void convertIfcArbitraryClosedProfileDef(				const shared_ptr<IfcArbitraryClosedProfileDef>& profile_def,	std::vector<std::vector<vector2d_t > >& paths );
+	void convertIfcArbitraryOpenProfileDef(					const shared_ptr<IfcArbitraryOpenProfileDef>& profile_def,		std::vector<std::vector<vector2d_t > >& paths );
+	void convertIfcCompositeProfileDef(						const shared_ptr<IfcCompositeProfileDef>& profile_def,			std::vector<std::vector<vector2d_t > >& paths );
+	void convertIfcDerivedProfileDef(						const shared_ptr<IfcDerivedProfileDef>& profile_def,			std::vector<std::vector<vector2d_t > >& paths );
+	void convertIfcParameterizedProfileDef(					const shared_ptr<IfcParameterizedProfileDef>& profile_def,		std::vector<std::vector<vector2d_t > >& paths );
+	void convertIfcParameterizedProfileDefWithPosition(		const shared_ptr<IfcParameterizedProfileDef>& profile_def,		std::vector<std::vector<vector2d_t > >& paths );
+	void addArc(					std::vector<vector2d_t >& coords, double radius, double start_angle, double opening_angle, double xM, double yM, int segments = -1 ) const;
+	void addArcWithEndPoint(		std::vector<vector2d_t >& coords, double radius, double start_angle, double opening_angle, double xM, double yM ) const;
 	void simplifyPaths();
 	
-	static void addArcWithEndPoint(	std::vector<carve::geom::vector<2> >& coords, double radius, double start_angle, double opening_angle, double xM, double yM, int segments );
-	static void mirrorCopyPath(			std::vector<carve::geom::vector<2> >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis );
-	static void mirrorCopyPathReverse(		std::vector<carve::geom::vector<2> >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis );
-	static void addAvoidingDuplicates( const std::vector<carve::geom::vector<2> >& polygon, std::vector<std::vector<carve::geom::vector<2> > >& paths );
-	static void deleteLastPointIfEqualToFirst( std::vector<carve::geom::vector<2> >& polygon );
-	static void simplifyPaths( std::vector<std::vector<carve::geom::vector<2> > >& paths );
-	static void simplifyPath( std::vector<carve::geom::vector<2> >& paths );
-	const std::vector<std::vector<carve::geom::vector<2> > >& getCoordinates() { return m_paths; }
+	static void addArcWithEndPoint(	std::vector<vector2d_t >& coords, double radius, double start_angle, double opening_angle, double xM, double yM, int segments );
+	static void mirrorCopyPath(			std::vector<vector2d_t >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis );
+	static void mirrorCopyPathReverse(		std::vector<vector2d_t >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis );
+	static void addAvoidingDuplicates( const std::vector<vector2d_t >& polygon, std::vector<std::vector<vector2d_t > >& paths );
+	static void deleteLastPointIfEqualToFirst( std::vector<vector2d_t >& polygon );
+	static void simplifyPaths( std::vector<std::vector<vector2d_t > >& paths );
+	static void simplifyPath( std::vector<vector2d_t >& paths );
+	const std::vector<std::vector<vector2d_t > >& getCoordinates() { return m_paths; }
 
 protected:
 	shared_ptr<GeometrySettings>						m_geom_settings;
 	shared_ptr<UnitConverter>							m_unit_converter;
 	shared_ptr<PointConverter>							m_point_converter;
+	shared_ptr<CurveConverter>							m_curve_converter;
 	shared_ptr<SplineConverter>							m_spline_converter;
-	std::vector<std::vector<carve::geom::vector<2> > >	m_paths;
+	std::vector<std::vector<vector2d_t > >	m_paths;
 };

@@ -13,9 +13,10 @@
 
 #pragma once
 
-#include "IncludeCarveHeaders.h"
 #include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "GeometryInputData.h"
+#include "IncludeCarveHeaders.h"
 
 class GeometrySettings;
 class UnitConverter;
@@ -23,27 +24,30 @@ class PointConverter;
 class ProfileCache;
 class FaceConverter;
 class CurveConverter;
+class Sweeper;
 
 class IfcExtrudedAreaSolid;
 class IfcSolidModel;
 class IfcBooleanResult;
 class IfcBooleanOperand;
+class IfcHalfSpaceSolid;
 class IfcRevolvedAreaSolid;
 class IfcCsgPrimitive3D;
 
-class SolidModelConverter
+class SolidModelConverter : public StatusCallback
 {
 public:
 	SolidModelConverter( shared_ptr<GeometrySettings>& settings, shared_ptr<UnitConverter>& uc, 
-		shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>&	cc, shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache );
+		shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>&	cc, shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache, shared_ptr<Sweeper>& sweeper );
 	~SolidModelConverter();
 
-	void convertIfcBooleanResult(		const shared_ptr<IfcBooleanResult>& operand,			shared_ptr<ItemData> item_data, std::stringstream& err );
-	void convertIfcBooleanOperand(		const shared_ptr<IfcBooleanOperand>& operand,			shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand, std::stringstream& err );
-	void convertIfcSolidModel(			const shared_ptr<IfcSolidModel>& solid_model,			shared_ptr<ItemData> item_data, std::stringstream& err );
-	void convertIfcExtrudedAreaSolid(	const shared_ptr<IfcExtrudedAreaSolid>& extruded_area,	shared_ptr<ItemData> item_data, std::stringstream& err );
-	void convertIfcRevolvedAreaSolid(	const shared_ptr<IfcRevolvedAreaSolid>& revolved_area,	shared_ptr<ItemData> item_data, std::stringstream& err );
-	void convertIfcCsgPrimitive3D(		const shared_ptr<IfcCsgPrimitive3D>& csg_primitive,		shared_ptr<ItemData> item_data, std::stringstream& err );
+	void convertIfcBooleanResult(		const shared_ptr<IfcBooleanResult>& operand,			shared_ptr<ItemData> item_data );
+	void convertIfcHalfSpaceSolid(		const shared_ptr<IfcHalfSpaceSolid>& half_space,		shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand );
+	void convertIfcBooleanOperand(		const shared_ptr<IfcBooleanOperand>& operand,			shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand );
+	void convertIfcSolidModel(			const shared_ptr<IfcSolidModel>& solid_model,			shared_ptr<ItemData> item_data );
+	void convertIfcExtrudedAreaSolid(	const shared_ptr<IfcExtrudedAreaSolid>& extruded_area,	shared_ptr<ItemData> item_data );
+	void convertIfcRevolvedAreaSolid(	const shared_ptr<IfcRevolvedAreaSolid>& revolved_area,	shared_ptr<ItemData> item_data );
+	void convertIfcCsgPrimitive3D(		const shared_ptr<IfcCsgPrimitive3D>& csg_primitive,		shared_ptr<ItemData> item_data );
 
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
@@ -52,4 +56,5 @@ protected:
 	shared_ptr<CurveConverter>			m_curve_converter;
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<ProfileCache>			m_profile_cache;
+	shared_ptr<Sweeper>					m_sweeper;
 };

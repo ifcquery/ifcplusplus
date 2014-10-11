@@ -66,6 +66,9 @@
     <ClCompile Include="src\ifcppgeometry\PointConverter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcppgeometry\Sweeper.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcppgeometry\ConverterOSG.h">
@@ -120,6 +123,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcppgeometry\PointConverter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcppgeometry\Sweeper.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

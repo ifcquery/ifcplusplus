@@ -23,7 +23,7 @@
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/model/StatusObservable.h>
+#include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/IfcPPReader.h>
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
@@ -34,7 +34,7 @@
 #include "GeometrySettings.h"
 
 // osg::Registry uses osg::ref_ptr, so always use it for ReaderWriterIFC too
-class ReaderWriterIFC : public osgDB::ReaderWriter, public StatusObservable
+class ReaderWriterIFC : public osgDB::ReaderWriter, public StatusCallback
 {
 public:
 	ReaderWriterIFC();
@@ -58,23 +58,14 @@ public:
 	shared_ptr<UnitConverter>&					getUnitConverter()				{ return m_unit_converter; }
 	shared_ptr<GeometrySettings>&				getGeomSettings()				{ return m_geom_settings; }
 
-	std::stringstream& getErrors() { return m_err; }
-	std::stringstream& getMessages() { return m_messages; }
 	void resetNumVerticesPerCircle();
 	void clearInputCache();
 	void resetModel();
-
-	static void slotProgressValueWrapper( void* obj_ptr, double value, const std::string& progress_type );
-	static void slotProgressTextWrapper( void* obj_ptr, const std::wstring& str );
-	static void slotMessageWrapper( void* obj_ptr, const std::wstring& str );
-	static void slotErrorWrapper( void* obj_ptr, const std::wstring& str );
 
 protected:
 	shared_ptr<IfcPPModel>				m_ifc_model;
 	shared_ptr<IfcPPReader>				m_step_reader;
 	shared_ptr<IfcPPWriterSTEP>			m_step_writer;
-	std::stringstream					m_err;
-	std::stringstream					m_messages;
 	shared_ptr<GeometrySettings>		m_geom_settings;
 
 	shared_ptr<UnitConverter>			m_unit_converter;

@@ -54,7 +54,7 @@ public:
 	void notifyModelCleared();
 	void notifyModelLoadingStart();
 	void notifyModelLoadingDone();
-	
+
 private:
 	shared_ptr<IfcPPModel>				m_ifc_model;
 	osg::ref_ptr<ReaderWriterIFC>		m_reader_writer;

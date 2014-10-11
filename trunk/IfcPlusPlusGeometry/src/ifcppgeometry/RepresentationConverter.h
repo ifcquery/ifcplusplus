@@ -18,12 +18,14 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPOpenMP.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
 #include "GeometrySettings.h"
 
 class UnitConverter;
 class StylesConverter;
+class Sweeper;
 class SplineConverter;
 class PointConverter;
 class CurveConverter;
@@ -39,19 +41,19 @@ class IfcSectionedSpine;
 class IfcReferencedSectionedSpine;
 class IfcPropertySet;
 
-class RepresentationConverter
+class RepresentationConverter : public StatusCallback
 {
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter );
 	~RepresentationConverter();
 
-	void convertIfcRepresentation(				const shared_ptr<IfcRepresentation>& representation,	shared_ptr<ShapeInputData>& shape_data, std::stringstream& err );
-	void convertIfcGeometricRepresentationItem(	const shared_ptr<IfcGeometricRepresentationItem>& item,	shared_ptr<ItemData> item_data, std::stringstream& err );
-	void convertIfcSectionedSpine(				const shared_ptr<IfcSectionedSpine>& spine,				shared_ptr<ItemData> item_data, std::stringstream& err );
-	void convertIfcReferencedSectionedSpine(	const shared_ptr<IfcReferencedSectionedSpine>& spine,	shared_ptr<ItemData> item_data, std::stringstream& err );
+	void convertIfcRepresentation(				const shared_ptr<IfcRepresentation>& representation,	shared_ptr<ShapeInputData>& shape_data );
+	void convertIfcGeometricRepresentationItem(	const shared_ptr<IfcGeometricRepresentationItem>& item,	shared_ptr<ItemData> item_data );
+	void convertIfcSectionedSpine(				const shared_ptr<IfcSectionedSpine>& spine,				shared_ptr<ItemData> item_data );
+	void convertIfcReferencedSectionedSpine(	const shared_ptr<IfcReferencedSectionedSpine>& spine,	shared_ptr<ItemData> item_data );
 	void convertRepresentationStyle(			const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data );
 	void convertIfcPropertySet(					const shared_ptr<IfcPropertySet>& property_set,	osg::Group* group );
-	void subtractOpenings(						const shared_ptr<IfcElement>& ifc_element, shared_ptr<ShapeInputData>& product_shape, std::stringstream& err );
+	void subtractOpenings(						const shared_ptr<IfcElement>& ifc_element, shared_ptr<ShapeInputData>& product_shape );
 
 	bool handleLayerAssignments() { return m_handle_layer_assignments; }
 	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
@@ -63,10 +65,12 @@ public:
 	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings;	}
 	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter;	}
 	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache;	}
+	shared_ptr<Sweeper>&				getSweeper()		{ return m_sweeper;	}
 
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
+	shared_ptr<Sweeper>					m_sweeper;
 	shared_ptr<StylesConverter>			m_styles_converter;
 	shared_ptr<SplineConverter>			m_spline_converter;
 	shared_ptr<PointConverter>			m_point_converter;

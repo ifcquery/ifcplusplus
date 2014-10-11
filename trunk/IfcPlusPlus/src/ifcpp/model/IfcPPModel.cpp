@@ -273,7 +273,7 @@ void IfcPPModel::removeEntity( shared_ptr<IfcPPEntity> e )
 	if( it_find == m_map_entities.end() )
 	{
 #ifdef _DEBUG
-		std::cout << __func__ << ": entity with id " << remove_id << " not found in model." << std::endl;
+		std::cout << __FUNC__ << ": entity with id " << remove_id << " not found in model." << std::endl;
 #endif
 		return;
 	}

@@ -297,6 +297,7 @@
     <ClCompile Include="src\ifcppgeometry\SolidModelConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\StylesConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\ProfileCache.cpp" />
+    <ClCompile Include="src\ifcppgeometry\Sweeper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcppgeometry\CSG_Adapter.h" />
@@ -317,6 +318,7 @@
     <ClInclude Include="src\ifcppgeometry\StylesConverter.h" />
     <ClInclude Include="src\ifcppgeometry\GeometryException.h" />
     <ClInclude Include="src\ifcppgeometry\ProfileCache.h" />
+    <ClInclude Include="src\ifcppgeometry\Sweeper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

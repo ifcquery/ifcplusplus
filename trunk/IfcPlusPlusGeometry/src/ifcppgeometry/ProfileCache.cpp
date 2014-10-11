@@ -19,8 +19,8 @@
 #include "ProfileCache.h"
 
 
-ProfileCache::ProfileCache( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
-	: m_geom_settings(geom_settings), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc)
+ProfileCache::ProfileCache( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc )
+	: m_geom_settings(geom_settings), m_unit_converter(uc), m_point_converter(pc), m_curve_converter(cc), m_spline_converter(sc)
 {
 }
 
@@ -53,10 +53,10 @@ shared_ptr<ProfileConverter> ProfileCache::getProfileConverter( shared_ptr<IfcPr
 		return it_profile_cache->second;
 	}
 
-	shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
+	shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_geom_settings, m_unit_converter, m_point_converter, m_curve_converter, m_spline_converter ) );
 	if( !profile_converter )
 	{
-		throw IfcPPException( "out of memory", __FUNC__ );
+		throw IfcPPOutOfMemoryException( __FUNC__ );
 	}
 	profile_converter->computeProfile( ifc_profile );
 

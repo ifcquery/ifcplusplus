@@ -14,7 +14,8 @@
 #pragma once
 
 #include <map>
-#include "ifcpp/model/shared_ptr.h"
+#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/StatusCallback.h>
 
 #include <QtCore/qglobal.h>
 #include <QWidget>
@@ -43,8 +44,7 @@ public:
 	~TabReadWrite();
 
 	static void slotProgressValueWrapper( void* obj_ptr, double value, const std::string& type );
-	static void slotMessageWrapper( void* obj_ptr, const std::wstring& str );
-	static void slotErrorWrapper( void* obj_ptr, const std::wstring& str );
+	static void slotMessageWrapper( void* obj_ptr, const std::wstring& str, StatusCallback::SeverityLevel level );
 	void slotProgressValue( double value, const std::string& str_type );
 	void closeEvent( QCloseEvent *event );
 

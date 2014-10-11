@@ -152,7 +152,7 @@ void readSingleStepLine( const std::string& line, IfcPPReaderSTEP::EntityReadCon
 			if( !obj )
 			{
 				std::stringstream strs;
-				strs << __func__ << ": could not create object of type " << keyword << ", entity id " << entity_id << std::endl;
+				strs << __FUNC__ << ": could not create object of type " << keyword << ", entity id " << entity_id << std::endl;
 				throw IfcPPException( strs.str().c_str() );
 			}
 			obj->m_id = entity_id;
@@ -219,7 +219,7 @@ void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<I
 {
 	if( !target_model )
 	{
-		throw IfcPPException( "Model not set.", __func__ );
+		throw IfcPPException( "Model not set.", __FUNC__ );
 	}
 
 	target_model->m_file_header = L"";
@@ -633,7 +633,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 		std::wstring error_message;
 		error_message.append( L"Unsupported IFC version: " );
 		error_message.append( ifc_version.m_IFC_FILE_SCHEMA );
-		errorCallback( error_message );
+		messageCallback( error_message, StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 		progressCallback(0.0, "parse");
 		return;
 	}
@@ -642,7 +642,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	{
 		return;
 	}
-	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version.m_IFC_FILE_SCHEMA );
+	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version.m_IFC_FILE_SCHEMA, StatusCallback::STATUS_SEVERITY_MESSAGE, "" );
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;
@@ -666,7 +666,11 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	catch( UnknownEntityException& e )
 	{
 		std::string unknown_keyword = e.m_keyword;
-		err << __func__ << ": unknown entity: " << unknown_keyword.c_str() << std::endl;
+		err << __FUNC__ << ": unknown entity: " << unknown_keyword.c_str() << std::endl;
+	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
 	}
 	catch( IfcPPException& e )
 	{
@@ -678,7 +682,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	}
 	catch(...)
 	{
-		err << __func__ << ": error occurred" << std::endl;
+		err << __FUNC__ << ": error occurred" << std::endl;
 	}
 	
 	// copy entities into map so that they can be found during entity attribute initialization
@@ -696,6 +700,10 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	{
 		readEntityArguments( ifc_version, vec_entities, target_map );
 	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
 	catch( IfcPPException& e )
 	{
 		err << e.what();
@@ -706,7 +714,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	}
 	catch(...)
 	{
-		err << __func__ << ": error occurred" << std::endl;
+		err << __FUNC__ << ": error occurred" << std::endl;
 	}
 
 	setlocale(LC_NUMERIC,current_numeric_locale);
@@ -807,11 +815,10 @@ static std::map<IfcPPEntityEnum, int> global_map_num_args = {
 
 void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
 {
-
 	// TODO: replace this workaround with a systematic backward compatibility, possibly generated from schema diff
 	if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC2X )
 	{
-		throw IfcPPException( "Unsupported IFC version", __func__ );
+		throw IfcPPException( "Unsupported IFC version", __FUNC__ );
 	}
 
 	std::map<IfcPPEntityEnum, int>::iterator it_find_num_args = global_map_num_args.find( type_enum );

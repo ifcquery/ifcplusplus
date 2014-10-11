@@ -289,7 +289,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 
 	if( ch[0] != '(' )
 	{
-		throw IfcPPException( "string does not start with (", __func__ );
+		throw IfcPPException( "string does not start with (", __FUNC__ );
 	}
 	size_t i=0;
 	size_t last_token = 1;
@@ -328,7 +328,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 	// no closing paranthesis found
 	std::wstringstream err;
 	err << "no closing paranthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __func__ );
+	throw IfcPPException( err.str(), __FUNC__ );
 }
 
 template<typename T>
@@ -351,7 +351,7 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 		{
 			std::stringstream err;
 			err << "object with id " << entity_id << " not found" << std::endl;
-			throw IfcPPException( err.str(), __func__ );
+			throw IfcPPException( err.str(), __FUNC__ );
 		}
 	}
 	else if( str.compare(L"$")==0 )
@@ -364,7 +364,7 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 	}
 	else
 	{
-		throw IfcPPException( "unexpected argument", __func__ );
+		throw IfcPPException( "unexpected argument", __FUNC__ );
 	}
 }
 
@@ -385,7 +385,7 @@ void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >&
 		}
 		std::wstringstream err;
 		err << "num_opening != num_closing : " << arg_complete.c_str() << std::endl;
-		throw IfcPPException( err.str(), __func__ );
+		throw IfcPPException( err.str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<std::wstring> list_items;
@@ -478,7 +478,7 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 		}
 		std::stringstream err;
 		err << "num_opening != num_closing : " << arg_complete.c_str() << std::endl;
-		throw IfcPPException( err.str().c_str(), __func__ );
+		throw IfcPPException( err.str().c_str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<std::wstring> list_items;
@@ -495,6 +495,10 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 		{
 			readSelectType( item, select_object, map_entities );
 		}
+		catch( IfcPPOutOfMemoryException& e)
+		{
+			throw e;
+		}
 		catch( IfcPPException& e )
 		{
 			err << e.what();
@@ -506,7 +510,7 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 	}
 	if( err.tellp() > 0 )
 	{
-		throw IfcPPException( err.str().c_str(), __func__ );
+		throw IfcPPException( err.str().c_str(), __FUNC__ );
 	}
 	return;
 }
@@ -531,7 +535,7 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 		}
 		std::wstringstream err;
 		err << "num_opening != num_closing : " << arg_complete << std::endl;
-		throw IfcPPException( err.str(), __func__ );
+		throw IfcPPException( err.str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<int> list_items;
@@ -569,7 +573,7 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 		}
 
 		err << "  not found" << std::endl;
-		throw IfcPPException( err.str(), __func__ );
+		throw IfcPPException( err.str(), __FUNC__ );
 	}
 }
 
@@ -630,7 +634,7 @@ void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector
 	// no closing paranthesis found
 	std::wstringstream err;
 	err << "no closing paranthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __func__ );
+	throw IfcPPException( err.str(), __FUNC__ );
 }
 
 template<typename T>
@@ -684,5 +688,5 @@ void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<
 	// no closing paranthesis found
 	std::stringstream err;
 	err << "no closing paranthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __func__ );
+	throw IfcPPException( err.str(), __FUNC__ );
 }

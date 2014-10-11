@@ -27,6 +27,7 @@ set(IFCPPGEOMETRY_HEADER_FILES
   src/ifcppgeometry/RepresentationConverter.h
   src/ifcppgeometry/SolidModelConverter.h
   src/ifcppgeometry/StylesConverter.h
+  src/ifcppgeometry/Sweeper.h
 )
 
 set(IFCPPGEOMETRY_SOURCE_FILES 
@@ -47,6 +48,7 @@ set(IFCPPGEOMETRY_SOURCE_FILES
   src/ifcppgeometry/SolidModelConverter.cpp
   src/ifcppgeometry/SplineConverter.cpp
   src/ifcppgeometry/StylesConverter.cpp
+  src/ifcppgeometry/Sweeper.cpp
 )
 
 find_package(Boost 1.53)

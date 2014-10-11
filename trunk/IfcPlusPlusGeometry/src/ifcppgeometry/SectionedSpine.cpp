@@ -34,7 +34,7 @@
 #include "CurveConverter.h"
 #include "RepresentationConverter.h"
 
-void RepresentationConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemData> item_data, std::stringstream& strs_err )
+void RepresentationConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemData> item_data )
 {
 	const shared_ptr<IfcCompositeCurve> spine_curve = spine->m_SpineCurve;
 	if( !spine_curve )

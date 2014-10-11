@@ -19,6 +19,7 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/IfcPPGuid.h>
+#include <ifcpp/model/StatusCallback.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 #include <ifcppgeometry/GeomUtils.h>
 
@@ -132,23 +133,27 @@ void TabReadWrite::slotProgressValueWrapper( void* ptr, double value, const std:
 		myself->slotProgressValue( value, progress_type );
 	}
 }
-void TabReadWrite::slotMessageWrapper( void* ptr, const std::wstring& str )
+
+void TabReadWrite::slotMessageWrapper( void* ptr, const std::wstring& str, StatusCallback::SeverityLevel level )
 {
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
 	{
-		
-		QString qt_str = QString::fromStdWString(str);
-		myself->slotTxtOut( qt_str );
-	}
-}
-void TabReadWrite::slotErrorWrapper( void* ptr, const std::wstring& str )
-{
-	TabReadWrite* myself = (TabReadWrite*)ptr;
-	if( myself )
-	{
-		QString qt_str = QString::fromStdWString(str);
-		myself->slotTxtOutError( qt_str );
+		if( level == StatusCallback::STATUS_SEVERITY_MESSAGE )
+		{
+			QString qt_str = QString::fromStdWString( str );
+			myself->slotTxtOut( qt_str );
+		}
+		else if( level == StatusCallback::STATUS_SEVERITY_WARNING )
+		{
+			QString qt_str = QString::fromStdWString( str );
+			myself->slotTxtOutWarning( qt_str );
+		}
+		else if( level == StatusCallback::STATUS_SEVERITY_ERROR )
+		{
+			QString qt_str = QString::fromStdWString( str );
+			myself->slotTxtOutError( qt_str );
+		}
 	}
 }
 
@@ -175,8 +180,6 @@ void TabReadWrite::updateRecentFilesCombo()
 	}
 	m_combo_recent_files->blockSignals( false );
 }
-
-
 
 void TabReadWrite::slotRecentFilesIndexChanged(int)
 {
@@ -244,11 +247,14 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		shared_ptr<LoadIfcFileCommand> cmd_load( new LoadIfcFileCommand( m_system ) );
 		m_system->getReaderWriterIFC()->setProgressCallBack( this, &TabReadWrite::slotProgressValueWrapper );
 		m_system->getReaderWriterIFC()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
-		m_system->getReaderWriterIFC()->setErrorCallBack( this, &TabReadWrite::slotErrorWrapper );
 
 		std::string path_str = path_in.toLocal8Bit().constData();
 		cmd_load->setFilePath( path_str );
 		cmd_load->doCmd();
+	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		slotTxtOutError( e.what() );
 	}
 	catch( IfcPPException& e )
 	{
@@ -288,7 +294,7 @@ void TabReadWrite::slotTxtOut( QString txt )
 
 void TabReadWrite::slotTxtOutWarning( QString txt )
 {
-	m_txt_out->append( "<div style=\"color:#a97878;\">Warning: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
+	m_txt_out->append( "<div style=\"color:#dca103;\">Warning: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
 void TabReadWrite::slotTxtOutError( QString txt )

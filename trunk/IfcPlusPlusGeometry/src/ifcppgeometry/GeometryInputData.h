@@ -72,6 +72,7 @@ public:
 	bool isEmpty();
 	void addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data );
 	void addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data );
+	void addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data );
 	void applyPosition( const carve::math::Matrix& mat );
 	shared_ptr<ItemData> getDeepCopy();
 	
