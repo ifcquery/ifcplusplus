@@ -125,7 +125,7 @@ void IfcCableCarrierSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcFlowSegment::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCableCarrierSegment::unlinkSelf()
+void IfcCableCarrierSegment::unlinkFromInverseCounterparts()
 {
-	IfcFlowSegment::unlinkSelf();
+	IfcFlowSegment::unlinkFromInverseCounterparts();
 }

@@ -130,7 +130,7 @@ void IfcSensorType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcDistributionControlElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSensorType::unlinkSelf()
+void IfcSensorType::unlinkFromInverseCounterparts()
 {
-	IfcDistributionControlElementType::unlinkSelf();
+	IfcDistributionControlElementType::unlinkFromInverseCounterparts();
 }

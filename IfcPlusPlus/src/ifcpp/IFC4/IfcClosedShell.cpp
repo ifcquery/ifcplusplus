@@ -66,7 +66,7 @@ void IfcClosedShell::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcConnectedFaceSet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcClosedShell::unlinkSelf()
+void IfcClosedShell::unlinkFromInverseCounterparts()
 {
-	IfcConnectedFaceSet::unlinkSelf();
+	IfcConnectedFaceSet::unlinkFromInverseCounterparts();
 }

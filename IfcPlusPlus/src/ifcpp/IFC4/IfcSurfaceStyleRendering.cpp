@@ -101,7 +101,7 @@ void IfcSurfaceStyleRendering::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcSurfaceStyleShading::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceStyleRendering::unlinkSelf()
+void IfcSurfaceStyleRendering::unlinkFromInverseCounterparts()
 {
-	IfcSurfaceStyleShading::unlinkSelf();
+	IfcSurfaceStyleShading::unlinkFromInverseCounterparts();
 }

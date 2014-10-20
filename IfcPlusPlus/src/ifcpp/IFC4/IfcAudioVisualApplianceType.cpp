@@ -130,7 +130,7 @@ void IfcAudioVisualApplianceType::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcFlowTerminalType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAudioVisualApplianceType::unlinkSelf()
+void IfcAudioVisualApplianceType::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminalType::unlinkSelf();
+	IfcFlowTerminalType::unlinkFromInverseCounterparts();
 }

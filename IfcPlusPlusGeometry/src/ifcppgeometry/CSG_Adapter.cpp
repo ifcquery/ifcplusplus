@@ -1129,7 +1129,7 @@ void CSG_Adapter::dumpFaces( const meshset_t* meshset, std::vector<face_t* >& ve
 		}
 		strs_out << "{" << vertex.v.x << ", " << vertex.v.y + dump_y_pos << ", " << vertex.v.z << "}";
 	}
-	strs_out << "}" << std::endl;
+	strs_out << "}" << std::endl;  // vertices
 
 	strs_out << "faces{" << std::endl;
 	for( size_t i = 0; i < vec_faces.size(); ++i )
@@ -1154,7 +1154,8 @@ void CSG_Adapter::dumpFaces( const meshset_t* meshset, std::vector<face_t* >& ve
 		}
 		strs_out << "}";
 	}
-	strs_out << std::endl << "}";
+	strs_out << std::endl << "}"; // faces
+	strs_out << std::endl << "}"; // Polyhedron
 
 	std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
 	dump_ofstream << strs_out.str().c_str();
@@ -1193,7 +1194,7 @@ void CSG_Adapter::dumpEdges( const meshset_t* meshset, std::vector<edge_t* >& ve
 		strs_out << "{" << vertex2->v.x << ", " << vertex2->v.y << ", " << vertex2->v.z << "}";
 		++vertex_idx;
 	}
-	strs_out << "}" << std::endl;
+	strs_out << "}" << std::endl; // vertices
 
 	strs_out << "lines{" << std::endl;
 	for( size_t i = 0; i < vec_edges.size(); ++i )
@@ -1216,7 +1217,75 @@ void CSG_Adapter::dumpEdges( const meshset_t* meshset, std::vector<edge_t* >& ve
 		int idx2 = map_vertex_idx[vertex2];
 		strs_out << "{" << idx1 << "," << idx2 << "}";
 	}
-	strs_out << std::endl << "}";
+	strs_out << std::endl << "}"; // lines
+	strs_out << std::endl << "}"; // PolyLineSet
+
+	std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+	dump_ofstream << strs_out.str().c_str();
+	dump_ofstream.close();
+}
+
+void CSG_Adapter::dumpPolylineSet( carve::input::PolylineSetData* polyline_data, carve::geom::vector<4>& color, bool append )
+{
+	osg::Vec3Array* vertices = new osg::Vec3Array();
+	carve::line::PolylineSet* polyline_set = polyline_data->create(carve::input::opts());
+
+	if( polyline_set->vertices.size() < 2 )
+	{
+#ifdef _DEBUG
+		std::cout << __FUNC__ << ": polyline_set->vertices.size() < 2" << std::endl;
+#endif
+		return;
+	}
+
+
+	std::stringstream strs_out;
+	strs_out << "Polyline{" << std::endl;
+	strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+	strs_out << "vertices{" << std::endl;
+
+	int vertex_count_all = 0;
+	for( auto it = polyline_set->lines.begin(); it != polyline_set->lines.end(); ++it )
+	{
+		carve::line::Polyline* pline = *it;
+		size_t vertex_count_polyline = pline->vertexCount();
+
+		//if( it != polyline_set->lines.begin() )
+		//{
+		//	strs_out << ",";
+		//}
+
+		for( size_t vertex_i = 0; vertex_i < vertex_count_polyline; ++vertex_i )
+		{
+			if( vertex_i >= polyline_set->vertices.size() )
+			{
+#ifdef _DEBUG
+				std::cout << __FUNC__ <<  ": vertex_i >= polyline_set->vertices.size()" << std::endl;
+#endif
+				continue;
+			}
+			const carve::line::Vertex* vertex = pline->vertex( vertex_i );
+			//vertices->push_back( osg::Vec3d( v->v[0], v->v[1], v->v[2] ) );
+
+			//if( it != polyline_set->lines.begin() )
+			if( vertex_count_all > 0 )
+			{
+				strs_out << "," << std::endl;
+			}
+			strs_out << "{" << vertex->v.x << ", " << vertex->v.y << ", " << vertex->v.z << "}";
+			++vertex_count_all;
+
+		}
+	}
+	strs_out << "}" << std::endl; // vertices
+	strs_out << "}" << std::endl; // Polyline
+
+
+
+	if( !append )
+	{
+		clearMeshsetDump();
+	}
 
 	std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
 	dump_ofstream << strs_out.str().c_str();

@@ -82,7 +82,7 @@ void IfcSweptDiskSolidPolygonal::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	IfcSweptDiskSolid::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSweptDiskSolidPolygonal::unlinkSelf()
+void IfcSweptDiskSolidPolygonal::unlinkFromInverseCounterparts()
 {
-	IfcSweptDiskSolid::unlinkSelf();
+	IfcSweptDiskSolid::unlinkFromInverseCounterparts();
 }

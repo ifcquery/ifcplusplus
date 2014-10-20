@@ -33,7 +33,7 @@ public:
 	IfcGeographicElementTypeEnum();
 	IfcGeographicElementTypeEnum( IfcGeographicElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcGeographicElementTypeEnum();
-	virtual const char* classname() const { return "IfcGeographicElementTypeEnum"; }
+	virtual const char* className() const { return "IfcGeographicElementTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcGeographicElementTypeEnum> createObjectFromSTEP( const std::wstring& arg );

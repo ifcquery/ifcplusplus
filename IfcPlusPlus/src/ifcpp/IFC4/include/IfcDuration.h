@@ -28,7 +28,7 @@ public:
 	IfcDuration();
 	IfcDuration( std::wstring value );
 	~IfcDuration();
-	virtual const char* classname() const { return "IfcDuration"; }
+	virtual const char* className() const { return "IfcDuration"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDuration> createObjectFromSTEP( const std::wstring& arg );

@@ -108,7 +108,7 @@ void IfcLightSourceGoniometric::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcLightSource::setInverseCounterparts( ptr_self_entity );
 }
-void IfcLightSourceGoniometric::unlinkSelf()
+void IfcLightSourceGoniometric::unlinkFromInverseCounterparts()
 {
-	IfcLightSource::unlinkSelf();
+	IfcLightSource::unlinkFromInverseCounterparts();
 }

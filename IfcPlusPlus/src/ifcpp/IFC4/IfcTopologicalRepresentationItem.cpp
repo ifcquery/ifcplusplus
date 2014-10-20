@@ -53,7 +53,7 @@ void IfcTopologicalRepresentationItem::setInverseCounterparts( shared_ptr<IfcPPE
 {
 	IfcRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTopologicalRepresentationItem::unlinkSelf()
+void IfcTopologicalRepresentationItem::unlinkFromInverseCounterparts()
 {
-	IfcRepresentationItem::unlinkSelf();
+	IfcRepresentationItem::unlinkFromInverseCounterparts();
 }

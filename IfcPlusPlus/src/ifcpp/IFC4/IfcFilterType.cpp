@@ -130,7 +130,7 @@ void IfcFilterType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcFlowTreatmentDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFilterType::unlinkSelf()
+void IfcFilterType::unlinkFromInverseCounterparts()
 {
-	IfcFlowTreatmentDeviceType::unlinkSelf();
+	IfcFlowTreatmentDeviceType::unlinkFromInverseCounterparts();
 }

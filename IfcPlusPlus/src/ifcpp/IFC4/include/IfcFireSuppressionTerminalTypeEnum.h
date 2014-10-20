@@ -37,7 +37,7 @@ public:
 	IfcFireSuppressionTerminalTypeEnum();
 	IfcFireSuppressionTerminalTypeEnum( IfcFireSuppressionTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcFireSuppressionTerminalTypeEnum();
-	virtual const char* classname() const { return "IfcFireSuppressionTerminalTypeEnum"; }
+	virtual const char* className() const { return "IfcFireSuppressionTerminalTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFireSuppressionTerminalTypeEnum> createObjectFromSTEP( const std::wstring& arg );

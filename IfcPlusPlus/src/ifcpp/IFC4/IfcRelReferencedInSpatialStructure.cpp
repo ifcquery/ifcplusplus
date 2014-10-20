@@ -119,22 +119,25 @@ void IfcRelReferencedInSpatialStructure::setInverseCounterparts( shared_ptr<IfcP
 		m_RelatingStructure->m_ReferencesElements_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelReferencedInSpatialStructure::unlinkSelf()
+void IfcRelReferencedInSpatialStructure::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedElements.size(); ++i )
 	{
 		shared_ptr<IfcElement>  RelatedElements_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatedElements[i] );
 		if( RelatedElements_IfcElement )
 		{
 			std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >& ReferencedInStructures_inverse = RelatedElements_IfcElement->m_ReferencedInStructures_inverse;
-			for( auto it_ReferencedInStructures_inverse = ReferencedInStructures_inverse.begin(); it_ReferencedInStructures_inverse != ReferencedInStructures_inverse.end(); ++it_ReferencedInStructures_inverse)
+			for( auto it_ReferencedInStructures_inverse = ReferencedInStructures_inverse.begin(); it_ReferencedInStructures_inverse != ReferencedInStructures_inverse.end(); )
 			{
 				shared_ptr<IfcRelReferencedInSpatialStructure> self_candidate( *it_ReferencedInStructures_inverse );
 				if( self_candidate.get() == this )
 				{
-					ReferencedInStructures_inverse.erase( it_ReferencedInStructures_inverse );
-					break;
+					it_ReferencedInStructures_inverse= ReferencedInStructures_inverse.erase( it_ReferencedInStructures_inverse );
+				}
+				else
+				{
+					++it_ReferencedInStructures_inverse;
 				}
 			}
 		}
@@ -142,13 +145,16 @@ void IfcRelReferencedInSpatialStructure::unlinkSelf()
 	if( m_RelatingStructure )
 	{
 		std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >& ReferencesElements_inverse = m_RelatingStructure->m_ReferencesElements_inverse;
-		for( auto it_ReferencesElements_inverse = ReferencesElements_inverse.begin(); it_ReferencesElements_inverse != ReferencesElements_inverse.end(); ++it_ReferencesElements_inverse)
+		for( auto it_ReferencesElements_inverse = ReferencesElements_inverse.begin(); it_ReferencesElements_inverse != ReferencesElements_inverse.end(); )
 		{
 			shared_ptr<IfcRelReferencedInSpatialStructure> self_candidate( *it_ReferencesElements_inverse );
 			if( self_candidate.get() == this )
 			{
-				ReferencesElements_inverse.erase( it_ReferencesElements_inverse );
-				break;
+				it_ReferencesElements_inverse= ReferencesElements_inverse.erase( it_ReferencesElements_inverse );
+			}
+			else
+			{
+				++it_ReferencesElements_inverse;
 			}
 		}
 	}

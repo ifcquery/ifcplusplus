@@ -27,7 +27,7 @@ public:
 	IfcAmountOfSubstanceMeasure();
 	IfcAmountOfSubstanceMeasure( double value );
 	~IfcAmountOfSubstanceMeasure();
-	virtual const char* classname() const { return "IfcAmountOfSubstanceMeasure"; }
+	virtual const char* className() const { return "IfcAmountOfSubstanceMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAmountOfSubstanceMeasure> createObjectFromSTEP( const std::wstring& arg );

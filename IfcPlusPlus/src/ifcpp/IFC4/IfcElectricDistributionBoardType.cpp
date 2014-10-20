@@ -130,7 +130,7 @@ void IfcElectricDistributionBoardType::setInverseCounterparts( shared_ptr<IfcPPE
 {
 	IfcFlowControllerType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcElectricDistributionBoardType::unlinkSelf()
+void IfcElectricDistributionBoardType::unlinkFromInverseCounterparts()
 {
-	IfcFlowControllerType::unlinkSelf();
+	IfcFlowControllerType::unlinkFromInverseCounterparts();
 }

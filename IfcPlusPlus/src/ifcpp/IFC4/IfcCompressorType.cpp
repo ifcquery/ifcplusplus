@@ -130,7 +130,7 @@ void IfcCompressorType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcFlowMovingDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCompressorType::unlinkSelf()
+void IfcCompressorType::unlinkFromInverseCounterparts()
 {
-	IfcFlowMovingDeviceType::unlinkSelf();
+	IfcFlowMovingDeviceType::unlinkFromInverseCounterparts();
 }

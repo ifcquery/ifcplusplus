@@ -27,7 +27,7 @@ public:
 	IfcTorqueMeasure();
 	IfcTorqueMeasure( double value );
 	~IfcTorqueMeasure();
-	virtual const char* classname() const { return "IfcTorqueMeasure"; }
+	virtual const char* className() const { return "IfcTorqueMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTorqueMeasure> createObjectFromSTEP( const std::wstring& arg );

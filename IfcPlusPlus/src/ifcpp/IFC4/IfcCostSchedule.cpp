@@ -120,7 +120,7 @@ void IfcCostSchedule::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCostSchedule::unlinkSelf()
+void IfcCostSchedule::unlinkFromInverseCounterparts()
 {
-	IfcControl::unlinkSelf();
+	IfcControl::unlinkFromInverseCounterparts();
 }

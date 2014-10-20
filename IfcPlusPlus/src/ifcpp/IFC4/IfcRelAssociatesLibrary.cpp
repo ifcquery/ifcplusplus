@@ -112,20 +112,23 @@ void IfcRelAssociatesLibrary::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 		RelatingLibrary_IfcLibraryReference->m_LibraryRefForObjects_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssociatesLibrary::unlinkSelf()
+void IfcRelAssociatesLibrary::unlinkFromInverseCounterparts()
 {
-	IfcRelAssociates::unlinkSelf();
+	IfcRelAssociates::unlinkFromInverseCounterparts();
 	shared_ptr<IfcLibraryInformation>  RelatingLibrary_IfcLibraryInformation = dynamic_pointer_cast<IfcLibraryInformation>( m_RelatingLibrary );
 	if( RelatingLibrary_IfcLibraryInformation )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >& LibraryInfoForObjects_inverse = RelatingLibrary_IfcLibraryInformation->m_LibraryInfoForObjects_inverse;
-		for( auto it_LibraryInfoForObjects_inverse = LibraryInfoForObjects_inverse.begin(); it_LibraryInfoForObjects_inverse != LibraryInfoForObjects_inverse.end(); ++it_LibraryInfoForObjects_inverse)
+		for( auto it_LibraryInfoForObjects_inverse = LibraryInfoForObjects_inverse.begin(); it_LibraryInfoForObjects_inverse != LibraryInfoForObjects_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssociatesLibrary> self_candidate( *it_LibraryInfoForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
-				LibraryInfoForObjects_inverse.erase( it_LibraryInfoForObjects_inverse );
-				break;
+				it_LibraryInfoForObjects_inverse= LibraryInfoForObjects_inverse.erase( it_LibraryInfoForObjects_inverse );
+			}
+			else
+			{
+				++it_LibraryInfoForObjects_inverse;
 			}
 		}
 	}
@@ -133,13 +136,16 @@ void IfcRelAssociatesLibrary::unlinkSelf()
 	if( RelatingLibrary_IfcLibraryReference )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >& LibraryRefForObjects_inverse = RelatingLibrary_IfcLibraryReference->m_LibraryRefForObjects_inverse;
-		for( auto it_LibraryRefForObjects_inverse = LibraryRefForObjects_inverse.begin(); it_LibraryRefForObjects_inverse != LibraryRefForObjects_inverse.end(); ++it_LibraryRefForObjects_inverse)
+		for( auto it_LibraryRefForObjects_inverse = LibraryRefForObjects_inverse.begin(); it_LibraryRefForObjects_inverse != LibraryRefForObjects_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssociatesLibrary> self_candidate( *it_LibraryRefForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
-				LibraryRefForObjects_inverse.erase( it_LibraryRefForObjects_inverse );
-				break;
+				it_LibraryRefForObjects_inverse= LibraryRefForObjects_inverse.erase( it_LibraryRefForObjects_inverse );
+			}
+			else
+			{
+				++it_LibraryRefForObjects_inverse;
 			}
 		}
 	}

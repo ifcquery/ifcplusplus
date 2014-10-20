@@ -130,7 +130,7 @@ void IfcDuctSilencerType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcFlowTreatmentDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDuctSilencerType::unlinkSelf()
+void IfcDuctSilencerType::unlinkFromInverseCounterparts()
 {
-	IfcFlowTreatmentDeviceType::unlinkSelf();
+	IfcFlowTreatmentDeviceType::unlinkFromInverseCounterparts();
 }

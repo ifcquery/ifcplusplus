@@ -142,7 +142,7 @@ void IfcWorkSchedule::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcWorkControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcWorkSchedule::unlinkSelf()
+void IfcWorkSchedule::unlinkFromInverseCounterparts()
 {
-	IfcWorkControl::unlinkSelf();
+	IfcWorkControl::unlinkFromInverseCounterparts();
 }

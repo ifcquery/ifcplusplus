@@ -73,7 +73,7 @@ void IfcStructuralLoadTemperature::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcStructuralLoadStatic::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralLoadTemperature::unlinkSelf()
+void IfcStructuralLoadTemperature::unlinkFromInverseCounterparts()
 {
-	IfcStructuralLoadStatic::unlinkSelf();
+	IfcStructuralLoadStatic::unlinkFromInverseCounterparts();
 }

@@ -39,7 +39,7 @@ public:
 	IfcOccupantTypeEnum();
 	IfcOccupantTypeEnum( IfcOccupantTypeEnumEnum e ) { m_enum = e; }
 	~IfcOccupantTypeEnum();
-	virtual const char* classname() const { return "IfcOccupantTypeEnum"; }
+	virtual const char* className() const { return "IfcOccupantTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcOccupantTypeEnum> createObjectFromSTEP( const std::wstring& arg );

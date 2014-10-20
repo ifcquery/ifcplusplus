@@ -27,7 +27,7 @@ public:
 	IfcHeatingValueMeasure();
 	IfcHeatingValueMeasure( double value );
 	~IfcHeatingValueMeasure();
-	virtual const char* classname() const { return "IfcHeatingValueMeasure"; }
+	virtual const char* className() const { return "IfcHeatingValueMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcHeatingValueMeasure> createObjectFromSTEP( const std::wstring& arg );

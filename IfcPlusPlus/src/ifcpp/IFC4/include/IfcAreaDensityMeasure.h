@@ -27,7 +27,7 @@ public:
 	IfcAreaDensityMeasure();
 	IfcAreaDensityMeasure( double value );
 	~IfcAreaDensityMeasure();
-	virtual const char* classname() const { return "IfcAreaDensityMeasure"; }
+	virtual const char* className() const { return "IfcAreaDensityMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAreaDensityMeasure> createObjectFromSTEP( const std::wstring& arg );

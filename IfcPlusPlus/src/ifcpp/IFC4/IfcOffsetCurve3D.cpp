@@ -81,7 +81,7 @@ void IfcOffsetCurve3D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcCurve::setInverseCounterparts( ptr_self_entity );
 }
-void IfcOffsetCurve3D::unlinkSelf()
+void IfcOffsetCurve3D::unlinkFromInverseCounterparts()
 {
-	IfcCurve::unlinkSelf();
+	IfcCurve::unlinkFromInverseCounterparts();
 }

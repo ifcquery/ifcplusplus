@@ -35,7 +35,7 @@ public:
 	IfcDataOriginEnum();
 	IfcDataOriginEnum( IfcDataOriginEnumEnum e ) { m_enum = e; }
 	~IfcDataOriginEnum();
-	virtual const char* classname() const { return "IfcDataOriginEnum"; }
+	virtual const char* className() const { return "IfcDataOriginEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDataOriginEnum> createObjectFromSTEP( const std::wstring& arg );

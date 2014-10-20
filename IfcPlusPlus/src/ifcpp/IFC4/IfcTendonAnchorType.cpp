@@ -130,7 +130,7 @@ void IfcTendonAnchorType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcReinforcingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTendonAnchorType::unlinkSelf()
+void IfcTendonAnchorType::unlinkFromInverseCounterparts()
 {
-	IfcReinforcingElementType::unlinkSelf();
+	IfcReinforcingElementType::unlinkFromInverseCounterparts();
 }

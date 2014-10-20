@@ -130,7 +130,7 @@ void IfcSubContractResource::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcConstructionResource::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSubContractResource::unlinkSelf()
+void IfcSubContractResource::unlinkFromInverseCounterparts()
 {
-	IfcConstructionResource::unlinkSelf();
+	IfcConstructionResource::unlinkFromInverseCounterparts();
 }

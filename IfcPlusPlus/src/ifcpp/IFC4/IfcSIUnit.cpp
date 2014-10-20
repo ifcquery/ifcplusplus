@@ -74,7 +74,7 @@ void IfcSIUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity 
 {
 	IfcNamedUnit::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSIUnit::unlinkSelf()
+void IfcSIUnit::unlinkFromInverseCounterparts()
 {
-	IfcNamedUnit::unlinkSelf();
+	IfcNamedUnit::unlinkFromInverseCounterparts();
 }

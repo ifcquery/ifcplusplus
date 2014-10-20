@@ -30,9 +30,6 @@
     <ClCompile Include="src\ifcppgeometry\RepresentationConverter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\SectionedSpine.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcppgeometry\StylesConverter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

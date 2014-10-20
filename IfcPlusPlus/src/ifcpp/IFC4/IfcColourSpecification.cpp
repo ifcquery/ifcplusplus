@@ -58,7 +58,7 @@ void IfcColourSpecification::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcColourSpecification::unlinkSelf()
+void IfcColourSpecification::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

@@ -27,7 +27,7 @@ public:
 	IfcInteger();
 	IfcInteger( int value );
 	~IfcInteger();
-	virtual const char* classname() const { return "IfcInteger"; }
+	virtual const char* className() const { return "IfcInteger"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcInteger> createObjectFromSTEP( const std::wstring& arg );

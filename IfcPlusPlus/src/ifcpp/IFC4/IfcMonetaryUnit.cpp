@@ -55,6 +55,6 @@ void IfcMonetaryUnit::getAttributesInverse( std::vector<std::pair<std::string, s
 void IfcMonetaryUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcMonetaryUnit::unlinkSelf()
+void IfcMonetaryUnit::unlinkFromInverseCounterparts()
 {
 }

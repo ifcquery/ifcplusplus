@@ -130,7 +130,7 @@ void IfcStackTerminalType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcFlowTerminalType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStackTerminalType::unlinkSelf()
+void IfcStackTerminalType::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminalType::unlinkSelf();
+	IfcFlowTerminalType::unlinkFromInverseCounterparts();
 }

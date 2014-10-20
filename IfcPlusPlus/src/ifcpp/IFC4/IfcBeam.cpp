@@ -124,7 +124,7 @@ void IfcBeam::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBeam::unlinkSelf()
+void IfcBeam::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkSelf();
+	IfcBuildingElement::unlinkFromInverseCounterparts();
 }

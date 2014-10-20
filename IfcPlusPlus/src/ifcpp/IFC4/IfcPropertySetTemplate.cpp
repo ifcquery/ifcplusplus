@@ -134,21 +134,24 @@ void IfcPropertySetTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 		}
 	}
 }
-void IfcPropertySetTemplate::unlinkSelf()
+void IfcPropertySetTemplate::unlinkFromInverseCounterparts()
 {
-	IfcPropertyTemplateDefinition::unlinkSelf();
+	IfcPropertyTemplateDefinition::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_HasPropertyTemplates.size(); ++i )
 	{
 		if( m_HasPropertyTemplates[i] )
 		{
 			std::vector<weak_ptr<IfcPropertySetTemplate> >& PartOfPsetTemplate_inverse = m_HasPropertyTemplates[i]->m_PartOfPsetTemplate_inverse;
-			for( auto it_PartOfPsetTemplate_inverse = PartOfPsetTemplate_inverse.begin(); it_PartOfPsetTemplate_inverse != PartOfPsetTemplate_inverse.end(); ++it_PartOfPsetTemplate_inverse)
+			for( auto it_PartOfPsetTemplate_inverse = PartOfPsetTemplate_inverse.begin(); it_PartOfPsetTemplate_inverse != PartOfPsetTemplate_inverse.end(); )
 			{
 				shared_ptr<IfcPropertySetTemplate> self_candidate( *it_PartOfPsetTemplate_inverse );
 				if( self_candidate.get() == this )
 				{
-					PartOfPsetTemplate_inverse.erase( it_PartOfPsetTemplate_inverse );
-					break;
+					it_PartOfPsetTemplate_inverse= PartOfPsetTemplate_inverse.erase( it_PartOfPsetTemplate_inverse );
+				}
+				else
+				{
+					++it_PartOfPsetTemplate_inverse;
 				}
 			}
 		}

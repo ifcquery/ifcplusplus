@@ -131,7 +131,7 @@ void IfcDistributionControlElement::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcDistributionElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDistributionControlElement::unlinkSelf()
+void IfcDistributionControlElement::unlinkFromInverseCounterparts()
 {
-	IfcDistributionElement::unlinkSelf();
+	IfcDistributionElement::unlinkFromInverseCounterparts();
 }

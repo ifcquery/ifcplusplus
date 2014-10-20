@@ -35,17 +35,25 @@ public:
 class IfcPPObject
 {
 public:
-	virtual const char* classname() const = 0;
+	virtual const char* className() const = 0;
 };
 
 // ENTITY
 class IfcPPEntity : virtual public IfcPPObject
 {
 public:
-	IfcPPEntity();
-	IfcPPEntity( int id );
-	virtual ~IfcPPEntity();
-	virtual const char* classname() const = 0;
+	IfcPPEntity() : m_id(-1)
+	{
+	}
+
+	IfcPPEntity( int id ) : m_id(id)
+	{
+	}
+
+	virtual ~IfcPPEntity()
+	{
+	}
+	virtual const char* className() const = 0;
 
 	/** \brief Creates a deep copy of the object, recursively creating deep copies of attributes.
 	 *  Usually it makes sense to create only a shallow copy (not a new object) for entities like IfcOwnerHistory, IfcRepresentationContext and others.
@@ -70,7 +78,7 @@ public:
 	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self ) = 0;
 
 	/** \brief Removes the inverse reference established in setInverseCounterparts.*/
-	virtual void unlinkSelf() = 0;
+	virtual void unlinkFromInverseCounterparts() = 0;
 
 	/// Entity ID (same as STEP ID)
 	int m_id;

@@ -36,7 +36,7 @@ public:
 	IfcSequenceEnum();
 	IfcSequenceEnum( IfcSequenceEnumEnum e ) { m_enum = e; }
 	~IfcSequenceEnum();
-	virtual const char* classname() const { return "IfcSequenceEnum"; }
+	virtual const char* className() const { return "IfcSequenceEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSequenceEnum> createObjectFromSTEP( const std::wstring& arg );

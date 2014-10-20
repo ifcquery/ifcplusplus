@@ -124,7 +124,7 @@ void IfcChimney::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity
 {
 	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcChimney::unlinkSelf()
+void IfcChimney::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkSelf();
+	IfcBuildingElement::unlinkFromInverseCounterparts();
 }

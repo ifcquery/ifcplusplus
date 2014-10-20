@@ -100,7 +100,7 @@ void IfcTable::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 		}
 	}
 }
-void IfcTable::unlinkSelf()
+void IfcTable::unlinkFromInverseCounterparts()
 {
 	for( size_t i=0; i<m_Rows.size(); ++i )
 	{

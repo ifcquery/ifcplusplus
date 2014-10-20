@@ -87,7 +87,7 @@ void IfcConversionBasedUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcNamedUnit::setInverseCounterparts( ptr_self_entity );
 }
-void IfcConversionBasedUnit::unlinkSelf()
+void IfcConversionBasedUnit::unlinkFromInverseCounterparts()
 {
-	IfcNamedUnit::unlinkSelf();
+	IfcNamedUnit::unlinkFromInverseCounterparts();
 }

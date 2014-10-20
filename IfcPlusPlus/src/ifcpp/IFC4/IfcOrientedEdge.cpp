@@ -76,7 +76,7 @@ void IfcOrientedEdge::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcEdge::setInverseCounterparts( ptr_self_entity );
 }
-void IfcOrientedEdge::unlinkSelf()
+void IfcOrientedEdge::unlinkFromInverseCounterparts()
 {
-	IfcEdge::unlinkSelf();
+	IfcEdge::unlinkFromInverseCounterparts();
 }

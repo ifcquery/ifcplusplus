@@ -60,7 +60,7 @@ void IfcCsgSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entit
 {
 	IfcSolidModel::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCsgSolid::unlinkSelf()
+void IfcCsgSolid::unlinkFromInverseCounterparts()
 {
-	IfcSolidModel::unlinkSelf();
+	IfcSolidModel::unlinkFromInverseCounterparts();
 }

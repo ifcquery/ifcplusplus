@@ -27,7 +27,7 @@ public:
 	IfcMassPerLengthMeasure();
 	IfcMassPerLengthMeasure( double value );
 	~IfcMassPerLengthMeasure();
-	virtual const char* classname() const { return "IfcMassPerLengthMeasure"; }
+	virtual const char* className() const { return "IfcMassPerLengthMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcMassPerLengthMeasure> createObjectFromSTEP( const std::wstring& arg );

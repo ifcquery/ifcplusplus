@@ -123,7 +123,7 @@ void IfcSurfaceFeature::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcFeatureElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceFeature::unlinkSelf()
+void IfcSurfaceFeature::unlinkFromInverseCounterparts()
 {
-	IfcFeatureElement::unlinkSelf();
+	IfcFeatureElement::unlinkFromInverseCounterparts();
 }

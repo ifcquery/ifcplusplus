@@ -117,21 +117,24 @@ void IfcRelDefinesByTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 		m_RelatingTemplate->m_Defines_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelDefinesByTemplate::unlinkSelf()
+void IfcRelDefinesByTemplate::unlinkFromInverseCounterparts()
 {
-	IfcRelDefines::unlinkSelf();
+	IfcRelDefines::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedPropertySets.size(); ++i )
 	{
 		if( m_RelatedPropertySets[i] )
 		{
 			std::vector<weak_ptr<IfcRelDefinesByTemplate> >& IsDefinedBy_inverse = m_RelatedPropertySets[i]->m_IsDefinedBy_inverse;
-			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); ++it_IsDefinedBy_inverse)
+			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); )
 			{
 				shared_ptr<IfcRelDefinesByTemplate> self_candidate( *it_IsDefinedBy_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsDefinedBy_inverse.erase( it_IsDefinedBy_inverse );
-					break;
+					it_IsDefinedBy_inverse= IsDefinedBy_inverse.erase( it_IsDefinedBy_inverse );
+				}
+				else
+				{
+					++it_IsDefinedBy_inverse;
 				}
 			}
 		}
@@ -139,13 +142,16 @@ void IfcRelDefinesByTemplate::unlinkSelf()
 	if( m_RelatingTemplate )
 	{
 		std::vector<weak_ptr<IfcRelDefinesByTemplate> >& Defines_inverse = m_RelatingTemplate->m_Defines_inverse;
-		for( auto it_Defines_inverse = Defines_inverse.begin(); it_Defines_inverse != Defines_inverse.end(); ++it_Defines_inverse)
+		for( auto it_Defines_inverse = Defines_inverse.begin(); it_Defines_inverse != Defines_inverse.end(); )
 		{
 			shared_ptr<IfcRelDefinesByTemplate> self_candidate( *it_Defines_inverse );
 			if( self_candidate.get() == this )
 			{
-				Defines_inverse.erase( it_Defines_inverse );
-				break;
+				it_Defines_inverse= Defines_inverse.erase( it_Defines_inverse );
+			}
+			else
+			{
+				++it_Defines_inverse;
 			}
 		}
 	}

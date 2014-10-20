@@ -47,6 +47,7 @@ public:
 	static void dumpMeshsets( std::vector<meshset_t* >& meshset, std::vector<carve::geom::vector<4> >& vec_colors, bool append );
 	static void dumpFaces( const meshset_t* meshset, std::vector<face_t* >& vec_faces );
 	static void dumpEdges( const meshset_t* meshset, std::vector<edge_t* >& vec_edges );
+	static void dumpPolylineSet( carve::input::PolylineSetData* polyline, carve::geom::vector<4>& color, bool append );
 	static void clearMeshsetDump();
 #endif
 };

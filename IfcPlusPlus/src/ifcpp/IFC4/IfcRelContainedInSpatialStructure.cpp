@@ -131,22 +131,25 @@ void IfcRelContainedInSpatialStructure::setInverseCounterparts( shared_ptr<IfcPP
 		m_RelatingStructure->m_ContainsElements_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelContainedInSpatialStructure::unlinkSelf()
+void IfcRelContainedInSpatialStructure::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedElements.size(); ++i )
 	{
 		shared_ptr<IfcAnnotation>  RelatedElements_IfcAnnotation = dynamic_pointer_cast<IfcAnnotation>( m_RelatedElements[i] );
 		if( RelatedElements_IfcAnnotation )
 		{
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcAnnotation->m_ContainedInStructure_inverse;
-			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); ++it_ContainedInStructure_inverse)
+			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
 				shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainedInStructure_inverse );
 				if( self_candidate.get() == this )
 				{
-					ContainedInStructure_inverse.erase( it_ContainedInStructure_inverse );
-					break;
+					it_ContainedInStructure_inverse= ContainedInStructure_inverse.erase( it_ContainedInStructure_inverse );
+				}
+				else
+				{
+					++it_ContainedInStructure_inverse;
 				}
 			}
 		}
@@ -154,13 +157,16 @@ void IfcRelContainedInSpatialStructure::unlinkSelf()
 		if( RelatedElements_IfcElement )
 		{
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcElement->m_ContainedInStructure_inverse;
-			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); ++it_ContainedInStructure_inverse)
+			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
 				shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainedInStructure_inverse );
 				if( self_candidate.get() == this )
 				{
-					ContainedInStructure_inverse.erase( it_ContainedInStructure_inverse );
-					break;
+					it_ContainedInStructure_inverse= ContainedInStructure_inverse.erase( it_ContainedInStructure_inverse );
+				}
+				else
+				{
+					++it_ContainedInStructure_inverse;
 				}
 			}
 		}
@@ -168,13 +174,16 @@ void IfcRelContainedInSpatialStructure::unlinkSelf()
 		if( RelatedElements_IfcGrid )
 		{
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcGrid->m_ContainedInStructure_inverse;
-			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); ++it_ContainedInStructure_inverse)
+			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
 				shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainedInStructure_inverse );
 				if( self_candidate.get() == this )
 				{
-					ContainedInStructure_inverse.erase( it_ContainedInStructure_inverse );
-					break;
+					it_ContainedInStructure_inverse= ContainedInStructure_inverse.erase( it_ContainedInStructure_inverse );
+				}
+				else
+				{
+					++it_ContainedInStructure_inverse;
 				}
 			}
 		}
@@ -182,13 +191,16 @@ void IfcRelContainedInSpatialStructure::unlinkSelf()
 	if( m_RelatingStructure )
 	{
 		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainsElements_inverse = m_RelatingStructure->m_ContainsElements_inverse;
-		for( auto it_ContainsElements_inverse = ContainsElements_inverse.begin(); it_ContainsElements_inverse != ContainsElements_inverse.end(); ++it_ContainsElements_inverse)
+		for( auto it_ContainsElements_inverse = ContainsElements_inverse.begin(); it_ContainsElements_inverse != ContainsElements_inverse.end(); )
 		{
 			shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainsElements_inverse );
 			if( self_candidate.get() == this )
 			{
-				ContainsElements_inverse.erase( it_ContainsElements_inverse );
-				break;
+				it_ContainsElements_inverse= ContainsElements_inverse.erase( it_ContainsElements_inverse );
+			}
+			else
+			{
+				++it_ContainsElements_inverse;
 			}
 		}
 	}

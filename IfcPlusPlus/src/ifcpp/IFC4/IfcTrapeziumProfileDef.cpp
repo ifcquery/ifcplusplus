@@ -91,7 +91,7 @@ void IfcTrapeziumProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcParameterizedProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTrapeziumProfileDef::unlinkSelf()
+void IfcTrapeziumProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcParameterizedProfileDef::unlinkSelf();
+	IfcParameterizedProfileDef::unlinkFromInverseCounterparts();
 }

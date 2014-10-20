@@ -32,7 +32,7 @@ public:
 	IfcReinforcingMeshTypeEnum();
 	IfcReinforcingMeshTypeEnum( IfcReinforcingMeshTypeEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingMeshTypeEnum();
-	virtual const char* classname() const { return "IfcReinforcingMeshTypeEnum"; }
+	virtual const char* className() const { return "IfcReinforcingMeshTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcReinforcingMeshTypeEnum> createObjectFromSTEP( const std::wstring& arg );

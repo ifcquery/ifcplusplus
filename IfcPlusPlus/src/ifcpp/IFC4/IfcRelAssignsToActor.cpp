@@ -115,19 +115,22 @@ void IfcRelAssignsToActor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 		m_RelatingActor->m_IsActingUpon_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssignsToActor::unlinkSelf()
+void IfcRelAssignsToActor::unlinkFromInverseCounterparts()
 {
-	IfcRelAssigns::unlinkSelf();
+	IfcRelAssigns::unlinkFromInverseCounterparts();
 	if( m_RelatingActor )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToActor> >& IsActingUpon_inverse = m_RelatingActor->m_IsActingUpon_inverse;
-		for( auto it_IsActingUpon_inverse = IsActingUpon_inverse.begin(); it_IsActingUpon_inverse != IsActingUpon_inverse.end(); ++it_IsActingUpon_inverse)
+		for( auto it_IsActingUpon_inverse = IsActingUpon_inverse.begin(); it_IsActingUpon_inverse != IsActingUpon_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToActor> self_candidate( *it_IsActingUpon_inverse );
 			if( self_candidate.get() == this )
 			{
-				IsActingUpon_inverse.erase( it_IsActingUpon_inverse );
-				break;
+				it_IsActingUpon_inverse= IsActingUpon_inverse.erase( it_IsActingUpon_inverse );
+			}
+			else
+			{
+				++it_IsActingUpon_inverse;
 			}
 		}
 	}

@@ -88,7 +88,7 @@ void IfcTextureCoordinateGenerator::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcTextureCoordinate::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextureCoordinateGenerator::unlinkSelf()
+void IfcTextureCoordinateGenerator::unlinkFromInverseCounterparts()
 {
-	IfcTextureCoordinate::unlinkSelf();
+	IfcTextureCoordinate::unlinkFromInverseCounterparts();
 }

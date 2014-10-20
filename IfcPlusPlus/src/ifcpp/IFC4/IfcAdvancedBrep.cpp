@@ -59,7 +59,7 @@ void IfcAdvancedBrep::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcManifoldSolidBrep::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAdvancedBrep::unlinkSelf()
+void IfcAdvancedBrep::unlinkFromInverseCounterparts()
 {
-	IfcManifoldSolidBrep::unlinkSelf();
+	IfcManifoldSolidBrep::unlinkFromInverseCounterparts();
 }

@@ -125,7 +125,7 @@ void IfcCoil::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcEnergyConversionDevice::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCoil::unlinkSelf()
+void IfcCoil::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDevice::unlinkSelf();
+	IfcEnergyConversionDevice::unlinkFromInverseCounterparts();
 }

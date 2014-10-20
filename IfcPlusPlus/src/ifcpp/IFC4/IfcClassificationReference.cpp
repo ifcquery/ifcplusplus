@@ -123,20 +123,23 @@ void IfcClassificationReference::setInverseCounterparts( shared_ptr<IfcPPEntity>
 		ReferencedSource_IfcClassificationReference->m_HasReferences_inverse.push_back( ptr_self );
 	}
 }
-void IfcClassificationReference::unlinkSelf()
+void IfcClassificationReference::unlinkFromInverseCounterparts()
 {
-	IfcExternalReference::unlinkSelf();
+	IfcExternalReference::unlinkFromInverseCounterparts();
 	shared_ptr<IfcClassification>  ReferencedSource_IfcClassification = dynamic_pointer_cast<IfcClassification>( m_ReferencedSource );
 	if( ReferencedSource_IfcClassification )
 	{
 		std::vector<weak_ptr<IfcClassificationReference> >& HasReferences_inverse = ReferencedSource_IfcClassification->m_HasReferences_inverse;
-		for( auto it_HasReferences_inverse = HasReferences_inverse.begin(); it_HasReferences_inverse != HasReferences_inverse.end(); ++it_HasReferences_inverse)
+		for( auto it_HasReferences_inverse = HasReferences_inverse.begin(); it_HasReferences_inverse != HasReferences_inverse.end(); )
 		{
 			shared_ptr<IfcClassificationReference> self_candidate( *it_HasReferences_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasReferences_inverse.erase( it_HasReferences_inverse );
-				break;
+				it_HasReferences_inverse= HasReferences_inverse.erase( it_HasReferences_inverse );
+			}
+			else
+			{
+				++it_HasReferences_inverse;
 			}
 		}
 	}
@@ -144,13 +147,16 @@ void IfcClassificationReference::unlinkSelf()
 	if( ReferencedSource_IfcClassificationReference )
 	{
 		std::vector<weak_ptr<IfcClassificationReference> >& HasReferences_inverse = ReferencedSource_IfcClassificationReference->m_HasReferences_inverse;
-		for( auto it_HasReferences_inverse = HasReferences_inverse.begin(); it_HasReferences_inverse != HasReferences_inverse.end(); ++it_HasReferences_inverse)
+		for( auto it_HasReferences_inverse = HasReferences_inverse.begin(); it_HasReferences_inverse != HasReferences_inverse.end(); )
 		{
 			shared_ptr<IfcClassificationReference> self_candidate( *it_HasReferences_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasReferences_inverse.erase( it_HasReferences_inverse );
-				break;
+				it_HasReferences_inverse= HasReferences_inverse.erase( it_HasReferences_inverse );
+			}
+			else
+			{
+				++it_HasReferences_inverse;
 			}
 		}
 	}

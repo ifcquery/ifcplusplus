@@ -122,7 +122,7 @@ void IfcOpeningStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcOpeningElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcOpeningStandardCase::unlinkSelf()
+void IfcOpeningStandardCase::unlinkFromInverseCounterparts()
 {
-	IfcOpeningElement::unlinkSelf();
+	IfcOpeningElement::unlinkFromInverseCounterparts();
 }

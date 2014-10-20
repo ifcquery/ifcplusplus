@@ -125,7 +125,7 @@ void IfcFlowInstrument::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcDistributionControlElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFlowInstrument::unlinkSelf()
+void IfcFlowInstrument::unlinkFromInverseCounterparts()
 {
-	IfcDistributionControlElement::unlinkSelf();
+	IfcDistributionControlElement::unlinkFromInverseCounterparts();
 }

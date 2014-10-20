@@ -40,7 +40,7 @@ public:
 	IfcReinforcingBarRoleEnum();
 	IfcReinforcingBarRoleEnum( IfcReinforcingBarRoleEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingBarRoleEnum();
-	virtual const char* classname() const { return "IfcReinforcingBarRoleEnum"; }
+	virtual const char* className() const { return "IfcReinforcingBarRoleEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcReinforcingBarRoleEnum> createObjectFromSTEP( const std::wstring& arg );

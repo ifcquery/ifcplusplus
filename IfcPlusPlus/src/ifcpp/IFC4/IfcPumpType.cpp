@@ -130,7 +130,7 @@ void IfcPumpType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entit
 {
 	IfcFlowMovingDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPumpType::unlinkSelf()
+void IfcPumpType::unlinkFromInverseCounterparts()
 {
-	IfcFlowMovingDeviceType::unlinkSelf();
+	IfcFlowMovingDeviceType::unlinkFromInverseCounterparts();
 }

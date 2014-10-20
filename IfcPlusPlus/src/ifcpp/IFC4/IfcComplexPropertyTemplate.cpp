@@ -121,21 +121,24 @@ void IfcComplexPropertyTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity>
 		}
 	}
 }
-void IfcComplexPropertyTemplate::unlinkSelf()
+void IfcComplexPropertyTemplate::unlinkFromInverseCounterparts()
 {
-	IfcPropertyTemplate::unlinkSelf();
+	IfcPropertyTemplate::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_HasPropertyTemplates.size(); ++i )
 	{
 		if( m_HasPropertyTemplates[i] )
 		{
 			std::vector<weak_ptr<IfcComplexPropertyTemplate> >& PartOfComplexTemplate_inverse = m_HasPropertyTemplates[i]->m_PartOfComplexTemplate_inverse;
-			for( auto it_PartOfComplexTemplate_inverse = PartOfComplexTemplate_inverse.begin(); it_PartOfComplexTemplate_inverse != PartOfComplexTemplate_inverse.end(); ++it_PartOfComplexTemplate_inverse)
+			for( auto it_PartOfComplexTemplate_inverse = PartOfComplexTemplate_inverse.begin(); it_PartOfComplexTemplate_inverse != PartOfComplexTemplate_inverse.end(); )
 			{
 				shared_ptr<IfcComplexPropertyTemplate> self_candidate( *it_PartOfComplexTemplate_inverse );
 				if( self_candidate.get() == this )
 				{
-					PartOfComplexTemplate_inverse.erase( it_PartOfComplexTemplate_inverse );
-					break;
+					it_PartOfComplexTemplate_inverse= PartOfComplexTemplate_inverse.erase( it_PartOfComplexTemplate_inverse );
+				}
+				else
+				{
+					++it_PartOfComplexTemplate_inverse;
 				}
 			}
 		}

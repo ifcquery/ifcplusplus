@@ -27,7 +27,7 @@ public:
 	IfcAreaMeasure();
 	IfcAreaMeasure( double value );
 	~IfcAreaMeasure();
-	virtual const char* classname() const { return "IfcAreaMeasure"; }
+	virtual const char* className() const { return "IfcAreaMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAreaMeasure> createObjectFromSTEP( const std::wstring& arg );

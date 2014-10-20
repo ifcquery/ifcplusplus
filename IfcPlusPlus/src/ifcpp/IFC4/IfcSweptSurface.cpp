@@ -70,7 +70,7 @@ void IfcSweptSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcSurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSweptSurface::unlinkSelf()
+void IfcSweptSurface::unlinkFromInverseCounterparts()
 {
-	IfcSurface::unlinkSelf();
+	IfcSurface::unlinkFromInverseCounterparts();
 }

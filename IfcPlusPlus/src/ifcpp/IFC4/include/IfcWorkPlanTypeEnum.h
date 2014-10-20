@@ -35,7 +35,7 @@ public:
 	IfcWorkPlanTypeEnum();
 	IfcWorkPlanTypeEnum( IfcWorkPlanTypeEnumEnum e ) { m_enum = e; }
 	~IfcWorkPlanTypeEnum();
-	virtual const char* classname() const { return "IfcWorkPlanTypeEnum"; }
+	virtual const char* className() const { return "IfcWorkPlanTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcWorkPlanTypeEnum> createObjectFromSTEP( const std::wstring& arg );

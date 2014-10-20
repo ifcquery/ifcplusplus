@@ -114,7 +114,7 @@ void IfcActionRequest::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcActionRequest::unlinkSelf()
+void IfcActionRequest::unlinkFromInverseCounterparts()
 {
-	IfcControl::unlinkSelf();
+	IfcControl::unlinkFromInverseCounterparts();
 }

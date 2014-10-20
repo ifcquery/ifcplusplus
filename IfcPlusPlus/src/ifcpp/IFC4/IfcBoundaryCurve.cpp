@@ -74,7 +74,7 @@ void IfcBoundaryCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcCompositeCurveOnSurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBoundaryCurve::unlinkSelf()
+void IfcBoundaryCurve::unlinkFromInverseCounterparts()
 {
-	IfcCompositeCurveOnSurface::unlinkSelf();
+	IfcCompositeCurveOnSurface::unlinkFromInverseCounterparts();
 }

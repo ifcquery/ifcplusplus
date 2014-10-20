@@ -17,12 +17,8 @@
 #include <fstream>
 #include <iostream>
 
-#include <osgDB/Registry>
-#include <osgDB/ReadFile>
-#include <osgDB/ReaderWriter>
-#include <osgDB/FileNameUtils>
+#include <osg/MatrixTransform>
 #include <osg/CullFace>
-#include <osg/ValueObject>
 #include <osgText/Text>
 
 #include <ifcpp/IFC4/include/IfcProduct.h>
@@ -68,26 +64,32 @@
 
 ReaderWriterIFC::ReaderWriterIFC()
 {
-	osgDB::ReaderWriter::supportsExtension( "ifc", "Industry Foundation Classes" );
-	osgDB::ReaderWriter::supportsExtension( "stp", "Step" );
 	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
 	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
 	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
 
 	m_geom_settings = shared_ptr<GeometrySettings>( new GeometrySettings() );
 	resetNumVerticesPerCircle();
-	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
-	m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
-	addCallbackChild( m_step_reader.get() );
-	addCallbackChild( m_step_writer.get() );
-	addCallbackChild( m_representation_converter.get() );
+	shared_ptr<UnitConverter>& unit_converter = m_ifc_model->getUnitConverter();
+	m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, unit_converter ) );
+
+	// redirect all messages to ReaderWriterIFC::slotMessageWrapper
+	m_ifc_model->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
+	m_step_reader->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
+	m_step_writer->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
+	m_representation_converter->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
+
+	// redirect progress callback to ReaderWriterIFC::slotProgressWrapper
+	m_ifc_model->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
+	m_step_reader->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
+	m_step_writer->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
+	m_representation_converter->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
 
 	m_glass_stateset = new osg::StateSet();
 	m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 	m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 
 	m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
-	m_group_result = new osg::Group();
 }
 
 ReaderWriterIFC::~ReaderWriterIFC()
@@ -96,12 +98,13 @@ ReaderWriterIFC::~ReaderWriterIFC()
 
 void ReaderWriterIFC::resetModel()
 {
-	progressTextCallback( L"Unloading model, cleaning up memory..." );
-	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
+	progressCallback( -1, "", L"Unloading model, cleaning up memory..." );
 	clearInputCache();
 	m_recent_progress = 0.0;
-	progressCallback( 0.0, "parse" );
-	progressTextCallback( L"Unloading model done" );
+	
+	m_ifc_model->clearCache();
+	m_ifc_model->clearIfcModel();
+	progressCallback( 0.0, "parse", L"Unloading model done" );
 
 #ifdef _DEBUG
 	CSG_Adapter::clearMeshsetDump();
@@ -114,8 +117,9 @@ void ReaderWriterIFC::clearInputCache()
 	m_map_visited.clear();
 	m_map_outside_spatial_structure.clear();
 	AppearanceManagerOSG::clearAppearanceCache();
+	m_representation_converter->getUnitConverter()->resetUnitConverter();
 	m_representation_converter->clearCache();
-	m_group_result = new osg::Group();
+	m_tickets.clear();
 }
 
 void ReaderWriterIFC::resetNumVerticesPerCircle()
@@ -125,24 +129,52 @@ void ReaderWriterIFC::resetNumVerticesPerCircle()
 
 void ReaderWriterIFC::setModel( shared_ptr<IfcPPModel> model )
 {
+	clearInputCache();
 	m_ifc_model = model;
-	m_unit_converter = m_ifc_model->getUnitConverter();
 	m_representation_converter->clearCache();
-	m_representation_converter->setUnitConverter( m_unit_converter );
+	m_representation_converter->setUnitConverter( m_ifc_model->getUnitConverter() );
 }
 
-osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& filename, const osgDB::ReaderWriter::Options* options )
+void ReaderWriterIFC::loadModelFromFile( const std::string& file_path )
 {
-	std::string ext = osgDB::getFileExtension( filename );
-	if( !acceptsExtension( ext ) ) return osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
+	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
 	
+	std::string ext = file_path.substr( file_path.find_last_of( "." ) + 1 );
+	
+	if( boost::iequals( ext, "ifc" ) )
+	{
+		// ok, nothing to do here
+	}
+	else if( boost::iequals( ext, "ifcXML" ) )
+	{
+		// TODO: implement xml reader
+		messageCallback( "ifcXML not yet implemented", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		return;
+	}
+	else if( boost::iequals( ext, "ifcZIP" ) )
+	{
+		// TODO: implement zip uncompress
+		messageCallback( "ifcZIP not yet implemented", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		return;
+	}
+	else
+	{
+		std::stringstream strs;
+		strs << "Unsupported file type: " << ext;
+		messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		return;
+	}
+
 	// open file
 	std::ifstream infile;
-	infile.open( filename.c_str(), std::ifstream::in );
+	infile.open( file_path.c_str(), std::ifstream::in );
 
 	if( !infile.is_open() )
 	{
-		return osgDB::ReaderWriter::ReadResult::FILE_NOT_FOUND;
+		std::stringstream strs;
+		strs << "Could not open file: " << file_path.c_str();
+		messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		return;
 	}
 
 	// get length of file:
@@ -157,115 +189,15 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 	infile.read( &buffer[0], length );
 	infile.close();
 
-	m_step_reader->removeComments( buffer );
-	m_step_reader->readStreamHeader( buffer, m_ifc_model );
-	m_group_result->removeChildren( 0, m_group_result->getNumChildren() );
+	progressCallback( 0, "parse", L"Reading STEP data..." );
 
-	progressTextCallback( L"Reading STEP data..." );
-
-	bool read_into_map_directly = true;
-	if( read_into_map_directly )
-	{
-		try
-		{
-			m_step_reader->readStreamData( buffer, m_ifc_model );
-		}
-		catch( IfcPPOutOfMemoryException& e)
-		{
-			throw e;
-		}
-		catch( IfcPPException& e )
-		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-		}
-		catch( std::exception& e )
-		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-		}
-		catch( ... )
-		{
-			messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
-		}
-	}
-	else
-	{
-		std::map<int, shared_ptr<IfcPPEntity> > map_entities;
-		IfcPPModel::IfcPPSchemaVersion& file_schema_version = m_ifc_model->getIfcSchemaVersion();
-		try
-		{
-			m_step_reader->readStreamData( buffer, file_schema_version, map_entities );
-		}
-		catch( IfcPPOutOfMemoryException& e)
-		{
-			throw e;
-		}
-		catch( IfcPPException& e )
-		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-		}
-		catch( std::exception& e )
-		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-		}
-		catch( ... )
-		{
-			messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
-		}
-
-		try
-		{
-			// insert entities into model
-			std::map<int, shared_ptr<IfcPPEntity> >::iterator it_model;
-			for( it_model = map_entities.begin(); it_model != map_entities.end(); ++it_model )
-			{
-				shared_ptr<IfcPPEntity>& ent = it_model->second;
-
-				try
-				{
-					m_ifc_model->insertEntity( ent );
-				}
-				catch( IfcPPException& e )
-				{
-					messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-				}
-			}
-		}
-		catch( IfcPPException& e )
-		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-		}
-		catch( std::exception& e )
-		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
-		}
-		catch( ... )
-		{
-			messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
-		}
-	}
-
-	progressTextCallback( L"Creating geometry..." );
 	try
 	{
+		m_step_reader->removeComments( buffer );
+		m_step_reader->readStreamHeader( buffer, m_ifc_model );
+		m_step_reader->readStreamData( buffer, m_ifc_model );
 		m_ifc_model->resolveInverseAttributes();
 		m_ifc_model->updateCache();
-
-		m_unit_converter = m_ifc_model->getUnitConverter();
-		if( m_representation_converter )
-		{
-			removeCallbackChild( m_representation_converter.get() );
-		}
-		m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, m_unit_converter ) );
-		addCallbackChild( m_representation_converter.get() );
-
-		bool create_geometry = true;
-		// if the user value is not set, create_geometry remains true (default)
-		options->getUserValue( "createGeometry", create_geometry );
-
-		if( create_geometry )
-		{
-			createGeometry();
-		}
 	}
 	catch( IfcPPOutOfMemoryException& e)
 	{
@@ -281,25 +213,23 @@ osgDB::ReaderWriter::ReadResult ReaderWriterIFC::readNode( const std::string& fi
 	}
 	catch( ... )
 	{
-		messageCallback( "An error occured in ReaderWriterIFC::readNode", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( "An error occured", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 	}
-
-	osgDB::ReaderWriter::ReadResult::ReadStatus status = osgDB::ReaderWriter::ReadResult::FILE_LOADED;
-	return osgDB::ReaderWriter::ReadResult( m_group_result, status );
 }
 
-void ReaderWriterIFC::createGeometry()
+void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group )
 {
+	progressCallback( 0, "geometry", L"Creating geometry..." );
 	m_shape_input_data.clear();
 	m_map_outside_spatial_structure.clear();
-	m_representation_converter->getProfileCache()->clearProfileCache();
-
+	m_representation_converter->clearCache();
+	
 	std::vector<shared_ptr<IfcProduct> > vec_products;
 	double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 	carve::setEpsilon( 1.4901161193847656e-08*length_to_meter_factor );
 
-	const std::map<int, shared_ptr<IfcPPEntity> >& map = m_ifc_model->getMapIfcEntities();
-	for( auto it = map.begin(); it != map.end(); ++it )
+	const std::map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+	for( std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it = map_entities.begin(); it != map_entities.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> obj = it->second;
 		shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( obj );
@@ -408,7 +338,7 @@ void ReaderWriterIFC::createGeometry()
 		if( ifc_project )
 		{
 			m_map_visited.clear();
-			resolveProjectStructure( ifc_project, m_group_result );
+			resolveProjectStructure( ifc_project, parent_group );
 		}
 
 		// check if there are entities that are not in spatial structure
@@ -418,7 +348,11 @@ void ReaderWriterIFC::createGeometry()
 		for( auto it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
 		{
 			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
-			shared_ptr<IfcProduct> ifc_product = product_shape->ifc_product;
+			shared_ptr<IfcProduct> ifc_product( product_shape->ifc_product );
+			if( !product_shape )
+			{
+				continue;
+			}
 			if( !product_shape->added_to_node )
 			{
 				shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
@@ -446,7 +380,7 @@ void ReaderWriterIFC::createGeometry()
 
 		if( group_outside_spatial_structure->getNumChildren() > 0 )
 		{
-			m_group_result->addChild( group_outside_spatial_structure );
+			parent_group->addChild( group_outside_spatial_structure );
 		}
 	}
 	catch( IfcPPOutOfMemoryException& e)
@@ -467,12 +401,10 @@ void ReaderWriterIFC::createGeometry()
 	}
 
 	m_representation_converter->getProfileCache()->clearProfileCache();
-
-	progressCallback( 1.0, "geometry" );
-	progressTextCallback( L"Loading file done" );
+	progressCallback( 1.0, "geometry", L"Loading file done" );
 }
 
-void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::Group* parent_group )
+void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::ref_ptr<osg::Switch> parent_group )
 {
 	int entity_id = parent_obj_def->m_id;
 	if( m_map_visited.find( entity_id ) != m_map_visited.end() )
@@ -481,7 +413,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 	}
 	m_map_visited[entity_id] = parent_obj_def;
 
-	osg::Group* item_grp = nullptr;
+	osg::ref_ptr<osg::Switch> next_parent;
 	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>( parent_obj_def );
 	if( building_storey )
 	{
@@ -501,13 +433,14 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
-		switch_building_storey->addChild( transform_building_storey );
-
+		
 		std::stringstream storey_name;
 		storey_name << "#" << building_storey_id << "=IfcBuildingStorey transform";
 		transform_building_storey->setName( storey_name.str().c_str() );
 
-		item_grp = transform_building_storey;
+		parent_group->addChild( transform_building_storey );
+		transform_building_storey->addChild( switch_building_storey );
+		next_parent = switch_building_storey;
 	}
 
 	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( parent_obj_def );
@@ -527,50 +460,24 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 			osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
 			if( product_switch.valid() )
 			{
-				if( item_grp == nullptr )
-				{
-					item_grp = product_switch;
-				}
-				else
-				{
-					item_grp->addChild( product_switch );
-				}
+				parent_group->addChild( product_switch );
+				next_parent = product_switch;
 			}
 
 			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
 			if( product_switch_curves.valid() )
 			{
-				if( item_grp == nullptr )
-				{
-					item_grp = product_switch_curves;
-				}
-				else
-				{
-					item_grp->addChild( product_switch_curves );
-				}
+				parent_group->addChild( product_switch_curves );
 			}
 		}
 	}
 
-	if( item_grp == nullptr )
-	{
-		item_grp = new osg::Switch();
-		if( !item_grp )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-	}
-
-	parent_group->addChild( item_grp );
-
-	if( item_grp->getName().size() < 1 )
+	if( parent_group->getName().size() < 1 )
 	{
 		std::stringstream switch_name;
-		switch_name << "#" << entity_id << "=" << parent_obj_def->classname();
-		item_grp->setName( switch_name.str().c_str() );
+		switch_name << "#" << entity_id << "=" << parent_obj_def->className();
+		parent_group->setName( switch_name.str().c_str() );
 	}
-
-	osg::Group* append_children_to_group = item_grp;
 
 	shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>( parent_obj_def );
 	if( ifc_site )
@@ -589,7 +496,12 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		//    |- IfcSite    
 		//                    
 
-		append_children_to_group = m_group_result;
+		next_parent = parent_group;
+	}
+
+	if( !next_parent )
+	{
+		next_parent = parent_group;
 	}
 
 	std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = parent_obj_def->m_IsDecomposedBy_inverse;
@@ -601,7 +513,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		for( auto it_object_def = vec.begin(); it_object_def != vec.end(); ++it_object_def )
 		{
 			shared_ptr<IfcObjectDefinition> child_obj_def = ( *it_object_def );
-			resolveProjectStructure( child_obj_def, append_children_to_group );
+			resolveProjectStructure( child_obj_def, next_parent );
 		}
 	}
 
@@ -617,11 +529,10 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 			for( auto it_related = vec_related_elements.begin(); it_related != vec_related_elements.end(); ++it_related )
 			{
 				shared_ptr<IfcProduct> related_product = ( *it_related );
-				resolveProjectStructure( related_product, append_children_to_group );
+				resolveProjectStructure( related_product, next_parent );
 			}
 		}
 	}
-
 }
 
 
@@ -643,7 +554,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		throw IfcPPOutOfMemoryException( __FUNC__ );
 	}
 	std::stringstream group_name;
-	group_name << "#" << product_id << "=" << product->classname() << " group";
+	group_name << "#" << product_id << "=" << product->className() << " group";
 	product_switch->setName( group_name.str().c_str() );
 	product_switch_curves->setName( "CurveRepresentation" );
 
@@ -672,14 +583,12 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 
 	// IfcProduct has an ObjectPlacement that can be local or global
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
 	carve::math::Matrix product_placement_matrix( carve::math::Matrix::IDENT() );
-
 	if( product->m_ObjectPlacement )
 	{
 		// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 		std::unordered_set<IfcObjectPlacement*> placement_already_applied;
-		PlacementConverter::convertIfcObjectPlacement( product->m_ObjectPlacement, product_placement_matrix, length_factor, placement_already_applied );
+		m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( product->m_ObjectPlacement, product_placement_matrix, placement_already_applied );
 	}
 
 	std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
@@ -965,5 +874,51 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 }
 
-// register with Registry to instantiate the above reader/writer.
-REGISTER_OSGPLUGIN( ifc, ReaderWriterIFC )
+void ReaderWriterIFC::slotProgressWrapper( void* obj_ptr, double value, const std::string& type, const std::wstring& txt )
+{
+	ReaderWriterIFC* myself = (ReaderWriterIFC*)obj_ptr;
+	if( myself )
+	{
+		myself->progressCallback( value, type, txt );
+	}
+}
+
+void ReaderWriterIFC::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Ticket> t )
+{
+	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
+	if( myself )
+	{
+		if( t->m_entity )
+		{
+#ifdef IFCPP_OPENMP
+			ScopedLock lock( myself->m_writelock_tickets );
+#endif
+
+			// make sure that the same message for one entity does not appear several times
+			const int entity_id = t->m_entity->m_id;
+
+			std::map<int, std::vector<shared_ptr<StatusCallback::Ticket> > >::iterator it = myself->m_tickets.find( entity_id );
+			if( it != myself->m_tickets.end() )
+			{
+				std::vector<shared_ptr<StatusCallback::Ticket> >& vec_tickets_for_entity = it->second;
+				for( size_t i = 0; i < vec_tickets_for_entity.size(); ++i )
+				{
+					shared_ptr<StatusCallback::Ticket>& existing_ticket = vec_tickets_for_entity[i];
+					if( existing_ticket->m_message.compare( t->m_message ) == 0 )
+					{
+						// same message for same entity is already there, so ignore ticket
+						return;
+					}
+				}
+				vec_tickets_for_entity.push_back( t );
+			}
+			else
+			{
+				std::vector<shared_ptr<StatusCallback::Ticket> >& vec = myself->m_tickets.insert( std::make_pair( entity_id, std::vector<shared_ptr<StatusCallback::Ticket> >() ) ).first->second;
+				vec.push_back( t );
+			}
+		}
+
+		myself->messageCallback( t );
+	}
+}

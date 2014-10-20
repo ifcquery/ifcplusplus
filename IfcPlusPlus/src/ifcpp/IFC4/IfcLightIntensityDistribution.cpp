@@ -73,6 +73,6 @@ void IfcLightIntensityDistribution::getAttributesInverse( std::vector<std::pair<
 void IfcLightIntensityDistribution::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcLightIntensityDistribution::unlinkSelf()
+void IfcLightIntensityDistribution::unlinkFromInverseCounterparts()
 {
 }

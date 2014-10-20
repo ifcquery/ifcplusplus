@@ -48,6 +48,6 @@ void IfcConnectionGeometry::getAttributesInverse( std::vector<std::pair<std::str
 void IfcConnectionGeometry::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcConnectionGeometry::unlinkSelf()
+void IfcConnectionGeometry::unlinkFromInverseCounterparts()
 {
 }

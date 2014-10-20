@@ -114,7 +114,7 @@ void IfcProjectOrder::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcProjectOrder::unlinkSelf()
+void IfcProjectOrder::unlinkFromInverseCounterparts()
 {
-	IfcControl::unlinkSelf();
+	IfcControl::unlinkFromInverseCounterparts();
 }

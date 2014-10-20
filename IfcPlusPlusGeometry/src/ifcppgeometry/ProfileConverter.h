@@ -21,6 +21,7 @@ class GeometrySettings;
 class UnitConverter;
 class PointConverter;
 class CurveConverter;
+class PlacementConverter;
 class SplineConverter;
 class IfcProfileDef;
 class IfcArbitraryClosedProfileDef;
@@ -34,7 +35,7 @@ typedef carve::geom::vector<2> vector2d_t;
 class ProfileConverter : public StatusCallback
 {
 public:
-	ProfileConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
+	ProfileConverter( shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
 	~ProfileConverter();
 
 	void computeProfile( shared_ptr<IfcProfileDef> profile_def );
@@ -57,11 +58,9 @@ public:
 	static void simplifyPath( std::vector<vector2d_t >& paths );
 	const std::vector<std::vector<vector2d_t > >& getCoordinates() { return m_paths; }
 
+	shared_ptr<CurveConverter>				m_curve_converter;
+	shared_ptr<SplineConverter>				m_spline_converter;
+
 protected:
-	shared_ptr<GeometrySettings>						m_geom_settings;
-	shared_ptr<UnitConverter>							m_unit_converter;
-	shared_ptr<PointConverter>							m_point_converter;
-	shared_ptr<CurveConverter>							m_curve_converter;
-	shared_ptr<SplineConverter>							m_spline_converter;
 	std::vector<std::vector<vector2d_t > >	m_paths;
 };

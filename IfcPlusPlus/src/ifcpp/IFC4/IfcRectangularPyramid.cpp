@@ -75,7 +75,7 @@ void IfcRectangularPyramid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRectangularPyramid::unlinkSelf()
+void IfcRectangularPyramid::unlinkFromInverseCounterparts()
 {
-	IfcCsgPrimitive3D::unlinkSelf();
+	IfcCsgPrimitive3D::unlinkFromInverseCounterparts();
 }

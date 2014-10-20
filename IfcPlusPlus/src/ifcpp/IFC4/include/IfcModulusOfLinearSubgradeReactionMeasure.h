@@ -28,7 +28,7 @@ public:
 	IfcModulusOfLinearSubgradeReactionMeasure();
 	IfcModulusOfLinearSubgradeReactionMeasure( double value );
 	~IfcModulusOfLinearSubgradeReactionMeasure();
-	virtual const char* classname() const { return "IfcModulusOfLinearSubgradeReactionMeasure"; }
+	virtual const char* className() const { return "IfcModulusOfLinearSubgradeReactionMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> createObjectFromSTEP( const std::wstring& arg );

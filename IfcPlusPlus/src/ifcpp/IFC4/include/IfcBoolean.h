@@ -33,7 +33,7 @@ public:
 	IfcBoolean();
 	IfcBoolean( bool value );
 	~IfcBoolean();
-	virtual const char* classname() const { return "IfcBoolean"; }
+	virtual const char* className() const { return "IfcBoolean"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBoolean> createObjectFromSTEP( const std::wstring& arg );

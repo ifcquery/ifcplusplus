@@ -35,7 +35,7 @@ public:
 	IfcChangeActionEnum();
 	IfcChangeActionEnum( IfcChangeActionEnumEnum e ) { m_enum = e; }
 	~IfcChangeActionEnum();
-	virtual const char* classname() const { return "IfcChangeActionEnum"; }
+	virtual const char* className() const { return "IfcChangeActionEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcChangeActionEnum> createObjectFromSTEP( const std::wstring& arg );

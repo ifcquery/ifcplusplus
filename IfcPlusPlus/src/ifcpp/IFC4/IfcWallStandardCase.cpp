@@ -123,7 +123,7 @@ void IfcWallStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcWall::setInverseCounterparts( ptr_self_entity );
 }
-void IfcWallStandardCase::unlinkSelf()
+void IfcWallStandardCase::unlinkFromInverseCounterparts()
 {
-	IfcWall::unlinkSelf();
+	IfcWall::unlinkFromInverseCounterparts();
 }

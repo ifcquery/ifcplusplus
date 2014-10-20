@@ -26,7 +26,7 @@ public:
 	IfcTextDecoration();
 	IfcTextDecoration( std::wstring value );
 	~IfcTextDecoration();
-	virtual const char* classname() const { return "IfcTextDecoration"; }
+	virtual const char* className() const { return "IfcTextDecoration"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTextDecoration> createObjectFromSTEP( const std::wstring& arg );

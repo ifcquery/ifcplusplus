@@ -91,7 +91,7 @@ void IfcCurrencyRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCurrencyRelationship::unlinkSelf()
+void IfcCurrencyRelationship::unlinkFromInverseCounterparts()
 {
-	IfcResourceLevelRelationship::unlinkSelf();
+	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
 }

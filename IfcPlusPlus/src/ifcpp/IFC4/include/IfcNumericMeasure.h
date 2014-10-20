@@ -27,7 +27,7 @@ public:
 	IfcNumericMeasure();
 	IfcNumericMeasure( int value );
 	~IfcNumericMeasure();
-	virtual const char* classname() const { return "IfcNumericMeasure"; }
+	virtual const char* className() const { return "IfcNumericMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcNumericMeasure> createObjectFromSTEP( const std::wstring& arg );

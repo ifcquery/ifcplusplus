@@ -130,7 +130,7 @@ void IfcClassification::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcExternalInformation::setInverseCounterparts( ptr_self_entity );
 }
-void IfcClassification::unlinkSelf()
+void IfcClassification::unlinkFromInverseCounterparts()
 {
-	IfcExternalInformation::unlinkSelf();
+	IfcExternalInformation::unlinkFromInverseCounterparts();
 }

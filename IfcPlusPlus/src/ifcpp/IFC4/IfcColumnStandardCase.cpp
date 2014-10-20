@@ -123,7 +123,7 @@ void IfcColumnStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcColumn::setInverseCounterparts( ptr_self_entity );
 }
-void IfcColumnStandardCase::unlinkSelf()
+void IfcColumnStandardCase::unlinkFromInverseCounterparts()
 {
-	IfcColumn::unlinkSelf();
+	IfcColumn::unlinkFromInverseCounterparts();
 }

@@ -89,7 +89,7 @@ void IfcBoundaryEdgeCondition::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcBoundaryCondition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBoundaryEdgeCondition::unlinkSelf()
+void IfcBoundaryEdgeCondition::unlinkFromInverseCounterparts()
 {
-	IfcBoundaryCondition::unlinkSelf();
+	IfcBoundaryCondition::unlinkFromInverseCounterparts();
 }

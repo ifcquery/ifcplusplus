@@ -35,7 +35,7 @@ public:
 	IfcDiscreteAccessoryTypeEnum();
 	IfcDiscreteAccessoryTypeEnum( IfcDiscreteAccessoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcDiscreteAccessoryTypeEnum();
-	virtual const char* classname() const { return "IfcDiscreteAccessoryTypeEnum"; }
+	virtual const char* className() const { return "IfcDiscreteAccessoryTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDiscreteAccessoryTypeEnum> createObjectFromSTEP( const std::wstring& arg );

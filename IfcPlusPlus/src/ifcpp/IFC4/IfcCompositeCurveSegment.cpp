@@ -86,7 +86,7 @@ void IfcCompositeCurveSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCompositeCurveSegment::unlinkSelf()
+void IfcCompositeCurveSegment::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

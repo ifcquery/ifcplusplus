@@ -27,7 +27,7 @@ public:
 	IfcReal();
 	IfcReal( double value );
 	~IfcReal();
-	virtual const char* classname() const { return "IfcReal"; }
+	virtual const char* className() const { return "IfcReal"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcReal> createObjectFromSTEP( const std::wstring& arg );

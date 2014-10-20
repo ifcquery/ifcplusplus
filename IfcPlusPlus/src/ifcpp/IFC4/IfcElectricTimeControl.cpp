@@ -125,7 +125,7 @@ void IfcElectricTimeControl::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcFlowController::setInverseCounterparts( ptr_self_entity );
 }
-void IfcElectricTimeControl::unlinkSelf()
+void IfcElectricTimeControl::unlinkFromInverseCounterparts()
 {
-	IfcFlowController::unlinkSelf();
+	IfcFlowController::unlinkFromInverseCounterparts();
 }

@@ -33,7 +33,7 @@ public:
 	IfcBooleanOperator();
 	IfcBooleanOperator( IfcBooleanOperatorEnum e ) { m_enum = e; }
 	~IfcBooleanOperator();
-	virtual const char* classname() const { return "IfcBooleanOperator"; }
+	virtual const char* className() const { return "IfcBooleanOperator"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBooleanOperator> createObjectFromSTEP( const std::wstring& arg );

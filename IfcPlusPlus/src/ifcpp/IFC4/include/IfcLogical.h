@@ -27,7 +27,7 @@ public:
 	IfcLogical();
 	IfcLogical( LogicalEnum value );
 	~IfcLogical();
-	virtual const char* classname() const { return "IfcLogical"; }
+	virtual const char* className() const { return "IfcLogical"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLogical> createObjectFromSTEP( const std::wstring& arg );

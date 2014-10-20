@@ -26,7 +26,7 @@ class IfcPositivePlaneAngleMeasure : public IfcPlaneAngleMeasure
 public:
 	IfcPositivePlaneAngleMeasure();
 	~IfcPositivePlaneAngleMeasure();
-	virtual const char* classname() const { return "IfcPositivePlaneAngleMeasure"; }
+	virtual const char* className() const { return "IfcPositivePlaneAngleMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPositivePlaneAngleMeasure> createObjectFromSTEP( const std::wstring& arg );

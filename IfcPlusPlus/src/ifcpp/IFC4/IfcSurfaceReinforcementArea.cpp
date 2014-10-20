@@ -98,7 +98,7 @@ void IfcSurfaceReinforcementArea::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcStructuralLoadOrResult::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceReinforcementArea::unlinkSelf()
+void IfcSurfaceReinforcementArea::unlinkFromInverseCounterparts()
 {
-	IfcStructuralLoadOrResult::unlinkSelf();
+	IfcStructuralLoadOrResult::unlinkFromInverseCounterparts();
 }

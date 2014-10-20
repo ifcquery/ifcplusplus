@@ -78,7 +78,7 @@ void IfcAdvancedFace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcFaceSurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAdvancedFace::unlinkSelf()
+void IfcAdvancedFace::unlinkFromInverseCounterparts()
 {
-	IfcFaceSurface::unlinkSelf();
+	IfcFaceSurface::unlinkFromInverseCounterparts();
 }

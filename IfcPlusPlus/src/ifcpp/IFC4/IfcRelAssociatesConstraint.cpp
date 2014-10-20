@@ -103,7 +103,7 @@ void IfcRelAssociatesConstraint::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	IfcRelAssociates::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRelAssociatesConstraint::unlinkSelf()
+void IfcRelAssociatesConstraint::unlinkFromInverseCounterparts()
 {
-	IfcRelAssociates::unlinkSelf();
+	IfcRelAssociates::unlinkFromInverseCounterparts();
 }

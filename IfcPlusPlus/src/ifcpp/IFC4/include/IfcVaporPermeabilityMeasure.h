@@ -27,7 +27,7 @@ public:
 	IfcVaporPermeabilityMeasure();
 	IfcVaporPermeabilityMeasure( double value );
 	~IfcVaporPermeabilityMeasure();
-	virtual const char* classname() const { return "IfcVaporPermeabilityMeasure"; }
+	virtual const char* className() const { return "IfcVaporPermeabilityMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcVaporPermeabilityMeasure> createObjectFromSTEP( const std::wstring& arg );

@@ -91,7 +91,7 @@ void IfcFixedReferenceSweptAreaSolid::setInverseCounterparts( shared_ptr<IfcPPEn
 {
 	IfcSweptAreaSolid::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFixedReferenceSweptAreaSolid::unlinkSelf()
+void IfcFixedReferenceSweptAreaSolid::unlinkFromInverseCounterparts()
 {
-	IfcSweptAreaSolid::unlinkSelf();
+	IfcSweptAreaSolid::unlinkFromInverseCounterparts();
 }

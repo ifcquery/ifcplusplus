@@ -130,7 +130,7 @@ void IfcDiscreteAccessoryType::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcElementComponentType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDiscreteAccessoryType::unlinkSelf()
+void IfcDiscreteAccessoryType::unlinkFromInverseCounterparts()
 {
-	IfcElementComponentType::unlinkSelf();
+	IfcElementComponentType::unlinkFromInverseCounterparts();
 }

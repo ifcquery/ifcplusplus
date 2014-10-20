@@ -119,21 +119,24 @@ void IfcRelCoversBldgElements::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 		RelatingBuildingElement_IfcBuildingElement->m_HasCoverings_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelCoversBldgElements::unlinkSelf()
+void IfcRelCoversBldgElements::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedCoverings.size(); ++i )
 	{
 		if( m_RelatedCoverings[i] )
 		{
 			std::vector<weak_ptr<IfcRelCoversBldgElements> >& CoversElements_inverse = m_RelatedCoverings[i]->m_CoversElements_inverse;
-			for( auto it_CoversElements_inverse = CoversElements_inverse.begin(); it_CoversElements_inverse != CoversElements_inverse.end(); ++it_CoversElements_inverse)
+			for( auto it_CoversElements_inverse = CoversElements_inverse.begin(); it_CoversElements_inverse != CoversElements_inverse.end(); )
 			{
 				shared_ptr<IfcRelCoversBldgElements> self_candidate( *it_CoversElements_inverse );
 				if( self_candidate.get() == this )
 				{
-					CoversElements_inverse.erase( it_CoversElements_inverse );
-					break;
+					it_CoversElements_inverse= CoversElements_inverse.erase( it_CoversElements_inverse );
+				}
+				else
+				{
+					++it_CoversElements_inverse;
 				}
 			}
 		}
@@ -142,13 +145,16 @@ void IfcRelCoversBldgElements::unlinkSelf()
 	if( RelatingBuildingElement_IfcBuildingElement )
 	{
 		std::vector<weak_ptr<IfcRelCoversBldgElements> >& HasCoverings_inverse = RelatingBuildingElement_IfcBuildingElement->m_HasCoverings_inverse;
-		for( auto it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); ++it_HasCoverings_inverse)
+		for( auto it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); )
 		{
 			shared_ptr<IfcRelCoversBldgElements> self_candidate( *it_HasCoverings_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasCoverings_inverse.erase( it_HasCoverings_inverse );
-				break;
+				it_HasCoverings_inverse= HasCoverings_inverse.erase( it_HasCoverings_inverse );
+			}
+			else
+			{
+				++it_HasCoverings_inverse;
 			}
 		}
 	}

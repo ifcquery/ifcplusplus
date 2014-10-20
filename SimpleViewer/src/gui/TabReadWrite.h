@@ -35,7 +35,6 @@ class ViewerWidget;
 class IfcPPEntity;
 class IfcPlusPlusSystem;
 
-
 class TabReadWrite : public QWidget
 {
 	Q_OBJECT
@@ -43,9 +42,9 @@ public:
 	TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidget* parent = 0 );
 	~TabReadWrite();
 
-	static void slotProgressValueWrapper( void* obj_ptr, double value, const std::string& type );
-	static void slotMessageWrapper( void* obj_ptr, const std::wstring& str, StatusCallback::SeverityLevel level );
-	void slotProgressValue( double value, const std::string& str_type );
+	static void slotProgressWrapper( void* obj_ptr, double value, const std::string& type, const std::wstring& progress_text );
+	static void slotMessageWrapper( void* obj_ptr, shared_ptr<StatusCallback::Ticket> t );
+	void slotProgressValue( double value, const std::string& progress_type, const std::wstring& progress_text );
 	void closeEvent( QCloseEvent *event );
 
 public slots:
@@ -57,11 +56,9 @@ public slots:
 	void slotRecentFilesIndexChanged(int);
 	void updateRecentFilesCombo();
 	
-
 protected:
 	void keyPressEvent( QKeyEvent* event );
 	
-
 private:
 	IfcPlusPlusSystem*	m_system;
 	ViewerWidget*	m_viewer;

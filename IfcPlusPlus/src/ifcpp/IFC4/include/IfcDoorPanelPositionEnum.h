@@ -34,7 +34,7 @@ public:
 	IfcDoorPanelPositionEnum();
 	IfcDoorPanelPositionEnum( IfcDoorPanelPositionEnumEnum e ) { m_enum = e; }
 	~IfcDoorPanelPositionEnum();
-	virtual const char* classname() const { return "IfcDoorPanelPositionEnum"; }
+	virtual const char* className() const { return "IfcDoorPanelPositionEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDoorPanelPositionEnum> createObjectFromSTEP( const std::wstring& arg );

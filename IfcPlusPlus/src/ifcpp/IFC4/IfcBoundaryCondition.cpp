@@ -55,6 +55,6 @@ void IfcBoundaryCondition::getAttributesInverse( std::vector<std::pair<std::stri
 void IfcBoundaryCondition::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcBoundaryCondition::unlinkSelf()
+void IfcBoundaryCondition::unlinkFromInverseCounterparts()
 {
 }

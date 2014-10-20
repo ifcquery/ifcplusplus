@@ -107,7 +107,7 @@ void IfcCostValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcAppliedValue::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCostValue::unlinkSelf()
+void IfcCostValue::unlinkFromInverseCounterparts()
 {
-	IfcAppliedValue::unlinkSelf();
+	IfcAppliedValue::unlinkFromInverseCounterparts();
 }

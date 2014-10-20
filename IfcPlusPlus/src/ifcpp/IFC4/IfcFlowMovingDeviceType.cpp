@@ -124,7 +124,7 @@ void IfcFlowMovingDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcDistributionFlowElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFlowMovingDeviceType::unlinkSelf()
+void IfcFlowMovingDeviceType::unlinkFromInverseCounterparts()
 {
-	IfcDistributionFlowElementType::unlinkSelf();
+	IfcDistributionFlowElementType::unlinkFromInverseCounterparts();
 }

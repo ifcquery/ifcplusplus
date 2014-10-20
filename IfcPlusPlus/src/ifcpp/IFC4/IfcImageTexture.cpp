@@ -93,7 +93,7 @@ void IfcImageTexture::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcSurfaceTexture::setInverseCounterparts( ptr_self_entity );
 }
-void IfcImageTexture::unlinkSelf()
+void IfcImageTexture::unlinkFromInverseCounterparts()
 {
-	IfcSurfaceTexture::unlinkSelf();
+	IfcSurfaceTexture::unlinkFromInverseCounterparts();
 }

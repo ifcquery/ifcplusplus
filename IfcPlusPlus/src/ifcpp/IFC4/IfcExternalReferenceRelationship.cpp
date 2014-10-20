@@ -161,22 +161,25 @@ void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<IfcPPE
 		m_RelatingReference->m_ExternalReferenceForResources_inverse.push_back( ptr_self );
 	}
 }
-void IfcExternalReferenceRelationship::unlinkSelf()
+void IfcExternalReferenceRelationship::unlinkFromInverseCounterparts()
 {
-	IfcResourceLevelRelationship::unlinkSelf();
+	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
 	{
 		shared_ptr<IfcActorRole>  RelatedResourceObjects_IfcActorRole = dynamic_pointer_cast<IfcActorRole>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcActorRole )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcActorRole->m_HasExternalReference_inverse;
-			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
-					break;
+					it_HasExternalReference_inverse= HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
+				}
+				else
+				{
+					++it_HasExternalReference_inverse;
 				}
 			}
 		}
@@ -184,13 +187,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcAppliedValue )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcAppliedValue->m_HasExternalReference_inverse;
-			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
-					break;
+					it_HasExternalReference_inverse= HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
+				}
+				else
+				{
+					++it_HasExternalReference_inverse;
 				}
 			}
 		}
@@ -198,13 +204,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcApproval )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcApproval->m_HasExternalReferences_inverse;
-			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
-					break;
+					it_HasExternalReferences_inverse= HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
+				}
+				else
+				{
+					++it_HasExternalReferences_inverse;
 				}
 			}
 		}
@@ -212,13 +221,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcConstraint )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcConstraint->m_HasExternalReferences_inverse;
-			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
-					break;
+					it_HasExternalReferences_inverse= HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
+				}
+				else
+				{
+					++it_HasExternalReferences_inverse;
 				}
 			}
 		}
@@ -226,13 +238,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcContextDependentUnit )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcContextDependentUnit->m_HasExternalReference_inverse;
-			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
-					break;
+					it_HasExternalReference_inverse= HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
+				}
+				else
+				{
+					++it_HasExternalReference_inverse;
 				}
 			}
 		}
@@ -240,13 +255,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcConversionBasedUnit )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcConversionBasedUnit->m_HasExternalReference_inverse;
-			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
-					break;
+					it_HasExternalReference_inverse= HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
+				}
+				else
+				{
+					++it_HasExternalReference_inverse;
 				}
 			}
 		}
@@ -254,13 +272,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcMaterialDefinition )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcMaterialDefinition->m_HasExternalReferences_inverse;
-			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
-					break;
+					it_HasExternalReferences_inverse= HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
+				}
+				else
+				{
+					++it_HasExternalReferences_inverse;
 				}
 			}
 		}
@@ -268,13 +289,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcPhysicalQuantity )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcPhysicalQuantity->m_HasExternalReferences_inverse;
-			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
-					break;
+					it_HasExternalReferences_inverse= HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
+				}
+				else
+				{
+					++it_HasExternalReferences_inverse;
 				}
 			}
 		}
@@ -282,13 +306,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcProfileDef )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcProfileDef->m_HasExternalReference_inverse;
-			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
-					break;
+					it_HasExternalReference_inverse= HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
+				}
+				else
+				{
+					++it_HasExternalReference_inverse;
 				}
 			}
 		}
@@ -296,13 +323,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcPropertyAbstraction )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcPropertyAbstraction->m_HasExternalReferences_inverse;
-			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); ++it_HasExternalReferences_inverse)
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
-					break;
+					it_HasExternalReferences_inverse= HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
+				}
+				else
+				{
+					++it_HasExternalReferences_inverse;
 				}
 			}
 		}
@@ -310,13 +340,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 		if( RelatedResourceObjects_IfcTimeSeries )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReference_inverse = RelatedResourceObjects_IfcTimeSeries->m_HasExternalReference_inverse;
-			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); ++it_HasExternalReference_inverse)
+			for( auto it_HasExternalReference_inverse = HasExternalReference_inverse.begin(); it_HasExternalReference_inverse != HasExternalReference_inverse.end(); )
 			{
 				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReference_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
-					break;
+					it_HasExternalReference_inverse= HasExternalReference_inverse.erase( it_HasExternalReference_inverse );
+				}
+				else
+				{
+					++it_HasExternalReference_inverse;
 				}
 			}
 		}
@@ -324,13 +357,16 @@ void IfcExternalReferenceRelationship::unlinkSelf()
 	if( m_RelatingReference )
 	{
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >& ExternalReferenceForResources_inverse = m_RelatingReference->m_ExternalReferenceForResources_inverse;
-		for( auto it_ExternalReferenceForResources_inverse = ExternalReferenceForResources_inverse.begin(); it_ExternalReferenceForResources_inverse != ExternalReferenceForResources_inverse.end(); ++it_ExternalReferenceForResources_inverse)
+		for( auto it_ExternalReferenceForResources_inverse = ExternalReferenceForResources_inverse.begin(); it_ExternalReferenceForResources_inverse != ExternalReferenceForResources_inverse.end(); )
 		{
 			shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_ExternalReferenceForResources_inverse );
 			if( self_candidate.get() == this )
 			{
-				ExternalReferenceForResources_inverse.erase( it_ExternalReferenceForResources_inverse );
-				break;
+				it_ExternalReferenceForResources_inverse= ExternalReferenceForResources_inverse.erase( it_ExternalReferenceForResources_inverse );
+			}
+			else
+			{
+				++it_ExternalReferenceForResources_inverse;
 			}
 		}
 	}

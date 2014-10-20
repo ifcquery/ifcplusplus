@@ -93,6 +93,6 @@ void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared
 void IfcAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcAddress::unlinkSelf()
+void IfcAddress::unlinkFromInverseCounterparts()
 {
 }

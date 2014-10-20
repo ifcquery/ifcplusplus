@@ -26,7 +26,7 @@ class IfcBoxAlignment : public IfcLabel
 public:
 	IfcBoxAlignment();
 	~IfcBoxAlignment();
-	virtual const char* classname() const { return "IfcBoxAlignment"; }
+	virtual const char* className() const { return "IfcBoxAlignment"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBoxAlignment> createObjectFromSTEP( const std::wstring& arg );

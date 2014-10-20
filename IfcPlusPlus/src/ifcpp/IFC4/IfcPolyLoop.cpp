@@ -72,7 +72,7 @@ void IfcPolyLoop::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entit
 {
 	IfcLoop::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPolyLoop::unlinkSelf()
+void IfcPolyLoop::unlinkFromInverseCounterparts()
 {
-	IfcLoop::unlinkSelf();
+	IfcLoop::unlinkFromInverseCounterparts();
 }

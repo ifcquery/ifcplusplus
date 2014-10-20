@@ -100,7 +100,7 @@ void IfcProductDefinitionShape::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcProductRepresentation::setInverseCounterparts( ptr_self_entity );
 }
-void IfcProductDefinitionShape::unlinkSelf()
+void IfcProductDefinitionShape::unlinkFromInverseCounterparts()
 {
-	IfcProductRepresentation::unlinkSelf();
+	IfcProductRepresentation::unlinkFromInverseCounterparts();
 }

@@ -146,7 +146,7 @@ void IfcResourceTime::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcSchedulingTime::setInverseCounterparts( ptr_self_entity );
 }
-void IfcResourceTime::unlinkSelf()
+void IfcResourceTime::unlinkFromInverseCounterparts()
 {
-	IfcSchedulingTime::unlinkSelf();
+	IfcSchedulingTime::unlinkFromInverseCounterparts();
 }

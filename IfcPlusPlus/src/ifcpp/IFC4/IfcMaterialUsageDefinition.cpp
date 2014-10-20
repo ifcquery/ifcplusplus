@@ -61,6 +61,6 @@ void IfcMaterialUsageDefinition::getAttributesInverse( std::vector<std::pair<std
 void IfcMaterialUsageDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcMaterialUsageDefinition::unlinkSelf()
+void IfcMaterialUsageDefinition::unlinkFromInverseCounterparts()
 {
 }

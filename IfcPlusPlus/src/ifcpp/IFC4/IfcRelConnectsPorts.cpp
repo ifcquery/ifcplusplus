@@ -107,32 +107,38 @@ void IfcRelConnectsPorts::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 		m_RelatingPort->m_ConnectedTo_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelConnectsPorts::unlinkSelf()
+void IfcRelConnectsPorts::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedPort )
 	{
 		std::vector<weak_ptr<IfcRelConnectsPorts> >& ConnectedFrom_inverse = m_RelatedPort->m_ConnectedFrom_inverse;
-		for( auto it_ConnectedFrom_inverse = ConnectedFrom_inverse.begin(); it_ConnectedFrom_inverse != ConnectedFrom_inverse.end(); ++it_ConnectedFrom_inverse)
+		for( auto it_ConnectedFrom_inverse = ConnectedFrom_inverse.begin(); it_ConnectedFrom_inverse != ConnectedFrom_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsPorts> self_candidate( *it_ConnectedFrom_inverse );
 			if( self_candidate.get() == this )
 			{
-				ConnectedFrom_inverse.erase( it_ConnectedFrom_inverse );
-				break;
+				it_ConnectedFrom_inverse= ConnectedFrom_inverse.erase( it_ConnectedFrom_inverse );
+			}
+			else
+			{
+				++it_ConnectedFrom_inverse;
 			}
 		}
 	}
 	if( m_RelatingPort )
 	{
 		std::vector<weak_ptr<IfcRelConnectsPorts> >& ConnectedTo_inverse = m_RelatingPort->m_ConnectedTo_inverse;
-		for( auto it_ConnectedTo_inverse = ConnectedTo_inverse.begin(); it_ConnectedTo_inverse != ConnectedTo_inverse.end(); ++it_ConnectedTo_inverse)
+		for( auto it_ConnectedTo_inverse = ConnectedTo_inverse.begin(); it_ConnectedTo_inverse != ConnectedTo_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsPorts> self_candidate( *it_ConnectedTo_inverse );
 			if( self_candidate.get() == this )
 			{
-				ConnectedTo_inverse.erase( it_ConnectedTo_inverse );
-				break;
+				it_ConnectedTo_inverse= ConnectedTo_inverse.erase( it_ConnectedTo_inverse );
+			}
+			else
+			{
+				++it_ConnectedTo_inverse;
 			}
 		}
 	}

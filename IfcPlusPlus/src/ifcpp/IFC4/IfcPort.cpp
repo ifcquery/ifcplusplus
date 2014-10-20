@@ -141,7 +141,7 @@ void IfcPort::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPort::unlinkSelf()
+void IfcPort::unlinkFromInverseCounterparts()
 {
-	IfcProduct::unlinkSelf();
+	IfcProduct::unlinkFromInverseCounterparts();
 }

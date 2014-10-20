@@ -80,7 +80,7 @@ void IfcRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcRoot::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRelationship::unlinkSelf()
+void IfcRelationship::unlinkFromInverseCounterparts()
 {
-	IfcRoot::unlinkSelf();
+	IfcRoot::unlinkFromInverseCounterparts();
 }

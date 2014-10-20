@@ -26,7 +26,7 @@ public:
 	IfcFontWeight();
 	IfcFontWeight( std::wstring value );
 	~IfcFontWeight();
-	virtual const char* classname() const { return "IfcFontWeight"; }
+	virtual const char* className() const { return "IfcFontWeight"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFontWeight> createObjectFromSTEP( const std::wstring& arg );

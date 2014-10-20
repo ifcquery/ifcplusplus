@@ -38,7 +38,7 @@ public:
 	IfcVoidingFeatureTypeEnum();
 	IfcVoidingFeatureTypeEnum( IfcVoidingFeatureTypeEnumEnum e ) { m_enum = e; }
 	~IfcVoidingFeatureTypeEnum();
-	virtual const char* classname() const { return "IfcVoidingFeatureTypeEnum"; }
+	virtual const char* className() const { return "IfcVoidingFeatureTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcVoidingFeatureTypeEnum> createObjectFromSTEP( const std::wstring& arg );

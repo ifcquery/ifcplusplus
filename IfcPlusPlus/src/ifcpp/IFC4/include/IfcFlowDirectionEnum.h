@@ -34,7 +34,7 @@ public:
 	IfcFlowDirectionEnum();
 	IfcFlowDirectionEnum( IfcFlowDirectionEnumEnum e ) { m_enum = e; }
 	~IfcFlowDirectionEnum();
-	virtual const char* classname() const { return "IfcFlowDirectionEnum"; }
+	virtual const char* className() const { return "IfcFlowDirectionEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFlowDirectionEnum> createObjectFromSTEP( const std::wstring& arg );

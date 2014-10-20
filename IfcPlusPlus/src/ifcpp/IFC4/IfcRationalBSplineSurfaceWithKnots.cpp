@@ -156,7 +156,7 @@ void IfcRationalBSplineSurfaceWithKnots::setInverseCounterparts( shared_ptr<IfcP
 {
 	IfcBSplineSurfaceWithKnots::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRationalBSplineSurfaceWithKnots::unlinkSelf()
+void IfcRationalBSplineSurfaceWithKnots::unlinkFromInverseCounterparts()
 {
-	IfcBSplineSurfaceWithKnots::unlinkSelf();
+	IfcBSplineSurfaceWithKnots::unlinkFromInverseCounterparts();
 }

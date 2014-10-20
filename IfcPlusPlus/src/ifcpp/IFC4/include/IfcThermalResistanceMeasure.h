@@ -27,7 +27,7 @@ public:
 	IfcThermalResistanceMeasure();
 	IfcThermalResistanceMeasure( double value );
 	~IfcThermalResistanceMeasure();
-	virtual const char* classname() const { return "IfcThermalResistanceMeasure"; }
+	virtual const char* className() const { return "IfcThermalResistanceMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcThermalResistanceMeasure> createObjectFromSTEP( const std::wstring& arg );

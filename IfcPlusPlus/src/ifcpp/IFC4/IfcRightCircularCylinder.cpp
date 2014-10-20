@@ -70,7 +70,7 @@ void IfcRightCircularCylinder::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRightCircularCylinder::unlinkSelf()
+void IfcRightCircularCylinder::unlinkFromInverseCounterparts()
 {
-	IfcCsgPrimitive3D::unlinkSelf();
+	IfcCsgPrimitive3D::unlinkFromInverseCounterparts();
 }

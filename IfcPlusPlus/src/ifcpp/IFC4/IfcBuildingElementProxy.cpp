@@ -124,7 +124,7 @@ void IfcBuildingElementProxy::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBuildingElementProxy::unlinkSelf()
+void IfcBuildingElementProxy::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkSelf();
+	IfcBuildingElement::unlinkFromInverseCounterparts();
 }

@@ -95,7 +95,7 @@ void IfcFillAreaStyleTiles::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFillAreaStyleTiles::unlinkSelf()
+void IfcFillAreaStyleTiles::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

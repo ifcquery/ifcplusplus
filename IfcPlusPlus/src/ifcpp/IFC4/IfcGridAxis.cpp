@@ -117,6 +117,6 @@ void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, share
 void IfcGridAxis::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcGridAxis::unlinkSelf()
+void IfcGridAxis::unlinkFromInverseCounterparts()
 {
 }

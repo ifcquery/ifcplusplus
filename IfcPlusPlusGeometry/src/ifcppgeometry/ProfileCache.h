@@ -29,18 +29,16 @@ class ProfileConverter;
 class ProfileCache : public StatusCallback
 {
 public:	
-	ProfileCache( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
+	ProfileCache(  shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
 	~ProfileCache();
 
 	shared_ptr<ProfileConverter> getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile );
 	void clearProfileCache();
 
-protected:
-	shared_ptr<GeometrySettings>				m_geom_settings;
-	shared_ptr<UnitConverter>					m_unit_converter;
-	shared_ptr<PointConverter>					m_point_converter;
 	shared_ptr<CurveConverter>					m_curve_converter;
 	shared_ptr<SplineConverter>					m_spline_converter;
+
+protected:
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
 #ifdef IFCPP_OPENMP

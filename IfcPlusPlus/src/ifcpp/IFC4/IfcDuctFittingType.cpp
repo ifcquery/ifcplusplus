@@ -130,7 +130,7 @@ void IfcDuctFittingType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 {
 	IfcFlowFittingType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDuctFittingType::unlinkSelf()
+void IfcDuctFittingType::unlinkFromInverseCounterparts()
 {
-	IfcFlowFittingType::unlinkSelf();
+	IfcFlowFittingType::unlinkFromInverseCounterparts();
 }

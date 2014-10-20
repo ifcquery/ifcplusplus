@@ -26,7 +26,7 @@ public:
 	IfcDayInMonthNumber();
 	IfcDayInMonthNumber( int value );
 	~IfcDayInMonthNumber();
-	virtual const char* classname() const { return "IfcDayInMonthNumber"; }
+	virtual const char* className() const { return "IfcDayInMonthNumber"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDayInMonthNumber> createObjectFromSTEP( const std::wstring& arg );

@@ -53,7 +53,7 @@ public:
 	IfcRoleEnum();
 	IfcRoleEnum( IfcRoleEnumEnum e ) { m_enum = e; }
 	~IfcRoleEnum();
-	virtual const char* classname() const { return "IfcRoleEnum"; }
+	virtual const char* className() const { return "IfcRoleEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcRoleEnum> createObjectFromSTEP( const std::wstring& arg );

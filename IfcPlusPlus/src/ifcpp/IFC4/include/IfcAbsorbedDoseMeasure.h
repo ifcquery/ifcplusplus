@@ -27,7 +27,7 @@ public:
 	IfcAbsorbedDoseMeasure();
 	IfcAbsorbedDoseMeasure( double value );
 	~IfcAbsorbedDoseMeasure();
-	virtual const char* classname() const { return "IfcAbsorbedDoseMeasure"; }
+	virtual const char* className() const { return "IfcAbsorbedDoseMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAbsorbedDoseMeasure> createObjectFromSTEP( const std::wstring& arg );

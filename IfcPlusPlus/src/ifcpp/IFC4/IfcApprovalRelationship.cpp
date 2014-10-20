@@ -98,21 +98,24 @@ void IfcApprovalRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 		m_RelatingApproval->m_Relates_inverse.push_back( ptr_self );
 	}
 }
-void IfcApprovalRelationship::unlinkSelf()
+void IfcApprovalRelationship::unlinkFromInverseCounterparts()
 {
-	IfcResourceLevelRelationship::unlinkSelf();
+	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedApprovals.size(); ++i )
 	{
 		if( m_RelatedApprovals[i] )
 		{
 			std::vector<weak_ptr<IfcApprovalRelationship> >& IsRelatedWith_inverse = m_RelatedApprovals[i]->m_IsRelatedWith_inverse;
-			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); ++it_IsRelatedWith_inverse)
+			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); )
 			{
 				shared_ptr<IfcApprovalRelationship> self_candidate( *it_IsRelatedWith_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsRelatedWith_inverse.erase( it_IsRelatedWith_inverse );
-					break;
+					it_IsRelatedWith_inverse= IsRelatedWith_inverse.erase( it_IsRelatedWith_inverse );
+				}
+				else
+				{
+					++it_IsRelatedWith_inverse;
 				}
 			}
 		}
@@ -120,13 +123,16 @@ void IfcApprovalRelationship::unlinkSelf()
 	if( m_RelatingApproval )
 	{
 		std::vector<weak_ptr<IfcApprovalRelationship> >& Relates_inverse = m_RelatingApproval->m_Relates_inverse;
-		for( auto it_Relates_inverse = Relates_inverse.begin(); it_Relates_inverse != Relates_inverse.end(); ++it_Relates_inverse)
+		for( auto it_Relates_inverse = Relates_inverse.begin(); it_Relates_inverse != Relates_inverse.end(); )
 		{
 			shared_ptr<IfcApprovalRelationship> self_candidate( *it_Relates_inverse );
 			if( self_candidate.get() == this )
 			{
-				Relates_inverse.erase( it_Relates_inverse );
-				break;
+				it_Relates_inverse= Relates_inverse.erase( it_Relates_inverse );
+			}
+			else
+			{
+				++it_Relates_inverse;
 			}
 		}
 	}

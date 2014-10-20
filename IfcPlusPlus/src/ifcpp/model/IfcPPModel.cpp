@@ -1,3 +1,16 @@
+/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+
 #pragma warning( disable: 4996 )
 #include <iostream>
 #include <time.h>
@@ -38,20 +51,6 @@
 #include "UnitConverter.h"
 #include "IfcPPException.h"
 #include "IfcPPModel.h"
-
-IfcPPModel::IfcPPSchemaVersion::IfcPPSchemaVersion()
-{
-	m_IFC_FILE_SCHEMA = L"";
-	m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
-}
-IfcPPModel::IfcPPSchemaVersion::IfcPPSchemaVersion(std::wstring schema_str, IfcPPVersionEnum schema_enum)
-	: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)
-{
-}
-IfcPPModel::IfcPPSchemaVersion::~IfcPPSchemaVersion()
-{
-}
-
 
 IfcPPModel::IfcPPModel()
 {
@@ -206,6 +205,7 @@ void IfcPPModel::setUnitConverter( shared_ptr<UnitConverter>& uc )
 
 void IfcPPModel::setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> >& map )
 {
+	clearIfcModel();
 	m_map_entities.clear();
 	m_map_entities = map;
 	updateCache();
@@ -237,9 +237,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		}
 		else
 		{
-			std::stringstream strs;
-			strs << "IfcPPModel::insertEntity: entity with id " << entity_id << " already exists in model" << std::endl;
-			throw IfcPPException( strs.str().c_str() );
+			messageCallback( "Entity already in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e.get() );
 		}
 	}
 	else
@@ -253,12 +251,12 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	{
 		if( !product->m_GlobalId )
 		{
-			std::cout << "IfcProduct->m_GlobalId not set" << std::endl;
+			messageCallback( "IfcProduct->m_GlobalId not set", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, product.get() );
 			return;
 		}
 		if( product->m_GlobalId->m_value.length() < 22 )
 		{
-			std::cout << "IfcProduct->m_GlobalId.length() < 22" << std::endl;
+			messageCallback( "IfcProduct->m_GlobalId.length() < 22", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, product.get() );
 		}
 	}
 #endif
@@ -268,17 +266,20 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 
 void IfcPPModel::removeEntity( shared_ptr<IfcPPEntity> e )
 {
+	if( !e )
+	{
+		messageCallback( "Entity not valid", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e.get() );
+		return;
+	}
 	int remove_id = e->m_id;
 	auto it_find = m_map_entities.find(remove_id);
 	if( it_find == m_map_entities.end() )
 	{
-#ifdef _DEBUG
-		std::cout << __FUNC__ << ": entity with id " << remove_id << " not found in model." << std::endl;
-#endif
+		messageCallback( "Entity not found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e.get() );
 		return;
 	}
-	shared_ptr<IfcPPEntity>& entity_found = it_find->second;
-	entity_found->unlinkSelf();
+	shared_ptr<IfcPPEntity> entity_found = it_find->second;
+	entity_found->unlinkFromInverseCounterparts();
 	IfcPPEntity* entity_remove_ptr = e.get();
 		
 	if( entity_found.use_count() > 1 )
@@ -318,10 +319,8 @@ void IfcPPModel::removeEntity( int entity_id )
 	auto it_find = m_map_entities.find(entity_id);
 	if( it_find != m_map_entities.end() )
 	{
-		shared_ptr<IfcPPEntity>& entity_found = it_find->second;
+		shared_ptr<IfcPPEntity> entity_found = it_find->second;
 		removeEntity( entity_found );
-		//entity_found->unlinkSelf();
-		//m_map_entities.erase( it_find );
 	}
 }
 
@@ -340,7 +339,7 @@ void IfcPPModel::removeUnreferencedEntities()
 {
 	for( auto it_entities = m_map_entities.begin(); it_entities != m_map_entities.end();  )
 	{
-		shared_ptr<IfcPPEntity>& entity = it_entities->second;
+		shared_ptr<IfcPPEntity> entity = it_entities->second;
 		if( entity.use_count() < 2 )
 		{
 			// if use_count is only 1, the entity is only referenced in m_map_entities, so no other entity or other object holds a shared_ptr
@@ -399,16 +398,15 @@ void IfcPPModel::removeUnreferencedEntities()
 			}
 			if( erase_entity )
 			{
-				entity->unlinkSelf();
+				entity->unlinkFromInverseCounterparts();
 				auto erase_it = it_entities;
 #ifdef _DEBUG
 				int entity_id = entity->m_id;
-				const char* entity_classname = entity->classname();
+				const char* entity_className = entity->className();
 #endif
 				++it_entities;
+				// TODO: check here if it really has been removed
 				removeEntity( entity );
-				
-				//m_map_entities.erase( erase_it );
 			}
 			else
 			{
@@ -477,15 +475,9 @@ void IfcPPModel::setIfcSchemaVersion( IfcPPSchemaVersion& ver )
 
 void IfcPPModel::clearIfcModel()
 {
-	for( auto it_entities = m_map_entities.begin(); it_entities != m_map_entities.end(); ++it_entities )
-	{
-		shared_ptr<IfcPPEntity> entity( it_entities->second );
-		entity->unlinkSelf();
-	}
-	m_map_entities.clear();
-
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
+	m_map_entities.clear();
 	m_ifc_schema_version.m_ifc_file_schema_enum = IFC_VERSION_UNDEFINED;
 	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"";
 	m_IFC_FILE_NAME = L"";

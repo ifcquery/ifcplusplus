@@ -81,6 +81,6 @@ void IfcRoot::getAttributesInverse( std::vector<std::pair<std::string, shared_pt
 void IfcRoot::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcRoot::unlinkSelf()
+void IfcRoot::unlinkFromInverseCounterparts()
 {
 }

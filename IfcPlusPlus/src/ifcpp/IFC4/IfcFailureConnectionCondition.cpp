@@ -88,7 +88,7 @@ void IfcFailureConnectionCondition::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcStructuralConnectionCondition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFailureConnectionCondition::unlinkSelf()
+void IfcFailureConnectionCondition::unlinkFromInverseCounterparts()
 {
-	IfcStructuralConnectionCondition::unlinkSelf();
+	IfcStructuralConnectionCondition::unlinkFromInverseCounterparts();
 }

@@ -34,7 +34,7 @@ public:
 	IfcBoilerTypeEnum();
 	IfcBoilerTypeEnum( IfcBoilerTypeEnumEnum e ) { m_enum = e; }
 	~IfcBoilerTypeEnum();
-	virtual const char* classname() const { return "IfcBoilerTypeEnum"; }
+	virtual const char* className() const { return "IfcBoilerTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBoilerTypeEnum> createObjectFromSTEP( const std::wstring& arg );

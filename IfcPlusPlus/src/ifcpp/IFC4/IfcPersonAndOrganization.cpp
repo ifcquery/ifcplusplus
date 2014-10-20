@@ -89,31 +89,37 @@ void IfcPersonAndOrganization::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 		m_ThePerson->m_EngagedIn_inverse.push_back( ptr_self );
 	}
 }
-void IfcPersonAndOrganization::unlinkSelf()
+void IfcPersonAndOrganization::unlinkFromInverseCounterparts()
 {
 	if( m_TheOrganization )
 	{
 		std::vector<weak_ptr<IfcPersonAndOrganization> >& Engages_inverse = m_TheOrganization->m_Engages_inverse;
-		for( auto it_Engages_inverse = Engages_inverse.begin(); it_Engages_inverse != Engages_inverse.end(); ++it_Engages_inverse)
+		for( auto it_Engages_inverse = Engages_inverse.begin(); it_Engages_inverse != Engages_inverse.end(); )
 		{
 			shared_ptr<IfcPersonAndOrganization> self_candidate( *it_Engages_inverse );
 			if( self_candidate.get() == this )
 			{
-				Engages_inverse.erase( it_Engages_inverse );
-				break;
+				it_Engages_inverse= Engages_inverse.erase( it_Engages_inverse );
+			}
+			else
+			{
+				++it_Engages_inverse;
 			}
 		}
 	}
 	if( m_ThePerson )
 	{
 		std::vector<weak_ptr<IfcPersonAndOrganization> >& EngagedIn_inverse = m_ThePerson->m_EngagedIn_inverse;
-		for( auto it_EngagedIn_inverse = EngagedIn_inverse.begin(); it_EngagedIn_inverse != EngagedIn_inverse.end(); ++it_EngagedIn_inverse)
+		for( auto it_EngagedIn_inverse = EngagedIn_inverse.begin(); it_EngagedIn_inverse != EngagedIn_inverse.end(); )
 		{
 			shared_ptr<IfcPersonAndOrganization> self_candidate( *it_EngagedIn_inverse );
 			if( self_candidate.get() == this )
 			{
-				EngagedIn_inverse.erase( it_EngagedIn_inverse );
-				break;
+				it_EngagedIn_inverse= EngagedIn_inverse.erase( it_EngagedIn_inverse );
+			}
+			else
+			{
+				++it_EngagedIn_inverse;
 			}
 		}
 	}

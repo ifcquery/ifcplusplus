@@ -55,6 +55,6 @@ void IfcStructuralConnectionCondition::getAttributesInverse( std::vector<std::pa
 void IfcStructuralConnectionCondition::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcStructuralConnectionCondition::unlinkSelf()
+void IfcStructuralConnectionCondition::unlinkFromInverseCounterparts()
 {
 }

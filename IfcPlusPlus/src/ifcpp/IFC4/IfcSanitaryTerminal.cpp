@@ -125,7 +125,7 @@ void IfcSanitaryTerminal::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcFlowTerminal::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSanitaryTerminal::unlinkSelf()
+void IfcSanitaryTerminal::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminal::unlinkSelf();
+	IfcFlowTerminal::unlinkFromInverseCounterparts();
 }

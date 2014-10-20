@@ -72,6 +72,6 @@ void IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<s
 void IfcCoordinateReferenceSystem::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcCoordinateReferenceSystem::unlinkSelf()
+void IfcCoordinateReferenceSystem::unlinkFromInverseCounterparts()
 {
 }

@@ -26,7 +26,7 @@ public:
 	IfcTextAlignment();
 	IfcTextAlignment( std::wstring value );
 	~IfcTextAlignment();
-	virtual const char* classname() const { return "IfcTextAlignment"; }
+	virtual const char* className() const { return "IfcTextAlignment"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTextAlignment> createObjectFromSTEP( const std::wstring& arg );

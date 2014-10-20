@@ -163,6 +163,6 @@ void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, share
 void IfcApproval::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcApproval::unlinkSelf()
+void IfcApproval::unlinkFromInverseCounterparts()
 {
 }

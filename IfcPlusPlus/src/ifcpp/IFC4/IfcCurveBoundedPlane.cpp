@@ -83,7 +83,7 @@ void IfcCurveBoundedPlane::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcBoundedSurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCurveBoundedPlane::unlinkSelf()
+void IfcCurveBoundedPlane::unlinkFromInverseCounterparts()
 {
-	IfcBoundedSurface::unlinkSelf();
+	IfcBoundedSurface::unlinkFromInverseCounterparts();
 }

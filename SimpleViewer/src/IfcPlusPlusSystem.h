@@ -41,10 +41,7 @@ public:
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 	bool intersectModel( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, bool click, bool doubleclick );
 	
-	shared_ptr<IfcPPModel>	getIfcModel()	{ return m_ifc_model; }
-	void setIfcModel( shared_ptr<IfcPPModel>& model );
-	ReaderWriterIFC* getReaderWriterIFC() {	return m_reader_writer; }
-	
+	shared_ptr<ReaderWriterIFC> getReaderWriterIFC() {	return m_reader_writer; }
 	shared_ptr<CommandManager>	getCommandManager() { return m_command_manager; }
 	shared_ptr<ViewController>	getViewController() { return m_view_controller; }
 
@@ -56,8 +53,7 @@ public:
 	void notifyModelLoadingDone();
 
 private:
-	shared_ptr<IfcPPModel>				m_ifc_model;
-	osg::ref_ptr<ReaderWriterIFC>		m_reader_writer;
+	shared_ptr<ReaderWriterIFC>			m_reader_writer;
 	shared_ptr<CommandManager>			m_command_manager;
 	shared_ptr<ViewController>			m_view_controller;
 	std::map<int, shared_ptr<selectedEntity> > m_map_selected;

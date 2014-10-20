@@ -82,7 +82,7 @@ void IfcCurveStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcPresentationStyle::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCurveStyle::unlinkSelf()
+void IfcCurveStyle::unlinkFromInverseCounterparts()
 {
-	IfcPresentationStyle::unlinkSelf();
+	IfcPresentationStyle::unlinkFromInverseCounterparts();
 }

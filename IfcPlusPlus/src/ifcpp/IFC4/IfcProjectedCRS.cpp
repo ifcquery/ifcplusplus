@@ -87,7 +87,7 @@ void IfcProjectedCRS::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcCoordinateReferenceSystem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcProjectedCRS::unlinkSelf()
+void IfcProjectedCRS::unlinkFromInverseCounterparts()
 {
-	IfcCoordinateReferenceSystem::unlinkSelf();
+	IfcCoordinateReferenceSystem::unlinkFromInverseCounterparts();
 }

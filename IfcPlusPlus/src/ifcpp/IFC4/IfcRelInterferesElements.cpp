@@ -122,32 +122,38 @@ void IfcRelInterferesElements::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 		m_RelatingElement->m_InterferesElements_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelInterferesElements::unlinkSelf()
+void IfcRelInterferesElements::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedElement )
 	{
 		std::vector<weak_ptr<IfcRelInterferesElements> >& IsInterferedByElements_inverse = m_RelatedElement->m_IsInterferedByElements_inverse;
-		for( auto it_IsInterferedByElements_inverse = IsInterferedByElements_inverse.begin(); it_IsInterferedByElements_inverse != IsInterferedByElements_inverse.end(); ++it_IsInterferedByElements_inverse)
+		for( auto it_IsInterferedByElements_inverse = IsInterferedByElements_inverse.begin(); it_IsInterferedByElements_inverse != IsInterferedByElements_inverse.end(); )
 		{
 			shared_ptr<IfcRelInterferesElements> self_candidate( *it_IsInterferedByElements_inverse );
 			if( self_candidate.get() == this )
 			{
-				IsInterferedByElements_inverse.erase( it_IsInterferedByElements_inverse );
-				break;
+				it_IsInterferedByElements_inverse= IsInterferedByElements_inverse.erase( it_IsInterferedByElements_inverse );
+			}
+			else
+			{
+				++it_IsInterferedByElements_inverse;
 			}
 		}
 	}
 	if( m_RelatingElement )
 	{
 		std::vector<weak_ptr<IfcRelInterferesElements> >& InterferesElements_inverse = m_RelatingElement->m_InterferesElements_inverse;
-		for( auto it_InterferesElements_inverse = InterferesElements_inverse.begin(); it_InterferesElements_inverse != InterferesElements_inverse.end(); ++it_InterferesElements_inverse)
+		for( auto it_InterferesElements_inverse = InterferesElements_inverse.begin(); it_InterferesElements_inverse != InterferesElements_inverse.end(); )
 		{
 			shared_ptr<IfcRelInterferesElements> self_candidate( *it_InterferesElements_inverse );
 			if( self_candidate.get() == this )
 			{
-				InterferesElements_inverse.erase( it_InterferesElements_inverse );
-				break;
+				it_InterferesElements_inverse= InterferesElements_inverse.erase( it_InterferesElements_inverse );
+			}
+			else
+			{
+				++it_InterferesElements_inverse;
 			}
 		}
 	}

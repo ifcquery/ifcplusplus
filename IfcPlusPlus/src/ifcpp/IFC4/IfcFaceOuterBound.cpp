@@ -65,7 +65,7 @@ void IfcFaceOuterBound::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcFaceBound::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFaceOuterBound::unlinkSelf()
+void IfcFaceOuterBound::unlinkFromInverseCounterparts()
 {
-	IfcFaceBound::unlinkSelf();
+	IfcFaceBound::unlinkFromInverseCounterparts();
 }

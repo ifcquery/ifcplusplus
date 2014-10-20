@@ -33,6 +33,8 @@ class IfcBooleanOperand;
 class IfcHalfSpaceSolid;
 class IfcRevolvedAreaSolid;
 class IfcCsgPrimitive3D;
+class IfcSectionedSpine;
+class IfcReferencedSectionedSpine;
 
 class SolidModelConverter : public StatusCallback
 {
@@ -41,15 +43,16 @@ public:
 		shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>&	cc, shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache, shared_ptr<Sweeper>& sweeper );
 	~SolidModelConverter();
 
-	void convertIfcBooleanResult(		const shared_ptr<IfcBooleanResult>& operand,			shared_ptr<ItemData> item_data );
-	void convertIfcHalfSpaceSolid(		const shared_ptr<IfcHalfSpaceSolid>& half_space,		shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand );
-	void convertIfcBooleanOperand(		const shared_ptr<IfcBooleanOperand>& operand,			shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand );
-	void convertIfcSolidModel(			const shared_ptr<IfcSolidModel>& solid_model,			shared_ptr<ItemData> item_data );
-	void convertIfcExtrudedAreaSolid(	const shared_ptr<IfcExtrudedAreaSolid>& extruded_area,	shared_ptr<ItemData> item_data );
-	void convertIfcRevolvedAreaSolid(	const shared_ptr<IfcRevolvedAreaSolid>& revolved_area,	shared_ptr<ItemData> item_data );
-	void convertIfcCsgPrimitive3D(		const shared_ptr<IfcCsgPrimitive3D>& csg_primitive,		shared_ptr<ItemData> item_data );
+	void convertIfcBooleanResult(				const shared_ptr<IfcBooleanResult>& operand,			shared_ptr<ItemData> item_data );
+	void convertIfcHalfSpaceSolid(				const shared_ptr<IfcHalfSpaceSolid>& half_space,		shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand );
+	void convertIfcBooleanOperand(				const shared_ptr<IfcBooleanOperand>& operand,			shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand );
+	void convertIfcSolidModel(					const shared_ptr<IfcSolidModel>& solid_model,			shared_ptr<ItemData> item_data );
+	void convertIfcExtrudedAreaSolid(			const shared_ptr<IfcExtrudedAreaSolid>& extruded_area,	shared_ptr<ItemData> item_data );
+	void convertIfcRevolvedAreaSolid(			const shared_ptr<IfcRevolvedAreaSolid>& revolved_area,	shared_ptr<ItemData> item_data );
+	void convertIfcCsgPrimitive3D(				const shared_ptr<IfcCsgPrimitive3D>& csg_primitive,		shared_ptr<ItemData> item_data );
+	void convertIfcSectionedSpine(				const shared_ptr<IfcSectionedSpine>& spine,				shared_ptr<ItemData> item_data );
+	void convertIfcReferencedSectionedSpine(	const shared_ptr<IfcReferencedSectionedSpine>& spine,	shared_ptr<ItemData> item_data );
 
-protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
 	shared_ptr<PointConverter>			m_point_converter;

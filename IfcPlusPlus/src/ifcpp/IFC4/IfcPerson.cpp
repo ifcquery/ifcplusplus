@@ -175,20 +175,23 @@ void IfcPerson::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity 
 		}
 	}
 }
-void IfcPerson::unlinkSelf()
+void IfcPerson::unlinkFromInverseCounterparts()
 {
 	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )
 		{
 			std::vector<weak_ptr<IfcPerson> >& OfPerson_inverse = m_Addresses[i]->m_OfPerson_inverse;
-			for( auto it_OfPerson_inverse = OfPerson_inverse.begin(); it_OfPerson_inverse != OfPerson_inverse.end(); ++it_OfPerson_inverse)
+			for( auto it_OfPerson_inverse = OfPerson_inverse.begin(); it_OfPerson_inverse != OfPerson_inverse.end(); )
 			{
 				shared_ptr<IfcPerson> self_candidate( *it_OfPerson_inverse );
 				if( self_candidate.get() == this )
 				{
-					OfPerson_inverse.erase( it_OfPerson_inverse );
-					break;
+					it_OfPerson_inverse= OfPerson_inverse.erase( it_OfPerson_inverse );
+				}
+				else
+				{
+					++it_OfPerson_inverse;
 				}
 			}
 		}

@@ -94,20 +94,23 @@ void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<IfcPPEntity>
 		}
 	}
 }
-void IfcVirtualGridIntersection::unlinkSelf()
+void IfcVirtualGridIntersection::unlinkFromInverseCounterparts()
 {
 	for( size_t i=0; i<m_IntersectingAxes.size(); ++i )
 	{
 		if( m_IntersectingAxes[i] )
 		{
 			std::vector<weak_ptr<IfcVirtualGridIntersection> >& HasIntersections_inverse = m_IntersectingAxes[i]->m_HasIntersections_inverse;
-			for( auto it_HasIntersections_inverse = HasIntersections_inverse.begin(); it_HasIntersections_inverse != HasIntersections_inverse.end(); ++it_HasIntersections_inverse)
+			for( auto it_HasIntersections_inverse = HasIntersections_inverse.begin(); it_HasIntersections_inverse != HasIntersections_inverse.end(); )
 			{
 				shared_ptr<IfcVirtualGridIntersection> self_candidate( *it_HasIntersections_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasIntersections_inverse.erase( it_HasIntersections_inverse );
-					break;
+					it_HasIntersections_inverse= HasIntersections_inverse.erase( it_HasIntersections_inverse );
+				}
+				else
+				{
+					++it_HasIntersections_inverse;
 				}
 			}
 		}

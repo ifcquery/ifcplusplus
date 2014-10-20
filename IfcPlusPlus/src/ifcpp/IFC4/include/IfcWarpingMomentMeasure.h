@@ -28,7 +28,7 @@ public:
 	IfcWarpingMomentMeasure();
 	IfcWarpingMomentMeasure( double value );
 	~IfcWarpingMomentMeasure();
-	virtual const char* classname() const { return "IfcWarpingMomentMeasure"; }
+	virtual const char* className() const { return "IfcWarpingMomentMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcWarpingMomentMeasure> createObjectFromSTEP( const std::wstring& arg );

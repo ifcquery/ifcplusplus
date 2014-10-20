@@ -78,7 +78,7 @@ void IfcMaterialProfileSetUsageTapering::setInverseCounterparts( shared_ptr<IfcP
 {
 	IfcMaterialProfileSetUsage::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMaterialProfileSetUsageTapering::unlinkSelf()
+void IfcMaterialProfileSetUsageTapering::unlinkFromInverseCounterparts()
 {
-	IfcMaterialProfileSetUsage::unlinkSelf();
+	IfcMaterialProfileSetUsage::unlinkFromInverseCounterparts();
 }

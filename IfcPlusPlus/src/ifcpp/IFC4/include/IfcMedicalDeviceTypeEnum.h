@@ -37,7 +37,7 @@ public:
 	IfcMedicalDeviceTypeEnum();
 	IfcMedicalDeviceTypeEnum( IfcMedicalDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcMedicalDeviceTypeEnum();
-	virtual const char* classname() const { return "IfcMedicalDeviceTypeEnum"; }
+	virtual const char* className() const { return "IfcMedicalDeviceTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcMedicalDeviceTypeEnum> createObjectFromSTEP( const std::wstring& arg );

@@ -107,32 +107,38 @@ void IfcRelConnectsElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 		m_RelatingElement->m_ConnectedTo_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelConnectsElements::unlinkSelf()
+void IfcRelConnectsElements::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedElement )
 	{
 		std::vector<weak_ptr<IfcRelConnectsElements> >& ConnectedFrom_inverse = m_RelatedElement->m_ConnectedFrom_inverse;
-		for( auto it_ConnectedFrom_inverse = ConnectedFrom_inverse.begin(); it_ConnectedFrom_inverse != ConnectedFrom_inverse.end(); ++it_ConnectedFrom_inverse)
+		for( auto it_ConnectedFrom_inverse = ConnectedFrom_inverse.begin(); it_ConnectedFrom_inverse != ConnectedFrom_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsElements> self_candidate( *it_ConnectedFrom_inverse );
 			if( self_candidate.get() == this )
 			{
-				ConnectedFrom_inverse.erase( it_ConnectedFrom_inverse );
-				break;
+				it_ConnectedFrom_inverse= ConnectedFrom_inverse.erase( it_ConnectedFrom_inverse );
+			}
+			else
+			{
+				++it_ConnectedFrom_inverse;
 			}
 		}
 	}
 	if( m_RelatingElement )
 	{
 		std::vector<weak_ptr<IfcRelConnectsElements> >& ConnectedTo_inverse = m_RelatingElement->m_ConnectedTo_inverse;
-		for( auto it_ConnectedTo_inverse = ConnectedTo_inverse.begin(); it_ConnectedTo_inverse != ConnectedTo_inverse.end(); ++it_ConnectedTo_inverse)
+		for( auto it_ConnectedTo_inverse = ConnectedTo_inverse.begin(); it_ConnectedTo_inverse != ConnectedTo_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsElements> self_candidate( *it_ConnectedTo_inverse );
 			if( self_candidate.get() == this )
 			{
-				ConnectedTo_inverse.erase( it_ConnectedTo_inverse );
-				break;
+				it_ConnectedTo_inverse= ConnectedTo_inverse.erase( it_ConnectedTo_inverse );
+			}
+			else
+			{
+				++it_ConnectedTo_inverse;
 			}
 		}
 	}

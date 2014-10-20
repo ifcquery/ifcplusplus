@@ -16,7 +16,6 @@
 #include <osgFX/Scribe>
 #include <osgViewer/ViewerEventHandlers>
 #include <osgGA/GUIActionAdapter>
-#include <osgDB/Registry>
 
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
@@ -35,32 +34,11 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_view_controller = shared_ptr<ViewController>( new ViewController() );
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
-	m_ifc_model		= shared_ptr<IfcPPModel>( new IfcPPModel() );
-
-	if( osgDB::Registry::instance() )
-	{
-		osgDB::ReaderWriter* rw = osgDB::Registry::instance()->getReaderWriterForExtension( "ifc" );
-		ReaderWriterIFC* rw_ifc = dynamic_cast<ReaderWriterIFC*>(rw);
-		if( rw_ifc )
-		{
-			m_reader_writer = rw_ifc;
-		}
-	}
-
-	if( !m_reader_writer )
-	{
-		m_reader_writer = new ReaderWriterIFC();
-	}
-	m_reader_writer->setModel( m_ifc_model );
+	m_reader_writer = shared_ptr<ReaderWriterIFC>( new ReaderWriterIFC() );
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem()
 {
-}
-
-void IfcPlusPlusSystem::setIfcModel( shared_ptr<IfcPPModel>& model )
-{
-	m_ifc_model = model;
 }
 
 bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
@@ -120,7 +98,6 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 		std::cout << e.what();
 	}
 #endif
-//	m_ga_t0 = &ea;
 	return handled;
 }
 
@@ -249,14 +226,12 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				}
 				m_map_selected.erase( it_selected );
 			}
-			
 		}
 		std::map<int, shared_ptr<IfcPPEntity> > map_objects;
 		map_objects[id] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}
 }
-
 
 void IfcPlusPlusSystem::clearSelection()
 {

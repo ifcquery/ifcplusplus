@@ -70,7 +70,7 @@ void IfcArbitraryClosedProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcArbitraryClosedProfileDef::unlinkSelf()
+void IfcArbitraryClosedProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcProfileDef::unlinkSelf();
+	IfcProfileDef::unlinkFromInverseCounterparts();
 }

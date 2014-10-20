@@ -90,21 +90,24 @@ void IfcCompositeCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 		}
 	}
 }
-void IfcCompositeCurve::unlinkSelf()
+void IfcCompositeCurve::unlinkFromInverseCounterparts()
 {
-	IfcBoundedCurve::unlinkSelf();
+	IfcBoundedCurve::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_Segments.size(); ++i )
 	{
 		if( m_Segments[i] )
 		{
 			std::vector<weak_ptr<IfcCompositeCurve> >& UsingCurves_inverse = m_Segments[i]->m_UsingCurves_inverse;
-			for( auto it_UsingCurves_inverse = UsingCurves_inverse.begin(); it_UsingCurves_inverse != UsingCurves_inverse.end(); ++it_UsingCurves_inverse)
+			for( auto it_UsingCurves_inverse = UsingCurves_inverse.begin(); it_UsingCurves_inverse != UsingCurves_inverse.end(); )
 			{
 				shared_ptr<IfcCompositeCurve> self_candidate( *it_UsingCurves_inverse );
 				if( self_candidate.get() == this )
 				{
-					UsingCurves_inverse.erase( it_UsingCurves_inverse );
-					break;
+					it_UsingCurves_inverse= UsingCurves_inverse.erase( it_UsingCurves_inverse );
+				}
+				else
+				{
+					++it_UsingCurves_inverse;
 				}
 			}
 		}

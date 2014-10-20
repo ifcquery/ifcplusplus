@@ -102,32 +102,38 @@ void IfcRelFillsElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 		m_RelatingOpeningElement->m_HasFillings_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelFillsElement::unlinkSelf()
+void IfcRelFillsElement::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedBuildingElement )
 	{
 		std::vector<weak_ptr<IfcRelFillsElement> >& FillsVoids_inverse = m_RelatedBuildingElement->m_FillsVoids_inverse;
-		for( auto it_FillsVoids_inverse = FillsVoids_inverse.begin(); it_FillsVoids_inverse != FillsVoids_inverse.end(); ++it_FillsVoids_inverse)
+		for( auto it_FillsVoids_inverse = FillsVoids_inverse.begin(); it_FillsVoids_inverse != FillsVoids_inverse.end(); )
 		{
 			shared_ptr<IfcRelFillsElement> self_candidate( *it_FillsVoids_inverse );
 			if( self_candidate.get() == this )
 			{
-				FillsVoids_inverse.erase( it_FillsVoids_inverse );
-				break;
+				it_FillsVoids_inverse= FillsVoids_inverse.erase( it_FillsVoids_inverse );
+			}
+			else
+			{
+				++it_FillsVoids_inverse;
 			}
 		}
 	}
 	if( m_RelatingOpeningElement )
 	{
 		std::vector<weak_ptr<IfcRelFillsElement> >& HasFillings_inverse = m_RelatingOpeningElement->m_HasFillings_inverse;
-		for( auto it_HasFillings_inverse = HasFillings_inverse.begin(); it_HasFillings_inverse != HasFillings_inverse.end(); ++it_HasFillings_inverse)
+		for( auto it_HasFillings_inverse = HasFillings_inverse.begin(); it_HasFillings_inverse != HasFillings_inverse.end(); )
 		{
 			shared_ptr<IfcRelFillsElement> self_candidate( *it_HasFillings_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasFillings_inverse.erase( it_HasFillings_inverse );
-				break;
+				it_HasFillings_inverse= HasFillings_inverse.erase( it_HasFillings_inverse );
+			}
+			else
+			{
+				++it_HasFillings_inverse;
 			}
 		}
 	}

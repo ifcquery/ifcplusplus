@@ -3486,13 +3486,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcZShapeProfileDef.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcpp\model\IfcPPException.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcpp\model\IfcPPModel.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcpp\model\IfcPPObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp">
@@ -3513,9 +3507,6 @@
     <ClCompile Include="src\ifcpp\IfcPPTypeBroker.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcpp\model\IfcPPAttributeObject.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcpp\model\IfcPPGuid.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -3532,9 +3523,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\ifcpp\writer\IfcPPWriterXML.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcpp\model\StatusCallback.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -85,7 +85,7 @@ void IfcIndexedTriangleTextureMap::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcIndexedTextureMap::setInverseCounterparts( ptr_self_entity );
 }
-void IfcIndexedTriangleTextureMap::unlinkSelf()
+void IfcIndexedTriangleTextureMap::unlinkFromInverseCounterparts()
 {
-	IfcIndexedTextureMap::unlinkSelf();
+	IfcIndexedTextureMap::unlinkFromInverseCounterparts();
 }

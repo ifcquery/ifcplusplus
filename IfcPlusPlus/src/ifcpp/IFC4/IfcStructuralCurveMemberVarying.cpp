@@ -115,7 +115,7 @@ void IfcStructuralCurveMemberVarying::setInverseCounterparts( shared_ptr<IfcPPEn
 {
 	IfcStructuralCurveMember::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralCurveMemberVarying::unlinkSelf()
+void IfcStructuralCurveMemberVarying::unlinkFromInverseCounterparts()
 {
-	IfcStructuralCurveMember::unlinkSelf();
+	IfcStructuralCurveMember::unlinkFromInverseCounterparts();
 }

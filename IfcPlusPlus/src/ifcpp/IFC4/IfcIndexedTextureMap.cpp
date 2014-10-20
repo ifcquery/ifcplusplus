@@ -82,19 +82,22 @@ void IfcIndexedTextureMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 		m_MappedTo->m_HasTextures_inverse.push_back( ptr_self );
 	}
 }
-void IfcIndexedTextureMap::unlinkSelf()
+void IfcIndexedTextureMap::unlinkFromInverseCounterparts()
 {
-	IfcTextureCoordinate::unlinkSelf();
+	IfcTextureCoordinate::unlinkFromInverseCounterparts();
 	if( m_MappedTo )
 	{
 		std::vector<weak_ptr<IfcIndexedTextureMap> >& HasTextures_inverse = m_MappedTo->m_HasTextures_inverse;
-		for( auto it_HasTextures_inverse = HasTextures_inverse.begin(); it_HasTextures_inverse != HasTextures_inverse.end(); ++it_HasTextures_inverse)
+		for( auto it_HasTextures_inverse = HasTextures_inverse.begin(); it_HasTextures_inverse != HasTextures_inverse.end(); )
 		{
 			shared_ptr<IfcIndexedTextureMap> self_candidate( *it_HasTextures_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasTextures_inverse.erase( it_HasTextures_inverse );
-				break;
+				it_HasTextures_inverse= HasTextures_inverse.erase( it_HasTextures_inverse );
+			}
+			else
+			{
+				++it_HasTextures_inverse;
 			}
 		}
 	}

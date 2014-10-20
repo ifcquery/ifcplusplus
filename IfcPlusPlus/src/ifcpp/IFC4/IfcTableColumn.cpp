@@ -79,6 +79,6 @@ void IfcTableColumn::getAttributesInverse( std::vector<std::pair<std::string, sh
 void IfcTableColumn::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcTableColumn::unlinkSelf()
+void IfcTableColumn::unlinkFromInverseCounterparts()
 {
 }

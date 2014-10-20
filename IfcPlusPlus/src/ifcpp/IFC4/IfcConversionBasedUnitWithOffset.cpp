@@ -79,7 +79,7 @@ void IfcConversionBasedUnitWithOffset::setInverseCounterparts( shared_ptr<IfcPPE
 {
 	IfcConversionBasedUnit::setInverseCounterparts( ptr_self_entity );
 }
-void IfcConversionBasedUnitWithOffset::unlinkSelf()
+void IfcConversionBasedUnitWithOffset::unlinkFromInverseCounterparts()
 {
-	IfcConversionBasedUnit::unlinkSelf();
+	IfcConversionBasedUnit::unlinkFromInverseCounterparts();
 }

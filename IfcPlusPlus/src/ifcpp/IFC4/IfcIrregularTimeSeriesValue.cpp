@@ -73,6 +73,6 @@ void IfcIrregularTimeSeriesValue::getAttributesInverse( std::vector<std::pair<st
 void IfcIrregularTimeSeriesValue::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcIrregularTimeSeriesValue::unlinkSelf()
+void IfcIrregularTimeSeriesValue::unlinkFromInverseCounterparts()
 {
 }

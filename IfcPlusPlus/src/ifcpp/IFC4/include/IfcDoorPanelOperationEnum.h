@@ -39,7 +39,7 @@ public:
 	IfcDoorPanelOperationEnum();
 	IfcDoorPanelOperationEnum( IfcDoorPanelOperationEnumEnum e ) { m_enum = e; }
 	~IfcDoorPanelOperationEnum();
-	virtual const char* classname() const { return "IfcDoorPanelOperationEnum"; }
+	virtual const char* className() const { return "IfcDoorPanelOperationEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDoorPanelOperationEnum> createObjectFromSTEP( const std::wstring& arg );

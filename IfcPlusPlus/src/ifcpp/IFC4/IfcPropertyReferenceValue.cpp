@@ -77,7 +77,7 @@ void IfcPropertyReferenceValue::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcSimpleProperty::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPropertyReferenceValue::unlinkSelf()
+void IfcPropertyReferenceValue::unlinkFromInverseCounterparts()
 {
-	IfcSimpleProperty::unlinkSelf();
+	IfcSimpleProperty::unlinkFromInverseCounterparts();
 }

@@ -17,6 +17,7 @@
 #include <ifcpp/IFC4/include/IfcAxis1Placement.h>
 #include <ifcpp/IFC4/include/IfcBoundingBox.h>
 #include <ifcpp/IFC4/include/IfcBoundedCurve.h>
+#include <ifcpp/IFC4/include/IfcCompositeCurve.h>
 
 #include <ifcpp/IFC4/include/IfcExtrudedAreaSolid.h>
 #include <ifcpp/IFC4/include/IfcFixedReferenceSweptAreaSolid.h>
@@ -27,6 +28,7 @@
 #include <ifcpp/IFC4/include/IfcBoxedHalfSpace.h>
 #include <ifcpp/IFC4/include/IfcPolygonalBoundedHalfSpace.h>
 #include <ifcpp/IFC4/include/IfcPlane.h>
+#include <ifcpp/IFC4/include/IfcSectionedSpine.h>
 
 #include <ifcpp/IFC4/include/IfcManifoldSolidBrep.h>
 #include <ifcpp/IFC4/include/IfcClosedShell.h>
@@ -143,7 +145,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			std::vector<carve::geom::vector<3> > basis_curve_points;
 			m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
-			m_sweeper->sweepArea( basis_curve_points, profile_paths, item_data_solid );
+			m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
 			item_data_solid->applyPosition( swept_area_pos );
 			item_data->addItemData( item_data_solid );
 			
@@ -188,7 +190,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 				}
 			}
 
-			m_sweeper->sweepArea( directrix_curve_points, profile_paths, item_data_solid );
+			m_sweeper->sweepArea( directrix_curve_points, profile_paths, surface_curve_swept_area_solid.get(), item_data_solid );
 			item_data_solid->applyPosition( swept_area_pos );
 			item_data->addItemData( item_data_solid );
 
@@ -316,7 +318,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
 
-		m_sweeper->sweepDisk( basis_curve_points, item_data_solid, nvc, radius, radius_inner );
+		m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc, radius, radius_inner );
 		item_data->addItemData( item_data_solid );
 
 		return;
@@ -368,7 +370,7 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	{
 		return;
 	}
-	m_sweeper->extrude( paths, extrusion_vector, item_data );
+	m_sweeper->extrude( paths, extrusion_vector, extruded_area.get(), item_data );
 
 }
 
@@ -418,7 +420,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	// swept area
 	shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter(swept_area_profile);
 	const std::vector<std::vector<carve::geom::vector<2> > >& profile_coords_unchecked = profile_converter->getCoordinates();
-
+	bool warning_small_loop_detected = false;
 	std::vector<std::vector<carve::geom::vector<2> > > profile_coords;
 	for( int ii=0; ii<profile_coords_unchecked.size(); ++ii )
 	{
@@ -443,7 +445,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		double signed_area = carve::geom2d::signedArea( profile_loop_unchecked );
 		if( std::abs( signed_area ) < 0.000001 )
 		{
-			messageCallback( "abs( signed_area ) < 0.000001", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+			warning_small_loop_detected = true;
 			continue;
 		}
 
@@ -459,6 +461,14 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 			std::copy( profile_loop_unchecked.begin(), profile_loop_unchecked.end(), std::back_inserter( profile_loop ) );
 		}
 	}
+
+	if( warning_small_loop_detected )
+	{
+		std::stringstream err;
+		err << "abs( signed_area ) < 1.e-6";
+		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_MINOR_WARNING, __FUNC__, revolved_area.get() );
+	}
+
 
 	// triangulate
 	std::vector<carve::geom::vector<2> > merged;
@@ -1233,7 +1243,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		std::vector<std::vector<carve::geom::vector<2> > > paths;
 		paths.push_back( polygonal_boundary );
 		shared_ptr<ItemData> polygonal_halfspace_item_data( new ItemData );
-		m_sweeper->extrude( paths, carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_halfspace_item_data );
+		m_sweeper->extrude( paths, carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
 		
 		if( polygonal_halfspace_item_data->meshsets.size() != 1 )
 		{
@@ -1395,6 +1405,42 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 	}
 
 	std::stringstream strs_err;
-	strs_err << "Unhandled IFC Representation: " << operand_select->classname();
+	strs_err << "Unhandled IFC Representation: " << operand_select->className();
 	throw IfcPPException( strs_err.str().c_str(), __FUNC__ );
+}
+
+void SolidModelConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemData> item_data )
+{
+	const shared_ptr<IfcCompositeCurve> spine_curve = spine->m_SpineCurve;
+	if( !spine_curve )
+	{
+		messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, spine.get() );
+		return;
+	}
+	const std::vector<shared_ptr<IfcProfileDef> >& vec_cross_sections = spine->m_CrossSections;
+	const std::vector<shared_ptr<IfcAxis2Placement3D> >& vec_cross_section_positions = spine->m_CrossSectionPositions;
+
+	std::vector<shared_ptr<IfcProfileDef> >::iterator it_cross_sections;
+
+	size_t num_cross_sections = vec_cross_sections.size();
+	if( vec_cross_section_positions.size() < num_cross_sections )
+	{
+		num_cross_sections = vec_cross_section_positions.size();
+	}
+
+	std::vector<shared_ptr<IfcCompositeCurveSegment> > segements = spine_curve->m_Segments;
+	int num_segments = segements.size();
+	if( vec_cross_section_positions.size() < num_segments+1 )
+	{
+		num_segments = vec_cross_section_positions.size()-1;
+	}
+
+	std::vector<carve::geom::vector<3> > curve_polygon;
+	std::vector<carve::geom::vector<3> > segment_start_points;
+	//CurveConverter cconv( m_unit_converter );
+	m_curve_converter->convertIfcCurve( spine_curve, curve_polygon, segment_start_points );
+
+#ifdef _DEBUG
+	std::cout << "IfcSectionedSpine not implemented." << std::endl;
+#endif
 }

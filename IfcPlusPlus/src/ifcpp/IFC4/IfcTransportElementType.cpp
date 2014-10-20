@@ -130,7 +130,7 @@ void IfcTransportElementType::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTransportElementType::unlinkSelf()
+void IfcTransportElementType::unlinkFromInverseCounterparts()
 {
-	IfcElementType::unlinkSelf();
+	IfcElementType::unlinkFromInverseCounterparts();
 }

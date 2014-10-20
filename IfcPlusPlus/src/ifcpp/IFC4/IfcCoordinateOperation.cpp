@@ -61,6 +61,6 @@ void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::st
 void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcCoordinateOperation::unlinkSelf()
+void IfcCoordinateOperation::unlinkFromInverseCounterparts()
 {
 }

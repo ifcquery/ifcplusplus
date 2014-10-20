@@ -46,7 +46,7 @@ public:
 	IfcSIPrefix();
 	IfcSIPrefix( IfcSIPrefixEnum e ) { m_enum = e; }
 	~IfcSIPrefix();
-	virtual const char* classname() const { return "IfcSIPrefix"; }
+	virtual const char* className() const { return "IfcSIPrefix"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSIPrefix> createObjectFromSTEP( const std::wstring& arg );

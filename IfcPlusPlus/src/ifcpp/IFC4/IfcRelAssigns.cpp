@@ -113,21 +113,24 @@ void IfcRelAssigns::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 		}
 	}
 }
-void IfcRelAssigns::unlinkSelf()
+void IfcRelAssigns::unlinkFromInverseCounterparts()
 {
-	IfcRelationship::unlinkSelf();
+	IfcRelationship::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		if( m_RelatedObjects[i] )
 		{
 			std::vector<weak_ptr<IfcRelAssigns> >& HasAssignments_inverse = m_RelatedObjects[i]->m_HasAssignments_inverse;
-			for( auto it_HasAssignments_inverse = HasAssignments_inverse.begin(); it_HasAssignments_inverse != HasAssignments_inverse.end(); ++it_HasAssignments_inverse)
+			for( auto it_HasAssignments_inverse = HasAssignments_inverse.begin(); it_HasAssignments_inverse != HasAssignments_inverse.end(); )
 			{
 				shared_ptr<IfcRelAssigns> self_candidate( *it_HasAssignments_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasAssignments_inverse.erase( it_HasAssignments_inverse );
-					break;
+					it_HasAssignments_inverse= HasAssignments_inverse.erase( it_HasAssignments_inverse );
+				}
+				else
+				{
+					++it_HasAssignments_inverse;
 				}
 			}
 		}

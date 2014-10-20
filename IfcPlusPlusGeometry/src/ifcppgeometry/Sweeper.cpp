@@ -25,17 +25,17 @@ Sweeper::~Sweeper()
 {
 }
 
-void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >& face_loops_input, const carve::geom::vector<3> extrusion_vector, shared_ptr<ItemData>& item_data )
+void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >& face_loops_input, const carve::geom::vector<3> extrusion_vector, IfcPPEntity* e, shared_ptr<ItemData>& item_data )
 {
 	if( face_loops_input.size() == 0 )
 	{
 		// TODO: pass message one leve higher, where the concerning IFC entity is known
-		messageCallback( "face_loops_input.size() == 0", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "face_loops_input.size() == 0", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 	if( !item_data )
 	{
-		messageCallback( "!item_data", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "!item_data", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 
@@ -51,6 +51,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 
 	carve::geom::vector<3> normal_first_loop;
 	std::vector<std::vector<carve::geom2d::P2> >	face_loops;
+	bool warning_small_loop_detected = false;
 	for( std::vector<std::vector<carve::geom::vector<2> > >::const_iterator it_face_loops = face_loops_input.begin(); it_face_loops != face_loops_input.end(); ++it_face_loops )
 	{
 		const std::vector<carve::geom::vector<2> >& loop = (*it_face_loops);
@@ -83,7 +84,6 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 		}
 
 		// check winding order
-		bool reverse_loop = false;
 		std::vector<carve::geom2d::P2> loop_2d( loop );
 		carve::geom::vector<3>  normal_2d = GeomUtils::computePolygon2DNormal( loop_2d );
 		if( it_face_loops == face_loops_input.begin() )
@@ -91,7 +91,8 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 			normal_first_loop = normal_2d;
 			if( normal_2d.z < 0 )
 			{
-				reverse_loop = true;
+				// reverse loop:
+				std::reverse( loop_2d.begin(), loop_2d.end() );
 				normal_first_loop = -normal_first_loop;
 			}
 		}
@@ -99,17 +100,14 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 		{
 			if( normal_2d.z > 0 )
 			{
-				reverse_loop = true;
+				// reverse loop:
+				std::reverse( loop_2d.begin(), loop_2d.end() );
 			}
-		}
-		if( reverse_loop )
-		{
-			std::reverse( loop_2d.begin(), loop_2d.end() );
 		}
 				
 		if( loop_2d.size() < 3 )
 		{
-			messageCallback( "loop_2d.size() < 3", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "loop_2d.size() < 3", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		}
 		
 		// close loop, insert first point at end if not already there
@@ -122,16 +120,22 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( std::abs( signed_area ) < m_geom_settings->m_min_face_area )
+		if( std::abs( signed_area ) < 1.e-6 )// m_geom_settings->m_min_face_area )
 		{
-			std::stringstream err;
-			err << "abs( signed_area ) < " << m_geom_settings->m_min_face_area;
-			messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			warning_small_loop_detected = true;
 			continue;
 		}
 
 		face_loops.push_back(loop_2d);
 	}
+
+	if( warning_small_loop_detected )
+	{
+		std::stringstream err;
+		err << "abs( signed_area ) < 1.e-6";
+		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_MINOR_WARNING, __FUNC__, e );
+	}
+
 
 	if( face_loops.size() == 0 )
 	{
@@ -171,7 +175,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 			
 			if( loop_number >= face_loops.size() )
 			{
-				messageCallback( "loop_number >= face_loops.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( "loop_number >= face_loops.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				continue;
 			}
 			std::vector<carve::geom2d::P2>& loop = face_loops[loop_number];
@@ -194,33 +198,29 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 	}
 	catch(...)
 	{
-		
+		messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed ", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 #ifdef _DEBUG
-		std::stringstream err;
-		err << "carve::triangulate::incorporateHolesIntoPolygon failed " << std::endl;
+
+		carve::input::PolylineSetData poly_line;
+		poly_line.beginPolyline();
+		int pline_index = 0;
 		for( size_t ii = 0; ii < face_loops.size(); ++ii )
 		{
 			std::vector<carve::geom2d::P2>& face_loop_i = face_loops[ii];
 
-			carve::input::PolyhedronData poly_data_debug;
-			std::vector<int> face_idx;
 			for( size_t jj = 0; jj < face_loop_i.size(); ++jj )
 			{
 				carve::geom2d::P2& point = face_loop_i[jj];
-				poly_data_debug.addVertex( carve::geom::VECTOR( point.x, point.y, 0 ) );
-				face_idx.push_back( jj );
+				poly_line.addVertex( carve::geom::VECTOR( point.x, point.y, 0 ) );
+				poly_line.addPolylineIndex( pline_index++ );
 			}
-
-			poly_data_debug.addFace( face_idx.begin(), face_idx.end() );
-			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data_debug.createMesh( carve::input::opts() ) );
-			double green_value = std::max(0.95 - ii*0.2, 0.3 );
-			CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.2, green_value, 0.2, 1.0 ), true );
 		}
+		CSG_Adapter::dumpPolylineSet( &poly_line, carve::geom::VECTOR( 0.2, 0.6, 0.2, 1.0 ), true );
 #endif
 		return;
 	}
 
-	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
+	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 	if( !poly_data )
 	{
 		throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -320,7 +320,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 
 			if( point_idx_next_up >= 2*num_points_base )
 			{
-				messageCallback( "point_idx_next_up >= 2*num_points_base", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( "point_idx_next_up >= 2*num_points_base", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				continue;
 			}
 			if( flip_faces )
@@ -405,19 +405,19 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 #endif
 }
 
-void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_points, shared_ptr<ItemData>& item_data, const int nvc, const double radius, const double radius_inner )
+void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemData>& item_data, const int nvc, const double radius, const double radius_inner )
 {
 	carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 	const int num_curve_points = curve_points.size();
 	if( num_curve_points < 2 )
 	{
-		messageCallback( "num curve points < 2", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "num curve points < 2", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 
 	if( !item_data )
 	{
-		messageCallback( "!item_data", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "!item_data", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 
@@ -444,7 +444,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 	double use_radius_inner = radius_inner;
 	if( radius_inner > radius )
 	{
-		messageCallback( "radius_inner > radius", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "radius_inner > radius", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		use_radius_inner = radius;
 	}
 
@@ -551,7 +551,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 		angle += delta_angle;
 	}
 
-	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData );
+	shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 	if( !poly_data )
 	{
 		throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -619,7 +619,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 			}
 			else
 			{
-				messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 			}
 
 			poly_data->addVertex( vertex );
@@ -640,7 +640,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 				}
 				else
 				{
-					messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+					messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				}
 
 				inner_shape_points.push_back( vertex );
@@ -670,7 +670,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 	{
 		if( inner_shape_points.size() != num_vertices_outer )
 		{
-			messageCallback( "inner_shape_points.size() != num_vertices_outer", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "inner_shape_points.size() != num_vertices_outer", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		}
 
 		// add points for inner shape
@@ -745,12 +745,12 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 #endif
 }
 
-void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, shared_ptr<ItemData>& item_data )
+void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* e, shared_ptr<ItemData>& item_data )
 {
 	// TODO: complete and test
 	if( profile_paths.size() == 0 )
 	{
-		messageCallback( "profile_paths.size() == 0", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "profile_paths.size() == 0", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 
@@ -766,6 +766,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 
 	carve::geom::vector<3> normal_first_loop;
 	std::vector<std::vector<carve::geom2d::P2> >	face_loops;
+	bool warning_small_loop_detected = false;
 	for( std::vector<std::vector<carve::geom::vector<2> > >::const_iterator it_face_loops = profile_paths.begin(); it_face_loops != profile_paths.end(); ++it_face_loops )
 	{
 		const std::vector<carve::geom::vector<2> >& loop = (*it_face_loops);
@@ -845,15 +846,21 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( std::abs( signed_area ) < m_geom_settings->m_min_face_area )
+		double min_loop_area = 1.e-6;//m_geom_settings->m_min_face_area
+		if( std::abs( signed_area ) < min_loop_area )
 		{
-			std::stringstream err;
-			err << "abs( signed_area ) < " << m_geom_settings->m_min_face_area;
-			messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			warning_small_loop_detected = true;
 			continue;
 		}
 
 		face_loops.push_back(loop_2d);
+	}
+
+	if( warning_small_loop_detected )
+	{
+		std::stringstream err;
+		err << "abs( signed_area ) < 1.e-6";
+		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_MINOR_WARNING, __FUNC__, e );
 	}
 
 	// triangulate
@@ -882,7 +889,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 			
 			if( loop_number >= face_loops.size() )
 			{
-				messageCallback( ": loop_number >= face_loops.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( ": loop_number >= face_loops.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				continue;
 			}
 			std::vector<carve::geom2d::P2>& loop = face_loops[loop_number];
@@ -905,7 +912,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 	}
 	catch(...)
 	{
-		messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 
@@ -917,7 +924,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 	const int num_curve_points = curve_points.size();
 	if( num_curve_points < 2 )
 	{
-		messageCallback( "num curve points < 2", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "num curve points < 2", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		return;
 	}
 
@@ -1077,7 +1084,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 			}
 			else
 			{
-				messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 			}
 
 			int vertex_id = poly_cache.addPoint(section_point);
@@ -1145,7 +1152,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 			{
 				if( num_points_in_loop != loop_idx.size() )
 				{
-					messageCallback( "num_points_in_loop != loop_idx.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+					messageCallback( "num_points_in_loop != loop_idx.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				}
 			}
 		
@@ -1158,7 +1165,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 
 				if( point_idx_next_up >= num_points_all )
 				{
-					messageCallback( "point_idx_next_up >= num_points_all", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+					messageCallback( "point_idx_next_up >= num_points_all", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 					continue;
 				}
 				if( flip_faces )
@@ -1202,15 +1209,15 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		
 		if( vertex_id_a > num_points_all || vertex_id_a_top > num_points_all )
 		{
-			messageCallback( "vertex_id_a out of range", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "vertex_id_a out of range", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		}
 		if( vertex_id_b > num_points_all || vertex_id_b_top > num_points_all )
 		{
-			messageCallback( "vertex_id_b out of range", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "vertex_id_b out of range", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		}
 		if( vertex_id_c > num_points_all || vertex_id_c_top > num_points_all )
 		{
-			messageCallback( "vertex_id_c out of range", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "vertex_id_c out of range", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		}
 		const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex(vertex_id_a);
 		const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex(vertex_id_b);
@@ -1223,7 +1230,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			messageCallback( "area < 0.000000001", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "area < 0.000000001", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 		}
 #endif
 
@@ -1258,12 +1265,13 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 #endif
 }
 
-void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> > >& vec_bounds, PolyInputCache3D& poly_cache )
+void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> > >& vec_bounds, IfcPPEntity* e, PolyInputCache3D& poly_cache )
 {
 	std::vector<std::vector<carve::geom2d::P2> > face_loops_2d;
 	std::vector<std::vector<double> > face_loop_3rd_dim;
 	std::map<int,int> map_merged_idx;
 	bool face_loop_reversed = false;
+	bool warning_small_loop_detected = false;
 	ProjectionPlane face_plane = UNDEFINED;
 
 	for( auto it_bounds=vec_bounds.begin(); it_bounds!=vec_bounds.end(); ++it_bounds )
@@ -1295,7 +1303,7 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 
 			if( triangle_indexes.size() != 3 )
 			{
-				messageCallback( "triangle_indexes.size() != 3", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( "triangle_indexes.size() != 3", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				continue;
 			}
 
@@ -1325,7 +1333,7 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 			{
 				std::stringstream err;
 				err << "unable to project to plane: nx" << nx << " ny " << ny << " nz " << nz << std::endl;
-				messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+				messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 				continue;
 			}
 		}
@@ -1400,16 +1408,22 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 		}
 
 		double signed_area = carve::geom2d::signedArea( path_loop_2d );
-		if( std::abs( signed_area ) < m_geom_settings->m_min_face_area )
+		double min_loop_area = 1.e-6;//m_geom_settings->m_min_face_area
+		if( std::abs( signed_area ) < min_loop_area )
 		{
-			std::stringstream err;
-			err << "abs( signed_area ) < " << m_geom_settings->m_min_face_area;
-			messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			warning_small_loop_detected = true;
 			continue;
 		}
 
 		face_loops_2d.push_back(path_loop_2d);
 		face_loop_3rd_dim.push_back(path_loop_3rd_dim);
+	}
+
+	if( warning_small_loop_detected )
+	{
+		std::stringstream err;
+		err << "abs( signed_area ) < 1.e-6";
+		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_MINOR_WARNING, __FUNC__, e );
 	}
 
 	if( face_loops_2d.size() > 0 )
@@ -1460,7 +1474,7 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 		}
 		catch(...)
 		{
-			messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed ", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+			messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed ", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 			return;
 		}
 
@@ -1500,7 +1514,7 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 					double dz = v_a.v[2] - v_b.v[2];
 					if( std::abs(dz) < 0.0000001 )
 					{
-						messageCallback( "abs(dx) < 0.00001 && abs(dy) < 0.00001 && abs(dz) < 0.00001", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+						messageCallback( "abs(dx) < 0.00001 && abs(dy) < 0.00001 && abs(dz) < 0.00001", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e );
 					}
 				}
 			}
@@ -1517,3 +1531,5 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 		}
 	}
 }
+
+

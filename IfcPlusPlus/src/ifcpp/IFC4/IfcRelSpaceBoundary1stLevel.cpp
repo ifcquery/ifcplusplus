@@ -128,19 +128,22 @@ void IfcRelSpaceBoundary1stLevel::setInverseCounterparts( shared_ptr<IfcPPEntity
 		m_ParentBoundary->m_InnerBoundaries_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelSpaceBoundary1stLevel::unlinkSelf()
+void IfcRelSpaceBoundary1stLevel::unlinkFromInverseCounterparts()
 {
-	IfcRelSpaceBoundary::unlinkSelf();
+	IfcRelSpaceBoundary::unlinkFromInverseCounterparts();
 	if( m_ParentBoundary )
 	{
 		std::vector<weak_ptr<IfcRelSpaceBoundary1stLevel> >& InnerBoundaries_inverse = m_ParentBoundary->m_InnerBoundaries_inverse;
-		for( auto it_InnerBoundaries_inverse = InnerBoundaries_inverse.begin(); it_InnerBoundaries_inverse != InnerBoundaries_inverse.end(); ++it_InnerBoundaries_inverse)
+		for( auto it_InnerBoundaries_inverse = InnerBoundaries_inverse.begin(); it_InnerBoundaries_inverse != InnerBoundaries_inverse.end(); )
 		{
 			shared_ptr<IfcRelSpaceBoundary1stLevel> self_candidate( *it_InnerBoundaries_inverse );
 			if( self_candidate.get() == this )
 			{
-				InnerBoundaries_inverse.erase( it_InnerBoundaries_inverse );
-				break;
+				it_InnerBoundaries_inverse= InnerBoundaries_inverse.erase( it_InnerBoundaries_inverse );
+			}
+			else
+			{
+				++it_InnerBoundaries_inverse;
 			}
 		}
 	}

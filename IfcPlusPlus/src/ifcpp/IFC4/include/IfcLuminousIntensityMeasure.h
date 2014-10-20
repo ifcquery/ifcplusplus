@@ -27,7 +27,7 @@ public:
 	IfcLuminousIntensityMeasure();
 	IfcLuminousIntensityMeasure( double value );
 	~IfcLuminousIntensityMeasure();
-	virtual const char* classname() const { return "IfcLuminousIntensityMeasure"; }
+	virtual const char* className() const { return "IfcLuminousIntensityMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLuminousIntensityMeasure> createObjectFromSTEP( const std::wstring& arg );

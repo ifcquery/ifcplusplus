@@ -26,7 +26,7 @@ class IfcNonNegativeLengthMeasure : public IfcLengthMeasure
 public:
 	IfcNonNegativeLengthMeasure();
 	~IfcNonNegativeLengthMeasure();
-	virtual const char* classname() const { return "IfcNonNegativeLengthMeasure"; }
+	virtual const char* className() const { return "IfcNonNegativeLengthMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcNonNegativeLengthMeasure> createObjectFromSTEP( const std::wstring& arg );

@@ -77,7 +77,7 @@ void IfcLightSource::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcLightSource::unlinkSelf()
+void IfcLightSource::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

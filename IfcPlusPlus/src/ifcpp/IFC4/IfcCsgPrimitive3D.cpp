@@ -60,7 +60,7 @@ void IfcCsgPrimitive3D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCsgPrimitive3D::unlinkSelf()
+void IfcCsgPrimitive3D::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

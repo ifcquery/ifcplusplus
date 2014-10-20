@@ -140,7 +140,7 @@ void IfcCostItem::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entit
 {
 	IfcControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCostItem::unlinkSelf()
+void IfcCostItem::unlinkFromInverseCounterparts()
 {
-	IfcControl::unlinkSelf();
+	IfcControl::unlinkFromInverseCounterparts();
 }

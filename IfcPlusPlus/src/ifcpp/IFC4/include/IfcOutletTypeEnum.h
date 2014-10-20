@@ -37,7 +37,7 @@ public:
 	IfcOutletTypeEnum();
 	IfcOutletTypeEnum( IfcOutletTypeEnumEnum e ) { m_enum = e; }
 	~IfcOutletTypeEnum();
-	virtual const char* classname() const { return "IfcOutletTypeEnum"; }
+	virtual const char* className() const { return "IfcOutletTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcOutletTypeEnum> createObjectFromSTEP( const std::wstring& arg );

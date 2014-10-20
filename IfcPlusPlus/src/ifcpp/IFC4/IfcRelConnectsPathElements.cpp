@@ -131,7 +131,7 @@ void IfcRelConnectsPathElements::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	IfcRelConnectsElements::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRelConnectsPathElements::unlinkSelf()
+void IfcRelConnectsPathElements::unlinkFromInverseCounterparts()
 {
-	IfcRelConnectsElements::unlinkSelf();
+	IfcRelConnectsElements::unlinkFromInverseCounterparts();
 }

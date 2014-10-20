@@ -130,7 +130,7 @@ void IfcCooledBeamType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcEnergyConversionDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCooledBeamType::unlinkSelf()
+void IfcCooledBeamType::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDeviceType::unlinkSelf();
+	IfcEnergyConversionDeviceType::unlinkFromInverseCounterparts();
 }

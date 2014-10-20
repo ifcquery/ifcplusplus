@@ -114,7 +114,7 @@ void IfcPermeableCoveringProperties::setInverseCounterparts( shared_ptr<IfcPPEnt
 {
 	IfcPreDefinedPropertySet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPermeableCoveringProperties::unlinkSelf()
+void IfcPermeableCoveringProperties::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedPropertySet::unlinkSelf();
+	IfcPreDefinedPropertySet::unlinkFromInverseCounterparts();
 }

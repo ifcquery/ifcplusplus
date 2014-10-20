@@ -79,21 +79,24 @@ void IfcSurfaceStyleWithTextures::setInverseCounterparts( shared_ptr<IfcPPEntity
 		}
 	}
 }
-void IfcSurfaceStyleWithTextures::unlinkSelf()
+void IfcSurfaceStyleWithTextures::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_Textures.size(); ++i )
 	{
 		if( m_Textures[i] )
 		{
 			std::vector<weak_ptr<IfcSurfaceStyleWithTextures> >& UsedInStyles_inverse = m_Textures[i]->m_UsedInStyles_inverse;
-			for( auto it_UsedInStyles_inverse = UsedInStyles_inverse.begin(); it_UsedInStyles_inverse != UsedInStyles_inverse.end(); ++it_UsedInStyles_inverse)
+			for( auto it_UsedInStyles_inverse = UsedInStyles_inverse.begin(); it_UsedInStyles_inverse != UsedInStyles_inverse.end(); )
 			{
 				shared_ptr<IfcSurfaceStyleWithTextures> self_candidate( *it_UsedInStyles_inverse );
 				if( self_candidate.get() == this )
 				{
-					UsedInStyles_inverse.erase( it_UsedInStyles_inverse );
-					break;
+					it_UsedInStyles_inverse= UsedInStyles_inverse.erase( it_UsedInStyles_inverse );
+				}
+				else
+				{
+					++it_UsedInStyles_inverse;
 				}
 			}
 		}

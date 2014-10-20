@@ -115,7 +115,7 @@ void IfcRegularTimeSeries::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcTimeSeries::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRegularTimeSeries::unlinkSelf()
+void IfcRegularTimeSeries::unlinkFromInverseCounterparts()
 {
-	IfcTimeSeries::unlinkSelf();
+	IfcTimeSeries::unlinkFromInverseCounterparts();
 }

@@ -32,7 +32,7 @@ public:
 	IfcGlobalOrLocalEnum();
 	IfcGlobalOrLocalEnum( IfcGlobalOrLocalEnumEnum e ) { m_enum = e; }
 	~IfcGlobalOrLocalEnum();
-	virtual const char* classname() const { return "IfcGlobalOrLocalEnum"; }
+	virtual const char* className() const { return "IfcGlobalOrLocalEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcGlobalOrLocalEnum> createObjectFromSTEP( const std::wstring& arg );

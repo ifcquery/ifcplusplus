@@ -169,7 +169,7 @@ void IfcReinforcingMesh::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 {
 	IfcReinforcingElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcReinforcingMesh::unlinkSelf()
+void IfcReinforcingMesh::unlinkFromInverseCounterparts()
 {
-	IfcReinforcingElement::unlinkSelf();
+	IfcReinforcingElement::unlinkFromInverseCounterparts();
 }

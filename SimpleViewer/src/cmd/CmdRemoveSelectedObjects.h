@@ -34,7 +34,7 @@ public:
 	CmdRemoveSelectedObjects( IfcPlusPlusSystem* system );
 	virtual ~CmdRemoveSelectedObjects();
 	virtual shared_ptr<Command> copy() { return shared_ptr<CmdRemoveSelectedObjects>( new CmdRemoveSelectedObjects(m_system) ); }
-	virtual const char* classname() { return "CmdRemoveSelectedObjects"; }
+	virtual const char* className() const { return "CmdRemoveSelectedObjects"; }
 
 	virtual bool doCmd();
 	virtual bool undo();

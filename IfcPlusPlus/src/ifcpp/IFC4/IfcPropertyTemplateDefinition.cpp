@@ -82,7 +82,7 @@ void IfcPropertyTemplateDefinition::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcPropertyDefinition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPropertyTemplateDefinition::unlinkSelf()
+void IfcPropertyTemplateDefinition::unlinkFromInverseCounterparts()
 {
-	IfcPropertyDefinition::unlinkSelf();
+	IfcPropertyDefinition::unlinkFromInverseCounterparts();
 }

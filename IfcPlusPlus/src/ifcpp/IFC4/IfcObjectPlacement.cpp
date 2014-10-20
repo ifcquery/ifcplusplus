@@ -74,6 +74,6 @@ void IfcObjectPlacement::getAttributesInverse( std::vector<std::pair<std::string
 void IfcObjectPlacement::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcObjectPlacement::unlinkSelf()
+void IfcObjectPlacement::unlinkFromInverseCounterparts()
 {
 }

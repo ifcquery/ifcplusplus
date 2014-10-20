@@ -84,6 +84,6 @@ void IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shar
 void IfcReference::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcReference::unlinkSelf()
+void IfcReference::unlinkFromInverseCounterparts()
 {
 }

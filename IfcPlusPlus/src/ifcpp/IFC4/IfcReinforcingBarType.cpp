@@ -176,7 +176,7 @@ void IfcReinforcingBarType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcReinforcingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcReinforcingBarType::unlinkSelf()
+void IfcReinforcingBarType::unlinkFromInverseCounterparts()
 {
-	IfcReinforcingElementType::unlinkSelf();
+	IfcReinforcingElementType::unlinkFromInverseCounterparts();
 }

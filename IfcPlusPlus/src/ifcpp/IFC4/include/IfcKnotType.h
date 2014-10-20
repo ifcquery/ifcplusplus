@@ -34,7 +34,7 @@ public:
 	IfcKnotType();
 	IfcKnotType( IfcKnotTypeEnum e ) { m_enum = e; }
 	~IfcKnotType();
-	virtual const char* classname() const { return "IfcKnotType"; }
+	virtual const char* className() const { return "IfcKnotType"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcKnotType> createObjectFromSTEP( const std::wstring& arg );

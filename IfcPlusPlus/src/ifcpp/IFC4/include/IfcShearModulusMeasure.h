@@ -27,7 +27,7 @@ public:
 	IfcShearModulusMeasure();
 	IfcShearModulusMeasure( double value );
 	~IfcShearModulusMeasure();
-	virtual const char* classname() const { return "IfcShearModulusMeasure"; }
+	virtual const char* className() const { return "IfcShearModulusMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcShearModulusMeasure> createObjectFromSTEP( const std::wstring& arg );

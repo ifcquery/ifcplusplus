@@ -123,7 +123,7 @@ void IfcProjectionElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcFeatureElementAddition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcProjectionElement::unlinkSelf()
+void IfcProjectionElement::unlinkFromInverseCounterparts()
 {
-	IfcFeatureElementAddition::unlinkSelf();
+	IfcFeatureElementAddition::unlinkFromInverseCounterparts();
 }

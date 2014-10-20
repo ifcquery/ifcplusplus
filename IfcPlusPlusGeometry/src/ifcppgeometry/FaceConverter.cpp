@@ -310,7 +310,7 @@ void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >&
 			}
 
 		}
-		m_sweeper->createFace( face_loops, poly_cache );
+		m_sweeper->createFace( face_loops, ifc_face.get(), poly_cache );
 	}
 
 	// IfcFaceList can be a closed or open shell

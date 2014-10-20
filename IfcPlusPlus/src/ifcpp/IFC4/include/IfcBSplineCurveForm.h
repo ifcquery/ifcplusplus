@@ -36,7 +36,7 @@ public:
 	IfcBSplineCurveForm();
 	IfcBSplineCurveForm( IfcBSplineCurveFormEnum e ) { m_enum = e; }
 	~IfcBSplineCurveForm();
-	virtual const char* classname() const { return "IfcBSplineCurveForm"; }
+	virtual const char* className() const { return "IfcBSplineCurveForm"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBSplineCurveForm> createObjectFromSTEP( const std::wstring& arg );

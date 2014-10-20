@@ -34,7 +34,7 @@ public:
 	IfcLightDistributionCurveEnum();
 	IfcLightDistributionCurveEnum( IfcLightDistributionCurveEnumEnum e ) { m_enum = e; }
 	~IfcLightDistributionCurveEnum();
-	virtual const char* classname() const { return "IfcLightDistributionCurveEnum"; }
+	virtual const char* className() const { return "IfcLightDistributionCurveEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLightDistributionCurveEnum> createObjectFromSTEP( const std::wstring& arg );

@@ -102,32 +102,38 @@ void IfcRelConnectsPortToElement::setInverseCounterparts( shared_ptr<IfcPPEntity
 		m_RelatingPort->m_ContainedIn_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelConnectsPortToElement::unlinkSelf()
+void IfcRelConnectsPortToElement::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedElement )
 	{
 		std::vector<weak_ptr<IfcRelConnectsPortToElement> >& HasPorts_inverse = m_RelatedElement->m_HasPorts_inverse;
-		for( auto it_HasPorts_inverse = HasPorts_inverse.begin(); it_HasPorts_inverse != HasPorts_inverse.end(); ++it_HasPorts_inverse)
+		for( auto it_HasPorts_inverse = HasPorts_inverse.begin(); it_HasPorts_inverse != HasPorts_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsPortToElement> self_candidate( *it_HasPorts_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasPorts_inverse.erase( it_HasPorts_inverse );
-				break;
+				it_HasPorts_inverse= HasPorts_inverse.erase( it_HasPorts_inverse );
+			}
+			else
+			{
+				++it_HasPorts_inverse;
 			}
 		}
 	}
 	if( m_RelatingPort )
 	{
 		std::vector<weak_ptr<IfcRelConnectsPortToElement> >& ContainedIn_inverse = m_RelatingPort->m_ContainedIn_inverse;
-		for( auto it_ContainedIn_inverse = ContainedIn_inverse.begin(); it_ContainedIn_inverse != ContainedIn_inverse.end(); ++it_ContainedIn_inverse)
+		for( auto it_ContainedIn_inverse = ContainedIn_inverse.begin(); it_ContainedIn_inverse != ContainedIn_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsPortToElement> self_candidate( *it_ContainedIn_inverse );
 			if( self_candidate.get() == this )
 			{
-				ContainedIn_inverse.erase( it_ContainedIn_inverse );
-				break;
+				it_ContainedIn_inverse= ContainedIn_inverse.erase( it_ContainedIn_inverse );
+			}
+			else
+			{
+				++it_ContainedIn_inverse;
 			}
 		}
 	}

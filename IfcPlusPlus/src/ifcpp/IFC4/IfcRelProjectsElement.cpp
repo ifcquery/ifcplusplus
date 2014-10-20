@@ -102,9 +102,9 @@ void IfcRelProjectsElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 		m_RelatingElement->m_HasProjections_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelProjectsElement::unlinkSelf()
+void IfcRelProjectsElement::unlinkFromInverseCounterparts()
 {
-	IfcRelDecomposes::unlinkSelf();
+	IfcRelDecomposes::unlinkFromInverseCounterparts();
 	if( m_RelatedFeatureElement )
 	{
 		shared_ptr<IfcRelProjectsElement> self_candidate( m_RelatedFeatureElement->m_ProjectsElements_inverse );
@@ -117,13 +117,16 @@ void IfcRelProjectsElement::unlinkSelf()
 	if( m_RelatingElement )
 	{
 		std::vector<weak_ptr<IfcRelProjectsElement> >& HasProjections_inverse = m_RelatingElement->m_HasProjections_inverse;
-		for( auto it_HasProjections_inverse = HasProjections_inverse.begin(); it_HasProjections_inverse != HasProjections_inverse.end(); ++it_HasProjections_inverse)
+		for( auto it_HasProjections_inverse = HasProjections_inverse.begin(); it_HasProjections_inverse != HasProjections_inverse.end(); )
 		{
 			shared_ptr<IfcRelProjectsElement> self_candidate( *it_HasProjections_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasProjections_inverse.erase( it_HasProjections_inverse );
-				break;
+				it_HasProjections_inverse= HasProjections_inverse.erase( it_HasProjections_inverse );
+			}
+			else
+			{
+				++it_HasProjections_inverse;
 			}
 		}
 	}

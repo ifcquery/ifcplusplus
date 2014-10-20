@@ -66,7 +66,7 @@ void IfcGeometricCurveSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcGeometricSet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcGeometricCurveSet::unlinkSelf()
+void IfcGeometricCurveSet::unlinkFromInverseCounterparts()
 {
-	IfcGeometricSet::unlinkSelf();
+	IfcGeometricSet::unlinkFromInverseCounterparts();
 }

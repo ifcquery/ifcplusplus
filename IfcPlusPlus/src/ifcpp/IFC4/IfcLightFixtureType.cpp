@@ -130,7 +130,7 @@ void IfcLightFixtureType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcFlowTerminalType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcLightFixtureType::unlinkSelf()
+void IfcLightFixtureType::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminalType::unlinkSelf();
+	IfcFlowTerminalType::unlinkFromInverseCounterparts();
 }

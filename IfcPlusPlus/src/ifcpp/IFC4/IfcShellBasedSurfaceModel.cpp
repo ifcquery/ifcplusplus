@@ -72,7 +72,7 @@ void IfcShellBasedSurfaceModel::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcShellBasedSurfaceModel::unlinkSelf()
+void IfcShellBasedSurfaceModel::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

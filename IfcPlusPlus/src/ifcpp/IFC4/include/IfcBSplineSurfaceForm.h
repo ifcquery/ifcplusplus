@@ -41,7 +41,7 @@ public:
 	IfcBSplineSurfaceForm();
 	IfcBSplineSurfaceForm( IfcBSplineSurfaceFormEnum e ) { m_enum = e; }
 	~IfcBSplineSurfaceForm();
-	virtual const char* classname() const { return "IfcBSplineSurfaceForm"; }
+	virtual const char* className() const { return "IfcBSplineSurfaceForm"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBSplineSurfaceForm> createObjectFromSTEP( const std::wstring& arg );

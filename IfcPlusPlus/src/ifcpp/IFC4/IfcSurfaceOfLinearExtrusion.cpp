@@ -80,7 +80,7 @@ void IfcSurfaceOfLinearExtrusion::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcSweptSurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceOfLinearExtrusion::unlinkSelf()
+void IfcSurfaceOfLinearExtrusion::unlinkFromInverseCounterparts()
 {
-	IfcSweptSurface::unlinkSelf();
+	IfcSweptSurface::unlinkFromInverseCounterparts();
 }

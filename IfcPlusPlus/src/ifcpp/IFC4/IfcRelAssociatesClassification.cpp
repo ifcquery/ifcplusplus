@@ -112,20 +112,23 @@ void IfcRelAssociatesClassification::setInverseCounterparts( shared_ptr<IfcPPEnt
 		RelatingClassification_IfcClassificationReference->m_ClassificationRefForObjects_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssociatesClassification::unlinkSelf()
+void IfcRelAssociatesClassification::unlinkFromInverseCounterparts()
 {
-	IfcRelAssociates::unlinkSelf();
+	IfcRelAssociates::unlinkFromInverseCounterparts();
 	shared_ptr<IfcClassification>  RelatingClassification_IfcClassification = dynamic_pointer_cast<IfcClassification>( m_RelatingClassification );
 	if( RelatingClassification_IfcClassification )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesClassification> >& ClassificationForObjects_inverse = RelatingClassification_IfcClassification->m_ClassificationForObjects_inverse;
-		for( auto it_ClassificationForObjects_inverse = ClassificationForObjects_inverse.begin(); it_ClassificationForObjects_inverse != ClassificationForObjects_inverse.end(); ++it_ClassificationForObjects_inverse)
+		for( auto it_ClassificationForObjects_inverse = ClassificationForObjects_inverse.begin(); it_ClassificationForObjects_inverse != ClassificationForObjects_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssociatesClassification> self_candidate( *it_ClassificationForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
-				ClassificationForObjects_inverse.erase( it_ClassificationForObjects_inverse );
-				break;
+				it_ClassificationForObjects_inverse= ClassificationForObjects_inverse.erase( it_ClassificationForObjects_inverse );
+			}
+			else
+			{
+				++it_ClassificationForObjects_inverse;
 			}
 		}
 	}
@@ -133,13 +136,16 @@ void IfcRelAssociatesClassification::unlinkSelf()
 	if( RelatingClassification_IfcClassificationReference )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesClassification> >& ClassificationRefForObjects_inverse = RelatingClassification_IfcClassificationReference->m_ClassificationRefForObjects_inverse;
-		for( auto it_ClassificationRefForObjects_inverse = ClassificationRefForObjects_inverse.begin(); it_ClassificationRefForObjects_inverse != ClassificationRefForObjects_inverse.end(); ++it_ClassificationRefForObjects_inverse)
+		for( auto it_ClassificationRefForObjects_inverse = ClassificationRefForObjects_inverse.begin(); it_ClassificationRefForObjects_inverse != ClassificationRefForObjects_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssociatesClassification> self_candidate( *it_ClassificationRefForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
-				ClassificationRefForObjects_inverse.erase( it_ClassificationRefForObjects_inverse );
-				break;
+				it_ClassificationRefForObjects_inverse= ClassificationRefForObjects_inverse.erase( it_ClassificationRefForObjects_inverse );
+			}
+			else
+			{
+				++it_ClassificationRefForObjects_inverse;
 			}
 		}
 	}

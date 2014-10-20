@@ -130,7 +130,7 @@ void IfcCoveringType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcBuildingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCoveringType::unlinkSelf()
+void IfcCoveringType::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElementType::unlinkSelf();
+	IfcBuildingElementType::unlinkFromInverseCounterparts();
 }

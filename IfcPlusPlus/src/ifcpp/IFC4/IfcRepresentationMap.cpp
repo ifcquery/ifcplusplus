@@ -93,18 +93,21 @@ void IfcRepresentationMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 		m_MappedRepresentation->m_RepresentationMap_inverse.push_back( ptr_self );
 	}
 }
-void IfcRepresentationMap::unlinkSelf()
+void IfcRepresentationMap::unlinkFromInverseCounterparts()
 {
 	if( m_MappedRepresentation )
 	{
 		std::vector<weak_ptr<IfcRepresentationMap> >& RepresentationMap_inverse = m_MappedRepresentation->m_RepresentationMap_inverse;
-		for( auto it_RepresentationMap_inverse = RepresentationMap_inverse.begin(); it_RepresentationMap_inverse != RepresentationMap_inverse.end(); ++it_RepresentationMap_inverse)
+		for( auto it_RepresentationMap_inverse = RepresentationMap_inverse.begin(); it_RepresentationMap_inverse != RepresentationMap_inverse.end(); )
 		{
 			shared_ptr<IfcRepresentationMap> self_candidate( *it_RepresentationMap_inverse );
 			if( self_candidate.get() == this )
 			{
-				RepresentationMap_inverse.erase( it_RepresentationMap_inverse );
-				break;
+				it_RepresentationMap_inverse= RepresentationMap_inverse.erase( it_RepresentationMap_inverse );
+			}
+			else
+			{
+				++it_RepresentationMap_inverse;
 			}
 		}
 	}

@@ -87,6 +87,6 @@ void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::strin
 void IfcPhysicalQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcPhysicalQuantity::unlinkSelf()
+void IfcPhysicalQuantity::unlinkFromInverseCounterparts()
 {
 }

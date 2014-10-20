@@ -82,7 +82,7 @@ void IfcFillAreaStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcPresentationStyle::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFillAreaStyle::unlinkSelf()
+void IfcFillAreaStyle::unlinkFromInverseCounterparts()
 {
-	IfcPresentationStyle::unlinkSelf();
+	IfcPresentationStyle::unlinkFromInverseCounterparts();
 }

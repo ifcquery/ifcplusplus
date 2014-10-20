@@ -114,7 +114,7 @@ void IfcProxy::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 }
-void IfcProxy::unlinkSelf()
+void IfcProxy::unlinkFromInverseCounterparts()
 {
-	IfcProduct::unlinkSelf();
+	IfcProduct::unlinkFromInverseCounterparts();
 }

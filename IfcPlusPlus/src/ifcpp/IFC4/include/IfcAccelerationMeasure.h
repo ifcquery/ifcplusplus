@@ -27,7 +27,7 @@ public:
 	IfcAccelerationMeasure();
 	IfcAccelerationMeasure( double value );
 	~IfcAccelerationMeasure();
-	virtual const char* classname() const { return "IfcAccelerationMeasure"; }
+	virtual const char* className() const { return "IfcAccelerationMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAccelerationMeasure> createObjectFromSTEP( const std::wstring& arg );

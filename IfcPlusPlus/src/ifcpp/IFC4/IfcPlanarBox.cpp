@@ -69,7 +69,7 @@ void IfcPlanarBox::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcPlanarExtent::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPlanarBox::unlinkSelf()
+void IfcPlanarBox::unlinkFromInverseCounterparts()
 {
-	IfcPlanarExtent::unlinkSelf();
+	IfcPlanarExtent::unlinkFromInverseCounterparts();
 }

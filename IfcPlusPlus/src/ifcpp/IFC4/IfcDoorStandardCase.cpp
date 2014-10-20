@@ -141,7 +141,7 @@ void IfcDoorStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcDoor::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDoorStandardCase::unlinkSelf()
+void IfcDoorStandardCase::unlinkFromInverseCounterparts()
 {
-	IfcDoor::unlinkSelf();
+	IfcDoor::unlinkFromInverseCounterparts();
 }

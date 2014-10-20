@@ -28,7 +28,7 @@ public:
 	IfcDescriptiveMeasure();
 	IfcDescriptiveMeasure( std::wstring value );
 	~IfcDescriptiveMeasure();
-	virtual const char* classname() const { return "IfcDescriptiveMeasure"; }
+	virtual const char* className() const { return "IfcDescriptiveMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDescriptiveMeasure> createObjectFromSTEP( const std::wstring& arg );

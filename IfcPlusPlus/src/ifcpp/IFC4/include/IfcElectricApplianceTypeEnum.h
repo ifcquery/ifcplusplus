@@ -48,7 +48,7 @@ public:
 	IfcElectricApplianceTypeEnum();
 	IfcElectricApplianceTypeEnum( IfcElectricApplianceTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricApplianceTypeEnum();
-	virtual const char* classname() const { return "IfcElectricApplianceTypeEnum"; }
+	virtual const char* className() const { return "IfcElectricApplianceTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcElectricApplianceTypeEnum> createObjectFromSTEP( const std::wstring& arg );

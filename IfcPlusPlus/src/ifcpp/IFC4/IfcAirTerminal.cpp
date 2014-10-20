@@ -125,7 +125,7 @@ void IfcAirTerminal::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcFlowTerminal::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAirTerminal::unlinkSelf()
+void IfcAirTerminal::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminal::unlinkSelf();
+	IfcFlowTerminal::unlinkFromInverseCounterparts();
 }

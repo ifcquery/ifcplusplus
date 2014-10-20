@@ -131,19 +131,22 @@ void IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 		m_ResultForLoadGroup->m_SourceOfResultGroup_inverse.push_back( ptr_self );
 	}
 }
-void IfcStructuralResultGroup::unlinkSelf()
+void IfcStructuralResultGroup::unlinkFromInverseCounterparts()
 {
-	IfcGroup::unlinkSelf();
+	IfcGroup::unlinkFromInverseCounterparts();
 	if( m_ResultForLoadGroup )
 	{
 		std::vector<weak_ptr<IfcStructuralResultGroup> >& SourceOfResultGroup_inverse = m_ResultForLoadGroup->m_SourceOfResultGroup_inverse;
-		for( auto it_SourceOfResultGroup_inverse = SourceOfResultGroup_inverse.begin(); it_SourceOfResultGroup_inverse != SourceOfResultGroup_inverse.end(); ++it_SourceOfResultGroup_inverse)
+		for( auto it_SourceOfResultGroup_inverse = SourceOfResultGroup_inverse.begin(); it_SourceOfResultGroup_inverse != SourceOfResultGroup_inverse.end(); )
 		{
 			shared_ptr<IfcStructuralResultGroup> self_candidate( *it_SourceOfResultGroup_inverse );
 			if( self_candidate.get() == this )
 			{
-				SourceOfResultGroup_inverse.erase( it_SourceOfResultGroup_inverse );
-				break;
+				it_SourceOfResultGroup_inverse= SourceOfResultGroup_inverse.erase( it_SourceOfResultGroup_inverse );
+			}
+			else
+			{
+				++it_SourceOfResultGroup_inverse;
 			}
 		}
 	}

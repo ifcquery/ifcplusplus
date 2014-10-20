@@ -123,7 +123,7 @@ void IfcFastener::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entit
 {
 	IfcElementComponent::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFastener::unlinkSelf()
+void IfcFastener::unlinkFromInverseCounterparts()
 {
-	IfcElementComponent::unlinkSelf();
+	IfcElementComponent::unlinkFromInverseCounterparts();
 }

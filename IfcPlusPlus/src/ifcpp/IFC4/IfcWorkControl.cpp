@@ -148,7 +148,7 @@ void IfcWorkControl::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcWorkControl::unlinkSelf()
+void IfcWorkControl::unlinkFromInverseCounterparts()
 {
-	IfcControl::unlinkSelf();
+	IfcControl::unlinkFromInverseCounterparts();
 }

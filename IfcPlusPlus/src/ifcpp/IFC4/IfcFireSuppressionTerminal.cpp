@@ -125,7 +125,7 @@ void IfcFireSuppressionTerminal::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	IfcFlowTerminal::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFireSuppressionTerminal::unlinkSelf()
+void IfcFireSuppressionTerminal::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminal::unlinkSelf();
+	IfcFlowTerminal::unlinkFromInverseCounterparts();
 }

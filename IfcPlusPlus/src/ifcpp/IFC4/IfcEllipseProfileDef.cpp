@@ -80,7 +80,7 @@ void IfcEllipseProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcParameterizedProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcEllipseProfileDef::unlinkSelf()
+void IfcEllipseProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcParameterizedProfileDef::unlinkSelf();
+	IfcParameterizedProfileDef::unlinkFromInverseCounterparts();
 }

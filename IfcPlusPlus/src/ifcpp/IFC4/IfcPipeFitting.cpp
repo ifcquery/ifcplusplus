@@ -125,7 +125,7 @@ void IfcPipeFitting::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcFlowFitting::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPipeFitting::unlinkSelf()
+void IfcPipeFitting::unlinkFromInverseCounterparts()
 {
-	IfcFlowFitting::unlinkSelf();
+	IfcFlowFitting::unlinkFromInverseCounterparts();
 }

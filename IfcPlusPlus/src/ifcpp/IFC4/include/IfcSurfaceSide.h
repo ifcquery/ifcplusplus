@@ -33,7 +33,7 @@ public:
 	IfcSurfaceSide();
 	IfcSurfaceSide( IfcSurfaceSideEnum e ) { m_enum = e; }
 	~IfcSurfaceSide();
-	virtual const char* classname() const { return "IfcSurfaceSide"; }
+	virtual const char* className() const { return "IfcSurfaceSide"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSurfaceSide> createObjectFromSTEP( const std::wstring& arg );

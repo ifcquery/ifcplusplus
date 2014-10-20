@@ -136,7 +136,7 @@ void IfcFurnitureType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcFurnishingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFurnitureType::unlinkSelf()
+void IfcFurnitureType::unlinkFromInverseCounterparts()
 {
-	IfcFurnishingElementType::unlinkSelf();
+	IfcFurnishingElementType::unlinkFromInverseCounterparts();
 }

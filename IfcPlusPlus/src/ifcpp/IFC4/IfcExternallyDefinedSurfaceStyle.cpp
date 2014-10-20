@@ -68,7 +68,7 @@ void IfcExternallyDefinedSurfaceStyle::setInverseCounterparts( shared_ptr<IfcPPE
 {
 	IfcExternalReference::setInverseCounterparts( ptr_self_entity );
 }
-void IfcExternallyDefinedSurfaceStyle::unlinkSelf()
+void IfcExternallyDefinedSurfaceStyle::unlinkFromInverseCounterparts()
 {
-	IfcExternalReference::unlinkSelf();
+	IfcExternalReference::unlinkFromInverseCounterparts();
 }

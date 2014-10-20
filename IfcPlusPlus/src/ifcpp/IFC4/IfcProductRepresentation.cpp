@@ -88,20 +88,23 @@ void IfcProductRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 		}
 	}
 }
-void IfcProductRepresentation::unlinkSelf()
+void IfcProductRepresentation::unlinkFromInverseCounterparts()
 {
 	for( size_t i=0; i<m_Representations.size(); ++i )
 	{
 		if( m_Representations[i] )
 		{
 			std::vector<weak_ptr<IfcProductRepresentation> >& OfProductRepresentation_inverse = m_Representations[i]->m_OfProductRepresentation_inverse;
-			for( auto it_OfProductRepresentation_inverse = OfProductRepresentation_inverse.begin(); it_OfProductRepresentation_inverse != OfProductRepresentation_inverse.end(); ++it_OfProductRepresentation_inverse)
+			for( auto it_OfProductRepresentation_inverse = OfProductRepresentation_inverse.begin(); it_OfProductRepresentation_inverse != OfProductRepresentation_inverse.end(); )
 			{
 				shared_ptr<IfcProductRepresentation> self_candidate( *it_OfProductRepresentation_inverse );
 				if( self_candidate.get() == this )
 				{
-					OfProductRepresentation_inverse.erase( it_OfProductRepresentation_inverse );
-					break;
+					it_OfProductRepresentation_inverse= OfProductRepresentation_inverse.erase( it_OfProductRepresentation_inverse );
+				}
+				else
+				{
+					++it_OfProductRepresentation_inverse;
 				}
 			}
 		}

@@ -57,7 +57,7 @@ void IfcPreDefinedCurveFont::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcPreDefinedItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPreDefinedCurveFont::unlinkSelf()
+void IfcPreDefinedCurveFont::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedItem::unlinkSelf();
+	IfcPreDefinedItem::unlinkFromInverseCounterparts();
 }

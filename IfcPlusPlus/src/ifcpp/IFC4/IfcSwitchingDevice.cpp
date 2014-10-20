@@ -125,7 +125,7 @@ void IfcSwitchingDevice::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 {
 	IfcFlowController::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSwitchingDevice::unlinkSelf()
+void IfcSwitchingDevice::unlinkFromInverseCounterparts()
 {
-	IfcFlowController::unlinkSelf();
+	IfcFlowController::unlinkFromInverseCounterparts();
 }

@@ -34,7 +34,7 @@ public:
 	IfcArithmeticOperatorEnum();
 	IfcArithmeticOperatorEnum( IfcArithmeticOperatorEnumEnum e ) { m_enum = e; }
 	~IfcArithmeticOperatorEnum();
-	virtual const char* classname() const { return "IfcArithmeticOperatorEnum"; }
+	virtual const char* className() const { return "IfcArithmeticOperatorEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcArithmeticOperatorEnum> createObjectFromSTEP( const std::wstring& arg );

@@ -48,6 +48,6 @@ void IfcExternalInformation::getAttributesInverse( std::vector<std::pair<std::st
 void IfcExternalInformation::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcExternalInformation::unlinkSelf()
+void IfcExternalInformation::unlinkFromInverseCounterparts()
 {
 }

@@ -117,20 +117,23 @@ void IfcRelAssignsToResource::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 		RelatingResource_IfcTypeResource->m_ResourceOf_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssignsToResource::unlinkSelf()
+void IfcRelAssignsToResource::unlinkFromInverseCounterparts()
 {
-	IfcRelAssigns::unlinkSelf();
+	IfcRelAssigns::unlinkFromInverseCounterparts();
 	shared_ptr<IfcResource>  RelatingResource_IfcResource = dynamic_pointer_cast<IfcResource>( m_RelatingResource );
 	if( RelatingResource_IfcResource )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToResource> >& ResourceOf_inverse = RelatingResource_IfcResource->m_ResourceOf_inverse;
-		for( auto it_ResourceOf_inverse = ResourceOf_inverse.begin(); it_ResourceOf_inverse != ResourceOf_inverse.end(); ++it_ResourceOf_inverse)
+		for( auto it_ResourceOf_inverse = ResourceOf_inverse.begin(); it_ResourceOf_inverse != ResourceOf_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToResource> self_candidate( *it_ResourceOf_inverse );
 			if( self_candidate.get() == this )
 			{
-				ResourceOf_inverse.erase( it_ResourceOf_inverse );
-				break;
+				it_ResourceOf_inverse= ResourceOf_inverse.erase( it_ResourceOf_inverse );
+			}
+			else
+			{
+				++it_ResourceOf_inverse;
 			}
 		}
 	}
@@ -138,13 +141,16 @@ void IfcRelAssignsToResource::unlinkSelf()
 	if( RelatingResource_IfcTypeResource )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToResource> >& ResourceOf_inverse = RelatingResource_IfcTypeResource->m_ResourceOf_inverse;
-		for( auto it_ResourceOf_inverse = ResourceOf_inverse.begin(); it_ResourceOf_inverse != ResourceOf_inverse.end(); ++it_ResourceOf_inverse)
+		for( auto it_ResourceOf_inverse = ResourceOf_inverse.begin(); it_ResourceOf_inverse != ResourceOf_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToResource> self_candidate( *it_ResourceOf_inverse );
 			if( self_candidate.get() == this )
 			{
-				ResourceOf_inverse.erase( it_ResourceOf_inverse );
-				break;
+				it_ResourceOf_inverse= ResourceOf_inverse.erase( it_ResourceOf_inverse );
+			}
+			else
+			{
+				++it_ResourceOf_inverse;
 			}
 		}
 	}

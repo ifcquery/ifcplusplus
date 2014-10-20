@@ -63,7 +63,7 @@ void IfcSurfaceStyleRefraction::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceStyleRefraction::unlinkSelf()
+void IfcSurfaceStyleRefraction::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

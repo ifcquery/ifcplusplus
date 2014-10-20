@@ -72,7 +72,7 @@ void IfcCartesianPointList3D::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcCartesianPointList::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCartesianPointList3D::unlinkSelf()
+void IfcCartesianPointList3D::unlinkFromInverseCounterparts()
 {
-	IfcCartesianPointList::unlinkSelf();
+	IfcCartesianPointList::unlinkFromInverseCounterparts();
 }

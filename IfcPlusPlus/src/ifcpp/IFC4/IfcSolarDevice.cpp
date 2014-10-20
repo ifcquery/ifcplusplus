@@ -125,7 +125,7 @@ void IfcSolarDevice::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcEnergyConversionDevice::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSolarDevice::unlinkSelf()
+void IfcSolarDevice::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDevice::unlinkSelf();
+	IfcEnergyConversionDevice::unlinkFromInverseCounterparts();
 }

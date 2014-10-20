@@ -72,19 +72,22 @@ void IfcMappedItem::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 		m_MappingSource->m_MapUsage_inverse.push_back( ptr_self );
 	}
 }
-void IfcMappedItem::unlinkSelf()
+void IfcMappedItem::unlinkFromInverseCounterparts()
 {
-	IfcRepresentationItem::unlinkSelf();
+	IfcRepresentationItem::unlinkFromInverseCounterparts();
 	if( m_MappingSource )
 	{
 		std::vector<weak_ptr<IfcMappedItem> >& MapUsage_inverse = m_MappingSource->m_MapUsage_inverse;
-		for( auto it_MapUsage_inverse = MapUsage_inverse.begin(); it_MapUsage_inverse != MapUsage_inverse.end(); ++it_MapUsage_inverse)
+		for( auto it_MapUsage_inverse = MapUsage_inverse.begin(); it_MapUsage_inverse != MapUsage_inverse.end(); )
 		{
 			shared_ptr<IfcMappedItem> self_candidate( *it_MapUsage_inverse );
 			if( self_candidate.get() == this )
 			{
-				MapUsage_inverse.erase( it_MapUsage_inverse );
-				break;
+				it_MapUsage_inverse= MapUsage_inverse.erase( it_MapUsage_inverse );
+			}
+			else
+			{
+				++it_MapUsage_inverse;
 			}
 		}
 	}

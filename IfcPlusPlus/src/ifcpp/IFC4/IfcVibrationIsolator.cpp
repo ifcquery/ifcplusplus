@@ -123,7 +123,7 @@ void IfcVibrationIsolator::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcElementComponent::setInverseCounterparts( ptr_self_entity );
 }
-void IfcVibrationIsolator::unlinkSelf()
+void IfcVibrationIsolator::unlinkFromInverseCounterparts()
 {
-	IfcElementComponent::unlinkSelf();
+	IfcElementComponent::unlinkFromInverseCounterparts();
 }

@@ -209,7 +209,7 @@ void IfcDocumentInformation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcExternalInformation::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDocumentInformation::unlinkSelf()
+void IfcDocumentInformation::unlinkFromInverseCounterparts()
 {
-	IfcExternalInformation::unlinkSelf();
+	IfcExternalInformation::unlinkFromInverseCounterparts();
 }

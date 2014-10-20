@@ -92,19 +92,22 @@ void IfcResourceApprovalRelationship::setInverseCounterparts( shared_ptr<IfcPPEn
 		m_RelatingApproval->m_ApprovedResources_inverse.push_back( ptr_self );
 	}
 }
-void IfcResourceApprovalRelationship::unlinkSelf()
+void IfcResourceApprovalRelationship::unlinkFromInverseCounterparts()
 {
-	IfcResourceLevelRelationship::unlinkSelf();
+	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
 	if( m_RelatingApproval )
 	{
 		std::vector<weak_ptr<IfcResourceApprovalRelationship> >& ApprovedResources_inverse = m_RelatingApproval->m_ApprovedResources_inverse;
-		for( auto it_ApprovedResources_inverse = ApprovedResources_inverse.begin(); it_ApprovedResources_inverse != ApprovedResources_inverse.end(); ++it_ApprovedResources_inverse)
+		for( auto it_ApprovedResources_inverse = ApprovedResources_inverse.begin(); it_ApprovedResources_inverse != ApprovedResources_inverse.end(); )
 		{
 			shared_ptr<IfcResourceApprovalRelationship> self_candidate( *it_ApprovedResources_inverse );
 			if( self_candidate.get() == this )
 			{
-				ApprovedResources_inverse.erase( it_ApprovedResources_inverse );
-				break;
+				it_ApprovedResources_inverse= ApprovedResources_inverse.erase( it_ApprovedResources_inverse );
+			}
+			else
+			{
+				++it_ApprovedResources_inverse;
 			}
 		}
 	}

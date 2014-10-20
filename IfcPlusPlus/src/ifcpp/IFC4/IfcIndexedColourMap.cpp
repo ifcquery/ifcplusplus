@@ -89,19 +89,22 @@ void IfcIndexedColourMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 		m_MappedTo->m_HasColours_inverse.push_back( ptr_self );
 	}
 }
-void IfcIndexedColourMap::unlinkSelf()
+void IfcIndexedColourMap::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 	if( m_MappedTo )
 	{
 		std::vector<weak_ptr<IfcIndexedColourMap> >& HasColours_inverse = m_MappedTo->m_HasColours_inverse;
-		for( auto it_HasColours_inverse = HasColours_inverse.begin(); it_HasColours_inverse != HasColours_inverse.end(); ++it_HasColours_inverse)
+		for( auto it_HasColours_inverse = HasColours_inverse.begin(); it_HasColours_inverse != HasColours_inverse.end(); )
 		{
 			shared_ptr<IfcIndexedColourMap> self_candidate( *it_HasColours_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasColours_inverse.erase( it_HasColours_inverse );
-				break;
+				it_HasColours_inverse= HasColours_inverse.erase( it_HasColours_inverse );
+			}
+			else
+			{
+				++it_HasColours_inverse;
 			}
 		}
 	}

@@ -125,7 +125,7 @@ void IfcDamper::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity 
 {
 	IfcFlowController::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDamper::unlinkSelf()
+void IfcDamper::unlinkFromInverseCounterparts()
 {
-	IfcFlowController::unlinkSelf();
+	IfcFlowController::unlinkFromInverseCounterparts();
 }

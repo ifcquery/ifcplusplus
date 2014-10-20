@@ -32,7 +32,7 @@ public:
 	IfcNullStyle();
 	IfcNullStyle( IfcNullStyleEnum e ) { m_enum = e; }
 	~IfcNullStyle();
-	virtual const char* classname() const { return "IfcNullStyle"; }
+	virtual const char* className() const { return "IfcNullStyle"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcNullStyle> createObjectFromSTEP( const std::wstring& arg );

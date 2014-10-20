@@ -146,7 +146,7 @@ void IfcDoorStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcTypeProduct::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDoorStyle::unlinkSelf()
+void IfcDoorStyle::unlinkFromInverseCounterparts()
 {
-	IfcTypeProduct::unlinkSelf();
+	IfcTypeProduct::unlinkFromInverseCounterparts();
 }

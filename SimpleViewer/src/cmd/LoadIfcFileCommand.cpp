@@ -9,8 +9,6 @@
  * FOR A PARTICULAR PURPOSE.  See the OpenSceneGraph Public License for more details.
 */
 
-#include <osgDB/Registry>
-#include <osg/Switch>
 #include <osgUtil/Optimizer>
 #include <osgUtil/SmoothingVisitor>
 
@@ -48,20 +46,20 @@ bool LoadIfcFileCommand::doCmd()
 	}
 
 	shared_ptr<ViewController> vc = m_system->getViewController();
-	osg::Group* model_group = vc->m_sw_model;
-	model_group->removeChildren( 0, model_group->getNumChildren() );
+	osg::ref_ptr<osg::Switch> model_switch = vc->m_sw_model;
+	//osg::ref_ptr<osg::Switch> model_group = new osg::Switch();
+	model_switch->removeChildren( 0, model_switch->getNumChildren() );
 	m_system->clearSelection();
 
-	osg::ref_ptr<ReaderWriterIFC> reader_writer = m_system->getReaderWriterIFC();
+	shared_ptr<ReaderWriterIFC> reader_writer = m_system->getReaderWriterIFC();
 	reader_writer->resetModel();
 	carve::setEpsilon( carve::EPSILON*1.5 );
-	osg::ref_ptr<osgDB::ReaderWriter::Options> options = new osgDB::ReaderWriter::Options();
 	std::stringstream err;
 
-	osgDB::ReaderWriter::ReadResult res = osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED;
 	try
 	{
-		res = reader_writer->readNode( m_file_path, options.get() );
+		reader_writer->loadModelFromFile( m_file_path );
+		reader_writer->createGeometryOSG( model_switch );
 	}
 	catch( IfcPPOutOfMemoryException& e)
 	{
@@ -77,73 +75,40 @@ bool LoadIfcFileCommand::doCmd()
 	}
 	catch( ... )
 	{
-		err << "ReaderWriterIFC::readNode failed" << std::endl;
+		err << "ReaderWriterIFC::loadModelFromFile, createGeometryOSG failed" << std::endl;
 	}
 	
 	try
 	{
-		osg::Object* obj = res.getObject();
-		osg::Group* group = dynamic_cast<osg::Group*>(obj);
-		if( group )
+		if( model_switch )
 		{
 			bool optimize = true;
 
 			if( optimize )
 			{
 				osgUtil::Optimizer opt;
-				opt.optimize(group);
+				opt.optimize(model_switch);
 			}
 
 			// if model bounding sphere is far from origin, move to origin
-			const osg::BoundingSphere& bsphere = group->getBound();
+			const osg::BoundingSphere& bsphere = model_switch->getBound();
 			if( bsphere.center().length() > 10000 )
 			{
 				if( bsphere.center().length()/bsphere.radius() > 100 )
 				{
 					std::unordered_set<osg::Geode*> set_applied;
-					GeomUtils::applyTranslate( group, -bsphere.center(), set_applied );
+					GeomUtils::applyTranslate( model_switch, -bsphere.center(), set_applied );
 				}
 			}
-			model_group->addChild( group );
-			// TODO: handle spaces, terrain, storeys separately. add buttons in gui to show/hide spaces or terrain and to shift storeys
 		}
-		else
-		{
-			if( res.status() == osgDB::ReaderWriter::ReadResult::FILE_NOT_HANDLED )
-			{
-				err << "FILE_NOT_HANDLED" << std::endl;
-			}
-			else if( res.status() == osgDB::ReaderWriter::ReadResult::FILE_NOT_FOUND )
-			{
-				err << "FILE_NOT_FOUND" << std::endl;
-			}
-			else if( res.status() == osgDB::ReaderWriter::ReadResult::ERROR_IN_READING_FILE )
-			{
-				err << "ERROR_IN_READING_FILE" << std::endl;
-			}
-			else
-			{
-				err << "ReaderWriterIFC returned no valid osg::Group" << std::endl;
-			}
-		}
-	}
-	catch( IfcPPOutOfMemoryException& e)
-	{
-		throw e;
-	}
-	catch( IfcPPException& e)
-	{
-		err << e.what();
 	}
 	catch(std::exception& e)
 	{
 		err << e.what();
 	}
 
-	shared_ptr<IfcPPModel> ifc_model = reader_writer->getIfcPPModel();
-	m_system->setIfcModel( ifc_model );
 	reader_writer->clearInputCache();
-	vc->switchCurveRepresentation( model_group, vc->m_show_curve_representation );
+	vc->switchCurveRepresentation( model_switch, vc->m_show_curve_representation );
 
 	if( err.tellp() > 0 )
 	{

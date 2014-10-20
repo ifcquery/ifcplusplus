@@ -66,6 +66,6 @@ void IfcSchedulingTime::getAttributesInverse( std::vector<std::pair<std::string,
 void IfcSchedulingTime::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcSchedulingTime::unlinkSelf()
+void IfcSchedulingTime::unlinkFromInverseCounterparts()
 {
 }

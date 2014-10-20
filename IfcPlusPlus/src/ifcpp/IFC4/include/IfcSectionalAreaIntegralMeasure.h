@@ -27,7 +27,7 @@ public:
 	IfcSectionalAreaIntegralMeasure();
 	IfcSectionalAreaIntegralMeasure( double value );
 	~IfcSectionalAreaIntegralMeasure();
-	virtual const char* classname() const { return "IfcSectionalAreaIntegralMeasure"; }
+	virtual const char* className() const { return "IfcSectionalAreaIntegralMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSectionalAreaIntegralMeasure> createObjectFromSTEP( const std::wstring& arg );

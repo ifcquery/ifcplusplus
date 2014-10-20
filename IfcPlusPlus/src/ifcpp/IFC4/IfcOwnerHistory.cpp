@@ -94,6 +94,6 @@ void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, s
 void IfcOwnerHistory::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcOwnerHistory::unlinkSelf()
+void IfcOwnerHistory::unlinkFromInverseCounterparts()
 {
 }

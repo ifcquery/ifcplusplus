@@ -57,8 +57,8 @@
 #include "SplineConverter.h"
 #include "CurveConverter.h"
 
-CurveConverter::CurveConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
-	: m_geom_settings(geom_settings), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc)
+CurveConverter::CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc, shared_ptr<PlacementConverter>& plc )
+	: m_geom_settings(gs), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc), m_placement_converter(plc)
 {
 }
 
@@ -192,12 +192,12 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( conic_placement_select );
 			if( axis2placement2d )
 			{
-				PlacementConverter::convertIfcAxis2Placement2D( axis2placement2d, conic_position_matrix, length_factor );
+				m_placement_converter->convertIfcAxis2Placement2D( axis2placement2d, conic_position_matrix, length_factor );
 			}
 			else if( dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select ) )
 			{
 				shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select );
-				PlacementConverter::convertIfcAxis2Placement3D( axis2placement3d, conic_position_matrix, length_factor );
+				m_placement_converter->convertIfcAxis2Placement3D( axis2placement3d, conic_position_matrix, length_factor );
 			}
 		}
 

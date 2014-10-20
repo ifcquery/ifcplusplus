@@ -127,22 +127,25 @@ void IfcRelDefinesByProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 		RelatingPropertyDefinition_IfcPropertySetDefinition->m_DefinesOccurrence_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelDefinesByProperties::unlinkSelf()
+void IfcRelDefinesByProperties::unlinkFromInverseCounterparts()
 {
-	IfcRelDefines::unlinkSelf();
+	IfcRelDefines::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		shared_ptr<IfcContext>  RelatedObjects_IfcContext = dynamic_pointer_cast<IfcContext>( m_RelatedObjects[i] );
 		if( RelatedObjects_IfcContext )
 		{
 			std::vector<weak_ptr<IfcRelDefinesByProperties> >& IsDefinedBy_inverse = RelatedObjects_IfcContext->m_IsDefinedBy_inverse;
-			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); ++it_IsDefinedBy_inverse)
+			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); )
 			{
 				shared_ptr<IfcRelDefinesByProperties> self_candidate( *it_IsDefinedBy_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsDefinedBy_inverse.erase( it_IsDefinedBy_inverse );
-					break;
+					it_IsDefinedBy_inverse= IsDefinedBy_inverse.erase( it_IsDefinedBy_inverse );
+				}
+				else
+				{
+					++it_IsDefinedBy_inverse;
 				}
 			}
 		}
@@ -150,13 +153,16 @@ void IfcRelDefinesByProperties::unlinkSelf()
 		if( RelatedObjects_IfcObject )
 		{
 			std::vector<weak_ptr<IfcRelDefinesByProperties> >& IsDefinedBy_inverse = RelatedObjects_IfcObject->m_IsDefinedBy_inverse;
-			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); ++it_IsDefinedBy_inverse)
+			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); )
 			{
 				shared_ptr<IfcRelDefinesByProperties> self_candidate( *it_IsDefinedBy_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsDefinedBy_inverse.erase( it_IsDefinedBy_inverse );
-					break;
+					it_IsDefinedBy_inverse= IsDefinedBy_inverse.erase( it_IsDefinedBy_inverse );
+				}
+				else
+				{
+					++it_IsDefinedBy_inverse;
 				}
 			}
 		}
@@ -165,13 +171,16 @@ void IfcRelDefinesByProperties::unlinkSelf()
 	if( RelatingPropertyDefinition_IfcPropertySetDefinition )
 	{
 		std::vector<weak_ptr<IfcRelDefinesByProperties> >& DefinesOccurrence_inverse = RelatingPropertyDefinition_IfcPropertySetDefinition->m_DefinesOccurrence_inverse;
-		for( auto it_DefinesOccurrence_inverse = DefinesOccurrence_inverse.begin(); it_DefinesOccurrence_inverse != DefinesOccurrence_inverse.end(); ++it_DefinesOccurrence_inverse)
+		for( auto it_DefinesOccurrence_inverse = DefinesOccurrence_inverse.begin(); it_DefinesOccurrence_inverse != DefinesOccurrence_inverse.end(); )
 		{
 			shared_ptr<IfcRelDefinesByProperties> self_candidate( *it_DefinesOccurrence_inverse );
 			if( self_candidate.get() == this )
 			{
-				DefinesOccurrence_inverse.erase( it_DefinesOccurrence_inverse );
-				break;
+				it_DefinesOccurrence_inverse= DefinesOccurrence_inverse.erase( it_DefinesOccurrence_inverse );
+			}
+			else
+			{
+				++it_DefinesOccurrence_inverse;
 			}
 		}
 	}

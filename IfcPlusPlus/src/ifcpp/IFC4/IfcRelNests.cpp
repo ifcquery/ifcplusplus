@@ -116,21 +116,24 @@ void IfcRelNests::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entit
 		m_RelatingObject->m_IsNestedBy_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelNests::unlinkSelf()
+void IfcRelNests::unlinkFromInverseCounterparts()
 {
-	IfcRelDecomposes::unlinkSelf();
+	IfcRelDecomposes::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		if( m_RelatedObjects[i] )
 		{
 			std::vector<weak_ptr<IfcRelNests> >& Nests_inverse = m_RelatedObjects[i]->m_Nests_inverse;
-			for( auto it_Nests_inverse = Nests_inverse.begin(); it_Nests_inverse != Nests_inverse.end(); ++it_Nests_inverse)
+			for( auto it_Nests_inverse = Nests_inverse.begin(); it_Nests_inverse != Nests_inverse.end(); )
 			{
 				shared_ptr<IfcRelNests> self_candidate( *it_Nests_inverse );
 				if( self_candidate.get() == this )
 				{
-					Nests_inverse.erase( it_Nests_inverse );
-					break;
+					it_Nests_inverse= Nests_inverse.erase( it_Nests_inverse );
+				}
+				else
+				{
+					++it_Nests_inverse;
 				}
 			}
 		}
@@ -138,13 +141,16 @@ void IfcRelNests::unlinkSelf()
 	if( m_RelatingObject )
 	{
 		std::vector<weak_ptr<IfcRelNests> >& IsNestedBy_inverse = m_RelatingObject->m_IsNestedBy_inverse;
-		for( auto it_IsNestedBy_inverse = IsNestedBy_inverse.begin(); it_IsNestedBy_inverse != IsNestedBy_inverse.end(); ++it_IsNestedBy_inverse)
+		for( auto it_IsNestedBy_inverse = IsNestedBy_inverse.begin(); it_IsNestedBy_inverse != IsNestedBy_inverse.end(); )
 		{
 			shared_ptr<IfcRelNests> self_candidate( *it_IsNestedBy_inverse );
 			if( self_candidate.get() == this )
 			{
-				IsNestedBy_inverse.erase( it_IsNestedBy_inverse );
-				break;
+				it_IsNestedBy_inverse= IsNestedBy_inverse.erase( it_IsNestedBy_inverse );
+			}
+			else
+			{
+				++it_IsNestedBy_inverse;
 			}
 		}
 	}

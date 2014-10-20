@@ -38,7 +38,7 @@ public:
 	IfcFilterTypeEnum();
 	IfcFilterTypeEnum( IfcFilterTypeEnumEnum e ) { m_enum = e; }
 	~IfcFilterTypeEnum();
-	virtual const char* classname() const { return "IfcFilterTypeEnum"; }
+	virtual const char* className() const { return "IfcFilterTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFilterTypeEnum> createObjectFromSTEP( const std::wstring& arg );

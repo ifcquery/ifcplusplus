@@ -35,7 +35,7 @@ public:
 	IfcWorkCalendarTypeEnum();
 	IfcWorkCalendarTypeEnum( IfcWorkCalendarTypeEnumEnum e ) { m_enum = e; }
 	~IfcWorkCalendarTypeEnum();
-	virtual const char* classname() const { return "IfcWorkCalendarTypeEnum"; }
+	virtual const char* className() const { return "IfcWorkCalendarTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcWorkCalendarTypeEnum> createObjectFromSTEP( const std::wstring& arg );

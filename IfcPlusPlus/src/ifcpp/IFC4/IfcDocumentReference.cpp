@@ -99,19 +99,22 @@ void IfcDocumentReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 		m_ReferencedDocument->m_HasDocumentReferences_inverse.push_back( ptr_self );
 	}
 }
-void IfcDocumentReference::unlinkSelf()
+void IfcDocumentReference::unlinkFromInverseCounterparts()
 {
-	IfcExternalReference::unlinkSelf();
+	IfcExternalReference::unlinkFromInverseCounterparts();
 	if( m_ReferencedDocument )
 	{
 		std::vector<weak_ptr<IfcDocumentReference> >& HasDocumentReferences_inverse = m_ReferencedDocument->m_HasDocumentReferences_inverse;
-		for( auto it_HasDocumentReferences_inverse = HasDocumentReferences_inverse.begin(); it_HasDocumentReferences_inverse != HasDocumentReferences_inverse.end(); ++it_HasDocumentReferences_inverse)
+		for( auto it_HasDocumentReferences_inverse = HasDocumentReferences_inverse.begin(); it_HasDocumentReferences_inverse != HasDocumentReferences_inverse.end(); )
 		{
 			shared_ptr<IfcDocumentReference> self_candidate( *it_HasDocumentReferences_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasDocumentReferences_inverse.erase( it_HasDocumentReferences_inverse );
-				break;
+				it_HasDocumentReferences_inverse= HasDocumentReferences_inverse.erase( it_HasDocumentReferences_inverse );
+			}
+			else
+			{
+				++it_HasDocumentReferences_inverse;
 			}
 		}
 	}
