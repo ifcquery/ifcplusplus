@@ -41,7 +41,7 @@ public:
 	IfcElementAssemblyTypeEnum();
 	IfcElementAssemblyTypeEnum( IfcElementAssemblyTypeEnumEnum e ) { m_enum = e; }
 	~IfcElementAssemblyTypeEnum();
-	virtual const char* classname() const { return "IfcElementAssemblyTypeEnum"; }
+	virtual const char* className() const { return "IfcElementAssemblyTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcElementAssemblyTypeEnum> createObjectFromSTEP( const std::wstring& arg );

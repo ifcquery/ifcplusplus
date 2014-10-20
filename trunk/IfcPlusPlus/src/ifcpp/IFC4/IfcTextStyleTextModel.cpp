@@ -91,7 +91,7 @@ void IfcTextStyleTextModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextStyleTextModel::unlinkSelf()
+void IfcTextStyleTextModel::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

@@ -27,7 +27,7 @@ class IfcNormalisedRatioMeasure : public IfcRatioMeasure, public IfcColourOrFact
 public:
 	IfcNormalisedRatioMeasure();
 	~IfcNormalisedRatioMeasure();
-	virtual const char* classname() const { return "IfcNormalisedRatioMeasure"; }
+	virtual const char* className() const { return "IfcNormalisedRatioMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcNormalisedRatioMeasure> createObjectFromSTEP( const std::wstring& arg );

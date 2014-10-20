@@ -103,21 +103,24 @@ void IfcMaterialRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 		m_RelatingMaterial->m_RelatesTo_inverse.push_back( ptr_self );
 	}
 }
-void IfcMaterialRelationship::unlinkSelf()
+void IfcMaterialRelationship::unlinkFromInverseCounterparts()
 {
-	IfcResourceLevelRelationship::unlinkSelf();
+	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedMaterials.size(); ++i )
 	{
 		if( m_RelatedMaterials[i] )
 		{
 			std::vector<weak_ptr<IfcMaterialRelationship> >& IsRelatedWith_inverse = m_RelatedMaterials[i]->m_IsRelatedWith_inverse;
-			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); ++it_IsRelatedWith_inverse)
+			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); )
 			{
 				shared_ptr<IfcMaterialRelationship> self_candidate( *it_IsRelatedWith_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsRelatedWith_inverse.erase( it_IsRelatedWith_inverse );
-					break;
+					it_IsRelatedWith_inverse= IsRelatedWith_inverse.erase( it_IsRelatedWith_inverse );
+				}
+				else
+				{
+					++it_IsRelatedWith_inverse;
 				}
 			}
 		}
@@ -125,13 +128,16 @@ void IfcMaterialRelationship::unlinkSelf()
 	if( m_RelatingMaterial )
 	{
 		std::vector<weak_ptr<IfcMaterialRelationship> >& RelatesTo_inverse = m_RelatingMaterial->m_RelatesTo_inverse;
-		for( auto it_RelatesTo_inverse = RelatesTo_inverse.begin(); it_RelatesTo_inverse != RelatesTo_inverse.end(); ++it_RelatesTo_inverse)
+		for( auto it_RelatesTo_inverse = RelatesTo_inverse.begin(); it_RelatesTo_inverse != RelatesTo_inverse.end(); )
 		{
 			shared_ptr<IfcMaterialRelationship> self_candidate( *it_RelatesTo_inverse );
 			if( self_candidate.get() == this )
 			{
-				RelatesTo_inverse.erase( it_RelatesTo_inverse );
-				break;
+				it_RelatesTo_inverse= RelatesTo_inverse.erase( it_RelatesTo_inverse );
+			}
+			else
+			{
+				++it_RelatesTo_inverse;
 			}
 		}
 	}

@@ -154,7 +154,7 @@ void IfcDoorLiningProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcPreDefinedPropertySet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDoorLiningProperties::unlinkSelf()
+void IfcDoorLiningProperties::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedPropertySet::unlinkSelf();
+	IfcPreDefinedPropertySet::unlinkFromInverseCounterparts();
 }

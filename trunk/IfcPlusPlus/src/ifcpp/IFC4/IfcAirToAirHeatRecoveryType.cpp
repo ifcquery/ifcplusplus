@@ -130,7 +130,7 @@ void IfcAirToAirHeatRecoveryType::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcEnergyConversionDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAirToAirHeatRecoveryType::unlinkSelf()
+void IfcAirToAirHeatRecoveryType::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDeviceType::unlinkSelf();
+	IfcEnergyConversionDeviceType::unlinkFromInverseCounterparts();
 }

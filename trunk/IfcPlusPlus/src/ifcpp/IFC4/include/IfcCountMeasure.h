@@ -27,7 +27,7 @@ public:
 	IfcCountMeasure();
 	IfcCountMeasure( int value );
 	~IfcCountMeasure();
-	virtual const char* classname() const { return "IfcCountMeasure"; }
+	virtual const char* className() const { return "IfcCountMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCountMeasure> createObjectFromSTEP( const std::wstring& arg );

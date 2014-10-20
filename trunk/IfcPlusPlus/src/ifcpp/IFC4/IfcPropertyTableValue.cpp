@@ -123,7 +123,7 @@ void IfcPropertyTableValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcSimpleProperty::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPropertyTableValue::unlinkSelf()
+void IfcPropertyTableValue::unlinkFromInverseCounterparts()
 {
-	IfcSimpleProperty::unlinkSelf();
+	IfcSimpleProperty::unlinkFromInverseCounterparts();
 }

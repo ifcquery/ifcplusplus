@@ -79,21 +79,24 @@ void IfcTextureCoordinate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 		}
 	}
 }
-void IfcTextureCoordinate::unlinkSelf()
+void IfcTextureCoordinate::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_Maps.size(); ++i )
 	{
 		if( m_Maps[i] )
 		{
 			std::vector<weak_ptr<IfcTextureCoordinate> >& IsMappedBy_inverse = m_Maps[i]->m_IsMappedBy_inverse;
-			for( auto it_IsMappedBy_inverse = IsMappedBy_inverse.begin(); it_IsMappedBy_inverse != IsMappedBy_inverse.end(); ++it_IsMappedBy_inverse)
+			for( auto it_IsMappedBy_inverse = IsMappedBy_inverse.begin(); it_IsMappedBy_inverse != IsMappedBy_inverse.end(); )
 			{
 				shared_ptr<IfcTextureCoordinate> self_candidate( *it_IsMappedBy_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsMappedBy_inverse.erase( it_IsMappedBy_inverse );
-					break;
+					it_IsMappedBy_inverse= IsMappedBy_inverse.erase( it_IsMappedBy_inverse );
+				}
+				else
+				{
+					++it_IsMappedBy_inverse;
 				}
 			}
 		}

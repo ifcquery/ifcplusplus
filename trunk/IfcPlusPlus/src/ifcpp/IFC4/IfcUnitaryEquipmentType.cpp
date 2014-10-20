@@ -130,7 +130,7 @@ void IfcUnitaryEquipmentType::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcEnergyConversionDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcUnitaryEquipmentType::unlinkSelf()
+void IfcUnitaryEquipmentType::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDeviceType::unlinkSelf();
+	IfcEnergyConversionDeviceType::unlinkFromInverseCounterparts();
 }

@@ -86,19 +86,22 @@ void IfcMaterialDefinitionRepresentation::setInverseCounterparts( shared_ptr<Ifc
 		m_RepresentedMaterial->m_HasRepresentation_inverse.push_back( ptr_self );
 	}
 }
-void IfcMaterialDefinitionRepresentation::unlinkSelf()
+void IfcMaterialDefinitionRepresentation::unlinkFromInverseCounterparts()
 {
-	IfcProductRepresentation::unlinkSelf();
+	IfcProductRepresentation::unlinkFromInverseCounterparts();
 	if( m_RepresentedMaterial )
 	{
 		std::vector<weak_ptr<IfcMaterialDefinitionRepresentation> >& HasRepresentation_inverse = m_RepresentedMaterial->m_HasRepresentation_inverse;
-		for( auto it_HasRepresentation_inverse = HasRepresentation_inverse.begin(); it_HasRepresentation_inverse != HasRepresentation_inverse.end(); ++it_HasRepresentation_inverse)
+		for( auto it_HasRepresentation_inverse = HasRepresentation_inverse.begin(); it_HasRepresentation_inverse != HasRepresentation_inverse.end(); )
 		{
 			shared_ptr<IfcMaterialDefinitionRepresentation> self_candidate( *it_HasRepresentation_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasRepresentation_inverse.erase( it_HasRepresentation_inverse );
-				break;
+				it_HasRepresentation_inverse= HasRepresentation_inverse.erase( it_HasRepresentation_inverse );
+			}
+			else
+			{
+				++it_HasRepresentation_inverse;
 			}
 		}
 	}

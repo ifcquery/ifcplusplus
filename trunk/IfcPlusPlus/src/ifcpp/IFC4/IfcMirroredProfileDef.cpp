@@ -82,7 +82,7 @@ void IfcMirroredProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcDerivedProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMirroredProfileDef::unlinkSelf()
+void IfcMirroredProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcDerivedProfileDef::unlinkSelf();
+	IfcDerivedProfileDef::unlinkFromInverseCounterparts();
 }

@@ -77,7 +77,7 @@ void IfcConnectionPointEccentricity::setInverseCounterparts( shared_ptr<IfcPPEnt
 {
 	IfcConnectionPointGeometry::setInverseCounterparts( ptr_self_entity );
 }
-void IfcConnectionPointEccentricity::unlinkSelf()
+void IfcConnectionPointEccentricity::unlinkFromInverseCounterparts()
 {
-	IfcConnectionPointGeometry::unlinkSelf();
+	IfcConnectionPointGeometry::unlinkFromInverseCounterparts();
 }

@@ -37,7 +37,7 @@ public:
 	IfcProjectOrderTypeEnum();
 	IfcProjectOrderTypeEnum( IfcProjectOrderTypeEnumEnum e ) { m_enum = e; }
 	~IfcProjectOrderTypeEnum();
-	virtual const char* classname() const { return "IfcProjectOrderTypeEnum"; }
+	virtual const char* className() const { return "IfcProjectOrderTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcProjectOrderTypeEnum> createObjectFromSTEP( const std::wstring& arg );

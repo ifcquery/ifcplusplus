@@ -63,7 +63,7 @@ void IfcConnectionVolumeGeometry::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcConnectionGeometry::setInverseCounterparts( ptr_self_entity );
 }
-void IfcConnectionVolumeGeometry::unlinkSelf()
+void IfcConnectionVolumeGeometry::unlinkFromInverseCounterparts()
 {
-	IfcConnectionGeometry::unlinkSelf();
+	IfcConnectionGeometry::unlinkFromInverseCounterparts();
 }

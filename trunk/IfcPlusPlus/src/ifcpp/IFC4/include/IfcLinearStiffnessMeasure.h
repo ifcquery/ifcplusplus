@@ -28,7 +28,7 @@ public:
 	IfcLinearStiffnessMeasure();
 	IfcLinearStiffnessMeasure( double value );
 	~IfcLinearStiffnessMeasure();
-	virtual const char* classname() const { return "IfcLinearStiffnessMeasure"; }
+	virtual const char* className() const { return "IfcLinearStiffnessMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLinearStiffnessMeasure> createObjectFromSTEP( const std::wstring& arg );

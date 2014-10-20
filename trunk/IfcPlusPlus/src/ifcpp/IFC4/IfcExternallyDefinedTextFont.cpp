@@ -68,7 +68,7 @@ void IfcExternallyDefinedTextFont::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcExternalReference::setInverseCounterparts( ptr_self_entity );
 }
-void IfcExternallyDefinedTextFont::unlinkSelf()
+void IfcExternallyDefinedTextFont::unlinkFromInverseCounterparts()
 {
-	IfcExternalReference::unlinkSelf();
+	IfcExternalReference::unlinkFromInverseCounterparts();
 }

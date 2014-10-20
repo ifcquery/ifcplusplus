@@ -32,7 +32,7 @@ public:
 	IfcProjectedOrTrueLengthEnum();
 	IfcProjectedOrTrueLengthEnum( IfcProjectedOrTrueLengthEnumEnum e ) { m_enum = e; }
 	~IfcProjectedOrTrueLengthEnum();
-	virtual const char* classname() const { return "IfcProjectedOrTrueLengthEnum"; }
+	virtual const char* className() const { return "IfcProjectedOrTrueLengthEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcProjectedOrTrueLengthEnum> createObjectFromSTEP( const std::wstring& arg );

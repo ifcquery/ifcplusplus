@@ -80,6 +80,6 @@ void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::stri
 void IfcExternalReference::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcExternalReference::unlinkSelf()
+void IfcExternalReference::unlinkFromInverseCounterparts()
 {
 }

@@ -117,7 +117,7 @@ void IfcTShapeProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcParameterizedProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTShapeProfileDef::unlinkSelf()
+void IfcTShapeProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcParameterizedProfileDef::unlinkSelf();
+	IfcParameterizedProfileDef::unlinkFromInverseCounterparts();
 }

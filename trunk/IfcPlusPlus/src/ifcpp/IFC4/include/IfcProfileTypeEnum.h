@@ -32,7 +32,7 @@ public:
 	IfcProfileTypeEnum();
 	IfcProfileTypeEnum( IfcProfileTypeEnumEnum e ) { m_enum = e; }
 	~IfcProfileTypeEnum();
-	virtual const char* classname() const { return "IfcProfileTypeEnum"; }
+	virtual const char* className() const { return "IfcProfileTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcProfileTypeEnum> createObjectFromSTEP( const std::wstring& arg );

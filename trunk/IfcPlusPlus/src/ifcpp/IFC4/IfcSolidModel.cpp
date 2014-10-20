@@ -53,7 +53,7 @@ void IfcSolidModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSolidModel::unlinkSelf()
+void IfcSolidModel::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

@@ -130,7 +130,7 @@ void IfcChillerType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcEnergyConversionDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcChillerType::unlinkSelf()
+void IfcChillerType::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDeviceType::unlinkSelf();
+	IfcEnergyConversionDeviceType::unlinkFromInverseCounterparts();
 }

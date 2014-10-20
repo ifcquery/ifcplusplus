@@ -75,19 +75,22 @@ void IfcLocalPlacement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 		m_PlacementRelTo->m_ReferencedByPlacements_inverse.push_back( ptr_self );
 	}
 }
-void IfcLocalPlacement::unlinkSelf()
+void IfcLocalPlacement::unlinkFromInverseCounterparts()
 {
-	IfcObjectPlacement::unlinkSelf();
+	IfcObjectPlacement::unlinkFromInverseCounterparts();
 	if( m_PlacementRelTo )
 	{
 		std::vector<weak_ptr<IfcLocalPlacement> >& ReferencedByPlacements_inverse = m_PlacementRelTo->m_ReferencedByPlacements_inverse;
-		for( auto it_ReferencedByPlacements_inverse = ReferencedByPlacements_inverse.begin(); it_ReferencedByPlacements_inverse != ReferencedByPlacements_inverse.end(); ++it_ReferencedByPlacements_inverse)
+		for( auto it_ReferencedByPlacements_inverse = ReferencedByPlacements_inverse.begin(); it_ReferencedByPlacements_inverse != ReferencedByPlacements_inverse.end(); )
 		{
 			shared_ptr<IfcLocalPlacement> self_candidate( *it_ReferencedByPlacements_inverse );
 			if( self_candidate.get() == this )
 			{
-				ReferencedByPlacements_inverse.erase( it_ReferencedByPlacements_inverse );
-				break;
+				it_ReferencedByPlacements_inverse= ReferencedByPlacements_inverse.erase( it_ReferencedByPlacements_inverse );
+			}
+			else
+			{
+				++it_ReferencedByPlacements_inverse;
 			}
 		}
 	}

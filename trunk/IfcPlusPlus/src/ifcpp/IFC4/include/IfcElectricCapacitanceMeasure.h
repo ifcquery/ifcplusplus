@@ -27,7 +27,7 @@ public:
 	IfcElectricCapacitanceMeasure();
 	IfcElectricCapacitanceMeasure( double value );
 	~IfcElectricCapacitanceMeasure();
-	virtual const char* classname() const { return "IfcElectricCapacitanceMeasure"; }
+	virtual const char* className() const { return "IfcElectricCapacitanceMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcElectricCapacitanceMeasure> createObjectFromSTEP( const std::wstring& arg );

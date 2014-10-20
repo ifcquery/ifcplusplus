@@ -101,15 +101,18 @@ RepresentationConverter::RepresentationConverter( shared_ptr<GeometrySettings> g
 	m_handle_layer_assignments = false;
 
 	m_styles_converter = shared_ptr<StylesConverter>( new StylesConverter() );
+	m_placement_converter = shared_ptr<PlacementConverter>( new PlacementConverter( m_unit_converter ) );
 	m_point_converter = shared_ptr<PointConverter>( new PointConverter( m_geom_settings, m_unit_converter ) );
 	m_spline_converter = shared_ptr<SplineConverter>( new SplineConverter( m_point_converter ) );
 	m_sweeper = shared_ptr<Sweeper>( new Sweeper( m_geom_settings, m_unit_converter ) );
-	m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
-	m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_geom_settings, m_unit_converter, m_point_converter, m_curve_converter, m_spline_converter ) );
+	m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter, m_placement_converter ) );
+	m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_curve_converter, m_spline_converter ) );
 	m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter, m_sweeper ) );
 	m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_unit_converter, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
 	
+	// this redirects the callback messages from all converters to RepresentationConverter's callback
 	addCallbackChild( m_styles_converter.get() );
+	addCallbackChild( m_placement_converter.get() );
 	addCallbackChild( m_point_converter.get() );
 	addCallbackChild( m_spline_converter.get() );
 	addCallbackChild( m_profile_cache.get() );
@@ -133,6 +136,13 @@ void RepresentationConverter::clearCache()
 void RepresentationConverter::setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
 {
 	m_unit_converter = unit_converter;
+
+	m_placement_converter->m_unit_converter = unit_converter;
+	m_point_converter->m_unit_converter = unit_converter;
+	m_sweeper->m_unit_converter = unit_converter;
+	m_curve_converter->m_unit_converter = unit_converter;
+	m_face_converter->m_unit_converter = unit_converter;
+	m_solid_converter->m_unit_converter = unit_converter;
 }
 
 void RepresentationConverter::convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
@@ -265,7 +275,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			if( mapped_item->m_MappingTarget )
 			{
 				shared_ptr<IfcCartesianTransformationOperator> transform_operator = mapped_item->m_MappingTarget;
-				PlacementConverter::convertTransformationOperator( transform_operator, map_matrix_target, length_factor );
+				m_placement_converter->convertTransformationOperator( transform_operator, map_matrix_target );
 			}
 
 			carve::math::Matrix map_matrix_origin( carve::math::Matrix::IDENT() );
@@ -275,7 +285,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 				shared_ptr<IfcPlacement> mapping_origin_placement = dynamic_pointer_cast<IfcPlacement>( mapping_origin_select );
 				if( mapping_origin_placement )
 				{
-					PlacementConverter::convertIfcPlacement( mapping_origin_placement, map_matrix_origin, length_factor );
+					m_placement_converter->convertIfcPlacement( mapping_origin_placement, map_matrix_origin );
 				}
 				else
 				{
@@ -711,7 +721,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 	shared_ptr<IfcSectionedSpine> sectioned_spine = dynamic_pointer_cast<IfcSectionedSpine>( geom_item );
 	if( sectioned_spine )
 	{
-		convertIfcSectionedSpine( sectioned_spine, item_data );
+		m_solid_converter->convertIfcSectionedSpine( sectioned_spine, item_data );
 		return;
 	}
 
@@ -784,7 +794,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		}
 
 		PolyInputCache3D poly_cache;
-		m_sweeper->createFace( face_loops, poly_cache );
+		m_sweeper->createFace( face_loops, outer_boundary.get(), poly_cache );
 		item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 
 		return;
@@ -802,7 +812,6 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		return;
 	}
 	const int product_id = ifc_element->m_id;
-	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 	// convert opening representation
 	for( int i_void = 0; i_void < vec_rel_voids.size(); ++i_void )
@@ -831,7 +840,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		if( opening_placement )
 		{
 			std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
-			PlacementConverter::convertIfcObjectPlacement( opening_placement, opening_placement_matrix, length_factor, opening_placements_applied );
+			m_placement_converter->convertIfcObjectPlacement( opening_placement, opening_placement_matrix, opening_placements_applied );
 		}
 
 		std::vector<shared_ptr<IfcRepresentation> >& vec_opening_representations = opening->m_Representation->m_Representations;
@@ -876,9 +885,10 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 	{
 		shared_ptr<ShapeInputData>& opening_representation_data = vec_opening_data[i_opening];
 		int representation_id = -1;
-		if( opening_representation_data->representation )
+		shared_ptr<IfcRepresentation> opening_representation( opening_representation_data->representation );
+		if( opening_representation )
 		{
-			representation_id = opening_representation_data->representation->m_id;
+			representation_id = opening_representation->m_id;
 		}
 
 		std::vector<shared_ptr<ItemData> >& vec_opening_items = opening_representation_data->vec_item_data;

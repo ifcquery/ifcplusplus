@@ -72,7 +72,7 @@ void IfcTextLiteral::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextLiteral::unlinkSelf()
+void IfcTextLiteral::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

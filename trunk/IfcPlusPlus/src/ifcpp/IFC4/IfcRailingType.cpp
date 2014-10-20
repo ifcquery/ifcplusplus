@@ -130,7 +130,7 @@ void IfcRailingType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcBuildingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRailingType::unlinkSelf()
+void IfcRailingType::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElementType::unlinkSelf();
+	IfcBuildingElementType::unlinkFromInverseCounterparts();
 }

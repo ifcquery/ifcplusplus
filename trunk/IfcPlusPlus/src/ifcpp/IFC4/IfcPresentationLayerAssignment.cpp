@@ -102,7 +102,7 @@ void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<IfcPPEnt
 		}
 	}
 }
-void IfcPresentationLayerAssignment::unlinkSelf()
+void IfcPresentationLayerAssignment::unlinkFromInverseCounterparts()
 {
 	for( size_t i=0; i<m_AssignedItems.size(); ++i )
 	{
@@ -110,13 +110,16 @@ void IfcPresentationLayerAssignment::unlinkSelf()
 		if( AssignedItems_IfcRepresentation )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignments_inverse = AssignedItems_IfcRepresentation->m_LayerAssignments_inverse;
-			for( auto it_LayerAssignments_inverse = LayerAssignments_inverse.begin(); it_LayerAssignments_inverse != LayerAssignments_inverse.end(); ++it_LayerAssignments_inverse)
+			for( auto it_LayerAssignments_inverse = LayerAssignments_inverse.begin(); it_LayerAssignments_inverse != LayerAssignments_inverse.end(); )
 			{
 				shared_ptr<IfcPresentationLayerAssignment> self_candidate( *it_LayerAssignments_inverse );
 				if( self_candidate.get() == this )
 				{
-					LayerAssignments_inverse.erase( it_LayerAssignments_inverse );
-					break;
+					it_LayerAssignments_inverse= LayerAssignments_inverse.erase( it_LayerAssignments_inverse );
+				}
+				else
+				{
+					++it_LayerAssignments_inverse;
 				}
 			}
 		}
@@ -124,13 +127,16 @@ void IfcPresentationLayerAssignment::unlinkSelf()
 		if( AssignedItems_IfcRepresentationItem )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignment_inverse = AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse;
-			for( auto it_LayerAssignment_inverse = LayerAssignment_inverse.begin(); it_LayerAssignment_inverse != LayerAssignment_inverse.end(); ++it_LayerAssignment_inverse)
+			for( auto it_LayerAssignment_inverse = LayerAssignment_inverse.begin(); it_LayerAssignment_inverse != LayerAssignment_inverse.end(); )
 			{
 				shared_ptr<IfcPresentationLayerAssignment> self_candidate( *it_LayerAssignment_inverse );
 				if( self_candidate.get() == this )
 				{
-					LayerAssignment_inverse.erase( it_LayerAssignment_inverse );
-					break;
+					it_LayerAssignment_inverse= LayerAssignment_inverse.erase( it_LayerAssignment_inverse );
+				}
+				else
+				{
+					++it_LayerAssignment_inverse;
 				}
 			}
 		}

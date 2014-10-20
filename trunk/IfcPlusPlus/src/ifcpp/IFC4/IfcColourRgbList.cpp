@@ -70,7 +70,7 @@ void IfcColourRgbList::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcColourRgbList::unlinkSelf()
+void IfcColourRgbList::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

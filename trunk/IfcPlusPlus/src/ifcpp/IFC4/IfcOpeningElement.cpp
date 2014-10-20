@@ -135,7 +135,7 @@ void IfcOpeningElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcFeatureElementSubtraction::setInverseCounterparts( ptr_self_entity );
 }
-void IfcOpeningElement::unlinkSelf()
+void IfcOpeningElement::unlinkFromInverseCounterparts()
 {
-	IfcFeatureElementSubtraction::unlinkSelf();
+	IfcFeatureElementSubtraction::unlinkFromInverseCounterparts();
 }

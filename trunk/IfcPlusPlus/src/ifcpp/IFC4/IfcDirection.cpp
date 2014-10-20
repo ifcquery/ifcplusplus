@@ -67,7 +67,7 @@ void IfcDirection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcDirection::unlinkSelf()
+void IfcDirection::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

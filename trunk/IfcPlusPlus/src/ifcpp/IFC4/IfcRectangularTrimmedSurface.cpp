@@ -95,7 +95,7 @@ void IfcRectangularTrimmedSurface::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcBoundedSurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRectangularTrimmedSurface::unlinkSelf()
+void IfcRectangularTrimmedSurface::unlinkFromInverseCounterparts()
 {
-	IfcBoundedSurface::unlinkSelf();
+	IfcBoundedSurface::unlinkFromInverseCounterparts();
 }

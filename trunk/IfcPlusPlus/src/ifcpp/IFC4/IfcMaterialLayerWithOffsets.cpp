@@ -114,7 +114,7 @@ void IfcMaterialLayerWithOffsets::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcMaterialLayer::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMaterialLayerWithOffsets::unlinkSelf()
+void IfcMaterialLayerWithOffsets::unlinkFromInverseCounterparts()
 {
-	IfcMaterialLayer::unlinkSelf();
+	IfcMaterialLayer::unlinkFromInverseCounterparts();
 }

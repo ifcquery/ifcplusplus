@@ -123,7 +123,7 @@ void IfcGeographicElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcGeographicElement::unlinkSelf()
+void IfcGeographicElement::unlinkFromInverseCounterparts()
 {
-	IfcElement::unlinkSelf();
+	IfcElement::unlinkFromInverseCounterparts();
 }

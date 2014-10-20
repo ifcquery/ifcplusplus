@@ -58,7 +58,7 @@ void IfcPreDefinedItem::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPreDefinedItem::unlinkSelf()
+void IfcPreDefinedItem::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

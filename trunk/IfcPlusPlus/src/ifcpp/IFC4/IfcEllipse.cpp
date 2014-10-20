@@ -70,7 +70,7 @@ void IfcEllipse::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity
 {
 	IfcConic::setInverseCounterparts( ptr_self_entity );
 }
-void IfcEllipse::unlinkSelf()
+void IfcEllipse::unlinkFromInverseCounterparts()
 {
-	IfcConic::unlinkSelf();
+	IfcConic::unlinkFromInverseCounterparts();
 }

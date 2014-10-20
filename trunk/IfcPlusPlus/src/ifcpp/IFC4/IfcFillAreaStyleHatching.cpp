@@ -83,7 +83,7 @@ void IfcFillAreaStyleHatching::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFillAreaStyleHatching::unlinkSelf()
+void IfcFillAreaStyleHatching::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

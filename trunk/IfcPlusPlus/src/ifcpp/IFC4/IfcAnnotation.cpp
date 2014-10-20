@@ -116,7 +116,7 @@ void IfcAnnotation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAnnotation::unlinkSelf()
+void IfcAnnotation::unlinkFromInverseCounterparts()
 {
-	IfcProduct::unlinkSelf();
+	IfcProduct::unlinkFromInverseCounterparts();
 }

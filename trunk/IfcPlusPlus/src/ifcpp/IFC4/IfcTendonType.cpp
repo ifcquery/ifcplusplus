@@ -147,7 +147,7 @@ void IfcTendonType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcReinforcingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTendonType::unlinkSelf()
+void IfcTendonType::unlinkFromInverseCounterparts()
 {
-	IfcReinforcingElementType::unlinkSelf();
+	IfcReinforcingElementType::unlinkFromInverseCounterparts();
 }

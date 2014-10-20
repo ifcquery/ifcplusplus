@@ -80,6 +80,6 @@ void IfcActorRole::getAttributesInverse( std::vector<std::pair<std::string, shar
 void IfcActorRole::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcActorRole::unlinkSelf()
+void IfcActorRole::unlinkFromInverseCounterparts()
 {
 }

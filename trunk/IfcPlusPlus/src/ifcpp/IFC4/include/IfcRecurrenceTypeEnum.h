@@ -38,7 +38,7 @@ public:
 	IfcRecurrenceTypeEnum();
 	IfcRecurrenceTypeEnum( IfcRecurrenceTypeEnumEnum e ) { m_enum = e; }
 	~IfcRecurrenceTypeEnum();
-	virtual const char* classname() const { return "IfcRecurrenceTypeEnum"; }
+	virtual const char* className() const { return "IfcRecurrenceTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcRecurrenceTypeEnum> createObjectFromSTEP( const std::wstring& arg );

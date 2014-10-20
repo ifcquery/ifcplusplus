@@ -61,6 +61,6 @@ void IfcPropertyAbstraction::getAttributesInverse( std::vector<std::pair<std::st
 void IfcPropertyAbstraction::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcPropertyAbstraction::unlinkSelf()
+void IfcPropertyAbstraction::unlinkFromInverseCounterparts()
 {
 }

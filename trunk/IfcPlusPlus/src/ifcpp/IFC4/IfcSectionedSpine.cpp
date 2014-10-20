@@ -96,7 +96,7 @@ void IfcSectionedSpine::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSectionedSpine::unlinkSelf()
+void IfcSectionedSpine::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

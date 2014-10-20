@@ -32,7 +32,7 @@ public:
 	IfcCurtainWallTypeEnum();
 	IfcCurtainWallTypeEnum( IfcCurtainWallTypeEnumEnum e ) { m_enum = e; }
 	~IfcCurtainWallTypeEnum();
-	virtual const char* classname() const { return "IfcCurtainWallTypeEnum"; }
+	virtual const char* className() const { return "IfcCurtainWallTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCurtainWallTypeEnum> createObjectFromSTEP( const std::wstring& arg );

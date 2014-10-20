@@ -72,7 +72,7 @@ void IfcCartesianPoint::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcPoint::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCartesianPoint::unlinkSelf()
+void IfcCartesianPoint::unlinkFromInverseCounterparts()
 {
-	IfcPoint::unlinkSelf();
+	IfcPoint::unlinkFromInverseCounterparts();
 }

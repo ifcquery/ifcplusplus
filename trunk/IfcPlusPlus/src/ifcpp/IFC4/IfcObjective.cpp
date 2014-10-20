@@ -122,7 +122,7 @@ void IfcObjective::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcConstraint::setInverseCounterparts( ptr_self_entity );
 }
-void IfcObjective::unlinkSelf()
+void IfcObjective::unlinkFromInverseCounterparts()
 {
-	IfcConstraint::unlinkSelf();
+	IfcConstraint::unlinkFromInverseCounterparts();
 }

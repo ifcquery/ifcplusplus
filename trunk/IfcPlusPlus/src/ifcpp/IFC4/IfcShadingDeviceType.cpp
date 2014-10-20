@@ -130,7 +130,7 @@ void IfcShadingDeviceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcBuildingElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcShadingDeviceType::unlinkSelf()
+void IfcShadingDeviceType::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElementType::unlinkSelf();
+	IfcBuildingElementType::unlinkFromInverseCounterparts();
 }

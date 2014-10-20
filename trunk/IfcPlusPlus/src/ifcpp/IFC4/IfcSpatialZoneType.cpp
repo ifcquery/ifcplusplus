@@ -135,7 +135,7 @@ void IfcSpatialZoneType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 {
 	IfcSpatialElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSpatialZoneType::unlinkSelf()
+void IfcSpatialZoneType::unlinkFromInverseCounterparts()
 {
-	IfcSpatialElementType::unlinkSelf();
+	IfcSpatialElementType::unlinkFromInverseCounterparts();
 }

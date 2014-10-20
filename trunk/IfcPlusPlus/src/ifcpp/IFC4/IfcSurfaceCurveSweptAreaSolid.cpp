@@ -91,7 +91,7 @@ void IfcSurfaceCurveSweptAreaSolid::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcSweptAreaSolid::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceCurveSweptAreaSolid::unlinkSelf()
+void IfcSurfaceCurveSweptAreaSolid::unlinkFromInverseCounterparts()
 {
-	IfcSweptAreaSolid::unlinkSelf();
+	IfcSweptAreaSolid::unlinkFromInverseCounterparts();
 }

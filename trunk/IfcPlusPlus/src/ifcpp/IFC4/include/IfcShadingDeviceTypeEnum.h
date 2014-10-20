@@ -35,7 +35,7 @@ public:
 	IfcShadingDeviceTypeEnum();
 	IfcShadingDeviceTypeEnum( IfcShadingDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcShadingDeviceTypeEnum();
-	virtual const char* classname() const { return "IfcShadingDeviceTypeEnum"; }
+	virtual const char* className() const { return "IfcShadingDeviceTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcShadingDeviceTypeEnum> createObjectFromSTEP( const std::wstring& arg );

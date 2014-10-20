@@ -125,7 +125,7 @@ void IfcElectricMotor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcEnergyConversionDevice::setInverseCounterparts( ptr_self_entity );
 }
-void IfcElectricMotor::unlinkSelf()
+void IfcElectricMotor::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDevice::unlinkSelf();
+	IfcEnergyConversionDevice::unlinkFromInverseCounterparts();
 }

@@ -83,7 +83,7 @@ void IfcRoundedRectangleProfileDef::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcRectangleProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRoundedRectangleProfileDef::unlinkSelf()
+void IfcRoundedRectangleProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcRectangleProfileDef::unlinkSelf();
+	IfcRectangleProfileDef::unlinkFromInverseCounterparts();
 }

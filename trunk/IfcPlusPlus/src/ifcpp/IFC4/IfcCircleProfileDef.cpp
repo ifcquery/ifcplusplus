@@ -75,7 +75,7 @@ void IfcCircleProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcParameterizedProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCircleProfileDef::unlinkSelf()
+void IfcCircleProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcParameterizedProfileDef::unlinkSelf();
+	IfcParameterizedProfileDef::unlinkFromInverseCounterparts();
 }

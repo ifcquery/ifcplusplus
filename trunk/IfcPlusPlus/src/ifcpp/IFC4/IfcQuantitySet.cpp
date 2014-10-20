@@ -85,7 +85,7 @@ void IfcQuantitySet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcPropertySetDefinition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcQuantitySet::unlinkSelf()
+void IfcQuantitySet::unlinkFromInverseCounterparts()
 {
-	IfcPropertySetDefinition::unlinkSelf();
+	IfcPropertySetDefinition::unlinkFromInverseCounterparts();
 }

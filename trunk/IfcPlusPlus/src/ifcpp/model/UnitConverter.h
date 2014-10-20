@@ -37,6 +37,10 @@ public:
 		return m_plane_angle_factor;
 	}
 	shared_ptr<IfcSIPrefix>& getLoadedPrefix() { return m_loaded_prefix; }
+	void resetUnitConverter()
+	{
+		m_loaded_prefix.reset();
+	}
 
 	std::map<int, double> m_prefix_map;
 	shared_ptr<IfcSIPrefix>	m_loaded_prefix;

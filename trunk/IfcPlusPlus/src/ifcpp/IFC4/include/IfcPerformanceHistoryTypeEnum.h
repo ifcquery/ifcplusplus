@@ -32,7 +32,7 @@ public:
 	IfcPerformanceHistoryTypeEnum();
 	IfcPerformanceHistoryTypeEnum( IfcPerformanceHistoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcPerformanceHistoryTypeEnum();
-	virtual const char* classname() const { return "IfcPerformanceHistoryTypeEnum"; }
+	virtual const char* className() const { return "IfcPerformanceHistoryTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPerformanceHistoryTypeEnum> createObjectFromSTEP( const std::wstring& arg );

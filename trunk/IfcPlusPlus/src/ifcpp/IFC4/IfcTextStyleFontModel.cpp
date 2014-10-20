@@ -99,7 +99,7 @@ void IfcTextStyleFontModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcPreDefinedTextFont::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextStyleFontModel::unlinkSelf()
+void IfcTextStyleFontModel::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedTextFont::unlinkSelf();
+	IfcPreDefinedTextFont::unlinkFromInverseCounterparts();
 }

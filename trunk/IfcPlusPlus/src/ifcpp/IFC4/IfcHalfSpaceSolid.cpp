@@ -67,7 +67,7 @@ void IfcHalfSpaceSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcHalfSpaceSolid::unlinkSelf()
+void IfcHalfSpaceSolid::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

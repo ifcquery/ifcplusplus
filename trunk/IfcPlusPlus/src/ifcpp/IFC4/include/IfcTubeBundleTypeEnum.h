@@ -33,7 +33,7 @@ public:
 	IfcTubeBundleTypeEnum();
 	IfcTubeBundleTypeEnum( IfcTubeBundleTypeEnumEnum e ) { m_enum = e; }
 	~IfcTubeBundleTypeEnum();
-	virtual const char* classname() const { return "IfcTubeBundleTypeEnum"; }
+	virtual const char* className() const { return "IfcTubeBundleTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTubeBundleTypeEnum> createObjectFromSTEP( const std::wstring& arg );

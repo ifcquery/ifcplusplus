@@ -68,7 +68,7 @@ void IfcExternallyDefinedHatchStyle::setInverseCounterparts( shared_ptr<IfcPPEnt
 {
 	IfcExternalReference::setInverseCounterparts( ptr_self_entity );
 }
-void IfcExternallyDefinedHatchStyle::unlinkSelf()
+void IfcExternallyDefinedHatchStyle::unlinkFromInverseCounterparts()
 {
-	IfcExternalReference::unlinkSelf();
+	IfcExternalReference::unlinkFromInverseCounterparts();
 }

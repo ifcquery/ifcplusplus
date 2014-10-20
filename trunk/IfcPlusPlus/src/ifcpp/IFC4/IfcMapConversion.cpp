@@ -94,7 +94,7 @@ void IfcMapConversion::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcCoordinateOperation::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMapConversion::unlinkSelf()
+void IfcMapConversion::unlinkFromInverseCounterparts()
 {
-	IfcCoordinateOperation::unlinkSelf();
+	IfcCoordinateOperation::unlinkFromInverseCounterparts();
 }

@@ -125,7 +125,7 @@ void IfcMedicalDevice::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcFlowTerminal::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMedicalDevice::unlinkSelf()
+void IfcMedicalDevice::unlinkFromInverseCounterparts()
 {
-	IfcFlowTerminal::unlinkSelf();
+	IfcFlowTerminal::unlinkFromInverseCounterparts();
 }

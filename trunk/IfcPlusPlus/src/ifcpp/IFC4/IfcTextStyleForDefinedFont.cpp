@@ -63,7 +63,7 @@ void IfcTextStyleForDefinedFont::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextStyleForDefinedFont::unlinkSelf()
+void IfcTextStyleForDefinedFont::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

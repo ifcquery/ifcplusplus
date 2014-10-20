@@ -128,7 +128,7 @@ void IfcBSplineCurveWithKnots::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcBSplineCurve::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBSplineCurveWithKnots::unlinkSelf()
+void IfcBSplineCurveWithKnots::unlinkFromInverseCounterparts()
 {
-	IfcBSplineCurve::unlinkSelf();
+	IfcBSplineCurve::unlinkFromInverseCounterparts();
 }

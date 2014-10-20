@@ -41,7 +41,7 @@ public:
 	IfcLightEmissionSourceEnum();
 	IfcLightEmissionSourceEnum( IfcLightEmissionSourceEnumEnum e ) { m_enum = e; }
 	~IfcLightEmissionSourceEnum();
-	virtual const char* classname() const { return "IfcLightEmissionSourceEnum"; }
+	virtual const char* className() const { return "IfcLightEmissionSourceEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLightEmissionSourceEnum> createObjectFromSTEP( const std::wstring& arg );

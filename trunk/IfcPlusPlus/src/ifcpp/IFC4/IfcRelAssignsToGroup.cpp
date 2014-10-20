@@ -109,19 +109,22 @@ void IfcRelAssignsToGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 		m_RelatingGroup->m_IsGroupedBy_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssignsToGroup::unlinkSelf()
+void IfcRelAssignsToGroup::unlinkFromInverseCounterparts()
 {
-	IfcRelAssigns::unlinkSelf();
+	IfcRelAssigns::unlinkFromInverseCounterparts();
 	if( m_RelatingGroup )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToGroup> >& IsGroupedBy_inverse = m_RelatingGroup->m_IsGroupedBy_inverse;
-		for( auto it_IsGroupedBy_inverse = IsGroupedBy_inverse.begin(); it_IsGroupedBy_inverse != IsGroupedBy_inverse.end(); ++it_IsGroupedBy_inverse)
+		for( auto it_IsGroupedBy_inverse = IsGroupedBy_inverse.begin(); it_IsGroupedBy_inverse != IsGroupedBy_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToGroup> self_candidate( *it_IsGroupedBy_inverse );
 			if( self_candidate.get() == this )
 			{
-				IsGroupedBy_inverse.erase( it_IsGroupedBy_inverse );
-				break;
+				it_IsGroupedBy_inverse= IsGroupedBy_inverse.erase( it_IsGroupedBy_inverse );
+			}
+			else
+			{
+				++it_IsGroupedBy_inverse;
 			}
 		}
 	}

@@ -112,20 +112,23 @@ void IfcRelAssociatesMaterial::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 		RelatingMaterial_IfcMaterialUsageDefinition->m_AssociatedTo_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssociatesMaterial::unlinkSelf()
+void IfcRelAssociatesMaterial::unlinkFromInverseCounterparts()
 {
-	IfcRelAssociates::unlinkSelf();
+	IfcRelAssociates::unlinkFromInverseCounterparts();
 	shared_ptr<IfcMaterialDefinition>  RelatingMaterial_IfcMaterialDefinition = dynamic_pointer_cast<IfcMaterialDefinition>( m_RelatingMaterial );
 	if( RelatingMaterial_IfcMaterialDefinition )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesMaterial> >& AssociatedTo_inverse = RelatingMaterial_IfcMaterialDefinition->m_AssociatedTo_inverse;
-		for( auto it_AssociatedTo_inverse = AssociatedTo_inverse.begin(); it_AssociatedTo_inverse != AssociatedTo_inverse.end(); ++it_AssociatedTo_inverse)
+		for( auto it_AssociatedTo_inverse = AssociatedTo_inverse.begin(); it_AssociatedTo_inverse != AssociatedTo_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssociatesMaterial> self_candidate( *it_AssociatedTo_inverse );
 			if( self_candidate.get() == this )
 			{
-				AssociatedTo_inverse.erase( it_AssociatedTo_inverse );
-				break;
+				it_AssociatedTo_inverse= AssociatedTo_inverse.erase( it_AssociatedTo_inverse );
+			}
+			else
+			{
+				++it_AssociatedTo_inverse;
 			}
 		}
 	}
@@ -133,13 +136,16 @@ void IfcRelAssociatesMaterial::unlinkSelf()
 	if( RelatingMaterial_IfcMaterialUsageDefinition )
 	{
 		std::vector<weak_ptr<IfcRelAssociatesMaterial> >& AssociatedTo_inverse = RelatingMaterial_IfcMaterialUsageDefinition->m_AssociatedTo_inverse;
-		for( auto it_AssociatedTo_inverse = AssociatedTo_inverse.begin(); it_AssociatedTo_inverse != AssociatedTo_inverse.end(); ++it_AssociatedTo_inverse)
+		for( auto it_AssociatedTo_inverse = AssociatedTo_inverse.begin(); it_AssociatedTo_inverse != AssociatedTo_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssociatesMaterial> self_candidate( *it_AssociatedTo_inverse );
 			if( self_candidate.get() == this )
 			{
-				AssociatedTo_inverse.erase( it_AssociatedTo_inverse );
-				break;
+				it_AssociatedTo_inverse= AssociatedTo_inverse.erase( it_AssociatedTo_inverse );
+			}
+			else
+			{
+				++it_AssociatedTo_inverse;
 			}
 		}
 	}

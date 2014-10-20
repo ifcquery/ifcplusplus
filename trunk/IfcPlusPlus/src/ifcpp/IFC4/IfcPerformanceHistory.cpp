@@ -109,7 +109,7 @@ void IfcPerformanceHistory::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcControl::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPerformanceHistory::unlinkSelf()
+void IfcPerformanceHistory::unlinkFromInverseCounterparts()
 {
-	IfcControl::unlinkSelf();
+	IfcControl::unlinkFromInverseCounterparts();
 }

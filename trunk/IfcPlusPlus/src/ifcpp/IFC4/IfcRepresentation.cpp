@@ -133,18 +133,21 @@ void IfcRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 		m_ContextOfItems->m_RepresentationsInContext_inverse.push_back( ptr_self );
 	}
 }
-void IfcRepresentation::unlinkSelf()
+void IfcRepresentation::unlinkFromInverseCounterparts()
 {
 	if( m_ContextOfItems )
 	{
 		std::vector<weak_ptr<IfcRepresentation> >& RepresentationsInContext_inverse = m_ContextOfItems->m_RepresentationsInContext_inverse;
-		for( auto it_RepresentationsInContext_inverse = RepresentationsInContext_inverse.begin(); it_RepresentationsInContext_inverse != RepresentationsInContext_inverse.end(); ++it_RepresentationsInContext_inverse)
+		for( auto it_RepresentationsInContext_inverse = RepresentationsInContext_inverse.begin(); it_RepresentationsInContext_inverse != RepresentationsInContext_inverse.end(); )
 		{
 			shared_ptr<IfcRepresentation> self_candidate( *it_RepresentationsInContext_inverse );
 			if( self_candidate.get() == this )
 			{
-				RepresentationsInContext_inverse.erase( it_RepresentationsInContext_inverse );
-				break;
+				it_RepresentationsInContext_inverse= RepresentationsInContext_inverse.erase( it_RepresentationsInContext_inverse );
+			}
+			else
+			{
+				++it_RepresentationsInContext_inverse;
 			}
 		}
 	}

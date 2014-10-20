@@ -81,7 +81,7 @@ void IfcTextLiteralWithExtent::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcTextLiteral::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextLiteralWithExtent::unlinkSelf()
+void IfcTextLiteralWithExtent::unlinkFromInverseCounterparts()
 {
-	IfcTextLiteral::unlinkSelf();
+	IfcTextLiteral::unlinkFromInverseCounterparts();
 }

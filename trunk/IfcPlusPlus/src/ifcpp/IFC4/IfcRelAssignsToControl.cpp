@@ -109,19 +109,22 @@ void IfcRelAssignsToControl::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 		m_RelatingControl->m_Controls_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssignsToControl::unlinkSelf()
+void IfcRelAssignsToControl::unlinkFromInverseCounterparts()
 {
-	IfcRelAssigns::unlinkSelf();
+	IfcRelAssigns::unlinkFromInverseCounterparts();
 	if( m_RelatingControl )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToControl> >& Controls_inverse = m_RelatingControl->m_Controls_inverse;
-		for( auto it_Controls_inverse = Controls_inverse.begin(); it_Controls_inverse != Controls_inverse.end(); ++it_Controls_inverse)
+		for( auto it_Controls_inverse = Controls_inverse.begin(); it_Controls_inverse != Controls_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToControl> self_candidate( *it_Controls_inverse );
 			if( self_candidate.get() == this )
 			{
-				Controls_inverse.erase( it_Controls_inverse );
-				break;
+				it_Controls_inverse= Controls_inverse.erase( it_Controls_inverse );
+			}
+			else
+			{
+				++it_Controls_inverse;
 			}
 		}
 	}

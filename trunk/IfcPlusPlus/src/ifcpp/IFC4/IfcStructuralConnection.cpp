@@ -123,7 +123,7 @@ void IfcStructuralConnection::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcStructuralItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralConnection::unlinkSelf()
+void IfcStructuralConnection::unlinkFromInverseCounterparts()
 {
-	IfcStructuralItem::unlinkSelf();
+	IfcStructuralItem::unlinkFromInverseCounterparts();
 }

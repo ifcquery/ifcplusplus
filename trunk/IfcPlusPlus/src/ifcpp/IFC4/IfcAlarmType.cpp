@@ -130,7 +130,7 @@ void IfcAlarmType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcDistributionControlElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAlarmType::unlinkSelf()
+void IfcAlarmType::unlinkFromInverseCounterparts()
 {
-	IfcDistributionControlElementType::unlinkSelf();
+	IfcDistributionControlElementType::unlinkFromInverseCounterparts();
 }

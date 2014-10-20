@@ -27,7 +27,7 @@ public:
 	IfcVolumeMeasure();
 	IfcVolumeMeasure( double value );
 	~IfcVolumeMeasure();
-	virtual const char* classname() const { return "IfcVolumeMeasure"; }
+	virtual const char* className() const { return "IfcVolumeMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcVolumeMeasure> createObjectFromSTEP( const std::wstring& arg );

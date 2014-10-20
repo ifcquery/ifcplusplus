@@ -71,7 +71,7 @@ void IfcMaterialProfileSetUsage::setInverseCounterparts( shared_ptr<IfcPPEntity>
 {
 	IfcMaterialUsageDefinition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMaterialProfileSetUsage::unlinkSelf()
+void IfcMaterialProfileSetUsage::unlinkFromInverseCounterparts()
 {
-	IfcMaterialUsageDefinition::unlinkSelf();
+	IfcMaterialUsageDefinition::unlinkFromInverseCounterparts();
 }

@@ -70,7 +70,7 @@ void IfcAxis2Placement3D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcPlacement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAxis2Placement3D::unlinkSelf()
+void IfcAxis2Placement3D::unlinkFromInverseCounterparts()
 {
-	IfcPlacement::unlinkSelf();
+	IfcPlacement::unlinkFromInverseCounterparts();
 }

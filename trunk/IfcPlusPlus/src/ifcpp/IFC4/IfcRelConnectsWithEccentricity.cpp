@@ -116,7 +116,7 @@ void IfcRelConnectsWithEccentricity::setInverseCounterparts( shared_ptr<IfcPPEnt
 {
 	IfcRelConnectsStructuralMember::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRelConnectsWithEccentricity::unlinkSelf()
+void IfcRelConnectsWithEccentricity::unlinkFromInverseCounterparts()
 {
-	IfcRelConnectsStructuralMember::unlinkSelf();
+	IfcRelConnectsStructuralMember::unlinkFromInverseCounterparts();
 }

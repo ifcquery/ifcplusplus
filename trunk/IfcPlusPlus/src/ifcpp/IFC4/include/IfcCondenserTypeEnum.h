@@ -39,7 +39,7 @@ public:
 	IfcCondenserTypeEnum();
 	IfcCondenserTypeEnum( IfcCondenserTypeEnumEnum e ) { m_enum = e; }
 	~IfcCondenserTypeEnum();
-	virtual const char* classname() const { return "IfcCondenserTypeEnum"; }
+	virtual const char* className() const { return "IfcCondenserTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCondenserTypeEnum> createObjectFromSTEP( const std::wstring& arg );

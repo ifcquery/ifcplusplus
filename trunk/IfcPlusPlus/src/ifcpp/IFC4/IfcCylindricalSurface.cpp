@@ -65,7 +65,7 @@ void IfcCylindricalSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcElementarySurface::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCylindricalSurface::unlinkSelf()
+void IfcCylindricalSurface::unlinkFromInverseCounterparts()
 {
-	IfcElementarySurface::unlinkSelf();
+	IfcElementarySurface::unlinkFromInverseCounterparts();
 }

@@ -116,21 +116,24 @@ void IfcRelDefinesByObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 		m_RelatingObject->m_Declares_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelDefinesByObject::unlinkSelf()
+void IfcRelDefinesByObject::unlinkFromInverseCounterparts()
 {
-	IfcRelDefines::unlinkSelf();
+	IfcRelDefines::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		if( m_RelatedObjects[i] )
 		{
 			std::vector<weak_ptr<IfcRelDefinesByObject> >& IsDeclaredBy_inverse = m_RelatedObjects[i]->m_IsDeclaredBy_inverse;
-			for( auto it_IsDeclaredBy_inverse = IsDeclaredBy_inverse.begin(); it_IsDeclaredBy_inverse != IsDeclaredBy_inverse.end(); ++it_IsDeclaredBy_inverse)
+			for( auto it_IsDeclaredBy_inverse = IsDeclaredBy_inverse.begin(); it_IsDeclaredBy_inverse != IsDeclaredBy_inverse.end(); )
 			{
 				shared_ptr<IfcRelDefinesByObject> self_candidate( *it_IsDeclaredBy_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsDeclaredBy_inverse.erase( it_IsDeclaredBy_inverse );
-					break;
+					it_IsDeclaredBy_inverse= IsDeclaredBy_inverse.erase( it_IsDeclaredBy_inverse );
+				}
+				else
+				{
+					++it_IsDeclaredBy_inverse;
 				}
 			}
 		}
@@ -138,13 +141,16 @@ void IfcRelDefinesByObject::unlinkSelf()
 	if( m_RelatingObject )
 	{
 		std::vector<weak_ptr<IfcRelDefinesByObject> >& Declares_inverse = m_RelatingObject->m_Declares_inverse;
-		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); ++it_Declares_inverse)
+		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); )
 		{
 			shared_ptr<IfcRelDefinesByObject> self_candidate( *it_Declares_inverse );
 			if( self_candidate.get() == this )
 			{
-				Declares_inverse.erase( it_Declares_inverse );
-				break;
+				it_Declares_inverse= Declares_inverse.erase( it_Declares_inverse );
+			}
+			else
+			{
+				++it_Declares_inverse;
 			}
 		}
 	}

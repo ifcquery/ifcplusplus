@@ -126,32 +126,38 @@ void IfcRelConnectsStructuralMember::setInverseCounterparts( shared_ptr<IfcPPEnt
 		m_RelatingStructuralMember->m_ConnectedBy_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelConnectsStructuralMember::unlinkSelf()
+void IfcRelConnectsStructuralMember::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedStructuralConnection )
 	{
 		std::vector<weak_ptr<IfcRelConnectsStructuralMember> >& ConnectsStructuralMembers_inverse = m_RelatedStructuralConnection->m_ConnectsStructuralMembers_inverse;
-		for( auto it_ConnectsStructuralMembers_inverse = ConnectsStructuralMembers_inverse.begin(); it_ConnectsStructuralMembers_inverse != ConnectsStructuralMembers_inverse.end(); ++it_ConnectsStructuralMembers_inverse)
+		for( auto it_ConnectsStructuralMembers_inverse = ConnectsStructuralMembers_inverse.begin(); it_ConnectsStructuralMembers_inverse != ConnectsStructuralMembers_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsStructuralMember> self_candidate( *it_ConnectsStructuralMembers_inverse );
 			if( self_candidate.get() == this )
 			{
-				ConnectsStructuralMembers_inverse.erase( it_ConnectsStructuralMembers_inverse );
-				break;
+				it_ConnectsStructuralMembers_inverse= ConnectsStructuralMembers_inverse.erase( it_ConnectsStructuralMembers_inverse );
+			}
+			else
+			{
+				++it_ConnectsStructuralMembers_inverse;
 			}
 		}
 	}
 	if( m_RelatingStructuralMember )
 	{
 		std::vector<weak_ptr<IfcRelConnectsStructuralMember> >& ConnectedBy_inverse = m_RelatingStructuralMember->m_ConnectedBy_inverse;
-		for( auto it_ConnectedBy_inverse = ConnectedBy_inverse.begin(); it_ConnectedBy_inverse != ConnectedBy_inverse.end(); ++it_ConnectedBy_inverse)
+		for( auto it_ConnectedBy_inverse = ConnectedBy_inverse.begin(); it_ConnectedBy_inverse != ConnectedBy_inverse.end(); )
 		{
 			shared_ptr<IfcRelConnectsStructuralMember> self_candidate( *it_ConnectedBy_inverse );
 			if( self_candidate.get() == this )
 			{
-				ConnectedBy_inverse.erase( it_ConnectedBy_inverse );
-				break;
+				it_ConnectedBy_inverse= ConnectedBy_inverse.erase( it_ConnectedBy_inverse );
+			}
+			else
+			{
+				++it_ConnectedBy_inverse;
 			}
 		}
 	}

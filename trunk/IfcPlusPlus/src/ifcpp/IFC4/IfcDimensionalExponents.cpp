@@ -84,6 +84,6 @@ void IfcDimensionalExponents::getAttributesInverse( std::vector<std::pair<std::s
 void IfcDimensionalExponents::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcDimensionalExponents::unlinkSelf()
+void IfcDimensionalExponents::unlinkFromInverseCounterparts()
 {
 }

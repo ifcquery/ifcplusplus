@@ -125,7 +125,7 @@ void IfcHumidifier::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcEnergyConversionDevice::setInverseCounterparts( ptr_self_entity );
 }
-void IfcHumidifier::unlinkSelf()
+void IfcHumidifier::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDevice::unlinkSelf();
+	IfcEnergyConversionDevice::unlinkFromInverseCounterparts();
 }

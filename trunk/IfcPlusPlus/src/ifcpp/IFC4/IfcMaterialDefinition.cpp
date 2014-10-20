@@ -87,6 +87,6 @@ void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::str
 void IfcMaterialDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcMaterialDefinition::unlinkSelf()
+void IfcMaterialDefinition::unlinkFromInverseCounterparts()
 {
 }

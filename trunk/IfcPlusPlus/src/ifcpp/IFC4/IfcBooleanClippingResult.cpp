@@ -68,7 +68,7 @@ void IfcBooleanClippingResult::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcBooleanResult::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBooleanClippingResult::unlinkSelf()
+void IfcBooleanClippingResult::unlinkFromInverseCounterparts()
 {
-	IfcBooleanResult::unlinkSelf();
+	IfcBooleanResult::unlinkFromInverseCounterparts();
 }

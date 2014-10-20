@@ -34,7 +34,7 @@ public:
 	IfcBuildingElementPartTypeEnum();
 	IfcBuildingElementPartTypeEnum( IfcBuildingElementPartTypeEnumEnum e ) { m_enum = e; }
 	~IfcBuildingElementPartTypeEnum();
-	virtual const char* classname() const { return "IfcBuildingElementPartTypeEnum"; }
+	virtual const char* className() const { return "IfcBuildingElementPartTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcBuildingElementPartTypeEnum> createObjectFromSTEP( const std::wstring& arg );

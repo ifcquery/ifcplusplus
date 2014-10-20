@@ -150,20 +150,23 @@ void IfcOrganization::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 		}
 	}
 }
-void IfcOrganization::unlinkSelf()
+void IfcOrganization::unlinkFromInverseCounterparts()
 {
 	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )
 		{
 			std::vector<weak_ptr<IfcOrganization> >& OfOrganization_inverse = m_Addresses[i]->m_OfOrganization_inverse;
-			for( auto it_OfOrganization_inverse = OfOrganization_inverse.begin(); it_OfOrganization_inverse != OfOrganization_inverse.end(); ++it_OfOrganization_inverse)
+			for( auto it_OfOrganization_inverse = OfOrganization_inverse.begin(); it_OfOrganization_inverse != OfOrganization_inverse.end(); )
 			{
 				shared_ptr<IfcOrganization> self_candidate( *it_OfOrganization_inverse );
 				if( self_candidate.get() == this )
 				{
-					OfOrganization_inverse.erase( it_OfOrganization_inverse );
-					break;
+					it_OfOrganization_inverse= OfOrganization_inverse.erase( it_OfOrganization_inverse );
+				}
+				else
+				{
+					++it_OfOrganization_inverse;
 				}
 			}
 		}

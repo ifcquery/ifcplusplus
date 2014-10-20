@@ -101,7 +101,7 @@ void IfcLightSourcePositional::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcLightSource::setInverseCounterparts( ptr_self_entity );
 }
-void IfcLightSourcePositional::unlinkSelf()
+void IfcLightSourcePositional::unlinkFromInverseCounterparts()
 {
-	IfcLightSource::unlinkSelf();
+	IfcLightSource::unlinkFromInverseCounterparts();
 }

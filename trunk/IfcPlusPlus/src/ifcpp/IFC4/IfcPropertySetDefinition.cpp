@@ -121,7 +121,7 @@ void IfcPropertySetDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcPropertyDefinition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPropertySetDefinition::unlinkSelf()
+void IfcPropertySetDefinition::unlinkFromInverseCounterparts()
 {
-	IfcPropertyDefinition::unlinkSelf();
+	IfcPropertyDefinition::unlinkFromInverseCounterparts();
 }

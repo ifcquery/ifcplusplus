@@ -124,7 +124,7 @@ void IfcPresentationLayerWithStyle::setInverseCounterparts( shared_ptr<IfcPPEnti
 {
 	IfcPresentationLayerAssignment::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPresentationLayerWithStyle::unlinkSelf()
+void IfcPresentationLayerWithStyle::unlinkFromInverseCounterparts()
 {
-	IfcPresentationLayerAssignment::unlinkSelf();
+	IfcPresentationLayerAssignment::unlinkFromInverseCounterparts();
 }

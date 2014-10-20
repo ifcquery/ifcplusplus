@@ -115,6 +115,6 @@ void IfcConstraint::getAttributesInverse( std::vector<std::pair<std::string, sha
 void IfcConstraint::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcConstraint::unlinkSelf()
+void IfcConstraint::unlinkFromInverseCounterparts()
 {
 }

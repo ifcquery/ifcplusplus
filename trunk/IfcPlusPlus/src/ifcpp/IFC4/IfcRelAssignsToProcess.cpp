@@ -123,20 +123,23 @@ void IfcRelAssignsToProcess::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 		RelatingProcess_IfcTypeProcess->m_OperatesOn_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssignsToProcess::unlinkSelf()
+void IfcRelAssignsToProcess::unlinkFromInverseCounterparts()
 {
-	IfcRelAssigns::unlinkSelf();
+	IfcRelAssigns::unlinkFromInverseCounterparts();
 	shared_ptr<IfcProcess>  RelatingProcess_IfcProcess = dynamic_pointer_cast<IfcProcess>( m_RelatingProcess );
 	if( RelatingProcess_IfcProcess )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToProcess> >& OperatesOn_inverse = RelatingProcess_IfcProcess->m_OperatesOn_inverse;
-		for( auto it_OperatesOn_inverse = OperatesOn_inverse.begin(); it_OperatesOn_inverse != OperatesOn_inverse.end(); ++it_OperatesOn_inverse)
+		for( auto it_OperatesOn_inverse = OperatesOn_inverse.begin(); it_OperatesOn_inverse != OperatesOn_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToProcess> self_candidate( *it_OperatesOn_inverse );
 			if( self_candidate.get() == this )
 			{
-				OperatesOn_inverse.erase( it_OperatesOn_inverse );
-				break;
+				it_OperatesOn_inverse= OperatesOn_inverse.erase( it_OperatesOn_inverse );
+			}
+			else
+			{
+				++it_OperatesOn_inverse;
 			}
 		}
 	}
@@ -144,13 +147,16 @@ void IfcRelAssignsToProcess::unlinkSelf()
 	if( RelatingProcess_IfcTypeProcess )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToProcess> >& OperatesOn_inverse = RelatingProcess_IfcTypeProcess->m_OperatesOn_inverse;
-		for( auto it_OperatesOn_inverse = OperatesOn_inverse.begin(); it_OperatesOn_inverse != OperatesOn_inverse.end(); ++it_OperatesOn_inverse)
+		for( auto it_OperatesOn_inverse = OperatesOn_inverse.begin(); it_OperatesOn_inverse != OperatesOn_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToProcess> self_candidate( *it_OperatesOn_inverse );
 			if( self_candidate.get() == this )
 			{
-				OperatesOn_inverse.erase( it_OperatesOn_inverse );
-				break;
+				it_OperatesOn_inverse= OperatesOn_inverse.erase( it_OperatesOn_inverse );
+			}
+			else
+			{
+				++it_OperatesOn_inverse;
 			}
 		}
 	}

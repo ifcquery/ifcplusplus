@@ -70,7 +70,7 @@ void IfcRightCircularCone::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRightCircularCone::unlinkSelf()
+void IfcRightCircularCone::unlinkFromInverseCounterparts()
 {
-	IfcCsgPrimitive3D::unlinkSelf();
+	IfcCsgPrimitive3D::unlinkFromInverseCounterparts();
 }

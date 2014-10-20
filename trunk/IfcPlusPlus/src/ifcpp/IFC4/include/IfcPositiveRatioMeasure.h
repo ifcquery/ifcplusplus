@@ -26,7 +26,7 @@ class IfcPositiveRatioMeasure : public IfcRatioMeasure
 public:
 	IfcPositiveRatioMeasure();
 	~IfcPositiveRatioMeasure();
-	virtual const char* classname() const { return "IfcPositiveRatioMeasure"; }
+	virtual const char* className() const { return "IfcPositiveRatioMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPositiveRatioMeasure> createObjectFromSTEP( const std::wstring& arg );

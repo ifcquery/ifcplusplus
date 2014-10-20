@@ -27,7 +27,7 @@ public:
 	IfcSpecularRoughness();
 	IfcSpecularRoughness( double value );
 	~IfcSpecularRoughness();
-	virtual const char* classname() const { return "IfcSpecularRoughness"; }
+	virtual const char* className() const { return "IfcSpecularRoughness"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSpecularRoughness> createObjectFromSTEP( const std::wstring& arg );

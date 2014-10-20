@@ -71,7 +71,7 @@ void IfcBoxedHalfSpace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcHalfSpaceSolid::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBoxedHalfSpace::unlinkSelf()
+void IfcBoxedHalfSpace::unlinkFromInverseCounterparts()
 {
-	IfcHalfSpaceSolid::unlinkSelf();
+	IfcHalfSpaceSolid::unlinkFromInverseCounterparts();
 }

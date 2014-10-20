@@ -73,6 +73,6 @@ void IfcRepresentationContext::getAttributesInverse( std::vector<std::pair<std::
 void IfcRepresentationContext::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcRepresentationContext::unlinkSelf()
+void IfcRepresentationContext::unlinkFromInverseCounterparts()
 {
 }

@@ -60,6 +60,6 @@ void IfcTimePeriod::getAttributesInverse( std::vector<std::pair<std::string, sha
 void IfcTimePeriod::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcTimePeriod::unlinkSelf()
+void IfcTimePeriod::unlinkFromInverseCounterparts()
 {
 }

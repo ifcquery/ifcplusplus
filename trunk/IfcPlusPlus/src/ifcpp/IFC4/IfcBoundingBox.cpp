@@ -76,7 +76,7 @@ void IfcBoundingBox::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBoundingBox::unlinkSelf()
+void IfcBoundingBox::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

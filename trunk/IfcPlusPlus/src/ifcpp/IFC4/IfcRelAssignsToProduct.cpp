@@ -117,20 +117,23 @@ void IfcRelAssignsToProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 		RelatingProduct_IfcTypeProduct->m_ReferencedBy_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelAssignsToProduct::unlinkSelf()
+void IfcRelAssignsToProduct::unlinkFromInverseCounterparts()
 {
-	IfcRelAssigns::unlinkSelf();
+	IfcRelAssigns::unlinkFromInverseCounterparts();
 	shared_ptr<IfcProduct>  RelatingProduct_IfcProduct = dynamic_pointer_cast<IfcProduct>( m_RelatingProduct );
 	if( RelatingProduct_IfcProduct )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToProduct> >& ReferencedBy_inverse = RelatingProduct_IfcProduct->m_ReferencedBy_inverse;
-		for( auto it_ReferencedBy_inverse = ReferencedBy_inverse.begin(); it_ReferencedBy_inverse != ReferencedBy_inverse.end(); ++it_ReferencedBy_inverse)
+		for( auto it_ReferencedBy_inverse = ReferencedBy_inverse.begin(); it_ReferencedBy_inverse != ReferencedBy_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToProduct> self_candidate( *it_ReferencedBy_inverse );
 			if( self_candidate.get() == this )
 			{
-				ReferencedBy_inverse.erase( it_ReferencedBy_inverse );
-				break;
+				it_ReferencedBy_inverse= ReferencedBy_inverse.erase( it_ReferencedBy_inverse );
+			}
+			else
+			{
+				++it_ReferencedBy_inverse;
 			}
 		}
 	}
@@ -138,13 +141,16 @@ void IfcRelAssignsToProduct::unlinkSelf()
 	if( RelatingProduct_IfcTypeProduct )
 	{
 		std::vector<weak_ptr<IfcRelAssignsToProduct> >& ReferencedBy_inverse = RelatingProduct_IfcTypeProduct->m_ReferencedBy_inverse;
-		for( auto it_ReferencedBy_inverse = ReferencedBy_inverse.begin(); it_ReferencedBy_inverse != ReferencedBy_inverse.end(); ++it_ReferencedBy_inverse)
+		for( auto it_ReferencedBy_inverse = ReferencedBy_inverse.begin(); it_ReferencedBy_inverse != ReferencedBy_inverse.end(); )
 		{
 			shared_ptr<IfcRelAssignsToProduct> self_candidate( *it_ReferencedBy_inverse );
 			if( self_candidate.get() == this )
 			{
-				ReferencedBy_inverse.erase( it_ReferencedBy_inverse );
-				break;
+				it_ReferencedBy_inverse= ReferencedBy_inverse.erase( it_ReferencedBy_inverse );
+			}
+			else
+			{
+				++it_ReferencedBy_inverse;
 			}
 		}
 	}

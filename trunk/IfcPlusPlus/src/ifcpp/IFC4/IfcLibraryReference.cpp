@@ -105,19 +105,22 @@ void IfcLibraryReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 		m_ReferencedLibrary->m_HasLibraryReferences_inverse.push_back( ptr_self );
 	}
 }
-void IfcLibraryReference::unlinkSelf()
+void IfcLibraryReference::unlinkFromInverseCounterparts()
 {
-	IfcExternalReference::unlinkSelf();
+	IfcExternalReference::unlinkFromInverseCounterparts();
 	if( m_ReferencedLibrary )
 	{
 		std::vector<weak_ptr<IfcLibraryReference> >& HasLibraryReferences_inverse = m_ReferencedLibrary->m_HasLibraryReferences_inverse;
-		for( auto it_HasLibraryReferences_inverse = HasLibraryReferences_inverse.begin(); it_HasLibraryReferences_inverse != HasLibraryReferences_inverse.end(); ++it_HasLibraryReferences_inverse)
+		for( auto it_HasLibraryReferences_inverse = HasLibraryReferences_inverse.begin(); it_HasLibraryReferences_inverse != HasLibraryReferences_inverse.end(); )
 		{
 			shared_ptr<IfcLibraryReference> self_candidate( *it_HasLibraryReferences_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasLibraryReferences_inverse.erase( it_HasLibraryReferences_inverse );
-				break;
+				it_HasLibraryReferences_inverse= HasLibraryReferences_inverse.erase( it_HasLibraryReferences_inverse );
+			}
+			else
+			{
+				++it_HasLibraryReferences_inverse;
 			}
 		}
 	}

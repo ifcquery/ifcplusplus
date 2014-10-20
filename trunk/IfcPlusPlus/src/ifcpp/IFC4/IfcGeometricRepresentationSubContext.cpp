@@ -110,19 +110,22 @@ void IfcGeometricRepresentationSubContext::setInverseCounterparts( shared_ptr<If
 		m_ParentContext->m_HasSubContexts_inverse.push_back( ptr_self );
 	}
 }
-void IfcGeometricRepresentationSubContext::unlinkSelf()
+void IfcGeometricRepresentationSubContext::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationContext::unlinkSelf();
+	IfcGeometricRepresentationContext::unlinkFromInverseCounterparts();
 	if( m_ParentContext )
 	{
 		std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >& HasSubContexts_inverse = m_ParentContext->m_HasSubContexts_inverse;
-		for( auto it_HasSubContexts_inverse = HasSubContexts_inverse.begin(); it_HasSubContexts_inverse != HasSubContexts_inverse.end(); ++it_HasSubContexts_inverse)
+		for( auto it_HasSubContexts_inverse = HasSubContexts_inverse.begin(); it_HasSubContexts_inverse != HasSubContexts_inverse.end(); )
 		{
 			shared_ptr<IfcGeometricRepresentationSubContext> self_candidate( *it_HasSubContexts_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasSubContexts_inverse.erase( it_HasSubContexts_inverse );
-				break;
+				it_HasSubContexts_inverse= HasSubContexts_inverse.erase( it_HasSubContexts_inverse );
+			}
+			else
+			{
+				++it_HasSubContexts_inverse;
 			}
 		}
 	}

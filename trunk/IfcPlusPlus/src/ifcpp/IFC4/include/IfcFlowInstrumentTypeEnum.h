@@ -40,7 +40,7 @@ public:
 	IfcFlowInstrumentTypeEnum();
 	IfcFlowInstrumentTypeEnum( IfcFlowInstrumentTypeEnumEnum e ) { m_enum = e; }
 	~IfcFlowInstrumentTypeEnum();
-	virtual const char* classname() const { return "IfcFlowInstrumentTypeEnum"; }
+	virtual const char* className() const { return "IfcFlowInstrumentTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFlowInstrumentTypeEnum> createObjectFromSTEP( const std::wstring& arg );

@@ -39,7 +39,7 @@ public:
 	}
 	virtual ~Command(){}
 	virtual shared_ptr<Command> copy() = 0;
-	virtual const char* classname() { return "Command"; }
+	virtual const char* className() const { return "Command"; }
 
 	virtual bool mouseMoved( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa );
 	virtual bool mouseClicked( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa );

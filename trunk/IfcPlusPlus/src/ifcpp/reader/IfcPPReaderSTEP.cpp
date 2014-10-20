@@ -66,106 +66,6 @@ IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name_w )
 	return IFC_ENTITY_UNDEFINED;
 }
 
-void readSingleStepLine( const std::string& line, IfcPPReaderSTEP::EntityReadContainer& target_read_object )
-{
-	char* stream_pos = (char*)line.c_str();
-	if( *stream_pos != '#' )
-	{
-		return;
-	}
-
-	// need at least one integer here
-	++stream_pos;
-	if( *stream_pos == '\0' )
-	{
-		return;
-	}
-
-	if( !isdigit( *stream_pos ) )
-	{
-		return;
-	}
-	char* begin_id = stream_pos;
-
-	// proceed until end of integer
-	++stream_pos;
-	while( *stream_pos != '\0' )
-	{
-		if( isdigit( *stream_pos ) )
-		{
-			++stream_pos;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	const int entity_id = atoi( std::string( begin_id, stream_pos-begin_id ).c_str() );
-
-	// skip whitespace
-	while( isspace( *stream_pos ) ) { ++stream_pos; }
-
-	// next char after whitespace needs to be an "="
-	if( *stream_pos != '=' )
-	{
-		// print error
-		return;
-	}
-	++stream_pos;
-
-	// skip whitespaces
-	while( isspace( *stream_pos ) ) { ++stream_pos; }
-
-	// extract keyword
-	const char* keyword_begin = stream_pos;
-	while( isalnum( *stream_pos ) ) { ++stream_pos; }
-
-	std::string keyword( keyword_begin, stream_pos-keyword_begin );
-	std::transform(keyword.begin(), keyword.end(), keyword.begin(), toupper);
-
-	// proceed to '('
-	if( *stream_pos != '(' )
-	{
-		while( *stream_pos != '\0' )
-		{
-			if( *stream_pos == '(' )
-			{
-				break;
-			}
-			++stream_pos;
-		}
-	}
-
-	if( keyword.size() > 0 )
-	{
-		std::map<std::string,IfcPPEntityEnum>::iterator it_entity_enum = map_string2entity_enum.find( keyword );
-		if( it_entity_enum == map_string2entity_enum.end() )
-		{
-			throw UnknownEntityException( keyword );
-		}
-		else
-		{
-			IfcPPEntityEnum entity_enum = it_entity_enum->second;
-
-			shared_ptr<IfcPPEntity> obj( createIfcPPEntity( entity_enum ) );
-			if( !obj )
-			{
-				std::stringstream strs;
-				strs << __FUNC__ << ": could not create object of type " << keyword << ", entity id " << entity_id << std::endl;
-				throw IfcPPException( strs.str().c_str() );
-			}
-			obj->m_id = entity_id;
-			obj->m_entity_enum = entity_enum;
-			target_read_object.m_entity = obj;
-			size_t sub_length = line.size() -(stream_pos-line.c_str());
-			std::string entity_arg(stream_pos, sub_length);
-			target_read_object.m_entity_argument_str.assign( entity_arg.begin(), entity_arg.end() );
-		}
-	}
-}
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 IfcPPReaderSTEP::IfcPPReaderSTEP()
 {
@@ -437,7 +337,7 @@ void IfcPPReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector
 	}
 }
 
-void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std::vector<EntityReadContainer>& target_entity_vec )
+void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& target_entity_vec )
 {
 	std::set<std::string> unkown_entities;
 	std::stringstream err_unknown_entity;
@@ -447,7 +347,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 	const size_t num_lines = step_lines.size();
 	
 	target_entity_vec.resize( num_lines );
-	std::vector<EntityReadContainer>* target_vec_ptr = &target_entity_vec;
+	std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* target_vec_ptr = &target_entity_vec;
 	std::set<std::string>* unkown_entities_ptr = &unkown_entities;
 	const std::vector<std::string>* step_lines_ptr = &step_lines;
 
@@ -460,12 +360,12 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 		for( int i=0; i<num_lines; ++i )
 		{
 			const std::string& step_line = (*step_lines_ptr)[i];
-			EntityReadContainer& entity_read_obj = (*target_vec_ptr)[i];;
-
+			std::pair<std::string, shared_ptr<IfcPPEntity> >& entity_read_obj = (*target_vec_ptr)[i];;
+			
 			// read lines: #1234=IFCOBJECTNAME(...,...,(...,...),...)
 			try
 			{
-				readSingleStepLine( step_line,  entity_read_obj );
+				readSingleStepLine( step_line, entity_read_obj );
 			}
 			catch(UnknownEntityException& e)
 			{
@@ -516,7 +416,116 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 	}
 }
 
-void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<EntityReadContainer>& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
+void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::string, shared_ptr<IfcPPEntity> >& target_read_object )
+{
+	if( line.size() < 1 )
+	{
+		return;
+	}
+	char* stream_pos = (char*)line.c_str();
+	if( *stream_pos != '#' )
+	{
+		return;
+	}
+
+	// need at least one integer here
+	++stream_pos;
+	if( *stream_pos == '\0' )
+	{
+		return;
+	}
+
+	if( !isdigit( *stream_pos ) )
+	{
+		return;
+	}
+	char* begin_id = stream_pos;
+
+	// proceed until end of integer
+	++stream_pos;
+	while( *stream_pos != '\0' )
+	{
+		if( isdigit( *stream_pos ) )
+		{
+			++stream_pos;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	const int entity_id = atoi( std::string( begin_id, stream_pos - begin_id ).c_str() );
+
+	// skip whitespace
+	while( isspace( *stream_pos ) ) { ++stream_pos; }
+
+	// next char after whitespace needs to be an "="
+	if( *stream_pos != '=' )
+	{
+		// print error
+		return;
+	}
+	++stream_pos;
+
+	// skip whitespaces
+	while( isspace( *stream_pos ) ) { ++stream_pos; }
+
+	// extract keyword
+	const char* keyword_begin = stream_pos;
+	while( isalnum( *stream_pos ) ) { ++stream_pos; }
+
+	std::string keyword( keyword_begin, stream_pos - keyword_begin );
+	std::transform( keyword.begin(), keyword.end(), keyword.begin(), toupper );
+
+	// proceed to '('
+	if( *stream_pos != '(' )
+	{
+		while( *stream_pos != '\0' )
+		{
+			if( *stream_pos == '(' )
+			{
+				break;
+			}
+			++stream_pos;
+		}
+	}
+
+	if( keyword.size() == 0 )
+	{
+		std::stringstream strs;
+		strs << "Could not read STEP line: " << line.c_str();
+		messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		return;
+	}
+	std::map<std::string,IfcPPEntityEnum>::iterator it_entity_enum = map_string2entity_enum.find( keyword );
+	if( it_entity_enum == map_string2entity_enum.end() )
+	{
+		throw UnknownEntityException( keyword );
+	}
+	else
+	{
+		IfcPPEntityEnum entity_enum = it_entity_enum->second;
+		shared_ptr<IfcPPEntity> obj( createIfcPPEntity( entity_enum ) );
+		if( obj )
+		{
+			obj->m_id = entity_id;
+			obj->m_entity_enum = entity_enum;
+			target_read_object.second = obj;
+			size_t sub_length = line.size() - ( stream_pos - line.c_str() );
+			std::string entity_arg( stream_pos, sub_length );
+			target_read_object.first.assign( entity_arg.begin(), entity_arg.end() );
+		}
+		else
+		{
+			std::stringstream strs;
+			strs << "Could not create object of type " << keyword << ", entity id " << entity_id;
+			messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		}
+	}
+}
+
+void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -528,7 +537,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	progressCallback( progress, "parse" );
 	double last_progress = 0.3;
 	const std::map<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
-	const std::vector<EntityReadContainer>* vec_entities_ptr = &vec_entities;
+	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* vec_entities_ptr = &vec_entities;
 
 #ifdef IFCPP_OPENMP
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
@@ -541,13 +550,13 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 #endif
 		for( int i=0; i<num_objects; ++i )
 		{
-			const EntityReadContainer& entity_read_object = (*vec_entities_ptr)[i];
-			const shared_ptr<IfcPPEntity>& entity = entity_read_object.m_entity;
+			const std::pair<std::string, shared_ptr<IfcPPEntity> >& entity_read_object = (*vec_entities_ptr)[i];
+			const shared_ptr<IfcPPEntity> entity = entity_read_object.second;
 			if( !entity )
 			{
 				continue;
 			}
-			const std::string& argument_str = entity_read_object.m_entity_argument_str;
+			const std::string& argument_str = entity_read_object.first;
 			std::vector<std::string> arguments;
 			std::vector<std::wstring> arguments_w;
 			tokenizeEntityArguments( argument_str, arguments );
@@ -563,9 +572,6 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 					applyBackwardCompatibility( ifc_version, entity_enum, arguments_w );
 				}
 			}
-#ifdef _DEBUG
-			int entity_id = entity->m_id;
-#endif
 
 			try
 			{
@@ -576,21 +582,21 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_id << "=" << typeid(*entity).name() << ": " << e.what();
+				err << "#" << entity->m_id << "=" << entity->className() << ": " << e.what();
 			}
 			catch( std::exception* e )
 			{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_id << "=" << typeid(*entity).name() << ": " << e->what();
+				err << "#" << entity->m_id << "=" << entity->className() << ": " << e->what();
 			}
 			catch(...)
 			{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_id << "=" << typeid(*entity).name() << " readStepData: error occurred" << std::endl;
+				err << "#" << entity->m_id << "=" << entity->className() << " readStepData: error occurred" << std::endl;
 			}
 
 			if( i%10 == 0 )
@@ -612,7 +618,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	
 	if( err.tellp() > 0 )
 	{
-		throw IfcPPException( err.str() );
+		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 	}
 }
 
@@ -646,21 +652,14 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;
+
+	std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > > vec_entities;
 	try
 	{
 		splitIntoStepLines( read_in, step_lines );
-	}
-	catch(std::exception& e)
-	{
-		err << e.what();
-	}
-	// the input string is not needed any more
-	read_in.clear();
-	
-	std::vector<EntityReadContainer> vec_entities;
-	vec_entities.resize( step_lines.size() );
-	try
-	{
+		read_in.clear(); // the input string is not needed any more
+		const size_t num_lines = step_lines.size();
+		vec_entities.resize( num_lines );
 		readStepLines( step_lines, vec_entities );
 	}
 	catch( UnknownEntityException& e )
@@ -684,12 +683,14 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	{
 		err << __FUNC__ << ": error occurred" << std::endl;
 	}
+	step_lines.clear();
 	
 	// copy entities into map so that they can be found during entity attribute initialization
-	for( auto it_entity_vec = vec_entities.begin(); it_entity_vec!=vec_entities.end(); ++it_entity_vec )
+	for( size_t ii_entity = 0; ii_entity < vec_entities.size(); ++ii_entity )
 	{
-		EntityReadContainer& entity_read_object = (*it_entity_vec);
-		shared_ptr<IfcPPEntity>& entity = entity_read_object.m_entity;
+		std::pair<std::string, shared_ptr<IfcPPEntity> >& entity_read_object = vec_entities[ii_entity];
+		shared_ptr<IfcPPEntity> entity = entity_read_object.second;
+
 		if( entity ) // skip aborted entities
 		{
 			target_map.insert( std::make_pair( entity->m_id, entity ) );
@@ -720,7 +721,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	setlocale(LC_NUMERIC,current_numeric_locale);
 	if( err.tellp() > 0 )
 	{
-		throw IfcPPException( err.str() );
+		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
 	}
 }
 

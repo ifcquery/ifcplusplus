@@ -125,21 +125,24 @@ void IfcRelConnectsWithRealizingElements::setInverseCounterparts( shared_ptr<Ifc
 		}
 	}
 }
-void IfcRelConnectsWithRealizingElements::unlinkSelf()
+void IfcRelConnectsWithRealizingElements::unlinkFromInverseCounterparts()
 {
-	IfcRelConnectsElements::unlinkSelf();
+	IfcRelConnectsElements::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RealizingElements.size(); ++i )
 	{
 		if( m_RealizingElements[i] )
 		{
 			std::vector<weak_ptr<IfcRelConnectsWithRealizingElements> >& IsConnectionRealization_inverse = m_RealizingElements[i]->m_IsConnectionRealization_inverse;
-			for( auto it_IsConnectionRealization_inverse = IsConnectionRealization_inverse.begin(); it_IsConnectionRealization_inverse != IsConnectionRealization_inverse.end(); ++it_IsConnectionRealization_inverse)
+			for( auto it_IsConnectionRealization_inverse = IsConnectionRealization_inverse.begin(); it_IsConnectionRealization_inverse != IsConnectionRealization_inverse.end(); )
 			{
 				shared_ptr<IfcRelConnectsWithRealizingElements> self_candidate( *it_IsConnectionRealization_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsConnectionRealization_inverse.erase( it_IsConnectionRealization_inverse );
-					break;
+					it_IsConnectionRealization_inverse= IsConnectionRealization_inverse.erase( it_IsConnectionRealization_inverse );
+				}
+				else
+				{
+					++it_IsConnectionRealization_inverse;
 				}
 			}
 		}

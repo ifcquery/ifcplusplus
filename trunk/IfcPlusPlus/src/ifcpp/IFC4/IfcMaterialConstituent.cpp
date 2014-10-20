@@ -86,7 +86,7 @@ void IfcMaterialConstituent::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcMaterialDefinition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMaterialConstituent::unlinkSelf()
+void IfcMaterialConstituent::unlinkFromInverseCounterparts()
 {
-	IfcMaterialDefinition::unlinkSelf();
+	IfcMaterialDefinition::unlinkFromInverseCounterparts();
 }

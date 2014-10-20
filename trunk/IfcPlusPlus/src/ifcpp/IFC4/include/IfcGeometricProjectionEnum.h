@@ -39,7 +39,7 @@ public:
 	IfcGeometricProjectionEnum();
 	IfcGeometricProjectionEnum( IfcGeometricProjectionEnumEnum e ) { m_enum = e; }
 	~IfcGeometricProjectionEnum();
-	virtual const char* classname() const { return "IfcGeometricProjectionEnum"; }
+	virtual const char* className() const { return "IfcGeometricProjectionEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcGeometricProjectionEnum> createObjectFromSTEP( const std::wstring& arg );

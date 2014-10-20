@@ -34,7 +34,7 @@ public:
 	IfcCooledBeamTypeEnum();
 	IfcCooledBeamTypeEnum( IfcCooledBeamTypeEnumEnum e ) { m_enum = e; }
 	~IfcCooledBeamTypeEnum();
-	virtual const char* classname() const { return "IfcCooledBeamTypeEnum"; }
+	virtual const char* className() const { return "IfcCooledBeamTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcCooledBeamTypeEnum> createObjectFromSTEP( const std::wstring& arg );

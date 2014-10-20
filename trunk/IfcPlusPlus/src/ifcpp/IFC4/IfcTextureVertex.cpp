@@ -70,7 +70,7 @@ void IfcTextureVertex::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTextureVertex::unlinkSelf()
+void IfcTextureVertex::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

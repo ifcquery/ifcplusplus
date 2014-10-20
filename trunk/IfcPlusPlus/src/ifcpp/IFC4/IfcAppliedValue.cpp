@@ -130,6 +130,6 @@ void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, s
 void IfcAppliedValue::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcAppliedValue::unlinkSelf()
+void IfcAppliedValue::unlinkFromInverseCounterparts()
 {
 }

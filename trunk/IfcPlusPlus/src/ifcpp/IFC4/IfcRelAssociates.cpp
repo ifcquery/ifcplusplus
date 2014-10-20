@@ -115,22 +115,25 @@ void IfcRelAssociates::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 		}
 	}
 }
-void IfcRelAssociates::unlinkSelf()
+void IfcRelAssociates::unlinkFromInverseCounterparts()
 {
-	IfcRelationship::unlinkSelf();
+	IfcRelationship::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		shared_ptr<IfcObjectDefinition>  RelatedObjects_IfcObjectDefinition = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatedObjects[i] );
 		if( RelatedObjects_IfcObjectDefinition )
 		{
 			std::vector<weak_ptr<IfcRelAssociates> >& HasAssociations_inverse = RelatedObjects_IfcObjectDefinition->m_HasAssociations_inverse;
-			for( auto it_HasAssociations_inverse = HasAssociations_inverse.begin(); it_HasAssociations_inverse != HasAssociations_inverse.end(); ++it_HasAssociations_inverse)
+			for( auto it_HasAssociations_inverse = HasAssociations_inverse.begin(); it_HasAssociations_inverse != HasAssociations_inverse.end(); )
 			{
 				shared_ptr<IfcRelAssociates> self_candidate( *it_HasAssociations_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasAssociations_inverse.erase( it_HasAssociations_inverse );
-					break;
+					it_HasAssociations_inverse= HasAssociations_inverse.erase( it_HasAssociations_inverse );
+				}
+				else
+				{
+					++it_HasAssociations_inverse;
 				}
 			}
 		}
@@ -138,13 +141,16 @@ void IfcRelAssociates::unlinkSelf()
 		if( RelatedObjects_IfcPropertyDefinition )
 		{
 			std::vector<weak_ptr<IfcRelAssociates> >& HasAssociations_inverse = RelatedObjects_IfcPropertyDefinition->m_HasAssociations_inverse;
-			for( auto it_HasAssociations_inverse = HasAssociations_inverse.begin(); it_HasAssociations_inverse != HasAssociations_inverse.end(); ++it_HasAssociations_inverse)
+			for( auto it_HasAssociations_inverse = HasAssociations_inverse.begin(); it_HasAssociations_inverse != HasAssociations_inverse.end(); )
 			{
 				shared_ptr<IfcRelAssociates> self_candidate( *it_HasAssociations_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasAssociations_inverse.erase( it_HasAssociations_inverse );
-					break;
+					it_HasAssociations_inverse= HasAssociations_inverse.erase( it_HasAssociations_inverse );
+				}
+				else
+				{
+					++it_HasAssociations_inverse;
 				}
 			}
 		}

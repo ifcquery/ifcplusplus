@@ -23,21 +23,73 @@
 class IfcPPException : public std::exception
 {
 public:
-	IfcPPException( std::string reason );
-	IfcPPException( std::string reason, const char* function_name );
-	IfcPPException( std::wstring reason );
-	IfcPPException( std::wstring reason, const char* function_name );
-	~IfcPPException() throw();
-	virtual const char* what() const throw();
+	IfcPPException( std::string reason )
+	{
+		m_reason_str = reason;
+	}
+
+	IfcPPException( std::string reason, const char* function_name )
+	{
+		m_reason_str.append(function_name);
+		if( reason.size() > 0 )
+		{
+			m_reason_str.append( ": " );
+			m_reason_str.append( reason );
+		}
+	}
+
+	IfcPPException(std::wstring reason)
+	{
+		m_reason_str.assign(reason.begin(), reason.end());
+	}
+
+	IfcPPException(std::wstring reason, const char* function_name)
+	{
+		m_reason_str.append(function_name);
+		if( reason.size() > 0 )
+		{
+			m_reason_str.append( ": " );
+			std::string reason_str;
+			reason_str.assign( reason.begin(), reason.end() );
+			m_reason_str.append( reason_str );
+		}
+	}
+
+	~IfcPPException() throw()
+	{
+
+	}
+
+	virtual const char* what() const throw()
+	{
+		return m_reason_str.c_str();
+	}
+
 	std::string m_reason_str;
 };
 
 class IfcPPOutOfMemoryException : public std::exception
 {
 public:
-	IfcPPOutOfMemoryException();
-	IfcPPOutOfMemoryException( const char* function_name );
-	~IfcPPOutOfMemoryException() throw();
-	virtual const char* what() const throw();
+	IfcPPOutOfMemoryException()
+	{
+		m_reason_str = "Out of memory";
+	}
+
+	IfcPPOutOfMemoryException( const char* function_name )
+	{
+		m_reason_str = "Out of memory in function: ";
+		m_reason_str.append( function_name );
+	}
+
+	~IfcPPOutOfMemoryException() throw()
+	{
+	}
+
+	virtual const char* what() const throw()
+	{
+		return m_reason_str.c_str();
+	}
+
 	std::string m_reason_str;
 };

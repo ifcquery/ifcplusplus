@@ -75,7 +75,7 @@ void IfcBlock::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBlock::unlinkSelf()
+void IfcBlock::unlinkFromInverseCounterparts()
 {
-	IfcCsgPrimitive3D::unlinkSelf();
+	IfcCsgPrimitive3D::unlinkFromInverseCounterparts();
 }

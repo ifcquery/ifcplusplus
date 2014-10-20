@@ -88,32 +88,38 @@ void IfcPropertyDependencyRelationship::setInverseCounterparts( shared_ptr<IfcPP
 		m_DependingProperty->m_PropertyForDependance_inverse.push_back( ptr_self );
 	}
 }
-void IfcPropertyDependencyRelationship::unlinkSelf()
+void IfcPropertyDependencyRelationship::unlinkFromInverseCounterparts()
 {
-	IfcResourceLevelRelationship::unlinkSelf();
+	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
 	if( m_DependantProperty )
 	{
 		std::vector<weak_ptr<IfcPropertyDependencyRelationship> >& PropertyDependsOn_inverse = m_DependantProperty->m_PropertyDependsOn_inverse;
-		for( auto it_PropertyDependsOn_inverse = PropertyDependsOn_inverse.begin(); it_PropertyDependsOn_inverse != PropertyDependsOn_inverse.end(); ++it_PropertyDependsOn_inverse)
+		for( auto it_PropertyDependsOn_inverse = PropertyDependsOn_inverse.begin(); it_PropertyDependsOn_inverse != PropertyDependsOn_inverse.end(); )
 		{
 			shared_ptr<IfcPropertyDependencyRelationship> self_candidate( *it_PropertyDependsOn_inverse );
 			if( self_candidate.get() == this )
 			{
-				PropertyDependsOn_inverse.erase( it_PropertyDependsOn_inverse );
-				break;
+				it_PropertyDependsOn_inverse= PropertyDependsOn_inverse.erase( it_PropertyDependsOn_inverse );
+			}
+			else
+			{
+				++it_PropertyDependsOn_inverse;
 			}
 		}
 	}
 	if( m_DependingProperty )
 	{
 		std::vector<weak_ptr<IfcPropertyDependencyRelationship> >& PropertyForDependance_inverse = m_DependingProperty->m_PropertyForDependance_inverse;
-		for( auto it_PropertyForDependance_inverse = PropertyForDependance_inverse.begin(); it_PropertyForDependance_inverse != PropertyForDependance_inverse.end(); ++it_PropertyForDependance_inverse)
+		for( auto it_PropertyForDependance_inverse = PropertyForDependance_inverse.begin(); it_PropertyForDependance_inverse != PropertyForDependance_inverse.end(); )
 		{
 			shared_ptr<IfcPropertyDependencyRelationship> self_candidate( *it_PropertyForDependance_inverse );
 			if( self_candidate.get() == this )
 			{
-				PropertyForDependance_inverse.erase( it_PropertyForDependance_inverse );
-				break;
+				it_PropertyForDependance_inverse= PropertyForDependance_inverse.erase( it_PropertyForDependance_inverse );
+			}
+			else
+			{
+				++it_PropertyForDependance_inverse;
 			}
 		}
 	}

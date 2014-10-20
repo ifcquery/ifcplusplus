@@ -86,7 +86,7 @@ void IfcCartesianTransformationOperator3DnonUniform::setInverseCounterparts( sha
 {
 	IfcCartesianTransformationOperator3D::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCartesianTransformationOperator3DnonUniform::unlinkSelf()
+void IfcCartesianTransformationOperator3DnonUniform::unlinkFromInverseCounterparts()
 {
-	IfcCartesianTransformationOperator3D::unlinkSelf();
+	IfcCartesianTransformationOperator3D::unlinkFromInverseCounterparts();
 }

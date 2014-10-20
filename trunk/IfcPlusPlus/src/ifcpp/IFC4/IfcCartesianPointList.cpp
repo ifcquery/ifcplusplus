@@ -53,7 +53,7 @@ void IfcCartesianPointList::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCartesianPointList::unlinkSelf()
+void IfcCartesianPointList::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

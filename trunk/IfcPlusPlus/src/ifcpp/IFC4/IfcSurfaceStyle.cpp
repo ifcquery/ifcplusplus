@@ -81,7 +81,7 @@ void IfcSurfaceStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcPresentationStyle::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSurfaceStyle::unlinkSelf()
+void IfcSurfaceStyle::unlinkFromInverseCounterparts()
 {
-	IfcPresentationStyle::unlinkSelf();
+	IfcPresentationStyle::unlinkFromInverseCounterparts();
 }

@@ -76,7 +76,7 @@ void IfcCartesianTransformationOperator::setInverseCounterparts( shared_ptr<IfcP
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCartesianTransformationOperator::unlinkSelf()
+void IfcCartesianTransformationOperator::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

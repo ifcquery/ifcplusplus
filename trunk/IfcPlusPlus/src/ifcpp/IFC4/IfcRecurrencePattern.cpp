@@ -143,6 +143,6 @@ void IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::stri
 void IfcRecurrencePattern::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcRecurrencePattern::unlinkSelf()
+void IfcRecurrencePattern::unlinkFromInverseCounterparts()
 {
 }

@@ -118,32 +118,38 @@ void IfcRelSequence::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 		m_RelatingProcess->m_IsPredecessorTo_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelSequence::unlinkSelf()
+void IfcRelSequence::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	if( m_RelatedProcess )
 	{
 		std::vector<weak_ptr<IfcRelSequence> >& IsSuccessorFrom_inverse = m_RelatedProcess->m_IsSuccessorFrom_inverse;
-		for( auto it_IsSuccessorFrom_inverse = IsSuccessorFrom_inverse.begin(); it_IsSuccessorFrom_inverse != IsSuccessorFrom_inverse.end(); ++it_IsSuccessorFrom_inverse)
+		for( auto it_IsSuccessorFrom_inverse = IsSuccessorFrom_inverse.begin(); it_IsSuccessorFrom_inverse != IsSuccessorFrom_inverse.end(); )
 		{
 			shared_ptr<IfcRelSequence> self_candidate( *it_IsSuccessorFrom_inverse );
 			if( self_candidate.get() == this )
 			{
-				IsSuccessorFrom_inverse.erase( it_IsSuccessorFrom_inverse );
-				break;
+				it_IsSuccessorFrom_inverse= IsSuccessorFrom_inverse.erase( it_IsSuccessorFrom_inverse );
+			}
+			else
+			{
+				++it_IsSuccessorFrom_inverse;
 			}
 		}
 	}
 	if( m_RelatingProcess )
 	{
 		std::vector<weak_ptr<IfcRelSequence> >& IsPredecessorTo_inverse = m_RelatingProcess->m_IsPredecessorTo_inverse;
-		for( auto it_IsPredecessorTo_inverse = IsPredecessorTo_inverse.begin(); it_IsPredecessorTo_inverse != IsPredecessorTo_inverse.end(); ++it_IsPredecessorTo_inverse)
+		for( auto it_IsPredecessorTo_inverse = IsPredecessorTo_inverse.begin(); it_IsPredecessorTo_inverse != IsPredecessorTo_inverse.end(); )
 		{
 			shared_ptr<IfcRelSequence> self_candidate( *it_IsPredecessorTo_inverse );
 			if( self_candidate.get() == this )
 			{
-				IsPredecessorTo_inverse.erase( it_IsPredecessorTo_inverse );
-				break;
+				it_IsPredecessorTo_inverse= IsPredecessorTo_inverse.erase( it_IsPredecessorTo_inverse );
+			}
+			else
+			{
+				++it_IsPredecessorTo_inverse;
 			}
 		}
 	}

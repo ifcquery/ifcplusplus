@@ -116,7 +116,7 @@ void IfcPostalAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcAddress::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPostalAddress::unlinkSelf()
+void IfcPostalAddress::unlinkFromInverseCounterparts()
 {
-	IfcAddress::unlinkSelf();
+	IfcAddress::unlinkFromInverseCounterparts();
 }

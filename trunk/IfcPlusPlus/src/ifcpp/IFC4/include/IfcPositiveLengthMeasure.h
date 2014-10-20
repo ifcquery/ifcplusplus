@@ -27,7 +27,7 @@ class IfcPositiveLengthMeasure : public IfcLengthMeasure, public IfcHatchLineDis
 public:
 	IfcPositiveLengthMeasure();
 	~IfcPositiveLengthMeasure();
-	virtual const char* classname() const { return "IfcPositiveLengthMeasure"; }
+	virtual const char* className() const { return "IfcPositiveLengthMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPositiveLengthMeasure> createObjectFromSTEP( const std::wstring& arg );

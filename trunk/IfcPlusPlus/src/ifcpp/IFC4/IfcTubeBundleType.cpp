@@ -130,7 +130,7 @@ void IfcTubeBundleType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcEnergyConversionDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTubeBundleType::unlinkSelf()
+void IfcTubeBundleType::unlinkFromInverseCounterparts()
 {
-	IfcEnergyConversionDeviceType::unlinkSelf();
+	IfcEnergyConversionDeviceType::unlinkFromInverseCounterparts();
 }

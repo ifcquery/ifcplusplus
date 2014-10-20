@@ -18,20 +18,18 @@
 
 class IfcPlusPlusSystem;
 class IfcPPEntity;
-class ReaderWriterIFC;
 
 class CmdWriteIfcFile : public Command
 {
 
 protected:
 	std::string m_file_path;
-	osg::ref_ptr<ReaderWriterIFC>			m_reader_writer;  // osg::Registry uses ref_ptr, so use it here too
 
 public:
 	CmdWriteIfcFile( IfcPlusPlusSystem* system );
 	virtual ~CmdWriteIfcFile();
 	virtual shared_ptr<Command> copy() { return shared_ptr<CmdWriteIfcFile>( new CmdWriteIfcFile(m_system) ); }
-	virtual const char* classname() { return "CmdWriteIfcFile"; }
+	virtual const char* className() const { return "CmdWriteIfcFile"; }
 
 	virtual bool doCmd();
 	virtual bool undo();

@@ -27,7 +27,7 @@ public:
 	IfcKinematicViscosityMeasure();
 	IfcKinematicViscosityMeasure( double value );
 	~IfcKinematicViscosityMeasure();
-	virtual const char* classname() const { return "IfcKinematicViscosityMeasure"; }
+	virtual const char* className() const { return "IfcKinematicViscosityMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcKinematicViscosityMeasure> createObjectFromSTEP( const std::wstring& arg );

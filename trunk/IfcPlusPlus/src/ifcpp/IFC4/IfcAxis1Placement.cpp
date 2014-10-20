@@ -65,7 +65,7 @@ void IfcAxis1Placement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcPlacement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAxis1Placement::unlinkSelf()
+void IfcAxis1Placement::unlinkFromInverseCounterparts()
 {
-	IfcPlacement::unlinkSelf();
+	IfcPlacement::unlinkFromInverseCounterparts();
 }

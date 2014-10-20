@@ -70,7 +70,7 @@ void IfcCurveStyleFontAndScaling::setInverseCounterparts( shared_ptr<IfcPPEntity
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCurveStyleFontAndScaling::unlinkSelf()
+void IfcCurveStyleFontAndScaling::unlinkFromInverseCounterparts()
 {
-	IfcPresentationItem::unlinkSelf();
+	IfcPresentationItem::unlinkFromInverseCounterparts();
 }

@@ -146,7 +146,7 @@ void IfcTaskTimeRecurring::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcTaskTime::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTaskTimeRecurring::unlinkSelf()
+void IfcTaskTimeRecurring::unlinkFromInverseCounterparts()
 {
-	IfcTaskTime::unlinkSelf();
+	IfcTaskTime::unlinkFromInverseCounterparts();
 }

@@ -115,7 +115,7 @@ void IfcStructuralSurfaceMemberVarying::setInverseCounterparts( shared_ptr<IfcPP
 {
 	IfcStructuralSurfaceMember::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralSurfaceMemberVarying::unlinkSelf()
+void IfcStructuralSurfaceMemberVarying::unlinkFromInverseCounterparts()
 {
-	IfcStructuralSurfaceMember::unlinkSelf();
+	IfcStructuralSurfaceMember::unlinkFromInverseCounterparts();
 }

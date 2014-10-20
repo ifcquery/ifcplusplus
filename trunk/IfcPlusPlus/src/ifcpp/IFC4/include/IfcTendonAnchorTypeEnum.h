@@ -35,7 +35,7 @@ public:
 	IfcTendonAnchorTypeEnum();
 	IfcTendonAnchorTypeEnum( IfcTendonAnchorTypeEnumEnum e ) { m_enum = e; }
 	~IfcTendonAnchorTypeEnum();
-	virtual const char* classname() const { return "IfcTendonAnchorTypeEnum"; }
+	virtual const char* className() const { return "IfcTendonAnchorTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTendonAnchorTypeEnum> createObjectFromSTEP( const std::wstring& arg );

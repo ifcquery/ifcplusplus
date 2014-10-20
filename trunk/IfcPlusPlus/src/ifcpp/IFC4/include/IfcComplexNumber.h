@@ -26,7 +26,7 @@ class IfcComplexNumber : public IfcMeasureValue
 public:
 	IfcComplexNumber();
 	~IfcComplexNumber();
-	virtual const char* classname() const { return "IfcComplexNumber"; }
+	virtual const char* className() const { return "IfcComplexNumber"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcComplexNumber> createObjectFromSTEP( const std::wstring& arg );

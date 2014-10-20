@@ -124,7 +124,7 @@ void IfcRampFlight::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 {
 	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRampFlight::unlinkSelf()
+void IfcRampFlight::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkSelf();
+	IfcBuildingElement::unlinkFromInverseCounterparts();
 }

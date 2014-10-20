@@ -117,21 +117,24 @@ void IfcRelDefinesByType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 		m_RelatingType->m_Types_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelDefinesByType::unlinkSelf()
+void IfcRelDefinesByType::unlinkFromInverseCounterparts()
 {
-	IfcRelDefines::unlinkSelf();
+	IfcRelDefines::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		if( m_RelatedObjects[i] )
 		{
 			std::vector<weak_ptr<IfcRelDefinesByType> >& IsTypedBy_inverse = m_RelatedObjects[i]->m_IsTypedBy_inverse;
-			for( auto it_IsTypedBy_inverse = IsTypedBy_inverse.begin(); it_IsTypedBy_inverse != IsTypedBy_inverse.end(); ++it_IsTypedBy_inverse)
+			for( auto it_IsTypedBy_inverse = IsTypedBy_inverse.begin(); it_IsTypedBy_inverse != IsTypedBy_inverse.end(); )
 			{
 				shared_ptr<IfcRelDefinesByType> self_candidate( *it_IsTypedBy_inverse );
 				if( self_candidate.get() == this )
 				{
-					IsTypedBy_inverse.erase( it_IsTypedBy_inverse );
-					break;
+					it_IsTypedBy_inverse= IsTypedBy_inverse.erase( it_IsTypedBy_inverse );
+				}
+				else
+				{
+					++it_IsTypedBy_inverse;
 				}
 			}
 		}
@@ -139,13 +142,16 @@ void IfcRelDefinesByType::unlinkSelf()
 	if( m_RelatingType )
 	{
 		std::vector<weak_ptr<IfcRelDefinesByType> >& Types_inverse = m_RelatingType->m_Types_inverse;
-		for( auto it_Types_inverse = Types_inverse.begin(); it_Types_inverse != Types_inverse.end(); ++it_Types_inverse)
+		for( auto it_Types_inverse = Types_inverse.begin(); it_Types_inverse != Types_inverse.end(); )
 		{
 			shared_ptr<IfcRelDefinesByType> self_candidate( *it_Types_inverse );
 			if( self_candidate.get() == this )
 			{
-				Types_inverse.erase( it_Types_inverse );
-				break;
+				it_Types_inverse= Types_inverse.erase( it_Types_inverse );
+			}
+			else
+			{
+				++it_Types_inverse;
 			}
 		}
 	}

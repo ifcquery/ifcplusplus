@@ -33,7 +33,7 @@ public:
 	IfcPhysicalOrVirtualEnum();
 	IfcPhysicalOrVirtualEnum( IfcPhysicalOrVirtualEnumEnum e ) { m_enum = e; }
 	~IfcPhysicalOrVirtualEnum();
-	virtual const char* classname() const { return "IfcPhysicalOrVirtualEnum"; }
+	virtual const char* className() const { return "IfcPhysicalOrVirtualEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPhysicalOrVirtualEnum> createObjectFromSTEP( const std::wstring& arg );

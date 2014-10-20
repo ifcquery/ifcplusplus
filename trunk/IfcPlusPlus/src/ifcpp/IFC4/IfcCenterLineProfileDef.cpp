@@ -75,7 +75,7 @@ void IfcCenterLineProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcArbitraryOpenProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCenterLineProfileDef::unlinkSelf()
+void IfcCenterLineProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcArbitraryOpenProfileDef::unlinkSelf();
+	IfcArbitraryOpenProfileDef::unlinkFromInverseCounterparts();
 }

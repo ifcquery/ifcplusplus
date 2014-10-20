@@ -41,7 +41,7 @@ public:
 	IfcWindowStyleOperationEnum();
 	IfcWindowStyleOperationEnum( IfcWindowStyleOperationEnumEnum e ) { m_enum = e; }
 	~IfcWindowStyleOperationEnum();
-	virtual const char* classname() const { return "IfcWindowStyleOperationEnum"; }
+	virtual const char* className() const { return "IfcWindowStyleOperationEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcWindowStyleOperationEnum> createObjectFromSTEP( const std::wstring& arg );

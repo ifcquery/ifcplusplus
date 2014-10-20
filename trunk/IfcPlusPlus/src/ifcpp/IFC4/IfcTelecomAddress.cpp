@@ -148,7 +148,7 @@ void IfcTelecomAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcAddress::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTelecomAddress::unlinkSelf()
+void IfcTelecomAddress::unlinkFromInverseCounterparts()
 {
-	IfcAddress::unlinkSelf();
+	IfcAddress::unlinkFromInverseCounterparts();
 }

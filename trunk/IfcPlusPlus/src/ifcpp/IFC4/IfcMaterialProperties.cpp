@@ -87,19 +87,22 @@ void IfcMaterialProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 		m_Material->m_HasProperties_inverse.push_back( ptr_self );
 	}
 }
-void IfcMaterialProperties::unlinkSelf()
+void IfcMaterialProperties::unlinkFromInverseCounterparts()
 {
-	IfcExtendedProperties::unlinkSelf();
+	IfcExtendedProperties::unlinkFromInverseCounterparts();
 	if( m_Material )
 	{
 		std::vector<weak_ptr<IfcMaterialProperties> >& HasProperties_inverse = m_Material->m_HasProperties_inverse;
-		for( auto it_HasProperties_inverse = HasProperties_inverse.begin(); it_HasProperties_inverse != HasProperties_inverse.end(); ++it_HasProperties_inverse)
+		for( auto it_HasProperties_inverse = HasProperties_inverse.begin(); it_HasProperties_inverse != HasProperties_inverse.end(); )
 		{
 			shared_ptr<IfcMaterialProperties> self_candidate( *it_HasProperties_inverse );
 			if( self_candidate.get() == this )
 			{
-				HasProperties_inverse.erase( it_HasProperties_inverse );
-				break;
+				it_HasProperties_inverse= HasProperties_inverse.erase( it_HasProperties_inverse );
+			}
+			else
+			{
+				++it_HasProperties_inverse;
 			}
 		}
 	}

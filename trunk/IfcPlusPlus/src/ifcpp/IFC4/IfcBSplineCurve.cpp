@@ -101,7 +101,7 @@ void IfcBSplineCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_e
 {
 	IfcBoundedCurve::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBSplineCurve::unlinkSelf()
+void IfcBSplineCurve::unlinkFromInverseCounterparts()
 {
-	IfcBoundedCurve::unlinkSelf();
+	IfcBoundedCurve::unlinkFromInverseCounterparts();
 }

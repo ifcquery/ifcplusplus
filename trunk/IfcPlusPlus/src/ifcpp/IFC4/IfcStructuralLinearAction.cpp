@@ -130,7 +130,7 @@ void IfcStructuralLinearAction::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcStructuralCurveAction::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralLinearAction::unlinkSelf()
+void IfcStructuralLinearAction::unlinkFromInverseCounterparts()
 {
-	IfcStructuralCurveAction::unlinkSelf();
+	IfcStructuralCurveAction::unlinkFromInverseCounterparts();
 }

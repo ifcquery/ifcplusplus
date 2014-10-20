@@ -73,7 +73,7 @@ void IfcColourRgb::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcColourSpecification::setInverseCounterparts( ptr_self_entity );
 }
-void IfcColourRgb::unlinkSelf()
+void IfcColourRgb::unlinkFromInverseCounterparts()
 {
-	IfcColourSpecification::unlinkSelf();
+	IfcColourSpecification::unlinkFromInverseCounterparts();
 }

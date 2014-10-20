@@ -129,7 +129,7 @@ void IfcExternalSpatialElement::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcExternalSpatialStructureElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcExternalSpatialElement::unlinkSelf()
+void IfcExternalSpatialElement::unlinkFromInverseCounterparts()
 {
-	IfcExternalSpatialStructureElement::unlinkSelf();
+	IfcExternalSpatialStructureElement::unlinkFromInverseCounterparts();
 }

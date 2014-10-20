@@ -34,7 +34,7 @@ public:
 	IfcVibrationIsolatorTypeEnum();
 	IfcVibrationIsolatorTypeEnum( IfcVibrationIsolatorTypeEnumEnum e ) { m_enum = e; }
 	~IfcVibrationIsolatorTypeEnum();
-	virtual const char* classname() const { return "IfcVibrationIsolatorTypeEnum"; }
+	virtual const char* className() const { return "IfcVibrationIsolatorTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcVibrationIsolatorTypeEnum> createObjectFromSTEP( const std::wstring& arg );

@@ -27,7 +27,7 @@ public:
 	IfcIsothermalMoistureCapacityMeasure();
 	IfcIsothermalMoistureCapacityMeasure( double value );
 	~IfcIsothermalMoistureCapacityMeasure();
-	virtual const char* classname() const { return "IfcIsothermalMoistureCapacityMeasure"; }
+	virtual const char* className() const { return "IfcIsothermalMoistureCapacityMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcIsothermalMoistureCapacityMeasure> createObjectFromSTEP( const std::wstring& arg );

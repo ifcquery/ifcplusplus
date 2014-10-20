@@ -125,7 +125,7 @@ void IfcValve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcFlowController::setInverseCounterparts( ptr_self_entity );
 }
-void IfcValve::unlinkSelf()
+void IfcValve::unlinkFromInverseCounterparts()
 {
-	IfcFlowController::unlinkSelf();
+	IfcFlowController::unlinkFromInverseCounterparts();
 }

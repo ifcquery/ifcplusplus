@@ -27,7 +27,7 @@ public:
 	IfcMassFlowRateMeasure();
 	IfcMassFlowRateMeasure( double value );
 	~IfcMassFlowRateMeasure();
-	virtual const char* classname() const { return "IfcMassFlowRateMeasure"; }
+	virtual const char* className() const { return "IfcMassFlowRateMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcMassFlowRateMeasure> createObjectFromSTEP( const std::wstring& arg );

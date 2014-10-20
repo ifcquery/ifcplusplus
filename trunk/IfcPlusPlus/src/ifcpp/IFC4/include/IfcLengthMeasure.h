@@ -29,7 +29,7 @@ public:
 	IfcLengthMeasure();
 	IfcLengthMeasure( double value );
 	~IfcLengthMeasure();
-	virtual const char* classname() const { return "IfcLengthMeasure"; }
+	virtual const char* className() const { return "IfcLengthMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLengthMeasure> createObjectFromSTEP( const std::wstring& arg );

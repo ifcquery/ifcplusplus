@@ -129,19 +129,22 @@ void IfcProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity
 		Representation_IfcProductDefinitionShape->m_ShapeOfProduct_inverse.push_back( ptr_self );
 	}
 }
-void IfcProduct::unlinkSelf()
+void IfcProduct::unlinkFromInverseCounterparts()
 {
-	IfcObject::unlinkSelf();
+	IfcObject::unlinkFromInverseCounterparts();
 	if( m_ObjectPlacement )
 	{
 		std::vector<weak_ptr<IfcProduct> >& PlacesObject_inverse = m_ObjectPlacement->m_PlacesObject_inverse;
-		for( auto it_PlacesObject_inverse = PlacesObject_inverse.begin(); it_PlacesObject_inverse != PlacesObject_inverse.end(); ++it_PlacesObject_inverse)
+		for( auto it_PlacesObject_inverse = PlacesObject_inverse.begin(); it_PlacesObject_inverse != PlacesObject_inverse.end(); )
 		{
 			shared_ptr<IfcProduct> self_candidate( *it_PlacesObject_inverse );
 			if( self_candidate.get() == this )
 			{
-				PlacesObject_inverse.erase( it_PlacesObject_inverse );
-				break;
+				it_PlacesObject_inverse= PlacesObject_inverse.erase( it_PlacesObject_inverse );
+			}
+			else
+			{
+				++it_PlacesObject_inverse;
 			}
 		}
 	}
@@ -149,13 +152,16 @@ void IfcProduct::unlinkSelf()
 	if( Representation_IfcProductDefinitionShape )
 	{
 		std::vector<weak_ptr<IfcProduct> >& ShapeOfProduct_inverse = Representation_IfcProductDefinitionShape->m_ShapeOfProduct_inverse;
-		for( auto it_ShapeOfProduct_inverse = ShapeOfProduct_inverse.begin(); it_ShapeOfProduct_inverse != ShapeOfProduct_inverse.end(); ++it_ShapeOfProduct_inverse)
+		for( auto it_ShapeOfProduct_inverse = ShapeOfProduct_inverse.begin(); it_ShapeOfProduct_inverse != ShapeOfProduct_inverse.end(); )
 		{
 			shared_ptr<IfcProduct> self_candidate( *it_ShapeOfProduct_inverse );
 			if( self_candidate.get() == this )
 			{
-				ShapeOfProduct_inverse.erase( it_ShapeOfProduct_inverse );
-				break;
+				it_ShapeOfProduct_inverse= ShapeOfProduct_inverse.erase( it_ShapeOfProduct_inverse );
+			}
+			else
+			{
+				++it_ShapeOfProduct_inverse;
 			}
 		}
 	}

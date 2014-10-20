@@ -35,7 +35,7 @@ public:
 	IfcAnalysisModelTypeEnum();
 	IfcAnalysisModelTypeEnum( IfcAnalysisModelTypeEnumEnum e ) { m_enum = e; }
 	~IfcAnalysisModelTypeEnum();
-	virtual const char* classname() const { return "IfcAnalysisModelTypeEnum"; }
+	virtual const char* className() const { return "IfcAnalysisModelTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcAnalysisModelTypeEnum> createObjectFromSTEP( const std::wstring& arg );

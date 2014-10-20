@@ -66,7 +66,7 @@ void IfcGridPlacement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcObjectPlacement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcGridPlacement::unlinkSelf()
+void IfcGridPlacement::unlinkFromInverseCounterparts()
 {
-	IfcObjectPlacement::unlinkSelf();
+	IfcObjectPlacement::unlinkFromInverseCounterparts();
 }

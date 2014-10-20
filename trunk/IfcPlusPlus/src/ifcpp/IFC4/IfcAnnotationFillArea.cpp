@@ -77,7 +77,7 @@ void IfcAnnotationFillArea::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcAnnotationFillArea::unlinkSelf()
+void IfcAnnotationFillArea::unlinkFromInverseCounterparts()
 {
-	IfcGeometricRepresentationItem::unlinkSelf();
+	IfcGeometricRepresentationItem::unlinkFromInverseCounterparts();
 }

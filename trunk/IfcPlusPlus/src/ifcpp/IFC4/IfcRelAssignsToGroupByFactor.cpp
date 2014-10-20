@@ -108,7 +108,7 @@ void IfcRelAssignsToGroupByFactor::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcRelAssignsToGroup::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRelAssignsToGroupByFactor::unlinkSelf()
+void IfcRelAssignsToGroupByFactor::unlinkFromInverseCounterparts()
 {
-	IfcRelAssignsToGroup::unlinkSelf();
+	IfcRelAssignsToGroup::unlinkFromInverseCounterparts();
 }

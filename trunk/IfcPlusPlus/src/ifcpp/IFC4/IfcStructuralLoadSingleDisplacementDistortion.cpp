@@ -89,7 +89,7 @@ void IfcStructuralLoadSingleDisplacementDistortion::setInverseCounterparts( shar
 {
 	IfcStructuralLoadSingleDisplacement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralLoadSingleDisplacementDistortion::unlinkSelf()
+void IfcStructuralLoadSingleDisplacementDistortion::unlinkFromInverseCounterparts()
 {
-	IfcStructuralLoadSingleDisplacement::unlinkSelf();
+	IfcStructuralLoadSingleDisplacement::unlinkFromInverseCounterparts();
 }

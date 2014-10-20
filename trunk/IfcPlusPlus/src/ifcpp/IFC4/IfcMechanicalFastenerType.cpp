@@ -141,7 +141,7 @@ void IfcMechanicalFastenerType::setInverseCounterparts( shared_ptr<IfcPPEntity> 
 {
 	IfcElementComponentType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcMechanicalFastenerType::unlinkSelf()
+void IfcMechanicalFastenerType::unlinkFromInverseCounterparts()
 {
-	IfcElementComponentType::unlinkSelf();
+	IfcElementComponentType::unlinkFromInverseCounterparts();
 }

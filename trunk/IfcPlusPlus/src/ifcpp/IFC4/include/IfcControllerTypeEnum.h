@@ -37,7 +37,7 @@ public:
 	IfcControllerTypeEnum();
 	IfcControllerTypeEnum( IfcControllerTypeEnumEnum e ) { m_enum = e; }
 	~IfcControllerTypeEnum();
-	virtual const char* classname() const { return "IfcControllerTypeEnum"; }
+	virtual const char* className() const { return "IfcControllerTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcControllerTypeEnum> createObjectFromSTEP( const std::wstring& arg );

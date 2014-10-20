@@ -89,7 +89,7 @@ void IfcStructuralLoadSingleDisplacement::setInverseCounterparts( shared_ptr<Ifc
 {
 	IfcStructuralLoadStatic::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralLoadSingleDisplacement::unlinkSelf()
+void IfcStructuralLoadSingleDisplacement::unlinkFromInverseCounterparts()
 {
-	IfcStructuralLoadStatic::unlinkSelf();
+	IfcStructuralLoadStatic::unlinkFromInverseCounterparts();
 }

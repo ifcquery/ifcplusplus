@@ -48,6 +48,6 @@ void IfcPresentationItem::getAttributesInverse( std::vector<std::pair<std::strin
 void IfcPresentationItem::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcPresentationItem::unlinkSelf()
+void IfcPresentationItem::unlinkFromInverseCounterparts()
 {
 }

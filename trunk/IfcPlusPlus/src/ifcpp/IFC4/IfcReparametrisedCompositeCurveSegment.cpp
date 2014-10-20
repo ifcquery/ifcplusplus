@@ -77,7 +77,7 @@ void IfcReparametrisedCompositeCurveSegment::setInverseCounterparts( shared_ptr<
 {
 	IfcCompositeCurveSegment::setInverseCounterparts( ptr_self_entity );
 }
-void IfcReparametrisedCompositeCurveSegment::unlinkSelf()
+void IfcReparametrisedCompositeCurveSegment::unlinkFromInverseCounterparts()
 {
-	IfcCompositeCurveSegment::unlinkSelf();
+	IfcCompositeCurveSegment::unlinkFromInverseCounterparts();
 }

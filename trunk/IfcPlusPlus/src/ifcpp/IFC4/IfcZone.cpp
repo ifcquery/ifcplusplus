@@ -99,7 +99,7 @@ void IfcZone::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcSystem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcZone::unlinkSelf()
+void IfcZone::unlinkFromInverseCounterparts()
 {
-	IfcSystem::unlinkSelf();
+	IfcSystem::unlinkFromInverseCounterparts();
 }

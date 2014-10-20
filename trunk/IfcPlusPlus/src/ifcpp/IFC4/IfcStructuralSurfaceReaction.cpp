@@ -120,7 +120,7 @@ void IfcStructuralSurfaceReaction::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcStructuralReaction::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStructuralSurfaceReaction::unlinkSelf()
+void IfcStructuralSurfaceReaction::unlinkFromInverseCounterparts()
 {
-	IfcStructuralReaction::unlinkSelf();
+	IfcStructuralReaction::unlinkFromInverseCounterparts();
 }

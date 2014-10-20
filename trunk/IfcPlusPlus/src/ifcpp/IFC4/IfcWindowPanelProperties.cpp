@@ -114,7 +114,7 @@ void IfcWindowPanelProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 {
 	IfcPreDefinedPropertySet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcWindowPanelProperties::unlinkSelf()
+void IfcWindowPanelProperties::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedPropertySet::unlinkSelf();
+	IfcPreDefinedPropertySet::unlinkFromInverseCounterparts();
 }

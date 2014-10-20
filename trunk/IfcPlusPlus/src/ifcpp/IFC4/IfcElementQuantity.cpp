@@ -108,7 +108,7 @@ void IfcElementQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_sel
 {
 	IfcQuantitySet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcElementQuantity::unlinkSelf()
+void IfcElementQuantity::unlinkFromInverseCounterparts()
 {
-	IfcQuantitySet::unlinkSelf();
+	IfcQuantitySet::unlinkFromInverseCounterparts();
 }

@@ -65,7 +65,7 @@ void IfcCircle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity 
 {
 	IfcConic::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCircle::unlinkSelf()
+void IfcCircle::unlinkFromInverseCounterparts()
 {
-	IfcConic::unlinkSelf();
+	IfcConic::unlinkFromInverseCounterparts();
 }

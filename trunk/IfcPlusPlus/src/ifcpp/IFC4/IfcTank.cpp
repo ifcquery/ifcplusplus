@@ -125,7 +125,7 @@ void IfcTank::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcFlowStorageDevice::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTank::unlinkSelf()
+void IfcTank::unlinkFromInverseCounterparts()
 {
-	IfcFlowStorageDevice::unlinkSelf();
+	IfcFlowStorageDevice::unlinkFromInverseCounterparts();
 }

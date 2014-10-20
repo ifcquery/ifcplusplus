@@ -94,7 +94,7 @@ void IfcRectangleHollowProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcRectangleProfileDef::setInverseCounterparts( ptr_self_entity );
 }
-void IfcRectangleHollowProfileDef::unlinkSelf()
+void IfcRectangleHollowProfileDef::unlinkFromInverseCounterparts()
 {
-	IfcRectangleProfileDef::unlinkSelf();
+	IfcRectangleProfileDef::unlinkFromInverseCounterparts();
 }

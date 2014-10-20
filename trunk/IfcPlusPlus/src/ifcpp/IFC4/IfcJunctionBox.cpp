@@ -125,7 +125,7 @@ void IfcJunctionBox::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcFlowFitting::setInverseCounterparts( ptr_self_entity );
 }
-void IfcJunctionBox::unlinkSelf()
+void IfcJunctionBox::unlinkFromInverseCounterparts()
 {
-	IfcFlowFitting::unlinkSelf();
+	IfcFlowFitting::unlinkFromInverseCounterparts();
 }

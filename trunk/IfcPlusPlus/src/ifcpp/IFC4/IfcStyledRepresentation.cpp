@@ -85,7 +85,7 @@ void IfcStyledRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcStyleModel::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStyledRepresentation::unlinkSelf()
+void IfcStyledRepresentation::unlinkFromInverseCounterparts()
 {
-	IfcStyleModel::unlinkSelf();
+	IfcStyleModel::unlinkFromInverseCounterparts();
 }

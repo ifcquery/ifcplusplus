@@ -26,7 +26,7 @@ public:
 	IfcURIReference();
 	IfcURIReference( std::wstring value );
 	~IfcURIReference();
-	virtual const char* classname() const { return "IfcURIReference"; }
+	virtual const char* className() const { return "IfcURIReference"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcURIReference> createObjectFromSTEP( const std::wstring& arg );

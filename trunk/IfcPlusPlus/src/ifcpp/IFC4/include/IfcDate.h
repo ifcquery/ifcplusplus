@@ -27,7 +27,7 @@ public:
 	IfcDate();
 	IfcDate( std::wstring value );
 	~IfcDate();
-	virtual const char* classname() const { return "IfcDate"; }
+	virtual const char* className() const { return "IfcDate"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDate> createObjectFromSTEP( const std::wstring& arg );

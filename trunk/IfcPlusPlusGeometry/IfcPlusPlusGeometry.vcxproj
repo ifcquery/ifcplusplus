@@ -225,6 +225,8 @@
       <OpenMPSupport>true</OpenMPSupport>
       <BrowseInformation>false</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -232,7 +234,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
@@ -293,7 +296,6 @@
     <ClCompile Include="src\ifcppgeometry\ProfileConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\ReaderWriterIFC.cpp" />
     <ClCompile Include="src\ifcppgeometry\RepresentationConverter.cpp" />
-    <ClCompile Include="src\ifcppgeometry\SectionedSpine.cpp" />
     <ClCompile Include="src\ifcppgeometry\SolidModelConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\StylesConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\ProfileCache.cpp" />

@@ -73,6 +73,6 @@ void IfcMaterialClassificationRelationship::getAttributesInverse( std::vector<st
 void IfcMaterialClassificationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcMaterialClassificationRelationship::unlinkSelf()
+void IfcMaterialClassificationRelationship::unlinkFromInverseCounterparts()
 {
 }

@@ -77,7 +77,7 @@ void IfcPolygonalBoundedHalfSpace::setInverseCounterparts( shared_ptr<IfcPPEntit
 {
 	IfcHalfSpaceSolid::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPolygonalBoundedHalfSpace::unlinkSelf()
+void IfcPolygonalBoundedHalfSpace::unlinkFromInverseCounterparts()
 {
-	IfcHalfSpaceSolid::unlinkSelf();
+	IfcHalfSpaceSolid::unlinkFromInverseCounterparts();
 }

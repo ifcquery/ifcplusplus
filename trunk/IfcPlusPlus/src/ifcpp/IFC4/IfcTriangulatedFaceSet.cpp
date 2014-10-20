@@ -107,7 +107,7 @@ void IfcTriangulatedFaceSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr
 {
 	IfcTessellatedFaceSet::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTriangulatedFaceSet::unlinkSelf()
+void IfcTriangulatedFaceSet::unlinkFromInverseCounterparts()
 {
-	IfcTessellatedFaceSet::unlinkSelf();
+	IfcTessellatedFaceSet::unlinkFromInverseCounterparts();
 }

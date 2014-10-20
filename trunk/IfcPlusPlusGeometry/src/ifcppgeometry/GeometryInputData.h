@@ -84,7 +84,7 @@ class ShapeInputData
 {
 public:
 	ShapeInputData() { added_to_node = false; }
-	~ShapeInputData() {}
+	virtual ~ShapeInputData() {}
 
 	void addInputData( shared_ptr<ShapeInputData>& other );
 	void deepCopyFrom( shared_ptr<ShapeInputData>& other );
@@ -93,9 +93,9 @@ public:
 	void clearAppearanceData();
 	void clearAll();
 
-	shared_ptr<IfcProduct> ifc_product;
-	shared_ptr<IfcRepresentation> representation;
-	shared_ptr<IfcObjectPlacement> object_placement;
+	weak_ptr<IfcProduct> ifc_product;
+	weak_ptr<IfcRepresentation> representation;
+	weak_ptr<IfcObjectPlacement> object_placement;
 	osg::ref_ptr<osg::Switch>	product_switch;
 	osg::ref_ptr<osg::Switch>	product_switch_curves;
 	std::vector<shared_ptr<ItemData> >			vec_item_data;

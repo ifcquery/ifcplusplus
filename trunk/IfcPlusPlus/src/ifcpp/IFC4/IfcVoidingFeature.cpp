@@ -123,7 +123,7 @@ void IfcVoidingFeature::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcFeatureElementSubtraction::setInverseCounterparts( ptr_self_entity );
 }
-void IfcVoidingFeature::unlinkSelf()
+void IfcVoidingFeature::unlinkFromInverseCounterparts()
 {
-	IfcFeatureElementSubtraction::unlinkSelf();
+	IfcFeatureElementSubtraction::unlinkFromInverseCounterparts();
 }

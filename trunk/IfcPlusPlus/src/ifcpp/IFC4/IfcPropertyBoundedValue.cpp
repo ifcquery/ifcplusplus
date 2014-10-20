@@ -88,7 +88,7 @@ void IfcPropertyBoundedValue::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcSimpleProperty::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPropertyBoundedValue::unlinkSelf()
+void IfcPropertyBoundedValue::unlinkFromInverseCounterparts()
 {
-	IfcSimpleProperty::unlinkSelf();
+	IfcSimpleProperty::unlinkFromInverseCounterparts();
 }

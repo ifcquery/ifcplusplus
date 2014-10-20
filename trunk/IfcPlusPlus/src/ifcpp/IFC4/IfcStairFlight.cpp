@@ -145,7 +145,7 @@ void IfcStairFlight::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 {
 	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
 }
-void IfcStairFlight::unlinkSelf()
+void IfcStairFlight::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkSelf();
+	IfcBuildingElement::unlinkFromInverseCounterparts();
 }

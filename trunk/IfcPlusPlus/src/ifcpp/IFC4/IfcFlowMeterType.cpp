@@ -130,7 +130,7 @@ void IfcFlowMeterType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_
 {
 	IfcFlowControllerType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFlowMeterType::unlinkSelf()
+void IfcFlowMeterType::unlinkFromInverseCounterparts()
 {
-	IfcFlowControllerType::unlinkSelf();
+	IfcFlowControllerType::unlinkFromInverseCounterparts();
 }

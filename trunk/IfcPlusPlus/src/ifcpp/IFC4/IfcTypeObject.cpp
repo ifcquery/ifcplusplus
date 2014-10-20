@@ -131,21 +131,24 @@ void IfcTypeObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 		}
 	}
 }
-void IfcTypeObject::unlinkSelf()
+void IfcTypeObject::unlinkFromInverseCounterparts()
 {
-	IfcObjectDefinition::unlinkSelf();
+	IfcObjectDefinition::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_HasPropertySets.size(); ++i )
 	{
 		if( m_HasPropertySets[i] )
 		{
 			std::vector<weak_ptr<IfcTypeObject> >& DefinesType_inverse = m_HasPropertySets[i]->m_DefinesType_inverse;
-			for( auto it_DefinesType_inverse = DefinesType_inverse.begin(); it_DefinesType_inverse != DefinesType_inverse.end(); ++it_DefinesType_inverse)
+			for( auto it_DefinesType_inverse = DefinesType_inverse.begin(); it_DefinesType_inverse != DefinesType_inverse.end(); )
 			{
 				shared_ptr<IfcTypeObject> self_candidate( *it_DefinesType_inverse );
 				if( self_candidate.get() == this )
 				{
-					DefinesType_inverse.erase( it_DefinesType_inverse );
-					break;
+					it_DefinesType_inverse= DefinesType_inverse.erase( it_DefinesType_inverse );
+				}
+				else
+				{
+					++it_DefinesType_inverse;
 				}
 			}
 		}

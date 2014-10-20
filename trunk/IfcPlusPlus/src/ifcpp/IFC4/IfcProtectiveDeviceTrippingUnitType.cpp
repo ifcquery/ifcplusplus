@@ -130,7 +130,7 @@ void IfcProtectiveDeviceTrippingUnitType::setInverseCounterparts( shared_ptr<Ifc
 {
 	IfcDistributionControlElementType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcProtectiveDeviceTrippingUnitType::unlinkSelf()
+void IfcProtectiveDeviceTrippingUnitType::unlinkFromInverseCounterparts()
 {
-	IfcDistributionControlElementType::unlinkSelf();
+	IfcDistributionControlElementType::unlinkFromInverseCounterparts();
 }

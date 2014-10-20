@@ -35,7 +35,7 @@ public:
 	IfcSurfaceFeatureTypeEnum();
 	IfcSurfaceFeatureTypeEnum( IfcSurfaceFeatureTypeEnumEnum e ) { m_enum = e; }
 	~IfcSurfaceFeatureTypeEnum();
-	virtual const char* classname() const { return "IfcSurfaceFeatureTypeEnum"; }
+	virtual const char* className() const { return "IfcSurfaceFeatureTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSurfaceFeatureTypeEnum> createObjectFromSTEP( const std::wstring& arg );

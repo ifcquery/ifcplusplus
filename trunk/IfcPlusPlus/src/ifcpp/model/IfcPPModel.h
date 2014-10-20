@@ -16,14 +16,15 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "ifcpp/model/shared_ptr.h"
+#include "shared_ptr.h"
+#include "StatusCallback.h"
 
 class IfcPPEntity;
 class IfcProject;
 class IfcGeometricRepresentationContext;
 class UnitConverter;
 
-class IfcPPModel
+class IfcPPModel : public StatusCallback
 {
 public:
 	IfcPPModel();
@@ -33,9 +34,18 @@ public:
 	class IfcPPSchemaVersion
 	{
 		public:
-			IfcPPSchemaVersion();
-			IfcPPSchemaVersion( std::wstring schema_str, IfcPPVersionEnum schema_enum );
-			~IfcPPSchemaVersion();
+			IfcPPSchemaVersion::IfcPPSchemaVersion()
+			{
+				m_IFC_FILE_SCHEMA = L"";
+				m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
+			}
+			IfcPPSchemaVersion::IfcPPSchemaVersion(std::wstring schema_str, IfcPPVersionEnum schema_enum)
+				: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)
+			{
+			}
+			IfcPPSchemaVersion::~IfcPPSchemaVersion()
+			{
+			}
 			std::wstring		m_IFC_FILE_SCHEMA;
 			IfcPPVersionEnum	m_ifc_file_schema_enum;
 	};

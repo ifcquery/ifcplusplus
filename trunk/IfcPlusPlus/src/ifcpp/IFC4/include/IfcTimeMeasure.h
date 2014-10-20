@@ -27,7 +27,7 @@ public:
 	IfcTimeMeasure();
 	IfcTimeMeasure( double value );
 	~IfcTimeMeasure();
-	virtual const char* classname() const { return "IfcTimeMeasure"; }
+	virtual const char* className() const { return "IfcTimeMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTimeMeasure> createObjectFromSTEP( const std::wstring& arg );

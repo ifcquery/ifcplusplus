@@ -61,6 +61,6 @@ void IfcResourceLevelRelationship::getAttributesInverse( std::vector<std::pair<s
 void IfcResourceLevelRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcResourceLevelRelationship::unlinkSelf()
+void IfcResourceLevelRelationship::unlinkFromInverseCounterparts()
 {
 }

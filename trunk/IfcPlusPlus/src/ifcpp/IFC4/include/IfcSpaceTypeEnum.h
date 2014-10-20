@@ -37,7 +37,7 @@ public:
 	IfcSpaceTypeEnum();
 	IfcSpaceTypeEnum( IfcSpaceTypeEnumEnum e ) { m_enum = e; }
 	~IfcSpaceTypeEnum();
-	virtual const char* classname() const { return "IfcSpaceTypeEnum"; }
+	virtual const char* className() const { return "IfcSpaceTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSpaceTypeEnum> createObjectFromSTEP( const std::wstring& arg );

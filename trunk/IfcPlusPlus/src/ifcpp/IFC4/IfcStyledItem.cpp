@@ -89,19 +89,22 @@ void IfcStyledItem::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_ent
 		m_Item->m_StyledByItem_inverse.push_back( ptr_self );
 	}
 }
-void IfcStyledItem::unlinkSelf()
+void IfcStyledItem::unlinkFromInverseCounterparts()
 {
-	IfcRepresentationItem::unlinkSelf();
+	IfcRepresentationItem::unlinkFromInverseCounterparts();
 	if( m_Item )
 	{
 		std::vector<weak_ptr<IfcStyledItem> >& StyledByItem_inverse = m_Item->m_StyledByItem_inverse;
-		for( auto it_StyledByItem_inverse = StyledByItem_inverse.begin(); it_StyledByItem_inverse != StyledByItem_inverse.end(); ++it_StyledByItem_inverse)
+		for( auto it_StyledByItem_inverse = StyledByItem_inverse.begin(); it_StyledByItem_inverse != StyledByItem_inverse.end(); )
 		{
 			shared_ptr<IfcStyledItem> self_candidate( *it_StyledByItem_inverse );
 			if( self_candidate.get() == this )
 			{
-				StyledByItem_inverse.erase( it_StyledByItem_inverse );
-				break;
+				it_StyledByItem_inverse= StyledByItem_inverse.erase( it_StyledByItem_inverse );
+			}
+			else
+			{
+				++it_StyledByItem_inverse;
 			}
 		}
 	}

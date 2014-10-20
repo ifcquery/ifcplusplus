@@ -80,7 +80,7 @@ void IfcQuantityLength::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self
 {
 	IfcPhysicalSimpleQuantity::setInverseCounterparts( ptr_self_entity );
 }
-void IfcQuantityLength::unlinkSelf()
+void IfcQuantityLength::unlinkFromInverseCounterparts()
 {
-	IfcPhysicalSimpleQuantity::unlinkSelf();
+	IfcPhysicalSimpleQuantity::unlinkFromInverseCounterparts();
 }

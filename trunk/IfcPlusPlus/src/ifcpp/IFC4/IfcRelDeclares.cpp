@@ -125,22 +125,25 @@ void IfcRelDeclares::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_en
 		m_RelatingContext->m_Declares_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelDeclares::unlinkSelf()
+void IfcRelDeclares::unlinkFromInverseCounterparts()
 {
-	IfcRelationship::unlinkSelf();
+	IfcRelationship::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedDefinitions.size(); ++i )
 	{
 		shared_ptr<IfcObjectDefinition>  RelatedDefinitions_IfcObjectDefinition = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatedDefinitions[i] );
 		if( RelatedDefinitions_IfcObjectDefinition )
 		{
 			std::vector<weak_ptr<IfcRelDeclares> >& HasContext_inverse = RelatedDefinitions_IfcObjectDefinition->m_HasContext_inverse;
-			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); ++it_HasContext_inverse)
+			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); )
 			{
 				shared_ptr<IfcRelDeclares> self_candidate( *it_HasContext_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasContext_inverse.erase( it_HasContext_inverse );
-					break;
+					it_HasContext_inverse= HasContext_inverse.erase( it_HasContext_inverse );
+				}
+				else
+				{
+					++it_HasContext_inverse;
 				}
 			}
 		}
@@ -148,13 +151,16 @@ void IfcRelDeclares::unlinkSelf()
 		if( RelatedDefinitions_IfcPropertyDefinition )
 		{
 			std::vector<weak_ptr<IfcRelDeclares> >& HasContext_inverse = RelatedDefinitions_IfcPropertyDefinition->m_HasContext_inverse;
-			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); ++it_HasContext_inverse)
+			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); )
 			{
 				shared_ptr<IfcRelDeclares> self_candidate( *it_HasContext_inverse );
 				if( self_candidate.get() == this )
 				{
-					HasContext_inverse.erase( it_HasContext_inverse );
-					break;
+					it_HasContext_inverse= HasContext_inverse.erase( it_HasContext_inverse );
+				}
+				else
+				{
+					++it_HasContext_inverse;
 				}
 			}
 		}
@@ -162,13 +168,16 @@ void IfcRelDeclares::unlinkSelf()
 	if( m_RelatingContext )
 	{
 		std::vector<weak_ptr<IfcRelDeclares> >& Declares_inverse = m_RelatingContext->m_Declares_inverse;
-		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); ++it_Declares_inverse)
+		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); )
 		{
 			shared_ptr<IfcRelDeclares> self_candidate( *it_Declares_inverse );
 			if( self_candidate.get() == this )
 			{
-				Declares_inverse.erase( it_Declares_inverse );
-				break;
+				it_Declares_inverse= Declares_inverse.erase( it_Declares_inverse );
+			}
+			else
+			{
+				++it_Declares_inverse;
 			}
 		}
 	}

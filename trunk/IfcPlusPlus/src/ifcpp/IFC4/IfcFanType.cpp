@@ -130,7 +130,7 @@ void IfcFanType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity
 {
 	IfcFlowMovingDeviceType::setInverseCounterparts( ptr_self_entity );
 }
-void IfcFanType::unlinkSelf()
+void IfcFanType::unlinkFromInverseCounterparts()
 {
-	IfcFlowMovingDeviceType::unlinkSelf();
+	IfcFlowMovingDeviceType::unlinkFromInverseCounterparts();
 }

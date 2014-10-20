@@ -89,7 +89,7 @@ void IfcBoundaryNodeConditionWarping::setInverseCounterparts( shared_ptr<IfcPPEn
 {
 	IfcBoundaryNodeCondition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcBoundaryNodeConditionWarping::unlinkSelf()
+void IfcBoundaryNodeConditionWarping::unlinkFromInverseCounterparts()
 {
-	IfcBoundaryNodeCondition::unlinkSelf();
+	IfcBoundaryNodeCondition::unlinkFromInverseCounterparts();
 }

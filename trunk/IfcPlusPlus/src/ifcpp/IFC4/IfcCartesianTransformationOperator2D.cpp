@@ -72,7 +72,7 @@ void IfcCartesianTransformationOperator2D::setInverseCounterparts( shared_ptr<If
 {
 	IfcCartesianTransformationOperator::setInverseCounterparts( ptr_self_entity );
 }
-void IfcCartesianTransformationOperator2D::unlinkSelf()
+void IfcCartesianTransformationOperator2D::unlinkFromInverseCounterparts()
 {
-	IfcCartesianTransformationOperator::unlinkSelf();
+	IfcCartesianTransformationOperator::unlinkFromInverseCounterparts();
 }

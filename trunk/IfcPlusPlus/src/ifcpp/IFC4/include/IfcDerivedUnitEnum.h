@@ -83,7 +83,7 @@ public:
 	IfcDerivedUnitEnum();
 	IfcDerivedUnitEnum( IfcDerivedUnitEnumEnum e ) { m_enum = e; }
 	~IfcDerivedUnitEnum();
-	virtual const char* classname() const { return "IfcDerivedUnitEnum"; }
+	virtual const char* className() const { return "IfcDerivedUnitEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDerivedUnitEnum> createObjectFromSTEP( const std::wstring& arg );

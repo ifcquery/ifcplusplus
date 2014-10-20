@@ -73,7 +73,7 @@ void IfcSlippageConnectionCondition::setInverseCounterparts( shared_ptr<IfcPPEnt
 {
 	IfcStructuralConnectionCondition::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSlippageConnectionCondition::unlinkSelf()
+void IfcSlippageConnectionCondition::unlinkFromInverseCounterparts()
 {
-	IfcStructuralConnectionCondition::unlinkSelf();
+	IfcStructuralConnectionCondition::unlinkFromInverseCounterparts();
 }

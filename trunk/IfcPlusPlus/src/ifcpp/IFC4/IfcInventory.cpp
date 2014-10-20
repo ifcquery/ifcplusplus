@@ -140,7 +140,7 @@ void IfcInventory::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_enti
 {
 	IfcGroup::setInverseCounterparts( ptr_self_entity );
 }
-void IfcInventory::unlinkSelf()
+void IfcInventory::unlinkFromInverseCounterparts()
 {
-	IfcGroup::unlinkSelf();
+	IfcGroup::unlinkFromInverseCounterparts();
 }

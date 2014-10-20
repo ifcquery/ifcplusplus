@@ -35,7 +35,7 @@ public:
 	IfcLightFixtureTypeEnum();
 	IfcLightFixtureTypeEnum( IfcLightFixtureTypeEnumEnum e ) { m_enum = e; }
 	~IfcLightFixtureTypeEnum();
-	virtual const char* classname() const { return "IfcLightFixtureTypeEnum"; }
+	virtual const char* className() const { return "IfcLightFixtureTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcLightFixtureTypeEnum> createObjectFromSTEP( const std::wstring& arg );

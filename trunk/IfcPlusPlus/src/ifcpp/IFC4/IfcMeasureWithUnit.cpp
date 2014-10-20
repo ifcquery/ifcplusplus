@@ -61,6 +61,6 @@ void IfcMeasureWithUnit::getAttributesInverse( std::vector<std::pair<std::string
 void IfcMeasureWithUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcMeasureWithUnit::unlinkSelf()
+void IfcMeasureWithUnit::unlinkFromInverseCounterparts()
 {
 }

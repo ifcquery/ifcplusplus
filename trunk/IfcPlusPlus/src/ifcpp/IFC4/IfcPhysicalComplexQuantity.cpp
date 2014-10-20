@@ -105,21 +105,24 @@ void IfcPhysicalComplexQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity>
 		}
 	}
 }
-void IfcPhysicalComplexQuantity::unlinkSelf()
+void IfcPhysicalComplexQuantity::unlinkFromInverseCounterparts()
 {
-	IfcPhysicalQuantity::unlinkSelf();
+	IfcPhysicalQuantity::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_HasQuantities.size(); ++i )
 	{
 		if( m_HasQuantities[i] )
 		{
 			std::vector<weak_ptr<IfcPhysicalComplexQuantity> >& PartOfComplex_inverse = m_HasQuantities[i]->m_PartOfComplex_inverse;
-			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); ++it_PartOfComplex_inverse)
+			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); )
 			{
 				shared_ptr<IfcPhysicalComplexQuantity> self_candidate( *it_PartOfComplex_inverse );
 				if( self_candidate.get() == this )
 				{
-					PartOfComplex_inverse.erase( it_PartOfComplex_inverse );
-					break;
+					it_PartOfComplex_inverse= PartOfComplex_inverse.erase( it_PartOfComplex_inverse );
+				}
+				else
+				{
+					++it_PartOfComplex_inverse;
 				}
 			}
 		}

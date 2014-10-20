@@ -27,7 +27,7 @@ public:
 	IfcRadioActivityMeasure();
 	IfcRadioActivityMeasure( double value );
 	~IfcRadioActivityMeasure();
-	virtual const char* classname() const { return "IfcRadioActivityMeasure"; }
+	virtual const char* className() const { return "IfcRadioActivityMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcRadioActivityMeasure> createObjectFromSTEP( const std::wstring& arg );

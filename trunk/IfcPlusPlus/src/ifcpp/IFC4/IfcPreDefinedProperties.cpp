@@ -52,7 +52,7 @@ void IfcPreDefinedProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 {
 	IfcPropertyAbstraction::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPreDefinedProperties::unlinkSelf()
+void IfcPreDefinedProperties::unlinkFromInverseCounterparts()
 {
-	IfcPropertyAbstraction::unlinkSelf();
+	IfcPropertyAbstraction::unlinkFromInverseCounterparts();
 }

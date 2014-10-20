@@ -117,21 +117,24 @@ void IfcRelServicesBuildings::setInverseCounterparts( shared_ptr<IfcPPEntity> pt
 		m_RelatingSystem->m_ServicesBuildings_inverse.push_back( ptr_self );
 	}
 }
-void IfcRelServicesBuildings::unlinkSelf()
+void IfcRelServicesBuildings::unlinkFromInverseCounterparts()
 {
-	IfcRelConnects::unlinkSelf();
+	IfcRelConnects::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedBuildings.size(); ++i )
 	{
 		if( m_RelatedBuildings[i] )
 		{
 			std::vector<weak_ptr<IfcRelServicesBuildings> >& ServicedBySystems_inverse = m_RelatedBuildings[i]->m_ServicedBySystems_inverse;
-			for( auto it_ServicedBySystems_inverse = ServicedBySystems_inverse.begin(); it_ServicedBySystems_inverse != ServicedBySystems_inverse.end(); ++it_ServicedBySystems_inverse)
+			for( auto it_ServicedBySystems_inverse = ServicedBySystems_inverse.begin(); it_ServicedBySystems_inverse != ServicedBySystems_inverse.end(); )
 			{
 				shared_ptr<IfcRelServicesBuildings> self_candidate( *it_ServicedBySystems_inverse );
 				if( self_candidate.get() == this )
 				{
-					ServicedBySystems_inverse.erase( it_ServicedBySystems_inverse );
-					break;
+					it_ServicedBySystems_inverse= ServicedBySystems_inverse.erase( it_ServicedBySystems_inverse );
+				}
+				else
+				{
+					++it_ServicedBySystems_inverse;
 				}
 			}
 		}
@@ -139,13 +142,16 @@ void IfcRelServicesBuildings::unlinkSelf()
 	if( m_RelatingSystem )
 	{
 		std::vector<weak_ptr<IfcRelServicesBuildings> >& ServicesBuildings_inverse = m_RelatingSystem->m_ServicesBuildings_inverse;
-		for( auto it_ServicesBuildings_inverse = ServicesBuildings_inverse.begin(); it_ServicesBuildings_inverse != ServicesBuildings_inverse.end(); ++it_ServicesBuildings_inverse)
+		for( auto it_ServicesBuildings_inverse = ServicesBuildings_inverse.begin(); it_ServicesBuildings_inverse != ServicesBuildings_inverse.end(); )
 		{
 			shared_ptr<IfcRelServicesBuildings> self_candidate( *it_ServicesBuildings_inverse );
 			if( self_candidate.get() == this )
 			{
-				ServicesBuildings_inverse.erase( it_ServicesBuildings_inverse );
-				break;
+				it_ServicesBuildings_inverse= ServicesBuildings_inverse.erase( it_ServicesBuildings_inverse );
+			}
+			else
+			{
+				++it_ServicesBuildings_inverse;
 			}
 		}
 	}

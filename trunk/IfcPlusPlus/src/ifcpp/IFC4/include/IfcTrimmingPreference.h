@@ -33,7 +33,7 @@ public:
 	IfcTrimmingPreference();
 	IfcTrimmingPreference( IfcTrimmingPreferenceEnum e ) { m_enum = e; }
 	~IfcTrimmingPreference();
-	virtual const char* classname() const { return "IfcTrimmingPreference"; }
+	virtual const char* className() const { return "IfcTrimmingPreference"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcTrimmingPreference> createObjectFromSTEP( const std::wstring& arg );

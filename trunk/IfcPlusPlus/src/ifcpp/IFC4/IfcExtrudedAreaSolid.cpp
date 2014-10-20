@@ -80,7 +80,7 @@ void IfcExtrudedAreaSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcSweptAreaSolid::setInverseCounterparts( ptr_self_entity );
 }
-void IfcExtrudedAreaSolid::unlinkSelf()
+void IfcExtrudedAreaSolid::unlinkFromInverseCounterparts()
 {
-	IfcSweptAreaSolid::unlinkSelf();
+	IfcSweptAreaSolid::unlinkFromInverseCounterparts();
 }

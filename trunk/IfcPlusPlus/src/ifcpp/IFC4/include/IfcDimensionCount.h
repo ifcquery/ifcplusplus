@@ -26,7 +26,7 @@ public:
 	IfcDimensionCount();
 	IfcDimensionCount( int value );
 	~IfcDimensionCount();
-	virtual const char* classname() const { return "IfcDimensionCount"; }
+	virtual const char* className() const { return "IfcDimensionCount"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcDimensionCount> createObjectFromSTEP( const std::wstring& arg );

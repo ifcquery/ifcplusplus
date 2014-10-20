@@ -44,7 +44,6 @@ set(IFCPPGEOMETRY_SOURCE_FILES
   src/ifcppgeometry/ProfileConverter.cpp
   src/ifcppgeometry/ReaderWriterIFC.cpp
   src/ifcppgeometry/RepresentationConverter.cpp
-  src/ifcppgeometry/SectionedSpine.cpp
   src/ifcppgeometry/SolidModelConverter.cpp
   src/ifcppgeometry/SplineConverter.cpp
   src/ifcppgeometry/StylesConverter.cpp

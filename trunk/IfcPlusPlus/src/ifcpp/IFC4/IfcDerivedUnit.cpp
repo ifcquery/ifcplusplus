@@ -79,6 +79,6 @@ void IfcDerivedUnit::getAttributesInverse( std::vector<std::pair<std::string, sh
 void IfcDerivedUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcDerivedUnit::unlinkSelf()
+void IfcDerivedUnit::unlinkFromInverseCounterparts()
 {
 }

@@ -137,7 +137,7 @@ void IfcTask::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
 	IfcProcess::setInverseCounterparts( ptr_self_entity );
 }
-void IfcTask::unlinkSelf()
+void IfcTask::unlinkFromInverseCounterparts()
 {
-	IfcProcess::unlinkSelf();
+	IfcProcess::unlinkFromInverseCounterparts();
 }

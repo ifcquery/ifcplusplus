@@ -57,7 +57,7 @@ void IfcPreDefinedColour::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_se
 {
 	IfcPreDefinedItem::setInverseCounterparts( ptr_self_entity );
 }
-void IfcPreDefinedColour::unlinkSelf()
+void IfcPreDefinedColour::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedItem::unlinkSelf();
+	IfcPreDefinedItem::unlinkFromInverseCounterparts();
 }

@@ -34,7 +34,7 @@ public:
 	IfcSolarDeviceTypeEnum();
 	IfcSolarDeviceTypeEnum( IfcSolarDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcSolarDeviceTypeEnum();
-	virtual const char* classname() const { return "IfcSolarDeviceTypeEnum"; }
+	virtual const char* className() const { return "IfcSolarDeviceTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcSolarDeviceTypeEnum> createObjectFromSTEP( const std::wstring& arg );

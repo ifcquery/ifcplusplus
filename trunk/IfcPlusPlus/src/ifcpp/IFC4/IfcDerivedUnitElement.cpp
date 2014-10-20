@@ -60,6 +60,6 @@ void IfcDerivedUnitElement::getAttributesInverse( std::vector<std::pair<std::str
 void IfcDerivedUnitElement::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcDerivedUnitElement::unlinkSelf()
+void IfcDerivedUnitElement::unlinkFromInverseCounterparts()
 {
 }

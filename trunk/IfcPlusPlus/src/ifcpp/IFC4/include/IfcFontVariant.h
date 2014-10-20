@@ -26,7 +26,7 @@ public:
 	IfcFontVariant();
 	IfcFontVariant( std::wstring value );
 	~IfcFontVariant();
-	virtual const char* classname() const { return "IfcFontVariant"; }
+	virtual const char* className() const { return "IfcFontVariant"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcFontVariant> createObjectFromSTEP( const std::wstring& arg );

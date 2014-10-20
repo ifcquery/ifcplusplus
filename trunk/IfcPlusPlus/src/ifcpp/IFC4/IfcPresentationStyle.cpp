@@ -55,6 +55,6 @@ void IfcPresentationStyle::getAttributesInverse( std::vector<std::pair<std::stri
 void IfcPresentationStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcPresentationStyle::unlinkSelf()
+void IfcPresentationStyle::unlinkFromInverseCounterparts()
 {
 }

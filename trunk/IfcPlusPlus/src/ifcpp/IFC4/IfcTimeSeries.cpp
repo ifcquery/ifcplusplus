@@ -108,6 +108,6 @@ void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, sha
 void IfcTimeSeries::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
 }
-void IfcTimeSeries::unlinkSelf()
+void IfcTimeSeries::unlinkFromInverseCounterparts()
 {
 }

@@ -123,7 +123,7 @@ void IfcSlabElementedCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_s
 {
 	IfcSlab::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSlabElementedCase::unlinkSelf()
+void IfcSlabElementedCase::unlinkFromInverseCounterparts()
 {
-	IfcSlab::unlinkSelf();
+	IfcSlab::unlinkFromInverseCounterparts();
 }

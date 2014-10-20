@@ -99,7 +99,7 @@ void IfcSectionReinforcementProperties::setInverseCounterparts( shared_ptr<IfcPP
 {
 	IfcPreDefinedProperties::setInverseCounterparts( ptr_self_entity );
 }
-void IfcSectionReinforcementProperties::unlinkSelf()
+void IfcSectionReinforcementProperties::unlinkFromInverseCounterparts()
 {
-	IfcPreDefinedProperties::unlinkSelf();
+	IfcPreDefinedProperties::unlinkFromInverseCounterparts();
 }

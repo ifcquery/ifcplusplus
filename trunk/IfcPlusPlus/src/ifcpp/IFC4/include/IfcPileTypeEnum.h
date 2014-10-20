@@ -38,7 +38,7 @@ public:
 	IfcPileTypeEnum();
 	IfcPileTypeEnum( IfcPileTypeEnumEnum e ) { m_enum = e; }
 	~IfcPileTypeEnum();
-	virtual const char* classname() const { return "IfcPileTypeEnum"; }
+	virtual const char* className() const { return "IfcPileTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	static shared_ptr<IfcPileTypeEnum> createObjectFromSTEP( const std::wstring& arg );
