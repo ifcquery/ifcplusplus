@@ -65,9 +65,11 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 	//m_plane_angle_factor = 1.0; // defaulting to radian
 	m_plane_angle_factor = M_PI/180.0; // defaulting to 360°
 	bool angle_factor_found = false;
+	bool length_factor_found = false;
 
 	if( !project->m_UnitsInContext )
 	{
+		messageCallback( "IfcProject.UnitsInContext not defined", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
 		return;
 	}
 
@@ -95,6 +97,7 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 							if( m_prefix_map.find( si_unit->m_Prefix->m_enum ) != m_prefix_map.end() )
 							{
 								m_length_unit_factor = m_prefix_map[si_unit->m_Prefix->m_enum];
+								length_factor_found = true;
 							}
 						}
 					}
@@ -135,6 +138,7 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 									if( length_measure )
 									{
 										m_length_unit_factor = length_measure->m_value;
+										length_factor_found = true;
 									}
 								}
 							}
@@ -172,6 +176,11 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 		}
 	}
 
+	if( !length_factor_found )
+	{
+		messageCallback( "No length unit definition found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+	}
+	
 	if( !angle_factor_found )
 	{
 		messageCallback( "No plane angle unit definition found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );

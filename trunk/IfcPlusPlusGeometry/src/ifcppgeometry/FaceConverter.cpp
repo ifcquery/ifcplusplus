@@ -86,7 +86,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 
 				if( basis_surface_placement )
 				{
-					PlacementConverter::convertIfcAxis2Placement3D( basis_surface_placement, curve_bounded_plane_matrix, length_factor );
+					PlacementConverter::convertIfcAxis2Placement3D( basis_surface_placement, length_factor, curve_bounded_plane_matrix );
 					//curve_bounded_plane_matrix = pos*curve_bounded_plane_matrix;
 				}
 			}
@@ -156,7 +156,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 		carve::math::Matrix elementary_surface_matrix;
 		if( elementary_surface_placement )
 		{
-			PlacementConverter::convertIfcAxis2Placement3D( elementary_surface_placement, elementary_surface_matrix, length_factor );
+			PlacementConverter::convertIfcAxis2Placement3D( elementary_surface_placement, length_factor, elementary_surface_matrix );
 			//elementary_surface_matrix = pos*elementary_surface_matrix;
 		}
 
@@ -227,7 +227,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 		carve::math::Matrix swept_surface_matrix;
 		if( swept_surface_placement )
 		{
-			PlacementConverter::convertIfcAxis2Placement3D( swept_surface_placement, swept_surface_matrix, length_factor );
+			PlacementConverter::convertIfcAxis2Placement3D( swept_surface_placement, length_factor, swept_surface_matrix );
 			//swept_surface_matrix = pos*swept_surface_matrix;
 		}
 
