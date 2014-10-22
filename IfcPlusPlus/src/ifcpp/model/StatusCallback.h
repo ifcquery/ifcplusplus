@@ -59,7 +59,7 @@ public:
 	virtual const char* className() { return "StatusCallback"; }
 
 	//\brief progress callback mechanism to update progress bar or similar
-	virtual void setProgressCallBack( void* obj_ptr, void (*func)(void*, double, const std::string& progress_type, const std::wstring& progress_text) )
+	virtual void setProgressCallBack( void* obj_ptr, void (*func)(void*, double value, const std::string& progress_type, const std::wstring& progress_text) )
 	{
 		m_obj_call_on_progress = obj_ptr;
 		m_func_call_on_progress = func;

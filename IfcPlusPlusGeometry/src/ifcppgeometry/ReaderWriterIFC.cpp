@@ -557,6 +557,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	group_name << "#" << product_id << "=" << product->className() << " group";
 	product_switch->setName( group_name.str().c_str() );
 	product_switch_curves->setName( "CurveRepresentation" );
+	const double length_factor = m_representation_converter->getUnitConverter()->getLengthInMeterFactor();
 
 	// evaluate IFC geometry
 	shared_ptr<IfcProductRepresentation>& product_representation = product->m_Representation;
@@ -588,7 +589,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	{
 		// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 		std::unordered_set<IfcObjectPlacement*> placement_already_applied;
-		m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( product->m_ObjectPlacement, product_placement_matrix, placement_already_applied );
+		m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( product->m_ObjectPlacement, length_factor, product_placement_matrix, placement_already_applied );
 	}
 
 	std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;

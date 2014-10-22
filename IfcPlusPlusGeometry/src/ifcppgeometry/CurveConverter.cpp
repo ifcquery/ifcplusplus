@@ -192,12 +192,12 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( conic_placement_select );
 			if( axis2placement2d )
 			{
-				m_placement_converter->convertIfcAxis2Placement2D( axis2placement2d, conic_position_matrix, length_factor );
+				m_placement_converter->convertIfcAxis2Placement2D( axis2placement2d, length_factor, conic_position_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select ) )
 			{
 				shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select );
-				m_placement_converter->convertIfcAxis2Placement3D( axis2placement3d, conic_position_matrix, length_factor );
+				m_placement_converter->convertIfcAxis2Placement3D( axis2placement3d, length_factor, conic_position_matrix );
 			}
 		}
 

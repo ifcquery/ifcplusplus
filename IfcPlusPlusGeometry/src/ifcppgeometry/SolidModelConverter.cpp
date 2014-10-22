@@ -114,7 +114,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		{
 			double length_factor = m_unit_converter->getLengthInMeterFactor();
 			shared_ptr<IfcAxis2Placement3D> swept_area_position = swept_area_solid->m_Position;
-			PlacementConverter::convertIfcAxis2Placement3D( swept_area_position, swept_area_pos, length_factor );
+			PlacementConverter::convertIfcAxis2Placement3D( swept_area_position, length_factor, swept_area_pos );
 		}
 
 		shared_ptr<IfcExtrudedAreaSolid> extruded_area = dynamic_pointer_cast<IfcExtrudedAreaSolid>(swept_area_solid);
@@ -804,7 +804,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	carve::math::Matrix primitive_placement_matrix;
 	if( primitive_placement )
 	{
-		PlacementConverter::convertIfcAxis2Placement3D( primitive_placement, primitive_placement_matrix, length_factor );
+		PlacementConverter::convertIfcAxis2Placement3D( primitive_placement, length_factor, primitive_placement_matrix );
 	}
 
 	shared_ptr<IfcBlock> block = dynamic_pointer_cast<IfcBlock>(csg_primitive);
@@ -1110,8 +1110,8 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 	carve::math::Matrix base_position_matrix( carve::math::Matrix::IDENT() );
 	if( base_surface_pos )
 	{
-		PlacementConverter::getPlane( base_surface_pos, base_surface_plane, base_surface_position, length_factor );
-		PlacementConverter::convertIfcAxis2Placement3D( base_surface_pos, base_position_matrix, length_factor );
+		PlacementConverter::getPlane( base_surface_pos, length_factor, base_surface_plane, base_surface_position );
+		PlacementConverter::convertIfcAxis2Placement3D( base_surface_pos, length_factor, base_position_matrix );
 	}
 
 	// If the agreement flag is TRUE, then the subset is the one the normal points away from
@@ -1220,7 +1220,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		carve::geom::vector<3> boundary_position;
 		if( polygonal_half_space->m_Position )
 		{
-			PlacementConverter::convertIfcAxis2Placement3D( polygonal_half_space->m_Position, boundary_position_matrix, length_factor );
+			PlacementConverter::convertIfcAxis2Placement3D( polygonal_half_space->m_Position, length_factor, boundary_position_matrix );
 			boundary_plane_normal = carve::geom::VECTOR( boundary_position_matrix._31, boundary_position_matrix._32, boundary_position_matrix._33 );
 			boundary_position = carve::geom::VECTOR( boundary_position_matrix._41, boundary_position_matrix._42, boundary_position_matrix._43 );
 		}

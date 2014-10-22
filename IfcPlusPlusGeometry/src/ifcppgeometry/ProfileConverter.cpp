@@ -369,6 +369,7 @@ void ProfileConverter::convertIfcCompositeProfileDef( const shared_ptr<IfcCompos
 
 void ProfileConverter::convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<vector2d_t > >& paths )
 {
+	const double length_factor = m_curve_converter->m_unit_converter->getLengthInMeterFactor();
 	ProfileConverter temp_profiler( m_curve_converter, m_spline_converter );
 	temp_profiler.computeProfile( derived_profile->m_ParentProfile );
 	const std::vector<std::vector<vector2d_t > >& parent_paths = temp_profiler.getCoordinates();
@@ -376,7 +377,7 @@ void ProfileConverter::convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedP
 	shared_ptr<IfcCartesianTransformationOperator2D> transf_op_2D = derived_profile->m_Operator;
 
 	carve::math::Matrix transform( carve::math::Matrix::IDENT() );
-	m_curve_converter->m_placement_converter->convertTransformationOperator( transf_op_2D, transform );
+	m_curve_converter->m_placement_converter->convertTransformationOperator( transf_op_2D, length_factor, transform );
 	for( int i = 0; i < parent_paths.size(); ++i )
 	{
 		const std::vector<vector2d_t >& loop_parent = parent_paths[i];
@@ -395,6 +396,7 @@ void ProfileConverter::convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedP
 
 void ProfileConverter::convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, std::vector<std::vector<vector2d_t > >& paths )
 {
+	const double length_factor = m_curve_converter->m_unit_converter->getLengthInMeterFactor();
 	std::vector<std::vector<vector2d_t > > temp_paths;
 	convertIfcParameterizedProfileDef( parameterized, temp_paths );
 
@@ -403,7 +405,7 @@ void ProfileConverter::convertIfcParameterizedProfileDefWithPosition( const shar
 	{
 		shared_ptr<IfcAxis2Placement2D> axis2Placement2D = parameterized->m_Position;
 		carve::math::Matrix transform( carve::math::Matrix::IDENT() );
-		m_curve_converter->m_placement_converter->convertIfcPlacement( axis2Placement2D, transform );
+		m_curve_converter->m_placement_converter->convertIfcPlacement( axis2Placement2D, length_factor, transform );
 
 		for( int i = 0; i < temp_paths.size(); ++i )
 		{
