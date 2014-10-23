@@ -13,6 +13,8 @@
 
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <map>
 #include "shared_ptr.h"
 #include "StatusCallback.h"
@@ -40,8 +42,12 @@ public:
 	void resetUnitConverter()
 	{
 		m_loaded_prefix.reset();
+		m_length_unit_factor = 1.0;
+		//m_plane_angle_factor = 1.0; // defaulting to radian
+		m_plane_angle_factor = M_PI/180.0; // defaulting to 360°
 	}
 
+protected:
 	std::map<int, double> m_prefix_map;
 	shared_ptr<IfcSIPrefix>	m_loaded_prefix;
 	double m_length_unit_factor;

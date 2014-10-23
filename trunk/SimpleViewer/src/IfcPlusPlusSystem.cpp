@@ -20,6 +20,7 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcppgeometry/ReaderWriterIFC.h>
 #include <ifcppgeometry/GeomUtils.h>
@@ -162,6 +163,12 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			selected_entity->osg_group = grp;
 			m_map_selected[id] = selected_entity;
 
+			bool site_selected = false;
+			if( grp->getName().find( "IfcSite" ) != std::string::npos )
+			{
+				site_selected = true;
+			}
+
 			for( int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
 			{
 				osg::Node* child_node = grp->getChild( child_ii );
@@ -169,11 +176,24 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				osgFX::Scribe* child_as_scribe = dynamic_cast<osgFX::Scribe*>(child_node);
 				if( !child_as_scribe )
 				{
-					// highlight object with an osgFX::Scribe
-					osgFX::Scribe* scribe = new osgFX::Scribe();
-					scribe->addChild(child_node);
-					scribe->setWireframeColor( osg::Vec4f( 0.98f, 0.98f, 0.22f, 0.9f ) );
-					grp->replaceChild(child_node,scribe);
+					bool select_child = true;
+					if( site_selected )
+					{
+						if( child_node->getName().find( "IfcBuilding" ) != std::string::npos )
+						{
+							// do not select building with site
+							select_child = false;
+						}
+					}
+					
+					if( select_child )
+					{
+						// highlight object with an osgFX::Scribe
+						osgFX::Scribe* scribe = new osgFX::Scribe();
+						scribe->addChild( child_node );
+						scribe->setWireframeColor( osg::Vec4f( 0.98f, 0.98f, 0.22f, 0.9f ) );
+						grp->replaceChild( child_node, scribe );
+					}
 				}
 			}
 		}

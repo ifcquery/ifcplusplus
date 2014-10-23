@@ -16,7 +16,6 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
 
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"

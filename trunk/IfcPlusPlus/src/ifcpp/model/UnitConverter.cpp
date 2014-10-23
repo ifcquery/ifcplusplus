@@ -33,9 +33,7 @@
 
 UnitConverter::UnitConverter()
 {
-	m_length_unit_factor = 1.0;
-	//m_plane_angle_factor = 1.0; // defaulting to radian
-	m_plane_angle_factor = M_PI/180.0; // defaulting to 360°
+	resetUnitConverter();
 
 	m_prefix_map[IfcSIPrefix::ENUM_EXA]		= 1E18;
 	m_prefix_map[IfcSIPrefix::ENUM_PETA]	= 1E15;
@@ -61,9 +59,7 @@ UnitConverter::~UnitConverter()
 
 void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 {
-	m_length_unit_factor = 1.0;
-	//m_plane_angle_factor = 1.0; // defaulting to radian
-	m_plane_angle_factor = M_PI/180.0; // defaulting to 360°
+	resetUnitConverter();
 	bool angle_factor_found = false;
 	bool length_factor_found = false;
 

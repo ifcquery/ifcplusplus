@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include <set>
 #include <sstream>
 #include <osg/Group>
 #include <osg/CullFace>
@@ -45,7 +46,7 @@ public:
 	**/
 	void createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group );
 	void convertIfcProduct(	const shared_ptr<IfcProduct>& product, shared_ptr<ShapeInputData>& product_shape );
-	void resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::ref_ptr<osg::Switch> parent_group );
+	void resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& obj_def, osg::ref_ptr<osg::Switch> group );
 
 	// getters and setters
 	void setModel( shared_ptr<IfcPPModel> model );
@@ -76,7 +77,6 @@ protected:
 	osg::ref_ptr<osg::CullFace>			m_cull_back_off;
 
 	std::map<int, shared_ptr<ShapeInputData> > m_shape_input_data;
-	std::map<int, shared_ptr<IfcPPObject> > m_map_visited;
 	std::map<int, shared_ptr<IfcPPObject> > m_map_outside_spatial_structure;
 	double m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Ticket> > > m_tickets;
