@@ -483,7 +483,7 @@ void IfcPPModel::clearIfcModel()
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";
-	m_unit_converter->m_loaded_prefix.reset();
+	m_unit_converter->resetUnitConverter();
 }
 
 void IfcPPModel::resetIfcModel()

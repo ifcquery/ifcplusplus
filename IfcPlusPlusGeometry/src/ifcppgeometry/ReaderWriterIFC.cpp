@@ -114,7 +114,6 @@ void ReaderWriterIFC::resetModel()
 void ReaderWriterIFC::clearInputCache()
 {
 	m_shape_input_data.clear();
-	m_map_visited.clear();
 	m_map_outside_spatial_structure.clear();
 	AppearanceManagerOSG::clearAppearanceCache();
 	m_representation_converter->getUnitConverter()->resetUnitConverter();
@@ -337,7 +336,6 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 		shared_ptr<IfcProject> ifc_project = m_ifc_model->getIfcProject();
 		if( ifc_project )
 		{
-			m_map_visited.clear();
 			resolveProjectStructure( ifc_project, parent_group );
 		}
 
@@ -404,46 +402,49 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 	progressCallback( 1.0, "geometry", L"Loading file done" );
 }
 
-void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& parent_obj_def, osg::ref_ptr<osg::Switch> parent_group )
+bool inParentList( const int entity_id, osg::Group* group )
 {
-	int entity_id = parent_obj_def->m_id;
-	if( m_map_visited.find( entity_id ) != m_map_visited.end() )
+	if( !group )
 	{
+		return false;
+	}
+	std::vector<osg::Group*>& vec_parents = group->getParents();
+	for( size_t ii = 0; ii < vec_parents.size(); ++ii )
+	{
+		osg::Group* parent = vec_parents[ii];
+		if( parent )
+		{
+			const std::string parent_name = parent->getName();
+			if( parent_name.length() == 0 ) continue;
+			if( parent_name.at(0) != '#' ) continue;
+			std::string parent_name_id = parent_name.substr( 1 );
+			size_t last_index = parent_name_id.find_first_not_of("0123456789");
+			std::string id_str = parent_name_id.substr( 0, last_index );
+			const int id = atoi( id_str.c_str() );
+			if( id == entity_id )
+			{
+				return true;
+			}
+			bool in_parent_list = inParentList( entity_id, parent );
+			if( in_parent_list )
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& obj_def, osg::ref_ptr<osg::Switch> group )
+{
+	const int entity_id = obj_def->m_id;
+	if( inParentList( entity_id, group ) )
+	{
+		messageCallback( "Cycle in project structure detected", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, obj_def.get() );
 		return;
 	}
-	m_map_visited[entity_id] = parent_obj_def;
 
-	osg::ref_ptr<osg::Switch> next_parent;
-	shared_ptr<IfcBuildingStorey> building_storey = dynamic_pointer_cast<IfcBuildingStorey>( parent_obj_def );
-	if( building_storey )
-	{
-		// building storeys need a switch and also a transform node
-		const int building_storey_id = building_storey->m_id;
-		osg::Switch* switch_building_storey = new osg::Switch();
-		if( !switch_building_storey )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-		std::stringstream storey_switch_name;
-		storey_switch_name << "#" << building_storey_id << "=IfcBuildingStorey switch";
-		switch_building_storey->setName( storey_switch_name.str().c_str() );
-
-		osg::ref_ptr<osg::MatrixTransform> transform_building_storey = new osg::MatrixTransform();
-		if( !transform_building_storey )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-		
-		std::stringstream storey_name;
-		storey_name << "#" << building_storey_id << "=IfcBuildingStorey transform";
-		transform_building_storey->setName( storey_name.str().c_str() );
-
-		parent_group->addChild( transform_building_storey );
-		transform_building_storey->addChild( switch_building_storey );
-		next_parent = switch_building_storey;
-	}
-
-	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( parent_obj_def );
+	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( obj_def );
 	if( ifc_product )
 	{
 		std::map<int, shared_ptr<ShapeInputData> >::iterator it_product_map = m_shape_input_data.find( entity_id );
@@ -460,76 +461,77 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 			osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
 			if( product_switch.valid() )
 			{
-				parent_group->addChild( product_switch );
-				next_parent = product_switch;
+				for( unsigned int product_child_i = 0; product_child_i < product_switch->getNumChildren(); ++product_child_i )
+				{
+					group->addChild( product_switch->getChild( product_child_i ) );
+				}
+				product_shape->product_switch = group;
+				group->setName( product_switch->getName() );
+
+				osg::StateSet* existing_stateset = product_switch->getStateSet();
+				if( existing_stateset )
+				{
+					group->setStateSet( existing_stateset );
+				}
 			}
 
 			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
 			if( product_switch_curves.valid() )
 			{
-				parent_group->addChild( product_switch_curves );
+				group->addChild( product_switch_curves );
+			}
+		}
+	}
+	
+	if( group->getName().size() < 1 )
+	{
+		std::stringstream switch_name;
+		switch_name << "#" << entity_id << "=" << obj_def->className();
+		group->setName( switch_name.str().c_str() );
+	}
+
+	std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = obj_def->m_IsDecomposedBy_inverse;
+	for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
+	{
+		shared_ptr<IfcRelAggregates> rel_aggregates( vec_IsDecomposedBy[ii] );
+		if( rel_aggregates )
+		{
+			std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = rel_aggregates->m_RelatedObjects;
+
+			for( size_t jj = 0; jj < vec_related_objects.size(); ++jj )
+			{
+				shared_ptr<IfcObjectDefinition> child_obj_def = vec_related_objects[jj];
+				if( child_obj_def )
+				{
+					osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
+					group->addChild( group_subparts );
+					resolveProjectStructure( child_obj_def, group_subparts );
+				}
 			}
 		}
 	}
 
-	if( parent_group->getName().size() < 1 )
-	{
-		std::stringstream switch_name;
-		switch_name << "#" << entity_id << "=" << parent_obj_def->className();
-		parent_group->setName( switch_name.str().c_str() );
-	}
-
-	shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>( parent_obj_def );
-	if( ifc_site )
-	{
-		// Append representation of IfcSite (terrain) to a separate node.
-		// When selecting or deleting terrain, children (buildings and all child items) should not be selected or deleted as well.
-		//
-		// m_group_result
-		//    |- IfcProject
-		//    |     |- IfcBuilding
-		//    |     |     |- IfcBuildingStorey
-		//    |     |     |      |----- IfcProduct
-		//    |     |     |      |- ...
-		//    |     |     |- IfcBuildingStorey
-		//    |     |- IfcBuilding
-		//    |- IfcSite    
-		//                    
-
-		next_parent = parent_group;
-	}
-
-	if( !next_parent )
-	{
-		next_parent = parent_group;
-	}
-
-	std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = parent_obj_def->m_IsDecomposedBy_inverse;
-	for( auto it_decomposed_by = vec_IsDecomposedBy.begin(); it_decomposed_by != vec_IsDecomposedBy.end(); ++it_decomposed_by )
-	{
-		shared_ptr<IfcRelAggregates> rel_aggregates( *it_decomposed_by );
-		std::vector<shared_ptr<IfcObjectDefinition> >& vec = rel_aggregates->m_RelatedObjects;
-
-		for( auto it_object_def = vec.begin(); it_object_def != vec.end(); ++it_object_def )
-		{
-			shared_ptr<IfcObjectDefinition> child_obj_def = ( *it_object_def );
-			resolveProjectStructure( child_obj_def, next_parent );
-		}
-	}
-
-	shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>( parent_obj_def );
+	shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>( obj_def );
 	if( spatial_ele )
 	{
-		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contained = spatial_ele->m_ContainsElements_inverse;
-		for( auto it_rel_contained = vec_contained.begin(); it_rel_contained != vec_contained.end(); ++it_rel_contained )
+		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
+		for( size_t ii = 0; ii < vec_contains.size(); ++ii )
 		{
-			shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( *it_rel_contained );
-			std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
-
-			for( auto it_related = vec_related_elements.begin(); it_related != vec_related_elements.end(); ++it_related )
+			shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( vec_contains[ii] );
+			if( rel_contained )
 			{
-				shared_ptr<IfcProduct> related_product = ( *it_related );
-				resolveProjectStructure( related_product, next_parent );
+				std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
+
+				for( size_t jj = 0; jj < vec_related_elements.size(); ++jj )
+				{
+					shared_ptr<IfcProduct> related_product = vec_related_elements[jj];
+					if( related_product )
+					{
+						osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
+						group->addChild( group_subparts );
+						resolveProjectStructure( related_product, group_subparts );
+					}
+				}
 			}
 		}
 	}

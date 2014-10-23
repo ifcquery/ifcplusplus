@@ -810,7 +810,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 		return;
 	}
 	const int product_id = ifc_element->m_id;
-	const int length_factor = m_unit_converter->getLengthInMeterFactor();
+	const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 	// convert opening representation
 	for( int i_void = 0; i_void < vec_rel_voids.size(); ++i_void )
