@@ -47,7 +47,6 @@ bool LoadIfcFileCommand::doCmd()
 
 	shared_ptr<ViewController> vc = m_system->getViewController();
 	osg::ref_ptr<osg::Switch> model_switch = vc->m_sw_model;
-	//osg::ref_ptr<osg::Switch> model_group = new osg::Switch();
 	model_switch->removeChildren( 0, model_switch->getNumChildren() );
 	m_system->clearSelection();
 

@@ -244,11 +244,11 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 			catch( IfcPPException& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "", representation_item.get() );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representation_item.get() );
 			}
 			catch( std::exception& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, representation_item.get() );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, representation_item.get() );
 			}
 			continue;
 		}
@@ -259,13 +259,13 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			shared_ptr<IfcRepresentationMap> map_source = mapped_item->m_MappingSource;
 			if( !map_source )
 			{
-				messageCallback( "MappingSource not valid", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, representation_item.get() );
+				messageCallback( "MappingSource not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
 				continue;
 			}
 			shared_ptr<IfcRepresentation> mapped_representation = map_source->m_MappedRepresentation;
 			if( !mapped_representation )
 			{
-				messageCallback( "MappingSource.MappedRepresentation not valid", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, representation_item.get() );
+				messageCallback( "MappingSource.MappedRepresentation not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
 				continue;
 			}
 
@@ -287,7 +287,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 				}
 				else
 				{
-					messageCallback( "!dynamic_pointer_cast<IfcPlacement>( mapping_origin )", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, mapping_origin_placement.get() );
+					messageCallback( "!dynamic_pointer_cast<IfcPlacement>( mapping_origin )", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, mapping_origin_placement.get() );
 					continue;
 				}
 			}
@@ -308,11 +308,11 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 			catch( IfcPPException& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 			}
 			catch( std::exception& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 			}
 
 			if( m_handle_styled_items )
@@ -428,7 +428,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 		}
 
-		messageCallback( "unhandled representation", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, representation_item.get() );
+		messageCallback( "unhandled representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
 	}
 
 	if( m_handle_layer_assignments )
@@ -798,7 +798,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		return;
 	}
 
-	messageCallback( "Unhandled IFC Representation", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, geom_item.get() );
+	messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get() );
 }
 
 void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ShapeInputData>& product_shape )
@@ -864,11 +864,11 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 			}
 			catch( IfcPPException& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "", ifc_element.get() );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 			}
 			catch( std::exception& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "", ifc_element.get() );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 			}
 
 			for( size_t i_item = 0; i_item < opening_representation_data->vec_item_data.size(); ++i_item )
@@ -917,11 +917,11 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 				}
 				catch( IfcPPException& e )
 				{
-					messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "", ifc_element.get() );
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
 				catch( std::exception& e )
 				{
-					messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, ifc_element.get() );
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get() );
 				}
 				unified_opening_meshset = result;
 			}
@@ -958,11 +958,11 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 				}
 				catch( IfcPPException& e )
 				{
-					messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "", ifc_element.get() );
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
 				catch( std::exception& e )
 				{
-					messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, ifc_element.get() );
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get() );
 				}
 				product_meshset = result;
 			}

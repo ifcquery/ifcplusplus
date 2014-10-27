@@ -146,7 +146,7 @@ void ProfileConverter::computeProfile( shared_ptr<IfcProfileDef> profile_def )
 		return;
 	}
 
-	messageCallback( "Profile not supported", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, profile_def.get() );
+	messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
 }
 
 void ProfileConverter::addAvoidingDuplicates( const std::vector<vector2d_t >& polygon, std::vector<std::vector<vector2d_t > >& paths )
@@ -363,7 +363,7 @@ void ProfileConverter::convertIfcCompositeProfileDef( const shared_ptr<IfcCompos
 			continue;
 		}
 
-		messageCallback( "Profile not supported", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, profile_def.get() );
+		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
 	}
 }
 
@@ -1025,7 +1025,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 		return;
 	}
 
-	messageCallback( "Profile not supported", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, profile.get() );
+	messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile.get() );
 }
 
 void ProfileConverter::deleteLastPointIfEqualToFirst( std::vector<vector2d_t >& coords )

@@ -24,75 +24,52 @@ class IfcPPEntity;
 class StatusCallback
 {
 public:
-	enum SeverityLevel { STATUS_SEVERITY_UNKNOWN, STATUS_SEVERITY_MESSAGE, STATUS_SEVERITY_WARNING, STATUS_SEVERITY_MINOR_WARNING, STATUS_SEVERITY_ERROR };
-	/*\class Ticket
-	  \brief Combines all information about a problem message
+	enum MessageType
+	{
+		MESSAGE_TYPE_UNKNOWN,
+		MESSAGE_TYPE_GENERAL_MESSAGE,
+		MESSAGE_TYPE_PROGRESS_VALUE,	//\brief Progress mechanism to update progress bar or similar.
+		MESSAGE_TYPE_PROGRESS_TEXT,		//\brief Progress mechanism to update text in progress bar or similar.
+		MESSAGE_TYPE_MINOR_WARNING,
+		MESSAGE_TYPE_WARNING,
+		MESSAGE_TYPE_ERROR
+	};
+	/*\class Message
+	  \brief Combines all information about a status message, being it a general message, a warning, error, or a notification about a progress (for example during reading of a file).
 	*/
-	class Ticket
+	class Message
 	{
 	public:
-		StatusCallback::Ticket::Ticket(){}
-		StatusCallback::Ticket::Ticket( const std::string& message, StatusCallback::SeverityLevel level, const char* reporting_function, IfcPPEntity* entity = nullptr )
-			: m_level(level), m_reporting_function(reporting_function), m_entity(entity)
+		/*\brief Default constructor.
+		**/
+		StatusCallback::Message::Message()
 		{
-			m_message.assign( message.begin(), message.end() );
-		}
-		StatusCallback::Ticket::Ticket( const std::wstring& message, StatusCallback::SeverityLevel level, const char* reporting_function, IfcPPEntity* entity = nullptr )
-			: m_message(message), m_level(level), m_reporting_function(reporting_function), m_entity(entity)
-		{
+			m_message_type = MessageType::MESSAGE_TYPE_UNKNOWN;
+			m_reporting_function = "";
+			m_entity = nullptr;
+			m_progress_value = -1;
 		}
 
-		std::wstring m_message;
-		SeverityLevel m_level;
-		const char* m_reporting_function;
-		IfcPPEntity* m_entity;
+		std::wstring m_message;				// Message text.
+		MessageType m_message_type;			// Type of message (warning, error etc.).
+		const char* m_reporting_function;	// Function name where the message is sent from. You can use the __FUNC__ macro from IfcPPException.h.
+		IfcPPEntity* m_entity;				// IFC entity in case the message applies to a certain entity.
+
+		double m_progress_value;			// Value of progress [0...1]. If negative value is given, the progress itself is ignored, for example when only the progress text is updated.
+		std::string m_progress_type;		// Type of progress, for example "parse", "geometry".
+		std::wstring m_progress_text;		// A text that describes the current actions. It can be used for example to set a text on the progress bar.
 	};
 
 	StatusCallback()
 	{
-		unsetProgressCallBack();
 		unsetMessageCallBack();
 	}
 	~StatusCallback()
 	{
 	}
-	virtual const char* className() { return "StatusCallback"; }
-
-	//\brief progress callback mechanism to update progress bar or similar
-	virtual void setProgressCallBack( void* obj_ptr, void (*func)(void*, double value, const std::string& progress_type, const std::wstring& progress_text) )
-	{
-		m_obj_call_on_progress = obj_ptr;
-		m_func_call_on_progress = func;
-
-		// pass to children
-		for( auto it = m_callback_children.begin(); it != m_callback_children.end(); ++it )
-		{
-			StatusCallback* child = *it;
-			if( child )
-			{
-				child->setProgressCallBack( obj_ptr, func );
-			}
-		}
-	}
-
-	virtual void unsetProgressCallBack()
-	{
-		m_obj_call_on_progress = nullptr;
-		m_func_call_on_progress = nullptr;
-
-		// pass to children
-		for( auto it = m_callback_children.begin(); it != m_callback_children.end(); ++it )
-		{
-			StatusCallback* child = *it;
-			if( child )
-			{
-				child->unsetProgressCallBack();
-			}
-		}
-	}
 
 	//\brief error callback mechanism to show messages in gui
-	virtual void setMessageCallBack( void* obj_ptr, void (*func)(void*, shared_ptr<Ticket> t) )
+	virtual void setMessageCallBack( void* obj_ptr, void (*func)(void*, shared_ptr<Message> t) )
 	{
 		m_obj_call_on_message = obj_ptr;
 		m_func_call_on_message = func;
@@ -125,35 +102,8 @@ public:
 	}
 
 protected:
-	/*\brief Trigger the callback to set a progress, for example in a progress bar.
-	  \param[in] progress Value of progress [0...1]. If negative value is given, the progress itself is ignored, for example when only the progress text is updated.
-	  \param[in] progress_type Type of progress, for example "parse", "geometry"
-	  \param[in] progress_text Text that describes the current actions. It can be used for example to set a text on the progress bar.
-	**/
-	void progressCallback(double progress_value, const std::string& progress_type, const std::wstring& progress_text = L"" )
-	{
-#ifdef _DEBUG
-		if( !m_func_call_on_progress )
-		{
-			std::cout << "progressCallback not set." << std::endl;
-		}
-		if( !m_obj_call_on_progress )
-		{
-			std::cout << "progressCallback not set." << std::endl;
-		}
-#endif
-
-		if( m_func_call_on_progress )
-		{
-			if( m_obj_call_on_progress )
-			{
-				m_func_call_on_progress( m_obj_call_on_progress, progress_value, progress_type, progress_text );
-			}
-		}
-	}
-
 	//\brief trigger the callback to pass a message, warning, or error, for example to store in a logfile
-	virtual void messageCallback( shared_ptr<Ticket> t )
+	virtual void messageCallback( shared_ptr<Message> t )
 	{
 #ifdef _DEBUG
 		if( !m_func_call_on_message )
@@ -178,13 +128,39 @@ protected:
 		}
 	}
 
-	virtual void messageCallback( const std::string& message, SeverityLevel level, const char* reporting_function, IfcPPEntity* entity = nullptr )
+	virtual void messageCallback( const std::string& message_text, MessageType type, const char* reporting_function, IfcPPEntity* entity = nullptr )
 	{
-		messageCallback( shared_ptr<Ticket>( new Ticket( message, level, reporting_function, entity ) ) );
+		shared_ptr<Message> message( new Message() );
+		message->m_message.assign( message_text.begin(), message_text.end() );
+		message->m_message_type = type;
+		message->m_reporting_function = reporting_function;
+		message->m_entity = entity;
+		messageCallback( message );
 	}
-	virtual void messageCallback( const std::wstring& message, SeverityLevel level, const char* reporting_function, IfcPPEntity* entity = nullptr )
+	virtual void messageCallback( const std::wstring& message_text, MessageType type, const char* reporting_function, IfcPPEntity* entity = nullptr )
 	{
-		messageCallback( shared_ptr<Ticket>( new Ticket( message, level, reporting_function, entity ) ) );
+		shared_ptr<Message> message( new Message() );
+		message->m_message.assign( message_text.c_str() );
+		message->m_message_type = type;
+		message->m_reporting_function = reporting_function;
+		message->m_entity = entity;
+		messageCallback( message );
+	}
+	virtual void progressValueCallback( double progress_value, const std::string& progress_type )
+	{
+		shared_ptr<Message> progress_message( new Message() );
+		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_VALUE;
+		progress_message->m_progress_value = progress_value;
+		progress_message->m_progress_type.assign( progress_type.c_str() );
+		messageCallback( progress_message );
+	}
+	virtual void progressTextCallback( const std::wstring& progress_text )
+	{
+		shared_ptr<Message> progress_message( new Message() );
+		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_TEXT;
+		progress_message->m_progress_value = -1;
+		progress_message->m_progress_text.assign( progress_text.c_str() );
+		messageCallback( progress_message );
 	}
 
 	//\brief callbacks are set to children as well
@@ -206,14 +182,6 @@ protected:
 				child->setMessageCallBack( m_obj_call_on_message, m_func_call_on_message );
 			}
 		}
-
-		if( m_obj_call_on_progress )
-		{
-			if( m_func_call_on_progress )
-			{
-				child->setProgressCallBack( m_obj_call_on_progress, m_func_call_on_progress );
-			}
-		}
 	}
 	void removeCallbackChild( StatusCallback* remove_child )
 	{
@@ -223,7 +191,6 @@ protected:
 			if( child == remove_child )
 			{
 				child->unsetMessageCallBack();
-				child->unsetProgressCallBack();
 				it = m_callback_children.erase( it );
 			}
 			else
@@ -240,23 +207,16 @@ protected:
 			if( child )
 			{
 				child->unsetMessageCallBack();
-				child->unsetProgressCallBack();
 			}
 		}
 		m_callback_children.clear();
 	}
 
-	//\brief pointer to the object on which the progress callback function is called
-	void* m_obj_call_on_progress;
-
-	//\brief pointer to the callback function for progress
-	void (*m_func_call_on_progress)(void*, double progress, const std::string& progress_type, const std::wstring& progress_text);
-
-	//\brief pointer to the object on which the message callback function is called
+	//\brief Pointer to the object on which the message callback function is called.
 	void* m_obj_call_on_message;
 
-	//\brief pointer to the callback function for messages
-	void (*m_func_call_on_message)(void*, shared_ptr<Ticket> t);
+	//\brief Pointer to the callback function for messages.
+	void (*m_func_call_on_message)(void*, shared_ptr<Message> t);
 
 	std::vector<StatusCallback*> m_callback_children;
 #ifdef IFCPP_OPENMP

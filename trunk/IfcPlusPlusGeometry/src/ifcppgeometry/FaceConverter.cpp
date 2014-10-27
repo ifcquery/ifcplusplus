@@ -333,11 +333,11 @@ void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >&
 			// not a fatal error, just mesh is not closed
 			if( report_entity )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_WARNING, "", report_entity );  // calling function already in e.what()
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", report_entity );  // calling function already in e.what()
 			}
 			else
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_WARNING, "" );  // calling function already in e.what()
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_WARNING, "" );  // calling function already in e.what()
 			}
 		}
 	}

@@ -62,9 +62,8 @@ public:
 	void clearInputCache();
 	void resetModel();
 
-	// progress and message callback wrappers
-	static void slotProgressWrapper( void* obj_ptr, double value, const std::string& type, const std::wstring& txt );
-	static void slotMessageWrapper( void* obj_ptr, shared_ptr<StatusCallback::Ticket> t );
+	// message callback wrappers
+	static void slotMessageWrapper( void* obj_ptr, shared_ptr<StatusCallback::Message> m );
 
 protected:
 	shared_ptr<IfcPPModel>				m_ifc_model;
@@ -79,8 +78,8 @@ protected:
 	std::map<int, shared_ptr<ShapeInputData> > m_shape_input_data;
 	std::map<int, shared_ptr<IfcPPObject> > m_map_outside_spatial_structure;
 	double m_recent_progress;
-	std::map<int, std::vector<shared_ptr<StatusCallback::Ticket> > > m_tickets;
+	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef IFCPP_OPENMP
-	Mutex m_writelock_tickets;
+	Mutex m_writelock_messages;
 #endif
 };
