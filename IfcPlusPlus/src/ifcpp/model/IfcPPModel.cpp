@@ -237,7 +237,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		}
 		else
 		{
-			messageCallback( "Entity already in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e.get() );
+			messageCallback( "Entity already in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
 		}
 	}
 	else
@@ -251,12 +251,12 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	{
 		if( !product->m_GlobalId )
 		{
-			messageCallback( "IfcProduct->m_GlobalId not set", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, product.get() );
+			messageCallback( "IfcProduct->m_GlobalId not set", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, product.get() );
 			return;
 		}
 		if( product->m_GlobalId->m_value.length() < 22 )
 		{
-			messageCallback( "IfcProduct->m_GlobalId.length() < 22", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, product.get() );
+			messageCallback( "IfcProduct->m_GlobalId.length() < 22", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, product.get() );
 		}
 	}
 #endif
@@ -268,14 +268,14 @@ void IfcPPModel::removeEntity( shared_ptr<IfcPPEntity> e )
 {
 	if( !e )
 	{
-		messageCallback( "Entity not valid", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e.get() );
+		messageCallback( "Entity not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
 		return;
 	}
 	int remove_id = e->m_id;
 	auto it_find = m_map_entities.find(remove_id);
 	if( it_find == m_map_entities.end() )
 	{
-		messageCallback( "Entity not found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, e.get() );
+		messageCallback( "Entity not found in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
 		return;
 	}
 	shared_ptr<IfcPPEntity> entity_found = it_find->second;

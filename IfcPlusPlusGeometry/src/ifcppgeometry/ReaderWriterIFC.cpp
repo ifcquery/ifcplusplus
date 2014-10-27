@@ -16,6 +16,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <regex>
 
 #include <osg/MatrixTransform>
 #include <osg/CullFace>
@@ -79,12 +80,6 @@ ReaderWriterIFC::ReaderWriterIFC()
 	m_step_writer->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
 	m_representation_converter->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
 
-	// redirect progress callback to ReaderWriterIFC::slotProgressWrapper
-	m_ifc_model->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
-	m_step_reader->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
-	m_step_writer->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
-	m_representation_converter->setProgressCallBack( this, &ReaderWriterIFC::slotProgressWrapper );
-
 	m_glass_stateset = new osg::StateSet();
 	m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 	m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
@@ -98,13 +93,14 @@ ReaderWriterIFC::~ReaderWriterIFC()
 
 void ReaderWriterIFC::resetModel()
 {
-	progressCallback( -1, "", L"Unloading model, cleaning up memory..." );
+	progressTextCallback( L"Unloading model, cleaning up memory..." );
 	clearInputCache();
 	m_recent_progress = 0.0;
 	
 	m_ifc_model->clearCache();
 	m_ifc_model->clearIfcModel();
-	progressCallback( 0.0, "parse", L"Unloading model done" );
+	progressTextCallback( L"Unloading model done" );
+	progressValueCallback( 0.0, "parse" );
 
 #ifdef _DEBUG
 	CSG_Adapter::clearMeshsetDump();
@@ -118,7 +114,7 @@ void ReaderWriterIFC::clearInputCache()
 	AppearanceManagerOSG::clearAppearanceCache();
 	m_representation_converter->getUnitConverter()->resetUnitConverter();
 	m_representation_converter->clearCache();
-	m_tickets.clear();
+	m_messages.clear();
 }
 
 void ReaderWriterIFC::resetNumVerticesPerCircle()
@@ -147,20 +143,20 @@ void ReaderWriterIFC::loadModelFromFile( const std::string& file_path )
 	else if( boost::iequals( ext, "ifcXML" ) )
 	{
 		// TODO: implement xml reader
-		messageCallback( "ifcXML not yet implemented", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 	else if( boost::iequals( ext, "ifcZIP" ) )
 	{
 		// TODO: implement zip uncompress
-		messageCallback( "ifcZIP not yet implemented", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( "ifcZIP not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 	else
 	{
 		std::stringstream strs;
 		strs << "Unsupported file type: " << ext;
-		messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 
@@ -172,7 +168,7 @@ void ReaderWriterIFC::loadModelFromFile( const std::string& file_path )
 	{
 		std::stringstream strs;
 		strs << "Could not open file: " << file_path.c_str();
-		messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 
@@ -188,7 +184,8 @@ void ReaderWriterIFC::loadModelFromFile( const std::string& file_path )
 	infile.read( &buffer[0], length );
 	infile.close();
 
-	progressCallback( 0, "parse", L"Reading STEP data..." );
+	progressTextCallback( L"Reading STEP data..." );
+	progressValueCallback( 0, "parse" );
 
 	try
 	{
@@ -204,21 +201,22 @@ void ReaderWriterIFC::loadModelFromFile( const std::string& file_path )
 	}
 	catch( IfcPPException& e )
 	{
-		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 	}
 	catch( std::exception& e )
 	{
-		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 	}
 	catch( ... )
 	{
-		messageCallback( "An error occured", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( "An error occured", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 }
 
 void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group )
 {
-	progressCallback( 0, "geometry", L"Creating geometry..." );
+	progressTextCallback( L"Creating geometry..." );
+	progressValueCallback( 0, "geometry" );
 	m_shape_input_data.clear();
 	m_map_outside_spatial_structure.clear();
 	m_representation_converter->clearCache();
@@ -307,7 +305,7 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 
 				if( thread_err.tellp() > 0 )
 				{
-					messageCallback( thread_err.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+					messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 				}
 			}
 
@@ -321,7 +319,7 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 #endif
 				{
 					// leave 10% of progress to openscenegraph internals
-					progressCallback( progress*0.9, "geometry" );
+					progressValueCallback( progress*0.9, "geometry" );
 					m_recent_progress = progress;
 				}
 			}
@@ -387,19 +385,20 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 	}
 	catch( IfcPPException& e )
 	{
-		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 	}
 	catch( std::exception& e )
 	{
-		messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 	}
 	catch( ... )
 	{
-		messageCallback( "undefined error", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( "undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 
 	m_representation_converter->getProfileCache()->clearProfileCache();
-	progressCallback( 1.0, "geometry", L"Loading file done" );
+	progressTextCallback( L"Loading file done" );
+	progressValueCallback( 1.0, "geometry" );
 }
 
 bool inParentList( const int entity_id, osg::Group* group )
@@ -415,20 +414,32 @@ bool inParentList( const int entity_id, osg::Group* group )
 		if( parent )
 		{
 			const std::string parent_name = parent->getName();
-			if( parent_name.length() == 0 ) continue;
-			if( parent_name.at(0) != '#' ) continue;
-			std::string parent_name_id = parent_name.substr( 1 );
-			size_t last_index = parent_name_id.find_first_not_of("0123456789");
-			std::string id_str = parent_name_id.substr( 0, last_index );
-			const int id = atoi( id_str.c_str() );
-			if( id == entity_id )
+			if( parent_name.length() > 0 )
 			{
-				return true;
-			}
-			bool in_parent_list = inParentList( entity_id, parent );
-			if( in_parent_list )
-			{
-				return true;
+				if( parent_name.at( 0 ) == '#' )
+				{
+					// extract entity id
+					std::tr1::cmatch res;
+					std::tr1::regex rx( "#([0-9]+)" );
+					if( std::tr1::regex_search( parent_name.c_str(), res, rx ) )
+					{
+						const int id = atoi( res[1].str().c_str() );
+
+						//std::string parent_name_id = parent_name.substr( 1 );
+						//size_t last_index = parent_name_id.find_first_not_of("0123456789");
+						//std::string id_str = parent_name_id.substr( 0, last_index );
+						//const int id = atoi( id_str.c_str() );
+						if( id == entity_id )
+						{
+							return true;
+						}
+						bool in_parent_list = inParentList( entity_id, parent );
+						if( in_parent_list )
+						{
+							return true;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -440,7 +451,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 	const int entity_id = obj_def->m_id;
 	if( inParentList( entity_id, group ) )
 	{
-		messageCallback( "Cycle in project structure detected", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, obj_def.get() );
+		messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, obj_def.get() );
 		return;
 	}
 
@@ -577,11 +588,11 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 		}
 		catch( IfcPPException& e )
 		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 		}
 		catch( std::exception& e )
 		{
-			messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "" );
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 		}
 	}
 
@@ -877,16 +888,9 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 	}
 }
 
-void ReaderWriterIFC::slotProgressWrapper( void* obj_ptr, double value, const std::string& type, const std::wstring& txt )
-{
-	ReaderWriterIFC* myself = (ReaderWriterIFC*)obj_ptr;
-	if( myself )
-	{
-		myself->progressCallback( value, type, txt );
-	}
-}
 
-void ReaderWriterIFC::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Ticket> t )
+
+void ReaderWriterIFC::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> t )
 {
 	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
 	if( myself )
@@ -894,30 +898,30 @@ void ReaderWriterIFC::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::
 		if( t->m_entity )
 		{
 #ifdef IFCPP_OPENMP
-			ScopedLock lock( myself->m_writelock_tickets );
+			ScopedLock lock( myself->m_writelock_messages );
 #endif
 
 			// make sure that the same message for one entity does not appear several times
 			const int entity_id = t->m_entity->m_id;
 
-			std::map<int, std::vector<shared_ptr<StatusCallback::Ticket> > >::iterator it = myself->m_tickets.find( entity_id );
-			if( it != myself->m_tickets.end() )
+			std::map<int, std::vector<shared_ptr<StatusCallback::Message> > >::iterator it = myself->m_messages.find( entity_id );
+			if( it != myself->m_messages.end() )
 			{
-				std::vector<shared_ptr<StatusCallback::Ticket> >& vec_tickets_for_entity = it->second;
-				for( size_t i = 0; i < vec_tickets_for_entity.size(); ++i )
+				std::vector<shared_ptr<StatusCallback::Message> >& vec_message_for_entity = it->second;
+				for( size_t i = 0; i < vec_message_for_entity.size(); ++i )
 				{
-					shared_ptr<StatusCallback::Ticket>& existing_ticket = vec_tickets_for_entity[i];
-					if( existing_ticket->m_message.compare( t->m_message ) == 0 )
+					shared_ptr<StatusCallback::Message>& existing_message = vec_message_for_entity[i];
+					if( existing_message->m_message.compare( t->m_message ) == 0 )
 					{
-						// same message for same entity is already there, so ignore ticket
+						// same message for same entity is already there, so ignore message
 						return;
 					}
 				}
-				vec_tickets_for_entity.push_back( t );
+				vec_message_for_entity.push_back( t );
 			}
 			else
 			{
-				std::vector<shared_ptr<StatusCallback::Ticket> >& vec = myself->m_tickets.insert( std::make_pair( entity_id, std::vector<shared_ptr<StatusCallback::Ticket> >() ) ).first->second;
+				std::vector<shared_ptr<StatusCallback::Message> >& vec = myself->m_messages.insert( std::make_pair( entity_id, std::vector<shared_ptr<StatusCallback::Message> >() ) ).first->second;
 				vec.push_back( t );
 			}
 		}

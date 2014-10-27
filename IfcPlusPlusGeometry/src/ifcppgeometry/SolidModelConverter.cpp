@@ -96,7 +96,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcProfileDef>& swept_area = swept_area_solid->m_SweptArea;
 		if( !swept_area )
 		{
-			messageCallback( "SweptArea not valid", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, swept_area_solid.get() );
+			messageCallback( "SweptArea not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, swept_area_solid.get() );
 			return;
 		}
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
@@ -197,7 +197,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			return;
 		}
 
-		messageCallback( "Unhandled IFC Representation", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, solid_model.get() );
+		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 	}
 
 	shared_ptr<IfcManifoldSolidBrep> manifold_solid_brep = dynamic_pointer_cast<IfcManifoldSolidBrep>(solid_model);	
@@ -241,7 +241,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			return;
 		}
 
-		messageCallback( "Unhandled IFC Representation", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, solid_model.get() );
+		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 	}
 
 	shared_ptr<IfcCsgSolid> csg_solid = dynamic_pointer_cast<IfcCsgSolid>(solid_model);
@@ -324,20 +324,20 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		return;
 	}
 
-	messageCallback( "Unhandled IFC Representation", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, solid_model.get() );
+	messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 }
 
 void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemData> item_data )
 {
 	if( !extruded_area->m_ExtrudedDirection )
 	{
-		messageCallback( "Invalid ExtrudedDirection", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, extruded_area.get() );
+		messageCallback( "Invalid ExtrudedDirection", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, extruded_area.get() );
 		return;
 	}
 
 	if( !extruded_area->m_Depth )
 	{
-		messageCallback( "Invalid Depth", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, extruded_area.get() );
+		messageCallback( "Invalid Depth", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, extruded_area.get() );
 		return;
 	}
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -359,7 +359,7 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 	shared_ptr<IfcProfileDef>	swept_area = extruded_area->m_SweptArea;
 	if( !swept_area )
 	{
-		messageCallback( "Invalid SweptArea", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, extruded_area.get() );
+		messageCallback( "Invalid SweptArea", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, extruded_area.get() );
 		return;
 	}
 	shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter(swept_area);
@@ -387,7 +387,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	shared_ptr<IfcProfileDef> swept_area_profile = revolved_area->m_SweptArea;
 	if( !swept_area_profile )
 	{
-		messageCallback( "Invalid SweptArea", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, revolved_area.get() );
+		messageCallback( "Invalid SweptArea", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
 		return;
 	}
 	double revolution_angle = revolved_area->m_Angle->m_value*angle_factor;
@@ -466,7 +466,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	{
 		std::stringstream err;
 		err << "abs( signed_area ) < 1.e-6";
-		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_MINOR_WARNING, __FUNC__, revolved_area.get() );
+		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, revolved_area.get() );
 	}
 
 
@@ -484,7 +484,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 
 			if( loop_number >= profile_coords.size() )
 			{
-				messageCallback( "loop_number >= profile_coords.size()", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+				messageCallback( "loop_number >= profile_coords.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 				continue;
 			}
 
@@ -498,18 +498,18 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	}
 	catch(...)
 	{
-		messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+		messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 		return;
 	}
 
 	if( profile_coords.size() == 0 )
 	{
-		messageCallback( "profile_coords.size() == 0", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+		messageCallback( "profile_coords.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 		return;
 	}
 	if( profile_coords[0].size() < 3 )
 	{
-		messageCallback( "profile_coords[0].size() < 3", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+		messageCallback( "profile_coords[0].size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 		return;
 	}
 
@@ -621,7 +621,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		double A = 0.5*(cross( pa-pb, pa-pc ).length());
 		if( std::abs(A) < 0.000000001 )
 		{
-			messageCallback( "std::abs(A) < 0.000000001", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+			messageCallback( "std::abs(A) < 0.000000001", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 		}
 #endif
 
@@ -667,7 +667,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh(carve::input::opts()) );
 	if( meshset->meshes.size() != 1 )
 	{
-		messageCallback( "meshset->meshes.size() != 1", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, revolved_area.get() );
+		messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 		return;
 	}
 	std::stringstream strs_err;
@@ -694,7 +694,7 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	shared_ptr<IfcBooleanOperand> ifc_second_operand = bool_result->m_SecondOperand;
 	if( !ifc_boolean_operator || !ifc_first_operand || !ifc_second_operand )
 	{
-		messageCallback( "Invalid IfcBooleanOperator or IfcBooleanOperand", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, bool_result.get() );
+		messageCallback( "Invalid IfcBooleanOperator or IfcBooleanOperand", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, bool_result.get() );
 		return;
 	}
 	carve::csg::CSG::OP csg_operation = carve::csg::CSG::A_MINUS_B;
@@ -713,7 +713,7 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	}
 	else
 	{
-		messageCallback( "Invalid IfcBooleanOperator", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, bool_result.get() );
+		messageCallback( "Invalid IfcBooleanOperator", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, bool_result.get() );
 		return;
 	}
 
@@ -767,11 +767,11 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 			}
 			catch( IfcPPException& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, "", bool_result.get() ); // __FUNC__ is already in exception.what()
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", bool_result.get() ); // __FUNC__ is already in exception.what()
 			}
 			catch( std::exception& e )
 			{
-				messageCallback( e.what(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, bool_result.get() );
+				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, bool_result.get() );
 			}
 			first_operand_meshset = result;
 		}
@@ -900,12 +900,12 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	{
 		if( !right_circular_cone->m_Height )
 		{
-			messageCallback( "Invalid Height", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, csg_primitive.get() );
+			messageCallback( "Invalid Height", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 			return;
 		}
 		if( !right_circular_cone->m_BottomRadius )
 		{
-			messageCallback( "Invalid BottomRadius", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, csg_primitive.get() );
+			messageCallback( "Invalid BottomRadius", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 			return;
 		}
 
@@ -946,13 +946,13 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	{
 		if( !right_circular_cylinder->m_Height )
 		{
-			messageCallback( "Invalid Height", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, csg_primitive.get() );
+			messageCallback( "Invalid Height", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 			return;
 		}
 
 		if( !right_circular_cylinder->m_Radius )
 		{
-			messageCallback( "Invalid Radius", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, csg_primitive.get() );
+			messageCallback( "Invalid Radius", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 			return;
 		}
 
@@ -991,7 +991,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 	{
 		if( !sphere->m_Radius )
 		{
-			messageCallback( "Invalid Radius", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, csg_primitive.get() );
+			messageCallback( "Invalid Radius", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 			return;
 		}
 
@@ -1064,7 +1064,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
 	}
-	messageCallback( "Unhandled IFC Representation", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, csg_primitive.get() );
+	messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 }
 
 void extrudeBox( const std::vector<carve::geom::vector<3> >& boundary_points, const carve::geom::vector<3>& extrusion_vector, shared_ptr<carve::input::PolyhedronData>& box_data )
@@ -1101,7 +1101,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 	shared_ptr<IfcElementarySurface> elem_base_surface = dynamic_pointer_cast<IfcElementarySurface>( base_surface );
 	if( !elem_base_surface )
 	{
-		messageCallback( "The base surface shall be an unbounded surface (subtype of IfcElementarySurface)", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, half_space_solid.get() );
+		messageCallback( "The base surface shall be an unbounded surface (subtype of IfcElementarySurface)", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, half_space_solid.get() );
 		return;
 	}
 	shared_ptr<IfcAxis2Placement3D>& base_surface_pos = elem_base_surface->m_Position;
@@ -1127,13 +1127,13 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		shared_ptr<IfcBoundingBox> bbox = boxed_half_space->m_Enclosure;
 		if( !bbox )
 		{
-			messageCallback( "Enclosure not given", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, half_space_solid.get() );
+			messageCallback( "Enclosure not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, half_space_solid.get() );
 			return;
 		}
 
 		if( !bbox->m_Corner || !bbox->m_XDim || !bbox->m_YDim || !bbox->m_ZDim )
 		{
-			messageCallback( "Enclosure not valid", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, half_space_solid.get() );
+			messageCallback( "Enclosure not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, half_space_solid.get() );
 			return;
 		}
 		shared_ptr<IfcCartesianPoint>&			bbox_corner = bbox->m_Corner;
@@ -1247,7 +1247,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		
 		if( polygonal_halfspace_item_data->meshsets.size() != 1 )
 		{
-			messageCallback( "polygonal_halfspace_item_data->meshsets.size() != 1", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, polygonal_half_space.get() );
+			messageCallback( "polygonal_halfspace_item_data->meshsets.size() != 1", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
 			return;
 		}
 
@@ -1260,7 +1260,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		if( num_poly_points % 2 )
 		{
 			// num_poly_points is odd
-			messageCallback( "num_poly_points should be an even number", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, polygonal_half_space.get() );
+			messageCallback( "num_poly_points should be an even number", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
 			return;
 		}
 
@@ -1303,7 +1303,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 			}
 			else
 			{
-				messageCallback( "no intersection found", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__, polygonal_half_space.get() );
+				messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, polygonal_half_space.get() );
 			}
 		}
 
@@ -1329,7 +1329,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 
 			if( base_surface_points.size() != 4 )
 			{
-				messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, polygonal_half_space.get() );
+				messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
 				return;
 			}
 			// If the agreement flag is TRUE, then the subset is the one the normal points away from
@@ -1414,7 +1414,7 @@ void SolidModelConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectione
 	const shared_ptr<IfcCompositeCurve> spine_curve = spine->m_SpineCurve;
 	if( !spine_curve )
 	{
-		messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__, spine.get() );
+		messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, spine.get() );
 		return;
 	}
 	const std::vector<shared_ptr<IfcProfileDef> >& vec_cross_sections = spine->m_CrossSections;

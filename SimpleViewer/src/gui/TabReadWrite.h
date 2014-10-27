@@ -42,16 +42,15 @@ public:
 	TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidget* parent = 0 );
 	~TabReadWrite();
 
-	static void slotProgressWrapper( void* obj_ptr, double value, const std::string& type, const std::wstring& progress_text );
-	static void slotMessageWrapper( void* obj_ptr, shared_ptr<StatusCallback::Ticket> t );
-	void slotProgressValue( double value, const std::string& progress_type, const std::wstring& progress_text );
+	static void slotMessageWrapper( void* obj_ptr, shared_ptr<StatusCallback::Message> t );
 	void closeEvent( QCloseEvent *event );
 
 public slots:
 	void slotTxtOut( QString txt );
 	void slotTxtOutWarning( QString txt );
 	void slotTxtOutError( QString txt );
-	
+	void slotProgressValue( double progress_value, const std::string& progress_type );
+
 	void slotLoadIfcFile( QString& path );
 	void slotRecentFilesIndexChanged(int);
 	void updateRecentFilesCombo();

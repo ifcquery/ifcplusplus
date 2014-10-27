@@ -251,7 +251,7 @@ void IfcPPReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector
 {
 	// set progress to 0
 	double progress = 0.0;
-	progressCallback(progress, "parse");
+	progressValueCallback(progress, "parse");
 
 	// find beginning of data lines
 	const size_t length = read_in.length();
@@ -325,7 +325,7 @@ void IfcPPReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector
 				if( progress_since_anchor > 0.03 )
 				{
 					progress = 0.2*(double)( stream_pos - &read_in[0] ) / double(length);
-					progressCallback(progress, "parse");
+					progressValueCallback(progress, "parse");
 					progress_anchor = stream_pos;
 				}
 			}
@@ -400,7 +400,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
-						progressCallback( progress, "parse" );
+						progressValueCallback( progress, "parse" );
 						last_progress = progress;
 					}
 				}
@@ -495,7 +495,7 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 	{
 		std::stringstream strs;
 		strs << "Could not read STEP line: " << line.c_str();
-		messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 	std::map<std::string,IfcPPEntityEnum>::iterator it_entity_enum = map_string2entity_enum.find( keyword );
@@ -520,7 +520,7 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 		{
 			std::stringstream strs;
 			strs << "Could not create object of type " << keyword << ", entity id " << entity_id;
-			messageCallback( strs.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+			messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		}
 	}
 }
@@ -534,7 +534,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 
 	// set progress
 	double progress = 0.3;
-	progressCallback( progress, "parse" );
+	progressValueCallback( progress, "parse" );
 	double last_progress = 0.3;
 	const std::map<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
 	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* vec_entities_ptr = &vec_entities;
@@ -608,7 +608,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
-						progressCallback( progress, "parse" );
+						progressValueCallback( progress, "parse" );
 						last_progress = progress;
 					}
 				}
@@ -618,7 +618,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	
 	if( err.tellp() > 0 )
 	{
-		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 }
 
@@ -639,8 +639,8 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 		std::wstring error_message;
 		error_message.append( L"Unsupported IFC version: " );
 		error_message.append( ifc_version.m_IFC_FILE_SCHEMA );
-		messageCallback( error_message, StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
-		progressCallback(0.0, "parse");
+		messageCallback( error_message, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		progressValueCallback(0.0, "parse");
 		return;
 	}
 	
@@ -648,7 +648,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	{
 		return;
 	}
-	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version.m_IFC_FILE_SCHEMA, StatusCallback::STATUS_SEVERITY_MESSAGE, "" );
+	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version.m_IFC_FILE_SCHEMA, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;
@@ -721,7 +721,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	setlocale(LC_NUMERIC,current_numeric_locale);
 	if( err.tellp() > 0 )
 	{
-		messageCallback( err.str().c_str(), StatusCallback::STATUS_SEVERITY_ERROR, __FUNC__ );
+		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 }
 

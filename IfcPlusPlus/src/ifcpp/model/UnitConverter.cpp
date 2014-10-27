@@ -65,7 +65,7 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 
 	if( !project->m_UnitsInContext )
 	{
-		messageCallback( "IfcProject.UnitsInContext not defined", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "IfcProject.UnitsInContext not defined", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
 		return;
 	}
 
@@ -174,11 +174,11 @@ void UnitConverter::setIfcProject(shared_ptr<IfcProject> project)
 
 	if( !length_factor_found )
 	{
-		messageCallback( "No length unit definition found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "No length unit definition found in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
 	}
 	
 	if( !angle_factor_found )
 	{
-		messageCallback( "No plane angle unit definition found in model", StatusCallback::STATUS_SEVERITY_WARNING, __FUNC__ );
+		messageCallback( "No plane angle unit definition found in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
 	}
 }
