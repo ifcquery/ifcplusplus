@@ -27,8 +27,8 @@
 #include "include/IfcTrimmingSelect.h"
 
 // ENTITY IfcTrimmedCurve 
-IfcTrimmedCurve::IfcTrimmedCurve() {}
-IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_id = id; }
+IfcTrimmedCurve::IfcTrimmedCurve() { m_entity_enum = IFCTRIMMEDCURVE; }
+IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_id = id; m_entity_enum = IFCTRIMMEDCURVE; }
 IfcTrimmedCurve::~IfcTrimmedCurve() {}
 shared_ptr<IfcPPObject> IfcTrimmedCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -73,7 +73,7 @@ void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
 	readSelectList( args[1], m_Trim1, map );
 	readSelectList( args[2], m_Trim2, map );

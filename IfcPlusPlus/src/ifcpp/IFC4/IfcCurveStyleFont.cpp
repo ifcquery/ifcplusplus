@@ -24,8 +24,8 @@
 #include "include/IfcLabel.h"
 
 // ENTITY IfcCurveStyleFont 
-IfcCurveStyleFont::IfcCurveStyleFont() {}
-IfcCurveStyleFont::IfcCurveStyleFont( int id ) { m_id = id; }
+IfcCurveStyleFont::IfcCurveStyleFont() { m_entity_enum = IFCCURVESTYLEFONT; }
+IfcCurveStyleFont::IfcCurveStyleFont( int id ) { m_id = id; m_entity_enum = IFCCURVESTYLEFONT; }
 IfcCurveStyleFont::~IfcCurveStyleFont() {}
 shared_ptr<IfcPPObject> IfcCurveStyleFont::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -53,7 +53,7 @@ void IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcCurveStyleFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyleFont, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFont, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReferenceList( args[1], m_PatternList, map );
 }

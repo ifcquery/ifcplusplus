@@ -48,8 +48,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcSurfaceFeature 
-IfcSurfaceFeature::IfcSurfaceFeature() {}
-IfcSurfaceFeature::IfcSurfaceFeature( int id ) { m_id = id; }
+IfcSurfaceFeature::IfcSurfaceFeature() { m_entity_enum = IFCSURFACEFEATURE; }
+IfcSurfaceFeature::IfcSurfaceFeature( int id ) { m_id = id; m_entity_enum = IFCSURFACEFEATURE; }
 IfcSurfaceFeature::~IfcSurfaceFeature() {}
 shared_ptr<IfcPPObject> IfcSurfaceFeature::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -99,7 +99,7 @@ void IfcSurfaceFeature::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcSurfaceFeature::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSurfaceFeature, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceFeature, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

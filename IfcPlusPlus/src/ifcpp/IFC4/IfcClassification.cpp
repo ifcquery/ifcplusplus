@@ -29,8 +29,8 @@
 #include "include/IfcURIReference.h"
 
 // ENTITY IfcClassification 
-IfcClassification::IfcClassification() {}
-IfcClassification::IfcClassification( int id ) { m_id = id; }
+IfcClassification::IfcClassification() { m_entity_enum = IFCCLASSIFICATION; }
+IfcClassification::IfcClassification( int id ) { m_id = id; m_entity_enum = IFCCLASSIFICATION; }
 IfcClassification::~IfcClassification() {}
 shared_ptr<IfcPPObject> IfcClassification::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -73,7 +73,7 @@ void IfcClassification::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcClassification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Source = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Edition = IfcLabel::createObjectFromSTEP( args[1] );
 	m_EditionDate = IfcDate::createObjectFromSTEP( args[2] );

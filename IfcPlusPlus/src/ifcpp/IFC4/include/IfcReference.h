@@ -42,10 +42,10 @@ public:
 
 	// IfcReference -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>					m_TypeIdentifier;			//optional
-	shared_ptr<IfcIdentifier>					m_AttributeIdentifier;		//optional
-	shared_ptr<IfcLabel>							m_InstanceName;				//optional
-	std::vector<int >							m_ListPositions;			//optional
-	shared_ptr<IfcReference>						m_InnerReference;			//optional
+	shared_ptr<IfcIdentifier>	m_TypeIdentifier;			//optional
+	shared_ptr<IfcIdentifier>	m_AttributeIdentifier;		//optional
+	shared_ptr<IfcLabel>		m_InstanceName;				//optional
+	std::vector<int >			m_ListPositions;			//optional
+	shared_ptr<IfcReference>	m_InnerReference;			//optional
 };
 

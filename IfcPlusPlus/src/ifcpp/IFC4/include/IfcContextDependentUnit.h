@@ -41,8 +41,8 @@ public:
 
 	// IfcNamedUnit -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcDimensionalExponents>						m_Dimensions;
-	//  shared_ptr<IfcUnitEnum>									m_UnitType;
+	//  shared_ptr<IfcDimensionalExponents>							m_Dimensions;
+	//  shared_ptr<IfcUnitEnum>										m_UnitType;
 
 	// IfcContextDependentUnit -----------------------------------------------------------
 	// attributes:

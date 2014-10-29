@@ -39,48 +39,48 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcObjectDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssigns> >		m_HasAssignments_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >			m_Nests_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >			m_IsNestedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >		m_IsDecomposedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >		m_Decomposes_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >		m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelAssigns> >				m_HasAssignments_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >					m_Nests_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >					m_IsNestedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >			m_IsDecomposedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >			m_Decomposes_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcObject -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_ObjectType;				//optional
+	//  shared_ptr<IfcLabel>								m_ObjectType;				//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDefinesByObject> >	m_IsDeclaredBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByObject> >	m_Declares_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByType> >	m_IsTypedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByObject> >		m_IsDeclaredBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByObject> >		m_Declares_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByType> >			m_IsTypedBy_inverse;
 	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_IsDefinedBy_inverse;
 
 	// IfcControl -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcIdentifier>					m_Identification;			//optional
+	//  shared_ptr<IfcIdentifier>							m_Identification;			//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssignsToControl> >	m_Controls_inverse;
+	//  std::vector<weak_ptr<IfcRelAssignsToControl> >		m_Controls_inverse;
 
 	// IfcWorkControl -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcDateTime>						m_CreationDate;
-	//  std::vector<shared_ptr<IfcPerson> >			m_Creators;					//optional
-	//  shared_ptr<IfcLabel>							m_Purpose;					//optional
-	//  shared_ptr<IfcDuration>						m_Duration;					//optional
-	//  shared_ptr<IfcDuration>						m_TotalFloat;				//optional
-	//  shared_ptr<IfcDateTime>						m_StartTime;
-	//  shared_ptr<IfcDateTime>						m_FinishTime;				//optional
+	//  shared_ptr<IfcDateTime>								m_CreationDate;
+	//  std::vector<shared_ptr<IfcPerson> >					m_Creators;					//optional
+	//  shared_ptr<IfcLabel>								m_Purpose;					//optional
+	//  shared_ptr<IfcDuration>								m_Duration;					//optional
+	//  shared_ptr<IfcDuration>								m_TotalFloat;				//optional
+	//  shared_ptr<IfcDateTime>								m_StartTime;
+	//  shared_ptr<IfcDateTime>								m_FinishTime;				//optional
 
 	// IfcWorkPlan -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcWorkPlanTypeEnum>				m_PredefinedType;			//optional
+	shared_ptr<IfcWorkPlanTypeEnum>						m_PredefinedType;			//optional
 };
 

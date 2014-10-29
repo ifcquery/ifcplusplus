@@ -23,8 +23,8 @@
 #include "include/IfcLabel.h"
 
 // ENTITY IfcDraughtingPreDefinedColour 
-IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour() {}
-IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour( int id ) { m_id = id; }
+IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour() { m_entity_enum = IFCDRAUGHTINGPREDEFINEDCOLOUR; }
+IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour( int id ) { m_id = id; m_entity_enum = IFCDRAUGHTINGPREDEFINEDCOLOUR; }
 IfcDraughtingPreDefinedColour::~IfcDraughtingPreDefinedColour() {}
 shared_ptr<IfcPPObject> IfcDraughtingPreDefinedColour::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -42,7 +42,7 @@ void IfcDraughtingPreDefinedColour::getStepParameter( std::stringstream& stream,
 void IfcDraughtingPreDefinedColour::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDraughtingPreDefinedColour, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDraughtingPreDefinedColour, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 }
 void IfcDraughtingPreDefinedColour::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

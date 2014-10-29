@@ -43,8 +43,8 @@ public:
 
 	// IfcPersonAndOrganization -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPerson>						m_ThePerson;
-	shared_ptr<IfcOrganization>					m_TheOrganization;
-	std::vector<shared_ptr<IfcActorRole> >		m_Roles;					//optional
+	shared_ptr<IfcPerson>					m_ThePerson;
+	shared_ptr<IfcOrganization>				m_TheOrganization;
+	std::vector<shared_ptr<IfcActorRole> >	m_Roles;					//optional
 };
 

@@ -38,17 +38,17 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileTypeEnum>				m_ProfileType;
-	//  shared_ptr<IfcLabel>							m_ProfileName;				//optional
+	//  shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
+	//  shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
-	//  std::vector<weak_ptr<IfcProfileProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 
 	// IfcDerivedProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileDef>					m_ParentProfile;
-	//  shared_ptr<IfcCartesianTransformationOperator2D>	m_Operator;
-	//  shared_ptr<IfcLabel>							m_Label;					//optional
+	//  shared_ptr<IfcProfileDef>									m_ParentProfile;
+	//  shared_ptr<IfcCartesianTransformationOperator2D>			m_Operator;
+	//  shared_ptr<IfcLabel>										m_Label;					//optional
 
 	// IfcMirroredProfileDef -----------------------------------------------------------
 };

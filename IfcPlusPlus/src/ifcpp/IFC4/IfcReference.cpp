@@ -24,8 +24,8 @@
 #include "include/IfcReference.h"
 
 // ENTITY IfcReference 
-IfcReference::IfcReference() {}
-IfcReference::IfcReference( int id ) { m_id = id; }
+IfcReference::IfcReference() { m_entity_enum = IFCREFERENCE; }
+IfcReference::IfcReference( int id ) { m_id = id; m_entity_enum = IFCREFERENCE; }
 IfcReference::~IfcReference() {}
 shared_ptr<IfcPPObject> IfcReference::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -55,7 +55,7 @@ void IfcReference::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReference, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReference, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TypeIdentifier = IfcIdentifier::createObjectFromSTEP( args[0] );
 	m_AttributeIdentifier = IfcIdentifier::createObjectFromSTEP( args[1] );
 	m_InstanceName = IfcLabel::createObjectFromSTEP( args[2] );

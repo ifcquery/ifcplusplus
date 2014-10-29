@@ -40,21 +40,21 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>					m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>						m_OwnerHistory;				//optional
 	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcText>								m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
 	// IfcRelAssigns -----------------------------------------------------------
 	// attributes:
 	//  std::vector<shared_ptr<IfcObjectDefinition> >	m_RelatedObjects;
-	//  shared_ptr<IfcObjectTypeEnum>				m_RelatedObjectsType;		//optional
+	//  shared_ptr<IfcObjectTypeEnum>					m_RelatedObjectsType;		//optional
 
 	// IfcRelAssignsToProcess -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcProcessSelect>					m_RelatingProcess;
-	shared_ptr<IfcMeasureWithUnit>				m_QuantityInProcess;		//optional
+	shared_ptr<IfcMeasureWithUnit>					m_QuantityInProcess;		//optional
 };
 

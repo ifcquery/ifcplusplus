@@ -25,8 +25,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCompositeCurve 
-IfcCompositeCurve::IfcCompositeCurve() {}
-IfcCompositeCurve::IfcCompositeCurve( int id ) { m_id = id; }
+IfcCompositeCurve::IfcCompositeCurve() { m_entity_enum = IFCCOMPOSITECURVE; }
+IfcCompositeCurve::IfcCompositeCurve( int id ) { m_id = id; m_entity_enum = IFCCOMPOSITECURVE; }
 IfcCompositeCurve::~IfcCompositeCurve() {}
 shared_ptr<IfcPPObject> IfcCompositeCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -56,7 +56,7 @@ void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }

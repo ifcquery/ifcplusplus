@@ -48,8 +48,8 @@ public:
 	shared_ptr<IfcLengthMeasure>					m_Eastings;
 	shared_ptr<IfcLengthMeasure>					m_Northings;
 	shared_ptr<IfcLengthMeasure>					m_OrthogonalHeight;
-	shared_ptr<IfcReal>							m_XAxisAbscissa;			//optional
-	shared_ptr<IfcReal>							m_XAxisOrdinate;			//optional
-	shared_ptr<IfcReal>							m_Scale;					//optional
+	shared_ptr<IfcReal>								m_XAxisAbscissa;			//optional
+	shared_ptr<IfcReal>								m_XAxisOrdinate;			//optional
+	shared_ptr<IfcReal>								m_Scale;					//optional
 };
 

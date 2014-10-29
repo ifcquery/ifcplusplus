@@ -29,8 +29,8 @@
 #include "include/IfcTextPath.h"
 
 // ENTITY IfcTextLiteralWithExtent 
-IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() {}
-IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_id = id; }
+IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() { m_entity_enum = IFCTEXTLITERALWITHEXTENT; }
+IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_id = id; m_entity_enum = IFCTEXTLITERALWITHEXTENT; }
 IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() {}
 shared_ptr<IfcPPObject> IfcTextLiteralWithExtent::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -60,7 +60,7 @@ void IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool
 void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0] );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 	m_Path = IfcTextPath::createObjectFromSTEP( args[2] );

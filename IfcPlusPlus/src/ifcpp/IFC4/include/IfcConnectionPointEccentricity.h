@@ -41,13 +41,13 @@ public:
 
 	// IfcConnectionPointGeometry -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcPointOrVertexPoint>			m_PointOnRelatingElement;
-	//  shared_ptr<IfcPointOrVertexPoint>			m_PointOnRelatedElement;	//optional
+	//  shared_ptr<IfcPointOrVertexPoint>	m_PointOnRelatingElement;
+	//  shared_ptr<IfcPointOrVertexPoint>	m_PointOnRelatedElement;	//optional
 
 	// IfcConnectionPointEccentricity -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLengthMeasure>					m_EccentricityInX;			//optional
-	shared_ptr<IfcLengthMeasure>					m_EccentricityInY;			//optional
-	shared_ptr<IfcLengthMeasure>					m_EccentricityInZ;			//optional
+	shared_ptr<IfcLengthMeasure>		m_EccentricityInX;			//optional
+	shared_ptr<IfcLengthMeasure>		m_EccentricityInY;			//optional
+	shared_ptr<IfcLengthMeasure>		m_EccentricityInZ;			//optional
 };
 

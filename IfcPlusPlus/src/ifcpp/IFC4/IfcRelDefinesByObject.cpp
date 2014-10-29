@@ -27,8 +27,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcRelDefinesByObject 
-IfcRelDefinesByObject::IfcRelDefinesByObject() {}
-IfcRelDefinesByObject::IfcRelDefinesByObject( int id ) { m_id = id; }
+IfcRelDefinesByObject::IfcRelDefinesByObject() { m_entity_enum = IFCRELDEFINESBYOBJECT; }
+IfcRelDefinesByObject::IfcRelDefinesByObject( int id ) { m_id = id; m_entity_enum = IFCRELDEFINESBYOBJECT; }
 IfcRelDefinesByObject::~IfcRelDefinesByObject() {}
 shared_ptr<IfcPPObject> IfcRelDefinesByObject::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -76,7 +76,7 @@ void IfcRelDefinesByObject::getStepParameter( std::stringstream& stream, bool ) 
 void IfcRelDefinesByObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelDefinesByObject, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDefinesByObject, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

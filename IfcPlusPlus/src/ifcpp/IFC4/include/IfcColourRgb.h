@@ -42,12 +42,12 @@ public:
 
 	// IfcColourSpecification -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>					m_Name;						//optional
 
 	// IfcColourRgb -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcNormalisedRatioMeasure>		m_Red;
-	shared_ptr<IfcNormalisedRatioMeasure>		m_Green;
-	shared_ptr<IfcNormalisedRatioMeasure>		m_Blue;
+	shared_ptr<IfcNormalisedRatioMeasure>	m_Red;
+	shared_ptr<IfcNormalisedRatioMeasure>	m_Green;
+	shared_ptr<IfcNormalisedRatioMeasure>	m_Blue;
 };
 

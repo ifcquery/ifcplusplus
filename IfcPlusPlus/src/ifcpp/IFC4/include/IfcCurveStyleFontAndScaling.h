@@ -44,8 +44,8 @@ public:
 
 	// IfcCurveStyleFontAndScaling -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Name;						//optional
-	shared_ptr<IfcCurveStyleFontSelect>			m_CurveFont;
-	shared_ptr<IfcPositiveRatioMeasure>			m_CurveFontScaling;
+	shared_ptr<IfcLabel>				m_Name;						//optional
+	shared_ptr<IfcCurveStyleFontSelect>	m_CurveFont;
+	shared_ptr<IfcPositiveRatioMeasure>	m_CurveFontScaling;
 };
 

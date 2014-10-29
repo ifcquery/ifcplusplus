@@ -23,8 +23,8 @@
 #include "include/IfcPresentationStyleSelect.h"
 
 // ENTITY IfcPresentationStyleAssignment 
-IfcPresentationStyleAssignment::IfcPresentationStyleAssignment() {}
-IfcPresentationStyleAssignment::IfcPresentationStyleAssignment( int id ) { m_id = id; }
+IfcPresentationStyleAssignment::IfcPresentationStyleAssignment() { m_entity_enum = IFCPRESENTATIONSTYLEASSIGNMENT; }
+IfcPresentationStyleAssignment::IfcPresentationStyleAssignment( int id ) { m_id = id; m_entity_enum = IFCPRESENTATIONSTYLEASSIGNMENT; }
 IfcPresentationStyleAssignment::~IfcPresentationStyleAssignment() {}
 shared_ptr<IfcPPObject> IfcPresentationStyleAssignment::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -49,7 +49,7 @@ void IfcPresentationStyleAssignment::getStepParameter( std::stringstream& stream
 void IfcPresentationStyleAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPresentationStyleAssignment, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationStyleAssignment, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readSelectList( args[0], m_Styles, map );
 }
 void IfcPresentationStyleAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

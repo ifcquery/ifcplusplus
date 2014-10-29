@@ -29,8 +29,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcFixedReferenceSweptAreaSolid 
-IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid() {}
-IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_id = id; }
+IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid() { m_entity_enum = IFCFIXEDREFERENCESWEPTAREASOLID; }
+IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_id = id; m_entity_enum = IFCFIXEDREFERENCESWEPTAREASOLID; }
 IfcFixedReferenceSweptAreaSolid::~IfcFixedReferenceSweptAreaSolid() {}
 shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -67,7 +67,7 @@ void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& strea
 void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Directrix, map );

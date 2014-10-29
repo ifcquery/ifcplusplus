@@ -26,8 +26,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCylindricalSurface 
-IfcCylindricalSurface::IfcCylindricalSurface() {}
-IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_id = id; }
+IfcCylindricalSurface::IfcCylindricalSurface() { m_entity_enum = IFCCYLINDRICALSURFACE; }
+IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_id = id; m_entity_enum = IFCCYLINDRICALSURFACE; }
 IfcCylindricalSurface::~IfcCylindricalSurface() {}
 shared_ptr<IfcPPObject> IfcCylindricalSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -48,7 +48,7 @@ void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool ) 
 void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 }

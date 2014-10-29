@@ -39,17 +39,17 @@ public:
 
 	// IfcRepresentation -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcRepresentationContext>			m_ContextOfItems;
-	//  shared_ptr<IfcLabel>							m_RepresentationIdentifier;	//optional
-	//  shared_ptr<IfcLabel>							m_RepresentationType;		//optional
-	//  std::vector<shared_ptr<IfcRepresentationItem> >	m_Items;
+	//  shared_ptr<IfcRepresentationContext>					m_ContextOfItems;
+	//  shared_ptr<IfcLabel>									m_RepresentationIdentifier;	//optional
+	//  shared_ptr<IfcLabel>									m_RepresentationType;		//optional
+	//  std::vector<shared_ptr<IfcRepresentationItem> >			m_Items;
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRepresentationMap> >	m_RepresentationMap_inverse;
+	//  std::vector<weak_ptr<IfcRepresentationMap> >			m_RepresentationMap_inverse;
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignments_inverse;
-	//  std::vector<weak_ptr<IfcProductRepresentation> >	m_OfProductRepresentation_inverse;
+	//  std::vector<weak_ptr<IfcProductRepresentation> >		m_OfProductRepresentation_inverse;
 
 	// IfcShapeModel -----------------------------------------------------------
 	// inverse attributes:
-	std::vector<weak_ptr<IfcShapeAspect> >		m_OfShapeAspect_inverse;
+	std::vector<weak_ptr<IfcShapeAspect> >					m_OfShapeAspect_inverse;
 };
 

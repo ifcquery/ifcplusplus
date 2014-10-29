@@ -41,7 +41,7 @@ public:
 
 	// IfcPreDefinedItem -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;
+	//  shared_ptr<IfcLabel>	m_Name;
 
 	// IfcPreDefinedCurveFont -----------------------------------------------------------
 };

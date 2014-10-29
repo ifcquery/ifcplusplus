@@ -37,8 +37,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcConstructionResourceType 
-IfcConstructionResourceType::IfcConstructionResourceType() {}
-IfcConstructionResourceType::IfcConstructionResourceType( int id ) { m_id = id; }
+IfcConstructionResourceType::IfcConstructionResourceType() { m_entity_enum = IFCCONSTRUCTIONRESOURCETYPE; }
+IfcConstructionResourceType::IfcConstructionResourceType( int id ) { m_id = id; m_entity_enum = IFCCONSTRUCTIONRESOURCETYPE; }
 IfcConstructionResourceType::~IfcConstructionResourceType() {}
 shared_ptr<IfcPPObject> IfcConstructionResourceType::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -108,7 +108,7 @@ void IfcConstructionResourceType::getStepParameter( std::stringstream& stream, b
 void IfcConstructionResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConstructionResourceType, expecting 11, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstructionResourceType, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

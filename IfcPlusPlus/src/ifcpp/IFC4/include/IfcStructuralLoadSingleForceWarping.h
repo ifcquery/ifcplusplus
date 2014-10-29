@@ -39,7 +39,7 @@ public:
 
 	// IfcStructuralLoad -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
 
 	// IfcStructuralLoadOrResult -----------------------------------------------------------
 
@@ -47,15 +47,15 @@ public:
 
 	// IfcStructuralLoadSingleForce -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcForceMeasure>					m_ForceX;					//optional
-	//  shared_ptr<IfcForceMeasure>					m_ForceY;					//optional
-	//  shared_ptr<IfcForceMeasure>					m_ForceZ;					//optional
-	//  shared_ptr<IfcTorqueMeasure>					m_MomentX;					//optional
-	//  shared_ptr<IfcTorqueMeasure>					m_MomentY;					//optional
-	//  shared_ptr<IfcTorqueMeasure>					m_MomentZ;					//optional
+	//  shared_ptr<IfcForceMeasure>			m_ForceX;					//optional
+	//  shared_ptr<IfcForceMeasure>			m_ForceY;					//optional
+	//  shared_ptr<IfcForceMeasure>			m_ForceZ;					//optional
+	//  shared_ptr<IfcTorqueMeasure>		m_MomentX;					//optional
+	//  shared_ptr<IfcTorqueMeasure>		m_MomentY;					//optional
+	//  shared_ptr<IfcTorqueMeasure>		m_MomentZ;					//optional
 
 	// IfcStructuralLoadSingleForceWarping -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcWarpingMomentMeasure>			m_WarpingMoment;			//optional
+	shared_ptr<IfcWarpingMomentMeasure>	m_WarpingMoment;			//optional
 };
 

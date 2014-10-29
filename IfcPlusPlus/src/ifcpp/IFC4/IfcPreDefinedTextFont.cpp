@@ -23,8 +23,8 @@
 #include "include/IfcPreDefinedTextFont.h"
 
 // ENTITY IfcPreDefinedTextFont 
-IfcPreDefinedTextFont::IfcPreDefinedTextFont() {}
-IfcPreDefinedTextFont::IfcPreDefinedTextFont( int id ) { m_id = id; }
+IfcPreDefinedTextFont::IfcPreDefinedTextFont() { m_entity_enum = IFCPREDEFINEDTEXTFONT; }
+IfcPreDefinedTextFont::IfcPreDefinedTextFont( int id ) { m_id = id; m_entity_enum = IFCPREDEFINEDTEXTFONT; }
 IfcPreDefinedTextFont::~IfcPreDefinedTextFont() {}
 shared_ptr<IfcPPObject> IfcPreDefinedTextFont::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -42,7 +42,7 @@ void IfcPreDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) 
 void IfcPreDefinedTextFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPreDefinedTextFont, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPreDefinedTextFont, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 }
 void IfcPreDefinedTextFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

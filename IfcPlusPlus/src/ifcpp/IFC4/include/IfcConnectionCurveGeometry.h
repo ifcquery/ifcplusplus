@@ -41,7 +41,7 @@ public:
 
 	// IfcConnectionCurveGeometry -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurveOrEdgeCurve>				m_CurveOnRelatingElement;
-	shared_ptr<IfcCurveOrEdgeCurve>				m_CurveOnRelatedElement;	//optional
+	shared_ptr<IfcCurveOrEdgeCurve>	m_CurveOnRelatingElement;
+	shared_ptr<IfcCurveOrEdgeCurve>	m_CurveOnRelatedElement;	//optional
 };
 

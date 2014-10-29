@@ -27,8 +27,8 @@
 #include "include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCompositeProfileDef 
-IfcCompositeProfileDef::IfcCompositeProfileDef() {}
-IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_id = id; }
+IfcCompositeProfileDef::IfcCompositeProfileDef() { m_entity_enum = IFCCOMPOSITEPROFILEDEF; }
+IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_id = id; m_entity_enum = IFCCOMPOSITEPROFILEDEF; }
 IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
 shared_ptr<IfcPPObject> IfcCompositeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -62,7 +62,7 @@ void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool )
 void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReferenceList( args[2], m_Profiles, map );

@@ -42,8 +42,8 @@ public:
 
 	// IfcGridAxis -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>									m_AxisTag;					//optional
-	shared_ptr<IfcCurve>									m_AxisCurve;
+	shared_ptr<IfcLabel>								m_AxisTag;					//optional
+	shared_ptr<IfcCurve>								m_AxisCurve;
 	shared_ptr<IfcBoolean>								m_SameSense;
 	// inverse attributes:
 	std::vector<weak_ptr<IfcGrid> >						m_PartOfW_inverse;

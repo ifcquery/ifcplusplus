@@ -42,6 +42,6 @@ public:
 
 	// IfcSurfaceStyleShading -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcColourRgb>						m_SurfaceColour;
+	shared_ptr<IfcColourRgb>	m_SurfaceColour;
 };
 

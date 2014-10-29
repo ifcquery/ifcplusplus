@@ -28,8 +28,8 @@
 #include "include/IfcTimeMeasure.h"
 
 // ENTITY IfcQuantityTime 
-IfcQuantityTime::IfcQuantityTime() {}
-IfcQuantityTime::IfcQuantityTime( int id ) { m_id = id; }
+IfcQuantityTime::IfcQuantityTime() { m_entity_enum = IFCQUANTITYTIME; }
+IfcQuantityTime::IfcQuantityTime( int id ) { m_id = id; m_entity_enum = IFCQUANTITYTIME; }
 IfcQuantityTime::~IfcQuantityTime() {}
 shared_ptr<IfcPPObject> IfcQuantityTime::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -59,7 +59,7 @@ void IfcQuantityTime::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcQuantityTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcQuantityTime, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcQuantityTime, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Unit, map );

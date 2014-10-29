@@ -39,9 +39,9 @@ public:
 
 	// IfcTableRow -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcValue> >			m_RowCells;					//optional
-	bool											m_IsHeading;				//optional
+	std::vector<shared_ptr<IfcValue> >	m_RowCells;					//optional
+	bool								m_IsHeading;				//optional
 	// inverse attributes:
-	weak_ptr<IfcTable>							m_OfTable_inverse;
+	weak_ptr<IfcTable>					m_OfTable_inverse;
 };
 

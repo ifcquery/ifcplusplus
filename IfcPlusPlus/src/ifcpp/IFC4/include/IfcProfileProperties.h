@@ -43,12 +43,12 @@ public:
 
 	// IfcExtendedProperties -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcIdentifier>					m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
-	//  std::vector<shared_ptr<IfcProperty> >		m_Properties;
+	//  shared_ptr<IfcIdentifier>									m_Name;						//optional
+	//  shared_ptr<IfcText>											m_Description;				//optional
+	//  std::vector<shared_ptr<IfcProperty> >						m_Properties;
 
 	// IfcProfileProperties -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcProfileDef>					m_ProfileDefinition;
+	shared_ptr<IfcProfileDef>									m_ProfileDefinition;
 };
 

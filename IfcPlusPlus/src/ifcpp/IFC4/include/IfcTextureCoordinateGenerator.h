@@ -46,7 +46,7 @@ public:
 
 	// IfcTextureCoordinateGenerator -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Mode;
+	shared_ptr<IfcLabel>						m_Mode;
 	std::vector<shared_ptr<IfcReal> >			m_Parameter;				//optional
 };
 

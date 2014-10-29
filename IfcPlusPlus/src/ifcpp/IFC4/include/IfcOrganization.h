@@ -48,13 +48,13 @@ public:
 	// IfcOrganization -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcIdentifier>							m_Identification;			//optional
-	shared_ptr<IfcLabel>									m_Name;
+	shared_ptr<IfcLabel>								m_Name;
 	shared_ptr<IfcText>									m_Description;				//optional
 	std::vector<shared_ptr<IfcActorRole> >				m_Roles;					//optional
-	std::vector<shared_ptr<IfcAddress> >					m_Addresses;				//optional
+	std::vector<shared_ptr<IfcAddress> >				m_Addresses;				//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcOrganizationRelationship> >	m_IsRelatedBy_inverse;
 	std::vector<weak_ptr<IfcOrganizationRelationship> >	m_Relates_inverse;
-	std::vector<weak_ptr<IfcPersonAndOrganization> >		m_Engages_inverse;
+	std::vector<weak_ptr<IfcPersonAndOrganization> >	m_Engages_inverse;
 };
 

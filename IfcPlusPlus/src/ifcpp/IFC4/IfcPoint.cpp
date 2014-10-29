@@ -24,8 +24,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcPoint 
-IfcPoint::IfcPoint() {}
-IfcPoint::IfcPoint( int id ) { m_id = id; }
+IfcPoint::IfcPoint() { m_entity_enum = IFCPOINT; }
+IfcPoint::IfcPoint( int id ) { m_id = id; m_entity_enum = IFCPOINT; }
 IfcPoint::~IfcPoint() {}
 shared_ptr<IfcPPObject> IfcPoint::getDeepCopy( IfcPPCopyOptions& options )
 {

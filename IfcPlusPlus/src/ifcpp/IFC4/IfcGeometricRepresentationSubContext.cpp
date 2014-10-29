@@ -30,8 +30,8 @@
 #include "include/IfcRepresentation.h"
 
 // ENTITY IfcGeometricRepresentationSubContext 
-IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext() {}
-IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_id = id; }
+IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext() { m_entity_enum = IFCGEOMETRICREPRESENTATIONSUBCONTEXT; }
+IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_id = id; m_entity_enum = IFCGEOMETRICREPRESENTATIONSUBCONTEXT; }
 IfcGeometricRepresentationSubContext::~IfcGeometricRepresentationSubContext() {}
 shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -76,7 +76,7 @@ void IfcGeometricRepresentationSubContext::getStepParameter( std::stringstream& 
 void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0] );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1] );
 	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromSTEP( args[2] );

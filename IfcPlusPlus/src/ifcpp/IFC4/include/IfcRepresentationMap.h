@@ -42,10 +42,10 @@ public:
 
 	// IfcRepresentationMap -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcAxis2Placement>				m_MappingOrigin;
-	shared_ptr<IfcRepresentation>				m_MappedRepresentation;
+	shared_ptr<IfcAxis2Placement>			m_MappingOrigin;
+	shared_ptr<IfcRepresentation>			m_MappedRepresentation;
 	// inverse attributes:
-	std::vector<weak_ptr<IfcShapeAspect> >		m_HasShapeAspects_inverse;
-	std::vector<weak_ptr<IfcMappedItem> >		m_MapUsage_inverse;
+	std::vector<weak_ptr<IfcShapeAspect> >	m_HasShapeAspects_inverse;
+	std::vector<weak_ptr<IfcMappedItem> >	m_MapUsage_inverse;
 };
 

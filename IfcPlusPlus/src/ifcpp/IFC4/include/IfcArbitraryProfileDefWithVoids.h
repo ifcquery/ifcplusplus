@@ -39,18 +39,18 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileTypeEnum>				m_ProfileType;
-	//  shared_ptr<IfcLabel>							m_ProfileName;				//optional
+	//  shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
+	//  shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
-	//  std::vector<weak_ptr<IfcProfileProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 
 	// IfcArbitraryClosedProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcCurve>							m_OuterCurve;
+	//  shared_ptr<IfcCurve>										m_OuterCurve;
 
 	// IfcArbitraryProfileDefWithVoids -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcCurve> >			m_InnerCurves;
+	std::vector<shared_ptr<IfcCurve> >							m_InnerCurves;
 };
 

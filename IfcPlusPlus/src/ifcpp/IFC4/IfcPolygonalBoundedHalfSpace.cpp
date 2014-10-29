@@ -27,8 +27,8 @@
 #include "include/IfcSurface.h"
 
 // ENTITY IfcPolygonalBoundedHalfSpace 
-IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace() {}
-IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_id = id; }
+IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace() { m_entity_enum = IFCPOLYGONALBOUNDEDHALFSPACE; }
+IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_id = id; m_entity_enum = IFCPOLYGONALBOUNDEDHALFSPACE; }
 IfcPolygonalBoundedHalfSpace::~IfcPolygonalBoundedHalfSpace() {}
 shared_ptr<IfcPPObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -56,7 +56,7 @@ void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, 
 void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_AgreementFlag = false; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_AgreementFlag = true; }

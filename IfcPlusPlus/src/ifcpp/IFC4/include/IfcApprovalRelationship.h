@@ -39,12 +39,12 @@ public:
 
 	// IfcResourceLevelRelationship -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcLabel>					m_Name;						//optional
+	//  shared_ptr<IfcText>						m_Description;				//optional
 
 	// IfcApprovalRelationship -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcApproval>						m_RelatingApproval;
-	std::vector<shared_ptr<IfcApproval> >		m_RelatedApprovals;
+	shared_ptr<IfcApproval>					m_RelatingApproval;
+	std::vector<shared_ptr<IfcApproval> >	m_RelatedApprovals;
 };
 

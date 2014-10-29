@@ -40,15 +40,15 @@ public:
 
 	// IfcBoundaryCondition -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>											m_Name;						//optional
+	//  shared_ptr<IfcLabel>										m_Name;						//optional
 
 	// IfcBoundaryEdgeCondition -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect>	m_TranslationalStiffnessByLengthX;	//optional
 	shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect>	m_TranslationalStiffnessByLengthY;	//optional
 	shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect>	m_TranslationalStiffnessByLengthZ;	//optional
-	shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>		m_RotationalStiffnessByLengthX;	//optional
-	shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>		m_RotationalStiffnessByLengthY;	//optional
-	shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>		m_RotationalStiffnessByLengthZ;	//optional
+	shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>	m_RotationalStiffnessByLengthX;	//optional
+	shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>	m_RotationalStiffnessByLengthY;	//optional
+	shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>	m_RotationalStiffnessByLengthZ;	//optional
 };
 

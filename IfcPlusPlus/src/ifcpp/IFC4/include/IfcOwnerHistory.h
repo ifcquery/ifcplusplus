@@ -42,13 +42,13 @@ public:
 
 	// IfcOwnerHistory -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPersonAndOrganization>			m_OwningUser;
-	shared_ptr<IfcApplication>					m_OwningApplication;
-	shared_ptr<IfcStateEnum>						m_State;					//optional
-	shared_ptr<IfcChangeActionEnum>				m_ChangeAction;				//optional
-	shared_ptr<IfcTimeStamp>						m_LastModifiedDate;			//optional
-	shared_ptr<IfcPersonAndOrganization>			m_LastModifyingUser;		//optional
-	shared_ptr<IfcApplication>					m_LastModifyingApplication;	//optional
-	shared_ptr<IfcTimeStamp>						m_CreationDate;
+	shared_ptr<IfcPersonAndOrganization>	m_OwningUser;
+	shared_ptr<IfcApplication>				m_OwningApplication;
+	shared_ptr<IfcStateEnum>				m_State;					//optional
+	shared_ptr<IfcChangeActionEnum>			m_ChangeAction;				//optional
+	shared_ptr<IfcTimeStamp>				m_LastModifiedDate;			//optional
+	shared_ptr<IfcPersonAndOrganization>	m_LastModifyingUser;		//optional
+	shared_ptr<IfcApplication>				m_LastModifyingApplication;	//optional
+	shared_ptr<IfcTimeStamp>				m_CreationDate;
 };
 

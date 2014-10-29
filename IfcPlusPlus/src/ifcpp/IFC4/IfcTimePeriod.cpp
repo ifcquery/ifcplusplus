@@ -23,8 +23,8 @@
 #include "include/IfcTimePeriod.h"
 
 // ENTITY IfcTimePeriod 
-IfcTimePeriod::IfcTimePeriod() {}
-IfcTimePeriod::IfcTimePeriod( int id ) { m_id = id; }
+IfcTimePeriod::IfcTimePeriod() { m_entity_enum = IFCTIMEPERIOD; }
+IfcTimePeriod::IfcTimePeriod( int id ) { m_id = id; m_entity_enum = IFCTIMEPERIOD; }
 IfcTimePeriod::~IfcTimePeriod() {}
 shared_ptr<IfcPPObject> IfcTimePeriod::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -45,7 +45,7 @@ void IfcTimePeriod::getStepParameter( std::stringstream& stream, bool ) const { 
 void IfcTimePeriod::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTimePeriod, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimePeriod, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_StartTime = IfcTime::createObjectFromSTEP( args[0] );
 	m_EndTime = IfcTime::createObjectFromSTEP( args[1] );
 }

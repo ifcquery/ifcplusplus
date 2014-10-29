@@ -40,13 +40,13 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcAnnotationFillArea -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurve>							m_OuterBoundary;
-	std::vector<shared_ptr<IfcCurve> >			m_InnerBoundaries;			//optional
+	shared_ptr<IfcCurve>									m_OuterBoundary;
+	std::vector<shared_ptr<IfcCurve> >						m_InnerBoundaries;			//optional
 };
 

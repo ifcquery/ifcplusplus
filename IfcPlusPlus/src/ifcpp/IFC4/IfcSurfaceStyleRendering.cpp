@@ -27,8 +27,8 @@
 #include "include/IfcSurfaceStyleRendering.h"
 
 // ENTITY IfcSurfaceStyleRendering 
-IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() {}
-IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_id = id; }
+IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() { m_entity_enum = IFCSURFACESTYLERENDERING; }
+IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_id = id; m_entity_enum = IFCSURFACESTYLERENDERING; }
 IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
 shared_ptr<IfcPPObject> IfcSurfaceStyleRendering::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -70,7 +70,7 @@ void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool
 void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SurfaceColour, map );
 	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1] );
 	m_DiffuseColour = IfcColourOrFactor::createObjectFromSTEP( args[2], map );

@@ -35,8 +35,8 @@
 #include "include/IfcTypeObject.h"
 
 // ENTITY IfcDoorLiningProperties 
-IfcDoorLiningProperties::IfcDoorLiningProperties() {}
-IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_id = id; }
+IfcDoorLiningProperties::IfcDoorLiningProperties() { m_entity_enum = IFCDOORLININGPROPERTIES; }
+IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_id = id; m_entity_enum = IFCDOORLININGPROPERTIES; }
 IfcDoorLiningProperties::~IfcDoorLiningProperties() {}
 shared_ptr<IfcPPObject> IfcDoorLiningProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -110,7 +110,7 @@ void IfcDoorLiningProperties::getStepParameter( std::stringstream& stream, bool 
 void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 17 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDoorLiningProperties, expecting 17, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorLiningProperties, expecting 17, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

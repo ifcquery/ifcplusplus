@@ -41,7 +41,7 @@ public:
 
 	// IfcConnectionPointGeometry -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPointOrVertexPoint>			m_PointOnRelatingElement;
-	shared_ptr<IfcPointOrVertexPoint>			m_PointOnRelatedElement;	//optional
+	shared_ptr<IfcPointOrVertexPoint>	m_PointOnRelatingElement;
+	shared_ptr<IfcPointOrVertexPoint>	m_PointOnRelatedElement;	//optional
 };
 

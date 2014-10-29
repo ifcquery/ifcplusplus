@@ -43,11 +43,11 @@ public:
 
 	// IfcAddress -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcAddressTypeEnum>				m_Purpose;					//optional
-	shared_ptr<IfcText>							m_Description;				//optional
-	shared_ptr<IfcLabel>							m_UserDefinedPurpose;		//optional
+	shared_ptr<IfcAddressTypeEnum>			m_Purpose;					//optional
+	shared_ptr<IfcText>						m_Description;				//optional
+	shared_ptr<IfcLabel>					m_UserDefinedPurpose;		//optional
 	// inverse attributes:
-	std::vector<weak_ptr<IfcPerson> >			m_OfPerson_inverse;
-	std::vector<weak_ptr<IfcOrganization> >		m_OfOrganization_inverse;
+	std::vector<weak_ptr<IfcPerson> >		m_OfPerson_inverse;
+	std::vector<weak_ptr<IfcOrganization> >	m_OfOrganization_inverse;
 };
 

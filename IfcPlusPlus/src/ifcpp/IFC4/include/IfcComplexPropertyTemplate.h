@@ -41,14 +41,14 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>					m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>						m_OwnerHistory;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
 	//  shared_ptr<IfcLabel>								m_Name;						//optional
-	//  shared_ptr<IfcText>								m_Description;				//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcPropertyDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDeclares> >			m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
 	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcPropertyTemplateDefinition -----------------------------------------------------------
@@ -56,12 +56,12 @@ public:
 	// IfcPropertyTemplate -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcComplexPropertyTemplate> >	m_PartOfComplexTemplate_inverse;
-	//  std::vector<weak_ptr<IfcPropertySetTemplate> >	m_PartOfPsetTemplate_inverse;
+	//  std::vector<weak_ptr<IfcPropertySetTemplate> >		m_PartOfPsetTemplate_inverse;
 
 	// IfcComplexPropertyTemplate -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcLabel>								m_UsageName;				//optional
-	shared_ptr<IfcComplexPropertyTemplateTypeEnum>	m_TemplateType;				//optional
-	std::vector<shared_ptr<IfcPropertyTemplate> >	m_HasPropertyTemplates;		//optional
+	shared_ptr<IfcComplexPropertyTemplateTypeEnum>		m_TemplateType;				//optional
+	std::vector<shared_ptr<IfcPropertyTemplate> >		m_HasPropertyTemplates;		//optional
 };
 

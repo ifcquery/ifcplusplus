@@ -42,15 +42,15 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcLightSource -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Name;						//optional
-	shared_ptr<IfcColourRgb>						m_LightColour;
-	shared_ptr<IfcNormalisedRatioMeasure>		m_AmbientIntensity;			//optional
-	shared_ptr<IfcNormalisedRatioMeasure>		m_Intensity;				//optional
+	shared_ptr<IfcLabel>									m_Name;						//optional
+	shared_ptr<IfcColourRgb>								m_LightColour;
+	shared_ptr<IfcNormalisedRatioMeasure>					m_AmbientIntensity;			//optional
+	shared_ptr<IfcNormalisedRatioMeasure>					m_Intensity;				//optional
 };
 

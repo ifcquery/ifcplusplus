@@ -39,7 +39,7 @@ public:
 
 	// IfcLightDistributionData -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPlaneAngleMeasure>										m_MainPlaneAngle;
+	shared_ptr<IfcPlaneAngleMeasure>									m_MainPlaneAngle;
 	std::vector<shared_ptr<IfcPlaneAngleMeasure> >						m_SecondaryPlaneAngle;
 	std::vector<shared_ptr<IfcLuminousIntensityDistributionMeasure> >	m_LuminousIntensity;
 };

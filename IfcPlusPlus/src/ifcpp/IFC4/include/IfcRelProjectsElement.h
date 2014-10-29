@@ -40,10 +40,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>			m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>				m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>					m_Name;						//optional
+	//  shared_ptr<IfcText>						m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
@@ -51,7 +51,7 @@ public:
 
 	// IfcRelProjectsElement -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcElement>						m_RelatingElement;
-	shared_ptr<IfcFeatureElementAddition>		m_RelatedFeatureElement;
+	shared_ptr<IfcElement>					m_RelatingElement;
+	shared_ptr<IfcFeatureElementAddition>	m_RelatedFeatureElement;
 };
 

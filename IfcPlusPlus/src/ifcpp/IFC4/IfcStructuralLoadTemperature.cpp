@@ -24,8 +24,8 @@
 #include "include/IfcThermodynamicTemperatureMeasure.h"
 
 // ENTITY IfcStructuralLoadTemperature 
-IfcStructuralLoadTemperature::IfcStructuralLoadTemperature() {}
-IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_id = id; }
+IfcStructuralLoadTemperature::IfcStructuralLoadTemperature() { m_entity_enum = IFCSTRUCTURALLOADTEMPERATURE; }
+IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_id = id; m_entity_enum = IFCSTRUCTURALLOADTEMPERATURE; }
 IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadTemperature::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -52,7 +52,7 @@ void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, 
 void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadTemperature, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadTemperature, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_DeltaTConstant = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[1] );
 	m_DeltaTY = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[2] );

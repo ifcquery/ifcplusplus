@@ -42,10 +42,10 @@ public:
 
 	// IfcTableColumn -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>					m_Identifier;				//optional
-	shared_ptr<IfcLabel>							m_Name;						//optional
-	shared_ptr<IfcText>							m_Description;				//optional
-	shared_ptr<IfcUnit>							m_Unit;						//optional
-	shared_ptr<IfcReference>						m_ReferencePath;			//optional
+	shared_ptr<IfcIdentifier>	m_Identifier;				//optional
+	shared_ptr<IfcLabel>		m_Name;						//optional
+	shared_ptr<IfcText>			m_Description;				//optional
+	shared_ptr<IfcUnit>			m_Unit;						//optional
+	shared_ptr<IfcReference>	m_ReferencePath;			//optional
 };
 

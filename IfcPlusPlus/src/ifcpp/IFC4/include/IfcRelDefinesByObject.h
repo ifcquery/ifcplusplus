@@ -39,10 +39,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>		m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>			m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
+	//  shared_ptr<IfcText>					m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
@@ -50,7 +50,7 @@ public:
 
 	// IfcRelDefinesByObject -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcObject> >			m_RelatedObjects;
-	shared_ptr<IfcObject>						m_RelatingObject;
+	std::vector<shared_ptr<IfcObject> >	m_RelatedObjects;
+	shared_ptr<IfcObject>				m_RelatingObject;
 };
 

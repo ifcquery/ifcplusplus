@@ -43,7 +43,7 @@ public:
 
 	// IfcPropertyAbstraction -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >		m_HasExternalReferences_inverse;
+	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReferences_inverse;
 
 	// IfcProperty -----------------------------------------------------------
 	// attributes:

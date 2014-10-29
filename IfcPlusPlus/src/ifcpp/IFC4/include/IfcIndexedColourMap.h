@@ -43,9 +43,9 @@ public:
 
 	// IfcIndexedColourMap -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcTessellatedFaceSet>			m_MappedTo;
-	shared_ptr<IfcSurfaceStyleShading>			m_Overrides;				//optional
-	shared_ptr<IfcColourRgbList>					m_Colours;
-	std::vector<int >							m_ColourIndex;
+	shared_ptr<IfcTessellatedFaceSet>	m_MappedTo;
+	shared_ptr<IfcSurfaceStyleShading>	m_Overrides;				//optional
+	shared_ptr<IfcColourRgbList>		m_Colours;
+	std::vector<int >					m_ColourIndex;
 };
 

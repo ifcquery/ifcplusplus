@@ -40,7 +40,7 @@ public:
 
 	// IfcStructuralLoad -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
 
 	// IfcStructuralLoadOrResult -----------------------------------------------------------
 
@@ -48,11 +48,11 @@ public:
 
 	// IfcStructuralLoadLinearForce -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLinearForceMeasure>			m_LinearForceX;				//optional
-	shared_ptr<IfcLinearForceMeasure>			m_LinearForceY;				//optional
-	shared_ptr<IfcLinearForceMeasure>			m_LinearForceZ;				//optional
-	shared_ptr<IfcLinearMomentMeasure>			m_LinearMomentX;			//optional
-	shared_ptr<IfcLinearMomentMeasure>			m_LinearMomentY;			//optional
-	shared_ptr<IfcLinearMomentMeasure>			m_LinearMomentZ;			//optional
+	shared_ptr<IfcLinearForceMeasure>	m_LinearForceX;				//optional
+	shared_ptr<IfcLinearForceMeasure>	m_LinearForceY;				//optional
+	shared_ptr<IfcLinearForceMeasure>	m_LinearForceZ;				//optional
+	shared_ptr<IfcLinearMomentMeasure>	m_LinearMomentX;			//optional
+	shared_ptr<IfcLinearMomentMeasure>	m_LinearMomentY;			//optional
+	shared_ptr<IfcLinearMomentMeasure>	m_LinearMomentZ;			//optional
 };
 

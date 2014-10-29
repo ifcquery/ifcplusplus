@@ -41,7 +41,7 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcTopologicalRepresentationItem -----------------------------------------------------------
 
@@ -49,6 +49,6 @@ public:
 
 	// IfcVertexPoint -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPoint>							m_VertexGeometry;
+	shared_ptr<IfcPoint>									m_VertexGeometry;
 };
 

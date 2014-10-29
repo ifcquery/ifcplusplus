@@ -42,9 +42,9 @@ public:
 
 	// IfcSurfaceStyleLighting -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcColourRgb>						m_DiffuseTransmissionColour;
-	shared_ptr<IfcColourRgb>						m_DiffuseReflectionColour;
-	shared_ptr<IfcColourRgb>						m_TransmissionColour;
-	shared_ptr<IfcColourRgb>						m_ReflectanceColour;
+	shared_ptr<IfcColourRgb>	m_DiffuseTransmissionColour;
+	shared_ptr<IfcColourRgb>	m_DiffuseReflectionColour;
+	shared_ptr<IfcColourRgb>	m_TransmissionColour;
+	shared_ptr<IfcColourRgb>	m_ReflectanceColour;
 };
 

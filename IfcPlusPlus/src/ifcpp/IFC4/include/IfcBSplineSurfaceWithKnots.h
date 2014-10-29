@@ -41,7 +41,7 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
@@ -51,20 +51,20 @@ public:
 
 	// IfcBSplineSurface -----------------------------------------------------------
 	// attributes:
-	//  int											m_UDegree;
-	//  int											m_VDegree;
+	//  int														m_UDegree;
+	//  int														m_VDegree;
 	//  std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >	m_ControlPointsList;
-	//  shared_ptr<IfcBSplineSurfaceForm>			m_SurfaceForm;
-	//  LogicalEnum									m_UClosed;
-	//  LogicalEnum									m_VClosed;
-	//  LogicalEnum									m_SelfIntersect;
+	//  shared_ptr<IfcBSplineSurfaceForm>						m_SurfaceForm;
+	//  LogicalEnum												m_UClosed;
+	//  LogicalEnum												m_VClosed;
+	//  LogicalEnum												m_SelfIntersect;
 
 	// IfcBSplineSurfaceWithKnots -----------------------------------------------------------
 	// attributes:
-	std::vector<int >							m_UMultiplicities;
-	std::vector<int >							m_VMultiplicities;
-	std::vector<shared_ptr<IfcParameterValue> >	m_UKnots;
-	std::vector<shared_ptr<IfcParameterValue> >	m_VKnots;
-	shared_ptr<IfcKnotType>						m_KnotSpec;
+	std::vector<int >										m_UMultiplicities;
+	std::vector<int >										m_VMultiplicities;
+	std::vector<shared_ptr<IfcParameterValue> >				m_UKnots;
+	std::vector<shared_ptr<IfcParameterValue> >				m_VKnots;
+	shared_ptr<IfcKnotType>									m_KnotSpec;
 };
 

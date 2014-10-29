@@ -40,20 +40,20 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcCompositeCurveSegment -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcTransitionCode>				m_Transition;
-	//  bool											m_SameSense;
-	//  shared_ptr<IfcCurve>							m_ParentCurve;
+	//  shared_ptr<IfcTransitionCode>							m_Transition;
+	//  bool													m_SameSense;
+	//  shared_ptr<IfcCurve>									m_ParentCurve;
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcCompositeCurve> >	m_UsingCurves_inverse;
+	//  std::vector<weak_ptr<IfcCompositeCurve> >				m_UsingCurves_inverse;
 
 	// IfcReparametrisedCompositeCurveSegment -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcParameterValue>				m_ParamLength;
+	shared_ptr<IfcParameterValue>							m_ParamLength;
 };
 

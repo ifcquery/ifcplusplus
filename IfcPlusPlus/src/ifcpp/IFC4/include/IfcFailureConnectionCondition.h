@@ -39,15 +39,15 @@ public:
 
 	// IfcStructuralConnectionCondition -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>		m_Name;						//optional
 
 	// IfcFailureConnectionCondition -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcForceMeasure>					m_TensionFailureX;			//optional
-	shared_ptr<IfcForceMeasure>					m_TensionFailureY;			//optional
-	shared_ptr<IfcForceMeasure>					m_TensionFailureZ;			//optional
-	shared_ptr<IfcForceMeasure>					m_CompressionFailureX;		//optional
-	shared_ptr<IfcForceMeasure>					m_CompressionFailureY;		//optional
-	shared_ptr<IfcForceMeasure>					m_CompressionFailureZ;		//optional
+	shared_ptr<IfcForceMeasure>	m_TensionFailureX;			//optional
+	shared_ptr<IfcForceMeasure>	m_TensionFailureY;			//optional
+	shared_ptr<IfcForceMeasure>	m_TensionFailureZ;			//optional
+	shared_ptr<IfcForceMeasure>	m_CompressionFailureX;		//optional
+	shared_ptr<IfcForceMeasure>	m_CompressionFailureY;		//optional
+	shared_ptr<IfcForceMeasure>	m_CompressionFailureZ;		//optional
 };
 

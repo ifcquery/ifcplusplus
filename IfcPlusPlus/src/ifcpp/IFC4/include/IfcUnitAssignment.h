@@ -38,6 +38,6 @@ public:
 
 	// IfcUnitAssignment -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcUnit> >			m_Units;
+	std::vector<shared_ptr<IfcUnit> >	m_Units;
 };
 

@@ -42,13 +42,13 @@ public:
 	// attributes:
 	//  shared_ptr<IfcGloballyUniqueId>								m_GlobalId;
 	//  shared_ptr<IfcOwnerHistory>									m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>											m_Name;						//optional
+	//  shared_ptr<IfcLabel>										m_Name;						//optional
 	//  shared_ptr<IfcText>											m_Description;				//optional
 
 	// IfcPropertyDefinition -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelDeclares> >						m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >						m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >					m_HasAssociations_inverse;
 
 	// IfcPropertySetDefinition -----------------------------------------------------------
 	// inverse attributes:
@@ -60,7 +60,7 @@ public:
 
 	// IfcReinforcementDefinitionProperties -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>											m_DefinitionType;			//optional
+	shared_ptr<IfcLabel>										m_DefinitionType;			//optional
 	std::vector<shared_ptr<IfcSectionReinforcementProperties> >	m_ReinforcementSectionDefinitions;
 };
 

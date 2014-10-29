@@ -39,6 +39,6 @@ public:
 
 	// IfcMonetaryUnit -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Currency;
+	shared_ptr<IfcLabel>	m_Currency;
 };
 

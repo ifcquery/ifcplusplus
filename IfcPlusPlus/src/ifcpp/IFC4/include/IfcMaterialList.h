@@ -39,6 +39,6 @@ public:
 
 	// IfcMaterialList -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcMaterial> >		m_Materials;
+	std::vector<shared_ptr<IfcMaterial> >	m_Materials;
 };
 

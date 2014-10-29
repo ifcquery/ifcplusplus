@@ -43,30 +43,30 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcPropertyDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >		m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcPropertySetDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcTypeObject> >		m_DefinesType_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByTemplate> >	m_IsDefinedBy_inverse;
+	//  std::vector<weak_ptr<IfcTypeObject> >				m_DefinesType_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByTemplate> >		m_IsDefinedBy_inverse;
 	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_DefinesOccurrence_inverse;
 
 	// IfcPreDefinedPropertySet -----------------------------------------------------------
 
 	// IfcDoorPanelProperties -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPositiveLengthMeasure>			m_PanelDepth;				//optional
-	shared_ptr<IfcDoorPanelOperationEnum>		m_PanelOperation;
-	shared_ptr<IfcNormalisedRatioMeasure>		m_PanelWidth;				//optional
-	shared_ptr<IfcDoorPanelPositionEnum>			m_PanelPosition;
-	shared_ptr<IfcShapeAspect>					m_ShapeAspectStyle;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_PanelDepth;				//optional
+	shared_ptr<IfcDoorPanelOperationEnum>				m_PanelOperation;
+	shared_ptr<IfcNormalisedRatioMeasure>				m_PanelWidth;				//optional
+	shared_ptr<IfcDoorPanelPositionEnum>				m_PanelPosition;
+	shared_ptr<IfcShapeAspect>							m_ShapeAspectStyle;			//optional
 };
 

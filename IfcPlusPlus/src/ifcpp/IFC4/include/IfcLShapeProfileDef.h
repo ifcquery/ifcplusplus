@@ -41,23 +41,23 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileTypeEnum>				m_ProfileType;
-	//  shared_ptr<IfcLabel>							m_ProfileName;				//optional
+	//  shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
+	//  shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
-	//  std::vector<weak_ptr<IfcProfileProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 
 	// IfcParameterizedProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcAxis2Placement2D>				m_Position;					//optional
+	//  shared_ptr<IfcAxis2Placement2D>								m_Position;					//optional
 
 	// IfcLShapeProfileDef -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPositiveLengthMeasure>			m_Depth;
-	shared_ptr<IfcPositiveLengthMeasure>			m_Width;					//optional
-	shared_ptr<IfcPositiveLengthMeasure>			m_Thickness;
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_FilletRadius;				//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_EdgeRadius;				//optional
-	shared_ptr<IfcPlaneAngleMeasure>				m_LegSlope;					//optional
+	shared_ptr<IfcPositiveLengthMeasure>						m_Depth;
+	shared_ptr<IfcPositiveLengthMeasure>						m_Width;					//optional
+	shared_ptr<IfcPositiveLengthMeasure>						m_Thickness;
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_FilletRadius;				//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_EdgeRadius;				//optional
+	shared_ptr<IfcPlaneAngleMeasure>							m_LegSlope;					//optional
 };
 

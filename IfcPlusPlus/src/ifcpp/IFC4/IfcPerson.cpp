@@ -27,8 +27,8 @@
 #include "include/IfcPersonAndOrganization.h"
 
 // ENTITY IfcPerson 
-IfcPerson::IfcPerson() {}
-IfcPerson::IfcPerson( int id ) { m_id = id; }
+IfcPerson::IfcPerson() { m_entity_enum = IFCPERSON; }
+IfcPerson::IfcPerson( int id ) { m_id = id; m_entity_enum = IFCPERSON; }
 IfcPerson::~IfcPerson() {}
 shared_ptr<IfcPPObject> IfcPerson::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -102,7 +102,7 @@ void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0] );
 	m_FamilyName = IfcLabel::createObjectFromSTEP( args[1] );
 	m_GivenName = IfcLabel::createObjectFromSTEP( args[2] );

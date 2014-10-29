@@ -38,7 +38,7 @@ public:
 
 	// IfcDerivedUnitElement -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcNamedUnit>						m_Unit;
-	int											m_Exponent;
+	shared_ptr<IfcNamedUnit>	m_Unit;
+	int							m_Exponent;
 };
 

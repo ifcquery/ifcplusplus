@@ -41,18 +41,18 @@ public:
 
 	// IfcSurfaceTexture -----------------------------------------------------------
 	// attributes:
-	//  bool											m_RepeatS;
-	//  bool											m_RepeatT;
-	//  shared_ptr<IfcIdentifier>					m_Mode;						//optional
+	//  bool												m_RepeatS;
+	//  bool												m_RepeatT;
+	//  shared_ptr<IfcIdentifier>							m_Mode;						//optional
 	//  shared_ptr<IfcCartesianTransformationOperator2D>	m_TextureTransform;			//optional
-	//  std::vector<shared_ptr<IfcIdentifier> >		m_Parameter;				//optional
+	//  std::vector<shared_ptr<IfcIdentifier> >				m_Parameter;				//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcTextureCoordinate> >	m_IsMappedBy_inverse;
+	//  std::vector<weak_ptr<IfcTextureCoordinate> >		m_IsMappedBy_inverse;
 	//  std::vector<weak_ptr<IfcSurfaceStyleWithTextures> >	m_UsedInStyles_inverse;
 
 	// IfcBlobTexture -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>					m_RasterFormat;
-	const char*									m_RasterCode;
+	shared_ptr<IfcIdentifier>							m_RasterFormat;
+	const char*											m_RasterCode;
 };
 

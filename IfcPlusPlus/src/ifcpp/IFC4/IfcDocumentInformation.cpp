@@ -34,8 +34,8 @@
 #include "include/IfcURIReference.h"
 
 // ENTITY IfcDocumentInformation 
-IfcDocumentInformation::IfcDocumentInformation() {}
-IfcDocumentInformation::IfcDocumentInformation( int id ) { m_id = id; }
+IfcDocumentInformation::IfcDocumentInformation() { m_entity_enum = IFCDOCUMENTINFORMATION; }
+IfcDocumentInformation::IfcDocumentInformation( int id ) { m_id = id; m_entity_enum = IFCDOCUMENTINFORMATION; }
 IfcDocumentInformation::~IfcDocumentInformation() {}
 shared_ptr<IfcPPObject> IfcDocumentInformation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -108,7 +108,7 @@ void IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool )
 void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 17 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0] );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
 	m_Description = IfcText::createObjectFromSTEP( args[2] );

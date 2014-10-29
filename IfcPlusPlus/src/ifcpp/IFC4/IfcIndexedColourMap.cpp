@@ -25,8 +25,8 @@
 #include "include/IfcTessellatedFaceSet.h"
 
 // ENTITY IfcIndexedColourMap 
-IfcIndexedColourMap::IfcIndexedColourMap() {}
-IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_id = id; }
+IfcIndexedColourMap::IfcIndexedColourMap() { m_entity_enum = IFCINDEXEDCOLOURMAP; }
+IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_id = id; m_entity_enum = IFCINDEXEDCOLOURMAP; }
 IfcIndexedColourMap::~IfcIndexedColourMap() {}
 shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -53,7 +53,7 @@ void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) co
 void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_MappedTo, map );
 	readEntityReference( args[1], m_Overrides, map );
 	readEntityReference( args[2], m_Colours, map );

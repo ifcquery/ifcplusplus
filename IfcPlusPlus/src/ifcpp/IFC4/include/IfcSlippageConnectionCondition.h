@@ -39,12 +39,12 @@ public:
 
 	// IfcStructuralConnectionCondition -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>			m_Name;						//optional
 
 	// IfcSlippageConnectionCondition -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLengthMeasure>					m_SlippageX;				//optional
-	shared_ptr<IfcLengthMeasure>					m_SlippageY;				//optional
-	shared_ptr<IfcLengthMeasure>					m_SlippageZ;				//optional
+	shared_ptr<IfcLengthMeasure>	m_SlippageX;				//optional
+	shared_ptr<IfcLengthMeasure>	m_SlippageY;				//optional
+	shared_ptr<IfcLengthMeasure>	m_SlippageZ;				//optional
 };
 

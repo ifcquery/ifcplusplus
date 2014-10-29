@@ -37,8 +37,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcElectricGeneratorType 
-IfcElectricGeneratorType::IfcElectricGeneratorType() {}
-IfcElectricGeneratorType::IfcElectricGeneratorType( int id ) { m_id = id; }
+IfcElectricGeneratorType::IfcElectricGeneratorType() { m_entity_enum = IFCELECTRICGENERATORTYPE; }
+IfcElectricGeneratorType::IfcElectricGeneratorType( int id ) { m_id = id; m_entity_enum = IFCELECTRICGENERATORTYPE; }
 IfcElectricGeneratorType::~IfcElectricGeneratorType() {}
 shared_ptr<IfcPPObject> IfcElectricGeneratorType::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -105,7 +105,7 @@ void IfcElectricGeneratorType::getStepParameter( std::stringstream& stream, bool
 void IfcElectricGeneratorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcElectricGeneratorType, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElectricGeneratorType, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

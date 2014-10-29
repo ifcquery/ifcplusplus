@@ -41,8 +41,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcStructuralCurveMemberVarying 
-IfcStructuralCurveMemberVarying::IfcStructuralCurveMemberVarying() {}
-IfcStructuralCurveMemberVarying::IfcStructuralCurveMemberVarying( int id ) { m_id = id; }
+IfcStructuralCurveMemberVarying::IfcStructuralCurveMemberVarying() { m_entity_enum = IFCSTRUCTURALCURVEMEMBERVARYING; }
+IfcStructuralCurveMemberVarying::IfcStructuralCurveMemberVarying( int id ) { m_id = id; m_entity_enum = IFCSTRUCTURALCURVEMEMBERVARYING; }
 IfcStructuralCurveMemberVarying::~IfcStructuralCurveMemberVarying() {}
 shared_ptr<IfcPPObject> IfcStructuralCurveMemberVarying::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -92,7 +92,7 @@ void IfcStructuralCurveMemberVarying::getStepParameter( std::stringstream& strea
 void IfcStructuralCurveMemberVarying::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralCurveMemberVarying, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralCurveMemberVarying, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

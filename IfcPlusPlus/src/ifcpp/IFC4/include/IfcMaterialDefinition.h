@@ -45,6 +45,6 @@ public:
 	// inverse attributes:
 	std::vector<weak_ptr<IfcRelAssociatesMaterial> >			m_AssociatedTo_inverse;
 	std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReferences_inverse;
-	std::vector<weak_ptr<IfcMaterialProperties> >			m_HasProperties_inverse;
+	std::vector<weak_ptr<IfcMaterialProperties> >				m_HasProperties_inverse;
 };
 

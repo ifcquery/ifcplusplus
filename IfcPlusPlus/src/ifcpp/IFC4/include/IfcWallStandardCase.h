@@ -38,60 +38,60 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>								m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>									m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>										m_Name;						//optional
+	//  shared_ptr<IfcText>											m_Description;				//optional
 
 	// IfcObjectDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssigns> >		m_HasAssignments_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >			m_Nests_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >			m_IsNestedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >		m_IsDecomposedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >		m_Decomposes_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >		m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelAssigns> >						m_HasAssignments_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >							m_Nests_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >							m_IsNestedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >						m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >					m_IsDecomposedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >					m_Decomposes_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >					m_HasAssociations_inverse;
 
 	// IfcObject -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_ObjectType;				//optional
+	//  shared_ptr<IfcLabel>										m_ObjectType;				//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDefinesByObject> >	m_IsDeclaredBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByObject> >	m_Declares_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByType> >	m_IsTypedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_IsDefinedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByObject> >				m_IsDeclaredBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByObject> >				m_Declares_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByType> >					m_IsTypedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >			m_IsDefinedBy_inverse;
 
 	// IfcProduct -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcObjectPlacement>				m_ObjectPlacement;			//optional
-	//  shared_ptr<IfcProductRepresentation>			m_Representation;			//optional
+	//  shared_ptr<IfcObjectPlacement>								m_ObjectPlacement;			//optional
+	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >	m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
 
 	// IfcElement -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcIdentifier>					m_Tag;						//optional
+	//  shared_ptr<IfcIdentifier>									m_Tag;						//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelFillsElement> >	m_FillsVoids_inverse;
-	//  std::vector<weak_ptr<IfcRelConnectsElements> >	m_ConnectedTo_inverse;
-	//  std::vector<weak_ptr<IfcRelInterferesElements> >	m_IsInterferedByElements_inverse;
-	//  std::vector<weak_ptr<IfcRelInterferesElements> >	m_InterferesElements_inverse;
-	//  std::vector<weak_ptr<IfcRelProjectsElement> >	m_HasProjections_inverse;
+	//  std::vector<weak_ptr<IfcRelFillsElement> >					m_FillsVoids_inverse;
+	//  std::vector<weak_ptr<IfcRelConnectsElements> >				m_ConnectedTo_inverse;
+	//  std::vector<weak_ptr<IfcRelInterferesElements> >			m_IsInterferedByElements_inverse;
+	//  std::vector<weak_ptr<IfcRelInterferesElements> >			m_InterferesElements_inverse;
+	//  std::vector<weak_ptr<IfcRelProjectsElement> >				m_HasProjections_inverse;
 	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
-	//  std::vector<weak_ptr<IfcRelVoidsElement> >	m_HasOpenings_inverse;
+	//  std::vector<weak_ptr<IfcRelVoidsElement> >					m_HasOpenings_inverse;
 	//  std::vector<weak_ptr<IfcRelConnectsWithRealizingElements> >	m_IsConnectionRealization_inverse;
-	//  std::vector<weak_ptr<IfcRelSpaceBoundary> >	m_ProvidesBoundaries_inverse;
-	//  std::vector<weak_ptr<IfcRelConnectsElements> >	m_ConnectedFrom_inverse;
+	//  std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_ProvidesBoundaries_inverse;
+	//  std::vector<weak_ptr<IfcRelConnectsElements> >				m_ConnectedFrom_inverse;
 	//  std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
 
 	// IfcBuildingElement -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelCoversBldgElements> >	m_HasCoverings_inverse;
+	//  std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_HasCoverings_inverse;
 
 	// IfcWall -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcWallTypeEnum>					m_PredefinedType;			//optional
+	//  shared_ptr<IfcWallTypeEnum>									m_PredefinedType;			//optional
 
 	// IfcWallStandardCase -----------------------------------------------------------
 };

@@ -47,10 +47,10 @@ public:
 
 	// IfcMaterialLayerSetUsage -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcMaterialLayerSet>				m_ForLayerSet;
-	shared_ptr<IfcLayerSetDirectionEnum>			m_LayerSetDirection;
-	shared_ptr<IfcDirectionSenseEnum>			m_DirectionSense;
-	shared_ptr<IfcLengthMeasure>					m_OffsetFromReferenceLine;
-	shared_ptr<IfcPositiveLengthMeasure>			m_ReferenceExtent;			//optional
+	shared_ptr<IfcMaterialLayerSet>						m_ForLayerSet;
+	shared_ptr<IfcLayerSetDirectionEnum>				m_LayerSetDirection;
+	shared_ptr<IfcDirectionSenseEnum>					m_DirectionSense;
+	shared_ptr<IfcLengthMeasure>						m_OffsetFromReferenceLine;
+	shared_ptr<IfcPositiveLengthMeasure>				m_ReferenceExtent;			//optional
 };
 

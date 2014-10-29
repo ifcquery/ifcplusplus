@@ -30,8 +30,8 @@
 #include "include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcAsymmetricIShapeProfileDef 
-IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef() {}
-IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_id = id; }
+IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef() { m_entity_enum = IFCASYMMETRICISHAPEPROFILEDEF; }
+IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_id = id; m_entity_enum = IFCASYMMETRICISHAPEPROFILEDEF; }
 IfcAsymmetricIShapeProfileDef::~IfcAsymmetricIShapeProfileDef() {}
 shared_ptr<IfcPPObject> IfcAsymmetricIShapeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -91,7 +91,7 @@ void IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream,
 void IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 15 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAsymmetricIShapeProfileDef, expecting 15, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 15 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsymmetricIShapeProfileDef, expecting 15, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Position, map );

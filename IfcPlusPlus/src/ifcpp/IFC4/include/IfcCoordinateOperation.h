@@ -40,6 +40,6 @@ public:
 	// IfcCoordinateOperation -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcCoordinateReferenceSystemSelect>	m_SourceCRS;
-	shared_ptr<IfcCoordinateReferenceSystem>			m_TargetCRS;
+	shared_ptr<IfcCoordinateReferenceSystem>		m_TargetCRS;
 };
 

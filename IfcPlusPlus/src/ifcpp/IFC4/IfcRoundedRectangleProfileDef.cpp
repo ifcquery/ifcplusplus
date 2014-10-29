@@ -28,8 +28,8 @@
 #include "include/IfcRoundedRectangleProfileDef.h"
 
 // ENTITY IfcRoundedRectangleProfileDef 
-IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef() {}
-IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_id = id; }
+IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef() { m_entity_enum = IFCROUNDEDRECTANGLEPROFILEDEF; }
+IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_id = id; m_entity_enum = IFCROUNDEDRECTANGLEPROFILEDEF; }
 IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() {}
 shared_ptr<IfcPPObject> IfcRoundedRectangleProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -62,7 +62,7 @@ void IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream,
 void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRoundedRectangleProfileDef, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRoundedRectangleProfileDef, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0] );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Position, map );

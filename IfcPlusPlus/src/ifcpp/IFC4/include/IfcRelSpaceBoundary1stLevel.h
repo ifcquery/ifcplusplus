@@ -41,7 +41,7 @@ public:
 	// attributes:
 	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
 	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>									m_Name;						//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
 	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
@@ -53,7 +53,7 @@ public:
 	//  shared_ptr<IfcSpaceBoundarySelect>					m_RelatingSpace;
 	//  shared_ptr<IfcElement>								m_RelatedBuildingElement;
 	//  shared_ptr<IfcConnectionGeometry>					m_ConnectionGeometry;		//optional
-	//  shared_ptr<IfcPhysicalOrVirtualEnum>					m_PhysicalOrVirtualBoundary;
+	//  shared_ptr<IfcPhysicalOrVirtualEnum>				m_PhysicalOrVirtualBoundary;
 	//  shared_ptr<IfcInternalOrExternalEnum>				m_InternalOrExternalBoundary;
 
 	// IfcRelSpaceBoundary1stLevel -----------------------------------------------------------

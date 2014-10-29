@@ -44,12 +44,12 @@ public:
 
 	// IfcTextStyleTextModel -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcSizeSelect>					m_TextIndent;				//optional
-	shared_ptr<IfcTextAlignment>					m_TextAlign;				//optional
-	shared_ptr<IfcTextDecoration>				m_TextDecoration;			//optional
-	shared_ptr<IfcSizeSelect>					m_LetterSpacing;			//optional
-	shared_ptr<IfcSizeSelect>					m_WordSpacing;				//optional
-	shared_ptr<IfcTextTransformation>			m_TextTransform;			//optional
-	shared_ptr<IfcSizeSelect>					m_LineHeight;				//optional
+	shared_ptr<IfcSizeSelect>			m_TextIndent;				//optional
+	shared_ptr<IfcTextAlignment>		m_TextAlign;				//optional
+	shared_ptr<IfcTextDecoration>		m_TextDecoration;			//optional
+	shared_ptr<IfcSizeSelect>			m_LetterSpacing;			//optional
+	shared_ptr<IfcSizeSelect>			m_WordSpacing;				//optional
+	shared_ptr<IfcTextTransformation>	m_TextTransform;			//optional
+	shared_ptr<IfcSizeSelect>			m_LineHeight;				//optional
 };
 

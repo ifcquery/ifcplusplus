@@ -38,8 +38,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcStructuralResultGroup 
-IfcStructuralResultGroup::IfcStructuralResultGroup() {}
-IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_id = id; }
+IfcStructuralResultGroup::IfcStructuralResultGroup() { m_entity_enum = IFCSTRUCTURALRESULTGROUP; }
+IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_id = id; m_entity_enum = IFCSTRUCTURALRESULTGROUP; }
 IfcStructuralResultGroup::~IfcStructuralResultGroup() {}
 shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -87,7 +87,7 @@ void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool
 void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

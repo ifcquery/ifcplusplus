@@ -28,8 +28,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcCurrencyRelationship 
-IfcCurrencyRelationship::IfcCurrencyRelationship() {}
-IfcCurrencyRelationship::IfcCurrencyRelationship( int id ) { m_id = id; }
+IfcCurrencyRelationship::IfcCurrencyRelationship() { m_entity_enum = IFCCURRENCYRELATIONSHIP; }
+IfcCurrencyRelationship::IfcCurrencyRelationship( int id ) { m_id = id; m_entity_enum = IFCCURRENCYRELATIONSHIP; }
 IfcCurrencyRelationship::~IfcCurrencyRelationship() {}
 shared_ptr<IfcPPObject> IfcCurrencyRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -65,7 +65,7 @@ void IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool 
 void IfcCurrencyRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurrencyRelationship, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurrencyRelationship, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_RelatingMonetaryUnit, map );

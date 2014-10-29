@@ -26,8 +26,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcRectangularPyramid 
-IfcRectangularPyramid::IfcRectangularPyramid() {}
-IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_id = id; }
+IfcRectangularPyramid::IfcRectangularPyramid() { m_entity_enum = IFCRECTANGULARPYRAMID; }
+IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_id = id; m_entity_enum = IFCRECTANGULARPYRAMID; }
 IfcRectangularPyramid::~IfcRectangularPyramid() {}
 shared_ptr<IfcPPObject> IfcRectangularPyramid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -54,7 +54,7 @@ void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool ) 
 void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_XLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );

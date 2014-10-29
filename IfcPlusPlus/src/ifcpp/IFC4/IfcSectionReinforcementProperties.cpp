@@ -27,8 +27,8 @@
 #include "include/IfcSectionReinforcementProperties.h"
 
 // ENTITY IfcSectionReinforcementProperties 
-IfcSectionReinforcementProperties::IfcSectionReinforcementProperties() {}
-IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int id ) { m_id = id; }
+IfcSectionReinforcementProperties::IfcSectionReinforcementProperties() { m_entity_enum = IFCSECTIONREINFORCEMENTPROPERTIES; }
+IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int id ) { m_id = id; m_entity_enum = IFCSECTIONREINFORCEMENTPROPERTIES; }
 IfcSectionReinforcementProperties::~IfcSectionReinforcementProperties() {}
 shared_ptr<IfcPPObject> IfcSectionReinforcementProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -68,7 +68,7 @@ void IfcSectionReinforcementProperties::getStepParameter( std::stringstream& str
 void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_LongitudinalStartPosition = IfcLengthMeasure::createObjectFromSTEP( args[0] );
 	m_LongitudinalEndPosition = IfcLengthMeasure::createObjectFromSTEP( args[1] );
 	m_TransversePosition = IfcLengthMeasure::createObjectFromSTEP( args[2] );

@@ -44,17 +44,17 @@ public:
 
 	// IfcSurfaceStyleShading -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcColourRgb>						m_SurfaceColour;
+	//  shared_ptr<IfcColourRgb>				m_SurfaceColour;
 
 	// IfcSurfaceStyleRendering -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcNormalisedRatioMeasure>		m_Transparency;				//optional
-	shared_ptr<IfcColourOrFactor>				m_DiffuseColour;			//optional
-	shared_ptr<IfcColourOrFactor>				m_TransmissionColour;		//optional
-	shared_ptr<IfcColourOrFactor>				m_DiffuseTransmissionColour;	//optional
-	shared_ptr<IfcColourOrFactor>				m_ReflectionColour;			//optional
-	shared_ptr<IfcColourOrFactor>				m_SpecularColour;			//optional
-	shared_ptr<IfcSpecularHighlightSelect>		m_SpecularHighlight;		//optional
-	shared_ptr<IfcReflectanceMethodEnum>			m_ReflectanceMethod;
+	shared_ptr<IfcNormalisedRatioMeasure>	m_Transparency;				//optional
+	shared_ptr<IfcColourOrFactor>			m_DiffuseColour;			//optional
+	shared_ptr<IfcColourOrFactor>			m_TransmissionColour;		//optional
+	shared_ptr<IfcColourOrFactor>			m_DiffuseTransmissionColour;	//optional
+	shared_ptr<IfcColourOrFactor>			m_ReflectionColour;			//optional
+	shared_ptr<IfcColourOrFactor>			m_SpecularColour;			//optional
+	shared_ptr<IfcSpecularHighlightSelect>	m_SpecularHighlight;		//optional
+	shared_ptr<IfcReflectanceMethodEnum>	m_ReflectanceMethod;
 };
 

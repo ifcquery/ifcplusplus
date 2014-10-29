@@ -25,8 +25,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcPlane 
-IfcPlane::IfcPlane() {}
-IfcPlane::IfcPlane( int id ) { m_id = id; }
+IfcPlane::IfcPlane() { m_entity_enum = IFCPLANE; }
+IfcPlane::IfcPlane( int id ) { m_id = id; m_entity_enum = IFCPLANE; }
 IfcPlane::~IfcPlane() {}
 shared_ptr<IfcPPObject> IfcPlane::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -44,7 +44,7 @@ void IfcPlane::getStepParameter( std::stringstream& stream, bool ) const { strea
 void IfcPlane::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlane, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlane, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 }
 void IfcPlane::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

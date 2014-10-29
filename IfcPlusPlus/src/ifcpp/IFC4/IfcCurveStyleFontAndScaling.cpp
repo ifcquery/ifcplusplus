@@ -25,8 +25,8 @@
 #include "include/IfcPositiveRatioMeasure.h"
 
 // ENTITY IfcCurveStyleFontAndScaling 
-IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling() {}
-IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int id ) { m_id = id; }
+IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling() { m_entity_enum = IFCCURVESTYLEFONTANDSCALING; }
+IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int id ) { m_id = id; m_entity_enum = IFCCURVESTYLEFONTANDSCALING; }
 IfcCurveStyleFontAndScaling::~IfcCurveStyleFontAndScaling() {}
 shared_ptr<IfcPPObject> IfcCurveStyleFontAndScaling::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -50,7 +50,7 @@ void IfcCurveStyleFontAndScaling::getStepParameter( std::stringstream& stream, b
 void IfcCurveStyleFontAndScaling::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCurveStyleFontAndScaling, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFontAndScaling, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_CurveFont = IfcCurveStyleFontSelect::createObjectFromSTEP( args[1], map );
 	m_CurveFontScaling = IfcPositiveRatioMeasure::createObjectFromSTEP( args[2] );

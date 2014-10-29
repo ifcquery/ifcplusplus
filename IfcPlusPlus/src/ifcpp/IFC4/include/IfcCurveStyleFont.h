@@ -43,7 +43,7 @@ public:
 
 	// IfcCurveStyleFont -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>									m_Name;						//optional
+	shared_ptr<IfcLabel>								m_Name;						//optional
 	std::vector<shared_ptr<IfcCurveStyleFontPattern> >	m_PatternList;
 };
 

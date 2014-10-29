@@ -39,18 +39,18 @@ public:
 
 	// IfcNamedUnit -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcDimensionalExponents>			m_Dimensions;
-	//  shared_ptr<IfcUnitEnum>						m_UnitType;
+	//  shared_ptr<IfcDimensionalExponents>							m_Dimensions;
+	//  shared_ptr<IfcUnitEnum>										m_UnitType;
 
 	// IfcConversionBasedUnit -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;
-	//  shared_ptr<IfcMeasureWithUnit>				m_ConversionFactor;
+	//  shared_ptr<IfcLabel>										m_Name;
+	//  shared_ptr<IfcMeasureWithUnit>								m_ConversionFactor;
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
 
 	// IfcConversionBasedUnitWithOffset -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcReal>							m_ConversionOffset;
+	shared_ptr<IfcReal>											m_ConversionOffset;
 };
 

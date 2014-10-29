@@ -41,26 +41,26 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileTypeEnum>				m_ProfileType;
-	//  shared_ptr<IfcLabel>							m_ProfileName;				//optional
+	//  shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
+	//  shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
-	//  std::vector<weak_ptr<IfcProfileProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 
 	// IfcParameterizedProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcAxis2Placement2D>				m_Position;					//optional
+	//  shared_ptr<IfcAxis2Placement2D>								m_Position;					//optional
 
 	// IfcTShapeProfileDef -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPositiveLengthMeasure>			m_Depth;
-	shared_ptr<IfcPositiveLengthMeasure>			m_FlangeWidth;
-	shared_ptr<IfcPositiveLengthMeasure>			m_WebThickness;
-	shared_ptr<IfcPositiveLengthMeasure>			m_FlangeThickness;
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_FilletRadius;				//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_FlangeEdgeRadius;			//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_WebEdgeRadius;			//optional
-	shared_ptr<IfcPlaneAngleMeasure>				m_WebSlope;					//optional
-	shared_ptr<IfcPlaneAngleMeasure>				m_FlangeSlope;				//optional
+	shared_ptr<IfcPositiveLengthMeasure>						m_Depth;
+	shared_ptr<IfcPositiveLengthMeasure>						m_FlangeWidth;
+	shared_ptr<IfcPositiveLengthMeasure>						m_WebThickness;
+	shared_ptr<IfcPositiveLengthMeasure>						m_FlangeThickness;
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_FilletRadius;				//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_FlangeEdgeRadius;			//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_WebEdgeRadius;			//optional
+	shared_ptr<IfcPlaneAngleMeasure>							m_WebSlope;					//optional
+	shared_ptr<IfcPlaneAngleMeasure>							m_FlangeSlope;				//optional
 };
 

@@ -45,7 +45,7 @@ public:
 	// attributes:
 	shared_ptr<IfcRecurrenceTypeEnum>				m_RecurrenceType;
 	std::vector<shared_ptr<IfcDayInMonthNumber> >	m_DayComponent;				//optional
-	std::vector<shared_ptr<IfcDayInWeekNumber> >		m_WeekdayComponent;			//optional
+	std::vector<shared_ptr<IfcDayInWeekNumber> >	m_WeekdayComponent;			//optional
 	std::vector<shared_ptr<IfcMonthInYearNumber> >	m_MonthComponent;			//optional
 	shared_ptr<IfcInteger>							m_Position;					//optional
 	shared_ptr<IfcInteger>							m_Interval;					//optional

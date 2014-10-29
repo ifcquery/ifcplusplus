@@ -42,26 +42,26 @@ public:
 
 	// IfcSchedulingTime -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcDataOriginEnum>				m_DataOrigin;				//optional
-	//  shared_ptr<IfcLabel>							m_UserDefinedDataOrigin;	//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
+	//  shared_ptr<IfcDataOriginEnum>		m_DataOrigin;				//optional
+	//  shared_ptr<IfcLabel>				m_UserDefinedDataOrigin;	//optional
 
 	// IfcResourceTime -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcDuration>						m_ScheduleWork;				//optional
-	shared_ptr<IfcPositiveRatioMeasure>			m_ScheduleUsage;			//optional
-	shared_ptr<IfcDateTime>						m_ScheduleStart;			//optional
-	shared_ptr<IfcDateTime>						m_ScheduleFinish;			//optional
-	shared_ptr<IfcLabel>							m_ScheduleContour;			//optional
-	shared_ptr<IfcDuration>						m_LevelingDelay;			//optional
-	bool											m_IsOverAllocated;			//optional
-	shared_ptr<IfcDateTime>						m_StatusTime;				//optional
-	shared_ptr<IfcDuration>						m_ActualWork;				//optional
-	shared_ptr<IfcPositiveRatioMeasure>			m_ActualUsage;				//optional
-	shared_ptr<IfcDateTime>						m_ActualStart;				//optional
-	shared_ptr<IfcDateTime>						m_ActualFinish;				//optional
-	shared_ptr<IfcDuration>						m_RemainingWork;			//optional
-	shared_ptr<IfcPositiveRatioMeasure>			m_RemainingUsage;			//optional
-	shared_ptr<IfcPositiveRatioMeasure>			m_Completion;				//optional
+	shared_ptr<IfcDuration>				m_ScheduleWork;				//optional
+	shared_ptr<IfcPositiveRatioMeasure>	m_ScheduleUsage;			//optional
+	shared_ptr<IfcDateTime>				m_ScheduleStart;			//optional
+	shared_ptr<IfcDateTime>				m_ScheduleFinish;			//optional
+	shared_ptr<IfcLabel>				m_ScheduleContour;			//optional
+	shared_ptr<IfcDuration>				m_LevelingDelay;			//optional
+	bool								m_IsOverAllocated;			//optional
+	shared_ptr<IfcDateTime>				m_StatusTime;				//optional
+	shared_ptr<IfcDuration>				m_ActualWork;				//optional
+	shared_ptr<IfcPositiveRatioMeasure>	m_ActualUsage;				//optional
+	shared_ptr<IfcDateTime>				m_ActualStart;				//optional
+	shared_ptr<IfcDateTime>				m_ActualFinish;				//optional
+	shared_ptr<IfcDuration>				m_RemainingWork;			//optional
+	shared_ptr<IfcPositiveRatioMeasure>	m_RemainingUsage;			//optional
+	shared_ptr<IfcPositiveRatioMeasure>	m_Completion;				//optional
 };
 

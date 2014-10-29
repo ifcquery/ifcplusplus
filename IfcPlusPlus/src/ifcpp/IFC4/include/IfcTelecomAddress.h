@@ -42,7 +42,7 @@ public:
 	// attributes:
 	//  shared_ptr<IfcAddressTypeEnum>				m_Purpose;					//optional
 	//  shared_ptr<IfcText>							m_Description;				//optional
-	//  shared_ptr<IfcLabel>							m_UserDefinedPurpose;		//optional
+	//  shared_ptr<IfcLabel>						m_UserDefinedPurpose;		//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPerson> >			m_OfPerson_inverse;
 	//  std::vector<weak_ptr<IfcOrganization> >		m_OfOrganization_inverse;
@@ -51,7 +51,7 @@ public:
 	// attributes:
 	std::vector<shared_ptr<IfcLabel> >			m_TelephoneNumbers;			//optional
 	std::vector<shared_ptr<IfcLabel> >			m_FacsimileNumbers;			//optional
-	shared_ptr<IfcLabel>							m_PagerNumber;				//optional
+	shared_ptr<IfcLabel>						m_PagerNumber;				//optional
 	std::vector<shared_ptr<IfcLabel> >			m_ElectronicMailAddresses;	//optional
 	shared_ptr<IfcURIReference>					m_WWWHomePageURL;			//optional
 	std::vector<shared_ptr<IfcURIReference> >	m_MessagingIDs;				//optional

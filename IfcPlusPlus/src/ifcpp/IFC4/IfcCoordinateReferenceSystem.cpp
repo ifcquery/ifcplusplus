@@ -25,8 +25,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcCoordinateReferenceSystem 
-IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem() {}
-IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int id ) { m_id = id; }
+IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem() { m_entity_enum = IFCCOORDINATEREFERENCESYSTEM; }
+IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int id ) { m_id = id; m_entity_enum = IFCCOORDINATEREFERENCESYSTEM; }
 IfcCoordinateReferenceSystem::~IfcCoordinateReferenceSystem() {}
 shared_ptr<IfcPPObject> IfcCoordinateReferenceSystem::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -53,7 +53,7 @@ void IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, 
 void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCoordinateReferenceSystem, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateReferenceSystem, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2] );

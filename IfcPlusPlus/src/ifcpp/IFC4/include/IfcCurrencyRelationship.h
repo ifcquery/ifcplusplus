@@ -42,15 +42,15 @@ public:
 
 	// IfcResourceLevelRelationship -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
+	//  shared_ptr<IfcText>					m_Description;				//optional
 
 	// IfcCurrencyRelationship -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcMonetaryUnit>					m_RelatingMonetaryUnit;
-	shared_ptr<IfcMonetaryUnit>					m_RelatedMonetaryUnit;
-	shared_ptr<IfcPositiveRatioMeasure>			m_ExchangeRate;
-	shared_ptr<IfcDateTime>						m_RateDateTime;				//optional
-	shared_ptr<IfcLibraryInformation>			m_RateSource;				//optional
+	shared_ptr<IfcMonetaryUnit>			m_RelatingMonetaryUnit;
+	shared_ptr<IfcMonetaryUnit>			m_RelatedMonetaryUnit;
+	shared_ptr<IfcPositiveRatioMeasure>	m_ExchangeRate;
+	shared_ptr<IfcDateTime>				m_RateDateTime;				//optional
+	shared_ptr<IfcLibraryInformation>	m_RateSource;				//optional
 };
 

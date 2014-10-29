@@ -28,8 +28,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcRationalBSplineCurveWithKnots 
-IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots() {}
-IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_id = id; }
+IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots() { m_entity_enum = IFCRATIONALBSPLINECURVEWITHKNOTS; }
+IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_id = id; m_entity_enum = IFCRATIONALBSPLINECURVEWITHKNOTS; }
 IfcRationalBSplineCurveWithKnots::~IfcRationalBSplineCurveWithKnots() {}
 shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -89,7 +89,7 @@ void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stre
 void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readIntValue( args[0], m_Degree );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2] );

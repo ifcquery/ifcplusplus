@@ -39,7 +39,7 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
@@ -49,20 +49,20 @@ public:
 
 	// IfcBSplineCurve -----------------------------------------------------------
 	// attributes:
-	//  int											m_Degree;
-	//  std::vector<shared_ptr<IfcCartesianPoint> >	m_ControlPointsList;
-	//  shared_ptr<IfcBSplineCurveForm>				m_CurveForm;
-	//  LogicalEnum									m_ClosedCurve;
-	//  LogicalEnum									m_SelfIntersect;
+	//  int														m_Degree;
+	//  std::vector<shared_ptr<IfcCartesianPoint> >				m_ControlPointsList;
+	//  shared_ptr<IfcBSplineCurveForm>							m_CurveForm;
+	//  LogicalEnum												m_ClosedCurve;
+	//  LogicalEnum												m_SelfIntersect;
 
 	// IfcBSplineCurveWithKnots -----------------------------------------------------------
 	// attributes:
-	//  std::vector<int >							m_KnotMultiplicities;
-	//  std::vector<shared_ptr<IfcParameterValue> >	m_Knots;
-	//  shared_ptr<IfcKnotType>						m_KnotSpec;
+	//  std::vector<int >										m_KnotMultiplicities;
+	//  std::vector<shared_ptr<IfcParameterValue> >				m_Knots;
+	//  shared_ptr<IfcKnotType>									m_KnotSpec;
 
 	// IfcRationalBSplineCurveWithKnots -----------------------------------------------------------
 	// attributes:
-	std::vector<double >							m_WeightsData;
+	std::vector<double >									m_WeightsData;
 };
 

@@ -44,19 +44,19 @@ public:
 
 	// IfcProperty -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcIdentifier>					m_Name;
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcIdentifier>									m_Name;
+	//  shared_ptr<IfcText>											m_Description;				//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcPropertySet> >		m_PartOfPset_inverse;
+	//  std::vector<weak_ptr<IfcPropertySet> >						m_PartOfPset_inverse;
 	//  std::vector<weak_ptr<IfcPropertyDependencyRelationship> >	m_PropertyForDependance_inverse;
 	//  std::vector<weak_ptr<IfcPropertyDependencyRelationship> >	m_PropertyDependsOn_inverse;
-	//  std::vector<weak_ptr<IfcComplexProperty> >	m_PartOfComplex_inverse;
+	//  std::vector<weak_ptr<IfcComplexProperty> >					m_PartOfComplex_inverse;
 
 	// IfcSimpleProperty -----------------------------------------------------------
 
 	// IfcPropertyReferenceValue -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcText>							m_UsageName;				//optional
-	shared_ptr<IfcObjectReferenceSelect>			m_PropertyReference;		//optional
+	shared_ptr<IfcText>											m_UsageName;				//optional
+	shared_ptr<IfcObjectReferenceSelect>						m_PropertyReference;		//optional
 };
 

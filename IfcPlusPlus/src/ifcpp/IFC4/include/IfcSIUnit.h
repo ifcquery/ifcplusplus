@@ -40,12 +40,12 @@ public:
 
 	// IfcNamedUnit -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcDimensionalExponents>			m_Dimensions;
-	//  shared_ptr<IfcUnitEnum>						m_UnitType;
+	//  shared_ptr<IfcDimensionalExponents>	m_Dimensions;
+	//  shared_ptr<IfcUnitEnum>				m_UnitType;
 
 	// IfcSIUnit -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcSIPrefix>						m_Prefix;					//optional
-	shared_ptr<IfcSIUnitName>					m_Name;
+	shared_ptr<IfcSIPrefix>				m_Prefix;					//optional
+	shared_ptr<IfcSIUnitName>			m_Name;
 };
 
