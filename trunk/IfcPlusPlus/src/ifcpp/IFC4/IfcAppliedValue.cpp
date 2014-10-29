@@ -29,8 +29,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcAppliedValue 
-IfcAppliedValue::IfcAppliedValue() {}
-IfcAppliedValue::IfcAppliedValue( int id ) { m_id = id; }
+IfcAppliedValue::IfcAppliedValue() { m_entity_enum = IFCAPPLIEDVALUE; }
+IfcAppliedValue::IfcAppliedValue( int id ) { m_id = id; m_entity_enum = IFCAPPLIEDVALUE; }
 IfcAppliedValue::~IfcAppliedValue() {}
 shared_ptr<IfcPPObject> IfcAppliedValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -82,7 +82,7 @@ void IfcAppliedValue::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcAppliedValue, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAppliedValue, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	m_AppliedValue = IfcAppliedValueSelect::createObjectFromSTEP( args[2], map );

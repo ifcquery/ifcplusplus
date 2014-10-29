@@ -25,8 +25,8 @@
 #include "include/IfcTorqueMeasure.h"
 
 // ENTITY IfcStructuralLoadSingleForce 
-IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce() {}
-IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_id = id; }
+IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce() { m_entity_enum = IFCSTRUCTURALLOADSINGLEFORCE; }
+IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_id = id; m_entity_enum = IFCSTRUCTURALLOADSINGLEFORCE; }
 IfcStructuralLoadSingleForce::~IfcStructuralLoadSingleForce() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadSingleForce::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -62,7 +62,7 @@ void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, 
 void IfcStructuralLoadSingleForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcStructuralLoadSingleForce, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForce, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_ForceX = IfcForceMeasure::createObjectFromSTEP( args[1] );
 	m_ForceY = IfcForceMeasure::createObjectFromSTEP( args[2] );

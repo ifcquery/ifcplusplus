@@ -48,8 +48,8 @@ public:
 
 	// IfcLibraryInformation -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>								m_Name;
-	shared_ptr<IfcLabel>								m_Version;					//optional
+	shared_ptr<IfcLabel>							m_Name;
+	shared_ptr<IfcLabel>							m_Version;					//optional
 	shared_ptr<IfcActorSelect>						m_Publisher;				//optional
 	shared_ptr<IfcDateTime>							m_VersionDate;				//optional
 	shared_ptr<IfcURIReference>						m_Location;					//optional

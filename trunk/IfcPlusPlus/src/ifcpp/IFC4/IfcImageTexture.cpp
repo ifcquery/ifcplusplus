@@ -27,8 +27,8 @@
 #include "include/IfcURIReference.h"
 
 // ENTITY IfcImageTexture 
-IfcImageTexture::IfcImageTexture() {}
-IfcImageTexture::IfcImageTexture( int id ) { m_id = id; }
+IfcImageTexture::IfcImageTexture() { m_entity_enum = IFCIMAGETEXTURE; }
+IfcImageTexture::IfcImageTexture( int id ) { m_id = id; m_entity_enum = IFCIMAGETEXTURE; }
 IfcImageTexture::~IfcImageTexture() {}
 shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -70,7 +70,7 @@ void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	if( boost::iequals( args[0], L".F." ) ) { m_RepeatS = false; }
 	else if( boost::iequals( args[0], L".T." ) ) { m_RepeatS = true; }
 	if( boost::iequals( args[1], L".F." ) ) { m_RepeatT = false; }

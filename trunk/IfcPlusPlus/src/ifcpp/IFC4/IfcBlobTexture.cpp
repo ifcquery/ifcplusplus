@@ -26,8 +26,8 @@
 #include "include/IfcTextureCoordinate.h"
 
 // ENTITY IfcBlobTexture 
-IfcBlobTexture::IfcBlobTexture() {}
-IfcBlobTexture::IfcBlobTexture( int id ) { m_id = id; }
+IfcBlobTexture::IfcBlobTexture() { m_entity_enum = IFCBLOBTEXTURE; }
+IfcBlobTexture::IfcBlobTexture( int id ) { m_id = id; m_entity_enum = IFCBLOBTEXTURE; }
 IfcBlobTexture::~IfcBlobTexture() {}
 shared_ptr<IfcPPObject> IfcBlobTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -71,7 +71,7 @@ void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	if( boost::iequals( args[0], L".F." ) ) { m_RepeatS = false; }
 	else if( boost::iequals( args[0], L".T." ) ) { m_RepeatS = true; }
 	if( boost::iequals( args[1], L".F." ) ) { m_RepeatT = false; }

@@ -40,17 +40,17 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcHalfSpaceSolid -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcSurface>						m_BaseSurface;
-	//  bool											m_AgreementFlag;
+	//  shared_ptr<IfcSurface>									m_BaseSurface;
+	//  bool													m_AgreementFlag;
 
 	// IfcBoxedHalfSpace -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcBoundingBox>					m_Enclosure;
+	shared_ptr<IfcBoundingBox>								m_Enclosure;
 };
 

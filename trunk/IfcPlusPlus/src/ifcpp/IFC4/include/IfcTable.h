@@ -42,8 +42,8 @@ public:
 
 	// IfcTable -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Name;						//optional
+	shared_ptr<IfcLabel>						m_Name;						//optional
 	std::vector<shared_ptr<IfcTableRow> >		m_Rows;						//optional
-	std::vector<shared_ptr<IfcTableColumn> >		m_Columns;					//optional
+	std::vector<shared_ptr<IfcTableColumn> >	m_Columns;					//optional
 };
 

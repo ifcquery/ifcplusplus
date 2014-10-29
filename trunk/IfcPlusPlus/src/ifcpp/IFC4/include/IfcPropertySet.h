@@ -39,24 +39,24 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcPropertyDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >		m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcPropertySetDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcTypeObject> >		m_DefinesType_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByTemplate> >	m_IsDefinedBy_inverse;
+	//  std::vector<weak_ptr<IfcTypeObject> >				m_DefinesType_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByTemplate> >		m_IsDefinedBy_inverse;
 	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_DefinesOccurrence_inverse;
 
 	// IfcPropertySet -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcProperty> >		m_HasProperties;
+	std::vector<shared_ptr<IfcProperty> >				m_HasProperties;
 };
 

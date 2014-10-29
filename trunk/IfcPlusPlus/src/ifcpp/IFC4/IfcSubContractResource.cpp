@@ -40,8 +40,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcSubContractResource 
-IfcSubContractResource::IfcSubContractResource() {}
-IfcSubContractResource::IfcSubContractResource( int id ) { m_id = id; }
+IfcSubContractResource::IfcSubContractResource() { m_entity_enum = IFCSUBCONTRACTRESOURCE; }
+IfcSubContractResource::IfcSubContractResource( int id ) { m_id = id; m_entity_enum = IFCSUBCONTRACTRESOURCE; }
 IfcSubContractResource::~IfcSubContractResource() {}
 shared_ptr<IfcPPObject> IfcSubContractResource::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -104,7 +104,7 @@ void IfcSubContractResource::getStepParameter( std::stringstream& stream, bool )
 void IfcSubContractResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSubContractResource, expecting 11, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSubContractResource, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

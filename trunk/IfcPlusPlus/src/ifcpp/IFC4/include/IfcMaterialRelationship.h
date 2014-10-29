@@ -40,13 +40,13 @@ public:
 
 	// IfcResourceLevelRelationship -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcLabel>					m_Name;						//optional
+	//  shared_ptr<IfcText>						m_Description;				//optional
 
 	// IfcMaterialRelationship -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcMaterial>						m_RelatingMaterial;
-	std::vector<shared_ptr<IfcMaterial> >		m_RelatedMaterials;
-	shared_ptr<IfcLabel>							m_Expression;				//optional
+	shared_ptr<IfcMaterial>					m_RelatingMaterial;
+	std::vector<shared_ptr<IfcMaterial> >	m_RelatedMaterials;
+	shared_ptr<IfcLabel>					m_Expression;				//optional
 };
 

@@ -39,10 +39,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>					m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>						m_OwnerHistory;				//optional
 	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcText>								m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 

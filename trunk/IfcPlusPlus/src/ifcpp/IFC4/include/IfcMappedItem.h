@@ -41,11 +41,11 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >			m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcMappedItem -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcRepresentationMap>					m_MappingSource;
-	shared_ptr<IfcCartesianTransformationOperator>	m_MappingTarget;
+	shared_ptr<IfcRepresentationMap>						m_MappingSource;
+	shared_ptr<IfcCartesianTransformationOperator>			m_MappingTarget;
 };
 

@@ -42,7 +42,7 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcProfileTypeEnum>							m_ProfileType;
+	shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
 	shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;

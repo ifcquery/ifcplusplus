@@ -40,7 +40,7 @@ public:
 
 	// IfcStructuralLoad -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>						m_Name;						//optional
 
 	// IfcStructuralLoadOrResult -----------------------------------------------------------
 

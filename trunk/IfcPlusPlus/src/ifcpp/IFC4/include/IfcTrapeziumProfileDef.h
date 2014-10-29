@@ -40,21 +40,21 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileTypeEnum>				m_ProfileType;
-	//  shared_ptr<IfcLabel>							m_ProfileName;				//optional
+	//  shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
+	//  shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
-	//  std::vector<weak_ptr<IfcProfileProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 
 	// IfcParameterizedProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcAxis2Placement2D>				m_Position;					//optional
+	//  shared_ptr<IfcAxis2Placement2D>								m_Position;					//optional
 
 	// IfcTrapeziumProfileDef -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPositiveLengthMeasure>			m_BottomXDim;
-	shared_ptr<IfcPositiveLengthMeasure>			m_TopXDim;
-	shared_ptr<IfcPositiveLengthMeasure>			m_YDim;
-	shared_ptr<IfcLengthMeasure>					m_TopXOffset;
+	shared_ptr<IfcPositiveLengthMeasure>						m_BottomXDim;
+	shared_ptr<IfcPositiveLengthMeasure>						m_TopXDim;
+	shared_ptr<IfcPositiveLengthMeasure>						m_YDim;
+	shared_ptr<IfcLengthMeasure>								m_TopXOffset;
 };
 

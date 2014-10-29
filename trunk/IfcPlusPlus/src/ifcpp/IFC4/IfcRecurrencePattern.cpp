@@ -28,8 +28,8 @@
 #include "include/IfcTimePeriod.h"
 
 // ENTITY IfcRecurrencePattern 
-IfcRecurrencePattern::IfcRecurrencePattern() {}
-IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_id = id; }
+IfcRecurrencePattern::IfcRecurrencePattern() { m_entity_enum = IFCRECURRENCEPATTERN; }
+IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_id = id; m_entity_enum = IFCRECURRENCEPATTERN; }
 IfcRecurrencePattern::~IfcRecurrencePattern() {}
 shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -96,7 +96,7 @@ void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool ) c
 void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_RecurrenceType = IfcRecurrenceTypeEnum::createObjectFromSTEP( args[0] );
 	readTypeOfIntList( args[1], m_DayComponent );
 	readTypeOfIntList( args[2], m_WeekdayComponent );

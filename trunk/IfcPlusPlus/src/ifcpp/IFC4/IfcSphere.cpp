@@ -26,8 +26,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcSphere 
-IfcSphere::IfcSphere() {}
-IfcSphere::IfcSphere( int id ) { m_id = id; }
+IfcSphere::IfcSphere() { m_entity_enum = IFCSPHERE; }
+IfcSphere::IfcSphere( int id ) { m_id = id; m_entity_enum = IFCSPHERE; }
 IfcSphere::~IfcSphere() {}
 shared_ptr<IfcPPObject> IfcSphere::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -48,7 +48,7 @@ void IfcSphere::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcSphere, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphere, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 }

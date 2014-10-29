@@ -23,8 +23,8 @@
 #include "include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialUsageDefinition 
-IfcMaterialUsageDefinition::IfcMaterialUsageDefinition() {}
-IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_id = id; }
+IfcMaterialUsageDefinition::IfcMaterialUsageDefinition() { m_entity_enum = IFCMATERIALUSAGEDEFINITION; }
+IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_id = id; m_entity_enum = IFCMATERIALUSAGEDEFINITION; }
 IfcMaterialUsageDefinition::~IfcMaterialUsageDefinition() {}
 shared_ptr<IfcPPObject> IfcMaterialUsageDefinition::getDeepCopy( IfcPPCopyOptions& options )
 {

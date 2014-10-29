@@ -39,10 +39,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>		m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>			m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
+	//  shared_ptr<IfcText>					m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
@@ -50,15 +50,15 @@ public:
 
 	// IfcRelConnectsElements -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcConnectionGeometry>			m_ConnectionGeometry;		//optional
-	//  shared_ptr<IfcElement>						m_RelatingElement;
-	//  shared_ptr<IfcElement>						m_RelatedElement;
+	//  shared_ptr<IfcConnectionGeometry>	m_ConnectionGeometry;		//optional
+	//  shared_ptr<IfcElement>				m_RelatingElement;
+	//  shared_ptr<IfcElement>				m_RelatedElement;
 
 	// IfcRelConnectsPathElements -----------------------------------------------------------
 	// attributes:
-	std::vector<int >							m_RelatingPriorities;
-	std::vector<int >							m_RelatedPriorities;
-	shared_ptr<IfcConnectionTypeEnum>			m_RelatedConnectionType;
-	shared_ptr<IfcConnectionTypeEnum>			m_RelatingConnectionType;
+	std::vector<int >					m_RelatingPriorities;
+	std::vector<int >					m_RelatedPriorities;
+	shared_ptr<IfcConnectionTypeEnum>	m_RelatedConnectionType;
+	shared_ptr<IfcConnectionTypeEnum>	m_RelatingConnectionType;
 };
 

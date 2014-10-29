@@ -30,8 +30,8 @@
 #include "include/IfcValue.h"
 
 // ENTITY IfcPropertyBoundedValue 
-IfcPropertyBoundedValue::IfcPropertyBoundedValue() {}
-IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_id = id; }
+IfcPropertyBoundedValue::IfcPropertyBoundedValue() { m_entity_enum = IFCPROPERTYBOUNDEDVALUE; }
+IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_id = id; m_entity_enum = IFCPROPERTYBOUNDEDVALUE; }
 IfcPropertyBoundedValue::~IfcPropertyBoundedValue() {}
 shared_ptr<IfcPPObject> IfcPropertyBoundedValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -64,7 +64,7 @@ void IfcPropertyBoundedValue::getStepParameter( std::stringstream& stream, bool 
 void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0] );
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	m_UpperBoundValue = IfcValue::createObjectFromSTEP( args[2], map );

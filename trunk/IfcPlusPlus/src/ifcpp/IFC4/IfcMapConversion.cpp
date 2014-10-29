@@ -26,8 +26,8 @@
 #include "include/IfcReal.h"
 
 // ENTITY IfcMapConversion 
-IfcMapConversion::IfcMapConversion() {}
-IfcMapConversion::IfcMapConversion( int id ) { m_id = id; }
+IfcMapConversion::IfcMapConversion() { m_entity_enum = IFCMAPCONVERSION; }
+IfcMapConversion::IfcMapConversion( int id ) { m_id = id; m_entity_enum = IFCMAPCONVERSION; }
 IfcMapConversion::~IfcMapConversion() {}
 shared_ptr<IfcPPObject> IfcMapConversion::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -66,7 +66,7 @@ void IfcMapConversion::getStepParameter( std::stringstream& stream, bool ) const
 void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 	m_Eastings = IfcLengthMeasure::createObjectFromSTEP( args[2] );

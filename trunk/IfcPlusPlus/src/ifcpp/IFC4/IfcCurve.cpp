@@ -24,8 +24,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCurve 
-IfcCurve::IfcCurve() {}
-IfcCurve::IfcCurve( int id ) { m_id = id; }
+IfcCurve::IfcCurve() { m_entity_enum = IFCCURVE; }
+IfcCurve::IfcCurve( int id ) { m_id = id; m_entity_enum = IFCCURVE; }
 IfcCurve::~IfcCurve() {}
 shared_ptr<IfcPPObject> IfcCurve::getDeepCopy( IfcPPCopyOptions& options )
 {

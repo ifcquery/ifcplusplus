@@ -27,8 +27,8 @@
 #include "include/IfcTimeStamp.h"
 
 // ENTITY IfcOwnerHistory 
-IfcOwnerHistory::IfcOwnerHistory() {}
-IfcOwnerHistory::IfcOwnerHistory( int id ) { m_id = id; }
+IfcOwnerHistory::IfcOwnerHistory() { m_entity_enum = IFCOWNERHISTORY; }
+IfcOwnerHistory::IfcOwnerHistory( int id ) { m_id = id; m_entity_enum = IFCOWNERHISTORY; }
 IfcOwnerHistory::~IfcOwnerHistory() {}
 shared_ptr<IfcPPObject> IfcOwnerHistory::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -67,7 +67,7 @@ void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_OwningUser, map );
 	readEntityReference( args[1], m_OwningApplication, map );
 	m_State = IfcStateEnum::createObjectFromSTEP( args[2] );

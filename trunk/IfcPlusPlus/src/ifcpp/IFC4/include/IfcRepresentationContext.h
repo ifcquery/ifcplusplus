@@ -39,8 +39,8 @@ public:
 
 	// IfcRepresentationContext -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_ContextIdentifier;		//optional
-	shared_ptr<IfcLabel>							m_ContextType;				//optional
+	shared_ptr<IfcLabel>						m_ContextIdentifier;		//optional
+	shared_ptr<IfcLabel>						m_ContextType;				//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcRepresentation> >	m_RepresentationsInContext_inverse;
 };

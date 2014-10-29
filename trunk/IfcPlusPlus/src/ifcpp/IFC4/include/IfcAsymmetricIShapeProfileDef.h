@@ -41,29 +41,29 @@ public:
 
 	// IfcProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileTypeEnum>				m_ProfileType;
-	//  shared_ptr<IfcLabel>							m_ProfileName;				//optional
+	//  shared_ptr<IfcProfileTypeEnum>								m_ProfileType;
+	//  shared_ptr<IfcLabel>										m_ProfileName;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
-	//  std::vector<weak_ptr<IfcProfileProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 
 	// IfcParameterizedProfileDef -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcAxis2Placement2D>				m_Position;					//optional
+	//  shared_ptr<IfcAxis2Placement2D>								m_Position;					//optional
 
 	// IfcAsymmetricIShapeProfileDef -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPositiveLengthMeasure>			m_BottomFlangeWidth;
-	shared_ptr<IfcPositiveLengthMeasure>			m_OverallDepth;
-	shared_ptr<IfcPositiveLengthMeasure>			m_WebThickness;
-	shared_ptr<IfcPositiveLengthMeasure>			m_BottomFlangeThickness;
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_BottomFlangeFilletRadius;	//optional
-	shared_ptr<IfcPositiveLengthMeasure>			m_TopFlangeWidth;
-	shared_ptr<IfcPositiveLengthMeasure>			m_TopFlangeThickness;		//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_TopFlangeFilletRadius;	//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_BottomFlangeEdgeRadius;	//optional
-	shared_ptr<IfcPlaneAngleMeasure>				m_BottomFlangeSlope;		//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_TopFlangeEdgeRadius;		//optional
-	shared_ptr<IfcPlaneAngleMeasure>				m_TopFlangeSlope;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>						m_BottomFlangeWidth;
+	shared_ptr<IfcPositiveLengthMeasure>						m_OverallDepth;
+	shared_ptr<IfcPositiveLengthMeasure>						m_WebThickness;
+	shared_ptr<IfcPositiveLengthMeasure>						m_BottomFlangeThickness;
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_BottomFlangeFilletRadius;	//optional
+	shared_ptr<IfcPositiveLengthMeasure>						m_TopFlangeWidth;
+	shared_ptr<IfcPositiveLengthMeasure>						m_TopFlangeThickness;		//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_TopFlangeFilletRadius;	//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_BottomFlangeEdgeRadius;	//optional
+	shared_ptr<IfcPlaneAngleMeasure>							m_BottomFlangeSlope;		//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>						m_TopFlangeEdgeRadius;		//optional
+	shared_ptr<IfcPlaneAngleMeasure>							m_TopFlangeSlope;			//optional
 };
 

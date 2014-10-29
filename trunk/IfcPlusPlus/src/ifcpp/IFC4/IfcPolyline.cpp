@@ -25,8 +25,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcPolyline 
-IfcPolyline::IfcPolyline() {}
-IfcPolyline::IfcPolyline( int id ) { m_id = id; }
+IfcPolyline::IfcPolyline() { m_entity_enum = IFCPOLYLINE; }
+IfcPolyline::IfcPolyline( int id ) { m_id = id; m_entity_enum = IFCPOLYLINE; }
 IfcPolyline::~IfcPolyline() {}
 shared_ptr<IfcPPObject> IfcPolyline::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -51,7 +51,7 @@ void IfcPolyline::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Points, map );
 }
 void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

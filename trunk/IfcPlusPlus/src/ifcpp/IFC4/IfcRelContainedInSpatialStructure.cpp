@@ -31,8 +31,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcRelContainedInSpatialStructure 
-IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure() {}
-IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure( int id ) { m_id = id; }
+IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure() { m_entity_enum = IFCRELCONTAINEDINSPATIALSTRUCTURE; }
+IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure( int id ) { m_id = id; m_entity_enum = IFCRELCONTAINEDINSPATIALSTRUCTURE; }
 IfcRelContainedInSpatialStructure::~IfcRelContainedInSpatialStructure() {}
 shared_ptr<IfcPPObject> IfcRelContainedInSpatialStructure::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -80,7 +80,7 @@ void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& str
 void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelContainedInSpatialStructure, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelContainedInSpatialStructure, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

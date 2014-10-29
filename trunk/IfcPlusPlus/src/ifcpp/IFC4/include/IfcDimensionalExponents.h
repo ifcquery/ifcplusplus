@@ -37,12 +37,12 @@ public:
 
 	// IfcDimensionalExponents -----------------------------------------------------------
 	// attributes:
-	int											m_LengthExponent;
-	int											m_MassExponent;
-	int											m_TimeExponent;
-	int											m_ElectricCurrentExponent;
-	int											m_ThermodynamicTemperatureExponent;
-	int											m_AmountOfSubstanceExponent;
-	int											m_LuminousIntensityExponent;
+	int	m_LengthExponent;
+	int	m_MassExponent;
+	int	m_TimeExponent;
+	int	m_ElectricCurrentExponent;
+	int	m_ThermodynamicTemperatureExponent;
+	int	m_AmountOfSubstanceExponent;
+	int	m_LuminousIntensityExponent;
 };
 

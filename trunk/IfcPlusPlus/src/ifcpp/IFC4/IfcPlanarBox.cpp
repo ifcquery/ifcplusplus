@@ -26,8 +26,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcPlanarBox 
-IfcPlanarBox::IfcPlanarBox() {}
-IfcPlanarBox::IfcPlanarBox( int id ) { m_id = id; }
+IfcPlanarBox::IfcPlanarBox() { m_entity_enum = IFCPLANARBOX; }
+IfcPlanarBox::IfcPlanarBox( int id ) { m_id = id; m_entity_enum = IFCPLANARBOX; }
 IfcPlanarBox::~IfcPlanarBox() {}
 shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -51,7 +51,7 @@ void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0] );
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1] );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[2], map );

@@ -41,7 +41,7 @@ public:
 
 	// IfcMeasureWithUnit -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcValue>							m_ValueComponent;
-	shared_ptr<IfcUnit>							m_UnitComponent;
+	shared_ptr<IfcValue>	m_ValueComponent;
+	shared_ptr<IfcUnit>		m_UnitComponent;
 };
 

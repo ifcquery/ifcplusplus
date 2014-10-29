@@ -26,8 +26,8 @@
 #include "include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialProfileSetUsage 
-IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage() {}
-IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int id ) { m_id = id; }
+IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage() { m_entity_enum = IFCMATERIALPROFILESETUSAGE; }
+IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int id ) { m_id = id; m_entity_enum = IFCMATERIALPROFILESETUSAGE; }
 IfcMaterialProfileSetUsage::~IfcMaterialProfileSetUsage() {}
 shared_ptr<IfcPPObject> IfcMaterialProfileSetUsage::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -51,7 +51,7 @@ void IfcMaterialProfileSetUsage::getStepParameter( std::stringstream& stream, bo
 void IfcMaterialProfileSetUsage::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMaterialProfileSetUsage, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSetUsage, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ForProfileSet, map );
 	m_CardinalPoint = IfcCardinalPointReference::createObjectFromSTEP( args[1] );
 	m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );

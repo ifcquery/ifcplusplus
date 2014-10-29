@@ -38,6 +38,6 @@ public:
 
 	// IfcTimeSeriesValue -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcValue> >			m_ListValues;
+	std::vector<shared_ptr<IfcValue> >	m_ListValues;
 };
 

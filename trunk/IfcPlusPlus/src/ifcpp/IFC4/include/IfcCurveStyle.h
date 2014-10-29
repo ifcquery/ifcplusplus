@@ -42,13 +42,13 @@ public:
 
 	// IfcPresentationStyle -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcLabel>							m_Name;						//optional
 
 	// IfcCurveStyle -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcCurveFontOrScaledCurveFontSelect>	m_CurveFont;				//optional
 	shared_ptr<IfcSizeSelect>						m_CurveWidth;				//optional
 	shared_ptr<IfcColour>							m_CurveColour;				//optional
-	bool												m_ModelOrDraughting;		//optional
+	bool											m_ModelOrDraughting;		//optional
 };
 

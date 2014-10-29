@@ -29,8 +29,8 @@
 #include "include/IfcShapeModel.h"
 
 // ENTITY IfcShapeModel 
-IfcShapeModel::IfcShapeModel() {}
-IfcShapeModel::IfcShapeModel( int id ) { m_id = id; }
+IfcShapeModel::IfcShapeModel() { m_entity_enum = IFCSHAPEMODEL; }
+IfcShapeModel::IfcShapeModel( int id ) { m_id = id; m_entity_enum = IFCSHAPEMODEL; }
 IfcShapeModel::~IfcShapeModel() {}
 shared_ptr<IfcPPObject> IfcShapeModel::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -68,7 +68,7 @@ void IfcShapeModel::getStepParameter( std::stringstream& stream, bool ) const { 
 void IfcShapeModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcShapeModel, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeModel, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1] );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2] );

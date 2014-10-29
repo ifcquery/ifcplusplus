@@ -42,38 +42,38 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcPropertyDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >		m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcPropertySetDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcTypeObject> >		m_DefinesType_inverse;
-	//  std::vector<weak_ptr<IfcRelDefinesByTemplate> >	m_IsDefinedBy_inverse;
+	//  std::vector<weak_ptr<IfcTypeObject> >				m_DefinesType_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByTemplate> >		m_IsDefinedBy_inverse;
 	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_DefinesOccurrence_inverse;
 
 	// IfcPreDefinedPropertySet -----------------------------------------------------------
 
 	// IfcDoorLiningProperties -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcPositiveLengthMeasure>			m_LiningDepth;				//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_LiningThickness;			//optional
-	shared_ptr<IfcPositiveLengthMeasure>			m_ThresholdDepth;			//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_ThresholdThickness;		//optional
-	shared_ptr<IfcNonNegativeLengthMeasure>		m_TransomThickness;			//optional
-	shared_ptr<IfcLengthMeasure>					m_TransomOffset;			//optional
-	shared_ptr<IfcLengthMeasure>					m_LiningOffset;				//optional
-	shared_ptr<IfcLengthMeasure>					m_ThresholdOffset;			//optional
-	shared_ptr<IfcPositiveLengthMeasure>			m_CasingThickness;			//optional
-	shared_ptr<IfcPositiveLengthMeasure>			m_CasingDepth;				//optional
-	shared_ptr<IfcShapeAspect>					m_ShapeAspectStyle;			//optional
-	shared_ptr<IfcLengthMeasure>					m_LiningToPanelOffsetX;		//optional
-	shared_ptr<IfcLengthMeasure>					m_LiningToPanelOffsetY;		//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_LiningDepth;				//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>				m_LiningThickness;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_ThresholdDepth;			//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>				m_ThresholdThickness;		//optional
+	shared_ptr<IfcNonNegativeLengthMeasure>				m_TransomThickness;			//optional
+	shared_ptr<IfcLengthMeasure>						m_TransomOffset;			//optional
+	shared_ptr<IfcLengthMeasure>						m_LiningOffset;				//optional
+	shared_ptr<IfcLengthMeasure>						m_ThresholdOffset;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_CasingThickness;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_CasingDepth;				//optional
+	shared_ptr<IfcShapeAspect>							m_ShapeAspectStyle;			//optional
+	shared_ptr<IfcLengthMeasure>						m_LiningToPanelOffsetX;		//optional
+	shared_ptr<IfcLengthMeasure>						m_LiningToPanelOffsetY;		//optional
 };
 

@@ -25,8 +25,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcFaceOuterBound 
-IfcFaceOuterBound::IfcFaceOuterBound() {}
-IfcFaceOuterBound::IfcFaceOuterBound( int id ) { m_id = id; }
+IfcFaceOuterBound::IfcFaceOuterBound() { m_entity_enum = IFCFACEOUTERBOUND; }
+IfcFaceOuterBound::IfcFaceOuterBound( int id ) { m_id = id; m_entity_enum = IFCFACEOUTERBOUND; }
 IfcFaceOuterBound::~IfcFaceOuterBound() {}
 shared_ptr<IfcPPObject> IfcFaceOuterBound::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -48,7 +48,7 @@ void IfcFaceOuterBound::getStepParameter( std::stringstream& stream, bool ) cons
 void IfcFaceOuterBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Bound, map );
 	if( boost::iequals( args[1], L".F." ) ) { m_Orientation = false; }
 	else if( boost::iequals( args[1], L".T." ) ) { m_Orientation = true; }

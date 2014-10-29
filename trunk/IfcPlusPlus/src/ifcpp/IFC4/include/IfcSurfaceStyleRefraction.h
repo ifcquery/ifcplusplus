@@ -42,7 +42,7 @@ public:
 
 	// IfcSurfaceStyleRefraction -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcReal>							m_RefractionIndex;			//optional
-	shared_ptr<IfcReal>							m_DispersionFactor;			//optional
+	shared_ptr<IfcReal>	m_RefractionIndex;			//optional
+	shared_ptr<IfcReal>	m_DispersionFactor;			//optional
 };
 

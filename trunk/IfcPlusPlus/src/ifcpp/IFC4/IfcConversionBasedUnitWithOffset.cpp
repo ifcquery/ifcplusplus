@@ -28,8 +28,8 @@
 #include "include/IfcUnitEnum.h"
 
 // ENTITY IfcConversionBasedUnitWithOffset 
-IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset() {}
-IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_id = id; }
+IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset() { m_entity_enum = IFCCONVERSIONBASEDUNITWITHOFFSET; }
+IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_id = id; m_entity_enum = IFCCONVERSIONBASEDUNITWITHOFFSET; }
 IfcConversionBasedUnitWithOffset::~IfcConversionBasedUnitWithOffset() {}
 shared_ptr<IfcPPObject> IfcConversionBasedUnitWithOffset::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -59,7 +59,7 @@ void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stre
 void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConversionBasedUnitWithOffset, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnitWithOffset, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1] );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

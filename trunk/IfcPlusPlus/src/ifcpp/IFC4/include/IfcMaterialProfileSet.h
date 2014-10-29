@@ -42,15 +42,15 @@ public:
 
 	// IfcMaterialDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssociatesMaterial> >	m_AssociatedTo_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociatesMaterial> >			m_AssociatedTo_inverse;
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReferences_inverse;
-	//  std::vector<weak_ptr<IfcMaterialProperties> >	m_HasProperties_inverse;
+	//  std::vector<weak_ptr<IfcMaterialProperties> >				m_HasProperties_inverse;
 
 	// IfcMaterialProfileSet -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Name;						//optional
-	shared_ptr<IfcText>							m_Description;				//optional
-	std::vector<shared_ptr<IfcMaterialProfile> >	m_MaterialProfiles;
-	shared_ptr<IfcCompositeProfileDef>			m_CompositeProfile;			//optional
+	shared_ptr<IfcLabel>										m_Name;						//optional
+	shared_ptr<IfcText>											m_Description;				//optional
+	std::vector<shared_ptr<IfcMaterialProfile> >				m_MaterialProfiles;
+	shared_ptr<IfcCompositeProfileDef>							m_CompositeProfile;			//optional
 };
 

@@ -47,20 +47,20 @@ public:
 
 	// IfcApproval -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>								m_Identifier;				//optional
+	shared_ptr<IfcIdentifier>									m_Identifier;				//optional
 	shared_ptr<IfcLabel>										m_Name;						//optional
-	shared_ptr<IfcText>										m_Description;				//optional
-	shared_ptr<IfcDateTime>									m_TimeOfApproval;			//optional
+	shared_ptr<IfcText>											m_Description;				//optional
+	shared_ptr<IfcDateTime>										m_TimeOfApproval;			//optional
 	shared_ptr<IfcLabel>										m_Status;					//optional
 	shared_ptr<IfcLabel>										m_Level;					//optional
-	shared_ptr<IfcText>										m_Qualifier;				//optional
-	shared_ptr<IfcActorSelect>								m_RequestingApproval;		//optional
-	shared_ptr<IfcActorSelect>								m_GivingApproval;			//optional
+	shared_ptr<IfcText>											m_Qualifier;				//optional
+	shared_ptr<IfcActorSelect>									m_RequestingApproval;		//optional
+	shared_ptr<IfcActorSelect>									m_GivingApproval;			//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReferences_inverse;
 	std::vector<weak_ptr<IfcRelAssociatesApproval> >			m_ApprovedObjects_inverse;
-	std::vector<weak_ptr<IfcResourceApprovalRelationship> >	m_ApprovedResources_inverse;
-	std::vector<weak_ptr<IfcApprovalRelationship> >			m_IsRelatedWith_inverse;
-	std::vector<weak_ptr<IfcApprovalRelationship> >			m_Relates_inverse;
+	std::vector<weak_ptr<IfcResourceApprovalRelationship> >		m_ApprovedResources_inverse;
+	std::vector<weak_ptr<IfcApprovalRelationship> >				m_IsRelatedWith_inverse;
+	std::vector<weak_ptr<IfcApprovalRelationship> >				m_Relates_inverse;
 };
 

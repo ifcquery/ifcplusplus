@@ -32,8 +32,8 @@
 #include "include/IfcTypeProcess.h"
 
 // ENTITY IfcRelAssignsToProcess 
-IfcRelAssignsToProcess::IfcRelAssignsToProcess() {}
-IfcRelAssignsToProcess::IfcRelAssignsToProcess( int id ) { m_id = id; }
+IfcRelAssignsToProcess::IfcRelAssignsToProcess() { m_entity_enum = IFCRELASSIGNSTOPROCESS; }
+IfcRelAssignsToProcess::IfcRelAssignsToProcess( int id ) { m_id = id; m_entity_enum = IFCRELASSIGNSTOPROCESS; }
 IfcRelAssignsToProcess::~IfcRelAssignsToProcess() {}
 shared_ptr<IfcPPObject> IfcRelAssignsToProcess::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -87,7 +87,7 @@ void IfcRelAssignsToProcess::getStepParameter( std::stringstream& stream, bool )
 void IfcRelAssignsToProcess::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 8 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelAssignsToProcess, expecting 8, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToProcess, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

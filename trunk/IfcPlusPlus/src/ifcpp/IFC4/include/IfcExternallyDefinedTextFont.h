@@ -39,9 +39,9 @@ public:
 
 	// IfcExternalReference -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcURIReference>					m_Location;					//optional
-	//  shared_ptr<IfcIdentifier>					m_Identification;			//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcURIReference>									m_Location;					//optional
+	//  shared_ptr<IfcIdentifier>									m_Identification;			//optional
+	//  shared_ptr<IfcLabel>										m_Name;						//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_ExternalReferenceForResources_inverse;
 

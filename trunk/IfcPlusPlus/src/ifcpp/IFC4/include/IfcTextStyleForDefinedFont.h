@@ -41,7 +41,7 @@ public:
 
 	// IfcTextStyleForDefinedFont -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcColour>						m_Colour;
-	shared_ptr<IfcColour>						m_BackgroundColour;			//optional
+	shared_ptr<IfcColour>	m_Colour;
+	shared_ptr<IfcColour>	m_BackgroundColour;			//optional
 };
 

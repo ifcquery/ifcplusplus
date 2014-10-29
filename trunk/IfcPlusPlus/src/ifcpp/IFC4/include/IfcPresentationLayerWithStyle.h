@@ -39,9 +39,9 @@ public:
 
 	// IfcPresentationLayerAssignment -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>								m_Name;
+	//  shared_ptr<IfcLabel>							m_Name;
 	//  shared_ptr<IfcText>								m_Description;				//optional
-	//  std::vector<shared_ptr<IfcLayeredItem> >			m_AssignedItems;
+	//  std::vector<shared_ptr<IfcLayeredItem> >		m_AssignedItems;
 	//  shared_ptr<IfcIdentifier>						m_Identifier;				//optional
 
 	// IfcPresentationLayerWithStyle -----------------------------------------------------------

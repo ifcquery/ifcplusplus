@@ -45,7 +45,7 @@ public:
 	// attributes:
 	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
 	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>									m_Name;						//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
 	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcObjectDefinition -----------------------------------------------------------
@@ -54,9 +54,9 @@ public:
 	//  std::vector<weak_ptr<IfcRelNests> >					m_Nests_inverse;
 	//  std::vector<weak_ptr<IfcRelNests> >					m_IsNestedBy_inverse;
 	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >				m_IsDecomposedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >				m_Decomposes_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >				m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >			m_IsDecomposedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >			m_Decomposes_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcTypeObject -----------------------------------------------------------
 	// attributes:
@@ -68,13 +68,13 @@ public:
 	// IfcTypeProduct -----------------------------------------------------------
 	// attributes:
 	//  std::vector<shared_ptr<IfcRepresentationMap> >		m_RepresentationMaps;		//optional
-	//  shared_ptr<IfcLabel>									m_Tag;						//optional
+	//  shared_ptr<IfcLabel>								m_Tag;						//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >		m_ReferencedBy_inverse;
 
 	// IfcElementType -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>									m_ElementType;				//optional
+	//  shared_ptr<IfcLabel>								m_ElementType;				//optional
 
 	// IfcElementComponentType -----------------------------------------------------------
 
@@ -83,15 +83,15 @@ public:
 	// IfcReinforcingMeshType -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcReinforcingMeshTypeEnum>				m_PredefinedType;
-	shared_ptr<IfcPositiveLengthMeasure>					m_MeshLength;				//optional
-	shared_ptr<IfcPositiveLengthMeasure>					m_MeshWidth;				//optional
-	shared_ptr<IfcPositiveLengthMeasure>					m_LongitudinalBarNominalDiameter;	//optional
-	shared_ptr<IfcPositiveLengthMeasure>					m_TransverseBarNominalDiameter;	//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_MeshLength;				//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_MeshWidth;				//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_LongitudinalBarNominalDiameter;	//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_TransverseBarNominalDiameter;	//optional
 	shared_ptr<IfcAreaMeasure>							m_LongitudinalBarCrossSectionArea;	//optional
 	shared_ptr<IfcAreaMeasure>							m_TransverseBarCrossSectionArea;	//optional
-	shared_ptr<IfcPositiveLengthMeasure>					m_LongitudinalBarSpacing;	//optional
-	shared_ptr<IfcPositiveLengthMeasure>					m_TransverseBarSpacing;		//optional
-	shared_ptr<IfcLabel>									m_BendingShapeCode;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_LongitudinalBarSpacing;	//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_TransverseBarSpacing;		//optional
+	shared_ptr<IfcLabel>								m_BendingShapeCode;			//optional
 	std::vector<shared_ptr<IfcBendingParameterSelect> >	m_BendingParameters;		//optional
 };
 

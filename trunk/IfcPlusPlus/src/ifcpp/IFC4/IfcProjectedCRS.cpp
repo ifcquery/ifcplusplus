@@ -26,8 +26,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcProjectedCRS 
-IfcProjectedCRS::IfcProjectedCRS() {}
-IfcProjectedCRS::IfcProjectedCRS( int id ) { m_id = id; }
+IfcProjectedCRS::IfcProjectedCRS() { m_entity_enum = IFCPROJECTEDCRS; }
+IfcProjectedCRS::IfcProjectedCRS( int id ) { m_id = id; m_entity_enum = IFCPROJECTEDCRS; }
 IfcProjectedCRS::~IfcProjectedCRS() {}
 shared_ptr<IfcPPObject> IfcProjectedCRS::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -63,7 +63,7 @@ void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2] );

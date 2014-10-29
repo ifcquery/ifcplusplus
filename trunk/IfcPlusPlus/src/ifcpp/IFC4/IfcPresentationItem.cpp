@@ -22,8 +22,8 @@
 #include "include/IfcPresentationItem.h"
 
 // ENTITY IfcPresentationItem 
-IfcPresentationItem::IfcPresentationItem() {}
-IfcPresentationItem::IfcPresentationItem( int id ) { m_id = id; }
+IfcPresentationItem::IfcPresentationItem() { m_entity_enum = IFCPRESENTATIONITEM; }
+IfcPresentationItem::IfcPresentationItem( int id ) { m_id = id; m_entity_enum = IFCPRESENTATIONITEM; }
 IfcPresentationItem::~IfcPresentationItem() {}
 shared_ptr<IfcPPObject> IfcPresentationItem::getDeepCopy( IfcPPCopyOptions& options )
 {

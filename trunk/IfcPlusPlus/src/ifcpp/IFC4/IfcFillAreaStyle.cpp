@@ -24,8 +24,8 @@
 #include "include/IfcLabel.h"
 
 // ENTITY IfcFillAreaStyle 
-IfcFillAreaStyle::IfcFillAreaStyle() {}
-IfcFillAreaStyle::IfcFillAreaStyle( int id ) { m_id = id; }
+IfcFillAreaStyle::IfcFillAreaStyle() { m_entity_enum = IFCFILLAREASTYLE; }
+IfcFillAreaStyle::IfcFillAreaStyle( int id ) { m_id = id; m_entity_enum = IFCFILLAREASTYLE; }
 IfcFillAreaStyle::~IfcFillAreaStyle() {}
 shared_ptr<IfcPPObject> IfcFillAreaStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -57,7 +57,7 @@ void IfcFillAreaStyle::getStepParameter( std::stringstream& stream, bool ) const
 void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFillAreaStyle, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyle, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readSelectList( args[1], m_FillStyles, map );
 	if( boost::iequals( args[2], L".F." ) ) { m_ModelorDraughting = false; }

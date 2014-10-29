@@ -45,13 +45,13 @@ public:
 
 	// IfcPerson -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>						m_Identification;			//optional
+	shared_ptr<IfcIdentifier>							m_Identification;			//optional
 	shared_ptr<IfcLabel>								m_FamilyName;				//optional
 	shared_ptr<IfcLabel>								m_GivenName;				//optional
-	std::vector<shared_ptr<IfcLabel> >				m_MiddleNames;				//optional
-	std::vector<shared_ptr<IfcLabel> >				m_PrefixTitles;				//optional
-	std::vector<shared_ptr<IfcLabel> >				m_SuffixTitles;				//optional
-	std::vector<shared_ptr<IfcActorRole> >			m_Roles;					//optional
+	std::vector<shared_ptr<IfcLabel> >					m_MiddleNames;				//optional
+	std::vector<shared_ptr<IfcLabel> >					m_PrefixTitles;				//optional
+	std::vector<shared_ptr<IfcLabel> >					m_SuffixTitles;				//optional
+	std::vector<shared_ptr<IfcActorRole> >				m_Roles;					//optional
 	std::vector<shared_ptr<IfcAddress> >				m_Addresses;				//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcPersonAndOrganization> >	m_EngagedIn_inverse;

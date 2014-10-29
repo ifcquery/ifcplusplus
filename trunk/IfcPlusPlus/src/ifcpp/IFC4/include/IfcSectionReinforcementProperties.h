@@ -51,8 +51,8 @@ public:
 	shared_ptr<IfcLengthMeasure>								m_LongitudinalStartPosition;
 	shared_ptr<IfcLengthMeasure>								m_LongitudinalEndPosition;
 	shared_ptr<IfcLengthMeasure>								m_TransversePosition;		//optional
-	shared_ptr<IfcReinforcingBarRoleEnum>					m_ReinforcementRole;
+	shared_ptr<IfcReinforcingBarRoleEnum>						m_ReinforcementRole;
 	shared_ptr<IfcSectionProperties>							m_SectionDefinition;
-	std::vector<shared_ptr<IfcReinforcementBarProperties> >	m_CrossSectionReinforcementDefinitions;
+	std::vector<shared_ptr<IfcReinforcementBarProperties> >		m_CrossSectionReinforcementDefinitions;
 };
 

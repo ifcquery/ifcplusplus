@@ -40,17 +40,17 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcPlanarExtent -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLengthMeasure>					m_SizeInX;
-	//  shared_ptr<IfcLengthMeasure>					m_SizeInY;
+	//  shared_ptr<IfcLengthMeasure>							m_SizeInX;
+	//  shared_ptr<IfcLengthMeasure>							m_SizeInY;
 
 	// IfcPlanarBox -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcAxis2Placement>				m_Placement;
+	shared_ptr<IfcAxis2Placement>							m_Placement;
 };
 

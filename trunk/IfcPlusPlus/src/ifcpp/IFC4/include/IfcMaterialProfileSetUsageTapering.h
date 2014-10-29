@@ -44,13 +44,13 @@ public:
 
 	// IfcMaterialProfileSetUsage -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcMaterialProfileSet>			m_ForProfileSet;
-	//  shared_ptr<IfcCardinalPointReference>		m_CardinalPoint;			//optional
-	//  shared_ptr<IfcPositiveLengthMeasure>			m_ReferenceExtent;			//optional
+	//  shared_ptr<IfcMaterialProfileSet>					m_ForProfileSet;
+	//  shared_ptr<IfcCardinalPointReference>				m_CardinalPoint;			//optional
+	//  shared_ptr<IfcPositiveLengthMeasure>				m_ReferenceExtent;			//optional
 
 	// IfcMaterialProfileSetUsageTapering -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcMaterialProfileSet>			m_ForProfileEndSet;
-	shared_ptr<IfcCardinalPointReference>		m_CardinalEndPoint;			//optional
+	shared_ptr<IfcMaterialProfileSet>					m_ForProfileEndSet;
+	shared_ptr<IfcCardinalPointReference>				m_CardinalEndPoint;			//optional
 };
 

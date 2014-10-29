@@ -41,7 +41,7 @@ public:
 
 	// IfcConnectionSurfaceGeometry -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcSurfaceOrFaceSurface>			m_SurfaceOnRelatingElement;
-	shared_ptr<IfcSurfaceOrFaceSurface>			m_SurfaceOnRelatedElement;	//optional
+	shared_ptr<IfcSurfaceOrFaceSurface>	m_SurfaceOnRelatingElement;
+	shared_ptr<IfcSurfaceOrFaceSurface>	m_SurfaceOnRelatedElement;	//optional
 };
 

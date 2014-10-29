@@ -40,18 +40,18 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcTopologicalRepresentationItem -----------------------------------------------------------
 
 	// IfcEdge -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcVertex>						m_EdgeStart;
-	//  shared_ptr<IfcVertex>						m_EdgeEnd;
+	//  shared_ptr<IfcVertex>									m_EdgeStart;
+	//  shared_ptr<IfcVertex>									m_EdgeEnd;
 
 	// IfcOrientedEdge -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcEdge>							m_EdgeElement;
-	bool											m_Orientation;
+	shared_ptr<IfcEdge>										m_EdgeElement;
+	bool													m_Orientation;
 };
 

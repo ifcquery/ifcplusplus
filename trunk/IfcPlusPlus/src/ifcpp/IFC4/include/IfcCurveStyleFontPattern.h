@@ -42,7 +42,7 @@ public:
 
 	// IfcCurveStyleFontPattern -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLengthMeasure>					m_VisibleSegmentLength;
-	shared_ptr<IfcPositiveLengthMeasure>			m_InvisibleSegmentLength;
+	shared_ptr<IfcLengthMeasure>			m_VisibleSegmentLength;
+	shared_ptr<IfcPositiveLengthMeasure>	m_InvisibleSegmentLength;
 };
 

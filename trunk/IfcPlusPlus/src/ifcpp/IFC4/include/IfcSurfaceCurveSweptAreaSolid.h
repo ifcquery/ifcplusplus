@@ -42,7 +42,7 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
@@ -50,14 +50,14 @@ public:
 
 	// IfcSweptAreaSolid -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcProfileDef>					m_SweptArea;
-	//  shared_ptr<IfcAxis2Placement3D>				m_Position;					//optional
+	//  shared_ptr<IfcProfileDef>								m_SweptArea;
+	//  shared_ptr<IfcAxis2Placement3D>							m_Position;					//optional
 
 	// IfcSurfaceCurveSweptAreaSolid -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurve>							m_Directrix;
-	shared_ptr<IfcParameterValue>				m_StartParam;				//optional
-	shared_ptr<IfcParameterValue>				m_EndParam;					//optional
-	shared_ptr<IfcSurface>						m_ReferenceSurface;
+	shared_ptr<IfcCurve>									m_Directrix;
+	shared_ptr<IfcParameterValue>							m_StartParam;				//optional
+	shared_ptr<IfcParameterValue>							m_EndParam;					//optional
+	shared_ptr<IfcSurface>									m_ReferenceSurface;
 };
 

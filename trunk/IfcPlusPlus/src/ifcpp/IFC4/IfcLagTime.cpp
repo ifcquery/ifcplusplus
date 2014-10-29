@@ -26,8 +26,8 @@
 #include "include/IfcTimeOrRatioSelect.h"
 
 // ENTITY IfcLagTime 
-IfcLagTime::IfcLagTime() {}
-IfcLagTime::IfcLagTime( int id ) { m_id = id; }
+IfcLagTime::IfcLagTime() { m_entity_enum = IFCLAGTIME; }
+IfcLagTime::IfcLagTime( int id ) { m_id = id; m_entity_enum = IFCLAGTIME; }
 IfcLagTime::~IfcLagTime() {}
 shared_ptr<IfcPPObject> IfcLagTime::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -57,7 +57,7 @@ void IfcLagTime::getStepParameter( std::stringstream& stream, bool ) const { str
 void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );

@@ -39,7 +39,7 @@ public:
 
 	// IfcIrregularTimeSeriesValue -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcDateTime>						m_TimeStamp;
-	std::vector<shared_ptr<IfcValue> >			m_ListValues;
+	shared_ptr<IfcDateTime>				m_TimeStamp;
+	std::vector<shared_ptr<IfcValue> >	m_ListValues;
 };
 

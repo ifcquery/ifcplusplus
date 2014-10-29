@@ -26,8 +26,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCircle 
-IfcCircle::IfcCircle() {}
-IfcCircle::IfcCircle( int id ) { m_id = id; }
+IfcCircle::IfcCircle() { m_entity_enum = IFCCIRCLE; }
+IfcCircle::IfcCircle( int id ) { m_id = id; m_entity_enum = IFCCIRCLE; }
 IfcCircle::~IfcCircle() {}
 shared_ptr<IfcPPObject> IfcCircle::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -48,7 +48,7 @@ void IfcCircle::getStepParameter( std::stringstream& stream, bool ) const { stre
 void IfcCircle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 }

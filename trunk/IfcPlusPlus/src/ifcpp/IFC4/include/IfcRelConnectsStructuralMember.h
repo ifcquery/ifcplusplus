@@ -44,10 +44,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>					m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>						m_OwnerHistory;				//optional
 	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcText>								m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
@@ -55,11 +55,11 @@ public:
 
 	// IfcRelConnectsStructuralMember -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcStructuralMember>				m_RelatingStructuralMember;
-	shared_ptr<IfcStructuralConnection>			m_RelatedStructuralConnection;
+	shared_ptr<IfcStructuralMember>					m_RelatingStructuralMember;
+	shared_ptr<IfcStructuralConnection>				m_RelatedStructuralConnection;
 	shared_ptr<IfcBoundaryCondition>				m_AppliedCondition;			//optional
 	shared_ptr<IfcStructuralConnectionCondition>	m_AdditionalConditions;		//optional
 	shared_ptr<IfcLengthMeasure>					m_SupportedLength;			//optional
-	shared_ptr<IfcAxis2Placement3D>				m_ConditionCoordinateSystem;	//optional
+	shared_ptr<IfcAxis2Placement3D>					m_ConditionCoordinateSystem;	//optional
 };
 

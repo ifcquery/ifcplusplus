@@ -42,9 +42,9 @@ public:
 
 	// IfcActorRole -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcRoleEnum>									m_Role;
+	shared_ptr<IfcRoleEnum>										m_Role;
 	shared_ptr<IfcLabel>										m_UserDefinedRole;			//optional
-	shared_ptr<IfcText>										m_Description;				//optional
+	shared_ptr<IfcText>											m_Description;				//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
 };

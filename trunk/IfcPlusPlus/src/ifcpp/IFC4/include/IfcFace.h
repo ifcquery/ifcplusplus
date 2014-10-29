@@ -41,14 +41,14 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcTopologicalRepresentationItem -----------------------------------------------------------
 
 	// IfcFace -----------------------------------------------------------
 	// attributes:
-	std::vector<shared_ptr<IfcFaceBound> >		m_Bounds;
+	std::vector<shared_ptr<IfcFaceBound> >					m_Bounds;
 	// inverse attributes:
-	std::vector<weak_ptr<IfcTextureMap> >		m_HasTextureMaps_inverse;
+	std::vector<weak_ptr<IfcTextureMap> >					m_HasTextureMaps_inverse;
 };
 

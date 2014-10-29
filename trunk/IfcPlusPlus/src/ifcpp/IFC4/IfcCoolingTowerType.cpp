@@ -37,8 +37,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcCoolingTowerType 
-IfcCoolingTowerType::IfcCoolingTowerType() {}
-IfcCoolingTowerType::IfcCoolingTowerType( int id ) { m_id = id; }
+IfcCoolingTowerType::IfcCoolingTowerType() { m_entity_enum = IFCCOOLINGTOWERTYPE; }
+IfcCoolingTowerType::IfcCoolingTowerType( int id ) { m_id = id; m_entity_enum = IFCCOOLINGTOWERTYPE; }
 IfcCoolingTowerType::~IfcCoolingTowerType() {}
 shared_ptr<IfcPPObject> IfcCoolingTowerType::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -105,7 +105,7 @@ void IfcCoolingTowerType::getStepParameter( std::stringstream& stream, bool ) co
 void IfcCoolingTowerType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 10 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCoolingTowerType, expecting 10, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoolingTowerType, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

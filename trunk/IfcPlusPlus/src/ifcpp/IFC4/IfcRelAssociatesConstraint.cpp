@@ -28,8 +28,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcRelAssociatesConstraint 
-IfcRelAssociatesConstraint::IfcRelAssociatesConstraint() {}
-IfcRelAssociatesConstraint::IfcRelAssociatesConstraint( int id ) { m_id = id; }
+IfcRelAssociatesConstraint::IfcRelAssociatesConstraint() { m_entity_enum = IFCRELASSOCIATESCONSTRAINT; }
+IfcRelAssociatesConstraint::IfcRelAssociatesConstraint( int id ) { m_id = id; m_entity_enum = IFCRELASSOCIATESCONSTRAINT; }
 IfcRelAssociatesConstraint::~IfcRelAssociatesConstraint() {}
 shared_ptr<IfcPPObject> IfcRelAssociatesConstraint::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -80,7 +80,7 @@ void IfcRelAssociatesConstraint::getStepParameter( std::stringstream& stream, bo
 void IfcRelAssociatesConstraint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 7 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcRelAssociatesConstraint, expecting 7, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociatesConstraint, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

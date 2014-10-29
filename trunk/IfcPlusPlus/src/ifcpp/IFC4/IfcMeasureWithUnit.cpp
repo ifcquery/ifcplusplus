@@ -24,8 +24,8 @@
 #include "include/IfcValue.h"
 
 // ENTITY IfcMeasureWithUnit 
-IfcMeasureWithUnit::IfcMeasureWithUnit() {}
-IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_id = id; }
+IfcMeasureWithUnit::IfcMeasureWithUnit() { m_entity_enum = IFCMEASUREWITHUNIT; }
+IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_id = id; m_entity_enum = IFCMEASUREWITHUNIT; }
 IfcMeasureWithUnit::~IfcMeasureWithUnit() {}
 shared_ptr<IfcPPObject> IfcMeasureWithUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -46,7 +46,7 @@ void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool ) con
 void IfcMeasureWithUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ValueComponent = IfcValue::createObjectFromSTEP( args[0], map );
 	m_UnitComponent = IfcUnit::createObjectFromSTEP( args[1], map );
 }

@@ -24,8 +24,8 @@
 #include "include/IfcValue.h"
 
 // ENTITY IfcIrregularTimeSeriesValue 
-IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue() {}
-IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int id ) { m_id = id; }
+IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue() { m_entity_enum = IFCIRREGULARTIMESERIESVALUE; }
+IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int id ) { m_id = id; m_entity_enum = IFCIRREGULARTIMESERIESVALUE; }
 IfcIrregularTimeSeriesValue::~IfcIrregularTimeSeriesValue() {}
 shared_ptr<IfcPPObject> IfcIrregularTimeSeriesValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -53,7 +53,7 @@ void IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, b
 void IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TimeStamp = IfcDateTime::createObjectFromSTEP( args[0] );
 	readSelectList( args[1], m_ListValues, map );
 }

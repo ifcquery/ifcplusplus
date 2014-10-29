@@ -36,8 +36,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcDistributionElementType 
-IfcDistributionElementType::IfcDistributionElementType() {}
-IfcDistributionElementType::IfcDistributionElementType( int id ) { m_id = id; }
+IfcDistributionElementType::IfcDistributionElementType() { m_entity_enum = IFCDISTRIBUTIONELEMENTTYPE; }
+IfcDistributionElementType::IfcDistributionElementType( int id ) { m_id = id; m_entity_enum = IFCDISTRIBUTIONELEMENTTYPE; }
 IfcDistributionElementType::~IfcDistributionElementType() {}
 shared_ptr<IfcPPObject> IfcDistributionElementType::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -101,7 +101,7 @@ void IfcDistributionElementType::getStepParameter( std::stringstream& stream, bo
 void IfcDistributionElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcDistributionElementType, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionElementType, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

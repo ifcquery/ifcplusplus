@@ -24,8 +24,8 @@
 #include "include/IfcNormalisedRatioMeasure.h"
 
 // ENTITY IfcColourRgb 
-IfcColourRgb::IfcColourRgb() {}
-IfcColourRgb::IfcColourRgb( int id ) { m_id = id; }
+IfcColourRgb::IfcColourRgb() { m_entity_enum = IFCCOLOURRGB; }
+IfcColourRgb::IfcColourRgb( int id ) { m_id = id; m_entity_enum = IFCCOLOURRGB; }
 IfcColourRgb::~IfcColourRgb() {}
 shared_ptr<IfcPPObject> IfcColourRgb::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -52,7 +52,7 @@ void IfcColourRgb::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcColourRgb::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcColourRgb, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourRgb, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Red = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1] );
 	m_Green = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2] );

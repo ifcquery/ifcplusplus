@@ -29,8 +29,8 @@
 #include "include/IfcReinforcingBarSurfaceEnum.h"
 
 // ENTITY IfcReinforcementBarProperties 
-IfcReinforcementBarProperties::IfcReinforcementBarProperties() {}
-IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_id = id; }
+IfcReinforcementBarProperties::IfcReinforcementBarProperties() { m_entity_enum = IFCREINFORCEMENTBARPROPERTIES; }
+IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_id = id; m_entity_enum = IFCREINFORCEMENTBARPROPERTIES; }
 IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
 shared_ptr<IfcPPObject> IfcReinforcementBarProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -63,7 +63,7 @@ void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream,
 void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TotalCrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[0] );
 	m_SteelGrade = IfcLabel::createObjectFromSTEP( args[1] );
 	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[2] );

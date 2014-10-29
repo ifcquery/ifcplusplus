@@ -40,10 +40,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>					m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>						m_OwnerHistory;				//optional
 	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcText>								m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
@@ -54,6 +54,6 @@ public:
 	// IfcRelAssociatesConstraint -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcLabel>							m_Intent;					//optional
-	shared_ptr<IfcConstraint>					m_RelatingConstraint;
+	shared_ptr<IfcConstraint>						m_RelatingConstraint;
 };
 

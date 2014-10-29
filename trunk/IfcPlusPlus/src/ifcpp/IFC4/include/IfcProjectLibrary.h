@@ -38,31 +38,31 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcObjectDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssigns> >		m_HasAssignments_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >			m_Nests_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >			m_IsNestedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_HasContext_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >		m_IsDecomposedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelAggregates> >		m_Decomposes_inverse;
-	//  std::vector<weak_ptr<IfcRelAssociates> >		m_HasAssociations_inverse;
+	//  std::vector<weak_ptr<IfcRelAssigns> >				m_HasAssignments_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >					m_Nests_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >					m_IsNestedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >			m_IsDecomposedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelAggregates> >			m_Decomposes_inverse;
+	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcContext -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_ObjectType;				//optional
-	//  shared_ptr<IfcLabel>							m_LongName;					//optional
-	//  shared_ptr<IfcLabel>							m_Phase;					//optional
+	//  shared_ptr<IfcLabel>								m_ObjectType;				//optional
+	//  shared_ptr<IfcLabel>								m_LongName;					//optional
+	//  shared_ptr<IfcLabel>								m_Phase;					//optional
 	//  std::vector<shared_ptr<IfcRepresentationContext> >	m_RepresentationContexts;	//optional
-	//  shared_ptr<IfcUnitAssignment>				m_UnitsInContext;			//optional
+	//  shared_ptr<IfcUnitAssignment>						m_UnitsInContext;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_IsDefinedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDeclares> >		m_Declares_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_Declares_inverse;
 
 	// IfcProjectLibrary -----------------------------------------------------------
 };

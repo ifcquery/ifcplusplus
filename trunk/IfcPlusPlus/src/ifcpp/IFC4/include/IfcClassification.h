@@ -49,10 +49,10 @@ public:
 
 	// IfcClassification -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>										m_Source;					//optional
-	shared_ptr<IfcLabel>										m_Edition;					//optional
+	shared_ptr<IfcLabel>									m_Source;					//optional
+	shared_ptr<IfcLabel>									m_Edition;					//optional
 	shared_ptr<IfcDate>										m_EditionDate;				//optional
-	shared_ptr<IfcLabel>										m_Name;
+	shared_ptr<IfcLabel>									m_Name;
 	shared_ptr<IfcText>										m_Description;				//optional
 	shared_ptr<IfcURIReference>								m_Location;					//optional
 	std::vector<shared_ptr<IfcIdentifier> >					m_ReferenceTokens;			//optional

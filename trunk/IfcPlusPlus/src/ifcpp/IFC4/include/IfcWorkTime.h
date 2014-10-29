@@ -40,14 +40,14 @@ public:
 
 	// IfcSchedulingTime -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcDataOriginEnum>				m_DataOrigin;				//optional
-	//  shared_ptr<IfcLabel>							m_UserDefinedDataOrigin;	//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
+	//  shared_ptr<IfcDataOriginEnum>		m_DataOrigin;				//optional
+	//  shared_ptr<IfcLabel>				m_UserDefinedDataOrigin;	//optional
 
 	// IfcWorkTime -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcRecurrencePattern>				m_RecurrencePattern;		//optional
-	shared_ptr<IfcDate>							m_Start;					//optional
-	shared_ptr<IfcDate>							m_Finish;					//optional
+	shared_ptr<IfcRecurrencePattern>	m_RecurrencePattern;		//optional
+	shared_ptr<IfcDate>					m_Start;					//optional
+	shared_ptr<IfcDate>					m_Finish;					//optional
 };
 

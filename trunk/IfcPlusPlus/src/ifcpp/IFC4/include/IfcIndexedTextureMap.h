@@ -47,6 +47,6 @@ public:
 	// IfcIndexedTextureMap -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcTessellatedFaceSet>			m_MappedTo;
-	shared_ptr<IfcTextureVertexList>				m_TexCoords;
+	shared_ptr<IfcTextureVertexList>			m_TexCoords;
 };
 

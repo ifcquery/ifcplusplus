@@ -45,8 +45,8 @@ public:
 
 	// IfcPropertyEnumeration -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Name;
-	std::vector<shared_ptr<IfcValue> >			m_EnumerationValues;
-	shared_ptr<IfcUnit>							m_Unit;						//optional
+	shared_ptr<IfcLabel>										m_Name;
+	std::vector<shared_ptr<IfcValue> >							m_EnumerationValues;
+	shared_ptr<IfcUnit>											m_Unit;						//optional
 };
 

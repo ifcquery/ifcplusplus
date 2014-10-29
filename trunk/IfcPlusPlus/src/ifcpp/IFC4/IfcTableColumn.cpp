@@ -27,8 +27,8 @@
 #include "include/IfcUnit.h"
 
 // ENTITY IfcTableColumn 
-IfcTableColumn::IfcTableColumn() {}
-IfcTableColumn::IfcTableColumn( int id ) { m_id = id; }
+IfcTableColumn::IfcTableColumn() { m_entity_enum = IFCTABLECOLUMN; }
+IfcTableColumn::IfcTableColumn( int id ) { m_id = id; m_entity_enum = IFCTABLECOLUMN; }
 IfcTableColumn::~IfcTableColumn() {}
 shared_ptr<IfcPPObject> IfcTableColumn::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -58,7 +58,7 @@ void IfcTableColumn::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcTableColumn::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTableColumn, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableColumn, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[0] );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
 	m_Description = IfcText::createObjectFromSTEP( args[2] );

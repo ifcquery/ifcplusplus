@@ -49,8 +49,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcFooting 
-IfcFooting::IfcFooting() {}
-IfcFooting::IfcFooting( int id ) { m_id = id; }
+IfcFooting::IfcFooting() { m_entity_enum = IFCFOOTING; }
+IfcFooting::IfcFooting( int id ) { m_id = id; m_entity_enum = IFCFOOTING; }
 IfcFooting::~IfcFooting() {}
 shared_ptr<IfcPPObject> IfcFooting::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -100,7 +100,7 @@ void IfcFooting::getStepParameter( std::stringstream& stream, bool ) const { str
 void IfcFooting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcFooting, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFooting, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

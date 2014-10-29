@@ -40,10 +40,10 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>				m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>					m_OwnerHistory;				//optional
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>			m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>				m_OwnerHistory;				//optional
+	//  shared_ptr<IfcLabel>					m_Name;						//optional
+	//  shared_ptr<IfcText>						m_Description;				//optional
 
 	// IfcRelationship -----------------------------------------------------------
 
@@ -51,7 +51,7 @@ public:
 
 	// IfcRelCoversSpaces -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcSpace>							m_RelatingSpace;
-	std::vector<shared_ptr<IfcCovering> >		m_RelatedCoverings;
+	shared_ptr<IfcSpace>					m_RelatingSpace;
+	std::vector<shared_ptr<IfcCovering> >	m_RelatedCoverings;
 };
 

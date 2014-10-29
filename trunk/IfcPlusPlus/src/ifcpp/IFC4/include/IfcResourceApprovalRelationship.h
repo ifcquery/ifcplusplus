@@ -40,7 +40,7 @@ public:
 
 	// IfcResourceLevelRelationship -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>									m_Name;						//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
 	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcResourceApprovalRelationship -----------------------------------------------------------

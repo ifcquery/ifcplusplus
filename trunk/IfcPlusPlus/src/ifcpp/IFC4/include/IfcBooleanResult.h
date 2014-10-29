@@ -43,14 +43,14 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcBooleanResult -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcBooleanOperator>				m_Operator;
-	shared_ptr<IfcBooleanOperand>				m_FirstOperand;
-	shared_ptr<IfcBooleanOperand>				m_SecondOperand;
+	shared_ptr<IfcBooleanOperator>							m_Operator;
+	shared_ptr<IfcBooleanOperand>							m_FirstOperand;
+	shared_ptr<IfcBooleanOperand>							m_SecondOperand;
 };
 

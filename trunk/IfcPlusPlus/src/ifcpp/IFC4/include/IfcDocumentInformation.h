@@ -54,15 +54,15 @@ public:
 	// IfcDocumentInformation -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcIdentifier>									m_Identification;
-	shared_ptr<IfcLabel>											m_Name;
+	shared_ptr<IfcLabel>										m_Name;
 	shared_ptr<IfcText>											m_Description;				//optional
 	shared_ptr<IfcURIReference>									m_Location;					//optional
 	shared_ptr<IfcText>											m_Purpose;					//optional
 	shared_ptr<IfcText>											m_IntendedUse;				//optional
 	shared_ptr<IfcText>											m_Scope;					//optional
-	shared_ptr<IfcLabel>											m_Revision;					//optional
+	shared_ptr<IfcLabel>										m_Revision;					//optional
 	shared_ptr<IfcActorSelect>									m_DocumentOwner;			//optional
-	std::vector<shared_ptr<IfcActorSelect> >						m_Editors;					//optional
+	std::vector<shared_ptr<IfcActorSelect> >					m_Editors;					//optional
 	shared_ptr<IfcDateTime>										m_CreationTime;				//optional
 	shared_ptr<IfcDateTime>										m_LastRevisionTime;			//optional
 	shared_ptr<IfcIdentifier>									m_ElectronicFormat;			//optional
@@ -71,8 +71,8 @@ public:
 	shared_ptr<IfcDocumentConfidentialityEnum>					m_Confidentiality;			//optional
 	shared_ptr<IfcDocumentStatusEnum>							m_Status;					//optional
 	// inverse attributes:
-	std::vector<weak_ptr<IfcRelAssociatesDocument> >				m_DocumentInfoForObjects_inverse;
-	std::vector<weak_ptr<IfcDocumentReference> >					m_HasDocumentReferences_inverse;
+	std::vector<weak_ptr<IfcRelAssociatesDocument> >			m_DocumentInfoForObjects_inverse;
+	std::vector<weak_ptr<IfcDocumentReference> >				m_HasDocumentReferences_inverse;
 	std::vector<weak_ptr<IfcDocumentInformationRelationship> >	m_IsPointedTo_inverse;
 	std::vector<weak_ptr<IfcDocumentInformationRelationship> >	m_IsPointer_inverse;
 };

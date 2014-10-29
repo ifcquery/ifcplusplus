@@ -45,14 +45,14 @@ public:
 
 	// IfcPreDefinedItem -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;
+	//  shared_ptr<IfcLabel>						m_Name;
 
 	// IfcPreDefinedTextFont -----------------------------------------------------------
 
 	// IfcTextStyleFontModel -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcTextFontName> >	m_FontFamily;
-	shared_ptr<IfcFontStyle>						m_FontStyle;				//optional
+	shared_ptr<IfcFontStyle>					m_FontStyle;				//optional
 	shared_ptr<IfcFontVariant>					m_FontVariant;				//optional
 	shared_ptr<IfcFontWeight>					m_FontWeight;				//optional
 	shared_ptr<IfcSizeSelect>					m_FontSize;

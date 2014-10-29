@@ -25,8 +25,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcPlacement 
-IfcPlacement::IfcPlacement() {}
-IfcPlacement::IfcPlacement( int id ) { m_id = id; }
+IfcPlacement::IfcPlacement() { m_entity_enum = IFCPLACEMENT; }
+IfcPlacement::IfcPlacement( int id ) { m_id = id; m_entity_enum = IFCPLACEMENT; }
 IfcPlacement::~IfcPlacement() {}
 shared_ptr<IfcPPObject> IfcPlacement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -44,7 +44,7 @@ void IfcPlacement::getStepParameter( std::stringstream& stream, bool ) const { s
 void IfcPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPlacement, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlacement, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Location, map );
 }
 void IfcPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

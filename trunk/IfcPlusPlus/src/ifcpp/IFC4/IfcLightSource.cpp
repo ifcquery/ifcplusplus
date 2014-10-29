@@ -27,8 +27,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcLightSource 
-IfcLightSource::IfcLightSource() {}
-IfcLightSource::IfcLightSource( int id ) { m_id = id; }
+IfcLightSource::IfcLightSource() { m_entity_enum = IFCLIGHTSOURCE; }
+IfcLightSource::IfcLightSource( int id ) { m_id = id; m_entity_enum = IFCLIGHTSOURCE; }
 IfcLightSource::~IfcLightSource() {}
 shared_ptr<IfcPPObject> IfcLightSource::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -55,7 +55,7 @@ void IfcLightSource::getStepParameter( std::stringstream& stream, bool ) const {
 void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 4 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2] );

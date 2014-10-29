@@ -24,8 +24,8 @@
 #include "include/IfcProduct.h"
 
 // ENTITY IfcObjectPlacement 
-IfcObjectPlacement::IfcObjectPlacement() {}
-IfcObjectPlacement::IfcObjectPlacement( int id ) { m_id = id; }
+IfcObjectPlacement::IfcObjectPlacement() { m_entity_enum = IFCOBJECTPLACEMENT; }
+IfcObjectPlacement::IfcObjectPlacement( int id ) { m_id = id; m_entity_enum = IFCOBJECTPLACEMENT; }
 IfcObjectPlacement::~IfcObjectPlacement() {}
 shared_ptr<IfcPPObject> IfcObjectPlacement::getDeepCopy( IfcPPCopyOptions& options )
 {

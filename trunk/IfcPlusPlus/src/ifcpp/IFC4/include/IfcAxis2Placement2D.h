@@ -41,16 +41,16 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcPlacement -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcCartesianPoint>				m_Location;
+	//  shared_ptr<IfcCartesianPoint>							m_Location;
 
 	// IfcAxis2Placement2D -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcDirection>						m_RefDirection;				//optional
+	shared_ptr<IfcDirection>								m_RefDirection;				//optional
 };
 

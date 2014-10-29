@@ -42,17 +42,17 @@ public:
 
 	// IfcExternalReference -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcURIReference>						m_Location;					//optional
-	//  shared_ptr<IfcIdentifier>						m_Identification;			//optional
-	//  shared_ptr<IfcLabel>								m_Name;						//optional
+	//  shared_ptr<IfcURIReference>									m_Location;					//optional
+	//  shared_ptr<IfcIdentifier>									m_Identification;			//optional
+	//  shared_ptr<IfcLabel>										m_Name;						//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_ExternalReferenceForResources_inverse;
 
 	// IfcDocumentReference -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcText>								m_Description;				//optional
-	shared_ptr<IfcDocumentInformation>				m_ReferencedDocument;		//optional
+	shared_ptr<IfcText>											m_Description;				//optional
+	shared_ptr<IfcDocumentInformation>							m_ReferencedDocument;		//optional
 	// inverse attributes:
-	std::vector<weak_ptr<IfcRelAssociatesDocument> >	m_DocumentRefForObjects_inverse;
+	std::vector<weak_ptr<IfcRelAssociatesDocument> >			m_DocumentRefForObjects_inverse;
 };
 

@@ -28,8 +28,8 @@
 #include "include/IfcTriangulatedFaceSet.h"
 
 // ENTITY IfcTriangulatedFaceSet 
-IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() {}
-IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_id = id; }
+IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() { m_entity_enum = IFCTRIANGULATEDFACESET; }
+IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_id = id; m_entity_enum = IFCTRIANGULATEDFACESET; }
 IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() {}
 shared_ptr<IfcPPObject> IfcTriangulatedFaceSet::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -87,7 +87,7 @@ void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool )
 void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
 	if( boost::iequals( args[2], L".F." ) ) { m_Closed = false; }

@@ -41,9 +41,9 @@ public:
 
 	// IfcCoordinateReferenceSystem -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>							m_Name;						//optional
-	shared_ptr<IfcText>							m_Description;				//optional
-	shared_ptr<IfcIdentifier>					m_GeodeticDatum;
-	shared_ptr<IfcIdentifier>					m_VerticalDatum;			//optional
+	shared_ptr<IfcLabel>		m_Name;						//optional
+	shared_ptr<IfcText>			m_Description;				//optional
+	shared_ptr<IfcIdentifier>	m_GeodeticDatum;
+	shared_ptr<IfcIdentifier>	m_VerticalDatum;			//optional
 };
 

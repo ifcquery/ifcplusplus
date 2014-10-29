@@ -44,16 +44,16 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcFillAreaStyleHatching -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurveStyle>					m_HatchLineAppearance;
-	shared_ptr<IfcHatchLineDistanceSelect>		m_StartOfNextHatchLine;
-	shared_ptr<IfcCartesianPoint>				m_PointOfReferenceHatchLine;	//optional
-	shared_ptr<IfcCartesianPoint>				m_PatternStart;				//optional
-	shared_ptr<IfcPlaneAngleMeasure>				m_HatchLineAngle;
+	shared_ptr<IfcCurveStyle>								m_HatchLineAppearance;
+	shared_ptr<IfcHatchLineDistanceSelect>					m_StartOfNextHatchLine;
+	shared_ptr<IfcCartesianPoint>							m_PointOfReferenceHatchLine;	//optional
+	shared_ptr<IfcCartesianPoint>							m_PatternStart;				//optional
+	shared_ptr<IfcPlaneAngleMeasure>						m_HatchLineAngle;
 };
 

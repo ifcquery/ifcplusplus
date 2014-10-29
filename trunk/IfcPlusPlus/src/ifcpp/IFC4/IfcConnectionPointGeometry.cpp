@@ -23,8 +23,8 @@
 #include "include/IfcPointOrVertexPoint.h"
 
 // ENTITY IfcConnectionPointGeometry 
-IfcConnectionPointGeometry::IfcConnectionPointGeometry() {}
-IfcConnectionPointGeometry::IfcConnectionPointGeometry( int id ) { m_id = id; }
+IfcConnectionPointGeometry::IfcConnectionPointGeometry() { m_entity_enum = IFCCONNECTIONPOINTGEOMETRY; }
+IfcConnectionPointGeometry::IfcConnectionPointGeometry( int id ) { m_id = id; m_entity_enum = IFCCONNECTIONPOINTGEOMETRY; }
 IfcConnectionPointGeometry::~IfcConnectionPointGeometry() {}
 shared_ptr<IfcPPObject> IfcConnectionPointGeometry::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -45,7 +45,7 @@ void IfcConnectionPointGeometry::getStepParameter( std::stringstream& stream, bo
 void IfcConnectionPointGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 2 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConnectionPointGeometry, expecting 2, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_PointOnRelatingElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[0], map );
 	m_PointOnRelatedElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[1], map );
 }

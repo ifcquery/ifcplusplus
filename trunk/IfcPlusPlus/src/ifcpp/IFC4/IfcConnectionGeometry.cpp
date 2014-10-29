@@ -22,8 +22,8 @@
 #include "include/IfcConnectionGeometry.h"
 
 // ENTITY IfcConnectionGeometry 
-IfcConnectionGeometry::IfcConnectionGeometry() {}
-IfcConnectionGeometry::IfcConnectionGeometry( int id ) { m_id = id; }
+IfcConnectionGeometry::IfcConnectionGeometry() { m_entity_enum = IFCCONNECTIONGEOMETRY; }
+IfcConnectionGeometry::IfcConnectionGeometry( int id ) { m_id = id; m_entity_enum = IFCCONNECTIONGEOMETRY; }
 IfcConnectionGeometry::~IfcConnectionGeometry() {}
 shared_ptr<IfcPPObject> IfcConnectionGeometry::getDeepCopy( IfcPPCopyOptions& options )
 {

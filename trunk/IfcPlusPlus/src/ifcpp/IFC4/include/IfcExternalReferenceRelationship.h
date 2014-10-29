@@ -40,12 +40,12 @@ public:
 
 	// IfcResourceLevelRelationship -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>									m_Name;						//optional
+	//  shared_ptr<IfcLabel>								m_Name;						//optional
 	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcExternalReferenceRelationship -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcExternalReference>						m_RelatingReference;
+	shared_ptr<IfcExternalReference>					m_RelatingReference;
 	std::vector<shared_ptr<IfcResourceObjectSelect> >	m_RelatedResourceObjects;
 };
 

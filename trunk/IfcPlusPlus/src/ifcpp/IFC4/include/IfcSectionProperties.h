@@ -46,8 +46,8 @@ public:
 
 	// IfcSectionProperties -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcSectionTypeEnum>				m_SectionType;
-	shared_ptr<IfcProfileDef>					m_StartProfile;
-	shared_ptr<IfcProfileDef>					m_EndProfile;				//optional
+	shared_ptr<IfcSectionTypeEnum>								m_SectionType;
+	shared_ptr<IfcProfileDef>									m_StartProfile;
+	shared_ptr<IfcProfileDef>									m_EndProfile;				//optional
 };
 

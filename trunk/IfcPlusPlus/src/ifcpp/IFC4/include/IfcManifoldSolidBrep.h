@@ -40,7 +40,7 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
@@ -48,6 +48,6 @@ public:
 
 	// IfcManifoldSolidBrep -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcClosedShell>					m_Outer;
+	shared_ptr<IfcClosedShell>								m_Outer;
 };
 

@@ -26,8 +26,8 @@
 #include "include/IfcValue.h"
 
 // ENTITY IfcPropertyEnumeration 
-IfcPropertyEnumeration::IfcPropertyEnumeration() {}
-IfcPropertyEnumeration::IfcPropertyEnumeration( int id ) { m_id = id; }
+IfcPropertyEnumeration::IfcPropertyEnumeration() { m_entity_enum = IFCPROPERTYENUMERATION; }
+IfcPropertyEnumeration::IfcPropertyEnumeration( int id ) { m_id = id; m_entity_enum = IFCPROPERTYENUMERATION; }
 IfcPropertyEnumeration::~IfcPropertyEnumeration() {}
 shared_ptr<IfcPPObject> IfcPropertyEnumeration::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -58,7 +58,7 @@ void IfcPropertyEnumeration::getStepParameter( std::stringstream& stream, bool )
 void IfcPropertyEnumeration::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPropertyEnumeration, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyEnumeration, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readSelectList( args[1], m_EnumerationValues, map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[2], map );

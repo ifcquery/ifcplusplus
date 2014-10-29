@@ -26,8 +26,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcEllipse 
-IfcEllipse::IfcEllipse() {}
-IfcEllipse::IfcEllipse( int id ) { m_id = id; }
+IfcEllipse::IfcEllipse() { m_entity_enum = IFCELLIPSE; }
+IfcEllipse::IfcEllipse( int id ) { m_id = id; m_entity_enum = IFCELLIPSE; }
 IfcEllipse::~IfcEllipse() {}
 shared_ptr<IfcPPObject> IfcEllipse::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -51,7 +51,7 @@ void IfcEllipse::getStepParameter( std::stringstream& stream, bool ) const { str
 void IfcEllipse::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 3 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcEllipse, expecting 3, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEllipse, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	m_SemiAxis1 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1] );
 	m_SemiAxis2 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2] );

@@ -42,13 +42,13 @@ public:
 
 	// IfcPresentationStyle -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>					m_Name;						//optional
 
 	// IfcTextStyle -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcTextStyleForDefinedFont>		m_TextCharacterAppearance;	//optional
-	shared_ptr<IfcTextStyleTextModel>			m_TextStyle;				//optional
-	shared_ptr<IfcTextFontSelect>				m_TextFontStyle;
-	bool											m_ModelOrDraughting;		//optional
+	shared_ptr<IfcTextStyleForDefinedFont>	m_TextCharacterAppearance;	//optional
+	shared_ptr<IfcTextStyleTextModel>		m_TextStyle;				//optional
+	shared_ptr<IfcTextFontSelect>			m_TextFontStyle;
+	bool									m_ModelOrDraughting;		//optional
 };
 

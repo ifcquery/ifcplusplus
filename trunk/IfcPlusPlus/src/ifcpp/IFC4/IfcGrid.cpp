@@ -40,8 +40,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcGrid 
-IfcGrid::IfcGrid() {}
-IfcGrid::IfcGrid( int id ) { m_id = id; }
+IfcGrid::IfcGrid() { m_entity_enum = IFCGRID; }
+IfcGrid::IfcGrid( int id ) { m_id = id; m_entity_enum = IFCGRID; }
 IfcGrid::~IfcGrid() {}
 shared_ptr<IfcPPObject> IfcGrid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -118,7 +118,7 @@ void IfcGrid::getStepParameter( std::stringstream& stream, bool ) const { stream
 void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 11 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

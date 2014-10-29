@@ -38,7 +38,7 @@ public:
 
 	// IfcTimePeriod -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcTime>							m_StartTime;
-	shared_ptr<IfcTime>							m_EndTime;
+	shared_ptr<IfcTime>	m_StartTime;
+	shared_ptr<IfcTime>	m_EndTime;
 };
 

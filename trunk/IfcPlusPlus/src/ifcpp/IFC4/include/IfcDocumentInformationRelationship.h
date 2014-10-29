@@ -41,11 +41,11 @@ public:
 	// IfcResourceLevelRelationship -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcLabel>								m_Name;						//optional
-	//  shared_ptr<IfcText>								m_Description;				//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcDocumentInformationRelationship -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcDocumentInformation>				m_RelatingDocument;
+	shared_ptr<IfcDocumentInformation>					m_RelatingDocument;
 	std::vector<shared_ptr<IfcDocumentInformation> >	m_RelatedDocuments;
 	shared_ptr<IfcLabel>								m_RelationshipType;			//optional
 };

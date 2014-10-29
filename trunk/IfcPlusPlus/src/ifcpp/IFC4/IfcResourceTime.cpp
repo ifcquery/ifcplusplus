@@ -27,8 +27,8 @@
 #include "include/IfcResourceTime.h"
 
 // ENTITY IfcResourceTime 
-IfcResourceTime::IfcResourceTime() {}
-IfcResourceTime::IfcResourceTime( int id ) { m_id = id; }
+IfcResourceTime::IfcResourceTime() { m_entity_enum = IFCRESOURCETIME; }
+IfcResourceTime::IfcResourceTime( int id ) { m_id = id; m_entity_enum = IFCRESOURCETIME; }
 IfcResourceTime::~IfcResourceTime() {}
 shared_ptr<IfcPPObject> IfcResourceTime::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -98,7 +98,7 @@ void IfcResourceTime::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 18 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcResourceTime, expecting 18, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 18 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceTime, expecting 18, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1] );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2] );

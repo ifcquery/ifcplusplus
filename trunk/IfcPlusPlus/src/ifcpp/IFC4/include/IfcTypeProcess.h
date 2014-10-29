@@ -43,34 +43,34 @@ public:
 
 	// IfcRoot -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcGloballyUniqueId>					m_GlobalId;
-	//  shared_ptr<IfcOwnerHistory>						m_OwnerHistory;				//optional
+	//  shared_ptr<IfcGloballyUniqueId>						m_GlobalId;
+	//  shared_ptr<IfcOwnerHistory>							m_OwnerHistory;				//optional
 	//  shared_ptr<IfcLabel>								m_Name;						//optional
-	//  shared_ptr<IfcText>								m_Description;				//optional
+	//  shared_ptr<IfcText>									m_Description;				//optional
 
 	// IfcObjectDefinition -----------------------------------------------------------
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelAssigns> >			m_HasAssignments_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >				m_Nests_inverse;
-	//  std::vector<weak_ptr<IfcRelNests> >				m_IsNestedBy_inverse;
-	//  std::vector<weak_ptr<IfcRelDeclares> >			m_HasContext_inverse;
+	//  std::vector<weak_ptr<IfcRelAssigns> >				m_HasAssignments_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >					m_Nests_inverse;
+	//  std::vector<weak_ptr<IfcRelNests> >					m_IsNestedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelDeclares> >				m_HasContext_inverse;
 	//  std::vector<weak_ptr<IfcRelAggregates> >			m_IsDecomposedBy_inverse;
 	//  std::vector<weak_ptr<IfcRelAggregates> >			m_Decomposes_inverse;
 	//  std::vector<weak_ptr<IfcRelAssociates> >			m_HasAssociations_inverse;
 
 	// IfcTypeObject -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcIdentifier>						m_ApplicableOccurrence;		//optional
+	//  shared_ptr<IfcIdentifier>							m_ApplicableOccurrence;		//optional
 	//  std::vector<shared_ptr<IfcPropertySetDefinition> >	m_HasPropertySets;			//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelDefinesByType> >		m_Types_inverse;
+	//  std::vector<weak_ptr<IfcRelDefinesByType> >			m_Types_inverse;
 
 	// IfcTypeProcess -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>						m_Identification;			//optional
-	shared_ptr<IfcText>								m_LongDescription;			//optional
+	shared_ptr<IfcIdentifier>							m_Identification;			//optional
+	shared_ptr<IfcText>									m_LongDescription;			//optional
 	shared_ptr<IfcLabel>								m_ProcessType;				//optional
 	// inverse attributes:
-	std::vector<weak_ptr<IfcRelAssignsToProcess> >	m_OperatesOn_inverse;
+	std::vector<weak_ptr<IfcRelAssignsToProcess> >		m_OperatesOn_inverse;
 };
 

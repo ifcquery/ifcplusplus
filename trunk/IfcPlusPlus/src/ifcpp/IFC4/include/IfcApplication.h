@@ -40,9 +40,9 @@ public:
 
 	// IfcApplication -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcOrganization>					m_ApplicationDeveloper;
-	shared_ptr<IfcLabel>							m_Version;
-	shared_ptr<IfcLabel>							m_ApplicationFullName;
-	shared_ptr<IfcIdentifier>					m_ApplicationIdentifier;
+	shared_ptr<IfcOrganization>	m_ApplicationDeveloper;
+	shared_ptr<IfcLabel>		m_Version;
+	shared_ptr<IfcLabel>		m_ApplicationFullName;
+	shared_ptr<IfcIdentifier>	m_ApplicationIdentifier;
 };
 

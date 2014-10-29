@@ -43,8 +43,8 @@
 #include "include/IfcText.h"
 
 // ENTITY IfcBuilding 
-IfcBuilding::IfcBuilding() {}
-IfcBuilding::IfcBuilding( int id ) { m_id = id; }
+IfcBuilding::IfcBuilding() { m_entity_enum = IFCBUILDING; }
+IfcBuilding::IfcBuilding( int id ) { m_id = id; m_entity_enum = IFCBUILDING; }
 IfcBuilding::~IfcBuilding() {}
 shared_ptr<IfcPPObject> IfcBuilding::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -103,7 +103,7 @@ void IfcBuilding::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcBuilding::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 12 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcBuilding, expecting 12, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBuilding, expecting 12, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );

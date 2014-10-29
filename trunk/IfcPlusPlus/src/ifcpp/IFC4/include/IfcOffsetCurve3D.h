@@ -42,7 +42,7 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >		m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
@@ -50,9 +50,9 @@ public:
 
 	// IfcOffsetCurve3D -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurve>							m_BasisCurve;
-	shared_ptr<IfcLengthMeasure>					m_Distance;
-	LogicalEnum									m_SelfIntersect;
-	shared_ptr<IfcDirection>						m_RefDirection;
+	shared_ptr<IfcCurve>									m_BasisCurve;
+	shared_ptr<IfcLengthMeasure>							m_Distance;
+	LogicalEnum												m_SelfIntersect;
+	shared_ptr<IfcDirection>								m_RefDirection;
 };
 

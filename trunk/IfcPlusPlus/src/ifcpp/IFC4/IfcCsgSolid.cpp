@@ -25,8 +25,8 @@
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCsgSolid 
-IfcCsgSolid::IfcCsgSolid() {}
-IfcCsgSolid::IfcCsgSolid( int id ) { m_id = id; }
+IfcCsgSolid::IfcCsgSolid() { m_entity_enum = IFCCSGSOLID; }
+IfcCsgSolid::IfcCsgSolid( int id ) { m_id = id; m_entity_enum = IFCCSGSOLID; }
 IfcCsgSolid::~IfcCsgSolid() {}
 shared_ptr<IfcPPObject> IfcCsgSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -44,7 +44,7 @@ void IfcCsgSolid::getStepParameter( std::stringstream& stream, bool ) const { st
 void IfcCsgSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcCsgSolid, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCsgSolid, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TreeRootExpression = IfcCsgSelect::createObjectFromSTEP( args[0], map );
 }
 void IfcCsgSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

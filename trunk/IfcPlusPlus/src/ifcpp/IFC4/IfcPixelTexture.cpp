@@ -27,8 +27,8 @@
 #include "include/IfcTextureCoordinate.h"
 
 // ENTITY IfcPixelTexture 
-IfcPixelTexture::IfcPixelTexture() {}
-IfcPixelTexture::IfcPixelTexture( int id ) { m_id = id; }
+IfcPixelTexture::IfcPixelTexture() { m_entity_enum = IFCPIXELTEXTURE; }
+IfcPixelTexture::IfcPixelTexture( int id ) { m_id = id; m_entity_enum = IFCPIXELTEXTURE; }
 IfcPixelTexture::~IfcPixelTexture() {}
 shared_ptr<IfcPPObject> IfcPixelTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -79,7 +79,7 @@ void IfcPixelTexture::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcPixelTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 9 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcPixelTexture, expecting 9, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPixelTexture, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	if( boost::iequals( args[0], L".F." ) ) { m_RepeatS = false; }
 	else if( boost::iequals( args[0], L".T." ) ) { m_RepeatS = true; }
 	if( boost::iequals( args[1], L".F." ) ) { m_RepeatT = false; }

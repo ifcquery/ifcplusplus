@@ -41,7 +41,7 @@ public:
 
 	// IfcConnectionVolumeGeometry -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcSolidOrShell>					m_VolumeOnRelatingElement;
-	shared_ptr<IfcSolidOrShell>					m_VolumeOnRelatedElement;	//optional
+	shared_ptr<IfcSolidOrShell>	m_VolumeOnRelatingElement;
+	shared_ptr<IfcSolidOrShell>	m_VolumeOnRelatedElement;	//optional
 };
 

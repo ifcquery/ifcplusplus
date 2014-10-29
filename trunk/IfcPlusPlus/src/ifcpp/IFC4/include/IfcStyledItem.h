@@ -42,12 +42,12 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >				m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcStyledItem -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcRepresentationItem>					m_Item;						//optional
-	std::vector<shared_ptr<IfcStyleAssignmentSelect> >	m_Styles;
+	shared_ptr<IfcRepresentationItem>						m_Item;						//optional
+	std::vector<shared_ptr<IfcStyleAssignmentSelect> >		m_Styles;
 	shared_ptr<IfcLabel>									m_Name;						//optional
 };
 

@@ -29,8 +29,8 @@
 #include "include/IfcURIReference.h"
 
 // ENTITY IfcLibraryInformation 
-IfcLibraryInformation::IfcLibraryInformation() {}
-IfcLibraryInformation::IfcLibraryInformation( int id ) { m_id = id; }
+IfcLibraryInformation::IfcLibraryInformation() { m_entity_enum = IFCLIBRARYINFORMATION; }
+IfcLibraryInformation::IfcLibraryInformation( int id ) { m_id = id; m_entity_enum = IFCLIBRARYINFORMATION; }
 IfcLibraryInformation::~IfcLibraryInformation() {}
 shared_ptr<IfcPPObject> IfcLibraryInformation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -63,7 +63,7 @@ void IfcLibraryInformation::getStepParameter( std::stringstream& stream, bool ) 
 void IfcLibraryInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	m_Version = IfcLabel::createObjectFromSTEP( args[1] );
 	m_Publisher = IfcActorSelect::createObjectFromSTEP( args[2], map );

@@ -40,19 +40,19 @@ public:
 
 	// IfcPhysicalQuantity -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;
-	//  shared_ptr<IfcText>							m_Description;				//optional
+	//  shared_ptr<IfcLabel>										m_Name;
+	//  shared_ptr<IfcText>											m_Description;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReferences_inverse;
-	//  std::vector<weak_ptr<IfcPhysicalComplexQuantity> >	m_PartOfComplex_inverse;
+	//  std::vector<weak_ptr<IfcPhysicalComplexQuantity> >			m_PartOfComplex_inverse;
 
 	// IfcPhysicalSimpleQuantity -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcNamedUnit>						m_Unit;						//optional
+	//  shared_ptr<IfcNamedUnit>									m_Unit;						//optional
 
 	// IfcQuantityLength -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLengthMeasure>					m_LengthValue;
-	shared_ptr<IfcLabel>							m_Formula;					//optional
+	shared_ptr<IfcLengthMeasure>								m_LengthValue;
+	shared_ptr<IfcLabel>										m_Formula;					//optional
 };
 

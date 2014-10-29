@@ -23,8 +23,8 @@
 #include "include/IfcPreDefinedProperties.h"
 
 // ENTITY IfcPreDefinedProperties 
-IfcPreDefinedProperties::IfcPreDefinedProperties() {}
-IfcPreDefinedProperties::IfcPreDefinedProperties( int id ) { m_id = id; }
+IfcPreDefinedProperties::IfcPreDefinedProperties() { m_entity_enum = IFCPREDEFINEDPROPERTIES; }
+IfcPreDefinedProperties::IfcPreDefinedProperties( int id ) { m_id = id; m_entity_enum = IFCPREDEFINEDPROPERTIES; }
 IfcPreDefinedProperties::~IfcPreDefinedProperties() {}
 shared_ptr<IfcPPObject> IfcPreDefinedProperties::getDeepCopy( IfcPPCopyOptions& options )
 {

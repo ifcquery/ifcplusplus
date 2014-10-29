@@ -39,7 +39,7 @@ public:
 
 	// IfcStructuralLoad -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>							m_Name;						//optional
+	//  shared_ptr<IfcLabel>				m_Name;						//optional
 
 	// IfcStructuralLoadOrResult -----------------------------------------------------------
 
@@ -47,15 +47,15 @@ public:
 
 	// IfcStructuralLoadSingleDisplacement -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLengthMeasure>					m_DisplacementX;			//optional
-	//  shared_ptr<IfcLengthMeasure>					m_DisplacementY;			//optional
-	//  shared_ptr<IfcLengthMeasure>					m_DisplacementZ;			//optional
-	//  shared_ptr<IfcPlaneAngleMeasure>				m_RotationalDisplacementRX;	//optional
-	//  shared_ptr<IfcPlaneAngleMeasure>				m_RotationalDisplacementRY;	//optional
-	//  shared_ptr<IfcPlaneAngleMeasure>				m_RotationalDisplacementRZ;	//optional
+	//  shared_ptr<IfcLengthMeasure>		m_DisplacementX;			//optional
+	//  shared_ptr<IfcLengthMeasure>		m_DisplacementY;			//optional
+	//  shared_ptr<IfcLengthMeasure>		m_DisplacementZ;			//optional
+	//  shared_ptr<IfcPlaneAngleMeasure>	m_RotationalDisplacementRX;	//optional
+	//  shared_ptr<IfcPlaneAngleMeasure>	m_RotationalDisplacementRY;	//optional
+	//  shared_ptr<IfcPlaneAngleMeasure>	m_RotationalDisplacementRZ;	//optional
 
 	// IfcStructuralLoadSingleDisplacementDistortion -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurvatureMeasure>				m_Distortion;				//optional
+	shared_ptr<IfcCurvatureMeasure>		m_Distortion;				//optional
 };
 

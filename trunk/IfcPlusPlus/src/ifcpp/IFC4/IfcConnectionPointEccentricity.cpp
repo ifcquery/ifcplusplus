@@ -24,8 +24,8 @@
 #include "include/IfcPointOrVertexPoint.h"
 
 // ENTITY IfcConnectionPointEccentricity 
-IfcConnectionPointEccentricity::IfcConnectionPointEccentricity() {}
-IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_id = id; }
+IfcConnectionPointEccentricity::IfcConnectionPointEccentricity() { m_entity_enum = IFCCONNECTIONPOINTECCENTRICITY; }
+IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_id = id; m_entity_enum = IFCCONNECTIONPOINTECCENTRICITY; }
 IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() {}
 shared_ptr<IfcPPObject> IfcConnectionPointEccentricity::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -55,7 +55,7 @@ void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream
 void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 5 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcConnectionPointEccentricity, expecting 5, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointEccentricity, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_PointOnRelatingElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[0], map );
 	m_PointOnRelatedElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[1], map );
 	m_EccentricityInX = IfcLengthMeasure::createObjectFromSTEP( args[2] );

@@ -42,14 +42,14 @@ public:
 	// IfcRepresentationItem -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcPresentationLayerAssignment> >	m_LayerAssignment_inverse;
-	//  std::vector<weak_ptr<IfcStyledItem> >			m_StyledByItem_inverse;
+	//  std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 
 	// IfcGeometricRepresentationItem -----------------------------------------------------------
 
 	// IfcSectionedSpine -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCompositeCurve>					m_SpineCurve;
-	std::vector<shared_ptr<IfcProfileDef> >			m_CrossSections;
-	std::vector<shared_ptr<IfcAxis2Placement3D> >	m_CrossSectionPositions;
+	shared_ptr<IfcCompositeCurve>							m_SpineCurve;
+	std::vector<shared_ptr<IfcProfileDef> >					m_CrossSections;
+	std::vector<shared_ptr<IfcAxis2Placement3D> >			m_CrossSectionPositions;
 };
 

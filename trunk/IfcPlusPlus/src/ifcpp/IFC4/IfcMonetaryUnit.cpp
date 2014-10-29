@@ -23,8 +23,8 @@
 #include "include/IfcMonetaryUnit.h"
 
 // ENTITY IfcMonetaryUnit 
-IfcMonetaryUnit::IfcMonetaryUnit() {}
-IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_id = id; }
+IfcMonetaryUnit::IfcMonetaryUnit() { m_entity_enum = IFCMONETARYUNIT; }
+IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_id = id; m_entity_enum = IFCMONETARYUNIT; }
 IfcMonetaryUnit::~IfcMonetaryUnit() {}
 shared_ptr<IfcPPObject> IfcMonetaryUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -42,7 +42,7 @@ void IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool ) const 
 void IfcMonetaryUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 1 ){ std::stringstream strserr; strserr << "Wrong parameter count for entity IfcMonetaryUnit, expecting 1, having " << num_args << ". Object id: " << m_id << std::endl; throw IfcPPException( strserr.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMonetaryUnit, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Currency = IfcLabel::createObjectFromSTEP( args[0] );
 }
 void IfcMonetaryUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
