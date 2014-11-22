@@ -8,7 +8,7 @@
 
 For VS IDE you do not have to use CMake, just proceed as follows:
 
-  * Install boost, Qt, OpenSceneGraph
+  * Install boost, Qt (Desktop OpenGL version), OpenSceneGraph
   * Set environment variables for boost, Qt, OSG and your development environment with a script like this: [http://ifcplusplus.googlecode.com/svn/trunk/set_devenv64-VS2013.cmd set_devenv64-VS2013.cmd].
   * Install Qt VS addin, configure it to use the same Qt files like the environment variable QTDIR
   * Type "devenv" to start VS.
