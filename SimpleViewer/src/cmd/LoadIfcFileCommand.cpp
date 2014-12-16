@@ -15,7 +15,8 @@
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcpp/reader/IfcPPReaderSTEP.h>
+#include <ifcppgeometry/GeometryConverter.h>
 #include <ifcppgeometry/GeomUtils.h>
 
 #include "Command.h"
@@ -45,20 +46,23 @@ bool LoadIfcFileCommand::doCmd()
 		return false;
 	}
 
+	// first remove previously loaded geometry from scenegraph
 	shared_ptr<ViewController> vc = m_system->getViewController();
 	osg::ref_ptr<osg::Switch> model_switch = vc->m_sw_model;
 	model_switch->removeChildren( 0, model_switch->getNumChildren() );
 	m_system->clearSelection();
 
-	shared_ptr<ReaderWriterIFC> reader_writer = m_system->getReaderWriterIFC();
-	reader_writer->resetModel();
+	// reset the IFC model
+	shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
+	geometry_converter->resetModel();
 	carve::setEpsilon( carve::EPSILON*1.5 );
 	std::stringstream err;
 
+	// load file to model and create geometry
 	try
 	{
-		reader_writer->loadModelFromFile( m_file_path );
-		reader_writer->createGeometryOSG( model_switch );
+		m_system->getIfcPPReader()->loadModelFromFile( m_file_path, geometry_converter->getIfcPPModel() );
+		geometry_converter->createGeometryOSG( model_switch );
 	}
 	catch( IfcPPOutOfMemoryException& e)
 	{
@@ -74,7 +78,7 @@ bool LoadIfcFileCommand::doCmd()
 	}
 	catch( ... )
 	{
-		err << "ReaderWriterIFC::loadModelFromFile, createGeometryOSG failed" << std::endl;
+		err << "loadModelFromFile, createGeometryOSG failed" << std::endl;
 	}
 	
 	try
@@ -106,7 +110,7 @@ bool LoadIfcFileCommand::doCmd()
 		err << e.what();
 	}
 
-	reader_writer->clearInputCache();
+	geometry_converter->clearInputCache();
 	vc->switchCurveRepresentation( model_switch, vc->m_show_curve_representation );
 
 	if( err.tellp() > 0 )

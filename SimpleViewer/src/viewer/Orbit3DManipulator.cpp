@@ -11,7 +11,7 @@
 #include <osgText/Text>
 
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcppgeometry/GeometryConverter.h>
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "ViewerUtil.h"
@@ -504,7 +504,7 @@ bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea,
 			else
 			{
 				// select
-				shared_ptr<IfcPPModel> ifc_model = m_system->getReaderWriterIFC()->getIfcPPModel();
+				shared_ptr<IfcPPModel> ifc_model = m_system->getGeometryConverter()->getIfcPPModel();
 				const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
 				std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find = map_ifc_objects.find(id);
 				if( it_find != map_ifc_objects.end() )

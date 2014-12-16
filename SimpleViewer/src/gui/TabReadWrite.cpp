@@ -20,7 +20,9 @@
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/IfcPPGuid.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcpp/reader/IfcPPReaderSTEP.h>
+#include <ifcpp/writer/IfcPPWriterSTEP.h>
+#include <ifcppgeometry/GeometryConverter.h>
 #include <ifcppgeometry/GeomUtils.h>
 
 #include "IfcPlusPlusSystem.h"
@@ -113,7 +115,6 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	{
 		m_io_splitter->restoreState(settings.value("IOsplitterSizes").toByteArray());
 	}
-	
 }
 
 TabReadWrite::~TabReadWrite()
@@ -199,7 +200,11 @@ void TabReadWrite::slotRecentFilesIndexChanged(int)
 
 void TabReadWrite::slotLoadIfcFile( QString& path_in )
 {
-	m_system->getReaderWriterIFC()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
+	// redirect message callbacks
+	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
+	m_system->getIfcPPReader()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
+	m_system->getIfcPPWriter()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
+	
 
 	slotTxtOut( QString( "loading file: " ) + path_in );
 	QApplication::processEvents();
@@ -285,7 +290,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	}
 
 	clock_t time_diff = clock() - millisecs;
-	int num_entities = m_system->getReaderWriterIFC()->getIfcPPModel()->getMapIfcEntities().size();
+	int num_entities = m_system->getGeometryConverter()->getIfcPPModel()->getMapIfcEntities().size();
 	slotTxtOut( tr("File loaded: ") + QString::number(num_entities) + " entities in " + QString::number( round(time_diff*0.1)*0.01 ) + " sec."  );
 
 	m_system->notifyModelLoadingDone();
@@ -332,15 +337,14 @@ void TabReadWrite::slotLoadRecentIfcFileClicked()
 	{
 		return;
 	}
-	m_io_widget->setDisabled(true);
-
-	int row = m_combo_recent_files->currentIndex();
 	
+	int row = m_combo_recent_files->currentIndex();
 	if( row < 0 || row >= m_combo_recent_files->count() )
 	{
 		return;
 	}
 	
+	m_io_widget->setDisabled( true );
 	if( row < m_recent_files.size() )
 	{
 		QString file_name = m_recent_files.at( row );

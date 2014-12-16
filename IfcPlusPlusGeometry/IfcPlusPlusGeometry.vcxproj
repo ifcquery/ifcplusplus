@@ -287,6 +287,7 @@
     <ClCompile Include="src\ifcppgeometry\CSG_Adapter.cpp" />
     <ClCompile Include="src\ifcppgeometry\CurveConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\FaceConverter.cpp" />
+    <ClCompile Include="src\ifcppgeometry\GeometryConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\GeometryInputData.cpp" />
     <ClCompile Include="src\ifcppgeometry\GeometrySettings.cpp" />
     <ClCompile Include="src\ifcppgeometry\GeomUtils.cpp" />
@@ -294,7 +295,6 @@
     <ClCompile Include="src\ifcppgeometry\SplineConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\PlacementConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\ProfileConverter.cpp" />
-    <ClCompile Include="src\ifcppgeometry\ReaderWriterIFC.cpp" />
     <ClCompile Include="src\ifcppgeometry\RepresentationConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\SolidModelConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\StylesConverter.cpp" />
@@ -303,6 +303,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcppgeometry\CSG_Adapter.h" />
+    <ClInclude Include="src\ifcppgeometry\GeometryConverter.h" />
     <ClInclude Include="src\ifcppgeometry\GeometryInputData.h" />
     <ClInclude Include="src\ifcppgeometry\ConverterOSG.h" />
     <ClInclude Include="src\ifcppgeometry\CurveConverter.h" />
@@ -314,7 +315,6 @@
     <ClInclude Include="src\ifcppgeometry\SplineConverter.h" />
     <ClInclude Include="src\ifcppgeometry\PlacementConverter.h" />
     <ClInclude Include="src\ifcppgeometry\ProfileConverter.h" />
-    <ClInclude Include="src\ifcppgeometry\ReaderWriterIFC.h" />
     <ClInclude Include="src\ifcppgeometry\RepresentationConverter.h" />
     <ClInclude Include="src\ifcppgeometry\SolidModelConverter.h" />
     <ClInclude Include="src\ifcppgeometry\StylesConverter.h" />

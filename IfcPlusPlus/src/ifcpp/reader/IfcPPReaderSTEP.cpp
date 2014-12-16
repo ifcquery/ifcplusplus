@@ -15,6 +15,8 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <fstream>
+#include <iostream>
 #include <cctype>
 #include <algorithm>
 #include <locale.h>
@@ -73,6 +75,95 @@ IfcPPReaderSTEP::IfcPPReaderSTEP()
 
 IfcPPReaderSTEP::~IfcPPReaderSTEP()
 {
+}
+
+void IfcPPReaderSTEP::loadModelFromFile( const std::string& file_path, shared_ptr<IfcPPModel>& target_model )
+{
+	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
+	
+	std::string ext = file_path.substr( file_path.find_last_of( "." ) + 1 );
+	
+	if( boost::iequals( ext, "ifc" ) )
+	{
+		// ok, nothing to do here
+	}
+	else if( boost::iequals( ext, "ifcXML" ) )
+	{
+		// TODO: implement xml reader
+		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		return;
+	}
+	else if( boost::iequals( ext, "ifcZIP" ) )
+	{
+		// TODO: implement zip uncompress
+		messageCallback( "ifcZIP not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		return;
+	}
+	else
+	{
+		std::stringstream strs;
+		strs << "Unsupported file type: " << ext;
+		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		return;
+	}
+
+	// open file
+	std::ifstream infile;
+	infile.open( file_path.c_str(), std::ifstream::in );
+
+	if( !infile.is_open() )
+	{
+		std::stringstream strs;
+		strs << "Could not open file: " << file_path.c_str();
+		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		return;
+	}
+
+	// get length of file:
+	std::streampos file_size = infile.tellg();
+	infile.seekg( 0, std::ios::end );
+	file_size = infile.tellg() - file_size;
+	infile.seekg( 0, std::ios::beg );
+
+	// allocate memory:
+	std::string buffer( file_size, '\0' );
+
+	// read data as a block:
+	infile.read( &buffer[0], file_size );
+	infile.close();
+
+
+	loadModelFromString( buffer, target_model );
+}
+
+void IfcPPReaderSTEP::loadModelFromString( std::string& content, shared_ptr<IfcPPModel>& target_model )
+{
+	progressTextCallback( L"Reading file..." );
+	progressValueCallback( 0, "parse" );
+	try
+	{
+		removeComments( content );
+		readStreamHeader( content, target_model );
+		readStreamData( content, target_model );
+		target_model->resolveInverseAttributes();
+		target_model->updateCache();
+	}
+	catch( IfcPPOutOfMemoryException& e)
+	{
+		throw e;
+	}
+	catch( IfcPPException& e )
+	{
+		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+	}
+	catch( std::exception& e )
+	{
+		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+	}
+	catch( ... )
+	{
+		messageCallback( "An error occured", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+	}
 }
 
 void IfcPPReaderSTEP::removeComments( std::string& buffer )

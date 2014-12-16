@@ -20,7 +20,7 @@
 
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcppgeometry/GeomUtils.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcppgeometry/GeometryConverter.h>
 #include <ifcppgeometry/RepresentationConverter.h>
 #include <ifcppgeometry/ConverterOSG.h>
 #include <ifcppgeometry/CSG_Adapter.h>

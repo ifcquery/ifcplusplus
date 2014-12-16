@@ -36,24 +36,24 @@ public:
 	enum GeometryTypeEnum { UNDEFINED, TEXT, CURVE, SURFACE, VOLUME };
 	AppearanceData( int step_style_id ) : m_step_stype_id( step_style_id )
 	{
-		set_transparent = false;
-		shininess = 10.f;
-		transparency = 1.f;
-		specular_exponent = 0.f;
-		specular_roughness = 0.f;
-		apply_to_geometry_type = UNDEFINED;
+		m_set_transparent = false;
+		m_shininess = 10.f;
+		m_transparency = 1.f;
+		m_specular_exponent = 0.f;
+		m_specular_roughness = 0.f;
+		m_apply_to_geometry_type = UNDEFINED;
 	}
-	carve::geom::vector<4> color_ambient;
-	carve::geom::vector<4> color_diffuse;
-	carve::geom::vector<4> color_specular;
+	carve::geom::vector<4> m_color_ambient;
+	carve::geom::vector<4> m_color_diffuse;
+	carve::geom::vector<4> m_color_specular;
 	int m_step_stype_id;
-	float shininess;
-	float transparency;
-	float specular_exponent;
-	float specular_roughness;
-	bool set_transparent;
-	shared_ptr<IfcTextStyle> text_style;
-	GeometryTypeEnum apply_to_geometry_type;
+	float m_shininess;
+	float m_transparency;
+	float m_specular_exponent;
+	float m_specular_roughness;
+	bool m_set_transparent;
+	shared_ptr<IfcTextStyle> m_text_style;
+	GeometryTypeEnum m_apply_to_geometry_type;
 };
 
 //\brief Class to hold input data of one IFC geometric representation item.
@@ -63,11 +63,11 @@ public:
 	ItemData();
 	~ItemData();
 	
-	std::vector<shared_ptr<carve::input::PolylineSetData> > polylines;
-	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		meshsets;
-	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		meshsets_open;
-	std::vector<shared_ptr<AppearanceData> >				vec_item_appearances;
-	std::vector<shared_ptr<TextItemData> >					vec_text_literals;
+	std::vector<shared_ptr<carve::input::PolylineSetData> > m_polylines;
+	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets;
+	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets_open;
+	std::vector<shared_ptr<AppearanceData> >				m_vec_item_appearances;
+	std::vector<shared_ptr<TextItemData> >					m_vec_text_literals;
 
 	bool isEmpty();
 	void addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data );
@@ -83,28 +83,28 @@ public:
 class ShapeInputData
 {
 public:
-	ShapeInputData() { added_to_node = false; }
+	ShapeInputData() : m_added_to_node(false) {}
 	virtual ~ShapeInputData() {}
 
 	void addInputData( shared_ptr<ShapeInputData>& other );
 	void deepCopyFrom( shared_ptr<ShapeInputData>& other );
-	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return vec_appearances; }
+	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_appearances; }
 	void addAppearance( shared_ptr<AppearanceData>& appearance );
 	void clearAppearanceData();
 	void clearAll();
 
-	weak_ptr<IfcProduct> ifc_product;
-	weak_ptr<IfcRepresentation> representation;
-	weak_ptr<IfcObjectPlacement> object_placement;
-	osg::ref_ptr<osg::Switch>	product_switch;
-	osg::ref_ptr<osg::Switch>	product_switch_curves;
-	std::vector<shared_ptr<ItemData> >			vec_item_data;
-	bool added_to_node;
-	std::wstring representation_identifier;
-	std::wstring representation_type;
+	weak_ptr<IfcProduct> m_ifc_product;
+	weak_ptr<IfcRepresentation> m_representation;
+	weak_ptr<IfcObjectPlacement> m_object_placement;
+	osg::ref_ptr<osg::Switch>	m_product_switch;
+	osg::ref_ptr<osg::Switch>	m_product_switch_curves;
+	std::vector<shared_ptr<ItemData> >		m_vec_item_data;
+	bool m_added_to_node;
+	std::wstring m_representation_identifier;
+	std::wstring m_representation_type;
 
 protected:
-	std::vector<shared_ptr<AppearanceData> >	vec_appearances;
+	std::vector<shared_ptr<AppearanceData> >	m_vec_appearances;
 };
 
 class PolyInputCache3D
@@ -113,7 +113,7 @@ public:
 	PolyInputCache3D();
 	int addPoint( const carve::geom::vector<3>& v );
 	int addPointPrecise( const carve::geom::vector<3>& v );
+
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
-	std::map<double, std::map<double, std::map<double, int> > > existing_vertices_coords;
-	std::map<double, int>::iterator it_find_z;
+	std::map<double, std::map<double, std::map<double, int> > > m_existing_vertices_coords;
 };

@@ -19,10 +19,11 @@
 
 class IfcPPModel;
 class IfcPPEntity;
-class ReaderWriterIFC;
+class IfcPPReaderSTEP;
+class IfcPPWriterSTEP;
+class GeometryConverter;
 class CommandManager;
 class ViewController;
-namespace osg { class Material; }
 
 struct selectedEntity 
 {
@@ -41,9 +42,11 @@ public:
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 	bool intersectModel( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, bool click, bool doubleclick );
 	
-	shared_ptr<ReaderWriterIFC> getReaderWriterIFC() {	return m_reader_writer; }
-	shared_ptr<CommandManager>	getCommandManager() { return m_command_manager; }
-	shared_ptr<ViewController>	getViewController() { return m_view_controller; }
+	shared_ptr<GeometryConverter>	getGeometryConverter()	{ return m_geometry_converter; }
+	shared_ptr<IfcPPReaderSTEP>&	getIfcPPReader()		{ return m_step_reader; }
+	shared_ptr<IfcPPWriterSTEP>&	getIfcPPWriter()		{ return m_step_writer; }
+	shared_ptr<CommandManager>		getCommandManager()		{ return m_command_manager; }
+	shared_ptr<ViewController>		getViewController()		{ return m_view_controller; }
 
 	void setObjectSelected( shared_ptr<IfcPPEntity> object, bool selected, osg::Group* node = 0 );
 	const std::map<int, shared_ptr<selectedEntity> >& getSelectedObjects() { return m_map_selected; }
@@ -53,7 +56,9 @@ public:
 	void notifyModelLoadingDone();
 
 private:
-	shared_ptr<ReaderWriterIFC>			m_reader_writer;
+	shared_ptr<GeometryConverter>		m_geometry_converter;
+	shared_ptr<IfcPPReaderSTEP>			m_step_reader;
+	shared_ptr<IfcPPWriterSTEP>			m_step_writer;
 	shared_ptr<CommandManager>			m_command_manager;
 	shared_ptr<ViewController>			m_view_controller;
 	std::map<int, shared_ptr<selectedEntity> > m_map_selected;

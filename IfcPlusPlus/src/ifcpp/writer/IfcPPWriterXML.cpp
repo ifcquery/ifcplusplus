@@ -19,7 +19,7 @@
 
 #include "ifcpp/writer/IfcPPWriterXML.h"
 
-void IfcPPWriterXML::writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
+void IfcPPWriterXML::writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {
 	// not implemented
 }

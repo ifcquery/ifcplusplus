@@ -18,10 +18,6 @@
 #include <iostream>
 #include <regex>
 
-#include <osg/MatrixTransform>
-#include <osg/CullFace>
-#include <osgText/Text>
-
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
 #include <ifcpp/IFC4/include/IfcElement.h>
@@ -36,21 +32,19 @@
 #include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
 #include <ifcpp/IFC4/include/IfcPropertySetDefinitionSelect.h>
 #include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
-#include <ifcpp/IFC4/include/IfcSpace.h>
-#include <ifcpp/IFC4/include/IfcBeam.h>
-#include <ifcpp/IFC4/include/IfcCurtainWall.h>
-#include <ifcpp/IFC4/include/IfcWindow.h>
+#include <ifcpp/IFC4/include/IfcSimpleProperty.h>
+#include <ifcpp/IFC4/include/IfcPropertySingleValue.h>
+#include <ifcpp/IFC4/include/IfcComplexProperty.h>
+
 #include <ifcpp/IFC4/include/IfcBuildingStorey.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
+#include <ifcpp/IFC4/include/IfcIdentifier.h>
 
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/IfcPPOpenMP.h>
-#include <ifcpp/reader/IfcPPReaderSTEP.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
 
 #include "GeometrySettings.h"
 #include "GeomUtils.h"
@@ -58,40 +52,35 @@
 #include "RepresentationConverter.h"
 #include "PlacementConverter.h"
 #include "SolidModelConverter.h"
+#include "StylesConverter.h"
 #include "ProfileCache.h"
 #include "ConverterOSG.h"
 #include "CSG_Adapter.h"
-#include "ReaderWriterIFC.h"
+#include "GeometryConverter.h"
 
-ReaderWriterIFC::ReaderWriterIFC()
+GeometryConverter::GeometryConverter()
 {
 	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
-	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
-	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
+
+	
 
 	m_geom_settings = shared_ptr<GeometrySettings>( new GeometrySettings() );
 	resetNumVerticesPerCircle();
 	shared_ptr<UnitConverter>& unit_converter = m_ifc_model->getUnitConverter();
 	m_representation_converter = shared_ptr<RepresentationConverter>( new RepresentationConverter( m_geom_settings, unit_converter ) );
+	m_converter_osg = shared_ptr<ConverterOSG>( new ConverterOSG( m_geom_settings ) );
 
-	// redirect all messages to ReaderWriterIFC::slotMessageWrapper
-	m_ifc_model->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
-	m_step_reader->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
-	m_step_writer->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
-	m_representation_converter->setMessageCallBack( this, &ReaderWriterIFC::slotMessageWrapper );
-
-	m_glass_stateset = new osg::StateSet();
-	m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
-	m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-
-	m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
+	// redirect all messages to GeometryConverter::slotMessageWrapper
+	m_ifc_model->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
+	m_representation_converter->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
+	m_converter_osg->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
 }
 
-ReaderWriterIFC::~ReaderWriterIFC()
+GeometryConverter::~GeometryConverter()
 {
 }
 
-void ReaderWriterIFC::resetModel()
+void GeometryConverter::resetModel()
 {
 	progressTextCallback( L"Unloading model, cleaning up memory..." );
 	clearInputCache();
@@ -107,113 +96,31 @@ void ReaderWriterIFC::resetModel()
 #endif
 }
 
-void ReaderWriterIFC::clearInputCache()
+void GeometryConverter::clearInputCache()
 {
 	m_shape_input_data.clear();
 	m_map_outside_spatial_structure.clear();
-	AppearanceManagerOSG::clearAppearanceCache();
+	m_converter_osg->clearAppearanceCache();
 	m_representation_converter->getUnitConverter()->resetUnitConverter();
 	m_representation_converter->clearCache();
 	m_messages.clear();
 }
 
-void ReaderWriterIFC::resetNumVerticesPerCircle()
+void GeometryConverter::resetNumVerticesPerCircle()
 {
 	m_geom_settings->m_num_vertices_per_circle = m_geom_settings->m_num_vertices_per_circle_default;
 }
 
-void ReaderWriterIFC::setModel( shared_ptr<IfcPPModel> model )
+void GeometryConverter::setModel( shared_ptr<IfcPPModel> model )
 {
 	clearInputCache();
 	m_ifc_model = model;
 	m_representation_converter->clearCache();
 	m_representation_converter->setUnitConverter( m_ifc_model->getUnitConverter() );
+	m_ifc_model->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
 }
 
-void ReaderWriterIFC::loadModelFromFile( const std::string& file_path )
-{
-	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
-	
-	std::string ext = file_path.substr( file_path.find_last_of( "." ) + 1 );
-	
-	if( boost::iequals( ext, "ifc" ) )
-	{
-		// ok, nothing to do here
-	}
-	else if( boost::iequals( ext, "ifcXML" ) )
-	{
-		// TODO: implement xml reader
-		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-		return;
-	}
-	else if( boost::iequals( ext, "ifcZIP" ) )
-	{
-		// TODO: implement zip uncompress
-		messageCallback( "ifcZIP not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-		return;
-	}
-	else
-	{
-		std::stringstream strs;
-		strs << "Unsupported file type: " << ext;
-		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-		return;
-	}
-
-	// open file
-	std::ifstream infile;
-	infile.open( file_path.c_str(), std::ifstream::in );
-
-	if( !infile.is_open() )
-	{
-		std::stringstream strs;
-		strs << "Could not open file: " << file_path.c_str();
-		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-		return;
-	}
-
-	// get length of file:
-	infile.seekg( 0, std::ios::end );
-	const int length = infile.tellg();
-	infile.seekg( 0, std::ios::beg );
-
-	// allocate memory:
-	std::string buffer( length, '\0' );
-
-	// read data as a block:
-	infile.read( &buffer[0], length );
-	infile.close();
-
-	progressTextCallback( L"Reading STEP data..." );
-	progressValueCallback( 0, "parse" );
-
-	try
-	{
-		m_step_reader->removeComments( buffer );
-		m_step_reader->readStreamHeader( buffer, m_ifc_model );
-		m_step_reader->readStreamData( buffer, m_ifc_model );
-		m_ifc_model->resolveInverseAttributes();
-		m_ifc_model->updateCache();
-	}
-	catch( IfcPPOutOfMemoryException& e)
-	{
-		throw e;
-	}
-	catch( IfcPPException& e )
-	{
-		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
-	}
-	catch( std::exception& e )
-	{
-		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
-	}
-	catch( ... )
-	{
-		messageCallback( "An error occured", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-	}
-}
-
-void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group )
+void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group )
 {
 	progressTextCallback( L"Creating geometry..." );
 	progressValueCallback( 0, "geometry" );
@@ -222,8 +129,8 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 	m_representation_converter->clearCache();
 	
 	std::vector<shared_ptr<IfcProduct> > vec_products;
-	double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
-	carve::setEpsilon( 1.4901161193847656e-08*length_to_meter_factor );
+	const double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+	carve::setEpsilon( 1.4901161193847656e-05*length_to_meter_factor );
 
 	const std::map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 	for( std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it = map_entities.begin(); it != map_entities.end(); ++it )
@@ -237,7 +144,7 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 	}
 
 	// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-	std::map<int, shared_ptr<ShapeInputData> > *map_products_ptr = &m_shape_input_data;
+	std::map<int, shared_ptr<ShapeInputData> >* map_products_ptr = &m_shape_input_data;
 	const int num_products = vec_products.size();
 
 #ifdef IFCPP_OPENMP
@@ -264,11 +171,12 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 
 			const int product_id = product->m_id;
 			shared_ptr<ShapeInputData> product_geom_input_data( new ShapeInputData() );
-			product_geom_input_data->ifc_product = product;
+			product_geom_input_data->m_ifc_product = product;
 
 			try
 			{
-				convertIfcProduct( product, product_geom_input_data );
+				convertIfcProduct( product_geom_input_data );
+				m_converter_osg->convertToOSG( product_geom_input_data, length_to_meter_factor );
 			}
 #ifdef _DEBUG
 			catch( DebugBreakException& dbge )
@@ -344,12 +252,12 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 		for( auto it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
 		{
 			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
-			shared_ptr<IfcProduct> ifc_product( product_shape->ifc_product );
+			shared_ptr<IfcProduct> ifc_product( product_shape->m_ifc_product );
 			if( !product_shape )
 			{
 				continue;
 			}
-			if( !product_shape->added_to_node )
+			if( !product_shape->m_added_to_node )
 			{
 				shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
 				if( opening )
@@ -357,19 +265,19 @@ void ReaderWriterIFC::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group 
 					continue;
 				}
 
-				osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
+				osg::ref_ptr<osg::Switch> product_switch = product_shape->m_product_switch;
 				if( product_switch.valid() )
 				{
 					group_outside_spatial_structure->addChild( product_switch );
 				}
 
-				osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
+				osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->m_product_switch_curves;
 				if( product_switch_curves.valid() )
 				{
 					group_outside_spatial_structure->addChild( product_switch_curves );
 				}
 
-				product_shape->added_to_node = true;
+				product_shape->m_added_to_node = true;
 				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->m_id, ifc_product ) );
 			}
 		}
@@ -407,7 +315,8 @@ bool inParentList( const int entity_id, osg::Group* group )
 	{
 		return false;
 	}
-	std::vector<osg::Group*>& vec_parents = group->getParents();
+
+	const osg::Group::ParentList& vec_parents = group->getParents();
 	for( size_t ii = 0; ii < vec_parents.size(); ++ii )
 	{
 		osg::Group* parent = vec_parents[ii];
@@ -419,26 +328,20 @@ bool inParentList( const int entity_id, osg::Group* group )
 				if( parent_name.at( 0 ) == '#' )
 				{
 					// extract entity id
-					std::tr1::cmatch res;
-					std::tr1::regex rx( "#([0-9]+)" );
-					if( std::tr1::regex_search( parent_name.c_str(), res, rx ) )
+					std::string parent_name_id = parent_name.substr( 1 );
+					size_t last_index = parent_name_id.find_first_not_of("0123456789");
+					std::string id_str = parent_name_id.substr( 0, last_index );
+					const int id = std::stoi( id_str.c_str() );
+					if( id == entity_id )
 					{
-						const int id = atoi( res[1].str().c_str() );
-
-						//std::string parent_name_id = parent_name.substr( 1 );
-						//size_t last_index = parent_name_id.find_first_not_of("0123456789");
-						//std::string id_str = parent_name_id.substr( 0, last_index );
-						//const int id = atoi( id_str.c_str() );
-						if( id == entity_id )
-						{
-							return true;
-						}
-						bool in_parent_list = inParentList( entity_id, parent );
-						if( in_parent_list )
-						{
-							return true;
-						}
+						return true;
 					}
+					bool in_parent_list = inParentList( entity_id, parent );
+					if( in_parent_list )
+					{
+						return true;
+					}
+					
 				}
 			}
 		}
@@ -446,7 +349,7 @@ bool inParentList( const int entity_id, osg::Group* group )
 	return false;
 }
 
-void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& obj_def, osg::ref_ptr<osg::Switch> group )
+void GeometryConverter::resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& obj_def, osg::ref_ptr<osg::Switch> group )
 {
 	const int entity_id = obj_def->m_id;
 	if( inParentList( entity_id, group ) )
@@ -463,20 +366,21 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 		{
 			shared_ptr<ShapeInputData>& product_shape = it_product_map->second;
 
-			if( product_shape->added_to_node )
+			if( product_shape->m_added_to_node )
 			{
+				// IfcRelContainsInSpatialStructure relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
 				std::cout << "already product_shape->added_to_node" << std::endl;
 			}
-			product_shape->added_to_node = true;
+			product_shape->m_added_to_node = true;
 
-			osg::ref_ptr<osg::Switch> product_switch = product_shape->product_switch;
+			osg::ref_ptr<osg::Switch> product_switch = product_shape->m_product_switch;
 			if( product_switch.valid() )
 			{
 				for( unsigned int product_child_i = 0; product_child_i < product_switch->getNumChildren(); ++product_child_i )
 				{
 					group->addChild( product_switch->getChild( product_child_i ) );
 				}
-				product_shape->product_switch = group;
+				product_shape->m_product_switch = group;
 				group->setName( product_switch->getName() );
 
 				osg::StateSet* existing_stateset = product_switch->getStateSet();
@@ -486,7 +390,7 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 				}
 			}
 
-			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->product_switch_curves;
+			osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->m_product_switch_curves;
 			if( product_switch_curves.valid() )
 			{
 				group->addChild( product_switch_curves );
@@ -548,32 +452,93 @@ void ReaderWriterIFC::resolveProjectStructure( const shared_ptr<IfcObjectDefinit
 	}
 }
 
+void GeometryConverter::convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ShapeInputData>& product_shape )
+{
+	std::vector<shared_ptr<IfcProperty> >& vec_hasProperties = prop_set->m_HasProperties;
+
+	std::vector<shared_ptr<IfcProperty> >::iterator it;
+	for( it = vec_hasProperties.begin(); it != vec_hasProperties.end(); ++it )
+	{
+		shared_ptr<IfcProperty> prop = ( *it );
+
+		shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>( prop );
+		if( simple_property )
+		{
+			shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
+			std::wstring name_str = property_name->m_value;
+			if( name_str.compare( L"LayerName" ) == 0 )
+			{
+				// TODO: implement layers
+			}
+			shared_ptr<IfcText> description = simple_property->m_Description;
+
+
+			shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>( simple_property );
+			if( property_single_value )
+			{
+				shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
+				shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
+
+			}
+
+			//ENTITY IfcSimpleProperty
+			//ABSTRACT SUPERTYPE OF(ONEOF(
+			//IfcPropertyBoundedValue,
+			//IfcPropertyEnumeratedValue,
+			//IfcPropertyListValue,
+			//IfcPropertyReferenceValue,
+			//IfcPropertySingleValue,
+			//IfcPropertyTableValue))
+			continue;
+		}
+
+		shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>( prop );
+		if( complex_property )
+		{
+			std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
+			if( !complex_property->m_UsageName ) continue;
+			if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
+			{
+
+				carve::geom::vector<4> vec_color;
+				m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor( complex_property, vec_color );
+				shared_ptr<AppearanceData> appearance_data( new AppearanceData( -1 ) );
+				if( !appearance_data )
+				{
+					throw IfcPPOutOfMemoryException( __FUNC__ );
+				}
+				appearance_data->m_color_ambient = vec_color;
+				appearance_data->m_color_diffuse = vec_color;
+				appearance_data->m_color_specular = vec_color;
+				appearance_data->m_shininess = 35.f;
+
+				product_shape->addAppearance( appearance_data );
+			}
+		}
+	}
+}
+
 
 //\brief creates geometry objects from an IfcProduct object
 // caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, shared_ptr<ShapeInputData>& product_shape )
+void GeometryConverter::convertIfcProduct( shared_ptr<ShapeInputData>& product_shape )
 {
-	if( !product->m_Representation )
+	shared_ptr<IfcProduct> ifc_product( product_shape->m_ifc_product );
+	if( !ifc_product )
 	{
-		// IfcProduct needs to have a representation
+		return;
+	}
+	if( !ifc_product->m_Representation )
+	{
 		return;
 	}
 
-	const int product_id = product->m_id;
-	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
-	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
-	if( !product_switch || !product_switch_curves )
-	{
-		throw IfcPPOutOfMemoryException( __FUNC__ );
-	}
-	std::stringstream group_name;
-	group_name << "#" << product_id << "=" << product->className() << " group";
-	product_switch->setName( group_name.str().c_str() );
-	product_switch_curves->setName( "CurveRepresentation" );
+	const int product_id = ifc_product->m_id;
 	const double length_factor = m_representation_converter->getUnitConverter()->getLengthInMeterFactor();
+	product_shape->m_ifc_product = ifc_product;
 
 	// evaluate IFC geometry
-	shared_ptr<IfcProductRepresentation>& product_representation = product->m_Representation;
+	shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
 	std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
 	for( auto it_representations = vec_representations.begin(); it_representations != vec_representations.end(); ++it_representations )
 	{
@@ -598,14 +563,14 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 	// IfcProduct has an ObjectPlacement that can be local or global
 	carve::math::Matrix product_placement_matrix( carve::math::Matrix::IDENT() );
-	if( product->m_ObjectPlacement )
+	if( ifc_product->m_ObjectPlacement )
 	{
 		// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 		std::unordered_set<IfcObjectPlacement*> placement_already_applied;
-		m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( product->m_ObjectPlacement, length_factor, product_placement_matrix, placement_already_applied );
+		m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, placement_already_applied );
 	}
 
-	std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
+	std::vector<shared_ptr<ItemData> >& product_items = product_shape->m_vec_item_data;
 	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 	{
 		shared_ptr<ItemData> item_data = product_items[i_item];
@@ -614,182 +579,16 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 
 	// handle openings
 	std::vector<shared_ptr<ShapeInputData> > vec_opening_data;
-	const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>( product );
+	const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>( ifc_product );
 	if( ifc_element )
 	{
 		m_representation_converter->subtractOpenings( ifc_element, product_shape );
 	}
 
-	// create OSG objects
-	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
-	{
-		shared_ptr<ItemData> item_data = product_items[i_item];
-		osg::ref_ptr<osg::Group> item_group = new osg::Group();
-		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
-
-		if( !item_group || !item_group_curves )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-
-		// create shape for open shells
-		for( auto it_meshsets = item_data->meshsets_open.begin(); it_meshsets != item_data->meshsets_open.end(); ++it_meshsets )
-		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
-			CSG_Adapter::retriangulateMeshSet( item_meshset );
-			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			if( !geode )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
-			ConverterOSG::drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
-
-			// disable back face culling for open meshes
-			geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
-			item_group->addChild( geode );
-		}
-
-		// create shape for meshsets
-		for( auto it_meshsets = item_data->meshsets.begin(); it_meshsets != item_data->meshsets.end(); ++it_meshsets )
-		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
-			CSG_Adapter::retriangulateMeshSet( item_meshset );
-			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
-			if( !geode_result )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
-			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
-			item_group->addChild( geode_result );
-		}
-
-		// create shape for polylines
-		for( size_t polyline_i = 0; polyline_i < item_data->polylines.size(); ++polyline_i )
-		{
-			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->polylines[polyline_i];
-			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			if( !geode )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
-			ConverterOSG::drawPolyline( polyline_data.get(), geode );
-			item_group_curves->addChild( geode );
-		}
-
-		if( m_geom_settings->m_show_text_literals )
-		{
-			for( size_t text_literal_i = 0; text_literal_i < item_data->vec_text_literals.size(); ++text_literal_i )
-			{
-				shared_ptr<TextItemData>& text_data = item_data->vec_text_literals[text_literal_i];
-				if( !text_data )
-				{
-					continue;
-				}
-				carve::math::Matrix& text_pos = text_data->m_text_position;
-				// TODO: handle rotation
-
-				std::string text_str;
-				text_str.assign( text_data->m_text.begin(), text_data->m_text.end() );
-
-				osg::Vec3 pos2( text_pos._41, text_pos._42, text_pos._43 );
-
-				osgText::Text* txt = new osgText::Text();
-				if( !txt )
-				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
-				}
-				txt->setFont( "fonts/arial.ttf" );
-				txt->setColor( osg::Vec4f( 0, 0, 0, 1 ) );
-				txt->setCharacterSize( 0.1f );
-				txt->setAutoRotateToScreen( true );
-				txt->setPosition( pos2 );
-				txt->setText( text_str.c_str() );
-				txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
-
-				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-				if( !geode )
-				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
-				}
-				geode->addDrawable( txt );
-				item_group->addChild( geode );
-			}
-		}
-
-		// apply statesets if there are any
-		if( item_data->vec_item_appearances.size() > 0 )
-		{
-			for( size_t i_appearance = 0; i_appearance < item_data->vec_item_appearances.size(); ++i_appearance )
-			{
-				shared_ptr<AppearanceData>& appearance = item_data->vec_item_appearances[i_appearance];
-				if( appearance->apply_to_geometry_type == AppearanceData::SURFACE )
-				{
-					osg::StateSet* item_stateset = AppearanceManagerOSG::convertToStateSet( appearance );
-					if( item_stateset != nullptr )
-					{
-						item_group->setStateSet( item_stateset );
-
-						osg::StateSet* existing_item_stateset = item_group->getStateSet();
-						if( existing_item_stateset )
-						{
-							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-							if( !merged_product_stateset )
-							{
-								throw IfcPPOutOfMemoryException( __FUNC__ );
-							}
-							merged_product_stateset->merge( *item_stateset );
-							item_group->setStateSet( merged_product_stateset );
-						}
-						else
-						{
-							item_group->setStateSet( item_stateset );
-						}
-					}
-					else if( appearance->apply_to_geometry_type == AppearanceData::CURVE )
-					{
-						osg::StateSet* item_stateset = AppearanceManagerOSG::convertToStateSet( appearance );
-						if( item_stateset != nullptr )
-						{
-							item_group->setStateSet( item_stateset );
-
-							osg::StateSet* existing_item_stateset = item_group->getStateSet();
-
-							if( existing_item_stateset )
-							{
-								osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-								if( !merged_product_stateset )
-								{
-									throw IfcPPOutOfMemoryException( __FUNC__ );
-								}
-								merged_product_stateset->merge( *item_stateset );
-								item_group->setStateSet( merged_product_stateset );
-							}
-							else
-							{
-								item_group_curves->setStateSet( item_stateset );
-							}
-						}
-					}
-				}
-			}
-		}
-
-		// If anything has been created, add it to the product group
-		if( item_group->getNumChildren() > 0 )
-		{
-			product_switch->addChild( item_group );
-		}
-
-		if( item_group_curves->getNumChildren() > 0 )
-		{
-			product_switch_curves->addChild( item_group_curves );
-		}
-	}
-
 	// Fetch the IFCProduct relationships
-	if( product->m_IsDefinedBy_inverse.size() > 0 )
+	if( ifc_product->m_IsDefinedBy_inverse.size() > 0 )
 	{
-		std::vector<weak_ptr<IfcRelDefinesByProperties> >& vec_IsDefinedBy_inverse = product->m_IsDefinedBy_inverse;
+		std::vector<weak_ptr<IfcRelDefinesByProperties> >& vec_IsDefinedBy_inverse = ifc_product->m_IsDefinedBy_inverse;
 		for( size_t i = 0; i < vec_IsDefinedBy_inverse.size(); ++i )
 		{
 			shared_ptr<IfcRelDefinesByProperties> rel_def( vec_IsDefinedBy_inverse[i] );
@@ -803,7 +602,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 					shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
 					if( property_set )
 					{
-						m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
+						convertIfcPropertySet( property_set, product_shape );
 					}
 					continue;
 				}
@@ -821,7 +620,7 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 							shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
 							if( property_set )
 							{
-								m_representation_converter->convertIfcPropertySet( property_set, product_switch.get() );
+								convertIfcPropertySet( property_set, product_shape );
 							}
 						}
 					}
@@ -830,69 +629,11 @@ void ReaderWriterIFC::convertIfcProduct( const shared_ptr<IfcProduct>& product, 
 			}
 		}
 	}
-
-	for( size_t i = 0; i < product_shape->getAppearances().size(); ++i )
-	{
-		// TODO: handle appearances of curves separately
-		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];
-		if( !appearance )
-		{
-			continue;
-		}
-
-		osg::StateSet* next_product_stateset = AppearanceManagerOSG::convertToStateSet( appearance );
-		osg::StateSet* existing_item_stateset = product_switch->getStateSet();
-		if( existing_item_stateset )
-		{
-			osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-			if( !merged_product_stateset )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
-			merged_product_stateset->merge( *next_product_stateset );
-			product_switch->setStateSet( merged_product_stateset );
-		}
-		else
-		{
-			product_switch->setStateSet( next_product_stateset );
-		}
-	}
-
-	// enable transparency for certain objects
-	if( dynamic_pointer_cast<IfcSpace>( product ) )
-	{
-		product_switch->setStateSet( m_glass_stateset );
-	}
-	else if( dynamic_pointer_cast<IfcCurtainWall>( product ) || dynamic_pointer_cast<IfcWindow>( product ) )
-	{
-		// TODO: make only glass part of window transparent
-		product_switch->setStateSet( m_glass_stateset );
-		GeomUtils::setMaterialAlpha( product_switch, 0.6f );
-	}
-	else if( dynamic_pointer_cast<IfcSite>( product ) )
-	{
-		std::stringstream group_name;
-		group_name << "#" << product_id << "=IfcSite";
-		product_switch->setName( group_name.str().c_str() );
-	}
-	// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
-
-	if( product_switch->getNumChildren() > 0 )
-	{
-		product_shape->product_switch = product_switch;
-	}
-
-	if( product_switch_curves->getNumChildren() > 0 )
-	{
-		product_shape->product_switch_curves = product_switch_curves;
-	}
 }
 
-
-
-void ReaderWriterIFC::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> t )
+void GeometryConverter::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> t )
 {
-	ReaderWriterIFC* myself = (ReaderWriterIFC*)ptr;
+	GeometryConverter* myself = (GeometryConverter*)ptr;
 	if( myself )
 	{
 		if( t->m_entity )

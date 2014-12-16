@@ -19,10 +19,12 @@
 
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/reader/IfcPPReaderSTEP.h>
+#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcppgeometry/GeometryConverter.h>
 #include <ifcppgeometry/GeomUtils.h>
 
 #include "cmd/CmdRemoveSelectedObjects.h"
@@ -35,7 +37,9 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_view_controller = shared_ptr<ViewController>( new ViewController() );
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
-	m_reader_writer = shared_ptr<ReaderWriterIFC>( new ReaderWriterIFC() );
+	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter() );
+	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
+	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem()
@@ -169,7 +173,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				site_selected = true;
 			}
 
-			for( int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
+			for( unsigned int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
 			{
 				osg::Node* child_node = grp->getChild( child_ii );
 
@@ -198,22 +202,6 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			}
 		}
 
-#ifdef _DEBUG
-		shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( ifc_object );
-		if( product )
-		{
-			const int product_id = product->m_id;
-			shared_ptr<ShapeInputData> product_shape( new ShapeInputData() );
-			product_shape->ifc_product = product;
-
-			if( product->m_Representation )
-			{
-				m_reader_writer->convertIfcProduct( product, product_shape );
-			}
-			//GeomUtils::dumpMeshset( product_shape );
-		}
-#endif
-
 		std::map<int, shared_ptr<IfcPPEntity> > map_objects;
 		map_objects[id] = ifc_object;
 		emit( signalObjectsSelected( map_objects ) );
@@ -227,7 +215,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			if( it_selected != m_map_selected.end() )
 			{
 				shared_ptr<selectedEntity> selected_entity = it_selected->second;
-				for( int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
+				for( unsigned int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
 				{
 					osg::Node* child_node = grp->getChild( child_ii );
 					osg::Group* child_as_group = dynamic_cast<osg::Group*>(child_node);
@@ -261,7 +249,7 @@ void IfcPlusPlusSystem::clearSelection()
 		shared_ptr<IfcPPEntity> entity = selected_entity->entity;
 		osg::Group* grp = selected_entity->osg_group;
 
-		for( int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
+		for( unsigned int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
 		{
 			osg::Node* child_node = grp->getChild( child_ii );
 			osg::Group* child_as_group = dynamic_cast<osg::Group*>(child_node);

@@ -33,7 +33,7 @@ IfcPPWriterSTEP::~IfcPPWriterSTEP()
 {
 }
 
-void IfcPPWriterSTEP::writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
+void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {
 	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
 	setlocale(LC_NUMERIC,"C");

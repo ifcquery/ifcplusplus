@@ -15,12 +15,14 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/StatusCallback.h>
+#include <ifcpp/model/IfcPPOpenMP.h>
 
 class IfcStyledItem;
 class IfcPresentationStyle;
 class IfcPresentationStyleSelect;
 class IfcCurveStyle;
 class IfcSurfaceStyle;
+class IfcComplexProperty;
 class AppearanceData;
 
 class StylesConverter : public StatusCallback
@@ -35,6 +37,15 @@ public:
 	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data );
 	void convertIfcPresentationStyleSelect( shared_ptr<IfcPresentationStyleSelect> presentation_style, shared_ptr<AppearanceData>& appearance_data );
 	void convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data );
-	
+	void clearStylesCache()
+	{
+		m_map_ifc_styles.clear();
+	}
+
+protected:
 	std::map<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
+
+#ifdef IFCPP_OPENMP
+	Mutex m_writelock_styles_converter;
+#endif
 };

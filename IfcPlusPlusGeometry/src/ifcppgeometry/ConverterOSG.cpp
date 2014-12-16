@@ -21,6 +21,10 @@
 #include <osgUtil/Optimizer>
 #include <osgText/Text>
 
+#include <ifcpp/IFC4/include/IfcSpace.h>
+#include <ifcpp/IFC4/include/IfcCurtainWall.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
+#include <ifcpp/IFC4/include/IfcWindow.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/IfcPPOpenMP.h>
@@ -29,7 +33,18 @@
 #include "ProfileConverter.h"
 #include "RepresentationConverter.h"
 #include "SolidModelConverter.h"
+#include "CSG_Adapter.h"
 #include "ConverterOSG.h"
+
+ConverterOSG::ConverterOSG( shared_ptr<GeometrySettings>& geom_settings ) : m_geom_settings( geom_settings )
+{
+	m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
+	
+	m_glass_stateset = new osg::StateSet();
+	m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
+	m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+}
+ConverterOSG::~ConverterOSG() {}
 
 void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array )
 {
@@ -549,124 +564,249 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 }
 
 
-//\brief AppearanceManagerOSG: StateSet caching and re-use
-std::vector<osg::ref_ptr<osg::StateSet> > global_vec_existing_statesets;
-#ifdef IFCPP_OPENMP
-	Mutex writelock_appearance_cache;
-#endif
-
-void AppearanceManagerOSG::clearAppearanceCache()
+//\brief creates geometry objects from an IfcProduct object
+// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
+void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, const double length_factor )
 {
-#ifdef IFCPP_OPENMP
-	ScopedLock lock( writelock_appearance_cache );
-#endif
-	global_vec_existing_statesets.clear();
-}
-
-osg::StateSet* AppearanceManagerOSG::convertToStateSet( const shared_ptr<AppearanceData>& appearence )
-{
-	if( !appearence )
+	shared_ptr<IfcProduct> ifc_product( product_shape->m_ifc_product );
+	if( !ifc_product->m_Representation )
 	{
-		return nullptr;
+		// IfcProduct needs to have a representation
+		return;
 	}
-	const float shininess = appearence->shininess;
-	const float transparency = appearence->transparency;
-	const bool set_transparent = appearence->set_transparent;
 
-	const float color_ambient_r = appearence->color_ambient.x;
-	const float color_ambient_g = appearence->color_ambient.y;
-	const float color_ambient_b = appearence->color_ambient.z;
-	const float color_ambient_a = appearence->color_ambient.w;
-
-	const float color_diffuse_r = appearence->color_diffuse.x;
-	const float color_diffuse_g = appearence->color_diffuse.y;
-	const float color_diffuse_b = appearence->color_diffuse.z;
-	const float color_diffuse_a = appearence->color_diffuse.w;
-
-	const float color_specular_r = appearence->color_specular.x;
-	const float color_specular_g = appearence->color_specular.y;
-	const float color_specular_b = appearence->color_specular.z;
-	const float color_specular_a = appearence->color_specular.w;
-
-#ifdef IFCPP_OPENMP
-	ScopedLock lock( writelock_appearance_cache );
-#endif
-
-	for( int i=0; i<global_vec_existing_statesets.size(); ++i )
+	const int product_id = ifc_product->m_id;
+	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
+	if( !product_switch || !product_switch_curves )
 	{
-		const osg::ref_ptr<osg::StateSet> stateset_existing = global_vec_existing_statesets[i];
+		throw IfcPPOutOfMemoryException( __FUNC__ );
+	}
+	std::stringstream group_name;
+	group_name << "#" << product_id << "=" << ifc_product->className() << " group";
+	product_switch->setName( group_name.str().c_str() );
+	product_switch_curves->setName( "CurveRepresentation" );
 
-		if( !stateset_existing.valid() )
+	// create OSG objects
+	std::vector<shared_ptr<ItemData> >& product_items = product_shape->m_vec_item_data;
+	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
+	{
+		shared_ptr<ItemData> item_data = product_items[i_item];
+		osg::ref_ptr<osg::Group> item_group = new osg::Group();
+		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
+
+		if( !item_group || !item_group_curves )
+		{
+			throw IfcPPOutOfMemoryException( __FUNC__ );
+		}
+
+		// create shape for open shells
+		for( auto it_meshsets = item_data->m_meshsets_open.begin(); it_meshsets != item_data->m_meshsets_open.end(); ++it_meshsets )
+		{
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
+			CSG_Adapter::retriangulateMeshSet( item_meshset );
+			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+			if( !geode )
+			{
+				throw IfcPPOutOfMemoryException( __FUNC__ );
+			}
+			ConverterOSG::drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
+
+			// disable back face culling for open meshes
+			geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
+			item_group->addChild( geode );
+		}
+
+		// create shape for meshsets
+		for( auto it_meshsets = item_data->m_meshsets.begin(); it_meshsets != item_data->m_meshsets.end(); ++it_meshsets )
+		{
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
+			CSG_Adapter::retriangulateMeshSet( item_meshset );
+			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
+			if( !geode_result )
+			{
+				throw IfcPPOutOfMemoryException( __FUNC__ );
+			}
+			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
+			item_group->addChild( geode_result );
+		}
+
+		// create shape for polylines
+		for( size_t polyline_i = 0; polyline_i < item_data->m_polylines.size(); ++polyline_i )
+		{
+			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->m_polylines[polyline_i];
+			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+			if( !geode )
+			{
+				throw IfcPPOutOfMemoryException( __FUNC__ );
+			}
+			ConverterOSG::drawPolyline( polyline_data.get(), geode );
+			item_group_curves->addChild( geode );
+		}
+
+		if( m_geom_settings->m_show_text_literals )
+		{
+			for( size_t text_literal_i = 0; text_literal_i < item_data->m_vec_text_literals.size(); ++text_literal_i )
+			{
+				shared_ptr<TextItemData>& text_data = item_data->m_vec_text_literals[text_literal_i];
+				if( !text_data )
+				{
+					continue;
+				}
+				carve::math::Matrix& text_pos = text_data->m_text_position;
+				// TODO: handle rotation
+
+				std::string text_str;
+				text_str.assign( text_data->m_text.begin(), text_data->m_text.end() );
+
+				osg::Vec3 pos2( text_pos._41, text_pos._42, text_pos._43 );
+
+				osgText::Text* txt = new osgText::Text();
+				if( !txt )
+				{
+					throw IfcPPOutOfMemoryException( __FUNC__ );
+				}
+				txt->setFont( "fonts/arial.ttf" );
+				txt->setColor( osg::Vec4f( 0, 0, 0, 1 ) );
+				txt->setCharacterSize( 0.1f );
+				txt->setAutoRotateToScreen( true );
+				txt->setPosition( pos2 );
+				txt->setText( text_str.c_str() );
+				txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+
+				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+				if( !geode )
+				{
+					throw IfcPPOutOfMemoryException( __FUNC__ );
+				}
+				geode->addDrawable( txt );
+				item_group->addChild( geode );
+			}
+		}
+
+		// apply statesets if there are any
+		if( item_data->m_vec_item_appearances.size() > 0 )
+		{
+			for( size_t i_appearance = 0; i_appearance < item_data->m_vec_item_appearances.size(); ++i_appearance )
+			{
+				shared_ptr<AppearanceData>& appearance = item_data->m_vec_item_appearances[i_appearance];
+				if( appearance->m_apply_to_geometry_type == AppearanceData::SURFACE )
+				{
+					osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
+					if( item_stateset != nullptr )
+					{
+						item_group->setStateSet( item_stateset );
+
+						osg::StateSet* existing_item_stateset = item_group->getStateSet();
+						if( existing_item_stateset )
+						{
+							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+							if( !merged_product_stateset )
+							{
+								throw IfcPPOutOfMemoryException( __FUNC__ );
+							}
+							merged_product_stateset->merge( *item_stateset );
+							item_group->setStateSet( merged_product_stateset );
+						}
+						else
+						{
+							item_group->setStateSet( item_stateset );
+						}
+					}
+					else if( appearance->m_apply_to_geometry_type == AppearanceData::CURVE )
+					{
+						osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
+						if( item_stateset != nullptr )
+						{
+							item_group->setStateSet( item_stateset );
+
+							osg::StateSet* existing_item_stateset = item_group->getStateSet();
+
+							if( existing_item_stateset )
+							{
+								osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+								if( !merged_product_stateset )
+								{
+									throw IfcPPOutOfMemoryException( __FUNC__ );
+								}
+								merged_product_stateset->merge( *item_stateset );
+								item_group->setStateSet( merged_product_stateset );
+							}
+							else
+							{
+								item_group_curves->setStateSet( item_stateset );
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// If anything has been created, add it to the product group
+		if( item_group->getNumChildren() > 0 )
+		{
+			product_switch->addChild( item_group );
+		}
+
+		if( item_group_curves->getNumChildren() > 0 )
+		{
+			product_switch_curves->addChild( item_group_curves );
+		}
+	}
+
+	for( size_t i = 0; i < product_shape->getAppearances().size(); ++i )
+	{
+		// TODO: handle appearances of curves separately
+		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];
+		if( !appearance )
 		{
 			continue;
 		}
 
-		osg::ref_ptr<osg::Material> mat_existing = (osg::Material*)stateset_existing->getAttribute(osg::StateAttribute::MATERIAL);
-		if( !mat_existing )
+		osg::StateSet* next_product_stateset = convertToOSGStateSet( appearance );
+		osg::StateSet* existing_item_stateset = product_switch->getStateSet();
+		if( existing_item_stateset )
 		{
-			continue;
+			osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+			if( !merged_product_stateset )
+			{
+				throw IfcPPOutOfMemoryException( __FUNC__ );
+			}
+			merged_product_stateset->merge( *next_product_stateset );
+			product_switch->setStateSet( merged_product_stateset );
 		}
-
-		// compare
-		osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
-		if( fabs(color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
-		if( fabs(color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
-		if( fabs(color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
-		if( fabs(color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
-
-		osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
-		if( fabs(color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
-		if( fabs(color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
-		if( fabs(color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
-		if( fabs(color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
-
-		osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
-		if( fabs(color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
-		if( fabs(color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
-		if( fabs(color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
-		if( fabs(color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
-
-		float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
-		if( fabs(shininess_existing - shininess ) > 0.03 ) break;
-
-		bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
-		if( blend_on_existing != set_transparent ) break;
-
-		bool transparent_bin = stateset_existing->getRenderingHint() == osg::StateSet::TRANSPARENT_BIN;
-		if( transparent_bin != set_transparent ) break;
-
-		// if we get here, appearance is same as existing state set
-		return stateset_existing;
+		else
+		{
+			product_switch->setStateSet( next_product_stateset );
+		}
 	}
 
-	osg::Vec4f ambientColor(	color_ambient_r,	color_ambient_g,	color_ambient_b,	transparency );
-	osg::Vec4f diffuseColor(	color_diffuse_r,	color_diffuse_g,	color_diffuse_b,	transparency  );
-	osg::Vec4f specularColor(	color_specular_r,	color_specular_g,	color_specular_b,	transparency );
-
-	osg::ref_ptr<osg::Material> mat = new osg::Material();
-	mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
-	mat->setDiffuse( osg::Material::FRONT_AND_BACK, diffuseColor );
-	mat->setSpecular( osg::Material::FRONT_AND_BACK, specularColor );
-	mat->setShininess( osg::Material::FRONT_AND_BACK, shininess );
-	mat->setColorMode( osg::Material::SPECULAR );
-
-	osg::StateSet* stateset = new osg::StateSet();
-	stateset->setAttribute( mat, osg::StateAttribute::ON );
-	
-	if( appearence->set_transparent )
+	// enable transparency for certain objects
+	if( dynamic_pointer_cast<IfcSpace>( ifc_product ) )
 	{
-		mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );	
-		stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
-		stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+		product_switch->setStateSet( m_glass_stateset );
 	}
-
-	if( appearence->specular_exponent != 0.f )
+	else if( dynamic_pointer_cast<IfcCurtainWall>( ifc_product ) || dynamic_pointer_cast<IfcWindow>( ifc_product ) )
 	{
-		//osg::ref_ptr<osgFX::SpecularHighlights> spec_highlights = new osgFX::SpecularHighlights();
-		//spec_highlights->setSpecularExponent( spec->m_value );
-		// todo: add to scenegraph
+		// TODO: make only glass part of window transparent
+		product_switch->setStateSet( m_glass_stateset );
+		GeomUtils::setMaterialAlpha( product_switch, 0.6f );
+	}
+	else if( dynamic_pointer_cast<IfcSite>( ifc_product ) )
+	{
+		std::stringstream group_name;
+		group_name << "#" << product_id << "=IfcSite";
+		product_switch->setName( group_name.str().c_str() );
+	}
+	// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
+
+	if( product_switch->getNumChildren() > 0 )
+	{
+		product_shape->m_product_switch = product_switch;
 	}
 
-	global_vec_existing_statesets.push_back( stateset );
-	return stateset;
+	if( product_switch_curves->getNumChildren() > 0 )
+	{
+		product_shape->m_product_switch_curves = product_switch_curves;
+	}
 }
