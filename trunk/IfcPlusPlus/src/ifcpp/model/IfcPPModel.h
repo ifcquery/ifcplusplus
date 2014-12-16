@@ -34,16 +34,16 @@ public:
 	class IfcPPSchemaVersion
 	{
 		public:
-			IfcPPSchemaVersion::IfcPPSchemaVersion()
+			IfcPPSchemaVersion()
 			{
 				m_IFC_FILE_SCHEMA = L"";
 				m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
 			}
-			IfcPPSchemaVersion::IfcPPSchemaVersion(std::wstring schema_str, IfcPPVersionEnum schema_enum)
+			IfcPPSchemaVersion(std::wstring schema_str, IfcPPVersionEnum schema_enum)
 				: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)
 			{
 			}
-			IfcPPSchemaVersion::~IfcPPSchemaVersion()
+			~IfcPPSchemaVersion()
 			{
 			}
 			std::wstring		m_IFC_FILE_SCHEMA;

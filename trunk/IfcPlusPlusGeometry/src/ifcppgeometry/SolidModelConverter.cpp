@@ -747,12 +747,12 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 		
 	// for every first operand polyhedrons, apply all second operand polyhedrons
-	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& first_operand_meshsets = first_operand_data->meshsets;
+	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& first_operand_meshsets = first_operand_data->m_meshsets;
 	for( size_t i_meshset_first = 0; i_meshset_first < first_operand_meshsets.size(); ++i_meshset_first )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset = first_operand_meshsets[i_meshset_first];
 
-		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& second_operand_meshsets = second_operand_data->meshsets;
+		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& second_operand_meshsets = second_operand_data->m_meshsets;
 		for( size_t i_meshset_second = 0; i_meshset_second < second_operand_meshsets.size(); ++i_meshset_second )
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = second_operand_meshsets[i_meshset_second];
@@ -778,7 +778,7 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	}
 
 	// now copy processed first operands to result input data
-	std::copy( first_operand_data->meshsets.begin(), first_operand_data->meshsets.end(), std::back_inserter(item_data->meshsets) );
+	std::copy( first_operand_data->m_meshsets.begin(), first_operand_data->m_meshsets.end(), std::back_inserter(item_data->m_meshsets) );
 
 	shared_ptr<IfcBooleanClippingResult> boolean_clipping_result = dynamic_pointer_cast<IfcBooleanClippingResult>(bool_result);
 	if( boolean_clipping_result )
@@ -1187,9 +1187,9 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 	{
 		carve::geom::aabb<3> aabb;
 
-		for( int ii = 0; ii < other_operand->meshsets.size(); ++ii )
+		for( int ii = 0; ii < other_operand->m_meshsets.size(); ++ii )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->meshsets[ii];
+			shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->m_meshsets[ii];
 			if( ii == 0 )
 			{
 				aabb.pos = meshset->getAABB().pos;
@@ -1245,7 +1245,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		shared_ptr<ItemData> polygonal_halfspace_item_data( new ItemData );
 		m_sweeper->extrude( paths, carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
 		
-		if( polygonal_halfspace_item_data->meshsets.size() != 1 )
+		if( polygonal_halfspace_item_data->m_meshsets.size() != 1 )
 		{
 			messageCallback( "polygonal_halfspace_item_data->meshsets.size() != 1", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
 			return;
@@ -1254,7 +1254,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 		// apply position of PolygonalBoundary
 		polygonal_halfspace_item_data->applyPosition( boundary_position_matrix );
 
-		shared_ptr<carve::mesh::MeshSet<3> > polygonal_halfspace_meshset = polygonal_halfspace_item_data->meshsets[0];
+		shared_ptr<carve::mesh::MeshSet<3> > polygonal_halfspace_meshset = polygonal_halfspace_item_data->m_meshsets[0];
 		const size_t num_poly_points = polygonal_halfspace_meshset->vertex_storage.size();
 
 		if( num_poly_points % 2 )
@@ -1312,7 +1312,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 			polygonal_halfspace_meshset->meshes[i_mesh]->recalc();
 		}
 
-		item_data->meshsets.push_back( polygonal_halfspace_meshset );
+		item_data->m_meshsets.push_back( polygonal_halfspace_meshset );
 	}
 	else
 	{

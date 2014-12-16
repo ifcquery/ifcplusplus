@@ -20,11 +20,11 @@ void ItemData::addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronDat
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 	if( meshset->isClosed() )
 	{
-		meshsets.push_back( meshset );
+		m_meshsets.push_back( meshset );
 	}
 	else
 	{
-		meshsets_open.push_back( meshset );
+		m_meshsets_open.push_back( meshset );
 	}
 }
 
@@ -36,7 +36,7 @@ void ItemData::addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly
 	}
 
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
-	meshsets_open.push_back( meshset );
+	m_meshsets_open.push_back( meshset );
 }
 
 void ItemData::addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
@@ -49,11 +49,11 @@ void ItemData::addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& po
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 	if( meshset->isClosed() )
 	{
-		meshsets.push_back( meshset );
+		m_meshsets.push_back( meshset );
 	}
 	else
 	{
-		meshsets_open.push_back( meshset ); // still may be useful as open mesh
+		m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
 
 #ifdef _DEBUG
 		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
@@ -64,19 +64,19 @@ void ItemData::addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& po
 
 void ItemData::addItemData( shared_ptr<ItemData>& other )
 {
-	std::copy( other->meshsets_open.begin(),				other->meshsets_open.end(),					std::back_inserter( meshsets_open ) );
-	std::copy( other->polylines.begin(),					other->polylines.end(),						std::back_inserter( polylines ) );
-	std::copy( other->meshsets.begin(),						other->meshsets.end(),						std::back_inserter( meshsets ) );
-	std::copy( other->vec_item_appearances.begin(),			other->vec_item_appearances.end(),			std::back_inserter( vec_item_appearances ) );
+	std::copy( other->m_meshsets_open.begin(),				other->m_meshsets_open.end(),					std::back_inserter( m_meshsets_open ) );
+	std::copy( other->m_polylines.begin(),					other->m_polylines.end(),						std::back_inserter( m_polylines ) );
+	std::copy( other->m_meshsets.begin(),					other->m_meshsets.end(),						std::back_inserter( m_meshsets ) );
+	std::copy( other->m_vec_item_appearances.begin(),		other->m_vec_item_appearances.end(),			std::back_inserter( m_vec_item_appearances ) );
 }
 
 bool ItemData::isEmpty()
 {
-	if( meshsets_open.size() > 0 )				{ return false; }
-	if( polylines.size() > 0 )					{ return false; }
-	if( meshsets.size() > 0 )					{ return false; }
-	if( vec_item_appearances.size() > 0 )		{ return false; }
-	if( vec_text_literals.size() > 0 )			{ return false; }
+	if( m_meshsets_open.size() > 0 )			{ return false; }
+	if( m_polylines.size() > 0 )				{ return false; }
+	if( m_meshsets.size() > 0 )					{ return false; }
+	if( m_vec_item_appearances.size() > 0 )		{ return false; }
+	if( m_vec_text_literals.size() > 0 )		{ return false; }
 
 	return true;
 }
@@ -114,7 +114,7 @@ void ItemData::applyPosition( const carve::math::Matrix& mat )
 		return;
 	}
 
-	for( auto it_meshsets = meshsets_open.begin(); it_meshsets != meshsets_open.end(); ++it_meshsets )
+	for( auto it_meshsets = m_meshsets_open.begin(); it_meshsets != m_meshsets_open.end(); ++it_meshsets )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
 
@@ -129,7 +129,7 @@ void ItemData::applyPosition( const carve::math::Matrix& mat )
         }
 	}
 
-	for( auto it_meshsets = meshsets.begin(); it_meshsets != meshsets.end(); ++it_meshsets )
+	for( auto it_meshsets = m_meshsets.begin(); it_meshsets != m_meshsets.end(); ++it_meshsets )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
 
@@ -144,9 +144,9 @@ void ItemData::applyPosition( const carve::math::Matrix& mat )
         }
 	}
 
-	for( int polyline_i = 0; polyline_i < polylines.size(); ++polyline_i )
+	for( int polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
 	{
-		shared_ptr<carve::input::PolylineSetData>& polyline_data = polylines[polyline_i];
+		shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
 		for( size_t j=0; j<polyline_data->points.size(); ++j )
 		{
 			carve::geom::vector<3>& point = polyline_data->points[j];
@@ -154,9 +154,9 @@ void ItemData::applyPosition( const carve::math::Matrix& mat )
 		}
 	}
 
-	for( int text_i = 0; text_i < vec_text_literals.size(); ++text_i )
+	for( int text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
 	{
-		shared_ptr<TextItemData>& text_literals = vec_text_literals[text_i];
+		shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
 		text_literals->m_text_position = mat*text_literals->m_text_position;
 	}
 }
@@ -165,26 +165,26 @@ shared_ptr<ItemData> ItemData::getDeepCopy()
 {
 	shared_ptr<ItemData> copy_item( new ItemData() );
 
-	for( auto it_meshsets = meshsets_open.begin(); it_meshsets != meshsets_open.end(); ++it_meshsets )
+	for( auto it_meshsets = m_meshsets_open.begin(); it_meshsets != m_meshsets_open.end(); ++it_meshsets )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-		copy_item->meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
+		copy_item->m_meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
 	}
 
-	for( auto it_meshsets = meshsets.begin(); it_meshsets != meshsets.end(); ++it_meshsets )
+	for( auto it_meshsets = m_meshsets.begin(); it_meshsets != m_meshsets.end(); ++it_meshsets )
 	{
 		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-		copy_item->meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
+		copy_item->m_meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
 	}
 
-	for( size_t polyline_i = 0; polyline_i < polylines.size(); ++polyline_i )
+	for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
 	{
-		shared_ptr<carve::input::PolylineSetData>& polyline_data = polylines[polyline_i];
-		copy_item->polylines.push_back( shared_ptr<carve::input::PolylineSetData>( new carve::input::PolylineSetData( *(polyline_data.get()) ) ) );
+		shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
+		copy_item->m_polylines.push_back( shared_ptr<carve::input::PolylineSetData>( new carve::input::PolylineSetData( *(polyline_data.get()) ) ) );
 	}
 
-	std::copy( vec_item_appearances.begin(),	vec_item_appearances.end(),		std::back_inserter( copy_item->vec_item_appearances ) );
-	std::copy( vec_text_literals.begin(),		vec_text_literals.end(),		std::back_inserter( copy_item->vec_text_literals ) );
+	std::copy( m_vec_item_appearances.begin(),	m_vec_item_appearances.end(),		std::back_inserter( copy_item->m_vec_item_appearances ) );
+	std::copy( m_vec_text_literals.begin(),		m_vec_text_literals.end(),		std::back_inserter( copy_item->m_vec_text_literals ) );
 
 	return copy_item;
 }
@@ -192,21 +192,21 @@ shared_ptr<ItemData> ItemData::getDeepCopy()
 // ShapeInputData /////////////////////
 void ShapeInputData::addInputData( shared_ptr<ShapeInputData>& other )
 {
-	std::copy( other->vec_item_data.begin(), other->vec_item_data.end(), std::back_inserter( vec_item_data ) );
-	std::copy( other->getAppearances().begin(), other->getAppearances().end(), std::back_inserter( vec_appearances ) );
+	std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
+	std::copy( other->getAppearances().begin(), other->getAppearances().end(), std::back_inserter( m_vec_appearances ) );
 }
 
 void ShapeInputData::deepCopyFrom( shared_ptr<ShapeInputData>& other )
 {
-	vec_item_data.clear();
-	vec_appearances.clear();
+	m_vec_item_data.clear();
+	m_vec_appearances.clear();
 
-	for( int item_i = 0; item_i < other->vec_item_data.size(); ++item_i )
+	for( int item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
 	{
-		shared_ptr<ItemData>& item_data = other->vec_item_data[item_i];
-		vec_item_data.push_back( shared_ptr<ItemData>( item_data->getDeepCopy() ) );
+		shared_ptr<ItemData>& item_data = other->m_vec_item_data[item_i];
+		m_vec_item_data.push_back( shared_ptr<ItemData>( item_data->getDeepCopy() ) );
 	}
-	std::copy( other->vec_appearances.begin(), other->vec_appearances.end(), std::back_inserter( vec_appearances ) );
+	std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
 }
 
 void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
@@ -216,41 +216,41 @@ void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
 		return;
 	}
 	int append_id = appearance->m_step_stype_id;
-	for( size_t ii = 0; ii < vec_appearances.size(); ++ii )
+	for( size_t ii = 0; ii < m_vec_appearances.size(); ++ii )
 	{
-		shared_ptr<AppearanceData>& appearance = vec_appearances[ii];
+		shared_ptr<AppearanceData>& appearance = m_vec_appearances[ii];
 		if( appearance->m_step_stype_id == append_id )
 		{
 			return;
 		}
 	}
-	vec_appearances.push_back( appearance );
+	m_vec_appearances.push_back( appearance );
 }
 
 void ShapeInputData::clearAppearanceData()
 {
-	vec_appearances.clear();
+	m_vec_appearances.clear();
 }
 
 void ShapeInputData::clearAll()
 {
-	vec_appearances.clear();
+	m_vec_appearances.clear();
 
-	ifc_product.reset();
-	representation.reset();
-	object_placement.reset();
-	if( product_switch )
+	m_ifc_product.reset();
+	m_representation.reset();
+	m_object_placement.reset();
+	if( m_product_switch )
 	{
-		product_switch->removeChildren( 0, product_switch->getNumChildren() );
+		m_product_switch->removeChildren( 0, m_product_switch->getNumChildren() );
 	}
-	if( product_switch_curves )
+	if( m_product_switch_curves )
 	{
-		product_switch_curves->removeChildren( 0, product_switch_curves->getNumChildren() );
+		m_product_switch_curves->removeChildren( 0, m_product_switch_curves->getNumChildren() );
 	}
-	vec_item_data.clear();
-	added_to_node = false;
-	representation_identifier = L"";
-	representation_type = L"";
+	m_vec_item_data.clear();
+	m_added_to_node = false;
+	m_representation_identifier = L"";
+	m_representation_type = L"";
 }
 
 // PolyInputCache3D ///////////////////////
@@ -265,11 +265,11 @@ int PolyInputCache3D::addPointPrecise( const carve::geom::vector<3>& v )
 	const double vertex_y = v.y;
 	const double vertex_z = v.z;
 
-	//  return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-	std::map<double, std::map<double, int> >& map_y_index = existing_vertices_coords.insert( std::make_pair(vertex_x, std::map<double, std::map<double, int> >() ) ).first->second;
+	// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
+	std::map<double, std::map<double, int> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair(vertex_x, std::map<double, std::map<double, int> >() ) ).first->second;
 	std::map<double, int>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, int>() ) ).first->second;
 
-	it_find_z = map_z_index.find( vertex_z );
+	std::map<double, int>::iterator it_find_z = map_z_index.find( vertex_z );
 	if( it_find_z != map_z_index.end() )
 	{
 		// vertex already exists in polyhedron. return its index
@@ -293,11 +293,11 @@ int PolyInputCache3D::addPoint( const carve::geom::vector<3>& v )
 	const double vertex_y = round(v.y*ROUND_POLY_COORDINATES_UP)*ROUND_POLY_COORDINATES_DOWN;
 	const double vertex_z = round(v.z*ROUND_POLY_COORDINATES_UP)*ROUND_POLY_COORDINATES_DOWN;
 
-	//  return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-	std::map<double, std::map<double, int> >& map_y_index = existing_vertices_coords.insert( std::make_pair(vertex_x, std::map<double, std::map<double, int> >() ) ).first->second;
+	// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
+	std::map<double, std::map<double, int> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair(vertex_x, std::map<double, std::map<double, int> >() ) ).first->second;
 	std::map<double, int>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, int>() ) ).first->second;
 
-	it_find_z = map_z_index.find( vertex_z );
+	std::map<double, int>::iterator it_find_z = map_z_index.find( vertex_z );
 	if( it_find_z != map_z_index.end() )
 	{
 		// vertex already exists in polyhedron. return its index

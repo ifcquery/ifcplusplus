@@ -27,12 +27,11 @@
 #include "ifcpp/IfcPPTypeEnums.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 
-#ifndef WIN32
+#ifdef _MSC_VER
 #include <cstdio>
 #include <cstring>
-#endif
-
 #pragma warning(disable : 4996)
+#endif
 
 void readBoolList( const std::wstring& str, std::vector<bool>& vec );
 void readIntList( const std::wstring& str, std::vector<int>& vec );

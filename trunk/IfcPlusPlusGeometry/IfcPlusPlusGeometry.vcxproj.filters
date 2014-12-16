@@ -24,9 +24,6 @@
     <ClCompile Include="src\ifcppgeometry\ProfileConverter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\ReaderWriterIFC.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcppgeometry\RepresentationConverter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -66,6 +63,9 @@
     <ClCompile Include="src\ifcppgeometry\Sweeper.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcppgeometry\GeometryConverter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcppgeometry\ConverterOSG.h">
@@ -75,9 +75,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcppgeometry\ProfileConverter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcppgeometry\ReaderWriterIFC.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcppgeometry\RepresentationConverter.h">
@@ -123,6 +120,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcppgeometry\Sweeper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcppgeometry\GeometryConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

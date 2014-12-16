@@ -14,7 +14,6 @@
 #define _USE_MATH_DEFINES 
 #include <math.h>
 #include <iterator>
-#include <osg/Group>
 
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcProductRepresentation.h>
@@ -33,15 +32,8 @@
 
 #include <ifcpp/IFC4/include/IfcLabel.h>
 #include <ifcpp/IFC4/include/IfcStyledItem.h>
-#include <ifcpp/IFC4/include/IfcProperty.h>
-#include <ifcpp/IFC4/include/IfcPropertySet.h>
-#include <ifcpp/IFC4/include/IfcComplexProperty.h>
-#include <ifcpp/IFC4/include/IfcSimpleProperty.h>
-#include <ifcpp/IFC4/include/IfcPropertySingleValue.h>
-#include <ifcpp/IFC4/include/IfcIdentifier.h>
 #include <ifcpp/IFC4/include/IfcTextLiteral.h>
 #include <ifcpp/IFC4/include/IfcPresentableText.h>
-#include <ifcpp/IFC4/include/IfcTextPath.h>
 
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcPositiveLengthMeasure.h>
@@ -78,7 +70,6 @@
 
 #include "IncludeCarveHeaders.h"
 #include "GeomUtils.h"
-#include "ConverterOSG.h"
 #include "GeometrySettings.h"
 #include "PlacementConverter.h"
 #include "PointConverter.h"
@@ -130,7 +121,7 @@ RepresentationConverter::~RepresentationConverter()
 void RepresentationConverter::clearCache()
 {
 	m_profile_cache->clearProfileCache();
-	m_styles_converter->m_map_ifc_styles.clear();
+	m_styles_converter->clearStylesCache();
 }
 
 void RepresentationConverter::setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
@@ -150,10 +141,6 @@ void RepresentationConverter::convertRepresentationStyle( const shared_ptr<IfcRe
 	{
 		weak_ptr<IfcStyledItem> styled_item_weak = StyledByItem_inverse_vec[i];
 		shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>( styled_item_weak );
-
-#ifdef IFCPP_OPENMP
-		ScopedLock lock(m_writelock_styles_converter);
-#endif
 		m_styles_converter->convertIfcStyledItem( styled_item, vec_appearance_data );
 	}
 }
@@ -173,7 +160,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 		// Body-FallBack	3D Body representation, e.g. as tessellation, or other surface, or boundary representation, added in addition to the solid model (potentially involving Boolean operations) of an element
 		// Clearance	3D clearance volume of the element. Such clearance region indicates space that should not intersect with the 'Body' representation of other elements, though may intersect with the 'Clearance' representation of other elements.
 		// Lighting	Representation of emitting light as a light source within a shape representation
-		input_data->representation_identifier = representation->m_RepresentationIdentifier->m_value;
+		input_data->m_representation_identifier = representation->m_RepresentationIdentifier->m_value;
 	}
 
 	if( representation->m_RepresentationType )
@@ -201,7 +188,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 		//		AdvancedBrep	Brep's based on advanced faces, with b-spline surface geometry, with and without voids
 		//		CSG	Boolean results of operations between solid models, half spaces and Boolean results
 		//		Clipping	Boolean differences between swept area solids, half spaces and Boolean results
-		input_data->representation_type = representation->m_RepresentationType->m_value;
+		input_data->m_representation_type = representation->m_RepresentationType->m_value;
 	}
 
 	const double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -218,7 +205,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
-			input_data->vec_item_data.push_back( geom_item_data );
+			input_data->m_vec_item_data.push_back( geom_item_data );
 
 			if( m_handle_styled_items )
 			{
@@ -230,7 +217,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 					shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
 					if( data )
 					{
-						geom_item_data->vec_item_appearances.push_back( data );
+						geom_item_data->m_vec_item_appearances.push_back( data );
 					}
 				}
 			}
@@ -323,17 +310,17 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 				if( vec_appearance_data.size() > 0 )
 				{
 					// overwrite item appearances with parent appearance
-					for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->vec_item_data.size(); ++i_mapped_item )
+					for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->m_vec_item_data.size(); ++i_mapped_item )
 					{
-						shared_ptr<ItemData>& mapped_item_data = mapped_input_data->vec_item_data[i_mapped_item];
-						mapped_item_data->vec_item_appearances.clear();
+						shared_ptr<ItemData>& mapped_item_data = mapped_input_data->m_vec_item_data[i_mapped_item];
+						mapped_item_data->m_vec_item_appearances.clear();
 
 						for( size_t jj_appearance = 0; jj_appearance < vec_appearance_data.size(); ++jj_appearance )
 						{
 							shared_ptr<AppearanceData>& data = vec_appearance_data[jj_appearance];
 							if( data )
 							{
-								mapped_item_data->vec_item_appearances.push_back( data );
+								mapped_item_data->m_vec_item_appearances.push_back( data );
 							}
 						}
 					}
@@ -341,9 +328,9 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 
 			carve::math::Matrix mapped_pos( map_matrix_target*map_matrix_origin );
-			for( size_t i_item = 0; i_item < mapped_input_data->vec_item_data.size(); ++i_item )
+			for( size_t i_item = 0; i_item < mapped_input_data->m_vec_item_data.size(); ++i_item )
 			{
-				mapped_input_data->vec_item_data[i_item]->applyPosition( mapped_pos );
+				mapped_input_data->m_vec_item_data[i_item]->applyPosition( mapped_pos );
 			}
 			input_data->addInputData( mapped_input_data );
 
@@ -364,7 +351,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
-			input_data->vec_item_data.push_back( topo_item_data );
+			input_data->m_vec_item_data.push_back( topo_item_data );
 
 			//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
 			shared_ptr<IfcConnectedFaceSet> topo_connected_face_set = dynamic_pointer_cast<IfcConnectedFaceSet>( topo_item );
@@ -423,7 +410,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 						}
 					}
 				}
-				topo_item_data->polylines.push_back( polyline_data );
+				topo_item_data->m_polylines.push_back( polyline_data );
 				continue;
 			}
 		}
@@ -447,18 +434,9 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 				{
 					shared_ptr<IfcPresentationStyle>&  presentation_style = vec_presentation_styles[i];
 
-#ifdef IFCPP_OPENMP
-					ScopedLock lock( m_writelock_styles_converter );
-#endif
 					shared_ptr<AppearanceData> appearance_data;
 					m_styles_converter->convertIfcPresentationStyle( presentation_style, appearance_data );
 					input_data->addAppearance( appearance_data );
-
-					//osg::StateSet* stateset = m_styles_converter->convertIfcPresentationStyle( presentation_style, item_data );
-					//if( stateset != nullptr )
-					//{
-					//	input_data->vec_statesets.push_back(stateset);
-					//}
 				}
 			}
 		}
@@ -531,7 +509,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			polyline_data->addVertex( point );
 			polyline_data->addPolylineIndex( i );
 		}
-		item_data->polylines.push_back( polyline_data );
+		item_data->m_polylines.push_back( polyline_data );
 
 		return;
 	}
@@ -562,7 +540,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 							shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
 							if( data )
 							{
-								item_data->vec_item_appearances.push_back( data );
+								item_data->m_vec_item_appearances.push_back( data );
 							}
 						}
 					}
@@ -589,7 +567,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 							shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
 							if( data )
 							{
-								item_data->vec_item_appearances.push_back( data );
+								item_data->m_vec_item_appearances.push_back( data );
 							}
 						}
 					}
@@ -613,7 +591,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		m_face_converter->convertIfcSurface( ifc_surface, polyline_data, surface_proxy );
 		if( polyline_data->getVertexCount() > 1 )
 		{
-			item_data->polylines.push_back( polyline_data );
+			item_data->m_polylines.push_back( polyline_data );
 		}
 		return;
 	}
@@ -639,7 +617,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			polyline_data->addVertex( vertex );
 			polyline_data->addPolylineIndex( i );
 		}
-		item_data->polylines.push_back( polyline_data );
+		item_data->m_polylines.push_back( polyline_data );
 
 		return;
 	}
@@ -682,7 +660,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 					polyline_data->addVertex( point );
 					polyline_data->addPolylineIndex( i );
 				}
-				item_data->polylines.push_back( polyline_data );
+				item_data->m_polylines.push_back( polyline_data );
 
 				continue;
 			}
@@ -700,7 +678,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 
 				if( polyline_data->getVertexCount() > 1 )
 				{
-					item_data->polylines.push_back( polyline_data );
+					item_data->m_polylines.push_back( polyline_data );
 				}
 
 				continue;
@@ -764,7 +742,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			text_item_data->m_text_position = text_position_matrix;
 			text_item_data->m_text = literal_text;
 
-			item_data->vec_text_literals.push_back( text_item_data );
+			item_data->m_vec_text_literals.push_back( text_item_data );
 		}
 		return;
 	}
@@ -851,7 +829,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
-			opening_representation_data->representation = ifc_opening_representation;
+			opening_representation_data->m_representation = ifc_opening_representation;
 
 			// TODO: Representation caching, one element could be used for several openings
 			try
@@ -871,9 +849,9 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 			}
 
-			for( size_t i_item = 0; i_item < opening_representation_data->vec_item_data.size(); ++i_item )
+			for( size_t i_item = 0; i_item < opening_representation_data->m_vec_item_data.size(); ++i_item )
 			{
-				opening_representation_data->vec_item_data[i_item]->applyPosition( opening_placement_matrix );
+				opening_representation_data->m_vec_item_data[i_item]->applyPosition( opening_placement_matrix );
 			}
 			vec_opening_data.push_back( opening_representation_data );
 		}
@@ -884,18 +862,18 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 	{
 		shared_ptr<ShapeInputData>& opening_representation_data = vec_opening_data[i_opening];
 		int representation_id = -1;
-		shared_ptr<IfcRepresentation> opening_representation( opening_representation_data->representation );
+		shared_ptr<IfcRepresentation> opening_representation( opening_representation_data->m_representation );
 		if( opening_representation )
 		{
 			representation_id = opening_representation->m_id;
 		}
 
-		std::vector<shared_ptr<ItemData> >& vec_opening_items = opening_representation_data->vec_item_data;
+		std::vector<shared_ptr<ItemData> >& vec_opening_items = opening_representation_data->m_vec_item_data;
 		for( int i_item = 0; i_item < vec_opening_items.size(); ++i_item )
 		{
 			shared_ptr<ItemData>& opening_item_data = vec_opening_items[i_item];
 
-			for( auto it_opening_meshsets = opening_item_data->meshsets.begin(); it_opening_meshsets != opening_item_data->meshsets.end(); ++it_opening_meshsets )
+			for( auto it_opening_meshsets = opening_item_data->m_meshsets.begin(); it_opening_meshsets != opening_item_data->m_meshsets.end(); ++it_opening_meshsets )
 			{
 				shared_ptr<carve::mesh::MeshSet<3> > opening_meshset = ( *it_opening_meshsets );
 
@@ -930,15 +908,15 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 
 	if( unified_opening_meshset )
 	{
-		std::vector<shared_ptr<ItemData> >& product_items = product_shape->vec_item_data;
+		std::vector<shared_ptr<ItemData> >& product_items = product_shape->m_vec_item_data;
 		for( int i_item = 0; i_item < product_items.size(); ++i_item )
 		{
 			shared_ptr<ItemData> item_data = product_items[i_item];
 
 			// now go through all meshsets of the item
-			for( int i_product_meshset = 0; i_product_meshset < item_data->meshsets.size(); ++i_product_meshset )
+			for( int i_product_meshset = 0; i_product_meshset < item_data->m_meshsets.size(); ++i_product_meshset )
 			{
-				shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->meshsets[i_product_meshset];
+				shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->m_meshsets[i_product_meshset];
 				std::stringstream strs_meshset_err;
 				bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset.get(), strs_meshset_err, product_id );
 				if( !product_meshset_valid_for_csg )
@@ -965,80 +943,6 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get() );
 				}
 				product_meshset = result;
-			}
-		}
-	}
-}
-
-void RepresentationConverter::convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, osg::Group* group )
-{
-	std::vector<shared_ptr<IfcProperty> >& vec_hasProperties = prop_set->m_HasProperties;
-
-	std::vector<shared_ptr<IfcProperty> >::iterator it;
-	for( it = vec_hasProperties.begin(); it != vec_hasProperties.end(); ++it )
-	{
-		shared_ptr<IfcProperty> prop = ( *it );
-
-		shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>( prop );
-		if( simple_property )
-		{
-			shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
-			std::wstring name_str = property_name->m_value;
-			if( name_str.compare( L"LayerName" ) == 0 )
-			{
-				// TODO: implement layers
-			}
-			shared_ptr<IfcText> description = simple_property->m_Description;
-
-
-			shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>( simple_property );
-			if( property_single_value )
-			{
-				shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
-				shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
-
-			}
-
-			//ENTITY IfcSimpleProperty
-			//ABSTRACT SUPERTYPE OF(ONEOF(
-			//IfcPropertyBoundedValue,
-			//IfcPropertyEnumeratedValue,
-			//IfcPropertyListValue,
-			//IfcPropertyReferenceValue,
-			//IfcPropertySingleValue,
-			//IfcPropertyTableValue))
-			continue;
-		}
-
-		shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>( prop );
-		if( complex_property )
-		{
-			std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
-			if( !complex_property->m_UsageName ) continue;
-			if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
-			{
-
-#ifdef IFCPP_OPENMP
-				ScopedLock lock( m_writelock_styles_converter );
-#endif
-				carve::geom::vector<4> vec_color;
-				m_styles_converter->convertIfcComplexPropertyColor( complex_property, vec_color );
-				shared_ptr<AppearanceData> temp_appearance_data( new AppearanceData( -1 ) );
-				if( !temp_appearance_data )
-				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
-				}
-				temp_appearance_data->color_ambient = vec_color;
-				temp_appearance_data->color_diffuse = vec_color;
-				temp_appearance_data->color_specular = vec_color;
-				temp_appearance_data->shininess = 35.f;
-
-				osg::ref_ptr<osg::StateSet> stateset = AppearanceManagerOSG::convertToStateSet( temp_appearance_data );
-
-				if( stateset.valid() )
-				{
-					group->setStateSet( stateset );
-				}
 			}
 		}
 	}

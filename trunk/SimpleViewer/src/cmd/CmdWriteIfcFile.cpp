@@ -19,7 +19,7 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcppgeometry/GeometryConverter.h>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
@@ -31,13 +31,11 @@ CmdWriteIfcFile::CmdWriteIfcFile( IfcPlusPlusSystem* system ): Command(system)
 
 CmdWriteIfcFile::~CmdWriteIfcFile()
 {
-
 }
 
 void CmdWriteIfcFile::setFilePath( std::string& path_in )
 {
 	m_file_path = path_in;
-
 }
 
 bool CmdWriteIfcFile::doCmd()
@@ -47,10 +45,12 @@ bool CmdWriteIfcFile::doCmd()
 		return false;
 	}
 
-	shared_ptr<ReaderWriterIFC> rw = m_system->getReaderWriterIFC();
-	rw->getIfcPPModel()->initFileHeader( m_file_path );
+	shared_ptr<GeometryConverter> rw = m_system->getGeometryConverter();
+	shared_ptr<IfcPPModel>& model = rw->getIfcPPModel();
+	model->initFileHeader( m_file_path );
 	std::stringstream stream;
-	rw->getIfcPPWriter()->writeStream( stream, rw->getIfcPPModel() );
+
+	m_system->getIfcPPWriter()->writeModelToStream( stream, model );
 
 	QFile file_out( m_file_path.c_str() );
 	if( !file_out.open(QIODevice::WriteOnly | QIODevice::Text) )

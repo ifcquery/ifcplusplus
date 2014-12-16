@@ -20,5 +20,5 @@ class IfcPPWriterXML : public IfcPPWriter
 public:
 	IfcPPWriterXML();
 	~IfcPPWriterXML();
-	virtual void writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model );
+	virtual void writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model );
 };

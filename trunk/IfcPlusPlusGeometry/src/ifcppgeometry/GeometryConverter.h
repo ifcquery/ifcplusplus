@@ -15,48 +15,43 @@
 
 #include <set>
 #include <sstream>
-#include <osg/Group>
-#include <osg/CullFace>
+#include <osg/Switch>
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcpp/reader/IfcPPReader.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
+#include <ifcpp/IFC4/include/IfcPropertySet.h>
 
-#include "RepresentationConverter.h"
-#include "GeometryInputData.h"
-#include "GeometrySettings.h"
+class RepresentationConverter;
+class ConverterOSG;
+class GeometrySettings;
+class ShapeInputData;
 
-class ReaderWriterIFC : public StatusCallback
+class GeometryConverter : public StatusCallback
 {
 public:
-	ReaderWriterIFC();
-	~ReaderWriterIFC();	
-	/*\brief Opens the given file, reads the content, and puts the entities into m_ifc_model.
-	  \param[in] file_path Absolute path of the file to read.
-	**/
-	void loadModelFromFile( const std::string& file_path );
-	
+	GeometryConverter();
+	~GeometryConverter();	
+
 	/*\brief Creates geometry for OpenSceneGraph from previously loaded model.
 	  \param[out] parent_group Group to append the resulting geometry.
 	**/
 	void createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group );
-	void convertIfcProduct(	const shared_ptr<IfcProduct>& product, shared_ptr<ShapeInputData>& product_shape );
+	void convertIfcProduct(	shared_ptr<ShapeInputData>& product_shape );
 	void resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& obj_def, osg::ref_ptr<osg::Switch> group );
+	void convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ShapeInputData>& product_shape );
 
 	// getters and setters
 	void setModel( shared_ptr<IfcPPModel> model );
 	shared_ptr<IfcPPModel>&						getIfcPPModel()					{ return m_ifc_model; }
-	shared_ptr<IfcPPReaderSTEP>&				getIfcPPReader()				{ return m_step_reader; }
-	shared_ptr<IfcPPWriterSTEP>&				getIfcPPWriter()				{ return m_step_writer; }
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter()	{ return m_representation_converter; }
+	shared_ptr<ConverterOSG>&					getConverterOSG()				{ return m_converter_osg; }
+	shared_ptr<GeometrySettings>&				getGeomSettings()				{ return m_geom_settings; }
 	std::map<int,shared_ptr<ShapeInputData> >&	getShapeInputData()				{ return m_shape_input_data; }
 	std::map<int,shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure()	{ return m_map_outside_spatial_structure; }
-	shared_ptr<GeometrySettings>&				getGeomSettings()				{ return m_geom_settings; }
 
 	void resetNumVerticesPerCircle();
 	void clearInputCache();
@@ -67,16 +62,12 @@ public:
 
 protected:
 	shared_ptr<IfcPPModel>				m_ifc_model;
-	shared_ptr<IfcPPReaderSTEP>			m_step_reader;
-	shared_ptr<IfcPPWriterSTEP>			m_step_writer;
 	shared_ptr<GeometrySettings>		m_geom_settings;
-
 	shared_ptr<RepresentationConverter> m_representation_converter;
-	osg::ref_ptr<osg::StateSet>			m_glass_stateset;
-	osg::ref_ptr<osg::CullFace>			m_cull_back_off;
-
-	std::map<int, shared_ptr<ShapeInputData> > m_shape_input_data;
-	std::map<int, shared_ptr<IfcPPObject> > m_map_outside_spatial_structure;
+	shared_ptr<ConverterOSG>			m_converter_osg;
+	
+	std::map<int, shared_ptr<ShapeInputData> >	m_shape_input_data;
+	std::map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
 	double m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef IFCPP_OPENMP

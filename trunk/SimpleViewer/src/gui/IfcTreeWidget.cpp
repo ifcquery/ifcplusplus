@@ -11,7 +11,7 @@
 #include <ifcpp/IFC4/include/IfcDirection.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcppgeometry/ReaderWriterIFC.h>
+#include <ifcppgeometry/GeometryConverter.h>
 
 #include "viewer/ViewerUtil.h"
 #include "IfcPlusPlusSystem.h"
@@ -80,7 +80,7 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 	{
 		return;
 	}
-	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getReaderWriterIFC()->getIfcPPModel()->getMapIfcEntities();
+	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getGeometryConverter()->getIfcPPModel()->getMapIfcEntities();
 	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
 	if( previous )
 	{
@@ -214,7 +214,7 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 void IfcTreeWidget::slotModelLoadingDone()
 {
 	std::set<int> set_visited;
-	shared_ptr<IfcProject> project = m_system->getReaderWriterIFC()->getIfcPPModel()->getIfcProject();
+	shared_ptr<IfcProject> project = m_system->getGeometryConverter()->getIfcPPModel()->getIfcProject();
 	if( project )
 	{
 		
@@ -233,7 +233,7 @@ void IfcTreeWidget::slotModelLoadingDone()
 	QTreeWidgetItem* item_outside = new QTreeWidgetItem();
 	item_outside->setText( 0, "OutsideSpatialStructure" );
 
-	std::map<int,shared_ptr<IfcPPObject> >&	map_outside = m_system->getReaderWriterIFC()->getObjectsOutsideSpatialStructure();
+	std::map<int,shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
 	for( std::map<int,shared_ptr<IfcPPObject> >::iterator it = map_outside.begin(); it != map_outside.end(); ++it )
 	{
 		shared_ptr<IfcPPObject>& ifc_object = it->second;

@@ -192,7 +192,7 @@ void PlacementConverter::getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2p
 	translate = location;
 }
 
-void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, const double length_factor, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_entities )
+void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, const double length_factor, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_new_entities )
 {
 	if( !axis2placement3d )
 	{
@@ -201,7 +201,7 @@ void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, const
 		{
 			axis2placement3d->m_id = entity_id++;
 		}
-		vec_entities.push_back( axis2placement3d );
+		vec_new_entities.push_back( axis2placement3d );
 	}
 
 	carve::geom::vector<3>  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
@@ -229,32 +229,45 @@ void PlacementConverter::convertMatrix( const carve::math::Matrix& matrix, const
 	local_y.normalize();
 	local_z.normalize();
 
-	axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>( new IfcCartesianPoint() );
-	if( entity_id > 0 )
+	if( !axis2placement3d->m_Location )
 	{
-		axis2placement3d->m_Location->m_id = entity_id++;
+		axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>( new IfcCartesianPoint() );
+		if( entity_id > 0 )
+		{
+			axis2placement3d->m_Location->m_id = entity_id++;
+		}
+		vec_new_entities.push_back( axis2placement3d->m_Location );
 	}
-	vec_entities.push_back( axis2placement3d->m_Location );
+	axis2placement3d->m_Location->m_Coordinates.clear();
 	axis2placement3d->m_Location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( translate.x/length_factor ) ) );
 	axis2placement3d->m_Location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( translate.y/length_factor ) ) );
 	axis2placement3d->m_Location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( translate.z/length_factor ) ) );
 
-	axis2placement3d->m_Axis = shared_ptr<IfcDirection>( new IfcDirection() );
-	if( entity_id > 0 )
+	if( !axis2placement3d->m_Axis )
 	{
-		axis2placement3d->m_Axis->m_id = entity_id++;
+		axis2placement3d->m_Axis = shared_ptr<IfcDirection>( new IfcDirection() );
+		if( entity_id > 0 )
+		{
+			axis2placement3d->m_Axis->m_id = entity_id++;
+		}
+		vec_new_entities.push_back( axis2placement3d->m_Axis );
 	}
-	vec_entities.push_back( axis2placement3d->m_Axis );
+	axis2placement3d->m_Axis->m_DirectionRatios.clear();
 	axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.x );
 	axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.y );
 	axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.z );
 
-	axis2placement3d->m_RefDirection = shared_ptr<IfcDirection>( new IfcDirection( entity_id++ ) );
-	if( entity_id > 0 )
+	if( !axis2placement3d->m_RefDirection )
 	{
-		axis2placement3d->m_RefDirection->m_id = entity_id++;
+		axis2placement3d->m_RefDirection = shared_ptr<IfcDirection>( new IfcDirection() );
+		if( entity_id > 0 )
+		{
+			axis2placement3d->m_RefDirection->m_id = entity_id++;
+		}
+		vec_new_entities.push_back( axis2placement3d->m_RefDirection );
 	}
-	vec_entities.push_back( axis2placement3d->m_RefDirection );
+
+	axis2placement3d->m_RefDirection->m_DirectionRatios.clear();
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.x );
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.y );
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.z );

@@ -65,12 +65,12 @@ void convertIfcSpecularHighlightSelect(shared_ptr<IfcSpecularHighlightSelect> hi
 	if( dynamic_pointer_cast<IfcSpecularExponent>(highlight_select) )
 	{
 		shared_ptr<IfcSpecularExponent> spec = dynamic_pointer_cast<IfcSpecularExponent>(highlight_select);
-		appearance_data->specular_exponent = spec->m_value;
+		appearance_data->m_specular_exponent = spec->m_value;
 	}
 	else if( dynamic_pointer_cast<IfcSpecularRoughness>(highlight_select) )
 	{
 		shared_ptr<IfcSpecularRoughness> specRough = dynamic_pointer_cast<IfcSpecularRoughness>(highlight_select);
-		appearance_data->specular_roughness = specRough->m_value;
+		appearance_data->m_specular_roughness = specRough->m_value;
 	}
 }
 
@@ -164,8 +164,12 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 	{
 		appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 	}
+
+#ifdef IFCPP_OPENMP
+	ScopedLock lock(m_writelock_styles_converter);
+#endif
 	m_map_ifc_styles[style_id] = appearance_data;
-	appearance_data->apply_to_geometry_type = AppearanceData::SURFACE;
+	appearance_data->m_apply_to_geometry_type = AppearanceData::SURFACE;
 
 	std::vector<shared_ptr<IfcSurfaceStyleElementSelect> >& vec_styles = surface_style->m_Styles;
 	if( vec_styles.size() == 0 )
@@ -238,14 +242,13 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 					{
 						set_transparent = true;
 					}
-
 				}
 
 				if( surf_style_rendering->m_SpecularHighlight)
 				{
 					shared_ptr<IfcSpecularHighlightSelect> spec_highlight = surf_style_rendering->m_SpecularHighlight;
 					convertIfcSpecularHighlightSelect( spec_highlight, appearance_data );
-					shininess = appearance_data->specular_roughness*128;
+					shininess = appearance_data->m_specular_roughness*128;
 					if( shininess <= 1.0 )
 					{
 						shininess = 1.0;
@@ -253,12 +256,12 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 				}
 			}
 
-			appearance_data->color_ambient = carve::geom::VECTOR(	ambient_color.x*0.8f,	ambient_color.y*0.8f,	ambient_color.z*0.8f,	transparency );
-			appearance_data->color_diffuse = carve::geom::VECTOR(	diffuse_color.x,		diffuse_color.y,		diffuse_color.z,		transparency );
-			appearance_data->color_specular = carve::geom::VECTOR(	specular_color.x*0.1,	specular_color.y*0.1,	specular_color.z*0.1,	transparency );
-			appearance_data->shininess = shininess;
-			appearance_data->set_transparent = set_transparent;
-			appearance_data->transparency = transparency;
+			appearance_data->m_color_ambient	= carve::geom::VECTOR(	ambient_color.x*0.8f,	ambient_color.y*0.8f,	ambient_color.z*0.8f,	transparency );
+			appearance_data->m_color_diffuse	= carve::geom::VECTOR(	diffuse_color.x,		diffuse_color.y,		diffuse_color.z,		transparency );
+			appearance_data->m_color_specular	= carve::geom::VECTOR(	specular_color.x*0.1,	specular_color.y*0.1,	specular_color.z*0.1,	transparency );
+			appearance_data->m_shininess = shininess;
+			appearance_data->m_set_transparent = set_transparent;
+			appearance_data->m_transparency = transparency;
 
 			continue;
 		}
@@ -298,7 +301,6 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 #endif
 			continue;
 		}
-		
 	}
 }
 
@@ -350,9 +352,7 @@ void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_
 			vec_appearance_data.push_back( appearance_data );
 			continue;
 		}
-
 		continue;
-		
 	}
 }
 
@@ -398,6 +398,9 @@ void StylesConverter::convertIfcComplexPropertyColor( shared_ptr<IfcComplexPrope
 					vec_color.z = b;
 					vec_color.w = 1.0;
 
+#ifdef IFCPP_OPENMP
+					//ScopedLock lock( m_writelock_styles_converter );
+#endif
 					//appearance_data->color_ambient = carve::geom::VECTOR( r, g, b, 1.f );
 					//appearance_data->color_diffuse = carve::geom::VECTOR( r, g, b, 1.f );
 					//appearance_data->color_specular = carve::geom::VECTOR( r, g, b, 1.f );
@@ -427,6 +430,9 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 	{
 		appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 	}
+#ifdef IFCPP_OPENMP
+	ScopedLock lock(m_writelock_styles_converter);
+#endif
 	m_map_ifc_styles[style_id] = appearance_data;
 
 	// ENTITY IfcPresentationStyle	ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
@@ -446,7 +452,6 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 		return;
 	}
 
-
 	shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style );
 	if( surface_style )
 	{
@@ -457,7 +462,7 @@ void StylesConverter::convertIfcPresentationStyle( shared_ptr<IfcPresentationSty
 	shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
 	if( text_style )
 	{
-		appearance_data->text_style = text_style;
+		appearance_data->m_text_style = text_style;
 		return;
 	}
 
@@ -507,12 +512,11 @@ void StylesConverter::convertIfcPresentationStyleSelect( shared_ptr<IfcPresentat
 			appearance_data = shared_ptr<AppearanceData>(new AppearanceData(style_id));
 		}
 
-		appearance_data->text_style = text_style;
-		appearance_data->apply_to_geometry_type = AppearanceData::TEXT;
+		appearance_data->m_text_style = text_style;
+		appearance_data->m_apply_to_geometry_type = AppearanceData::TEXT;
 		return;
 	}
 }
-
 
 void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data )
 {
@@ -528,8 +532,11 @@ void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_styl
 	{
 		appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 	}
+#ifdef IFCPP_OPENMP
+	ScopedLock lock(m_writelock_styles_converter);
+#endif
 	m_map_ifc_styles[style_id] = appearance_data;
-	appearance_data->apply_to_geometry_type = AppearanceData::CURVE;
+	appearance_data->m_apply_to_geometry_type = AppearanceData::CURVE;
 
 	//CurveFont		: OPTIONAL IfcCurveFontOrScaledCurveFontSelect;
 	//CurveWidth	: OPTIONAL IfcSizeSelect;
@@ -549,11 +556,11 @@ void StylesConverter::convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_styl
 		float shininess = 35.f;
 		float transparency = 0.7f;
 
-		appearance_data->color_ambient	= carve::geom::VECTOR( color.x*0.8,		color.y*0.8,	color.z*0.8,	color.w );
-		appearance_data->color_diffuse	= carve::geom::VECTOR( color.x,			color.y,		color.z,		color.w );
-		appearance_data->color_specular = carve::geom::VECTOR( color.x*0.1,		color.y*0.1,	color.z*0.1,	color.w );
+		appearance_data->m_color_ambient	= carve::geom::VECTOR( color.x*0.8,		color.y*0.8,	color.z*0.8,	color.w );
+		appearance_data->m_color_diffuse	= carve::geom::VECTOR( color.x,			color.y,		color.z,		color.w );
+		appearance_data->m_color_specular	= carve::geom::VECTOR( color.x*0.1,		color.y*0.1,	color.z*0.1,	color.w );
 
-		appearance_data->shininess = shininess;
-		appearance_data->set_transparent = false;
+		appearance_data->m_shininess = shininess;
+		appearance_data->m_set_transparent = false;
 	}
 }

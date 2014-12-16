@@ -40,9 +40,8 @@ public:
 	class Message
 	{
 	public:
-		/*\brief Default constructor.
-		**/
-		StatusCallback::Message::Message()
+		//\brief Default constructor.
+		Message()
 		{
 			m_message_type = MessageType::MESSAGE_TYPE_UNKNOWN;
 			m_reporting_function = "";
@@ -108,11 +107,11 @@ protected:
 #ifdef _DEBUG
 		if( !m_func_call_on_message )
 		{
-			std::cout << "messageCallback: !m_func_call_on_message. Lost message: " << t->m_message.c_str() << std::endl;
+			std::wcout << L"messageCallback: !m_func_call_on_message. Lost message: " << t->m_message.c_str() << std::endl;
 		}
 		if( !m_obj_call_on_message )
 		{
-			std::cout << "messageCallback: !m_obj_call_on_message. Lost message: " << t->m_message.c_str() << std::endl;
+			std::wcout << L"messageCallback: !m_obj_call_on_message. Lost message: " << t->m_message.c_str() << std::endl;
 		}
 #endif
 

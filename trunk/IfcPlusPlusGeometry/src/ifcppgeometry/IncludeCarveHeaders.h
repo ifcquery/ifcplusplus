@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma warning (disable: 4267 4334 4244)
+#pragma warning (disable: 4267 4334 4244 4100)
 #include <carve/carve.hpp>
 #include <carve/matrix.hpp>
 #include <carve/geom3d.hpp>

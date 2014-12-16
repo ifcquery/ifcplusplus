@@ -20,5 +20,5 @@ class IfcPPWriterSTEP : public IfcPPWriter
 public:
 	IfcPPWriterSTEP();
 	~IfcPPWriterSTEP();
-	virtual void writeStream( std::stringstream& stream, shared_ptr<IfcPPModel> model );
+	virtual void writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model );
 };

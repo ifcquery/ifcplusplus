@@ -72,7 +72,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 			polyline_data->addVertex( extrusion_vector );
 			polyline_data->addPolylineIndex( 0 );
 			polyline_data->addPolylineIndex( 1 );
-			item_data->polylines.push_back( polyline_data );
+			item_data->m_polylines.push_back( polyline_data );
 		}
 		else if( loop.size() == 2 )
 		{
@@ -391,7 +391,12 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 #ifdef _DEBUG
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
 	std::stringstream strs_err_meshset;
-	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err_meshset, -1 );
+	int entity_id = -1;
+	if( e )
+	{
+		entity_id = e->m_id;
+	}
+	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err_meshset, entity_id );
 
 	if( !poly_ok )
 	{
@@ -433,7 +438,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 			polyline_data->addPolylineIndex( 0 );
 			polyline_data->addPolylineIndex( i_polyline );
 		}
-		item_data->polylines.push_back( polyline_data );
+		item_data->m_polylines.push_back( polyline_data );
 		return;
 	}
 
@@ -788,7 +793,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 						polyline_data->addPolylineIndex( 0 );
 						polyline_data->addPolylineIndex( i_polyline );
 					}
-					item_data->polylines.push_back( polyline_data );
+					item_data->m_polylines.push_back( polyline_data );
 				}
 				
 				continue;
