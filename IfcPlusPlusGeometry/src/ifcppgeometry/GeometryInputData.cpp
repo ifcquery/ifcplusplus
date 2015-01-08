@@ -2,214 +2,52 @@
 #include "CSG_Adapter.h"
 #include "GeometryInputData.h"
 
-ItemData::ItemData()
+bool isMatrixIdentity( const carve::math::Matrix& mat )
 {
-}
-ItemData::~ItemData()
-{
-}
+	if( std::abs( mat._11 - 1.0 ) > 0.00001 )  return false;
+	if( std::abs( mat._22 - 1.0 ) > 0.00001 )  return false;
+	if( std::abs( mat._33 - 1.0 ) > 0.00001 )  return false;
+	if( std::abs( mat._44 - 1.0 ) > 0.00001 )  return false;
 
-void ItemData::addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
-{
-	// check if it is open or closed
-	if( poly_data->getVertexCount() < 3 )
-	{
-		return;
-	}
+	if( std::abs( mat._12 ) > 0.00001 )  return false;
+	if( std::abs( mat._13 ) > 0.00001 )  return false;
+	if( std::abs( mat._14 ) > 0.00001 )  return false;
 
-	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
-	if( meshset->isClosed() )
-	{
-		m_meshsets.push_back( meshset );
-	}
-	else
-	{
-		m_meshsets_open.push_back( meshset );
-	}
-}
+	if( std::abs( mat._21 ) > 0.00001 )  return false;
+	if( std::abs( mat._23 ) > 0.00001 )  return false;
+	if( std::abs( mat._24 ) > 0.00001 )  return false;
 
-void ItemData::addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
-{
-	if( poly_data->getVertexCount() < 3 )
-	{
-		return;
-	}
+	if( std::abs( mat._31 ) > 0.00001 )  return false;
+	if( std::abs( mat._32 ) > 0.00001 )  return false;
+	if( std::abs( mat._34 ) > 0.00001 )  return false;
 
-	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
-	m_meshsets_open.push_back( meshset );
-}
-
-void ItemData::addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
-{
-	if( poly_data->getVertexCount() < 3 )
-	{
-		return;
-	}
-
-	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
-	if( meshset->isClosed() )
-	{
-		m_meshsets.push_back( meshset );
-	}
-	else
-	{
-		m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
-
-#ifdef _DEBUG
-		CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
-#endif
-		throw IfcPPException( "Meshset is not closed", __FUNC__ );
-	}
-}
-
-void ItemData::addItemData( shared_ptr<ItemData>& other )
-{
-	std::copy( other->m_meshsets_open.begin(),				other->m_meshsets_open.end(),					std::back_inserter( m_meshsets_open ) );
-	std::copy( other->m_polylines.begin(),					other->m_polylines.end(),						std::back_inserter( m_polylines ) );
-	std::copy( other->m_meshsets.begin(),					other->m_meshsets.end(),						std::back_inserter( m_meshsets ) );
-	std::copy( other->m_vec_item_appearances.begin(),		other->m_vec_item_appearances.end(),			std::back_inserter( m_vec_item_appearances ) );
-}
-
-bool ItemData::isEmpty()
-{
-	if( m_meshsets_open.size() > 0 )			{ return false; }
-	if( m_polylines.size() > 0 )				{ return false; }
-	if( m_meshsets.size() > 0 )					{ return false; }
-	if( m_vec_item_appearances.size() > 0 )		{ return false; }
-	if( m_vec_text_literals.size() > 0 )		{ return false; }
-
+	if( std::abs( mat._41 ) > 0.00001 )  return false;
+	if( std::abs( mat._42 ) > 0.00001 )  return false;
+	if( std::abs( mat._43 ) > 0.00001 )  return false;
 	return true;
 }
 
-bool isIdentity( const carve::math::Matrix& mat )
-{
-	if( std::abs(mat._11 -1.0) > 0.00001 )  return false;
-	if( std::abs(mat._22 -1.0) > 0.00001 )  return false;
-	if( std::abs(mat._33 -1.0) > 0.00001 )  return false;
-	if( std::abs(mat._44 -1.0) > 0.00001 )  return false;
-	
-	if( std::abs(mat._12) > 0.00001 )  return false;
-	if( std::abs(mat._13) > 0.00001 )  return false;
-	if( std::abs(mat._14) > 0.00001 )  return false;
-	
-	if( std::abs(mat._21) > 0.00001 )  return false;
-	if( std::abs(mat._23) > 0.00001 )  return false;
-	if( std::abs(mat._24) > 0.00001 )  return false;
-	
-	if( std::abs(mat._31) > 0.00001 )  return false;
-	if( std::abs(mat._32) > 0.00001 )  return false;
-	if( std::abs(mat._34) > 0.00001 )  return false;
-
-	if( std::abs(mat._41) > 0.00001 )  return false;
-	if( std::abs(mat._42) > 0.00001 )  return false;
-	if( std::abs(mat._43) > 0.00001 )  return false;
-	return true;
-}
-
-
-void ItemData::applyPosition( const carve::math::Matrix& mat )
-{
-	if( isIdentity( mat ) )
-	{
-		return;
-	}
-
-	for( auto it_meshsets = m_meshsets_open.begin(); it_meshsets != m_meshsets_open.end(); ++it_meshsets )
-	{
-		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-
-		for (size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
-		{
-			carve::geom::vector<3>& point = item_meshset->vertex_storage[i].v;
-			point = mat*point;
-		}
-		for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
-		{
-			item_meshset->meshes[i]->recalc();
-        }
-	}
-
-	for( auto it_meshsets = m_meshsets.begin(); it_meshsets != m_meshsets.end(); ++it_meshsets )
-	{
-		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-
-		for (size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
-		{
-			carve::geom::vector<3>& point = item_meshset->vertex_storage[i].v;
-			point = mat*point;
-		}
-		for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
-		{
-			item_meshset->meshes[i]->recalc();
-        }
-	}
-
-	for( int polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
-	{
-		shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
-		for( size_t j=0; j<polyline_data->points.size(); ++j )
-		{
-			carve::geom::vector<3>& point = polyline_data->points[j];
-			point = mat*point;
-		}
-	}
-
-	for( int text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
-	{
-		shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
-		text_literals->m_text_position = mat*text_literals->m_text_position;
-	}
-}
-
-shared_ptr<ItemData> ItemData::getDeepCopy()
-{
-	shared_ptr<ItemData> copy_item( new ItemData() );
-
-	for( auto it_meshsets = m_meshsets_open.begin(); it_meshsets != m_meshsets_open.end(); ++it_meshsets )
-	{
-		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-		copy_item->m_meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
-	}
-
-	for( auto it_meshsets = m_meshsets.begin(); it_meshsets != m_meshsets.end(); ++it_meshsets )
-	{
-		shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = (*it_meshsets);
-		copy_item->m_meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
-	}
-
-	for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
-	{
-		shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
-		copy_item->m_polylines.push_back( shared_ptr<carve::input::PolylineSetData>( new carve::input::PolylineSetData( *(polyline_data.get()) ) ) );
-	}
-
-	std::copy( m_vec_item_appearances.begin(),	m_vec_item_appearances.end(),		std::back_inserter( copy_item->m_vec_item_appearances ) );
-	std::copy( m_vec_text_literals.begin(),		m_vec_text_literals.end(),		std::back_inserter( copy_item->m_vec_text_literals ) );
-
-	return copy_item;
-}
-
-// ShapeInputData /////////////////////
-void ShapeInputData::addInputData( shared_ptr<ShapeInputData>& other )
+// ProductShapeInputData /////////////////////
+void ProductShapeInputData::addInputData( shared_ptr<ProductShapeInputData>& other )
 {
 	std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
 	std::copy( other->getAppearances().begin(), other->getAppearances().end(), std::back_inserter( m_vec_appearances ) );
 }
 
-void ShapeInputData::deepCopyFrom( shared_ptr<ShapeInputData>& other )
+void ProductShapeInputData::deepCopyFrom( shared_ptr<ProductShapeInputData>& other )
 {
 	m_vec_item_data.clear();
 	m_vec_appearances.clear();
 
 	for( int item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
 	{
-		shared_ptr<ItemData>& item_data = other->m_vec_item_data[item_i];
-		m_vec_item_data.push_back( shared_ptr<ItemData>( item_data->getDeepCopy() ) );
+		shared_ptr<ItemShapeInputData>& item_data = other->m_vec_item_data[item_i];
+		m_vec_item_data.push_back( shared_ptr<ItemShapeInputData>( item_data->getDeepCopy() ) );
 	}
 	std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
 }
 
-void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
+void ProductShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
 {
 	if( !appearance )
 	{
@@ -227,12 +65,12 @@ void ShapeInputData::addAppearance( shared_ptr<AppearanceData>& appearance )
 	m_vec_appearances.push_back( appearance );
 }
 
-void ShapeInputData::clearAppearanceData()
+void ProductShapeInputData::clearAppearanceData()
 {
 	m_vec_appearances.clear();
 }
 
-void ShapeInputData::clearAll()
+void ProductShapeInputData::clearAll()
 {
 	m_vec_appearances.clear();
 

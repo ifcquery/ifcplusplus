@@ -25,7 +25,7 @@ Sweeper::~Sweeper()
 {
 }
 
-void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >& face_loops_input, const carve::geom::vector<3> extrusion_vector, IfcPPEntity* e, shared_ptr<ItemData>& item_data )
+void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >& face_loops_input, const carve::geom::vector<3> extrusion_vector, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data )
 {
 	if( face_loops_input.size() == 0 )
 	{
@@ -406,7 +406,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 #endif
 }
 
-void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemData>& item_data, const int nvc, const double radius, const double radius_inner )
+void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data, const int nvc, const double radius, const double radius_inner )
 {
 	carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 	const int num_curve_points = curve_points.size();
@@ -746,7 +746,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 #endif
 }
 
-void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* e, shared_ptr<ItemData>& item_data )
+void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data )
 {
 	// TODO: complete and test
 	if( profile_paths.size() == 0 )
@@ -766,49 +766,42 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 	//  0-------face_loops[0]--------1
 
 	carve::geom::vector<3> normal_first_loop;
-	std::vector<std::vector<carve::geom2d::P2> >	face_loops;
+	std::vector<std::vector<carve::geom2d::P2> > face_loops;
 	bool warning_small_loop_detected = false;
-	for( std::vector<std::vector<carve::geom::vector<2> > >::const_iterator it_face_loops = profile_paths.begin(); it_face_loops != profile_paths.end(); ++it_face_loops )
+	bool polyline_created = false;
+	for( size_t i_face_loops = 0; i_face_loops < profile_paths.size(); ++i_face_loops )
 	{
-		const std::vector<carve::geom::vector<2> >& loop = (*it_face_loops);
+		const std::vector<carve::geom::vector<2> >& loop = profile_paths[i_face_loops];
 
 		if( loop.size() < 3 )
 		{
-			//messageCallback( "loop.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
-			//if( it_face_loops == profile_paths.begin() )
+			if( loop.size() == 1 )
 			{
-				if( loop.size() == 1 )
+				// Cross section is just a point. Create a polyline
+				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+				if( !polyline_data )
 				{
-					// Cross section is just a point. Create a polyline
-					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-					if( !polyline_data )
-					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
-					}
-					polyline_data->beginPolyline();
-					for( size_t i_polyline = 0; i_polyline < curve_points.size(); ++i_polyline )
-					{
-						const carve::geom::vector<3>& curve_pt = curve_points[i_polyline];
-						polyline_data->addVertex( curve_pt );
-						polyline_data->addPolylineIndex( 0 );
-						polyline_data->addPolylineIndex( i_polyline );
-					}
-					item_data->m_polylines.push_back( polyline_data );
+					throw IfcPPOutOfMemoryException( __FUNC__ );
 				}
-				
-				continue;
+				polyline_data->beginPolyline();
+				for( size_t i_polyline = 0; i_polyline < curve_points.size(); ++i_polyline )
+				{
+					const carve::geom::vector<3>& curve_pt = curve_points[i_polyline];
+					polyline_data->addVertex( curve_pt );
+					polyline_data->addPolylineIndex( 0 );
+					polyline_data->addPolylineIndex( i_polyline );
+				}
+				item_data->m_polylines.push_back( polyline_data );
+				polyline_created = true;
 			}
-			//else
-			//{
-			//	continue;
-			//}
+			continue;
 		}
 
 		// check winding order
 		bool reverse_loop = false;
 		std::vector<carve::geom2d::P2> loop_2d( loop );
 		carve::geom::vector<3>  normal_2d = GeomUtils::computePolygon2DNormal( loop_2d );
-		if( it_face_loops == profile_paths.begin() )
+		if( i_face_loops == 0 )
 		{
 			normal_first_loop = normal_2d;
 			if( normal_2d.z < 0 )
@@ -859,9 +852,18 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 
 	if( warning_small_loop_detected )
 	{
-		std::stringstream err;
-		err << "abs( signed_area ) < 1.e-6";
-		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, e );
+		messageCallback( "abs( signed_area ) < 1.e-6", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, e );
+	}
+
+	if( face_loops.size() == 0 )
+	{
+		if( polyline_created )
+		{
+			// already handled as curve
+			return;
+		}
+		messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e );
+		return;
 	}
 
 	// triangulate

@@ -109,8 +109,8 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 		{
 			m_check_show_curve_representations->setChecked( true );
 		}
+		m_system->getViewController()->switchCurveRepresentation( m_system->getViewController()->m_sw_model, show_curves );
 	}
-	m_system->getViewController()->m_show_curve_representation = show_curves;
 	connect( m_check_show_curve_representations, SIGNAL( stateChanged(int) ), this, SLOT( slotShowCurves(int) ) );
 
 	// layout

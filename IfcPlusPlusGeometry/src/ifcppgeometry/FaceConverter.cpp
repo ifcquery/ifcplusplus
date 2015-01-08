@@ -258,7 +258,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 	throw UnhandledRepresentationException(surface);
 }
 
-void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& faces, shared_ptr<ItemData> item_data, ShellType st )
+void FaceConverter::convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& faces, shared_ptr<ItemShapeInputData> item_data, ShellType st )
 {
 	PolyInputCache3D poly_cache;
 	IfcPPEntity* report_entity = nullptr;

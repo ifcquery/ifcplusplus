@@ -61,9 +61,6 @@
 GeometryConverter::GeometryConverter()
 {
 	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
-
-	
-
 	m_geom_settings = shared_ptr<GeometrySettings>( new GeometrySettings() );
 	resetNumVerticesPerCircle();
 	shared_ptr<UnitConverter>& unit_converter = m_ifc_model->getUnitConverter();
@@ -101,7 +98,6 @@ void GeometryConverter::clearInputCache()
 	m_shape_input_data.clear();
 	m_map_outside_spatial_structure.clear();
 	m_converter_osg->clearAppearanceCache();
-	m_representation_converter->getUnitConverter()->resetUnitConverter();
 	m_representation_converter->clearCache();
 	m_messages.clear();
 }
@@ -141,10 +137,11 @@ void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_grou
 		{
 			vec_products.push_back( product );
 		}
+		// TODO: sort vec_products such, that products with complex geometry are at the beginning (better scheduling for omp). Rate complexity by number of CSG ops, and number of vertices. Check if sorting pays off.
 	}
 
 	// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-	std::map<int, shared_ptr<ShapeInputData> >* map_products_ptr = &m_shape_input_data;
+	std::map<int, shared_ptr<ProductShapeInputData> >* map_products_ptr = &m_shape_input_data;
 	const int num_products = vec_products.size();
 
 #ifdef IFCPP_OPENMP
@@ -170,7 +167,7 @@ void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_grou
 			}
 
 			const int product_id = product->m_id;
-			shared_ptr<ShapeInputData> product_geom_input_data( new ShapeInputData() );
+			shared_ptr<ProductShapeInputData> product_geom_input_data( new ProductShapeInputData() );
 			product_geom_input_data->m_ifc_product = product;
 
 			try
@@ -251,7 +248,7 @@ void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_grou
 		
 		for( auto it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
 		{
-			shared_ptr<ShapeInputData> product_shape = it_product_shapes->second;
+			shared_ptr<ProductShapeInputData> product_shape = it_product_shapes->second;
 			shared_ptr<IfcProduct> ifc_product( product_shape->m_ifc_product );
 			if( !product_shape )
 			{
@@ -265,16 +262,14 @@ void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_grou
 					continue;
 				}
 
-				osg::ref_ptr<osg::Switch> product_switch = product_shape->m_product_switch;
-				if( product_switch.valid() )
+				if( product_shape->m_product_switch.valid() )
 				{
-					group_outside_spatial_structure->addChild( product_switch );
+					group_outside_spatial_structure->addChild( product_shape->m_product_switch );
 				}
 
-				osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->m_product_switch_curves;
-				if( product_switch_curves.valid() )
+				if( product_shape->m_product_switch_curves.valid() )
 				{
-					group_outside_spatial_structure->addChild( product_switch_curves );
+					group_outside_spatial_structure->addChild( product_shape->m_product_switch_curves );
 				}
 
 				product_shape->m_added_to_node = true;
@@ -361,10 +356,10 @@ void GeometryConverter::resolveProjectStructure( const shared_ptr<IfcObjectDefin
 	shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( obj_def );
 	if( ifc_product )
 	{
-		std::map<int, shared_ptr<ShapeInputData> >::iterator it_product_map = m_shape_input_data.find( entity_id );
+		std::map<int, shared_ptr<ProductShapeInputData> >::iterator it_product_map = m_shape_input_data.find( entity_id );
 		if( it_product_map != m_shape_input_data.end() )
 		{
-			shared_ptr<ShapeInputData>& product_shape = it_product_map->second;
+			shared_ptr<ProductShapeInputData>& product_shape = it_product_map->second;
 
 			if( product_shape->m_added_to_node )
 			{
@@ -452,7 +447,7 @@ void GeometryConverter::resolveProjectStructure( const shared_ptr<IfcObjectDefin
 	}
 }
 
-void GeometryConverter::convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ShapeInputData>& product_shape )
+void GeometryConverter::convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeInputData>& product_shape )
 {
 	std::vector<shared_ptr<IfcProperty> >& vec_hasProperties = prop_set->m_HasProperties;
 
@@ -521,7 +516,7 @@ void GeometryConverter::convertIfcPropertySet( const shared_ptr<IfcPropertySet>&
 
 //\brief creates geometry objects from an IfcProduct object
 // caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-void GeometryConverter::convertIfcProduct( shared_ptr<ShapeInputData>& product_shape )
+void GeometryConverter::convertIfcProduct( shared_ptr<ProductShapeInputData>& product_shape )
 {
 	shared_ptr<IfcProduct> ifc_product( product_shape->m_ifc_product );
 	if( !ifc_product )
@@ -534,7 +529,7 @@ void GeometryConverter::convertIfcProduct( shared_ptr<ShapeInputData>& product_s
 	}
 
 	const int product_id = ifc_product->m_id;
-	const double length_factor = m_representation_converter->getUnitConverter()->getLengthInMeterFactor();
+	const double length_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 	product_shape->m_ifc_product = ifc_product;
 
 	// evaluate IFC geometry
@@ -567,18 +562,18 @@ void GeometryConverter::convertIfcProduct( shared_ptr<ShapeInputData>& product_s
 	{
 		// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 		std::unordered_set<IfcObjectPlacement*> placement_already_applied;
-		m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, placement_already_applied );
+		PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
 	}
 
-	std::vector<shared_ptr<ItemData> >& product_items = product_shape->m_vec_item_data;
+	std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_shape->m_vec_item_data;
 	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 	{
-		shared_ptr<ItemData> item_data = product_items[i_item];
+		shared_ptr<ItemShapeInputData> item_data = product_items[i_item];
 		item_data->applyPosition( product_placement_matrix );
 	}
 
 	// handle openings
-	std::vector<shared_ptr<ShapeInputData> > vec_opening_data;
+	std::vector<shared_ptr<ProductShapeInputData> > vec_opening_data;
 	const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>( ifc_product );
 	if( ifc_element )
 	{
@@ -631,19 +626,19 @@ void GeometryConverter::convertIfcProduct( shared_ptr<ShapeInputData>& product_s
 	}
 }
 
-void GeometryConverter::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> t )
+void GeometryConverter::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> m )
 {
 	GeometryConverter* myself = (GeometryConverter*)ptr;
 	if( myself )
 	{
-		if( t->m_entity )
+		if( m->m_entity )
 		{
 #ifdef IFCPP_OPENMP
 			ScopedLock lock( myself->m_writelock_messages );
 #endif
 
 			// make sure that the same message for one entity does not appear several times
-			const int entity_id = t->m_entity->m_id;
+			const int entity_id = m->m_entity->m_id;
 
 			std::map<int, std::vector<shared_ptr<StatusCallback::Message> > >::iterator it = myself->m_messages.find( entity_id );
 			if( it != myself->m_messages.end() )
@@ -652,21 +647,21 @@ void GeometryConverter::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback
 				for( size_t i = 0; i < vec_message_for_entity.size(); ++i )
 				{
 					shared_ptr<StatusCallback::Message>& existing_message = vec_message_for_entity[i];
-					if( existing_message->m_message.compare( t->m_message ) == 0 )
+					if( existing_message->m_message_text.compare( m->m_message_text ) == 0 )
 					{
 						// same message for same entity is already there, so ignore message
 						return;
 					}
 				}
-				vec_message_for_entity.push_back( t );
+				vec_message_for_entity.push_back( m );
 			}
 			else
 			{
 				std::vector<shared_ptr<StatusCallback::Message> >& vec = myself->m_messages.insert( std::make_pair( entity_id, std::vector<shared_ptr<StatusCallback::Message> >() ) ).first->second;
-				vec.push_back( t );
+				vec.push_back( m );
 			}
 		}
 
-		myself->messageCallback( t );
+		myself->messageCallback( m );
 	}
 }
