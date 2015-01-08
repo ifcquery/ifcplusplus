@@ -25,15 +25,17 @@
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 
+
+
 ViewController::ViewController()
 {
-	m_rootnode	= new osg::Group();
-	m_rootnode->setName("m_rootnode");
+	m_rootnode = new osg::Group();
+	m_rootnode->setName( "m_rootnode" );
 	m_sw_model = new osg::Switch();
 	m_rootnode->addChild( m_sw_model.get() );
-	
+
 	m_sw_bound = new osg::Switch();
-	m_sw_bound->setName("m_sw_bound");
+	m_sw_bound->setName( "m_sw_bound" );
 	m_rootnode->addChild( m_sw_bound );
 	m_transparent_model = false;
 	m_viewer_mode = VIEWER_MODE_SHADED;
@@ -47,10 +49,9 @@ ViewController::ViewController()
 	m_material_default->setShininess( osg::Material::FRONT_AND_BACK, m_shinyness );
 	m_material_default->setColorMode( osg::Material::SPECULAR );
 	m_material_default->setTransparency( osg::Material::FRONT_AND_BACK, 0.7f );
-	
-	osg::LightModel* light_model = new osg::LightModel();  
+
+	osg::LightModel* light_model = new osg::LightModel();
 	light_model->setAmbientIntensity( osg::Vec4f( 0.2f, 0.25f, 0.3f, 0.3f ) );
-	light_model->setTwoSided(true);
 	m_rootnode->getOrCreateStateSet()->setAttribute( light_model );
 
 	m_stateset_default = m_sw_model->getOrCreateStateSet();
@@ -58,9 +59,9 @@ ViewController::ViewController()
 
 	m_stateset_transparent = new osg::StateSet();
 	m_stateset_transparent->setAttribute( m_material_default, osg::StateAttribute::ON );
-	m_stateset_transparent->setMode(GL_BLEND, osg::StateAttribute::ON);
-	m_stateset_transparent->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
-	m_stateset_transparent->setRenderBinDetails(11, "DepthSortedBin"); 
+	m_stateset_transparent->setMode( GL_BLEND, osg::StateAttribute::ON );
+	m_stateset_transparent->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	m_stateset_transparent->setRenderBinDetails( 11, "DepthSortedBin" );
 
 	osg::Material* material_selected = new osg::Material();
 	material_selected->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 0.92f, 0.92f, 0.5f ) );
@@ -68,11 +69,11 @@ ViewController::ViewController()
 	material_selected->setShininess( osg::Material::FRONT_AND_BACK, m_shinyness );
 	material_selected->setColorMode( osg::Material::SPECULAR );
 	m_stateset_selected = new osg::StateSet();
-	m_stateset_selected->setAttribute( material_selected, osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON );
+	m_stateset_selected->setAttribute( material_selected, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
 	// create coordinate axes
 	m_sw_coord_axes = new osg::Switch();
-	m_sw_coord_axes->setName("m_sw_coord_axes");
+	m_sw_coord_axes->setName( "m_sw_coord_axes" );
 	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxes() );
 	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxesArrows() );
 	m_rootnode->addChild( m_sw_coord_axes.get() );
@@ -166,15 +167,15 @@ void ViewController::toggleSceneLight()
 	}
 }
 
-void ViewController::switchCurveRepresentation( osg::Group* grp, bool on )
+void ViewController::switchCurveRepresentation( osg::Group* grp, bool on_off )
 {
-	m_show_curve_representation = on;
+	m_show_curve_representation = on_off;
 	osg::Switch* grp_switch = dynamic_cast<osg::Switch*>( grp );
 	if( grp_switch )
 	{
 		if( grp_switch->getName().compare( "CurveRepresentation" ) == 0 )
 		{
-			if( on )
+			if( on_off )
 			{
 				grp_switch->setAllChildrenOn();
 			}
@@ -192,7 +193,7 @@ void ViewController::switchCurveRepresentation( osg::Group* grp, bool on )
 		osg::Group* child_grp = dynamic_cast<osg::Group*>( child_node );
 		if( child_grp )
 		{
-			switchCurveRepresentation( child_grp, on );
+			switchCurveRepresentation( child_grp, on_off );
 		}
 	}
 }

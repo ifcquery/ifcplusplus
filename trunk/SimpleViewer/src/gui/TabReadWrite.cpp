@@ -127,43 +127,46 @@ void TabReadWrite::closeEvent( QCloseEvent* )
 	settings.setValue("IOsplitterSizes", m_io_splitter->saveState());
 }
 
-void TabReadWrite::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> t )
+void TabReadWrite::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> m )
 {
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
 	{
-		std::string reporting_function_str( t->m_reporting_function );
+#ifdef IFCPP_OPENMP
+		ScopedLock lock( myself->m_mutex_messages );
+#endif
+		std::string reporting_function_str( m->m_reporting_function );
 		std::wstringstream strs_report;
 		if( reporting_function_str.size() > 0 )
 		{
-			strs_report << t->m_reporting_function << ", ";
+			strs_report << m->m_reporting_function << ", ";
 		}
-		strs_report << t->m_message.c_str();
+		strs_report << m->m_message_text.c_str();
 
-		if( t->m_entity )
+		if( m->m_entity )
 		{
-			strs_report << ", IFC entity: #" << t->m_entity->m_id << "=" << t->m_entity->className();
+			strs_report << ", IFC entity: #" << m->m_entity->m_id << "=" << m->m_entity->className();
 		}
 		std::wstring message_str = strs_report.str().c_str();
 
-		if( t->m_message_type == StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE )
+		if( m->m_message_type == StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE )
 		{
 			QString qt_str = QString::fromStdWString( message_str );
 			myself->slotTxtOut( qt_str );
 		}
-		else if( t->m_message_type == StatusCallback::MESSAGE_TYPE_WARNING )
+		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_WARNING )
 		{
 			QString qt_str = QString::fromStdWString( message_str );
 			myself->slotTxtOutWarning( qt_str );
 		}
-		else if( t->m_message_type == StatusCallback::MESSAGE_TYPE_ERROR )
+		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_ERROR )
 		{
 			QString qt_str = QString::fromStdWString( message_str );
 			myself->slotTxtOutError( qt_str );
 		}
-		else if( t->m_message_type == StatusCallback::MESSAGE_TYPE_PROGRESS_VALUE )
+		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_PROGRESS_VALUE )
 		{
-			myself->slotProgressValue( t->m_progress_value, t->m_progress_type );
+			myself->slotProgressValue( m->m_progress_value, m->m_progress_type );
 		}
 	}
 }

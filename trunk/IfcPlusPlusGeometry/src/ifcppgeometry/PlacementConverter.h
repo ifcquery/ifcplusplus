@@ -24,18 +24,15 @@
 #include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
 #include <ifcpp/IFC4/include/IfcRepresentationContext.h>
 
-class PlacementConverter : public StatusCallback
+class PlacementConverter
 {
 public:
-	PlacementConverter();
-	~PlacementConverter();
-
-	void convertIfcPlacement(					const shared_ptr<IfcPlacement>& placement,						const double length_factor, carve::math::Matrix& matrix,	bool only_rotation = false );
-	void convertIfcObjectPlacement(				const shared_ptr<IfcObjectPlacement>& object_placement,			const double length_factor, carve::math::Matrix& matrix,	std::unordered_set<IfcObjectPlacement*>& already_applied, bool only_rotation = false );
-	void convertTransformationOperator(			const shared_ptr<IfcCartesianTransformationOperator>& tr_op,	const double length_factor, carve::math::Matrix& matrix );
-	static void convertIfcAxis2Placement2D(		const shared_ptr<IfcAxis2Placement2D>& axis2placement2d,		const double length_factor, carve::math::Matrix& matrix,	bool only_rotation = false );
-	static void convertIfcAxis2Placement3D(		const shared_ptr<IfcAxis2Placement3D>& axis2placement3d,		const double length_factor, carve::math::Matrix& matrix,	bool only_rotation = false );
-	static void getPlane(						const shared_ptr<IfcAxis2Placement3D>& axis2placement3d,		const double length_factor, carve::geom::plane<3>& plane,	carve::geom::vector<3>& translate );
+	static void convertIfcPlacement(			const shared_ptr<IfcPlacement>& placement,						const double length_factor, carve::math::Matrix& matrix, StatusCallback* sc,	bool only_rotation = false );
+	static void convertIfcObjectPlacement(		const shared_ptr<IfcObjectPlacement>& object_placement,			const double length_factor, carve::math::Matrix& matrix, StatusCallback* sc,	std::unordered_set<IfcObjectPlacement*>& already_applied, bool only_rotation = false );
+	static void convertTransformationOperator(	const shared_ptr<IfcCartesianTransformationOperator>& tr_op,	const double length_factor, carve::math::Matrix& matrix, StatusCallback* sc );
+	static void convertIfcAxis2Placement2D(		const shared_ptr<IfcAxis2Placement2D>& axis2placement2d,		const double length_factor, carve::math::Matrix& matrix, bool only_rotation = false );
+	static void convertIfcAxis2Placement3D(		const shared_ptr<IfcAxis2Placement3D>& axis2placement3d,		const double length_factor, carve::math::Matrix& matrix, bool only_rotation = false );
+	static void getPlane(						const shared_ptr<IfcAxis2Placement3D>& axis2placement3d,		const double length_factor, carve::geom::plane<3>& plane, carve::geom::vector<3>& translate );
 	static void getWorldCoordinateSystem(		const shared_ptr<IfcRepresentationContext>& context,			const double length_factor, carve::math::Matrix& matrix, std::unordered_set<IfcRepresentationContext*>& already_applied );
 	static void convertMatrix( const carve::math::Matrix& matrix, const double length_factor, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_entities );
 };

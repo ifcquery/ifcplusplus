@@ -55,6 +55,7 @@
 IfcPPModel::IfcPPModel()
 {
 	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
+	addCallbackChild( m_unit_converter.get() );
 	initFileHeader( "IfcPlusPlus-export.ifc" );
 }
 
@@ -483,7 +484,7 @@ void IfcPPModel::clearIfcModel()
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";
-	m_unit_converter->resetUnitConverter();
+	m_unit_converter->resetComplete();
 }
 
 void IfcPPModel::resetIfcModel()

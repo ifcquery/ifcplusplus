@@ -28,7 +28,7 @@
 class RepresentationConverter;
 class ConverterOSG;
 class GeometrySettings;
-class ShapeInputData;
+class ProductShapeInputData;
 
 class GeometryConverter : public StatusCallback
 {
@@ -40,9 +40,9 @@ public:
 	  \param[out] parent_group Group to append the resulting geometry.
 	**/
 	void createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group );
-	void convertIfcProduct(	shared_ptr<ShapeInputData>& product_shape );
+	void convertIfcProduct(	shared_ptr<ProductShapeInputData>& product_shape );
 	void resolveProjectStructure( const shared_ptr<IfcObjectDefinition>& obj_def, osg::ref_ptr<osg::Switch> group );
-	void convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ShapeInputData>& product_shape );
+	void convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeInputData>& product_shape );
 
 	// getters and setters
 	void setModel( shared_ptr<IfcPPModel> model );
@@ -50,7 +50,7 @@ public:
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter()	{ return m_representation_converter; }
 	shared_ptr<ConverterOSG>&					getConverterOSG()				{ return m_converter_osg; }
 	shared_ptr<GeometrySettings>&				getGeomSettings()				{ return m_geom_settings; }
-	std::map<int,shared_ptr<ShapeInputData> >&	getShapeInputData()				{ return m_shape_input_data; }
+	std::map<int,shared_ptr<ProductShapeInputData> >&	getShapeInputData()				{ return m_shape_input_data; }
 	std::map<int,shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure()	{ return m_map_outside_spatial_structure; }
 
 	void resetNumVerticesPerCircle();
@@ -66,7 +66,7 @@ protected:
 	shared_ptr<RepresentationConverter> m_representation_converter;
 	shared_ptr<ConverterOSG>			m_converter_osg;
 	
-	std::map<int, shared_ptr<ShapeInputData> >	m_shape_input_data;
+	std::map<int, shared_ptr<ProductShapeInputData> >	m_shape_input_data;
 	std::map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
 	double m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;

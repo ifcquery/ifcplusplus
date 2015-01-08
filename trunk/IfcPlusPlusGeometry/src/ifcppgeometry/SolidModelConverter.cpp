@@ -76,7 +76,7 @@ SolidModelConverter::~SolidModelConverter()
 }
 
 // ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
-void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemData> item_data )
+void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeInputData> item_data )
 {
 	const int nvc = m_geom_settings->m_num_vertices_per_circle;
 	const double length_in_meter = m_unit_converter->getLengthInMeterFactor();
@@ -102,7 +102,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
 		const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths = profile_converter->getCoordinates();
 
-		shared_ptr<ItemData> item_data_solid( new ItemData() );
+		shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
 		if( !item_data_solid )
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -187,6 +187,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 					carve::geom::vector<3>& point_3d = directrix_curve_points[ii];
 					carve::geom::vector<2> point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
 					//surface_proxy->computePointOnSurface( point_3d, point_3d );
+					// TODO: implement
 				}
 			}
 
@@ -312,7 +313,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		std::vector<carve::geom::vector<3> > basis_curve_points;
 		m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
-		shared_ptr<ItemData> item_data_solid( new ItemData() );
+		shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
 		if( !item_data_solid )
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -327,7 +328,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 	messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 }
 
-void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemData> item_data )
+void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemShapeInputData> item_data )
 {
 	if( !extruded_area->m_ExtrudedDirection )
 	{
@@ -374,24 +375,42 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 
 }
 
-void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemData> item_data )
+void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeInputData> item_data )
 {
-	if( !revolved_area->m_SweptArea )
+	if( !revolved_area )
 	{
+		messageCallback( "Invalid IfcRevolvedAreaSolid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
 		return;
 	}
-	double length_factor = m_unit_converter->getLengthInMeterFactor();
-
-	// angle and axis
-	double angle_factor = m_unit_converter->getAngleInRadianFactor();
+	if( !revolved_area->m_Angle )
+	{
+		messageCallback( "Invalid SweptArea", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
+		return;
+	}
 	shared_ptr<IfcProfileDef> swept_area_profile = revolved_area->m_SweptArea;
 	if( !swept_area_profile )
 	{
 		messageCallback( "Invalid SweptArea", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
 		return;
 	}
+	double length_factor = m_unit_converter->getLengthInMeterFactor();
+
+	// revolution angle
+	double angle_factor = m_unit_converter->getAngleInRadianFactor();
+	if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
+	{
+		// angular unit definition not found in model, default to radian
+		angle_factor = 1.0;
+
+		if( revolved_area->m_Angle->m_value > M_PI )
+		{
+			// assume degree
+			angle_factor = M_PI / 180.0;
+		}
+	}
 	double revolution_angle = revolved_area->m_Angle->m_value*angle_factor;
 
+	// revolution axis
 	carve::geom::vector<3>  axis_location;
 	carve::geom::vector<3>  axis_direction;
 	if(revolved_area->m_Axis)
@@ -687,7 +706,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 }
 
 
-void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemData> item_data )
+void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeInputData> item_data )
 {
 	shared_ptr<IfcBooleanOperator>& ifc_boolean_operator = bool_result->m_Operator;
 	shared_ptr<IfcBooleanOperand> ifc_first_operand = bool_result->m_FirstOperand;
@@ -730,16 +749,16 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 	}
 
 	// convert the first operand
-	shared_ptr<ItemData> first_operand_data( new ItemData() );
+	shared_ptr<ItemShapeInputData> first_operand_data( new ItemShapeInputData() );
 	if( !first_operand_data )
 	{
 		throw IfcPPOutOfMemoryException( __FUNC__ );
 	}
-	shared_ptr<ItemData> empty_operand;
+	shared_ptr<ItemShapeInputData> empty_operand;
 	convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand );
 
 	// convert the second operand
-	shared_ptr<ItemData> second_operand_data( new ItemData() );
+	shared_ptr<ItemShapeInputData> second_operand_data( new ItemShapeInputData() );
 	if( !second_operand_data )
 	{
 		throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -792,7 +811,7 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 }
 
 
-void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimitive3D>& csg_primitive,	shared_ptr<ItemData> item_data )
+void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimitive3D>& csg_primitive,	shared_ptr<ItemShapeInputData> item_data )
 {
 	std::stringstream strs_err;
 	shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
@@ -1091,7 +1110,7 @@ void extrudeBox( const std::vector<carve::geom::vector<3> >& boundary_points, co
 	box_data->addFace( 7,3,2 );
 }
 
-void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand )
+void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemShapeInputData> item_data, const shared_ptr<ItemShapeInputData>& other_operand )
 {
 	//ENTITY IfcHalfSpaceSolid SUPERTYPE OF(ONEOF(IfcBoxedHalfSpace, IfcPolygonalBoundedHalfSpace))
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -1242,7 +1261,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 
 		std::vector<std::vector<carve::geom::vector<2> > > paths;
 		paths.push_back( polygonal_boundary );
-		shared_ptr<ItemData> polygonal_halfspace_item_data( new ItemData );
+		shared_ptr<ItemShapeInputData> polygonal_halfspace_item_data( new ItemShapeInputData );
 		m_sweeper->extrude( paths, carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
 		
 		if( polygonal_halfspace_item_data->m_meshsets.size() != 1 )
@@ -1373,7 +1392,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 	}
 }
 
-void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemData> item_data, const shared_ptr<ItemData>& other_operand )
+void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeInputData> item_data, const shared_ptr<ItemShapeInputData>& other_operand )
 {
 	// TYPE IfcBooleanOperand = SELECT	(IfcBooleanResult	,IfcCsgPrimitive3D	,IfcHalfSpaceSolid	,IfcSolidModel);
 	shared_ptr<IfcSolidModel> solid_model = dynamic_pointer_cast<IfcSolidModel>(operand_select);
@@ -1409,7 +1428,7 @@ void SolidModelConverter::convertIfcBooleanOperand( const shared_ptr<IfcBooleanO
 	throw IfcPPException( strs_err.str().c_str(), __FUNC__ );
 }
 
-void SolidModelConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemData> item_data )
+void SolidModelConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeInputData> item_data )
 {
 	const shared_ptr<IfcCompositeCurve> spine_curve = spine->m_SpineCurve;
 	if( !spine_curve )

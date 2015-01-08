@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	geometry_converter->createGeometryOSG(model_switch);
 
 	// contains the VEF graph for each IfcProduct:
-	std::map<int, shared_ptr<ShapeInputData> >& map_vef_data = geometry_converter->getShapeInputData();
+	std::map<int, shared_ptr<ProductShapeInputData> >& map_vef_data = geometry_converter->getShapeInputData();
 
 	for( auto it = map_vef_data.begin(); it != map_vef_data.end(); ++it )
 	{
@@ -56,16 +56,16 @@ int main(int argc, char *argv[])
 		int entity_id = it->first;
 
 		// shape data
-		shared_ptr<ShapeInputData>& shape_data = it->second;
+		shared_ptr<ProductShapeInputData>& shape_data = it->second;
 
 		// IfcProduct:
 		shared_ptr<IfcProduct> ifc_product( shape_data->m_ifc_product );
 
 		// for each IfcProduct, there can be mulitple geometric representation items:
-		std::vector<shared_ptr<ItemData> >& vec_item_data = shape_data->m_vec_item_data;
+		std::vector<shared_ptr<ItemShapeInputData> >& vec_item_data = shape_data->m_vec_item_data;
 		for( size_t i_item = 0; i_item < vec_item_data.size(); ++i_item )
 		{
-			shared_ptr<ItemData>& item_data = vec_item_data[i_item];
+			shared_ptr<ItemShapeInputData>& item_data = vec_item_data[i_item];
 
 			// every item can have several meshsets:
 			std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_item_meshsets = item_data->m_meshsets;

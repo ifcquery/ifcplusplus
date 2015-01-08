@@ -17,8 +17,8 @@
 #include <osg/Group>
 #include <osg/Material>
 #include <osg/MatrixTransform>
+#include <osg/Point>
 #include <osgUtil/Tessellator>
-#include <osgUtil/Optimizer>
 #include <osgText/Text>
 
 #include <ifcpp/IFC4/include/IfcSpace.h>
@@ -87,7 +87,7 @@ void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode
 	geometry->setNormalArray( normals );
 
 	geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
-	geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POLYGON,0,vertices->size()));
+	geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POLYGON, 0, vertices->size() ) );
 
 	if( add_color_array )
 	{
@@ -136,7 +136,7 @@ void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode
 
 //#define DEBUG_DRAW_NORMALS
 
-void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode, double intermediate_normal_angle, bool add_color_array )
+void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode, double crease_angle, bool add_color_array )
 {
 	osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
 	osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
@@ -160,7 +160,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 		const carve::geom::vector<3> face_normal = face->plane.N;
 		carve::geom::vector<3> intermediate_normal = face_normal;
 
-		if( intermediate_normal_angle > 0 )
+		if( crease_angle > 0 )
 		{
 			carve::mesh::Edge<3>* e = face->edge;
 			for( size_t jj = 0; jj < n_vertices; ++jj )
@@ -246,8 +246,9 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 
 					// TODO: if face f1 is much bigger than the adjacent face f2, use f1->plane.N as normals for all its vertices
 					carve::geom::vector<3> f1_normal = f->plane.N;
-					double cos_angle = dot( f1_normal, face_normal );
-					if( std::abs( cos_angle - 1.0 ) < intermediate_normal_angle )
+					const double cos_angle = dot( f1_normal, face_normal );
+					const double deviation = std::abs( cos_angle - 1.0 );
+					if( deviation > 0.00001 && deviation < crease_angle )
 					{
 						intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
 						intermediate_normal.normalize();
@@ -276,7 +277,6 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 
 	if( vertices_tri->size() > 0 )
 	{
-		//drawTriangles( vertices_tri, normals_tri, add_color_array, geode );
 		osg::Geometry* geometry = new osg::Geometry();
 		geometry->setVertexArray( vertices_tri );
 
@@ -292,7 +292,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 			geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		}
 
-		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES,0,vertices_tri->size()));
+		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size() ) );
 		geode->addDrawable( geometry );
 
 #ifdef DEBUG_DRAW_NORMALS
@@ -338,12 +338,12 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 			geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		}
 
-		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,vertices_quad->size()));
+		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, vertices_quad->size() ) );
 		geode->addDrawable( geometry );
 	}
 }
 
-void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geode* geode, double intermediate_normal_angle, bool add_color_array )
+void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geode* geode, double crease_angle, bool add_color_array )
 {
 	if( !meshset )
 	{
@@ -352,7 +352,7 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 
 	for( size_t i = 0; i < meshset->meshes.size(); ++i )
 	{
-		drawMesh( meshset->meshes[i], geode, intermediate_normal_angle, add_color_array );
+		drawMesh( meshset->meshes[i], geode, crease_angle, add_color_array );
 	}
 }
 
@@ -369,8 +369,7 @@ void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_d
 		return;
 	}
 
-	carve::line::PolylineSet::const_line_iter it;
-	for( it = polyline_set->lines.begin(); it != polyline_set->lines.end(); ++it )
+	for( auto it = polyline_set->lines.begin(); it != polyline_set->lines.end(); ++it )
 	{
 		carve::line::Polyline* pline = *it;
 		size_t vertex_count = pline->vertexCount();
@@ -392,7 +391,7 @@ void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_d
 
 	osg::Geometry* geometry = new osg::Geometry();
 	geometry->setVertexArray( vertices );
-	geometry->addPrimitiveSet( new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, vertices->size()) );
+	geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, vertices->size() ) );
 
 	if( add_color_array )
 	{
@@ -428,8 +427,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 		if( child_geode )
 		{
 			const osg::Geode::DrawableList& drawable_list = child_geode->getDrawableList();
-			osg::Geode::DrawableList::const_iterator it_drawables;
-			for( it_drawables=drawable_list.begin(); it_drawables!=drawable_list.end(); ++it_drawables )
+			for( auto it_drawables=drawable_list.begin(); it_drawables!=drawable_list.end(); ++it_drawables )
 			{
 				osg::Drawable* drawable = (*it_drawables);
 				const osg::Geometry* child_gemetry = dynamic_cast<const osg::Geometry*>(drawable);
@@ -452,8 +450,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 				}
 
 				const osg::Geometry::PrimitiveSetList& primitive_sets = child_gemetry->getPrimitiveSetList();
-				osg::Geometry::PrimitiveSetList::const_iterator it_primitives;
-				for( it_primitives=primitive_sets.begin(); it_primitives!=primitive_sets.end(); ++it_primitives )
+				for( auto it_primitives=primitive_sets.begin(); it_primitives!=primitive_sets.end(); ++it_primitives )
 				{
 					const osg::PrimitiveSet* p_set = (*it_primitives);
 
@@ -566,32 +563,32 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 
 //\brief creates geometry objects from an IfcProduct object
 // caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, const double length_factor )
+void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double length_factor )
 {
-	shared_ptr<IfcProduct> ifc_product( product_shape->m_ifc_product );
-	if( !ifc_product->m_Representation )
+	std::stringstream group_name;
+	shared_ptr<IfcProduct> ifc_product;
+	if( !product_shape->m_ifc_product.expired() )
 	{
-		// IfcProduct needs to have a representation
-		return;
+		ifc_product = shared_ptr<IfcProduct>( product_shape->m_ifc_product );
+		const int product_id = ifc_product->m_id;
+		group_name << "#" << product_id << "=" << ifc_product->className() << " group";
 	}
 
-	const int product_id = ifc_product->m_id;
 	osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
 	osg::ref_ptr<osg::Switch> product_switch_curves = new osg::Switch();
 	if( !product_switch || !product_switch_curves )
 	{
 		throw IfcPPOutOfMemoryException( __FUNC__ );
 	}
-	std::stringstream group_name;
-	group_name << "#" << product_id << "=" << ifc_product->className() << " group";
+	
 	product_switch->setName( group_name.str().c_str() );
 	product_switch_curves->setName( "CurveRepresentation" );
 
 	// create OSG objects
-	std::vector<shared_ptr<ItemData> >& product_items = product_shape->m_vec_item_data;
+	std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_shape->m_vec_item_data;
 	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 	{
-		shared_ptr<ItemData> item_data = product_items[i_item];
+		shared_ptr<ItemShapeInputData> item_shape = product_items[i_item];
 		osg::ref_ptr<osg::Group> item_group = new osg::Group();
 		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
 
@@ -601,16 +598,16 @@ void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, cons
 		}
 
 		// create shape for open shells
-		for( auto it_meshsets = item_data->m_meshsets_open.begin(); it_meshsets != item_data->m_meshsets_open.end(); ++it_meshsets )
+		for( size_t ii = 0; ii < item_shape->m_meshsets_open.size(); ++ii )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets_open[ii];
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			if( !geode )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
-			ConverterOSG::drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
+			drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 
 			// disable back face culling for open meshes
 			geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
@@ -618,37 +615,69 @@ void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, cons
 		}
 
 		// create shape for meshsets
-		for( auto it_meshsets = item_data->m_meshsets.begin(); it_meshsets != item_data->m_meshsets.end(); ++it_meshsets )
+		for( size_t ii = 0; ii < item_shape->m_meshsets.size(); ++ii )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets[ii];
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
 			if( !geode_result )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
-			ConverterOSG::drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
+			drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild( geode_result );
 		}
 
-		// create shape for polylines
-		for( size_t polyline_i = 0; polyline_i < item_data->m_polylines.size(); ++polyline_i )
+		// create shape for points
+		for( size_t ii = 0; ii < item_shape->m_vertex_points.size(); ++ii )
 		{
-			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_data->m_polylines[polyline_i];
+			shared_ptr<carve::input::VertexData>& pointset_data = item_shape->m_vertex_points[ii];
+			if( pointset_data )
+			{
+				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+				if( !geode )
+				{
+					throw IfcPPOutOfMemoryException( __FUNC__ );
+				}
+
+				osg::Vec3Array* vertices = new osg::Vec3Array();
+				for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
+				{
+					carve::geom::vector<3>& carve_point = pointset_data->points[i_pointset_point];
+					vertices->push_back( osg::Vec3d( carve_point.x, carve_point.y, carve_point.z ) );
+				}
+
+				osg::Geometry* geometry = new osg::Geometry();
+				geometry->setVertexArray( vertices );
+				geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, vertices->size() ) );
+				geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+				geode->getOrCreateStateSet()->setAttribute( new osg::Point( 3.0f ), osg::StateAttribute::ON );
+				geode->addDrawable( geometry );
+				geode->setCullingActive( false );
+				geode->addDrawable( geometry );
+				item_group_curves->addChild( geode );
+			}
+		}
+
+		// create shape for polylines
+		for( size_t ii = 0; ii < item_shape->m_polylines.size(); ++ii )
+		{
+			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_shape->m_polylines[ii];
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			if( !geode )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
 			}
-			ConverterOSG::drawPolyline( polyline_data.get(), geode );
+			geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+			drawPolyline( polyline_data.get(), geode );
 			item_group_curves->addChild( geode );
 		}
 
 		if( m_geom_settings->m_show_text_literals )
 		{
-			for( size_t text_literal_i = 0; text_literal_i < item_data->m_vec_text_literals.size(); ++text_literal_i )
+			for( size_t ii = 0; ii < item_shape->m_vec_text_literals.size(); ++ii )
 			{
-				shared_ptr<TextItemData>& text_data = item_data->m_vec_text_literals[text_literal_i];
+				shared_ptr<TextItemData>& text_data = item_shape->m_vec_text_literals[ii];
 				if( !text_data )
 				{
 					continue;
@@ -685,18 +714,16 @@ void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, cons
 		}
 
 		// apply statesets if there are any
-		if( item_data->m_vec_item_appearances.size() > 0 )
+		if( item_shape->m_vec_item_appearances.size() > 0 )
 		{
-			for( size_t i_appearance = 0; i_appearance < item_data->m_vec_item_appearances.size(); ++i_appearance )
+			for( size_t ii = 0; ii < item_shape->m_vec_item_appearances.size(); ++ii )
 			{
-				shared_ptr<AppearanceData>& appearance = item_data->m_vec_item_appearances[i_appearance];
+				shared_ptr<AppearanceData>& appearance = item_shape->m_vec_item_appearances[ii];
 				if( appearance->m_apply_to_geometry_type == AppearanceData::SURFACE )
 				{
 					osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
 					if( item_stateset != nullptr )
 					{
-						item_group->setStateSet( item_stateset );
-
 						osg::StateSet* existing_item_stateset = item_group->getStateSet();
 						if( existing_item_stateset )
 						{
@@ -713,29 +740,32 @@ void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, cons
 							item_group->setStateSet( item_stateset );
 						}
 					}
-					else if( appearance->m_apply_to_geometry_type == AppearanceData::CURVE )
+				}
+				else if( appearance->m_apply_to_geometry_type == AppearanceData::CURVE )
+				{
+					osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
+					if( item_stateset != nullptr )
 					{
-						osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
-						if( item_stateset != nullptr )
+						osg::Material* material = dynamic_cast<osg::Material*>( item_stateset->getAttribute( osg::StateAttribute::MATERIAL ) );
+						if( material )
 						{
-							item_group->setStateSet( item_stateset );
+							material->setColorMode( osg::Material::AMBIENT );
+						}
 
-							osg::StateSet* existing_item_stateset = item_group->getStateSet();
-
-							if( existing_item_stateset )
+						osg::StateSet* existing_item_stateset = item_group_curves->getStateSet();
+						if( existing_item_stateset )
+						{
+							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+							if( !merged_product_stateset )
 							{
-								osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-								if( !merged_product_stateset )
-								{
-									throw IfcPPOutOfMemoryException( __FUNC__ );
-								}
-								merged_product_stateset->merge( *item_stateset );
-								item_group->setStateSet( merged_product_stateset );
+								throw IfcPPOutOfMemoryException( __FUNC__ );
 							}
-							else
-							{
-								item_group_curves->setStateSet( item_stateset );
-							}
+							merged_product_stateset->merge( *item_stateset );
+							item_group_curves->setStateSet( merged_product_stateset );
+						}
+						else
+						{
+							item_group_curves->setStateSet( item_stateset );
 						}
 					}
 				}
@@ -754,30 +784,64 @@ void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, cons
 		}
 	}
 
-	for( size_t i = 0; i < product_shape->getAppearances().size(); ++i )
+	const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = product_shape->getAppearances();
+	for( size_t ii = 0; ii < vec_product_appearances.size(); ++ii )
 	{
-		// TODO: handle appearances of curves separately
-		const shared_ptr<AppearanceData>& appearance = product_shape->getAppearances()[i];
+		const shared_ptr<AppearanceData>& appearance = vec_product_appearances[ii];
 		if( !appearance )
 		{
 			continue;
 		}
 
-		osg::StateSet* next_product_stateset = convertToOSGStateSet( appearance );
-		osg::StateSet* existing_item_stateset = product_switch->getStateSet();
-		if( existing_item_stateset )
+		if( appearance->m_apply_to_geometry_type == AppearanceData::SURFACE )
 		{
-			osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-			if( !merged_product_stateset )
+			osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
+			if( item_stateset != nullptr )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				osg::StateSet* existing_item_stateset = product_switch->getStateSet();
+				if( existing_item_stateset )
+				{
+					osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+					if( !merged_product_stateset )
+					{
+						throw IfcPPOutOfMemoryException( __FUNC__ );
+					}
+					merged_product_stateset->merge( *item_stateset );
+					product_switch->setStateSet( merged_product_stateset );
+				}
+				else
+				{
+					product_switch->setStateSet( item_stateset );
+				}
 			}
-			merged_product_stateset->merge( *next_product_stateset );
-			product_switch->setStateSet( merged_product_stateset );
 		}
-		else
+		else if( appearance->m_apply_to_geometry_type == AppearanceData::CURVE )
 		{
-			product_switch->setStateSet( next_product_stateset );
+			osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
+			if( item_stateset != nullptr )
+			{
+				osg::Material* material = dynamic_cast<osg::Material*>( item_stateset->getAttribute( osg::StateAttribute::MATERIAL ) );
+				if( material )
+				{
+					material->setColorMode( osg::Material::AMBIENT );
+				}
+
+				osg::StateSet* existing_item_stateset = product_switch_curves->getStateSet();
+				if( existing_item_stateset )
+				{
+					osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
+					if( !merged_product_stateset )
+					{
+						throw IfcPPOutOfMemoryException( __FUNC__ );
+					}
+					merged_product_stateset->merge( *item_stateset );
+					product_switch_curves->setStateSet( merged_product_stateset );
+				}
+				else
+				{
+					product_switch_curves->setStateSet( item_stateset );
+				}
+			}
 		}
 	}
 
@@ -792,12 +856,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ShapeInputData>& product_shape, cons
 		product_switch->setStateSet( m_glass_stateset );
 		GeomUtils::setMaterialAlpha( product_switch, 0.6f );
 	}
-	else if( dynamic_pointer_cast<IfcSite>( ifc_product ) )
-	{
-		std::stringstream group_name;
-		group_name << "#" << product_id << "=IfcSite";
-		product_switch->setName( group_name.str().c_str() );
-	}
+
 	// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
 
 	if( product_switch->getNumChildren() > 0 )

@@ -57,8 +57,8 @@
 #include "SplineConverter.h"
 #include "CurveConverter.h"
 
-CurveConverter::CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc, shared_ptr<PlacementConverter>& plc )
-	: m_geom_settings(gs), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc), m_placement_converter(plc)
+CurveConverter::CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
+	: m_geom_settings(gs), m_unit_converter(uc), m_point_converter(pc), m_spline_converter(sc)
 {
 }
 
@@ -107,7 +107,6 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 	std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 {
 	double length_factor = m_unit_converter->getLengthInMeterFactor();
-	double plane_angle_factor = m_unit_converter->getAngleInRadianFactor();
 
 	//	ENTITY IfcCurve ABSTRACT SUPERTYPE OF	(ONEOF(IfcBoundedCurve, IfcConic, IfcLine, IfcOffsetCurve2D, IfcOffsetCurve3D, IfcPCurve))
 	shared_ptr<IfcBoundedCurve> bounded_curve = dynamic_pointer_cast<IfcBoundedCurve>(ifc_curve);
@@ -168,12 +167,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 		shared_ptr<IfcBSplineCurve> bspline_curve = dynamic_pointer_cast<IfcBSplineCurve>(bounded_curve);
 		if( bspline_curve )
 		{
-			 //const shared_ptr<IfcBSplineCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& loops, std::vector<carve::geom::vector<3> >& segment_start_points
-			std::vector<carve::geom::vector<3> > curve_points;
-			//std::vector<carve::geom::vector<3> > segment_start_points;
 			m_spline_converter->convertBSplineCurve( bspline_curve, target_vec, segment_start_points );
-				
-
 			return;
 		}
 		throw UnhandledRepresentationException(bounded_curve);
@@ -192,12 +186,12 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( conic_placement_select );
 			if( axis2placement2d )
 			{
-				m_placement_converter->convertIfcAxis2Placement2D( axis2placement2d, length_factor, conic_position_matrix );
+				PlacementConverter::convertIfcAxis2Placement2D( axis2placement2d, length_factor, conic_position_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select ) )
 			{
 				shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select );
-				m_placement_converter->convertIfcAxis2Placement3D( axis2placement3d, length_factor, conic_position_matrix );
+				PlacementConverter::convertIfcAxis2Placement3D( axis2placement3d, length_factor, conic_position_matrix );
 			}
 		}
 
@@ -221,6 +215,19 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			{
 				if( findFirstInVector( trim1_vec, trim_par1 ) )
 				{
+					double plane_angle_factor = m_unit_converter->getAngleInRadianFactor();
+					if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
+					{
+						// angular unit definition not found in model, default to radian
+						plane_angle_factor = 1.0;
+
+						if( trim_par1->m_value > M_PI )
+						{
+							// assume degree
+							plane_angle_factor = M_PI / 180.0;
+						}
+					}
+					
 					trim_angle1 = trim_par1->m_value*plane_angle_factor;
 				}
 				else
@@ -241,6 +248,18 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 				shared_ptr<IfcParameterValue> trim_par2;
 				if( findFirstInVector( trim2_vec, trim_par2 ) )
 				{
+					double plane_angle_factor = m_unit_converter->getAngleInRadianFactor();
+					if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
+					{
+						// angular unit definition not found in model, default to radian
+						plane_angle_factor = 1.0;
+
+						if( trim_par2->m_value > M_PI )
+						{
+							// assume degree
+							plane_angle_factor = M_PI / 180.0;
+						}
+					}
 					trim_angle2 = trim_par2->m_value*plane_angle_factor;
 				}
 				else
@@ -303,7 +322,14 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			const double circle_center_x = 0.0;
 			const double circle_center_y = 0.0;
 			std::vector<carve::geom::vector<2> > circle_points;
-			ProfileConverter::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
+			if( circle_radius > 0.0 )
+			{
+				ProfileConverter::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
+			}
+			else
+			{
+				circle_points.push_back( carve::geom::VECTOR( circle_center_x, circle_center_y ) );
+			}
 
 			if( circle_points.size() > 0 )
 			{
@@ -331,10 +357,8 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 			{
 				if( ellipse->m_SemiAxis2 )
 				{
-					double xRadius = ellipse->m_SemiAxis1->m_value*length_factor;
-					double yRadius = ellipse->m_SemiAxis2->m_value*length_factor;
-
-					double radiusMax = std::max(xRadius, yRadius);
+					double x_radius = ellipse->m_SemiAxis1->m_value*length_factor;
+					double y_radius = ellipse->m_SemiAxis2->m_value*length_factor;
 					int num_segments = m_geom_settings->m_num_vertices_per_circle;	// TODO: adapt to model size and complexity
 
 					// todo: implement clipping
@@ -343,7 +367,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 					double angle=0;
 					for(int i = 0; i < num_segments; ++i) 
 					{
-						circle_points.push_back( carve::geom::vector<3>( carve::geom::VECTOR( xRadius * cos(angle), yRadius * sin(angle), 0 ) ) );
+						circle_points.push_back( carve::geom::vector<3>( carve::geom::VECTOR( x_radius * cos( angle ), y_radius * sin( angle ), 0 ) ) );
 						angle += 2.0*M_PI / double(num_segments);
 					}
 

@@ -24,7 +24,6 @@
 
 class UnitConverter;
 class StylesConverter;
-class PlacementConverter;
 class Sweeper;
 class SplineConverter;
 class PointConverter;
@@ -47,10 +46,10 @@ public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter );
 	~RepresentationConverter();
 
-	void convertIfcRepresentation(				const shared_ptr<IfcRepresentation>& representation,	shared_ptr<ShapeInputData>& shape_data );
-	void convertIfcGeometricRepresentationItem(	const shared_ptr<IfcGeometricRepresentationItem>& item,	shared_ptr<ItemData> item_data );
+	void convertIfcRepresentation(				const shared_ptr<IfcRepresentation>& representation,	shared_ptr<ProductShapeInputData>& shape_data );
+	void convertIfcGeometricRepresentationItem(	const shared_ptr<IfcGeometricRepresentationItem>& item,	shared_ptr<ItemShapeInputData> item_data );
 	void convertRepresentationStyle(			const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data );
-	void subtractOpenings(						const shared_ptr<IfcElement>& ifc_element, shared_ptr<ShapeInputData>& product_shape );
+	void subtractOpenings(						const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeInputData>& product_shape );
 
 	bool handleLayerAssignments() { return m_handle_layer_assignments; }
 	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
@@ -58,18 +57,15 @@ public:
 	void setHandleStyledItems( bool handle ) { m_handle_styled_items = handle; }
 	void clearCache();
 	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter );
-	shared_ptr<UnitConverter>&			getUnitConverter()	{ return m_unit_converter;	}
 	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings;	}
 	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter;	}
 	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache;	}
 	shared_ptr<Sweeper>&				getSweeper()		{ return m_sweeper;	}
-	shared_ptr<PlacementConverter>&		getPlacementConverter() { return m_placement_converter; }
 	shared_ptr<StylesConverter>&		getStylesConverter()	{ return m_styles_converter; }
 
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
-	shared_ptr<PlacementConverter>		m_placement_converter;
 	shared_ptr<Sweeper>					m_sweeper;
 	shared_ptr<StylesConverter>			m_styles_converter;
 	shared_ptr<SplineConverter>			m_spline_converter;

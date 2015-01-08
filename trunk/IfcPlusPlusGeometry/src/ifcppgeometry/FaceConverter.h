@@ -46,7 +46,7 @@ public:
 	FaceConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc, shared_ptr<Sweeper>& sw );
 	~FaceConverter();
 
-	void convertIfcFaceList(		const std::vector<shared_ptr<IfcFace> >& faces,		shared_ptr<ItemData> item_data, ShellType st );
+	void convertIfcFaceList(		const std::vector<shared_ptr<IfcFace> >& faces,		shared_ptr<ItemShapeInputData> item_data, ShellType st );
 	void convertIfcSurface(			const shared_ptr<IfcSurface>& surface,				shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy );
 
 	shared_ptr<GeometrySettings>	m_geom_settings;

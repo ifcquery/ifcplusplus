@@ -33,7 +33,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void extrude(	const std::vector<std::vector<carve::geom::vector<2> > >& paths, const carve::geom::vector<3> dir, IfcPPEntity* e, shared_ptr<ItemData>& item_data );
+	void extrude(	const std::vector<std::vector<carve::geom::vector<2> > >& paths, const carve::geom::vector<3> dir, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data );
 
 	/*\brief Extrudes a circle cross section along a path. At turns, the points are placed in the bisecting plane
 	  \param[in] curve_points Path along which the circle is swept
@@ -42,7 +42,7 @@ public:
 	  \param[in] nvc Number of vertices per circle
 	  \param[in] radius_inner If positive value is given, the swept disk becomes a pipe
 	**/
-	void sweepDisk(	const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemData>& item_data, const int nvc, const double radius, const double radius_inner = -1 );
+	void sweepDisk(	const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data, const int nvc, const double radius, const double radius_inner = -1 );
 
 	/*\brief Extrudes a cross section along a path. At turns, the points are placed in the bisecting plane
 	  \param[in] curve_points Path along which the cross section is swept
@@ -50,7 +50,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void sweepArea(	const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* e, shared_ptr<ItemData>& item_data );
+	void sweepArea(	const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data );
 
 	/*\brief Creates a triangulated face
 	  \param[in] Curves as face boundaries. The first input curve is the outer boundary, succeeding curves are inner boundaries

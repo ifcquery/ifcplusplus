@@ -28,12 +28,21 @@ class ConverterOSG : public StatusCallback
 public:
 	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings );
 	~ConverterOSG();
-	static void drawFace(		const carve::mesh::Face<3>* face,					osg::Geode* geode, bool add_color_array = false );
-	static void drawMesh(		const carve::mesh::Mesh<3>* mesh,					osg::Geode* geode, double intermediate_normal_angle = M_PI*0.05, bool add_color_array = false );
-	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set,			osg::Geode* geode, double intermediate_normal_angle = M_PI*0.05, bool add_color_array = false );
+	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false );
+	static void drawMesh(		const carve::mesh::Mesh<3>* mesh,		osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false );
+	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set, osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false );
 	static void drawPolyline(	const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false );
 	static double computeSurfaceAreaOfGroup( const osg::Group* grp );
-	void convertToOSG( shared_ptr<ShapeInputData>& product_shape, const double length_factor );
+	void convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double length_factor );
+	static inline void convertCarveToOsgMatrix( const carve::math::Matrix& matrix_in, osg::Matrix& matrix_out )
+	{
+		matrix_out = osg::Matrix(
+			matrix_in._11, matrix_in._12, matrix_in._13, matrix_in._14,
+			matrix_in._21, matrix_in._22, matrix_in._23, matrix_in._24,
+			matrix_in._31, matrix_in._32, matrix_in._33, matrix_in._34,
+			matrix_in._41, matrix_in._42, matrix_in._43, matrix_in._44
+			);
+	}
 
 	void clearAppearanceCache()
 	{
