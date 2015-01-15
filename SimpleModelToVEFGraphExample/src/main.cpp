@@ -26,13 +26,12 @@ int main(int argc, char *argv[])
 	if( argc > 1 )
 	{
 		std::string arg1 = argv[1];
-		
 		if( arg1.length() > 4 )
 		{
 			std::string file_type = arg1.substr(arg1.find_last_of(".") + 1);
 			std::transform(file_type.begin(), file_type.end(), file_type.begin(), toupper);
 
-			if( file_type.compare( "IFC" ) == 0 || file_type.compare( "STP" ) == 0  )
+			if( file_type.compare( "IFC" ) == 0  )
 			{
 				file_path = arg1.c_str();
 			}
@@ -87,6 +86,7 @@ int main(int argc, char *argv[])
 					// closed edges of the vef graph:
 					std::vector<carve::mesh::Edge<3>* >& vec_closed_edges = mesh->closed_edges;
 
+					// faces:
 					std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
 					for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
 					{

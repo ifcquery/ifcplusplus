@@ -450,11 +450,9 @@ void GeometryConverter::resolveProjectStructure( const shared_ptr<IfcObjectDefin
 void GeometryConverter::convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeInputData>& product_shape )
 {
 	std::vector<shared_ptr<IfcProperty> >& vec_hasProperties = prop_set->m_HasProperties;
-
-	std::vector<shared_ptr<IfcProperty> >::iterator it;
-	for( it = vec_hasProperties.begin(); it != vec_hasProperties.end(); ++it )
+	for( size_t ii = 0; ii < vec_hasProperties.size(); ++ii )
 	{
-		shared_ptr<IfcProperty> prop = ( *it );
+		shared_ptr<IfcProperty> prop = vec_hasProperties[ii];
 
 		shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>( prop );
 		if( simple_property )
@@ -535,9 +533,9 @@ void GeometryConverter::convertIfcProduct( shared_ptr<ProductShapeInputData>& pr
 	// evaluate IFC geometry
 	shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
 	std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
-	for( auto it_representations = vec_representations.begin(); it_representations != vec_representations.end(); ++it_representations )
+	for( size_t i_representations = 0; i_representations < vec_representations.size(); ++i_representations )
 	{
-		shared_ptr<IfcRepresentation> representation = ( *it_representations );
+		const shared_ptr<IfcRepresentation>& representation = vec_representations[i_representations];
 		try
 		{
 			m_representation_converter->convertIfcRepresentation( representation, product_shape );
@@ -563,13 +561,7 @@ void GeometryConverter::convertIfcProduct( shared_ptr<ProductShapeInputData>& pr
 		// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 		std::unordered_set<IfcObjectPlacement*> placement_already_applied;
 		PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
-	}
-
-	std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_shape->m_vec_item_data;
-	for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
-	{
-		shared_ptr<ItemShapeInputData> item_data = product_items[i_item];
-		item_data->applyPosition( product_placement_matrix );
+		product_shape->applyPosition( product_placement_matrix );
 	}
 
 	// handle openings

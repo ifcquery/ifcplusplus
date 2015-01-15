@@ -35,8 +35,8 @@ public:
     ViewerWidget( QWidget* parent = nullptr );
 	~ViewerWidget();
 		
-	QSize minimumSizeHint() const;
-	QSize sizeHint() const;
+	QSize minimumSizeHint() const { return QSize( 100, 100 ); }
+	QSize sizeHint() const { return QSize( 800, 600 ); }
 	virtual void paintEvent( QPaintEvent* event );
 	
 	void setProjection( ViewerProjection p );

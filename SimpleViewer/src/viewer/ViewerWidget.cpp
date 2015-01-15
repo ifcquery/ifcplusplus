@@ -57,8 +57,7 @@ ViewerWidget::ViewerWidget( QWidget* parent) : QWidget(parent)
     traits->stencil = ds->getMinimumNumStencilBits();
     traits->sampleBuffers = ds->getMultiSamples();
     traits->samples = ds->getNumMultiSamples();
-
-    osgQt::GraphicsWindowQt* gw = new osgQt::GraphicsWindowQt(traits.get());
+	osg::ref_ptr<osgQt::GraphicsWindowQt> gw = new osgQt::GraphicsWindowQt( traits.get() );
 
     m_main_view = new osgViewer::View();
 	m_viewer.addView( m_main_view );
@@ -96,18 +95,7 @@ void ViewerWidget::paintEvent( QPaintEvent* event )
 #else
 	m_viewer.frame();
 #endif
-
 }
-
-QSize ViewerWidget::minimumSizeHint() const
-{
-    return QSize( 100, 100 );
-}
-
-QSize ViewerWidget::sizeHint() const
-{
-	return QSize( 800, 600 );
-}	
 
 void ViewerWidget::setProjection( ViewerProjection p )
 {
