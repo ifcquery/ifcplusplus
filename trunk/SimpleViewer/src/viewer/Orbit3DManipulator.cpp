@@ -96,14 +96,7 @@ void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Qu
 	// TODO: implement
 	//m_lookat = eye + rotation * osg::Vec3d( 0., 0., -m_distance );
 	//m_rotation = rotation;
-
-	// fix current rotation
-	if( getVerticalAxisFixed() )
-	{
-		//fixVerticalAxis( m_lookat, m_rotation, true );
-	}
 }
-
 
 // doc in parent
 void Orbit3DManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& rotation ) const
@@ -113,7 +106,6 @@ void Orbit3DManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& rotation
 
 }
 
-
 // doc in parent
 void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Vec3d& center, const osg::Vec3d& up )
 {
@@ -121,7 +113,6 @@ void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Ve
 	m_lookat.set( center );
 	m_up.set( up );
 }
-
 
 // doc in parent
 void Orbit3DManipulator::getTransformation( osg::Vec3d& eye, osg::Vec3d& center, osg::Vec3d& up ) const
@@ -159,7 +150,6 @@ void Orbit3DManipulator::computeRayPointer( const osgGA::GUIEventAdapter& ea, os
 	{
 		m_fovy = fovy;
 	}
-	
 }
 
 
@@ -327,25 +317,6 @@ bool Orbit3DManipulator::handleMouseRelease( const osgGA::GUIEventAdapter& ea, o
 			return true;
 		}
 	}
-
-	// if movement is very small, it is probably unintended -> handle as no drag
-	/*int dx_screen = 0;
-	int dy_screen = 0;
-	double time_since_pointer_push = DBL_MAX;
-	if( m_ga_pointer_push.valid() )// && _ga_t0.valid() )
-	{
-		dx_screen = m_ga_pointer_push->getX() - ea.getX();// _ga_t0->getX();
-		dy_screen = m_ga_pointer_push->getY() - ea.getX();//_ga_t0->getY();
-		time_since_pointer_push = (ea.getTime() - m_ga_pointer_push->getTime());
-	}
-	int mouse_movement_length2 = dx_screen*dx_screen + dy_screen*dy_screen;
-	
-	if( time_since_pointer_push < 0.05 )//if( mouse_movement_length2 < 4 ) // TODO: check also time (if time is short, drag is probably not intended)
-	{
-
-	}
-	*/
-	
 	
 	if( !m_pointer_push_drag )
 	{
@@ -362,9 +333,7 @@ bool Orbit3DManipulator::handleMouseRelease( const osgGA::GUIEventAdapter& ea, o
 			
 		}
 	}
-	//}
 	m_pointer_push_drag = false;
-
 
 	flushMouseEventStack();
 	addMouseEvent( ea );
@@ -607,7 +576,6 @@ bool Orbit3DManipulator::performMovement( const osgGA::GUIEventAdapter& ea, osgG
 		return false;
 	}
 
-
 	// call appropriate methods
 	int buttonMask = _ga_t1->getButtonMask();
 	if( buttonMask == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON )
@@ -675,12 +643,12 @@ void Orbit3DManipulator::rotateCamera( float dx, float dy )
 /** Moves the camera such that the model remains under the cursor.*/
 void Orbit3DManipulator::panCamera( const float dx, const float dy, const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
-	osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
+	osgViewer::View* view = dynamic_cast<osgViewer::View*>( &aa );
 	if( !view )
 	{
 		return;
 	}
-	
+
 #if 0 
 	osg::Matrix matrix;
 	matrix.getLookAt( m_eye, m_lookat, m_up );
@@ -691,20 +659,18 @@ void Orbit3DManipulator::panCamera( const float dx, const float dy, const osgGA:
 	return;
 #endif
 
-	
+
 	//osg::Vec3d intersect_point_screen = screen_model.preMult( m_pointer_intersection );
 	osg::Vec3d p1 = m_screen_model.preMult( osg::Vec3d( _ga_t0->getXnormalized(), _ga_t0->getYnormalized(), 0 ) );
 	osg::Vec3d p2 = m_screen_model.preMult( osg::Vec3d( _ga_t1->getXnormalized(), _ga_t1->getYnormalized(), 0 ) );
 	osg::Vec3d n = p2 - p1;
 
-	double length = (m_pointer_intersection - m_eye).length();
+	double length = ( m_pointer_intersection - m_eye ).length();
 	n *= length*1.25;
 
 	m_eye.set( m_eye + n );
 	m_lookat.set( m_lookat + n );
 	return;
-
-
 }
 
 
@@ -720,36 +686,7 @@ void Orbit3DManipulator::zoomCamera( const float dy )
 	zoom_direction *= dy*100;
 	m_eye += zoom_direction;
 	m_lookat += zoom_direction;
-
-
-#if 0
-	if( m_distance*scale > minDist )
-	{
-		// regular zoom
-		m_distance *= scale;
-	}
-	else
-	{
-		if( pushForwardIfNeeded )
-		{
-			// push the camera forward
-			float scale = -m_distance;
-			osg::Matrixd rotation_matrix( m_rotation );
-			osg::Vec3d dv = (osg::Vec3d( 0.0f, 0.0f, -1.0f ) * rotation_matrix) * (dy * scale);
-			m_center += dv;
-		}
-		else
-		{
-			// set distance on its minimum value
-			m_distance = minDist;
-		}
-	}
-#endif
 }
-
-
-
-
 
 ////////////////////////////////////////////////////// animation //////////////////////////////////////////////////////////////////
 void Orbit3DManipulator::applyAnimationStep( const double currentProgress, const double prevProgress )
@@ -762,7 +699,6 @@ void Orbit3DManipulator::applyAnimationStep( const double currentProgress, const
 	m_lookat.set( new_lookat );
 	m_up.set( new_up );
 }
-
 
 Orbit3DManipulator::OrbitAnimationData::OrbitAnimationData() : AnimationData()
 {
@@ -869,12 +805,10 @@ void Orbit3DManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs, do
 		bs_center._v[2] = 0.5;
 	}
 
-
 	m_rotate_center.set( bs.center() );
 
 	osg::Vec3d eye_lookat(m_eye - m_lookat);
 	eye_lookat.normalize();
-
 
 	// define animation path
 	if( m_animation_data )
@@ -883,9 +817,6 @@ void Orbit3DManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs, do
 
 		double d_eye = bs_radius/sin( osg::DegreesToRadians(m_fovy*0.5) );
 		osg::Vec3d target_eye( target_lookat + eye_lookat*d_eye );
-
-		//target_lookat.set( 0, 0, 0 );
-		//target_eye.set( 5, 0, 5 );
 
 		m_animation_data->m_start_eye.set( m_eye );
 		m_animation_data->m_start_lookat.set( m_lookat );

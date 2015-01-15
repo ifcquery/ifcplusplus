@@ -29,7 +29,6 @@ public:
 	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings );
 	~ConverterOSG();
 	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false );
-	static void drawMesh(		const carve::mesh::Mesh<3>* mesh,		osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false );
 	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set, osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false );
 	static void drawPolyline(	const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false );
 	static double computeSurfaceAreaOfGroup( const osg::Group* grp );
@@ -81,7 +80,7 @@ public:
 		ScopedLock lock( m_writelock_appearance_cache );
 	#endif
 
-		for( int i=0; i<m_vec_existing_statesets.size(); ++i )
+		for( size_t i=0; i<m_vec_existing_statesets.size(); ++i )
 		{
 			const osg::ref_ptr<osg::StateSet> stateset_existing = m_vec_existing_statesets[i];
 
@@ -125,6 +124,7 @@ public:
 			if( transparent_bin != set_transparent ) break;
 
 			// if we get here, appearance is same as existing state set
+			// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
 			return stateset_existing;
 		}
 
@@ -133,6 +133,7 @@ public:
 		osg::Vec4f specularColor(	color_specular_r,	color_specular_g,	color_specular_b,	transparency );
 
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
+		if( !mat ){ throw IfcPPOutOfMemoryException(); }
 		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
 		mat->setDiffuse( osg::Material::FRONT_AND_BACK, diffuseColor );
 		mat->setSpecular( osg::Material::FRONT_AND_BACK, specularColor );
@@ -140,6 +141,7 @@ public:
 		mat->setColorMode( osg::Material::SPECULAR );
 
 		osg::StateSet* stateset = new osg::StateSet();
+		if( !stateset ){ throw IfcPPOutOfMemoryException(); }
 		stateset->setAttribute( mat, osg::StateAttribute::ON );
 	
 		if( appearence->m_set_transparent )

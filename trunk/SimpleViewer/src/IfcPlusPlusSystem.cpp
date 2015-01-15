@@ -211,7 +211,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 		// deselect
 		if( grp )
 		{
- 			std::map<int, shared_ptr<selectedEntity> >::iterator it_selected = m_map_selected.find( id );
+ 			auto it_selected = m_map_selected.find( id );
 			if( it_selected != m_map_selected.end() )
 			{
 				shared_ptr<selectedEntity> selected_entity = it_selected->second;
@@ -243,7 +243,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 
 void IfcPlusPlusSystem::clearSelection()
 {
-	for( std::map<int, shared_ptr<selectedEntity> >::iterator it = m_map_selected.begin(); it != m_map_selected.end(); ++it )
+	for( auto it = m_map_selected.begin(); it != m_map_selected.end(); ++it )
 	{
 		shared_ptr<selectedEntity>& selected_entity = (*it).second;
 		shared_ptr<IfcPPEntity> entity = selected_entity->entity;

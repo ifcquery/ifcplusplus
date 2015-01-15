@@ -142,14 +142,17 @@ public:
 		}
 	}
 
-	void applyPosition( const carve::math::Matrix& mat )
+	void applyPosition( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
 	{
-		if( isMatrixIdentity( mat ) )
+		if( !matrix_identity_checked )
 		{
-			return;
+			if( isMatrixIdentity( mat ) )
+			{
+				return;
+			}
 		}
 
-		for( int ii = 0; ii < m_vertex_points.size(); ++ii )
+		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
 		{
 			shared_ptr<carve::input::VertexData>& vertex_data = m_vertex_points[ii];
 			for( size_t j = 0; j<vertex_data->points.size(); ++j )
@@ -159,7 +162,7 @@ public:
 			}
 		}
 
-		for( int polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
+		for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
 		{
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
 			for( size_t j = 0; j<polyline_data->points.size(); ++j )
@@ -169,9 +172,9 @@ public:
 			}
 		}
 
-		for( auto it_meshsets = m_meshsets_open.begin(); it_meshsets != m_meshsets_open.end(); ++it_meshsets )
+		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
 
 			for( size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
 			{
@@ -184,9 +187,9 @@ public:
 			}
 		}
 
-		for( auto it_meshsets = m_meshsets.begin(); it_meshsets != m_meshsets.end(); ++it_meshsets )
+		for( size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
+			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets[i_meshsets];
 
 			for( size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
 			{
@@ -273,6 +276,18 @@ public:
 	void addAppearance( shared_ptr<AppearanceData>& appearance );
 	void clearAppearanceData();
 	void clearAll();
+
+	void applyPosition( const carve::math::Matrix& matrix )
+	{
+		if( isMatrixIdentity( matrix ) )
+		{
+			return;
+		}
+		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
+		{
+			m_vec_item_data[i_item]->applyPosition( matrix, true );
+		}
+	}
 
 	weak_ptr<IfcProduct> m_ifc_product;
 	weak_ptr<IfcRepresentation> m_representation;

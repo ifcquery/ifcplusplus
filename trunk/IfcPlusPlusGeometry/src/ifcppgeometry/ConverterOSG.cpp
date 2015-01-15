@@ -67,14 +67,17 @@ void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode
 	}
 
 	carve::geom::vector<3> * vertex_vec;
-	osg::Vec3Array* vertices = new osg::Vec3Array();
-	osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::POLYGON, 0 );
+	osg::Vec3Array* vertices = new osg::Vec3Array( num_vertices );
+	if( !vertices ) { throw IfcPPOutOfMemoryException(); }
+	osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::POLYGON, num_vertices );
+	if( !triangles ) { throw IfcPPOutOfMemoryException(); }
 
 	for( size_t i = 0; i < num_vertices; ++i )
 	{
 		vertex_vec = &face_vertices[num_vertices-i-1];
-		vertices->push_back(osg::Vec3f(vertex_vec->x, vertex_vec->y, vertex_vec->z));
-		triangles->push_back( i );
+		//vertices->push_back(osg::Vec3f(vertex_vec->x, vertex_vec->y, vertex_vec->z));
+		( *vertices )[i].set( vertex_vec->x, vertex_vec->y, vertex_vec->z );
+		( *triangles )[i] = i;// ->push_back( i );
 	}
 
 	osg::Vec3f poly_normal = GeomUtils::computePolygonNormal( vertices );
@@ -136,141 +139,152 @@ void ConverterOSG::drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode
 
 //#define DEBUG_DRAW_NORMALS
 
-void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode, double crease_angle, bool add_color_array )
+void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geode* geode, double crease_angle, bool add_color_array )
 {
+	if( !meshset )
+	{
+		return;
+	}
+
 	osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
+	if( !vertices_tri ) { throw IfcPPOutOfMemoryException(); }
 	osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
+	if( !normals_tri ) { throw IfcPPOutOfMemoryException(); }
 
 	osg::ref_ptr<osg::Vec3Array> vertices_quad = new osg::Vec3Array();
+	if( !vertices_quad ) { throw IfcPPOutOfMemoryException(); }
 	osg::ref_ptr<osg::Vec3Array> normals_quad = new osg::Vec3Array();
-	
+	if( !normals_quad ) { throw IfcPPOutOfMemoryException(); }
+
 	std::map<carve::mesh::Vertex<3>*, std::vector<carve::mesh::Face<3>* > > map_vertex_all_faces;
 	std::map<carve::mesh::Vertex<3>*, std::vector<carve::mesh::Face<3>* > >::iterator it_vertex_normal;
 
-	const size_t num_faces = mesh->faces.size();
-	for( size_t i = 0; i != num_faces; ++i )
+
+	for( size_t i = 0; i < meshset->meshes.size(); ++i )
 	{
-		carve::mesh::Face<3>* face = mesh->faces[i];
-		const int n_vertices = face->nVertices();
-		if( n_vertices > 4 )
-		{
-			drawFace(face, geode );
-			continue;
-		}
-		const carve::geom::vector<3> face_normal = face->plane.N;
-		carve::geom::vector<3> intermediate_normal = face_normal;
+		const carve::mesh::Mesh<3>* mesh = meshset->meshes[i];
 
-		if( crease_angle > 0 )
+		const size_t num_faces = mesh->faces.size();
+		for( size_t i = 0; i != num_faces; ++i )
 		{
-			carve::mesh::Edge<3>* e = face->edge;
-			for( size_t jj = 0; jj < n_vertices; ++jj )
+			carve::mesh::Face<3>* face = mesh->faces[i];
+			const size_t n_vertices = face->nVertices();
+			if( n_vertices > 4 )
 			{
-				carve::mesh::Vertex<3>* vertex = e->vert;
-				const carve::geom::vector<3>& vertex_v = vertex->v;
+				drawFace( face, geode );
+				continue;
+			}
+			const carve::geom::vector<3> face_normal = face->plane.N;
+			carve::geom::vector<3> intermediate_normal = face_normal;
 
-				it_vertex_normal = map_vertex_all_faces.find( vertex );
-				if( it_vertex_normal == map_vertex_all_faces.end() )
+			if( crease_angle > 0 )
+			{
+				carve::mesh::Edge<3>* e = face->edge;
+				for( size_t jj = 0; jj < n_vertices; ++jj )
 				{
-					std::vector<carve::mesh::Face<3>*>& vec_faces = map_vertex_all_faces.insert( std::make_pair( vertex, std::vector<carve::mesh::Face<3>*>() ) ).first->second;
-					vec_faces.push_back( face );
-					// collect all faces at vertex
-					//              | ^
-					//              | |
-					//  f1   e->rev | | e    face
-					//              v |
-					// <---e1-------   <---------------
-					//------------->   --------------->
-					//              |  ^
-					//              |  |
-					//              v  |
+					carve::mesh::Vertex<3>* vertex = e->vert;
+					const carve::geom::vector<3>& vertex_v = vertex->v;
 
-
-					if( e->rev )
+					it_vertex_normal = map_vertex_all_faces.find( vertex );
+					if( it_vertex_normal == map_vertex_all_faces.end() )
 					{
-						if( e->rev->next )
+						std::vector<carve::mesh::Face<3>*>& vec_faces = map_vertex_all_faces.insert( std::make_pair( vertex, std::vector<carve::mesh::Face<3>*>() ) ).first->second;
+						vec_faces.push_back( face );
+						// collect all faces at vertex
+						//              | ^
+						//              | |
+						//  f1   e->rev | | e    face
+						//              v |
+						// <---e1-------   <---------------
+						//------------->   --------------->
+						//              |  ^
+						//              |  |
+						//              v  |
+
+						if( e->rev )
 						{
-
-							carve::mesh::Edge<3>* e1 = e->rev->next;
-							carve::mesh::Face<3>* f1 = e1->face;
-							vec_faces.push_back( f1 );
-
-							for( size_t i_edge = 0; i_edge < num_faces; ++i_edge )
+							if( e->rev->next )
 							{
-								if( !e1->rev )
-								{
-									// it's an open mesh
-									break;
-								}
-
-								e1 = e1->rev->next;
-								if( !e1 )
-								{
-									break;
-								}
-								f1 = e1->face;
-
-
-#ifdef _DEBUG
-								if( e1->vert != vertex )
-								{
-									std::cout << "e1->vert != vertex" << std::endl;
-								}
-
-								if( i_edge > 50 )
-								{
-									std::cout << "i_edge > 50" << std::endl;
-								}
-#endif
-								if( f1 == face )
-								{
-									break;
-								}
+								carve::mesh::Edge<3>* e1 = e->rev->next;
+								carve::mesh::Face<3>* f1 = e1->face;
 								vec_faces.push_back( f1 );
+
+								for( size_t i_edge = 0; i_edge < num_faces; ++i_edge )
+								{
+									if( !e1->rev )
+									{
+										// it's an open mesh
+										break;
+									}
+
+									e1 = e1->rev->next;
+									if( !e1 )
+									{
+										break;
+									}
+									f1 = e1->face;
+#ifdef _DEBUG
+									if( e1->vert != vertex )
+									{
+										std::cout << "e1->vert != vertex" << std::endl;
+									}
+
+									if( i_edge > 50 )
+									{
+										std::cout << "i_edge > 50" << std::endl;
+									}
+#endif
+									if( f1 == face )
+									{
+										break;
+									}
+									vec_faces.push_back( f1 );
+								}
 							}
 						}
+						it_vertex_normal = map_vertex_all_faces.find( vertex );
 					}
-					it_vertex_normal = map_vertex_all_faces.find( vertex );
-				}
-				else
-				{
-					int wait = 0;
-				}
-
-				std::vector<carve::mesh::Face<3>*>& vec_faces = it_vertex_normal->second;
-
-				// check if angle between adjacent faces is smaller than intermediate_normal_angle
-				std::sort( vec_faces.begin(), vec_faces.end() );
-				for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
-				{
-					carve::mesh::Face<3>* f = vec_faces[i_face];
-
-					// TODO: if face f1 is much bigger than the adjacent face f2, use f1->plane.N as normals for all its vertices
-					carve::geom::vector<3> f1_normal = f->plane.N;
-					const double cos_angle = dot( f1_normal, face_normal );
-					const double deviation = std::abs( cos_angle - 1.0 );
-					if( deviation > 0.00001 && deviation < crease_angle )
+					else
 					{
-						intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
-						intermediate_normal.normalize();
+						int breakpoint = 0;
 					}
-				}
+
+					std::vector<carve::mesh::Face<3>*>& vec_faces = it_vertex_normal->second;
+
+					// check if angle between adjacent faces is smaller than intermediate_normal_angle
+					std::sort( vec_faces.begin(), vec_faces.end() );
+					for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
+					{
+						carve::mesh::Face<3>* f = vec_faces[i_face];
+
+						// TODO: if face f1 is much bigger than the adjacent face f2, use f1->plane.N as normals for all its vertices
+						carve::geom::vector<3> f1_normal = f->plane.N;
+						const double cos_angle = dot( f1_normal, face_normal );
+						const double deviation = std::abs( cos_angle - 1.0 );
+						if( deviation > 0.00001 && deviation < crease_angle )
+						{
+							intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
+							intermediate_normal.normalize();
+						}
+					}
 
 
 #ifdef __GNUC__ // for some reason this is not working under linux...
-				intermediate_normal = face_normal;
+					intermediate_normal = face_normal;
 #endif
 
-				if( face->n_edges == 3 )
-				{
-					vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
-					normals_tri->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
+					if( face->n_edges == 3 )
+					{
+						vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+						normals_tri->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
+					}
+					else if( face->n_edges == 4 )
+					{
+						vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+						normals_quad->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
+					}
+					e = e->next;
 				}
-				else if( face->n_edges == 4 )
-				{
-					vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
-					normals_quad->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
-				}
-				e = e->next;
 			}
 		}
 	}
@@ -278,6 +292,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 	if( vertices_tri->size() > 0 )
 	{
 		osg::Geometry* geometry = new osg::Geometry();
+		if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 		geometry->setVertexArray( vertices_tri );
 
 		geometry->setNormalArray( normals_tri );
@@ -286,6 +301,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 		if( add_color_array )
 		{
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
+			if( !colors ) { throw IfcPPOutOfMemoryException(); }
 			colors->resize( vertices_tri->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 
 			geometry->setColorArray( colors );
@@ -293,30 +309,31 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 		}
 
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size() ) );
+		if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 		geode->addDrawable( geometry );
 
 #ifdef DEBUG_DRAW_NORMALS
-	osg::Vec3Array* vertices_normals = new osg::Vec3Array();
-	for( size_t i = 0; i < vertices_tri->size(); ++i )
-	{
-		osg::Vec3f& vertex_vec = vertices_tri->at( i );// [i];
-		osg::Vec3f& normal_vec = normals_tri->at( i );
-		vertices_normals->push_back(osg::Vec3f(vertex_vec.x(), vertex_vec.y(), vertex_vec.z()));
-		vertices_normals->push_back(osg::Vec3f(vertex_vec.x(), vertex_vec.y(), vertex_vec.z()) + normal_vec );
-	}
+		osg::Vec3Array* vertices_normals = new osg::Vec3Array();
+		for( size_t i = 0; i < vertices_tri->size(); ++i )
+		{
+			osg::Vec3f& vertex_vec = vertices_tri->at( i );// [i];
+			osg::Vec3f& normal_vec = normals_tri->at( i );
+			vertices_normals->push_back( osg::Vec3f( vertex_vec.x(), vertex_vec.y(), vertex_vec.z() ) );
+			vertices_normals->push_back( osg::Vec3f( vertex_vec.x(), vertex_vec.y(), vertex_vec.z() ) + normal_vec );
+		}
 
-	osg::Vec4Array* colors_normals = new osg::Vec4Array();
-	colors_normals->resize( vertices_normals->size(), osg::Vec4f( 0.4f, 0.7f, 0.4f, 1.f ) );
+		osg::Vec4Array* colors_normals = new osg::Vec4Array();
+		colors_normals->resize( vertices_normals->size(), osg::Vec4f( 0.4f, 0.7f, 0.4f, 1.f ) );
 
-	osg::Geometry* geometry_normals = new osg::Geometry();
-	geometry_normals->setVertexArray( vertices_normals );
-	geometry_normals->setColorArray( colors_normals );
-	geometry_normals->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
-	geometry_normals->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+		osg::Geometry* geometry_normals = new osg::Geometry();
+		geometry_normals->setVertexArray( vertices_normals );
+		geometry_normals->setColorArray( colors_normals );
+		geometry_normals->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+		geometry_normals->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
-	geometry_normals->setNormalBinding( osg::Geometry::BIND_OFF );
-	geometry_normals->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES,0,vertices_normals->size()));
-	geode->addDrawable(geometry_normals);
+		geometry_normals->setNormalBinding( osg::Geometry::BIND_OFF );
+		geometry_normals->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices_normals->size() ) );
+		geode->addDrawable( geometry_normals );
 #endif
 	}
 
@@ -324,6 +341,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 	{
 		//drawQuads( vertices_quad, normals_quad, add_color_array, geode );
 		osg::Geometry* geometry = new osg::Geometry();
+		if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 		geometry->setVertexArray( vertices_quad );
 
 		geometry->setNormalArray( normals_quad );
@@ -332,6 +350,7 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 		if( add_color_array )
 		{
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
+			if( !colors ) { throw IfcPPOutOfMemoryException(); }
 			colors->resize( vertices_quad->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 
 			geometry->setColorArray( colors );
@@ -339,26 +358,15 @@ void ConverterOSG::drawMesh( const carve::mesh::Mesh<3>* mesh, osg::Geode* geode
 		}
 
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, vertices_quad->size() ) );
+		if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 		geode->addDrawable( geometry );
-	}
-}
-
-void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geode* geode, double crease_angle, bool add_color_array )
-{
-	if( !meshset )
-	{
-		return;
-	}
-
-	for( size_t i = 0; i < meshset->meshes.size(); ++i )
-	{
-		drawMesh( meshset->meshes[i], geode, crease_angle, add_color_array );
 	}
 }
 
 void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array )
 {
 	osg::Vec3Array* vertices = new osg::Vec3Array();
+	if( !vertices ) { throw IfcPPOutOfMemoryException(); }
 	carve::line::PolylineSet* polyline_set = polyline_data->create(carve::input::opts());
 
 	if( polyline_set->vertices.size() < 2 )
@@ -390,13 +398,15 @@ void ConverterOSG::drawPolyline( const carve::input::PolylineSetData* polyline_d
 	}
 
 	osg::Geometry* geometry = new osg::Geometry();
+	if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 	geometry->setVertexArray( vertices );
 	geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, vertices->size() ) );
 
 	if( add_color_array )
 	{
-		osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-		colors->resize( vertices->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
+		osg::Vec4f color( 0.6f, 0.6f, 0.6f, 0.1f );
+		osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array( vertices->size(), &color );
+		if( !colors ) { throw IfcPPOutOfMemoryException(); }
 
 		geometry->setColorArray( colors );
 		geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
@@ -413,8 +423,8 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 	}
 
 	double surface_area = 0.0;
-	int num_children = grp->getNumChildren();
-	for( int i=0; i<num_children; ++i )
+	unsigned int num_children = grp->getNumChildren();
+	for( unsigned int i = 0; i<num_children; ++i )
 	{
 		const osg::Node* node = grp->getChild(i);
 		const osg::Group* child_group = dynamic_cast<const osg::Group*>(node);
@@ -454,7 +464,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 				{
 					const osg::PrimitiveSet* p_set = (*it_primitives);
 
-					const int num_elements = p_set->getNumIndices();
+					const unsigned int num_elements = p_set->getNumIndices();
 					if( num_elements < 3 )
 					{
 #ifdef _DEBUG
@@ -465,7 +475,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 
 					if( p_set->getMode() == osg::PrimitiveSet::QUADS )
 					{
-						for( int k=0; k<num_elements-3; k+=4 )
+						for( unsigned int k = 0; k<num_elements - 3; k += 4 )
 						{
 							const osg::Vec3& v0 = vertices_float->at( p_set->index(k) );
 							const osg::Vec3& v1 = vertices_float->at( p_set->index(k+1) );
@@ -503,7 +513,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 					}
 					else if( p_set->getMode() == osg::PrimitiveSet::TRIANGLES )
 					{
-						for( int k=0; k<num_elements-2; k+=3 )
+						for( unsigned int k = 0; k<num_elements - 2; k += 3 )
 						{
 							const osg::Vec3& v0 = vertices_float->at( p_set->index(k) );
 							const osg::Vec3& v1 = vertices_float->at( p_set->index(k+1) );
@@ -518,7 +528,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 					}
 					else if( p_set->getMode() == osg::PrimitiveSet::TRIANGLE_STRIP )
 					{
-						for( int k=0; k<num_elements-3; ++k )
+						for( unsigned int k = 0; k<num_elements - 3; ++k )
 						{
 							const osg::Vec3& v0 = vertices_float->at( p_set->index(k) );
 							const osg::Vec3& v1 = vertices_float->at( p_set->index(k+1) );
@@ -534,7 +544,7 @@ double ConverterOSG::computeSurfaceAreaOfGroup( const osg::Group* grp )
 					else if( p_set->getMode() == osg::PrimitiveSet::TRIANGLE_FAN )
 					{
 						const osg::Vec3& v0 = vertices_float->at( p_set->index(0) );
-						for( int k=0; k<num_elements-2; ++k )
+						for( unsigned int k = 0; k<num_elements - 2; ++k )
 						{
 							const osg::Vec3& v1 = vertices_float->at( p_set->index(k+1) );
 							const osg::Vec3& v2 = vertices_float->at( p_set->index(k+2) );
@@ -592,10 +602,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 		osg::ref_ptr<osg::Group> item_group = new osg::Group();
 		osg::ref_ptr<osg::Group> item_group_curves = new osg::Group();
 
-		if( !item_group || !item_group_curves )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
+		if( !item_group || !item_group_curves ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 
 		// create shape for open shells
 		for( size_t ii = 0; ii < item_shape->m_meshsets_open.size(); ++ii )
@@ -603,10 +610,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets_open[ii];
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			if( !geode )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
+			if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 			drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
 
 			// disable back face culling for open meshes
@@ -620,10 +624,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets[ii];
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
-			if( !geode_result )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
+			if( !geode_result ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 			drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
 			item_group->addChild( geode_result );
 		}
@@ -635,10 +636,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 			if( pointset_data )
 			{
 				osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-				if( !geode )
-				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
-				}
+				if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 
 				osg::Vec3Array* vertices = new osg::Vec3Array();
 				for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
@@ -664,10 +662,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 		{
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = item_shape->m_polylines[ii];
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			if( !geode )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
+			if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 			geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 			drawPolyline( polyline_data.get(), geode );
 			item_group_curves->addChild( geode );
@@ -727,13 +722,10 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 						osg::StateSet* existing_item_stateset = item_group->getStateSet();
 						if( existing_item_stateset )
 						{
-							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-							if( !merged_product_stateset )
+							if( existing_item_stateset != item_stateset )
 							{
-								throw IfcPPOutOfMemoryException( __FUNC__ );
+								existing_item_stateset->merge( *item_stateset );
 							}
-							merged_product_stateset->merge( *item_stateset );
-							item_group->setStateSet( merged_product_stateset );
 						}
 						else
 						{
@@ -755,13 +747,10 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 						osg::StateSet* existing_item_stateset = item_group_curves->getStateSet();
 						if( existing_item_stateset )
 						{
-							osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-							if( !merged_product_stateset )
+							if( existing_item_stateset != item_stateset )
 							{
-								throw IfcPPOutOfMemoryException( __FUNC__ );
+								existing_item_stateset->merge( *item_stateset );
 							}
-							merged_product_stateset->merge( *item_stateset );
-							item_group_curves->setStateSet( merged_product_stateset );
 						}
 						else
 						{
@@ -801,13 +790,10 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 				osg::StateSet* existing_item_stateset = product_switch->getStateSet();
 				if( existing_item_stateset )
 				{
-					osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-					if( !merged_product_stateset )
+					if( existing_item_stateset != item_stateset )
 					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
+						existing_item_stateset->merge( *item_stateset );
 					}
-					merged_product_stateset->merge( *item_stateset );
-					product_switch->setStateSet( merged_product_stateset );
 				}
 				else
 				{
@@ -829,13 +815,10 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 				osg::StateSet* existing_item_stateset = product_switch_curves->getStateSet();
 				if( existing_item_stateset )
 				{
-					osg::StateSet* merged_product_stateset = new osg::StateSet( *existing_item_stateset );
-					if( !merged_product_stateset )
+					if( existing_item_stateset != item_stateset )
 					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
+						existing_item_stateset->merge( *item_stateset );
 					}
-					merged_product_stateset->merge( *item_stateset );
-					product_switch_curves->setStateSet( merged_product_stateset );
 				}
 				else
 				{

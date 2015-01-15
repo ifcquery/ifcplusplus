@@ -221,20 +221,6 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 			input_data->m_vec_item_data.push_back( geom_item_data );
 
-			if( m_handle_styled_items )
-			{
-				std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
-				convertRepresentationStyle( representation_item, vec_appearance_data );
-
-				for( size_t jj = 0; jj < vec_appearance_data.size(); ++jj )
-				{
-					shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
-					if( data )
-					{
-						geom_item_data->m_vec_item_appearances.push_back( data );
-					}
-				}
-			}
 			try
 			{
 				convertIfcGeometricRepresentationItem( geom_item, geom_item_data );
@@ -342,10 +328,7 @@ void RepresentationConverter::convertIfcRepresentation( const shared_ptr<IfcRepr
 			}
 
 			carve::math::Matrix mapped_pos( map_matrix_target*map_matrix_origin );
-			for( size_t i_item = 0; i_item < mapped_input_data->m_vec_item_data.size(); ++i_item )
-			{
-				mapped_input_data->m_vec_item_data[i_item]->applyPosition( mapped_pos );
-			}
+			mapped_input_data->applyPosition( mapped_pos );
 			input_data->addInputData( mapped_input_data );
 
 			continue;
@@ -524,21 +507,17 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 	//	IfcCurve, IfcDefinedSymbol, IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, IfcFillAreaStyleTileSymbolWithStyle,
 	//	IfcGeometricSet, IfcHalfSpaceSolid, IfcLightSource, IfcOneDirectionRepeatFactor, IfcPlacement, IfcPlanarExtent, IfcPoint, IfcSectionedSpine,
 	//	IfcShellBasedSurfaceModel, IfcSolidModel, IfcSurface, IfcTextLiteral, IfcTextureCoordinate, IfcTextureVertex, IfcVector))
-
-	if( geom_item->m_StyledByItem_inverse.size() > 0 )
+	if( m_handle_styled_items )
 	{
-		if( m_handle_styled_items )
-		{
-			std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
-			convertRepresentationStyle( geom_item, vec_appearance_data );
+		std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
+		convertRepresentationStyle( geom_item, vec_appearance_data );
 
-			for( size_t jj = 0; jj < vec_appearance_data.size(); ++jj )
+		for( size_t jj = 0; jj < vec_appearance_data.size(); ++jj )
+		{
+			shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
+			if( data )
 			{
-				shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
-				if( data )
-				{
-					item_data->m_vec_item_appearances.push_back( data );
-				}
+				item_data->m_vec_item_appearances.push_back( data );
 			}
 		}
 	}
@@ -936,10 +915,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 			}
 
-			for( size_t i_item = 0; i_item < opening_representation_data->m_vec_item_data.size(); ++i_item )
-			{
-				opening_representation_data->m_vec_item_data[i_item]->applyPosition( opening_placement_matrix );
-			}
+			opening_representation_data->applyPosition( opening_placement_matrix );
 			vec_opening_data.push_back( opening_representation_data );
 		}
 	}
