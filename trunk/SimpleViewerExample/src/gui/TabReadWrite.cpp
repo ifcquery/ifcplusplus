@@ -12,8 +12,10 @@
 */
 
 #pragma warning( disable: 4996 )
-#include <QtGui/qevent.h>
-#include <QtCore/QSettings>
+#include <qevent.h>
+#include <QSettings>
+#include <QFileDialog>
+#include <QFile>
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPModel.h>
@@ -367,7 +369,12 @@ void TabReadWrite::slotClearRecentIfcFiles()
 void TabReadWrite::slotAddOtherIfcFileClicked()
 {
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
-	QString default_dir = settings.value("defaultDir").toString();
+	QStringList keys = settings.allKeys();
+	QString default_dir = "";
+	if( keys.contains( "recentFiles" ) )
+	{
+		default_dir = settings.value( "defaultDir" ).toString();
+	}
 	QString selected_file = QFileDialog::getOpenFileName(this, "Choose IFC file", default_dir );
 	
 	if( !selected_file.isEmpty() )

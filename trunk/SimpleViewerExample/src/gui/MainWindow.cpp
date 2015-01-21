@@ -16,6 +16,7 @@
 #include <QAction>
 #include <QDockWidget>
 #include <QStatusBar>
+#include <QFile>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
