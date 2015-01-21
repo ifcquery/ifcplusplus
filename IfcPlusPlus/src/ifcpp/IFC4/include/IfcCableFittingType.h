@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowFittingType.h"
-class IfcCableFittingTypeEnum;
+class IFCPP_EXPORT IfcCableFittingTypeEnum;
 //ENTITY
-class IfcCableFittingType : public IfcFlowFittingType
-{
+class IFCPP_EXPORT IfcCableFittingType : public IfcFlowFittingType
+{ 
 public:
 	IfcCableFittingType();
 	IfcCableFittingType( int id );

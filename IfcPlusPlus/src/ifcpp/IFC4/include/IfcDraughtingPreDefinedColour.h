@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedColour.h"
 //ENTITY
-class IfcDraughtingPreDefinedColour : public IfcPreDefinedColour
-{
+class IFCPP_EXPORT IfcDraughtingPreDefinedColour : public IfcPreDefinedColour
+{ 
 public:
 	IfcDraughtingPreDefinedColour();
 	IfcDraughtingPreDefinedColour( int id );

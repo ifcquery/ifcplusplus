@@ -20,7 +20,7 @@
 #include "IfcFillStyleSelect.h"
 
 // TYPE IfcColour = SELECT	(IfcColourSpecification	,IfcPreDefinedColour);
-class IfcColour : public IfcFillStyleSelect
+class IFCPP_EXPORT IfcColour : public IfcFillStyleSelect
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

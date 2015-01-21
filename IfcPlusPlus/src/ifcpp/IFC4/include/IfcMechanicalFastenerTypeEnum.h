@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,DOWEL	,NAIL	,NAILPLATE	,RIVET	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
-class IfcMechanicalFastenerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcMechanicalFastenerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcMechanicalFastenerTypeEnumEnum

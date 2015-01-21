@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelAssigns.h"
-class IfcProcessSelect;
-class IfcMeasureWithUnit;
+class IFCPP_EXPORT IfcProcessSelect;
+class IFCPP_EXPORT IfcMeasureWithUnit;
 //ENTITY
-class IfcRelAssignsToProcess : public IfcRelAssigns
-{
+class IFCPP_EXPORT IfcRelAssignsToProcess : public IfcRelAssigns
+{ 
 public:
 	IfcRelAssignsToProcess();
 	IfcRelAssignsToProcess( int id );

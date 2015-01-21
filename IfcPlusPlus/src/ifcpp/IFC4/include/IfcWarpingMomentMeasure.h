@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 #include "IfcWarpingStiffnessSelect.h"
 
 // TYPE IfcWarpingMomentMeasure = REAL;
-class IfcWarpingMomentMeasure : public IfcDerivedMeasureValue, public IfcWarpingStiffnessSelect
+class IFCPP_EXPORT IfcWarpingMomentMeasure : public IfcDerivedMeasureValue, public IfcWarpingStiffnessSelect
 {
 public:
 	IfcWarpingMomentMeasure();

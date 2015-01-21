@@ -73,7 +73,7 @@ void IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) con
 	stream << ",";
 	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_OffsetValues );
+	writeNumericTypeList( stream, m_OffsetValues );
 	stream << ");";
 }
 void IfcMaterialProfileWithOffsets::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

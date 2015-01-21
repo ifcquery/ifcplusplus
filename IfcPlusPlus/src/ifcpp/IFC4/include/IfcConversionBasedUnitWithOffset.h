@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcConversionBasedUnit.h"
-class IfcReal;
+class IFCPP_EXPORT IfcReal;
 //ENTITY
-class IfcConversionBasedUnitWithOffset : public IfcConversionBasedUnit
-{
+class IFCPP_EXPORT IfcConversionBasedUnitWithOffset : public IfcConversionBasedUnit
+{ 
 public:
 	IfcConversionBasedUnitWithOffset();
 	IfcConversionBasedUnitWithOffset( int id );

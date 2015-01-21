@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDoor.h"
 //ENTITY
-class IfcDoorStandardCase : public IfcDoor
-{
+class IFCPP_EXPORT IfcDoorStandardCase : public IfcDoor
+{ 
 public:
 	IfcDoorStandardCase();
 	IfcDoorStandardCase( int id );

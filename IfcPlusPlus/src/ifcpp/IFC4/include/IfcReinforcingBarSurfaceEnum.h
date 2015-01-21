@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcReinforcingBarSurfaceEnum = ENUMERATION OF	(PLAIN	,TEXTURED);
-class IfcReinforcingBarSurfaceEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcReinforcingBarSurfaceEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcReinforcingBarSurfaceEnumEnum

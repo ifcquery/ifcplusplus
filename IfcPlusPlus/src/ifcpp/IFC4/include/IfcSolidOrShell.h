@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcSolidOrShell = SELECT	(IfcClosedShell	,IfcSolidModel);
-class IfcSolidOrShell : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSolidOrShell : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcWallTypeEnum = ENUMERATION OF	(MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,POLYGONAL	,ELEMENTEDWALL	,USERDEFINED	,NOTDEFINED);
-class IfcWallTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcWallTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcWallTypeEnumEnum

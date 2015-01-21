@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProduct.h"
-class IfcRelConnectsPortToElement;
-class IfcRelConnectsPorts;
+class IFCPP_EXPORT IfcRelConnectsPortToElement;
+class IFCPP_EXPORT IfcRelConnectsPorts;
 //ENTITY
-class IfcPort : public IfcProduct
-{
+class IFCPP_EXPORT IfcPort : public IfcProduct
+{ 
 public:
 	IfcPort();
 	IfcPort( int id );

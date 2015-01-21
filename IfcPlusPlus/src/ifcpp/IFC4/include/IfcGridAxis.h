@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcLabel;
-class IfcCurve;
-class IfcBoolean;
-class IfcGrid;
-class IfcVirtualGridIntersection;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcBoolean;
+class IFCPP_EXPORT IfcGrid;
+class IFCPP_EXPORT IfcVirtualGridIntersection;
 //ENTITY
-class IfcGridAxis : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcGridAxis : public IfcPPEntity
+{ 
 public:
 	IfcGridAxis();
 	IfcGridAxis( int id );

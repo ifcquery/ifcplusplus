@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralCurveMember.h"
 //ENTITY
-class IfcStructuralCurveMemberVarying : public IfcStructuralCurveMember
-{
+class IFCPP_EXPORT IfcStructuralCurveMemberVarying : public IfcStructuralCurveMember
+{ 
 public:
 	IfcStructuralCurveMemberVarying();
 	IfcStructuralCurveMemberVarying( int id );

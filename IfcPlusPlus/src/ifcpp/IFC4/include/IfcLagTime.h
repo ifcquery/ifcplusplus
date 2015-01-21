@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSchedulingTime.h"
-class IfcTimeOrRatioSelect;
-class IfcTaskDurationEnum;
+class IFCPP_EXPORT IfcTimeOrRatioSelect;
+class IFCPP_EXPORT IfcTaskDurationEnum;
 //ENTITY
-class IfcLagTime : public IfcSchedulingTime
-{
+class IFCPP_EXPORT IfcLagTime : public IfcSchedulingTime
+{ 
 public:
 	IfcLagTime();
 	IfcLagTime( int id );

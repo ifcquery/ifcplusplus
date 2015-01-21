@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcObjectReferenceSelect.h"
-class IfcAddressTypeEnum;
-class IfcText;
-class IfcLabel;
-class IfcPerson;
-class IfcOrganization;
+class IFCPP_EXPORT IfcAddressTypeEnum;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcPerson;
+class IFCPP_EXPORT IfcOrganization;
 //ENTITY
-class IfcAddress : virtual public IfcObjectReferenceSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcAddress : virtual public IfcObjectReferenceSelect, public IfcPPEntity
+{ 
 public:
 	IfcAddress();
 	IfcAddress( int id );

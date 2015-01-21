@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcLightDistributionDataSourceSelect = SELECT	(IfcExternalReference	,IfcLightIntensityDistribution);
-class IfcLightDistributionDataSourceSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLightDistributionDataSourceSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

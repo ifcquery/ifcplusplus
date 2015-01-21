@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTextureCoordinate.h"
-class IfcTextureVertex;
-class IfcFace;
+class IFCPP_EXPORT IfcTextureVertex;
+class IFCPP_EXPORT IfcFace;
 //ENTITY
-class IfcTextureMap : public IfcTextureCoordinate
-{
+class IFCPP_EXPORT IfcTextureMap : public IfcTextureCoordinate
+{ 
 public:
 	IfcTextureMap();
 	IfcTextureMap( int id );

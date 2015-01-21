@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,USERDEFINED	,NOTDEFINED);
-class IfcTransformerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTransformerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcTransformerTypeEnumEnum

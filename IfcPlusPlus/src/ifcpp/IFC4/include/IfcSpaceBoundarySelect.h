@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcSpaceBoundarySelect = SELECT	(IfcExternalSpatialElement	,IfcSpace);
-class IfcSpaceBoundarySelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSpaceBoundarySelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

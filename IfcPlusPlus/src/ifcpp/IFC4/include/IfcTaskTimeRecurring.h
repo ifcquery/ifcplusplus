@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTaskTime.h"
-class IfcRecurrencePattern;
+class IFCPP_EXPORT IfcRecurrencePattern;
 //ENTITY
-class IfcTaskTimeRecurring : public IfcTaskTime
-{
+class IFCPP_EXPORT IfcTaskTimeRecurring : public IfcTaskTime
+{ 
 public:
 	IfcTaskTimeRecurring();
 	IfcTaskTimeRecurring( int id );

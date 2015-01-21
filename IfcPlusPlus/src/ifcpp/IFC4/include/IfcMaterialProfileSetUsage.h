@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialUsageDefinition.h"
-class IfcMaterialProfileSet;
-class IfcCardinalPointReference;
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcMaterialProfileSet;
+class IFCPP_EXPORT IfcCardinalPointReference;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcMaterialProfileSetUsage : public IfcMaterialUsageDefinition
-{
+class IFCPP_EXPORT IfcMaterialProfileSetUsage : public IfcMaterialUsageDefinition
+{ 
 public:
 	IfcMaterialProfileSetUsage();
 	IfcMaterialProfileSetUsage( int id );

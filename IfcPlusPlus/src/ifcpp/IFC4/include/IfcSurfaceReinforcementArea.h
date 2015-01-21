@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralLoadOrResult.h"
-class IfcLengthMeasure;
-class IfcRatioMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcRatioMeasure;
 //ENTITY
-class IfcSurfaceReinforcementArea : public IfcStructuralLoadOrResult
-{
+class IFCPP_EXPORT IfcSurfaceReinforcementArea : public IfcStructuralLoadOrResult
+{ 
 public:
 	IfcSurfaceReinforcementArea();
 	IfcSurfaceReinforcementArea( int id );

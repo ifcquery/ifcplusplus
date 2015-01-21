@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter());
 	osg::ref_ptr<osg::Switch> model_switch = new osg::Switch();
 	geometry_converter->createGeometryOSG(model_switch);
+	geometry_converter->addCallbackChild( reader.get() );
 
 	// contains the VEF graph for each IfcProduct:
 	std::map<int, shared_ptr<ProductShapeInputData> >& map_vef_data = geometry_converter->getShapeInputData();

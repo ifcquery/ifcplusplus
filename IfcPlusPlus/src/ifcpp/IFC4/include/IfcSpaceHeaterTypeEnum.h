@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSpaceHeaterTypeEnum = ENUMERATION OF	(CONVECTOR	,RADIATOR	,USERDEFINED	,NOTDEFINED);
-class IfcSpaceHeaterTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSpaceHeaterTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSpaceHeaterTypeEnumEnum

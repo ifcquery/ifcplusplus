@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPropertyTemplateDefinition.h"
-class IfcPropertySetTemplateTypeEnum;
-class IfcIdentifier;
-class IfcPropertyTemplate;
-class IfcRelDefinesByTemplate;
+class IFCPP_EXPORT IfcPropertySetTemplateTypeEnum;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcPropertyTemplate;
+class IFCPP_EXPORT IfcRelDefinesByTemplate;
 //ENTITY
-class IfcPropertySetTemplate : public IfcPropertyTemplateDefinition
-{
+class IFCPP_EXPORT IfcPropertySetTemplate : public IfcPropertyTemplateDefinition
+{ 
 public:
 	IfcPropertySetTemplate();
 	IfcPropertySetTemplate( int id );

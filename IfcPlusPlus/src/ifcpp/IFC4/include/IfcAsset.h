@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGroup.h"
-class IfcIdentifier;
-class IfcCostValue;
-class IfcActorSelect;
-class IfcPerson;
-class IfcDate;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcCostValue;
+class IFCPP_EXPORT IfcActorSelect;
+class IFCPP_EXPORT IfcPerson;
+class IFCPP_EXPORT IfcDate;
 //ENTITY
-class IfcAsset : public IfcGroup
-{
+class IFCPP_EXPORT IfcAsset : public IfcGroup
+{ 
 public:
 	IfcAsset();
 	IfcAsset( int id );

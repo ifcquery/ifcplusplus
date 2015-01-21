@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcGridTypeEnum = ENUMERATION OF	(RECTANGULAR	,RADIAL	,TRIANGULAR	,IRREGULAR	,USERDEFINED	,NOTDEFINED);
-class IfcGridTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcGridTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcGridTypeEnumEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelAssigns.h"
-class IfcResourceSelect;
+class IFCPP_EXPORT IfcResourceSelect;
 //ENTITY
-class IfcRelAssignsToResource : public IfcRelAssigns
-{
+class IFCPP_EXPORT IfcRelAssignsToResource : public IfcRelAssigns
+{ 
 public:
 	IfcRelAssignsToResource();
 	IfcRelAssignsToResource( int id );

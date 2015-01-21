@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProfileDef.h"
-class IfcProfileDef;
-class IfcCartesianTransformationOperator2D;
-class IfcLabel;
+class IFCPP_EXPORT IfcProfileDef;
+class IFCPP_EXPORT IfcCartesianTransformationOperator2D;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcDerivedProfileDef : public IfcProfileDef
-{
+class IFCPP_EXPORT IfcDerivedProfileDef : public IfcProfileDef
+{ 
 public:
 	IfcDerivedProfileDef();
 	IfcDerivedProfileDef( int id );

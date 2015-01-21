@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcShell.h"
 #include "IfcSolidOrShell.h"
 #include "IfcConnectedFaceSet.h"
 //ENTITY
-class IfcClosedShell : virtual public IfcShell, virtual public IfcSolidOrShell, public IfcConnectedFaceSet
-{
+class IFCPP_EXPORT IfcClosedShell : virtual public IfcShell, virtual public IfcSolidOrShell, public IfcConnectedFaceSet
+{ 
 public:
 	IfcClosedShell();
 	IfcClosedShell( int id );

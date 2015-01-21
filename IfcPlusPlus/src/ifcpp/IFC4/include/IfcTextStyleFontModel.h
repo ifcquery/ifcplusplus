@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedTextFont.h"
-class IfcTextFontName;
-class IfcFontStyle;
-class IfcFontVariant;
-class IfcFontWeight;
-class IfcSizeSelect;
+class IFCPP_EXPORT IfcTextFontName;
+class IFCPP_EXPORT IfcFontStyle;
+class IFCPP_EXPORT IfcFontVariant;
+class IFCPP_EXPORT IfcFontWeight;
+class IFCPP_EXPORT IfcSizeSelect;
 //ENTITY
-class IfcTextStyleFontModel : public IfcPreDefinedTextFont
-{
+class IFCPP_EXPORT IfcTextStyleFontModel : public IfcPreDefinedTextFont
+{ 
 public:
 	IfcTextStyleFontModel();
 	IfcTextStyleFontModel( int id );

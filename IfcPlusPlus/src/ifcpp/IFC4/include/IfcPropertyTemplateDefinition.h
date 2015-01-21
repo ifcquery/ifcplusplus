@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPropertyDefinition.h"
 //ENTITY
-class IfcPropertyTemplateDefinition : public IfcPropertyDefinition
-{
+class IFCPP_EXPORT IfcPropertyTemplateDefinition : public IfcPropertyDefinition
+{ 
 public:
 	IfcPropertyTemplateDefinition();
 	IfcPropertyTemplateDefinition( int id );

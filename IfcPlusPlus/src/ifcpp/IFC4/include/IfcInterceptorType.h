@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowTreatmentDeviceType.h"
-class IfcInterceptorTypeEnum;
+class IFCPP_EXPORT IfcInterceptorTypeEnum;
 //ENTITY
-class IfcInterceptorType : public IfcFlowTreatmentDeviceType
-{
+class IFCPP_EXPORT IfcInterceptorType : public IfcFlowTreatmentDeviceType
+{ 
 public:
 	IfcInterceptorType();
 	IfcInterceptorType( int id );

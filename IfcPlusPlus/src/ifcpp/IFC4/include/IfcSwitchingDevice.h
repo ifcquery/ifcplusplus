@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowController.h"
-class IfcSwitchingDeviceTypeEnum;
+class IFCPP_EXPORT IfcSwitchingDeviceTypeEnum;
 //ENTITY
-class IfcSwitchingDevice : public IfcFlowController
-{
+class IFCPP_EXPORT IfcSwitchingDevice : public IfcFlowController
+{ 
 public:
 	IfcSwitchingDevice();
 	IfcSwitchingDevice( int id );

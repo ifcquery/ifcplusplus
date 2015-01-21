@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcRotationalStiffnessSelect = SELECT	(IfcBoolean	,IfcRotationalStiffnessMeasure);
-class IfcRotationalStiffnessSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcRotationalStiffnessSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

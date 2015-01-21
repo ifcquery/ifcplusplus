@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFootingTypeEnum = ENUMERATION OF	(CAISSON_FOUNDATION	,FOOTING_BEAM	,PAD_FOOTING	,PILE_CAP	,STRIP_FOOTING	,USERDEFINED	,NOTDEFINED);
-class IfcFootingTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFootingTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFootingTypeEnumEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDistributionControlElement.h"
-class IfcAlarmTypeEnum;
+class IFCPP_EXPORT IfcAlarmTypeEnum;
 //ENTITY
-class IfcAlarm : public IfcDistributionControlElement
-{
+class IFCPP_EXPORT IfcAlarm : public IfcDistributionControlElement
+{ 
 public:
 	IfcAlarm();
 	IfcAlarm( int id );

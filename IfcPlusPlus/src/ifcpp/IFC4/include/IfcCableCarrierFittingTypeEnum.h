@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCableCarrierFittingTypeEnum = ENUMERATION OF	(BEND	,CROSS	,REDUCER	,TEE	,USERDEFINED	,NOTDEFINED);
-class IfcCableCarrierFittingTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCableCarrierFittingTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCableCarrierFittingTypeEnumEnum

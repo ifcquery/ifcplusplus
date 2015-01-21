@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCartesianTransformationOperator3D.h"
 //ENTITY
-class IfcCartesianTransformationOperator3DnonUniform : public IfcCartesianTransformationOperator3D
-{
+class IFCPP_EXPORT IfcCartesianTransformationOperator3DnonUniform : public IfcCartesianTransformationOperator3D
+{ 
 public:
 	IfcCartesianTransformationOperator3DnonUniform();
 	IfcCartesianTransformationOperator3DnonUniform( int id );

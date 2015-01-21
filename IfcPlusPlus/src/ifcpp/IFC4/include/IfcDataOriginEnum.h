@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDataOriginEnum = ENUMERATION OF	(MEASURED	,PREDICTED	,SIMULATED	,USERDEFINED	,NOTDEFINED);
-class IfcDataOriginEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDataOriginEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDataOriginEnumEnum

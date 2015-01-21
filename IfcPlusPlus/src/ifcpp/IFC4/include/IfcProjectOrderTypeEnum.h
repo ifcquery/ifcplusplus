@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcProjectOrderTypeEnum = ENUMERATION OF	(CHANGEORDER	,MAINTENANCEWORKORDER	,MOVEORDER	,PURCHASEORDER	,WORKORDER	,USERDEFINED	,NOTDEFINED);
-class IfcProjectOrderTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcProjectOrderTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcProjectOrderTypeEnumEnum

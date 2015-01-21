@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBoilerTypeEnum = ENUMERATION OF	(WATER	,STEAM	,USERDEFINED	,NOTDEFINED);
-class IfcBoilerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBoilerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcBoilerTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,USERDEFINED	,NOTDEFINED);
-class IfcColumnTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcColumnTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcColumnTypeEnumEnum

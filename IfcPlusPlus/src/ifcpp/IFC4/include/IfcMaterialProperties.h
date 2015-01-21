@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcExtendedProperties.h"
-class IfcMaterialDefinition;
+class IFCPP_EXPORT IfcMaterialDefinition;
 //ENTITY
-class IfcMaterialProperties : public IfcExtendedProperties
-{
+class IFCPP_EXPORT IfcMaterialProperties : public IfcExtendedProperties
+{ 
 public:
 	IfcMaterialProperties();
 	IfcMaterialProperties( int id );

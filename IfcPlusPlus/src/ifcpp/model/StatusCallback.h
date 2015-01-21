@@ -17,11 +17,12 @@
 #include <iostream>
 #include <vector>
 #include "shared_ptr.h"
+#include "IfcPPGlobal.h"
 #include "IfcPPOpenMP.h"
 
 class IfcPPEntity;
 
-class StatusCallback
+class IFCPP_EXPORT StatusCallback
 {
 public:
 	enum MessageType
@@ -63,7 +64,7 @@ public:
 	{
 		unsetMessageCallBack();
 	}
-	~StatusCallback()
+	virtual ~StatusCallback()
 	{
 	}
 
@@ -162,7 +163,6 @@ public:
 		messageCallback( progress_message );
 	}
 
-protected:
 	//\brief callbacks are set to children as well
 	void addCallbackChild( StatusCallback* child )
 	{
@@ -212,6 +212,7 @@ protected:
 		m_callback_children.clear();
 	}
 
+protected:
 	//\brief Pointer to the object on which the message callback function is called.
 	void* m_obj_call_on_message;
 

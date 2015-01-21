@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRatioMeasure.h"
 #include "IfcColourOrFactor.h"
 
 // TYPE IfcNormalisedRatioMeasure = IfcRatioMeasure;
-class IfcNormalisedRatioMeasure : public IfcRatioMeasure, public IfcColourOrFactor
+class IFCPP_EXPORT IfcNormalisedRatioMeasure : public IfcRatioMeasure, public IfcColourOrFactor
 {
 public:
 	IfcNormalisedRatioMeasure();

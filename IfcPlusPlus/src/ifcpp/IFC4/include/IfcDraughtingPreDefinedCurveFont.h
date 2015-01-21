@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedCurveFont.h"
 //ENTITY
-class IfcDraughtingPreDefinedCurveFont : public IfcPreDefinedCurveFont
-{
+class IFCPP_EXPORT IfcDraughtingPreDefinedCurveFont : public IfcPreDefinedCurveFont
+{ 
 public:
 	IfcDraughtingPreDefinedCurveFont();
 	IfcDraughtingPreDefinedCurveFont( int id );

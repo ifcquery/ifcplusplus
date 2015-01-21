@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElement.h"
-class IfcGeographicElementTypeEnum;
+class IFCPP_EXPORT IfcGeographicElementTypeEnum;
 //ENTITY
-class IfcGeographicElement : public IfcElement
-{
+class IFCPP_EXPORT IfcGeographicElement : public IfcElement
+{ 
 public:
 	IfcGeographicElement();
 	IfcGeographicElement( int id );

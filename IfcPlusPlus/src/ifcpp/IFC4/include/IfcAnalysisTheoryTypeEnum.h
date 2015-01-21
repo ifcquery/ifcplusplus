@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcAnalysisTheoryTypeEnum = ENUMERATION OF	(FIRST_ORDER_THEORY	,SECOND_ORDER_THEORY	,THIRD_ORDER_THEORY	,FULL_NONLINEAR_THEORY	,USERDEFINED	,NOTDEFINED);
-class IfcAnalysisTheoryTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcAnalysisTheoryTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcAnalysisTheoryTypeEnumEnum

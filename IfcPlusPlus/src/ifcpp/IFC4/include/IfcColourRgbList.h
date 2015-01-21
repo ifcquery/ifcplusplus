@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcNormalisedRatioMeasure;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
 //ENTITY
-class IfcColourRgbList : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcColourRgbList : public IfcPresentationItem
+{ 
 public:
 	IfcColourRgbList();
 	IfcColourRgbList( int id );

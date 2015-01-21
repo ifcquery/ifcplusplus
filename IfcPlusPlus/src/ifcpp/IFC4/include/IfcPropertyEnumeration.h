@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPropertyAbstraction.h"
-class IfcLabel;
-class IfcValue;
-class IfcUnit;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcValue;
+class IFCPP_EXPORT IfcUnit;
 //ENTITY
-class IfcPropertyEnumeration : public IfcPropertyAbstraction
-{
+class IFCPP_EXPORT IfcPropertyEnumeration : public IfcPropertyAbstraction
+{ 
 public:
 	IfcPropertyEnumeration();
 	IfcPropertyEnumeration( int id );

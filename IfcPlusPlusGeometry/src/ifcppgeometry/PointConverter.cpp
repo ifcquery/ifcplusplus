@@ -18,7 +18,6 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/UnitConverter.h"
 #include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement2D.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCoordinateOperation.h"
-class IfcLengthMeasure;
-class IfcReal;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcReal;
 //ENTITY
-class IfcMapConversion : public IfcCoordinateOperation
-{
+class IFCPP_EXPORT IfcMapConversion : public IfcCoordinateOperation
+{ 
 public:
 	IfcMapConversion();
 	IfcMapConversion( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcOccupantTypeEnum = ENUMERATION OF	(ASSIGNEE	,ASSIGNOR	,LESSEE	,LESSOR	,LETTINGAGENT	,OWNER	,TENANT	,USERDEFINED	,NOTDEFINED);
-class IfcOccupantTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcOccupantTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcOccupantTypeEnumEnum

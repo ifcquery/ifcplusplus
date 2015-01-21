@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProductSelect.h"
 #include "IfcTypeObject.h"
-class IfcRepresentationMap;
-class IfcLabel;
-class IfcRelAssignsToProduct;
+class IFCPP_EXPORT IfcRepresentationMap;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcRelAssignsToProduct;
 //ENTITY
-class IfcTypeProduct : virtual public IfcProductSelect, public IfcTypeObject
-{
+class IFCPP_EXPORT IfcTypeProduct : virtual public IfcProductSelect, public IfcTypeObject
+{ 
 public:
 	IfcTypeProduct();
 	IfcTypeProduct( int id );

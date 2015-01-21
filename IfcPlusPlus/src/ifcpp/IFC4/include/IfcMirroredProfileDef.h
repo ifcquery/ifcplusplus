@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedProfileDef.h"
 //ENTITY
-class IfcMirroredProfileDef : public IfcDerivedProfileDef
-{
+class IFCPP_EXPORT IfcMirroredProfileDef : public IfcDerivedProfileDef
+{ 
 public:
 	IfcMirroredProfileDef();
 	IfcMirroredProfileDef( int id );

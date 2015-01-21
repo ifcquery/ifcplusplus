@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcColour;
+class IFCPP_EXPORT IfcColour;
 //ENTITY
-class IfcTextStyleForDefinedFont : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcTextStyleForDefinedFont : public IfcPresentationItem
+{ 
 public:
 	IfcTextStyleForDefinedFont();
 	IfcTextStyleForDefinedFont( int id );

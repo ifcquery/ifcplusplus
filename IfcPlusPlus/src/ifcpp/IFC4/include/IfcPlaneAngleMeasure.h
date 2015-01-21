@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBendingParameterSelect.h"
 #include "IfcMeasureValue.h"
 
 // TYPE IfcPlaneAngleMeasure = REAL;
-class IfcPlaneAngleMeasure : public IfcBendingParameterSelect, public IfcMeasureValue
+class IFCPP_EXPORT IfcPlaneAngleMeasure : public IfcBendingParameterSelect, public IfcMeasureValue
 {
 public:
 	IfcPlaneAngleMeasure();

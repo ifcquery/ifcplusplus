@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcIdentifier;
-class IfcCartesianTransformationOperator2D;
-class IfcTextureCoordinate;
-class IfcSurfaceStyleWithTextures;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcCartesianTransformationOperator2D;
+class IFCPP_EXPORT IfcTextureCoordinate;
+class IFCPP_EXPORT IfcSurfaceStyleWithTextures;
 //ENTITY
-class IfcSurfaceTexture : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcSurfaceTexture : public IfcPresentationItem
+{ 
 public:
 	IfcSurfaceTexture();
 	IfcSurfaceTexture( int id );

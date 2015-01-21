@@ -43,6 +43,16 @@ public:
 			);
 	}
 
+	static inline void convertOsgToCarveMatrix( const osg::Matrix& matrix_in, carve::math::Matrix& matrix_out )
+	{
+		matrix_out = carve::math::Matrix(
+			matrix_in( 0, 0 ), matrix_in( 1, 0 ), matrix_in( 2, 0 ), matrix_in( 3, 0 ),
+			matrix_in( 0, 1 ), matrix_in( 1, 1 ), matrix_in( 2, 1 ), matrix_in( 3, 1 ),
+			matrix_in( 0, 2 ), matrix_in( 1, 2 ), matrix_in( 2, 2 ), matrix_in( 3, 2 ),
+			matrix_in( 0, 3 ), matrix_in( 1, 3 ), matrix_in( 2, 3 ), matrix_in( 3, 3 )
+			);
+	}
+
 	void clearAppearanceCache()
 	{
 #ifdef IFCPP_OPENMP

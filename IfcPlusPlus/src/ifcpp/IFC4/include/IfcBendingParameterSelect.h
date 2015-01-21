@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcBendingParameterSelect = SELECT	(IfcLengthMeasure	,IfcPlaneAngleMeasure);
-class IfcBendingParameterSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBendingParameterSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

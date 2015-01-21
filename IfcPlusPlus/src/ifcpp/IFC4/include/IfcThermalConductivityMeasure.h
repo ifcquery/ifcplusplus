@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcThermalConductivityMeasure = REAL;
-class IfcThermalConductivityMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcThermalConductivityMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcThermalConductivityMeasure();

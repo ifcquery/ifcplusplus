@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcConstructionProductResourceTypeEnum = ENUMERATION OF	(ASSEMBLY	,FORMWORK	,USERDEFINED	,NOTDEFINED);
-class IfcConstructionProductResourceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcConstructionProductResourceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcConstructionProductResourceTypeEnumEnum

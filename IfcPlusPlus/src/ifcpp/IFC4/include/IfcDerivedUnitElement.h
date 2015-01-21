@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcNamedUnit;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcNamedUnit;
 //ENTITY
-class IfcDerivedUnitElement : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcDerivedUnitElement : public IfcPPEntity
+{ 
 public:
 	IfcDerivedUnitElement();
 	IfcDerivedUnitElement( int id );

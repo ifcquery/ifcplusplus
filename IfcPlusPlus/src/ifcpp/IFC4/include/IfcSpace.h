@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSpaceBoundarySelect.h"
 #include "IfcSpatialStructureElement.h"
-class IfcSpaceTypeEnum;
-class IfcLengthMeasure;
-class IfcRelCoversSpaces;
-class IfcRelSpaceBoundary;
+class IFCPP_EXPORT IfcSpaceTypeEnum;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcRelCoversSpaces;
+class IFCPP_EXPORT IfcRelSpaceBoundary;
 //ENTITY
-class IfcSpace : virtual public IfcSpaceBoundarySelect, public IfcSpatialStructureElement
-{
+class IFCPP_EXPORT IfcSpace : virtual public IfcSpaceBoundarySelect, public IfcSpatialStructureElement
+{ 
 public:
 	IfcSpace();
 	IfcSpace( int id );

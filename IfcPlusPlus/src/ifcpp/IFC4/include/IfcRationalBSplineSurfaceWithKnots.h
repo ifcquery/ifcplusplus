@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBSplineSurfaceWithKnots.h"
 //ENTITY
-class IfcRationalBSplineSurfaceWithKnots : public IfcBSplineSurfaceWithKnots
-{
+class IFCPP_EXPORT IfcRationalBSplineSurfaceWithKnots : public IfcBSplineSurfaceWithKnots
+{ 
 public:
 	IfcRationalBSplineSurfaceWithKnots();
 	IfcRationalBSplineSurfaceWithKnots( int id );

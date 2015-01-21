@@ -50,7 +50,7 @@ shared_ptr<IfcPPObject> IfcCartesianPointList3D::getDeepCopy( IfcPPCopyOptions& 
 void IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCARTESIANPOINTLIST3D" << "(";
-	writeTypeOfRealList2D( stream, m_CoordList );
+	writeNumericTypeList2D( stream, m_CoordList );
 	stream << ");";
 }
 void IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

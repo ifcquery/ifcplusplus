@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcDocumentSelect = SELECT	(IfcDocumentInformation	,IfcDocumentReference);
-class IfcDocumentSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDocumentSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

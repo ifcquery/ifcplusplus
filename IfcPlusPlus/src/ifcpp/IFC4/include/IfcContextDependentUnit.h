@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceObjectSelect.h"
 #include "IfcNamedUnit.h"
-class IfcLabel;
-class IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
 //ENTITY
-class IfcContextDependentUnit : virtual public IfcResourceObjectSelect, public IfcNamedUnit
-{
+class IFCPP_EXPORT IfcContextDependentUnit : virtual public IfcResourceObjectSelect, public IfcNamedUnit
+{ 
 public:
 	IfcContextDependentUnit();
 	IfcContextDependentUnit( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDuctSegmentTypeEnum = ENUMERATION OF	(RIGIDSEGMENT	,FLEXIBLESEGMENT	,USERDEFINED	,NOTDEFINED);
-class IfcDuctSegmentTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDuctSegmentTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDuctSegmentTypeEnumEnum

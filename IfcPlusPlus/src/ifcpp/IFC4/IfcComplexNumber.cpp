@@ -37,7 +37,7 @@ shared_ptr<IfcPPObject> IfcComplexNumber::getDeepCopy( IfcPPCopyOptions& options
 void IfcComplexNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXNUMBER("; }
-	writeDoubleList( stream, m_vec );
+	writeNumericList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg )

@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcCompositeCurve;
-class IfcProfileDef;
-class IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcCompositeCurve;
+class IFCPP_EXPORT IfcProfileDef;
+class IFCPP_EXPORT IfcAxis2Placement3D;
 //ENTITY
-class IfcSectionedSpine : public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcSectionedSpine : public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcSectionedSpine();
 	IfcSectionedSpine( int id );

@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFillStyleSelect.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcVector;
-class IfcStyledItem;
-class IfcPositiveRatioMeasure;
+class IFCPP_EXPORT IfcVector;
+class IFCPP_EXPORT IfcStyledItem;
+class IFCPP_EXPORT IfcPositiveRatioMeasure;
 //ENTITY
-class IfcFillAreaStyleTiles : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcFillAreaStyleTiles : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcFillAreaStyleTiles();
 	IfcFillAreaStyleTiles( int id );

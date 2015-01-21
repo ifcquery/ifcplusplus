@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialLayer.h"
-class IfcLayerSetDirectionEnum;
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcLayerSetDirectionEnum;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcMaterialLayerWithOffsets : public IfcMaterialLayer
-{
+class IFCPP_EXPORT IfcMaterialLayerWithOffsets : public IfcMaterialLayer
+{ 
 public:
 	IfcMaterialLayerWithOffsets();
 	IfcMaterialLayerWithOffsets( int id );

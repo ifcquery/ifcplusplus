@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcLabel;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcStructuralLoad : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcStructuralLoad : public IfcPPEntity
+{ 
 public:
 	IfcStructuralLoad();
 	IfcStructuralLoad( int id );

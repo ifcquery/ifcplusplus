@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcVaporPermeabilityMeasure = REAL;
-class IfcVaporPermeabilityMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcVaporPermeabilityMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcVaporPermeabilityMeasure();

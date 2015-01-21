@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcAppliedValueSelect.h"
 #include "IfcMetricValueSelect.h"
-class IfcValue;
-class IfcUnit;
+class IFCPP_EXPORT IfcValue;
+class IFCPP_EXPORT IfcUnit;
 //ENTITY
-class IfcMeasureWithUnit : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcMeasureWithUnit : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public IfcPPEntity
+{ 
 public:
 	IfcMeasureWithUnit();
 	IfcMeasureWithUnit( int id );

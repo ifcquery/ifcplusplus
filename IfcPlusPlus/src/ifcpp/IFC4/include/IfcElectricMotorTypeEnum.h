@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcElectricMotorTypeEnum = ENUMERATION OF	(DC	,INDUCTION	,POLYPHASE	,RELUCTANCESYNCHRONOUS	,SYNCHRONOUS	,USERDEFINED	,NOTDEFINED);
-class IfcElectricMotorTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcElectricMotorTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcElectricMotorTypeEnumEnum

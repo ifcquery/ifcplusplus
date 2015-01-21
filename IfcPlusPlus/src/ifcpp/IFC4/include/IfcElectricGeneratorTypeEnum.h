@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcElectricGeneratorTypeEnum = ENUMERATION OF	(CHP	,ENGINEGENERATOR	,STANDALONE	,USERDEFINED	,NOTDEFINED);
-class IfcElectricGeneratorTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcElectricGeneratorTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcElectricGeneratorTypeEnumEnum

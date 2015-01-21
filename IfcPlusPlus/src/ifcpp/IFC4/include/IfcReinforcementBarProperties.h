@@ -17,16 +17,17 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedProperties.h"
-class IfcAreaMeasure;
-class IfcLabel;
-class IfcReinforcingBarSurfaceEnum;
-class IfcLengthMeasure;
-class IfcPositiveLengthMeasure;
-class IfcCountMeasure;
+class IFCPP_EXPORT IfcAreaMeasure;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcReinforcingBarSurfaceEnum;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcCountMeasure;
 //ENTITY
-class IfcReinforcementBarProperties : public IfcPreDefinedProperties
-{
+class IFCPP_EXPORT IfcReinforcementBarProperties : public IfcPreDefinedProperties
+{ 
 public:
 	IfcReinforcementBarProperties();
 	IfcReinforcementBarProperties( int id );

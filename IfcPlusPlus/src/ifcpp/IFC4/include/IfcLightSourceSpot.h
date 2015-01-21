@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLightSourcePositional.h"
-class IfcDirection;
-class IfcReal;
-class IfcPositivePlaneAngleMeasure;
+class IFCPP_EXPORT IfcDirection;
+class IFCPP_EXPORT IfcReal;
+class IFCPP_EXPORT IfcPositivePlaneAngleMeasure;
 //ENTITY
-class IfcLightSourceSpot : public IfcLightSourcePositional
-{
+class IFCPP_EXPORT IfcLightSourceSpot : public IfcLightSourcePositional
+{ 
 public:
 	IfcLightSourceSpot();
 	IfcLightSourceSpot( int id );

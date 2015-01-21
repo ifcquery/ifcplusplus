@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTransportElementTypeEnum = ENUMERATION OF	(ELEVATOR	,ESCALATOR	,MOVINGWALKWAY	,CRANEWAY	,LIFTINGGEAR	,USERDEFINED	,NOTDEFINED);
-class IfcTransportElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTransportElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcTransportElementTypeEnumEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcDateTime;
-class IfcValue;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcValue;
 //ENTITY
-class IfcIrregularTimeSeriesValue : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcIrregularTimeSeriesValue : public IfcPPEntity
+{ 
 public:
 	IfcIrregularTimeSeriesValue();
 	IfcIrregularTimeSeriesValue( int id );

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProduct.h"
-class IfcObjectTypeEnum;
-class IfcLabel;
+class IFCPP_EXPORT IfcObjectTypeEnum;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcProxy : public IfcProduct
-{
+class IFCPP_EXPORT IfcProxy : public IfcProduct
+{ 
 public:
 	IfcProxy();
 	IfcProxy( int id );

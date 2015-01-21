@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialUsageDefinition.h"
-class IfcMaterialLayerSet;
-class IfcLayerSetDirectionEnum;
-class IfcDirectionSenseEnum;
-class IfcLengthMeasure;
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcMaterialLayerSet;
+class IFCPP_EXPORT IfcLayerSetDirectionEnum;
+class IFCPP_EXPORT IfcDirectionSenseEnum;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcMaterialLayerSetUsage : public IfcMaterialUsageDefinition
-{
+class IFCPP_EXPORT IfcMaterialLayerSetUsage : public IfcMaterialUsageDefinition
+{ 
 public:
 	IfcMaterialLayerSetUsage();
 	IfcMaterialLayerSetUsage( int id );

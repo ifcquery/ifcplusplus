@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcActionRequestTypeEnum = ENUMERATION OF	(EMAIL	,FAX	,PHONE	,POST	,VERBAL	,USERDEFINED	,NOTDEFINED);
-class IfcActionRequestTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcActionRequestTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcActionRequestTypeEnumEnum

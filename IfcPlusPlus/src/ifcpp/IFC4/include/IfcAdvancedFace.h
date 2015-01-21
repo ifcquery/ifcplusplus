@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFaceSurface.h"
 //ENTITY
-class IfcAdvancedFace : public IfcFaceSurface
-{
+class IFCPP_EXPORT IfcAdvancedFace : public IfcFaceSurface
+{ 
 public:
 	IfcAdvancedFace();
 	IfcAdvancedFace( int id );

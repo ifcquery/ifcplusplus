@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnects.h"
-class IfcSystem;
-class IfcSpatialElement;
+class IFCPP_EXPORT IfcSystem;
+class IFCPP_EXPORT IfcSpatialElement;
 //ENTITY
-class IfcRelServicesBuildings : public IfcRelConnects
-{
+class IFCPP_EXPORT IfcRelServicesBuildings : public IfcRelConnects
+{ 
 public:
 	IfcRelServicesBuildings();
 	IfcRelServicesBuildings( int id );

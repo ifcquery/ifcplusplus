@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationStyleSelect.h"
 #include "IfcPresentationStyle.h"
-class IfcCurveFontOrScaledCurveFontSelect;
-class IfcSizeSelect;
-class IfcColour;
+class IFCPP_EXPORT IfcCurveFontOrScaledCurveFontSelect;
+class IFCPP_EXPORT IfcSizeSelect;
+class IFCPP_EXPORT IfcColour;
 //ENTITY
-class IfcCurveStyle : virtual public IfcPresentationStyleSelect, public IfcPresentationStyle
-{
+class IFCPP_EXPORT IfcCurveStyle : virtual public IfcPresentationStyleSelect, public IfcPresentationStyle
+{ 
 public:
 	IfcCurveStyle();
 	IfcCurveStyle( int id );

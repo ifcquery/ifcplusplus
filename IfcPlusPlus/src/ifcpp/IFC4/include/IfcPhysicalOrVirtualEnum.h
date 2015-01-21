@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPhysicalOrVirtualEnum = ENUMERATION OF	(PHYSICAL	,VIRTUAL	,NOTDEFINED);
-class IfcPhysicalOrVirtualEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPhysicalOrVirtualEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPhysicalOrVirtualEnumEnum

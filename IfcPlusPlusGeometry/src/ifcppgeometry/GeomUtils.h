@@ -20,7 +20,6 @@
 #include <osgViewer/Viewer>
 #include <ifcpp/model/shared_ptr.h>
 #include "GeometrySettings.h"
-#include "GeometryInputData.h"
 #include "IncludeCarveHeaders.h"
 
 enum ProjectionPlane { UNDEFINED, XY_PLANE, YZ_PLANE, XZ_PLANE };
@@ -99,6 +98,45 @@ public:
 							 const carve::geom::vector<3>& local_z, carve::math::Matrix& resulting_matrix );
 	static void applyTranslate( osg::Group* grp, const osg::Vec3f& translate, std::unordered_set<osg::Geode*>& set_applied );
 	static void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, carve::math::Matrix& matrix );
+	static bool isMatrixIdentity( const carve::math::Matrix& mat )
+	{
+		if( std::abs( mat._11 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._22 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._33 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._44 - 1.0 ) > 0.00001 )  return false;
 
+		if( std::abs( mat._12 ) > 0.00001 )  return false;
+		if( std::abs( mat._13 ) > 0.00001 )  return false;
+		if( std::abs( mat._14 ) > 0.00001 )  return false;
 
+		if( std::abs( mat._21 ) > 0.00001 )  return false;
+		if( std::abs( mat._23 ) > 0.00001 )  return false;
+		if( std::abs( mat._24 ) > 0.00001 )  return false;
+
+		if( std::abs( mat._31 ) > 0.00001 )  return false;
+		if( std::abs( mat._32 ) > 0.00001 )  return false;
+		if( std::abs( mat._34 ) > 0.00001 )  return false;
+
+		if( std::abs( mat._41 ) > 0.00001 )  return false;
+		if( std::abs( mat._42 ) > 0.00001 )  return false;
+		if( std::abs( mat._43 ) > 0.00001 )  return false;
+		return true;
+	}
 };
+
+//\brief: finds the first occurrence of T in vector
+template<typename T, typename U>
+bool findFirstInVector( std::vector<shared_ptr<U> > vec, shared_ptr<T>& ptr )
+{
+	typename std::vector<shared_ptr<U> >::iterator it_trim = vec.begin();
+	for( ; it_trim != vec.end(); ++it_trim )
+	{
+		shared_ptr<U> item = *( it_trim );
+		if( dynamic_pointer_cast<T>( item ) )
+		{
+			ptr = dynamic_pointer_cast<T>( item );
+			return true;
+		}
+	}
+	return false;
+}

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowTerminal.h"
-class IfcLightFixtureTypeEnum;
+class IFCPP_EXPORT IfcLightFixtureTypeEnum;
 //ENTITY
-class IfcLightFixture : public IfcFlowTerminal
-{
+class IFCPP_EXPORT IfcLightFixture : public IfcFlowTerminal
+{ 
 public:
 	IfcLightFixture();
 	IfcLightFixture( int id );

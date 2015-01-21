@@ -17,23 +17,24 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDocumentSelect.h"
 #include "IfcExternalInformation.h"
-class IfcIdentifier;
-class IfcLabel;
-class IfcText;
-class IfcURIReference;
-class IfcActorSelect;
-class IfcDateTime;
-class IfcDate;
-class IfcDocumentConfidentialityEnum;
-class IfcDocumentStatusEnum;
-class IfcRelAssociatesDocument;
-class IfcDocumentReference;
-class IfcDocumentInformationRelationship;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcURIReference;
+class IFCPP_EXPORT IfcActorSelect;
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcDate;
+class IFCPP_EXPORT IfcDocumentConfidentialityEnum;
+class IFCPP_EXPORT IfcDocumentStatusEnum;
+class IFCPP_EXPORT IfcRelAssociatesDocument;
+class IFCPP_EXPORT IfcDocumentReference;
+class IFCPP_EXPORT IfcDocumentInformationRelationship;
 //ENTITY
-class IfcDocumentInformation : virtual public IfcDocumentSelect, public IfcExternalInformation
-{
+class IFCPP_EXPORT IfcDocumentInformation : virtual public IfcDocumentSelect, public IfcExternalInformation
+{ 
 public:
 	IfcDocumentInformation();
 	IfcDocumentInformation( int id );

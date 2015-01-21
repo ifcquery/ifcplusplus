@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMomentOfInertiaMeasure = REAL;
-class IfcMomentOfInertiaMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcMomentOfInertiaMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMomentOfInertiaMeasure();

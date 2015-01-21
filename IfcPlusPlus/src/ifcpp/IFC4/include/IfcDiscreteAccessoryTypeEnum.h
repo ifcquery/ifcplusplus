@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,USERDEFINED	,NOTDEFINED);
-class IfcDiscreteAccessoryTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDiscreteAccessoryTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDiscreteAccessoryTypeEnumEnum

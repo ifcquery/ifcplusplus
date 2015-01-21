@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTextAlignment = STRING;
-class IfcTextAlignment : public IfcPPObject
+class IFCPP_EXPORT IfcTextAlignment : public IfcPPObject
 {
 public:
 	IfcTextAlignment();

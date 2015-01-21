@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowTerminalType.h"
-class IfcSpaceHeaterTypeEnum;
+class IFCPP_EXPORT IfcSpaceHeaterTypeEnum;
 //ENTITY
-class IfcSpaceHeaterType : public IfcFlowTerminalType
-{
+class IFCPP_EXPORT IfcSpaceHeaterType : public IfcFlowTerminalType
+{ 
 public:
 	IfcSpaceHeaterType();
 	IfcSpaceHeaterType( int id );

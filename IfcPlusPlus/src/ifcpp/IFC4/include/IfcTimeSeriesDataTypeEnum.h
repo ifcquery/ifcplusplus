@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTimeSeriesDataTypeEnum = ENUMERATION OF	(CONTINUOUS	,DISCRETE	,DISCRETEBINARY	,PIECEWISEBINARY	,PIECEWISECONSTANT	,PIECEWISECONTINUOUS	,NOTDEFINED);
-class IfcTimeSeriesDataTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTimeSeriesDataTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcTimeSeriesDataTypeEnumEnum

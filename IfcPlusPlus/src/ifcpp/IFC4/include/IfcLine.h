@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCurve.h"
-class IfcCartesianPoint;
-class IfcVector;
+class IFCPP_EXPORT IfcCartesianPoint;
+class IFCPP_EXPORT IfcVector;
 //ENTITY
-class IfcLine : public IfcCurve
-{
+class IFCPP_EXPORT IfcLine : public IfcCurve
+{ 
 public:
 	IfcLine();
 	IfcLine( int id );

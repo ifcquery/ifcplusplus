@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
-class IfcColumnTypeEnum;
+class IFCPP_EXPORT IfcColumnTypeEnum;
 //ENTITY
-class IfcColumnType : public IfcBuildingElementType
-{
+class IFCPP_EXPORT IfcColumnType : public IfcBuildingElementType
+{ 
 public:
 	IfcColumnType();
 	IfcColumnType( int id );

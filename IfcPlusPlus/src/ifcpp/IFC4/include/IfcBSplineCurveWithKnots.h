@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBSplineCurve.h"
-class IfcParameterValue;
-class IfcKnotType;
+class IFCPP_EXPORT IfcParameterValue;
+class IFCPP_EXPORT IfcKnotType;
 //ENTITY
-class IfcBSplineCurveWithKnots : public IfcBSplineCurve
-{
+class IFCPP_EXPORT IfcBSplineCurveWithKnots : public IfcBSplineCurve
+{ 
 public:
 	IfcBSplineCurveWithKnots();
 	IfcBSplineCurveWithKnots( int id );

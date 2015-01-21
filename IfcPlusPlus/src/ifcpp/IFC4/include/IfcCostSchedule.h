@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcControl.h"
-class IfcCostScheduleTypeEnum;
-class IfcLabel;
-class IfcDateTime;
+class IFCPP_EXPORT IfcCostScheduleTypeEnum;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcDateTime;
 //ENTITY
-class IfcCostSchedule : public IfcControl
-{
+class IFCPP_EXPORT IfcCostSchedule : public IfcControl
+{ 
 public:
 	IfcCostSchedule();
 	IfcCostSchedule( int id );

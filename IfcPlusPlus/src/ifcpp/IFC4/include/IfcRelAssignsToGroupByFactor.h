@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelAssignsToGroup.h"
-class IfcRatioMeasure;
+class IFCPP_EXPORT IfcRatioMeasure;
 //ENTITY
-class IfcRelAssignsToGroupByFactor : public IfcRelAssignsToGroup
-{
+class IFCPP_EXPORT IfcRelAssignsToGroupByFactor : public IfcRelAssignsToGroup
+{ 
 public:
 	IfcRelAssignsToGroupByFactor();
 	IfcRelAssignsToGroupByFactor( int id );

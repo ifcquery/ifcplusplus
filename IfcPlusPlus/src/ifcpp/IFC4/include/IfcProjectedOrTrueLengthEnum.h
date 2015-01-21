@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcProjectedOrTrueLengthEnum = ENUMERATION OF	(PROJECTED_LENGTH	,TRUE_LENGTH);
-class IfcProjectedOrTrueLengthEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcProjectedOrTrueLengthEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcProjectedOrTrueLengthEnumEnum

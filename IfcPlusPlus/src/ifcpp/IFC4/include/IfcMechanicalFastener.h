@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementComponent.h"
-class IfcPositiveLengthMeasure;
-class IfcMechanicalFastenerTypeEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcMechanicalFastenerTypeEnum;
 //ENTITY
-class IfcMechanicalFastener : public IfcElementComponent
-{
+class IFCPP_EXPORT IfcMechanicalFastener : public IfcElementComponent
+{ 
 public:
 	IfcMechanicalFastener();
 	IfcMechanicalFastener( int id );

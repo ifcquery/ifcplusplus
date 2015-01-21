@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFillStyleSelect.h"
 #include "IfcExternalReference.h"
 //ENTITY
-class IfcExternallyDefinedHatchStyle : virtual public IfcFillStyleSelect, public IfcExternalReference
-{
+class IFCPP_EXPORT IfcExternallyDefinedHatchStyle : virtual public IfcFillStyleSelect, public IfcExternalReference
+{ 
 public:
 	IfcExternallyDefinedHatchStyle();
 	IfcExternallyDefinedHatchStyle( int id );

@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcIsothermalMoistureCapacityMeasure = REAL;
-class IfcIsothermalMoistureCapacityMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcIsothermalMoistureCapacityMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcIsothermalMoistureCapacityMeasure();

@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProcessSelect.h"
 #include "IfcObject.h"
-class IfcIdentifier;
-class IfcText;
-class IfcRelSequence;
-class IfcRelAssignsToProcess;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcRelSequence;
+class IFCPP_EXPORT IfcRelAssignsToProcess;
 //ENTITY
-class IfcProcess : virtual public IfcProcessSelect, public IfcObject
-{
+class IFCPP_EXPORT IfcProcess : virtual public IfcProcessSelect, public IfcObject
+{ 
 public:
 	IfcProcess();
 	IfcProcess( int id );

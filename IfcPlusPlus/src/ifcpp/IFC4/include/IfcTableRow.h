@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcValue;
-class IfcTable;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcValue;
+class IFCPP_EXPORT IfcTable;
 //ENTITY
-class IfcTableRow : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcTableRow : public IfcPPEntity
+{ 
 public:
 	IfcTableRow();
 	IfcTableRow( int id );

@@ -77,11 +77,11 @@ void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCRECURRENCEPATTERN" << "(";
 	if( m_RecurrenceType ) { m_RecurrenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfIntList( stream, m_DayComponent );
+	writeNumericTypeList( stream, m_DayComponent );
 	stream << ",";
-	writeTypeOfIntList( stream, m_WeekdayComponent );
+	writeNumericTypeList( stream, m_WeekdayComponent );
 	stream << ",";
-	writeTypeOfIntList( stream, m_MonthComponent );
+	writeNumericTypeList( stream, m_MonthComponent );
 	stream << ",";
 	if( m_Position ) { m_Position->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

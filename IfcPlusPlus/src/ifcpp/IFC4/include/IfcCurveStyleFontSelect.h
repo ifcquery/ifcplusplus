@@ -20,7 +20,7 @@
 #include "IfcCurveFontOrScaledCurveFontSelect.h"
 
 // TYPE IfcCurveStyleFontSelect = SELECT	(IfcCurveStyleFont	,IfcPreDefinedCurveFont);
-class IfcCurveStyleFontSelect : public IfcCurveFontOrScaledCurveFontSelect
+class IFCPP_EXPORT IfcCurveStyleFontSelect : public IfcCurveFontOrScaledCurveFontSelect
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

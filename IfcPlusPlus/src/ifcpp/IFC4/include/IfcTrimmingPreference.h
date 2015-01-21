@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTrimmingPreference = ENUMERATION OF	(CARTESIAN	,PARAMETER	,UNSPECIFIED);
-class IfcTrimmingPreference : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTrimmingPreference : virtual public IfcPPObject
 {
 public:
 	enum IfcTrimmingPreferenceEnum

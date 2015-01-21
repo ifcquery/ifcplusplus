@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFurnishingElementType.h"
-class IfcAssemblyPlaceEnum;
-class IfcFurnitureTypeEnum;
+class IFCPP_EXPORT IfcAssemblyPlaceEnum;
+class IFCPP_EXPORT IfcFurnitureTypeEnum;
 //ENTITY
-class IfcFurnitureType : public IfcFurnishingElementType
-{
+class IFCPP_EXPORT IfcFurnitureType : public IfcFurnishingElementType
+{ 
 public:
 	IfcFurnitureType();
 	IfcFurnitureType( int id );

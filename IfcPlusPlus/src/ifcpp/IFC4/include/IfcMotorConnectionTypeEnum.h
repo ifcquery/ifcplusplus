@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcMotorConnectionTypeEnum = ENUMERATION OF	(BELTDRIVE	,COUPLING	,DIRECTDRIVE	,USERDEFINED	,NOTDEFINED);
-class IfcMotorConnectionTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcMotorConnectionTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcMotorConnectionTypeEnumEnum

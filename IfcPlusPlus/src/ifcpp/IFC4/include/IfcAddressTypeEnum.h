@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcAddressTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,HOME	,DISTRIBUTIONPOINT	,USERDEFINED);
-class IfcAddressTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcAddressTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcAddressTypeEnumEnum

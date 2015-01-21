@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProduct.h"
-class IfcGridAxis;
-class IfcGridTypeEnum;
-class IfcRelContainedInSpatialStructure;
+class IFCPP_EXPORT IfcGridAxis;
+class IFCPP_EXPORT IfcGridTypeEnum;
+class IFCPP_EXPORT IfcRelContainedInSpatialStructure;
 //ENTITY
-class IfcGrid : public IfcProduct
-{
+class IFCPP_EXPORT IfcGrid : public IfcProduct
+{ 
 public:
 	IfcGrid();
 	IfcGrid( int id );

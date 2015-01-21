@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceObjectSelect.h"
 //ENTITY
-class IfcExternalInformation : virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcExternalInformation : virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcExternalInformation();
 	IfcExternalInformation( int id );

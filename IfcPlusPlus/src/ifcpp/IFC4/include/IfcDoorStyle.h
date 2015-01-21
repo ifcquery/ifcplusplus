@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTypeProduct.h"
-class IfcDoorStyleOperationEnum;
-class IfcDoorStyleConstructionEnum;
+class IFCPP_EXPORT IfcDoorStyleOperationEnum;
+class IFCPP_EXPORT IfcDoorStyleConstructionEnum;
 //ENTITY
-class IfcDoorStyle : public IfcTypeProduct
-{
+class IFCPP_EXPORT IfcDoorStyle : public IfcTypeProduct
+{ 
 public:
 	IfcDoorStyle();
 	IfcDoorStyle( int id );

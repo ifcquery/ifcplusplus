@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementComponent.h"
-class IfcVibrationIsolatorTypeEnum;
+class IFCPP_EXPORT IfcVibrationIsolatorTypeEnum;
 //ENTITY
-class IfcVibrationIsolator : public IfcElementComponent
-{
+class IFCPP_EXPORT IfcVibrationIsolator : public IfcElementComponent
+{ 
 public:
 	IfcVibrationIsolator();
 	IfcVibrationIsolator( int id );

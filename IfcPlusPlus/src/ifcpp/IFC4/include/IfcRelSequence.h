@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnects.h"
-class IfcProcess;
-class IfcLagTime;
-class IfcSequenceEnum;
-class IfcLabel;
+class IFCPP_EXPORT IfcProcess;
+class IFCPP_EXPORT IfcLagTime;
+class IFCPP_EXPORT IfcSequenceEnum;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcRelSequence : public IfcRelConnects
-{
+class IFCPP_EXPORT IfcRelSequence : public IfcRelConnects
+{ 
 public:
 	IfcRelSequence();
 	IfcRelSequence( int id );

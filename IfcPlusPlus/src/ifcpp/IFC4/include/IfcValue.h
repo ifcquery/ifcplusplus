@@ -21,7 +21,7 @@
 #include "IfcMetricValueSelect.h"
 
 // TYPE IfcValue = SELECT	(IfcDerivedMeasureValue	,IfcMeasureValue	,IfcSimpleValue);
-class IfcValue : public IfcAppliedValueSelect, public IfcMetricValueSelect
+class IFCPP_EXPORT IfcValue : public IfcAppliedValueSelect, public IfcMetricValueSelect
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

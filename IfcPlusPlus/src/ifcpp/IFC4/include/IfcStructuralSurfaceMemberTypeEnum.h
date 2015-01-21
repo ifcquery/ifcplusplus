@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcStructuralSurfaceMemberTypeEnum = ENUMERATION OF	(BENDING_ELEMENT	,MEMBRANE_ELEMENT	,SHELL	,USERDEFINED	,NOTDEFINED);
-class IfcStructuralSurfaceMemberTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcStructuralSurfaceMemberTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcStructuralSurfaceMemberTypeEnumEnum

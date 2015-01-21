@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSurfaceSide = ENUMERATION OF	(POSITIVE	,NEGATIVE	,BOTH);
-class IfcSurfaceSide : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSurfaceSide : virtual public IfcPPObject
 {
 public:
 	enum IfcSurfaceSideEnum

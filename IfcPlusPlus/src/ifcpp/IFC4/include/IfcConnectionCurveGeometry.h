@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcConnectionGeometry.h"
-class IfcCurveOrEdgeCurve;
+class IFCPP_EXPORT IfcCurveOrEdgeCurve;
 //ENTITY
-class IfcConnectionCurveGeometry : public IfcConnectionGeometry
-{
+class IFCPP_EXPORT IfcConnectionCurveGeometry : public IfcConnectionGeometry
+{ 
 public:
 	IfcConnectionCurveGeometry();
 	IfcConnectionCurveGeometry( int id );

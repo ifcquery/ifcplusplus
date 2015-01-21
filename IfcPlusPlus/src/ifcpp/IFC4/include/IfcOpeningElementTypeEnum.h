@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcOpeningElementTypeEnum = ENUMERATION OF	(OPENING	,RECESS	,USERDEFINED	,NOTDEFINED);
-class IfcOpeningElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcOpeningElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcOpeningElementTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
-class IfcSystemFurnitureElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSystemFurnitureElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSystemFurnitureElementTypeEnumEnum

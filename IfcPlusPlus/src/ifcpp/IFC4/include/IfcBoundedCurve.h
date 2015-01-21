@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCurveOrEdgeCurve.h"
 #include "IfcCurve.h"
 //ENTITY
-class IfcBoundedCurve : virtual public IfcCurveOrEdgeCurve, public IfcCurve
-{
+class IFCPP_EXPORT IfcBoundedCurve : virtual public IfcCurveOrEdgeCurve, public IfcCurve
+{ 
 public:
 	IfcBoundedCurve();
 	IfcBoundedCurve( int id );

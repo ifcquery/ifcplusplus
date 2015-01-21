@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcAbsorbedDoseMeasure = REAL;
-class IfcAbsorbedDoseMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcAbsorbedDoseMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcAbsorbedDoseMeasure();

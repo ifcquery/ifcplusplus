@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelAssociates.h"
-class IfcMaterialSelect;
+class IFCPP_EXPORT IfcMaterialSelect;
 //ENTITY
-class IfcRelAssociatesMaterial : public IfcRelAssociates
-{
+class IFCPP_EXPORT IfcRelAssociatesMaterial : public IfcRelAssociates
+{ 
 public:
 	IfcRelAssociatesMaterial();
 	IfcRelAssociatesMaterial( int id );

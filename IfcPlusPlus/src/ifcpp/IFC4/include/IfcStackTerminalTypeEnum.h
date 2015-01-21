@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcStackTerminalTypeEnum = ENUMERATION OF	(BIRDCAGE	,COWL	,RAINWATERHOPPER	,USERDEFINED	,NOTDEFINED);
-class IfcStackTerminalTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcStackTerminalTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcStackTerminalTypeEnumEnum

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSweptSurface.h"
-class IfcDirection;
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcDirection;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcSurfaceOfLinearExtrusion : public IfcSweptSurface
-{
+class IFCPP_EXPORT IfcSurfaceOfLinearExtrusion : public IfcSweptSurface
+{ 
 public:
 	IfcSurfaceOfLinearExtrusion();
 	IfcSurfaceOfLinearExtrusion( int id );

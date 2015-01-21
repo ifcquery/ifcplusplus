@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcSpecularHighlightSelect = SELECT	(IfcSpecularExponent	,IfcSpecularRoughness);
-class IfcSpecularHighlightSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSpecularHighlightSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

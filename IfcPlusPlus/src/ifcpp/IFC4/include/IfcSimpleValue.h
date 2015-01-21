@@ -20,7 +20,7 @@
 #include "IfcValue.h"
 
 // TYPE IfcSimpleValue = SELECT	(IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp);
-class IfcSimpleValue : public IfcValue
+class IFCPP_EXPORT IfcSimpleValue : public IfcValue
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

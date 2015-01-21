@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLoop.h"
-class IfcOrientedEdge;
+class IFCPP_EXPORT IfcOrientedEdge;
 //ENTITY
-class IfcEdgeLoop : public IfcLoop
-{
+class IFCPP_EXPORT IfcEdgeLoop : public IfcLoop
+{ 
 public:
 	IfcEdgeLoop();
 	IfcEdgeLoop( int id );

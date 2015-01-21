@@ -73,9 +73,9 @@ void IfcRelConnectsPathElements::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_id; } else { stream << "*"; }
 	stream << ",";
-	writeIntList( stream, m_RelatingPriorities );
+	writeNumericList( stream, m_RelatingPriorities );
 	stream << ",";
-	writeIntList( stream, m_RelatedPriorities );
+	writeNumericList( stream, m_RelatedPriorities );
 	stream << ",";
 	if( m_RelatedConnectionType ) { m_RelatedConnectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcElectricTimeControlTypeEnum = ENUMERATION OF	(TIMECLOCK	,TIMEDELAY	,RELAY	,USERDEFINED	,NOTDEFINED);
-class IfcElectricTimeControlTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcElectricTimeControlTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcElectricTimeControlTypeEnumEnum

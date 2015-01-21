@@ -17,16 +17,17 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLightDistributionDataSourceSelect.h"
 #include "IfcObjectReferenceSelect.h"
 #include "IfcResourceObjectSelect.h"
-class IfcURIReference;
-class IfcIdentifier;
-class IfcLabel;
-class IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcURIReference;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
 //ENTITY
-class IfcExternalReference : virtual public IfcLightDistributionDataSourceSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcExternalReference : virtual public IfcLightDistributionDataSourceSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcExternalReference();
 	IfcExternalReference( int id );

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGridPlacementDirectionSelect.h"
-class IfcGridAxis;
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcGridAxis;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcVirtualGridIntersection : virtual public IfcGridPlacementDirectionSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcVirtualGridIntersection : virtual public IfcGridPlacementDirectionSelect, public IfcPPEntity
+{ 
 public:
 	IfcVirtualGridIntersection();
 	IfcVirtualGridIntersection( int id );

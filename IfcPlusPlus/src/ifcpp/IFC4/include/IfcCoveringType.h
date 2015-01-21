@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
-class IfcCoveringTypeEnum;
+class IFCPP_EXPORT IfcCoveringTypeEnum;
 //ENTITY
-class IfcCoveringType : public IfcBuildingElementType
-{
+class IFCPP_EXPORT IfcCoveringType : public IfcBuildingElementType
+{ 
 public:
 	IfcCoveringType();
 	IfcCoveringType( int id );

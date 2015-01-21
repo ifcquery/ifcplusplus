@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralLoadSingleForce.h"
-class IfcWarpingMomentMeasure;
+class IFCPP_EXPORT IfcWarpingMomentMeasure;
 //ENTITY
-class IfcStructuralLoadSingleForceWarping : public IfcStructuralLoadSingleForce
-{
+class IFCPP_EXPORT IfcStructuralLoadSingleForceWarping : public IfcStructuralLoadSingleForce
+{ 
 public:
 	IfcStructuralLoadSingleForceWarping();
 	IfcStructuralLoadSingleForceWarping( int id );

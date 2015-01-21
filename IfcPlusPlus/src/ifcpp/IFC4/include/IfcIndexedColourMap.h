@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcTessellatedFaceSet;
-class IfcSurfaceStyleShading;
-class IfcColourRgbList;
+class IFCPP_EXPORT IfcTessellatedFaceSet;
+class IFCPP_EXPORT IfcSurfaceStyleShading;
+class IFCPP_EXPORT IfcColourRgbList;
 //ENTITY
-class IfcIndexedColourMap : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcIndexedColourMap : public IfcPresentationItem
+{ 
 public:
 	IfcIndexedColourMap();
 	IfcIndexedColourMap( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDimensionCount = INTEGER;
-class IfcDimensionCount : public IfcPPObject
+class IFCPP_EXPORT IfcDimensionCount : public IfcPPObject
 {
 public:
 	IfcDimensionCount();

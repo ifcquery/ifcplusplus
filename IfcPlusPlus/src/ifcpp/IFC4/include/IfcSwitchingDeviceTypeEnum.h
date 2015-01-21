@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,SELECTORSWITCH	,STARTER	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,USERDEFINED	,NOTDEFINED);
-class IfcSwitchingDeviceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSwitchingDeviceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSwitchingDeviceTypeEnumEnum

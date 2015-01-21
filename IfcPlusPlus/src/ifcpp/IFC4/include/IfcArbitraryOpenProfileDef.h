@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProfileDef.h"
-class IfcBoundedCurve;
+class IFCPP_EXPORT IfcBoundedCurve;
 //ENTITY
-class IfcArbitraryOpenProfileDef : public IfcProfileDef
-{
+class IFCPP_EXPORT IfcArbitraryOpenProfileDef : public IfcProfileDef
+{ 
 public:
 	IfcArbitraryOpenProfileDef();
 	IfcArbitraryOpenProfileDef( int id );

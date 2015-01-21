@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSimpleValue.h"
 
 // TYPE IfcLogical = LOGICAL;
-class IfcLogical : public IfcSimpleValue
+class IFCPP_EXPORT IfcLogical : public IfcSimpleValue
 {
 public:
 	IfcLogical();

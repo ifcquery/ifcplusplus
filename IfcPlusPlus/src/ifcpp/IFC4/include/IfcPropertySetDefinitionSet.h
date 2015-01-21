@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPropertySetDefinitionSelect.h"
-class IfcPropertySetDefinition;
+class IFCPP_EXPORT IfcPropertySetDefinition;
 
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
-class IfcPropertySetDefinitionSet : public IfcPropertySetDefinitionSelect
+class IFCPP_EXPORT IfcPropertySetDefinitionSet : public IfcPropertySetDefinitionSelect
 {
 public:
 	IfcPropertySetDefinitionSet();

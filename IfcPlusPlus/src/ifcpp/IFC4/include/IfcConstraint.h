@@ -17,17 +17,18 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceObjectSelect.h"
-class IfcLabel;
-class IfcText;
-class IfcConstraintEnum;
-class IfcActorSelect;
-class IfcDateTime;
-class IfcExternalReferenceRelationship;
-class IfcResourceConstraintRelationship;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcConstraintEnum;
+class IFCPP_EXPORT IfcActorSelect;
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcResourceConstraintRelationship;
 //ENTITY
-class IfcConstraint : virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcConstraint : virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcConstraint();
 	IfcConstraint( int id );

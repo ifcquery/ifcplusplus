@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcWorkControl.h"
-class IfcWorkPlanTypeEnum;
+class IFCPP_EXPORT IfcWorkPlanTypeEnum;
 //ENTITY
-class IfcWorkPlan : public IfcWorkControl
-{
+class IFCPP_EXPORT IfcWorkPlan : public IfcWorkControl
+{ 
 public:
 	IfcWorkPlan();
 	IfcWorkPlan( int id );

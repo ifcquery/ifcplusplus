@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCurve.h"
-class IfcCurve;
-class IfcLengthMeasure;
-class IfcDirection;
+class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcDirection;
 //ENTITY
-class IfcOffsetCurve3D : public IfcCurve
-{
+class IFCPP_EXPORT IfcOffsetCurve3D : public IfcCurve
+{ 
 public:
 	IfcOffsetCurve3D();
 	IfcOffsetCurve3D( int id );

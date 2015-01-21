@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 #include "IfcModulusOfRotationalSubgradeReactionSelect.h"
 
 // TYPE IfcModulusOfRotationalSubgradeReactionMeasure = REAL;
-class IfcModulusOfRotationalSubgradeReactionMeasure : public IfcDerivedMeasureValue, public IfcModulusOfRotationalSubgradeReactionSelect
+class IFCPP_EXPORT IfcModulusOfRotationalSubgradeReactionMeasure : public IfcDerivedMeasureValue, public IfcModulusOfRotationalSubgradeReactionSelect
 {
 public:
 	IfcModulusOfRotationalSubgradeReactionMeasure();

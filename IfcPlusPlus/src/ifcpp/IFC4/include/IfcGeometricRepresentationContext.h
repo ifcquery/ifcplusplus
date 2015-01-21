@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCoordinateReferenceSystemSelect.h"
 #include "IfcRepresentationContext.h"
-class IfcDimensionCount;
-class IfcAxis2Placement;
-class IfcDirection;
-class IfcGeometricRepresentationSubContext;
+class IFCPP_EXPORT IfcDimensionCount;
+class IFCPP_EXPORT IfcAxis2Placement;
+class IFCPP_EXPORT IfcDirection;
+class IFCPP_EXPORT IfcGeometricRepresentationSubContext;
 //ENTITY
-class IfcGeometricRepresentationContext : virtual public IfcCoordinateReferenceSystemSelect, public IfcRepresentationContext
-{
+class IFCPP_EXPORT IfcGeometricRepresentationContext : virtual public IfcCoordinateReferenceSystemSelect, public IfcRepresentationContext
+{ 
 public:
 	IfcGeometricRepresentationContext();
 	IfcGeometricRepresentationContext( int id );

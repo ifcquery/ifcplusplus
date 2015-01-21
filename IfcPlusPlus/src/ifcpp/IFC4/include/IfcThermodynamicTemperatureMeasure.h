@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMeasureValue.h"
 
 // TYPE IfcThermodynamicTemperatureMeasure = REAL;
-class IfcThermodynamicTemperatureMeasure : public IfcMeasureValue
+class IFCPP_EXPORT IfcThermodynamicTemperatureMeasure : public IfcMeasureValue
 {
 public:
 	IfcThermodynamicTemperatureMeasure();

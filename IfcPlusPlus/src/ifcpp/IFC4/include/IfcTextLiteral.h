@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcPresentableText;
-class IfcAxis2Placement;
-class IfcTextPath;
+class IFCPP_EXPORT IfcPresentableText;
+class IFCPP_EXPORT IfcAxis2Placement;
+class IFCPP_EXPORT IfcTextPath;
 //ENTITY
-class IfcTextLiteral : public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcTextLiteral : public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcTextLiteral();
 	IfcTextLiteral( int id );

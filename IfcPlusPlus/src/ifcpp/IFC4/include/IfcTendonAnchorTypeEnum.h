@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTendonAnchorTypeEnum = ENUMERATION OF	(COUPLER	,FIXED_END	,TENSIONING_END	,USERDEFINED	,NOTDEFINED);
-class IfcTendonAnchorTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTendonAnchorTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcTendonAnchorTypeEnumEnum

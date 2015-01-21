@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcAppliedValue.h"
 //ENTITY
-class IfcCostValue : public IfcAppliedValue
-{
+class IFCPP_EXPORT IfcCostValue : public IfcAppliedValue
+{ 
 public:
 	IfcCostValue();
 	IfcCostValue( int id );

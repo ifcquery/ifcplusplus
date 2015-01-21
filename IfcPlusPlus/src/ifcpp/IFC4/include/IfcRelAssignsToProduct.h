@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelAssigns.h"
-class IfcProductSelect;
+class IFCPP_EXPORT IfcProductSelect;
 //ENTITY
-class IfcRelAssignsToProduct : public IfcRelAssigns
-{
+class IFCPP_EXPORT IfcRelAssignsToProduct : public IfcRelAssigns
+{ 
 public:
 	IfcRelAssignsToProduct();
 	IfcRelAssignsToProduct( int id );

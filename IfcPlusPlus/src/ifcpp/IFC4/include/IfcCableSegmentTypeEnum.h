@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCableSegmentTypeEnum = ENUMERATION OF	(BUSBARSEGMENT	,CABLESEGMENT	,CONDUCTORSEGMENT	,CORESEGMENT	,USERDEFINED	,NOTDEFINED);
-class IfcCableSegmentTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCableSegmentTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCableSegmentTypeEnumEnum

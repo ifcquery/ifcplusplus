@@ -17,19 +17,20 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceObjectSelect.h"
-class IfcIdentifier;
-class IfcLabel;
-class IfcText;
-class IfcDateTime;
-class IfcActorSelect;
-class IfcExternalReferenceRelationship;
-class IfcRelAssociatesApproval;
-class IfcResourceApprovalRelationship;
-class IfcApprovalRelationship;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcActorSelect;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcRelAssociatesApproval;
+class IFCPP_EXPORT IfcResourceApprovalRelationship;
+class IFCPP_EXPORT IfcApprovalRelationship;
 //ENTITY
-class IfcApproval : virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcApproval : virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcApproval();
 	IfcApproval( int id );

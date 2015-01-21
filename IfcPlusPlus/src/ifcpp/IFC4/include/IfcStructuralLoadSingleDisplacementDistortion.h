@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralLoadSingleDisplacement.h"
-class IfcCurvatureMeasure;
+class IFCPP_EXPORT IfcCurvatureMeasure;
 //ENTITY
-class IfcStructuralLoadSingleDisplacementDistortion : public IfcStructuralLoadSingleDisplacement
-{
+class IFCPP_EXPORT IfcStructuralLoadSingleDisplacementDistortion : public IfcStructuralLoadSingleDisplacement
+{ 
 public:
 	IfcStructuralLoadSingleDisplacementDistortion();
 	IfcStructuralLoadSingleDisplacementDistortion( int id );

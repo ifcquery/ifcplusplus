@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceObjectSelect.h"
-class IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
 //ENTITY
-class IfcPropertyAbstraction : virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcPropertyAbstraction : virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcPropertyAbstraction();
 	IfcPropertyAbstraction( int id );

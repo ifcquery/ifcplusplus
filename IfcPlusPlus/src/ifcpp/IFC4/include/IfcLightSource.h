@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcLabel;
-class IfcColourRgb;
-class IfcNormalisedRatioMeasure;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcColourRgb;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
 //ENTITY
-class IfcLightSource : public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcLightSource : public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcLightSource();
 	IfcLightSource( int id );

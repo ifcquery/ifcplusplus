@@ -3536,9 +3536,6 @@
     <ClInclude Include="src\ifcpp\model\IfcPPObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\model\IfcPPUtil.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\model\shared_ptr.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -7074,6 +7071,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\model\StatusCallback.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcReinforcingMeshTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-class IfcReinforcingMeshTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcReinforcingMeshTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcReinforcingMeshTypeEnumEnum

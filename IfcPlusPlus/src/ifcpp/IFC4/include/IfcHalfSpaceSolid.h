@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBooleanOperand.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcSurface;
+class IFCPP_EXPORT IfcSurface;
 //ENTITY
-class IfcHalfSpaceSolid : virtual public IfcBooleanOperand, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcHalfSpaceSolid : virtual public IfcBooleanOperand, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcHalfSpaceSolid();
 	IfcHalfSpaceSolid( int id );

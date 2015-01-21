@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLightSource.h"
-class IfcCartesianPoint;
-class IfcPositiveLengthMeasure;
-class IfcReal;
+class IFCPP_EXPORT IfcCartesianPoint;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcReal;
 //ENTITY
-class IfcLightSourcePositional : public IfcLightSource
-{
+class IFCPP_EXPORT IfcLightSourcePositional : public IfcLightSource
+{ 
 public:
 	IfcLightSourcePositional();
 	IfcLightSourcePositional( int id );

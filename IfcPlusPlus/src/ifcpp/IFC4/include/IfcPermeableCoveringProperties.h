@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedPropertySet.h"
-class IfcPermeableCoveringOperationEnum;
-class IfcWindowPanelPositionEnum;
-class IfcPositiveLengthMeasure;
-class IfcShapeAspect;
+class IFCPP_EXPORT IfcPermeableCoveringOperationEnum;
+class IFCPP_EXPORT IfcWindowPanelPositionEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcShapeAspect;
 //ENTITY
-class IfcPermeableCoveringProperties : public IfcPreDefinedPropertySet
-{
+class IFCPP_EXPORT IfcPermeableCoveringProperties : public IfcPreDefinedPropertySet
+{ 
 public:
 	IfcPermeableCoveringProperties();
 	IfcPermeableCoveringProperties( int id );

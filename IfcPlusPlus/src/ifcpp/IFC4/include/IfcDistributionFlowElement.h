@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDistributionElement.h"
-class IfcRelFlowControlElements;
+class IFCPP_EXPORT IfcRelFlowControlElements;
 //ENTITY
-class IfcDistributionFlowElement : public IfcDistributionElement
-{
+class IFCPP_EXPORT IfcDistributionFlowElement : public IfcDistributionElement
+{ 
 public:
 	IfcDistributionFlowElement();
 	IfcDistributionFlowElement( int id );

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowControllerType.h"
-class IfcValveTypeEnum;
+class IFCPP_EXPORT IfcValveTypeEnum;
 //ENTITY
-class IfcValveType : public IfcFlowControllerType
-{
+class IFCPP_EXPORT IfcValveType : public IfcFlowControllerType
+{ 
 public:
 	IfcValveType();
 	IfcValveType( int id );

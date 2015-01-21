@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcElectricDistributionBoardTypeEnum = ENUMERATION OF	(CONSUMERUNIT	,DISTRIBUTIONBOARD	,MOTORCONTROLCENTRE	,SWITCHBOARD	,USERDEFINED	,NOTDEFINED);
-class IfcElectricDistributionBoardTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcElectricDistributionBoardTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcElectricDistributionBoardTypeEnumEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralReaction.h"
-class IfcStructuralCurveActivityTypeEnum;
+class IFCPP_EXPORT IfcStructuralCurveActivityTypeEnum;
 //ENTITY
-class IfcStructuralCurveReaction : public IfcStructuralReaction
-{
+class IFCPP_EXPORT IfcStructuralCurveReaction : public IfcStructuralReaction
+{ 
 public:
 	IfcStructuralCurveReaction();
 	IfcStructuralCurveReaction( int id );

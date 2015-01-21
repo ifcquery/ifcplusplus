@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSpatialElementType.h"
-class IfcSpatialZoneTypeEnum;
-class IfcLabel;
+class IFCPP_EXPORT IfcSpatialZoneTypeEnum;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcSpatialZoneType : public IfcSpatialElementType
-{
+class IFCPP_EXPORT IfcSpatialZoneType : public IfcSpatialElementType
+{ 
 public:
 	IfcSpatialZoneType();
 	IfcSpatialZoneType( int id );

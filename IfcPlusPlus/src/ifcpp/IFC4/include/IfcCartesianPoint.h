@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTrimmingSelect.h"
 #include "IfcPoint.h"
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcCartesianPoint : virtual public IfcTrimmingSelect, public IfcPoint
-{
+class IFCPP_EXPORT IfcCartesianPoint : virtual public IfcTrimmingSelect, public IfcPoint
+{ 
 public:
 	IfcCartesianPoint();
 	IfcCartesianPoint( int id );

@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcIndexedTextureMap.h"
 //ENTITY
-class IfcIndexedTriangleTextureMap : public IfcIndexedTextureMap
-{
+class IFCPP_EXPORT IfcIndexedTriangleTextureMap : public IfcIndexedTextureMap
+{ 
 public:
 	IfcIndexedTriangleTextureMap();
 	IfcIndexedTriangleTextureMap( int id );

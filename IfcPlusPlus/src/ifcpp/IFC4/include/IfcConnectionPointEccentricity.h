@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcConnectionPointGeometry.h"
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcConnectionPointEccentricity : public IfcConnectionPointGeometry
-{
+class IFCPP_EXPORT IfcConnectionPointEccentricity : public IfcConnectionPointGeometry
+{ 
 public:
 	IfcConnectionPointEccentricity();
 	IfcConnectionPointEccentricity( int id );

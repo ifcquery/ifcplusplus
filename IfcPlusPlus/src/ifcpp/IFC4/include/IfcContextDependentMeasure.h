@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMeasureValue.h"
 
 // TYPE IfcContextDependentMeasure = REAL;
-class IfcContextDependentMeasure : public IfcMeasureValue
+class IFCPP_EXPORT IfcContextDependentMeasure : public IfcMeasureValue
 {
 public:
 	IfcContextDependentMeasure();

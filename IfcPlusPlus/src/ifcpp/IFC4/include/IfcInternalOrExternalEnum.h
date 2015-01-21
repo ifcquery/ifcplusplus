@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(INTERNAL	,EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,NOTDEFINED);
-class IfcInternalOrExternalEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcInternalOrExternalEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcInternalOrExternalEnumEnum

@@ -24,7 +24,7 @@ class IfcProject;
 class IfcGeometricRepresentationContext;
 class UnitConverter;
 
-class IfcPPModel : public StatusCallback
+class IFCPP_EXPORT IfcPPModel : public StatusCallback
 {
 public:
 	IfcPPModel();

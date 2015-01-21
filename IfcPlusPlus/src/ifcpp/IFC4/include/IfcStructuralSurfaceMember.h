@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralMember.h"
-class IfcStructuralSurfaceMemberTypeEnum;
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcStructuralSurfaceMemberTypeEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcStructuralSurfaceMember : public IfcStructuralMember
-{
+class IFCPP_EXPORT IfcStructuralSurfaceMember : public IfcStructuralMember
+{ 
 public:
 	IfcStructuralSurfaceMember();
 	IfcStructuralSurfaceMember( int id );

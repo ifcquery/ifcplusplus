@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcConstraintEnum = ENUMERATION OF	(HARD	,SOFT	,ADVISORY	,USERDEFINED	,NOTDEFINED);
-class IfcConstraintEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcConstraintEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcConstraintEnumEnum

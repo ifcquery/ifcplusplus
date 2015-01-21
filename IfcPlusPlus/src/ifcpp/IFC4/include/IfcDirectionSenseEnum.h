@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDirectionSenseEnum = ENUMERATION OF	(POSITIVE	,NEGATIVE);
-class IfcDirectionSenseEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDirectionSenseEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDirectionSenseEnumEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDistributionControlElement.h"
-class IfcProtectiveDeviceTrippingUnitTypeEnum;
+class IFCPP_EXPORT IfcProtectiveDeviceTrippingUnitTypeEnum;
 //ENTITY
-class IfcProtectiveDeviceTrippingUnit : public IfcDistributionControlElement
-{
+class IFCPP_EXPORT IfcProtectiveDeviceTrippingUnit : public IfcDistributionControlElement
+{ 
 public:
 	IfcProtectiveDeviceTrippingUnit();
 	IfcProtectiveDeviceTrippingUnit( int id );

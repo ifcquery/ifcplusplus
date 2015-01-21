@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcStructuralCurveActivityTypeEnum = ENUMERATION OF	(CONST	,LINEAR	,POLYGONAL	,EQUIDISTANT	,SINUS	,PARABOLA	,DISCRETE	,USERDEFINED	,NOTDEFINED);
-class IfcStructuralCurveActivityTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcStructuralCurveActivityTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcStructuralCurveActivityTypeEnumEnum

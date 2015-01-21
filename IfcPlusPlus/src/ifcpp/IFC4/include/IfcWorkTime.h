@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSchedulingTime.h"
-class IfcRecurrencePattern;
-class IfcDate;
+class IFCPP_EXPORT IfcRecurrencePattern;
+class IFCPP_EXPORT IfcDate;
 //ENTITY
-class IfcWorkTime : public IfcSchedulingTime
-{
+class IFCPP_EXPORT IfcWorkTime : public IfcSchedulingTime
+{ 
 public:
 	IfcWorkTime();
 	IfcWorkTime( int id );

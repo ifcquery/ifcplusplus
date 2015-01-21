@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnects.h"
-class IfcSpaceBoundarySelect;
-class IfcElement;
-class IfcConnectionGeometry;
-class IfcPhysicalOrVirtualEnum;
-class IfcInternalOrExternalEnum;
+class IFCPP_EXPORT IfcSpaceBoundarySelect;
+class IFCPP_EXPORT IfcElement;
+class IFCPP_EXPORT IfcConnectionGeometry;
+class IFCPP_EXPORT IfcPhysicalOrVirtualEnum;
+class IFCPP_EXPORT IfcInternalOrExternalEnum;
 //ENTITY
-class IfcRelSpaceBoundary : public IfcRelConnects
-{
+class IFCPP_EXPORT IfcRelSpaceBoundary : public IfcRelConnects
+{ 
 public:
 	IfcRelSpaceBoundary();
 	IfcRelSpaceBoundary( int id );

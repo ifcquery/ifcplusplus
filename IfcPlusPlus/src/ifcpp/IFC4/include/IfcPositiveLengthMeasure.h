@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLengthMeasure.h"
 #include "IfcHatchLineDistanceSelect.h"
 
 // TYPE IfcPositiveLengthMeasure = IfcLengthMeasure;
-class IfcPositiveLengthMeasure : public IfcLengthMeasure, public IfcHatchLineDistanceSelect
+class IFCPP_EXPORT IfcPositiveLengthMeasure : public IfcLengthMeasure, public IfcHatchLineDistanceSelect
 {
 public:
 	IfcPositiveLengthMeasure();

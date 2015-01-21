@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialSelect.h"
 #include "IfcObjectReferenceSelect.h"
 #include "IfcResourceObjectSelect.h"
-class IfcRelAssociatesMaterial;
-class IfcExternalReferenceRelationship;
-class IfcMaterialProperties;
+class IFCPP_EXPORT IfcRelAssociatesMaterial;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcMaterialProperties;
 //ENTITY
-class IfcMaterialDefinition : virtual public IfcMaterialSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcMaterialDefinition : virtual public IfcMaterialSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcMaterialDefinition();
 	IfcMaterialDefinition( int id );

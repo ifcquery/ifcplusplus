@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurface.h"
-class IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcAxis2Placement3D;
 //ENTITY
-class IfcElementarySurface : public IfcSurface
-{
+class IFCPP_EXPORT IfcElementarySurface : public IfcSurface
+{ 
 public:
 	IfcElementarySurface();
 	IfcElementarySurface( int id );

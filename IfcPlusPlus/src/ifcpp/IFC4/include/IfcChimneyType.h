@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
-class IfcChimneyTypeEnum;
+class IFCPP_EXPORT IfcChimneyTypeEnum;
 //ENTITY
-class IfcChimneyType : public IfcBuildingElementType
-{
+class IFCPP_EXPORT IfcChimneyType : public IfcBuildingElementType
+{ 
 public:
 	IfcChimneyType();
 	IfcChimneyType( int id );

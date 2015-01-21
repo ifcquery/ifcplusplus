@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSequenceEnum = ENUMERATION OF	(START_START	,START_FINISH	,FINISH_START	,FINISH_FINISH	,USERDEFINED	,NOTDEFINED);
-class IfcSequenceEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSequenceEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSequenceEnumEnum

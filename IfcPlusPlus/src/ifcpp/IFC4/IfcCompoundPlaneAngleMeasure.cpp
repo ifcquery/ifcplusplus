@@ -37,7 +37,7 @@ shared_ptr<IfcPPObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( IfcPPCopyOpti
 void IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPOUNDPLANEANGLEMEASURE("; }
-	writeIntList( stream, m_vec );
+	writeNumericList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IfcCompoundPlaneAngleMeasure> IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg )

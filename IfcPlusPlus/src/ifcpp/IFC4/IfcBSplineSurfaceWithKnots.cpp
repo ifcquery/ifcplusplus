@@ -98,13 +98,13 @@ void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
 	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
-	writeIntList( stream, m_UMultiplicities );
+	writeNumericList( stream, m_UMultiplicities );
 	stream << ",";
-	writeIntList( stream, m_VMultiplicities );
+	writeNumericList( stream, m_VMultiplicities );
 	stream << ",";
-	writeTypeOfRealList( stream, m_UKnots );
+	writeNumericTypeList( stream, m_UKnots );
 	stream << ",";
-	writeTypeOfRealList( stream, m_VKnots );
+	writeNumericTypeList( stream, m_VKnots );
 	stream << ",";
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundaryCondition.h"
-class IfcTranslationalStiffnessSelect;
-class IfcRotationalStiffnessSelect;
+class IFCPP_EXPORT IfcTranslationalStiffnessSelect;
+class IFCPP_EXPORT IfcRotationalStiffnessSelect;
 //ENTITY
-class IfcBoundaryNodeCondition : public IfcBoundaryCondition
-{
+class IFCPP_EXPORT IfcBoundaryNodeCondition : public IfcBoundaryCondition
+{ 
 public:
 	IfcBoundaryNodeCondition();
 	IfcBoundaryNodeCondition( int id );

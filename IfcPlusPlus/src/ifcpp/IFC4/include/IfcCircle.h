@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcConic.h"
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcCircle : public IfcConic
-{
+class IFCPP_EXPORT IfcCircle : public IfcConic
+{ 
 public:
 	IfcCircle();
 	IfcCircle( int id );

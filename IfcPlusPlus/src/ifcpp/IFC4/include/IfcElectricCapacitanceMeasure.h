@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcElectricCapacitanceMeasure = REAL;
-class IfcElectricCapacitanceMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcElectricCapacitanceMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcElectricCapacitanceMeasure();

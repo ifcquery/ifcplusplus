@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcShadingDeviceTypeEnum = ENUMERATION OF	(JALOUSIE	,SHUTTER	,AWNING	,USERDEFINED	,NOTDEFINED);
-class IfcShadingDeviceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcShadingDeviceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcShadingDeviceTypeEnumEnum

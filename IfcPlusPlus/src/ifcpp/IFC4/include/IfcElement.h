@@ -17,21 +17,22 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralActivityAssignmentSelect.h"
 #include "IfcProduct.h"
-class IfcIdentifier;
-class IfcRelFillsElement;
-class IfcRelConnectsElements;
-class IfcRelInterferesElements;
-class IfcRelProjectsElement;
-class IfcRelReferencedInSpatialStructure;
-class IfcRelVoidsElement;
-class IfcRelConnectsWithRealizingElements;
-class IfcRelSpaceBoundary;
-class IfcRelContainedInSpatialStructure;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcRelFillsElement;
+class IFCPP_EXPORT IfcRelConnectsElements;
+class IFCPP_EXPORT IfcRelInterferesElements;
+class IFCPP_EXPORT IfcRelProjectsElement;
+class IFCPP_EXPORT IfcRelReferencedInSpatialStructure;
+class IFCPP_EXPORT IfcRelVoidsElement;
+class IFCPP_EXPORT IfcRelConnectsWithRealizingElements;
+class IFCPP_EXPORT IfcRelSpaceBoundary;
+class IFCPP_EXPORT IfcRelContainedInSpatialStructure;
 //ENTITY
-class IfcElement : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
-{
+class IFCPP_EXPORT IfcElement : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
+{ 
 public:
 	IfcElement();
 	IfcElement( int id );

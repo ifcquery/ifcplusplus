@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,USERDEFINED	,NOTDEFINED);
-class IfcDoorTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDoorTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDoorTypeEnumEnum

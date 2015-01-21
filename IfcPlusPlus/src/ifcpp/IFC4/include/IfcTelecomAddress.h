@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcAddress.h"
-class IfcLabel;
-class IfcURIReference;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcURIReference;
 //ENTITY
-class IfcTelecomAddress : public IfcAddress
-{
+class IFCPP_EXPORT IfcTelecomAddress : public IfcAddress
+{ 
 public:
 	IfcTelecomAddress();
 	IfcTelecomAddress( int id );

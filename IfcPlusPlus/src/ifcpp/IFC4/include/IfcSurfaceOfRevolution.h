@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSweptSurface.h"
-class IfcAxis1Placement;
+class IFCPP_EXPORT IfcAxis1Placement;
 //ENTITY
-class IfcSurfaceOfRevolution : public IfcSweptSurface
-{
+class IFCPP_EXPORT IfcSurfaceOfRevolution : public IfcSweptSurface
+{ 
 public:
 	IfcSurfaceOfRevolution();
 	IfcSurfaceOfRevolution( int id );

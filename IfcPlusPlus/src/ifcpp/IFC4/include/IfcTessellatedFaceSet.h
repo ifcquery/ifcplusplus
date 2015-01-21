@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTessellatedItem.h"
-class IfcCartesianPointList3D;
-class IfcParameterValue;
-class IfcIndexedColourMap;
-class IfcIndexedTextureMap;
+class IFCPP_EXPORT IfcCartesianPointList3D;
+class IFCPP_EXPORT IfcParameterValue;
+class IFCPP_EXPORT IfcIndexedColourMap;
+class IFCPP_EXPORT IfcIndexedTextureMap;
 //ENTITY
-class IfcTessellatedFaceSet : public IfcTessellatedItem
-{
+class IFCPP_EXPORT IfcTessellatedFaceSet : public IfcTessellatedItem
+{ 
 public:
 	IfcTessellatedFaceSet();
 	IfcTessellatedFaceSet( int id );

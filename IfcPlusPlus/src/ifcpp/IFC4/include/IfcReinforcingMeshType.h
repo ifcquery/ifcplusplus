@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcReinforcingElementType.h"
-class IfcReinforcingMeshTypeEnum;
-class IfcPositiveLengthMeasure;
-class IfcAreaMeasure;
-class IfcLabel;
-class IfcBendingParameterSelect;
+class IFCPP_EXPORT IfcReinforcingMeshTypeEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcAreaMeasure;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcBendingParameterSelect;
 //ENTITY
-class IfcReinforcingMeshType : public IfcReinforcingElementType
-{
+class IFCPP_EXPORT IfcReinforcingMeshType : public IfcReinforcingElementType
+{ 
 public:
 	IfcReinforcingMeshType();
 	IfcReinforcingMeshType( int id );

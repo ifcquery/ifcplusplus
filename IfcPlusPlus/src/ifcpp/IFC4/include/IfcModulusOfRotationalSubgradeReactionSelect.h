@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcModulusOfRotationalSubgradeReactionSelect = SELECT	(IfcBoolean	,IfcModulusOfRotationalSubgradeReactionMeasure);
-class IfcModulusOfRotationalSubgradeReactionSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcModulusOfRotationalSubgradeReactionSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

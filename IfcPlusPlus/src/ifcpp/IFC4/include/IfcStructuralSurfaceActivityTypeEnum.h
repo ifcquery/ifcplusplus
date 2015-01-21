@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcStructuralSurfaceActivityTypeEnum = ENUMERATION OF	(CONST	,BILINEAR	,DISCRETE	,ISOCONTOUR	,USERDEFINED	,NOTDEFINED);
-class IfcStructuralSurfaceActivityTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcStructuralSurfaceActivityTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcStructuralSurfaceActivityTypeEnumEnum

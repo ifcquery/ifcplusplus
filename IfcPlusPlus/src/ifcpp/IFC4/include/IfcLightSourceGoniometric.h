@@ -17,16 +17,17 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLightSource.h"
-class IfcAxis2Placement3D;
-class IfcColourRgb;
-class IfcThermodynamicTemperatureMeasure;
-class IfcLuminousFluxMeasure;
-class IfcLightEmissionSourceEnum;
-class IfcLightDistributionDataSourceSelect;
+class IFCPP_EXPORT IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcColourRgb;
+class IFCPP_EXPORT IfcThermodynamicTemperatureMeasure;
+class IFCPP_EXPORT IfcLuminousFluxMeasure;
+class IFCPP_EXPORT IfcLightEmissionSourceEnum;
+class IFCPP_EXPORT IfcLightDistributionDataSourceSelect;
 //ENTITY
-class IfcLightSourceGoniometric : public IfcLightSource
-{
+class IFCPP_EXPORT IfcLightSourceGoniometric : public IfcLightSource
+{ 
 public:
 	IfcLightSourceGoniometric();
 	IfcLightSourceGoniometric( int id );

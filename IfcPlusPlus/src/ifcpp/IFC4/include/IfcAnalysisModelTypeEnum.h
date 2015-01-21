@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcAnalysisModelTypeEnum = ENUMERATION OF	(IN_PLANE_LOADING_2D	,OUT_PLANE_LOADING_2D	,LOADING_3D	,USERDEFINED	,NOTDEFINED);
-class IfcAnalysisModelTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcAnalysisModelTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcAnalysisModelTypeEnumEnum

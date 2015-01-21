@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcActionTypeEnum = ENUMERATION OF	(PERMANENT_G	,VARIABLE_Q	,EXTRAORDINARY_A	,USERDEFINED	,NOTDEFINED);
-class IfcActionTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcActionTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcActionTypeEnumEnum

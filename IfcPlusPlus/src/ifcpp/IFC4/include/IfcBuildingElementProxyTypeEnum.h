@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORVOID	,USERDEFINED	,NOTDEFINED);
-class IfcBuildingElementProxyTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBuildingElementProxyTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcBuildingElementProxyTypeEnumEnum

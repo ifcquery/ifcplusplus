@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcHalfSpaceSolid.h"
-class IfcAxis2Placement3D;
-class IfcBoundedCurve;
+class IFCPP_EXPORT IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcBoundedCurve;
 //ENTITY
-class IfcPolygonalBoundedHalfSpace : public IfcHalfSpaceSolid
-{
+class IFCPP_EXPORT IfcPolygonalBoundedHalfSpace : public IfcHalfSpaceSolid
+{ 
 public:
 	IfcPolygonalBoundedHalfSpace();
 	IfcPolygonalBoundedHalfSpace( int id );

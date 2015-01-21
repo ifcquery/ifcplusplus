@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralAction.h"
-class IfcProjectedOrTrueLengthEnum;
-class IfcStructuralSurfaceActivityTypeEnum;
+class IFCPP_EXPORT IfcProjectedOrTrueLengthEnum;
+class IFCPP_EXPORT IfcStructuralSurfaceActivityTypeEnum;
 //ENTITY
-class IfcStructuralSurfaceAction : public IfcStructuralAction
-{
+class IFCPP_EXPORT IfcStructuralSurfaceAction : public IfcStructuralAction
+{ 
 public:
 	IfcStructuralSurfaceAction();
 	IfcStructuralSurfaceAction( int id );

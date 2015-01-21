@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
-class IfcCooledBeamTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCooledBeamTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCooledBeamTypeEnumEnum

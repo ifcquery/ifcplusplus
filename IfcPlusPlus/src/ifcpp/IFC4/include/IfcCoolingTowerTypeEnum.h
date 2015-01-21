@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCoolingTowerTypeEnum = ENUMERATION OF	(NATURALDRAFT	,MECHANICALINDUCEDDRAFT	,MECHANICALFORCEDDRAFT	,USERDEFINED	,NOTDEFINED);
-class IfcCoolingTowerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCoolingTowerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCoolingTowerTypeEnumEnum

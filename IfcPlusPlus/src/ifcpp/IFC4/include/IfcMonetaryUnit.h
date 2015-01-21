@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcUnit.h"
-class IfcLabel;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcMonetaryUnit : virtual public IfcUnit, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcMonetaryUnit : virtual public IfcUnit, public IfcPPEntity
+{ 
 public:
 	IfcMonetaryUnit();
 	IfcMonetaryUnit( int id );

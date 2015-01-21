@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcHalfSpaceSolid.h"
-class IfcBoundingBox;
+class IFCPP_EXPORT IfcBoundingBox;
 //ENTITY
-class IfcBoxedHalfSpace : public IfcHalfSpaceSolid
-{
+class IFCPP_EXPORT IfcBoxedHalfSpace : public IfcHalfSpaceSolid
+{ 
 public:
 	IfcBoxedHalfSpace();
 	IfcBoxedHalfSpace( int id );

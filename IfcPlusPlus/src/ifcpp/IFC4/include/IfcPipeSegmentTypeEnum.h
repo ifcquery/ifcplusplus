@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPipeSegmentTypeEnum = ENUMERATION OF	(CULVERT	,FLEXIBLESEGMENT	,RIGIDSEGMENT	,GUTTER	,SPOOL	,USERDEFINED	,NOTDEFINED);
-class IfcPipeSegmentTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPipeSegmentTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPipeSegmentTypeEnumEnum

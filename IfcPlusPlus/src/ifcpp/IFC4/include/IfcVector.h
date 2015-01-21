@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcHatchLineDistanceSelect.h"
 #include "IfcVectorOrDirection.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcDirection;
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcDirection;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcVector : virtual public IfcHatchLineDistanceSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcVector : virtual public IfcHatchLineDistanceSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcVector();
 	IfcVector( int id );

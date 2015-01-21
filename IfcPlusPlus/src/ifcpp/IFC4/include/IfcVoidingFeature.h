@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFeatureElementSubtraction.h"
-class IfcVoidingFeatureTypeEnum;
+class IFCPP_EXPORT IfcVoidingFeatureTypeEnum;
 //ENTITY
-class IfcVoidingFeature : public IfcFeatureElementSubtraction
-{
+class IFCPP_EXPORT IfcVoidingFeature : public IfcFeatureElementSubtraction
+{ 
 public:
 	IfcVoidingFeature();
 	IfcVoidingFeature( int id );

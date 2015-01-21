@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundaryNodeCondition.h"
-class IfcWarpingStiffnessSelect;
+class IFCPP_EXPORT IfcWarpingStiffnessSelect;
 //ENTITY
-class IfcBoundaryNodeConditionWarping : public IfcBoundaryNodeCondition
-{
+class IFCPP_EXPORT IfcBoundaryNodeConditionWarping : public IfcBoundaryNodeCondition
+{ 
 public:
 	IfcBoundaryNodeConditionWarping();
 	IfcBoundaryNodeConditionWarping( int id );

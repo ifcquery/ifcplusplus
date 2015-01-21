@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcSizeSelect;
-class IfcTextAlignment;
-class IfcTextDecoration;
-class IfcTextTransformation;
+class IFCPP_EXPORT IfcSizeSelect;
+class IFCPP_EXPORT IfcTextAlignment;
+class IFCPP_EXPORT IfcTextDecoration;
+class IFCPP_EXPORT IfcTextTransformation;
 //ENTITY
-class IfcTextStyleTextModel : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcTextStyleTextModel : public IfcPresentationItem
+{ 
 public:
 	IfcTextStyleTextModel();
 	IfcTextStyleTextModel( int id );

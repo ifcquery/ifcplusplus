@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcEventTriggerTypeEnum = ENUMERATION OF	(EVENTRULE	,EVENTMESSAGE	,EVENTTIME	,EVENTCOMPLEX	,USERDEFINED	,NOTDEFINED);
-class IfcEventTriggerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcEventTriggerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcEventTriggerTypeEnumEnum

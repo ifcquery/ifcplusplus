@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTaskDurationEnum = ENUMERATION OF	(ELAPSEDTIME	,WORKTIME	,NOTDEFINED);
-class IfcTaskDurationEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTaskDurationEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcTaskDurationEnumEnum

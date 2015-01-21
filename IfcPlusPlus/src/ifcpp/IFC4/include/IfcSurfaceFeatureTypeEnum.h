@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSurfaceFeatureTypeEnum = ENUMERATION OF	(MARK	,TAG	,TREATMENT	,USERDEFINED	,NOTDEFINED);
-class IfcSurfaceFeatureTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSurfaceFeatureTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSurfaceFeatureTypeEnumEnum

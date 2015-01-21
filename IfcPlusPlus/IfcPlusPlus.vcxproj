@@ -159,7 +159,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
@@ -1456,6 +1456,7 @@
     <ClCompile Include="src\ifcpp\xml\XmlTools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGuid.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAbsorbedDoseMeasure.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAccelerationMeasure.h" />
@@ -2625,7 +2626,6 @@
     <ClInclude Include="src\ifcpp\model\IfcPPModel.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPObject.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPOpenMP.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPUtil.h" />
     <ClInclude Include="src\ifcpp\model\shared_ptr.h" />
     <ClInclude Include="src\ifcpp\model\StatusCallback.h" />
     <ClInclude Include="src\ifcpp\model\UnitConverter.h" />

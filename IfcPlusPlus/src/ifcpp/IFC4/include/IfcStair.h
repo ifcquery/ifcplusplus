@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
-class IfcStairTypeEnum;
+class IFCPP_EXPORT IfcStairTypeEnum;
 //ENTITY
-class IfcStair : public IfcBuildingElement
-{
+class IFCPP_EXPORT IfcStair : public IfcBuildingElement
+{ 
 public:
 	IfcStair();
 	IfcStair( int id );

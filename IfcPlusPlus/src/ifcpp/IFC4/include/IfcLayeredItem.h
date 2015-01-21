@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcLayeredItem = SELECT	(IfcRepresentation	,IfcRepresentationItem);
-class IfcLayeredItem : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLayeredItem : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

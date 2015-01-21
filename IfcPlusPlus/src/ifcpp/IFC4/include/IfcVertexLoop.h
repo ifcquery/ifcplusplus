@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLoop.h"
-class IfcVertex;
+class IFCPP_EXPORT IfcVertex;
 //ENTITY
-class IfcVertexLoop : public IfcLoop
-{
+class IFCPP_EXPORT IfcVertexLoop : public IfcLoop
+{ 
 public:
 	IfcVertexLoop();
 	IfcVertexLoop( int id );

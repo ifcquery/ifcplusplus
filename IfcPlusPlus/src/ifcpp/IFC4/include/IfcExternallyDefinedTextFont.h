@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTextFontSelect.h"
 #include "IfcExternalReference.h"
 //ENTITY
-class IfcExternallyDefinedTextFont : virtual public IfcTextFontSelect, public IfcExternalReference
-{
+class IFCPP_EXPORT IfcExternallyDefinedTextFont : virtual public IfcTextFontSelect, public IfcExternalReference
+{ 
 public:
 	IfcExternallyDefinedTextFont();
 	IfcExternallyDefinedTextFont( int id );

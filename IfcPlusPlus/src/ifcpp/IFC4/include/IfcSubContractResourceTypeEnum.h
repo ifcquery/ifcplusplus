@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSubContractResourceTypeEnum = ENUMERATION OF	(PURCHASE	,WORK	,USERDEFINED	,NOTDEFINED);
-class IfcSubContractResourceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSubContractResourceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSubContractResourceTypeEnumEnum

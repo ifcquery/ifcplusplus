@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCurveOnSurface.h"
 #include "IfcCurve.h"
-class IfcSurface;
-class IfcCurve;
+class IFCPP_EXPORT IfcSurface;
+class IFCPP_EXPORT IfcCurve;
 //ENTITY
-class IfcPcurve : virtual public IfcCurveOnSurface, public IfcCurve
-{
+class IFCPP_EXPORT IfcPcurve : virtual public IfcCurveOnSurface, public IfcCurve
+{ 
 public:
 	IfcPcurve();
 	IfcPcurve( int id );

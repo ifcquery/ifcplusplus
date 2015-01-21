@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcReinforcingElementType.h"
-class IfcTendonTypeEnum;
-class IfcPositiveLengthMeasure;
-class IfcAreaMeasure;
+class IFCPP_EXPORT IfcTendonTypeEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcAreaMeasure;
 //ENTITY
-class IfcTendonType : public IfcReinforcingElementType
-{
+class IFCPP_EXPORT IfcTendonType : public IfcReinforcingElementType
+{ 
 public:
 	IfcTendonType();
 	IfcTendonType( int id );

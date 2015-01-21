@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPileConstructionEnum = ENUMERATION OF	(CAST_IN_PLACE	,COMPOSITE	,PRECAST_CONCRETE	,PREFAB_STEEL	,USERDEFINED	,NOTDEFINED);
-class IfcPileConstructionEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPileConstructionEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPileConstructionEnumEnum

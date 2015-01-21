@@ -19,6 +19,7 @@
 #include <boost/algorithm/string.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "IfcPPGlobal.h"
 
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 
@@ -32,14 +33,14 @@ public:
 	bool create_new_IfcGloballyUniqueId = true;			// If set to true, all copies of type IfcGloballyUniqueId get a new GUID.
 };
 
-class IfcPPObject
+class IFCPP_EXPORT IfcPPObject
 {
 public:
 	virtual const char* className() const = 0;
 };
 
 // ENTITY
-class IfcPPEntity : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPPEntity : virtual public IfcPPObject
 {
 public:
 	IfcPPEntity() : m_id(-1)

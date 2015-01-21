@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcParameterizedProfileDef.h"
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcRectangleProfileDef : public IfcParameterizedProfileDef
-{
+class IFCPP_EXPORT IfcRectangleProfileDef : public IfcParameterizedProfileDef
+{ 
 public:
 	IfcRectangleProfileDef();
 	IfcRectangleProfileDef( int id );

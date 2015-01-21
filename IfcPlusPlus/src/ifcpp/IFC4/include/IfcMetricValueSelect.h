@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcMetricValueSelect = SELECT	(IfcAppliedValue	,IfcMeasureWithUnit	,IfcReference	,IfcTable	,IfcTimeSeries	,IfcValue);
-class IfcMetricValueSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcMetricValueSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

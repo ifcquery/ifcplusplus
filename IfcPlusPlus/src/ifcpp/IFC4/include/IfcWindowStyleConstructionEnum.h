@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcWindowStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,PLASTIC	,OTHER_CONSTRUCTION	,NOTDEFINED);
-class IfcWindowStyleConstructionEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcWindowStyleConstructionEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcWindowStyleConstructionEnumEnum

@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMassPerLengthMeasure = REAL;
-class IfcMassPerLengthMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcMassPerLengthMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMassPerLengthMeasure();

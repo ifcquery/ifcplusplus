@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSpatialStructureElement.h"
-class IfcCompoundPlaneAngleMeasure;
-class IfcLengthMeasure;
-class IfcLabel;
-class IfcPostalAddress;
+class IFCPP_EXPORT IfcCompoundPlaneAngleMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcPostalAddress;
 //ENTITY
-class IfcSite : public IfcSpatialStructureElement
-{
+class IFCPP_EXPORT IfcSite : public IfcSpatialStructureElement
+{ 
 public:
 	IfcSite();
 	IfcSite( int id );

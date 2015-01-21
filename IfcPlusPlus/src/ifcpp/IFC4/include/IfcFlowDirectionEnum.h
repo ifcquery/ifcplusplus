@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFlowDirectionEnum = ENUMERATION OF	(SOURCE	,SINK	,SOURCEANDSINK	,NOTDEFINED);
-class IfcFlowDirectionEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFlowDirectionEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFlowDirectionEnumEnum

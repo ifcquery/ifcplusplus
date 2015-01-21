@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcRampFlightTypeEnum = ENUMERATION OF	(STRAIGHT	,SPIRAL	,USERDEFINED	,NOTDEFINED);
-class IfcRampFlightTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcRampFlightTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcRampFlightTypeEnumEnum

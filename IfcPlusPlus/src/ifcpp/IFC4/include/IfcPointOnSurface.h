@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPoint.h"
-class IfcSurface;
-class IfcParameterValue;
+class IFCPP_EXPORT IfcSurface;
+class IFCPP_EXPORT IfcParameterValue;
 //ENTITY
-class IfcPointOnSurface : public IfcPoint
-{
+class IFCPP_EXPORT IfcPointOnSurface : public IfcPoint
+{ 
 public:
 	IfcPointOnSurface();
 	IfcPointOnSurface( int id );

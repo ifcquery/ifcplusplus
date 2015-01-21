@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcPointOrVertexPoint = SELECT	(IfcPoint	,IfcVertexPoint);
-class IfcPointOrVertexPoint : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPointOrVertexPoint : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

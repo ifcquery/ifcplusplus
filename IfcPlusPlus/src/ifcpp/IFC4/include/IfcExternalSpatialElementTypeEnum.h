@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFIEND);
-class IfcExternalSpatialElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcExternalSpatialElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcExternalSpatialElementTypeEnumEnum

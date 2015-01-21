@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProfileDef.h"
-class IfcAxis2Placement2D;
+class IFCPP_EXPORT IfcAxis2Placement2D;
 //ENTITY
-class IfcParameterizedProfileDef : public IfcProfileDef
-{
+class IFCPP_EXPORT IfcParameterizedProfileDef : public IfcProfileDef
+{ 
 public:
 	IfcParameterizedProfileDef();
 	IfcParameterizedProfileDef( int id );

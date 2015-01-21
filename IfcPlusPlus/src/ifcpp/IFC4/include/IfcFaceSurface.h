@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurfaceOrFaceSurface.h"
 #include "IfcFace.h"
-class IfcSurface;
+class IFCPP_EXPORT IfcSurface;
 //ENTITY
-class IfcFaceSurface : virtual public IfcSurfaceOrFaceSurface, public IfcFace
-{
+class IFCPP_EXPORT IfcFaceSurface : virtual public IfcSurfaceOrFaceSurface, public IfcFace
+{ 
 public:
 	IfcFaceSurface();
 	IfcFaceSurface( int id );

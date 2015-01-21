@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcGridPlacementDirectionSelect = SELECT	(IfcDirection	,IfcVirtualGridIntersection);
-class IfcGridPlacementDirectionSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcGridPlacementDirectionSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

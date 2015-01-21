@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcObjectTypeEnum = ENUMERATION OF	(PRODUCT	,PROCESS	,CONTROL	,RESOURCE	,ACTOR	,GROUP	,PROJECT	,NOTDEFINED);
-class IfcObjectTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcObjectTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcObjectTypeEnumEnum

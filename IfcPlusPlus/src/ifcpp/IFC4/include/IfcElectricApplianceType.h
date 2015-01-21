@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowTerminalType.h"
-class IfcElectricApplianceTypeEnum;
+class IFCPP_EXPORT IfcElectricApplianceTypeEnum;
 //ENTITY
-class IfcElectricApplianceType : public IfcFlowTerminalType
-{
+class IFCPP_EXPORT IfcElectricApplianceType : public IfcFlowTerminalType
+{ 
 public:
 	IfcElectricApplianceType();
 	IfcElectricApplianceType( int id );

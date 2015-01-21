@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcReflectanceMethodEnum = ENUMERATION OF	(BLINN	,FLAT	,GLASS	,MATT	,METAL	,MIRROR	,PHONG	,PLASTIC	,STRAUSS	,NOTDEFINED);
-class IfcReflectanceMethodEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcReflectanceMethodEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcReflectanceMethodEnumEnum

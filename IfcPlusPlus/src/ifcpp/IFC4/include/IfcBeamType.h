@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
-class IfcBeamTypeEnum;
+class IFCPP_EXPORT IfcBeamTypeEnum;
 //ENTITY
-class IfcBeamType : public IfcBuildingElementType
-{
+class IFCPP_EXPORT IfcBeamType : public IfcBuildingElementType
+{ 
 public:
 	IfcBeamType();
 	IfcBeamType( int id );

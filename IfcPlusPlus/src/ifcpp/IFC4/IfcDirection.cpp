@@ -36,7 +36,7 @@ shared_ptr<IfcPPObject> IfcDirection::getDeepCopy( IfcPPCopyOptions& options )
 void IfcDirection::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCDIRECTION" << "(";
-	writeDoubleList( stream, m_DirectionRatios );
+	writeNumericList( stream, m_DirectionRatios );
 	stream << ");";
 }
 void IfcDirection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

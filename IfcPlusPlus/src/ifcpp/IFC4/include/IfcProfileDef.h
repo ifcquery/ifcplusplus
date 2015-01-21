@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceObjectSelect.h"
-class IfcProfileTypeEnum;
-class IfcLabel;
-class IfcExternalReferenceRelationship;
-class IfcProfileProperties;
+class IFCPP_EXPORT IfcProfileTypeEnum;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcProfileProperties;
 //ENTITY
-class IfcProfileDef : virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcProfileDef : virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcProfileDef();
 	IfcProfileDef( int id );

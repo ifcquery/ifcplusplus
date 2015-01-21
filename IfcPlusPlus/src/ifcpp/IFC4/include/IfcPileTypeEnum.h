@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPileTypeEnum = ENUMERATION OF	(BORED	,DRIVEN	,JETGROUTING	,COHESION	,FRICTION	,SUPPORT	,USERDEFINED	,NOTDEFINED);
-class IfcPileTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPileTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPileTypeEnumEnum

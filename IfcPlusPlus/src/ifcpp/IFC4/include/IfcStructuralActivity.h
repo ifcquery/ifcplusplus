@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProduct.h"
-class IfcStructuralLoad;
-class IfcGlobalOrLocalEnum;
-class IfcRelConnectsStructuralActivity;
+class IFCPP_EXPORT IfcStructuralLoad;
+class IFCPP_EXPORT IfcGlobalOrLocalEnum;
+class IFCPP_EXPORT IfcRelConnectsStructuralActivity;
 //ENTITY
-class IfcStructuralActivity : public IfcProduct
-{
+class IFCPP_EXPORT IfcStructuralActivity : public IfcProduct
+{ 
 public:
 	IfcStructuralActivity();
 	IfcStructuralActivity( int id );

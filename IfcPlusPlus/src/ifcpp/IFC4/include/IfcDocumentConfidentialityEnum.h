@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDocumentConfidentialityEnum = ENUMERATION OF	(PUBLIC	,RESTRICTED	,CONFIDENTIAL	,PERSONAL	,USERDEFINED	,NOTDEFINED);
-class IfcDocumentConfidentialityEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDocumentConfidentialityEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDocumentConfidentialityEnumEnum
