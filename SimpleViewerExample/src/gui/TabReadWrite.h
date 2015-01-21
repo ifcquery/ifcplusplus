@@ -22,7 +22,6 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTreeWidget>
-#include <QFileDialog>
 #include <QLabel>
 #include <QComboBox>
 #include <QPushButton>
