@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcAngularVelocityMeasure = REAL;
-class IfcAngularVelocityMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcAngularVelocityMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcAngularVelocityMeasure();

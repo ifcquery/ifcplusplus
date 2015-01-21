@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,LIGHTING	,OCCUPANCY	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,USERDEFINED	,NOTDEFINED);
-class IfcSpatialZoneTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSpatialZoneTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSpatialZoneTypeEnumEnum

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPhysicalSimpleQuantity.h"
-class IfcLengthMeasure;
-class IfcLabel;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcQuantityLength : public IfcPhysicalSimpleQuantity
-{
+class IFCPP_EXPORT IfcQuantityLength : public IfcPhysicalSimpleQuantity
+{ 
 public:
 	IfcQuantityLength();
 	IfcQuantityLength( int id );

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLayeredItem.h"
-class IfcPresentationLayerAssignment;
-class IfcStyledItem;
+class IFCPP_EXPORT IfcPresentationLayerAssignment;
+class IFCPP_EXPORT IfcStyledItem;
 //ENTITY
-class IfcRepresentationItem : virtual public IfcLayeredItem, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcRepresentationItem : virtual public IfcLayeredItem, public IfcPPEntity
+{ 
 public:
 	IfcRepresentationItem();
 	IfcRepresentationItem( int id );

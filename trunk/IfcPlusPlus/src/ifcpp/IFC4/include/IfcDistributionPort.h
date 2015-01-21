@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPort.h"
-class IfcFlowDirectionEnum;
-class IfcDistributionPortTypeEnum;
-class IfcDistributionSystemEnum;
+class IFCPP_EXPORT IfcFlowDirectionEnum;
+class IFCPP_EXPORT IfcDistributionPortTypeEnum;
+class IFCPP_EXPORT IfcDistributionSystemEnum;
 //ENTITY
-class IfcDistributionPort : public IfcPort
-{
+class IFCPP_EXPORT IfcDistributionPort : public IfcPort
+{ 
 public:
 	IfcDistributionPort();
 	IfcDistributionPort( int id );

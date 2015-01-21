@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcAssemblyPlaceEnum = ENUMERATION OF	(SITE	,FACTORY	,NOTDEFINED);
-class IfcAssemblyPlaceEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcAssemblyPlaceEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcAssemblyPlaceEnumEnum

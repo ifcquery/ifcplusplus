@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
-class IfcPositiveLengthMeasure;
-class IfcStairFlightTypeEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcStairFlightTypeEnum;
 //ENTITY
-class IfcStairFlight : public IfcBuildingElement
-{
+class IFCPP_EXPORT IfcStairFlight : public IfcBuildingElement
+{ 
 public:
 	IfcStairFlight();
 	IfcStairFlight( int id );

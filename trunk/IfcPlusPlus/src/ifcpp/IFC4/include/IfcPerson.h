@@ -17,17 +17,18 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcActorSelect.h"
 #include "IfcObjectReferenceSelect.h"
 #include "IfcResourceObjectSelect.h"
-class IfcIdentifier;
-class IfcLabel;
-class IfcActorRole;
-class IfcAddress;
-class IfcPersonAndOrganization;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcActorRole;
+class IFCPP_EXPORT IfcAddress;
+class IFCPP_EXPORT IfcPersonAndOrganization;
 //ENTITY
-class IfcPerson : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcPerson : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcPerson();
 	IfcPerson( int id );

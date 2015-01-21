@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelSpaceBoundary.h"
-class IfcRelSpaceBoundary1stLevel;
+class IFCPP_EXPORT IfcRelSpaceBoundary1stLevel;
 //ENTITY
-class IfcRelSpaceBoundary1stLevel : public IfcRelSpaceBoundary
-{
+class IFCPP_EXPORT IfcRelSpaceBoundary1stLevel : public IfcRelSpaceBoundary
+{ 
 public:
 	IfcRelSpaceBoundary1stLevel();
 	IfcRelSpaceBoundary1stLevel( int id );

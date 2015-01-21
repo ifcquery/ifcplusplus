@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationStyleSelect.h"
 
 // TYPE IfcNullStyle = ENUMERATION OF	(NULL);
-class IfcNullStyle : public IfcPresentationStyleSelect
+class IFCPP_EXPORT IfcNullStyle : public IfcPresentationStyleSelect
 {
 public:
 	enum IfcNullStyleEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPlanarExtent.h"
-class IfcAxis2Placement;
+class IFCPP_EXPORT IfcAxis2Placement;
 //ENTITY
-class IfcPlanarBox : public IfcPlanarExtent
-{
+class IFCPP_EXPORT IfcPlanarBox : public IfcPlanarExtent
+{ 
 public:
 	IfcPlanarBox();
 	IfcPlanarBox( int id );

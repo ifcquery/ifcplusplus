@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBuildingElementPartTypeEnum = ENUMERATION OF	(INSULATION	,PRECASTPANEL	,USERDEFINED	,NOTDEFINED);
-class IfcBuildingElementPartTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBuildingElementPartTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcBuildingElementPartTypeEnumEnum

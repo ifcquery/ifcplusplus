@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBeam.h"
 //ENTITY
-class IfcBeamStandardCase : public IfcBeam
-{
+class IFCPP_EXPORT IfcBeamStandardCase : public IfcBeam
+{ 
 public:
 	IfcBeamStandardCase();
 	IfcBeamStandardCase( int id );

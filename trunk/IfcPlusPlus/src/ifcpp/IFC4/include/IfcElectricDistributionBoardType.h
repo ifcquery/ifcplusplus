@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFlowControllerType.h"
-class IfcElectricDistributionBoardTypeEnum;
+class IFCPP_EXPORT IfcElectricDistributionBoardTypeEnum;
 //ENTITY
-class IfcElectricDistributionBoardType : public IfcFlowControllerType
-{
+class IFCPP_EXPORT IfcElectricDistributionBoardType : public IfcFlowControllerType
+{ 
 public:
 	IfcElectricDistributionBoardType();
 	IfcElectricDistributionBoardType( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFireSuppressionTerminalTypeEnum = ENUMERATION OF	(BREECHINGINLET	,FIREHYDRANT	,HOSEREEL	,SPRINKLER	,SPRINKLERDEFLECTOR	,USERDEFINED	,NOTDEFINED);
-class IfcFireSuppressionTerminalTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFireSuppressionTerminalTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFireSuppressionTerminalTypeEnumEnum

@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSimpleValue.h"
 
 // TYPE IfcReal = REAL;
-class IfcReal : public IfcSimpleValue
+class IFCPP_EXPORT IfcReal : public IfcSimpleValue
 {
 public:
 	IfcReal();

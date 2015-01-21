@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcConstructionResourceType.h"
-class IfcCrewResourceTypeEnum;
+class IFCPP_EXPORT IfcCrewResourceTypeEnum;
 //ENTITY
-class IfcCrewResourceType : public IfcConstructionResourceType
-{
+class IFCPP_EXPORT IfcCrewResourceType : public IfcConstructionResourceType
+{ 
 public:
 	IfcCrewResourceType();
 	IfcCrewResourceType( int id );

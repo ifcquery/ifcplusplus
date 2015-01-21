@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSweptDiskSolid.h"
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcSweptDiskSolidPolygonal : public IfcSweptDiskSolid
-{
+class IFCPP_EXPORT IfcSweptDiskSolidPolygonal : public IfcSweptDiskSolid
+{ 
 public:
 	IfcSweptDiskSolidPolygonal();
 	IfcSweptDiskSolidPolygonal( int id );

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcEdge.h"
-class IfcEdge;
+class IFCPP_EXPORT IfcEdge;
 //ENTITY
-class IfcSubedge : public IfcEdge
-{
+class IFCPP_EXPORT IfcSubedge : public IfcEdge
+{ 
 public:
 	IfcSubedge();
 	IfcSubedge( int id );

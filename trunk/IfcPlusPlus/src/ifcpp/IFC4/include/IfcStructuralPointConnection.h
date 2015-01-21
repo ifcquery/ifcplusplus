@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralConnection.h"
-class IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcAxis2Placement3D;
 //ENTITY
-class IfcStructuralPointConnection : public IfcStructuralConnection
-{
+class IFCPP_EXPORT IfcStructuralPointConnection : public IfcStructuralConnection
+{ 
 public:
 	IfcStructuralPointConnection();
 	IfcStructuralPointConnection( int id );

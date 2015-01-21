@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDocumentStatusEnum = ENUMERATION OF	(DRAFT	,FINALDRAFT	,FINAL	,REVISION	,NOTDEFINED);
-class IfcDocumentStatusEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDocumentStatusEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDocumentStatusEnumEnum

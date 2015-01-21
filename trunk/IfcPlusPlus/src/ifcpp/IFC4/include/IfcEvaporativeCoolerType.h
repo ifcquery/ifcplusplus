@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcEnergyConversionDeviceType.h"
-class IfcEvaporativeCoolerTypeEnum;
+class IFCPP_EXPORT IfcEvaporativeCoolerTypeEnum;
 //ENTITY
-class IfcEvaporativeCoolerType : public IfcEnergyConversionDeviceType
-{
+class IFCPP_EXPORT IfcEvaporativeCoolerType : public IfcEnergyConversionDeviceType
+{ 
 public:
 	IfcEvaporativeCoolerType();
 	IfcEvaporativeCoolerType( int id );

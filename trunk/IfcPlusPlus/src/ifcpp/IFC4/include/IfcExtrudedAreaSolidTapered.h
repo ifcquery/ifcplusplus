@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcExtrudedAreaSolid.h"
-class IfcProfileDef;
+class IFCPP_EXPORT IfcProfileDef;
 //ENTITY
-class IfcExtrudedAreaSolidTapered : public IfcExtrudedAreaSolid
-{
+class IFCPP_EXPORT IfcExtrudedAreaSolidTapered : public IfcExtrudedAreaSolid
+{ 
 public:
 	IfcExtrudedAreaSolidTapered();
 	IfcExtrudedAreaSolidTapered( int id );

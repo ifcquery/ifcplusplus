@@ -17,16 +17,17 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDefinitionSelect.h"
 #include "IfcRoot.h"
-class IfcRelAssigns;
-class IfcRelNests;
-class IfcRelDeclares;
-class IfcRelAggregates;
-class IfcRelAssociates;
+class IFCPP_EXPORT IfcRelAssigns;
+class IFCPP_EXPORT IfcRelNests;
+class IFCPP_EXPORT IfcRelDeclares;
+class IFCPP_EXPORT IfcRelAggregates;
+class IFCPP_EXPORT IfcRelAssociates;
 //ENTITY
-class IfcObjectDefinition : virtual public IfcDefinitionSelect, public IfcRoot
-{
+class IFCPP_EXPORT IfcObjectDefinition : virtual public IfcDefinitionSelect, public IfcRoot
+{ 
 public:
 	IfcObjectDefinition();
 	IfcObjectDefinition( int id );

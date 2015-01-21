@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcConstructionEquipmentResourceTypeEnum = ENUMERATION OF	(DEMOLISHING	,EARTHMOVING	,ERECTING	,HEATING	,LIGHTING	,PAVING	,PUMPING	,TRANSPORTING	,USERDEFINED	,NOTDEFINED);
-class IfcConstructionEquipmentResourceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcConstructionEquipmentResourceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcConstructionEquipmentResourceTypeEnumEnum

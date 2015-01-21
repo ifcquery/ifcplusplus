@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
-class IfcPlateTypeEnum;
+class IFCPP_EXPORT IfcPlateTypeEnum;
 //ENTITY
-class IfcPlateType : public IfcBuildingElementType
-{
+class IFCPP_EXPORT IfcPlateType : public IfcBuildingElementType
+{ 
 public:
 	IfcPlateType();
 	IfcPlateType( int id );

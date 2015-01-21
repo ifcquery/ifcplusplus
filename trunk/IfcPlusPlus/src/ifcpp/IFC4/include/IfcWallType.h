@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
-class IfcWallTypeEnum;
+class IFCPP_EXPORT IfcWallTypeEnum;
 //ENTITY
-class IfcWallType : public IfcBuildingElementType
-{
+class IFCPP_EXPORT IfcWallType : public IfcBuildingElementType
+{ 
 public:
 	IfcWallType();
 	IfcWallType( int id );

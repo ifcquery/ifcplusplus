@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcLayerSetDirectionEnum = ENUMERATION OF	(AXIS1	,AXIS2	,AXIS3);
-class IfcLayerSetDirectionEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLayerSetDirectionEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcLayerSetDirectionEnumEnum

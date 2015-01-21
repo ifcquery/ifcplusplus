@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcLabel;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcBoundaryCondition : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcBoundaryCondition : public IfcPPEntity
+{ 
 public:
 	IfcBoundaryCondition();
 	IfcBoundaryCondition( int id );

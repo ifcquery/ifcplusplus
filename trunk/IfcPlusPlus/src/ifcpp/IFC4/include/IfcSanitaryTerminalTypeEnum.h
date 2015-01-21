@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSanitaryTerminalTypeEnum = ENUMERATION OF	(BATH	,BIDET	,CISTERN	,SHOWER	,SINK	,SANITARYFOUNTAIN	,TOILETPAN	,URINAL	,WASHHANDBASIN	,WCSEAT	,USERDEFINED	,NOTDEFINED);
-class IfcSanitaryTerminalTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSanitaryTerminalTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSanitaryTerminalTypeEnumEnum

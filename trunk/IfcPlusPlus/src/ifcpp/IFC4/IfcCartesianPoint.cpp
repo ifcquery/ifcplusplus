@@ -44,7 +44,7 @@ shared_ptr<IfcPPObject> IfcCartesianPoint::getDeepCopy( IfcPPCopyOptions& option
 void IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCARTESIANPOINT" << "(";
-	writeTypeOfRealList( stream, m_Coordinates );
+	writeNumericTypeList( stream, m_Coordinates );
 	stream << ");";
 }
 void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

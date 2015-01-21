@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
-class IfcPositiveLengthMeasure;
-class IfcWindowTypeEnum;
-class IfcWindowTypePartitioningEnum;
-class IfcLabel;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcWindowTypeEnum;
+class IFCPP_EXPORT IfcWindowTypePartitioningEnum;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcWindow : public IfcBuildingElement
-{
+class IFCPP_EXPORT IfcWindow : public IfcBuildingElement
+{ 
 public:
 	IfcWindow();
 	IfcWindow( int id );

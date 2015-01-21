@@ -18,12 +18,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMeasureValue.h"
 #include "IfcSizeSelect.h"
 #include "IfcTimeOrRatioSelect.h"
 
 // TYPE IfcRatioMeasure = REAL;
-class IfcRatioMeasure : public IfcMeasureValue, public IfcSizeSelect, public IfcTimeOrRatioSelect
+class IFCPP_EXPORT IfcRatioMeasure : public IfcMeasureValue, public IfcSizeSelect, public IfcTimeOrRatioSelect
 {
 public:
 	IfcRatioMeasure();

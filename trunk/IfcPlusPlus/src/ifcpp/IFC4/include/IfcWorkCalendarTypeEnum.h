@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcWorkCalendarTypeEnum = ENUMERATION OF	(FIRSTSHIFT	,SECONDSHIFT	,THIRDSHIFT	,USERDEFINED	,NOTDEFINED);
-class IfcWorkCalendarTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcWorkCalendarTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcWorkCalendarTypeEnumEnum

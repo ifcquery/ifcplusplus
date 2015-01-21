@@ -46,7 +46,7 @@ void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Colours ) { stream << "#" << m_Colours->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeIntList( stream, m_ColourIndex );
+	writeNumericList( stream, m_ColourIndex );
 	stream << ");";
 }
 void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

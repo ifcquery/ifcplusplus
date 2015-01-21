@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcSectionModulusMeasure = REAL;
-class IfcSectionModulusMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcSectionModulusMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcSectionModulusMeasure();

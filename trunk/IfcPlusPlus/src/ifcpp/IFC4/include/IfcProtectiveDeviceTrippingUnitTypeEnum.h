@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcProtectiveDeviceTrippingUnitTypeEnum = ENUMERATION OF	(ELECTRONIC	,ELECTROMAGNETIC	,RESIDUALCURRENT	,THERMAL	,USERDEFINED	,NOTDEFINED);
-class IfcProtectiveDeviceTrippingUnitTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcProtectiveDeviceTrippingUnitTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcProtectiveDeviceTrippingUnitTypeEnumEnum

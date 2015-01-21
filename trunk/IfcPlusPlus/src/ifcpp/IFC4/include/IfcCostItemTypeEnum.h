@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCostItemTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-class IfcCostItemTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCostItemTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCostItemTypeEnumEnum

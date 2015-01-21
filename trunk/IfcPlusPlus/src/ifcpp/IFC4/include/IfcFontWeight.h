@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFontWeight = STRING;
-class IfcFontWeight : public IfcPPObject
+class IFCPP_EXPORT IfcFontWeight : public IfcPPObject
 {
 public:
 	IfcFontWeight();

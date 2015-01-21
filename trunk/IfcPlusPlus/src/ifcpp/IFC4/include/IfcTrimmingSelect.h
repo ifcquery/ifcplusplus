@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcTrimmingSelect = SELECT	(IfcCartesianPoint	,IfcParameterValue);
-class IfcTrimmingSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTrimmingSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

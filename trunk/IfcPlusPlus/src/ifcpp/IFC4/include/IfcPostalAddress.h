@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcAddress.h"
-class IfcLabel;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcPostalAddress : public IfcAddress
-{
+class IFCPP_EXPORT IfcPostalAddress : public IfcAddress
+{ 
 public:
 	IfcPostalAddress();
 	IfcPostalAddress( int id );

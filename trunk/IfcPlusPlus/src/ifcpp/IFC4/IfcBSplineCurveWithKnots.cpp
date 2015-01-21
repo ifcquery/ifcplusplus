@@ -75,9 +75,9 @@ void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
 	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
-	writeIntList( stream, m_KnotMultiplicities );
+	writeNumericList( stream, m_KnotMultiplicities );
 	stream << ",";
-	writeTypeOfRealList( stream, m_Knots );
+	writeNumericTypeList( stream, m_Knots );
 	stream << ",";
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

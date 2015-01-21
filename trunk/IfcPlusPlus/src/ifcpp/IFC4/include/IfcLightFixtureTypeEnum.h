@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcLightFixtureTypeEnum = ENUMERATION OF	(POINTSOURCE	,DIRECTIONSOURCE	,SECURITYLIGHTING	,USERDEFINED	,NOTDEFINED);
-class IfcLightFixtureTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLightFixtureTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcLightFixtureTypeEnumEnum

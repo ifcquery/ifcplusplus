@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundedCurve.h"
-class IfcCurve;
-class IfcTrimmingSelect;
-class IfcTrimmingPreference;
+class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcTrimmingSelect;
+class IFCPP_EXPORT IfcTrimmingPreference;
 //ENTITY
-class IfcTrimmedCurve : public IfcBoundedCurve
-{
+class IFCPP_EXPORT IfcTrimmedCurve : public IfcBoundedCurve
+{ 
 public:
 	IfcTrimmedCurve();
 	IfcTrimmedCurve( int id );

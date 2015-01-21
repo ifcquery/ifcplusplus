@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcLabel;
-class IfcDataOriginEnum;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcDataOriginEnum;
 //ENTITY
-class IfcSchedulingTime : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcSchedulingTime : public IfcPPEntity
+{ 
 public:
 	IfcSchedulingTime();
 	IfcSchedulingTime( int id );

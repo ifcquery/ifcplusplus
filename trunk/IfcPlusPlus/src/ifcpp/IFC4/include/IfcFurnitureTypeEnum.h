@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,USERDEFINED	,NOTDEFINED);
-class IfcFurnitureTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFurnitureTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFurnitureTypeEnumEnum

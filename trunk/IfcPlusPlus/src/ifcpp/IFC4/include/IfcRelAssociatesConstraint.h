@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelAssociates.h"
-class IfcLabel;
-class IfcConstraint;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcConstraint;
 //ENTITY
-class IfcRelAssociatesConstraint : public IfcRelAssociates
-{
+class IFCPP_EXPORT IfcRelAssociatesConstraint : public IfcRelAssociates
+{ 
 public:
 	IfcRelAssociatesConstraint();
 	IfcRelAssociatesConstraint( int id );

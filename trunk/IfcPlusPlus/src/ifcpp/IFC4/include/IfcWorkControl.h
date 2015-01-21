@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcControl.h"
-class IfcDateTime;
-class IfcPerson;
-class IfcLabel;
-class IfcDuration;
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcPerson;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcDuration;
 //ENTITY
-class IfcWorkControl : public IfcControl
-{
+class IFCPP_EXPORT IfcWorkControl : public IfcControl
+{ 
 public:
 	IfcWorkControl();
 	IfcWorkControl( int id );

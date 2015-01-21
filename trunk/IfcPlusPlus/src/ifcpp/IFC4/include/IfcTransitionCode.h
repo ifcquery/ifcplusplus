@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTransitionCode = ENUMERATION OF	(DISCONTINUOUS	,CONTINUOUS	,CONTSAMEGRADIENT	,CONTSAMEGRADIENTSAMECURVATURE);
-class IfcTransitionCode : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTransitionCode : virtual public IfcPPObject
 {
 public:
 	enum IfcTransitionCodeEnum

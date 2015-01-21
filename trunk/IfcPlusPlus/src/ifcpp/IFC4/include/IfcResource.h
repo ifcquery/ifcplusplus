@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceSelect.h"
 #include "IfcObject.h"
-class IfcIdentifier;
-class IfcText;
-class IfcRelAssignsToResource;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcRelAssignsToResource;
 //ENTITY
-class IfcResource : virtual public IfcResourceSelect, public IfcObject
-{
+class IFCPP_EXPORT IfcResource : virtual public IfcResourceSelect, public IfcObject
+{ 
 public:
 	IfcResource();
 	IfcResource( int id );

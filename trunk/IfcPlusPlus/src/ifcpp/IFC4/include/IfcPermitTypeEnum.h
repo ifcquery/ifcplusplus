@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPermitTypeEnum = ENUMERATION OF	(ACCESS	,BUILDING	,WORK	,USERDEFINED	,NOTDEFINED);
-class IfcPermitTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPermitTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPermitTypeEnumEnum

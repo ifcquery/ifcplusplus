@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPerformanceHistoryTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-class IfcPerformanceHistoryTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPerformanceHistoryTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPerformanceHistoryTypeEnumEnum

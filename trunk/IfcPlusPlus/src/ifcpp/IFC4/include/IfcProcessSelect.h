@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcProcessSelect = SELECT	(IfcProcess	,IfcTypeProcess);
-class IfcProcessSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcProcessSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

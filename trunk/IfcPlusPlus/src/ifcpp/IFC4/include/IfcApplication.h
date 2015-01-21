@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcOrganization;
-class IfcLabel;
-class IfcIdentifier;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcOrganization;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcIdentifier;
 //ENTITY
-class IfcApplication : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcApplication : public IfcPPEntity
+{ 
 public:
 	IfcApplication();
 	IfcApplication( int id );

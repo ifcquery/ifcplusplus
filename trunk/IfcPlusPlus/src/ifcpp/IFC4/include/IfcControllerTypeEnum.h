@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcControllerTypeEnum = ENUMERATION OF	(FLOATING	,PROGRAMMABLE	,PROPORTIONAL	,MULTIPOSITION	,TWOPOSITION	,USERDEFINED	,NOTDEFINED);
-class IfcControllerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcControllerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcControllerTypeEnumEnum

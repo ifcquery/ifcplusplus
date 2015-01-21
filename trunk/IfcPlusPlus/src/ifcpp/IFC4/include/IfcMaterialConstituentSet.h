@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialDefinition.h"
-class IfcLabel;
-class IfcText;
-class IfcMaterialConstituent;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcMaterialConstituent;
 //ENTITY
-class IfcMaterialConstituentSet : public IfcMaterialDefinition
-{
+class IFCPP_EXPORT IfcMaterialConstituentSet : public IfcMaterialDefinition
+{ 
 public:
 	IfcMaterialConstituentSet();
 	IfcMaterialConstituentSet( int id );

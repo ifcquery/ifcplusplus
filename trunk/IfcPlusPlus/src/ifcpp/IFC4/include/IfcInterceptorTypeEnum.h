@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcInterceptorTypeEnum = ENUMERATION OF	(CYCLONIC	,GREASE	,OIL	,PETROL	,USERDEFINED	,NOTDEFINED);
-class IfcInterceptorTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcInterceptorTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcInterceptorTypeEnumEnum

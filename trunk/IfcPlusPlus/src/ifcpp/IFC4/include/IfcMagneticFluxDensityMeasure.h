@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMagneticFluxDensityMeasure = REAL;
-class IfcMagneticFluxDensityMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcMagneticFluxDensityMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMagneticFluxDensityMeasure();

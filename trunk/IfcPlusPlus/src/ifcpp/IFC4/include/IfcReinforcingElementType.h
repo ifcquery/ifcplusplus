@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementComponentType.h"
 //ENTITY
-class IfcReinforcingElementType : public IfcElementComponentType
-{
+class IFCPP_EXPORT IfcReinforcingElementType : public IfcElementComponentType
+{ 
 public:
 	IfcReinforcingElementType();
 	IfcReinforcingElementType( int id );

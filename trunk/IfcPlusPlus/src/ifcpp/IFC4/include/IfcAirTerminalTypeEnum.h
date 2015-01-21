@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcAirTerminalTypeEnum = ENUMERATION OF	(DIFFUSER	,GRILLE	,LOUVRE	,REGISTER	,USERDEFINED	,NOTDEFINED);
-class IfcAirTerminalTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcAirTerminalTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcAirTerminalTypeEnumEnum

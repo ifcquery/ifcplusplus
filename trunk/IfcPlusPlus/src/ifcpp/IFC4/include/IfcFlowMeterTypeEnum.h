@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFlowMeterTypeEnum = ENUMERATION OF	(ENERGYMETER	,GASMETER	,OILMETER	,WATERMETER	,USERDEFINED	,NOTDEFINED);
-class IfcFlowMeterTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFlowMeterTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFlowMeterTypeEnumEnum

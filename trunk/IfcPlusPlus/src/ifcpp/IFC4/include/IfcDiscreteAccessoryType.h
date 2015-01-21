@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementComponentType.h"
-class IfcDiscreteAccessoryTypeEnum;
+class IFCPP_EXPORT IfcDiscreteAccessoryTypeEnum;
 //ENTITY
-class IfcDiscreteAccessoryType : public IfcElementComponentType
-{
+class IFCPP_EXPORT IfcDiscreteAccessoryType : public IfcElementComponentType
+{ 
 public:
 	IfcDiscreteAccessoryType();
 	IfcDiscreteAccessoryType( int id );

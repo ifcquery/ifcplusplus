@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMeasureValue.h"
 
 // TYPE IfcMassMeasure = REAL;
-class IfcMassMeasure : public IfcMeasureValue
+class IFCPP_EXPORT IfcMassMeasure : public IfcMeasureValue
 {
 public:
 	IfcMassMeasure();

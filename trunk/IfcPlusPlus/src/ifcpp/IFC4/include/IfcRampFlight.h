@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
-class IfcRampFlightTypeEnum;
+class IFCPP_EXPORT IfcRampFlightTypeEnum;
 //ENTITY
-class IfcRampFlight : public IfcBuildingElement
-{
+class IFCPP_EXPORT IfcRampFlight : public IfcBuildingElement
+{ 
 public:
 	IfcRampFlight();
 	IfcRampFlight( int id );

@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcTemperatureRateOfChangeMeasure = REAL;
-class IfcTemperatureRateOfChangeMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcTemperatureRateOfChangeMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcTemperatureRateOfChangeMeasure();

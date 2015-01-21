@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcUnit.h"
-class IfcDimensionalExponents;
-class IfcUnitEnum;
+class IFCPP_EXPORT IfcDimensionalExponents;
+class IFCPP_EXPORT IfcUnitEnum;
 //ENTITY
-class IfcNamedUnit : virtual public IfcUnit, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcNamedUnit : virtual public IfcUnit, public IfcPPEntity
+{ 
 public:
 	IfcNamedUnit();
 	IfcNamedUnit( int id );

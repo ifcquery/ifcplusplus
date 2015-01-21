@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSimpleProperty.h"
-class IfcValue;
-class IfcText;
-class IfcUnit;
-class IfcCurveInterpolationEnum;
+class IFCPP_EXPORT IfcValue;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcUnit;
+class IFCPP_EXPORT IfcCurveInterpolationEnum;
 //ENTITY
-class IfcPropertyTableValue : public IfcSimpleProperty
-{
+class IFCPP_EXPORT IfcPropertyTableValue : public IfcSimpleProperty
+{ 
 public:
 	IfcPropertyTableValue();
 	IfcPropertyTableValue( int id );

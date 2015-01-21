@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcChimneyTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-class IfcChimneyTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcChimneyTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcChimneyTypeEnumEnum

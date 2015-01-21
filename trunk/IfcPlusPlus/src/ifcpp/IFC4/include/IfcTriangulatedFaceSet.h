@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTessellatedFaceSet.h"
 //ENTITY
-class IfcTriangulatedFaceSet : public IfcTessellatedFaceSet
-{
+class IFCPP_EXPORT IfcTriangulatedFaceSet : public IfcTessellatedFaceSet
+{ 
 public:
 	IfcTriangulatedFaceSet();
 	IfcTriangulatedFaceSet( int id );

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralActivityAssignmentSelect.h"
 #include "IfcProduct.h"
-class IfcRelConnectsStructuralActivity;
+class IFCPP_EXPORT IfcRelConnectsStructuralActivity;
 //ENTITY
-class IfcStructuralItem : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
-{
+class IFCPP_EXPORT IfcStructuralItem : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
+{ 
 public:
 	IfcStructuralItem();
 	IfcStructuralItem( int id );

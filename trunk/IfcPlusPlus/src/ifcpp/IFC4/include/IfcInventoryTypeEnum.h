@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcInventoryTypeEnum = ENUMERATION OF	(ASSETINVENTORY	,SPACEINVENTORY	,FURNITUREINVENTORY	,USERDEFINED	,NOTDEFINED);
-class IfcInventoryTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcInventoryTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcInventoryTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,SHADING	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
-class IfcBuildingSystemTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBuildingSystemTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcBuildingSystemTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcLightDistributionCurveEnum = ENUMERATION OF	(TYPE_A	,TYPE_B	,TYPE_C	,NOTDEFINED);
-class IfcLightDistributionCurveEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLightDistributionCurveEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcLightDistributionCurveEnumEnum

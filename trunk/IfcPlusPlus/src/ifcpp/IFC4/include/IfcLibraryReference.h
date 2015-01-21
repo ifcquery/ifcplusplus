@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLibrarySelect.h"
 #include "IfcExternalReference.h"
-class IfcText;
-class IfcLanguageId;
-class IfcLibraryInformation;
-class IfcRelAssociatesLibrary;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcLanguageId;
+class IFCPP_EXPORT IfcLibraryInformation;
+class IFCPP_EXPORT IfcRelAssociatesLibrary;
 //ENTITY
-class IfcLibraryReference : virtual public IfcLibrarySelect, public IfcExternalReference
-{
+class IFCPP_EXPORT IfcLibraryReference : virtual public IfcLibrarySelect, public IfcExternalReference
+{ 
 public:
 	IfcLibraryReference();
 	IfcLibraryReference( int id );

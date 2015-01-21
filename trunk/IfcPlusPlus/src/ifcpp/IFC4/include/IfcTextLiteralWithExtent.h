@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTextLiteral.h"
-class IfcPlanarExtent;
-class IfcBoxAlignment;
+class IFCPP_EXPORT IfcPlanarExtent;
+class IFCPP_EXPORT IfcBoxAlignment;
 //ENTITY
-class IfcTextLiteralWithExtent : public IfcTextLiteral
-{
+class IFCPP_EXPORT IfcTextLiteralWithExtent : public IfcTextLiteral
+{ 
 public:
 	IfcTextLiteralWithExtent();
 	IfcTextLiteralWithExtent( int id );

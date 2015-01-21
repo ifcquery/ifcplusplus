@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurfaceStyleShading.h"
-class IfcNormalisedRatioMeasure;
-class IfcColourOrFactor;
-class IfcSpecularHighlightSelect;
-class IfcReflectanceMethodEnum;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
+class IFCPP_EXPORT IfcColourOrFactor;
+class IFCPP_EXPORT IfcSpecularHighlightSelect;
+class IFCPP_EXPORT IfcReflectanceMethodEnum;
 //ENTITY
-class IfcSurfaceStyleRendering : public IfcSurfaceStyleShading
-{
+class IFCPP_EXPORT IfcSurfaceStyleRendering : public IfcSurfaceStyleShading
+{ 
 public:
 	IfcSurfaceStyleRendering();
 	IfcSurfaceStyleRendering( int id );

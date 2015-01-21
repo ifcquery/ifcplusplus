@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcObject.h"
-class IfcActorSelect;
-class IfcRelAssignsToActor;
+class IFCPP_EXPORT IfcActorSelect;
+class IFCPP_EXPORT IfcRelAssignsToActor;
 //ENTITY
-class IfcActor : public IfcObject
-{
+class IFCPP_EXPORT IfcActor : public IfcObject
+{ 
 public:
 	IfcActor();
 	IfcActor( int id );

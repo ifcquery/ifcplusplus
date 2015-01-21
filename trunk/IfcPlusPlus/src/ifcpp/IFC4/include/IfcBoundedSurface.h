@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurface.h"
 //ENTITY
-class IfcBoundedSurface : public IfcSurface
-{
+class IFCPP_EXPORT IfcBoundedSurface : public IfcSurface
+{ 
 public:
 	IfcBoundedSurface();
 	IfcBoundedSurface( int id );

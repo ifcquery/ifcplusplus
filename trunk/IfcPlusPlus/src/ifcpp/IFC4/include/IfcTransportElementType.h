@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementType.h"
-class IfcTransportElementTypeEnum;
+class IFCPP_EXPORT IfcTransportElementTypeEnum;
 //ENTITY
-class IfcTransportElementType : public IfcElementType
-{
+class IFCPP_EXPORT IfcTransportElementType : public IfcElementType
+{ 
 public:
 	IfcTransportElementType();
 	IfcTransportElementType( int id );

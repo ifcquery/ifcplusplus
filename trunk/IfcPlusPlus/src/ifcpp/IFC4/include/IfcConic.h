@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCurve.h"
-class IfcAxis2Placement;
+class IFCPP_EXPORT IfcAxis2Placement;
 //ENTITY
-class IfcConic : public IfcCurve
-{
+class IFCPP_EXPORT IfcConic : public IfcCurve
+{ 
 public:
 	IfcConic();
 	IfcConic( int id );

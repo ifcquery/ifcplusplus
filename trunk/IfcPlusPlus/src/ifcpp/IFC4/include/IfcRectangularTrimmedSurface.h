@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundedSurface.h"
-class IfcSurface;
-class IfcParameterValue;
+class IFCPP_EXPORT IfcSurface;
+class IFCPP_EXPORT IfcParameterValue;
 //ENTITY
-class IfcRectangularTrimmedSurface : public IfcBoundedSurface
-{
+class IFCPP_EXPORT IfcRectangularTrimmedSurface : public IfcBoundedSurface
+{ 
 public:
 	IfcRectangularTrimmedSurface();
 	IfcRectangularTrimmedSurface( int id );

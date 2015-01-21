@@ -57,7 +57,7 @@ void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCTESSELLATEDFACESET" << "(";
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList2D( stream, m_Normals );
+	writeNumericTypeList2D( stream, m_Normals );
 	stream << ",";
 	if( m_Closed == false ) { stream << ".F."; }
 	else if( m_Closed == true ) { stream << ".T."; }

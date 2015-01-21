@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralLoad.h"
-class IfcStructuralLoadOrResult;
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcStructuralLoadOrResult;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcStructuralLoadConfiguration : public IfcStructuralLoad
-{
+class IFCPP_EXPORT IfcStructuralLoadConfiguration : public IfcStructuralLoad
+{ 
 public:
 	IfcStructuralLoadConfiguration();
 	IfcStructuralLoadConfiguration( int id );

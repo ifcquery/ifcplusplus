@@ -98,7 +98,7 @@ void IfcStructuralLoadCase::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_SelfWeightCoefficients );
+	writeNumericTypeList( stream, m_SelfWeightCoefficients );
 	stream << ");";
 }
 void IfcStructuralLoadCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

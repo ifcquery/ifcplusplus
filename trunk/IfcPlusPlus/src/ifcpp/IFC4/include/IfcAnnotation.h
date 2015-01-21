@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProduct.h"
-class IfcRelContainedInSpatialStructure;
+class IFCPP_EXPORT IfcRelContainedInSpatialStructure;
 //ENTITY
-class IfcAnnotation : public IfcProduct
-{
+class IFCPP_EXPORT IfcAnnotation : public IfcProduct
+{ 
 public:
 	IfcAnnotation();
 	IfcAnnotation( int id );

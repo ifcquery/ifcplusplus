@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCostScheduleTypeEnum = ENUMERATION OF	(BUDGET	,COSTPLAN	,ESTIMATE	,TENDER	,PRICEDBILLOFQUANTITIES	,UNPRICEDBILLOFQUANTITIES	,SCHEDULEOFRATES	,USERDEFINED	,NOTDEFINED);
-class IfcCostScheduleTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCostScheduleTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCostScheduleTypeEnumEnum

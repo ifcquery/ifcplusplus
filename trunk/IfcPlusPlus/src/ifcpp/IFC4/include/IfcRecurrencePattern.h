@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcRecurrenceTypeEnum;
-class IfcDayInMonthNumber;
-class IfcDayInWeekNumber;
-class IfcMonthInYearNumber;
-class IfcInteger;
-class IfcTimePeriod;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcRecurrenceTypeEnum;
+class IFCPP_EXPORT IfcDayInMonthNumber;
+class IFCPP_EXPORT IfcDayInWeekNumber;
+class IFCPP_EXPORT IfcMonthInYearNumber;
+class IFCPP_EXPORT IfcInteger;
+class IFCPP_EXPORT IfcTimePeriod;
 //ENTITY
-class IfcRecurrencePattern : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcRecurrencePattern : public IfcPPEntity
+{ 
 public:
 	IfcRecurrencePattern();
 	IfcRecurrencePattern( int id );

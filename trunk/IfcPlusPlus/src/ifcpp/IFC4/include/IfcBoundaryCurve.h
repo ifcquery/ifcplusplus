@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCompositeCurveOnSurface.h"
 //ENTITY
-class IfcBoundaryCurve : public IfcCompositeCurveOnSurface
-{
+class IFCPP_EXPORT IfcBoundaryCurve : public IfcCompositeCurveOnSurface
+{ 
 public:
 	IfcBoundaryCurve();
 	IfcBoundaryCurve( int id );

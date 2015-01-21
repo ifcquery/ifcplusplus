@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBooleanOperand.h"
 #include "IfcCsgSelect.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcBooleanOperator;
-class IfcBooleanOperand;
+class IFCPP_EXPORT IfcBooleanOperator;
+class IFCPP_EXPORT IfcBooleanOperand;
 //ENTITY
-class IfcBooleanResult : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcBooleanResult : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcBooleanResult();
 	IfcBooleanResult( int id );

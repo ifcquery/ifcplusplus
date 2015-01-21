@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcObjectPlacement.h"
-class IfcObjectPlacement;
-class IfcAxis2Placement;
+class IFCPP_EXPORT IfcObjectPlacement;
+class IFCPP_EXPORT IfcAxis2Placement;
 //ENTITY
-class IfcLocalPlacement : public IfcObjectPlacement
-{
+class IFCPP_EXPORT IfcLocalPlacement : public IfcObjectPlacement
+{ 
 public:
 	IfcLocalPlacement();
 	IfcLocalPlacement( int id );

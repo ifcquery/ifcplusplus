@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTendonTypeEnum = ENUMERATION OF	(BAR	,COATED	,STRAND	,WIRE	,USERDEFINED	,NOTDEFINED);
-class IfcTendonTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTendonTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcTendonTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSolarDeviceTypeEnum = ENUMERATION OF	(SOLARCOLLECTOR	,SOLARPANEL	,USERDEFINED	,NOTDEFINED);
-class IfcSolarDeviceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSolarDeviceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSolarDeviceTypeEnumEnum

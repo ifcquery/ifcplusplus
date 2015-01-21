@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDoorPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,NOTDEFINED);
-class IfcDoorPanelPositionEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDoorPanelPositionEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDoorPanelPositionEnumEnum

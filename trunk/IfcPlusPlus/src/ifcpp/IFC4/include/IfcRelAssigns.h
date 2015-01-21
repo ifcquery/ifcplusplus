@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelationship.h"
-class IfcObjectDefinition;
-class IfcObjectTypeEnum;
+class IFCPP_EXPORT IfcObjectDefinition;
+class IFCPP_EXPORT IfcObjectTypeEnum;
 //ENTITY
-class IfcRelAssigns : public IfcRelationship
-{
+class IFCPP_EXPORT IfcRelAssigns : public IfcRelationship
+{ 
 public:
 	IfcRelAssigns();
 	IfcRelAssigns( int id );

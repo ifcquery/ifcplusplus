@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSpecularHighlightSelect.h"
 
 // TYPE IfcSpecularRoughness = REAL;
-class IfcSpecularRoughness : public IfcSpecularHighlightSelect
+class IFCPP_EXPORT IfcSpecularRoughness : public IfcSpecularHighlightSelect
 {
 public:
 	IfcSpecularRoughness();

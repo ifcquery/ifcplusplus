@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSystem.h"
-class IfcAnalysisModelTypeEnum;
-class IfcAxis2Placement3D;
-class IfcStructuralLoadGroup;
-class IfcStructuralResultGroup;
-class IfcObjectPlacement;
+class IFCPP_EXPORT IfcAnalysisModelTypeEnum;
+class IFCPP_EXPORT IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcStructuralLoadGroup;
+class IFCPP_EXPORT IfcStructuralResultGroup;
+class IFCPP_EXPORT IfcObjectPlacement;
 //ENTITY
-class IfcStructuralAnalysisModel : public IfcSystem
-{
+class IFCPP_EXPORT IfcStructuralAnalysisModel : public IfcSystem
+{ 
 public:
 	IfcStructuralAnalysisModel();
 	IfcStructuralAnalysisModel( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFastenerTypeEnum = ENUMERATION OF	(GLUE	,MORTAR	,WELD	,USERDEFINED	,NOTDEFINED);
-class IfcFastenerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFastenerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFastenerTypeEnumEnum

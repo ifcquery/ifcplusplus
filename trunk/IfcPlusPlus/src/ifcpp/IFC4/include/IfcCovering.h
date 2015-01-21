@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
-class IfcCoveringTypeEnum;
-class IfcRelCoversSpaces;
-class IfcRelCoversBldgElements;
+class IFCPP_EXPORT IfcCoveringTypeEnum;
+class IFCPP_EXPORT IfcRelCoversSpaces;
+class IFCPP_EXPORT IfcRelCoversBldgElements;
 //ENTITY
-class IfcCovering : public IfcBuildingElement
-{
+class IFCPP_EXPORT IfcCovering : public IfcBuildingElement
+{ 
 public:
 	IfcCovering();
 	IfcCovering( int id );

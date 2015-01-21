@@ -17,16 +17,17 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnects.h"
-class IfcStructuralMember;
-class IfcStructuralConnection;
-class IfcBoundaryCondition;
-class IfcStructuralConnectionCondition;
-class IfcLengthMeasure;
-class IfcAxis2Placement3D;
+class IFCPP_EXPORT IfcStructuralMember;
+class IFCPP_EXPORT IfcStructuralConnection;
+class IFCPP_EXPORT IfcBoundaryCondition;
+class IFCPP_EXPORT IfcStructuralConnectionCondition;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcAxis2Placement3D;
 //ENTITY
-class IfcRelConnectsStructuralMember : public IfcRelConnects
-{
+class IFCPP_EXPORT IfcRelConnectsStructuralMember : public IfcRelConnects
+{ 
 public:
 	IfcRelConnectsStructuralMember();
 	IfcRelConnectsStructuralMember( int id );

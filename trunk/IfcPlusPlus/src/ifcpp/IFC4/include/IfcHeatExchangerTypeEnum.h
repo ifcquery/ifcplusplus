@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,USERDEFINED	,NOTDEFINED);
-class IfcHeatExchangerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcHeatExchangerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcHeatExchangerTypeEnumEnum

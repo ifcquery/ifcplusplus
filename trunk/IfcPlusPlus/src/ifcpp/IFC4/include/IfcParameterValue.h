@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMeasureValue.h"
 #include "IfcTrimmingSelect.h"
 
 // TYPE IfcParameterValue = REAL;
-class IfcParameterValue : public IfcMeasureValue, public IfcTrimmingSelect
+class IFCPP_EXPORT IfcParameterValue : public IfcMeasureValue, public IfcTrimmingSelect
 {
 public:
 	IfcParameterValue();

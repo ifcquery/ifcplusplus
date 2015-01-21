@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnectsStructuralMember.h"
-class IfcConnectionGeometry;
+class IFCPP_EXPORT IfcConnectionGeometry;
 //ENTITY
-class IfcRelConnectsWithEccentricity : public IfcRelConnectsStructuralMember
-{
+class IFCPP_EXPORT IfcRelConnectsWithEccentricity : public IfcRelConnectsStructuralMember
+{ 
 public:
 	IfcRelConnectsWithEccentricity();
 	IfcRelConnectsWithEccentricity( int id );

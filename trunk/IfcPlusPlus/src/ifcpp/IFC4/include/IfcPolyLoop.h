@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLoop.h"
-class IfcCartesianPoint;
+class IFCPP_EXPORT IfcCartesianPoint;
 //ENTITY
-class IfcPolyLoop : public IfcLoop
-{
+class IFCPP_EXPORT IfcPolyLoop : public IfcLoop
+{ 
 public:
 	IfcPolyLoop();
 	IfcPolyLoop( int id );

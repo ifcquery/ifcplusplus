@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcTransitionCode;
-class IfcCurve;
-class IfcCompositeCurve;
+class IFCPP_EXPORT IfcTransitionCode;
+class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcCompositeCurve;
 //ENTITY
-class IfcCompositeCurveSegment : public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcCompositeCurveSegment : public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcCompositeCurveSegment();
 	IfcCompositeCurveSegment( int id );

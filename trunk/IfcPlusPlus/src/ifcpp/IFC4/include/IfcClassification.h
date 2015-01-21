@@ -17,19 +17,20 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcClassificationReferenceSelect.h"
 #include "IfcClassificationSelect.h"
 #include "IfcExternalInformation.h"
-class IfcLabel;
-class IfcDate;
-class IfcText;
-class IfcURIReference;
-class IfcIdentifier;
-class IfcRelAssociatesClassification;
-class IfcClassificationReference;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcDate;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcURIReference;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcRelAssociatesClassification;
+class IFCPP_EXPORT IfcClassificationReference;
 //ENTITY
-class IfcClassification : virtual public IfcClassificationReferenceSelect, virtual public IfcClassificationSelect, public IfcExternalInformation
-{
+class IFCPP_EXPORT IfcClassification : virtual public IfcClassificationReferenceSelect, virtual public IfcClassificationSelect, public IfcExternalInformation
+{ 
 public:
 	IfcClassification();
 	IfcClassification( int id );

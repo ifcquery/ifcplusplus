@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralMember.h"
-class IfcStructuralCurveMemberTypeEnum;
-class IfcDirection;
+class IFCPP_EXPORT IfcStructuralCurveMemberTypeEnum;
+class IFCPP_EXPORT IfcDirection;
 //ENTITY
-class IfcStructuralCurveMember : public IfcStructuralMember
-{
+class IFCPP_EXPORT IfcStructuralCurveMember : public IfcStructuralMember
+{ 
 public:
 	IfcStructuralCurveMember();
 	IfcStructuralCurveMember( int id );

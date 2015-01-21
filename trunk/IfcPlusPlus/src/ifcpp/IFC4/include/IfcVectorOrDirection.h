@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcVectorOrDirection = SELECT	(IfcDirection	,IfcVector);
-class IfcVectorOrDirection : virtual public IfcPPObject
+class IFCPP_EXPORT IfcVectorOrDirection : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

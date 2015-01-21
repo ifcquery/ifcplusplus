@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
-class IfcArithmeticOperatorEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcArithmeticOperatorEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcArithmeticOperatorEnumEnum

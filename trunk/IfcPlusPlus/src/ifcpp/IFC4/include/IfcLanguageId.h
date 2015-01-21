@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcIdentifier.h"
 
 // TYPE IfcLanguageId = IfcIdentifier;
-class IfcLanguageId : public IfcIdentifier
+class IFCPP_EXPORT IfcLanguageId : public IfcIdentifier
 {
 public:
 	IfcLanguageId();

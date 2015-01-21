@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLightSource.h"
 //ENTITY
-class IfcLightSourceAmbient : public IfcLightSource
-{
+class IFCPP_EXPORT IfcLightSourceAmbient : public IfcLightSource
+{ 
 public:
 	IfcLightSourceAmbient();
 	IfcLightSourceAmbient( int id );

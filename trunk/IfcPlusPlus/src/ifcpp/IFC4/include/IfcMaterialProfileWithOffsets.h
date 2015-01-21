@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialProfile.h"
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcMaterialProfileWithOffsets : public IfcMaterialProfile
-{
+class IFCPP_EXPORT IfcMaterialProfileWithOffsets : public IfcMaterialProfile
+{ 
 public:
 	IfcMaterialProfileWithOffsets();
 	IfcMaterialProfileWithOffsets( int id );

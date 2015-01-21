@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcProductRepresentationSelect = SELECT	(IfcProductDefinitionShape	,IfcRepresentationMap);
-class IfcProductRepresentationSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcProductRepresentationSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

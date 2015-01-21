@@ -18,11 +18,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSimpleValue.h"
 #include "IfcTimeOrRatioSelect.h"
 
 // TYPE IfcDuration = STRING;
-class IfcDuration : public IfcSimpleValue, public IfcTimeOrRatioSelect
+class IFCPP_EXPORT IfcDuration : public IfcSimpleValue, public IfcTimeOrRatioSelect
 {
 public:
 	IfcDuration();

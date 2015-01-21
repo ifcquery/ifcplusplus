@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSpatialStructureElement.h"
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcBuildingStorey : public IfcSpatialStructureElement
-{
+class IFCPP_EXPORT IfcBuildingStorey : public IfcSpatialStructureElement
+{ 
 public:
 	IfcBuildingStorey();
 	IfcBuildingStorey( int id );

@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcControl.h"
-class IfcCostItemTypeEnum;
-class IfcCostValue;
-class IfcPhysicalQuantity;
+class IFCPP_EXPORT IfcCostItemTypeEnum;
+class IFCPP_EXPORT IfcCostValue;
+class IFCPP_EXPORT IfcPhysicalQuantity;
 //ENTITY
-class IfcCostItem : public IfcControl
-{
+class IFCPP_EXPORT IfcCostItem : public IfcControl
+{ 
 public:
 	IfcCostItem();
 	IfcCostItem( int id );

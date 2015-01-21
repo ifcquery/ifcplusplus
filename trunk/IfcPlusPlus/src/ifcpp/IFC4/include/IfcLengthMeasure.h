@@ -18,12 +18,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBendingParameterSelect.h"
 #include "IfcMeasureValue.h"
 #include "IfcSizeSelect.h"
 
 // TYPE IfcLengthMeasure = REAL;
-class IfcLengthMeasure : public IfcBendingParameterSelect, public IfcMeasureValue, public IfcSizeSelect
+class IFCPP_EXPORT IfcLengthMeasure : public IfcBendingParameterSelect, public IfcMeasureValue, public IfcSizeSelect
 {
 public:
 	IfcLengthMeasure();

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPointOrVertexPoint.h"
 #include "IfcVertex.h"
-class IfcPoint;
+class IFCPP_EXPORT IfcPoint;
 //ENTITY
-class IfcVertexPoint : virtual public IfcPointOrVertexPoint, public IfcVertex
-{
+class IFCPP_EXPORT IfcVertexPoint : virtual public IfcPointOrVertexPoint, public IfcVertex
+{ 
 public:
 	IfcVertexPoint();
 	IfcVertexPoint( int id );

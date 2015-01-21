@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcPlaneAngleMeasure;
-class IfcLuminousIntensityDistributionMeasure;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcPlaneAngleMeasure;
+class IFCPP_EXPORT IfcLuminousIntensityDistributionMeasure;
 //ENTITY
-class IfcLightDistributionData : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcLightDistributionData : public IfcPPEntity
+{ 
 public:
 	IfcLightDistributionData();
 	IfcLightDistributionData( int id );

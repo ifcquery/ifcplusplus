@@ -17,9 +17,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 //ENTITY
-class IfcPresentationItem : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcPresentationItem : public IfcPPEntity
+{ 
 public:
 	IfcPresentationItem();
 	IfcPresentationItem( int id );

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFeatureElementAddition.h"
-class IfcProjectionElementTypeEnum;
+class IFCPP_EXPORT IfcProjectionElementTypeEnum;
 //ENTITY
-class IfcProjectionElement : public IfcFeatureElementAddition
-{
+class IFCPP_EXPORT IfcProjectionElement : public IfcFeatureElementAddition
+{ 
 public:
 	IfcProjectionElement();
 	IfcProjectionElement( int id );

@@ -76,13 +76,13 @@ void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) 
 	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
 	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ",";
-	writeIntList( stream, m_KnotMultiplicities );
+	writeNumericList( stream, m_KnotMultiplicities );
 	stream << ",";
-	writeTypeOfRealList( stream, m_Knots );
+	writeNumericTypeList( stream, m_Knots );
 	stream << ",";
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeDoubleList( stream, m_WeightsData );
+	writeNumericList( stream, m_WeightsData );
 	stream << ");";
 }
 void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

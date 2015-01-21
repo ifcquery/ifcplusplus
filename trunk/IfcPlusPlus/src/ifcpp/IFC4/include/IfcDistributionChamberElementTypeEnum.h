@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDistributionChamberElementTypeEnum = ENUMERATION OF	(FORMEDDUCT	,INSPECTIONCHAMBER	,INSPECTIONPIT	,MANHOLE	,METERCHAMBER	,SUMP	,TRENCH	,VALVECHAMBER	,USERDEFINED	,NOTDEFINED);
-class IfcDistributionChamberElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDistributionChamberElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDistributionChamberElementTypeEnumEnum

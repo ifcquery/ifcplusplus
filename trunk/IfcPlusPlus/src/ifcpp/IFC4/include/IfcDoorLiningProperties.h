@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedPropertySet.h"
-class IfcPositiveLengthMeasure;
-class IfcNonNegativeLengthMeasure;
-class IfcLengthMeasure;
-class IfcShapeAspect;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcNonNegativeLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcShapeAspect;
 //ENTITY
-class IfcDoorLiningProperties : public IfcPreDefinedPropertySet
-{
+class IFCPP_EXPORT IfcDoorLiningProperties : public IfcPreDefinedPropertySet
+{ 
 public:
 	IfcDoorLiningProperties();
 	IfcDoorLiningProperties( int id );

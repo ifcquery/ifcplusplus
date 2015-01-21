@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcPersonAndOrganization;
-class IfcApplication;
-class IfcStateEnum;
-class IfcChangeActionEnum;
-class IfcTimeStamp;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcPersonAndOrganization;
+class IFCPP_EXPORT IfcApplication;
+class IFCPP_EXPORT IfcStateEnum;
+class IFCPP_EXPORT IfcChangeActionEnum;
+class IFCPP_EXPORT IfcTimeStamp;
 //ENTITY
-class IfcOwnerHistory : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcOwnerHistory : public IfcPPEntity
+{ 
 public:
 	IfcOwnerHistory();
 	IfcOwnerHistory( int id );

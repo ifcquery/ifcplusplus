@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPipeFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-class IfcPipeFittingTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPipeFittingTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPipeFittingTypeEnumEnum

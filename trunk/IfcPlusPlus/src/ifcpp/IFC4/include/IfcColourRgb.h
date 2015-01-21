@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcColourOrFactor.h"
 #include "IfcColourSpecification.h"
-class IfcNormalisedRatioMeasure;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
 //ENTITY
-class IfcColourRgb : virtual public IfcColourOrFactor, public IfcColourSpecification
-{
+class IFCPP_EXPORT IfcColourRgb : virtual public IfcColourOrFactor, public IfcColourSpecification
+{ 
 public:
 	IfcColourRgb();
 	IfcColourRgb( int id );

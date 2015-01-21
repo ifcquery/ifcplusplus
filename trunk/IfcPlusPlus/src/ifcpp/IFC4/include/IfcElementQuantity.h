@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcQuantitySet.h"
-class IfcLabel;
-class IfcPhysicalQuantity;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcPhysicalQuantity;
 //ENTITY
-class IfcElementQuantity : public IfcQuantitySet
-{
+class IFCPP_EXPORT IfcElementQuantity : public IfcQuantitySet
+{ 
 public:
 	IfcElementQuantity();
 	IfcElementQuantity( int id );

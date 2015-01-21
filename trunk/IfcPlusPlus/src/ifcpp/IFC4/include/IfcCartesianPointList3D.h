@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCartesianPointList.h"
-class IfcLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
 //ENTITY
-class IfcCartesianPointList3D : public IfcCartesianPointList
-{
+class IFCPP_EXPORT IfcCartesianPointList3D : public IfcCartesianPointList
+{ 
 public:
 	IfcCartesianPointList3D();
 	IfcCartesianPointList3D( int id );

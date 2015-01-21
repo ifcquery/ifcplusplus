@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSolidModel.h"
-class IfcCsgSelect;
+class IFCPP_EXPORT IfcCsgSelect;
 //ENTITY
-class IfcCsgSolid : public IfcSolidModel
-{
+class IFCPP_EXPORT IfcCsgSolid : public IfcSolidModel
+{ 
 public:
 	IfcCsgSolid();
 	IfcCsgSolid( int id );

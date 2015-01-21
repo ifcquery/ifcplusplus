@@ -18,6 +18,7 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcModulusOfRotationalSubgradeReactionSelect.h"
 #include "IfcModulusOfSubgradeReactionSelect.h"
 #include "IfcModulusOfTranslationalSubgradeReactionSelect.h"
@@ -27,7 +28,7 @@
 #include "IfcWarpingStiffnessSelect.h"
 
 // TYPE IfcBoolean = BOOLEAN;
-class IfcBoolean : public IfcModulusOfRotationalSubgradeReactionSelect, public IfcModulusOfSubgradeReactionSelect, public IfcModulusOfTranslationalSubgradeReactionSelect, public IfcRotationalStiffnessSelect, public IfcSimpleValue, public IfcTranslationalStiffnessSelect, public IfcWarpingStiffnessSelect
+class IFCPP_EXPORT IfcBoolean : public IfcModulusOfRotationalSubgradeReactionSelect, public IfcModulusOfSubgradeReactionSelect, public IfcModulusOfTranslationalSubgradeReactionSelect, public IfcRotationalStiffnessSelect, public IfcSimpleValue, public IfcTranslationalStiffnessSelect, public IfcWarpingStiffnessSelect
 {
 public:
 	IfcBoolean();

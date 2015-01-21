@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGridPlacementDirectionSelect.h"
 #include "IfcVectorOrDirection.h"
 #include "IfcGeometricRepresentationItem.h"
 //ENTITY
-class IfcDirection : virtual public IfcGridPlacementDirectionSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcDirection : virtual public IfcGridPlacementDirectionSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcDirection();
 	IfcDirection( int id );

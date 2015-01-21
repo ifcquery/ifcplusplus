@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcClassificationReferenceSelect = SELECT	(IfcClassification	,IfcClassificationReference);
-class IfcClassificationReferenceSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcClassificationReferenceSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

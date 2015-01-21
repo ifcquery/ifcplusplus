@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcIlluminanceMeasure = REAL;
-class IfcIlluminanceMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcIlluminanceMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcIlluminanceMeasure();

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralAction.h"
-class IfcProjectedOrTrueLengthEnum;
-class IfcStructuralCurveActivityTypeEnum;
+class IFCPP_EXPORT IfcProjectedOrTrueLengthEnum;
+class IFCPP_EXPORT IfcStructuralCurveActivityTypeEnum;
 //ENTITY
-class IfcStructuralCurveAction : public IfcStructuralAction
-{
+class IFCPP_EXPORT IfcStructuralCurveAction : public IfcStructuralAction
+{ 
 public:
 	IfcStructuralCurveAction();
 	IfcStructuralCurveAction( int id );

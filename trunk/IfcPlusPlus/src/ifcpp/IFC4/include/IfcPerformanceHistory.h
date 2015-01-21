@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcControl.h"
-class IfcLabel;
-class IfcPerformanceHistoryTypeEnum;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcPerformanceHistoryTypeEnum;
 //ENTITY
-class IfcPerformanceHistory : public IfcControl
-{
+class IFCPP_EXPORT IfcPerformanceHistory : public IfcControl
+{ 
 public:
 	IfcPerformanceHistory();
 	IfcPerformanceHistory( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcWorkPlanTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-class IfcWorkPlanTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcWorkPlanTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcWorkPlanTypeEnumEnum

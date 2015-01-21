@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralActivity.h"
 //ENTITY
-class IfcStructuralReaction : public IfcStructuralActivity
-{
+class IFCPP_EXPORT IfcStructuralReaction : public IfcStructuralActivity
+{ 
 public:
 	IfcStructuralReaction();
 	IfcStructuralReaction( int id );

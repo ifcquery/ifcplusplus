@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcColumn.h"
 //ENTITY
-class IfcColumnStandardCase : public IfcColumn
-{
+class IFCPP_EXPORT IfcColumnStandardCase : public IfcColumn
+{ 
 public:
 	IfcColumnStandardCase();
 	IfcColumnStandardCase( int id );

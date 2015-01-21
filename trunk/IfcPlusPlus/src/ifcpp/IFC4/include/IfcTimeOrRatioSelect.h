@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcTimeOrRatioSelect = SELECT	(IfcDuration	,IfcRatioMeasure);
-class IfcTimeOrRatioSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTimeOrRatioSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

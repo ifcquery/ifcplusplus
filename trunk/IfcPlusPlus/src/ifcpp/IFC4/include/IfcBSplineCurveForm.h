@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBSplineCurveForm = ENUMERATION OF	(POLYLINE_FORM	,CIRCULAR_ARC	,ELLIPTIC_ARC	,PARABOLIC_ARC	,HYPERBOLIC_ARC	,UNSPECIFIED);
-class IfcBSplineCurveForm : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBSplineCurveForm : virtual public IfcPPObject
 {
 public:
 	enum IfcBSplineCurveFormEnum

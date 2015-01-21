@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMeasureValue.h"
 
 // TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
-class IfcComplexNumber : public IfcMeasureValue
+class IFCPP_EXPORT IfcComplexNumber : public IfcMeasureValue
 {
 public:
 	IfcComplexNumber();

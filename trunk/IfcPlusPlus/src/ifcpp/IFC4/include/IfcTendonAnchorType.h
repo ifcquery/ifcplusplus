@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcReinforcingElementType.h"
-class IfcTendonAnchorTypeEnum;
+class IFCPP_EXPORT IfcTendonAnchorTypeEnum;
 //ENTITY
-class IfcTendonAnchorType : public IfcReinforcingElementType
-{
+class IFCPP_EXPORT IfcTendonAnchorType : public IfcReinforcingElementType
+{ 
 public:
 	IfcTendonAnchorType();
 	IfcTendonAnchorType( int id );

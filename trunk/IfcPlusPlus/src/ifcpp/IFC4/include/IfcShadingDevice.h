@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
-class IfcShadingDeviceTypeEnum;
+class IFCPP_EXPORT IfcShadingDeviceTypeEnum;
 //ENTITY
-class IfcShadingDevice : public IfcBuildingElement
-{
+class IFCPP_EXPORT IfcShadingDevice : public IfcBuildingElement
+{ 
 public:
 	IfcShadingDevice();
 	IfcShadingDevice( int id );

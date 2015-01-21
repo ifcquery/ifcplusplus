@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDoorPanelOperationEnum = ENUMERATION OF	(SWINGING	,DOUBLE_ACTING	,SLIDING	,FOLDING	,REVOLVING	,ROLLINGUP	,FIXEDPANEL	,USERDEFINED	,NOTDEFINED);
-class IfcDoorPanelOperationEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDoorPanelOperationEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDoorPanelOperationEnumEnum

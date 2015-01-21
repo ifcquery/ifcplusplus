@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,USERDEFINED	,NOTDEFINED);
-class IfcPlateTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPlateTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPlateTypeEnumEnum

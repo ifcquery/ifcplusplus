@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
-class IfcUnitaryControlElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcUnitaryControlElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcUnitaryControlElementTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTextFontName = STRING;
-class IfcTextFontName : public IfcPPObject
+class IFCPP_EXPORT IfcTextFontName : public IfcPPObject
 {
 public:
 	IfcTextFontName();

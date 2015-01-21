@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementType.h"
-class IfcElementAssemblyTypeEnum;
+class IFCPP_EXPORT IfcElementAssemblyTypeEnum;
 //ENTITY
-class IfcElementAssemblyType : public IfcElementType
-{
+class IFCPP_EXPORT IfcElementAssemblyType : public IfcElementType
+{ 
 public:
 	IfcElementAssemblyType();
 	IfcElementAssemblyType( int id );

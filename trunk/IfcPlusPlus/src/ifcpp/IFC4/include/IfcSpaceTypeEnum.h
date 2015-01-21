@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSpaceTypeEnum = ENUMERATION OF	(SPACE	,PARKING	,GFA	,INTERNAL	,EXTERNAL	,USERDEFINED	,NOTDEFINED);
-class IfcSpaceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSpaceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSpaceTypeEnumEnum

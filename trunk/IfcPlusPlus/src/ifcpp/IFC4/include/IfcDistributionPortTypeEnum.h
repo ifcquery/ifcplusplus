@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
-class IfcDistributionPortTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDistributionPortTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDistributionPortTypeEnumEnum

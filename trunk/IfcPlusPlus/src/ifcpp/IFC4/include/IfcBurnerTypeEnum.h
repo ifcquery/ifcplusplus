@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBurnerTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-class IfcBurnerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBurnerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcBurnerTypeEnumEnum

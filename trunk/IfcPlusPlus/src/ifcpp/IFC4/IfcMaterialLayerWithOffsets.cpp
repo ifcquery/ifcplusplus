@@ -77,7 +77,7 @@ void IfcMaterialLayerWithOffsets::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_OffsetDirection ) { m_OffsetDirection->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_OffsetValues );
+	writeNumericTypeList( stream, m_OffsetValues );
 	stream << ");";
 }
 void IfcMaterialLayerWithOffsets::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

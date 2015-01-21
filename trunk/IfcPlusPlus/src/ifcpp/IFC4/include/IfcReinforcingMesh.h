@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcReinforcingElement.h"
-class IfcPositiveLengthMeasure;
-class IfcAreaMeasure;
-class IfcReinforcingMeshTypeEnum;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcAreaMeasure;
+class IFCPP_EXPORT IfcReinforcingMeshTypeEnum;
 //ENTITY
-class IfcReinforcingMesh : public IfcReinforcingElement
-{
+class IFCPP_EXPORT IfcReinforcingMesh : public IfcReinforcingElement
+{ 
 public:
 	IfcReinforcingMesh();
 	IfcReinforcingMesh( int id );

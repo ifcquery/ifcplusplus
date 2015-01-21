@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMetricValueSelect.h"
 #include "IfcObjectReferenceSelect.h"
-class IfcLabel;
-class IfcTableRow;
-class IfcTableColumn;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcTableRow;
+class IFCPP_EXPORT IfcTableColumn;
 //ENTITY
-class IfcTable : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcTable : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, public IfcPPEntity
+{ 
 public:
 	IfcTable();
 	IfcTable( int id );

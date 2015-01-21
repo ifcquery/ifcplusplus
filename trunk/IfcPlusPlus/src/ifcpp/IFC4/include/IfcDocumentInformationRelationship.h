@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceLevelRelationship.h"
-class IfcDocumentInformation;
-class IfcLabel;
+class IFCPP_EXPORT IfcDocumentInformation;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcDocumentInformationRelationship : public IfcResourceLevelRelationship
-{
+class IFCPP_EXPORT IfcDocumentInformationRelationship : public IfcResourceLevelRelationship
+{ 
 public:
 	IfcDocumentInformationRelationship();
 	IfcDocumentInformationRelationship( int id );

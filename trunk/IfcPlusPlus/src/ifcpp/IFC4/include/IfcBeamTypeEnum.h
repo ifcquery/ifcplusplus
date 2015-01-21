@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,JOIST	,HOLLOWCORE	,LINTEL	,SPANDREL	,T_BEAM	,USERDEFINED	,NOTDEFINED);
-class IfcBeamTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBeamTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcBeamTypeEnumEnum

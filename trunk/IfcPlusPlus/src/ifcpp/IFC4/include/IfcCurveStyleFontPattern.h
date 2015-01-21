@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcLengthMeasure;
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcCurveStyleFontPattern : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcCurveStyleFontPattern : public IfcPresentationItem
+{ 
 public:
 	IfcCurveStyleFontPattern();
 	IfcCurveStyleFontPattern( int id );

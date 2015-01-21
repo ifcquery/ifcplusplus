@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
-class IfcLabel;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcPreDefinedItem : public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcPreDefinedItem : public IfcPresentationItem
+{ 
 public:
 	IfcPreDefinedItem();
 	IfcPreDefinedItem( int id );

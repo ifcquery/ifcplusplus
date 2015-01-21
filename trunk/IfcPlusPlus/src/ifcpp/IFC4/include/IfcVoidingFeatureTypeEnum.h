@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcVoidingFeatureTypeEnum = ENUMERATION OF	(CUTOUT	,NOTCH	,HOLE	,MITER	,CHAMFER	,EDGE	,USERDEFINED	,NOTDEFINED);
-class IfcVoidingFeatureTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcVoidingFeatureTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcVoidingFeatureTypeEnumEnum

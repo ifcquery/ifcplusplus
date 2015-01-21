@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcConnectionTypeEnum = ENUMERATION OF	(ATPATH	,ATSTART	,ATEND	,NOTDEFINED);
-class IfcConnectionTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcConnectionTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcConnectionTypeEnumEnum

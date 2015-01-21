@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
-class IfcVibrationIsolatorTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcVibrationIsolatorTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcVibrationIsolatorTypeEnumEnum

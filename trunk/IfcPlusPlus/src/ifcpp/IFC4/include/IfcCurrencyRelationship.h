@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResourceLevelRelationship.h"
-class IfcMonetaryUnit;
-class IfcPositiveRatioMeasure;
-class IfcDateTime;
-class IfcLibraryInformation;
+class IFCPP_EXPORT IfcMonetaryUnit;
+class IFCPP_EXPORT IfcPositiveRatioMeasure;
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcLibraryInformation;
 //ENTITY
-class IfcCurrencyRelationship : public IfcResourceLevelRelationship
-{
+class IFCPP_EXPORT IfcCurrencyRelationship : public IfcResourceLevelRelationship
+{ 
 public:
 	IfcCurrencyRelationship();
 	IfcCurrencyRelationship( int id );

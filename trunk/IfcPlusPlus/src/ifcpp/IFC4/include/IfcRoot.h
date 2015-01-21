@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcGloballyUniqueId;
-class IfcOwnerHistory;
-class IfcLabel;
-class IfcText;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcGloballyUniqueId;
+class IFCPP_EXPORT IfcOwnerHistory;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
 //ENTITY
-class IfcRoot : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcRoot : public IfcPPEntity
+{ 
 public:
 	IfcRoot();
 	IfcRoot( int id );

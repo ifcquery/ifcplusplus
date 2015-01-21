@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElementComponent.h"
-class IfcFastenerTypeEnum;
+class IFCPP_EXPORT IfcFastenerTypeEnum;
 //ENTITY
-class IfcFastener : public IfcElementComponent
-{
+class IFCPP_EXPORT IfcFastener : public IfcElementComponent
+{ 
 public:
 	IfcFastener();
 	IfcFastener( int id );

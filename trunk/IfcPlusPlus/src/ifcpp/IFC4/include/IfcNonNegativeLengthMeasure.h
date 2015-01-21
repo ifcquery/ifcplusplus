@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLengthMeasure.h"
 
 // TYPE IfcNonNegativeLengthMeasure = IfcLengthMeasure;
-class IfcNonNegativeLengthMeasure : public IfcLengthMeasure
+class IFCPP_EXPORT IfcNonNegativeLengthMeasure : public IfcLengthMeasure
 {
 public:
 	IfcNonNegativeLengthMeasure();

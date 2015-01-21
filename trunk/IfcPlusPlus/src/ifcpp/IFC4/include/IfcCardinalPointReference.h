@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCardinalPointReference = INTEGER;
-class IfcCardinalPointReference : public IfcPPObject
+class IFCPP_EXPORT IfcCardinalPointReference : public IfcPPObject
 {
 public:
 	IfcCardinalPointReference();

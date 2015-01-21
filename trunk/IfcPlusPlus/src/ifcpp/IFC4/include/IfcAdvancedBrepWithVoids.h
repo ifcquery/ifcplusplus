@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcAdvancedBrep.h"
-class IfcClosedShell;
+class IFCPP_EXPORT IfcClosedShell;
 //ENTITY
-class IfcAdvancedBrepWithVoids : public IfcAdvancedBrep
-{
+class IFCPP_EXPORT IfcAdvancedBrepWithVoids : public IfcAdvancedBrep
+{ 
 public:
 	IfcAdvancedBrepWithVoids();
 	IfcAdvancedBrepWithVoids( int id );

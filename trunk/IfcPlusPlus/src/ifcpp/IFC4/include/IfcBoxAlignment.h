@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLabel.h"
 
 // TYPE IfcBoxAlignment = IfcLabel;
-class IfcBoxAlignment : public IfcLabel
+class IFCPP_EXPORT IfcBoxAlignment : public IfcLabel
 {
 public:
 	IfcBoxAlignment();

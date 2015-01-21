@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
-class IfcDuctSilencerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcDuctSilencerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcDuctSilencerTypeEnumEnum

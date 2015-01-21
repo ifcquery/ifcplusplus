@@ -63,7 +63,7 @@ void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) co
 	stream << ",";
 	writeEntityList( stream, m_Values );
 	stream << ",";
-	writeTypeOfRealList2D( stream, m_Locations );
+	writeNumericTypeList2D( stream, m_Locations );
 	stream << ");";
 }
 void IfcStructuralLoadConfiguration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

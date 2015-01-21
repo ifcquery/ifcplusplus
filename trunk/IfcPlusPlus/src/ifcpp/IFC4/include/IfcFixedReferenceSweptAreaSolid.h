@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSweptAreaSolid.h"
-class IfcCurve;
-class IfcParameterValue;
-class IfcDirection;
+class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcParameterValue;
+class IFCPP_EXPORT IfcDirection;
 //ENTITY
-class IfcFixedReferenceSweptAreaSolid : public IfcSweptAreaSolid
-{
+class IFCPP_EXPORT IfcFixedReferenceSweptAreaSolid : public IfcSweptAreaSolid
+{ 
 public:
 	IfcFixedReferenceSweptAreaSolid();
 	IfcFixedReferenceSweptAreaSolid( int id );

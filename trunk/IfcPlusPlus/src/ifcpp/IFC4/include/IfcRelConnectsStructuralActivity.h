@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnects.h"
-class IfcStructuralActivityAssignmentSelect;
-class IfcStructuralActivity;
+class IFCPP_EXPORT IfcStructuralActivityAssignmentSelect;
+class IFCPP_EXPORT IfcStructuralActivity;
 //ENTITY
-class IfcRelConnectsStructuralActivity : public IfcRelConnects
-{
+class IFCPP_EXPORT IfcRelConnectsStructuralActivity : public IfcRelConnects
+{ 
 public:
 	IfcRelConnectsStructuralActivity();
 	IfcRelConnectsStructuralActivity( int id );

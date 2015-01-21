@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelationship.h"
 //ENTITY
-class IfcRelDefines : public IfcRelationship
-{
+class IFCPP_EXPORT IfcRelDefines : public IfcRelationship
+{ 
 public:
 	IfcRelDefines();
 	IfcRelDefines( int id );

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFeatureElement.h"
-class IfcSurfaceFeatureTypeEnum;
+class IFCPP_EXPORT IfcSurfaceFeatureTypeEnum;
 //ENTITY
-class IfcSurfaceFeature : public IfcFeatureElement
-{
+class IFCPP_EXPORT IfcSurfaceFeature : public IfcFeatureElement
+{ 
 public:
 	IfcSurfaceFeature();
 	IfcSurfaceFeature( int id );

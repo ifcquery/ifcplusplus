@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcFilterTypeEnum = ENUMERATION OF	(AIRPARTICLEFILTER	,COMPRESSEDAIRFILTER	,ODORFILTER	,OILFILTER	,STRAINER	,WATERFILTER	,USERDEFINED	,NOTDEFINED);
-class IfcFilterTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcFilterTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcFilterTypeEnumEnum

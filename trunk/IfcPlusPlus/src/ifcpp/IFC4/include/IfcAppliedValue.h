@@ -17,20 +17,21 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMetricValueSelect.h"
 #include "IfcObjectReferenceSelect.h"
 #include "IfcResourceObjectSelect.h"
-class IfcLabel;
-class IfcText;
-class IfcAppliedValueSelect;
-class IfcMeasureWithUnit;
-class IfcDate;
-class IfcArithmeticOperatorEnum;
-class IfcAppliedValue;
-class IfcExternalReferenceRelationship;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcAppliedValueSelect;
+class IFCPP_EXPORT IfcMeasureWithUnit;
+class IFCPP_EXPORT IfcDate;
+class IFCPP_EXPORT IfcArithmeticOperatorEnum;
+class IFCPP_EXPORT IfcAppliedValue;
+class IFCPP_EXPORT IfcExternalReferenceRelationship;
 //ENTITY
-class IfcAppliedValue : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcAppliedValue : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
+{ 
 public:
 	IfcAppliedValue();
 	IfcAppliedValue( int id );

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundaryCondition.h"
-class IfcModulusOfTranslationalSubgradeReactionSelect;
-class IfcModulusOfRotationalSubgradeReactionSelect;
+class IFCPP_EXPORT IfcModulusOfTranslationalSubgradeReactionSelect;
+class IFCPP_EXPORT IfcModulusOfRotationalSubgradeReactionSelect;
 //ENTITY
-class IfcBoundaryEdgeCondition : public IfcBoundaryCondition
-{
+class IFCPP_EXPORT IfcBoundaryEdgeCondition : public IfcBoundaryCondition
+{ 
 public:
 	IfcBoundaryEdgeCondition();
 	IfcBoundaryEdgeCondition( int id );

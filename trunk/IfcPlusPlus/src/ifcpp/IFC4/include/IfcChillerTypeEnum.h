@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcChillerTypeEnum = ENUMERATION OF	(AIRCOOLED	,WATERCOOLED	,HEATRECOVERY	,USERDEFINED	,NOTDEFINED);
-class IfcChillerTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcChillerTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcChillerTypeEnumEnum

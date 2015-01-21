@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcJunctionBoxTypeEnum = ENUMERATION OF	(DATA	,POWER	,USERDEFINED	,NOTDEFINED);
-class IfcJunctionBoxTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcJunctionBoxTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcJunctionBoxTypeEnumEnum

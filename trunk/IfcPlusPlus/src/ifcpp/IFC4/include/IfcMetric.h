@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcConstraint.h"
-class IfcBenchmarkEnum;
-class IfcLabel;
-class IfcMetricValueSelect;
-class IfcReference;
+class IFCPP_EXPORT IfcBenchmarkEnum;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcMetricValueSelect;
+class IFCPP_EXPORT IfcReference;
 //ENTITY
-class IfcMetric : public IfcConstraint
-{
+class IFCPP_EXPORT IfcMetric : public IfcConstraint
+{ 
 public:
 	IfcMetric();
 	IfcMetric( int id );

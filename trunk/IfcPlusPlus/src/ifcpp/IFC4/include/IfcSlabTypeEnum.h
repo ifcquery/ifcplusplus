@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,USERDEFINED	,NOTDEFINED);
-class IfcSlabTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSlabTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSlabTypeEnumEnum

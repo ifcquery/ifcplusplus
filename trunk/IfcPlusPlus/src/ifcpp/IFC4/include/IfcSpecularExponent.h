@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSpecularHighlightSelect.h"
 
 // TYPE IfcSpecularExponent = REAL;
-class IfcSpecularExponent : public IfcSpecularHighlightSelect
+class IFCPP_EXPORT IfcSpecularExponent : public IfcSpecularHighlightSelect
 {
 public:
 	IfcSpecularExponent();

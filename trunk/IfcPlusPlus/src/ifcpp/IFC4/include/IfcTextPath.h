@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTextPath = ENUMERATION OF	(LEFT	,RIGHT	,UP	,DOWN);
-class IfcTextPath : virtual public IfcPPObject
+class IFCPP_EXPORT IfcTextPath : virtual public IfcPPObject
 {
 public:
 	enum IfcTextPathEnum

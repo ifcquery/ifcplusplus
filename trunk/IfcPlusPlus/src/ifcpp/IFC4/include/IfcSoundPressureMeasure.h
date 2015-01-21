@@ -18,10 +18,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcSoundPressureMeasure = REAL;
-class IfcSoundPressureMeasure : public IfcDerivedMeasureValue
+class IFCPP_EXPORT IfcSoundPressureMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcSoundPressureMeasure();

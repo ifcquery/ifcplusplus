@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcStructuralCurveMemberTypeEnum = ENUMERATION OF	(RIGID_JOINED_MEMBER	,PIN_JOINED_MEMBER	,CABLE	,TENSION_MEMBER	,COMPRESSION_MEMBER	,USERDEFINED	,NOTDEFINED);
-class IfcStructuralCurveMemberTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcStructuralCurveMemberTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcStructuralCurveMemberTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTextTransformation = STRING;
-class IfcTextTransformation : public IfcPPObject
+class IFCPP_EXPORT IfcTextTransformation : public IfcPPObject
 {
 public:
 	IfcTextTransformation();

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelDecomposes.h"
-class IfcElement;
-class IfcFeatureElementAddition;
+class IFCPP_EXPORT IfcElement;
+class IFCPP_EXPORT IfcFeatureElementAddition;
 //ENTITY
-class IfcRelProjectsElement : public IfcRelDecomposes
-{
+class IFCPP_EXPORT IfcRelProjectsElement : public IfcRelDecomposes
+{ 
 public:
 	IfcRelProjectsElement();
 	IfcRelProjectsElement( int id );

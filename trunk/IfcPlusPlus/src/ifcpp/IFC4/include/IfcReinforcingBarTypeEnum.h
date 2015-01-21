@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,USERDEFINED	,NOTDEFINED);
-class IfcReinforcingBarTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcReinforcingBarTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcReinforcingBarTypeEnumEnum

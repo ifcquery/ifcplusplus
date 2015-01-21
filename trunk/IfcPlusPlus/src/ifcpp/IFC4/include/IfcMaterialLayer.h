@@ -17,17 +17,18 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcMaterialDefinition.h"
-class IfcMaterial;
-class IfcNonNegativeLengthMeasure;
-class IfcLogical;
-class IfcLabel;
-class IfcText;
-class IfcNormalisedRatioMeasure;
-class IfcMaterialLayerSet;
+class IFCPP_EXPORT IfcMaterial;
+class IFCPP_EXPORT IfcNonNegativeLengthMeasure;
+class IFCPP_EXPORT IfcLogical;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
+class IFCPP_EXPORT IfcMaterialLayerSet;
 //ENTITY
-class IfcMaterialLayer : public IfcMaterialDefinition
-{
+class IFCPP_EXPORT IfcMaterialLayer : public IfcMaterialDefinition
+{ 
 public:
 	IfcMaterialLayer();
 	IfcMaterialLayer( int id );

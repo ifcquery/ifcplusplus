@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcClassificationSelect;
-class IfcMaterial;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcClassificationSelect;
+class IFCPP_EXPORT IfcMaterial;
 //ENTITY
-class IfcMaterialClassificationRelationship : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcMaterialClassificationRelationship : public IfcPPEntity
+{ 
 public:
 	IfcMaterialClassificationRelationship();
 	IfcMaterialClassificationRelationship( int id );

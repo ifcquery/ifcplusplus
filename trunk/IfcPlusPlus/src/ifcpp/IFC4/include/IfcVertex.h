@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTopologicalRepresentationItem.h"
 //ENTITY
-class IfcVertex : public IfcTopologicalRepresentationItem
-{
+class IFCPP_EXPORT IfcVertex : public IfcTopologicalRepresentationItem
+{ 
 public:
 	IfcVertex();
 	IfcVertex( int id );

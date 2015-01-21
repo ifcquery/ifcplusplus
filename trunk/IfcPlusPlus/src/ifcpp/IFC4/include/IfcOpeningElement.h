@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFeatureElementSubtraction.h"
-class IfcOpeningElementTypeEnum;
-class IfcRelFillsElement;
+class IFCPP_EXPORT IfcOpeningElementTypeEnum;
+class IFCPP_EXPORT IfcRelFillsElement;
 //ENTITY
-class IfcOpeningElement : public IfcFeatureElementSubtraction
-{
+class IFCPP_EXPORT IfcOpeningElement : public IfcFeatureElementSubtraction
+{ 
 public:
 	IfcOpeningElement();
 	IfcOpeningElement( int id );

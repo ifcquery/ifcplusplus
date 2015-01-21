@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcBooleanOperator = ENUMERATION OF	(UNION	,INTERSECTION	,DIFFERENCE);
-class IfcBooleanOperator : virtual public IfcPPObject
+class IFCPP_EXPORT IfcBooleanOperator : virtual public IfcPPObject
 {
 public:
 	enum IfcBooleanOperatorEnum

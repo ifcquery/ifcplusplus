@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRepresentationItem.h"
-class IfcRepresentationItem;
-class IfcStyleAssignmentSelect;
-class IfcLabel;
+class IFCPP_EXPORT IfcRepresentationItem;
+class IFCPP_EXPORT IfcStyleAssignmentSelect;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcStyledItem : public IfcRepresentationItem
-{
+class IFCPP_EXPORT IfcStyledItem : public IfcRepresentationItem
+{ 
 public:
 	IfcStyledItem();
 	IfcStyledItem( int id );

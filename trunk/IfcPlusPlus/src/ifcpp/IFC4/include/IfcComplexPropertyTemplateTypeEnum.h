@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcComplexPropertyTemplateTypeEnum = ENUMERATION OF	(P_COMPLEX	,Q_COMPLEX);
-class IfcComplexPropertyTemplateTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcComplexPropertyTemplateTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcComplexPropertyTemplateTypeEnumEnum

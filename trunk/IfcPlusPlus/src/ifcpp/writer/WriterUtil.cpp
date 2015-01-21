@@ -1,133 +1,35 @@
 /* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
  *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * This library is open source and may be redistributed and/or modified under
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
  * (at your option) any later version.  The full license is in LICENSE file
  * included with this distribution, and on the openscenegraph.org website.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
-*/
+ */
 
 #include <math.h>
 #include "WriterUtil.h"
 #include <sstream>
 
-void writeIntList( std::stringstream& stream, const std::vector<int>& vec )
-{
-	// (3,23,039)
-	stream << "(";
-	std::vector<int>::const_iterator it;
-	
-	for( it=vec.begin(); it!=vec.end(); ++it )
-	{
-		if( it != vec.begin() )
-		{
-			stream << ",";
-		}
-		stream << (*it);
-	}
-	stream << ")";
-}
-
-void writeIntList2D( std::stringstream& stream, const std::vector<std::vector<int> >& vec )
-{
-	// ((1,2,4),(3,23,039),(938,3,-3,6))
-	std::vector<std::vector<int> >::const_iterator it1;
-	stream << "(";
-	for( it1=vec.begin(); it1!=vec.end(); ++it1 )
-	{
-		const std::vector<int>& inner_vec = (*it1);
-		if( it1 != vec.begin() )
-		{
-			stream << ",";
-		}
-		writeIntList( stream, inner_vec );
-	}
-	stream << ")";
-}
-
-void writeIntList3D( std::stringstream& stream, const std::vector<std::vector<std::vector<int> > >& vec )
-{
-	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	std::vector<std::vector<std::vector<int> > >::const_iterator it1;
-	stream << "(";
-	for( it1=vec.begin(); it1!=vec.end(); ++it1 )
-	{
-		const std::vector<std::vector<int> >& inner_vec = (*it1);
-		if( it1 != vec.begin() )
-		{
-			stream << ",";
-		}
-		writeIntList2D( stream, inner_vec );
-	}
-	stream << ")";
-}
-
-void writeDoubleList( std::stringstream& stream, const std::vector<double>& vec )
-{
-	stream << "(";
-	std::vector<double>::const_iterator it;
-	
-	for( it=vec.begin(); it!=vec.end(); ++it )
-	{
-		if( it != vec.begin() )
-		{
-			stream << ",";
-		}
-		stream << (*it);
-	}
-	stream << ")";
-}
-
-void writeDoubleList2D( std::stringstream& stream, const std::vector<std::vector<double> >& vec )
-{
-	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	std::vector<std::vector<double> >::const_iterator it1;
-	stream << "(";
-	for( it1=vec.begin(); it1!=vec.end(); ++it1 )
-	{
-		const std::vector<double>& inner_vec = (*it1);
-
-		if( it1 != vec.begin() )
-		{
-			stream << ",";
-		}
-		writeDoubleList( stream, inner_vec );
-	}
-	stream << ")";
-}
-
-void writeDoubleList3D( std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec )
-{
-	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	std::vector<std::vector<std::vector<double> > >::const_iterator it1;
-	stream << "(";
-	for( it1=vec.begin(); it1!=vec.end(); ++it1 )
-	{
-		const std::vector<std::vector<double> >& inner_vec = (*it1);
-
-		if( it1 != vec.begin() )
-		{
-			stream << ",";
-		}
-		writeDoubleList2D( stream, inner_vec );
-	}
-	stream << ")";
-}
-
 void writeConstCharList( std::stringstream& stream, const std::vector<const char*>& vec )
 {
-	stream << "(";
-	for( std::vector<const char*>::const_iterator it=vec.begin(); it!=vec.end(); ++it )
+	if( vec.size() == 0 )
 	{
-		if( it != vec.begin() )
+		stream << "$";
+		return;
+	}
+	stream << "(";
+	for( size_t ii = 0; ii < vec.size(); ++ii )
+	{
+		if( ii > 0 )
 		{
 			stream << ",";
 		}
-		const char* ch = *it;
+		const char* ch = vec[ii];
 		stream << ch;// encodeStepString(( *it ));
 	}
 	stream << ")";
@@ -135,14 +37,18 @@ void writeConstCharList( std::stringstream& stream, const std::vector<const char
 
 void writeStringList( std::stringstream& stream, const std::vector<std::wstring>& vec )
 {
-	stream << "(";
-	for( std::vector<std::wstring>::const_iterator it=vec.begin(); it!=vec.end(); ++it )
+	if( vec.size() == 0 )
 	{
-		if( it != vec.begin() )
+		stream << "$";
+	}
+	stream << "(";
+	for( size_t ii = 0; ii < vec.size(); ++ii )
+	{
+		if( ii > 0 )
 		{
 			stream << ",";
 		}
-		stream << encodeStepString( (*it) );
+		stream << encodeStepString( vec[ii] );
 	}
 	stream << ")";
 }
@@ -151,35 +57,53 @@ std::string encodeStepString( std::wstring str )
 {
 	wchar_t* stream_pos = (wchar_t*)str.c_str();
 	std::string result_str;
+	std::string beginUnicodeTag = "\\X2\\";
+	std::string endUnicodeTag = "\\X0\\";
+	bool hasOpenedUnicodeTag = false;
 
 	while( *stream_pos != '\0' )
 	{
 		wchar_t append_char = *stream_pos;
 		if( append_char > 0 && append_char < 128 )
 		{
+			if( hasOpenedUnicodeTag )
+			{
+				result_str += endUnicodeTag;
+				hasOpenedUnicodeTag = false;
+			}
+
 			result_str.push_back( (char)append_char );
 		}
 		else
 		{
-			int value = (int)(append_char);      
+			int value = (int)( append_char );
 			wchar_t temporary[8];
-		    swprintf(temporary, 4, L"%02X ", value);
+			swprintf( temporary, 5, L"%04X", value );
 
-			result_str.push_back( '\\' );
-			result_str.push_back( 'X' );
-			result_str.push_back( '\\' );
+			if( !hasOpenedUnicodeTag )
+			{
+				result_str += beginUnicodeTag;
+				hasOpenedUnicodeTag = true;
+			}
+
 			char mb[8];
-			int len1 = wctomb(mb, temporary[0]);
+			wctomb( mb, temporary[0] );
 			result_str.push_back( mb[0] );
-			int len2 = wctomb(mb, temporary[1]);
+			wctomb( mb, temporary[1] );
 			result_str.push_back( mb[0] );
-
-			//result_str.push_back( '\\' );
-			//result_str.push_back( 'S' );
-			//result_str.push_back( '\\' );
-			//result_str.push_back( append_char-128 );
+			wctomb( mb, temporary[2] );
+			result_str.push_back( mb[0] );
+			wctomb( mb, temporary[3] );
+			result_str.push_back( mb[0] );
 		}
 		++stream_pos;
 	}
+
+	if( hasOpenedUnicodeTag )
+	{
+		result_str += endUnicodeTag;
+		hasOpenedUnicodeTag = false;
+	}
+
 	return result_str;
 }

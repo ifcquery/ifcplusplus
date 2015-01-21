@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedProperties.h"
-class IfcSectionTypeEnum;
-class IfcProfileDef;
+class IFCPP_EXPORT IfcSectionTypeEnum;
+class IFCPP_EXPORT IfcProfileDef;
 //ENTITY
-class IfcSectionProperties : public IfcPreDefinedProperties
-{
+class IFCPP_EXPORT IfcSectionProperties : public IfcPreDefinedProperties
+{ 
 public:
 	IfcSectionProperties();
 	IfcSectionProperties( int id );

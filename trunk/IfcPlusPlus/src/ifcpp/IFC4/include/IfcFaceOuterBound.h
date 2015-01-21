@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFaceBound.h"
 //ENTITY
-class IfcFaceOuterBound : public IfcFaceBound
-{
+class IFCPP_EXPORT IfcFaceOuterBound : public IfcFaceBound
+{ 
 public:
 	IfcFaceOuterBound();
 	IfcFaceOuterBound( int id );

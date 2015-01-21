@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelDefines.h"
-class IfcObject;
-class IfcTypeObject;
+class IFCPP_EXPORT IfcObject;
+class IFCPP_EXPORT IfcTypeObject;
 //ENTITY
-class IfcRelDefinesByType : public IfcRelDefines
-{
+class IFCPP_EXPORT IfcRelDefinesByType : public IfcRelDefines
+{ 
 public:
 	IfcRelDefinesByType();
 	IfcRelDefinesByType( int id );

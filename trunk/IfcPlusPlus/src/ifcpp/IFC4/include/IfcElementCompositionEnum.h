@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcElementCompositionEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL);
-class IfcElementCompositionEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcElementCompositionEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcElementCompositionEnumEnum

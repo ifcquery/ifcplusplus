@@ -54,9 +54,9 @@ void IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCLIGHTDISTRIBUTIONDATA" << "(";
 	if( m_MainPlaneAngle ) { m_MainPlaneAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_SecondaryPlaneAngle );
+	writeNumericTypeList( stream, m_SecondaryPlaneAngle );
 	stream << ",";
-	writeTypeOfRealList( stream, m_LuminousIntensity );
+	writeNumericTypeList( stream, m_LuminousIntensity );
 	stream << ");";
 }
 void IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

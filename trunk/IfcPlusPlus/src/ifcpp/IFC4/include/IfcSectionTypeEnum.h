@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcSectionTypeEnum = ENUMERATION OF	(UNIFORM	,TAPERED);
-class IfcSectionTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcSectionTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcSectionTypeEnumEnum

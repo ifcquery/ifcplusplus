@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnectsElements.h"
-class IfcConnectionTypeEnum;
+class IFCPP_EXPORT IfcConnectionTypeEnum;
 //ENTITY
-class IfcRelConnectsPathElements : public IfcRelConnectsElements
-{
+class IFCPP_EXPORT IfcRelConnectsPathElements : public IfcRelConnectsElements
+{ 
 public:
 	IfcRelConnectsPathElements();
 	IfcRelConnectsPathElements( int id );

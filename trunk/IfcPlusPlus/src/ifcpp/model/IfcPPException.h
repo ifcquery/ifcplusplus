@@ -15,12 +15,13 @@
 
 #include <exception>
 #include <string>
+#include "IfcPPGlobal.h"
 
 #define __FUNC__ __FUNCTION__
 #define _func_ __FUNCTION__
 #define __func__ __FUNC__
 
-class IfcPPException : public std::exception
+class IFCPP_EXPORT IfcPPException : public std::exception
 {
 public:
 	IfcPPException( std::string reason )

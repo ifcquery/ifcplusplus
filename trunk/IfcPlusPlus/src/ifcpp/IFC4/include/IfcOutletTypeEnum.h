@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcOutletTypeEnum = ENUMERATION OF	(AUDIOVISUALOUTLET	,COMMUNICATIONSOUTLET	,POWEROUTLET	,DATAOUTLET	,TELEPHONEOUTLET	,USERDEFINED	,NOTDEFINED);
-class IfcOutletTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcOutletTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcOutletTypeEnumEnum

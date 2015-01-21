@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProfileDef.h"
-class IfcProfileDef;
-class IfcLabel;
+class IFCPP_EXPORT IfcProfileDef;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcCompositeProfileDef : public IfcProfileDef
-{
+class IFCPP_EXPORT IfcCompositeProfileDef : public IfcProfileDef
+{ 
 public:
 	IfcCompositeProfileDef();
 	IfcCompositeProfileDef( int id );

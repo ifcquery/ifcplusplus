@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcObjectDefinition.h"
-class IfcLabel;
-class IfcRelDefinesByObject;
-class IfcRelDefinesByType;
-class IfcRelDefinesByProperties;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcRelDefinesByObject;
+class IFCPP_EXPORT IfcRelDefinesByType;
+class IFCPP_EXPORT IfcRelDefinesByProperties;
 //ENTITY
-class IfcObject : public IfcObjectDefinition
-{
+class IFCPP_EXPORT IfcObject : public IfcObjectDefinition
+{ 
 public:
 	IfcObject();
 	IfcObject( int id );

@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcResource.h"
-class IfcResourceTime;
-class IfcAppliedValue;
-class IfcPhysicalQuantity;
+class IFCPP_EXPORT IfcResourceTime;
+class IFCPP_EXPORT IfcAppliedValue;
+class IFCPP_EXPORT IfcPhysicalQuantity;
 //ENTITY
-class IfcConstructionResource : public IfcResource
-{
+class IFCPP_EXPORT IfcConstructionResource : public IfcResource
+{ 
 public:
 	IfcConstructionResource();
 	IfcConstructionResource( int id );

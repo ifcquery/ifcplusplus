@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStyleAssignmentSelect.h"
-class IfcLabel;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcPresentationStyle : virtual public IfcStyleAssignmentSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcPresentationStyle : virtual public IfcStyleAssignmentSelect, public IfcPPEntity
+{ 
 public:
 	IfcPresentationStyle();
 	IfcPresentationStyle( int id );

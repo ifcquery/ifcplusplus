@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationContext.h"
-class IfcGeometricRepresentationContext;
-class IfcPositiveRatioMeasure;
-class IfcGeometricProjectionEnum;
-class IfcLabel;
+class IFCPP_EXPORT IfcGeometricRepresentationContext;
+class IFCPP_EXPORT IfcPositiveRatioMeasure;
+class IFCPP_EXPORT IfcGeometricProjectionEnum;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcGeometricRepresentationSubContext : public IfcGeometricRepresentationContext
-{
+class IFCPP_EXPORT IfcGeometricRepresentationSubContext : public IfcGeometricRepresentationContext
+{ 
 public:
 	IfcGeometricRepresentationSubContext();
 	IfcGeometricRepresentationSubContext( int id );

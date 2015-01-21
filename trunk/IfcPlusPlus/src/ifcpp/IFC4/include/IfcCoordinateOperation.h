@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
-class IfcCoordinateReferenceSystemSelect;
-class IfcCoordinateReferenceSystem;
+#include "ifcpp/model/IfcPPGlobal.h"
+class IFCPP_EXPORT IfcCoordinateReferenceSystemSelect;
+class IFCPP_EXPORT IfcCoordinateReferenceSystem;
 //ENTITY
-class IfcCoordinateOperation : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcCoordinateOperation : public IfcPPEntity
+{ 
 public:
 	IfcCoordinateOperation();
 	IfcCoordinateOperation( int id );

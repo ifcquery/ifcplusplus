@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCoordinateReferenceSystemSelect.h"
-class IfcLabel;
-class IfcText;
-class IfcIdentifier;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcIdentifier;
 //ENTITY
-class IfcCoordinateReferenceSystem : virtual public IfcCoordinateReferenceSystemSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcCoordinateReferenceSystem : virtual public IfcCoordinateReferenceSystemSelect, public IfcPPEntity
+{ 
 public:
 	IfcCoordinateReferenceSystem();
 	IfcCoordinateReferenceSystem( int id );

@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDistributionFlowElement.h"
 //ENTITY
-class IfcFlowTerminal : public IfcDistributionFlowElement
-{
+class IFCPP_EXPORT IfcFlowTerminal : public IfcDistributionFlowElement
+{ 
 public:
 	IfcFlowTerminal();
 	IfcFlowTerminal( int id );

@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcManifoldSolidBrep.h"
 //ENTITY
-class IfcAdvancedBrep : public IfcManifoldSolidBrep
-{
+class IFCPP_EXPORT IfcAdvancedBrep : public IfcManifoldSolidBrep
+{ 
 public:
 	IfcAdvancedBrep();
 	IfcAdvancedBrep( int id );

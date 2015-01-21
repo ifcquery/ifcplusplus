@@ -42,7 +42,7 @@ shared_ptr<IfcPPObject> IfcTextureVertex::getDeepCopy( IfcPPCopyOptions& options
 void IfcTextureVertex::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCTEXTUREVERTEX" << "(";
-	writeTypeOfRealList( stream, m_Coordinates );
+	writeNumericTypeList( stream, m_Coordinates );
 	stream << ");";
 }
 void IfcTextureVertex::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

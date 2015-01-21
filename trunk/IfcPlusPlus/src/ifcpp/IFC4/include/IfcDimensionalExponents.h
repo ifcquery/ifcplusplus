@@ -17,9 +17,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 //ENTITY
-class IfcDimensionalExponents : public IfcPPEntity
-{
+class IFCPP_EXPORT IfcDimensionalExponents : public IfcPPEntity
+{ 
 public:
 	IfcDimensionalExponents();
 	IfcDimensionalExponents( int id );

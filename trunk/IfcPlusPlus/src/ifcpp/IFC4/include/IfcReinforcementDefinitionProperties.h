@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPreDefinedPropertySet.h"
-class IfcLabel;
-class IfcSectionReinforcementProperties;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcSectionReinforcementProperties;
 //ENTITY
-class IfcReinforcementDefinitionProperties : public IfcPreDefinedPropertySet
-{
+class IFCPP_EXPORT IfcReinforcementDefinitionProperties : public IfcPreDefinedPropertySet
+{ 
 public:
 	IfcReinforcementDefinitionProperties();
 	IfcReinforcementDefinitionProperties( int id );

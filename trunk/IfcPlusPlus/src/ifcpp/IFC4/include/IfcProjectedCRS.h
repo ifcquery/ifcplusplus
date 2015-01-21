@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCoordinateReferenceSystem.h"
-class IfcIdentifier;
-class IfcNamedUnit;
+class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcNamedUnit;
 //ENTITY
-class IfcProjectedCRS : public IfcCoordinateReferenceSystem
-{
+class IFCPP_EXPORT IfcProjectedCRS : public IfcCoordinateReferenceSystem
+{ 
 public:
 	IfcProjectedCRS();
 	IfcProjectedCRS( int id );

@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProcess.h"
-class IfcEventTypeEnum;
-class IfcEventTriggerTypeEnum;
-class IfcLabel;
-class IfcEventTime;
+class IFCPP_EXPORT IfcEventTypeEnum;
+class IFCPP_EXPORT IfcEventTriggerTypeEnum;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcEventTime;
 //ENTITY
-class IfcEvent : public IfcProcess
-{
+class IFCPP_EXPORT IfcEvent : public IfcProcess
+{ 
 public:
 	IfcEvent();
 	IfcEvent( int id );

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRelConnectsElements.h"
-class IfcElement;
-class IfcLabel;
+class IFCPP_EXPORT IfcElement;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcRelConnectsWithRealizingElements : public IfcRelConnectsElements
-{
+class IFCPP_EXPORT IfcRelConnectsWithRealizingElements : public IfcRelConnectsElements
+{ 
 public:
 	IfcRelConnectsWithRealizingElements();
 	IfcRelConnectsWithRealizingElements( int id );

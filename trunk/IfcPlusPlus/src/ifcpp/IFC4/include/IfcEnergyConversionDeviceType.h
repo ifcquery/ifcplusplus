@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcDistributionFlowElementType.h"
 //ENTITY
-class IfcEnergyConversionDeviceType : public IfcDistributionFlowElementType
-{
+class IFCPP_EXPORT IfcEnergyConversionDeviceType : public IfcDistributionFlowElementType
+{ 
 public:
 	IfcEnergyConversionDeviceType();
 	IfcEnergyConversionDeviceType( int id );

@@ -17,14 +17,15 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSchedulingTime.h"
-class IfcDuration;
-class IfcPositiveRatioMeasure;
-class IfcDateTime;
-class IfcLabel;
+class IFCPP_EXPORT IfcDuration;
+class IFCPP_EXPORT IfcPositiveRatioMeasure;
+class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
-class IfcResourceTime : public IfcSchedulingTime
-{
+class IFCPP_EXPORT IfcResourceTime : public IfcSchedulingTime
+{ 
 public:
 	IfcResourceTime();
 	IfcResourceTime( int id );

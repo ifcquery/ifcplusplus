@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGroup.h"
-class IfcAnalysisTheoryTypeEnum;
-class IfcStructuralLoadGroup;
-class IfcStructuralAnalysisModel;
+class IFCPP_EXPORT IfcAnalysisTheoryTypeEnum;
+class IFCPP_EXPORT IfcStructuralLoadGroup;
+class IFCPP_EXPORT IfcStructuralAnalysisModel;
 //ENTITY
-class IfcStructuralResultGroup : public IfcGroup
-{
+class IFCPP_EXPORT IfcStructuralResultGroup : public IfcGroup
+{ 
 public:
 	IfcStructuralResultGroup();
 	IfcStructuralResultGroup( int id );

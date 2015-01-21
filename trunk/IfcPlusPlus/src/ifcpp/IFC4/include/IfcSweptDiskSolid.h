@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSolidModel.h"
-class IfcCurve;
-class IfcPositiveLengthMeasure;
-class IfcParameterValue;
+class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcParameterValue;
 //ENTITY
-class IfcSweptDiskSolid : public IfcSolidModel
-{
+class IFCPP_EXPORT IfcSweptDiskSolid : public IfcSolidModel
+{ 
 public:
 	IfcSweptDiskSolid();
 	IfcSweptDiskSolid( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcStateEnum = ENUMERATION OF	(READWRITE	,READONLY	,LOCKED	,READWRITELOCKED	,READONLYLOCKED);
-class IfcStateEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcStateEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcStateEnumEnum

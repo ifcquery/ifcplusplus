@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcGlobalOrLocalEnum = ENUMERATION OF	(GLOBAL_COORDS	,LOCAL_COORDS);
-class IfcGlobalOrLocalEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcGlobalOrLocalEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcGlobalOrLocalEnumEnum

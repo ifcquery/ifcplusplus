@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcMedicalDeviceTypeEnum = ENUMERATION OF	(AIRSTATION	,FEEDAIRUNIT	,OXYGENGENERATOR	,OXYGENPLANT	,VACUUMSTATION	,USERDEFINED	,NOTDEFINED);
-class IfcMedicalDeviceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcMedicalDeviceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcMedicalDeviceTypeEnumEnum

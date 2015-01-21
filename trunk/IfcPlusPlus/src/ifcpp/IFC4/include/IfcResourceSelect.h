@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcResourceSelect = SELECT	(IfcResource	,IfcTypeResource);
-class IfcResourceSelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcResourceSelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralConnectionCondition.h"
-class IfcForceMeasure;
+class IFCPP_EXPORT IfcForceMeasure;
 //ENTITY
-class IfcFailureConnectionCondition : public IfcStructuralConnectionCondition
-{
+class IFCPP_EXPORT IfcFailureConnectionCondition : public IfcStructuralConnectionCondition
+{ 
 public:
 	IfcFailureConnectionCondition();
 	IfcFailureConnectionCondition( int id );

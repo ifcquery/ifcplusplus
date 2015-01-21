@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcLoadGroupTypeEnum = ENUMERATION OF	(LOAD_GROUP	,LOAD_CASE	,LOAD_COMBINATION	,USERDEFINED	,NOTDEFINED);
-class IfcLoadGroupTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLoadGroupTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcLoadGroupTypeEnumEnum

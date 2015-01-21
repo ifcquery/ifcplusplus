@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcPermeableCoveringOperationEnum = ENUMERATION OF	(GRILL	,LOUVER	,SCREEN	,USERDEFINED	,NOTDEFINED);
-class IfcPermeableCoveringOperationEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcPermeableCoveringOperationEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcPermeableCoveringOperationEnumEnum

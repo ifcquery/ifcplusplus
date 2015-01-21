@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCrewResourceTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,USERDEFINED	,NOTDEFINED);
-class IfcCrewResourceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCrewResourceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCrewResourceTypeEnumEnum

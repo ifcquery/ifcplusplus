@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcEnergyConversionDeviceType.h"
-class IfcAirToAirHeatRecoveryTypeEnum;
+class IFCPP_EXPORT IfcAirToAirHeatRecoveryTypeEnum;
 //ENTITY
-class IfcAirToAirHeatRecoveryType : public IfcEnergyConversionDeviceType
-{
+class IFCPP_EXPORT IfcAirToAirHeatRecoveryType : public IfcEnergyConversionDeviceType
+{ 
 public:
 	IfcAirToAirHeatRecoveryType();
 	IfcAirToAirHeatRecoveryType( int id );

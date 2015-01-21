@@ -17,13 +17,14 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcControl.h"
-class IfcPermitTypeEnum;
-class IfcLabel;
-class IfcText;
+class IFCPP_EXPORT IfcPermitTypeEnum;
+class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcText;
 //ENTITY
-class IfcPermit : public IfcControl
-{
+class IFCPP_EXPORT IfcPermit : public IfcControl
+{ 
 public:
 	IfcPermit();
 	IfcPermit( int id );

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,USERDEFINED	,NOTDEFINED);
-class IfcCommunicationsApplianceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcCommunicationsApplianceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcCommunicationsApplianceTypeEnumEnum

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurfaceTexture.h"
-class IfcIdentifier;
+class IFCPP_EXPORT IfcIdentifier;
 //ENTITY
-class IfcBlobTexture : public IfcSurfaceTexture
-{
+class IFCPP_EXPORT IfcBlobTexture : public IfcSurfaceTexture
+{ 
 public:
 	IfcBlobTexture();
 	IfcBlobTexture( int id );

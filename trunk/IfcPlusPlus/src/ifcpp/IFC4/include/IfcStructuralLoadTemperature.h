@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralLoadStatic.h"
-class IfcThermodynamicTemperatureMeasure;
+class IFCPP_EXPORT IfcThermodynamicTemperatureMeasure;
 //ENTITY
-class IfcStructuralLoadTemperature : public IfcStructuralLoadStatic
-{
+class IFCPP_EXPORT IfcStructuralLoadTemperature : public IfcStructuralLoadStatic
+{ 
 public:
 	IfcStructuralLoadTemperature();
 	IfcStructuralLoadTemperature( int id );

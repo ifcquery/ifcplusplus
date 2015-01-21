@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcEngineTypeEnum = ENUMERATION OF	(EXTERNALCOMBUSTION	,INTERNALCOMBUSTION	,USERDEFINED	,NOTDEFINED);
-class IfcEngineTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcEngineTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcEngineTypeEnumEnum

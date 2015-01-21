@@ -17,10 +17,11 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBooleanResult.h"
 //ENTITY
-class IfcBooleanClippingResult : public IfcBooleanResult
-{
+class IFCPP_EXPORT IfcBooleanClippingResult : public IfcBooleanResult
+{ 
 public:
 	IfcBooleanClippingResult();
 	IfcBooleanClippingResult( int id );

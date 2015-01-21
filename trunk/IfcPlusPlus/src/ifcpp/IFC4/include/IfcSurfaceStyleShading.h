@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurfaceStyleElementSelect.h"
 #include "IfcPresentationItem.h"
-class IfcColourRgb;
+class IFCPP_EXPORT IfcColourRgb;
 //ENTITY
-class IfcSurfaceStyleShading : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
-{
+class IFCPP_EXPORT IfcSurfaceStyleShading : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
+{ 
 public:
 	IfcSurfaceStyleShading();
 	IfcSurfaceStyleShading( int id );

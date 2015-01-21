@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,USERDEFINED	,NOTDEFINED);
-class IfcAudioVisualApplianceTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcAudioVisualApplianceTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcAudioVisualApplianceTypeEnumEnum

@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,USERDEFINED	,NOTDEFINED);
-class IfcGeographicElementTypeEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcGeographicElementTypeEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcGeographicElementTypeEnumEnum

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricSetSelect.h"
 #include "IfcSurfaceOrFaceSurface.h"
 #include "IfcGeometricRepresentationItem.h"
 //ENTITY
-class IfcSurface : virtual public IfcGeometricSetSelect, virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcSurface : virtual public IfcGeometricSetSelect, virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcSurface();
 	IfcSurface( int id );

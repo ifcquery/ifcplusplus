@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcLogicalOperatorEnum = ENUMERATION OF	(LOGICALAND	,LOGICALOR	,LOGICALXOR	,LOGICALNOTAND	,LOGICALNOTOR);
-class IfcLogicalOperatorEnum : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLogicalOperatorEnum : virtual public IfcPPObject
 {
 public:
 	enum IfcLogicalOperatorEnumEnum

@@ -17,15 +17,16 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcFillStyleSelect.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcCurveStyle;
-class IfcHatchLineDistanceSelect;
-class IfcCartesianPoint;
-class IfcPlaneAngleMeasure;
+class IFCPP_EXPORT IfcCurveStyle;
+class IFCPP_EXPORT IfcHatchLineDistanceSelect;
+class IFCPP_EXPORT IfcCartesianPoint;
+class IFCPP_EXPORT IfcPlaneAngleMeasure;
 //ENTITY
-class IfcFillAreaStyleHatching : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcFillAreaStyleHatching : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcFillAreaStyleHatching();
 	IfcFillAreaStyleHatching( int id );

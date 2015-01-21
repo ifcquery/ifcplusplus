@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcRepresentationItem.h"
-class IfcRepresentationMap;
-class IfcCartesianTransformationOperator;
+class IFCPP_EXPORT IfcRepresentationMap;
+class IFCPP_EXPORT IfcCartesianTransformationOperator;
 //ENTITY
-class IfcMappedItem : public IfcRepresentationItem
-{
+class IFCPP_EXPORT IfcMappedItem : public IfcRepresentationItem
+{ 
 public:
 	IfcMappedItem();
 	IfcMappedItem( int id );

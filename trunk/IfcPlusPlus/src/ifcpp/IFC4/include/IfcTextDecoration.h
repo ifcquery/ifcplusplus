@@ -18,9 +18,10 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 
 // TYPE IfcTextDecoration = STRING;
-class IfcTextDecoration : public IfcPPObject
+class IFCPP_EXPORT IfcTextDecoration : public IfcPPObject
 {
 public:
 	IfcTextDecoration();

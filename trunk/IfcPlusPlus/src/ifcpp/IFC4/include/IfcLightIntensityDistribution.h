@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcLightDistributionDataSourceSelect.h"
-class IfcLightDistributionCurveEnum;
-class IfcLightDistributionData;
+class IFCPP_EXPORT IfcLightDistributionCurveEnum;
+class IFCPP_EXPORT IfcLightDistributionData;
 //ENTITY
-class IfcLightIntensityDistribution : virtual public IfcLightDistributionDataSourceSelect, public IfcPPEntity
-{
+class IFCPP_EXPORT IfcLightIntensityDistribution : virtual public IfcLightDistributionDataSourceSelect, public IfcPPEntity
+{ 
 public:
 	IfcLightIntensityDistribution();
 	IfcLightIntensityDistribution( int id );

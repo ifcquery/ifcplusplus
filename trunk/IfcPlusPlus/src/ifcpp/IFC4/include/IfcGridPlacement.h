@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcObjectPlacement.h"
-class IfcVirtualGridIntersection;
-class IfcGridPlacementDirectionSelect;
+class IFCPP_EXPORT IfcVirtualGridIntersection;
+class IFCPP_EXPORT IfcGridPlacementDirectionSelect;
 //ENTITY
-class IfcGridPlacement : public IfcObjectPlacement
-{
+class IFCPP_EXPORT IfcGridPlacement : public IfcObjectPlacement
+{ 
 public:
 	IfcGridPlacement();
 	IfcGridPlacement( int id );

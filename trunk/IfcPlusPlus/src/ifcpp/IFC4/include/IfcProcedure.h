@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProcess.h"
-class IfcProcedureTypeEnum;
+class IFCPP_EXPORT IfcProcedureTypeEnum;
 //ENTITY
-class IfcProcedure : public IfcProcess
-{
+class IFCPP_EXPORT IfcProcedure : public IfcProcess
+{ 
 public:
 	IfcProcedure();
 	IfcProcedure( int id );

@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralLoadStatic.h"
-class IfcPlanarForceMeasure;
+class IFCPP_EXPORT IfcPlanarForceMeasure;
 //ENTITY
-class IfcStructuralLoadPlanarForce : public IfcStructuralLoadStatic
-{
+class IFCPP_EXPORT IfcStructuralLoadPlanarForce : public IfcStructuralLoadStatic
+{ 
 public:
 	IfcStructuralLoadPlanarForce();
 	IfcStructuralLoadPlanarForce( int id );

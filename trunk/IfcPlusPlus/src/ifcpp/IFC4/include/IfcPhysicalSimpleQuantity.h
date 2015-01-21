@@ -17,11 +17,12 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPhysicalQuantity.h"
-class IfcNamedUnit;
+class IFCPP_EXPORT IfcNamedUnit;
 //ENTITY
-class IfcPhysicalSimpleQuantity : public IfcPhysicalQuantity
-{
+class IFCPP_EXPORT IfcPhysicalSimpleQuantity : public IfcPhysicalQuantity
+{ 
 public:
 	IfcPhysicalSimpleQuantity();
 	IfcPhysicalSimpleQuantity( int id );

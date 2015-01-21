@@ -19,7 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 
 // TYPE IfcLibrarySelect = SELECT	(IfcLibraryInformation	,IfcLibraryReference);
-class IfcLibrarySelect : virtual public IfcPPObject
+class IFCPP_EXPORT IfcLibrarySelect : virtual public IfcPPObject
 {
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;

@@ -17,12 +17,13 @@
 #include <string>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationItem.h"
-class IfcCartesianPoint;
-class IfcPositiveLengthMeasure;
+class IFCPP_EXPORT IfcCartesianPoint;
+class IFCPP_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IfcBoundingBox : public IfcGeometricRepresentationItem
-{
+class IFCPP_EXPORT IfcBoundingBox : public IfcGeometricRepresentationItem
+{ 
 public:
 	IfcBoundingBox();
 	IfcBoundingBox( int id );
