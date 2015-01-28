@@ -79,12 +79,12 @@ void CurveConverter::convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, s
 	std::vector<carve::geom::vector<3> > segment_start_points_3d;
 	convertIfcCurve( ifc_curve, target_vec_3d, segment_start_points_3d, trim1_vec, trim2_vec, sense_agreement );
 
-	for( int i=0; i<target_vec_3d.size(); ++i )
+	for( size_t i=0; i<target_vec_3d.size(); ++i )
 	{
 		carve::geom::vector<3>& point_3d = target_vec_3d[i];
 		target_vec.push_back( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
 	}
-	for( int i=0; i<segment_start_points_3d.size(); ++i )
+	for( size_t i = 0; i<segment_start_points_3d.size(); ++i )
 	{
 		carve::geom::vector<3>& point_3d = segment_start_points_3d[i];
 		segment_start_points.push_back( carve::geom::VECTOR( point_3d.x, point_3d.y ) );

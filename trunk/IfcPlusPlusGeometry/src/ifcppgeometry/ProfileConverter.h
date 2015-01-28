@@ -57,6 +57,7 @@ public:
 	static void simplifyPaths( std::vector<std::vector<vector2d_t > >& paths );
 	static void simplifyPath( std::vector<vector2d_t >& paths );
 	const std::vector<std::vector<vector2d_t > >& getCoordinates() { return m_paths; }
+	void clearProfileConverter() { m_paths.clear(); }
 
 	shared_ptr<CurveConverter>				m_curve_converter;
 	shared_ptr<SplineConverter>				m_spline_converter;

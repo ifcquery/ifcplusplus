@@ -48,9 +48,6 @@
     <ClCompile Include="src\ifcppgeometry\GeomUtils.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\GeometryInputData.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcppgeometry\CSG_Adapter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

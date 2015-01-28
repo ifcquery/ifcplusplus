@@ -174,7 +174,7 @@ void computeRationalBSpline(
 		{
 			curve_points[offset_i + jj] = 0.;
 
-			for( int kk = 0; kk < control_points.size(); ++kk )
+			for( size_t kk = 0; kk < control_points.size(); ++kk )
 			{
 				// matrix multiplication
 				temp = basis_func[kk] * control_points_coords[jj + kk*3];

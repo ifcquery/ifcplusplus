@@ -284,7 +284,7 @@ public:
 
 		if( other )
 		{
-			for( int item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
+			for( size_t item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
 			{
 				shared_ptr<ItemShapeInputData>& item_data = other->m_vec_item_data[item_i];
 				m_vec_item_data.push_back( shared_ptr<ItemShapeInputData>( item_data->getDeepCopy() ) );

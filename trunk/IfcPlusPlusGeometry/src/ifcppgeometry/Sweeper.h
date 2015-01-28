@@ -42,7 +42,7 @@ public:
 	  \param[in] nvc Number of vertices per circle
 	  \param[in] radius_inner If positive value is given, the swept disk becomes a pipe
 	**/
-	void sweepDisk(	const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data, const int nvc, const double radius, const double radius_inner = -1 );
+	void sweepDisk( const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* e, shared_ptr<ItemShapeInputData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 );
 
 	/*\brief Extrudes a cross section along a path. At turns, the points are placed in the bisecting plane
 	  \param[in] curve_points Path along which the cross section is swept

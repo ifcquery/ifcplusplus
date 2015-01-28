@@ -182,7 +182,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			
 			if( surface_proxy )
 			{
-				for( int ii = 0; ii < directrix_curve_points.size(); ++ii )
+				for( size_t ii = 0; ii < directrix_curve_points.size(); ++ii )
 				{
 					carve::geom::vector<3>& point_3d = directrix_curve_points[ii];
 					carve::geom::vector<2> point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
@@ -441,7 +441,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	const std::vector<std::vector<carve::geom::vector<2> > >& profile_coords_unchecked = profile_converter->getCoordinates();
 	bool warning_small_loop_detected = false;
 	std::vector<std::vector<carve::geom::vector<2> > > profile_coords;
-	for( int ii=0; ii<profile_coords_unchecked.size(); ++ii )
+	for( size_t ii = 0; ii<profile_coords_unchecked.size(); ++ii )
 	{
 		const std::vector<carve::geom::vector<2> >& profile_loop_unchecked = profile_coords_unchecked[ii];
 		carve::geom::vector<3> normal_2d = GeomUtils::computePolygon2DNormal( profile_loop_unchecked );
@@ -498,8 +498,8 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		merged.reserve(result.size());
 		for( size_t i = 0; i < result.size(); ++i )
 		{
-			int loop_number = result[i].first;
-			int index_in_loop = result[i].second;
+			size_t loop_number = result[i].first;
+			size_t index_in_loop = result[i].second;
 
 			if( loop_number >= profile_coords.size() )
 			{
@@ -1206,7 +1206,7 @@ void SolidModelConverter::convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpac
 	{
 		carve::geom::aabb<3> aabb;
 
-		for( int ii = 0; ii < other_operand->m_meshsets.size(); ++ii )
+		for( size_t ii = 0; ii < other_operand->m_meshsets.size(); ++ii )
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->m_meshsets[ii];
 			if( ii == 0 )
@@ -1448,7 +1448,7 @@ void SolidModelConverter::convertIfcSectionedSpine( const shared_ptr<IfcSectione
 	}
 
 	std::vector<shared_ptr<IfcCompositeCurveSegment> > segements = spine_curve->m_Segments;
-	int num_segments = segements.size();
+	size_t num_segments = segements.size();
 	if( vec_cross_section_positions.size() < num_segments+1 )
 	{
 		num_segments = vec_cross_section_positions.size()-1;

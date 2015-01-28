@@ -573,7 +573,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
 		polyline_data->beginPolyline();
-		for( int i = 0; i < loops.size(); ++i )
+		for( size_t i = 0; i < loops.size(); ++i )
 		{
 			carve::geom::vector<3> point = loops[i];
 			polyline_data->addVertex( point );
@@ -689,7 +689,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 					throw IfcPPOutOfMemoryException( __FUNC__ );
 				}
 				polyline_data->beginPolyline();
-				for( int i = 0; i < loops.size(); ++i )
+				for( size_t i = 0; i < loops.size(); ++i )
 				{
 					carve::geom::vector<3> point = loops[i];
 					polyline_data->addVertex( point );

@@ -47,7 +47,36 @@ public:
 			position = _position;
 			normal = _normal;
 		}
-		bool intersectRay( const Ray* ray, osg::Vec3d& intersect_point );
+		bool intersectRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point ) const
+		{
+			carve::geom::vector<3>  plane_pos( carve::geom::VECTOR( position.x(), position.y(), position.z() ) );
+			carve::geom::vector<3>  plane_normal( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
+			carve::geom::plane<3> plane( plane_normal, plane_pos );
+			carve::geom::vector<3>  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
+			carve::geom::vector<3>  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
+			carve::geom::vector<3>  v_intersect;
+
+			carve::geom::vector<3> Rd = v2 - v1;
+			double Vd = dot( plane.N, Rd );
+			double V0 = dot( plane.N, v1 ) + plane.d;
+
+			if( carve::math::ZERO( Vd ) )
+			{
+				if( carve::math::ZERO( V0 ) )
+				{
+					return false; // bad intersection
+				}
+				else
+				{
+					return false; // no intersection
+				}
+			}
+
+			double t = -V0 / Vd;
+			v_intersect = v1 + t * Rd;
+			intersect_point.set( v_intersect.x, v_intersect.y, v_intersect.z );
+			return true;
+		}
 		
 		/** distance point to plane */
 		double distancePointPlane( const osg::Vec3d& point )
@@ -59,7 +88,7 @@ public:
 		osg::Vec3d normal;
 	};
 
-	static osg::ref_ptr<osg::Geode> createCoordinateAxes();
+	static osg::ref_ptr<osg::Geode> createCoordinateAxes( double length );
 	static osg::ref_ptr<osg::Group> createCoordinateAxesArrows();
 	static osg::ref_ptr<osg::Geode> createCoordinateGrid();
 	static osg::ref_ptr<osg::Geode> createQuarterCircles();
@@ -88,7 +117,11 @@ public:
 	static void closestPointOnLine( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_origin, const carve::geom::vector<3>& line_direction, carve::geom::vector<3>& closest );
 	static void closestPointOnLine( const carve::geom::vector<2>& point, const carve::geom::vector<2>& line_origin, const carve::geom::vector<2>& line_direction, carve::geom::vector<2>& closest );
 	static double distancePoint2Line( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_p0, const carve::geom::vector<3>& line_p1 );
-	static double distancePoint2LineUnitDirection( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_pt, const carve::geom::vector<3>& line_direction_normalized );
+	static double distancePoint2LineUnitDirection( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_pt, const carve::geom::vector<3>& line_direction_normalized )
+	{
+		// d = |line_direction_normalized x ( point - line_pt )|
+		return carve::geom::cross( ( point - line_pt ), ( line_direction_normalized ) ).length();
+	}
 
 	/** matrix operations */
 	static void computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv );
