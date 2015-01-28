@@ -74,7 +74,7 @@ ViewController::ViewController()
 	// create coordinate axes
 	m_sw_coord_axes = new osg::Switch();
 	m_sw_coord_axes->setName( "m_sw_coord_axes" );
-	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxes() );
+	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxes(500) );
 	m_sw_coord_axes->addChild( GeomUtils::createCoordinateAxesArrows() );
 	m_rootnode->addChild( m_sw_coord_axes.get() );
 

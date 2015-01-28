@@ -237,7 +237,7 @@ void GeomUtils::setMaterialAlpha( osg::Node* node, float alpha )
 
 //#define COORDINATE_AXES_NO_COLORS
 
-osg::ref_ptr<osg::Geode> GeomUtils::createCoordinateAxes()
+osg::ref_ptr<osg::Geode> GeomUtils::createCoordinateAxes( double length )
 {
 	osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 	osg::ref_ptr<osg::StateSet> stateset = geode->getOrCreateStateSet();
@@ -251,13 +251,13 @@ osg::ref_ptr<osg::Geode> GeomUtils::createCoordinateAxes()
 
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 		vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-		vertices->push_back( osg::Vec3f( 500.0, 0.0, 0.0 ) );
+		vertices->push_back( osg::Vec3f( length, 0.0, 0.0 ) );
 
 		vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-		vertices->push_back( osg::Vec3f( 0.0, 500.0, 0.0 ) );
+		vertices->push_back( osg::Vec3f( 0.0, length, 0.0 ) );
 
 		vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-		vertices->push_back( osg::Vec3f( 0.0, 0.0, 500.0 ) );
+		vertices->push_back( osg::Vec3f( 0.0, 0.0, length ) );
 
 #ifndef COORDINATE_AXES_NO_COLORS
 		osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
@@ -282,13 +282,13 @@ osg::ref_ptr<osg::Geode> GeomUtils::createCoordinateAxes()
 
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 		vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-		vertices->push_back( osg::Vec3f( -500.0, 0.0, 0.0 ) );
+		vertices->push_back( osg::Vec3f( -length, 0.0, 0.0 ) );
 
 		vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-		vertices->push_back( osg::Vec3f( 0.0, -500.0, 0.0 ) );
+		vertices->push_back( osg::Vec3f( 0.0, -length, 0.0 ) );
 
 		vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-		vertices->push_back( osg::Vec3f( 0.0, 0.0, -500.0 ) );
+		vertices->push_back( osg::Vec3f( 0.0, 0.0, -length ) );
 
 #ifndef COORDINATE_AXES_NO_COLORS
 		osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
@@ -857,12 +857,6 @@ double GeomUtils::distancePoint2Line( const carve::geom::vector<3>& point, const
 	return carve::geom::cross( ( point - line_p0 ), ( point - line_p1 ) ).length() / ( line_p1 - line_p0 ).length();
 }
 
-double GeomUtils::distancePoint2LineUnitDirection( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_pt, const carve::geom::vector<3>& line_direction_normalized )
-{
-	// d = |line_direction_normalized x ( point - line_pt )|
-	return carve::geom::cross( ( point - line_pt ), ( line_direction_normalized) ).length();
-}
-
 void GeomUtils::appendPointsToCurve( const std::vector<carve::geom::vector<2> >& points_vec, std::vector<carve::geom::vector<3> >& target_vec )
 {
 	// sometimes, sense agreement is not given correctly. try to correct sense of segment if necessary
@@ -921,7 +915,7 @@ void GeomUtils::appendPointsToCurve( const std::vector<carve::geom::vector<2> >&
 	if( omit_first )
 	{
 		//target_vec.insert( target_vec.end(), points_vec.begin()+1, points_vec.end() );
-		for( int i=1; i<points_vec.size(); ++i )
+		for( size_t i = 1; i<points_vec.size(); ++i )
 		{
 			const carve::geom::vector<2>& pt = points_vec[i];
 			target_vec.push_back( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
@@ -930,7 +924,7 @@ void GeomUtils::appendPointsToCurve( const std::vector<carve::geom::vector<2> >&
 	else
 	{
 		//target_vec.insert( target_vec.end(), points_vec.begin(), points_vec.end() );
-		for( int i=0; i<points_vec.size(); ++i )
+		for( size_t i = 0; i<points_vec.size(); ++i )
 		{
 			const carve::geom::vector<2>& pt = points_vec[i];
 			target_vec.push_back( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
@@ -1173,22 +1167,3 @@ void GeomUtils::applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_da
 	}
 }
 
-bool GeomUtils::Plane::intersectRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point )
-{
-	carve::geom::vector<3>  plane_pos( carve::geom::VECTOR( position.x(), position.y(), position.z()) );
-	carve::geom::vector<3>  plane_normal( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
-	carve::geom::plane<3> plane( plane_normal, plane_pos );
-	carve::geom::vector<3>  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
-	carve::geom::vector<3>  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
-	carve::geom::vector<3>  v_intersect;
-	double t;
-	carve::IntersectionClass intersect_result = carve::geom3d::rayPlaneIntersection( plane, v1, v2, v_intersect, t );
-
-	if( intersect_result == carve::INTERSECT_BAD || intersect_result == carve::INTERSECT_NONE )
-	{
-		return false;
-	}
-
-	intersect_point.set( v_intersect.x, v_intersect.y, v_intersect.z );
-	return true;
-}

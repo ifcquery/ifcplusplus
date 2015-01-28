@@ -31,6 +31,11 @@ public:
 	UnitConverter();
 	~UnitConverter();
 	void setIfcProject( shared_ptr<IfcProject> project);
+	void setLengthInMeterFactor( double factor )
+	{
+		m_length_unit_factor = factor;
+		m_length_unit_found = true;
+	}
 	double getLengthInMeterFactor()
 	{
 		if( !m_length_unit_found )
@@ -39,6 +44,26 @@ public:
 		}
 
 		return m_length_unit_factor;
+	}
+	void setAngleUnit( AngularUnit unit )
+	{
+		m_angular_unit = unit;
+		if( m_angular_unit == RADIAN )
+		{
+			m_plane_angle_factor = 1.0; // radian
+		}
+		else if( m_angular_unit == DEGREE )
+		{
+			m_plane_angle_factor = M_PI / 180.0; // 360°
+		}
+		else if( m_angular_unit == GON )
+		{
+			m_plane_angle_factor = M_PI / 200.0; // 400 gon
+		}
+		else
+		{
+			messageCallback( "Could not set angular unit", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
+		}
 	}
 	double getAngleInRadianFactor()
 	{

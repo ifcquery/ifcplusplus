@@ -119,19 +119,16 @@ void IfcPPReaderSTEP::loadModelFromFile( const std::string& file_path, shared_pt
 		return;
 	}
 
-	// get length of file:
+	// get length of file content
 	std::streampos file_size = infile.tellg();
 	infile.seekg( 0, std::ios::end );
 	file_size = infile.tellg() - file_size;
 	infile.seekg( 0, std::ios::beg );
 
-	// allocate memory:
-	std::string buffer( file_size, '\0' );
-
-	// read data as a block:
+	// read file content into string
+	std::string buffer( (int)file_size, '\0' );
 	infile.read( &buffer[0], file_size );
 	infile.close();
-
 
 	loadModelFromString( buffer, target_model );
 }
@@ -268,7 +265,7 @@ void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<I
 		++stream_pos;
 	}
 
-	for( int i=0; i<vec_header_lines.size(); ++i )
+	for( size_t i=0; i<vec_header_lines.size(); ++i )
 	{
 		std::wstring header_line = vec_header_lines[i];
 
@@ -435,7 +432,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 
 	double progress = 0.2;
 	double last_progress = 0.2;
-	const size_t num_lines = step_lines.size();
+	const int num_lines = (int)step_lines.size();
 	
 	target_entity_vec.resize( num_lines );
 	std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* target_vec_ptr = &target_entity_vec;
@@ -448,7 +445,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 		// time for reading a step line does not differ much, so schedule many per thread
 #pragma omp for schedule(dynamic,100)
 #endif
-		for( int i=0; i<num_lines; ++i )
+		for( int i = 0; i<num_lines; ++i )
 		{
 			const std::string& step_line = (*step_lines_ptr)[i];
 			std::pair<std::string, shared_ptr<IfcPPEntity> >& entity_read_obj = (*target_vec_ptr)[i];;
@@ -620,7 +617,7 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
-	const size_t num_objects = vec_entities.size();
+	const int num_objects = (int)vec_entities.size();
 	std::stringstream err;
 
 	// set progress
@@ -839,7 +836,7 @@ void applyBackwardCompatibility( std::string& keyword, std::string& step_line )
 	}
 }
 
-static std::map<IfcPPEntityEnum, int> global_map_num_args = {
+static std::map<IfcPPEntityEnum, size_t> global_map_num_args = {
 	{ IfcPPEntityEnum::IFCBEAM, 9 },
 	{ IfcPPEntityEnum::IFCBUILDINGELEMENTPART, 9 },
 	{ IfcPPEntityEnum::IFCCLASSIFICATION, 7 },
@@ -913,10 +910,10 @@ void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_versi
 		throw IfcPPException( "Unsupported IFC version", __FUNC__ );
 	}
 
-	std::map<IfcPPEntityEnum, int>::iterator it_find_num_args = global_map_num_args.find( type_enum );
+	std::map<IfcPPEntityEnum, size_t>::iterator it_find_num_args = global_map_num_args.find( type_enum );
 	if( it_find_num_args != global_map_num_args.end() )
 	{
-		int num_args = it_find_num_args->second;
+		size_t num_args = it_find_num_args->second;
 		while( args.size() > num_args ){ args.pop_back(); }
 		while( args.size() < num_args ){ args.push_back( L"$" ); }
 	}

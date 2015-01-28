@@ -8,7 +8,7 @@
 #include "CSG_Adapter.h"
 
 template<typename T>
-int findInVector( T* find_object, std::vector<T*>& vec )
+size_t findInVector( T* find_object, std::vector<T*>& vec )
 {
 	for( size_t ii = 0; ii < vec.size(); ++ii )
 	{
@@ -134,7 +134,7 @@ void mergeAlignedEdges( shared_ptr<meshset_t >& meshset, carve::mesh::MeshSimpli
 					// this links previous and next edges and deletes edge_j and reverse of edge_i:
 					edge_t* edge_next_rev = edge_next->rev;
 
-					int edge_remove_idx = findInVector( edge_next, vec_closed_edges );
+					size_t edge_remove_idx = findInVector( edge_next, vec_closed_edges );
 					if( edge_remove_idx >= 0 && edge_remove_idx < vec_closed_edges.size() )
 					{
 						vec_closed_edges.erase( vec_closed_edges.begin() + edge_remove_idx );
@@ -972,7 +972,7 @@ void CSG_Adapter::roundVertices( meshset_t* meshset )
 {
 	std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
 	const size_t num_vertices = vertex_storage.size();
-	for( int i = 0; i < num_vertices; ++i )
+	for( size_t i = 0; i < num_vertices; ++i )
 	{
 		carve::mesh::Vertex<3>& vertex = vertex_storage[i];
 		vertex.v.x = round( vertex.v.x*1000000.0 ) * 0.000001;
@@ -983,7 +983,7 @@ void CSG_Adapter::roundVertices( meshset_t* meshset )
 int CSG_Adapter::getNumFaces( const meshset_t* meshset )
 {
 	int num_faces = 0;
-	for( int i = 0; i < meshset->meshes.size(); ++i )
+	for( size_t i = 0; i < meshset->meshes.size(); ++i )
 	{
 		num_faces += meshset->meshes[i]->faces.size();
 	}
@@ -992,7 +992,7 @@ int CSG_Adapter::getNumFaces( const meshset_t* meshset )
 int CSG_Adapter::getNumClosedEdges( const meshset_t* meshset )
 {
 	int num_edges = 0;
-	for( int i = 0; i < meshset->meshes.size(); ++i )
+	for( size_t i = 0; i < meshset->meshes.size(); ++i )
 	{
 		num_edges += meshset->meshes[i]->closed_edges.size();
 	}
@@ -1019,7 +1019,7 @@ void Polyhedron2Stream( carve::poly::Polyhedron* poly, carve::geom::vector<4>& c
 	strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
 	strs_out << "vertices{" << std::endl;
 	const size_t num_vertices = poly->vertices.size();
-	for( int i = 0; i < num_vertices; ++i )
+	for( size_t i = 0; i < num_vertices; ++i )
 	{
 		carve::poly::Vertex<3> vertex = poly->vertices[i];
 		if( i > 0 )
@@ -1031,7 +1031,7 @@ void Polyhedron2Stream( carve::poly::Polyhedron* poly, carve::geom::vector<4>& c
 	strs_out << "}" << std::endl;
 
 	strs_out << "faces{" << std::endl;
-	for( int i = 0; i < poly->faces.size(); ++i )
+	for( size_t i = 0; i < poly->faces.size(); ++i )
 	{
 		carve::poly::Face<3> f = poly->faces[i];
 		if( i > 0 )
@@ -1039,7 +1039,7 @@ void Polyhedron2Stream( carve::poly::Polyhedron* poly, carve::geom::vector<4>& c
 			strs_out << ",";
 		}
 		strs_out << "{";
-		for( int j = 0; j < f.nVertices(); ++j )
+		for( size_t j = 0; j < f.nVertices(); ++j )
 		{
 			if( j > 0 )
 			{
@@ -1141,7 +1141,7 @@ void CSG_Adapter::dumpFaces( const meshset_t* meshset, std::vector<face_t* >& ve
 		}
 		strs_out << "{";
 		edge_t* edge = f->edge;
-		for( int j = 0; j < f->nEdges(); ++j )
+		for( size_t j = 0; j < f->nEdges(); ++j )
 		{
 			if( j > 0 )
 			{

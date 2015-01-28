@@ -204,7 +204,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 
 			// apply position and insert points
 			polyline_data->beginPolyline();
-			for( int i=0; i<circle_points.size(); ++i )
+			for( size_t i = 0; i<circle_points.size(); ++i )
 			{
 				carve::geom::vector<2>& point = circle_points[i];
 				carve::geom::vector<3> point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
