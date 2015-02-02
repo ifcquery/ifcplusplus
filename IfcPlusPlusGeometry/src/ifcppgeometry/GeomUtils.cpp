@@ -1167,3 +1167,15 @@ void GeomUtils::applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_da
 	}
 }
 
+void GeomUtils::applyPosition( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::math::Matrix& matrix )
+{
+	for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
+	{
+		carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
+		point = matrix*point;
+	}
+	for( size_t i = 0; i < meshset->meshes.size(); ++i )
+	{
+		meshset->meshes[i]->recalc();
+	}
+}

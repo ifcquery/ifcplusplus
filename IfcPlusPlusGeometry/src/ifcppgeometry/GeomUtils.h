@@ -131,6 +131,7 @@ public:
 							 const carve::geom::vector<3>& local_z, carve::math::Matrix& resulting_matrix );
 	static void applyTranslate( osg::Group* grp, const osg::Vec3f& translate, std::unordered_set<osg::Geode*>& set_applied );
 	static void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, carve::math::Matrix& matrix );
+	static void applyPosition( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::math::Matrix& matrix );
 	static bool isMatrixIdentity( const carve::math::Matrix& mat )
 	{
 		if( std::abs( mat._11 - 1.0 ) > 0.00001 )  return false;
