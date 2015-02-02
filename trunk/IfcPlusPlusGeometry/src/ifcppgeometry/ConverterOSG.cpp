@@ -156,18 +156,35 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 	osg::ref_ptr<osg::Vec3Array> normals_quad = new osg::Vec3Array();
 	if( !normals_quad ) { throw IfcPPOutOfMemoryException(); }
 
-	std::map<carve::mesh::Vertex<3>*, std::vector<carve::mesh::Face<3>* > > map_vertex_all_faces;
-	std::map<carve::mesh::Vertex<3>*, std::vector<carve::mesh::Face<3>* > >::iterator it_vertex_normal;
+	std::map<carve::mesh::Face<3>*, double> map_face_area;
+	std::map<carve::mesh::Face<3>*, double>::iterator it_face_area;
 
-
-	for( size_t i = 0; i < meshset->meshes.size(); ++i )
+	if( crease_angle > 0 )
 	{
-		const carve::mesh::Mesh<3>* mesh = meshset->meshes[i];
+		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
+		{
+			const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
+			const size_t num_faces = mesh->faces.size();
+			for( size_t i_face = 0; i_face != num_faces; ++i_face )
+			{
+				carve::mesh::Face<3>* face = mesh->faces[i_face];
+				// compute area of projected face:
+				std::vector<carve::geom2d::P2> projected;
+				face->getProjectedVertices( projected );
+				double face_area = carve::geom2d::signedArea( projected );
+				map_face_area[face] = abs(face_area);
+			}
+		}
+	}
+
+	for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
+	{
+		const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
 
 		const size_t num_faces = mesh->faces.size();
-		for( size_t i = 0; i != num_faces; ++i )
+		for( size_t i_face = 0; i_face != num_faces; ++i_face )
 		{
-			carve::mesh::Face<3>* face = mesh->faces[i];
+			carve::mesh::Face<3>* face = mesh->faces[i_face];
 			const size_t n_vertices = face->nVertices();
 			if( n_vertices > 4 )
 			{
@@ -175,104 +192,91 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 				continue;
 			}
 			const carve::geom::vector<3> face_normal = face->plane.N;
-			carve::geom::vector<3> intermediate_normal = face_normal;
-
+			
 			if( crease_angle > 0 )
 			{
 				carve::mesh::Edge<3>* e = face->edge;
 				for( size_t jj = 0; jj < n_vertices; ++jj )
 				{
 					carve::mesh::Vertex<3>* vertex = e->vert;
-					const carve::geom::vector<3>& vertex_v = vertex->v;
+					carve::geom::vector<3> intermediate_normal;
 
-					it_vertex_normal = map_vertex_all_faces.find( vertex );
-					if( it_vertex_normal == map_vertex_all_faces.end() )
-					{
-						std::vector<carve::mesh::Face<3>*>& vec_faces = map_vertex_all_faces.insert( std::make_pair( vertex, std::vector<carve::mesh::Face<3>*>() ) ).first->second;
-						vec_faces.push_back( face );
-						// collect all faces at vertex
-						//              | ^
-						//              | |
-						//  f1   e->rev | | e    face
-						//              v |
-						// <---e1-------   <---------------
-						//------------->   --------------->
-						//              |  ^
-						//              |  |
-						//              v  |
-
-						if( e->rev )
-						{
-							if( e->rev->next )
-							{
-								carve::mesh::Edge<3>* e1 = e->rev->next;
-								carve::mesh::Face<3>* f1 = e1->face;
-								vec_faces.push_back( f1 );
-
-								for( size_t i_edge = 0; i_edge < num_faces; ++i_edge )
-								{
-									if( !e1->rev )
-									{
-										// it's an open mesh
-										break;
-									}
-
-									e1 = e1->rev->next;
-									if( !e1 )
-									{
-										break;
-									}
-									f1 = e1->face;
+					// collect all faces at vertex
+					//              | ^
+					//              | |
+					//  f1   e->rev | | e    face
+					//              v |
+					// <---e1-------   <---------------
+					//------------->   --------------->
+					//              |  ^
+					//              |  |
+					//              v  |
+					carve::mesh::Edge<3>* e1 = e;// ->rev->next;
+					carve::mesh::Face<3>* f1 = e1->face;
 #ifdef _DEBUG
-									if( e1->vert != vertex )
-									{
-										std::cout << "e1->vert != vertex" << std::endl;
-									}
-
-									if( i_edge > 50 )
-									{
-										std::cout << "i_edge > 50" << std::endl;
-									}
+					if( f1 != face )
+					{
+						std::cout << "f1 != face" << std::endl;
+					}
 #endif
-									if( f1 == face )
-									{
-										break;
-									}
-									vec_faces.push_back( f1 );
+					for( size_t i3 = 0; i3 < 1000; ++i3 )
+					{
+						if( !e1->rev )
+						{
+							break;
+						}
+						if( !e1->rev->next )
+						{
+							break;
+						}
+
+						carve::geom::vector<3> f1_normal = f1->plane.N;
+						const double cos_angle = dot( f1_normal, face_normal );
+						if( cos_angle > 0 )
+						{
+							const double deviation = std::abs( cos_angle - 1.0 );
+							if( deviation < crease_angle )
+							{
+								double weight = 0.0;
+								it_face_area = map_face_area.find( f1 );
+								if( it_face_area != map_face_area.end() )
+								{
+									weight = it_face_area->second;
 								}
+								intermediate_normal += weight*f1_normal;
 							}
 						}
-						it_vertex_normal = map_vertex_all_faces.find( vertex );
-					}
-					else
-					{
-						int breakpoint = 0;
-					}
 
-					std::vector<carve::mesh::Face<3>*>& vec_faces = it_vertex_normal->second;
-
-					// check if angle between adjacent faces is smaller than intermediate_normal_angle
-					std::sort( vec_faces.begin(), vec_faces.end() );
-					for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
-					{
-						carve::mesh::Face<3>* f = vec_faces[i_face];
-
-						// TODO: if face f1 is much bigger than the adjacent face f2, use f1->plane.N as normals for all its vertices
-						carve::geom::vector<3> f1_normal = f->plane.N;
-						const double cos_angle = dot( f1_normal, face_normal );
-						const double deviation = std::abs( cos_angle - 1.0 );
-						if( deviation > 0.00001 && deviation < crease_angle )
+						if( !e1->rev )
 						{
-							intermediate_normal = 0.5*f1_normal + 0.5*intermediate_normal;
-							intermediate_normal.normalize();
+							// it's an open mesh
+							break;
+						}
+
+						e1 = e1->rev->next;
+						if( !e1 )
+						{
+							break;
+						}
+						f1 = e1->face;
+#ifdef _DEBUG
+						if( e1->vert != vertex )
+						{
+							std::cout << "e1->vert != vertex" << std::endl;
+						}
+#endif
+						if( f1 == face )
+						{
+							break;
 						}
 					}
+					if( intermediate_normal.length2() < 0.000000000001 )
+					{
+						intermediate_normal = face_normal;
+					}
+					intermediate_normal.normalize();
 
-
-#ifdef __GNUC__ // for some reason this is not working under linux...
-					intermediate_normal = face_normal;
-#endif
-
+					const carve::geom::vector<3>& vertex_v = vertex->v;
 					if( face->n_edges == 3 )
 					{
 						vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
@@ -282,6 +286,27 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 					{
 						vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
 						normals_quad->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
+					}
+					e = e->next;
+				}
+			}
+			else
+			{
+				carve::mesh::Edge<3>* e = face->edge;
+				for( size_t jj = 0; jj < n_vertices; ++jj )
+				{
+					carve::mesh::Vertex<3>* vertex = e->vert;
+					const carve::geom::vector<3>& vertex_v = vertex->v;
+
+					if( face->n_edges == 3 )
+					{
+						vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+						normals_tri->push_back( osg::Vec3( face_normal.x, face_normal.y, face_normal.z ) );
+					}
+					else if( face->n_edges == 4 )
+					{
+						vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+						normals_quad->push_back( osg::Vec3( face_normal.x, face_normal.y, face_normal.z ) );
 					}
 					e = e->next;
 				}

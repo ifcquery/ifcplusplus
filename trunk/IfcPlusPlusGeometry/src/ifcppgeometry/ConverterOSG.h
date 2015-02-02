@@ -29,7 +29,7 @@ public:
 	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings );
 	~ConverterOSG();
 	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false );
-	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set, osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false );
+	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set, osg::Geode* geode, double crease_angle = M_PI*0.2, bool add_color_array = false );
 	static void drawPolyline(	const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false );
 	static double computeSurfaceAreaOfGroup( const osg::Group* grp );
 	void convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double length_factor );
