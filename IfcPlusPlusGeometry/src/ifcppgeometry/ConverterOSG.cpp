@@ -156,6 +156,7 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 	osg::ref_ptr<osg::Vec3Array> normals_quad = new osg::Vec3Array();
 	if( !normals_quad ) { throw IfcPPOutOfMemoryException(); }
 
+	const size_t max_num_faces_per_vertex = 10000;
 	std::map<carve::mesh::Face<3>*, double> map_face_area;
 	std::map<carve::mesh::Face<3>*, double>::iterator it_face_area;
 
@@ -219,7 +220,7 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 						std::cout << "f1 != face" << std::endl;
 					}
 #endif
-					for( size_t i3 = 0; i3 < 1000; ++i3 )
+					for( size_t i3 = 0; i3 < max_num_faces_per_vertex; ++i3 )
 					{
 						if( !e1->rev )
 						{
@@ -270,11 +271,16 @@ void ConverterOSG::drawMeshSet( const carve::mesh::MeshSet<3>* meshset, osg::Geo
 							break;
 						}
 					}
-					if( intermediate_normal.length2() < 0.000000000001 )
+					const double intermediate_normal_length = intermediate_normal.length();
+					if( intermediate_normal_length < 0.0000000001 )
 					{
 						intermediate_normal = face_normal;
 					}
-					intermediate_normal.normalize();
+					else
+					{
+						// normalize:
+						intermediate_normal *= 1.0/intermediate_normal_length;
+					}
 
 					const carve::geom::vector<3>& vertex_v = vertex->v;
 					if( face->n_edges == 3 )

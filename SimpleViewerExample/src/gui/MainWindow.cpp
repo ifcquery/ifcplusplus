@@ -21,7 +21,7 @@
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/Orbit3DManipulator.h"
+#include "viewer/OrbitCameraManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
 #include "ifcppgeometry/GeomUtils.h"
@@ -147,7 +147,7 @@ void MainWindow::slotBtnZoomBoundingsClicked()
 	if( main_view )
 	{
 		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
-		Orbit3DManipulator* orbit_manip = dynamic_cast<Orbit3DManipulator*>( camera_manip );
+		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>( camera_manip );
 		if( orbit_manip )
 		{
 			orbit_manip->zoomToBoundingSphere( bs );

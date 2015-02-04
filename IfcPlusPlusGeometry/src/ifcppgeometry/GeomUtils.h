@@ -156,6 +156,93 @@ public:
 		if( std::abs( mat._43 ) > 0.00001 )  return false;
 		return true;
 	}
+
+	static void computeMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<carve::mesh::Edge<3>* >& vec_edges_out, const double crease_angle = M_PI*0.05 )
+	{
+		if( !meshset )
+		{
+			return;
+		}
+
+		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
+		{
+			const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
+			std::vector<carve::mesh::Edge<3>* > vec_closed_edges = mesh->closed_edges;
+
+			for( size_t i_edge = 0; i_edge < vec_closed_edges.size(); ++i_edge )
+			{
+				carve::mesh::Edge<3>* edge = vec_closed_edges[i_edge];
+
+				if( !edge )
+				{
+					continue;
+				}
+				carve::mesh::Edge<3>* edge_reverse = edge->rev;
+				if( !edge_reverse )
+				{
+					continue;
+				}
+				carve::mesh::Face<3>* face = edge->face;
+				carve::mesh::Face<3>* face_reverse = edge_reverse->face;
+
+				carve::geom::vector<3> f1_normal = face->plane.N;
+				carve::geom::vector<3> f2_normal = face_reverse->plane.N;
+				const double cos_angle = dot( f1_normal, f2_normal );
+				if( cos_angle > 0 )
+				{
+					const double deviation = std::abs( cos_angle - 1.0 );
+					if( deviation < crease_angle )
+					{
+						continue;
+					}
+				}
+				vec_edges_out.push_back( edge );
+			}
+		}
+	}
+
+	static void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Group* target_group, osg::Vec4f* color = nullptr, const double crease_angle = M_PI*0.05 )
+	{
+		if( !meshset )
+		{
+			return;
+		}
+		if( !target_group )
+		{
+			return;
+		}
+		std::vector<carve::mesh::Edge<3>* > vec_crease_edges;
+		GeomUtils::computeMeshsetCreaseEdges( meshset, vec_crease_edges, crease_angle );
+
+		if( vec_crease_edges.size() > 0 )
+		{
+			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
+			for( size_t i_edge = 0; i_edge < vec_crease_edges.size(); ++i_edge )
+			{
+				carve::mesh::Edge<3>* edge = vec_crease_edges[i_edge];
+				carve::geom::vector<3>& vertex1 = edge->v1()->v;
+				carve::geom::vector<3>& vertex2 = edge->v2()->v;
+				vertices->push_back( osg::Vec3d( vertex1.x, vertex1.y, vertex1.z ) );
+				vertices->push_back( osg::Vec3d( vertex2.x, vertex2.y, vertex2.z ) );
+			}
+
+			osg::Geode* geode = new osg::Geode();
+			osg::Geometry* geometry = new osg::Geometry();
+			geometry->setVertexArray( vertices );
+
+			if( color != nullptr )
+			{
+				osg::Vec4Array* colors = new osg::Vec4Array();
+				colors->push_back( osg::Vec4f( color->r(), color->g(), color->b(), color->a() ) );
+				colors->setBinding( osg::Array::BIND_OVERALL );
+				geometry->setColorArray( colors );
+			}
+
+			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices->size() ) );
+			geode->addDrawable( geometry );
+			target_group->addChild( geode );
+		}
+	}
 };
 
 //\brief: finds the first occurrence of T in vector

@@ -29,7 +29,7 @@ public:
 	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings );
 	~ConverterOSG();
 	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false );
-	static void drawMeshSet(	const carve::mesh::MeshSet<3>* mesh_set, osg::Geode* geode, double crease_angle = M_PI*0.2, bool add_color_array = false );
+	static void drawMeshSet( const carve::mesh::MeshSet<3>* mesh_set, osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false );
 	static void drawPolyline(	const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false );
 	static double computeSurfaceAreaOfGroup( const osg::Group* grp );
 	void convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double length_factor );
@@ -142,6 +142,7 @@ public:
 		osg::Vec4f diffuseColor(	color_diffuse_r,	color_diffuse_g,	color_diffuse_b,	transparency  );
 		osg::Vec4f specularColor(	color_specular_r,	color_specular_g,	color_specular_b,	transparency );
 
+		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
 		if( !mat ){ throw IfcPPOutOfMemoryException(); }
 		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );

@@ -1,3 +1,15 @@
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2006 Robert Osfield
+*
+* This library is open source and may be redistributed and/or modified under
+* the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
+* (at your option) any later version.  The full license is in LICENSE file
+* included with this distribution, and on the openscenegraph.org website.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* OpenSceneGraph Public License for more details.
+*/
 
 #pragma once
 
@@ -7,19 +19,19 @@
 
 class IfcPlusPlusSystem;
 
-/** Orbit3DManipulator is a camera controller based on eye, lookat, up and rotation center. */
-class Orbit3DManipulator : public osgGA::StandardManipulator
+/** OrbitCameraManipulator is a camera controller based on eye, lookat, up and rotation center. */
+class OrbitCameraManipulator : public osgGA::StandardManipulator
 {
 public:
-    Orbit3DManipulator( IfcPlusPlusSystem* sys, int flags = UPDATE_MODEL_SIZE | COMPUTE_HOME_USING_BBOX | PROCESS_MOUSE_WHEEL );
-    Orbit3DManipulator( const Orbit3DManipulator& om, const osg::CopyOp& copyOp = osg::CopyOp::SHALLOW_COPY );
+	OrbitCameraManipulator( IfcPlusPlusSystem* sys, int flags = UPDATE_MODEL_SIZE | COMPUTE_HOME_USING_BBOX | PROCESS_MOUSE_WHEEL );
+	OrbitCameraManipulator( const OrbitCameraManipulator& om, const osg::CopyOp& copyOp = osg::CopyOp::SHALLOW_COPY );
 
 	// inherited from osg::Object
-	virtual osg::Object* cloneType() const { return new Orbit3DManipulator( m_system ); }
-    virtual osg::Object* clone(const osg::CopyOp& copyop) const { return new Orbit3DManipulator( *this,copyop ); }
-    virtual bool isSameKindAs(const osg::Object* obj) const { return dynamic_cast<const Orbit3DManipulator*>(obj)!=nullptr; }
+	virtual osg::Object* cloneType() const { return new OrbitCameraManipulator( m_system ); }
+	virtual osg::Object* clone( const osg::CopyOp& copyop ) const { return new OrbitCameraManipulator( *this, copyop ); }
+	virtual bool isSameKindAs( const osg::Object* obj ) const { return dynamic_cast<const OrbitCameraManipulator*>( obj )!=nullptr; }
 	virtual const char* libraryName() const { return ""; }
-    virtual const char* className() const { return "Orbit3DManipulator"; }
+    virtual const char* className() const { return "OrbitCameraManipulator"; }
 
 	// inherited from osgGA::CameraManipulator
     virtual void setByMatrix( const osg::Matrixd& matrix );

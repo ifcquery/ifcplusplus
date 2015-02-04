@@ -30,7 +30,7 @@
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/Orbit3DManipulator.h"
+#include "viewer/OrbitCameraManipulator.h"
 #include "cmd/LoadIfcFileCommand.h"
 #include "cmd/CmdWriteIfcFile.h"
 #include "cmd/CommandManager.h"
@@ -286,7 +286,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	if( main_view )
 	{
 		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
-		Orbit3DManipulator* orbit_manip = dynamic_cast<Orbit3DManipulator*>( camera_manip );
+		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>( camera_manip );
 		if( orbit_manip )
 		{
 			osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();

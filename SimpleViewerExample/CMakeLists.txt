@@ -82,7 +82,6 @@ SET(IFCPPVIEWER_SOURCE_FILES
   src/gui/TabReadWrite.cpp
   src/gui/TabView.cpp
   src/viewer/Orbit3DManipulator.cpp
-  src/viewer/ViewerUtil.cpp
   src/viewer/ViewerWidget.cpp
 )
 
@@ -116,13 +115,11 @@ LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE})
 ADD_EXECUTABLE(SimpleViewerExample 
   ${IFCPPVIEWER_MOC_GENERATED_FILES}
   ${IFCPPVIEWER_SOURCE_FILES}
-  $SimpleViewerExample_RESOURCES_RCC}
+  ${SimpleViewerExample_RESOURCES_RCC}
 )
 
 IF(Qt5)
   QT5_USE_MODULES(SimpleViewerExample Core Gui Widgets OpenGL)
-ELSE(Qt5)
-  TARGET_LINK_LIBRARIES(SimpleViewerExample IfcPlusPlusGeometry)
 ENDIF()
 
 TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY} )
@@ -136,7 +133,6 @@ TARGET_LINK_LIBRARIES(SimpleViewerExample ${OSGQT_LIBRARY} )
 TARGET_LINK_LIBRARIES(SimpleViewerExample ${OSGVIEWER_LIBRARY} )
 TARGET_LINK_LIBRARIES(SimpleViewerExample ${QT_LIBRARIES})
 TARGET_LINK_LIBRARIES(SimpleViewerExample IfcPlusPlusGeometry)
-#TARGET_LINK_LIBRARIES(SimpleViewerExample Qt5::WinMain)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
