@@ -545,17 +545,37 @@ bool CSG_Adapter::checkMeshSetValidAndClosed( const meshset_t* mesh_set, std::st
 		err << "mesh_set not closed" << std::endl;
 	}
 
-#ifdef _DEBUG
 	if( meshes_closed )
 	{
 		// check volume
-		double object_volume = CSG_Adapter::getVolume( mesh_set );
-		if( object_volume <= 0 )
+		double meshset_volume = 0;
+		for( size_t kk = 0; kk < mesh_set->meshes.size(); ++kk )
 		{
-			err << "object_volume <= 0" << std::endl;
+			carve::mesh::Mesh<3>* mesh = mesh_set->meshes[kk];
+			double mesh_volume = mesh->volume();
+
+			if( mesh_volume <= 0 )
+			{
+				mesh->invert();
+				if( mesh->isNegative() )
+				{
+					mesh->recalc();
+					mesh->calcOrientation();
+					if( mesh->isNegative() )
+					{
+						err << "mesh[" << kk << "]->isNegative() " << std::endl;
+					}
+				}
+			}
+			mesh_volume = mesh->volume();
+			if( mesh_volume <= 0 )
+			{
+				err << "mesh_volume <= 0" << std::endl;
+			}
+
+			meshset_volume += mesh_volume;
 		}
 	}
-#endif
 
 	if( err.tellp() > 0 )
 	{

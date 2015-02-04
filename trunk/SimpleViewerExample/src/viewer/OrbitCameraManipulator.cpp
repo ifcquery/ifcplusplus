@@ -1,3 +1,15 @@
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2006 Robert Osfield
+*
+* This library is open source and may be redistributed and/or modified under
+* the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
+* (at your option) any later version.  The full license is in LICENSE file
+* included with this distribution, and on the openscenegraph.org website.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* OpenSceneGraph Public License for more details.
+*/
 
 #include <iostream>
 #include <iomanip>
@@ -15,12 +27,12 @@
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "ViewerUtil.h"
-#include "Orbit3DManipulator.h"
+#include "OrbitCameraManipulator.h"
 
 
-int Orbit3DManipulator::m_minimum_distance_flag_index = allocateRelativeFlag();
+int OrbitCameraManipulator::m_minimum_distance_flag_index = allocateRelativeFlag();
 
-Orbit3DManipulator::Orbit3DManipulator( IfcPlusPlusSystem* sys, int flags ) : StandardManipulator( flags ), m_system(sys)
+OrbitCameraManipulator::OrbitCameraManipulator( IfcPlusPlusSystem* sys, int flags ) : StandardManipulator( flags ), m_system( sys )
 {
 	m_eye.set( 10, 10, 10 );
 	m_up.set( 0, 0, 1 );
@@ -33,14 +45,14 @@ Orbit3DManipulator::Orbit3DManipulator( IfcPlusPlusSystem* sys, int flags ) : St
 
 
 /// Constructor.
-Orbit3DManipulator::Orbit3DManipulator( const Orbit3DManipulator& om, const osg::CopyOp& copyOp ) : osg::Object(om, copyOp), StandardManipulator( om, copyOp ),
+OrbitCameraManipulator::OrbitCameraManipulator( const OrbitCameraManipulator& om, const osg::CopyOp& copyOp ) : osg::Object(om, copyOp), StandardManipulator( om, copyOp ),
 	m_system( om.m_system), m_eye( om.m_eye ), m_lookat( om.m_lookat ), m_rotate_center( om.m_rotate_center ), 
 	m_wheel_zoom_factor( om.m_wheel_zoom_factor ), m_minimum_distance( om.m_minimum_distance )
 {
 	initManipulator();
 }
 
-void Orbit3DManipulator::initManipulator()
+void OrbitCameraManipulator::initManipulator()
 {
 	setAnimationTime( 0.2 );
 
@@ -58,21 +70,21 @@ void Orbit3DManipulator::initManipulator()
 }
 
 /** Set the position of the manipulator using a 4x4 matrix.*/
-void Orbit3DManipulator::setByMatrix( const osg::Matrixd& matrix )
+void OrbitCameraManipulator::setByMatrix( const osg::Matrixd& matrix )
 {
 	matrix.getLookAt( m_eye, m_lookat, m_up );
 }
 
 
 /** Set the position of the manipulator using a 4x4 matrix.*/
-void Orbit3DManipulator::setByInverseMatrix( const osg::Matrixd& matrix )
+void OrbitCameraManipulator::setByInverseMatrix( const osg::Matrixd& matrix )
 {
 	setByMatrix( osg::Matrixd::inverse( matrix ) );
 }
 
 
 /** Get the position of the manipulator as 4x4 matrix.*/
-osg::Matrixd Orbit3DManipulator::getMatrix() const
+osg::Matrixd OrbitCameraManipulator::getMatrix() const
 {
 	osg::Matrix m;
 	m.makeLookAt( m_eye, m_lookat, m_up );
@@ -81,7 +93,7 @@ osg::Matrixd Orbit3DManipulator::getMatrix() const
 
 
 /** Get the position of the manipulator as a inverse matrix of the manipulator, typically used as a model view matrix.*/
-osg::Matrixd Orbit3DManipulator::getInverseMatrix() const
+osg::Matrixd OrbitCameraManipulator::getInverseMatrix() const
 {
 	osg::Matrix m;
 	m.makeLookAt( m_eye, m_lookat, m_up );
@@ -90,7 +102,7 @@ osg::Matrixd Orbit3DManipulator::getInverseMatrix() const
 
 
 // doc in parent
-void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Quat& rotation )
+void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg::Quat& rotation )
 {
 	m_eye.set( eye );
 	// TODO: implement
@@ -99,7 +111,7 @@ void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Qu
 }
 
 // doc in parent
-void Orbit3DManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& rotation ) const
+void OrbitCameraManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& rotation ) const
 {
 	eye.set( m_eye );
 	// TODO: implement
@@ -107,7 +119,7 @@ void Orbit3DManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& rotation
 }
 
 // doc in parent
-void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Vec3d& center, const osg::Vec3d& up )
+void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg::Vec3d& center, const osg::Vec3d& up )
 {
 	m_eye.set( eye );
 	m_lookat.set( center );
@@ -115,14 +127,14 @@ void Orbit3DManipulator::setTransformation( const osg::Vec3d& eye, const osg::Ve
 }
 
 // doc in parent
-void Orbit3DManipulator::getTransformation( osg::Vec3d& eye, osg::Vec3d& center, osg::Vec3d& up ) const
+void OrbitCameraManipulator::getTransformation( osg::Vec3d& eye, osg::Vec3d& center, osg::Vec3d& up ) const
 {
 	center.set( m_lookat );
 	eye.set( m_eye );
 	up.set( m_up );
 }
 
-void Orbit3DManipulator::computeRayPointer( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+void OrbitCameraManipulator::computeRayPointer( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
 	if (!view) return;
@@ -154,7 +166,7 @@ void Orbit3DManipulator::computeRayPointer( const osgGA::GUIEventAdapter& ea, os
 
 
 /** Handles events. Returns true if handled, false otherwise.*/
-bool Orbit3DManipulator::handle( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handle( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	switch( ea.getEventType() )
 	{
@@ -220,7 +232,7 @@ bool Orbit3DManipulator::handle( const osgGA::GUIEventAdapter& ea, osgGA::GUIAct
 
 
 /// Handles GUIEventAdapter::FRAME event.
-bool Orbit3DManipulator::handleFrame( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleFrame( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	double current_frame_time = ea.getTime();
 
@@ -245,14 +257,14 @@ bool Orbit3DManipulator::handleFrame( const osgGA::GUIEventAdapter& ea, osgGA::G
 	return false;
 }
 
-bool Orbit3DManipulator::handleMouseMove( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleMouseMove( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
     return false;
 }
 
 
 // mouse button has been pushed down
-bool Orbit3DManipulator::handleMousePush( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleMousePush( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
 	if( !view )
@@ -291,7 +303,7 @@ bool Orbit3DManipulator::handleMousePush( const osgGA::GUIEventAdapter& ea, osgG
 	return false;
 }
 
-bool Orbit3DManipulator::handleMouseRelease( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleMouseRelease( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
 	if( !view )	return false;
@@ -347,7 +359,7 @@ bool Orbit3DManipulator::handleMouseRelease( const osgGA::GUIEventAdapter& ea, o
 	return true;
 }
 
-bool Orbit3DManipulator::handleKeyDown( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleKeyDown( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
 	if( !view )	return false;
@@ -364,7 +376,7 @@ bool Orbit3DManipulator::handleKeyDown( const osgGA::GUIEventAdapter& ea, osgGA:
 	return false;
 }
 
-bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapter& ea, osgViewer::View* view )
+bool OrbitCameraManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapter& ea, osgViewer::View* view )
 {
 	m_intersect_hit_geometry = false;
 	osg::ref_ptr<osgUtil::LineSegmentIntersector> picker = new osgUtil::LineSegmentIntersector( osgUtil::Intersector::PROJECTION, ea.getXnormalized(),ea.getYnormalized() );
@@ -410,7 +422,7 @@ bool Orbit3DManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAdapte
 	return false;
 }
 
-bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea, osgViewer::View* view )
+bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea, osgViewer::View* view )
 {
 	if( m_system == nullptr )
 	{
@@ -495,7 +507,7 @@ bool Orbit3DManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter& ea,
 	return intersection_geometry_found;
 }
 
-bool Orbit3DManipulator::handleMouseWheel( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleMouseWheel( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	osgGA::GUIEventAdapter::ScrollingMotion sm = ea.getScrollingMotion();
 
@@ -530,7 +542,7 @@ bool Orbit3DManipulator::handleMouseWheel( const osgGA::GUIEventAdapter& ea, osg
 	}
 }
 
-bool Orbit3DManipulator::handleMouseDrag( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleMouseDrag( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	addMouseEvent( ea );
 
@@ -547,7 +559,7 @@ bool Orbit3DManipulator::handleMouseDrag( const osgGA::GUIEventAdapter& ea, osgG
 }
 
 /// Make movement step of manipulator. Returns true if any movement was made.
-bool Orbit3DManipulator::performMovement( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::performMovement( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	// return if less then two events have been added
 	if( _ga_t0.get() == nullptr || _ga_t1.get() == nullptr )
@@ -599,13 +611,13 @@ bool Orbit3DManipulator::performMovement( const osgGA::GUIEventAdapter& ea, osgG
 	return false;
 }
 
-bool Orbit3DManipulator::performMouseDeltaMovement( const float dx, const float dy )
+bool OrbitCameraManipulator::performMouseDeltaMovement( const float dx, const float dy )
 {
 	rotateCamera( dx, dy );
 	return true;
 }
 
-void Orbit3DManipulator::rotateCamera( float dx, float dy )
+void OrbitCameraManipulator::rotateCamera( float dx, float dy )
 {
 	if( dx != 0.0 || dy != 0.0 )
 	{
@@ -641,7 +653,7 @@ void Orbit3DManipulator::rotateCamera( float dx, float dy )
 };
 
 /** Moves the camera such that the model remains under the cursor.*/
-void Orbit3DManipulator::panCamera( const float dx, const float dy, const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+void OrbitCameraManipulator::panCamera( const float dx, const float dy, const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	osgViewer::View* view = dynamic_cast<osgViewer::View*>( &aa );
 	if( !view )
@@ -676,9 +688,9 @@ void Orbit3DManipulator::panCamera( const float dx, const float dy, const osgGA:
 
 /** Changes the distance of camera to the focal center.
 If pushForwardIfNeeded is true and minimumDistance is reached, the focal center is moved forward. Otherwise, distance is limited to its minimum value.
-\sa Orbit3DManipulator::setMinimumDistance
+\sa OrbitCameraManipulator::setMinimumDistance
 */
-void Orbit3DManipulator::zoomCamera( const float dy )
+void OrbitCameraManipulator::zoomCamera( const float dy )
 {
 	// push camera forwared along mouse ray
 	osg::Vec3d zoom_direction = m_ray_pointer_direction;
@@ -689,7 +701,7 @@ void Orbit3DManipulator::zoomCamera( const float dy )
 }
 
 ////////////////////////////////////////////////////// animation //////////////////////////////////////////////////////////////////
-void Orbit3DManipulator::applyAnimationStep( const double currentProgress, const double prevProgress )
+void OrbitCameraManipulator::applyAnimationStep( const double currentProgress, const double prevProgress )
 {
 	osg::Vec3d new_eye( m_animation_data->m_start_eye + (m_animation_data->m_target_eye - m_animation_data->m_start_eye) * (currentProgress) );
 	osg::Vec3d new_lookat( m_animation_data->m_start_lookat + (m_animation_data->m_target_lookat - m_animation_data->m_start_lookat) * (currentProgress) );
@@ -700,16 +712,16 @@ void Orbit3DManipulator::applyAnimationStep( const double currentProgress, const
 	m_up.set( new_up );
 }
 
-Orbit3DManipulator::OrbitAnimationData::OrbitAnimationData() : AnimationData()
+OrbitCameraManipulator::OrbitAnimationData::OrbitAnimationData() : AnimationData()
 {
 }
 
-void Orbit3DManipulator::OrbitAnimationData::start( const double startTime )
+void OrbitCameraManipulator::OrbitAnimationData::start( const double startTime )
 {
 	AnimationData::start( startTime );
 }
 
-void Orbit3DManipulator::setAnimationTime( const double t )
+void OrbitCameraManipulator::setAnimationTime( const double t )
 {
     if( t <= 0. )
     {
@@ -724,7 +736,7 @@ void Orbit3DManipulator::setAnimationTime( const double t )
     m_animation_data->_animationTime = t;
 }
 
-bool Orbit3DManipulator::performAnimationMovement( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::performAnimationMovement( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
 {
 	double f = (ea.getTime() - m_animation_data->_startTime) / m_animation_data->_animationTime;
     if( f >= 1. )
@@ -743,7 +755,7 @@ bool Orbit3DManipulator::performAnimationMovement( const osgGA::GUIEventAdapter&
     return m_animation_data->_isAnimating;
 }
 
-bool Orbit3DManipulator::isAnimating() const
+bool OrbitCameraManipulator::isAnimating() const
 {
     if( m_animation_data )
         return m_animation_data->_isAnimating;
@@ -753,13 +765,13 @@ bool Orbit3DManipulator::isAnimating() const
 
 
 /** Get the FusionDistanceMode. Used by SceneView for setting up stereo convergence.*/
-osgUtil::SceneView::FusionDistanceMode Orbit3DManipulator::getFusionDistanceMode() const
+osgUtil::SceneView::FusionDistanceMode OrbitCameraManipulator::getFusionDistanceMode() const
 {
 	return osgUtil::SceneView::USE_FUSION_DISTANCE_VALUE;
 }
 
 /** Get the FusionDistanceValue. Used by SceneView for setting up stereo convergence.*/
-float Orbit3DManipulator::getFusionDistanceValue() const
+float OrbitCameraManipulator::getFusionDistanceValue() const
 {
 	return 0;//m_distance;
 }
@@ -769,14 +781,14 @@ float Orbit3DManipulator::getFusionDistanceValue() const
 The amount of camera movement on each mouse wheel event is computed as the current distance to the center multiplied by this factor.
 For example, value of 0.1 will short distance to center by 10% on each wheel up event.
 Use negative value for reverse mouse wheel direction.*/
-void Orbit3DManipulator::setWheelZoomFactor( double wheelZoomFactor )
+void OrbitCameraManipulator::setWheelZoomFactor( double wheelZoomFactor )
 {
 	m_wheel_zoom_factor = wheelZoomFactor;
 }
 
 
 /** Set the minimum distance of the eye point from the center before the center is pushed forward.*/
-void Orbit3DManipulator::setMinimumDistance( const double& minimumDistance, bool relativeToModelSize )
+void OrbitCameraManipulator::setMinimumDistance( const double& minimumDistance, bool relativeToModelSize )
 {
 	m_minimum_distance = minimumDistance;
 	setRelativeFlag( m_minimum_distance_flag_index, relativeToModelSize );
@@ -784,7 +796,7 @@ void Orbit3DManipulator::setMinimumDistance( const double& minimumDistance, bool
 
 
 /** Get the minimum distance of the eye point from the center before the center is pushed forward.*/
-double Orbit3DManipulator::getMinimumDistance( bool *relativeToModelSize ) const
+double OrbitCameraManipulator::getMinimumDistance( bool *relativeToModelSize ) const
 {
 	if( relativeToModelSize )
 	{
@@ -795,7 +807,7 @@ double Orbit3DManipulator::getMinimumDistance( bool *relativeToModelSize ) const
 }
 
 
-void Orbit3DManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs, double ratio_w )
+void OrbitCameraManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs, double ratio_w )
 {
 	osg::Vec3f bs_center( bs.center() );
 	double bs_radius = bs.radius();

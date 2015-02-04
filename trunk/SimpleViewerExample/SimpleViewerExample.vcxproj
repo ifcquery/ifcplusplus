@@ -135,7 +135,7 @@
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;..\Carve\bin32;..\IfcPlusPlus\bin32;..\IfcPlusPlusGeometry\bin32;$(OSG_DIR)\lib;$(OSG_DIR)\..\freetype\2.5.3\objs\win32\vc2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5OpenGL.lib;Qt5Widgets.lib;Qt5PrintSupport.lib;OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgViewer.lib;osgText.lib;osgFx.lib;osgQt.lib;freetype253.lib;IfcPlusPlus.lib;IfcPlusPlusGeometry.lib;Carve.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -224,8 +224,7 @@
     <ClCompile Include="src\IfcPlusPlusSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ViewController.cpp" />
-    <ClCompile Include="src\viewer\Orbit3DManipulator.cpp" />
-    <ClCompile Include="src\viewer\ViewerUtil.cpp" />
+    <ClCompile Include="src\viewer\OrbitCameraManipulator.cpp" />
     <ClCompile Include="src\viewer\ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -331,7 +330,7 @@
     <ClInclude Include="src\cmd\Command.h" />
     <ClInclude Include="src\cmd\CommandManager.h" />
     <ClInclude Include="src\cmd\LoadIfcFileCommand.h" />
-    <ClInclude Include="src\viewer\Orbit3DManipulator.h" />
+    <ClInclude Include="src\viewer\OrbitCameraManipulator.h" />
     <ClInclude Include="src\viewer\ViewerUtil.h" />
     <ClInclude Include="src\viewer\ViewerWidget.h" />
     <CustomBuild Include="src\gui\TabReadWrite.h">

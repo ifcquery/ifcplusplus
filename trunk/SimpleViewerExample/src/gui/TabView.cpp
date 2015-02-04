@@ -31,7 +31,7 @@
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/Orbit3DManipulator.h"
+#include "viewer/OrbitCameraManipulator.h"
 
 #include "MainWindow.h"
 #include "TabView.h"

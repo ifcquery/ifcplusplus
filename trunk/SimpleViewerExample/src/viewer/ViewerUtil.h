@@ -22,7 +22,26 @@
 
 #include <QTreeWidget>
 
-void zoomToBoundingSphere( osgViewer::Viewer* viewer, const osg::BoundingSphere& bs, double ratio_w = 1.0 );
-void zoomToBoundingSphere( osgViewer::CompositeViewer* viewer, const osg::BoundingSphere& bs, double ratio_w = 1.0 );
-enum IntersectionPlane {	XY_PLANE,	YZ_PLANE,	XZ_PLANE	};
-QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id );
+class ViewerUtil
+{
+public:
+	static QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id )
+	{
+		int num_children = item->childCount();
+		for( int i = 0; i<num_children; ++i )
+		{
+			QTreeWidgetItem* child = item->child( i );
+			int id = child->text( 1 ).toUInt();
+			if( id == ifc_id )
+			{
+				return child;
+			}
+			QTreeWidgetItem* child_of_child = findItemByIfcId( child, ifc_id );
+			if( child_of_child != 0 )
+			{
+				return child_of_child;
+			}
+		}
+		return 0;
+	}
+};

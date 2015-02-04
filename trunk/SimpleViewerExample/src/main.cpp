@@ -28,7 +28,7 @@
 #include "gui/TabReadWrite.h"
 #include "gui/MainWindow.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/Orbit3DManipulator.h"
+#include "viewer/OrbitCameraManipulator.h"
 #include "ViewController.h"
 #include "IfcPlusPlusSystem.h"
 
@@ -52,23 +52,15 @@ protected:
 		}
 		catch( std::exception& e )
 		{
-//#ifdef _DEBUG
 			std::cout << "IfcPlusPlusApplication: exception occurred : " << e.what() << std::endl;
-//#endif
-			// TODO: write file with error report
 		}
 		catch( std::exception* e )
 		{
-//#ifdef _DEBUG
 			std::cout << "IfcPlusPlusApplication: exception occurred : " << e->what() << std::endl;
-//#endif
-			// TODO: write file with error report
 		}
 		catch(...)
 		{
-//#ifdef _DEBUG
 			std::cout << "IfcPlusPlusApplication: exception occurred. " << std::endl;
-//#endif
 		}
 		return errRet;
 	}
@@ -88,7 +80,7 @@ int main(int argc, char *argv[])
 
 	IfcPlusPlusSystem* sys = new IfcPlusPlusSystem();
 	ViewerWidget* viewer_widget = new ViewerWidget();
-	Orbit3DManipulator* camera_manip = new Orbit3DManipulator( sys );
+	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator( sys );
 	viewer_widget->getMainView()->setCameraManipulator( camera_manip );
 	viewer_widget->setRootNode( sys->getViewController()->m_rootnode );
 

@@ -61,7 +61,7 @@ void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >
 	for( int i=0; i<topLevelItemCount(); ++i )
 	{
 		QTreeWidgetItem* toplevel_item = topLevelItem( i );
-		QTreeWidgetItem* selected_item = findItemByIfcId( toplevel_item, selected_id );
+		QTreeWidgetItem* selected_item = ViewerUtil::findItemByIfcId( toplevel_item, selected_id );
 		if( selected_item != 0 )
 		{
 			blockSignals(true);
