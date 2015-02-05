@@ -81,7 +81,7 @@ SET(IFCPPVIEWER_SOURCE_FILES
   src/gui/MainWindow.cpp
   src/gui/TabReadWrite.cpp
   src/gui/TabView.cpp
-  src/viewer/Orbit3DManipulator.cpp
+  src/viewer/OrbitCameraManipulator.cpp
   src/viewer/ViewerWidget.cpp
 )
 
