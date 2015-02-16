@@ -78,7 +78,7 @@ SolidModelConverter::~SolidModelConverter()
 // ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
 void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeInputData> item_data )
 {
-	const int nvc = m_geom_settings->m_num_vertices_per_circle;
+	const int nvc = m_geom_settings->getNumVerticesPerCircle();
 	const double length_in_meter = m_unit_converter->getLengthInMeterFactor();
 	
 	shared_ptr<IfcSweptAreaSolid> swept_area_solid = dynamic_pointer_cast<IfcSweptAreaSolid>(solid_model);
@@ -536,7 +536,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 	if( revolution_angle < -M_PI*2 ) revolution_angle = M_PI*2;
 
 	// TODO: calculate num segments according to length/width/height ratio and overall size of the object
-	int num_segments = m_geom_settings->m_num_vertices_per_circle*(std::abs(revolution_angle)/(2.0*M_PI));
+	int num_segments = m_geom_settings->getNumVerticesPerCircle()*(std::abs(revolution_angle)/(2.0*M_PI));
 	if( num_segments < 6 )
 	{
 		num_segments = 6;
@@ -935,26 +935,26 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR(0.0, 0.0, 0.0) ); // bottom center
 
 		double angle = 0;
-		double d_angle = 2.0*M_PI/double(m_geom_settings->m_num_vertices_per_circle);	// TODO: adapt to model size and complexity
-		for( int i = 0; i < m_geom_settings->m_num_vertices_per_circle; ++i )
+		double d_angle = 2.0*M_PI/double(m_geom_settings->getNumVerticesPerCircle());	// TODO: adapt to model size and complexity
+		for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle(); ++i )
 		{
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR(sin(angle)*radius, cos(angle)*radius, 0.0) );
 			angle += d_angle;
 		}
 
 		// outer shape
-		for( int i = 0; i < m_geom_settings->m_num_vertices_per_circle-1; ++i )
+		for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle()-1; ++i )
 		{
 			polyhedron_data->addFace(0, i+3, i+2);
 		}
-		polyhedron_data->addFace( 0, 2, m_geom_settings->m_num_vertices_per_circle+1 );
+		polyhedron_data->addFace( 0, 2, m_geom_settings->getNumVerticesPerCircle()+1 );
 
 		// bottom circle
-		for( int i = 0; i < m_geom_settings->m_num_vertices_per_circle-1; ++i )
+		for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle()-1; ++i )
 		{
 			polyhedron_data->addFace(1, i+2, i+3 );
 		}
-		polyhedron_data->addFace(1, m_geom_settings->m_num_vertices_per_circle+1, 2 );
+		polyhedron_data->addFace(1, m_geom_settings->getNumVerticesPerCircle()+1, 2 );
 
 		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
@@ -975,22 +975,22 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 			return;
 		}
 
-		int slices = m_geom_settings->m_num_vertices_per_circle;
+		int slices = m_geom_settings->getNumVerticesPerCircle();
 		double rad = 0;
 
 		double height = right_circular_cylinder->m_Height->m_value*length_factor;
 		double radius = right_circular_cylinder->m_Radius->m_value*length_factor;
 
 		double angle = 0;
-		double d_angle = 2.0*M_PI/double(m_geom_settings->m_num_vertices_per_circle);	// TODO: adapt to model size and complexity
-		for( int i = 0; i < m_geom_settings->m_num_vertices_per_circle; ++i )
+		double d_angle = 2.0*M_PI/double(m_geom_settings->getNumVerticesPerCircle());	// TODO: adapt to model size and complexity
+		for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle(); ++i )
 		{
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR(sin(angle)*radius, cos(angle)*radius, height) );
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR(sin(angle)*radius, cos(angle)*radius, 0.0) );
 			angle += d_angle;
 		}
 
-		for( int i = 0; i < m_geom_settings->m_num_vertices_per_circle-1; ++i )
+		for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle()-1; ++i )
 		{
 			polyhedron_data->addFace( 0, i*2+2, i*2+4 );		// top cap:		0-2-4	0-4-6		0-6-8
 			polyhedron_data->addFace( 1, i*2+3, i*2+5 );		// bottom cap:	1-3-5	1-5-7		1-7-9
@@ -998,8 +998,8 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 			polyhedron_data->addFace( i+3, i+2, i );		// side
 		}
 
-		polyhedron_data->addFace( 2*m_geom_settings->m_num_vertices_per_circle-2,	2*m_geom_settings->m_num_vertices_per_circle-1,		1 );		// side
-		polyhedron_data->addFace( 1,	0,	2*m_geom_settings->m_num_vertices_per_circle-2 );		// side
+		polyhedron_data->addFace( 2*m_geom_settings->getNumVerticesPerCircle()-2,	2*m_geom_settings->getNumVerticesPerCircle()-1,		1 );		// side
+		polyhedron_data->addFace( 1,	0,	2*m_geom_settings->getNumVerticesPerCircle()-2 );		// side
 
 		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 		return;
@@ -1031,7 +1031,7 @@ void SolidModelConverter::convertIfcCsgPrimitive3D(	const shared_ptr<IfcCsgPrimi
 		}
 		polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR(0.0, 0.0, radius) ); // top
 
-		const int nvc = m_geom_settings->m_num_vertices_per_circle;
+		const int nvc = m_geom_settings->getNumVerticesPerCircle();
 		const int num_vertical_edges = nvc*0.5;
 		double d_vertical_angle = M_PI/double(num_vertical_edges-1);	// TODO: adapt to model size and complexity
 		double vertical_angle = d_vertical_angle;

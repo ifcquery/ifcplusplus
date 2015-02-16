@@ -17,7 +17,7 @@
 #include "include/IfcStyleAssignmentSelect.h"
 
 // TYPE IfcStyleAssignmentSelect = SELECT	(IfcPresentationStyle	,IfcPresentationStyleAssignment);
-shared_ptr<IfcStyleAssignmentSelect> IfcStyleAssignmentSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcStyleAssignmentSelect> IfcStyleAssignmentSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcStyleAssignmentSelect>(); }

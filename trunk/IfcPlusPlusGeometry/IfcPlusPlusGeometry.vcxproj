@@ -156,6 +156,7 @@
       <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;../IfcPlusPlus/src/;$(OSG_DIR)/include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;_UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;GEOM_DEBUG;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -240,9 +241,9 @@
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
-      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformation>true</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -251,8 +252,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
@@ -305,7 +305,6 @@
     <ClCompile Include="src\ifcppgeometry\CurveConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\FaceConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\GeometryConverter.cpp" />
-    <ClCompile Include="src\ifcppgeometry\GeometrySettings.cpp" />
     <ClCompile Include="src\ifcppgeometry\GeomUtils.cpp" />
     <ClCompile Include="src\ifcppgeometry\PointConverter.cpp" />
     <ClCompile Include="src\ifcppgeometry\SplineConverter.cpp" />

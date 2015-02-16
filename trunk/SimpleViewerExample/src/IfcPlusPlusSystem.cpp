@@ -202,7 +202,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			}
 		}
 
-		std::map<int, shared_ptr<IfcPPEntity> > map_objects;
+		boost::unordered_map<int, shared_ptr<IfcPPEntity> > map_objects;
 		map_objects[id] = ifc_object;
 		emit( signalObjectsSelected( map_objects ) );
 	}
@@ -235,7 +235,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				m_map_selected.erase( it_selected );
 			}
 		}
-		std::map<int, shared_ptr<IfcPPEntity> > map_objects;
+		boost::unordered_map<int, shared_ptr<IfcPPEntity> > map_objects;
 		map_objects[id] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}

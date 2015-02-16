@@ -642,7 +642,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 			if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-			drawMeshSet( item_meshset.get(), geode, m_geom_settings->m_intermediate_normal_angle );
+			drawMeshSet( item_meshset.get(), geode, m_geom_settings->getMinCreaseAngle() );
 
 			// disable back face culling for open meshes
 			geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
@@ -656,7 +656,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 			CSG_Adapter::retriangulateMeshSet( item_meshset );
 			osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
 			if( !geode_result ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-			drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->m_intermediate_normal_angle );
+			drawMeshSet( item_meshset.get(), geode_result, m_geom_settings->getMinCreaseAngle() );
 			item_group->addChild( geode_result );
 		}
 
@@ -699,7 +699,7 @@ void ConverterOSG::convertToOSG( shared_ptr<ProductShapeInputData>& product_shap
 			item_group_curves->addChild( geode );
 		}
 
-		if( m_geom_settings->m_show_text_literals )
+		if( m_geom_settings->isShowTextLiterals() )
 		{
 			for( size_t ii = 0; ii < item_shape->m_vec_text_literals.size(); ++ii )
 			{

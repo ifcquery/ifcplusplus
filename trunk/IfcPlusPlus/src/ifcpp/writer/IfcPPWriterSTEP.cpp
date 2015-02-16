@@ -35,7 +35,7 @@ IfcPPWriterSTEP::~IfcPPWriterSTEP()
 
 void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {
-	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
+	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
 	
 	const std::wstring& file_header_wstr = model->getFileHeader();
@@ -45,7 +45,7 @@ void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<
 	stream << std::setprecision( 15 );
 	stream << std::setiosflags( std::ios::showpoint );
 	stream << std::fixed;
-	const std::map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcEntities();
+	const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcEntities();
 	size_t i = 0;
 	double last_progress = 0.0;
 	double num_objects = double(map.size());
@@ -78,5 +78,5 @@ void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<
 
 	stream << "ENDSEC;\nEND-ISO-10303-21;\n";
 
-	setlocale(LC_NUMERIC, current_numeric_locale);
+	setlocale(LC_NUMERIC, current_numeric_locale.c_str());
 }

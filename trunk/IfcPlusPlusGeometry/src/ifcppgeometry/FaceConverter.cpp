@@ -193,7 +193,7 @@ void FaceConverter::convertIfcSurface( const shared_ptr<IfcSurface>& surface, sh
 			shared_ptr<IfcPositiveLengthMeasure> cylindrical_surface_radius = cylindrical_surface->m_Radius;
 			double circle_radius = cylindrical_surface_radius->m_value;
 
-			int num_segments = m_geom_settings->m_num_vertices_per_circle;	// TODO: adapt to model size and complexity
+			int num_segments = m_geom_settings->getNumVerticesPerCircle();	// TODO: adapt to model size and complexity
 			double start_angle = 0.0;
 			double opening_angle = M_PI*2.0;
 			const double circle_center_x = 0.0;

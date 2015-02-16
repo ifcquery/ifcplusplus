@@ -17,7 +17,7 @@
 #include "include/IfcGridPlacementDirectionSelect.h"
 
 // TYPE IfcGridPlacementDirectionSelect = SELECT	(IfcDirection	,IfcVirtualGridIntersection);
-shared_ptr<IfcGridPlacementDirectionSelect> IfcGridPlacementDirectionSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcGridPlacementDirectionSelect> IfcGridPlacementDirectionSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcGridPlacementDirectionSelect>(); }

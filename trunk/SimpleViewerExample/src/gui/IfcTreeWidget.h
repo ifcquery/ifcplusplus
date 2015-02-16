@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QTreeWidget>
+#include <boost/unordered_map.hpp>
 #include "ifcpp/model/shared_ptr.h"
 
 class IfcPPEntity;
@@ -18,7 +19,7 @@ public:
 	QTreeWidgetItem* itemFromIndex( const QModelIndex & index ) const { return QTreeWidget::itemFromIndex( index ); }
 
 public slots:
-	void slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map );
+	void slotObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map );
 	void slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous );
 	void slotTreewidgetSelectionChanged();
 

@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	shared_ptr<IfcPPReaderSTEP> reader( new IfcPPReaderSTEP() );
 	reader->loadModelFromFile( file_path, ifc_model );
 
-	const std::map<int, shared_ptr<IfcPPEntity> >& map_ifc_entities = ifc_model->getMapIfcEntities();
+	const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_ifc_entities = ifc_model->getMapIfcEntities();
 	for( auto it = map_ifc_entities.begin(); it != map_ifc_entities.end(); ++it )
 	{
 		int entity_id = it->first;

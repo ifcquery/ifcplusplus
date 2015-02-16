@@ -18,7 +18,7 @@
 #include "ifcpp/IfcPPTypeEnums.h"
 #include "ifcpp/model/IfcPPException.h"
 
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPPObject>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPPObject>(); }

@@ -486,8 +486,8 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 			{
 				// select
 				shared_ptr<IfcPPModel> ifc_model = m_system->getGeometryConverter()->getIfcPPModel();
-				const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
-				std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find = map_ifc_objects.find(id);
+				const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
+				boost::unordered_map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find = map_ifc_objects.find(id);
 				if( it_find != map_ifc_objects.end() )
 				{
 					shared_ptr<IfcPPEntity> entitiy_selected = it_find->second;

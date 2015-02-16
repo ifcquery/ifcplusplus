@@ -18,7 +18,7 @@
 #include "include/IfcPresentationStyleSelect.h"
 
 // TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcTextStyle);
-shared_ptr<IfcPresentationStyleSelect> IfcPresentationStyleSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPresentationStyleSelect> IfcPresentationStyleSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcPresentationStyleSelect>(); }

@@ -38,7 +38,7 @@ void IfcLoop::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcLoop::readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 }
 void IfcLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

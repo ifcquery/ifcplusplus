@@ -464,13 +464,13 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 				{
 					const double t = hollow->m_WallThickness->m_value*length_factor;
 					double r1 = 0;
-					if( hollow->m_OuterFilletRadius && !m_curve_converter->m_geom_settings->m_ignore_profile_radius )
+					if( hollow->m_OuterFilletRadius && !m_curve_converter->m_geom_settings->isIgnoreProfileRadius() )
 					{
 						r1 = hollow->m_InnerFilletRadius->m_value*length_factor;
 					}
 
 					double r2 = 0;
-					if( hollow->m_InnerFilletRadius && !gs->m_ignore_profile_radius )
+					if( hollow->m_InnerFilletRadius && !gs->isIgnoreProfileRadius() )
 					{
 						r2 = hollow->m_InnerFilletRadius->m_value*length_factor;
 					}
@@ -517,7 +517,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 
 			// RoundedRectangle
 			shared_ptr<IfcRoundedRectangleProfileDef> rounded_rectangle = dynamic_pointer_cast<IfcRoundedRectangleProfileDef>( rectangle_profile );
-			if( rounded_rectangle && !gs->m_ignore_profile_radius )
+			if( rounded_rectangle && !gs->isIgnoreProfileRadius() )
 			{
 				if( rounded_rectangle->m_RoundingRadius )
 				{
@@ -573,7 +573,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			{
 				return;
 			}
-			int num_segments = gs->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
+			int num_segments = gs->getNumVerticesPerCircle(); // TODO: adapt to model size and complexity
 			double angle = 0;
 			for( int i = 0; i < num_segments; ++i )
 			{
@@ -590,7 +590,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 				angle = 0;
 				radius -= hollow->m_WallThickness->m_value*length_factor;
 
-				int num_segments2 = gs->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
+				int num_segments2 = gs->getNumVerticesPerCircle(); // TODO: adapt to model size and complexity
 				for( int i = 0; i < num_segments2; ++i )
 				{
 					inner_loop.push_back( carve::geom::VECTOR( ( radius * cos( angle ) ), ( radius * sin( angle ) ) ) );
@@ -612,7 +612,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			{
 				double x_radius = ellipse_profile_def->m_SemiAxis1->m_value*length_factor;
 				double y_radius = ellipse_profile_def->m_SemiAxis2->m_value*length_factor;
-				int num_segments = gs->m_num_vertices_per_circle; // TODO: adapt to model size and complexity
+				int num_segments = gs->getNumVerticesPerCircle(); // TODO: adapt to model size and complexity
 				double angle = 0;
 				for( int i = 0; i < num_segments; ++i )
 				{
@@ -636,7 +636,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			const double tw = i_shape->m_WebThickness->m_value*length_factor;
 			const double tf = i_shape->m_FlangeThickness->m_value*length_factor;
 			double radius = 0;
-			if( i_shape->m_FilletRadius && !gs->m_ignore_profile_radius )
+			if( i_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 			{
 				radius = i_shape->m_FilletRadius->m_value*length_factor;
 			}
@@ -666,7 +666,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 						tfTop = asym_I_profile->m_TopFlangeThickness->m_value*length_factor;
 					}
 					double rTop = radius;
-					if( asym_I_profile->m_TopFlangeFilletRadius && !gs->m_ignore_profile_radius )
+					if( asym_I_profile->m_TopFlangeFilletRadius && !gs->isIgnoreProfileRadius() )
 					{
 						rTop = asym_I_profile->m_TopFlangeFilletRadius->m_value*length_factor;
 					}
@@ -713,13 +713,13 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			double t = l_shape->m_Thickness->m_value*length_factor;
 
 			double r1 = 0;
-			if( l_shape->m_FilletRadius && !gs->m_ignore_profile_radius )
+			if( l_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r1 = l_shape->m_FilletRadius->m_value*length_factor;
 			}
 
 			double r2 = 0;
-			if( l_shape->m_EdgeRadius && !gs->m_ignore_profile_radius )
+			if( l_shape->m_EdgeRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r2 = l_shape->m_EdgeRadius->m_value*length_factor;
 			}
@@ -782,12 +782,12 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			const double tw = u_shape->m_WebThickness->m_value*length_factor;
 			const double tf = u_shape->m_FlangeThickness->m_value*length_factor;
 			double r1 = 0;
-			if( u_shape->m_FilletRadius && !gs->m_ignore_profile_radius )
+			if( u_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r1 = u_shape->m_FilletRadius->m_value*length_factor;
 			}
 			double r2 = 0;
-			if( u_shape->m_EdgeRadius && !gs->m_ignore_profile_radius )
+			if( u_shape->m_EdgeRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r2 = u_shape->m_EdgeRadius->m_value*length_factor;
 			}
@@ -839,7 +839,7 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			const double g = c_shape->m_Girth->m_value*length_factor;
 			const double t = c_shape->m_WallThickness->m_value*length_factor;
 			double r1 = 0;
-			if( c_shape->m_InternalFilletRadius && !gs->m_ignore_profile_radius )
+			if( c_shape->m_InternalFilletRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r1 = c_shape->m_InternalFilletRadius->m_value*length_factor;
 			}
@@ -900,13 +900,13 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 			const double tw = z_shape->m_WebThickness->m_value*length_factor;
 			const double tf = z_shape->m_FlangeThickness->m_value*length_factor;
 			double r1 = 0;
-			if( z_shape->m_FilletRadius && !gs->m_ignore_profile_radius )
+			if( z_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r1 = z_shape->m_FilletRadius->m_value*length_factor;
 			}
 
 			double r2 = 0;
-			if( z_shape->m_EdgeRadius && !gs->m_ignore_profile_radius )
+			if( z_shape->m_EdgeRadius && !gs->isIgnoreProfileRadius() )
 			{
 				r2 = z_shape->m_EdgeRadius->m_value*length_factor;
 			}
@@ -949,19 +949,19 @@ void ProfileConverter::convertIfcParameterizedProfileDef( const shared_ptr<IfcPa
 		const double tf = t_shape->m_FlangeThickness->m_value*length_factor;
 
 		double r1 = 0;
-		if( t_shape->m_FilletRadius && !gs->m_ignore_profile_radius )
+		if( t_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 		{
 			r1 = t_shape->m_FilletRadius->m_value*length_factor;
 		}
 
 		double r2 = 0;
-		if( t_shape->m_FlangeEdgeRadius && !gs->m_ignore_profile_radius )
+		if( t_shape->m_FlangeEdgeRadius && !gs->isIgnoreProfileRadius() )
 		{
 			r2 = t_shape->m_FlangeEdgeRadius->m_value*length_factor;
 		}
 
 		double r3 = 0;
-		if( t_shape->m_WebEdgeRadius && !gs->m_ignore_profile_radius )
+		if( t_shape->m_WebEdgeRadius && !gs->isIgnoreProfileRadius() )
 		{
 			r3 = t_shape->m_WebEdgeRadius->m_value*length_factor;
 		}
@@ -1141,12 +1141,12 @@ void ProfileConverter::addArc( std::vector<vector2d_t >& coords, double radius, 
 
 	if( num_segments < 0 )
 	{
-		num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->m_num_vertices_per_circle ); // TODO: adapt to model size and complexity
+		num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->getNumVerticesPerCircle() ); // TODO: adapt to model size and complexity
 	}
 
-	if( num_segments < gs->m_min_num_vertices_per_arc )
+	if( num_segments < gs->getMinNumVerticesPerArc() )
 	{
-		num_segments = gs->m_min_num_vertices_per_arc;
+		num_segments = gs->getMinNumVerticesPerArc();
 	}
 
 	if( num_segments > 100 )
@@ -1170,10 +1170,10 @@ void ProfileConverter::addArcWithEndPoint( std::vector<vector2d_t >& coords, dou
 	{
 		return;
 	}
-	int num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->m_num_vertices_per_circle ); // TODO: adapt to model size and complexity
-	if( num_segments < gs->m_min_num_vertices_per_arc )
+	int num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->getNumVerticesPerCircle() ); // TODO: adapt to model size and complexity
+	if( num_segments < gs->getMinNumVerticesPerArc() )
 	{
-		num_segments = gs->m_min_num_vertices_per_arc;
+		num_segments = gs->getMinNumVerticesPerArc();
 	}
 
 	if( num_segments > 100 )

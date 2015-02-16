@@ -57,11 +57,14 @@ public:
 	void setHandleStyledItems( bool handle ) { m_handle_styled_items = handle; }
 	void clearCache();
 	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter );
+	shared_ptr<UnitConverter>&			getUnitConverter()	{ return m_unit_converter;	}
 	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings;	}
 	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter;	}
 	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache;	}
 	shared_ptr<Sweeper>&				getSweeper()		{ return m_sweeper;	}
 	shared_ptr<StylesConverter>&		getStylesConverter()	{ return m_styles_converter; }
+	shared_ptr<CurveConverter>&			getCurveConverter() { return m_curve_converter; }
+	shared_ptr<SplineConverter>&		getSplineConverter(){ return m_spline_converter; }
 
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;

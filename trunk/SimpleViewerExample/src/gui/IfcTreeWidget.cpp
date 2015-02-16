@@ -31,7 +31,8 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setIndentation( 4 );
 
 	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( m_system, SIGNAL( signalObjectsSelected(std::map<int, shared_ptr<IfcPPEntity> >&) ),	this, SLOT( slotObjectsSelected(std::map<int, shared_ptr<IfcPPEntity> >&) ) );
+	connect( m_system, SIGNAL( signalObjectsSelected(boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ),	this, 
+		SLOT( slotObjectsSelected(boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ) );
 
 	connect( m_system, SIGNAL( signalModelCleared() ),		this, SLOT( slotModelCleared() ) );
 	connect( m_system, SIGNAL( signalModelLoadingStart() ),	this, SLOT( slotModelLoadingStart() ) );
@@ -42,7 +43,7 @@ IfcTreeWidget::~IfcTreeWidget()
 {
 }
 
-void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map )
+void IfcTreeWidget::slotObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map )
 {
 	if( m_block_selection_signals )
 	{
@@ -80,8 +81,8 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 	{
 		return;
 	}
-	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getGeometryConverter()->getIfcPPModel()->getMapIfcEntities();
-	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
+	const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getGeometryConverter()->getIfcPPModel()->getMapIfcEntities();
+	boost::unordered_map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
 	if( previous )
 	{
 		int id = previous->text(1).toUInt();
@@ -233,8 +234,8 @@ void IfcTreeWidget::slotModelLoadingDone()
 	QTreeWidgetItem* item_outside = new QTreeWidgetItem();
 	item_outside->setText( 0, "OutsideSpatialStructure" );
 
-	std::map<int,shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
-	for( std::map<int,shared_ptr<IfcPPObject> >::iterator it = map_outside.begin(); it != map_outside.end(); ++it )
+	boost::unordered_map<int,shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
+	for( auto it = map_outside.begin(); it != map_outside.end(); ++it )
 	{
 		shared_ptr<IfcPPObject>& ifc_object = it->second;
 		QTreeWidgetItem* object_item = resolveTreeItems( ifc_object, set_visited );

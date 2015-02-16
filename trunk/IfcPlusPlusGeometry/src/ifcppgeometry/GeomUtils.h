@@ -196,6 +196,7 @@ public:
 						continue;
 					}
 				}
+				// TODO: if area of face and face_reverse is equal, skip the crease edge. It could be the inside or outside of a cylinder. Check also if > 2 faces in a row have same normal angle differences
 				vec_edges_out.push_back( edge );
 			}
 		}

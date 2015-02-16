@@ -17,7 +17,7 @@
 #include "include/IfcLightDistributionDataSourceSelect.h"
 
 // TYPE IfcLightDistributionDataSourceSelect = SELECT	(IfcExternalReference	,IfcLightIntensityDistribution);
-shared_ptr<IfcLightDistributionDataSourceSelect> IfcLightDistributionDataSourceSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLightDistributionDataSourceSelect> IfcLightDistributionDataSourceSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcLightDistributionDataSourceSelect>(); }

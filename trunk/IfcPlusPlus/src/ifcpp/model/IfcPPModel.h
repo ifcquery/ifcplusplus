@@ -16,6 +16,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <boost/unordered_map.hpp>
 #include "shared_ptr.h"
 #include "StatusCallback.h"
 
@@ -50,8 +51,8 @@ public:
 			IfcPPVersionEnum	m_ifc_file_schema_enum;
 	};
 	
-	const std::map<int,shared_ptr<IfcPPEntity> >& getMapIfcEntities() const { return m_map_entities; }
-	void setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> >& map );
+	const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& getMapIfcEntities() const { return m_map_entities; }
+	void setMapIfcEntities( const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map );
 	void insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing = false );
 	void removeEntity( shared_ptr<IfcPPEntity> e );
 	void removeEntity( int entity_id );
@@ -84,12 +85,12 @@ public:
 	friend class IfcPPReaderXML;
 
 private:
-	std::map<int,shared_ptr<IfcPPEntity> >			m_map_entities;
-	shared_ptr<IfcProject>							m_ifc_project;
-	shared_ptr<IfcGeometricRepresentationContext>	m_geom_context_3d;
-	shared_ptr<UnitConverter>						m_unit_converter;
-	std::wstring									m_file_header;
-	std::wstring									m_IFC_FILE_DESCRIPTION;
-	std::wstring									m_IFC_FILE_NAME;
-	IfcPPSchemaVersion								m_ifc_schema_version;
+	boost::unordered_map<int, shared_ptr<IfcPPEntity> >	m_map_entities;
+	shared_ptr<IfcProject>										m_ifc_project;
+	shared_ptr<IfcGeometricRepresentationContext>				m_geom_context_3d;
+	shared_ptr<UnitConverter>									m_unit_converter;
+	std::wstring												m_file_header;
+	std::wstring												m_IFC_FILE_DESCRIPTION;
+	std::wstring												m_IFC_FILE_NAME;
+	IfcPPSchemaVersion											m_ifc_schema_version;
 };

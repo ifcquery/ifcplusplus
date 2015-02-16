@@ -51,7 +51,7 @@ public:
 	shared_ptr<ConverterOSG>&					getConverterOSG()				{ return m_converter_osg; }
 	shared_ptr<GeometrySettings>&				getGeomSettings()				{ return m_geom_settings; }
 	std::map<int,shared_ptr<ProductShapeInputData> >&	getShapeInputData()				{ return m_shape_input_data; }
-	std::map<int,shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure()	{ return m_map_outside_spatial_structure; }
+	boost::unordered_map<int,shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure()	{ return m_map_outside_spatial_structure; }
 
 	void resetNumVerticesPerCircle();
 	void clearInputCache();
@@ -67,7 +67,7 @@ protected:
 	shared_ptr<ConverterOSG>			m_converter_osg;
 	
 	std::map<int, shared_ptr<ProductShapeInputData> >	m_shape_input_data;
-	std::map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
+	boost::unordered_map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
 	double m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef IFCPP_OPENMP

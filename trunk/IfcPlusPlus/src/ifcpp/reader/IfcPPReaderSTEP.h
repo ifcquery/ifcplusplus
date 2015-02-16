@@ -24,7 +24,7 @@ public:
 	~IfcPPReaderSTEP();
 	virtual void removeComments( std::string& buffer );
 	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model );
-	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map );
+	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map );
 	virtual void readStreamData( std::string& in, shared_ptr<IfcPPModel>& model );
 	
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
@@ -36,5 +36,5 @@ public:
 	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& step_lines );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<IfcPPEntity> >& target_read_object );
 	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_target_entity );
-	void readEntityArguments(	const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	void readEntityArguments(	const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map );
 };
