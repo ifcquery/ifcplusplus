@@ -315,6 +315,10 @@ void StylesConverter::convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surfac
 
 void StylesConverter::convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_weak, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
 {
+	if( styled_item_weak.expired() )
+	{
+		return;
+	}
 	shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
 	const int style_id = styled_item->m_id;
 

@@ -18,7 +18,7 @@
 #include "include/IfcHatchLineDistanceSelect.h"
 
 // TYPE IfcHatchLineDistanceSelect = SELECT	(IfcPositiveLengthMeasure	,IfcVector);
-shared_ptr<IfcHatchLineDistanceSelect> IfcHatchLineDistanceSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcHatchLineDistanceSelect> IfcHatchLineDistanceSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcHatchLineDistanceSelect>(); }

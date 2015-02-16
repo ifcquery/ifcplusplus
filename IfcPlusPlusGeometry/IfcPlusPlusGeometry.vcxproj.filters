@@ -42,9 +42,6 @@
     <ClCompile Include="src\ifcppgeometry\ProfileCache.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\GeometrySettings.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcppgeometry\GeomUtils.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

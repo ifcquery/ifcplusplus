@@ -204,7 +204,7 @@ void IfcPPModel::setUnitConverter( shared_ptr<UnitConverter>& uc )
 	m_unit_converter = uc;
 }
 
-void IfcPPModel::setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> >& map )
+void IfcPPModel::setMapIfcEntities( const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map )
 {
 	clearIfcModel();
 	m_map_entities.clear();
@@ -227,14 +227,13 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		entity_id = next_unused_id;
 	}
 
-	std::map<int,shared_ptr<IfcPPEntity> >::iterator lb = m_map_entities.lower_bound( entity_id );
-
-	if( lb != m_map_entities.end() && !(m_map_entities.key_comp()(entity_id, lb->first)) )
+	boost::unordered_map<int,shared_ptr<IfcPPEntity> >::iterator it_find = m_map_entities.find( entity_id );
+	if( it_find != m_map_entities.end() )
 	{
 		// key already exists
 		if( overwrite_existing )
 		{
-			(*lb).second = e;
+			it_find->second = e;
 		}
 		else
 		{
@@ -244,7 +243,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	else
 	{
 		// the key does not exist in the map
-		m_map_entities.insert( lb, std::map<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
+		m_map_entities.insert( it_find, boost::unordered_map<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
 	}
 #ifdef _DEBUG
 	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );
@@ -331,8 +330,15 @@ int IfcPPModel::getMaxUsedEntityId()
 	{
 		return 0;
 	}
-	 
-	int max_used_id = m_map_entities.rbegin()->first;
+	int max_used_id = 1;
+	for( auto it = m_map_entities.begin(); it != m_map_entities.end(); ++it )
+	{
+		if( it->first > max_used_id )
+		{
+			max_used_id = it->first + 1;
+		}
+	}
+	//m_map_entities.rbegin()->first;
 	return max_used_id;
 }
 
@@ -544,7 +550,7 @@ void IfcPPModel::clearCache()
 
 void IfcPPModel::resolveInverseAttributes()
 {
-	for( std::map<int,shared_ptr<IfcPPEntity> >::iterator it = m_map_entities.begin(); it != m_map_entities.end(); ++it )
+	for( auto it = m_map_entities.begin(); it != m_map_entities.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> entity = it->second;
 		if( !entity )

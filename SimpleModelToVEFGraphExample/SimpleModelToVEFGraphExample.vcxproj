@@ -97,6 +97,7 @@
       <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(BOOST_DIR);.\..\Carve\src;.\..\Carve\src\include;.\..\Carve\src\common;.\..\IfcPlusPlus\src;.\..\IfcPlusPlusGeometry\src;$(OSG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

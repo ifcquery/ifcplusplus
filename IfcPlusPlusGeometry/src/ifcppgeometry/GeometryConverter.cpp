@@ -104,7 +104,7 @@ void GeometryConverter::clearInputCache()
 
 void GeometryConverter::resetNumVerticesPerCircle()
 {
-	m_geom_settings->m_num_vertices_per_circle = m_geom_settings->m_num_vertices_per_circle_default;
+	m_geom_settings->resetNumVerticesPerCircle();
 }
 
 void GeometryConverter::setModel( shared_ptr<IfcPPModel> model )
@@ -128,8 +128,8 @@ void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_grou
 	const double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 	carve::setEpsilon( 1.4901161193847656e-05*length_to_meter_factor );
 
-	const std::map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
-	for( std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it = map_entities.begin(); it != map_entities.end(); ++it )
+	const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+	for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> obj = it->second;
 		shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( obj );
@@ -273,7 +273,7 @@ void GeometryConverter::createGeometryOSG( osg::ref_ptr<osg::Switch> parent_grou
 				}
 
 				product_shape->m_added_to_node = true;
-				m_map_outside_spatial_structure.insert( std::make_pair( ifc_product->m_id, ifc_product ) );
+				m_map_outside_spatial_structure[ifc_product->m_id] = ifc_product;
 			}
 		}
 

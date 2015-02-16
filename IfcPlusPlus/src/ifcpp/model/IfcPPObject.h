@@ -17,6 +17,7 @@
 #include <vector>
 #include <map>
 #include <boost/algorithm/string.hpp>
+#include <boost/unordered_map.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "IfcPPGlobal.h"
@@ -67,7 +68,7 @@ public:
 	virtual void getStepLine( std::stringstream& stream ) const = 0;
 
 	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities ) = 0;
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities ) = 0;
 
 	/** \brief Adds all attributes (including inherited attributes) with name and value to vec_attributes. Single attributes can be accessed directly, without this method.*/
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes ) = 0;

@@ -18,7 +18,7 @@
 #include "include/IfcPropertySetDefinitionSelect.h"
 
 // TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
-shared_ptr<IfcPropertySetDefinitionSelect> IfcPropertySetDefinitionSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPropertySetDefinitionSelect> IfcPropertySetDefinitionSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcPropertySetDefinitionSelect>(); }

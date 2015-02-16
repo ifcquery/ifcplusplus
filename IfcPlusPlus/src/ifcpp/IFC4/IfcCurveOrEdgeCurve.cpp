@@ -17,7 +17,7 @@
 #include "include/IfcCurveOrEdgeCurve.h"
 
 // TYPE IfcCurveOrEdgeCurve = SELECT	(IfcBoundedCurve	,IfcEdgeCurve);
-shared_ptr<IfcCurveOrEdgeCurve> IfcCurveOrEdgeCurve::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCurveOrEdgeCurve> IfcCurveOrEdgeCurve::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcCurveOrEdgeCurve>(); }

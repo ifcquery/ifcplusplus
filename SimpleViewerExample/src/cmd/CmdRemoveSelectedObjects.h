@@ -18,6 +18,7 @@
 #include <osg/Group>
 #include <osgGA/GUIEventAdapter>
 #include <osgGA/GUIActionAdapter>
+#include <boost/unordered_map.hpp>
 #include "Command.h"
 
 class IfcPlusPlusSystem;
@@ -27,7 +28,7 @@ class CmdRemoveSelectedObjects : public Command
 {
 
 protected:
-	std::map<int, shared_ptr<IfcPPEntity> > m_removed_objects;
+	boost::unordered_map<int, shared_ptr<IfcPPEntity> > m_removed_objects;
 
 
 public:

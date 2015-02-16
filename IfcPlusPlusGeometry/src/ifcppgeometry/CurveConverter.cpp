@@ -315,8 +315,8 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 				}
 			}
 
-			int num_segments = m_geom_settings->m_num_vertices_per_circle*(std::abs(opening_angle)/(2.0*M_PI));
-			if( num_segments < m_geom_settings->m_min_num_vertices_per_arc ) num_segments = m_geom_settings->m_min_num_vertices_per_arc;
+			int num_segments = m_geom_settings->getNumVerticesPerCircle()*(std::abs(opening_angle)/(2.0*M_PI));
+			if( num_segments < m_geom_settings->getMinNumVerticesPerArc() ) num_segments = m_geom_settings->getMinNumVerticesPerArc();
 			const double circle_center_x = 0.0;
 			const double circle_center_y = 0.0;
 			std::vector<carve::geom::vector<2> > circle_points;
@@ -357,7 +357,7 @@ void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std
 				{
 					double x_radius = ellipse->m_SemiAxis1->m_value*length_factor;
 					double y_radius = ellipse->m_SemiAxis2->m_value*length_factor;
-					int num_segments = m_geom_settings->m_num_vertices_per_circle;	// TODO: adapt to model size and complexity
+					int num_segments = m_geom_settings->getNumVerticesPerCircle();	// TODO: adapt to model size and complexity
 
 					// todo: implement clipping
 

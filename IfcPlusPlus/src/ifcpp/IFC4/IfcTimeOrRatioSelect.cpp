@@ -19,7 +19,7 @@
 #include "include/IfcTimeOrRatioSelect.h"
 
 // TYPE IfcTimeOrRatioSelect = SELECT	(IfcDuration	,IfcRatioMeasure);
-shared_ptr<IfcTimeOrRatioSelect> IfcTimeOrRatioSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTimeOrRatioSelect> IfcTimeOrRatioSelect::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcTimeOrRatioSelect>(); }

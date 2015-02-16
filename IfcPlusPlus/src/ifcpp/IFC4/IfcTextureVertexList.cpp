@@ -52,7 +52,7 @@ void IfcTextureVertexList::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTextureVertexList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcTextureVertexList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTextureVertexList::readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureVertexList, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

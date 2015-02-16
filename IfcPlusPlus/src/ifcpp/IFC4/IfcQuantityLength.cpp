@@ -56,7 +56,7 @@ void IfcQuantityLength::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcQuantityLength::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcQuantityLength::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcQuantityLength::readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcQuantityLength, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

@@ -613,7 +613,9 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 	}
 }
 
-void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
+void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version,
+	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities, 
+	const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -624,14 +626,14 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	double progress = 0.3;
 	progressValueCallback( progress, "parse" );
 	double last_progress = 0.3;
-	const std::map<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
+	const boost::unordered_map<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
 	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* vec_entities_ptr = &vec_entities;
 
 #ifdef IFCPP_OPENMP
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
 #endif
 	{
-		const std::map<int,shared_ptr<IfcPPEntity> > &map_entities_ptr_local = *map_entities_ptr;
+		const boost::unordered_map<int,shared_ptr<IfcPPEntity> > &map_entities_ptr_local = *map_entities_ptr;
 
 #ifdef IFCPP_OPENMP
 #pragma omp for schedule(dynamic, 100)
@@ -713,13 +715,13 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 void IfcPPReaderSTEP::readStreamData( std::string& read_in, shared_ptr<IfcPPModel>& model )
 {
 	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
-	std::map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
+	boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
 	readStreamData( read_in, file_schema_version, map_entities );
 }
 
-void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& target_map )
 {
-	char* current_numeric_locale = setlocale(LC_NUMERIC, nullptr);
+	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
 
 	if( ifc_version.m_ifc_file_schema_enum  == IfcPPModel::IFC_VERSION_UNDEFINED || ifc_version.m_ifc_file_schema_enum == IfcPPModel::IFC_VERSION_UNKNOWN )
@@ -806,7 +808,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 		err << __FUNC__ << ": error occurred" << std::endl;
 	}
 
-	setlocale(LC_NUMERIC,current_numeric_locale);
+	setlocale(LC_NUMERIC,current_numeric_locale.c_str());
 	if( err.tellp() > 0 )
 	{
 		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );

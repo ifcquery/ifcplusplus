@@ -15,6 +15,7 @@
 
 #include <QtCore/QObject>
 #include <osgGA/GUIEventHandler>
+#include <boost/unordered_map.hpp>
 #include "ifcpp/model/shared_ptr.h"
 
 class IfcPPModel;
@@ -64,8 +65,8 @@ private:
 	std::map<int, shared_ptr<selectedEntity> > m_map_selected;
 
 signals:
-	void signalObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map_objects );
-	void signalObjectsUnselected( std::map<int, shared_ptr<IfcPPEntity> >& map_objects );
+	void signalObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_objects );
+	void signalObjectsUnselected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_objects );
 	void signalModelCleared();
 	void signalModelLoadingStart();
 	void signalModelLoadingDone();

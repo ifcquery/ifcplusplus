@@ -24,6 +24,6 @@ public:
 	~IfcPPReaderXML();
 	virtual void removeComments( std::string& buffer );
 	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model );
-	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map );
+	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map );
 	virtual void readStreamData( std::string& in, shared_ptr<IfcPPModel>& model );
 };

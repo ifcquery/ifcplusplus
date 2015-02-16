@@ -18,7 +18,7 @@
 #include "include/IfcColourOrFactor.h"
 
 // TYPE IfcColourOrFactor = SELECT	(IfcColourRgb	,IfcNormalisedRatioMeasure);
-shared_ptr<IfcColourOrFactor> IfcColourOrFactor::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcColourOrFactor> IfcColourOrFactor::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcColourOrFactor>(); }

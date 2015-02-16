@@ -87,11 +87,11 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	{
 		int num_vertices = settings.value("NumVerticesPerCircle").toInt();
 		m_spinbox_circle_vertices->setValue(num_vertices);
-		m_system->getGeometryConverter()->getGeomSettings()->m_num_vertices_per_circle = num_vertices;
+		m_system->getGeometryConverter()->getGeomSettings()->setNumVerticesPerCircle( num_vertices );
 	}
 	else
 	{
-		int num_vertices = m_system->getGeometryConverter()->getGeomSettings()->m_num_vertices_per_circle;
+		int num_vertices = m_system->getGeometryConverter()->getGeomSettings()->getNumVerticesPerCircle();
 		m_spinbox_circle_vertices->setValue(num_vertices);
 	}
 
@@ -183,7 +183,7 @@ void TabView::slotSetNumVertices( int num_vertices )
 {
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue( "NumVerticesPerCircle", num_vertices );
-	m_system->getGeometryConverter()->getGeomSettings()->m_num_vertices_per_circle = num_vertices;
+	m_system->getGeometryConverter()->getGeomSettings()->setNumVerticesPerCircle( num_vertices );
 }
 
 void TabView::slotShowCurves( int state )

@@ -223,10 +223,10 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 	}
 
 	// now insert points to polygon, avoiding points with same coordinates
-	std::map<double, std::map<double, int> > existing_vertices_coords;
-	std::map<double, int>::iterator it_find_y;
+	std::map<double, std::map<double, unsigned int> > existing_vertices_coords;
+	std::map<double, unsigned int>::iterator it_find_y;
 
-	std::map<int,int> map_merged_idx;
+	std::map<unsigned int,unsigned int> map_merged_idx;
 	for( size_t i = 0; i < merged_path.size(); ++i )
 	{
 		const carve::geom::vector<2>&  v = merged_path[i];
@@ -240,7 +240,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 #endif
 
 		//  return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, int>& map_y_index = existing_vertices_coords.insert( std::make_pair(vertex_x, std::map<double,int>() ) ).first->second;
+		std::map<double, unsigned int>& map_y_index = existing_vertices_coords.insert( std::make_pair(vertex_x, std::map<double,unsigned int>() ) ).first->second;
 
 		it_find_y = map_y_index.find( vertex_y );
 		if( it_find_y != map_y_index.end() )
@@ -251,7 +251,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 		}
 
 		carve::geom::vector<3>  vertex3D( carve::geom::VECTOR( v.x, v.y, 0 ) );
-		int vertex_id = poly_data->addVertex(vertex3D);
+		size_t vertex_id = poly_data->addVertex(vertex3D);
 		map_y_index[vertex_y] = vertex_id;  // TODO: it works for now, but check if we have to round here. maybe use checksum of rounded x and y as a single map key
 		map_merged_idx[i] = vertex_id;
 	}
@@ -268,22 +268,22 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 
 	// copy points from base to top
 	std::vector<carve::geom::vector<3> >& points = poly_data->points;
-	const int num_points_base = points.size();
-	for( int i=0; i<num_points_base; ++i )
+	const size_t num_points_base = points.size();
+	for( size_t i=0; i<num_points_base; ++i )
 	{
 		carve::geom::vector<3>& pt = points[i];
 		poly_data->addVertex( pt + extrusion_vector );
 	}
 
 	// collect vertex indexes of loops
-	std::map<int, std::vector<int> > loop_vert_idx;
+	std::map<size_t, std::vector<size_t> > loop_vert_idx;
 	for( size_t merged_idx = 0; merged_idx < path_all_loops.size(); ++merged_idx )
 	{
 		int loop_number = path_all_loops[merged_idx].first;
 		int point_idx_merged = map_merged_idx[merged_idx];
 	
-		std::map<int, std::vector<int> >::iterator it_result_loops = loop_vert_idx.insert( std::make_pair( loop_number, std::vector<int>() ) ).first;
-		std::vector<int>& result_loop_vec = it_result_loops->second;
+		std::map<size_t, std::vector<size_t> >::iterator it_result_loops = loop_vert_idx.insert( std::make_pair( loop_number, std::vector<size_t>() ) ).first;
+		std::vector<size_t>& result_loop_vec = it_result_loops->second;
 		
 		// check if point index is already in loop
 		bool already_in_loop = false;
@@ -302,17 +302,17 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 	}
 
 	// add faces along outer and inner loops
-	for( std::map<int, std::vector<int> >::iterator it_result_loop = loop_vert_idx.begin(); it_result_loop != loop_vert_idx.end(); ++it_result_loop )
+	for( std::map<size_t, std::vector<size_t> >::iterator it_result_loop = loop_vert_idx.begin(); it_result_loop != loop_vert_idx.end(); ++it_result_loop )
 	{
-		const std::vector<int>& loop_idx = it_result_loop->second;
-		const int num_points_in_loop = loop_idx.size();
+		const std::vector<size_t>& loop_idx = it_result_loop->second;
+		const size_t num_points_in_loop = loop_idx.size();
 		
-		for( int i=0; i<num_points_in_loop; ++i )
+		for( size_t i=0; i<num_points_in_loop; ++i )
 		{
-			int point_idx		= loop_idx[i];
-			int point_idx_next	= loop_idx[(i+1)%num_points_in_loop];
-			int point_idx_up = point_idx + num_points_base;
-			int point_idx_next_up = point_idx_next + num_points_base;
+			size_t point_idx		= loop_idx[i];
+			size_t point_idx_next	= loop_idx[(i+1)%num_points_in_loop];
+			size_t point_idx_up = point_idx + num_points_base;
+			size_t point_idx_next_up = point_idx_next + num_points_base;
 
 			if( point_idx_next_up >= 2*num_points_base )
 			{
@@ -336,13 +336,13 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 	for( size_t i = 0; i != triangulated.size(); ++i )
 	{
 		carve::triangulate::tri_idx triangle = triangulated[i];
-		int a = triangle.a;
-		int b = triangle.b;
-		int c = triangle.c;
+		unsigned int a = triangle.a;
+		unsigned int b = triangle.b;
+		unsigned int c = triangle.c;
 
-		int vertex_id_a = map_merged_idx[a];
-		int vertex_id_b = map_merged_idx[b];
-		int vertex_id_c = map_merged_idx[c];
+		unsigned int vertex_id_a = map_merged_idx[a];
+		unsigned int vertex_id_b = map_merged_idx[b];
+		unsigned int vertex_id_c = map_merged_idx[c];
 
 		if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
 		{

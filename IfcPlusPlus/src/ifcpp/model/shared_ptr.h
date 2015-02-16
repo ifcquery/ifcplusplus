@@ -15,11 +15,18 @@
 
 #if _MSC_VER >= 1600
 
-#include <memory>
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
-using std::enable_shared_from_this;
+#ifndef BOOST_SP_USE_QUICK_ALLOCATOR
+#define BOOST_SP_USE_QUICK_ALLOCATOR
+#endif
+#ifndef BOOST_SP_NO_ATOMIC_ACCESS
+#define BOOST_SP_NO_ATOMIC_ACCESS
+#endif
+
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+using boost::shared_ptr;
+using boost::weak_ptr;
+using boost::dynamic_pointer_cast;
 
 #elif _MSC_VER >= 1500
 
@@ -27,7 +34,6 @@ using std::enable_shared_from_this;
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::tr1::dynamic_pointer_cast;
-using std::tr1::enable_shared_from_this;
 
 #elif defined __GNUC__ && !defined(__FreeBSD__)
 
@@ -35,7 +41,6 @@ using std::tr1::enable_shared_from_this;
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::tr1::dynamic_pointer_cast;
-using std::tr1::enable_shared_from_this;
 
 #define _stricmp strcasecmp
 
@@ -47,19 +52,22 @@ using std::tr1::enable_shared_from_this;
 using std::shared_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
-using std::enable_shared_from_this;
 
 #define _stricmp strcasecmp
 
-
 #else
+
+#ifndef BOOST_SP_USE_QUICK_ALLOCATOR
+#define BOOST_SP_USE_QUICK_ALLOCATOR
+#endif
+#ifndef BOOST_SP_NO_ATOMIC_ACCESS
+#define BOOST_SP_NO_ATOMIC_ACCESS
+#endif
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
-using boost::enable_shared_from_this;
 
 #endif

@@ -63,7 +63,7 @@ void IfcBoundaryNodeConditionWarping::getStepLine( std::stringstream& stream ) c
 	stream << ");";
 }
 void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeConditionWarping, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

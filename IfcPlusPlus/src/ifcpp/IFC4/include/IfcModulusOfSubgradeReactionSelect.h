@@ -24,6 +24,6 @@ class IFCPP_EXPORT IfcModulusOfSubgradeReactionSelect : virtual public IfcPPObje
 public:
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	static shared_ptr<IfcModulusOfSubgradeReactionSelect> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcModulusOfSubgradeReactionSelect> createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map );
 };
 

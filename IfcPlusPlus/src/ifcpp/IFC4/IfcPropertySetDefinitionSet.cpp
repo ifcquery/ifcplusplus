@@ -44,7 +44,7 @@ void IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& stream, b
 	writeEntityList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IfcPropertySetDefinitionSet> IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPropertySetDefinitionSet> IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }

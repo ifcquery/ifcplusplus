@@ -39,7 +39,7 @@ void IfcStructuralLoadStatic::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcStructuralLoadStatic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
-void IfcStructuralLoadStatic::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralLoadStatic::readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadStatic, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

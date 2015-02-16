@@ -135,10 +135,10 @@ void RepresentationConverter::setUnitConverter( shared_ptr<UnitConverter>& unit_
 
 void RepresentationConverter::convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
 {
-	std::vector<weak_ptr<IfcStyledItem> >&	StyledByItem_inverse_vec = representation_item->m_StyledByItem_inverse;
-	for( size_t i = 0; i < StyledByItem_inverse_vec.size(); ++i )
+	std::vector<weak_ptr<IfcStyledItem> >&	vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
+	for( size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i )
 	{
-		weak_ptr<IfcStyledItem> styled_item_weak = StyledByItem_inverse_vec[i];
+		weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
 		shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>( styled_item_weak );
 		m_styles_converter->convertIfcStyledItem( styled_item, vec_appearance_data );
 	}
@@ -744,7 +744,7 @@ void RepresentationConverter::convertIfcGeometricRepresentationItem( const share
 		// Literal		: 	IfcPresentableText;
 		// Placement	: 	IfcAxis2Placement;
 		// Path			: 	IfcTextPath;
-		if( m_geom_settings->m_show_text_literals )
+		if( m_geom_settings->isShowTextLiterals() )
 		{
 			shared_ptr<IfcPresentableText>& ifc_literal = text_literal->m_Literal;
 			std::wstring& literal_text = ifc_literal->m_value;

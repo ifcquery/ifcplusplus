@@ -16,6 +16,7 @@
 #include <string.h>
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
+#include "ifcpp/IFC4/include/IfcLengthMeasure.h"
 #include "ifcpp/IFC4/include/IfcMeasureWithUnit.h"
 #include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
@@ -179,13 +180,41 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 								shared_ptr<IfcValue> length_value_select = conversion_factor->m_ValueComponent;
 								if( length_value_select )
 								{
-									shared_ptr<IfcRatioMeasure> length_measure = dynamic_pointer_cast<IfcRatioMeasure>( length_value_select );
+									shared_ptr<IfcRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcRatioMeasure>( length_value_select );
+									if( ratio_measure )
+									{
+										m_length_unit_factor = ratio_measure->m_value;
+										m_length_unit_found = true;
+									}
+									shared_ptr<IfcLengthMeasure> length_measure = dynamic_pointer_cast<IfcLengthMeasure>( length_value_select );
 									if( length_measure )
 									{
 										m_length_unit_factor = length_measure->m_value;
 										m_length_unit_found = true;
 									}
 								}
+
+								if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"INCH" ) )
+								{
+									m_length_unit_factor = 25.4*0.001; // 1 unit is 25.4 mm
+									m_length_unit_found = true;
+								}
+								else if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"FOOT" ) )
+								{
+									m_length_unit_factor = 304.8*0.001; // 1 unit is 304.8 mm
+									m_length_unit_found = true;
+								}
+								else if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"YARD" ) )
+								{
+									m_length_unit_factor = 914*0.001; // 1 unit is 914 mm
+									m_length_unit_found = true;
+								}
+								else if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"MILE" ) )
+								{
+									m_length_unit_factor = 1609*0.001; // 1 unit is 1609 mm
+									m_length_unit_found = true;
+								}
+								
 							}
 							else if( type->m_enum == IfcUnitEnum::ENUM_PLANEANGLEUNIT )
 							{

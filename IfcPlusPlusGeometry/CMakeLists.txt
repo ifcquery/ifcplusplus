@@ -36,7 +36,6 @@ SET(IFCPPGEOMETRY_SOURCE_FILES
   src/ifcppgeometry/CurveConverter.cpp
   src/ifcppgeometry/FaceConverter.cpp
   src/ifcppgeometry/GeometryConverter.cpp
-  src/ifcppgeometry/GeometrySettings.cpp
   src/ifcppgeometry/GeomUtils.cpp
   src/ifcppgeometry/PlacementConverter.cpp
   src/ifcppgeometry/PointConverter.cpp
