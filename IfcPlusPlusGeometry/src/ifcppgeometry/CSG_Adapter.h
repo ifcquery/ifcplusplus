@@ -31,7 +31,7 @@ public:
 	static void retriangulateMeshSet( shared_ptr<meshset_t >& meshset );
 	static void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, 
 		const int entity1, const int entity2, shared_ptr<meshset_t >& result );
-	static bool checkMeshSetValidAndClosed(	const meshset_t* meshset, std::stringstream& err_poly, int entity_id );
+	static bool checkMeshSetValidAndClosed(	const shared_ptr<meshset_t> meshset, std::stringstream& err_poly, int entity_id );
 	static bool checkFaceIntegrity(	const meshset_t* meshset );
 
 	static void applyTranslate( meshset_t* meshset, const carve::geom::vector<3>& pos );

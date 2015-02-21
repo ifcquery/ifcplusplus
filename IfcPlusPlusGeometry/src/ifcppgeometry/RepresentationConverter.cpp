@@ -942,9 +942,23 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 				{
 					shared_ptr<carve::mesh::MeshSet<3> > opening_meshset = opening_meshsets[i_opening_meshset];
 
+					if( !opening_meshset )
+					{
+						continue;
+					}
+					if( opening_meshset->meshes.size() < 1 )
+					{
+						continue;
+					}
+
 					if( !unified_opening_meshset )
 					{
 						unified_opening_meshset = opening_meshset;
+						continue;
+					}
+
+					if( unified_opening_meshset->meshes.size() < 1 )
+					{
 						continue;
 					}
 
@@ -984,7 +998,7 @@ void RepresentationConverter::subtractOpenings( const shared_ptr<IfcElement>& if
 			{
 				shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->m_meshsets[i_product_meshset];
 				std::stringstream strs_meshset_err;
-				bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset.get(), strs_meshset_err, product_id );
+				bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset, strs_meshset_err, product_id );
 				if( !product_meshset_valid_for_csg )
 				{
 					continue;

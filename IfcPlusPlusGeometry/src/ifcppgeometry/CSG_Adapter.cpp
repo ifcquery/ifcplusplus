@@ -480,7 +480,7 @@ bool CSG_Adapter::checkFaceIntegrity( const meshset_t* meshset )
 	return true;
 }
 
-bool CSG_Adapter::checkMeshSetValidAndClosed( const meshset_t* mesh_set, std::stringstream& err_poly, int entity_id )
+bool CSG_Adapter::checkMeshSetValidAndClosed( const shared_ptr<meshset_t> mesh_set, std::stringstream& err_poly, int entity_id )
 {
 	if( !mesh_set )
 	{
@@ -497,7 +497,7 @@ bool CSG_Adapter::checkMeshSetValidAndClosed( const meshset_t* mesh_set, std::st
 		return false;
 	}
 
-	if( !checkFaceIntegrity( mesh_set ) )
+	if( !checkFaceIntegrity( mesh_set.get() ) )
 	{
 		return false;
 	}
@@ -595,7 +595,6 @@ double dump_y_pos = 0;
 
 void CSG_Adapter::simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate )
 {
-
 	carve::mesh::MeshSimplifier simplifier;
 	//double min_colinearity = m_geom_settings->m_min_colinearity;
 	//double min_delta_v = m_geom_settings->m_min_delta_v;
@@ -631,7 +630,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulat
 	}
 
 	std::stringstream err;
-	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err, -1 );
+	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, err, -1 );
 	if( !meshset_ok )
 	{
 #ifdef _DEBUG
@@ -640,7 +639,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulat
 		return;
 	}
 	shared_ptr<meshset_t > meshset_copy( meshset->clone() );
-	simplifier.removeLowVolumeManifolds( meshset.get(), 0.000001 );
+	simplifier.removeLowVolumeManifolds( meshset.get(), 0.000000001 );
 
 	if( meshset->meshes.size() < 1 )
 	{
@@ -687,7 +686,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulat
 	//simplifier.cleanFaceEdges(meshset.get());
 #ifdef _DEBUG
 	meshset_copy = shared_ptr<meshset_t >( meshset->clone() );
-	bool meshset_ok_pre_triang = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err, -1 );
+	bool meshset_ok_pre_triang = CSG_Adapter::checkMeshSetValidAndClosed( meshset, err, -1 );
 	if( !meshset_ok_pre_triang )
 	{
 		//meshset = meshset_copy;
@@ -704,7 +703,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulat
 	}
 
 	std::stringstream err_simplified;
-	bool simplified_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err_simplified, -1 );
+	bool simplified_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, err_simplified, -1 );
 	if( !simplified_meshset_ok )
 	{
 #ifdef _DEBUG
@@ -724,7 +723,7 @@ void CSG_Adapter::simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulat
 	}
 
 	std::stringstream err_retriangulated;
-	bool retriangulated_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), err_retriangulated, -1 );
+	bool retriangulated_meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, err_retriangulated, -1 );
 	if( !retriangulated_meshset_ok )
 	{
 #ifdef _DEBUG
@@ -758,21 +757,10 @@ void CSG_Adapter::computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t 
 	MeshOps::roundVertices( op1.get() );
 #endif
 
-	if( !op1 )
-	{
-		return;
-	}
-	
-	if( !op2 )
-	{
-		return;
-	}
-
 	std::stringstream strs_err;
 	try
 	{
-		bool meshset1_ok = CSG_Adapter::checkMeshSetValidAndClosed( op1.get(), strs_err, entity1 );
-		if( !meshset1_ok )
+		if( !CSG_Adapter::checkMeshSetValidAndClosed( op1, strs_err, entity1 ) )
 		{
 			if( operation == carve::csg::CSG::B_MINUS_A )
 			{
@@ -788,8 +776,7 @@ void CSG_Adapter::computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t 
 			return;
 		}
 
-		bool meshset2_ok = CSG_Adapter::checkMeshSetValidAndClosed( op2.get(), strs_err, entity2 );
-		if( !meshset2_ok )
+		if( !CSG_Adapter::checkMeshSetValidAndClosed( op2, strs_err, entity2 ) )
 		{
 			if( operation == carve::csg::CSG::A_MINUS_B )
 			{
@@ -853,6 +840,38 @@ void CSG_Adapter::computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t 
 			CSG_Adapter::applyTranslate( op2.get(), -translate_avoid_large_numbers );
 		}
 
+		if( !CSG_Adapter::checkMeshSetValidAndClosed( op1, strs_err, entity1 ) )
+		{
+			if( operation == carve::csg::CSG::B_MINUS_A )
+			{
+				result = op2;
+			}
+			else if( operation == carve::csg::CSG::UNION )
+			{
+				result = op2;
+			}
+#ifdef _DEBUG
+			CSG_Adapter::dumpMeshset( op1.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+#endif
+			return;
+		}
+
+		if( !CSG_Adapter::checkMeshSetValidAndClosed( op2, strs_err, entity2 ) )
+		{
+			if( operation == carve::csg::CSG::A_MINUS_B )
+			{
+				result = op1;
+			}
+			else if( operation == carve::csg::CSG::UNION )
+			{
+				result = op1;
+			}
+#ifdef _DEBUG
+			CSG_Adapter::dumpMeshset( op2.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+#endif
+			return;
+		}
+
 		carve::csg::CSG csg;
 		//csg.hooks.registerHook(new carve::csg::CarveTriangulator(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
 		//csg.hooks.registerHook(new carve::csg::CarveTriangulatorWithImprovement(), carve::csg::CSG::Hooks::PROCESS_OUTPUT_FACE_BIT);
@@ -883,7 +902,7 @@ void CSG_Adapter::computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t 
 			else
 			{
 				result_meshset_ok = true;
-				bool result_mesh_closed = CSG_Adapter::checkMeshSetValidAndClosed( result.get(), strs_err, -1 );
+				bool result_mesh_closed = CSG_Adapter::checkMeshSetValidAndClosed( result, strs_err, -1 );
 				if( !result_mesh_closed )
 				{
 					result_meshset_ok = false;

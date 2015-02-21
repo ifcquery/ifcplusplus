@@ -427,6 +427,38 @@ public:
 		}
 	}
 
+	bool checkFaceIndices()
+	{
+		const std::vector<carve::geom3d::Vector>& vec_points = m_poly_data->points;
+		const std::vector<int>& face_indices = m_poly_data->faceIndices;
+		int face_count = 0;
+		for( size_t ii = 0; ii < face_indices.size(); ++ii )
+		{
+			int num_vertices = face_indices[ii];
+			for( int jj = 0; jj < num_vertices; ++jj )
+			{
+				++ii;
+				if( ii >= face_indices.size() )
+				{
+					return false;
+				}
+				int vertex_index = face_indices[ii];
+				if( vertex_index >= (int)vec_points.size() )
+				{
+					return false;
+				}
+			}
+			
+			++face_count;
+		}
+
+		if( face_count != m_poly_data->faceCount )
+		{
+			return false;
+		}
+		return true;
+	}
+
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
 	std::map<double, std::map<double, std::map<double, int> > > m_existing_vertices_coords;
 };

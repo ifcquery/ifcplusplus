@@ -117,7 +117,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		if( std::abs( signed_area ) < 1.e-6 )// m_geom_settings->m_min_face_area )
+		if( std::abs( signed_area ) < 1.e-10 )// m_geom_settings->m_min_face_area )
 		{
 			warning_small_loop_detected = true;
 			continue;
@@ -129,7 +129,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 	if( warning_small_loop_detected )
 	{
 		std::stringstream err;
-		err << "abs( signed_area ) < 1.e-6";
+		err << "abs( signed_area ) < 1.e-10";
 		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
 	}
 	
@@ -404,7 +404,7 @@ void Sweeper::extrude( const std::vector<std::vector<carve::geom::vector<2> > >&
 	{
 		entity_id = ifc_entity->m_id;
 	}
-	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err_meshset, entity_id );
+	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err_meshset, entity_id );
 
 	if( !poly_ok )
 	{
@@ -752,7 +752,7 @@ void Sweeper::sweepDisk( const std::vector<carve::geom::vector<3> >& curve_point
 #ifdef _DEBUG
 	std::stringstream strs_err;
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err, -1 );
+	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err, -1 );
 
 	if( !poly_ok )
 	{
@@ -855,7 +855,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		}
 
 		double signed_area = carve::geom2d::signedArea( loop_2d );
-		double min_loop_area = 1.e-6;//m_geom_settings->m_min_face_area
+		double min_loop_area = 1.e-10;//m_geom_settings->m_min_face_area
 		if( std::abs( signed_area ) < min_loop_area )
 		{
 			warning_small_loop_detected = true;
@@ -867,7 +867,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 
 	if( warning_small_loop_detected )
 	{
-		messageCallback( "abs( signed_area ) < 1.e-6", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
+		messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
 	}
 
 	if( face_loops.size() == 0 )
@@ -884,46 +884,51 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 	// triangulate
 	std::vector<carve::geom2d::P2> merged_path;
 	std::vector<carve::triangulate::tri_idx> triangulated;
-	std::vector<std::pair<size_t, size_t> > path_all_loops;
+	std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
 	try
 	{
-		path_all_loops = carve::triangulate::incorporateHolesIntoPolygon(face_loops);
+		path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon(face_loops);
 		// figure 2: path wich incorporates holes, described by path_all_loops
 		// (0/0) -> (1/3) -> (1/0) -> (1/1) -> (1/2) -> (1/3) -> (0/0) -> (0/1) -> (0/2) -> (0/3)
 		//  0/3<-----------------------0/2
 		//  |                            ^
-		//  |   1/0-------------->1/1    |
+		//  |   1/1-------------->1/2    |
 		//  |   ^                   |    |
-		//  |   |                   v    |
-		//  |   1/3<--------------1/2    |
+		//  |   |                   v    |  path_incorporated_holes
+		//  |   1/0<--------------1/3    |
 		//  v                            |
 		//  0/0------------------------>0/1
 
-		merged_path.reserve(path_all_loops.size());
-		for( size_t i = 0; i < path_all_loops.size(); ++i )
+		merged_path.reserve(path_incorporated_holes.size());
+		for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
 		{
-			size_t loop_number = path_all_loops[i].first;
-			size_t index_in_loop = path_all_loops[i].second;
+			size_t loop_number = path_incorporated_holes[i].first;
+			size_t index_in_loop = path_incorporated_holes[i].second;
 			
 			if( loop_number >= face_loops.size() )
 			{
-				messageCallback( ": loop_number >= face_loops.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				messageCallback( "loop_number >= face_loops.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 				continue;
 			}
 			std::vector<carve::geom2d::P2>& loop = face_loops[loop_number];
+
+			if( index_in_loop >= loop.size() )
+			{
+				messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				continue;
+			}
 			carve::geom2d::P2& point_in_loop = loop[index_in_loop];
 			merged_path.push_back( point_in_loop );
-
 		}
 		// figure 3: merged path for triangulation
-		//  9<---------------------------8
-		//  |                            ^
-		//  |   2------------------>3    |
-		//  |   ^                   |    |
-		//  |   |                   v    |
-		//  |   1, 5<---------------4    |
-		//  | /                          |
-		//  0,6------------------------->7
+		//  9<--------------------------8
+		//  |                           ^
+		//  |  2------------------>3    |
+		//  |  ^                   |    |
+		//  |  |                   v    |
+		//  |  1  5<---------------4    |
+		//  | /  /                      |
+		//  0  6----------------------->7
 		carve::triangulate::triangulate(merged_path, triangulated);
 		carve::triangulate::improve(merged_path, triangulated);
 		// triangles: (9,0,1)  (5,6,7)  (4,5,7)  (4,7,8)  (9,1,2)  (8,9,2)  (3,4,8)  (2,3,8)
@@ -933,10 +938,6 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 		return;
 	}
-
-	// now insert points to polygon, avoiding points with same coordinates
-	PolyInputCache3D poly_cache;
-	std::map<size_t, size_t> map_merged_idx;
 
 	carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 	const size_t num_curve_points = curve_points.size();
@@ -1027,17 +1028,29 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		0,				0,				0,			1 );
 
 
-	std::vector<carve::geom::vector<3> > merged_path_3d;
-	for( size_t i = 0; i < merged_path.size(); ++i )
+	std::vector<std::vector<carve::geom::vector<3> > > face_loops_3d;
+	face_loops_3d.resize( face_loops.size() );
+
+	//std::vector<carve::geom::vector<3> > merged_path_3d;
+	for( size_t i = 0; i < face_loops.size(); ++i )
 	{
-		carve::geom::vector<2>&  vec_2d = merged_path[i];
-		carve::geom::vector<3>  vec_3d( carve::geom::VECTOR( vec_2d.x, vec_2d.y, 0 ) );
+		std::vector<carve::geom::vector<2> >&  loop = face_loops[i];
+		std::vector<carve::geom::vector<3> >& loop_3d = face_loops_3d[i];
+		for( size_t jj = 0; jj < loop.size(); ++jj )
+		{
+			carve::geom::vector<2>&  vec_2d = loop[jj];
+			carve::geom::vector<3>  vec_3d( carve::geom::VECTOR( vec_2d.x, vec_2d.y, 0 ) );
 
-		// cross section is defined in XY plane
-		vec_3d = matrix_first_direction*vec_3d + curve_point_first;
-		merged_path_3d.push_back( vec_3d );
-
+			// cross section is defined in XY plane
+			vec_3d = matrix_first_direction*vec_3d + curve_point_first;
+			loop_3d.push_back( vec_3d );
+		}
 	}
+
+	// now insert points into polygon, avoiding points with same coordinates
+	PolyInputCache3D poly_cache;
+	std::vector<std::vector<std::vector<size_t> > > vec_point_indices_all_loops_all_curve_points;
+	vec_point_indices_all_loops_all_curve_points.resize( num_curve_points );
 
 	for( size_t ii = 0; ii<num_curve_points; ++ii )
 	{
@@ -1061,7 +1074,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		else
 		{
 			// inner point
-			curve_point_next		= curve_points[ii+1];
+			curve_point_next	= curve_points[ii+1];
 			curve_point_before	= curve_points[ii-1];
 		}
 
@@ -1090,55 +1103,81 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 
 		carve::geom::plane<3> bisecting_plane( bisecting_normal, curve_point_current );
 
-		for( size_t jj = 0; jj < merged_path.size(); ++jj )
+		std::vector<std::vector<size_t> >& vec_point_indices_all_loops_current_curve_point = vec_point_indices_all_loops_all_curve_points[ii];
+		for( size_t jj = 0; jj < face_loops.size(); ++jj )
 		{
-			carve::geom::vector<3>&  section_point = merged_path_3d[jj];
-			carve::geom::vector<3> v;
-			double t;
-			carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, section_point, section_point + section1, v, t);
-			if( intersect > 0 )
-			{
-				section_point = v;
-			}
-			else
-			{
-				messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			}
+			std::vector<carve::geom::vector<3> >& loop = face_loops_3d[jj];
+			std::vector<size_t>& vec_point_indices_current_loop = vec_point_indices_all_loops_current_curve_point[ii];
 
-			int vertex_id = poly_cache.addPoint(section_point);
-			
-			if( ii == 0 )
+			for( size_t kk = 0; kk < loop.size(); ++kk )
 			{
-				map_merged_idx[jj] = vertex_id;
+				carve::geom::vector<3>&  section_point = loop[jj];
+
+				carve::geom::vector<3> v;
+				double t;
+				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, section_point, section_point + section1, v, t);
+				if( intersect > 0 )
+				{
+					section_point = v;
+				}
+				else
+				{
+					messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				}
+
+				int vertex_id = poly_cache.addPoint(section_point);
+			
+				vec_point_indices_current_loop.push_back( vertex_id );
 			}
 		}
+
+		//for( size_t jj = 0; jj < merged_path.size(); ++jj )
+		//{
+		//	carve::geom::vector<3>&  section_point = merged_path_3d[jj];
+		//	carve::geom::vector<3> v;
+		//	double t;
+		//	carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, section_point, section_point + section1, v, t);
+		//	if( intersect > 0 )
+		//	{
+		//		section_point = v;
+		//	}
+		//	else
+		//	{
+		//		messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+		//	}
+
+		//	int vertex_id = poly_cache.addPoint(section_point);
+		//	//map_merged_idx[jj] = vertex_id;
+		//	vec_loops_on_curve_point.push_back( vertex_id );
+		//}
 	}
 
+	/*
 	std::vector<carve::geom::vector<3> >& points = poly_cache.m_poly_data->points;
 	const size_t num_points_all = points.size();
 	size_t num_points_in_loop = 0;
 
 	// create faces
-	for( size_t i=0; i<num_curve_points-1; ++i )
+	for( size_t ii=0; ii<num_curve_points-1; ++ii )
 	{
 		// figure 4: points in poly_data (merged path without duplicate vertices):
-		//  7<---------------------------6
-		//  |                            ^
-		//  |   2------------------>3    |
-		//  |   ^                   |    |     map_merged_idx: figure 3 -> figure 4
-		//  |   |                   v    |
-		//  |   1<------------------4    |
-		//  | /                          |
-		//  0--------------------------->5
-
+		// [9,7]<---------------------------[8,6]
+		//   |                                ^
+		//   |   [2,2]------------->[3,3]     |
+		//   |   ^                    |       |     map_merged_idx: figure 3 -> figure 4
+		//   |   |                    v       |
+		//   |  [1,1] [5,1]<---------[4,4]    |
+		//   | /      /                       |
+		// [0,0]  [6,0]-------------------->[7,5]
 		
 		bool flip_faces = true;
+		std::map<size_t, size_t>& map_merged_idx = vec_merged_idx[ii];
 
 		// collect vertex indexes of loops
 		std::map<size_t, std::vector<size_t> > loop_vert_idx;
-		for( size_t merged_idx = 0; merged_idx < path_all_loops.size(); ++merged_idx )
+		for( size_t merged_idx = 0; merged_idx < path_incorporated_holes.size(); ++merged_idx )
 		{
-			int loop_number = path_all_loops[merged_idx].first;
+			int loop_number = path_incorporated_holes[merged_idx].first;
 			int point_idx_merged = map_merged_idx[merged_idx];
 			std::vector<size_t>& result_loop_vec = loop_vert_idx.insert( std::make_pair( loop_number, std::vector<size_t>() ) ).first->second;
 		
@@ -1176,8 +1215,8 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 		
 			for( size_t i_loop=0; i_loop<num_points_in_loop; ++i_loop )
 			{
-				size_t point_idx = loop_idx[i_loop] + i*num_points_in_loop;
-				size_t point_idx_next = loop_idx[( i_loop + 1 ) % num_points_in_loop] + i*num_points_in_loop;
+				size_t point_idx = loop_idx[i_loop] + ii*num_points_in_loop;
+				size_t point_idx_next = loop_idx[( i_loop + 1 ) % num_points_in_loop] + ii*num_points_in_loop;
 				size_t point_idx_up = point_idx + num_points_in_loop;
 				size_t point_idx_next_up = point_idx_next + num_points_in_loop;
 
@@ -1186,6 +1225,32 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 					messageCallback( "point_idx_next_up >= num_points_all", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
+
+#ifdef _DEBUG
+				if( point_idx > num_points_all || point_idx_up > num_points_all )
+				{
+					messageCallback( "point_idx out of range", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				}
+				if( point_idx_next > num_points_all || point_idx_next_up > num_points_all )
+				{
+					messageCallback( "point_idx_next out of range", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				}
+
+				const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex(point_idx);
+				const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex(point_idx_next);
+				const carve::poly::Vertex<3>& v_c = poly_cache.m_poly_data->getVertex(point_idx_next_up);
+
+				carve::geom::vector<3> pa( carve::geom::VECTOR( v_a.v[0],	v_a.v[1],	v_a.v[2] ) );
+				carve::geom::vector<3> pb( carve::geom::VECTOR( v_b.v[0],	v_b.v[1],	v_b.v[2] ) );
+				carve::geom::vector<3> pc( carve::geom::VECTOR( v_c.v[0],	v_c.v[1],	v_c.v[2] ) );
+
+				double A = 0.5*(cross( pa-pb, pa-pc ).length());
+				if( std::abs(A) < 0.000000001 )
+				{
+					messageCallback( "area < 0.000000001", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				}
+#endif
+
 				if( flip_faces )
 				{
 					poly_cache.m_poly_data->addFace( point_idx,			point_idx_next, point_idx_next_up );
@@ -1203,25 +1268,29 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 	bool flip_faces = true;
 
 	// now the triangulated bottom and top cap
-	for( size_t i = 0; i != triangulated.size(); ++i )
+	std::map<size_t, size_t>& map_merged_idx_bottom = vec_merged_idx[0];
+	std::map<size_t, size_t>& map_merged_idx_top = vec_merged_idx[vec_merged_idx.size()-1];
+	for( size_t ii = 0; ii != triangulated.size(); ++ii )
 	{
-		carve::triangulate::tri_idx triangle = triangulated[i];
+		carve::triangulate::tri_idx triangle = triangulated[ii];
 		size_t a = triangle.a;
 		size_t b = triangle.b;
 		size_t c = triangle.c;
 
-		size_t vertex_id_a = map_merged_idx[a];
-		size_t vertex_id_b = map_merged_idx[b];
-		size_t vertex_id_c = map_merged_idx[c];
+		size_t vertex_id_a = map_merged_idx_bottom[a];
+		size_t vertex_id_b = map_merged_idx_bottom[b];
+		size_t vertex_id_c = map_merged_idx_bottom[c];
 
 		if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
 		{
 			continue;
 		}
 
-		size_t vertex_id_a_top = vertex_id_a + num_points_all - num_points_in_loop;
-		size_t vertex_id_b_top = vertex_id_b + num_points_all - num_points_in_loop;
-		size_t vertex_id_c_top = vertex_id_c + num_points_all - num_points_in_loop;
+		// TODO: fix
+
+		size_t vertex_id_a_top = map_merged_idx_top[a];
+		size_t vertex_id_b_top = map_merged_idx_top[b];
+		size_t vertex_id_c_top = map_merged_idx_top[c];
 
 #ifdef _DEBUG
 		
@@ -1268,6 +1337,15 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 			poly_cache.m_poly_data->addFace( vertex_id_a_top,	vertex_id_c_top,	vertex_id_b_top );	// top cap, flipped outward
 		}
 	}
+	*/
+
+#ifdef _DEBUG
+	bool correct = poly_cache.checkFaceIndices();
+	if( !correct )
+	{
+		CSG_Adapter::dumpPolyhedronInput( *(poly_cache.m_poly_data.get()), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+	}
+#endif
 
 	try
 	{
@@ -1281,7 +1359,7 @@ void Sweeper::sweepArea( const std::vector<carve::geom::vector<3> >& curve_point
 #ifdef _DEBUG
 	std::stringstream strs_err;
 	shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_cache.m_poly_data->createMesh(carve::input::opts()) );
-	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err, -1 );
+	bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err, -1 );
 
 	if( !poly_ok )
 	{
@@ -1433,7 +1511,7 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 		}
 
 		double signed_area = carve::geom2d::signedArea( path_loop_2d );
-		double min_loop_area = 1.e-6;//m_geom_settings->m_min_face_area
+		double min_loop_area = 1.e-10;//m_geom_settings->m_min_face_area
 		if( std::abs( signed_area ) < min_loop_area )
 		{
 			warning_small_loop_detected = true;
@@ -1447,7 +1525,7 @@ void Sweeper::createFace( const std::vector<std::vector<carve::geom::vector<3> >
 	if( warning_small_loop_detected )
 	{
 		std::stringstream err;
-		err << "abs( signed_area ) < 1.e-6";
+		err << "abs( signed_area ) < 1.e-10";
 		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
 	}
 
