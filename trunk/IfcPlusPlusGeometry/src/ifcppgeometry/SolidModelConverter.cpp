@@ -377,6 +377,7 @@ void SolidModelConverter::convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtru
 
 void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeInputData> item_data )
 {
+	// TODO: use Sweeper::sweepArea
 	if( !revolved_area )
 	{
 		messageCallback( "Invalid IfcRevolvedAreaSolid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
@@ -690,7 +691,7 @@ void SolidModelConverter::convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevol
 		return;
 	}
 	std::stringstream strs_err;
-	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset.get(), strs_err, -1 );
+	bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err, -1 );
 
 	if( !meshset_ok )
 	{
