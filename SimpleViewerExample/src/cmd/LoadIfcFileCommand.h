@@ -34,9 +34,9 @@ public:
 	virtual bool isUndoable()		{ return true; }
 	virtual bool isRepeatable()		{ return false; }
 
-	void setFilePath( std::string& path );
+	void setFilePath( std::wstring& path );
 
 protected:
-	std::string m_file_path;
+	std::wstring m_file_path;
 	
 };

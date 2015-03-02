@@ -34,7 +34,7 @@ LoadIfcFileCommand::~LoadIfcFileCommand()
 
 }
 
-void LoadIfcFileCommand::setFilePath( std::string& path_in )
+void LoadIfcFileCommand::setFilePath( std::wstring& path_in )
 {
 	m_file_path = path_in;
 }

@@ -15,53 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ifcppgeometry\ConverterOSG.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\PlacementConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\ProfileConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\RepresentationConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\StylesConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\CurveConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\SolidModelConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\FaceConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\ProfileCache.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\GeomUtils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\CSG_Adapter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\SplineConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\PointConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\Sweeper.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcppgeometry\GeometryConverter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\ifcppgeometry\ConverterOSG.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -117,6 +70,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcppgeometry\GeometryConverter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcppgeometry\GeomDebugUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

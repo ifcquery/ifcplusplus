@@ -21,19 +21,17 @@
 
 int main(int argc, char *argv[])
 {
-	std::string file_path( "ExampleModel.ifc" );
+	std::wstring file_path( L"ExampleModel.ifc" );
 
 	if( argc > 1 )
 	{
 		std::string arg1 = argv[1];
 		if( arg1.length() > 4 )
 		{
-			std::string file_type = arg1.substr(arg1.find_last_of(".") + 1);
-			std::transform(file_type.begin(), file_type.end(), file_type.begin(), toupper);
-
-			if( file_type.compare( "IFC" ) == 0  )
+			std::string ext = arg1.substr( arg1.find_last_of( "." ) + 1 );
+			if( boost::iequals( ext, "ifc" ) )
 			{
-				file_path = arg1.c_str();
+				file_path.assign( arg1.begin(), arg1.end() );
 			}
 		}
 	}
@@ -79,7 +77,7 @@ int main(int argc, char *argv[])
 				std::vector<carve::mesh::Mesh<3>* >& vec_meshes = meshset->meshes;
 				for( size_t i_mesh = 0; i_mesh < vec_meshes.size(); ++i_mesh )
 				{
-					carve::mesh::Mesh<3>* mesh = vec_meshes[i_meshset];
+					carve::mesh::Mesh<3>* mesh = vec_meshes[i_mesh];
 					
 					// computes the volume of the mesh:
 					double mesh_volume = mesh->volume();

@@ -263,7 +263,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	try
 	{
 		shared_ptr<LoadIfcFileCommand> cmd_load( new LoadIfcFileCommand( m_system ) );
-		std::string path_str = path_in.toLocal8Bit().constData();
+		std::wstring path_str = path_in.toStdWString();
 		cmd_load->setFilePath( path_str );
 		cmd_load->doCmd();
 	}
