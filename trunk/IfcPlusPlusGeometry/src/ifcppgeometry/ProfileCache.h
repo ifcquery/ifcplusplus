@@ -17,31 +17,68 @@
 #include <ifcpp/model/IfcPPOpenMP.h>
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/StatusCallback.h>
-
-class GeometrySettings;
-class UnitConverter;
-class PointConverter;
-class CurveConverter;
-class SplineConverter;
-class IfcProfileDef;
-class ProfileConverter;
+#include "ProfileConverter.h"
+#include "CurveConverter.h"
+#include "SplineConverter.h"
 
 class ProfileCache : public StatusCallback
 {
-public:	
-	ProfileCache(  shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc );
-	~ProfileCache();
-
-	shared_ptr<ProfileConverter> getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile );
-	void clearProfileCache();
-
+protected:
 	shared_ptr<CurveConverter>					m_curve_converter;
 	shared_ptr<SplineConverter>					m_spline_converter;
-
-protected:
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_profile_cache;
 #endif
+
+public:
+	ProfileCache::ProfileCache( shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc )
+		: m_curve_converter( cc ), m_spline_converter( sc )
+	{
+	}
+
+	ProfileCache::~ProfileCache()
+	{
+	}
+
+	void ProfileCache::clearProfileCache()
+	{
+		m_profile_cache.clear();
+	}
+
+	shared_ptr<ProfileConverter> ProfileCache::getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile )
+	{
+		if( !ifc_profile )
+		{
+			return shared_ptr<ProfileConverter>();
+		}
+		const int profile_id = ifc_profile->m_id;
+		if( profile_id < 0 )
+		{
+			std::stringstream strs;
+			strs << "Entity ID is invalid, type: " << ifc_profile->className();
+			throw IfcPPException( strs.str().c_str(), __FUNC__ );
+		}
+
+		std::map<int, shared_ptr<ProfileConverter> >::iterator it_profile_cache = m_profile_cache.find( profile_id );
+		if( it_profile_cache != m_profile_cache.end() )
+		{
+			return it_profile_cache->second;
+		}
+
+		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_curve_converter, m_spline_converter ) );
+		if( !profile_converter )
+		{
+			throw IfcPPOutOfMemoryException( __FUNC__ );
+		}
+		profile_converter->computeProfile( ifc_profile );
+
+#ifdef IFCPP_OPENMP
+		ScopedLock lock( m_writelock_profile_cache );
+#endif
+		m_profile_cache[profile_id] = profile_converter;
+
+		return profile_converter;
+	}
 };

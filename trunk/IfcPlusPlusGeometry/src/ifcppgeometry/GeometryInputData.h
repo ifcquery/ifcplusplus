@@ -21,9 +21,7 @@
 #include <ifcpp/IFC4/include/IfcTextStyle.h>
 #include "IncludeCarveHeaders.h"
 #include "GeomUtils.h"
-#ifdef _DEBUG
-#include "CSG_Adapter.h"
-#endif
+#include "GeomDebugUtils.h"
 
 #include <osg/ref_ptr>
 #include <osg/Switch>
@@ -137,7 +135,7 @@ public:
 			m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
 
 #ifdef _DEBUG
-			CSG_Adapter::dumpMeshset( meshset.get(), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+			GeomDebugUtils::dumpMeshset( meshset, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
 #endif
 			throw IfcPPException( "Meshset is not closed", __FUNC__ );
 		}
