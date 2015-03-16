@@ -985,7 +985,7 @@ public:
 						shared_ptr<carve::mesh::MeshSet<3> > result;
 						try
 						{
-							CSG_Adapter::computeCSG( unified_opening_meshset, opening_meshset, carve::csg::CSG::UNION, product_id, representation_id, result );
+							CSG_Adapter::computeCSG( unified_opening_meshset, opening_meshset, carve::csg::CSG::UNION, result, this, ifc_element.get(), nullptr );
 						}
 						catch( IfcPPOutOfMemoryException& e )
 						{
@@ -1017,7 +1017,7 @@ public:
 				{
 					shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->m_meshsets[i_product_meshset];
 					std::stringstream strs_meshset_err;
-					bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset, strs_meshset_err, product_id );
+					bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset, this, ifc_element.get() );
 					if( !product_meshset_valid_for_csg )
 					{
 						continue;
@@ -1027,7 +1027,7 @@ public:
 					shared_ptr<carve::mesh::MeshSet<3> > result;
 					try
 					{
-						CSG_Adapter::computeCSG( product_meshset, unified_opening_meshset, carve::csg::CSG::A_MINUS_B, product_id, -1, result );
+						CSG_Adapter::computeCSG( product_meshset, unified_opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element.get(), nullptr );
 					}
 					catch( IfcPPOutOfMemoryException& e )
 					{
@@ -1046,5 +1046,4 @@ public:
 			}
 		}
 	}
-
 };

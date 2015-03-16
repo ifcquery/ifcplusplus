@@ -43,16 +43,26 @@ public:
 	**/
 	void extrude( const std::vector<std::vector<carve::geom::vector<2> > >& face_loops_input, const carve::geom::vector<3> extrusion_vector, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
 	{
+		// TODO: complete and test
 		if( face_loops_input.size() == 0 )
 		{
-			messageCallback( "face_loops_input.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
-		if( !item_data )
-		{
-			messageCallback( "!item_data", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			return;
-		}
+
+#ifdef _DEBUG
+		//shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+		//if( !polyline_data )
+		//{
+		//	throw IfcPPOutOfMemoryException( __FUNC__ );
+		//}
+		//polyline_data->beginPolyline();
+		//polyline_data->addVertex( carve::geom::VECTOR( 0, 0, 0 ) );
+		//polyline_data->addVertex( extrusion_vector );
+		//polyline_data->addPolylineIndex( 0 );
+		//polyline_data->addPolylineIndex( 1 );
+		//item_data->m_polylines.push_back( polyline_data );
+#endif
 
 		// figure 1: loops and indexes
 		//  3----------------------------2
@@ -64,172 +74,15 @@ public:
 		//  |                            |
 		//  0-------face_loops[0]--------1
 
-		carve::geom::vector<3> normal_first_loop;
-		std::vector<std::vector<carve::geom::vector<2> > >	face_loops;
-		bool warning_small_loop_detected = false;
-		for( size_t i_face_loops = 0; i_face_loops < face_loops_input.size(); ++i_face_loops )
+		std::vector<int> face_indexes;
+		std::vector<std::vector<carve::geom::vector<2> > > face_loops_used_for_triangulation;
+		triangulateLoops( face_loops_input, face_loops_used_for_triangulation, face_indexes, ifc_entity, this );
+
+		size_t num_points_in_all_loops = 0;
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<carve::geom::vector<2> >& loop = face_loops_input[i_face_loops];
-
-			if( loop.size() == 0 )
-			{
-				continue;
-			}
-			else if( loop.size() == 1 )
-			{
-				// Cross section is just a point. Create a line along the extrusion vector
-				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-				if( !polyline_data )
-				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
-				}
-				polyline_data->beginPolyline();
-				polyline_data->addVertex( carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, 0 ) ) );
-				polyline_data->addVertex( extrusion_vector );
-				polyline_data->addPolylineIndex( 0 );
-				polyline_data->addPolylineIndex( 1 );
-				item_data->m_polylines.push_back( polyline_data );
-			}
-			else if( loop.size() == 2 )
-			{
-				// Cross section is just a line
-				messageCallback( "Unhandled line as cross section", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			}
-
-			// check winding order
-			std::vector<carve::geom::vector<2> > loop_2d( loop );
-			carve::geom::vector<3>  normal_2d = GeomUtils::computePolygon2DNormal( loop_2d );
-			if( i_face_loops == 0 )
-			{
-				normal_first_loop = normal_2d;
-				if( normal_2d.z < 0 )
-				{
-					// reverse loop:
-					std::reverse( loop_2d.begin(), loop_2d.end() );
-					normal_first_loop = -normal_first_loop;
-				}
-			}
-			else
-			{
-				if( normal_2d.z > 0 )
-				{
-					// reverse loop:
-					std::reverse( loop_2d.begin(), loop_2d.end() );
-				}
-			}
-				
-			if( loop_2d.size() < 3 )
-			{
-				messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			}
-		
-			// close loop, insert first point at end if not already there
-			carve::geom::vector<2>& first = loop_2d.front();
-			carve::geom::vector<2>& last = loop_2d.back();
-
-			if( std::abs(first.x-last.x) > 0.00001 || std::abs(first.y-last.y) > 0.00001 )
-			{
-				loop_2d.push_back( first );
-			}
-
-			double signed_area = carve::geom2d::signedArea( loop_2d );
-			if( std::abs( signed_area ) < 1.e-10 )// m_geom_settings->m_min_face_area )
-			{
-				warning_small_loop_detected = true;
-				continue;
-			}
-
-			face_loops.push_back(loop_2d);
-		}
-
-		if( warning_small_loop_detected )
-		{
-			std::stringstream err;
-			err << "abs( signed_area ) < 1.e-10";
-			messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
-		}
-	
-		if( face_loops.size() == 0 )
-		{
-			return;
-		}
-
-		bool flip_faces = false;
-		double extrusion_dot_normal = dot( extrusion_vector, normal_first_loop );
-		if( extrusion_dot_normal > 0 )
-		{
-			flip_faces = true;
-		}
-
-		// triangulate
-		std::vector<carve::geom::vector<2> > merged_path;
-		std::vector<carve::triangulate::tri_idx> triangulated;
-		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
-		try
-		{
-			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon(face_loops);
-			// figure 2: path wich incorporates holes, described by path_all_loops
-			// (0/0) -> (1/3) -> (1/0) -> (1/1) -> (1/2) -> (1/3) -> (0/0) -> (0/1) -> (0/2) -> (0/3)
-			//  0/3<-----------------------0/2
-			//  |                            ^
-			//  |   1/0-------------->1/1    |
-			//  |   ^                   |    |
-			//  |   |                   v    |
-			//  |   1/3<--------------1/2    |
-			//  v                            |
-			//  0/0------------------------>0/1
-
-			merged_path.reserve(path_incorporated_holes.size());
-			for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
-			{
-				size_t loop_number = path_incorporated_holes[i].first;
-				size_t index_in_loop = path_incorporated_holes[i].second;
-			
-				if( loop_number >= face_loops.size() )
-				{
-					messageCallback( "loop_number >= face_loops.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-					continue;
-				}
-				std::vector<carve::geom::vector<2> >& loop = face_loops[loop_number];
-				carve::geom::vector<2> & point_in_loop = loop[index_in_loop];
-				merged_path.push_back( point_in_loop );
-
-			}
-			// figure 3: merged path for triangulation
-			//  9<---------------------------8
-			//  |                            ^
-			//  |   2------------------>3    |
-			//  |   ^                   |    |
-			//  |   |                   v    |
-			//  |   1, 5<---------------4    |
-			//  | /                          |
-			//  0,6------------------------->7
-			carve::triangulate::triangulate(merged_path, triangulated);
-			carve::triangulate::improve(merged_path, triangulated);
-			// triangles: (9,0,1)  (5,6,7)  (4,5,7)  (4,7,8)  (9,1,2)  (8,9,2)  (3,4,8)  (2,3,8)
-		}
-		catch(...)
-		{
-			messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed ", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-	#ifdef _DEBUG
-
-			carve::input::PolylineSetData poly_line;
-			poly_line.beginPolyline();
-			int pline_index = 0;
-			for( size_t ii = 0; ii < face_loops.size(); ++ii )
-			{
-				std::vector<carve::geom::vector<2> >& face_loop_i = face_loops[ii];
-
-				for( size_t jj = 0; jj < face_loop_i.size(); ++jj )
-				{
-					carve::geom::vector<2> & point = face_loop_i[jj];
-					poly_line.addVertex( carve::geom::VECTOR( point.x, point.y, 0 ) );
-					poly_line.addPolylineIndex( pline_index++ );
-				}
-			}
-			GeomDebugUtils::dumpPolylineSet( &poly_line, carve::geom::VECTOR( 0.2, 0.6, 0.2, 1.0 ), true );
-	#endif
-			return;
+			const std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
+			num_points_in_all_loops += loop.size();
 		}
 
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
@@ -237,174 +90,134 @@ public:
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
+		poly_data->points.resize( num_points_in_all_loops*2 );
 
-		// now insert points to polygon, avoiding points with same coordinates
-		MAP_T<double, MAP_T<double, unsigned int> > existing_vertices_coords;
-		MAP_T<double, unsigned int>::iterator it_find_y;
-
-		std::map<unsigned int,unsigned int> map_merged_idx;
-		for( size_t i = 0; i < merged_path.size(); ++i )
+		std::vector<carve::geom::vector<3> >& polyhedron_points = poly_data->points;
+		size_t polyhedron_point_index = 0;
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const carve::geom::vector<2>&  v = merged_path[i];
-		
-			double vertex_x = v.x;
-			double vertex_y = v.y;
-
-			bool round_vertex_coords = true;
-			if( round_vertex_coords )
+			const std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
+			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
-				vertex_x = round(v.x*100000.0)*0.00001;
-				vertex_y = round(v.y*100000.0)*0.00001;
+				const carve::geom::vector<2>&  vec_2d = loop[jj];
+				// cross section is defined in XY plane
+				polyhedron_points[polyhedron_point_index] = carve::geom::VECTOR( vec_2d.x, vec_2d.y, 0 );
+				polyhedron_points[polyhedron_point_index + num_points_in_all_loops] = carve::geom::VECTOR( vec_2d.x, vec_2d.y, 0 ) + extrusion_vector;
+				++polyhedron_point_index;
 			}
-
-			//  return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-			MAP_T<double, unsigned int>& map_y_index = existing_vertices_coords.insert( std::make_pair(vertex_x, MAP_T<double,unsigned int>() ) ).first->second;
-
-			it_find_y = map_y_index.find( vertex_y );
-			if( it_find_y != map_y_index.end() )
-			{
-				// vertex already exists in polygon. remember its index for triangles
-				map_merged_idx[i] = it_find_y->second;
-				continue;
-			}
-
-			carve::geom::vector<3>  vertex3D( carve::geom::VECTOR( v.x, v.y, 0 ) );
-			size_t vertex_id = poly_data->addVertex(vertex3D);
-			map_y_index[vertex_y] = vertex_id;
-			map_merged_idx[i] = vertex_id;
 		}
 
-		// figure 4: points in poly_data (merged path without duplicate vertices):
-		//  7<---------------------------6
-		//  |                            ^
-		//  |   2------------------>3    |
-		//  |   ^                   |    |     map_merged_idx: figure 3 -> figure 4
-		//  |   |                   v    |
-		//  |   1<------------------4    |
-		//  | /                          |
-		//  0--------------------------->5
-
-		// copy points from base to top
-		std::vector<carve::geom::vector<3> >& points = poly_data->points;
-		const size_t num_points_base = points.size();
-		for( size_t i=0; i<num_points_base; ++i )
+		bool flip_faces = false;
+		if( face_loops_used_for_triangulation.size() > 0 )
 		{
-			carve::geom::vector<3>& pt = points[i];
-			poly_data->addVertex( pt + extrusion_vector );
-		}
-
-		// collect vertex indexes of loops
-		std::vector<std::vector<size_t> > loop_vert_idx;
-		for( size_t merged_idx = 0; merged_idx < path_incorporated_holes.size(); ++merged_idx )
-		{
-			size_t loop_number = path_incorporated_holes[merged_idx].first;
-			size_t point_idx_merged = map_merged_idx[merged_idx];
-	
-			if( loop_vert_idx.size() <= loop_number )
+			carve::geom::vector<3>  normal_first_loop = GeomUtils::computePolygon2DNormal( face_loops_used_for_triangulation[0] );
+			double extrusion_dot_normal = dot( extrusion_vector, normal_first_loop );
+			if( extrusion_dot_normal < 0 )
 			{
-				loop_vert_idx.resize( loop_number + 1 );
+				flip_faces = true;
 			}
-			std::vector<size_t>& result_loop_vec = loop_vert_idx[loop_number];
+		}
 		
-			// check if point index is already in loop
-			bool already_in_loop = false;
-			for( size_t i2 = 0; i2 < result_loop_vec.size(); ++i2 )
+		// add face loops for all sections
+		const size_t num_poly_points = polyhedron_points.size();
+		size_t loop_offset = 0;
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
+		{
+			const std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
+
+			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
-				if( point_idx_merged == result_loop_vec[i2] )
+				size_t tri_idx_a = jj + loop_offset;
+
+				size_t tri_idx_next = tri_idx_a + 1;
+				if( jj == loop.size() - 1 )
 				{
-					already_in_loop = true;
-					break;
+					tri_idx_next -= loop.size();
 				}
-			}
-			if( !already_in_loop )
-			{
-				result_loop_vec.push_back( point_idx_merged );
-			}
-		}
+				size_t tri_idx_up = tri_idx_a + num_points_in_all_loops;
+				size_t tri_idx_next_up = tri_idx_next + num_points_in_all_loops;
 
-		// add faces along outer and inner loops
-		for( size_t i_result_loop = 0; i_result_loop < loop_vert_idx.size(); ++i_result_loop )
-		{
-			const std::vector<size_t>& loop_idx = loop_vert_idx[i_result_loop];
-			const size_t num_points_in_loop = loop_idx.size();
-		
-			for( size_t i=0; i<num_points_in_loop; ++i )
-			{
-				size_t point_idx		= loop_idx[i];
-				size_t point_idx_next	= loop_idx[(i+1)%num_points_in_loop];
-				size_t point_idx_up = point_idx + num_points_base;
-				size_t point_idx_next_up = point_idx_next + num_points_base;
-
-				if( point_idx_next_up >= 2*num_points_base )
+				if( tri_idx_a >= num_poly_points || tri_idx_next >= num_poly_points || tri_idx_up >= num_poly_points || tri_idx_next_up >= num_poly_points )
 				{
-					messageCallback( "point_idx_next_up >= 2*num_points_base", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
+
 				if( flip_faces )
 				{
-					poly_data->addFace( point_idx,			point_idx_next,		point_idx_next_up );
-					poly_data->addFace( point_idx_next_up,	point_idx_up,		point_idx );
+					poly_data->addFace( tri_idx_a, tri_idx_next_up, tri_idx_next );
+					poly_data->addFace( tri_idx_next_up, tri_idx_a, tri_idx_up );
 				}
 				else
 				{
-					poly_data->addFace( point_idx,			point_idx_up,		point_idx_next_up );
-					poly_data->addFace( point_idx_next_up,	point_idx_next,		point_idx );
+					poly_data->addFace( tri_idx_a, tri_idx_next, tri_idx_next_up );
+					poly_data->addFace( tri_idx_next_up, tri_idx_up, tri_idx_a );
 				}
 			}
+
+			loop_offset += loop.size();
 		}
 
-		// now the triangulated bottom and top cap
-		for( size_t i = 0; i != triangulated.size(); ++i )
+		// add front and back cap
+		for( size_t ii = 0; ii < face_indexes.size(); ++ii )
 		{
-			carve::triangulate::tri_idx triangle = triangulated[i];
-			unsigned int a = triangle.a;
-			unsigned int b = triangle.b;
-			unsigned int c = triangle.c;
+			size_t num_face_vertices = face_indexes[ii];
 
-			unsigned int vertex_id_a = map_merged_idx[a];
-			unsigned int vertex_id_b = map_merged_idx[b];
-			unsigned int vertex_id_c = map_merged_idx[c];
-
-			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+			if( num_face_vertices == 3 )
 			{
-				continue;
+				size_t tri_idx_a = face_indexes[ii+1];
+				size_t tri_idx_b = face_indexes[ii+2];
+				size_t tri_idx_c = face_indexes[ii+3];
+				if( tri_idx_a >= num_poly_points || tri_idx_b >= num_poly_points || tri_idx_c >= num_poly_points )
+				{
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					ii += num_face_vertices;
+					continue;
+				}
+
+				if( flip_faces )
+				{
+					poly_data->addFace( tri_idx_a, tri_idx_b, tri_idx_c );
+				}
+				else
+				{
+					poly_data->addFace( tri_idx_a, tri_idx_c, tri_idx_b );
+				}
+
+				size_t tri_idx_a_back_cap = tri_idx_a + num_poly_points - num_points_in_all_loops;
+				size_t tri_idx_b_back_cap = tri_idx_b + num_poly_points - num_points_in_all_loops;
+				size_t tri_idx_c_back_cap = tri_idx_c + num_poly_points - num_points_in_all_loops;
+				if( tri_idx_a_back_cap >= num_poly_points || tri_idx_b_back_cap >= num_poly_points || tri_idx_c_back_cap >= num_poly_points )
+				{
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					ii += num_face_vertices;
+					continue;
+				}
+
+				if( flip_faces )
+				{
+					poly_data->addFace( tri_idx_a_back_cap, tri_idx_c_back_cap, tri_idx_b_back_cap );
+				}
+				else
+				{
+					poly_data->addFace( tri_idx_a_back_cap, tri_idx_b_back_cap, tri_idx_c_back_cap );
+				}
 			}
-
-			int vertex_id_a_top = vertex_id_a + num_points_base;
-			int vertex_id_b_top = vertex_id_b + num_points_base;
-			int vertex_id_c_top = vertex_id_c + num_points_base;
-
-	#ifdef _DEBUG
-			const carve::poly::Vertex<3>& v_a = poly_data->getVertex(vertex_id_a);
-			const carve::poly::Vertex<3>& v_b = poly_data->getVertex(vertex_id_b);
-			const carve::poly::Vertex<3>& v_c = poly_data->getVertex(vertex_id_c);
-
-			carve::geom::vector<3> pa( carve::geom::VECTOR( v_a.v[0],	v_a.v[1],	v_a.v[2] ) );
-			carve::geom::vector<3> pb( carve::geom::VECTOR( v_b.v[0],	v_b.v[1],	v_b.v[2] ) );
-			carve::geom::vector<3> pc( carve::geom::VECTOR( v_c.v[0],	v_c.v[1],	v_c.v[2] ) );
-
-			double A = 0.5*(cross( pa-pb, pa-pc ).length());
-			if( std::abs(A) < 0.000000001 )
+			else if( num_face_vertices == 2 )
 			{
-				std::cout <<  __FUNC__ << ": area < 0.000000001\n" << std::endl;
+				// add polyline
+				//poly_data->addFace( face_indexes[ii+1], face_indexes[ii+2] );
 			}
-	#endif
-				
-			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+			else if( num_face_vertices == 1 )
 			{
-				continue;
-			}
-
-			if( flip_faces )
-			{
-				poly_data->addFace( vertex_id_a,		vertex_id_c,		vertex_id_b );		// bottom cap
-				poly_data->addFace( vertex_id_a_top,	vertex_id_b_top,	vertex_id_c_top );	// top cap, flipped outward
+				// add polyline
+				//poly_data->addFace( face_indexes[ii+1], face_indexes[ii+2] );
 			}
 			else
 			{
-				poly_data->addFace( vertex_id_a,		vertex_id_b,		vertex_id_c );		// bottom cap
-				poly_data->addFace( vertex_id_a_top,	vertex_id_c_top,	vertex_id_b_top );	// top cap, flipped outward
+				messageCallback( "num_face_vertices != 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			}
+			ii += num_face_vertices;
 		}
 
 		try
@@ -416,25 +229,11 @@ public:
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
 		}
 
-
-	#ifdef _DEBUG
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-		std::stringstream strs_err_meshset;
-		int entity_id = -1;
-		if( ifc_entity )
-		{
-			entity_id = ifc_entity->m_id;
-		}
-		bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err_meshset, entity_id );
-
-		if( !poly_ok )
-		{
-			std::cout << strs_err_meshset.str().c_str() << std::endl;
-			GeomDebugUtils::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-		}
-	#endif
+#ifdef _DEBUG
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+		CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, ifc_entity );
+#endif
 	}
-
 
 	/*\brief Extrudes a circle cross section along a path. At turns, the points are placed in the bisecting plane
 	  \param[in] curve_points Path along which the circle is swept
@@ -778,29 +577,19 @@ public:
 		}
 
 	#ifdef _DEBUG
-		std::stringstream strs_err;
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-		bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err, -1 );
-
-		if( !poly_ok )
-		{
-			std::cout << strs_err.str().c_str() << std::endl;
-		}
+		CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, ifc_entity );
 	#endif
 	}
 
-	/*\brief Extrudes a cross section along a path. At turns, the points are placed in the bisecting plane
-	  \param[in] curve_points Path along which the cross section is swept
-	  \param[in] profile_paths Set of cross sections to sweep
-	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
-	  \param[out] item_data Container to add result polyhedron or polyline
-	**/
-	void sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
+	void triangulateLoops( const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths_input,
+		std::vector<std::vector<carve::geom::vector<2> > >& face_loops_used_for_triangulation,
+		std::vector<int>& face_indexes_out, IfcPPEntity* ifc_entity, StatusCallback* report_callback )
 	{
 		// TODO: complete and test
-		if( profile_paths.size() == 0 )
+		if( profile_paths_input.size() == 0 )
 		{
-			messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			report_callback->messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
 
@@ -815,33 +604,24 @@ public:
 		//  0-------face_loops[0]--------1
 
 		carve::geom::vector<3> normal_first_loop;
-		std::vector<std::vector<carve::geom::vector<2> > > face_loops;
 		bool warning_small_loop_detected = false;
 		bool polyline_created = false;
-		for( size_t i_face_loops = 0; i_face_loops < profile_paths.size(); ++i_face_loops )
+		for( size_t i_face_loops = 0; i_face_loops < profile_paths_input.size(); ++i_face_loops )
 		{
-			const std::vector<carve::geom::vector<2> >& loop = profile_paths[i_face_loops];
+			const std::vector<carve::geom::vector<2> >& loop = profile_paths_input[i_face_loops];
 
 			if( loop.size() < 3 )
 			{
-				if( loop.size() == 1 )
+				if( profile_paths_input.size() == 1 )
 				{
-					// Cross section is just a point. Create a polyline
-					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-					if( !polyline_data )
+					// Cross section is just a point or a line. Create a face with one index
+					face_indexes_out.push_back( loop.size() );  // num points
+					for( size_t ii = 0; ii < loop.size(); ++ii )
 					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
+						face_indexes_out.push_back( ii );  // point index
 					}
-					polyline_data->beginPolyline();
-					for( size_t i_polyline = 0; i_polyline < curve_points.size(); ++i_polyline )
-					{
-						const carve::geom::vector<3>& curve_pt = curve_points[i_polyline];
-						polyline_data->addVertex( curve_pt );
-						polyline_data->addPolylineIndex( 0 );
-						polyline_data->addPolylineIndex( i_polyline );
-					}
-					item_data->m_polylines.push_back( polyline_data );
-					polyline_created = true;
+					// Nothing to triangulate, so return
+					return;
 				}
 				continue;
 			}
@@ -873,105 +653,86 @@ public:
 
 			if( loop_2d.size() < 3 )
 			{
-				messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				report_callback->messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			}
 
-			// close loop, insert first point at end if not already there
-			//		while( loop_2d.size() > 2 )
-		{
-			carve::geom::vector<2> first = loop_2d.front();
-			carve::geom::vector<2>& last = loop_2d.back();
-
-			if( std::abs( first.x - last.x ) > 0.00001 || std::abs( first.y - last.y ) > 0.00001 )
+			double signed_area = carve::geom2d::signedArea( loop_2d );
+			double min_loop_area = 1.e-10;//m_geom_settings->m_min_face_area
+			if( std::abs( signed_area ) < min_loop_area )
 			{
-				loop_2d.push_back( first );
+				warning_small_loop_detected = true;
+				continue;
 			}
-		}
 
-		double signed_area = carve::geom2d::signedArea( loop_2d );
-		double min_loop_area = 1.e-10;//m_geom_settings->m_min_face_area
-		if( std::abs( signed_area ) < min_loop_area )
-		{
-			warning_small_loop_detected = true;
-			continue;
-		}
-
-		face_loops.push_back( loop_2d );
+			face_loops_used_for_triangulation.push_back( loop_2d );
 		}
 
 		if( warning_small_loop_detected )
 		{
-			messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
+			report_callback->messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
 		}
 
-		if( face_loops.size() == 0 )
+		if( face_loops_used_for_triangulation.size() == 0 )
 		{
 			if( polyline_created )
 			{
 				// already handled as curve
 				return;
 			}
-			messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			report_callback->messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
 
 		size_t num_vertices_in_loops = 0;
-		for( size_t ii = 0; ii < face_loops.size(); ++ii )
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			std::vector<carve::geom::vector<2> >&  loop = face_loops[ii];
+			std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
 			num_vertices_in_loops += loop.size();
 		}
-
-		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
-		if( !poly_data )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-		poly_data->points.resize( num_vertices_in_loops*curve_points.size() );
-
-		// now rotate the loops into curve bisecting planes
-		// then triangulate front and back cap
-
-
 
 		// triangulate
 		std::vector<carve::geom::vector<2> > merged_path;
 		std::vector<carve::triangulate::tri_idx> triangulated;
 		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
+		std::vector<size_t> merged_to_unmerged;
 		try
 		{
-			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( face_loops );
+			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( face_loops_used_for_triangulation );
 			// figure 2: path wich incorporates holes, described by path_all_loops
 			// (0/0) -> (1/3) -> (1/0) -> (1/1) -> (1/2) -> (1/3) -> (0/0) -> (0/1) -> (0/2) -> (0/3)
-			//  0/3<-----------------------0/2
-			//  |                            ^
-			//  |   1/1-------------->1/2    |
-			//  |   ^                   |    |
-			//  |   |                   v    |  path_incorporated_holes
-			//  |   1/0<--------------1/3    |
-			//  v                            |
-			//  0/0------------------------>0/1
+
+			//  0/3<----------------------------0/2
+			//  |                                ^
+			//  |  1/0------------------>1/1     |
+			//  |   ^                    |       |
+			//  |   |                    v       |  path_incorporated_holes
+			//  |  1/3  1/3<-------------1/2     |
+			//  v /    /                         |
+			//  0/0  0/0----------------------->0/1
 
 			merged_path.reserve( path_incorporated_holes.size() );
+			merged_to_unmerged.resize( path_incorporated_holes.size() );
 			for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
 			{
 				size_t loop_number = path_incorporated_holes[i].first;
 				size_t index_in_loop = path_incorporated_holes[i].second;
 
-				if( loop_number >= face_loops.size() )
+				if( loop_number >= face_loops_used_for_triangulation.size() )
 				{
-					messageCallback( "loop_number >= face_loops.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					report_callback->messageCallback( "loop_number >= face_loops_used_for_triangulation.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
-				std::vector<carve::geom::vector<2> >& loop = face_loops[loop_number];
+				std::vector<carve::geom::vector<2> >& loop = face_loops_used_for_triangulation[loop_number];
 
 				if( index_in_loop >= loop.size() )
 				{
-					messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					report_callback->messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
 				carve::geom::vector<2>& point_in_loop = loop[index_in_loop];
 				merged_path.push_back( point_in_loop );
+				merged_to_unmerged[i] = loop_number;
+				//path_unmerged[i].second = index_in_loop;
 			}
 			// figure 3: merged path for triangulation
 			//  9<--------------------------8
@@ -984,13 +745,122 @@ public:
 			//  0  6----------------------->7
 			carve::triangulate::triangulate( merged_path, triangulated );
 			carve::triangulate::improve( merged_path, triangulated );
-			// triangles: (9,0,1)  (5,6,7)  (4,5,7)  (4,7,8)  (9,1,2)  (8,9,2)  (3,4,8)  (2,3,8)
+			// triangles: (3,8,9) (2,0,1) (4,6,7)  (4,5,6)  (9,0,2)  (9,2,3)  (7,8,3)  (3,4,7)
 		}
 		catch( ... )
 		{
-			messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			report_callback->messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
+
+		for( size_t i = 0; i != triangulated.size(); ++i )
+		{
+			carve::triangulate::tri_idx triangle = triangulated[i];
+			size_t a = triangle.a;
+			size_t b = triangle.b;
+			size_t c = triangle.c;
+
+			size_t loop_number_a = path_incorporated_holes[a].first;
+			size_t index_in_loop_a = path_incorporated_holes[a].second;
+
+			size_t vertex_id_a = index_in_loop_a;
+			for( size_t jj = 0; jj < loop_number_a; ++jj )
+			{
+				if( face_loops_used_for_triangulation.size() > jj )
+				{
+					vertex_id_a += face_loops_used_for_triangulation[jj].size();
+				}
+			}
+
+			size_t loop_number_b = path_incorporated_holes[b].first;
+			size_t index_in_loop_b = path_incorporated_holes[b].second;
+			size_t vertex_id_b = index_in_loop_b;
+			for( size_t jj = 0; jj < loop_number_b; ++jj )
+			{
+				if( face_loops_used_for_triangulation.size() > jj )
+				{
+					vertex_id_b += face_loops_used_for_triangulation[jj].size();
+				}
+			}
+
+			size_t loop_number_c = path_incorporated_holes[c].first;
+			size_t index_in_loop_c = path_incorporated_holes[c].second;
+			size_t vertex_id_c = index_in_loop_c;
+			for( size_t jj = 0; jj < loop_number_c; ++jj )
+			{
+				if( face_loops_used_for_triangulation.size() > jj )
+				{
+					vertex_id_c += face_loops_used_for_triangulation[jj].size();
+				}
+			}
+
+			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+			{
+				continue;
+			}
+
+			face_indexes_out.push_back( 3 );
+			face_indexes_out.push_back( vertex_id_a );
+			face_indexes_out.push_back( vertex_id_b );
+			face_indexes_out.push_back( vertex_id_c );
+		}
+	}
+
+	/*\brief Extrudes a cross section along a path. At turns, the points are placed in the bisecting plane
+	  \param[in] curve_points Path along which the cross section is swept
+	  \param[in] profile_paths Set of cross sections to sweep
+	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
+	  \param[out] item_data Container to add result polyhedron or polyline
+	**/
+	void sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
+	{
+		// TODO: complete and test
+		if( profile_paths.size() == 0 )
+		{
+			messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			return;
+		}
+
+		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+		if( !polyline_data )
+		{
+			throw IfcPPOutOfMemoryException( __FUNC__ );
+		}
+		polyline_data->beginPolyline();
+		for( size_t ii = 0; ii < curve_points.size(); ++ii )
+		{
+			polyline_data->addVertex( curve_points[ii] );	
+			polyline_data->addPolylineIndex( ii );
+		}
+		item_data->m_polylines.push_back( polyline_data );
+
+		// figure 1: loops and indexes
+		//  3----------------------------2
+		//  |                            |
+		//  |   1-------------------2    |3---------2
+		//  |   |                   |    |          |
+		//  |   |                   |    |          |face_loops[2]   // TODO: handle combined profiles
+		//  |   0---face_loops[1]---3    |0---------1
+		//  |                            |
+		//  0-------face_loops[0]--------1
+
+		std::vector<int> face_indexes;
+		std::vector<std::vector<carve::geom::vector<2> > > face_loops_used_for_triangulation;
+		triangulateLoops( profile_paths, face_loops_used_for_triangulation, face_indexes, ifc_entity, this );
+
+		size_t num_points_in_all_loops = 0;
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
+		{
+			const std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
+			num_points_in_all_loops += loop.size();
+		}
+
+		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
+		if( !poly_data )
+		{
+			throw IfcPPOutOfMemoryException( __FUNC__ );
+		}
+		poly_data->points.resize( num_points_in_all_loops*curve_points.size() );
 
 		carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 		const size_t num_curve_points = curve_points.size();
@@ -1080,32 +950,23 @@ public:
 			section_local_x.z, section_local_y.z, section_local_z.z, 0,
 			0, 0, 0, 1 );
 
-
-		std::vector<std::vector<carve::geom::vector<3> > > face_loops_3d;
-		face_loops_3d.resize( face_loops.size() );
-
-		for( size_t ii = 0; ii < face_loops.size(); ++ii )
+		std::vector<carve::geom::vector<3> >& polyhedron_points = poly_data->points;
+		size_t polyhedron_point_index = 0;
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			std::vector<carve::geom::vector<2> >&  loop = face_loops[ii];
-			std::vector<carve::geom::vector<3> >& loop_3d = face_loops_3d[ii];
-			loop_3d.resize( loop.size() );
+			const std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
 			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
-				carve::geom::vector<2>&  vec_2d = loop[jj];
+				const carve::geom::vector<2>&  vec_2d = loop[jj];
 				carve::geom::vector<3>  vec_3d( carve::geom::VECTOR( vec_2d.x, vec_2d.y, 0 ) );
 
 				// cross section is defined in XY plane
 				vec_3d = matrix_first_direction*vec_3d + curve_point_first;
-				loop_3d[jj] = vec_3d;
+				polyhedron_points[polyhedron_point_index++] = vec_3d;
 			}
 		}
 
-		// now insert points into polygon, avoiding points with same coordinates
-		PolyInputCache3D poly_cache;
-		std::vector<std::vector<std::vector<size_t> > > vec_point_indices_all_loops_all_curve_points;
-		vec_point_indices_all_loops_all_curve_points.resize( num_curve_points );
-
-		for( size_t ii = 0; ii < num_curve_points; ++ii )
+		for( size_t ii = 1; ii < num_curve_points; ++ii )
 		{
 			carve::geom::vector<3> curve_point_current = curve_points[ii];
 			carve::geom::vector<3> curve_point_next;
@@ -1155,141 +1016,117 @@ public:
 			}
 
 			carve::geom::plane<3> bisecting_plane( bisecting_normal, curve_point_current );
-
-			std::vector<std::vector<size_t> >& vec_point_indices_all_loops_current_curve_point = vec_point_indices_all_loops_all_curve_points[ii];
-			vec_point_indices_all_loops_current_curve_point.resize( face_loops_3d.size() );
-			for( size_t jj = 0; jj < face_loops_3d.size(); ++jj )
+			for( size_t jj = 0; jj < num_points_in_all_loops; ++jj )
 			{
-				std::vector<carve::geom::vector<3> >& loop_3d = face_loops_3d[jj];
-				std::vector<size_t>& vec_point_indices_current_loop = vec_point_indices_all_loops_current_curve_point[jj];
-				vec_point_indices_current_loop.resize( loop_3d.size() );
-				for( size_t kk = 0; kk < loop_3d.size(); ++kk )
+				carve::geom::vector<3>&  section_point_3d = polyhedron_points[polyhedron_point_index];
+				carve::geom::vector<3>&  previous_section_point_3d = polyhedron_points[polyhedron_point_index - num_points_in_all_loops];
+
+				polyhedron_point_index++;
+
+				carve::geom::vector<3> v;
+				double t;
+				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, previous_section_point_3d, previous_section_point_3d + section1, v, t );
+				if( intersect > 0 )
 				{
-					carve::geom::vector<3>&  section_point_3d = loop_3d[kk];
-
-					carve::geom::vector<3> v;
-					double t;
-					carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, section_point_3d, section_point_3d + section1, v, t );
-					if( intersect > 0 )
-					{
-						section_point_3d = v;
-					}
-					else
-					{
-						messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-					}
-
-					int vertex_id = poly_cache.addPoint( section_point_3d );
-					vec_point_indices_current_loop[kk] = vertex_id;
+					section_point_3d = v;
+				}
+				else
+				{
+					messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 				}
 			}
-
-			if( ii > 0 )
-			{
-				std::vector<std::vector<size_t> >& vec_point_indices_all_loops_previous_curve_point = vec_point_indices_all_loops_all_curve_points[ii - 1];
-
-				if( vec_point_indices_all_loops_previous_curve_point.size() == vec_point_indices_all_loops_current_curve_point.size() )
-				{
-					// add faces along outer and inner loops
-					for( size_t i_loop = 0; i_loop < vec_point_indices_all_loops_previous_curve_point.size(); ++i_loop )
-					{
-						const std::vector<size_t>& previous_loop_idx = vec_point_indices_all_loops_previous_curve_point[i_loop];
-						const std::vector<size_t>& current_loop_idx = vec_point_indices_all_loops_current_curve_point[i_loop];
-
-						const size_t num_points_in_loop = current_loop_idx.size();
-						if( num_points_in_loop == previous_loop_idx.size() )
-						{
-
-							for( size_t i_point_in_loop = 0; i_point_in_loop < num_points_in_loop; ++i_point_in_loop )
-							{
-								size_t point_idx = previous_loop_idx[i_point_in_loop];
-								size_t point_idx_next = previous_loop_idx[( i_point_in_loop + 1 ) % num_points_in_loop];
-								size_t point_idx_up = current_loop_idx[i_point_in_loop];
-								size_t point_idx_next_up = current_loop_idx[( i_point_in_loop + 1 ) % num_points_in_loop];
-
-#ifdef _DEBUG
-								const std::vector<carve::geom3d::Vector>& vec_points = poly_cache.m_poly_data->points;
-								const carve::geom3d::Vector& p0 = vec_points[point_idx];
-								const carve::geom3d::Vector& p1 = vec_points[point_idx_next];
-								const carve::geom3d::Vector& p0_up = vec_points[point_idx_up];
-								const carve::geom3d::Vector& p1_up = vec_points[point_idx_next_up];
-
-
-								const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex( point_idx );
-								const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex( point_idx_next );
-								const carve::poly::Vertex<3>& v_c = poly_cache.m_poly_data->getVertex( point_idx_up );
-								const carve::poly::Vertex<3>& v_d = poly_cache.m_poly_data->getVertex( point_idx_next_up );
-
-								carve::geom::vector<3> pa( carve::geom::VECTOR( v_a.v[0], v_a.v[1], v_a.v[2] ) );
-								carve::geom::vector<3> pb( carve::geom::VECTOR( v_b.v[0], v_b.v[1], v_b.v[2] ) );
-								carve::geom::vector<3> pc( carve::geom::VECTOR( v_c.v[0], v_c.v[1], v_c.v[2] ) );
-								carve::geom::vector<3> pd( carve::geom::VECTOR( v_d.v[0], v_d.v[1], v_d.v[2] ) );
-
-								double A = 0.5*( cross( pa - pc, pd - pc ).length() );
-								if( std::abs( A ) < 0.000000001 )
-								{
-									std::cout << __FUNC__ << ": area < 0.000000001\n" << std::endl;
-								}
-								A = 0.5*( cross( pa - pb, pb - pd ).length() );
-								if( std::abs( A ) < 0.000000001 )
-								{
-									std::cout << __FUNC__ << ": area < 0.000000001\n" << std::endl;
-								}
-
-#endif
-								poly_cache.m_poly_data->addFace( point_idx, point_idx_up, point_idx_next_up );
-								poly_cache.m_poly_data->addFace( point_idx_next_up, point_idx_next, point_idx );
-							}
-
-							//if( flip_faces )
-							//{
-							//	poly_data->addFace( point_idx,			point_idx_next,		point_idx_next_up );
-							//	poly_data->addFace( point_idx_next_up,	point_idx_up,		point_idx );
-							//}
-							//else
-							//{
-							//	poly_data->addFace( point_idx,			point_idx_up,		point_idx_next_up );
-							//	poly_data->addFace( point_idx_next_up,	point_idx_next,		point_idx );
-							//}
-						}
-					}
-				}
-				break;
-			}
-
-			//for( size_t jj = 0; jj < merged_path.size(); ++jj )
-			//{
-			//	carve::geom::vector<3>&  section_point = merged_path_3d[jj];
-			//	carve::geom::vector<3> v;
-			//	double t;
-			//	carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, section_point, section_point + section1, v, t);
-			//	if( intersect > 0 )
-			//	{
-			//		section_point = v;
-			//	}
-			//	else
-			//	{
-			//		messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			//	}
-
-			//	int vertex_id = poly_cache.addPoint(section_point);
-			//	//map_merged_idx[jj] = vertex_id;
-			//	vec_loops_on_curve_point.push_back( vertex_id );
-			//}
 		}
 
-
-#ifdef _DEBUG
-		bool correct = poly_cache.checkFaceIndices();
-		//if( !correct )
+		// add face loops for all sections
+		const size_t num_poly_points = polyhedron_points.size();
+		size_t loop_offset = 0;
+		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			GeomDebugUtils::dumpPolyhedronInput( *( poly_cache.m_poly_data.get() ), carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+			const std::vector<carve::geom::vector<2> >&  loop = face_loops_used_for_triangulation[ii];
+
+			for( size_t jj = 0; jj < loop.size(); ++jj )
+			{
+				for( size_t kk = 0; kk < num_curve_points - 1; ++kk )
+				{
+					size_t tri_idx_a = num_points_in_all_loops*kk + jj + loop_offset;
+
+					size_t tri_idx_next = tri_idx_a + 1;
+					if( jj == loop.size() - 1 )
+					{
+						tri_idx_next -= loop.size();
+					}
+					size_t tri_idx_up = tri_idx_a + num_points_in_all_loops;  // next section
+					size_t tri_idx_next_up = tri_idx_next + num_points_in_all_loops;  // next section
+
+
+					if( tri_idx_a >= num_poly_points || tri_idx_next >= num_poly_points || tri_idx_up >= num_poly_points || tri_idx_next_up >= num_poly_points )
+					{
+						messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+						continue;
+					}
+
+					poly_data->addFace( tri_idx_a, tri_idx_next, tri_idx_next_up );
+					poly_data->addFace( tri_idx_next_up, tri_idx_up, tri_idx_a );
+				}
+			}
+
+			loop_offset += loop.size();
 		}
-#endif
+
+		// add front and back cap
+		for( size_t ii = 0; ii < face_indexes.size(); ++ii )
+		{
+			size_t num_face_vertices = face_indexes[ii];
+
+			if( num_face_vertices == 3 )
+			{
+				size_t tri_idx_a = face_indexes[ii+1];
+				size_t tri_idx_b = face_indexes[ii+2];
+				size_t tri_idx_c = face_indexes[ii+3];
+				if( tri_idx_a >= num_poly_points || tri_idx_b >= num_poly_points || tri_idx_c >= num_poly_points )
+				{
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					ii += num_face_vertices;
+					continue;
+				}
+
+				poly_data->addFace( tri_idx_a, tri_idx_c, tri_idx_b );
+
+
+				size_t tri_idx_a_back_cap = tri_idx_a + num_poly_points - num_points_in_all_loops;
+				size_t tri_idx_b_back_cap = tri_idx_b + num_poly_points - num_points_in_all_loops;
+				size_t tri_idx_c_back_cap = tri_idx_c + num_poly_points - num_points_in_all_loops;
+				if( tri_idx_a_back_cap >= num_poly_points || tri_idx_b_back_cap >= num_poly_points || tri_idx_c_back_cap >= num_poly_points )
+				{
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					ii += num_face_vertices;
+					continue;
+				}
+
+				poly_data->addFace( tri_idx_a_back_cap, tri_idx_b_back_cap, tri_idx_c_back_cap );
+			}
+			else if( num_face_vertices == 2 )
+			{
+				// add polyline
+				//poly_data->addFace( face_indexes[ii+1], face_indexes[ii+2] );
+			}
+			else if( num_face_vertices == 1 )
+			{
+				// add polyline
+				//poly_data->addFace( face_indexes[ii+1], face_indexes[ii+2] );
+			}
+			else
+			{
+				messageCallback( "num_face_vertices != 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			}
+			ii += num_face_vertices;
+
+		}
+
 
 		try
 		{
-			item_data->addClosedPolyhedron( poly_cache.m_poly_data );
+			item_data->addClosedPolyhedron( poly_data );
 		}
 		catch( IfcPPException& exception )
 		{
@@ -1297,14 +1134,8 @@ public:
 		}
 
 #ifdef _DEBUG
-		std::stringstream strs_err;
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
-		bool poly_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err, -1 );
-
-		if( !poly_ok )
-		{
-			std::cout << strs_err.str().c_str() << std::endl;
-		}
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+		CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, ifc_entity );
 #endif
 	}
 

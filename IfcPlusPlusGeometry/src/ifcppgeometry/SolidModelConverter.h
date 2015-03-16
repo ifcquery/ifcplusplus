@@ -688,18 +688,11 @@ public:
 			messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 			return;
 		}
-		std::stringstream strs_err;
-		bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, strs_err, -1 );
+		bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, revolved_area.get() );
 
 		if( !meshset_ok )
 		{
-			std::cout << strs_err.str().c_str() << std::endl;
 			GeomDebugUtils::dumpPolyhedronInput( *( polyhedron_data.get() ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-		}
-
-		if( strs_err.tellp() > 0 )
-		{
-			throw IfcPPException( strs_err.str().c_str(), __FUNC__ );
 		}
 #endif
 	}
@@ -734,17 +727,8 @@ public:
 			return;
 		}
 
-		int id1 = 0;
-		if( dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand ) )
-		{
-			id1 = dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand )->m_id;
-		}
-
-		int id2 = 0;
-		if( dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand ) )
-		{
-			id2 = dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand )->m_id;
-		}
+		shared_ptr<IfcPPEntity> entity_first_operand = dynamic_pointer_cast<IfcPPEntity>( ifc_first_operand );
+		shared_ptr<IfcPPEntity> entity_second_operand = dynamic_pointer_cast<IfcPPEntity>( ifc_second_operand );
 
 		// convert the first operand
 		shared_ptr<ItemShapeInputData> first_operand_data( new ItemShapeInputData() );
@@ -776,7 +760,7 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, id1, id2, result );
+					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, entity_first_operand.get(), entity_second_operand.get() );
 				}
 				catch( IfcPPOutOfMemoryException& e )
 				{

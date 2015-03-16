@@ -519,6 +519,17 @@ namespace GeomUtils
 		polygon_centroid /= (double)( polygon.size() );
 		return polygon_centroid;
 	}
+	inline carve::geom::vector<2> computePolygonCentroid( const std::vector<carve::geom::vector<2> >& polygon )
+	{
+		carve::geom::vector<2> polygon_centroid( carve::geom::VECTOR( 0, 0 ) );
+		for( std::vector<carve::geom::vector<2> >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
+		{
+			const carve::geom::vector<2>& vertex_current = ( *it );
+			polygon_centroid += vertex_current;
+		}
+		polygon_centroid /= (double)( polygon.size() );
+		return polygon_centroid;
+	}
 	inline osg::Vec3d computePolygonNormal( const osg::Vec3dArray* polygon )
 	{
 		const int num_points = polygon->size();
@@ -1155,10 +1166,10 @@ namespace GeomUtils
 	/** MeshSet and Polyhedron operations */
 	inline void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, carve::math::Matrix& matrix )
 	{
-		for( std::vector<carve::geom::vector<3> >::iterator it_points = poly_data->points.begin(); it_points != poly_data->points.end(); ++it_points )
+		for( size_t ii = 0; ii < poly_data->points.size(); ++ii )
 		{
-			carve::geom::vector<3>& vertex = ( *it_points );
-			vertex = matrix*vertex;
+			carve::geom::vector<3>& point = poly_data->points[ii];
+			point = matrix*point;
 		}
 	}
 	inline void applyTranslate( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<3>& pos )
