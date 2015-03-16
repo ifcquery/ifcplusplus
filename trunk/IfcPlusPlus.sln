@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40121.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Carve", "Carve\Carve.vcxproj", "{B3C35BB8-0E24-4F96-8D1C-47F777EF9EA1}"
 EndProject
@@ -145,7 +145,6 @@ Global
 		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Debug|Win32.Build.0 = Debug|Win32
 		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Debug|x64.ActiveCfg = Debug|x64
-		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Debug|x64.Build.0 = Debug|x64
 		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{14AA12A5-44E3-4A2B-8231-C96D4E40506B}.Release|Win32.ActiveCfg = Release|Win32
@@ -172,7 +171,6 @@ Global
 		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Debug|Win32.Build.0 = Debug|Win32
 		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Debug|x64.ActiveCfg = Debug|x64
-		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Debug|x64.Build.0 = Debug|x64
 		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{A4C832E4-6BD3-431A-A8FF-C45AA0E849D2}.Release|Win32.ActiveCfg = Release|Win32
@@ -232,7 +230,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = 4.7.4
 		Qt5Version = msvc2012_64_opengl
+		QtVersion = 4.7.4
 	EndGlobalSection
 EndGlobal

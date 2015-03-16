@@ -76,6 +76,14 @@ public:
 	void computeProfile( shared_ptr<IfcProfileDef> profile_def )
 	{
 		// ENTITY IfcProfileDef SUPERTYPE OF(ONEOF(IfcArbitraryClosedProfileDef, IfcArbitraryOpenProfileDef, IfcCompositeProfileDef, IfcDerivedProfileDef, IfcParameterizedProfileDef));
+		shared_ptr<IfcParameterizedProfileDef> parameterized = dynamic_pointer_cast<IfcParameterizedProfileDef>( profile_def );
+		if( parameterized )
+		{
+			convertIfcParameterizedProfileDefWithPosition( parameterized, m_paths );
+			GeomUtils::removeDuplicates( m_paths );
+			return;
+		}
+
 		shared_ptr<IfcArbitraryClosedProfileDef> arbitrary_closed = dynamic_pointer_cast<IfcArbitraryClosedProfileDef>( profile_def );
 		if( arbitrary_closed )
 		{
@@ -108,13 +116,6 @@ public:
 			return;
 		}
 
-		shared_ptr<IfcParameterizedProfileDef> parameterized = dynamic_pointer_cast<IfcParameterizedProfileDef>( profile_def );
-		if( parameterized )
-		{
-			convertIfcParameterizedProfileDefWithPosition( parameterized, m_paths );
-			GeomUtils::removeDuplicates( m_paths );
-			return;
-		}
 		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
 	}
 	void addAvoidingDuplicates( const std::vector<vector2d_t >& polygon, std::vector<std::vector<vector2d_t > >& paths )
@@ -424,25 +425,25 @@ public:
 					if( hollow->m_WallThickness )
 					{
 						const double t = hollow->m_WallThickness->m_value*length_factor;
-						double r1 = 0;
+						double outer_fillet_radius = 0;
 						if( hollow->m_OuterFilletRadius && !m_curve_converter->m_geom_settings->isIgnoreProfileRadius() )
 						{
-							r1 = hollow->m_InnerFilletRadius->m_value*length_factor;
+							outer_fillet_radius = hollow->m_OuterFilletRadius->m_value*length_factor;
 						}
 
-						double r2 = 0;
+						double inner_fillet_radius = 0;
 						if( hollow->m_InnerFilletRadius && !gs->isIgnoreProfileRadius() )
 						{
-							r2 = hollow->m_InnerFilletRadius->m_value*length_factor;
+							inner_fillet_radius = hollow->m_InnerFilletRadius->m_value*length_factor;
 						}
 
 						// Outer
-						if( r1 != 0 )
+						if( outer_fillet_radius != 0 )
 						{
-							addArc( outer_loop, r1, 0, M_PI_2, x_dim*0.5 - r1, y_dim*0.5 - r1 );
-							addArc( outer_loop, r1, M_PI_2, M_PI_2, -x_dim*0.5 + r1, y_dim*0.5 - r1 );
-							addArc( outer_loop, r1, M_PI, M_PI_2, -x_dim*0.5 + r1, -y_dim*0.5 + r1 );
-							addArc( outer_loop, r1, 3 * M_PI_2, M_PI_2, x_dim*0.5 - r1, -y_dim*0.5 + r1 );
+							addArc( outer_loop, outer_fillet_radius, 0, M_PI_2, x_dim*0.5 - outer_fillet_radius, y_dim*0.5 - outer_fillet_radius );
+							addArc( outer_loop, outer_fillet_radius, M_PI_2, M_PI_2, -x_dim*0.5 + outer_fillet_radius, y_dim*0.5 - outer_fillet_radius );
+							addArc( outer_loop, outer_fillet_radius, M_PI, M_PI_2, -x_dim*0.5 + outer_fillet_radius, -y_dim*0.5 + outer_fillet_radius );
+							addArc( outer_loop, outer_fillet_radius, 3 * M_PI_2, M_PI_2, x_dim*0.5 - outer_fillet_radius, -y_dim*0.5 + outer_fillet_radius );
 						}
 						else
 						{
@@ -456,12 +457,12 @@ public:
 						std::vector<vector2d_t > inner_loop;
 						x_dim -= 2 * t;
 						y_dim -= 2 * t;
-						if( r2 != 0 )
+						if( inner_fillet_radius != 0 )
 						{
-							addArc( inner_loop, r2, 0, M_PI_2, x_dim*0.5 - r2, y_dim*0.5 - r2 );
-							addArc( inner_loop, r2, M_PI_2, M_PI_2, -x_dim*0.5 + r2, y_dim*0.5 - r2 );
-							addArc( inner_loop, r2, M_PI, M_PI_2, -x_dim*0.5 + r2, -y_dim*0.5 + r2 );
-							addArc( inner_loop, r2, 3 * M_PI_2, M_PI_2, x_dim*0.5 - r2, -y_dim*0.5 + r2 );
+							addArc( inner_loop, inner_fillet_radius, 0, M_PI_2, x_dim*0.5 - inner_fillet_radius, y_dim*0.5 - inner_fillet_radius );
+							addArc( inner_loop, inner_fillet_radius, M_PI_2, M_PI_2, -x_dim*0.5 + inner_fillet_radius, y_dim*0.5 - inner_fillet_radius );
+							addArc( inner_loop, inner_fillet_radius, M_PI, M_PI_2, -x_dim*0.5 + inner_fillet_radius, -y_dim*0.5 + inner_fillet_radius );
+							addArc( inner_loop, inner_fillet_radius, 3 * M_PI_2, M_PI_2, x_dim*0.5 - inner_fillet_radius, -y_dim*0.5 + inner_fillet_radius );
 						}
 						else
 						{
@@ -676,11 +677,11 @@ public:
 			if( l_shape->m_Depth && l_shape->m_Thickness )
 			{
 				const double h = l_shape->m_Depth->m_value*length_factor;
-				double b = h;
+				double w = h;
 
 				if( l_shape->m_Width )
 				{
-					b = l_shape->m_Width->m_value*length_factor;
+					w = l_shape->m_Width->m_value*length_factor;
 				}
 
 				double t = l_shape->m_Thickness->m_value*length_factor;
@@ -697,48 +698,49 @@ public:
 					edge_radius = l_shape->m_EdgeRadius->m_value*length_factor;
 				}
 
-				double ls = 0;
+				double leg_slope = 0;
 				if( l_shape->m_LegSlope )
 				{
 					const double angle_factor = uc->getAngleInRadianFactor();
-					ls = l_shape->m_LegSlope->m_value*angle_factor;
+					leg_slope = l_shape->m_LegSlope->m_value*angle_factor;
 				}
 
-				outer_loop.push_back( carve::geom::VECTOR( -b*0.5, -h*0.5 ) );
-				outer_loop.push_back( carve::geom::VECTOR( b*0.5, -h*0.5 ) );
+				outer_loop.push_back( carve::geom::VECTOR( -w*0.5, -h*0.5 ) );
+				outer_loop.push_back( carve::geom::VECTOR( w*0.5, -h*0.5 ) );
 
 				if( edge_radius != 0 )
 				{
-					addArc( outer_loop, edge_radius, 0, M_PI_2 - ls, b*0.5 - edge_radius, -h*0.5 + t - edge_radius );
+					double y_edge_radius_start = -h*0.5 + t - edge_radius;
+					addArc( outer_loop, edge_radius, 0, M_PI_2 - leg_slope, w*0.5 - edge_radius, y_edge_radius_start );
 				}
 				else
 				{
-					outer_loop.push_back( carve::geom::VECTOR( b*0.5, ( -h*0.5 + t ) ) );
+					outer_loop.push_back( carve::geom::VECTOR( w*0.5, ( -h*0.5 + t ) ) );
 				}
 
-				const double s = sin( ls );
-				const double c = cos( ls );
-				const double z1 = ( -s*( ( c - s )*( fillet_radius + edge_radius + t ) - c*b + s*h ) ) / ( 2 * c*c - 1 );
-				const double z2 = ( -s*( ( c - s )*( fillet_radius + edge_radius + t ) - c*h + s*b ) ) / ( 2 * c*c - 1 );
+				const double s = sin( leg_slope );
+				const double c = cos( leg_slope );
+				const double z1 = ( -s*( ( c - s )*( fillet_radius + edge_radius + t ) - c*w + s*h ) ) / ( 2 * c*c - 1 );
+				const double z2 = ( -s*( ( c - s )*( fillet_radius + edge_radius + t ) - c*h + s*w ) ) / ( 2 * c*c - 1 );
 				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, fillet_radius, 3 * M_PI_2 - ls, -M_PI_2 + 2 * ls, -b*0.5 + t + z2 + fillet_radius, -h*0.5 + t + z1 + fillet_radius );
+					addArc( outer_loop, fillet_radius, 3 * M_PI_2 - leg_slope, -M_PI_2 + 2 * leg_slope, -w*0.5 + t + z2 + fillet_radius, -h*0.5 + t + z1 + fillet_radius );
 				}
 				else
 				{
-					outer_loop.push_back( carve::geom::VECTOR( ( -b*0.5 + t + z2 ), ( -h*0.5 + t + z1 ) ) );
+					outer_loop.push_back( carve::geom::VECTOR( ( -w*0.5 + t + z2 ), ( -h*0.5 + t + z1 ) ) );
 				}
 
 				if( edge_radius != 0 )
 				{
-					addArc( outer_loop, edge_radius, ls, M_PI_2 - ls, -b*0.5 + t - edge_radius, h*0.5 - edge_radius );
+					addArc( outer_loop, edge_radius, leg_slope, M_PI_2 - leg_slope, -w*0.5 + t - edge_radius, h*0.5 - edge_radius );
 				}
 				else
 				{
-					outer_loop.push_back( carve::geom::VECTOR( ( -b*0.5 + t ), h*0.5 ) );
+					outer_loop.push_back( carve::geom::VECTOR( ( -w*0.5 + t ), h*0.5 ) );
 				}
 
-				outer_loop.push_back( carve::geom::VECTOR( -b*0.5, h*0.5 ) );
+				outer_loop.push_back( carve::geom::VECTOR( -w*0.5, h*0.5 ) );
 				paths.push_back( outer_loop );
 			}
 			return;
@@ -750,19 +752,19 @@ public:
 		{
 			if( u_shape->m_Depth && u_shape->m_FlangeWidth && u_shape->m_WebThickness && u_shape->m_FlangeThickness )
 			{
-				const double h = u_shape->m_Depth->m_value*length_factor;
+				const double height = u_shape->m_Depth->m_value*length_factor;
 				const double width = u_shape->m_FlangeWidth->m_value*length_factor;
 				const double tw = u_shape->m_WebThickness->m_value*length_factor;
 				const double tf = u_shape->m_FlangeThickness->m_value*length_factor;
-				double r1 = 0;
+				double fillet_radius = 0;
 				if( u_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 				{
-					r1 = u_shape->m_FilletRadius->m_value*length_factor;
+					fillet_radius = u_shape->m_FilletRadius->m_value*length_factor;
 				}
-				double r2 = 0;
+				double edge_radius = 0;
 				if( u_shape->m_EdgeRadius && !gs->isIgnoreProfileRadius() )
 				{
-					r2 = u_shape->m_EdgeRadius->m_value*length_factor;
+					edge_radius = u_shape->m_EdgeRadius->m_value*length_factor;
 				}
 				double fs = 0;
 				if( u_shape->m_FlangeSlope )
@@ -771,27 +773,27 @@ public:
 					fs = u_shape->m_FlangeSlope->m_value*angle_factor;
 				}
 
-				outer_loop.push_back( carve::geom::VECTOR( -width*0.5, -h*0.5 ) );
-				outer_loop.push_back( carve::geom::VECTOR( width*0.5, -h*0.5 ) );
+				outer_loop.push_back( carve::geom::VECTOR( -width*0.5, -height*0.5 ) );
+				outer_loop.push_back( carve::geom::VECTOR( width*0.5, -height*0.5 ) );
 
-				double z = tan( fs )*( width*0.5 - r2 );
-				if( r2 != 0 )
+				double z = tan( fs )*( width*0.5 - edge_radius );
+				if( edge_radius != 0 )
 				{
-					addArc( outer_loop, r2, 0, M_PI_2 - fs, width*0.5 - r2, -h*0.5 + tf - z - r2 );
+					addArc( outer_loop, edge_radius, 0, M_PI_2 - fs, width*0.5 - edge_radius, -height*0.5 + tf - z - edge_radius );
 				}
 				else
 				{
-					outer_loop.push_back( carve::geom::VECTOR( width*0.5, ( -h*0.5 + tf - z ) ) );
+					outer_loop.push_back( carve::geom::VECTOR( width*0.5, ( -height*0.5 + tf - z ) ) );
 				}
 
-				z = tan( fs )*( width*0.5 - tw - r1 );
-				if( r1 != 0 )
+				z = tan( fs )*( width*0.5 - tw - fillet_radius );
+				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, r1, 3 * M_PI_2 - fs, -M_PI_2 + fs, -width*0.5 + tw + r1, -h*0.5 + tf + z + r1 );
+					addArc( outer_loop, fillet_radius, 3 * M_PI_2 - fs, -M_PI_2 + fs, -width*0.5 + tw + fillet_radius, -height*0.5 + tf + z + fillet_radius );
 				}
 				else
 				{
-					outer_loop.push_back( carve::geom::VECTOR( ( -width*0.5 + tw ), ( -h*0.5 + tf + z ) ) );
+					outer_loop.push_back( carve::geom::VECTOR( ( -width*0.5 + tw ), ( -height*0.5 + tf + z ) ) );
 				}
 
 				// mirror horizontally along x-Axis
@@ -811,24 +813,24 @@ public:
 				const double width = c_shape->m_Width->m_value*length_factor;
 				const double g = c_shape->m_Girth->m_value*length_factor;
 				const double t = c_shape->m_WallThickness->m_value*length_factor;
-				double r1 = 0;
+				double fillet_radius = 0;
 				if( c_shape->m_InternalFilletRadius && !gs->isIgnoreProfileRadius() )
 				{
-					r1 = c_shape->m_InternalFilletRadius->m_value*length_factor;
+					fillet_radius = c_shape->m_InternalFilletRadius->m_value*length_factor;
 				}
 
-				if( r1 != 0 )
+				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, r1 + t, M_PI, M_PI_2, -width*0.5 + t + r1, -h*0.5 + t + r1 );
+					addArc( outer_loop, fillet_radius + t, M_PI, M_PI_2, -width*0.5 + t + fillet_radius, -h*0.5 + t + fillet_radius );
 				}
 				else
 				{
 					outer_loop.push_back( carve::geom::VECTOR( -width*0.5, -h*0.5 ) );
 				}
 
-				if( r1 != 0 )
+				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, r1 + t, 3 * M_PI_2, M_PI_2, width*0.5 - t - r1, -h*0.5 + t + r1 );
+					addArc( outer_loop, fillet_radius + t, 3 * M_PI_2, M_PI_2, width*0.5 - t - fillet_radius, -h*0.5 + t + fillet_radius );
 				}
 				else
 				{
@@ -838,18 +840,18 @@ public:
 				outer_loop.push_back( carve::geom::VECTOR( width*0.5, ( -h*0.5 + g ) ) );
 				outer_loop.push_back( carve::geom::VECTOR( ( width*0.5 - t ), ( -h*0.5 + g ) ) );
 
-				if( r1 != 0 )
+				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, r1, 0, -M_PI_2, width*0.5 - t - r1, -h*0.5 + t + r1 );
+					addArc( outer_loop, fillet_radius, 0, -M_PI_2, width*0.5 - t - fillet_radius, -h*0.5 + t + fillet_radius );
 				}
 				else
 				{
 					outer_loop.push_back( carve::geom::VECTOR( ( width*0.5 - t ), ( -h*0.5 + t ) ) );
 				}
 
-				if( r1 != 0 )
+				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, r1, 3 * M_PI_2, -M_PI_2, -width*0.5 + t + r1, -h*0.5 + t + r1 );
+					addArc( outer_loop, fillet_radius, 3 * M_PI_2, -M_PI_2, -width*0.5 + t + fillet_radius, -h*0.5 + t + fillet_radius );
 				}
 				else
 				{
@@ -872,33 +874,33 @@ public:
 				const double width = z_shape->m_FlangeWidth->m_value*length_factor;
 				const double tw = z_shape->m_WebThickness->m_value*length_factor;
 				const double tf = z_shape->m_FlangeThickness->m_value*length_factor;
-				double r1 = 0;
+				double fillet_radius = 0;
 				if( z_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 				{
-					r1 = z_shape->m_FilletRadius->m_value*length_factor;
+					fillet_radius = z_shape->m_FilletRadius->m_value*length_factor;
 				}
 
-				double r2 = 0;
+				double edge_radius = 0;
 				if( z_shape->m_EdgeRadius && !gs->isIgnoreProfileRadius() )
 				{
-					r2 = z_shape->m_EdgeRadius->m_value*length_factor;
+					edge_radius = z_shape->m_EdgeRadius->m_value*length_factor;
 				}
 
 				outer_loop.push_back( carve::geom::VECTOR( ( -tw*0.5 ), -h*0.5 ) );
 				outer_loop.push_back( carve::geom::VECTOR( ( width - tw*0.5 ), -h*0.5 ) );
 
-				if( r2 != 0 )
+				if( edge_radius != 0 )
 				{
-					addArc( outer_loop, r2, 0, M_PI_2, width - tw*0.5 - r2, -h*0.5 + tf - r2 );
+					addArc( outer_loop, edge_radius, 0, M_PI_2, width - tw*0.5 - edge_radius, -h*0.5 + tf - edge_radius );
 				}
 				else
 				{
 					outer_loop.push_back( carve::geom::VECTOR( ( width - tw*0.5 ), ( -h*0.5 + tf ) ) );
 				}
 
-				if( r1 != 0 )
+				if( fillet_radius != 0 )
 				{
-					addArc( outer_loop, r1, 3 * M_PI_2, -M_PI_2, tw*0.5 + r1, -h*0.5 + tf + r1 );
+					addArc( outer_loop, fillet_radius, 3 * M_PI_2, -M_PI_2, tw*0.5 + fillet_radius, -h*0.5 + tf + fillet_radius );
 				}
 				else
 				{
@@ -921,69 +923,83 @@ public:
 			const double tw = t_shape->m_WebThickness->m_value*length_factor*0.5;
 			const double tf = t_shape->m_FlangeThickness->m_value*length_factor;
 
-			double r1 = 0;
+			double fillet_radius = 0;
 			if( t_shape->m_FilletRadius && !gs->isIgnoreProfileRadius() )
 			{
-				r1 = t_shape->m_FilletRadius->m_value*length_factor;
+				fillet_radius = t_shape->m_FilletRadius->m_value*length_factor;
 			}
 
-			double r2 = 0;
+			double flange_edge_radius = 0;
 			if( t_shape->m_FlangeEdgeRadius && !gs->isIgnoreProfileRadius() )
 			{
-				r2 = t_shape->m_FlangeEdgeRadius->m_value*length_factor;
+				flange_edge_radius = t_shape->m_FlangeEdgeRadius->m_value*length_factor;
 			}
 
-			double r3 = 0;
+			double web_edge_radius = 0;
 			if( t_shape->m_WebEdgeRadius && !gs->isIgnoreProfileRadius() )
 			{
-				r3 = t_shape->m_WebEdgeRadius->m_value*length_factor;
+				web_edge_radius = t_shape->m_WebEdgeRadius->m_value*length_factor;
 			}
-			double fs = 0;
+			double flange_slope = 0;
 
 			if( t_shape->m_FlangeSlope )
 			{
 				const double angle_factor = uc->getAngleInRadianFactor();
-				fs = t_shape->m_FlangeSlope->m_value*angle_factor;
+				flange_slope = t_shape->m_FlangeSlope->m_value*angle_factor;
 			}
 
-			double ws = 0;
+			double web_slope = 0;
 			if( t_shape->m_WebSlope )
 			{
 				const double angle_factor = uc->getAngleInRadianFactor();
-				ws = t_shape->m_WebSlope->m_value*angle_factor;
+				web_slope = t_shape->m_WebSlope->m_value*angle_factor;
 			}
 
 			outer_loop.push_back( carve::geom::VECTOR( -width*0.5, h*0.5 ) );
 
-			const double zf = tan( fs )*( width*0.25 - r2 );
-			const double zw = tan( ws )*( h*0.5 - r3 );
-			if( r2 != 0 )
+			const double zf = tan( flange_slope )*( width*0.25 - flange_edge_radius );
+			const double zw = tan( web_slope )*( h*0.5 - web_edge_radius );
+			if( flange_edge_radius != 0 )
 			{
-				addArc( outer_loop, r2, M_PI, M_PI_2 - fs, -width*0.5 + r2, h*0.5 - tf + zf + r2 );
+				addArc( outer_loop, flange_edge_radius, M_PI, M_PI_2 - flange_slope, -width*0.5 + flange_edge_radius, h*0.5 - tf + zf + flange_edge_radius );
 			}
 			else
 			{
 				outer_loop.push_back( carve::geom::VECTOR( -width*0.5, ( h*0.5 - tf + zf ) ) );
 			}
 
-			const double cf = cos( fs );
-			const double sf = sin( fs );
-			const double cw = cos( ws );
-			const double sw = sin( ws );
-			const double z1 = ( sf*( ( width - 2 * ( r1 + r2 + tw - zw ) )*cw - 2 * ( h - r3 - r1 - tf + zf )*sw ) ) / ( 2 * ( cf*cw - sf*sw ) );
-			const double z2 = tan( ws )*( h - r3 - r1 - z1 - tf + zf );
-			if( r1 != 0 )
+			const double cf = cos( flange_slope );
+			const double sf = sin( flange_slope );
+			const double cw = cos( web_slope );
+			const double sw = sin( web_slope );
+			const double z1 = ( sf*( ( width - 2 * ( fillet_radius + flange_edge_radius + tw - zw ) )*cw - 2 * ( h - web_edge_radius - fillet_radius - tf + zf )*sw ) ) / ( 2 * ( cf*cw - sf*sw ) );
+			const double z2 = tan( web_slope )*( h - web_edge_radius - fillet_radius - z1 - tf + zf );
+			if( fillet_radius != 0 )
 			{
-				addArc( outer_loop, r1, M_PI_2 - fs, -M_PI_2 + fs + ws, -tw + zw - z2 - r1, h*0.5 - tf + zf - z1 - r1 );
+				addArc( outer_loop, fillet_radius, M_PI_2 - flange_slope, -M_PI_2 + flange_slope + web_slope, -tw + zw - z2 - fillet_radius, h*0.5 - tf + zf - z1 - fillet_radius );
 			}
 			else
 			{
 				outer_loop.push_back( carve::geom::VECTOR( ( -tw + zw - z2 ), ( h*0.5 - tf + zf - z1 ) ) );
 			}
 
-			if( r3 != 0 )
+			if( web_edge_radius != 0 )
 			{
-				addArc( outer_loop, r3, M_PI + ws, M_PI_2 - ws, -tw + zw + r3, -h*0.5 + r3 );
+				double x_center = -tw + zw + web_edge_radius;
+				if( x_center > 0 )
+				{
+					x_center = 0;
+				}
+				addArc( outer_loop, web_edge_radius, M_PI + web_slope, M_PI_2 - web_slope, x_center, -h*0.5 + web_edge_radius );
+				while( outer_loop.size() > 0 )
+				{
+					if( outer_loop.back().x < 0 )
+					{
+						break;
+					}
+					outer_loop.pop_back();
+				}
+				outer_loop.push_back( carve::geom::VECTOR( 0, -h*0.5 ) );
 			}
 			else
 			{
@@ -1105,12 +1121,7 @@ public:
 		{
 			return;
 		}
-
-		if( num_segments < 0 )
-		{
-			num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->getNumVerticesPerCircle() ); // TODO: adapt to model size and complexity
-		}
-
+		//int num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->getNumVerticesPerCircle() ); // TODO: adapt to model size and complexity
 		if( num_segments < gs->getMinNumVerticesPerArc() )
 		{
 			num_segments = gs->getMinNumVerticesPerArc();
@@ -1122,39 +1133,14 @@ public:
 		}
 
 		double angle = start_angle;
-		double angle_delta = opening_angle / (double)num_segments;
-		for( int i = 0; i < num_segments; ++i )
-		{
-			coords.push_back( carve::geom::VECTOR( ( radius*cos( angle ) + x_center ), ( radius*sin( angle ) + y_center ) ) );
-			angle += angle_delta;
-		}
-	}
-	void addArcWithEndPoint( std::vector<vector2d_t >& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center ) const
-	{
-		shared_ptr<GeometrySettings>& gs = m_curve_converter->m_geom_settings;
-		if( !gs )
-		{
-			return;
-		}
-		int num_segments = (int)( std::abs( opening_angle ) / ( 2.0*M_PI )*gs->getNumVerticesPerCircle() ); // TODO: adapt to model size and complexity
-		if( num_segments < gs->getMinNumVerticesPerArc() )
-		{
-			num_segments = gs->getMinNumVerticesPerArc();
-		}
-
-		if( num_segments > 100 )
-		{
-			num_segments = 100;
-		}
-
-		double angle = start_angle;
-		double angle_delta = opening_angle / (double)( num_segments - 1 );
-		for( int i = 0; i < num_segments; ++i )
+		double angle_delta = opening_angle / (double)( num_segments );
+		for( int i = 0; i < num_segments+1; ++i )
 		{
 			coords.push_back( carve::geom::VECTOR( radius*cos( angle ) + x_center, radius*sin( angle ) + y_center ) );
 			angle += angle_delta;
 		}
 	}
+
 	static void mirrorCopyPath( std::vector<vector2d_t >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis )
 	{
 		int points_count = coords.size();

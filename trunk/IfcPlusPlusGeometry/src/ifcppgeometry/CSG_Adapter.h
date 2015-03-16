@@ -15,6 +15,7 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/StatusCallback.h>
 #include "IncludeCarveHeaders.h"
 #include "GeometryException.h"
 #include "GeometryInputData.h"
@@ -257,6 +258,268 @@ namespace CSG_Adapter
 			}
 		}
 	}
+	inline bool checkMeshSetNonNegativeAndClosed( const shared_ptr<meshset_t> mesh_set )
+	{
+		bool meshes_closed = true;
+		for( size_t i = 0; i < mesh_set->meshes.size(); ++i )
+		{
+			carve::mesh::Mesh<3>* mesh_i = mesh_set->meshes[i];
+			if( mesh_i )
+			{
+				if( mesh_i->isNegative() )
+				{
+					mesh_i->invert();
+					if( mesh_i->isNegative() )
+					{
+						mesh_i->recalc();
+						mesh_i->calcOrientation();
+						if( mesh_i->isNegative() )
+						{
+							std::cout << "could not invert mesh_set->meshes[" << i << "] " << std::endl;
+						}
+					}
+				}
+
+				if( !mesh_i->isClosed() )
+				{
+					meshes_closed = false;
+				}
+
+				if( mesh_i->open_edges.size() > 0 )
+				{
+					meshes_closed = false;
+				}
+			}
+		}
+		return meshes_closed;
+	}
+	inline bool checkFaceIntegrity( const shared_ptr<meshset_t>& meshset )
+	{
+		for( size_t i = 0; i < meshset->meshes.size(); ++i )
+		{
+			carve::mesh::Mesh<3>* mesh_i = meshset->meshes[i];
+			if( mesh_i->open_edges.size() > 0 )
+			{
+				//return false;
+			}
+			std::vector<face_t* >& vec_faces = mesh_i->faces;
+			for( size_t j = 0; j < vec_faces.size(); ++j )
+			{
+				face_t* face = vec_faces[j];
+				edge_t* e = face->edge;
+				const size_t n_edges = face->n_edges;
+				for( size_t i_edge = 0; i_edge < n_edges; ++i_edge )
+				{
+					if( e == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
+					{
+						return false;
+					}
+					if( !e->rev )
+					{
+#ifdef _DEBUG
+						std::vector<face_t*> vec_faces;
+						vec_faces.push_back( face );
+						GeomDebugUtils::dumpFaces( meshset, vec_faces );
+
+						std::vector<edge_t*> vec_edges;
+						vec_edges.push_back( e );
+						GeomDebugUtils::dumpEdges( meshset, vec_edges );
+#endif
+						return false;
+					}
+					if( e->rev->next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
+					{
+						return false;
+					}
+					if( !e->rev->next )
+					{
+						return false;
+					}
+					if( !e->rev->next->next )
+					{
+						return false;
+					}
+					if( !e->rev->next->next->vert )
+					{
+						return false;
+					}
+
+					if( !e->next )
+					{
+						return false;
+					}
+					if( e->next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
+					{
+						return false;
+					}
+					if( !e->prev )
+					{
+						return false;
+					}
+					if( !e->rev )
+					{
+						return false;
+					}
+					if( !e->vert )
+					{
+						return false;
+					}
+					if( !e->face )
+					{
+						return false;
+					}
+
+					e = e->next;
+				}
+				if( e != face->edge )
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	inline bool checkMeshSetValidAndClosed( const shared_ptr<meshset_t> mesh_set, StatusCallback* report_callback, IfcPPEntity* entity )
+	{
+		if( !mesh_set )
+		{
+#ifdef _DEBUG
+			if( entity )
+			{
+				std::cout << "MeshSet of entity #" << entity->m_id << " not valid" << std::endl;
+			}
+#endif
+			return false;
+		}
+		if( mesh_set->meshes.size() == 0 )
+		{
+#ifdef _DEBUG
+			if( entity )
+			{
+				std::cout << "MeshSet of entity #" << entity->m_id << " has no meshes" << std::endl;
+			}
+#endif
+			return false;
+		}
+
+		if( !checkFaceIntegrity( mesh_set ) )
+		{
+			return false;
+		}
+		std::stringstream err;
+		bool meshes_closed = checkMeshSetNonNegativeAndClosed( mesh_set );
+		if( meshes_closed )
+		{
+			// check volume
+			double meshset_volume = 0;
+			for( size_t kk = 0; kk < mesh_set->meshes.size(); ++kk )
+			{
+				carve::mesh::Mesh<3>* mesh = mesh_set->meshes[kk];
+				double mesh_volume = mesh->volume();
+
+				if( mesh_volume < 0 )
+				{
+					mesh->invert();
+					if( mesh->isNegative() )
+					{
+						mesh->recalc();
+						mesh->calcOrientation();
+						if( mesh->isNegative() )
+						{
+							std::cout << "could not invert negative mesh[" << kk << "] " << std::endl;
+						}
+					}
+					mesh_volume = mesh->volume();
+				}
+
+				if( mesh_volume < 0 )
+				{
+					err << "mesh_volume < 0" << std::endl;
+				}
+
+				meshset_volume += mesh_volume;
+			}
+		}
+		else
+		{
+			err << "mesh_set not closed" << std::endl;
+		}
+
+		if( err.tellp() > 0 )
+		{
+#ifdef _DEBUG
+			report_callback->messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity );
+#endif
+			return false;
+		}
+		return true;
+	}
+
+	inline bool checkMeshSetVolume( const shared_ptr<meshset_t> mesh_set, StatusCallback* report_callback, IfcPPEntity* entity )
+	{
+		if( !mesh_set )
+		{
+#ifdef _DEBUG
+			if( entity )
+			{
+				std::cout << "MeshSet of entity #" << entity->m_id << " not valid" << std::endl;
+			}
+#endif
+			return false;
+		}
+		if( mesh_set->meshes.size() == 0 )
+		{
+#ifdef _DEBUG
+			if( entity )
+			{
+				std::cout << "MeshSet of entity #" << entity->m_id << " has no meshes" << std::endl;
+			}
+#endif
+			return false;
+		}
+
+		std::stringstream err;
+
+		// check volume
+		double meshset_volume = 0;
+		for( size_t kk = 0; kk < mesh_set->meshes.size(); ++kk )
+		{
+			carve::mesh::Mesh<3>* mesh = mesh_set->meshes[kk];
+			double mesh_volume = mesh->volume();
+
+			if( mesh_volume < 0 )
+			{
+				mesh->invert();
+				if( mesh->isNegative() )
+				{
+					mesh->recalc();
+					mesh->calcOrientation();
+					if( mesh->isNegative() )
+					{
+						err << "mesh[" << kk << "]->isNegative() " << std::endl;
+					}
+				}
+				mesh_volume = mesh->volume();
+			}
+
+			if( mesh_volume < 0 )
+			{
+				err << "mesh_volume < 0" << std::endl;
+			}
+
+			meshset_volume += mesh_volume;
+		}
+
+
+		if( err.tellp() > 0 )
+		{
+#ifdef _DEBUG
+			report_callback->messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity );
+#endif
+			return false;
+		}
+		return true;
+	}
 	inline void removeFins( shared_ptr<meshset_t >& meshset )
 	{
 		return;  // TODO: improve and check
@@ -327,6 +590,8 @@ namespace CSG_Adapter
 		{
 			return;
 		}
+
+		checkMeshSetNonNegativeAndClosed( meshset );
 
 		bool already_triagulated = true;
 		for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
@@ -455,201 +720,7 @@ namespace CSG_Adapter
 		meshset.reset();
 		meshset = shared_ptr<meshset_t >( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 	}
-	inline bool checkFaceIntegrity( const shared_ptr<meshset_t>& meshset )
-	{
-		for( size_t i = 0; i < meshset->meshes.size(); ++i )
-		{
-			carve::mesh::Mesh<3>* mesh_i = meshset->meshes[i];
-			if( mesh_i->open_edges.size() > 0 )
-			{
-				//return false;
-			}
-			std::vector<face_t* >& vec_faces = mesh_i->faces;
-			for( size_t j = 0; j < vec_faces.size(); ++j )
-			{
-				face_t* face = vec_faces[j];
-				edge_t* e = face->edge;
-				const size_t n_edges = face->n_edges;
-				for( size_t i_edge = 0; i_edge < n_edges; ++i_edge )
-				{
-					if( e == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
-					{
-						return false;
-					}
-					if( !e->rev )
-					{
-#ifdef _DEBUG
-						std::vector<face_t*> vec_faces;
-						vec_faces.push_back( face );
-						GeomDebugUtils::dumpFaces( meshset, vec_faces );
-
-						std::vector<edge_t*> vec_edges;
-						vec_edges.push_back( e );
-						GeomDebugUtils::dumpEdges( meshset, vec_edges );
-#endif
-						return false;
-					}
-					if( e->rev->next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
-					{
-						return false;
-					}
-					if( !e->rev->next )
-					{
-						return false;
-					}
-					if( !e->rev->next->next )
-					{
-						return false;
-					}
-					if( !e->rev->next->next->vert )
-					{
-						return false;
-					}
-
-					if( !e->next )
-					{
-						return false;
-					}
-					if( e->next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
-					{
-						return false;
-					}
-					if( !e->prev )
-					{
-						return false;
-					}
-					if( !e->rev )
-					{
-						return false;
-					}
-					if( !e->vert )
-					{
-						return false;
-					}
-					if( !e->face )
-					{
-						return false;
-					}
-
-					e = e->next;
-				}
-				if( e != face->edge )
-				{
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	inline bool checkMeshSetValidAndClosed( const shared_ptr<meshset_t> mesh_set, std::stringstream& err_poly, int entity_id )
-	{
-		if( !mesh_set )
-		{
-#ifdef _DEBUG
-			std::cout << "MeshSet of entity #" << entity_id << " not valid" << std::endl;
-#endif
-			return false;
-		}
-		if( mesh_set->meshes.size() == 0 )
-		{
-#ifdef _DEBUG
-			std::cout << "MeshSet of entity #" << entity_id << " has no meshes" << std::endl;
-#endif
-			return false;
-		}
-
-		if( !checkFaceIntegrity( mesh_set ) )
-		{
-			return false;
-		}
-
-		std::stringstream err;
-		bool meshes_closed = true;
-		for( size_t i = 0; i < mesh_set->meshes.size(); ++i )
-		{
-			carve::mesh::Mesh<3>* mesh_i = mesh_set->meshes[i];
-			if( !mesh_i )
-			{
-				err << "meshes[i] is nullptr" << std::endl;
-				continue;
-			}
-
-			if( mesh_i->isNegative() )
-			{
-				mesh_i->invert();
-				if( mesh_i->isNegative() )
-				{
-					mesh_i->recalc();
-					mesh_i->calcOrientation();
-					if( mesh_i->isNegative() )
-					{
-						err << "mesh_set->meshes[" << i << "]->isNegative() " << std::endl;
-					}
-				}
-			}
-
-			if( !mesh_i->isClosed() )
-			{
-				meshes_closed = false;
-				break;
-			}
-
-			if( mesh_i->open_edges.size() > 0 )
-			{
-				meshes_closed = false;
-				break;
-			}
-		}
-
-		if( !meshes_closed )
-		{
-			err << "mesh_set not closed" << std::endl;
-		}
-
-		if( meshes_closed )
-		{
-			// check volume
-			double meshset_volume = 0;
-			for( size_t kk = 0; kk < mesh_set->meshes.size(); ++kk )
-			{
-				carve::mesh::Mesh<3>* mesh = mesh_set->meshes[kk];
-				double mesh_volume = mesh->volume();
-
-				if( mesh_volume <= 0 )
-				{
-					mesh->invert();
-					if( mesh->isNegative() )
-					{
-						mesh->recalc();
-						mesh->calcOrientation();
-						if( mesh->isNegative() )
-						{
-							err << "mesh[" << kk << "]->isNegative() " << std::endl;
-						}
-					}
-				}
-				mesh_volume = mesh->volume();
-				if( mesh_volume <= 0 )
-				{
-					err << "mesh_volume <= 0" << std::endl;
-				}
-
-				meshset_volume += mesh_volume;
-			}
-		}
-
-		if( err.tellp() > 0 )
-		{
-#ifdef _DEBUG
-			err_poly << "MeshSet of entity #" << entity_id << " has problems:" << std::endl;
-			err_poly << err.str().c_str();
-#endif
-			return false;
-		}
-		return true;
-	}
-
-	inline void simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate )
+	inline void simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate, StatusCallback* report_callback, IfcPPEntity* entity )
 	{
 		carve::mesh::MeshSimplifier simplifier;
 		//double min_colinearity = m_geom_settings->m_min_colinearity;
@@ -686,7 +757,7 @@ namespace CSG_Adapter
 		}
 
 		std::stringstream err;
-		bool meshset_ok = checkMeshSetValidAndClosed( meshset, err, -1 );
+		bool meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !meshset_ok )
 		{
 #ifdef _DEBUG
@@ -742,7 +813,7 @@ namespace CSG_Adapter
 		//simplifier.cleanFaceEdges(meshset.get());
 #ifdef _DEBUG
 		meshset_copy = shared_ptr<meshset_t >( meshset->clone() );
-		bool meshset_ok_pre_triang = checkMeshSetValidAndClosed( meshset, err, -1 );
+		bool meshset_ok_pre_triang = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !meshset_ok_pre_triang )
 		{
 			//meshset = meshset_copy;
@@ -759,13 +830,12 @@ namespace CSG_Adapter
 		}
 
 		std::stringstream err_simplified;
-		bool simplified_meshset_ok = checkMeshSetValidAndClosed( meshset, err_simplified, -1 );
+		bool simplified_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !simplified_meshset_ok )
 		{
 #ifdef _DEBUG
 			std::cout << err_simplified.str().c_str() << std::endl;
 			GeomDebugUtils::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-			//throw DebugBreakException( "!simplified_meshset_ok" );
 #endif
 			meshset = meshset_copy;
 			return;
@@ -779,7 +849,7 @@ namespace CSG_Adapter
 		}
 
 		std::stringstream err_retriangulated;
-		bool retriangulated_meshset_ok = checkMeshSetValidAndClosed( meshset, err_retriangulated, -1 );
+		bool retriangulated_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !retriangulated_meshset_ok )
 		{
 #ifdef _DEBUG
@@ -804,8 +874,8 @@ namespace CSG_Adapter
 #endif
 	}
 
-	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation,
-		const int entity1, const int entity2, shared_ptr<meshset_t >& result )
+	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, shared_ptr<meshset_t >& result, StatusCallback* report_callback,
+		IfcPPEntity* entity1, IfcPPEntity* entity2 )
 	{
 #ifdef ROUND_MESH_COORDS
 		MeshOps::roundVertices( op1.get() );
@@ -815,7 +885,7 @@ namespace CSG_Adapter
 		std::stringstream strs_err;
 		try
 		{
-			if( !checkMeshSetValidAndClosed( op1, strs_err, entity1 ) )
+			if( !checkMeshSetValidAndClosed( op1, report_callback, entity1 ) )
 			{
 				if( operation == carve::csg::CSG::B_MINUS_A )
 				{
@@ -831,7 +901,7 @@ namespace CSG_Adapter
 				return;
 			}
 
-			if( !checkMeshSetValidAndClosed( op2, strs_err, entity2 ) )
+			if( !checkMeshSetValidAndClosed( op2, report_callback, entity2 ) )
 			{
 				if( operation == carve::csg::CSG::A_MINUS_B )
 				{
@@ -847,8 +917,8 @@ namespace CSG_Adapter
 				return;
 			}
 
-			simplifyMesh( op1, false );
-			simplifyMesh( op2, false );
+			simplifyMesh( op1, false, report_callback, entity1 );
+			simplifyMesh( op2, false, report_callback, entity2 );
 			// TODO: Subclass from carve::mesh::MeshSet and add attribute to remember which meshset has already been simplified. 
 
 			// check if meshset aabb is far away from origin. if so, move to origin, compute, move back
@@ -895,7 +965,7 @@ namespace CSG_Adapter
 				GeomUtils::applyTranslate( op2, -translate_avoid_large_numbers );
 			}
 
-			if( !checkMeshSetValidAndClosed( op1, strs_err, entity1 ) )
+			if( !checkMeshSetValidAndClosed( op1, report_callback, entity1 ) )
 			{
 				if( operation == carve::csg::CSG::B_MINUS_A )
 				{
@@ -911,7 +981,7 @@ namespace CSG_Adapter
 				return;
 			}
 
-			if( !checkMeshSetValidAndClosed( op2, strs_err, entity2 ) )
+			if( !checkMeshSetValidAndClosed( op2, report_callback, entity2 ) )
 			{
 				if( operation == carve::csg::CSG::A_MINUS_B )
 				{
@@ -957,7 +1027,7 @@ namespace CSG_Adapter
 				else
 				{
 					result_meshset_ok = true;
-					bool result_mesh_closed = checkMeshSetValidAndClosed( result, strs_err, -1 );
+					bool result_mesh_closed = checkMeshSetValidAndClosed( result, report_callback, entity1 );
 					if( !result_mesh_closed )
 					{
 						result_meshset_ok = false;
@@ -967,7 +1037,7 @@ namespace CSG_Adapter
 
 			if( result_meshset_ok )
 			{
-				simplifyMesh( result, true );
+				simplifyMesh( result, true, report_callback, entity1 );
 			}
 			else
 			{

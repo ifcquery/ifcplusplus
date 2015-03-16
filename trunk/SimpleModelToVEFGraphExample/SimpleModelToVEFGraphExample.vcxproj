@@ -141,8 +141,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgViewer.lib;osgText.lib;osgFx.lib;IfcPlusPlus.lib;IfcPlusPlusGeometry.lib;Carve.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Carve\bin32;..\IfcPlusPlus\bin32;..\IfcPlusPlusGeometry\bin32;$(OSG_DIR)\lib;$(OSG_DIR)\..\freetype\2.5.3\objs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgViewer.lib;osgText.lib;osgFx.lib;IfcPlusPlus.lib;Carve.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Carve\bin32;..\IfcPlusPlus\bin32;$(OSG_DIR)\lib;$(OSG_DIR)\..\freetype\2.5.3\objs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
