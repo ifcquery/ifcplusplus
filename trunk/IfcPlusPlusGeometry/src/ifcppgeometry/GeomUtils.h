@@ -878,6 +878,28 @@ namespace GeomUtils
 		// d = |line_direction_normalized x ( point - line_pt )|
 		return carve::geom::cross( ( point - line_pt ), ( line_direction_normalized ) ).length();
 	}
+	template<unsigned ndim>
+	double Point2LineSegmentDistance2( const carve::geom::linesegment<ndim> &l, const carve::geom::vector<ndim> &v, carve::geom::vector<ndim> &closest_point )
+	{
+		carve::geom::vector<ndim> linesegment_delta = l.v2 - l.v1;
+		double t = dot( v - l.v1, linesegment_delta ) / dot( linesegment_delta, linesegment_delta );
+		if( t <= 0.0 )
+		{
+			t = 0.0;
+		}
+		if( t >= 1.0 )
+		{
+			t = 1.0;
+		}
+		closest_point = linesegment_delta*t + l.v1;
+		return ( v - closest_point ).length2();
+	}
+
+	template<unsigned ndim>
+	double Point2LineSegmentDistance( const carve::geom::linesegment<ndim> &l, const carve::geom::vector<ndim> &v, carve::geom::vector<ndim> &closest_point )
+	{
+		return sqrt( LineSegment2PointDistance2( l, v, closest_point ) );
+	}
 
 	/** matrix operations */
 	inline void computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv )
