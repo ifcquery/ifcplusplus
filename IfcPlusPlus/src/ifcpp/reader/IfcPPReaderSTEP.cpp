@@ -108,9 +108,7 @@ void IfcPPReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_p
 	}
 
 	// open file
-	std::ifstream infile;
-	infile.open( file_path.c_str(), std::ifstream::in );
-
+	std::ifstream infile(file_path.c_str(), std::ifstream::in );
 	if( !infile.is_open() )
 	{
 		std::wstringstream strs;
