@@ -1278,6 +1278,50 @@ namespace GeomUtils
 			removeDuplicates( loop );
 		}
 	}
+	inline void copyClosedLoopSkipDuplicates( const std::vector<carve::geom::vector<2> >& loop_in, std::vector<carve::geom::vector<2> >& loop_out )
+	{
+		loop_out.clear();
+		if( loop_in.size() > 0 )
+		{
+			carve::geom::vector<2> previous_point = loop_in[0];
+			loop_out.push_back( previous_point );
+		
+			if( loop_in.size() > 1 )
+			{
+				for( size_t ii = 1; ii < loop_in.size(); ++ii )
+				{
+					const carve::geom::vector<2>& current_point = loop_in[ii];
+					if( std::abs( current_point.x - previous_point.x ) < 0.00001 )
+					{
+						if( std::abs( current_point.y - previous_point.y ) < 0.00001 )
+						{
+							continue;
+						}
+					}
+					loop_out.push_back( current_point );
+					previous_point.x = current_point.x;
+					previous_point.y = current_point.y;
+				}
+
+				// delete last point if equal to first
+				while( loop_out.size() > 2 )
+				{
+					carve::geom::vector<2> & first = loop_out.front();
+					carve::geom::vector<2> & last = loop_out.back();
+
+					if( std::abs( first.x - last.x ) < 0.00000001 )
+					{
+						if( std::abs( first.y - last.y ) < 0.00000001 )
+						{
+							loop_out.pop_back();
+							continue;
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
 	//\brief: finds the first occurrence of T in vector
 	template<typename T, typename U>
 	bool findFirstInVector( std::vector<shared_ptr<U> > vec, shared_ptr<T>& ptr )

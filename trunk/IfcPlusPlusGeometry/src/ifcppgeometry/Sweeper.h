@@ -162,45 +162,50 @@ public:
 		for( size_t ii = 0; ii < face_indexes.size(); ++ii )
 		{
 			size_t num_face_vertices = face_indexes[ii];
+			if( ii + num_face_vertices >= face_indexes.size() )
+			{
+				messageCallback( "ii + num_face_vertices >= face_indexes.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				break;
+			}
 
 			if( num_face_vertices == 3 )
 			{
 				size_t tri_idx_a = face_indexes[ii+1];
 				size_t tri_idx_b = face_indexes[ii+2];
 				size_t tri_idx_c = face_indexes[ii+3];
-				if( tri_idx_a >= num_poly_points || tri_idx_b >= num_poly_points || tri_idx_c >= num_poly_points )
+				if( tri_idx_a < num_poly_points && tri_idx_b < num_poly_points && tri_idx_c < num_poly_points )
 				{
-					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-					ii += num_face_vertices;
-					continue;
-				}
-
-				if( flip_faces )
-				{
-					poly_data->addFace( tri_idx_a, tri_idx_b, tri_idx_c );
+					if( flip_faces )
+					{
+						poly_data->addFace( tri_idx_a, tri_idx_b, tri_idx_c );
+					}
+					else
+					{
+						poly_data->addFace( tri_idx_a, tri_idx_c, tri_idx_b );
+					}
 				}
 				else
 				{
-					poly_data->addFace( tri_idx_a, tri_idx_c, tri_idx_b );
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 				}
 
 				size_t tri_idx_a_back_cap = tri_idx_a + num_poly_points - num_points_in_all_loops;
 				size_t tri_idx_b_back_cap = tri_idx_b + num_poly_points - num_points_in_all_loops;
 				size_t tri_idx_c_back_cap = tri_idx_c + num_poly_points - num_points_in_all_loops;
-				if( tri_idx_a_back_cap >= num_poly_points || tri_idx_b_back_cap >= num_poly_points || tri_idx_c_back_cap >= num_poly_points )
+				if( tri_idx_a_back_cap < num_poly_points && tri_idx_b_back_cap < num_poly_points && tri_idx_c_back_cap < num_poly_points )
 				{
-					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-					ii += num_face_vertices;
-					continue;
-				}
-
-				if( flip_faces )
-				{
-					poly_data->addFace( tri_idx_a_back_cap, tri_idx_c_back_cap, tri_idx_b_back_cap );
+					if( flip_faces )
+					{
+						poly_data->addFace( tri_idx_a_back_cap, tri_idx_c_back_cap, tri_idx_b_back_cap );
+					}
+					else
+					{
+						poly_data->addFace( tri_idx_a_back_cap, tri_idx_b_back_cap, tri_idx_c_back_cap );
+					}
 				}
 				else
 				{
-					poly_data->addFace( tri_idx_a_back_cap, tri_idx_b_back_cap, tri_idx_c_back_cap );
+					messageCallback( "invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 				}
 			}
 			else if( num_face_vertices == 2 )
@@ -608,15 +613,18 @@ public:
 		bool polyline_created = false;
 		for( size_t i_face_loops = 0; i_face_loops < profile_paths_input.size(); ++i_face_loops )
 		{
-			const std::vector<carve::geom::vector<2> >& loop = profile_paths_input[i_face_loops];
+			const std::vector<carve::geom::vector<2> >& loop_input = profile_paths_input[i_face_loops];
+			std::vector<carve::geom::vector<2> > loop_2d;
 
-			if( loop.size() < 3 )
+			GeomUtils::copyClosedLoopSkipDuplicates( loop_input, loop_2d );
+			
+			if( loop_2d.size() < 3 )
 			{
 				if( profile_paths_input.size() == 1 )
 				{
 					// Cross section is just a point or a line. Create a face with one index
-					face_indexes_out.push_back( loop.size() );  // num points
-					for( size_t ii = 0; ii < loop.size(); ++ii )
+					face_indexes_out.push_back( loop_2d.size() );  // num points
+					for( size_t ii = 0; ii < loop_2d.size(); ++ii )
 					{
 						face_indexes_out.push_back( ii );  // point index
 					}
@@ -625,10 +633,9 @@ public:
 				}
 				continue;
 			}
-
+			
 			// check winding order
 			bool reverse_loop = false;
-			std::vector<carve::geom::vector<2> > loop_2d( loop );
 			carve::geom::vector<3>  normal_2d = GeomUtils::computePolygon2DNormal( loop_2d );
 			if( i_face_loops == 0 )
 			{
