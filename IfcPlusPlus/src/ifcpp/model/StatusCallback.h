@@ -107,11 +107,17 @@ public:
 #ifdef _DEBUG
 		if( !m_func_call_on_message )
 		{
-			std::wcout << L"messageCallback: !m_func_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
-		}
-		if( !m_obj_call_on_message )
-		{
-			std::wcout << L"messageCallback: !m_obj_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
+			if( m )
+			{
+				if( m->m_message_type != MESSAGE_TYPE_PROGRESS_VALUE && m->m_message_type != MESSAGE_TYPE_PROGRESS_TEXT )
+				{
+					std::wcout << L"messageCallback: !m_func_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
+				}
+				if( !m_obj_call_on_message )
+				{
+					std::wcout << L"messageCallback: !m_obj_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
+				}
+			}
 		}
 #endif
 

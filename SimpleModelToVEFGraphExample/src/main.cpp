@@ -19,6 +19,22 @@
 #include <ifcppgeometry/GeometryConverter.h>
 #include <ifcppgeometry/GeometryInputData.h>
 
+
+class MessageWrapper
+{
+public:
+static void slotMessageWrapper( void* obj_ptr, shared_ptr<StatusCallback::Message> m )
+{
+	if( m )
+	{
+		if( m->m_message_type != StatusCallback::MESSAGE_TYPE_PROGRESS_VALUE && m->m_message_type != StatusCallback::MESSAGE_TYPE_PROGRESS_TEXT )
+		{
+			std::wcout << m->m_message_text << std::endl;
+		}
+	}
+}
+};
+
 int main(int argc, char *argv[])
 {
 	std::wstring file_path( L"ExampleModel.ifc" );
@@ -36,17 +52,22 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	shared_ptr<MessageWrapper> mw( new MessageWrapper() );
 	shared_ptr<IfcPPModel> ifc_model( new IfcPPModel() );
+	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter( ifc_model ));
 	shared_ptr<IfcPPReaderSTEP> reader( new IfcPPReaderSTEP() );
+	
+	reader->setMessageCallBack( mw.get(), &MessageWrapper::slotMessageWrapper );
+	geometry_converter->setMessageCallBack( mw.get(), &MessageWrapper::slotMessageWrapper );
+	
 	reader->loadModelFromFile( file_path, ifc_model );
-
-	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter());
 	osg::ref_ptr<osg::Switch> model_switch = new osg::Switch();
-	geometry_converter->createGeometryOSG(model_switch);
-	geometry_converter->addCallbackChild( reader.get() );
+	geometry_converter->createGeometryOSG( model_switch );
+
 
 	// contains the VEF graph for each IfcProduct:
 	std::map<int, shared_ptr<ProductShapeInputData> >& map_vef_data = geometry_converter->getShapeInputData();
+	double volume_all_products = 0;
 
 	for( auto it = map_vef_data.begin(); it != map_vef_data.end(); ++it )
 	{
@@ -81,6 +102,7 @@ int main(int argc, char *argv[])
 					
 					// computes the volume of the mesh:
 					double mesh_volume = mesh->volume();
+					volume_all_products += mesh_volume;
 
 					// closed edges of the vef graph:
 					std::vector<carve::mesh::Edge<3>* >& vec_closed_edges = mesh->closed_edges;
@@ -124,8 +146,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	std::cout << "volume_all_products" << volume_all_products << std::endl;
+
 	// traverse project structure
-	shared_ptr<IfcProject> project = ifc_model->getIfcProject();
+	shared_ptr<IfcProject> project = geometry_converter->getIfcPPModel()->getIfcProject();
 	if( project )
 	{
 		for( size_t ii = 0; ii < project->m_Decomposes_inverse.size(); ++ii )

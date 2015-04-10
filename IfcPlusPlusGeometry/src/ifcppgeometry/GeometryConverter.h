@@ -103,9 +103,9 @@ public:
 		}
 	}
 
-	GeometryConverter()
+	GeometryConverter( shared_ptr<IfcPPModel>& ifc_model )
 	{
-		m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
+		m_ifc_model = ifc_model;
 		m_geom_settings = shared_ptr<GeometrySettings>( new GeometrySettings() );
 		resetNumVerticesPerCircle();
 		shared_ptr<UnitConverter>& unit_converter = m_ifc_model->getUnitConverter();

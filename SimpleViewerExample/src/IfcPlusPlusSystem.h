@@ -63,6 +63,7 @@ private:
 	shared_ptr<CommandManager>			m_command_manager;
 	shared_ptr<ViewController>			m_view_controller;
 	std::map<int, shared_ptr<selectedEntity> > m_map_selected;
+	shared_ptr<IfcPPModel>				m_ifc_model;
 
 signals:
 	void signalObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_objects );

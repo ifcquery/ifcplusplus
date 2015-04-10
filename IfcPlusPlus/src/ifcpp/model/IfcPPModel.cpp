@@ -13,8 +13,10 @@
 
 #pragma warning( disable: 4996 )
 #include <iostream>
-#include <time.h>
+#define BOOST_DATE_TIME_NO_LIB
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/posix_time/posix_time_io.hpp>
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
@@ -435,23 +437,16 @@ void IfcPPModel::initFileHeader( std::string file_name )
 	strs << "HEADER;" << std::endl;
 	strs << "FILE_DESCRIPTION(('IFC4'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";
-	char buffer [80];
 
 	//2011-04-21T14:25:12
-	time_t rawtime;
-#ifdef _WIN32
-    struct tm timeinfo;
-	time( &rawtime );
-	localtime_s( &timeinfo, &rawtime );
-	strftime(buffer,80,"%Y-%m-%dT%H:%M:%S", &timeinfo);
-#else
-	struct tm* timeinfo;
-	time( &rawtime );
-	timeinfo = localtime( &rawtime );
-	strftime(buffer,80,"%Y-%m-%dT%H:%M:%S", timeinfo);
-#endif
-	
-	strs << buffer;
+	std::locale loc( std::wcout.getloc(), new boost::posix_time::wtime_facet( L"%Y-%m-%dT%H:%M:%S" ) );
+	std::basic_stringstream<wchar_t> wss;
+	wss.imbue( loc );
+	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+	wss << now;
+	std::wstring ts = wss.str().c_str();
+
+	strs << ts;
 	strs << "',(''),('',''),'','IfcPlusPlus','');" << std::endl;
 	strs << "FILE_SCHEMA(('IFC4'));" << std::endl;
 	strs << "ENDSEC;" << std::endl;

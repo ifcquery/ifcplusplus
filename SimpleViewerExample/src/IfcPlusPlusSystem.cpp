@@ -39,7 +39,8 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_view_controller = shared_ptr<ViewController>( new ViewController() );
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
-	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter() );
+	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
+	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
 	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
 	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
 }
