@@ -231,6 +231,11 @@ public:
 		}
 		catch( IfcPPException& exception )
 		{
+#ifdef _DEBUG
+			std::cout << exception.what() << std::endl;
+			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+			GeomDebugUtils::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+#endif
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
 		}
 

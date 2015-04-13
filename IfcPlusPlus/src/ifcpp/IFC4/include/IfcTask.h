@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -80,7 +81,7 @@ public:
 	shared_ptr<IfcLabel>								m_Status;					//optional
 	shared_ptr<IfcLabel>								m_WorkMethod;				//optional
 	bool												m_IsMilestone;
-	int													m_Priority;					//optional
+	boost::optional<int>								m_Priority;					//optional
 	shared_ptr<IfcTaskTime>								m_TaskTime;					//optional
 	shared_ptr<IfcTaskTypeEnum>							m_PredefinedType;			//optional
 };

@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -79,6 +80,6 @@ public:
 
 	// IfcStructuralAction -----------------------------------------------------------
 	// attributes:
-	bool														m_DestabilizingLoad;		//optional
+	boost::optional<bool>										m_DestabilizingLoad;		//optional
 };
 

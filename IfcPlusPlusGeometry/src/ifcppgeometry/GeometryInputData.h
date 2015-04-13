@@ -323,11 +323,11 @@ public:
 		m_object_placement.reset();
 		if( m_product_switch )
 		{
-			m_product_switch->removeChildren( 0, m_product_switch->getNumChildren() );
+			GeomUtils::removeChildren( m_product_switch );
 		}
 		if( m_product_switch_curves )
 		{
-			m_product_switch_curves->removeChildren( 0, m_product_switch_curves->getNumChildren() );
+			GeomUtils::removeChildren( m_product_switch_curves );
 		}
 		m_vec_item_data.clear();
 		m_added_to_node = false;

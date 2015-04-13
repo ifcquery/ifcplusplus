@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -52,7 +53,7 @@ public:
 	// IfcGeometricRepresentationContext -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcDimensionCount>									m_CoordinateSpaceDimension;
-	double															m_Precision;				//optional
+	boost::optional<double>											m_Precision;				//optional
 	shared_ptr<IfcAxis2Placement>									m_WorldCoordinateSystem;
 	shared_ptr<IfcDirection>										m_TrueNorth;				//optional
 	// inverse attributes:

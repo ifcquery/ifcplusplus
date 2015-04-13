@@ -92,7 +92,7 @@ void IfcTask::getStepLine( std::stringstream& stream ) const
 	if( m_IsMilestone == false ) { stream << ".F."; }
 	else if( m_IsMilestone == true ) { stream << ".T."; }
 	stream << ",";
-	if( m_Priority == m_Priority ){ stream << m_Priority; } else { stream << "$"; }
+	if( m_Priority ){ stream << m_Priority.get(); } else { stream << "$"; }
 	stream << ",";
 	if( m_TaskTime ) { stream << "#" << m_TaskTime->m_id; } else { stream << "$"; }
 	stream << ",";
@@ -125,7 +125,14 @@ void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
 	vec_attributes.push_back( std::make_pair( "WorkMethod", m_WorkMethod ) );
 	vec_attributes.push_back( std::make_pair( "IsMilestone", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsMilestone ) ) ) );
-	vec_attributes.push_back( std::make_pair( "Priority", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_Priority ) ) ) );
+	if( m_Priority )
+	{
+		vec_attributes.push_back( std::make_pair( "Priority", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_Priority.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "Priority", shared_ptr<IfcPPIntAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "TaskTime", m_TaskTime ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }

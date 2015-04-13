@@ -310,7 +310,7 @@ namespace PlacementConverter
 		already_applied.insert( context_ptr );
 
 		shared_ptr<IfcDimensionCount>& dim_count = geom_context->m_CoordinateSpaceDimension;
-		double							precision = geom_context->m_Precision;				//optional
+		boost::optional<double>&		precision = geom_context->m_Precision;				//optional
 		shared_ptr<IfcAxis2Placement>& world_coords_select = geom_context->m_WorldCoordinateSystem;
 		shared_ptr<IfcDirection>& true_north = geom_context->m_TrueNorth;				//optional
 		// inverse attributes: std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >	m_HasSubContexts_inverse;
@@ -444,10 +444,10 @@ namespace PlacementConverter
 			double y = trans_operator_2d->m_LocalOrigin->m_Coordinates[1]->m_value*length_factor;
 			translate = carve::geom::VECTOR( x, y, 0.0 );
 
-			if( trans_operator_2d->m_Scale == trans_operator_2d->m_Scale )
+			if( trans_operator_2d->m_Scale )
 			{
 				// transOperator2D->m_Scale is not NAN
-				scale = trans_operator_2d->m_Scale;
+				scale = trans_operator_2d->m_Scale.get();
 			}
 			scale_y = scale;
 			scale_z = scale;
@@ -474,10 +474,10 @@ namespace PlacementConverter
 			shared_ptr<IfcCartesianTransformationOperator2DnonUniform> non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator2DnonUniform>( transform_operator );
 			if( non_uniform )
 			{
-				if( non_uniform->m_Scale2 == non_uniform->m_Scale2 )
+				if( non_uniform->m_Scale2 )
 				{
 					// m_Scale2 is not NAN
-					scale_y = non_uniform->m_Scale2;
+					scale_y = non_uniform->m_Scale2.get();
 				}
 			}
 		}
@@ -503,10 +503,10 @@ namespace PlacementConverter
 			translate.x = trans_operator_3d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
 			translate.y = trans_operator_3d->m_LocalOrigin->m_Coordinates[1]->m_value*length_factor;
 			translate.z = trans_operator_3d->m_LocalOrigin->m_Coordinates[2]->m_value*length_factor;
-			if( trans_operator_3d->m_Scale == trans_operator_3d->m_Scale )
+			if( trans_operator_3d->m_Scale )
 			{
 				// m_Scale is not NAN
-				scale = trans_operator_3d->m_Scale;
+				scale = trans_operator_3d->m_Scale.get();
 			}
 			scale_y = scale;
 			scale_z = scale;
@@ -546,13 +546,13 @@ namespace PlacementConverter
 			shared_ptr<IfcCartesianTransformationOperator3DnonUniform> non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator3DnonUniform>( transform_operator );
 			if( non_uniform )
 			{
-				if( non_uniform->m_Scale2 == non_uniform->m_Scale2 )
+				if( non_uniform->m_Scale2 )
 				{
-					scale_y = non_uniform->m_Scale2;
+					scale_y = non_uniform->m_Scale2.get();
 				}
-				if( non_uniform->m_Scale3 == non_uniform->m_Scale3 )
+				if( non_uniform->m_Scale3 )
 				{
-					scale_z = non_uniform->m_Scale3;
+					scale_z = non_uniform->m_Scale3.get();
 				}
 			}
 		}

@@ -111,7 +111,14 @@ void IfcStructuralAction::readStepArguments( const std::vector<std::wstring>& ar
 void IfcStructuralAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcStructuralActivity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DestabilizingLoad", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_DestabilizingLoad ) ) ) );
+	if( m_DestabilizingLoad )
+	{
+		vec_attributes.push_back( std::make_pair( "DestabilizingLoad", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_DestabilizingLoad.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "DestabilizingLoad", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 }
 void IfcStructuralAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

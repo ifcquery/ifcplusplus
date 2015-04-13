@@ -128,7 +128,14 @@ void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
 	vec_attributes.push_back( std::make_pair( "ScheduleContour", m_ScheduleContour ) );
 	vec_attributes.push_back( std::make_pair( "LevelingDelay", m_LevelingDelay ) );
-	vec_attributes.push_back( std::make_pair( "IsOverAllocated", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsOverAllocated ) ) ) );
+	if( m_IsOverAllocated )
+	{
+		vec_attributes.push_back( std::make_pair( "IsOverAllocated", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsOverAllocated.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "IsOverAllocated", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
 	vec_attributes.push_back( std::make_pair( "ActualWork", m_ActualWork ) );
 	vec_attributes.push_back( std::make_pair( "ActualUsage", m_ActualUsage ) );

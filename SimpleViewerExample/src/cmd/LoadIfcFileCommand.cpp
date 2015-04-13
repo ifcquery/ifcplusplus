@@ -49,7 +49,7 @@ bool LoadIfcFileCommand::doCmd()
 	// first remove previously loaded geometry from scenegraph
 	shared_ptr<ViewController> vc = m_system->getViewController();
 	osg::ref_ptr<osg::Switch> model_switch = vc->m_sw_model;
-	model_switch->removeChildren( 0, model_switch->getNumChildren() );
+	GeomUtils::removeChildren( model_switch );
 	m_system->clearSelection();
 
 	// reset the IFC model

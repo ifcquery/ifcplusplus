@@ -57,7 +57,7 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	stream << ",";
 	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Precision == m_Precision ){ stream << m_Precision; } else { stream << "*"; }
+	if( m_Precision ){ stream << m_Precision.get(); } else { stream << "*"; }
 	stream << ",";
 	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";

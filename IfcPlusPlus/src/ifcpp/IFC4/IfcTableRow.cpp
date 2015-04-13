@@ -67,7 +67,14 @@ void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 		std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RowCells", RowCells_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "IsHeading", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsHeading ) ) ) );
+	if( m_IsHeading )
+	{
+		vec_attributes.push_back( std::make_pair( "IsHeading", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsHeading.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "IsHeading", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 }
 void IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

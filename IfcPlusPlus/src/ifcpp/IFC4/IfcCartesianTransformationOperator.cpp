@@ -47,7 +47,7 @@ void IfcCartesianTransformationOperator::getStepLine( std::stringstream& stream 
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "$"; }
+	if( m_Scale ){ stream << m_Scale.get(); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -66,7 +66,14 @@ void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<st
 	vec_attributes.push_back( std::make_pair( "Axis1", m_Axis1 ) );
 	vec_attributes.push_back( std::make_pair( "Axis2", m_Axis2 ) );
 	vec_attributes.push_back( std::make_pair( "LocalOrigin", m_LocalOrigin ) );
-	vec_attributes.push_back( std::make_pair( "Scale", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale ) ) ) );
+	if( m_Scale )
+	{
+		vec_attributes.push_back( std::make_pair( "Scale", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "Scale", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
+	}
 }
 void IfcCartesianTransformationOperator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

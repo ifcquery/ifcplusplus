@@ -234,38 +234,6 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 	}
 }
 
-void readIntValue( const std::wstring& str, int& int_value )
-{
-	if( str.compare(L"$") == 0 )
-	{
-		int_value = std::numeric_limits<int>::quiet_NaN();
-	}
-	else if( str.compare(L"*") == 0 )
-	{
-		int_value = std::numeric_limits<int>::quiet_NaN();
-	}
-	else
-	{
-		int_value = std::stoi( str.c_str() );
-	}
-}
-
-void readRealValue( const std::wstring& str, double& real_value )
-{
-	if( str.compare(L"$") == 0 )
-	{
-		real_value = std::numeric_limits<double>::quiet_NaN();
-	}
-	else if( str.compare(L"*") == 0 )
-	{
-		real_value = std::numeric_limits<double>::quiet_NaN();
-	}
-	else
-	{
-		real_value = std::stod( str.c_str() );
-	}
-}
-
 void readIntList( const std::wstring& str, std::vector<int>& vec )
 {
 	const wchar_t* ch = str.c_str();

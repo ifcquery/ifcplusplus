@@ -72,7 +72,14 @@ void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_
 		std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ModelorDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelorDraughting ) ) ) );
+	if( m_ModelorDraughting )
+	{
+		vec_attributes.push_back( std::make_pair( "ModelorDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelorDraughting.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "ModelorDraughting", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 }
 void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

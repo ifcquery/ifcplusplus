@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -46,6 +47,6 @@ public:
 	// IfcFillAreaStyle -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcFillStyleSelect> >	m_FillStyles;
-	bool											m_ModelorDraughting;		//optional
+	boost::optional<bool>							m_ModelorDraughting;		//optional
 };
 

@@ -16,6 +16,7 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
+#include <ifcppgeometry/GeomUtils.h>
 
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"
@@ -38,10 +39,10 @@ bool CmdRemoveSelectedObjects::doCmd()
 		shared_ptr<selectedEntity> selected_entity = it_selected->second;
 		shared_ptr<IfcPPEntity> entity = selected_entity->entity;
 		osg::Group* grp = selected_entity->osg_group.get();
-		
-		grp->removeChildren(0, grp->getNumChildren() );
-		// TODO: remove also from ifc model
+	
+		GeomUtils::removeChildren( grp );
 
+		// TODO: remove also from ifc model
 		m_removed_objects[entity->m_id] = entity;
 	}
 	m_system->clearSelection();

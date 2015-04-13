@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -51,6 +52,6 @@ public:
 	shared_ptr<IfcDirection>								m_Axis1;					//optional
 	shared_ptr<IfcDirection>								m_Axis2;					//optional
 	shared_ptr<IfcCartesianPoint>							m_LocalOrigin;
-	double													m_Scale;					//optional
+	boost::optional<double>									m_Scale;					//optional
 };
 

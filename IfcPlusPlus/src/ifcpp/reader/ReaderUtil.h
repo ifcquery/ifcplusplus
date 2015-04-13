@@ -22,6 +22,7 @@
 #include <sstream>
 #include <string>
 #include <boost/unordered_map.hpp>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPObject.h"
@@ -52,8 +53,67 @@ void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
 void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items );
 
-void readIntValue( const std::wstring& str, int& value );
-void readRealValue( const std::wstring& str, double& value );
+inline void readIntValue( const std::wstring& str, int& int_value )
+{
+	if( str.compare( L"$" ) == 0 )
+	{
+		int_value = std::numeric_limits<int>::quiet_NaN();
+	}
+	else if( str.compare( L"*" ) == 0 )
+	{
+		int_value = std::numeric_limits<int>::quiet_NaN();
+	}
+	else
+	{
+		int_value = std::stoi( str.c_str() );
+	}
+}
+inline void readIntValue( const std::wstring& str, boost::optional<int>& int_value )
+{
+	if( str.compare( L"$" ) == 0 )
+	{
+		int_value = boost::none;
+	}
+	else if( str.compare( L"*" ) == 0 )
+	{
+		int_value = boost::none;
+	}
+	else
+	{
+		int_value = std::stoi( str.c_str() );
+	}
+}
+inline void readRealValue( const std::wstring& str, double& real_value )
+{
+	if( str.compare( L"$" ) == 0 )
+	{
+		real_value = std::numeric_limits<double>::quiet_NaN();
+	}
+	else if( str.compare( L"*" ) == 0 )
+	{
+		real_value = std::numeric_limits<double>::quiet_NaN();
+	}
+	else
+	{
+		real_value = std::stod( str.c_str() );
+	}
+}
+inline void readRealValue( const std::wstring& str, boost::optional<double>& real_value )
+{
+	if( str.compare( L"$" ) == 0 )
+	{
+		real_value = boost::none;
+	}
+	else if( str.compare( L"*" ) == 0 )
+	{
+		real_value = boost::none;
+	}
+	else
+	{
+		real_value = std::stod( str.c_str() );
+	}
+}
+
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
 shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_entities );

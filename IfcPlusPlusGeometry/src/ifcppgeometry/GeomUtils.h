@@ -506,6 +506,13 @@ namespace GeomUtils
 			}
 		}
 	}
+	inline void removeChildren( osg::Group* grp )
+	{
+		if( grp )
+		{
+			grp->removeChildren( 0, grp->getNumChildren() );
+		}
+	}
 	
 	/** polygon operations */
 	inline carve::geom::vector<3> computePolygonCentroid( const std::vector<carve::geom::vector<3> >& polygon )
@@ -1283,6 +1290,7 @@ namespace GeomUtils
 		loop_out.clear();
 		if( loop_in.size() > 0 )
 		{
+			loop_out.reserve( loop_in.size() );
 			carve::geom::vector<2> previous_point = loop_in[0];
 			loop_out.push_back( previous_point );
 		

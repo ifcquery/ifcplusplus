@@ -57,9 +57,9 @@ shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy( IfcPPCopyOptions& option
 void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCBSPLINESURFACE" << "(";
-	if( m_UDegree == m_UDegree ){ stream << m_UDegree; } else { stream << "$"; }
+	if( m_UDegree ){ stream << m_UDegree; } else { stream << "$"; }
 	stream << ",";
-	if( m_VDegree == m_VDegree ){ stream << m_VDegree; } else { stream << "$"; }
+	if( m_VDegree ){ stream << m_VDegree; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";

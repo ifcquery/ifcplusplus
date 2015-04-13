@@ -98,9 +98,7 @@ public:
 				messageCallback( "SweptArea not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, swept_area_solid.get() );
 				return;
 			}
-			shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
-			const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths = profile_converter->getCoordinates();
-
+			
 			shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
 			if( !item_data_solid )
 			{
@@ -125,6 +123,9 @@ public:
 				return;
 			}
 
+			shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
+			const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths = profile_converter->getCoordinates();
+
 			shared_ptr<IfcFixedReferenceSweptAreaSolid> fixed_reference_swept_area_solid = dynamic_pointer_cast<IfcFixedReferenceSweptAreaSolid>( swept_area_solid );
 			if( fixed_reference_swept_area_solid )
 			{
@@ -136,9 +137,8 @@ public:
 				shared_ptr<IfcCurve>& ifc_directrix_curve = fixed_reference_swept_area_solid->m_Directrix;
 				shared_ptr<IfcParameterValue>& ifc_start_param = fixed_reference_swept_area_solid->m_StartParam;				//optional
 				shared_ptr<IfcParameterValue>& ifc_end_param = fixed_reference_swept_area_solid->m_EndParam;					//optional
-				shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;
-
-				// TODO: apply fixed reference
+				shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;				// TODO: apply fixed reference
+				messageCallback( "IfcFixedReferenceSweptAreaSolid: Fixed reference not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, fixed_reference_swept_area_solid.get() );
 
 				std::vector<carve::geom::vector<3> > segment_start_points;
 				std::vector<carve::geom::vector<3> > basis_curve_points;
@@ -166,13 +166,12 @@ public:
 				shared_ptr<IfcCurve>& ifc_directrix_curve = surface_curve_swept_area_solid->m_Directrix;
 				shared_ptr<IfcParameterValue>& ifc_start_param = surface_curve_swept_area_solid->m_StartParam;				//optional
 				shared_ptr<IfcParameterValue>& ifc_end_param = surface_curve_swept_area_solid->m_EndParam;					//optional
-				shared_ptr<IfcSurface>& ifc_reference_surface = surface_curve_swept_area_solid->m_ReferenceSurface;
+				shared_ptr<IfcSurface>& ifc_reference_surface = surface_curve_swept_area_solid->m_ReferenceSurface;			// TODO: apply start_param, end_param
+				messageCallback( "IfcSurfaceCurveSweptAreaSolid: StartParam and EndParam not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, surface_curve_swept_area_solid.get() );
 
 				std::vector<carve::geom::vector<3> > segment_start_points;
 				std::vector<carve::geom::vector<3> > directrix_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points );
-
-				// TODO: apply start_param, end_param
 
 				// apply reference curve
 				shared_ptr<carve::input::PolylineSetData> reference_surface_data( new carve::input::PolylineSetData() );

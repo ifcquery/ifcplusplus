@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -41,7 +42,7 @@ public:
 	// IfcTableRow -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcValue> >	m_RowCells;					//optional
-	bool								m_IsHeading;				//optional
+	boost::optional<bool>				m_IsHeading;				//optional
 	// inverse attributes:
 	weak_ptr<IfcTable>					m_OfTable_inverse;
 };

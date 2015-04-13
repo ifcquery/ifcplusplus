@@ -51,7 +51,7 @@ void IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream )
 	stream << ",";
 	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Precision == m_Precision ){ stream << m_Precision; } else { stream << "$"; }
+	if( m_Precision ){ stream << m_Precision.get(); } else { stream << "$"; }
 	stream << ",";
 	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
@@ -74,7 +74,14 @@ void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std
 {
 	IfcRepresentationContext::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CoordinateSpaceDimension", m_CoordinateSpaceDimension ) );
-	vec_attributes.push_back( std::make_pair( "Precision", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Precision ) ) ) );
+	if( m_Precision )
+	{
+		vec_attributes.push_back( std::make_pair( "Precision", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Precision.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "Precision", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "WorldCoordinateSystem", m_WorldCoordinateSystem ) );
 	vec_attributes.push_back( std::make_pair( "TrueNorth", m_TrueNorth ) );
 }

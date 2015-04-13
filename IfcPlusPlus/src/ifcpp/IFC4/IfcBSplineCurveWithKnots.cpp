@@ -61,7 +61,7 @@ shared_ptr<IfcPPObject> IfcBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions&
 void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCBSPLINECURVEWITHKNOTS" << "(";
-	if( m_Degree == m_Degree ){ stream << m_Degree; } else { stream << "*"; }
+	if( m_Degree ){ stream << m_Degree; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
 	stream << ",";

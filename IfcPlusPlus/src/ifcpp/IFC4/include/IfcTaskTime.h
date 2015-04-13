@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -59,7 +60,7 @@ public:
 	shared_ptr<IfcDateTime>				m_LateFinish;				//optional
 	shared_ptr<IfcDuration>				m_FreeFloat;				//optional
 	shared_ptr<IfcDuration>				m_TotalFloat;				//optional
-	bool								m_IsCritical;				//optional
+	boost::optional<bool>				m_IsCritical;				//optional
 	shared_ptr<IfcDateTime>				m_StatusTime;				//optional
 	shared_ptr<IfcDuration>				m_ActualDuration;			//optional
 	shared_ptr<IfcDateTime>				m_ActualStart;				//optional

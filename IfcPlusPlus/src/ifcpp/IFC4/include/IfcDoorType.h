@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -81,7 +82,7 @@ public:
 	// attributes:
 	shared_ptr<IfcDoorTypeEnum>							m_PredefinedType;
 	shared_ptr<IfcDoorTypeOperationEnum>				m_OperationType;
-	bool												m_ParameterTakesPrecedence;	//optional
+	boost::optional<bool>								m_ParameterTakesPrecedence;	//optional
 	shared_ptr<IfcLabel>								m_UserDefinedOperationType;	//optional
 };
 

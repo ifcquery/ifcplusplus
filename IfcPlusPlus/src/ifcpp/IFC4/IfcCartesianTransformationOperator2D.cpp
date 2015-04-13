@@ -47,7 +47,7 @@ void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& strea
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "*"; }
+	if( m_Scale ){ stream << m_Scale.get(); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

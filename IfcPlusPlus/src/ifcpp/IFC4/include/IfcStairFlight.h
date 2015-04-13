@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -94,8 +95,8 @@ public:
 
 	// IfcStairFlight -----------------------------------------------------------
 	// attributes:
-	int															m_NumberOfRiser;			//optional
-	int															m_NumberOfTreads;			//optional
+	boost::optional<int>										m_NumberOfRiser;			//optional
+	boost::optional<int>										m_NumberOfTreads;			//optional
 	shared_ptr<IfcPositiveLengthMeasure>						m_RiserHeight;				//optional
 	shared_ptr<IfcPositiveLengthMeasure>						m_TreadLength;				//optional
 	shared_ptr<IfcStairFlightTypeEnum>							m_PredefinedType;			//optional

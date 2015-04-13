@@ -50,13 +50,13 @@ void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstr
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale == m_Scale ){ stream << m_Scale; } else { stream << "*"; }
+	if( m_Scale ){ stream << m_Scale.get(); } else { stream << "*"; }
 	stream << ",";
 	if( m_Axis3 ) { stream << "#" << m_Axis3->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale2 == m_Scale2 ){ stream << m_Scale2; } else { stream << "$"; }
+	if( m_Scale2 ){ stream << m_Scale2.get(); } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale3 == m_Scale3 ){ stream << m_Scale3; } else { stream << "$"; }
+	if( m_Scale3 ){ stream << m_Scale3.get(); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -75,8 +75,22 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale2 ) ) ) );
-	vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale3 ) ) ) );
+	if( m_Scale2 )
+	{
+		vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale2.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
+	}
+	if( m_Scale3 )
+	{
+		vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale3.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
+	}
 }
 void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

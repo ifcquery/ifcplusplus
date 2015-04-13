@@ -98,9 +98,9 @@ void IfcStairFlight::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_NumberOfRiser == m_NumberOfRiser ){ stream << m_NumberOfRiser; } else { stream << "$"; }
+	if( m_NumberOfRiser ){ stream << m_NumberOfRiser.get(); } else { stream << "$"; }
 	stream << ",";
-	if( m_NumberOfTreads == m_NumberOfTreads ){ stream << m_NumberOfTreads; } else { stream << "$"; }
+	if( m_NumberOfTreads ){ stream << m_NumberOfTreads.get(); } else { stream << "$"; }
 	stream << ",";
 	if( m_RiserHeight ) { m_RiserHeight->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -131,8 +131,22 @@ void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "NumberOfRiser", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_NumberOfRiser ) ) ) );
-	vec_attributes.push_back( std::make_pair( "NumberOfTreads", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_NumberOfTreads ) ) ) );
+	if( m_NumberOfRiser )
+	{
+		vec_attributes.push_back( std::make_pair( "NumberOfRiser", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_NumberOfRiser.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "NumberOfRiser", shared_ptr<IfcPPIntAttribute>() ) );	 // empty shared_ptr
+	}
+	if( m_NumberOfTreads )
+	{
+		vec_attributes.push_back( std::make_pair( "NumberOfTreads", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_NumberOfTreads.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "NumberOfTreads", shared_ptr<IfcPPIntAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "RiserHeight", m_RiserHeight ) );
 	vec_attributes.push_back( std::make_pair( "TreadLength", m_TreadLength ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );

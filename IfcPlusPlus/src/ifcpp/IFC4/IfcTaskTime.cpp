@@ -141,7 +141,14 @@ void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 	vec_attributes.push_back( std::make_pair( "LateFinish", m_LateFinish ) );
 	vec_attributes.push_back( std::make_pair( "FreeFloat", m_FreeFloat ) );
 	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
-	vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsCritical ) ) ) );
+	if( m_IsCritical )
+	{
+		vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsCritical.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
 	vec_attributes.push_back( std::make_pair( "ActualDuration", m_ActualDuration ) );
 	vec_attributes.push_back( std::make_pair( "ActualStart", m_ActualStart ) );

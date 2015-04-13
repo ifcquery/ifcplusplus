@@ -50,7 +50,7 @@ public:
 	//  shared_ptr<IfcDirection>								m_Axis1;					//optional
 	//  shared_ptr<IfcDirection>								m_Axis2;					//optional
 	//  shared_ptr<IfcCartesianPoint>							m_LocalOrigin;
-	//  double													m_Scale;					//optional
+	//  boost::optional<double>									m_Scale;					//optional
 
 	// IfcCartesianTransformationOperator3D -----------------------------------------------------------
 	// attributes:

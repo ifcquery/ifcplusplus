@@ -137,7 +137,14 @@ void IfcWindowType::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	IfcBuildingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "PartitioningType", m_PartitioningType ) );
-	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence ) ) ) );
+	if( m_ParameterTakesPrecedence )
+	{
+		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "UserDefinedPartitioningType", m_UserDefinedPartitioningType ) );
 }
 void IfcWindowType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -113,16 +113,9 @@ public:
 		m_converter_osg = shared_ptr<ConverterOSG>( new ConverterOSG( m_geom_settings ) );
 
 		// redirect all messages to slotMessageWrapper
-		//void slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> m )
-//		void * message_func = &GeometryConverter::slotMessageWrapper; // ( void*, shared_ptr<Message> t )
 		addCallbackChild( m_ifc_model.get() );
-		//child->setMessageCallBack( m_obj_call_on_message, m_func_call_on_message );
 		addCallbackChild( m_representation_converter.get() );
 		addCallbackChild( m_converter_osg.get() );
-		
-		//m_ifc_model->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
-		//m_representation_converter->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
-		//m_converter_osg->setMessageCallBack( this, &GeometryConverter::slotMessageWrapper );
 	}
 
 	~GeometryConverter()

@@ -137,7 +137,14 @@ void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 	IfcBuildingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
-	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence ) ) ) );
+	if( m_ParameterTakesPrecedence )
+	{
+		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 	vec_attributes.push_back( std::make_pair( "UserDefinedOperationType", m_UserDefinedOperationType ) );
 }
 void IfcDoorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

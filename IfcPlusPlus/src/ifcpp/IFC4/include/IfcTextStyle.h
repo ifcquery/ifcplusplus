@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -50,6 +51,6 @@ public:
 	shared_ptr<IfcTextStyleForDefinedFont>	m_TextCharacterAppearance;	//optional
 	shared_ptr<IfcTextStyleTextModel>		m_TextStyle;				//optional
 	shared_ptr<IfcTextFontSelect>			m_TextFontStyle;
-	bool									m_ModelOrDraughting;		//optional
+	boost::optional<bool>					m_ModelOrDraughting;		//optional
 };
 

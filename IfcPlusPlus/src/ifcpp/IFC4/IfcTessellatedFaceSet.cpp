@@ -77,7 +77,14 @@ void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, sh
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Coordinates", m_Coordinates ) );
-	vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Closed ) ) ) );
+	if( m_Closed )
+	{
+		vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Closed.get() ) ) ) );
+	}
+	else
+	{
+		vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
+	}
 }
 void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

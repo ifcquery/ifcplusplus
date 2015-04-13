@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -54,7 +55,7 @@ public:
 	// attributes:
 	shared_ptr<IfcCartesianPointList3D>						m_Coordinates;
 	std::vector<std::vector<shared_ptr<IfcParameterValue> > >	m_Normals;					//optional
-	bool													m_Closed;					//optional
+	boost::optional<bool>									m_Closed;					//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcIndexedColourMap> >				m_HasColours_inverse;
 	std::vector<weak_ptr<IfcIndexedTextureMap> >			m_HasTextures_inverse;
