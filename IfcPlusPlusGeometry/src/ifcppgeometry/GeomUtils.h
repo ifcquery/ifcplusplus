@@ -513,6 +513,44 @@ namespace GeomUtils
 			grp->removeChildren( 0, grp->getNumChildren() );
 		}
 	}
+	inline void drawBoundingBox( const carve::geom::aabb<3>& aabb, osg::Vec3Array* vertices, osg::Geometry* geom )
+	{
+		const carve::geom::vector<3>& aabb_pos = aabb.pos;
+		const carve::geom::vector<3>& extent = aabb.extent;
+		const double dex = extent.x;
+		const double dey = extent.y;
+		const double dez = extent.z;
+
+		const int vert_id_offset = vertices->size();
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y - dey, aabb_pos.z - dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y - dey, aabb_pos.z - dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z - dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z - dez ) );
+
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y - dey, aabb_pos.z + dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y - dey, aabb_pos.z + dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
+
+		osg::DrawElementsUInt* box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
+		box_lines->push_back( vert_id_offset + 0 );
+		box_lines->push_back( vert_id_offset + 1 );
+		box_lines->push_back( vert_id_offset + 2 );
+		box_lines->push_back( vert_id_offset + 3 );
+		box_lines->push_back( vert_id_offset + 0 );
+		box_lines->push_back( vert_id_offset + 4 );
+		box_lines->push_back( vert_id_offset + 5 );
+		box_lines->push_back( vert_id_offset + 1 );
+		box_lines->push_back( vert_id_offset + 5 );
+		box_lines->push_back( vert_id_offset + 6 );
+		box_lines->push_back( vert_id_offset + 2 );
+		box_lines->push_back( vert_id_offset + 6 );
+		box_lines->push_back( vert_id_offset + 7 );
+		box_lines->push_back( vert_id_offset + 3 );
+		box_lines->push_back( vert_id_offset + 7 );
+		box_lines->push_back( vert_id_offset + 4 );
+		geom->addPrimitiveSet( box_lines );
+	}
 	
 	/** polygon operations */
 	inline carve::geom::vector<3> computePolygonCentroid( const std::vector<carve::geom::vector<3> >& polygon )
@@ -1035,6 +1073,30 @@ namespace GeomUtils
 		inv._43 = a[3][6];
 		inv._44 = a[3][7];
 	}
+	inline bool isMatrixIdentity( const carve::math::Matrix& mat )
+	{
+		if( std::abs( mat._11 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._22 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._33 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._44 - 1.0 ) > 0.00001 )  return false;
+
+		if( std::abs( mat._12 ) > 0.00001 )  return false;
+		if( std::abs( mat._13 ) > 0.00001 )  return false;
+		if( std::abs( mat._14 ) > 0.00001 )  return false;
+
+		if( std::abs( mat._21 ) > 0.00001 )  return false;
+		if( std::abs( mat._23 ) > 0.00001 )  return false;
+		if( std::abs( mat._24 ) > 0.00001 )  return false;
+
+		if( std::abs( mat._31 ) > 0.00001 )  return false;
+		if( std::abs( mat._32 ) > 0.00001 )  return false;
+		if( std::abs( mat._34 ) > 0.00001 )  return false;
+
+		if( std::abs( mat._41 ) > 0.00001 )  return false;
+		if( std::abs( mat._42 ) > 0.00001 )  return false;
+		if( std::abs( mat._43 ) > 0.00001 )  return false;
+		return true;
+	}
 	inline void makeLookAt(const carve::geom::vector<3>& eye,const carve::geom::vector<3>& center,const carve::geom::vector<3>& up, carve::math::Matrix& resulting_matrix )
 	{
 		carve::geom::vector<3> zaxis = ( center - eye ).normalize();
@@ -1193,7 +1255,7 @@ namespace GeomUtils
 	}
 	
 	/** MeshSet and Polyhedron operations */
-	inline void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, carve::math::Matrix& matrix )
+	inline void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, const carve::math::Matrix& matrix )
 	{
 		for( size_t ii = 0; ii < poly_data->points.size(); ++ii )
 		{
@@ -1213,7 +1275,7 @@ namespace GeomUtils
 			meshset->meshes[i]->recalc();
 		}
 	}
-	inline void applyPosition( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::math::Matrix& matrix )
+	inline void applyPosition( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& matrix )
 	{
 		for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
 		{
@@ -1225,29 +1287,13 @@ namespace GeomUtils
 			meshset->meshes[i]->recalc();
 		}
 	}
-	inline bool isMatrixIdentity( const carve::math::Matrix& mat )
+	inline void applyPosition( carve::geom::aabb<3>& aabb, const carve::math::Matrix& matrix )
 	{
-		if( std::abs( mat._11 - 1.0 ) > 0.00001 )  return false;
-		if( std::abs( mat._22 - 1.0 ) > 0.00001 )  return false;
-		if( std::abs( mat._33 - 1.0 ) > 0.00001 )  return false;
-		if( std::abs( mat._44 - 1.0 ) > 0.00001 )  return false;
+		carve::geom::vector<3>& pos = aabb.pos;
+		carve::geom::vector<3>& extent = aabb.extent;
 
-		if( std::abs( mat._12 ) > 0.00001 )  return false;
-		if( std::abs( mat._13 ) > 0.00001 )  return false;
-		if( std::abs( mat._14 ) > 0.00001 )  return false;
-
-		if( std::abs( mat._21 ) > 0.00001 )  return false;
-		if( std::abs( mat._23 ) > 0.00001 )  return false;
-		if( std::abs( mat._24 ) > 0.00001 )  return false;
-
-		if( std::abs( mat._31 ) > 0.00001 )  return false;
-		if( std::abs( mat._32 ) > 0.00001 )  return false;
-		if( std::abs( mat._34 ) > 0.00001 )  return false;
-
-		if( std::abs( mat._41 ) > 0.00001 )  return false;
-		if( std::abs( mat._42 ) > 0.00001 )  return false;
-		if( std::abs( mat._43 ) > 0.00001 )  return false;
-		return true;
+		pos = matrix*pos;
+		extent = matrix*extent;
 	}
 	inline void removeDuplicates( std::vector<carve::geom::vector<2> >&	loop )
 	{

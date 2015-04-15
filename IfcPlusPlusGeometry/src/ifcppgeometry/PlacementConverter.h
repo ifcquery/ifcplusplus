@@ -446,7 +446,6 @@ namespace PlacementConverter
 
 			if( trans_operator_2d->m_Scale )
 			{
-				// transOperator2D->m_Scale is not NAN
 				scale = trans_operator_2d->m_Scale.get();
 			}
 			scale_y = scale;
@@ -476,7 +475,6 @@ namespace PlacementConverter
 			{
 				if( non_uniform->m_Scale2 )
 				{
-					// m_Scale2 is not NAN
 					scale_y = non_uniform->m_Scale2.get();
 				}
 			}
@@ -505,7 +503,6 @@ namespace PlacementConverter
 			translate.z = trans_operator_3d->m_LocalOrigin->m_Coordinates[2]->m_value*length_factor;
 			if( trans_operator_3d->m_Scale )
 			{
-				// m_Scale is not NAN
 				scale = trans_operator_3d->m_Scale.get();
 			}
 			scale_y = scale;
