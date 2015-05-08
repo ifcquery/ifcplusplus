@@ -39,7 +39,15 @@ namespace {
       carve::geom2d::P2 v2 = points[v] - points[vp];
 
       double cp = v1.x * v2.y - v2.x * v1.y;
-      if (cp < 0) return false;
+	  
+	  if( cp < 0 )
+	  {
+		  if( abs( cp ) < 0.00000001 )
+		  {
+			  std::cout << "grahamScan: abs( cp ) < 0.000001" << std::endl;
+		  }
+		  return false;
+	  }
 
       int j = i + 1;
       while (j < (int)ordered.size() && points[ordered[j]] == points[v]) j++;
@@ -70,7 +78,8 @@ namespace carve {
 
       std::vector<std::pair<double, double> > angle_dist;
       std::vector<int> ordered;
-      angle_dist.reserve(points.size());
+      //angle_dist.reserve(points.size());
+	  angle_dist.resize(points.size());
       ordered.reserve(points.size() - 1);
       for (unsigned i = 0; i < points.size(); ++i) {
         if (i == max_v) continue;
@@ -80,7 +89,7 @@ namespace carve {
   
       std::sort(ordered.begin(),
                 ordered.end(),
-                make_index_sort(angle_dist.begin()));
+                carve::make_index_sort(angle_dist.begin()));
 
       std::vector<int> result;
       result.push_back(max_v);

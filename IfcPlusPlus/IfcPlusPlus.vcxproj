@@ -172,7 +172,8 @@
       <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableParallelCodeGeneration>
+      </EnableParallelCodeGeneration>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>

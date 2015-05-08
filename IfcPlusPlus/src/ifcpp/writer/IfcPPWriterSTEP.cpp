@@ -17,6 +17,7 @@
 #include <sstream>
 #include <iomanip>
 #include <locale.h>
+#include <boost/fusion/container/map.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPModel.h"
@@ -46,10 +47,11 @@ void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<
 	stream << std::setiosflags( std::ios::showpoint );
 	stream << std::fixed;
 	const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcEntities();
+	std::map<int, shared_ptr<IfcPPEntity> > map_ordered( map.begin(), map.end() );
 	size_t i = 0;
 	double last_progress = 0.0;
-	double num_objects = double(map.size());
-	for( auto it=map.begin(); it!=map.end(); ++it )
+	double num_objects = double(map_ordered.size());
+	for( auto it=map_ordered.begin(); it!=map_ordered.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> obj = it->second;
 

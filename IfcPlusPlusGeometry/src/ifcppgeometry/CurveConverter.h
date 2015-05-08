@@ -63,23 +63,23 @@ public:
 	shared_ptr<SplineConverter>		m_spline_converter;
 	shared_ptr<PointConverter>		m_point_converter;
 	
-	CurveConverter::CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
+	CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
 		: m_geom_settings( gs ), m_unit_converter( uc ), m_point_converter( pc ), m_spline_converter( sc )
 	{
 	}
 
-	CurveConverter::~CurveConverter()
+	~CurveConverter()
 	{
 	}
 
-	void CurveConverter::convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<2> >& loops, std::vector<carve::geom::vector<2> >& segment_start_points ) const
+	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<2> >& loops, std::vector<carve::geom::vector<2> >& segment_start_points ) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
 		convertIfcCurve2D( ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, true );
 	}
 
-	void CurveConverter::convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<2> >& target_vec, std::vector<carve::geom::vector<2> >& segment_start_points,
+	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<2> >& target_vec, std::vector<carve::geom::vector<2> >& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
 		std::vector<carve::geom::vector<3> > target_vec_3d;
@@ -98,14 +98,14 @@ public:
 		}
 	}
 
-	void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& loops, std::vector<carve::geom::vector<3> >& segment_start_points ) const
+	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& loops, std::vector<carve::geom::vector<3> >& segment_start_points ) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
 		convertIfcCurve( ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, true );
 	}
 
-	void CurveConverter::convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points,
+	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
 		double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -516,12 +516,12 @@ public:
 	}
 
 
-	void CurveConverter::convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<carve::geom::vector<3> >& loop ) const
+	void convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<carve::geom::vector<3> >& loop ) const
 	{
 		m_point_converter->convertIfcCartesianPointVector( poly_line->m_Points, loop );
 	}
 
-	void CurveConverter::convertIfcLoop( const shared_ptr<IfcLoop>& loop, std::vector<carve::geom::vector<3> >& loop_points ) const
+	void convertIfcLoop( const shared_ptr<IfcLoop>& loop, std::vector<carve::geom::vector<3> >& loop_points ) const
 	{
 		const shared_ptr<IfcPolyLoop> poly_loop = dynamic_pointer_cast<IfcPolyLoop>( loop );
 		if( poly_loop )

@@ -452,11 +452,15 @@ public:
 		std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = obj_def->m_IsDecomposedBy_inverse;
 		for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
 		{
-			shared_ptr<IfcRelAggregates> rel_aggregates( vec_IsDecomposedBy[ii] );
+			const weak_ptr<IfcRelAggregates>& rel_aggregates_weak_ptr = vec_IsDecomposedBy[ii];
+			if( rel_aggregates_weak_ptr.expired() )
+			{
+				continue;
+			}
+			shared_ptr<IfcRelAggregates> rel_aggregates( rel_aggregates_weak_ptr );
 			if( rel_aggregates )
 			{
 				std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = rel_aggregates->m_RelatedObjects;
-
 				for( size_t jj = 0; jj < vec_related_objects.size(); ++jj )
 				{
 					shared_ptr<IfcObjectDefinition> child_obj_def = vec_related_objects[jj];
@@ -476,7 +480,12 @@ public:
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
 			for( size_t ii = 0; ii < vec_contains.size(); ++ii )
 			{
-				shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( vec_contains[ii] );
+				const weak_ptr<IfcRelContainedInSpatialStructure>& rel_contained_weak_ptr = vec_contains[ii];
+				if( rel_contained_weak_ptr.expired() )
+				{
+					continue;
+				}
+				shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( rel_contained_weak_ptr );
 				if( rel_contained )
 				{
 					std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40121.0
+VisualStudioVersion = 12.0.40302.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Carve", "Carve\Carve.vcxproj", "{B3C35BB8-0E24-4F96-8D1C-47F777EF9EA1}"
 EndProject
@@ -120,7 +120,6 @@ Global
 		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.Release|Win32.ActiveCfg = Release|Win32
-		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.Release|Win32.Build.0 = Release|Win32
 		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.Release|x64.ActiveCfg = Release|x64
 		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.ReleaseNoOptimization|Mixed Platforms.ActiveCfg = ReleaseNoOptimization|Win32
 		{0B4B4CDF-75EA-456F-A2C2-FEDB1BA2B51A}.ReleaseNoOptimization|Mixed Platforms.Build.0 = ReleaseNoOptimization|Win32
@@ -230,7 +229,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = msvc2012_64_opengl
 		QtVersion = 4.7.4
+		Qt5Version = msvc2012_64_opengl
 	EndGlobalSection
 EndGlobal

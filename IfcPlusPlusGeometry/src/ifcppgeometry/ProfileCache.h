@@ -33,21 +33,21 @@ protected:
 #endif
 
 public:
-	ProfileCache::ProfileCache( shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc )
+	ProfileCache( shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc )
 		: m_curve_converter( cc ), m_spline_converter( sc )
 	{
 	}
 
-	ProfileCache::~ProfileCache()
+	~ProfileCache()
 	{
 	}
 
-	void ProfileCache::clearProfileCache()
+	void clearProfileCache()
 	{
 		m_profile_cache.clear();
 	}
 
-	shared_ptr<ProfileConverter> ProfileCache::getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile )
+	shared_ptr<ProfileConverter> getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile )
 	{
 		if( !ifc_profile )
 		{
