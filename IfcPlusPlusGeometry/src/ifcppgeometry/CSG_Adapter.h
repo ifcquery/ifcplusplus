@@ -75,7 +75,6 @@ namespace CSG_Adapter
 		return -1;
 	}
 
-
 	inline void roundVertices( meshset_t* meshset )
 	{
 		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;

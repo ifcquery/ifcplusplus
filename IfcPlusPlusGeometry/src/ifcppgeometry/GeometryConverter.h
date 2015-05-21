@@ -503,6 +503,8 @@ public:
 				}
 			}
 		}
+
+		// TODO: handle IfcRelAssignsToProduct
 	}
 
 	void convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeInputData>& product_shape )

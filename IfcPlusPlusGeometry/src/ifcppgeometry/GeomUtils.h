@@ -126,9 +126,10 @@ namespace GeomUtils
 			colors->push_back( osg::Vec4f( 0.f, 0.8f, 0.f, alpha ) );
 			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
 			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
+			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 
 			geom->setColorArray( colors );
-			geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+			//geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 #endif
 			geom->setVertexArray( vertices );
 			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, 6 ) );
@@ -157,9 +158,10 @@ namespace GeomUtils
 			colors->push_back( osg::Vec4f( 0.f, 1.f, 0.f, alpha ) );
 			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
 			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
+			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 
 			geom->setColorArray( colors );
-			geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+			//geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 #endif
 			geom->setVertexArray( vertices );
 			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, 6 ) );
@@ -313,7 +315,8 @@ namespace GeomUtils
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 			colors->push_back( osg::Vec4f( 0.7f, 0.7f, 0.7f, 0.5f ) );
 			geom->setColorArray( colors );
-			geom->setColorBinding( osg::Geometry::BIND_OVERALL );
+			colors->setBinding( osg::Array::BIND_OVERALL );
+			//geom->setColorBinding( osg::Geometry::BIND_OVERALL );
 
 			geom->setVertexArray( vertices );
 			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices->size() ) );

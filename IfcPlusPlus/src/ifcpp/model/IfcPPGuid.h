@@ -18,7 +18,6 @@ typedef struct _GUID {		  // size is 16
 } GUID;
 #endif
 
-const GUID GUID_NULL = { 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 } };
 void getGuid( GUID   *pGuid );
 std::string createGUID32();
 std::wstring CreateCompressedGuidString22();

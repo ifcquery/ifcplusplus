@@ -1,0 +1,7 @@
+bin
+bin32
+/SimpleViewerExample/GeneratedFiles
+
+*.sdf
+SimpleViewerExample/dump_mesh_debug.txt
+*.opensdf

@@ -45,6 +45,10 @@
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcDirection.h"
 #include "ifcpp/IFC4/include/IfcRelationship.h"
+#include "ifcpp/IFC4/include/IfcRelAggregates.h"
+#include "ifcpp/IFC4/include/IfcSite.h"
+#include "ifcpp/IFC4/include/IfcBuilding.h"
+#include "ifcpp/IFC4/include/IfcElementAssembly.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
@@ -148,6 +152,25 @@ void IfcPPModel::initIfcModel()
 	project->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"IfcPlusPlus project" ) );
 	project->m_UnitsInContext = unit_assignment;
 
+	// create default IfcSite
+	shared_ptr<IfcSite> site( new IfcSite() );
+	site->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( CreateCompressedGuidString22() ) );
+	site->m_OwnerHistory = owner_history;
+	site->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Site" ) );
+	insertEntity(site);
+
+	shared_ptr<IfcRelAggregates> rel_aggregates_site( new IfcRelAggregates() );
+	rel_aggregates_site->m_RelatingObject = project;
+	insertEntity(rel_aggregates_site);
+
+	// create default Building
+	shared_ptr<IfcBuilding> building( new IfcBuilding() );
+	building->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( CreateCompressedGuidString22() ) );
+	building->m_OwnerHistory = owner_history;
+	building->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Building" ) );
+	insertEntity( building );
+
+	
 	// set up world coordinate system
 	shared_ptr<IfcDirection> axis( new IfcDirection() );
 	insertEntity(axis);
@@ -178,6 +201,26 @@ void IfcPPModel::initIfcModel()
 	insertEntity(geom_context);
 	geom_context->m_CoordinateSpaceDimension = shared_ptr<IfcDimensionCount>(new IfcDimensionCount( 3 ) );
 	geom_context->m_WorldCoordinateSystem = world_coordinate_system;
+
+	updateCache();
+}
+
+void IfcPPModel::initCopyIfcModel( const shared_ptr<IfcPPModel>& other )
+{
+	clearIfcModel();
+
+	shared_ptr<IfcProject> project = other->getIfcProject();
+	std::map<IfcPPEntity*, shared_ptr<IfcPPEntity> > map_entities_copy;
+	map_entities_copy[project.get()] = project;
+	
+	shared_ptr<IfcPPEntity> project_as_entity( project );
+	collectDependentEntities( project_as_entity, map_entities_copy );
+
+	for( auto it = map_entities_copy.begin(); it != map_entities_copy.end(); ++it )
+	{
+		shared_ptr<IfcPPEntity> entity = it->second;
+		insertEntity( entity );
+	}
 
 	updateCache();
 }
@@ -215,7 +258,7 @@ void IfcPPModel::setMapIfcEntities( const boost::unordered_map<int, shared_ptr<I
 	// todo: check model consistency
 }
 
-void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing )
+void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing, bool warn_on_existing_entities )
 {
 	if( !e )
 	{
@@ -239,7 +282,10 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		}
 		else
 		{
-			messageCallback( "Entity already in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
+			if( warn_on_existing_entities )
+			{
+				messageCallback( "Entity already in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
+			}
 		}
 	}
 	else
@@ -500,12 +546,19 @@ void IfcPPModel::updateCache()
 	bool found_project = false;
 	bool found_geom_context = false;
 
+	shared_ptr<IfcProject> keep_project = m_ifc_project;
+	m_ifc_project.reset();
+
 	// try to find IfcProject and IfcGeometricRepresentationContext
 	for( auto it=m_map_entities.begin(); it!=m_map_entities.end(); ++it )
 	{
 		shared_ptr<IfcPPEntity> obj = it->second;
 		if( dynamic_pointer_cast<IfcProject>(obj) )
 		{
+			if( m_ifc_project )
+			{
+				messageCallback( "More than one IfcProject in model", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, m_ifc_project.get() );
+			}
 			m_ifc_project = dynamic_pointer_cast<IfcProject>( obj );
 			found_project = true;
 			if( found_geom_context )
@@ -553,5 +606,92 @@ void IfcPPModel::resolveInverseAttributes()
 			continue;
 		}
 		entity->setInverseCounterparts( entity );
+	}
+}
+
+void IfcPPModel::collectDependentEntities( shared_ptr<IfcPPEntity>& entity, std::map<IfcPPEntity*, shared_ptr<IfcPPEntity> >& target_map )
+{
+	if( !entity )
+	{
+		return;
+	}
+	//if( entity->m_id < 0 )
+	//{
+	//	entity->setId( next_entity_id );
+	//	++next_entity_id;
+	//}
+
+	shared_ptr<IfcElementAssembly> ele_assembly = dynamic_pointer_cast<IfcElementAssembly>( entity );
+	if( ele_assembly )
+	{
+		int assembly_id = ele_assembly->m_id;
+		std::vector<weak_ptr<IfcRelAggregates> >& vec_is_decomposed_by = ele_assembly->m_IsDecomposedBy_inverse;
+		for( size_t ii = 0; ii < vec_is_decomposed_by.size(); ++ii )
+		{
+			shared_ptr<IfcRelDecomposes> rel_dec;
+			const weak_ptr<IfcRelAggregates>& is_decomposed_weak_ptr = vec_is_decomposed_by[ii];
+			if( is_decomposed_weak_ptr.expired() )
+			{
+				continue;
+			}
+			shared_ptr<IfcRelAggregates> is_decomposed_ptr( is_decomposed_weak_ptr );
+			if( is_decomposed_ptr )
+			{
+				int rel_aggregates_id = is_decomposed_ptr->m_id;
+
+				shared_ptr<IfcPPEntity> as_ifcpp_entity = is_decomposed_ptr;
+				collectDependentEntities( as_ifcpp_entity, target_map );
+			}
+		}
+	}
+
+	std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > > vec_attributes;
+	entity->getAttributes( vec_attributes );
+	for( size_t ii = 0; ii < vec_attributes.size(); ++ii )
+	{
+		shared_ptr<IfcPPObject>& attribute = vec_attributes[ii].second;
+		if( !attribute )
+		{
+			// empty attribute
+			continue;
+		}
+		shared_ptr<IfcPPEntity> attribute_entity = dynamic_pointer_cast<IfcPPEntity>( attribute );
+		if( attribute_entity )
+		{
+			if( target_map.find( attribute_entity.get() ) == target_map.end() )
+			{
+				target_map[attribute_entity.get()] = attribute_entity;
+				collectDependentEntities( attribute_entity, target_map );
+
+			}
+			continue;
+		}
+
+		shared_ptr<IfcPPAttributeObjectVector> attribute_object_vector = dynamic_pointer_cast<IfcPPAttributeObjectVector>( attribute );
+		if( attribute_object_vector )
+		{
+			std::vector<shared_ptr<IfcPPObject> >& vec_of_attributes = attribute_object_vector->m_vec;
+
+			for( size_t jj = 0; jj < vec_of_attributes.size(); ++jj )
+			{
+				shared_ptr<IfcPPObject>& attribute_object = vec_of_attributes[jj];
+
+				shared_ptr<IfcPPEntity> attribute_entity = dynamic_pointer_cast<IfcPPEntity>( attribute_object );
+				if( attribute_entity )
+				{
+					if( target_map.find( attribute_entity.get() ) == target_map.end() )
+					{
+						target_map[attribute_entity.get()] = attribute_entity;
+						collectDependentEntities( attribute_entity, target_map );
+
+					}
+				}
+			}
+		}
+	}
+
+	if( target_map.find( entity.get() ) == target_map.end() )
+	{
+		target_map[entity.get()] = entity;
 	}
 }

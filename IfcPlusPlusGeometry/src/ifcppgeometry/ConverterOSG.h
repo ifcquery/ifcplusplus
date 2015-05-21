@@ -95,17 +95,19 @@ public:
 		osg::Geometry* geometry = new osg::Geometry();
 		geometry->setVertexArray( vertices );
 		geometry->setNormalArray( normals );
+		normals->setBinding( osg::Array::BIND_PER_VERTEX );
 
-		geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
+		//geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POLYGON, 0, vertices->size() ) );
 
 		if( add_color_array )
 		{
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 			colors->resize( vertices->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
+			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 
 			geometry->setColorArray( colors );
-			geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+			//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		}
 
 		if( num_vertices > 4 )
@@ -334,16 +336,17 @@ public:
 			geometry->setVertexArray( vertices_tri );
 
 			geometry->setNormalArray( normals_tri );
-			geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
+			normals_tri->setBinding( osg::Array::BIND_PER_VERTEX );
+			//geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 
 			if( add_color_array )
 			{
 				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 				if( !colors ) { throw IfcPPOutOfMemoryException(); }
 				colors->resize( vertices_tri->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
-
+				colors->setBinding( osg::Array::BIND_PER_VERTEX );
 				geometry->setColorArray( colors );
-				geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+				//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 			}
 
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size() ) );
@@ -381,18 +384,18 @@ public:
 			osg::Geometry* geometry = new osg::Geometry();
 			if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 			geometry->setVertexArray( vertices_quad );
-
+			normals_quad->setBinding( osg::Array::BIND_PER_VERTEX );
 			geometry->setNormalArray( normals_quad );
-			geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
+			//geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 
 			if( add_color_array )
 			{
 				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 				if( !colors ) { throw IfcPPOutOfMemoryException(); }
 				colors->resize( vertices_quad->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
-
+				colors->setBinding( osg::Array::BIND_PER_VERTEX );
 				geometry->setColorArray( colors );
-				geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+				//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 			}
 
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, vertices_quad->size() ) );
@@ -445,9 +448,9 @@ public:
 			osg::Vec4f color( 0.6f, 0.6f, 0.6f, 0.1f );
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array( vertices->size(), &color );
 			if( !colors ) { throw IfcPPOutOfMemoryException(); }
-
+			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 			geometry->setColorArray( colors );
-			geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+			//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		}
 
 		geode->addDrawable( geometry );

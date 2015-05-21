@@ -20,6 +20,7 @@
 
 #include "IfcPPGuid.h"
 
+const GUID GUID_NULL = { 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 } };
 static long cv_to_64( const unsigned long number, char *code, int len );
 static long cv_from_64( unsigned long *pRes, const char *str );
 
