@@ -27,11 +27,17 @@ enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 struct IfcPPCopyOptions
 {
 public:
-	bool shallow_copy_IfcOwnerHistory = true;			// If set to true, references to the existing IfcOwnerHistory are set, instead of creating a deep copy
-	bool shallow_copy_IfcRepresentationContext = true;	// If set to true, references to the existing IfcRepresentationContext (or derived) are set, instead of creating a deep copy
-	bool shallow_copy_IfcProfileDef = true;				// If set to true, references to the existing IfcProfileDef (or derived) are set, instead of creating a deep copy
-	bool shallow_copy_IfcLocalPlacement_PlacementRelTo = true; // If set to true, not the complete coordinate system hierarchy is copied, create shallow copy instead
-	bool create_new_IfcGloballyUniqueId = true;			// If set to true, all copies of type IfcGloballyUniqueId get a new GUID.
+    IfcPPCopyOptions() : shallow_copy_IfcOwnerHistory(true), shallow_copy_IfcRepresentationContext(true), 
+                         shallow_copy_IfcProfileDef(true), shallow_copy_IfcLocalPlacement_PlacementRelTo(true),
+                         create_new_IfcGloballyUniqueId(true)
+    {
+    }
+
+	bool shallow_copy_IfcOwnerHistory;			// If set to true, references to the existing IfcOwnerHistory are set, instead of creating a deep copy
+	bool shallow_copy_IfcRepresentationContext;	// If set to true, references to the existing IfcRepresentationContext (or derived) are set, instead of creating a deep copy
+	bool shallow_copy_IfcProfileDef;				// If set to true, references to the existing IfcProfileDef (or derived) are set, instead of creating a deep copy
+	bool shallow_copy_IfcLocalPlacement_PlacementRelTo; // If set to true, not the complete coordinate system hierarchy is copied, create shallow copy instead
+	bool create_new_IfcGloballyUniqueId;			// If set to true, all copies of type IfcGloballyUniqueId get a new GUID.
 };
 
 class IFCPP_EXPORT IfcPPObject
