@@ -1,0 +1,15 @@
+language:
+  - cpp
+
+compiler:
+  - gcc
+
+before_install:
+  - sudo apt-get install libboost-dev
+
+script:
+  - cd IfcPlusPlus
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
