@@ -182,7 +182,7 @@ public:
 		for( it_cp = ifc_points.begin(); it_cp != ifc_points.end(); ++it_cp, ++i )
 		{
 			shared_ptr<IfcCartesianPoint> cp = ( *it_cp );
-			const int cp_id = cp->m_id;
+			//const int cp_id = cp->m_id;
 			double x = 0.0, y = 0.0, z = 0.0;
 			std::vector<shared_ptr<IfcLengthMeasure> >& coords = cp->m_Coordinates;
 

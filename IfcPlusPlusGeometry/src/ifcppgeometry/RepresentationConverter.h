@@ -789,7 +789,7 @@ public:
 					}
 				}
 
-				shared_ptr<IfcTextPath>& path = text_literal->m_Path;
+				//shared_ptr<IfcTextPath>& path = text_literal->m_Path;
 				shared_ptr<TextItemData> text_item_data( new TextItemData() );
 				if( !text_item_data )
 				{
@@ -872,7 +872,7 @@ public:
 		{
 			return;
 		}
-		const int product_id = ifc_element->m_id;
+		//const int product_id = ifc_element->m_id;
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// convert opening representation
@@ -894,7 +894,7 @@ public:
 				continue;
 			}
 
-			const int opening_id = opening->m_id;
+			//const int opening_id = opening->m_id;
 
 			// opening can have its own relative placement
 			shared_ptr<IfcObjectPlacement>	opening_placement = opening->m_ObjectPlacement;			//optional

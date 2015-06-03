@@ -62,7 +62,7 @@ namespace CSG_Adapter
 	}
 
 	template<typename T>
-	size_t findInVector( T* find_object, std::vector<T*>& vec )
+	int findInVector( T* find_object, std::vector<T*>& vec )
 	{
 		for( size_t ii = 0; ii < vec.size(); ++ii )
 		{
@@ -772,7 +772,7 @@ namespace CSG_Adapter
 			return;
 		}
 
-		int num_faces = getNumFaces( meshset.get() );
+		size_t num_faces = getNumFaces( meshset.get() );
 		size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
 		if( modifications_coplanar > 0 )
 		{
@@ -856,12 +856,14 @@ namespace CSG_Adapter
 
 			shared_ptr<meshset_t > meshset_pre_triang( meshset_copy->clone() );
 			//applyTranslate( meshset_pre_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			GeomDebugUtils::dumpMeshset( meshset_pre_triang, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+			GeomDebugUtils::dumpMeshset( meshset_pre_triang, color, true );
 			//dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
 
 			shared_ptr<meshset_t > meshset_post_triang( meshset->clone() );
 			//applyTranslate( meshset_post_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			GeomDebugUtils::dumpMeshset( meshset_post_triang, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+			color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
+			GeomDebugUtils::dumpMeshset( meshset_post_triang, color, true );
 			//dump_y_pos += meshset_post_triang->getAABB().extent.y*2.2;
 
 #endif
@@ -895,7 +897,8 @@ namespace CSG_Adapter
 					result = op2;
 				}
 #ifdef _DEBUG
-				GeomDebugUtils::dumpMeshset( op1, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+				GeomDebugUtils::dumpMeshset( op1, color, true );
 #endif
 				return;
 			}
@@ -911,7 +914,8 @@ namespace CSG_Adapter
 					result = op1;
 				}
 #ifdef _DEBUG
-				GeomDebugUtils::dumpMeshset( op2, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+				GeomDebugUtils::dumpMeshset( op2, color, true );
 #endif
 				return;
 			}
@@ -975,7 +979,8 @@ namespace CSG_Adapter
 					result = op2;
 				}
 #ifdef _DEBUG
-				GeomDebugUtils::dumpMeshset( op1, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+				GeomDebugUtils::dumpMeshset( op1, color, true );
 #endif
 				return;
 			}
@@ -991,7 +996,8 @@ namespace CSG_Adapter
 					result = op1;
 				}
 #ifdef _DEBUG
-				GeomDebugUtils::dumpMeshset( op2, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+				GeomDebugUtils::dumpMeshset( op2, color, true );
 #endif
 				return;
 			}
@@ -1081,20 +1087,24 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 
 			shared_ptr<meshset_t > op1_copy( op1->clone() );
+			
 			GeomUtils::applyTranslate( op1_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			GeomDebugUtils::dumpMeshset( op1_copy, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+			GeomDebugUtils::dumpMeshset( op1_copy, color, true );
 			dump_y_pos += op1_copy->getAABB().extent.y*2.2;
 
 			shared_ptr<meshset_t > op2_copy( op2->clone() );
 			GeomUtils::applyTranslate( op2_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			GeomDebugUtils::dumpMeshset( op2_copy, carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 ), true );
+			color = carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 );
+			GeomDebugUtils::dumpMeshset( op2_copy, color, true );
 			dump_y_pos += op2_copy->getAABB().extent.y*2.2;
 
 			if( result )
 			{
 				shared_ptr<meshset_t > result_copy( result->clone() );
 				GeomUtils::applyTranslate( result_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-				GeomDebugUtils::dumpMeshset( result_copy, carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 ), true );
+				color = carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 );
+				GeomDebugUtils::dumpMeshset( result_copy, color, true );
 				dump_y_pos += result_copy->getAABB().extent.y*2.2;
 			}
 #endif

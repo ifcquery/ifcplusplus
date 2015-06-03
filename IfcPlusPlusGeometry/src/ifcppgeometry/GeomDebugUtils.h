@@ -33,7 +33,7 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 
-	inline void Polyhedron2Stream( carve::poly::Polyhedron* poly, carve::geom::vector<4>& color, std::stringstream& strs_out )
+	inline void Polyhedron2Stream( const carve::poly::Polyhedron* poly, const carve::geom::vector<3>& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out )
 	{
 		strs_out << "Polyhedron{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
@@ -46,7 +46,7 @@ namespace GeomDebugUtils
 			{
 				strs_out << ",";
 			}
-			strs_out << "{" << vertex.v.x << ", " << vertex.v.y << ", " << vertex.v.z << "}";
+			strs_out << "{" << vertex.v.x + offset.x << ", " << vertex.v.y + offset.y << ", " << vertex.v.z + offset.z << "}";
 		}
 		strs_out << "}" << std::endl;
 
@@ -75,7 +75,7 @@ namespace GeomDebugUtils
 
 
 
-	inline void dumpMeshsets( std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, std::vector<carve::geom::vector<4> >& vec_colors, bool append )
+	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const carve::geom::vector<3>& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
 	{
 		std::stringstream strs_out;
 		for( size_t i = 0; i < vec_meshsets.size(); ++i )
@@ -87,7 +87,7 @@ namespace GeomDebugUtils
 				color = vec_colors[i];
 			}
 			shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
-			Polyhedron2Stream( poly.get(), color, strs_out );
+			Polyhedron2Stream( poly.get(), offset, color, strs_out );
 		}
 
 		if( !append )
@@ -99,10 +99,10 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 
-	inline void dumpPolyhedron( carve::poly::Polyhedron* poly, carve::geom::vector<4>& color, bool append )
+	inline void dumpPolyhedron( const carve::poly::Polyhedron* poly, const carve::geom::vector<3>& offset, const carve::geom::vector<4>& color, bool append )
 	{
 		std::stringstream strs_out;
-		Polyhedron2Stream( poly, color, strs_out );
+		Polyhedron2Stream( poly, offset, color, strs_out );
 
 		if( !append )
 		{
@@ -114,26 +114,27 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 	
-	inline void dumpPolyhedronInput( carve::input::PolyhedronData& poly_input, carve::geom::vector<4>& color, bool append )
+	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const carve::geom::vector<3>& offset, const carve::geom::vector<4>& color, bool append )
 	{
-		dumpPolyhedron( poly_input.create( carve::input::opts() ), color, append );
+		dumpPolyhedron( poly_input.create( carve::input::opts() ), offset, color, append );
 	}
 
-	inline void dumpMeshset( shared_ptr<carve::mesh::MeshSet<3> >& meshset, carve::geom::vector<4>& color, bool append )
+	inline void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<4>& color, bool append )
 	{
 		if( meshset->meshes.size() == 0 )
 		{
 			return;
 		}
-		GeomUtils::applyTranslate( meshset, carve::geom::VECTOR( 0, dump_y_pos_geom, 0 ) );
+		//GeomUtils::applyTranslate( meshset, carve::geom::VECTOR( 0, dump_y_pos_geom, 0 ) );
+		carve::geom::vector<3> offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
 
 		shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset.get(), -1 ) );
-		dumpPolyhedron( poly.get(), color, append );
+		dumpPolyhedron( poly.get(), offset, color, append );
 
 		dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
 	}
 
-	inline void dumpFaces( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<carve::mesh::Face<3>* >& vec_faces )
+	inline void dumpFaces( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const std::vector<carve::mesh::Face<3>* >& vec_faces )
 	{
 		std::stringstream strs_out;
 		strs_out << "Polyhedron{" << std::endl;
@@ -187,7 +188,7 @@ namespace GeomDebugUtils
 		dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
 	}
 
-	inline void dumpEdges( const shared_ptr<carve::mesh::MeshSet<3> > meshset, std::vector<carve::mesh::Edge<3>* >& vec_edges )
+	inline void dumpEdges( const shared_ptr<carve::mesh::MeshSet<3> > meshset, const std::vector<carve::mesh::Edge<3>* >& vec_edges )
 	{
 		std::stringstream strs_out;
 		strs_out << "PolyLineSet{" << std::endl;
@@ -248,9 +249,9 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 
-	inline void dumpPolylineSet( carve::input::PolylineSetData* polyline_data, carve::geom::vector<4>& color, bool append )
+	inline void dumpPolylineSet( const carve::input::PolylineSetData* polyline_data, const carve::geom::vector<4>& color, bool append )
 	{
-		osg::Vec3Array* vertices = new osg::Vec3Array();
+		//osg::Vec3Array* vertices = new osg::Vec3Array();
 		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
 
 		if( polyline_set->vertices.size() < 2 )

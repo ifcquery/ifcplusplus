@@ -135,7 +135,8 @@ public:
 			m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
 
 #ifdef _DEBUG
-			GeomDebugUtils::dumpMeshset( meshset, carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 ), true );
+			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+			GeomDebugUtils::dumpMeshset( meshset, color, true );
 #endif
 			throw IfcPPException( "Meshset is not closed", __FUNC__ );
 		}

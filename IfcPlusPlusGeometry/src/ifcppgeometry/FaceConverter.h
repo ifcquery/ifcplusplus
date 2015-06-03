@@ -114,7 +114,7 @@ public:
 				std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = curve_bounded_plane->m_InnerBoundaries;
 				for( size_t i = 0; i < vec_inner_boundaries.size(); ++i )
 				{
-					shared_ptr<IfcCurve>& inner_curve = vec_inner_boundaries[i];
+					//shared_ptr<IfcCurve>& inner_curve = vec_inner_boundaries[i];
 					//convertIfcCurve( outer_boundary)
 					// TODO: implement boundary
 				}
@@ -131,8 +131,8 @@ public:
 					convertIfcSurface( basis_surface, polyline_data, surface_proxy );
 				}
 
-				std::vector<shared_ptr<IfcBoundaryCurve> >& vec_boundaries = curve_bounded_surface->m_Boundaries;
-				bool implicit_outer = curve_bounded_surface->m_ImplicitOuter;
+				//std::vector<shared_ptr<IfcBoundaryCurve> >& vec_boundaries = curve_bounded_surface->m_Boundaries;
+				//bool implicit_outer = curve_bounded_surface->m_ImplicitOuter;
 				// TODO: implement
 #ifdef _DEBUG
 				std::cout << "IfcCurveBoundedSurface not implemented." << std::endl;
@@ -148,12 +148,12 @@ public:
 					convertIfcSurface( basis_surface, polyline_data, surface_proxy );
 				}
 
-				shared_ptr<IfcParameterValue>& u1 = rectengular_trimmed_surface->m_U1;
-				shared_ptr<IfcParameterValue>& v1 = rectengular_trimmed_surface->m_V1;
-				shared_ptr<IfcParameterValue>& u2 = rectengular_trimmed_surface->m_U2;
-				shared_ptr<IfcParameterValue>& v2 = rectengular_trimmed_surface->m_V2;
-				bool u_sense = rectengular_trimmed_surface->m_Usense;
-				bool v_sense = rectengular_trimmed_surface->m_Vsense;
+				//shared_ptr<IfcParameterValue>& u1 = rectengular_trimmed_surface->m_U1;
+				//shared_ptr<IfcParameterValue>& v1 = rectengular_trimmed_surface->m_V1;
+				//shared_ptr<IfcParameterValue>& u2 = rectengular_trimmed_surface->m_U2;
+				//shared_ptr<IfcParameterValue>& v2 = rectengular_trimmed_surface->m_V2;
+				//bool u_sense = rectengular_trimmed_surface->m_Usense;
+				//bool v_sense = rectengular_trimmed_surface->m_Vsense;
 				// TODO: implement
 #ifdef _DEBUG
 				std::cout << "IfcRectangularTrimmedSurface not implemented." << std::endl;
@@ -236,7 +236,7 @@ public:
 		if( dynamic_pointer_cast<IfcSweptSurface>( surface ) )
 		{
 			// ENTITY IfcSweptSurface	ABSTRACT SUPERTYPE OF(ONEOF(IfcSurfaceOfLinearExtrusion, IfcSurfaceOfRevolution))
-			shared_ptr<IfcProfileDef>& swept_surface_profile = swept_surface->m_SweptCurve;
+			//shared_ptr<IfcProfileDef>& swept_surface_profile = swept_surface->m_SweptCurve;
 			shared_ptr<IfcAxis2Placement3D>& swept_surface_placement = swept_surface->m_Position;
 
 			carve::math::Matrix swept_surface_matrix;
@@ -249,8 +249,8 @@ public:
 			shared_ptr<IfcSurfaceOfLinearExtrusion> linear_extrusion = dynamic_pointer_cast<IfcSurfaceOfLinearExtrusion>( swept_surface );
 			if( linear_extrusion )
 			{
-				shared_ptr<IfcDirection>& linear_extrusion_direction = linear_extrusion->m_ExtrudedDirection;
-				shared_ptr<IfcLengthMeasure>& linear_extrusion_depth = linear_extrusion->m_Depth;
+				//shared_ptr<IfcDirection>& linear_extrusion_direction = linear_extrusion->m_ExtrudedDirection;
+				//shared_ptr<IfcLengthMeasure>& linear_extrusion_depth = linear_extrusion->m_Depth;
 				// TODO: implement
 #ifdef _DEBUG
 				std::cout << "IfcSurfaceOfLinearExtrusion not implemented." << std::endl;

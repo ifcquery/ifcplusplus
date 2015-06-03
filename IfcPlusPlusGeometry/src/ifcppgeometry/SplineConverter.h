@@ -208,9 +208,9 @@ public:
 	{
 		const int											degree = bspline_curve->m_Degree;
 		const std::vector<shared_ptr<IfcCartesianPoint> >&	control_points = bspline_curve->m_ControlPointsList;
-		const shared_ptr<IfcBSplineCurveForm>&				curve_form = bspline_curve->m_CurveForm;
-		const LogicalEnum									closed_curve = bspline_curve->m_ClosedCurve;
-		const LogicalEnum									self_intersect = bspline_curve->m_ClosedCurve;
+		//const shared_ptr<IfcBSplineCurveForm>&				curve_form = bspline_curve->m_CurveForm;
+		//const LogicalEnum									closed_curve = bspline_curve->m_ClosedCurve;
+		//const LogicalEnum									self_intersect = bspline_curve->m_ClosedCurve;
 
 		std::vector<carve::geom::vector<3> > vec_control_points;
 		m_point_converter->convertIfcCartesianPointVector( control_points, vec_control_points );
@@ -236,7 +236,7 @@ public:
 		{
 			std::vector<int >&								ifc_knot_mult = bspline_curve_with_knots->m_KnotMultiplicities;
 			std::vector<shared_ptr<IfcParameterValue> >&	ifc_knots = bspline_curve_with_knots->m_Knots;
-			shared_ptr<IfcKnotType>&						ifc_knot_spec = bspline_curve_with_knots->m_KnotSpec;
+			//shared_ptr<IfcKnotType>&						ifc_knot_spec = bspline_curve_with_knots->m_KnotSpec;
 
 			for( size_t ii = 0; ii < ifc_knots.size(); ++ii )
 			{
@@ -288,29 +288,29 @@ public:
 	{
 		// IfcBSplineSurface -----------------------------------------------------------
 		// attributes:
-		int degree_u = ifc_bspline_surface->m_UDegree;
-		int degree_v = ifc_bspline_surface->m_VDegree;
+		//int degree_u = ifc_bspline_surface->m_UDegree;
+		//int degree_v = ifc_bspline_surface->m_VDegree;
 		std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& ifc_control_points = ifc_bspline_surface->m_ControlPointsList;
 		shared_ptr<IfcBSplineSurfaceForm> surface_form = ifc_bspline_surface->m_SurfaceForm;
-		LogicalEnum u_closed = ifc_bspline_surface->m_UClosed;
-		LogicalEnum v_closed = ifc_bspline_surface->m_VClosed;
-		LogicalEnum	self_intersect = ifc_bspline_surface->m_SelfIntersect;
+		//LogicalEnum u_closed = ifc_bspline_surface->m_UClosed;
+		//LogicalEnum v_closed = ifc_bspline_surface->m_VClosed;
+		//LogicalEnum	self_intersect = ifc_bspline_surface->m_SelfIntersect;
 
 		shared_ptr<IfcBSplineSurfaceWithKnots> bspline_surface_with_knots = dynamic_pointer_cast<IfcBSplineSurfaceWithKnots>( ifc_bspline_surface );
 		if( bspline_surface_with_knots )
 		{
-			std::vector<int >& u_mult = bspline_surface_with_knots->m_UMultiplicities;
-			std::vector<int >& v_mult = bspline_surface_with_knots->m_VMultiplicities;
-			std::vector<shared_ptr<IfcParameterValue> >& ifc_u_knots = bspline_surface_with_knots->m_UKnots;
-			std::vector<shared_ptr<IfcParameterValue> >& ifc_v_knots = bspline_surface_with_knots->m_VKnots;
+			//std::vector<int >& u_mult = bspline_surface_with_knots->m_UMultiplicities;
+			//std::vector<int >& v_mult = bspline_surface_with_knots->m_VMultiplicities;
+			//std::vector<shared_ptr<IfcParameterValue> >& ifc_u_knots = bspline_surface_with_knots->m_UKnots;
+			//std::vector<shared_ptr<IfcParameterValue> >& ifc_v_knots = bspline_surface_with_knots->m_VKnots;
 
-			shared_ptr<IfcKnotType>& knot_spec = bspline_surface_with_knots->m_KnotSpec;
+			//shared_ptr<IfcKnotType>& knot_spec = bspline_surface_with_knots->m_KnotSpec;
 
 
 			shared_ptr<IfcRationalBSplineSurfaceWithKnots> r_bspline_surface_with_knots = dynamic_pointer_cast<IfcRationalBSplineSurfaceWithKnots>( ifc_bspline_surface );
 			if( r_bspline_surface_with_knots )
 			{
-				std::vector<std::vector<double > >& vec_weights = r_bspline_surface_with_knots->m_WeightsData;
+				//std::vector<std::vector<double > >& vec_weights = r_bspline_surface_with_knots->m_WeightsData;
 
 			}
 		}
@@ -319,17 +319,17 @@ public:
 
 		m_point_converter->convertIfcCartesianPointVector2D( ifc_control_points, control_point_array );
 
-		unsigned int numPathU = 10;
-		unsigned int numPathV = 10;
+		//unsigned int numPathU = 10;
+		//unsigned int numPathV = 10;
 
 		const size_t eta = ifc_control_points.size();
 		if( eta < 2 )
 		{
 			return;
 		}
-		const size_t zeta = ifc_control_points[0].size();
+		//const size_t zeta = ifc_control_points[0].size();
 
-		const int num_points_per_section = eta*zeta;
+		//const int num_points_per_section = eta*zeta;
 		// TODO: implement
 #ifdef _DEBUG
 		std::cout << "IfcBSplineSurface not yet implemented" << std::endl;

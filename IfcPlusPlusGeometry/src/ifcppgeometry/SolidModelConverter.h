@@ -135,9 +135,9 @@ public:
 				//FixedReference	 : IfcDirection;
 
 				shared_ptr<IfcCurve>& ifc_directrix_curve = fixed_reference_swept_area_solid->m_Directrix;
-				shared_ptr<IfcParameterValue>& ifc_start_param = fixed_reference_swept_area_solid->m_StartParam;				//optional
-				shared_ptr<IfcParameterValue>& ifc_end_param = fixed_reference_swept_area_solid->m_EndParam;					//optional
-				shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;				// TODO: apply fixed reference
+				//shared_ptr<IfcParameterValue>& ifc_start_param = fixed_reference_swept_area_solid->m_StartParam;				//optional
+				//shared_ptr<IfcParameterValue>& ifc_end_param = fixed_reference_swept_area_solid->m_EndParam;					//optional
+				//shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;				// TODO: apply fixed reference
 				messageCallback( "IfcFixedReferenceSweptAreaSolid: Fixed reference not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, fixed_reference_swept_area_solid.get() );
 
 				std::vector<carve::geom::vector<3> > segment_start_points;
@@ -164,8 +164,8 @@ public:
 			if( surface_curve_swept_area_solid )
 			{
 				shared_ptr<IfcCurve>& ifc_directrix_curve = surface_curve_swept_area_solid->m_Directrix;
-				shared_ptr<IfcParameterValue>& ifc_start_param = surface_curve_swept_area_solid->m_StartParam;				//optional
-				shared_ptr<IfcParameterValue>& ifc_end_param = surface_curve_swept_area_solid->m_EndParam;					//optional
+				//shared_ptr<IfcParameterValue>& ifc_start_param = surface_curve_swept_area_solid->m_StartParam;				//optional
+				//shared_ptr<IfcParameterValue>& ifc_end_param = surface_curve_swept_area_solid->m_EndParam;					//optional
 				shared_ptr<IfcSurface>& ifc_reference_surface = surface_curve_swept_area_solid->m_ReferenceSurface;			// TODO: apply start_param, end_param
 				messageCallback( "IfcSurfaceCurveSweptAreaSolid: StartParam and EndParam not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, surface_curve_swept_area_solid.get() );
 
@@ -182,8 +182,8 @@ public:
 				{
 					for( size_t ii = 0; ii < directrix_curve_points.size(); ++ii )
 					{
-						carve::geom::vector<3>& point_3d = directrix_curve_points[ii];
-						carve::geom::vector<2> point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
+						//carve::geom::vector<3>& point_3d = directrix_curve_points[ii];
+						//carve::geom::vector<2> point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
 						//surface_proxy->computePointOnSurface( point_3d, point_3d );
 						// TODO: implement
 					}
@@ -229,8 +229,8 @@ public:
 				// ENTITY IfcAdvancedBrep	SUPERTYPE OF(IfcAdvancedBrepWithVoids)
 				if( dynamic_pointer_cast<IfcAdvancedBrepWithVoids>( advanced_brep ) )
 				{
-					shared_ptr<IfcAdvancedBrepWithVoids> advanced_brep_with_voids = dynamic_pointer_cast<IfcAdvancedBrepWithVoids>( solid_model );
-					std::vector<shared_ptr<IfcClosedShell> >& vec_voids = advanced_brep_with_voids->m_Voids;
+					//shared_ptr<IfcAdvancedBrepWithVoids> advanced_brep_with_voids = dynamic_pointer_cast<IfcAdvancedBrepWithVoids>( solid_model );
+					//std::vector<shared_ptr<IfcClosedShell> >& vec_voids = advanced_brep_with_voids->m_Voids;
 
 					// TODO: subtract voids from outer shell
 #ifdef _DEBUG
@@ -391,7 +391,7 @@ public:
 			messageCallback( "Invalid SweptArea", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
 			return;
 		}
-		double length_factor = m_unit_converter->getLengthInMeterFactor();
+		//double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// revolution angle
 		double angle_factor = m_unit_converter->getAngleInRadianFactor();
@@ -611,9 +611,9 @@ public:
 
 			if( ii == 0 )
 			{
-				const carve::poly::Vertex<3>& v_a = polyhedron_data->getVertex( vertex_id_a );
-				const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex( vertex_id_b );
-				const carve::poly::Vertex<3>& v_c = polyhedron_data->getVertex( vertex_id_c );
+				//const carve::poly::Vertex<3>& v_a = polyhedron_data->getVertex( vertex_id_a );
+				//const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex( vertex_id_b );
+				//const carve::poly::Vertex<3>& v_c = polyhedron_data->getVertex( vertex_id_c );
 				std::vector<carve::geom::vector<3> > vec_triangle;
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_a ) );
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_b ) );
@@ -691,7 +691,7 @@ public:
 
 		if( !meshset_ok )
 		{
-			GeomDebugUtils::dumpPolyhedronInput( *( polyhedron_data.get() ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+			GeomDebugUtils::dumpPolyhedronInput( *( polyhedron_data.get() ), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 		}
 #endif
 	}
@@ -956,8 +956,8 @@ public:
 				return;
 			}
 
-			int slices = m_geom_settings->getNumVerticesPerCircle();
-			double rad = 0;
+			//int slices = m_geom_settings->getNumVerticesPerCircle();
+			//double rad = 0;
 
 			double height = right_circular_cylinder->m_Height->m_value*length_factor;
 			double radius = right_circular_cylinder->m_Radius->m_value*length_factor;

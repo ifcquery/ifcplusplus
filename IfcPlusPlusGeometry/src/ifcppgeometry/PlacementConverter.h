@@ -309,10 +309,10 @@ namespace PlacementConverter
 		}
 		already_applied.insert( context_ptr );
 
-		shared_ptr<IfcDimensionCount>& dim_count = geom_context->m_CoordinateSpaceDimension;
-		boost::optional<double>&		precision = geom_context->m_Precision;				//optional
+		//shared_ptr<IfcDimensionCount>& dim_count = geom_context->m_CoordinateSpaceDimension;
+		//boost::optional<double>&		precision = geom_context->m_Precision;				//optional
 		shared_ptr<IfcAxis2Placement>& world_coords_select = geom_context->m_WorldCoordinateSystem;
-		shared_ptr<IfcDirection>& true_north = geom_context->m_TrueNorth;				//optional
+		//shared_ptr<IfcDirection>& true_north = geom_context->m_TrueNorth;				//optional
 		// inverse attributes: std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >	m_HasSubContexts_inverse;
 
 		carve::math::Matrix world_coords_matrix( carve::math::Matrix::IDENT() );
@@ -328,9 +328,9 @@ namespace PlacementConverter
 		if( geom_sub_context )
 		{
 			shared_ptr<IfcGeometricRepresentationContext>& parent_context = geom_sub_context->m_ParentContext;
-			shared_ptr<IfcPositiveRatioMeasure>& target_scale = geom_sub_context->m_TargetScale;				//optional
-			shared_ptr<IfcGeometricProjectionEnum>& target_view = geom_sub_context->m_TargetView;
-			shared_ptr<IfcLabel>& user_target_view = geom_sub_context->m_UserDefinedTargetView;	//optional
+			//shared_ptr<IfcPositiveRatioMeasure>& target_scale = geom_sub_context->m_TargetScale;				//optional
+			//shared_ptr<IfcGeometricProjectionEnum>& target_view = geom_sub_context->m_TargetView;
+			//shared_ptr<IfcLabel>& user_target_view = geom_sub_context->m_UserDefinedTargetView;	//optional
 
 			if( parent_context )
 			{
@@ -403,8 +403,8 @@ namespace PlacementConverter
 			shared_ptr<IfcVirtualGridIntersection> grid_intersection = grid_placement->m_PlacementLocation;
 			if( grid_intersection )
 			{
-				std::vector<shared_ptr<IfcGridAxis> >& vec_grid_axis = grid_intersection->m_IntersectingAxes;
-				std::vector<shared_ptr<IfcLengthMeasure> >& vec_offsets = grid_intersection->m_OffsetDistances;
+				//std::vector<shared_ptr<IfcGridAxis> >& vec_grid_axis = grid_intersection->m_IntersectingAxes;
+				//std::vector<shared_ptr<IfcLengthMeasure> >& vec_offsets = grid_intersection->m_OffsetDistances;
 				// todo: implement
 
 			}

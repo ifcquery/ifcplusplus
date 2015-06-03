@@ -79,8 +79,6 @@ public:
 
 	void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> highlight_select, shared_ptr<AppearanceData>& appearance_data )
 	{
-		float shininess = 64;
-
 		if( dynamic_pointer_cast<IfcSpecularExponent>( highlight_select ) )
 		{
 			shared_ptr<IfcSpecularExponent> spec = dynamic_pointer_cast<IfcSpecularExponent>( highlight_select );
@@ -606,7 +604,7 @@ public:
 			}
 
 			float shininess = 35.f;
-			float transparency = 0.7f;
+			//float transparency = 0.7f;
 
 			appearance_data->m_color_ambient = carve::geom::VECTOR( color.x*0.8, color.y*0.8, color.z*0.8, color.w );
 			appearance_data->m_color_diffuse = carve::geom::VECTOR( color.x, color.y, color.z, color.w );

@@ -288,7 +288,7 @@ bool OrbitCameraManipulator::handleMousePush( const osgGA::GUIEventAdapter& ea, 
 	if( buttonMask == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON )
 	{
 		osg::Vec3d distance_intersect_eye( m_pointer_intersection - m_eye );
-		double distance_eye_intersection = distance_intersect_eye.length();
+		//double distance_eye_intersection = distance_intersect_eye.length();
 
 		// rotate the intersection cone into mouse ray direction
 		if( m_intersect_hit_geometry )
@@ -434,7 +434,7 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
 	view->getScene();
-	osg::Group* model_node = m_system->getViewController()->m_sw_model;
+	//osg::Group* model_node = m_system->getViewController()->m_sw_model;
 	iv.apply( *cam );
 
 	bool intersection_geometry_found = false;
@@ -598,7 +598,7 @@ bool OrbitCameraManipulator::performMovement( const osgGA::GUIEventAdapter& ea, 
 	else if( buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == (osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON | osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON) )
 	{
 		// pan model
-		float scale = getThrowScale( eventTimeDelta );
+		//float scale = getThrowScale( eventTimeDelta );
 		panCamera( dx, dy, ea, aa );
 		return true;
 	}

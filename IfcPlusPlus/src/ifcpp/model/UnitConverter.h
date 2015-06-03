@@ -29,7 +29,7 @@ class UnitConverter : public StatusCallback
 public:
 	enum AngularUnit { UNDEFINED, RADIAN, DEGREE, GON, CONVERSION_BASED };
 	UnitConverter();
-	~UnitConverter();
+	virtual ~UnitConverter();
 	void setIfcProject( shared_ptr<IfcProject> project);
 	void setLengthInMeterFactor( double factor )
 	{

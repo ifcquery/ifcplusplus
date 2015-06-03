@@ -529,8 +529,8 @@ public:
 				shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>( simple_property );
 				if( property_single_value )
 				{
-					shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
-					shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
+					//shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
+					//shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
 
 				}
 
@@ -548,7 +548,7 @@ public:
 			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>( prop );
 			if( complex_property )
 			{
-				std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
+				//std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 				if( !complex_property->m_UsageName ) continue;
 				if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
 				{
@@ -586,7 +586,7 @@ public:
 			return;
 		}
 
-		const int product_id = ifc_product->m_id;
+		//const int product_id = ifc_product->m_id;
 		const double length_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 		product_shape->m_ifc_product = ifc_product;
 

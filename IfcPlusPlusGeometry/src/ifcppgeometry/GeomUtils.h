@@ -1238,7 +1238,6 @@ namespace GeomUtils
 					{
 						osg::Vec3f& vertex = ( *it_array );
 						vertex = vertex + trans;
-						int wait = 0;
 					}
 
 					vertices_float->dirty();
