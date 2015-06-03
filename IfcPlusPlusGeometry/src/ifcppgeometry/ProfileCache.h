@@ -38,7 +38,7 @@ public:
 	{
 	}
 
-	~ProfileCache()
+	virtual ~ProfileCache()
 	{
 	}
 

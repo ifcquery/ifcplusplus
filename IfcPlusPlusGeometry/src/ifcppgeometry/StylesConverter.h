@@ -68,7 +68,7 @@ public:
 	StylesConverter()
 	{
 	}
-	~StylesConverter()
+	virtual ~StylesConverter()
 	{
 	}
 

@@ -68,7 +68,7 @@ public:
 	{
 	}
 
-	~CurveConverter()
+	virtual ~CurveConverter()
 	{
 	}
 

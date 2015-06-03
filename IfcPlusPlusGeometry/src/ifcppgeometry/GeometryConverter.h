@@ -118,7 +118,7 @@ public:
 		addCallbackChild( m_converter_osg.get() );
 	}
 
-	~GeometryConverter()
+	virtual ~GeometryConverter()
 	{
 	}
 

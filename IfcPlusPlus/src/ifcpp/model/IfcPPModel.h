@@ -29,7 +29,7 @@ class IFCPP_EXPORT IfcPPModel : public StatusCallback
 {
 public:
 	IfcPPModel();
-	~IfcPPModel();
+	virtual ~IfcPPModel();
 	
 	enum IfcPPVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4 };
 	class IfcPPSchemaVersion

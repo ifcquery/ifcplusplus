@@ -70,7 +70,7 @@ public:
 		: m_curve_converter( cc ), m_spline_converter( sc )
 	{
 	}
-	~ProfileConverter()
+	virtual ~ProfileConverter()
 	{
 	}
 	void computeProfile( shared_ptr<IfcProfileDef> profile_def )

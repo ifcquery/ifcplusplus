@@ -23,6 +23,8 @@ class IfcPPModel;
 class IfcPPWriter : public StatusCallback
 {
 public:
+	IfcPPWriter(){}
+	virtual ~IfcPPWriter(){}
 	virtual void writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model ) = 0;
 
 };

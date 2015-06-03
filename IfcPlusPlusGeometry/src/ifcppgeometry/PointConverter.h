@@ -38,7 +38,7 @@ public:
 	{
 	}
 
-	~PointConverter()
+	virtual ~PointConverter()
 	{
 	}
 

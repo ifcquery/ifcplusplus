@@ -70,7 +70,7 @@ public:
 	{
 	}
 
-	~SolidModelConverter()
+	virtual ~SolidModelConverter()
 	{
 	}
 

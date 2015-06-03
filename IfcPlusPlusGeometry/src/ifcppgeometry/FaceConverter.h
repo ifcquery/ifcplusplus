@@ -68,7 +68,7 @@ public:
 	{
 	}
 
-	~FaceConverter()
+	virtual ~FaceConverter()
 	{
 	}
 

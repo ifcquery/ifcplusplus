@@ -23,7 +23,7 @@ class IFCPP_EXPORT IfcPPAttributeObjectVector : public IfcPPObject
 public:
 	IfcPPAttributeObjectVector() {}
 	IfcPPAttributeObjectVector( std::vector<shared_ptr<IfcPPObject> >& vec ){ m_vec = vec; }
-	~IfcPPAttributeObjectVector(){}
+	virtual ~IfcPPAttributeObjectVector(){}
 	virtual const char* className() const { return "IfcPPAttributeObjectVector"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() const { return shared_ptr<IfcPPObject>( new IfcPPAttributeObjectVector() );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const {}
@@ -35,7 +35,7 @@ class IFCPP_EXPORT IfcPPBoolAttribute : public IfcPPObject
 public:
 	IfcPPBoolAttribute(){}
 	IfcPPBoolAttribute( bool value ) : m_value( value ){}
-	~IfcPPBoolAttribute(){}
+	virtual ~IfcPPBoolAttribute(){}
 	virtual const char* className() const { return "IfcPPBoolAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPBoolAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}
@@ -47,7 +47,7 @@ class IFCPP_EXPORT IfcPPLogicalAttribute : public IfcPPObject
 public:
 	IfcPPLogicalAttribute(){}
 	IfcPPLogicalAttribute( LogicalEnum value ) : m_value( value ){}
-	~IfcPPLogicalAttribute(){}
+	virtual ~IfcPPLogicalAttribute(){}
 	virtual const char* className() const { return "IfcPPLogicalAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPLogicalAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}
@@ -59,7 +59,7 @@ class IFCPP_EXPORT IfcPPIntAttribute : public IfcPPObject
 public:
 	IfcPPIntAttribute(){}
 	IfcPPIntAttribute( int value ) : m_value( value ){}
-	~IfcPPIntAttribute(){}
+	virtual ~IfcPPIntAttribute(){}
 	virtual const char* className() const { return "IfcPPIntAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPIntAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}
@@ -71,7 +71,7 @@ class IFCPP_EXPORT IfcPPRealAttribute : public IfcPPObject
 public:
 	IfcPPRealAttribute(){}
 	IfcPPRealAttribute( double value ) : m_value( value ){}
-	~IfcPPRealAttribute(){}
+	virtual ~IfcPPRealAttribute(){}
 	virtual const char* className() const { return "IfcPPRealAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPRealAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}
@@ -83,7 +83,7 @@ class IFCPP_EXPORT IfcPPStringAttribute : public IfcPPObject
 public:
 	IfcPPStringAttribute(){}
 	IfcPPStringAttribute( std::wstring& value ) : m_value( value ){}
-	~IfcPPStringAttribute(){}
+	virtual ~IfcPPStringAttribute(){}
 	virtual const char* className() const { return "IfcPPStringAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPStringAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}
@@ -95,7 +95,7 @@ class IFCPP_EXPORT IfcPPBinaryAttribute : public IfcPPObject
 public:
 	IfcPPBinaryAttribute(){}
 	IfcPPBinaryAttribute( const char* value ) : m_value( value ){}
-	~IfcPPBinaryAttribute(){}
+	virtual ~IfcPPBinaryAttribute(){}
 	virtual const char* className() const { return "IfcPPBinaryAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPBinaryAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}

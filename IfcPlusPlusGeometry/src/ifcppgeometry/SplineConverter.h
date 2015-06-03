@@ -200,7 +200,7 @@ public:
 	SplineConverter( shared_ptr<PointConverter>& pt_converter ) : m_point_converter( pt_converter )
 	{
 	}
-	~SplineConverter()
+	virtual ~SplineConverter()
 	{
 	}
 

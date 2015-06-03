@@ -33,7 +33,7 @@ public:
 	shared_ptr<UnitConverter>			m_unit_converter;
 
 	Sweeper(shared_ptr<GeometrySettings>& settings, shared_ptr<UnitConverter>& uc) : m_geom_settings(settings), m_unit_converter(uc) {}
-	~Sweeper(){}
+	virtual ~Sweeper(){}
 
 	/*\brief Extrudes a set of cross sections along a direction
 	  \param[in] paths Set of cross sections to extrude

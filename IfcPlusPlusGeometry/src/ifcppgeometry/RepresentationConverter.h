@@ -131,7 +131,7 @@ public:
 		addCallbackChild( m_sweeper.get() );
 	}
 
-	~RepresentationConverter()
+	virtual ~RepresentationConverter()
 	{
 		clearCache();
 	}

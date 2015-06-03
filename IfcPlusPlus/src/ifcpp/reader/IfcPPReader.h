@@ -24,7 +24,7 @@ class IfcPPReader : public StatusCallback
 {
 public:
 	IfcPPReader();
-	~IfcPPReader();
+	virtual ~IfcPPReader();
 	virtual void removeComments( std::string& buffer ) = 0;
 	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model ) = 0;
 	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map ) = 0;

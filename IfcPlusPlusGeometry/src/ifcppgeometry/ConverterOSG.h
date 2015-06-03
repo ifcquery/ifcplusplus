@@ -51,7 +51,7 @@ public:
 		m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 		m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 	}
-	~ConverterOSG() {}
+	virtual ~ConverterOSG() {}
 
 	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false )
 	{
