@@ -15,21 +15,6 @@
 
 #if _MSC_VER >= 1600
 
-#ifndef BOOST_SP_USE_QUICK_ALLOCATOR
-#define BOOST_SP_USE_QUICK_ALLOCATOR
-#endif
-#ifndef BOOST_SP_NO_ATOMIC_ACCESS
-#define BOOST_SP_NO_ATOMIC_ACCESS
-#endif
-
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
-
-#elif _MSC_VER >= 1500
-
 #include <memory>
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
