@@ -135,6 +135,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(BOOST_DIR);.\..\Carve\src;.\..\Carve\src\include;.\..\Carve\src\common;.\..\IfcPlusPlus\src;.\..\IfcPlusPlusGeometry\src;$(OSG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <DebugInformationFormat />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

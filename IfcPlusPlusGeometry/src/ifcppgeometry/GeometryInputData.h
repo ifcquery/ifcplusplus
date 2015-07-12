@@ -264,22 +264,44 @@ public:
 	}
 };
 
-class ProductShapeInputData
+class ProductRepresentationData
 {
 public:
-	ProductShapeInputData() : m_added_to_node( false ) {}
-	virtual ~ProductShapeInputData() {}
+	ProductRepresentationData() : m_added_to_node(false){}
+	~ProductRepresentationData(){}
 
-	void addInputData( shared_ptr<ProductShapeInputData>& other )
+	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
+	std::vector<shared_ptr<ItemShapeInputData> >	m_vec_item_data;
+	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
+	osg::ref_ptr<osg::Switch>						m_representation_switch;
+	bool											m_added_to_node;
+	std::wstring									m_representation_identifier;
+	std::wstring									m_representation_type;
+
+
+	shared_ptr<ProductRepresentationData> getDeepCopy()
 	{
-		std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
-		std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
+		shared_ptr<ProductRepresentationData> copy_representation( new ProductRepresentationData() );
+		copy_representation->m_ifc_representation_context = m_ifc_representation_context;
+		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
+		{
+			shared_ptr<ItemShapeInputData>& item_data = m_vec_item_data[ii];
+			copy_representation->m_vec_item_data.push_back( item_data->getDeepCopy() );
+		}
+		std::copy( m_vec_representation_appearances.begin(), m_vec_representation_appearances.end(), std::back_inserter( copy_representation->m_vec_representation_appearances ) );
+		return copy_representation;
 	}
 
-	void deepCopyFrom( shared_ptr<ProductShapeInputData>& other )
+	void addInputData( shared_ptr<ProductRepresentationData>& other )
+	{
+		std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
+		std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
+	}
+
+	void deepCopyFrom( shared_ptr<ProductRepresentationData>& other )
 	{
 		m_vec_item_data.clear();
-		m_vec_appearances.clear();
+		m_vec_representation_appearances.clear();
 
 		if( other )
 		{
@@ -287,6 +309,84 @@ public:
 			{
 				shared_ptr<ItemShapeInputData>& item_data = other->m_vec_item_data[item_i];
 				m_vec_item_data.push_back( shared_ptr<ItemShapeInputData>( item_data->getDeepCopy() ) );
+			}
+			std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
+		}
+	}
+
+	void addAppearance( shared_ptr<AppearanceData>& appearance )
+	{
+		if( !appearance )
+		{
+			return;
+		}
+		int append_id = appearance->m_step_stype_id;
+		for( size_t ii = 0; ii < m_vec_representation_appearances.size(); ++ii )
+		{
+			shared_ptr<AppearanceData>& appearance = m_vec_representation_appearances[ii];
+			if( appearance->m_step_stype_id == append_id )
+			{
+				return;
+			}
+		}
+		m_vec_representation_appearances.push_back( appearance );
+	}
+
+	void clearAppearanceData()
+	{
+		m_vec_representation_appearances.clear();
+	}
+
+	void clearAll()
+	{
+		m_vec_representation_appearances.clear();
+		m_ifc_representation_context.reset();
+		if( m_representation_switch )
+		{
+			GeomUtils::removeChildren( m_representation_switch );
+		}
+		m_vec_item_data.clear();
+		m_added_to_node = false;
+		m_representation_identifier = L"";
+		m_representation_type = L"";
+	}
+
+	void applyPosition( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
+	{
+		if( GeomUtils::isMatrixIdentity( matrix ) )
+		{
+			return;
+		}
+		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
+		{
+			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
+		}
+	}
+};
+
+class ProductShapeInputData
+{
+public:
+	ProductShapeInputData() {}
+	virtual ~ProductShapeInputData() {}
+
+	void addInputData( shared_ptr<ProductShapeInputData>& other )
+	{
+		std::copy( other->m_vec_representations.begin(), other->m_vec_representations.end(), std::back_inserter( m_vec_representations ) );
+		std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
+	}
+
+	void deepCopyFrom( shared_ptr<ProductShapeInputData>& other )
+	{
+		m_vec_representations.clear();
+		m_vec_appearances.clear();
+
+		if( other )
+		{
+			for( size_t item_i = 0; item_i < other->m_vec_representations.size(); ++item_i )
+			{
+				shared_ptr<ProductRepresentationData>& representation_data = other->m_vec_representations[item_i];
+				m_vec_representations.push_back( shared_ptr<ProductRepresentationData>( representation_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
 		}
@@ -320,20 +420,12 @@ public:
 		m_vec_appearances.clear();
 
 		m_ifc_product.reset();
-		m_representation.reset();
 		m_object_placement.reset();
 		if( m_product_switch )
 		{
 			GeomUtils::removeChildren( m_product_switch );
 		}
-		if( m_product_switch_curves )
-		{
-			GeomUtils::removeChildren( m_product_switch_curves );
-		}
-		m_vec_item_data.clear();
-		m_added_to_node = false;
-		m_representation_identifier = L"";
-		m_representation_type = L"";
+		m_vec_representations.clear();
 	}
 
 	void applyPosition( const carve::math::Matrix& matrix )
@@ -342,23 +434,18 @@ public:
 		{
 			return;
 		}
-		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
+		for( size_t i_item = 0; i_item < m_vec_representations.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPosition( matrix, true );
+			m_vec_representations[i_item]->applyPosition( matrix, true );
 		}
 	}
 	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_appearances; }
 
 	weak_ptr<IfcProduct> m_ifc_product;
-	weak_ptr<IfcRepresentation> m_representation;
 	weak_ptr<IfcObjectPlacement> m_object_placement;
 	osg::ref_ptr<osg::Switch>	m_product_switch;
-	osg::ref_ptr<osg::Switch>	m_product_switch_curves;
-	std::vector<shared_ptr<ItemShapeInputData> >		m_vec_item_data;
-	bool m_added_to_node;
-	std::wstring m_representation_identifier;
-	std::wstring m_representation_type;
-
+	std::vector<shared_ptr<ProductRepresentationData> >		m_vec_representations;
+	
 protected:
 	std::vector<shared_ptr<AppearanceData> >	m_vec_appearances;
 };

@@ -195,6 +195,9 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;UNICODE;WIN32;_WINDOWS;_UNICODE;UNICODE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat />
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -326,6 +329,7 @@
     <ClInclude Include="src\include\carve\aabb.hpp" />
     <ClInclude Include="src\include\carve\aabb_impl.hpp" />
     <ClInclude Include="src\include\carve\carve.hpp" />
+    <ClInclude Include="src\include\carve\cbrt.h" />
     <ClInclude Include="src\include\carve\classification.hpp" />
     <ClInclude Include="src\include\carve\csg.hpp" />
     <ClInclude Include="src\include\carve\csg_triangulator.hpp" />

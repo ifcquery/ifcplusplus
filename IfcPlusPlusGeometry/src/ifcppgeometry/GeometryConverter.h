@@ -303,27 +303,27 @@ public:
 				{
 					continue;
 				}
-				if( !product_shape->m_added_to_node )
+
+				for( auto& representation_data : product_shape->m_vec_representations )
 				{
-					shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
-					if( opening )
+					if( !representation_data->m_added_to_node )
 					{
-						continue;
-					}
+						shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
+						if( opening )
+						{
+							continue;
+						}
 
-					if( product_shape->m_product_switch.valid() )
-					{
-						group_outside_spatial_structure->addChild( product_shape->m_product_switch );
-					}
+						if( product_shape->m_product_switch.valid() )
+						{
+							group_outside_spatial_structure->addChild( product_shape->m_product_switch );
+						}
 
-					if( product_shape->m_product_switch_curves.valid() )
-					{
-						group_outside_spatial_structure->addChild( product_shape->m_product_switch_curves );
+						representation_data->m_added_to_node = true;
+						
 					}
-
-					product_shape->m_added_to_node = true;
-					m_map_outside_spatial_structure[ifc_product->m_id] = ifc_product;
 				}
+				m_map_outside_spatial_structure[ifc_product->m_id] = ifc_product;
 			}
 
 			if( group_outside_spatial_structure->getNumChildren() > 0 )
@@ -409,35 +409,30 @@ public:
 			if( it_product_map != m_shape_input_data.end() )
 			{
 				shared_ptr<ProductShapeInputData>& product_shape = it_product_map->second;
+				product_shape->m_product_switch = group;
 
-				if( product_shape->m_added_to_node )
+				osg::StateSet* existing_stateset = product_shape->m_product_switch->getStateSet();
+				if( existing_stateset )
 				{
-					// IfcRelContainsInSpatialStructure relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
-					std::cout << "already product_shape->added_to_node" << std::endl;
-				}
-				product_shape->m_added_to_node = true;
-
-				osg::ref_ptr<osg::Switch> product_switch = product_shape->m_product_switch;
-				if( product_switch.valid() )
-				{
-					for( unsigned int product_child_i = 0; product_child_i < product_switch->getNumChildren(); ++product_child_i )
-					{
-						group->addChild( product_switch->getChild( product_child_i ) );
-					}
-					product_shape->m_product_switch = group;
-					group->setName( product_switch->getName() );
-
-					osg::StateSet* existing_stateset = product_switch->getStateSet();
-					if( existing_stateset )
-					{
-						group->setStateSet( existing_stateset );
-					}
+					group->setStateSet( existing_stateset );
 				}
 
-				osg::ref_ptr<osg::Switch> product_switch_curves = product_shape->m_product_switch_curves;
-				if( product_switch_curves.valid() )
+				for( auto& representation_data : product_shape->m_vec_representations )
 				{
-					group->addChild( product_switch_curves );
+					if( representation_data->m_added_to_node )
+					{
+						// IfcRelContainsInSpatialStructure relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
+						std::cout << "already product_shape->added_to_node" << std::endl;
+					}
+					representation_data->m_added_to_node = true;
+
+					if( representation_data->m_representation_switch.valid() )
+					{
+						for( unsigned int product_child_i = 0; product_child_i < representation_data->m_representation_switch->getNumChildren(); ++product_child_i )
+						{
+							group->addChild( representation_data->m_representation_switch->getChild( product_child_i ) );
+						}
+					}
 				}
 			}
 		}
@@ -598,7 +593,9 @@ public:
 			const shared_ptr<IfcRepresentation>& representation = vec_representations[i_representations];
 			try
 			{
-				m_representation_converter->convertIfcRepresentation( representation, product_shape );
+				shared_ptr<ProductRepresentationData> representation_data( new ProductRepresentationData() );
+				m_representation_converter->convertIfcRepresentation( representation, representation_data );
+				product_shape->m_vec_representations.push_back( representation_data );
 			}
 			catch( IfcPPOutOfMemoryException& e )
 			{

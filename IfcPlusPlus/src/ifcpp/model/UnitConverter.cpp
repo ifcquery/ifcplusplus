@@ -88,7 +88,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 
 	if( !project->m_UnitsInContext )
 	{
-		messageCallback( "IfcProject.UnitsInContext not defined", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
+		messageCallback( "IfcProject.UnitsInContext not defined", StatusCallback::MESSAGE_TYPE_WARNING, "" );
 		return;
 	}
 

@@ -62,18 +62,6 @@
 
 class RepresentationConverter : public StatusCallback
 {
-public:
-	//RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter );
-	//~RepresentationConverter();
-
-	//void convertIfcRepresentation(				const shared_ptr<IfcRepresentation>& representation,	shared_ptr<ProductShapeInputData>& shape_data );
-	//void convertIfcGeometricRepresentationItem(	const shared_ptr<IfcGeometricRepresentationItem>& item,	shared_ptr<ItemShapeInputData> item_data );
-	//void convertRepresentationStyle(			const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data );
-	//void subtractOpenings(						const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeInputData>& product_shape );
-
-	//bool handleLayerAssignments() { return m_handle_layer_assignments; }
-
-
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
@@ -91,20 +79,6 @@ protected:
 
 
 public:
-	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
-	bool handleStyledItems() { return m_handle_styled_items; }
-	void setHandleStyledItems( bool handle ) { m_handle_styled_items = handle; }
-	//void clearCache();
-	//void setUnitConverter( shared_ptr<UnitConverter>& unit_converter );
-	shared_ptr<UnitConverter>&			getUnitConverter()	{ return m_unit_converter; }
-	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings; }
-	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter; }
-	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache; }
-	shared_ptr<Sweeper>&				getSweeper()		{ return m_sweeper; }
-	shared_ptr<StylesConverter>&		getStylesConverter()	{ return m_styles_converter; }
-	shared_ptr<CurveConverter>&			getCurveConverter() { return m_curve_converter; }
-	shared_ptr<SplineConverter>&		getSplineConverter(){ return m_spline_converter; }
-
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
 		: m_geom_settings( geom_settings ), m_unit_converter( unit_converter )
 	{
@@ -141,7 +115,17 @@ public:
 		m_profile_cache->clearProfileCache();
 		m_styles_converter->clearStylesCache();
 	}
-
+	shared_ptr<UnitConverter>&			getUnitConverter()	{ return m_unit_converter; }
+	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings; }
+	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter; }
+	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache; }
+	shared_ptr<Sweeper>&				getSweeper()		{ return m_sweeper; }
+	shared_ptr<StylesConverter>&		getStylesConverter()	{ return m_styles_converter; }
+	shared_ptr<CurveConverter>&			getCurveConverter() { return m_curve_converter; }
+	shared_ptr<SplineConverter>&		getSplineConverter(){ return m_spline_converter; }
+	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
+	bool handleStyledItems() { return m_handle_styled_items; }
+	void setHandleStyledItems( bool handle ) { m_handle_styled_items = handle; }
 	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
 	{
 		m_unit_converter = unit_converter;
@@ -163,7 +147,7 @@ public:
 		}
 	}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& representation, shared_ptr<ProductShapeInputData>& input_data )
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& representation, shared_ptr<ProductRepresentationData>& input_data )
 	{
 		if( representation->m_RepresentationIdentifier )
 		{
@@ -209,20 +193,22 @@ public:
 			input_data->m_representation_type = representation->m_RepresentationType->m_value;
 		}
 
-		shared_ptr<IfcRepresentationContext>& context = representation->m_ContextOfItems;
-		if( context )
-		{
-			shared_ptr<IfcGeometricRepresentationContext> geom_context = dynamic_pointer_cast<IfcGeometricRepresentationContext>( context );
-			if( geom_context )
-			{
-				// TODO: save in ProductShapeInputData
-				shared_ptr<IfcGeometricRepresentationSubContext> geom_sub_context = dynamic_pointer_cast<IfcGeometricRepresentationSubContext>( context );
-				if( geom_sub_context )
-				{
+		input_data->m_ifc_representation_context = representation->m_ContextOfItems;
+		//shared_ptr<IfcRepresentationContext>& context = representation->m_ContextOfItems;
+		//if( context )
+		//{
+		//	
+		//	shared_ptr<IfcGeometricRepresentationContext> geom_context = dynamic_pointer_cast<IfcGeometricRepresentationContext>( context );
+		//	if( geom_context )
+		//	{
+		//		// TODO: save in ProductShapeInputData
+		//		shared_ptr<IfcGeometricRepresentationSubContext> geom_sub_context = dynamic_pointer_cast<IfcGeometricRepresentationSubContext>( context );
+		//		if( geom_sub_context )
+		//		{
 
-				}
-			}
-		}
+		//		}
+		//	}
+		//}
 
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		for( size_t i_representation_items = 0; i_representation_items < representation->m_Items.size(); ++i_representation_items )
@@ -298,7 +284,8 @@ public:
 					}
 				}
 
-				shared_ptr<ProductShapeInputData> mapped_input_data( new ProductShapeInputData() );
+				//shared_ptr<ProductShapeInputData> mapped_input_data( new ProductShapeInputData() );
+				shared_ptr<ProductRepresentationData> mapped_input_data( new ProductRepresentationData() );
 				if( !mapped_input_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -681,12 +668,13 @@ public:
 		if( geometric_set )
 		{
 			// ENTITY IfcGeometricSet SUPERTYPE OF(IfcGeometricCurveSet)
-			std::vector<shared_ptr<IfcGeometricSetSelect> >& geom_set_elements = geometric_set->m_Elements;
-			std::vector<shared_ptr<IfcGeometricSetSelect> >::iterator it_set_elements;
-			for( it_set_elements = geom_set_elements.begin(); it_set_elements != geom_set_elements.end(); ++it_set_elements )
+			for( auto geom_select : geometric_set->m_Elements )
 			{
 				// TYPE IfcGeometricSetSelect = SELECT (IfcPoint, IfcCurve, IfcSurface);
-				shared_ptr<IfcGeometricSetSelect>& geom_select = ( *it_set_elements );
+				if( !geom_select )
+				{
+					continue;
+				}
 
 				shared_ptr<IfcPoint> point = dynamic_pointer_cast<IfcPoint>( geom_select );
 				if( point )
@@ -816,9 +804,12 @@ public:
 
 			// convert inner boundaries
 			std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = annotation_fill_area->m_InnerBoundaries;			//optional
-			for( std::vector<shared_ptr<IfcCurve> >::iterator it = vec_inner_boundaries.begin(); it != vec_inner_boundaries.end(); ++it )
+			for( auto& inner_boundary : vec_inner_boundaries )
 			{
-				shared_ptr<IfcCurve>& inner_boundary = *it;
+				if( !inner_boundary )
+				{
+					continue;
+				}
 				face_loops.push_back( std::vector<carve::geom::vector<3> >() );
 				std::vector<carve::geom::vector<3> >& inner_boundary_loop = face_loops.back();
 				std::vector<carve::geom::vector<3> > segment_start_points;
@@ -866,7 +857,7 @@ public:
 
 	void subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeInputData>& product_shape )
 	{
-		std::vector<shared_ptr<ProductShapeInputData> > vec_opening_data;
+		std::vector<shared_ptr<ProductRepresentationData> > vec_opening_data;
 		std::vector<weak_ptr<IfcRelVoidsElement> > vec_rel_voids( ifc_element->m_HasOpenings_inverse );
 		if( vec_rel_voids.size() == 0 )
 		{
@@ -876,9 +867,8 @@ public:
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// convert opening representation
-		for( size_t i_void = 0; i_void < vec_rel_voids.size(); ++i_void )
+		for( auto& rel_voids_weak : vec_rel_voids )
 		{
-			weak_ptr<IfcRelVoidsElement>& rel_voids_weak = vec_rel_voids[i_void];
 			if( rel_voids_weak.expired() )
 			{
 				continue;
@@ -909,12 +899,11 @@ public:
 			for( size_t i_representations = 0; i_representations < vec_opening_representations.size(); ++i_representations )
 			{
 				shared_ptr<IfcRepresentation> ifc_opening_representation = vec_opening_representations[i_representations];
-				shared_ptr<ProductShapeInputData> opening_representation_data( new ProductShapeInputData() );
+				shared_ptr<ProductRepresentationData> opening_representation_data( new ProductRepresentationData() );
 				if( !opening_representation_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
 				}
-				opening_representation_data->m_representation = ifc_opening_representation;
 
 				// TODO: Representation caching, one element could be used for several openings
 				try
@@ -940,20 +929,16 @@ public:
 		}
 
 		shared_ptr<carve::mesh::MeshSet<3> > unified_opening_meshset;
-		for( size_t i_opening = 0; i_opening < vec_opening_data.size(); ++i_opening )
+		for( auto& opening_representation_data : vec_opening_data )
 		{
-			shared_ptr<ProductShapeInputData>& opening_representation_data = vec_opening_data[i_opening];
-			int representation_id = -1;
-			shared_ptr<IfcRepresentation> opening_representation( opening_representation_data->m_representation );
-			if( opening_representation )
+			if( !opening_representation_data )
 			{
-				representation_id = opening_representation->m_id;
+				continue;
 			}
 
 			std::vector<shared_ptr<ItemShapeInputData> >& vec_opening_items = opening_representation_data->m_vec_item_data;
-			for( size_t i_item = 0; i_item < vec_opening_items.size(); ++i_item )
+			for( auto& opening_item_data : vec_opening_items )
 			{
-				shared_ptr<ItemShapeInputData>& opening_item_data = vec_opening_items[i_item];
 				if( opening_item_data )
 				{
 					std::vector<shared_ptr<carve::mesh::MeshSet<3> > >&	opening_meshsets = opening_item_data->m_meshsets;
@@ -1007,41 +992,45 @@ public:
 
 		if( unified_opening_meshset )
 		{
-			std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_shape->m_vec_item_data;
-			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
+			for( auto& product_representation : product_shape->m_vec_representations )
 			{
-				shared_ptr<ItemShapeInputData> item_data = product_items[i_item];
-
-				// now go through all meshsets of the item
-				for( size_t i_product_meshset = 0; i_product_meshset < item_data->m_meshsets.size(); ++i_product_meshset )
+				std::vector<shared_ptr<ItemShapeInputData> >& vec_product_items = product_representation->m_vec_item_data;
+				for( auto& item_data : vec_product_items )
 				{
-					shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->m_meshsets[i_product_meshset];
-					std::stringstream strs_meshset_err;
-					bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset, this, ifc_element.get() );
-					if( !product_meshset_valid_for_csg )
+					if( item_data )
 					{
-						continue;
-					}
+						// now go through all meshsets of the item
+						for( size_t i_product_meshset = 0; i_product_meshset < item_data->m_meshsets.size(); ++i_product_meshset )
+						{
+							shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = item_data->m_meshsets[i_product_meshset];
+							std::stringstream strs_meshset_err;
+							bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset, this, ifc_element.get() );
+							if( !product_meshset_valid_for_csg )
+							{
+								continue;
+							}
 
-					// do the subtraction
-					shared_ptr<carve::mesh::MeshSet<3> > result;
-					try
-					{
-						CSG_Adapter::computeCSG( product_meshset, unified_opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element.get(), nullptr );
+							// do the subtraction
+							shared_ptr<carve::mesh::MeshSet<3> > result;
+							try
+							{
+								CSG_Adapter::computeCSG( product_meshset, unified_opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element.get(), nullptr );
+							}
+							catch( IfcPPOutOfMemoryException& e )
+							{
+								throw e;
+							}
+							catch( IfcPPException& e )
+							{
+								messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
+							}
+							catch( std::exception& e )
+							{
+								messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get() );
+							}
+							product_meshset = result;
+						}
 					}
-					catch( IfcPPOutOfMemoryException& e )
-					{
-						throw e;
-					}
-					catch( IfcPPException& e )
-					{
-						messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
-					}
-					catch( std::exception& e )
-					{
-						messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get() );
-					}
-					product_meshset = result;
 				}
 			}
 		}

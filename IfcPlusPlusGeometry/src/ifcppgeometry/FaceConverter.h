@@ -273,23 +273,26 @@ public:
 		throw UnhandledRepresentationException( surface );
 	}
 
-	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& faces, shared_ptr<ItemShapeInputData> item_data, ShellType st )
+	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeInputData> item_data, ShellType st )
 	{
 		PolyInputCache3D poly_cache;
 		IfcPPEntity* report_entity = nullptr;
-		for( auto it_ifc_faces = faces.begin(); it_ifc_faces != faces.end(); ++it_ifc_faces )
+		for( const auto& ifc_face : vec_faces )
 		{
-			const shared_ptr<IfcFace>& ifc_face = *it_ifc_faces;
+			if( !ifc_face )
+			{
+				continue;
+			}
 			std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
 			std::vector<std::vector<carve::geom::vector<3> > > face_loops;
 			report_entity = ifc_face.get();
 
 			for( auto it_bounds = vec_bounds.begin(); it_bounds != vec_bounds.end(); ++it_bounds )
 			{
-				shared_ptr<IfcFaceBound> face_bound = ( *it_bounds );
+				const shared_ptr<IfcFaceBound>& face_bound = ( *it_bounds );
 
 				// ENTITY IfcLoop SUPERTYPE OF(ONEOF(IfcEdgeLoop, IfcPolyLoop, IfcVertexLoop))
-				shared_ptr<IfcLoop> loop = face_bound->m_Bound;
+				const shared_ptr<IfcLoop>& loop = face_bound->m_Bound;
 				if( !loop )
 				{
 					if( it_bounds == vec_bounds.begin() )

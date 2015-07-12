@@ -242,5 +242,8 @@
     <ClInclude Include="src\include\carve\win32.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\carve\cbrt.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

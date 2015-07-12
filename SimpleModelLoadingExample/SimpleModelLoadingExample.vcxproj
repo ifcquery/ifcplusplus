@@ -138,6 +138,7 @@
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
+      <DebugInformationFormat />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

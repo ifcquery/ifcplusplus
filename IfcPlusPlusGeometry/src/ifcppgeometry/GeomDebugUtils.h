@@ -51,22 +51,61 @@ namespace GeomDebugUtils
 		strs_out << "}" << std::endl;
 
 		strs_out << "faces{" << std::endl;
-		for( size_t i = 0; i < poly->faces.size(); ++i )
+		for( size_t ii = 0; ii < poly->faces.size(); ++ii )
 		{
-			carve::poly::Face<3> f = poly->faces[i];
-			if( i > 0 )
+			carve::poly::Face<3> f = poly->faces[ii];
+			if( ii > 0 )
 			{
 				strs_out << ",";
 			}
 			strs_out << "{";
-			for( size_t j = 0; j < f.nVertices(); ++j )
+
+			std::vector<const carve::poly::Vertex<3> *>::const_iterator vertices_begin = f.vbegin();
+			std::vector<const carve::poly::Vertex<3> *>::const_iterator vertices_end = f.vend();
+			for( auto it_vert = vertices_begin; it_vert != vertices_end; ++it_vert )
 			{
-				if( j > 0 )
+				const carve::poly::Vertex<3>* vert = *it_vert;
+
+				if( it_vert != vertices_begin )
 				{
 					strs_out << ", ";
 				}
-				strs_out << poly->vertexToIndex( f.vertex( j ) );
+				ptrdiff_t ptr_diff = poly->vertexToIndex( vert );
+				strs_out << ptr_diff;
+
+#ifdef _DEBUG
+				int vert_index = -1;
+
+				for( size_t i_find_vert = 0; i_find_vert < num_vertices; ++i_find_vert )
+				{
+					const carve::poly::Vertex<3>& vertex_ref = (poly->vertices[i_find_vert]);
+					const carve::poly::Vertex<3>* vertex_ptr = &vertex_ref;
+					if( vertex_ptr == vert )
+					{
+						vert_index = i_find_vert;
+						break;
+					}
+				}
+
+				if( vert_index != ptr_diff )
+				{
+					std::cout << "vert_index != ptr_diff" << std::endl;
+				}
+#endif
 			}
+			////const_vertex_iter_t vbegin() const { return vertices.begin(); }
+			////const_vertex_iter_t vend() const { return vertices.end(); }
+
+			////f.getVertexLoop() vertices;
+			//for( size_t jj = 0; jj < f.nVertices(); ++jj )
+			//{
+			//	if( jj > 0 )
+			//	{
+			//		strs_out << ", ";
+			//	}
+			//	ptrdiff_t ptr_diff = poly->vertexToIndex( f.vertex( jj ) );
+			//	strs_out << ptr_diff;
+			//}
 			strs_out << "}" << std::endl;
 		}
 		strs_out << std::endl << "}" << std::endl;  // faces

@@ -125,7 +125,8 @@
     <ClCompile>
       <PreprocessorDefinitions>IFCPP_OPENMP;CARVE_SYSTEM_BOOST;UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(BOOST_DIR);.\..\Carve\src;.\..\Carve\src\include;.\..\Carve\src\common;.\..\IfcPlusPlus\src;.\..\IfcPlusPlusGeometry\src;$(OSG_DIR)\include;.\GeneratedFiles;.\src;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -146,7 +147,7 @@
     <ClCompile>
       <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;IFCPP_OPENMP;UNICODE;WIN32;WIN64;NDEBUG;QT_NO_DEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;.\src\;.\..\IfcPlusPlus\src;.\..\IfcPlusPlusGeometry\src;.\..\Carve\src;.\..\Carve\src\common;.\..\Carve\src\include;.\bin\GeneratedFiles\$(ConfigurationName);.\bin\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(OSG_DIR)\include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat />
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

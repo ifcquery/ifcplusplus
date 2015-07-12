@@ -195,6 +195,7 @@
       <PreprocessorDefinitions>_UNICODE;UNICODE;NDEBUG;CARVE_SYSTEM_BOOST;IFCPP_OPENMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
+      <DebugInformationFormat />
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
