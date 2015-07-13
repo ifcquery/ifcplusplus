@@ -36,7 +36,7 @@ public:
 class AppearanceData
 {
 public:
-	enum GeometryTypeEnum { UNDEFINED, TEXT, CURVE, SURFACE, VOLUME };
+	enum GeometryTypeEnum { UNDEFINED, TEXT, CURVE, SURFACE, VOLUME, ANY };
 	AppearanceData( int step_style_id )
 	{
 		m_step_stype_id = step_style_id;
@@ -90,6 +90,11 @@ public:
 
 	void addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
+		if( !poly_data )
+		{
+			return;
+		}
+
 		// check if it is open or closed
 		if( poly_data->getVertexCount() < 3 )
 		{
@@ -267,14 +272,13 @@ public:
 class ProductRepresentationData
 {
 public:
-	ProductRepresentationData() : m_added_to_node(false){}
+	ProductRepresentationData() {}
 	~ProductRepresentationData(){}
 
 	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
 	std::vector<shared_ptr<ItemShapeInputData> >	m_vec_item_data;
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
 	osg::ref_ptr<osg::Switch>						m_representation_switch;
-	bool											m_added_to_node;
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
 
@@ -346,7 +350,7 @@ public:
 			GeomUtils::removeChildren( m_representation_switch );
 		}
 		m_vec_item_data.clear();
-		m_added_to_node = false;
+		
 		m_representation_identifier = L"";
 		m_representation_type = L"";
 	}
@@ -367,19 +371,19 @@ public:
 class ProductShapeInputData
 {
 public:
-	ProductShapeInputData() {}
+	ProductShapeInputData() : m_added_to_node(false) {}
 	virtual ~ProductShapeInputData() {}
 
 	void addInputData( shared_ptr<ProductShapeInputData>& other )
 	{
 		std::copy( other->m_vec_representations.begin(), other->m_vec_representations.end(), std::back_inserter( m_vec_representations ) );
-		std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
+		std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
 	}
 
 	void deepCopyFrom( shared_ptr<ProductShapeInputData>& other )
 	{
 		m_vec_representations.clear();
-		m_vec_appearances.clear();
+		m_vec_product_appearances.clear();
 
 		if( other )
 		{
@@ -388,7 +392,7 @@ public:
 				shared_ptr<ProductRepresentationData>& representation_data = other->m_vec_representations[item_i];
 				m_vec_representations.push_back( shared_ptr<ProductRepresentationData>( representation_data->getDeepCopy() ) );
 			}
-			std::copy( other->m_vec_appearances.begin(), other->m_vec_appearances.end(), std::back_inserter( m_vec_appearances ) );
+			std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
 		}
 	}
 
@@ -399,25 +403,25 @@ public:
 			return;
 		}
 		int append_id = appearance->m_step_stype_id;
-		for( size_t ii = 0; ii < m_vec_appearances.size(); ++ii )
+		for( size_t ii = 0; ii < m_vec_product_appearances.size(); ++ii )
 		{
-			shared_ptr<AppearanceData>& appearance = m_vec_appearances[ii];
+			shared_ptr<AppearanceData>& appearance = m_vec_product_appearances[ii];
 			if( appearance->m_step_stype_id == append_id )
 			{
 				return;
 			}
 		}
-		m_vec_appearances.push_back( appearance );
+		m_vec_product_appearances.push_back( appearance );
 	}
 
 	void clearAppearanceData()
 	{
-		m_vec_appearances.clear();
+		m_vec_product_appearances.clear();
 	}
 
 	void clearAll()
 	{
-		m_vec_appearances.clear();
+		m_vec_product_appearances.clear();
 
 		m_ifc_product.reset();
 		m_object_placement.reset();
@@ -426,6 +430,7 @@ public:
 			GeomUtils::removeChildren( m_product_switch );
 		}
 		m_vec_representations.clear();
+		m_added_to_node = false;
 	}
 
 	void applyPosition( const carve::math::Matrix& matrix )
@@ -439,15 +444,16 @@ public:
 			m_vec_representations[i_item]->applyPosition( matrix, true );
 		}
 	}
-	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_appearances; }
+	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
 
-	weak_ptr<IfcProduct> m_ifc_product;
-	weak_ptr<IfcObjectPlacement> m_object_placement;
-	osg::ref_ptr<osg::Switch>	m_product_switch;
-	std::vector<shared_ptr<ProductRepresentationData> >		m_vec_representations;
+	weak_ptr<IfcProduct>								m_ifc_product;
+	weak_ptr<IfcObjectPlacement>						m_object_placement;
+	osg::ref_ptr<osg::Switch>							m_product_switch;
+	std::vector<shared_ptr<ProductRepresentationData> >	m_vec_representations;
+	bool												m_added_to_node;
 	
 protected:
-	std::vector<shared_ptr<AppearanceData> >	m_vec_appearances;
+	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 };
 
 #define ROUND_POLY_COORDINATES_UP 1000000.0

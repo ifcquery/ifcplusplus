@@ -617,7 +617,6 @@ public:
 
 	void applyAppearancesToGroup( const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances, osg::Group* grp )
 	{
-		//const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = product_shape->getAppearances();
 		for( size_t ii = 0; ii < vec_product_appearances.size(); ++ii )
 		{
 			const shared_ptr<AppearanceData>& appearance = vec_product_appearances[ii];
@@ -626,7 +625,7 @@ public:
 				continue;
 			}
 
-			if( appearance->m_apply_to_geometry_type == AppearanceData::SURFACE )
+			if( appearance->m_apply_to_geometry_type == AppearanceData::SURFACE || appearance->m_apply_to_geometry_type == AppearanceData::ANY )
 			{
 				osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
 				if( item_stateset != nullptr )
@@ -674,10 +673,10 @@ public:
 		product_switch->setName( group_name.str().c_str() );
 
 		// create OSG objects
-		std::vector<shared_ptr<ProductRepresentationData> >& product_representations = product_shape->m_vec_representations;
-		for( size_t i_rep = 0; i_rep < product_representations.size(); ++i_rep )
+		std::vector<shared_ptr<ProductRepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
+		for( size_t i_rep = 0; i_rep < vec_product_representations.size(); ++i_rep )
 		{
-			const shared_ptr<ProductRepresentationData>& product_representation = product_representations[i_rep];
+			const shared_ptr<ProductRepresentationData>& product_representation = vec_product_representations[i_rep];
 			if( !product_representation->m_representation_switch )
 			{
 				product_representation->m_representation_switch = new osg::Switch();
@@ -797,7 +796,10 @@ public:
 			
 
 				// apply statesets if there are any
-				applyAppearancesToGroup( item_shape->m_vec_item_appearances, item_group );
+				if( item_shape->m_vec_item_appearances.size() > 0 )
+				{
+					applyAppearancesToGroup( item_shape->m_vec_item_appearances, item_group );
+				}
 
 				// If anything has been created, add it to the representation group
 				if( item_group->getNumChildren() > 0 )
@@ -807,7 +809,10 @@ public:
 			}
 
 			// apply statesets if there are any
-			applyAppearancesToGroup( product_representation->m_vec_representation_appearances, product_representation->m_representation_switch );
+			if( product_representation->m_vec_representation_appearances.size() > 0 )
+			{
+				applyAppearancesToGroup( product_representation->m_vec_representation_appearances, product_representation->m_representation_switch );
+			}
 
 			// If anything has been created, add it to the product group
 			if( product_representation->m_representation_switch->getNumChildren() > 0 )
@@ -818,7 +823,10 @@ public:
 
 		// apply statesets if there are any
 		const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = product_shape->getAppearances();
-		applyAppearancesToGroup( vec_product_appearances, product_switch );
+		if( vec_product_appearances.size() > 0 )
+		{
+			applyAppearancesToGroup( vec_product_appearances, product_switch );
+		}
 
 		// enable transparency for certain objects
 		if( dynamic_pointer_cast<IfcSpace>( ifc_product ) )
@@ -827,6 +835,15 @@ public:
 		}
 		else if( dynamic_pointer_cast<IfcCurtainWall>( ifc_product ) || dynamic_pointer_cast<IfcWindow>( ifc_product ) )
 		{
+			for( auto& product_representation_data : vec_product_representations )
+			{
+				if( product_representation_data->m_representation_switch )
+				{
+					product_representation_data->m_representation_switch->setStateSet( m_glass_stateset );
+					GeomUtils::setMaterialAlpha( product_representation_data->m_representation_switch, 0.6f );
+				}
+			}
+
 			// TODO: make only glass part of window transparent
 			product_switch->setStateSet( m_glass_stateset );
 			GeomUtils::setMaterialAlpha( product_switch, 0.6f );

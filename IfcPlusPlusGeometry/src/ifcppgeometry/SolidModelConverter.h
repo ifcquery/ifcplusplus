@@ -489,15 +489,16 @@ public:
 
 		// triangulate
 		std::vector<carve::geom::vector<2> > merged;
+		std::vector<std::pair<size_t, size_t> > merged_idx;
 		std::vector<carve::triangulate::tri_idx> triangulated;
 		try
 		{
-			std::vector<std::pair<size_t, size_t> > result = carve::triangulate::incorporateHolesIntoPolygon( profile_coords );	// first is loop index, second is vertex index in loop
-			merged.reserve( result.size() );
-			for( size_t i = 0; i < result.size(); ++i )
+			merged_idx = carve::triangulate::incorporateHolesIntoPolygon( profile_coords );	// first is loop index, second is vertex index in loop
+			merged.reserve( merged_idx.size() );
+			for( size_t i = 0; i < merged_idx.size(); ++i )
 			{
-				size_t loop_number = result[i].first;
-				size_t index_in_loop = result[i].second;
+				size_t loop_number = merged_idx[i].first;
+				size_t index_in_loop = merged_idx[i].second;
 
 				if( loop_number >= profile_coords.size() )
 				{
@@ -585,6 +586,18 @@ public:
 			num_vertices_per_section += loop.size();
 		}
 
+		if( num_vertices_per_section < 3 )
+		{
+			messageCallback( "num_vertices_per_section < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+			return;
+		}
+
+		const size_t num_vertices_in_poly = polyhedron_data->getVertexCount();
+		if( num_vertices_in_poly < num_vertices_per_section )
+		{
+			messageCallback( "num_vertices_per_section < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+			return;
+		}
 		// compute normal of front cap
 		const carve::geom::vector<3>& vertex0_section0 = polyhedron_data->getVertex( 0 );
 		const carve::geom::vector<3>& vertex0_section1 = polyhedron_data->getVertex( num_vertices_per_section );
@@ -596,24 +609,75 @@ public:
 		for( size_t ii = 0; ii != triangulated.size(); ++ii )
 		{
 			carve::triangulate::tri_idx triangle = triangulated[ii];
-			const int vertex_id_a = triangle.a;
-			const int vertex_id_b = triangle.b;
-			const int vertex_id_c = triangle.c;
+			const size_t vertex_id_a_triangulated = triangle.a;
+			const size_t vertex_id_b_triangulated = triangle.b;
+			const size_t vertex_id_c_triangulated = triangle.c;
 
-			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+			if( vertex_id_a_triangulated >= merged_idx.size() || vertex_id_b_triangulated >= merged_idx.size() || vertex_id_c_triangulated >= merged_idx.size() )
 			{
+				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 				continue;
 			}
 
-			int vertex_id_a_top = vertex_id_a + back_cap_offset;
-			int vertex_id_b_top = vertex_id_b + back_cap_offset;
-			int vertex_id_c_top = vertex_id_c + back_cap_offset;
+			std::pair<size_t, size_t>& vertex_a_pair = merged_idx[vertex_id_a_triangulated];
+			size_t loop_idx_a = vertex_a_pair.first;
+			size_t vertex_idx_a = vertex_a_pair.second;
+
+			std::pair<size_t, size_t>& vertex_b_pair = merged_idx[vertex_id_b_triangulated];
+			size_t loop_idx_b = vertex_b_pair.first;
+			size_t vertex_idx_b = vertex_b_pair.second;
+
+			std::pair<size_t, size_t>& vertex_c_pair = merged_idx[vertex_id_c_triangulated];
+			size_t loop_idx_c = vertex_c_pair.first;
+			size_t vertex_idx_c = vertex_c_pair.second;
+
+			size_t loop_offset_a = 0;
+			size_t loop_offset_b = 0;
+			size_t loop_offset_c = 0;
+			if( loop_idx_a > 0 )
+			{
+				if( loop_idx_a < profile_coords.size() )
+				{
+					loop_offset_a = profile_coords[loop_idx_a].size();
+				}
+			}
+			if( loop_idx_b > 0 )
+			{
+				if( loop_idx_b < profile_coords.size() )
+				{
+					loop_offset_b = profile_coords[loop_idx_b].size();
+				}
+			}
+			if( loop_idx_c > 0 )
+			{
+				if( loop_idx_c < profile_coords.size() )
+				{
+					loop_offset_c = profile_coords[loop_idx_c].size();
+				}
+			}
+			
+			const size_t vertex_id_a = loop_offset_a + vertex_idx_a;
+			const size_t vertex_id_b = loop_offset_b + vertex_idx_b;
+			const size_t vertex_id_c = loop_offset_c + vertex_idx_c;
+
+			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+			{
+				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+				continue;
+			}
+
+			const int vertex_id_a_top = vertex_id_a + back_cap_offset;
+			const int vertex_id_b_top = vertex_id_b + back_cap_offset;
+			const int vertex_id_c_top = vertex_id_c + back_cap_offset;
+
+			if( vertex_id_a_top >= num_vertices_in_poly || vertex_id_b_top >= num_vertices_in_poly || vertex_id_c_top >= num_vertices_in_poly )
+			{
+				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+				continue;
+			}
 
 			if( ii == 0 )
 			{
-				//const carve::poly::Vertex<3>& v_a = polyhedron_data->getVertex( vertex_id_a );
-				//const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex( vertex_id_b );
-				//const carve::poly::Vertex<3>& v_c = polyhedron_data->getVertex( vertex_id_c );
 				std::vector<carve::geom::vector<3> > vec_triangle;
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_a ) );
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_b ) );
@@ -642,11 +706,6 @@ public:
 			}
 #endif
 
-			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
-			{
-				continue;
-			}
-
 			if( flip_faces )
 			{
 				polyhedron_data->addFace( vertex_id_a, vertex_id_c, vertex_id_b );		// bottom cap
@@ -660,27 +719,56 @@ public:
 		}
 
 		// faces of revolved shape
-		for( int ii = 0; ii < num_vertices_per_section - 1; ++ii )
+		size_t segment_offset = 0;
+		for( int ii = 0; ii < num_segments; ++ii )
 		{
-			int i_offset_next = ii + num_vertices_per_section;
-			for( int jj = 0; jj < num_segments; ++jj )
+			size_t loop_offset = segment_offset;
+			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
 			{
-				int j_offset = jj*num_vertices_per_section;
-				polyhedron_data->addFace( j_offset + ii, j_offset + ii + 1, j_offset + 1 + i_offset_next );
-				polyhedron_data->addFace( j_offset + 1 + i_offset_next, j_offset + i_offset_next, j_offset + ii );
+				const std::vector<carve::geom::vector<2> >& loop = profile_coords[jj];
+				const size_t num_points_in_loop = loop.size();
+
+				for( size_t kk = 0; kk < num_points_in_loop; ++kk )
+				{
+					size_t triangle_idx = loop_offset + kk;
+					size_t triangle_idx_up = triangle_idx + num_vertices_per_section;
+					size_t triangle_idx_next = loop_offset + (kk + 1)%num_points_in_loop;
+					size_t triangle_idx_next_up = triangle_idx_next + num_vertices_per_section;
+
+					if( triangle_idx >= num_vertices_in_poly || triangle_idx_up >= num_vertices_in_poly 
+						|| triangle_idx_next >= num_vertices_in_poly || triangle_idx_next_up >= num_vertices_in_poly )
+					{
+						messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+						continue;
+					}
+
+					if( flip_faces )
+					{
+						polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
+						polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
+					}
+					else
+					{
+						polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
+						polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
+					}
+				}
+				loop_offset += num_points_in_loop;
 			}
+			segment_offset += num_vertices_per_section;
 		}
-
-		for( int jj = 0; jj < num_segments; ++jj )
-		{
-			int j_offset = jj*num_vertices_per_section;
-			polyhedron_data->addFace( j_offset + num_vertices_per_section - 1, j_offset, j_offset + num_vertices_per_section );
-			polyhedron_data->addFace( j_offset + num_vertices_per_section, j_offset + num_vertices_per_section * 2 - 1, j_offset + num_vertices_per_section - 1 );
-		}
-
-		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 
 #ifdef _DEBUG
+		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+		polyline_data->beginPolyline();
+		for( size_t ii_polyline = 0; ii_polyline < merged.size(); ++ii_polyline )
+		{
+			auto& merged_point = merged[ii_polyline];
+			polyline_data->addVertex( carve::geom::VECTOR( merged_point.x, merged_point.y, 0 ) );
+			polyline_data->addPolylineIndex( ii_polyline );
+		}
+		GeomDebugUtils::dumpPolylineSet( polyline_data.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
 		if( meshset->meshes.size() != 1 )
 		{
@@ -694,6 +782,8 @@ public:
 			GeomDebugUtils::dumpPolyhedronInput( *( polyhedron_data.get() ), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 		}
 #endif
+
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 	}
 
 	void convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeInputData> item_data )

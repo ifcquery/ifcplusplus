@@ -194,21 +194,6 @@ public:
 		}
 
 		input_data->m_ifc_representation_context = representation->m_ContextOfItems;
-		//shared_ptr<IfcRepresentationContext>& context = representation->m_ContextOfItems;
-		//if( context )
-		//{
-		//	
-		//	shared_ptr<IfcGeometricRepresentationContext> geom_context = dynamic_pointer_cast<IfcGeometricRepresentationContext>( context );
-		//	if( geom_context )
-		//	{
-		//		// TODO: save in ProductShapeInputData
-		//		shared_ptr<IfcGeometricRepresentationSubContext> geom_sub_context = dynamic_pointer_cast<IfcGeometricRepresentationSubContext>( context );
-		//		if( geom_sub_context )
-		//		{
-
-		//		}
-		//	}
-		//}
 
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		for( size_t i_representation_items = 0; i_representation_items < representation->m_Items.size(); ++i_representation_items )
@@ -284,7 +269,6 @@ public:
 					}
 				}
 
-				//shared_ptr<ProductShapeInputData> mapped_input_data( new ProductShapeInputData() );
 				shared_ptr<ProductRepresentationData> mapped_input_data( new ProductRepresentationData() );
 				if( !mapped_input_data )
 				{

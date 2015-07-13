@@ -162,7 +162,7 @@ public:
 		addCallbackChild( m_ifc_model.get() );
 	}
 	
-	/*\brief Creates geometry for OpenSceneGraph from previously loaded model.
+	/*\brief method createGeometryOSG: Creates geometry for OpenSceneGraph from previously loaded model.
 	  \param[out] parent_group Group to append the resulting geometry.
 	**/
 	void createGeometryOSG( osg::ref_ptr<osg::Switch> parent_group )
@@ -304,24 +304,20 @@ public:
 					continue;
 				}
 
-				for( auto& representation_data : product_shape->m_vec_representations )
+				if( !product_shape->m_added_to_node )
 				{
-					if( !representation_data->m_added_to_node )
+					shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
+					if( opening )
 					{
-						shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>( ifc_product );
-						if( opening )
-						{
-							continue;
-						}
-
-						if( product_shape->m_product_switch.valid() )
-						{
-							group_outside_spatial_structure->addChild( product_shape->m_product_switch );
-						}
-
-						representation_data->m_added_to_node = true;
-						
+						continue;
 					}
+
+					if( product_shape->m_product_switch.valid() )
+					{
+						group_outside_spatial_structure->addChild( product_shape->m_product_switch );
+					}
+
+					product_shape->m_added_to_node = true;
 				}
 				m_map_outside_spatial_structure[ifc_product->m_id] = ifc_product;
 			}
@@ -409,31 +405,19 @@ public:
 			if( it_product_map != m_shape_input_data.end() )
 			{
 				shared_ptr<ProductShapeInputData>& product_shape = it_product_map->second;
-				product_shape->m_product_switch = group;
-
-				osg::StateSet* existing_stateset = product_shape->m_product_switch->getStateSet();
-				if( existing_stateset )
+				if( product_shape )
 				{
-					group->setStateSet( existing_stateset );
-				}
-
-				for( auto& representation_data : product_shape->m_vec_representations )
-				{
-					if( representation_data->m_added_to_node )
+					if( product_shape->m_product_switch )
 					{
-						// IfcRelContainsInSpatialStructure relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
-						std::cout << "already product_shape->added_to_node" << std::endl;
-					}
-					representation_data->m_added_to_node = true;
-
-					if( representation_data->m_representation_switch.valid() )
-					{
-						for( unsigned int product_child_i = 0; product_child_i < representation_data->m_representation_switch->getNumChildren(); ++product_child_i )
-						{
-							group->addChild( representation_data->m_representation_switch->getChild( product_child_i ) );
-						}
+						group->addChild( product_shape->m_product_switch );
 					}
 				}
+				if( product_shape->m_added_to_node )
+				{
+					// IfcRelContainsInSpatialStructure relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
+					std::cout << "already product_shape->added_to_node" << std::endl;
+				}
+				product_shape->m_added_to_node = true;
 			}
 		}
 
@@ -444,7 +428,7 @@ public:
 			group->setName( switch_name.str().c_str() );
 		}
 
-		std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = obj_def->m_IsDecomposedBy_inverse;
+		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = obj_def->m_IsDecomposedBy_inverse;
 		for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
 		{
 			const weak_ptr<IfcRelAggregates>& rel_aggregates_weak_ptr = vec_IsDecomposedBy[ii];
@@ -455,10 +439,10 @@ public:
 			shared_ptr<IfcRelAggregates> rel_aggregates( rel_aggregates_weak_ptr );
 			if( rel_aggregates )
 			{
-				std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = rel_aggregates->m_RelatedObjects;
+				const std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = rel_aggregates->m_RelatedObjects;
 				for( size_t jj = 0; jj < vec_related_objects.size(); ++jj )
 				{
-					shared_ptr<IfcObjectDefinition> child_obj_def = vec_related_objects[jj];
+					const shared_ptr<IfcObjectDefinition>& child_obj_def = vec_related_objects[jj];
 					if( child_obj_def )
 					{
 						osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
@@ -472,7 +456,7 @@ public:
 		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>( obj_def );
 		if( spatial_ele )
 		{
-			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
+			const std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
 			for( size_t ii = 0; ii < vec_contains.size(); ++ii )
 			{
 				const weak_ptr<IfcRelContainedInSpatialStructure>& rel_contained_weak_ptr = vec_contains[ii];
@@ -483,11 +467,11 @@ public:
 				shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( rel_contained_weak_ptr );
 				if( rel_contained )
 				{
-					std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
+					const std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
 
 					for( size_t jj = 0; jj < vec_related_elements.size(); ++jj )
 					{
-						shared_ptr<IfcProduct> related_product = vec_related_elements[jj];
+						const shared_ptr<IfcProduct>& related_product = vec_related_elements[jj];
 						if( related_product )
 						{
 							osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
@@ -502,16 +486,25 @@ public:
 		// TODO: handle IfcRelAssignsToProduct
 	}
 
-	void convertIfcPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeInputData>& product_shape )
+	void readAppearanceFromPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeInputData>& product_shape )
 	{
-		std::vector<shared_ptr<IfcProperty> >& vec_hasProperties = prop_set->m_HasProperties;
-		for( size_t ii = 0; ii < vec_hasProperties.size(); ++ii )
+		if( !prop_set )
 		{
-			shared_ptr<IfcProperty> prop = vec_hasProperties[ii];
+			return;
+		}
+		for( auto& ifc_property :  prop_set->m_HasProperties )
+		{
+			if( !ifc_property )
+			{
+				continue;
+			}
 
-			shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>( prop );
+			shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>( ifc_property );
 			if( simple_property )
 			{
+				// ENTITY IfcSimpleProperty ABSTRACT SUPERTYPE OF(ONEOF( IfcPropertyBoundedValue, IfcPropertyEnumeratedValue, IfcPropertyListValue,
+				// IfcPropertyReferenceValue, IfcPropertySingleValue, IfcPropertyTableValue))
+
 				shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
 				std::wstring name_str = property_name->m_value;
 				if( name_str.compare( L"LayerName" ) == 0 )
@@ -528,22 +521,13 @@ public:
 					//shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
 
 				}
-
-				//ENTITY IfcSimpleProperty
-				//ABSTRACT SUPERTYPE OF(ONEOF(
-				//IfcPropertyBoundedValue,
-				//IfcPropertyEnumeratedValue,
-				//IfcPropertyListValue,
-				//IfcPropertyReferenceValue,
-				//IfcPropertySingleValue,
-				//IfcPropertyTableValue))
+				
 				continue;
 			}
 
-			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>( prop );
+			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>( ifc_property );
 			if( complex_property )
 			{
-				//std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 				if( !complex_property->m_UsageName ) continue;
 				if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
 				{
@@ -555,11 +539,11 @@ public:
 					{
 						throw IfcPPOutOfMemoryException( __FUNC__ );
 					}
+					appearance_data->m_apply_to_geometry_type = AppearanceData::ANY;
 					appearance_data->m_color_ambient = vec_color;
 					appearance_data->m_color_diffuse = vec_color;
 					appearance_data->m_color_specular = vec_color;
 					appearance_data->m_shininess = 35.f;
-
 					product_shape->addAppearance( appearance_data );
 				}
 			}
@@ -567,7 +551,7 @@ public:
 	}
 
 
-	//\brief creates geometry objects from an IfcProduct object
+	//\brief method convertIfcProduct: Creates geometry objects (meshset with connected vertex-edge-face graph) from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
 	void convertIfcProduct( shared_ptr<ProductShapeInputData>& product_shape )
 	{
@@ -646,7 +630,7 @@ public:
 						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
 						if( property_set )
 						{
-							convertIfcPropertySet( property_set, product_shape );
+							readAppearanceFromPropertySet( property_set, product_shape );
 						}
 						continue;
 					}
@@ -664,7 +648,7 @@ public:
 								shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
 								if( property_set )
 								{
-									convertIfcPropertySet( property_set, product_shape );
+									readAppearanceFromPropertySet( property_set, product_shape );
 								}
 							}
 						}
