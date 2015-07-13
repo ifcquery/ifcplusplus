@@ -776,9 +776,7 @@ void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::If
 	{
 		err << __FUNC__ << ": error occurred" << std::endl;
 	}
-	std::cout << "step_lines.clear()...";
 	step_lines.clear();
-	std::cout << "done" << std::endl;
 
 	// copy entities into map so that they can be found during entity attribute initialization
 	for( size_t ii_entity = 0; ii_entity < vec_entities.size(); ++ii_entity )
