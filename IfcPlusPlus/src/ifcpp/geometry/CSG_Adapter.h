@@ -612,7 +612,8 @@ namespace CSG_Adapter
 		}
 
 		PolyInputCache3D poly_cache;
-		std::map<int, int> map_merged_idx;
+		std::vector<size_t> map_merged_idx;
+		map_merged_idx.resize( meshset->vertex_storage.size(), 0 );
 		for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
@@ -679,7 +680,7 @@ namespace CSG_Adapter
 
 				for( size_t i = 0; i != triangulated.size(); ++i )
 				{
-					carve::triangulate::tri_idx triangle = triangulated[i];
+					const carve::triangulate::tri_idx& triangle = triangulated[i];
 					int a = triangle.a;
 					int b = triangle.b;
 					int c = triangle.c;

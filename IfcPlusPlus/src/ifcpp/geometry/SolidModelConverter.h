@@ -391,7 +391,6 @@ public:
 			messageCallback( "Invalid SweptArea", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, revolved_area.get() );
 			return;
 		}
-		//double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// revolution angle
 		double angle_factor = m_unit_converter->getAngleInRadianFactor();
@@ -407,6 +406,7 @@ public:
 			}
 		}
 		double revolution_angle = revolved_area->m_Angle->m_value*angle_factor;
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// revolution axis
 		carve::geom::vector<3>  axis_location;
@@ -418,7 +418,7 @@ public:
 			if( axis_placement->m_Location )
 			{
 				shared_ptr<IfcCartesianPoint> location_point = axis_placement->m_Location;
-				m_point_converter->convertIfcCartesianPoint( location_point, axis_location );
+				PointConverter::convertIfcCartesianPoint( location_point, axis_location, length_factor );
 			}
 
 			if( axis_placement->m_Axis )
@@ -437,6 +437,7 @@ public:
 		// swept area
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area_profile );
 		const std::vector<std::vector<carve::geom::vector<2> > >& profile_coords_unchecked = profile_converter->getCoordinates();
+
 		bool warning_small_loop_detected = false;
 		std::vector<std::vector<carve::geom::vector<2> > > profile_coords;
 		for( size_t ii = 0; ii < profile_coords_unchecked.size(); ++ii )
@@ -488,17 +489,17 @@ public:
 
 
 		// triangulate
-		std::vector<carve::geom::vector<2> > merged;
-		std::vector<std::pair<size_t, size_t> > merged_idx;
+		std::vector<carve::geom::vector<2> > path_merged;
+		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
 		std::vector<carve::triangulate::tri_idx> triangulated;
 		try
 		{
-			merged_idx = carve::triangulate::incorporateHolesIntoPolygon( profile_coords );	// first is loop index, second is vertex index in loop
-			merged.reserve( merged_idx.size() );
-			for( size_t i = 0; i < merged_idx.size(); ++i )
+			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( profile_coords );	// first is loop index, second is vertex index in loop
+			path_merged.reserve( path_incorporated_holes.size() );
+			for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
 			{
-				size_t loop_number = merged_idx[i].first;
-				size_t index_in_loop = merged_idx[i].second;
+				size_t loop_number = path_incorporated_holes[i].first;
+				size_t index_in_loop = path_incorporated_holes[i].second;
 
 				if( loop_number >= profile_coords.size() )
 				{
@@ -509,14 +510,14 @@ public:
 				const std::vector<carve::geom::vector<2> >& loop_2d = profile_coords[loop_number];
 
 				const carve::geom::vector<2> & point_2d = loop_2d[index_in_loop];
-				merged.push_back( point_2d );
+				path_merged.push_back( point_2d );
 			}
-			carve::triangulate::triangulate( merged, triangulated );
-			carve::triangulate::improve( merged, triangulated );
+			carve::triangulate::triangulate( path_merged, triangulated );
+			carve::triangulate::improve( path_merged, triangulated );
 		}
 		catch( ... )
 		{
-			messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+			messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 			return;
 		}
 
@@ -553,6 +554,8 @@ public:
 			angle = revolution_angle;
 			d_angle = -d_angle;
 		}
+
+		// TODO: use m_sweeper->sweepArea
 
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
 		if( !polyhedron_data )
@@ -593,9 +596,9 @@ public:
 		}
 
 		const size_t num_vertices_in_poly = polyhedron_data->getVertexCount();
-		if( num_vertices_in_poly < num_vertices_per_section )
+		if( num_vertices_in_poly <= num_vertices_per_section )
 		{
-			messageCallback( "num_vertices_per_section < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
+			messageCallback( "num_vertices_in_poly <= num_vertices_per_section", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 			return;
 		}
 		// compute normal of front cap
@@ -608,26 +611,26 @@ public:
 		bool flip_faces = false;
 		for( size_t ii = 0; ii != triangulated.size(); ++ii )
 		{
-			carve::triangulate::tri_idx triangle = triangulated[ii];
+			const carve::triangulate::tri_idx& triangle = triangulated[ii];
 			const size_t vertex_id_a_triangulated = triangle.a;
 			const size_t vertex_id_b_triangulated = triangle.b;
 			const size_t vertex_id_c_triangulated = triangle.c;
 
-			if( vertex_id_a_triangulated >= merged_idx.size() || vertex_id_b_triangulated >= merged_idx.size() || vertex_id_c_triangulated >= merged_idx.size() )
+			if( vertex_id_a_triangulated >= path_incorporated_holes.size() || vertex_id_b_triangulated >= path_incorporated_holes.size() || vertex_id_c_triangulated >= path_incorporated_holes.size() )
 			{
 				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
 				continue;
 			}
 
-			std::pair<size_t, size_t>& vertex_a_pair = merged_idx[vertex_id_a_triangulated];
+			std::pair<size_t, size_t>& vertex_a_pair = path_incorporated_holes[vertex_id_a_triangulated];
 			size_t loop_idx_a = vertex_a_pair.first;
 			size_t vertex_idx_a = vertex_a_pair.second;
 
-			std::pair<size_t, size_t>& vertex_b_pair = merged_idx[vertex_id_b_triangulated];
+			std::pair<size_t, size_t>& vertex_b_pair = path_incorporated_holes[vertex_id_b_triangulated];
 			size_t loop_idx_b = vertex_b_pair.first;
 			size_t vertex_idx_b = vertex_b_pair.second;
 
-			std::pair<size_t, size_t>& vertex_c_pair = merged_idx[vertex_id_c_triangulated];
+			std::pair<size_t, size_t>& vertex_c_pair = path_incorporated_holes[vertex_id_c_triangulated];
 			size_t loop_idx_c = vertex_c_pair.first;
 			size_t vertex_idx_c = vertex_c_pair.second;
 
@@ -742,16 +745,8 @@ public:
 						continue;
 					}
 
-					if( flip_faces )
-					{
-						polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
-						polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
-					}
-					else
-					{
-						polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
-						polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
-					}
+					polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
+					polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
 				}
 				loop_offset += num_points_in_loop;
 			}
@@ -761,9 +756,9 @@ public:
 #ifdef _DEBUG
 		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 		polyline_data->beginPolyline();
-		for( size_t ii_polyline = 0; ii_polyline < merged.size(); ++ii_polyline )
+		for( size_t ii_polyline = 0; ii_polyline < path_merged.size(); ++ii_polyline )
 		{
-			auto& merged_point = merged[ii_polyline];
+			auto& merged_point = path_merged[ii_polyline];
 			polyline_data->addVertex( carve::geom::VECTOR( merged_point.x, merged_point.y, 0 ) );
 			polyline_data->addPolylineIndex( ii_polyline );
 		}
@@ -1232,7 +1227,7 @@ public:
 			shared_ptr<IfcPositiveLengthMeasure>&	bbox_z_dim = bbox->m_ZDim;
 
 			carve::geom::vector<3> corner;
-			m_point_converter->convertIfcCartesianPoint( bbox_corner, corner );
+			PointConverter::convertIfcCartesianPoint( bbox_corner, corner, length_factor );
 			carve::math::Matrix box_position_matrix = base_position_matrix*carve::math::Matrix::TRANS( corner );
 
 			// else, its an unbounded half space solid, create simple box

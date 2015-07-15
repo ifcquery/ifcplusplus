@@ -16,7 +16,7 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
-#include <ifcppgeometry/GeomUtils.h>
+#include <ifcpp/geometry/GeomUtils.h>
 
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"

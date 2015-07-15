@@ -64,6 +64,12 @@ public:
 		//item_data->m_polylines.push_back( polyline_data );
 #endif
 
+		//std::vector<carve::geom::vector<3> > curve_points;
+		//curve_points.push_back( carve::geom::VECTOR( 0, 0, 0 ) );
+		//curve_points.push_back( extrusion_vector );
+		//sweepArea( curve_points, face_loops_input, ifc_entity, item_data );
+		//return;
+
 		// figure 1: loops and indexes
 		//  3----------------------------2
 		//  |                            |
@@ -397,6 +403,8 @@ public:
 			}
 			angle += delta_angle;
 		}
+
+		// TODO: use sweepArea
 
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 		if( !poly_data )
@@ -740,7 +748,6 @@ public:
 		std::vector<carve::geom::vector<2> > merged_path;
 		std::vector<carve::triangulate::tri_idx> triangulated;
 		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
-		std::vector<size_t> merged_to_unmerged;
 		try
 		{
 			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( face_loops_used_for_triangulation );
@@ -757,7 +764,6 @@ public:
 			//  0/0  0/0----------------------->0/1
 
 			merged_path.reserve( path_incorporated_holes.size() );
-			merged_to_unmerged.resize( path_incorporated_holes.size() );
 			for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
 			{
 				size_t loop_number = path_incorporated_holes[i].first;
@@ -777,8 +783,6 @@ public:
 				}
 				carve::geom::vector<2>& point_in_loop = loop[index_in_loop];
 				merged_path.push_back( point_in_loop );
-				merged_to_unmerged[i] = loop_number;
-				//path_unmerged[i].second = index_in_loop;
 			}
 			// figure 3: merged path for triangulation
 			//  9<--------------------------8
@@ -795,13 +799,13 @@ public:
 		}
 		catch( ... )
 		{
-			report_callback->messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			report_callback->messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
 
 		for( size_t i = 0; i != triangulated.size(); ++i )
 		{
-			carve::triangulate::tri_idx triangle = triangulated[i];
+			const carve::triangulate::tri_idx& triangle = triangulated[i];
 			size_t a = triangle.a;
 			size_t b = triangle.b;
 			size_t c = triangle.c;
@@ -867,6 +871,7 @@ public:
 			return;
 		}
 
+#ifdef _DEBUG
 		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 		if( !polyline_data )
 		{
@@ -879,6 +884,7 @@ public:
 			polyline_data->addPolylineIndex( ii );
 		}
 		item_data->m_polylines.push_back( polyline_data );
+#endif
 
 		// figure 1: loops and indexes
 		//  3----------------------------2
@@ -923,28 +929,37 @@ public:
 		if( num_curve_points > 3 )
 		{
 			// compute local z vector by dot product of the first bend of the reference line
-			const carve::geom::vector<3>& vertex_back2 = curve_point_first;
-			const carve::geom::vector<3>& vertex_back1 = curve_point_second;
 			for( size_t i = 2; i < num_curve_points; ++i )
 			{
 				const carve::geom::vector<3>& vertex_current = curve_points[i];
+				const carve::geom::vector<3>& vertex_back1 = curve_points[i-1];
+				const carve::geom::vector<3>& vertex_back2 = curve_points[i-2];
 				carve::geom::vector<3> section1 = vertex_back1 - vertex_back2;
 				carve::geom::vector<3> section2 = vertex_current - vertex_back1;
-				section1.normalize();
-				section2.normalize();
-
-				double dot_product = dot( section1, section2 );
-				double dot_product_abs = std::abs( dot_product );
-
-				// if dot == 1 or -1, then points are colinear
-				if( dot_product_abs < ( 1.0 - 0.0001 ) || dot_product_abs >( 1.0 + 0.0001 ) )
+				const double length1 = section1.length();
+				if( length1 > 0 )
 				{
-					// bend found, compute cross product
-					carve::geom::vector<3> lateral_vec = cross( section1, section2 );
-					local_z = cross( lateral_vec, section1 );
-					local_z.normalize();
-					bend_found = true;
-					break;
+					section1 /= length1;
+
+					const double length2 = section2.length();
+					if( length2 > 0 )
+					{
+						section2 /= length2;
+				
+						double dot_product = dot( section1, section2 );
+						double dot_product_abs = std::abs( dot_product );
+
+						// if dot == 1 or -1, then points are colinear
+						if( dot_product_abs < ( 1.0 - 0.0001 ) || dot_product_abs >( 1.0 + 0.0001 ) )
+						{
+							// bend found, compute cross product
+							carve::geom::vector<3> lateral_vec = cross( section1, section2 );
+							local_z = cross( lateral_vec, section1 );
+							local_z.normalize();
+							bend_found = true;
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -1169,7 +1184,6 @@ public:
 
 		}
 
-
 		try
 		{
 			item_data->addClosedPolyhedron( poly_data );
@@ -1185,16 +1199,15 @@ public:
 #endif
 	}
 
-	/*\brief Creates a triangulated face
-	\param[in] Curves as face boundaries. The first input curve is the outer boundary, succeeding curves are inner boundaries
-	\param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
-	\param[out] poly_data Result input object
+	/*\brief method createTriangulated3DFace: Creates a triangulated face
+	\param[in] vec_bounds: Curves as face boundaries. The first input curve is the outer boundary, succeeding curves are inner boundaries
+	\param[in] ifc_entity: Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
+	\param[out] poly_cache: Result input object
 	**/
-
-	void createFace( const std::vector<std::vector<carve::geom::vector<3> > >& vec_bounds, IfcPPEntity* ifc_entity, PolyInputCache3D& poly_cache )
+	void createTriangulated3DFace( const std::vector<std::vector<carve::geom::vector<3> > >& vec_bounds, IfcPPEntity* ifc_entity, PolyInputCache3D& poly_cache )
 	{
 		std::vector<std::vector<carve::geom::vector<2> > > face_loops_2d;
-		std::vector<std::vector<double> > face_loop_3rd_dim;
+		std::vector<std::vector<carve::geom::vector<3> > > face_loops_3d;
 		std::map<size_t, size_t> map_merged_idx;
 		bool face_loop_reversed = false;
 		bool warning_small_loop_detected = false;
@@ -1266,26 +1279,23 @@ public:
 
 			// project face into 2d plane
 			std::vector<carve::geom::vector<2> > path_loop_2d;
-			std::vector<double> path_loop_3rd_dim;
+			std::vector<carve::geom::vector<3> > path_loop_3d;
 
 			for( size_t i = 0; i < loop_points.size(); ++i )
 			{
 				const carve::geom::vector<3>& point = loop_points[i];
-
+				path_loop_3d.push_back( point );
 				if( face_plane == GeomUtils::XY_PLANE )
 				{
 					path_loop_2d.push_back( carve::geom::VECTOR( point.x, point.y ) );
-					path_loop_3rd_dim.push_back( point.z );
 				}
 				else if( face_plane == GeomUtils::YZ_PLANE )
 				{
 					path_loop_2d.push_back( carve::geom::VECTOR( point.y, point.z ) );
-					path_loop_3rd_dim.push_back( point.x );
 				}
 				else if( face_plane == GeomUtils::XZ_PLANE )
 				{
 					path_loop_2d.push_back( carve::geom::VECTOR( point.x, point.z ) );
-					path_loop_3rd_dim.push_back( point.y );
 				}
 			}
 
@@ -1316,6 +1326,7 @@ public:
 				if( normal_2d.z < 0 )
 				{
 					std::reverse( path_loop_2d.begin(), path_loop_2d.end() );
+					std::reverse( path_loop_3d.begin(), path_loop_3d.end() );
 					face_loop_reversed = true;
 				}
 			}
@@ -1324,6 +1335,7 @@ public:
 				if( normal_2d.z > 0 )
 				{
 					std::reverse( path_loop_2d.begin(), path_loop_2d.end() );
+					std::reverse( path_loop_3d.begin(), path_loop_3d.end() );
 				}
 			}
 
@@ -1342,7 +1354,7 @@ public:
 			}
 
 			face_loops_2d.push_back( path_loop_2d );
-			face_loop_3rd_dim.push_back( path_loop_3rd_dim );
+			face_loops_3d.push_back( path_loop_3d );
 		}
 
 		if( warning_small_loop_detected )
@@ -1354,48 +1366,27 @@ public:
 
 		if( face_loops_2d.size() > 0 )
 		{
-			std::vector<std::pair<size_t, size_t> > result; // first is loop index, second is vertex index in loop
-			std::vector<carve::geom::vector<2> > merged;
-			std::vector<carve::geom3d::Vector> merged_3d;
+			std::vector<std::pair<size_t, size_t> > path_incorporated_holes; // first is loop index, second is vertex index in loop
+			std::vector<carve::geom::vector<2> > path_merged_2d;
+			std::vector<carve::geom::vector<3> > path_merged_3d;
 			std::vector<carve::triangulate::tri_idx> triangulated;
 
 			try
 			{
-				result = carve::triangulate::incorporateHolesIntoPolygon( face_loops_2d );
-				merged.reserve( result.size() );
-				for( size_t i = 0; i < result.size(); ++i )
+				path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( face_loops_2d );
+				path_merged_2d.reserve( path_incorporated_holes.size() );
+				for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
 				{
-					size_t loop_number = result[i].first;
-					size_t index_in_loop = result[i].second;
+					size_t loop_number = path_incorporated_holes[i].first;
+					size_t index_in_loop = path_incorporated_holes[i].second;
 					carve::geom::vector<2> & loop_point = face_loops_2d[loop_number][index_in_loop];
-					merged.push_back( loop_point );
+					path_merged_2d.push_back( loop_point );
 
-					// restore 3rd dimension
-					if( face_loop_reversed )
-					{
-						index_in_loop = face_loops_2d[loop_number].size() - index_in_loop - 1;
-					}
-
-					carve::geom3d::Vector v;
-					if( face_plane == GeomUtils::XY_PLANE )
-					{
-						double z = face_loop_3rd_dim[loop_number][index_in_loop];
-						v = carve::geom::VECTOR( loop_point.x, loop_point.y, z );
-					}
-					else if( face_plane == GeomUtils::YZ_PLANE )
-					{
-						double x = face_loop_3rd_dim[loop_number][index_in_loop];
-						v = carve::geom::VECTOR( x, loop_point.x, loop_point.y );
-					}
-					else if( face_plane == GeomUtils::XZ_PLANE )
-					{
-						double y = face_loop_3rd_dim[loop_number][index_in_loop];
-						v = carve::geom::VECTOR( loop_point.x, y, loop_point.y );
-					}
-					merged_3d.push_back( v );
+					const carve::geom::vector<3>& v = face_loops_3d[loop_number][index_in_loop];
+					path_merged_3d.push_back( v );
 				}
-				carve::triangulate::triangulate( merged, triangulated );
-				carve::triangulate::improve( merged, triangulated );
+				carve::triangulate::triangulate( path_merged_2d, triangulated );
+				carve::triangulate::improve( path_merged_2d, triangulated );
 
 			}
 			catch( ... )
@@ -1405,9 +1396,9 @@ public:
 			}
 
 			// now insert points to polygon, avoiding points with same coordinates
-			for( size_t i = 0; i != merged.size(); ++i )
+			for( size_t i = 0; i != path_merged_3d.size(); ++i )
 			{
-				const carve::geom::vector<3>& v = merged_3d[i];
+				const carve::geom::vector<3>& v = path_merged_3d[i];
 				size_t vertex_index = poly_cache.addPoint( v );
 				map_merged_idx[i] = vertex_index;
 			}

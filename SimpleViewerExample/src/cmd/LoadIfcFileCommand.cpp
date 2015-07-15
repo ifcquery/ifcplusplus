@@ -16,8 +16,8 @@
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/reader/IfcPPReaderSTEP.h>
-#include <ifcppgeometry/GeometryConverter.h>
-#include <ifcppgeometry/GeomUtils.h>
+#include <ifcpp/geometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeomUtils.h>
 
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"

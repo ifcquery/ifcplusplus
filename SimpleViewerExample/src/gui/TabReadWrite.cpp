@@ -24,8 +24,8 @@
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/IfcPPReaderSTEP.h>
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
-#include <ifcppgeometry/GeometryConverter.h>
-#include <ifcppgeometry/GeomUtils.h>
+#include <ifcpp/geometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeomUtils.h>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
@@ -188,8 +188,9 @@ void TabReadWrite::updateRecentFilesCombo()
 {
 	m_combo_recent_files->blockSignals( true );
 	m_combo_recent_files->clear();
-	foreach( QString path_recent_file, m_recent_files )
+	for( size_t ii = 0; ii < m_recent_files.size(); ++ii )
 	{
+		const QString& path_recent_file = m_recent_files.at( ii );
 		QFileInfo fi( path_recent_file );
 		QString file_name = fi.fileName();
 		m_combo_recent_files->addItem( file_name );
@@ -225,7 +226,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		// remove all non-existing files from recent files combo
 		for( int i=0; i<m_recent_files.size(); )
 		{
-			QString recent_file = m_recent_files[i];
+			const QString& recent_file = m_recent_files[i];
 			if( !QFile::exists(recent_file) )
 			{
 				m_recent_files.takeAt( i );

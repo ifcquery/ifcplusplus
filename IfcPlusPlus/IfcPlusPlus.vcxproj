@@ -168,7 +168,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);$(OSG_DIR)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -1473,6 +1473,26 @@
     <ClCompile Include="src\ifcpp\xml\XmlTools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ifcpp\geometry\ConverterOSG.h" />
+    <ClInclude Include="src\ifcpp\geometry\CSG_Adapter.h" />
+    <ClInclude Include="src\ifcpp\geometry\CurveConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\FaceConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeomDebugUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeometryConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeometryException.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeometryInputData.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeomUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\IncludeCarveHeaders.h" />
+    <ClInclude Include="src\ifcpp\geometry\PlacementConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\PointConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\ProfileCache.h" />
+    <ClInclude Include="src\ifcpp\geometry\ProfileConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\RepresentationConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\SolidModelConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\SplineConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\StylesConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Sweeper.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGuid.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAbsorbedDoseMeasure.h" />

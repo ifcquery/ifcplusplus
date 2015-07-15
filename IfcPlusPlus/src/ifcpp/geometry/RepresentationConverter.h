@@ -74,19 +74,12 @@ protected:
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<ProfileCache>			m_profile_cache;
 	
-	bool								m_handle_styled_items;
-	bool								m_handle_layer_assignments;
-
-
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
 		: m_geom_settings( geom_settings ), m_unit_converter( unit_converter )
 	{
-		m_handle_styled_items = true;
-		m_handle_layer_assignments = true;
-
 		m_styles_converter = shared_ptr<StylesConverter>( new StylesConverter() );
-		m_point_converter = shared_ptr<PointConverter>( new PointConverter( m_geom_settings, m_unit_converter ) );
+		m_point_converter = shared_ptr<PointConverter>( new PointConverter( m_unit_converter ) );
 		m_spline_converter = shared_ptr<SplineConverter>( new SplineConverter( m_point_converter ) );
 		m_sweeper = shared_ptr<Sweeper>( new Sweeper( m_geom_settings, m_unit_converter ) );
 		m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
@@ -123,9 +116,7 @@ public:
 	shared_ptr<StylesConverter>&		getStylesConverter()	{ return m_styles_converter; }
 	shared_ptr<CurveConverter>&			getCurveConverter() { return m_curve_converter; }
 	shared_ptr<SplineConverter>&		getSplineConverter(){ return m_spline_converter; }
-	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
-	bool handleStyledItems() { return m_handle_styled_items; }
-	void setHandleStyledItems( bool handle ) { m_handle_styled_items = handle; }
+
 	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
 	{
 		m_unit_converter = unit_converter;
@@ -292,7 +283,7 @@ public:
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 				}
 
-				if( m_handle_styled_items )
+				if( m_geom_settings->handleStyledItems() )
 				{
 					std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
 					convertRepresentationStyle( representation_item, vec_appearance_data );
@@ -440,7 +431,7 @@ public:
 							if( !ifc_point )
 							{
 								carve::geom::vector<3> carve_point;
-								m_point_converter->convertIfcCartesianPoint( ifc_point, carve_point );
+								PointConverter::convertIfcCartesianPoint( ifc_point, carve_point, length_factor );
 
 								shared_ptr<carve::input::PointSetData> pointset_data( new carve::input::PointSetData() );
 								if( !pointset_data )
@@ -458,7 +449,7 @@ public:
 			messageCallback( "unhandled representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
 		}
 
-		if( m_handle_layer_assignments )
+		if( m_geom_settings->handleLayerAssignments() )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& vec_layer_assignments_inverse = representation->m_LayerAssignments_inverse;
 			for( size_t ii = 0; ii < vec_layer_assignments_inverse.size(); ++ii )
@@ -497,21 +488,13 @@ public:
 		//	IfcCurve, IfcDefinedSymbol, IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, IfcFillAreaStyleTileSymbolWithStyle,
 		//	IfcGeometricSet, IfcHalfSpaceSolid, IfcLightSource, IfcOneDirectionRepeatFactor, IfcPlacement, IfcPlanarExtent, IfcPoint, IfcSectionedSpine,
 		//	IfcShellBasedSurfaceModel, IfcSolidModel, IfcSurface, IfcTextLiteral, IfcTextureCoordinate, IfcTextureVertex, IfcVector))
-		if( m_handle_styled_items )
+		if( m_geom_settings->handleStyledItems() )
 		{
 			std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
 			convertRepresentationStyle( geom_item, vec_appearance_data );
-
-			for( size_t jj = 0; jj < vec_appearance_data.size(); ++jj )
-			{
-				shared_ptr<AppearanceData>& data = vec_appearance_data[jj];
-				if( data )
-				{
-					item_data->m_vec_item_appearances.push_back( data );
-				}
-			}
+			std::copy( vec_appearance_data.begin(), vec_appearance_data.end(), std::back_inserter( item_data->m_vec_item_appearances ) );
 		}
-
+		
 		shared_ptr<IfcBoundingBox> bbox = dynamic_pointer_cast<IfcBoundingBox>( geom_item );
 		if( bbox )
 		{
@@ -801,7 +784,7 @@ public:
 			}
 
 			PolyInputCache3D poly_cache;
-			m_sweeper->createFace( face_loops, outer_boundary.get(), poly_cache );
+			m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
 			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 
 			return;
@@ -815,7 +798,8 @@ public:
 			if( ifc_cartesian_point )
 			{
 				carve::geom::vector<3> point;
-				m_point_converter->convertIfcCartesianPoint( ifc_cartesian_point, point );
+				const double length_factor = m_unit_converter->getLengthInMeterFactor();
+				PointConverter::convertIfcCartesianPoint( ifc_cartesian_point, point, length_factor );
 				shared_ptr<carve::input::VertexData> vertex_data;
 				if( item_data->m_vertex_points.size() > 0 )
 				{

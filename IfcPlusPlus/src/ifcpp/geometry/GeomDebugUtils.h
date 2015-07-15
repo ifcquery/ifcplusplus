@@ -112,8 +112,6 @@ namespace GeomDebugUtils
 		strs_out << std::endl << "}" << std::endl;  // Polyhedron
 	}
 
-
-
 	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const carve::geom::vector<3>& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
 	{
 		std::stringstream strs_out;
@@ -312,11 +310,6 @@ namespace GeomDebugUtils
 		{
 			carve::line::Polyline* pline = *it;
 			size_t vertex_count_polyline = pline->vertexCount();
-
-			//if( it != polyline_set->lines.begin() )
-			//{
-			//	strs_out << ",";
-			//}
 
 			for( size_t vertex_i = 0; vertex_i < vertex_count_polyline; ++vertex_i )
 			{

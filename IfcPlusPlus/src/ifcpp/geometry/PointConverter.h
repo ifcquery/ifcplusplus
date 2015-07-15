@@ -30,47 +30,14 @@
 class PointConverter : public StatusCallback
 {
 public:
-	shared_ptr<GeometrySettings>	m_geom_settings;
 	shared_ptr<UnitConverter>		m_unit_converter;
 
-	PointConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<UnitConverter>& uc )
-		: m_geom_settings( geom_settings ), m_unit_converter( uc )
+	PointConverter( shared_ptr<UnitConverter>& uc ): m_unit_converter( uc )
 	{
 	}
 
-	virtual ~PointConverter()
-	{
-	}
+	virtual ~PointConverter(){}
 
-	void convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, carve::geom::vector<3> & point ) const
-	{
-		const double length_factor = m_unit_converter->getLengthInMeterFactor();
-		std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
-		if( coords1.size() > 2 )
-		{
-#ifdef ROUND_IFC_COORDINATES
-			double x = round( coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-			double y = round( coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-			double z = round( coords1[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
-			double x = coords1[0]->m_value*length_factor;
-			double y = coords1[1]->m_value*length_factor;
-			double z = coords1[2]->m_value*length_factor;
-#endif
-			point = carve::geom::VECTOR( x, y, z );
-		}
-		else if( coords1.size() > 1 )
-		{
-#ifdef ROUND_IFC_COORDINATES
-			double x = round( coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-			double y = round( coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
-			double x = coords1[0]->m_value*length_factor;
-			double y = coords1[1]->m_value*length_factor;
-#endif
-			point = carve::geom::VECTOR( x, y, 0.0 );
-		}
-	}
 	static void convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, carve::geom::vector<3> & point, double length_factor )
 	{
 		std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
@@ -144,24 +111,22 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVector2D( std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& points, std::vector<carve::geom::vector<3> >& vertices )
+	void convertIfcCartesianPointVector2D( const std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& vec_points_in, std::vector<carve::geom::vector<3> >& vertices )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
-		std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >::iterator it_cp_outer;
-		for( it_cp_outer = points.begin(); it_cp_outer != points.end(); ++it_cp_outer )
+		for( size_t ii = 0; ii < vec_points_in.size(); ++ii )
 		{
-			std::vector<shared_ptr<IfcCartesianPoint> >& points_inner = ( *it_cp_outer );
-			std::vector<shared_ptr<IfcCartesianPoint> >::iterator it_cp;
-			for( it_cp = points_inner.begin(); it_cp != points_inner.end(); ++it_cp )
+			const std::vector<shared_ptr<IfcCartesianPoint> >& points_inner = vec_points_in[ii];
+			for( size_t jj = 0; jj < points_inner.size(); ++jj )
 			{
-				shared_ptr<IfcCartesianPoint> cp = ( *it_cp );
+				const shared_ptr<IfcCartesianPoint>& cartesian_point = points_inner[jj];
 
-				if( !cp )
+				if( !cartesian_point )
 				{
 					continue;
 				}
 
-				std::vector<shared_ptr<IfcLengthMeasure> >& coords = cp->m_Coordinates;
+				const std::vector<shared_ptr<IfcLengthMeasure> >& coords = cartesian_point->m_Coordinates;
 				if( coords.size() > 2 )
 				{
 					vertices.push_back( carve::geom::VECTOR( coords[0]->m_value*length_factor, coords[1]->m_value*length_factor, coords[2]->m_value*length_factor ) );
@@ -173,19 +138,15 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& ifc_points, std::vector<carve::geom::vector<3> >& loop ) const
+	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<carve::geom::vector<3> >& loop ) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
-		std::vector<shared_ptr<IfcCartesianPoint> >::const_iterator it_cp;
-		int i = 0;
 		carve::geom::vector<3>  vertex_previous;
-		for( it_cp = ifc_points.begin(); it_cp != ifc_points.end(); ++it_cp, ++i )
+		for( size_t ii = 0; ii < vec_ifc_points.size(); ++ii )
 		{
-			shared_ptr<IfcCartesianPoint> cp = ( *it_cp );
-			//const int cp_id = cp->m_id;
+			const shared_ptr<IfcCartesianPoint>& cartesian_point = vec_ifc_points[ii];
 			double x = 0.0, y = 0.0, z = 0.0;
-			std::vector<shared_ptr<IfcLengthMeasure> >& coords = cp->m_Coordinates;
-
+			const std::vector<shared_ptr<IfcLengthMeasure> >& coords = cartesian_point->m_Coordinates;
 
 			if( coords.size() > 2 )
 			{
@@ -210,25 +171,24 @@ public:
 #endif
 			}
 
-			carve::geom::vector<3>  vertex( carve::geom::VECTOR( x, y, z ) );
-
 			// skip duplicate vertices
-			if( it_cp != ifc_points.begin() )
+			if( ii > 0 )
 			{
-				if( std::abs( vertex.x - vertex_previous.x ) < 0.00000001 )
+				if( std::abs( x - vertex_previous.x ) < 0.00000001 )
 				{
-					if( std::abs( vertex.y - vertex_previous.y ) < 0.00000001 )
+					if( std::abs( y - vertex_previous.y ) < 0.00000001 )
 					{
-						if( std::abs( vertex.z - vertex_previous.z ) < 0.00000001 )
+						if( std::abs( z - vertex_previous.z ) < 0.00000001 )
 						{
-							// TODO: is it better to report degenerated loops, or to just omit them?
 							continue;
 						}
 					}
 				}
 			}
-			loop.push_back( vertex );
-			vertex_previous = vertex;
+			loop.push_back( carve::geom::VECTOR( x, y, z ) );
+			vertex_previous.x = x;
+			vertex_previous.y = y;
+			vertex_previous.z = z;
 		}
 	}
 

@@ -18,13 +18,13 @@
 #include <QStatusBar>
 #include <QFile>
 
+#include <ifcpp/geometry/GeomUtils.h>
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
-#include "ifcppgeometry/GeomUtils.h"
 #include "TabReadWrite.h"
 #include "TabView.h"
 #include "IfcTreeWidget.h"

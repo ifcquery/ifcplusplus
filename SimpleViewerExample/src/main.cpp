@@ -19,11 +19,11 @@
 #include <osgViewer/CompositeViewer>
 
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcppgeometry/GeomUtils.h>
-#include <ifcppgeometry/GeometryConverter.h>
-#include <ifcppgeometry/RepresentationConverter.h>
-#include <ifcppgeometry/ConverterOSG.h>
-#include <ifcppgeometry/CSG_Adapter.h>
+#include <ifcpp/geometry/GeomUtils.h>
+#include <ifcpp/geometry/GeometryConverter.h>
+#include <ifcpp/geometry/RepresentationConverter.h>
+#include <ifcpp/geometry/ConverterOSG.h>
+#include <ifcpp/geometry/CSG_Adapter.h>
 
 #include "gui/TabReadWrite.h"
 #include "gui/MainWindow.h"

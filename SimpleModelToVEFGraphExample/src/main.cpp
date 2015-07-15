@@ -16,8 +16,8 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/reader/IfcPPReaderSTEP.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcppgeometry/GeometryConverter.h>
-#include <ifcppgeometry/GeometryInputData.h>
+#include <ifcpp/geometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeometryInputData.h>
 
 
 class MessageWrapper

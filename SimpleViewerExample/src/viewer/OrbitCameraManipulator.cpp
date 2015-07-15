@@ -23,7 +23,7 @@
 #include <osgText/Text>
 
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcppgeometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeometryConverter.h>
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
 #include "ViewerUtil.h"

@@ -88,7 +88,7 @@ public:
 		return true;
 	}
 
-	void addOpenOrClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
+	void addOpenOrClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
 		if( !poly_data )
 		{
@@ -112,7 +112,7 @@ public:
 		}
 	}
 
-	void addOpenPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
+	void addOpenPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
 		if( poly_data->getVertexCount() < 3 )
 		{
@@ -123,14 +123,16 @@ public:
 		m_meshsets_open.push_back( meshset );
 	}
 
-	void addClosedPolyhedron( shared_ptr<carve::input::PolyhedronData>& poly_data )
+	void addClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
 		if( poly_data->getVertexCount() < 3 )
 		{
 			return;
 		}
 
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+		std::map<std::string, std::string> mesh_input_options;
+		mesh_input_options["avoid_cavities"] = "true";
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( mesh_input_options ) );
 		if( meshset->isClosed() )
 		{
 			m_meshsets.push_back( meshset );
@@ -258,7 +260,7 @@ public:
 	}
 	
 	/** copies the content of other instance and adds it to own content */
-	void addItemData( shared_ptr<ItemShapeInputData>& other )
+	void addItemData( const shared_ptr<ItemShapeInputData>& other )
 	{
 		std::copy( other->m_vertex_points.begin(), other->m_vertex_points.end(), std::back_inserter( m_vertex_points ) );
 		std::copy( other->m_polylines.begin(), other->m_polylines.end(), std::back_inserter( m_polylines ) );
@@ -467,53 +469,53 @@ public:
 		m_poly_data = shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData() );
 	}
 
-	int addPointPrecise( const carve::geom::vector<3>& v )
+	size_t addPointPrecise( const carve::geom::vector<3>& v )
 	{
 		const double vertex_x = v.x;
 		const double vertex_y = v.y;
 		const double vertex_z = v.z;
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, int> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, int> >() ) ).first->second;
-		std::map<double, int>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, int>() ) ).first->second;
+		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
+		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
 
-		std::map<double, int>::iterator it_find_z = map_z_index.find( vertex_z );
+		std::map<double, size_t>::iterator it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
 			// vertex already exists in polyhedron. return its index
-			int vertex_index = it_find_z->second;
+			size_t vertex_index = it_find_z->second;
 			return vertex_index;
 		}
 		else
 		{
 			// add point to polyhedron
-			int vertex_index = m_poly_data->addVertex( v );
+			size_t vertex_index = m_poly_data->addVertex( v );
 			map_z_index[vertex_z] = vertex_index;
 			return vertex_index;
 		}
 	}
 	
-	int addPoint( const carve::geom::vector<3>& v )
+	size_t addPoint( const carve::geom::vector<3>& v )
 	{
 		const double vertex_x = round( v.x*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
 		const double vertex_y = round( v.y*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
 		const double vertex_z = round( v.z*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, int> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, int> >() ) ).first->second;
-		std::map<double, int>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, int>() ) ).first->second;
+		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
+		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
 
-		std::map<double, int>::iterator it_find_z = map_z_index.find( vertex_z );
+		std::map<double, size_t>::iterator it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
 			// vertex already exists in polyhedron. return its index
-			int vertex_index = it_find_z->second;
+			size_t vertex_index = it_find_z->second;
 			return vertex_index;
 		}
 		else
 		{
 			// add point to polyhedron
-			int vertex_index = m_poly_data->addVertex( v );
+			size_t vertex_index = m_poly_data->addVertex( v );
 			map_z_index[vertex_z] = vertex_index;
 			return vertex_index;
 		}
@@ -552,5 +554,5 @@ public:
 	}
 
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
-	std::map<double, std::map<double, std::map<double, int> > > m_existing_vertices_coords;
+	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
 };

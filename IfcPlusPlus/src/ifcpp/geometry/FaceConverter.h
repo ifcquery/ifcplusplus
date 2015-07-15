@@ -277,13 +277,13 @@ public:
 	{
 		PolyInputCache3D poly_cache;
 		IfcPPEntity* report_entity = nullptr;
-		for( const auto& ifc_face : vec_faces )
+		for( const shared_ptr<IfcFace>& ifc_face : vec_faces )
 		{
 			if( !ifc_face )
 			{
 				continue;
 			}
-			std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
+			const std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
 			std::vector<std::vector<carve::geom::vector<3> > > face_loops;
 			report_entity = ifc_face.get();
 
@@ -326,9 +326,12 @@ public:
 				{
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
-
 			}
-			m_sweeper->createFace( face_loops, ifc_face.get(), poly_cache );
+			if( ifc_face->m_id == 252031 )
+			{
+				int wait = 0;
+			}
+			m_sweeper->createTriangulated3DFace( face_loops, report_entity, poly_cache );
 		}
 
 		// IfcFaceList can be a closed or open shell

@@ -19,7 +19,7 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
-#include <ifcppgeometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeometryConverter.h>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"

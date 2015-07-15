@@ -42,9 +42,8 @@
 #include <ifcpp/IFC4/include/IfcVector.h>
 #include <ifcpp/IFC4/include/IfcVertexPoint.h>
 
-#include <ifcppgeometry/PointConverter.h>
-#include <ifcppgeometry/SplineConverter.h>
-
+#include "PointConverter.h"
+#include "SplineConverter.h"
 #include "IncludeCarveHeaders.h"
 #include "GeometrySettings.h"
 #include "GeomUtils.h"
@@ -236,7 +235,7 @@ public:
 						if( GeomUtils::findFirstInVector( trim1_vec, trim_point1 ) )
 						{
 							carve::geom::vector<3> trim_point;
-							m_point_converter->convertIfcCartesianPoint( trim_point1, trim_point );
+							PointConverter::convertIfcCartesianPoint( trim_point1, trim_point, length_factor );
 							// TODO: get direction of trim_point to circle_center, get angle. This is more robust in case the trim_point is not exactly on the circle
 							trim_angle1 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
 						}
@@ -269,7 +268,7 @@ public:
 						if( GeomUtils::findFirstInVector( trim2_vec, ifc_trim_point ) )
 						{
 							carve::geom::vector<3> trim_point;
-							m_point_converter->convertIfcCartesianPoint( ifc_trim_point, trim_point );
+							PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
 							trim_angle2 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
 						}
 					}
@@ -397,7 +396,7 @@ public:
 		{
 			shared_ptr<IfcCartesianPoint> ifc_line_point = line->m_Pnt;
 			carve::geom::vector<3> line_origin;
-			m_point_converter->convertIfcCartesianPoint( ifc_line_point, line_origin );
+			PointConverter::convertIfcCartesianPoint( ifc_line_point, line_origin, length_factor );
 
 			// line: lambda(u) = line_point + u*line_direction
 			shared_ptr<IfcVector> line_vec = line->m_Dir;
@@ -439,7 +438,7 @@ public:
 				if( GeomUtils::findFirstInVector( trim1_vec, ifc_trim_point ) )
 				{
 					carve::geom::vector<3> trim_point;
-					m_point_converter->convertIfcCartesianPoint( ifc_trim_point, trim_point );
+					PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
 
 					carve::geom::vector<3> closest_point_on_line;
 					GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
@@ -465,7 +464,7 @@ public:
 				if( GeomUtils::findFirstInVector( trim2_vec, ifc_trim_point ) )
 				{
 					carve::geom::vector<3> trim_point;
-					m_point_converter->convertIfcCartesianPoint( ifc_trim_point, trim_point );
+					PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
 
 					carve::geom::vector<3> closest_point_on_line;
 					GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );

@@ -25,8 +25,8 @@
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcppgeometry/GeometryConverter.h>
-#include <ifcppgeometry/GeomUtils.h>
+#include <ifcpp/geometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeomUtils.h>
 
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"

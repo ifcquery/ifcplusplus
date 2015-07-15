@@ -24,9 +24,9 @@
 #include <osgGA/OrbitManipulator>
 
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcppgeometry/GeomUtils.h>
-#include <ifcppgeometry/GeometrySettings.h>
-#include <ifcppgeometry/GeometryConverter.h>
+#include <ifcpp/geometry/GeomUtils.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/geometry/GeometryConverter.h>
 
 #include "IfcPlusPlusSystem.h"
 #include "ViewController.h"
