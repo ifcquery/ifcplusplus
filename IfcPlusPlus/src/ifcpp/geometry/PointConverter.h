@@ -22,6 +22,8 @@
 #include <ifcpp/IFC4/include/IfcLoop.h>
 #include <ifcpp/IFC4/include/IfcPolyline.h>
 #include <ifcpp/IFC4/include/IfcTrimmingSelect.h>
+#include <ifcpp/IFC4/include/IfcVertex.h>
+#include <ifcpp/IFC4/include/IfcVertexPoint.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometrySettings.h"
@@ -38,8 +40,12 @@ public:
 
 	virtual ~PointConverter(){}
 
-	static void convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, carve::geom::vector<3> & point, double length_factor )
+	static bool convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, carve::geom::vector<3>& point, double length_factor )
 	{
+		if( !ifc_point )
+		{
+			return false;
+		}
 		std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
 		if( coords1.size() > 2 )
 		{
@@ -53,6 +59,7 @@ public:
 			double z = coords1[2]->m_value*length_factor;
 #endif
 			point = carve::geom::VECTOR( x, y, z );
+			return true;
 		}
 		else if( coords1.size() > 1 )
 		{
@@ -64,7 +71,9 @@ public:
 			double y = coords1[1]->m_value*length_factor;
 #endif
 			point = carve::geom::VECTOR( x, y, 0.0 );
+			return true;
 		}
+		return false;
 	}
 	void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<carve::geom::vector<3> >& loop ) const
 	{
@@ -190,6 +199,33 @@ public:
 			vertex_previous.y = y;
 			vertex_previous.z = z;
 		}
+	}
+	static bool convertIfcVertex( const shared_ptr<IfcVertex>& vertex, carve::geom::vector<3>& point_result, const double length_factor )
+	{
+		shared_ptr<IfcVertexPoint> vertex_point = dynamic_pointer_cast<IfcVertexPoint>( vertex );
+		if( vertex_point )
+		{
+			if( vertex_point->m_VertexGeometry )
+			{
+				const shared_ptr<IfcPoint>& vertex_point_geometry = vertex_point->m_VertexGeometry;
+				// ENTITY IfcPoint ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianPoint, IfcPointOnCurve, IfcPointOnSurface))
+				shared_ptr<IfcCartesianPoint> cartesian_point = dynamic_pointer_cast<IfcCartesianPoint>( vertex_point_geometry );
+				if( cartesian_point )
+				{
+					if( cartesian_point->m_Coordinates.size() > 2 )
+					{
+						point_result = carve::geom::VECTOR( cartesian_point->m_Coordinates[0]->m_value*length_factor, cartesian_point->m_Coordinates[1]->m_value*length_factor, cartesian_point->m_Coordinates[2]->m_value*length_factor );
+						return true;
+					}
+					if( cartesian_point->m_Coordinates.size() > 1 )
+					{
+						point_result = carve::geom::VECTOR( cartesian_point->m_Coordinates[0]->m_value*length_factor, cartesian_point->m_Coordinates[1]->m_value*length_factor, 0.0 );
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	//\brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.

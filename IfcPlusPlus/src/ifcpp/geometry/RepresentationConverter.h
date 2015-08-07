@@ -27,6 +27,7 @@
 #include <ifcpp/IFC4/include/IfcConnectedFaceSet.h>
 #include <ifcpp/IFC4/include/IfcElement.h>
 #include <ifcpp/IFC4/include/IfcFaceBasedSurfaceModel.h>
+#include <ifcpp/IFC4/include/IfcFaceSurface.h>
 #include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
 #include <ifcpp/IFC4/include/IfcGeometricCurveSet.h>
 #include <ifcpp/IFC4/include/IfcGeometricRepresentationItem.h>
@@ -34,6 +35,7 @@
 #include <ifcpp/IFC4/include/IfcLabel.h>
 #include <ifcpp/IFC4/include/IfcMappedItem.h>
 #include <ifcpp/IFC4/include/IfcOpenShell.h>
+#include <ifcpp/IFC4/include/IfcPath.h>
 #include <ifcpp/IFC4/include/IfcPresentableText.h>
 #include <ifcpp/IFC4/include/IfcPresentationLayerWithStyle.h>
 #include <ifcpp/IFC4/include/IfcProductRepresentation.h>
@@ -324,126 +326,31 @@ public:
 			shared_ptr<IfcTopologicalRepresentationItem> topo_item = dynamic_pointer_cast<IfcTopologicalRepresentationItem>( representation_item );
 			if( topo_item )
 			{
-				shared_ptr<ItemShapeInputData> topo_item_data( new ItemShapeInputData() );
-				if( !topo_item_data )
+				shared_ptr<ItemShapeInputData> topological_item_data( new ItemShapeInputData() );
+				if( !topological_item_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
 				}
-				input_data->m_vec_item_data.push_back( topo_item_data );
+				input_data->m_vec_item_data.push_back( topological_item_data );
 
-				//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
-				shared_ptr<IfcConnectedFaceSet> topo_connected_face_set = dynamic_pointer_cast<IfcConnectedFaceSet>( topo_item );
-				if( topo_connected_face_set )
+				try
 				{
-					messageCallback( "IfcConnectedFaceSet not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
-					continue;
+					convertTopologicalRepresentationItem( topo_item, topological_item_data );
+				}
+				catch( IfcPPOutOfMemoryException& e )
+				{
+					throw e;
+				}
+				catch( IfcPPException& e )
+				{
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representation_item.get() );
+				}
+				catch( std::exception& e )
+				{
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, representation_item.get() );
 				}
 
-				shared_ptr<IfcEdge> topo_edge = dynamic_pointer_cast<IfcEdge>( topo_item );
-				if( topo_edge )
-				{
-					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-					if( !polyline_data )
-					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
-					}
-					topo_item_data->m_polylines.push_back( polyline_data );
-					polyline_data->beginPolyline();
-					shared_ptr<IfcVertex>& vertex_start = topo_edge->m_EdgeStart;
-
-					shared_ptr<IfcVertexPoint> vertex_start_point = dynamic_pointer_cast<IfcVertexPoint>( vertex_start );
-					if( vertex_start_point )
-					{
-						if( vertex_start_point->m_VertexGeometry )
-						{
-							shared_ptr<IfcPoint> edge_start_point_geometry = vertex_start_point->m_VertexGeometry;
-							shared_ptr<IfcCartesianPoint> ifc_point = dynamic_pointer_cast<IfcCartesianPoint>( edge_start_point_geometry );
-							if( ifc_point )
-							{
-								if( ifc_point->m_Coordinates.size() > 2 )
-								{
-									carve::geom::vector<3> point = carve::geom::VECTOR( ifc_point->m_Coordinates[0]->m_value*length_factor, ifc_point->m_Coordinates[1]->m_value*length_factor, ifc_point->m_Coordinates[2]->m_value*length_factor );
-									polyline_data->addVertex( point );
-									polyline_data->addPolylineIndex( 0 );
-								}
-							}
-						}
-					}
-
-					shared_ptr<IfcVertex>& vertex_end = topo_edge->m_EdgeEnd;
-					shared_ptr<IfcVertexPoint> vertex_end_point = dynamic_pointer_cast<IfcVertexPoint>( vertex_end );
-					if( vertex_end_point )
-					{
-						if( vertex_end_point->m_VertexGeometry )
-						{
-							shared_ptr<IfcPoint> edge_point_geometry = vertex_end_point->m_VertexGeometry;
-							shared_ptr<IfcCartesianPoint> ifc_point = dynamic_pointer_cast<IfcCartesianPoint>( edge_point_geometry );
-							if( ifc_point )
-							{
-								if( ifc_point->m_Coordinates.size() > 2 )
-								{
-									carve::geom::vector<3> point = carve::geom::VECTOR( ifc_point->m_Coordinates[0]->m_value*length_factor, ifc_point->m_Coordinates[1]->m_value*length_factor, ifc_point->m_Coordinates[2]->m_value*length_factor );
-									polyline_data->addVertex( point );
-									polyline_data->addPolylineIndex( 1 );
-								}
-							}
-						}
-					}
-					topo_item_data->m_polylines.push_back( polyline_data );
-					continue;
-				}
-
-				shared_ptr<IfcLoop> topo_loop = dynamic_pointer_cast<IfcLoop>( topo_item );
-				if( topo_loop )
-				{
-					std::vector<carve::geom::vector<3> > loop_points;
-					m_curve_converter->convertIfcLoop( topo_loop, loop_points );
-
-					if( loop_points.size() > 0 )
-					{
-						shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-						if( !polyline_data )
-						{
-							throw IfcPPOutOfMemoryException( __FUNC__ );
-						}
-						topo_item_data->m_polylines.push_back( polyline_data );
-						polyline_data->beginPolyline();
-
-						for( size_t ii_loop = 0; ii_loop < loop_points.size(); ++ii_loop )
-						{
-							polyline_data->addVertex( loop_points[ii_loop] );
-							polyline_data->addPolylineIndex( 1 );
-						}
-					}
-					continue;
-				}
-
-				shared_ptr<IfcVertex> topo_vertex = dynamic_pointer_cast<IfcVertex>( topo_item );
-				if( topo_vertex )
-				{
-					shared_ptr<IfcVertexPoint> topo_vertex_point = dynamic_pointer_cast<IfcVertexPoint>( topo_vertex );
-					if( topo_vertex_point )
-					{
-						shared_ptr<IfcPoint> topo_vertex_point_geometry = topo_vertex_point->m_VertexGeometry;
-						if( topo_vertex_point_geometry )
-						{
-							shared_ptr<IfcCartesianPoint> ifc_point = dynamic_pointer_cast<IfcCartesianPoint>( topo_vertex_point_geometry );
-							if( !ifc_point )
-							{
-								carve::geom::vector<3> carve_point;
-								PointConverter::convertIfcCartesianPoint( ifc_point, carve_point, length_factor );
-
-								shared_ptr<carve::input::PointSetData> pointset_data( new carve::input::PointSetData() );
-								if( !pointset_data )
-								{
-									throw IfcPPOutOfMemoryException( __FUNC__ );
-								}
-								topo_item_data->m_vertex_points.push_back( pointset_data );
-								pointset_data->addVertex( carve_point );
-							}
-						}
-					}
-				}
+				continue;
 			}
 
 			messageCallback( "unhandled representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
@@ -588,20 +495,8 @@ public:
 		shared_ptr<IfcSurface> ifc_surface = dynamic_pointer_cast<IfcSurface>( geom_item );
 		if( ifc_surface )
 		{
-			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-			if( !polyline_data )
-			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
-			}
 			shared_ptr<SurfaceProxy> surface_proxy;
-			m_face_converter->convertIfcSurface( ifc_surface, polyline_data, surface_proxy );
-
-			// TODO: create open mesh for surface
-
-			if( polyline_data->getVertexCount() > 1 )
-			{
-				item_data->m_polylines.push_back( polyline_data );
-			}
+			m_face_converter->convertIfcSurface( ifc_surface, item_data, surface_proxy );
 			return;
 		}
 
@@ -677,21 +572,8 @@ public:
 				shared_ptr<IfcSurface> select_surface = dynamic_pointer_cast<IfcSurface>( geom_select );
 				if( select_surface )
 				{
-					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-					if( !polyline_data )
-					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
-					}
 					shared_ptr<SurfaceProxy> surface_proxy;
-					m_face_converter->convertIfcSurface( select_surface, polyline_data, surface_proxy );
-
-					// TODO: create open mesh for surface
-
-					if( polyline_data->getVertexCount() > 1 )
-					{
-						item_data->m_polylines.push_back( polyline_data );
-					}
-
+					m_face_converter->convertIfcSurface( select_surface, item_data, surface_proxy );
 					continue;
 				}
 			}
@@ -799,28 +681,207 @@ public:
 			{
 				carve::geom::vector<3> point;
 				const double length_factor = m_unit_converter->getLengthInMeterFactor();
-				PointConverter::convertIfcCartesianPoint( ifc_cartesian_point, point, length_factor );
-				shared_ptr<carve::input::VertexData> vertex_data;
-				if( item_data->m_vertex_points.size() > 0 )
+				if( PointConverter::convertIfcCartesianPoint( ifc_cartesian_point, point, length_factor ) )
 				{
-					if( !item_data->m_vertex_points[0] )
-					{
-						item_data->m_vertex_points[0] = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-					}
-					vertex_data = item_data->m_vertex_points[0];
+					item_data->addPoint( point );
 				}
-				else
-				{
-					vertex_data = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-					item_data->m_vertex_points.push_back( vertex_data );
-				}
-
-				vertex_data->points.push_back( point );
 				return;
 			}
 		}
 
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get() );
+	}
+
+	void convertTopologicalRepresentationItem( const shared_ptr<IfcTopologicalRepresentationItem>& topological_item, shared_ptr<ItemShapeInputData> topo_item_data )
+	{
+		//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
+		const shared_ptr<IfcConnectedFaceSet> topo_connected_face_set = dynamic_pointer_cast<IfcConnectedFaceSet>( topological_item );
+		if( topo_connected_face_set )
+		{
+			std::vector<shared_ptr<IfcFace> >& vec_ifc_faces = topo_connected_face_set->m_CfsFaces;
+			m_face_converter->convertIfcFaceList( vec_ifc_faces, topo_item_data, FaceConverter::SHELL_TYPE_UNKONWN );
+			return;
+		}
+
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
+		const shared_ptr<IfcEdge> topo_edge = dynamic_pointer_cast<IfcEdge>( topological_item );
+		if( topo_edge )
+		{
+			const shared_ptr<IfcVertex>& vertex_start = topo_edge->m_EdgeStart;
+			carve::geom::vector<3> point_start;
+			if( PointConverter::convertIfcVertex( vertex_start, point_start, length_factor ) )
+			{
+				const shared_ptr<IfcVertex>& vertex_end = topo_edge->m_EdgeEnd;
+				carve::geom::vector<3> point_end;
+				if( PointConverter::convertIfcVertex( vertex_end, point_end, length_factor ) )
+				{
+					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+					if( !polyline_data )
+					{
+						throw IfcPPOutOfMemoryException( __FUNC__ );
+					}
+					topo_item_data->m_polylines.push_back( polyline_data );
+					polyline_data->beginPolyline();
+					polyline_data->addVertex( point_start );
+					polyline_data->addVertex( point_end );
+					polyline_data->addPolylineIndex( 0 );
+					polyline_data->addPolylineIndex( 1 );
+				}
+			}
+			return;
+		}
+
+		const shared_ptr<IfcFace> topo_face = dynamic_pointer_cast<IfcFace>( topological_item );
+		if( topo_face )
+		{
+			PolyInputCache3D poly_cache_top_face;
+			const std::vector<shared_ptr<IfcFaceBound> >& vec_face_bounds = topo_face->m_Bounds;
+			if( vec_face_bounds.size() > 0 )
+			{
+				for( auto it_bounds = vec_face_bounds.begin(); it_bounds != vec_face_bounds.end(); ++it_bounds )
+				{
+					const shared_ptr<IfcFaceBound>& face_bound = ( *it_bounds );
+					
+					// ENTITY IfcLoop SUPERTYPE OF(ONEOF(IfcEdgeLoop, IfcPolyLoop, IfcVertexLoop))
+					const shared_ptr<IfcLoop>& loop = face_bound->m_Bound;
+					if( !loop )
+					{
+						if( it_bounds == vec_face_bounds.begin() )
+						{
+							break;
+						}
+						else
+						{
+							continue;
+						}
+					}
+
+					std::vector<std::vector<carve::geom::vector<3> > > face_loops;
+					face_loops.push_back( std::vector<carve::geom::vector<3> >() );
+					std::vector<carve::geom::vector<3> >& loop_points = face_loops.back();
+					m_curve_converter->convertIfcLoop( loop, loop_points );
+
+					if( loop_points.size() < 3 )
+					{
+						if( it_bounds == vec_face_bounds.begin() )
+						{
+							break;
+						}
+						else
+						{
+							continue;
+						}
+					}
+
+					bool orientation = face_bound->m_Orientation;
+					if( !orientation )
+					{
+						std::reverse( loop_points.begin(), loop_points.end() );
+					}
+
+					m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+				}
+				//m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+			}
+
+			shared_ptr<IfcFaceSurface> topo_face_surface = dynamic_pointer_cast<IfcFaceSurface>( topo_face );
+			if( topo_face_surface )
+			{
+				//  std::vector<shared_ptr<IfcFaceBound> >					m_Bounds;
+				//  shared_ptr<IfcSurface>									m_FaceSurface;
+				//  bool													m_SameSense;
+
+				const shared_ptr<IfcSurface>& face_surface = topo_face_surface->m_FaceSurface;
+				if( face_surface )
+				{
+					shared_ptr<SurfaceProxy> surface_proxy;
+					m_face_converter->convertIfcSurface( face_surface, topo_item_data, surface_proxy );
+				}
+			}
+			if( poly_cache_top_face.m_poly_data )
+			{
+				topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
+			}
+			return;
+		}
+
+		shared_ptr<IfcFaceBound> topo_face_bound = dynamic_pointer_cast<IfcFaceBound>( topological_item );
+		if( topo_face_bound )
+		{
+			// ENTITY IfcLoop SUPERTYPE OF(ONEOF(IfcEdgeLoop, IfcPolyLoop, IfcVertexLoop))
+			const shared_ptr<IfcLoop>& loop = topo_face_bound->m_Bound;
+			if( !loop )
+			{
+				std::cout << __FUNC__ << ": Bound invalid " << std::endl;
+				return;
+			}
+			std::vector<std::vector<carve::geom::vector<3> > > face_loops;
+			face_loops.push_back( std::vector<carve::geom::vector<3> >() );
+			std::vector<carve::geom::vector<3> >& loop_points = face_loops.back();
+			m_curve_converter->convertIfcLoop( loop, loop_points );
+
+			if( loop_points.size() > 2 )
+			{
+				bool orientation = topo_face_bound->m_Orientation;
+				if( !orientation )
+				{
+					std::reverse( loop_points.begin(), loop_points.end() );
+				}
+
+				PolyInputCache3D poly_cache_top_face;
+				m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+
+				if( poly_cache_top_face.m_poly_data )
+				{
+					topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
+				}
+			}
+			return;
+		}
+
+		shared_ptr<IfcLoop> topo_loop = dynamic_pointer_cast<IfcLoop>( topological_item );
+		if( topo_loop )
+		{
+			std::vector<carve::geom::vector<3> > loop_points;
+			m_curve_converter->convertIfcLoop( topo_loop, loop_points );
+
+			if( loop_points.size() > 0 )
+			{
+				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+				if( !polyline_data )
+				{
+					throw IfcPPOutOfMemoryException( __FUNC__ );
+				}
+				topo_item_data->m_polylines.push_back( polyline_data );
+				polyline_data->beginPolyline();
+
+				for( size_t ii_loop = 0; ii_loop < loop_points.size(); ++ii_loop )
+				{
+					polyline_data->addVertex( loop_points[ii_loop] );
+					polyline_data->addPolylineIndex( 1 );
+				}
+			}
+			return;
+		}
+
+		shared_ptr<IfcPath> topo_path = dynamic_pointer_cast<IfcPath>( topological_item );
+		if( topo_path )
+		{
+			return;
+		}
+
+		shared_ptr<IfcVertex> topo_vertex = dynamic_pointer_cast<IfcVertex>( topological_item );
+		if( topo_vertex )
+		{
+			carve::geom::vector<3> topo_vertex_point;
+			if( PointConverter::convertIfcVertex( topo_vertex, topo_vertex_point, length_factor ) )
+			{
+				topo_item_data->addPoint( topo_vertex_point );
+				return;
+			}
+		}
+
+		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, topological_item.get() );
 	}
 
 	void subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeInputData>& product_shape )

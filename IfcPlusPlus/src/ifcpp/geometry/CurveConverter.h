@@ -396,96 +396,97 @@ public:
 		{
 			shared_ptr<IfcCartesianPoint> ifc_line_point = line->m_Pnt;
 			carve::geom::vector<3> line_origin;
-			PointConverter::convertIfcCartesianPoint( ifc_line_point, line_origin, length_factor );
-
-			// line: lambda(u) = line_point + u*line_direction
-			shared_ptr<IfcVector> line_vec = line->m_Dir;
-			if( !line_vec )
+			if( PointConverter::convertIfcCartesianPoint( ifc_line_point, line_origin, length_factor ) )
 			{
-				return;
-			}
-			shared_ptr<IfcDirection> ifc_line_direction = line_vec->m_Orientation;
-
-			std::vector<double>& direction_ratios = ifc_line_direction->m_DirectionRatios;
-			carve::geom::vector<3> line_direction;
-			if( direction_ratios.size() > 1 )
-			{
-				if( direction_ratios.size() > 2 )
+				// line: lambda(u) = line_point + u*line_direction
+				shared_ptr<IfcVector> line_vec = line->m_Dir;
+				if( !line_vec )
 				{
-					line_direction = carve::geom::VECTOR( direction_ratios[0], direction_ratios[1], direction_ratios[2] );
+					return;
+				}
+				shared_ptr<IfcDirection> ifc_line_direction = line_vec->m_Orientation;
+
+				std::vector<double>& direction_ratios = ifc_line_direction->m_DirectionRatios;
+				carve::geom::vector<3> line_direction;
+				if( direction_ratios.size() > 1 )
+				{
+					if( direction_ratios.size() > 2 )
+					{
+						line_direction = carve::geom::VECTOR( direction_ratios[0], direction_ratios[1], direction_ratios[2] );
+					}
+					else
+					{
+						line_direction = carve::geom::VECTOR( direction_ratios[0], direction_ratios[1], 0 );
+					}
+				}
+				line_direction.normalize();
+
+				shared_ptr<IfcLengthMeasure> line_magnitude = line_vec->m_Magnitude;
+				double line_magnitude_value = line_magnitude->m_value*length_factor;
+
+				// check for trimming at beginning of line
+				double start_parameter = 0.0;
+				shared_ptr<IfcParameterValue> trim_par1;
+				if( GeomUtils::findFirstInVector( trim1_vec, trim_par1 ) )
+				{
+					start_parameter = trim_par1->m_value;
+					line_origin = line_origin + line_direction*start_parameter;
 				}
 				else
 				{
-					line_direction = carve::geom::VECTOR( direction_ratios[0], direction_ratios[1], 0 );
-				}
-			}
-			line_direction.normalize();
-
-			shared_ptr<IfcLengthMeasure> line_magnitude = line_vec->m_Magnitude;
-			double line_magnitude_value = line_magnitude->m_value*length_factor;
-
-			// check for trimming at beginning of line
-			double start_parameter = 0.0;
-			shared_ptr<IfcParameterValue> trim_par1;
-			if( GeomUtils::findFirstInVector( trim1_vec, trim_par1 ) )
-			{
-				start_parameter = trim_par1->m_value;
-				line_origin = line_origin + line_direction*start_parameter;
-			}
-			else
-			{
-				shared_ptr<IfcCartesianPoint> ifc_trim_point;
-				if( GeomUtils::findFirstInVector( trim1_vec, ifc_trim_point ) )
-				{
-					carve::geom::vector<3> trim_point;
-					PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
-
-					carve::geom::vector<3> closest_point_on_line;
-					GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
-
-					if( ( closest_point_on_line - trim_point ).length() < 0.0001 )
+					shared_ptr<IfcCartesianPoint> ifc_trim_point;
+					if( GeomUtils::findFirstInVector( trim1_vec, ifc_trim_point ) )
 					{
-						// trimming point is on the line
-						line_origin = trim_point;
+						carve::geom::vector<3> trim_point;
+						PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
+
+						carve::geom::vector<3> closest_point_on_line;
+						GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
+
+						if( ( closest_point_on_line - trim_point ).length() < 0.0001 )
+						{
+							// trimming point is on the line
+							line_origin = trim_point;
+						}
 					}
 				}
-			}
-			// check for trimming at end of line
-			carve::geom::vector<3> line_end;
-			shared_ptr<IfcParameterValue> trim_par2;
-			if( GeomUtils::findFirstInVector( trim2_vec, trim_par2 ) )
-			{
-				line_magnitude_value = trim_par2->m_value*length_factor;
-				line_end = line_origin + line_direction*line_magnitude_value;
-			}
-			else
-			{
-				shared_ptr<IfcCartesianPoint> ifc_trim_point;
-				if( GeomUtils::findFirstInVector( trim2_vec, ifc_trim_point ) )
+				// check for trimming at end of line
+				carve::geom::vector<3> line_end;
+				shared_ptr<IfcParameterValue> trim_par2;
+				if( GeomUtils::findFirstInVector( trim2_vec, trim_par2 ) )
 				{
-					carve::geom::vector<3> trim_point;
-					PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
-
-					carve::geom::vector<3> closest_point_on_line;
-					GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
-
-					if( ( closest_point_on_line - trim_point ).length() < 0.0001 )
+					line_magnitude_value = trim_par2->m_value*length_factor;
+					line_end = line_origin + line_direction*line_magnitude_value;
+				}
+				else
+				{
+					shared_ptr<IfcCartesianPoint> ifc_trim_point;
+					if( GeomUtils::findFirstInVector( trim2_vec, ifc_trim_point ) )
 					{
-						// trimming point is on the line
-						line_end = trim_point;
+						carve::geom::vector<3> trim_point;
+						PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
+
+						carve::geom::vector<3> closest_point_on_line;
+						GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
+
+						if( ( closest_point_on_line - trim_point ).length() < 0.0001 )
+						{
+							// trimming point is on the line
+							line_end = trim_point;
+						}
 					}
 				}
-			}
 
-			std::vector<carve::geom::vector<3> > points_vec;
-			points_vec.push_back( line_origin );
-			points_vec.push_back( line_end );
+				std::vector<carve::geom::vector<3> > points_vec;
+				points_vec.push_back( line_origin );
+				points_vec.push_back( line_end );
 
-			GeomUtils::appendPointsToCurve( points_vec, target_vec );
+				GeomUtils::appendPointsToCurve( points_vec, target_vec );
 
-			//if( segment_start_points != nullptr )
-			{
-				segment_start_points.push_back( line_origin );
+				//if( segment_start_points != nullptr )
+				{
+					segment_start_points.push_back( line_origin );
+				}
 			}
 			return;
 		}

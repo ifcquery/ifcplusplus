@@ -68,11 +68,9 @@ public:
 	{
 	}
 
-	virtual ~FaceConverter()
-	{
-	}
+	virtual ~FaceConverter(){}
 
-	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<carve::input::PolylineSetData>& polyline_data, shared_ptr<SurfaceProxy>& surface_proxy )
+	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeInputData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy )
 	{
 		//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))
 
@@ -86,7 +84,15 @@ public:
 				if( dynamic_pointer_cast<IfcRationalBSplineSurfaceWithKnots>( bounded_surface ) )
 				{
 					shared_ptr<IfcRationalBSplineSurfaceWithKnots> nurbs_surface = dynamic_pointer_cast<IfcRationalBSplineSurfaceWithKnots>( bounded_surface );
-					m_spline_converter->convertIfcBSplineSurface( nurbs_surface, polyline_data );
+					if( nurbs_surface )
+					{
+						shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
+						m_spline_converter->convertIfcBSplineSurface( nurbs_surface, polyline_data );
+						if( polyline_data->getVertexCount() > 1 )
+						{
+							item_data->m_polylines.push_back( polyline_data );
+						}
+					}
 				}
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedPlane>( bounded_surface ) )
@@ -105,22 +111,32 @@ public:
 						//curve_bounded_plane_matrix = pos*curve_bounded_plane_matrix;
 					}
 				}
+
+				// convert outer boundary
 				shared_ptr<IfcCurve>& outer_boundary = curve_bounded_plane->m_OuterBoundary;
-				if( outer_boundary )
+				std::vector<std::vector<carve::geom::vector<3> > > face_loops;
+				face_loops.push_back( std::vector<carve::geom::vector<3> >() );
+				std::vector<carve::geom::vector<3> >& outer_boundary_loop = face_loops.back();
+				std::vector<carve::geom::vector<3> > segment_start_points;
+				m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points );
+
+				// convert inner boundaries
+				std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = curve_bounded_plane->m_InnerBoundaries;			//optional
+				for( auto& inner_boundary : vec_inner_boundaries )
 				{
-					//convertIfcCurve( outer_boundary, target,  );
-					// TODO: implement boundary
+					if( !inner_boundary )
+					{
+						continue;
+					}
+					face_loops.push_back( std::vector<carve::geom::vector<3> >() );
+					std::vector<carve::geom::vector<3> >& inner_boundary_loop = face_loops.back();
+					std::vector<carve::geom::vector<3> > segment_start_points;
+					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points );
 				}
-				std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = curve_bounded_plane->m_InnerBoundaries;
-				for( size_t i = 0; i < vec_inner_boundaries.size(); ++i )
-				{
-					//shared_ptr<IfcCurve>& inner_curve = vec_inner_boundaries[i];
-					//convertIfcCurve( outer_boundary)
-					// TODO: implement boundary
-				}
-#ifdef _DEBUG
-				std::cout << "IfcCurveBoundedPlane not implemented." << std::endl;
-#endif
+
+				PolyInputCache3D poly_cache;
+				m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
+				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
 			{
@@ -128,14 +144,16 @@ public:
 				shared_ptr<IfcSurface>& basis_surface = curve_bounded_surface->m_BasisSurface;
 				if( basis_surface )
 				{
-					convertIfcSurface( basis_surface, polyline_data, surface_proxy );
+					convertIfcSurface( basis_surface, item_data, surface_proxy );
 				}
+
 
 				//std::vector<shared_ptr<IfcBoundaryCurve> >& vec_boundaries = curve_bounded_surface->m_Boundaries;
 				//bool implicit_outer = curve_bounded_surface->m_ImplicitOuter;
+
 				// TODO: implement
 #ifdef _DEBUG
-				std::cout << "IfcCurveBoundedSurface not implemented." << std::endl;
+				std::cout << "IfcCurveBoundedSurface boundaries not implemented." << std::endl;
 #endif
 			}
 			else if( dynamic_pointer_cast<IfcRectangularTrimmedSurface>( bounded_surface ) )
@@ -145,7 +163,7 @@ public:
 				shared_ptr<IfcSurface>& basis_surface = rectengular_trimmed_surface->m_BasisSurface;
 				if( basis_surface )
 				{
-					convertIfcSurface( basis_surface, polyline_data, surface_proxy );
+					convertIfcSurface( basis_surface, item_data, surface_proxy );
 				}
 
 				//shared_ptr<IfcParameterValue>& u1 = rectengular_trimmed_surface->m_U1;
@@ -156,7 +174,7 @@ public:
 				//bool v_sense = rectengular_trimmed_surface->m_Vsense;
 				// TODO: implement
 #ifdef _DEBUG
-				std::cout << "IfcRectangularTrimmedSurface not implemented." << std::endl;
+				std::cout << "IfcRectangularTrimmedSurface U1, V1, U2, V2 not implemented." << std::endl;
 #endif
 			}
 			return;
@@ -188,6 +206,7 @@ public:
 				//  2----3     ---> x
 				{
 					double plane_span = HALF_SPACE_BOX_SIZE;
+					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					polyline_data->beginPolyline();
 					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( plane_span, plane_span, 0.0 ) );
 					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( -plane_span, plane_span, 0.0 ) );
@@ -198,6 +217,7 @@ public:
 					polyline_data->addPolylineIndex( 1 );
 					polyline_data->addPolylineIndex( 2 );
 					polyline_data->addPolylineIndex( 3 );
+					item_data->m_polylines.push_back( polyline_data );
 				}
 				return;
 			}
@@ -218,6 +238,7 @@ public:
 				GeomUtils::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
 
 				// apply position and insert points
+				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 				polyline_data->beginPolyline();
 				for( size_t i = 0; i < circle_points.size(); ++i )
 				{
@@ -226,6 +247,7 @@ public:
 					polyline_data->addVertex( elementary_surface_matrix*point3d );
 					polyline_data->addPolylineIndex( i );
 				}
+				item_data->m_polylines.push_back( polyline_data );
 				return;
 			}
 
@@ -326,10 +348,6 @@ public:
 				{
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
-			}
-			if( ifc_face->m_id == 252031 )
-			{
-				int wait = 0;
 			}
 			m_sweeper->createTriangulated3DFace( face_loops, report_entity, poly_cache );
 		}

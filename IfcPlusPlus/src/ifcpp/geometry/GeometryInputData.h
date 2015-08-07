@@ -68,8 +68,7 @@ class ItemShapeInputData
 public:
 	ItemShapeInputData(){}
 	~ItemShapeInputData(){}
-	
-	std::vector<shared_ptr<carve::input::VertexData> >		m_vertex_points;
+
 	std::vector<shared_ptr<carve::input::PolylineSetData> > m_polylines;
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets;
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets_open;
@@ -147,6 +146,28 @@ public:
 #endif
 			throw IfcPPException( "Meshset is not closed", __FUNC__ );
 		}
+	}
+
+	void addPoint( const carve::geom::vector<3>& point )
+	{
+		shared_ptr<carve::input::VertexData> vertex_data;
+		if( m_vertex_points.size() > 0 )
+		{
+			if( !m_vertex_points[0] )
+			{
+				m_vertex_points[0] = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
+				if( !m_vertex_points[0] ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+			}
+			vertex_data = m_vertex_points[0];
+		}
+		else
+		{
+			vertex_data = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
+			if( !vertex_data ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+			m_vertex_points.push_back( vertex_data );
+		}
+
+		vertex_data->points.push_back( point );
 	}
 
 	void applyPosition( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
@@ -269,6 +290,11 @@ public:
 		std::copy( other->m_vec_item_appearances.begin(), other->m_vec_item_appearances.end(), std::back_inserter( m_vec_item_appearances ) );
 		std::copy( other->m_vec_text_literals.begin(), other->m_vec_text_literals.end(), std::back_inserter( m_vec_text_literals ) );
 	}
+
+	const std::vector<shared_ptr<carve::input::VertexData> >& getVertexPoints() { return m_vertex_points; }
+
+protected:
+	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
 };
 
 class ProductRepresentationData

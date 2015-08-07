@@ -152,18 +152,6 @@ namespace carve {
       }
   
       void addFace(int a, int b, int c) {
-
-		  if( a == 7 || a == 13 || a == 19 )
-		  {
-			  if( b == 7 || b == 13 || b == 19 )
-			  {
-				  if( c == 7 || c == 13 || c == 19 )
-				  {
-					  int wait = 0;
-				  }
-			  }
-
-		  }
         faceIndices.push_back(3);
         faceIndices.push_back(a);
         faceIndices.push_back(b);

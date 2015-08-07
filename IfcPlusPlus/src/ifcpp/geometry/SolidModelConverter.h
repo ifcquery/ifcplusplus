@@ -174,9 +174,9 @@ public:
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points );
 
 				// apply reference curve
-				shared_ptr<carve::input::PolylineSetData> reference_surface_data( new carve::input::PolylineSetData() );
+				//shared_ptr<carve::input::PolylineSetData> reference_surface_data( new carve::input::PolylineSetData() );
 				shared_ptr<SurfaceProxy> surface_proxy;
-				m_face_converter->convertIfcSurface( ifc_reference_surface, reference_surface_data, surface_proxy );
+				m_face_converter->convertIfcSurface( ifc_reference_surface, item_data_solid, surface_proxy );
 
 				if( surface_proxy )
 				{
@@ -1407,28 +1407,34 @@ public:
 
 			if( var == 0 )
 			{
-				shared_ptr<carve::input::PolylineSetData> surface_data( new carve::input::PolylineSetData() );
+				//shared_ptr<carve::input::PolylineSetData> surface_data( new carve::input::PolylineSetData() );
+				shared_ptr<ItemShapeInputData> surface_item_data( new ItemShapeInputData() );
 				shared_ptr<SurfaceProxy> surface_proxy;
-				m_face_converter->convertIfcSurface( base_surface, surface_data, surface_proxy );
-				std::vector<carve::geom::vector<3> > base_surface_points = surface_data->points;
+				m_face_converter->convertIfcSurface( base_surface, surface_item_data, surface_proxy );
+				if( surface_item_data->m_polylines.size() > 0 )
+				{
+					shared_ptr<carve::input::PolylineSetData>& surface_data = surface_item_data->m_polylines[0];
+				
+					std::vector<carve::geom::vector<3> > base_surface_points = surface_data->points;
 
-				if( base_surface_points.size() != 4 )
-				{
-					messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
-					return;
+					if( base_surface_points.size() != 4 )
+					{
+						messageCallback( "invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
+						return;
+					}
+					// If the agreement flag is TRUE, then the subset is the one the normal points away from
+					bool agreement = half_space_solid->m_AgreementFlag;
+					if( !agreement )
+					{
+						std::reverse( base_surface_points.begin(), base_surface_points.end() );
+					}
+					carve::geom::vector<3>  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
+					carve::geom::vector<3>  half_space_extrusion_direction = -base_surface_normal;
+					carve::geom::vector<3>  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
+					shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
+					extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
+					item_data->addOpenOrClosedPolyhedron( half_space_box_data );
 				}
-				// If the agreement flag is TRUE, then the subset is the one the normal points away from
-				bool agreement = half_space_solid->m_AgreementFlag;
-				if( !agreement )
-				{
-					std::reverse( base_surface_points.begin(), base_surface_points.end() );
-				}
-				carve::geom::vector<3>  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
-				carve::geom::vector<3>  half_space_extrusion_direction = -base_surface_normal;
-				carve::geom::vector<3>  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
-				shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
-				extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
-				item_data->addOpenOrClosedPolyhedron( half_space_box_data );
 			}
 
 			if( var == 1 )

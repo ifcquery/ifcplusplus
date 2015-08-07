@@ -85,7 +85,7 @@ bool LoadIfcFileCommand::doCmd()
 	{
 		if( model_switch )
 		{
-			bool optimize = false;
+			bool optimize = true;
 
 			if( optimize )
 			{

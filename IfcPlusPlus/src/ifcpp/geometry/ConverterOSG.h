@@ -655,40 +655,44 @@ public:
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
 	void convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double length_factor )
 	{
-		std::stringstream group_name;
+		osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+		if( !product_switch ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+
+		std::stringstream strs_product_switch_name;
 		shared_ptr<IfcProduct> ifc_product;
 		if( !product_shape->m_ifc_product.expired() )
 		{
 			ifc_product = shared_ptr<IfcProduct>( product_shape->m_ifc_product );
 			const int product_id = ifc_product->m_id;
-			group_name << "#" << product_id << "=" << ifc_product->className() << " group";
+			strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+			product_switch->setName( strs_product_switch_name.str().c_str() );
 		}
-
-		osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
-		if( !product_switch )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-
-		product_switch->setName( group_name.str().c_str() );
-
+		
 		// create OSG objects
 		std::vector<shared_ptr<ProductRepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
-		for( size_t i_rep = 0; i_rep < vec_product_representations.size(); ++i_rep )
+		for( size_t ii_representation = 0; ii_representation < vec_product_representations.size(); ++ii_representation )
 		{
-			const shared_ptr<ProductRepresentationData>& product_representation = vec_product_representations[i_rep];
-			if( !product_representation->m_representation_switch )
-			{
-				product_representation->m_representation_switch = new osg::Switch();
-			}
-			
-			const std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_representation->m_vec_item_data;
+			const shared_ptr<ProductRepresentationData>& product_representation_data = vec_product_representations[ii_representation];
+			osg::ref_ptr<osg::Switch> product_representation_switch = new osg::Switch();
+
+#ifdef _DEBUG
+			std::stringstream strs_representation_name;
+			strs_representation_name << strs_product_switch_name.str().c_str() << ", representation " << ii_representation;
+			product_representation_switch->setName( strs_representation_name.str().c_str() );
+#endif
+
+			const std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_representation_data->m_vec_item_data;
 			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 			{
 				const shared_ptr<ItemShapeInputData>& item_shape = product_items[i_item];
 				osg::ref_ptr<osg::Group> item_group = new osg::Group();
-
 				if( !item_group ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+
+#ifdef _DEBUG
+				std::stringstream strs_item_name;
+				strs_item_name << strs_representation_name.str().c_str() << ", item " << i_item;
+				item_group->setName( strs_item_name.str().c_str() );
+#endif
 
 				// create shape for open shells
 				for( size_t ii = 0; ii < item_shape->m_meshsets_open.size(); ++ii )
@@ -702,6 +706,12 @@ public:
 					// disable back face culling for open meshes
 					geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
 					item_group->addChild( geode );
+
+#ifdef _DEBUG
+					std::stringstream strs_item_meshset_name;
+					strs_item_meshset_name << strs_item_name.str().c_str() << ", open meshset " << ii;
+					geode->setName( strs_item_meshset_name.str().c_str() );
+#endif
 				}
 
 				// create shape for meshsets
@@ -709,37 +719,52 @@ public:
 				{
 					shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets[ii];
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
-					osg::ref_ptr<osg::Geode> geode_result = new osg::Geode();
-					if( !geode_result ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode_result, m_geom_settings->getMinCreaseAngle() );
-					item_group->addChild( geode_result );
+					osg::ref_ptr<osg::Geode> geode_meshset = new osg::Geode();
+					if( !geode_meshset ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+					drawMeshSet( item_meshset, geode_meshset, m_geom_settings->getMinCreaseAngle() );
+					item_group->addChild( geode_meshset );
+
+#ifdef _DEBUG
+					std::stringstream strs_item_meshset_name;
+					strs_item_meshset_name << strs_item_name.str().c_str() << ", meshset " << ii;
+					geode_meshset->setName( strs_item_meshset_name.str().c_str() );
+#endif
 				}
 
 				// create shape for points
-				for( size_t ii = 0; ii < item_shape->m_vertex_points.size(); ++ii )
+				const std::vector<shared_ptr<carve::input::VertexData> >& vertex_points = item_shape->getVertexPoints();
+				for( size_t ii = 0; ii < vertex_points.size(); ++ii )
 				{
-					shared_ptr<carve::input::VertexData>& pointset_data = item_shape->m_vertex_points[ii];
+					const shared_ptr<carve::input::VertexData>& pointset_data = vertex_points[ii];
 					if( pointset_data )
 					{
-						osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-						if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-
-						osg::Vec3Array* vertices = new osg::Vec3Array();
-						for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
+						if( pointset_data->points.size() > 0 )
 						{
-							carve::geom::vector<3>& carve_point = pointset_data->points[i_pointset_point];
-							vertices->push_back( osg::Vec3d( carve_point.x, carve_point.y, carve_point.z ) );
-						}
+							osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+							if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 
-						osg::Geometry* geometry = new osg::Geometry();
-						geometry->setVertexArray( vertices );
-						geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, vertices->size() ) );
-						geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
-						geode->getOrCreateStateSet()->setAttribute( new osg::Point( 3.0f ), osg::StateAttribute::ON );
-						geode->addDrawable( geometry );
-						geode->setCullingActive( false );
-						geode->addDrawable( geometry );
-						item_group->addChild( geode );
+							osg::Vec3Array* vertices = new osg::Vec3Array();
+							for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
+							{
+								carve::geom::vector<3>& carve_point = pointset_data->points[i_pointset_point];
+								vertices->push_back( osg::Vec3d( carve_point.x, carve_point.y, carve_point.z ) );
+							}
+
+							osg::Geometry* geometry = new osg::Geometry();
+							geometry->setVertexArray( vertices );
+							geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, vertices->size() ) );
+							geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+							geode->getOrCreateStateSet()->setAttribute( new osg::Point( 3.0f ), osg::StateAttribute::ON );
+							geode->addDrawable( geometry );
+							geode->setCullingActive( false );
+							item_group->addChild( geode );
+
+#ifdef _DEBUG
+							std::stringstream strs_item_meshset_name;
+							strs_item_meshset_name << strs_item_name.str().c_str() << ", vertex_point " << ii;
+							geode->setName( strs_item_meshset_name.str().c_str() );
+#endif
+						}
 					}
 				}
 
@@ -752,6 +777,12 @@ public:
 					geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 					drawPolyline( polyline_data.get(), geode );
 					item_group->addChild( geode );
+
+#ifdef _DEBUG
+					std::stringstream strs_item_meshset_name;
+					strs_item_meshset_name << strs_item_name.str().c_str() << ", polylines " << ii;
+					geode->setName( strs_item_meshset_name.str().c_str() );
+#endif
 				}
 
 				if( m_geom_settings->isShowTextLiterals() )
@@ -785,16 +816,12 @@ public:
 						txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
 						osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-						if( !geode )
-						{
-							throw IfcPPOutOfMemoryException( __FUNC__ );
-						}
+						if( !geode ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
 						geode->addDrawable( txt );
 						item_group->addChild( geode );
 					}
 				}
 			
-
 				// apply statesets if there are any
 				if( item_shape->m_vec_item_appearances.size() > 0 )
 				{
@@ -804,20 +831,37 @@ public:
 				// If anything has been created, add it to the representation group
 				if( item_group->getNumChildren() > 0 )
 				{
-					product_representation->m_representation_switch->addChild( item_group );
+#ifdef _DEBUG
+					if( item_group->getNumParents() > 0 )
+					{
+						std::cout << __FUNC__ << "item_group->getNumParents() > 0" << std::endl;
+					}
+#endif
+					product_representation_switch->addChild( item_group );
 				}
 			}
 
 			// apply statesets if there are any
-			if( product_representation->m_vec_representation_appearances.size() > 0 )
+			if( product_representation_data->m_vec_representation_appearances.size() > 0 )
 			{
-				applyAppearancesToGroup( product_representation->m_vec_representation_appearances, product_representation->m_representation_switch );
+				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, product_representation_switch );
 			}
 
 			// If anything has been created, add it to the product group
-			if( product_representation->m_representation_switch->getNumChildren() > 0 )
+			if( product_representation_switch->getNumChildren() > 0 )
 			{
-				product_switch->addChild( product_representation->m_representation_switch );
+#ifdef _DEBUG
+				if( product_representation_switch->getNumParents() > 0 )
+				{
+					std::cout << __FUNC__ << "product_representation_switch->getNumParents() > 0" << std::endl;
+				}
+				if( product_representation_data->m_representation_switch )
+				{
+					std::cout << __FUNC__ << "product_representation_data->m_representation_switch already set" << std::endl;
+				}
+#endif
+				product_representation_data->m_representation_switch = product_representation_switch.get();
+				product_switch->addChild( product_representation_switch );
 			}
 		}
 
@@ -853,6 +897,16 @@ public:
 
 		if( product_switch->getNumChildren() > 0 )
 		{
+#ifdef _DEBUG
+			if( product_switch->getNumParents() > 0 )
+			{
+				std::cout << __FUNC__ << "product_switch->getNumParents() > 0" << std::endl;
+			}
+			if( product_shape->m_product_switch )
+			{
+				std::cout << __FUNC__ << "product_shape->m_product_switch already set" << std::endl;
+			}
+#endif
 			product_shape->m_product_switch = product_switch;
 		}
 	}

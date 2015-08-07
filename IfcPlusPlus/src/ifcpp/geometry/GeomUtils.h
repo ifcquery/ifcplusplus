@@ -509,15 +509,28 @@ namespace GeomUtils
 			}
 		}
 	}
-	inline void removeChildren( osg::Group* grp )
+	inline void removeChildren( osg::Group* group )
 	{
-		if( grp )
+		if( group )
 		{
-			grp->removeChildren( 0, grp->getNumChildren() );
+			group->removeChildren( 0, group->getNumChildren() );
 		}
 	}
-	inline void drawBoundingBox( const carve::geom::aabb<3>& aabb, osg::Vec3Array* vertices, osg::Geometry* geom )
+	inline void removeDrawables( osg::Geode* geode )
 	{
+		if( geode )
+		{
+			geode->removeDrawables( 0, geode->getNumDrawables() );
+		}
+	}
+	inline void drawBoundingBoxLines( const carve::geom::aabb<3>& aabb, osg::Geometry* geom )
+	{
+		osg::Vec3Array* vertices = dynamic_cast<osg::Vec3Array*>( geom->getVertexArray() );
+		if( !vertices )
+		{
+			vertices = new osg::Vec3Array();
+			geom->setVertexArray( vertices );
+		}
 		const carve::geom::vector<3>& aabb_pos = aabb.pos;
 		const carve::geom::vector<3>& extent = aabb.extent;
 		const double dex = extent.x;
@@ -554,7 +567,7 @@ namespace GeomUtils
 		box_lines->push_back( vert_id_offset + 4 );
 		geom->addPrimitiveSet( box_lines );
 	}
-	
+
 	/** polygon operations */
 	inline carve::geom::vector<3> computePolygonCentroid( const std::vector<carve::geom::vector<3> >& polygon )
 	{
@@ -845,7 +858,6 @@ namespace GeomUtils
 		}
 	}
 
-	/** distance point to line or linesegment */
 	inline bool LineToLineIntersectionHelper( carve::geom::vector<2>& v1, carve::geom::vector<2>& v2, carve::geom::vector<2>& v3, carve::geom::vector<2>& v4, double & r, double & s )
 	{
 		// check if lines are parallel

@@ -150,13 +150,14 @@ public:
 	void convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile, std::vector<std::vector<vector2d_t > >& paths )
 	{
 		shared_ptr<IfcCurve> outer_curve = profile->m_OuterCurve;
-		std::vector<vector2d_t > curve_polygon;
-		std::vector<vector2d_t > segment_start_points;
-
-		m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points );
-
-		deleteLastPointIfEqualToFirst( curve_polygon );
-		addAvoidingDuplicates( curve_polygon, paths );
+		if( outer_curve )
+		{
+			std::vector<vector2d_t > curve_polygon;
+			std::vector<vector2d_t > segment_start_points;
+			m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points );
+			deleteLastPointIfEqualToFirst( curve_polygon );
+			addAvoidingDuplicates( curve_polygon, paths );
+		}
 
 		// IfcArbitraryProfileDefWithVoids
 		shared_ptr<IfcArbitraryProfileDefWithVoids> profile_with_voids = dynamic_pointer_cast<IfcArbitraryProfileDefWithVoids>( profile );

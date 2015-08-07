@@ -377,6 +377,21 @@ void IfcPPReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector
 			continue;
 		}
 
+		if( *( stream_pos )  == '!' )
+		{
+			char* stream_pos_next = stream_pos;
+			++stream_pos_next;
+			if( *stream_pos_next != '\0' )
+			{
+				if( *stream_pos_next == '\r' || *stream_pos_next == '\n' )
+				{
+					++stream_pos;  // omit newline exclamation mark
+					++stream_pos;  // omit newline
+					continue;
+				}
+			}
+		}
+
 		if( *stream_pos == '\n' )
 		{
 			// omit newlines

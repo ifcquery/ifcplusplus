@@ -314,6 +314,12 @@ public:
 
 					if( product_shape->m_product_switch.valid() )
 					{
+#ifdef _DEBUG
+						if( product_shape->m_product_switch->getNumParents() > 0 )
+						{
+							std::cout << __FUNC__ << ": product_shape->m_product_switch->getNumParents() > 0" << std::endl;
+						}
+#endif
 						group_outside_spatial_structure->addChild( product_shape->m_product_switch );
 					}
 
@@ -324,6 +330,12 @@ public:
 
 			if( group_outside_spatial_structure->getNumChildren() > 0 )
 			{
+#ifdef _DEBUG
+				if( group_outside_spatial_structure->getNumParents() > 0 )
+				{
+					std::cout << __FUNC__ << ": group_outside_spatial_structure->getNumParents() > 0" << std::endl;
+				}
+#endif
 				parent_group->addChild( group_outside_spatial_structure );
 			}
 		}
@@ -409,22 +421,31 @@ public:
 				{
 					if( product_shape->m_product_switch )
 					{
+						if( product_shape->m_added_to_node )
+						{
+							// IfcRelContained/RelAggregates relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
+							std::cout << "already product_shape->added_to_node" << std::endl;
+						}
+
+#ifdef _DEBUG
+						for( size_t ii_parent = 0; ii_parent < product_shape->m_product_switch->getNumParents(); ++ii_parent )
+						{
+							osg::Node* parent_node = product_shape->m_product_switch->getParent( ii_parent );
+							const std::string parent_name = parent_node->getName();
+							std::cout << __FUNC__ << ": product_shape->m_product_switch->getNumParents() > 0" << std::endl;
+						}
+#endif
 						group->addChild( product_shape->m_product_switch );
+						product_shape->m_added_to_node = true;
 					}
 				}
-				if( product_shape->m_added_to_node )
-				{
-					// IfcRelContainsInSpatialStructure relationship is required to be hierarchical (an element can only be contained in exactly one spatial structure element)
-					std::cout << "already product_shape->added_to_node" << std::endl;
-				}
-				product_shape->m_added_to_node = true;
 			}
 		}
 
 		if( group->getName().size() < 1 )
 		{
 			std::stringstream switch_name;
-			switch_name << "#" << entity_id << "=" << obj_def->className();
+			switch_name << "#" << entity_id << "=" << obj_def->className() << " parent group";
 			group->setName( switch_name.str().c_str() );
 		}
 
@@ -446,6 +467,12 @@ public:
 					if( child_obj_def )
 					{
 						osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
+						std::stringstream group_subparts_name;
+						group_subparts_name << "#" << child_obj_def->m_id << "=" << child_obj_def->className();
+#ifdef _DEBUG
+						group_subparts_name << ", RelatedObjects[" << jj << "]";
+#endif
+						group_subparts->setName( group_subparts_name.str().c_str() );
 						group->addChild( group_subparts );
 						resolveProjectStructure( child_obj_def, group_subparts );
 					}
@@ -475,6 +502,12 @@ public:
 						if( related_product )
 						{
 							osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
+							std::stringstream group_subparts_name;
+							group_subparts_name << "#" << related_product->m_id << "=" << related_product->className();
+#ifdef _DEBUG
+							group_subparts_name << ", RelatedElements[" << jj << "]";
+#endif
+							group_subparts->setName( group_subparts_name.str().c_str() );
 							group->addChild( group_subparts );
 							resolveProjectStructure( related_product, group_subparts );
 						}

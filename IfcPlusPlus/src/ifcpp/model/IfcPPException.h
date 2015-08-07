@@ -19,7 +19,6 @@
 
 #define __FUNC__ __FUNCTION__
 #define _func_ __FUNCTION__
-#define __func__ __FUNC__
 
 class IFCPP_EXPORT IfcPPException : public std::exception
 {
