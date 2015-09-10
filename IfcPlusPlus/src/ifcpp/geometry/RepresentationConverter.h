@@ -734,7 +734,29 @@ public:
 		const shared_ptr<IfcFace> topo_face = dynamic_pointer_cast<IfcFace>( topological_item );
 		if( topo_face )
 		{
+			// ENTITY IfcFace SUPERTYPE OF( IfcFaceSurface )
+
 			PolyInputCache3D poly_cache_top_face;
+			//shared_ptr<IfcFaceSurface> topo_face_surface = dynamic_pointer_cast<IfcFaceSurface>( topo_face );
+			//if( topo_face_surface )
+			//{
+			//	//  std::vector<shared_ptr<IfcFaceBound> >					m_Bounds;
+			//	//  shared_ptr<IfcSurface>									m_FaceSurface;
+			//	//  bool													m_SameSense;
+
+			//	const shared_ptr<IfcSurface>& face_surface = topo_face_surface->m_FaceSurface;
+			//	if( face_surface )
+			//	{
+			//		shared_ptr<SurfaceProxy> surface_proxy;
+			//		m_face_converter->convertIfcSurface( face_surface, topo_item_data, surface_proxy );
+			//	}
+			//	if( poly_cache_top_face.m_poly_data )
+			//	{
+			//		topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
+			//	}
+			//	return;
+			//}
+	
 			const std::vector<shared_ptr<IfcFaceBound> >& vec_face_bounds = topo_face->m_Bounds;
 			if( vec_face_bounds.size() > 0 )
 			{
@@ -780,22 +802,6 @@ public:
 					}
 
 					m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
-				}
-				//m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
-			}
-
-			shared_ptr<IfcFaceSurface> topo_face_surface = dynamic_pointer_cast<IfcFaceSurface>( topo_face );
-			if( topo_face_surface )
-			{
-				//  std::vector<shared_ptr<IfcFaceBound> >					m_Bounds;
-				//  shared_ptr<IfcSurface>									m_FaceSurface;
-				//  bool													m_SameSense;
-
-				const shared_ptr<IfcSurface>& face_surface = topo_face_surface->m_FaceSurface;
-				if( face_surface )
-				{
-					shared_ptr<SurfaceProxy> surface_proxy;
-					m_face_converter->convertIfcSurface( face_surface, topo_item_data, surface_proxy );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )

@@ -108,7 +108,6 @@ public:
 					if( basis_surface_placement )
 					{
 						PlacementConverter::convertIfcAxis2Placement3D( basis_surface_placement, length_factor, curve_bounded_plane_matrix );
-						//curve_bounded_plane_matrix = pos*curve_bounded_plane_matrix;
 					}
 				}
 
@@ -137,6 +136,7 @@ public:
 				PolyInputCache3D poly_cache;
 				m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
 				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
+				item_data->applyPosition( curve_bounded_plane_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
 			{
