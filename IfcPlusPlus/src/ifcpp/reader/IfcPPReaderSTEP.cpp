@@ -22,6 +22,8 @@
 #include <locale.h>
 #include <time.h>
 
+#include "boost/assign.hpp"
+
 #include "ifcpp/model/IfcPPOpenMP.h"
 #include "ifcpp/model/IfcPPModel.h"
 #include "ifcpp/model/IfcPPObject.h"
@@ -856,71 +858,71 @@ void applyBackwardCompatibility( std::string& keyword, std::string& step_line )
 	}
 }
 
-static std::map<IfcPPEntityEnum, size_t> global_map_num_args = {
-	{ IfcPPEntityEnum::IFCBEAM, 9 },
-	{ IfcPPEntityEnum::IFCBUILDINGELEMENTPART, 9 },
-	{ IfcPPEntityEnum::IFCCLASSIFICATION, 7 },
-	{ IfcPPEntityEnum::IFCCLASSIFICATIONREFERENCE, 6 },
-	{ IfcPPEntityEnum::IFCCOLOURRGB, 4 },
-	{ IfcPPEntityEnum::IFCCOLUMN, 9 },
-	{ IfcPPEntityEnum::IFCCSHAPEPROFILEDEF, 8 },
-	{ IfcPPEntityEnum::IFCCURTAINWALL, 9 },
-	{ IfcPPEntityEnum::IFCCURVESTYLE, 5 },
-	{ IfcPPEntityEnum::IFCDISCRETEACCESSORY, 9 },
-	{ IfcPPEntityEnum::IFCDISCRETEACCESSORYTYPE, 10 },
-	{ IfcPPEntityEnum::IFCDISTRIBUTIONPORT, 10 },
-	{ IfcPPEntityEnum::IFCDOCUMENTREFERENCE, 5 },
-	{ IfcPPEntityEnum::IFCDOOR, 13 },
-	{ IfcPPEntityEnum::IFCDOORLININGPROPERTIES, 17 },
-	{ IfcPPEntityEnum::IFCFASTENER, 9 },
-	{ IfcPPEntityEnum::IFCFILLAREASTYLE, 3 },
-	{ IfcPPEntityEnum::IFCFLOWTERMINAL, 8 },
-	{ IfcPPEntityEnum::IFCFURNITURETYPE, 11 },
-	{ IfcPPEntityEnum::IFCGRID, 11 },
-	{ IfcPPEntityEnum::IFCISHAPEPROFILEDEF, 10 },
-	{ IfcPPEntityEnum::IFCLIBRARYREFERENCE, 6 },
-	{ IfcPPEntityEnum::IFCLSHAPEPROFILEDEF, 9 },
-	{ IfcPPEntityEnum::IFCMATERIAL, 3 },
-	{ IfcPPEntityEnum::IFCMATERIALLAYER, 7 },
-	{ IfcPPEntityEnum::IFCMATERIALLAYERSET, 3 },
-	{ IfcPPEntityEnum::IFCMATERIALLAYERSETUSAGE, 5 },
-	{ IfcPPEntityEnum::IFCMATERIALPROFILESETUSAGE, 3 },
-	{ IfcPPEntityEnum::IFCMECHANICALFASTENER, 11 },
-	{ IfcPPEntityEnum::IFCMECHANICALFASTENERTYPE, 12 },
-	{ IfcPPEntityEnum::IFCMEMBER, 9 },
-	{ IfcPPEntityEnum::IFCOPENINGELEMENT, 9 },
-	{ IfcPPEntityEnum::IFCPLATE, 9 },
-	{ IfcPPEntityEnum::IFCPOSTALADDRESS, 10 },
-	{ IfcPPEntityEnum::IFCPROJECT, 9 },
-	{ IfcPPEntityEnum::IFCPROPERTYBOUNDEDVALUE, 6 },
-	{ IfcPPEntityEnum::IFCPROPERTYSINGLEVALUE, 4 },
-	{ IfcPPEntityEnum::IFCPROPERTYTABLEVALUE, 8 },
-	{ IfcPPEntityEnum::IFCQUANTITYAREA, 5 },
-	{ IfcPPEntityEnum::IFCQUANTITYCOUNT, 5 },
-	{ IfcPPEntityEnum::IFCQUANTITYLENGTH, 5 },
-	{ IfcPPEntityEnum::IFCQUANTITYVOLUME, 5 },
-	{ IfcPPEntityEnum::IFCQUANTITYWEIGHT, 5 },
-	{ IfcPPEntityEnum::IFCRAMPFLIGHT, 9 },
-	{ IfcPPEntityEnum::IFCREINFORCINGMESH, 18 },
-	{ IfcPPEntityEnum::IFCSIMPLEPROPERTYTEMPLATE, 12 },
-	{ IfcPPEntityEnum::IFCSPACETYPE, 11 },
-	{ IfcPPEntityEnum::IFCSTAIRFLIGHT, 13 },
-	{ IfcPPEntityEnum::IFCSTRUCTURALANALYSISMODEL, 10 },
-	{ IfcPPEntityEnum::IFCSTRUCTURALPOINTCONNECTION, 9 },
-	{ IfcPPEntityEnum::IFCSTRUCTURALCURVEMEMBER, 9 },
-	{ IfcPPEntityEnum::IFCSURFACESTYLE, 3 },
-	{ IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 },
-	{ IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 },
-	{ IfcPPEntityEnum::IFCTELECOMADDRESS, 9 },
-	{ IfcPPEntityEnum::IFCTEXTSTYLE, 5 },
-	{ IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 },
-	{ IfcPPEntityEnum::IFCUSHAPEPROFILEDEF, 10 },
-	{ IfcPPEntityEnum::IFCWALL, 9 },
-	{ IfcPPEntityEnum::IFCWALLSTANDARDCASE, 9 },
-	{ IfcPPEntityEnum::IFCWINDOW, 13 },
-	{ IfcPPEntityEnum::IFCWINDOWLININGPROPERTIES, 16 },
-	{ IfcPPEntityEnum::IFCZONE, 6 }
-};
+static std::map<IfcPPEntityEnum, size_t> global_map_num_args = boost::assign::map_list_of 
+	( IfcPPEntityEnum::IFCBEAM, 9 )
+	( IfcPPEntityEnum::IFCBUILDINGELEMENTPART, 9 )
+	( IfcPPEntityEnum::IFCCLASSIFICATION, 7 )
+	( IfcPPEntityEnum::IFCCLASSIFICATIONREFERENCE, 6 )
+	( IfcPPEntityEnum::IFCCOLOURRGB, 4 )
+	( IfcPPEntityEnum::IFCCOLUMN, 9 )
+	( IfcPPEntityEnum::IFCCSHAPEPROFILEDEF, 8 )
+	( IfcPPEntityEnum::IFCCURTAINWALL, 9 )
+	( IfcPPEntityEnum::IFCCURVESTYLE, 5 )
+	( IfcPPEntityEnum::IFCDISCRETEACCESSORY, 9 )
+	( IfcPPEntityEnum::IFCDISCRETEACCESSORYTYPE, 10 )
+	( IfcPPEntityEnum::IFCDISTRIBUTIONPORT, 10 )
+	( IfcPPEntityEnum::IFCDOCUMENTREFERENCE, 5 )
+	( IfcPPEntityEnum::IFCDOOR, 13 )
+	( IfcPPEntityEnum::IFCDOORLININGPROPERTIES, 17 )
+	( IfcPPEntityEnum::IFCFASTENER, 9 )
+	( IfcPPEntityEnum::IFCFILLAREASTYLE, 3 )
+	( IfcPPEntityEnum::IFCFLOWTERMINAL, 8 )
+	( IfcPPEntityEnum::IFCFURNITURETYPE, 11 )
+	( IfcPPEntityEnum::IFCGRID, 11 )
+	( IfcPPEntityEnum::IFCISHAPEPROFILEDEF, 10 )
+	( IfcPPEntityEnum::IFCLIBRARYREFERENCE, 6 )
+	( IfcPPEntityEnum::IFCLSHAPEPROFILEDEF, 9 )
+	( IfcPPEntityEnum::IFCMATERIAL, 3 )
+	( IfcPPEntityEnum::IFCMATERIALLAYER, 7 )
+	( IfcPPEntityEnum::IFCMATERIALLAYERSET, 3 )
+	( IfcPPEntityEnum::IFCMATERIALLAYERSETUSAGE, 5 )
+	( IfcPPEntityEnum::IFCMATERIALPROFILESETUSAGE, 3 )
+	( IfcPPEntityEnum::IFCMECHANICALFASTENER, 11 )
+	( IfcPPEntityEnum::IFCMECHANICALFASTENERTYPE, 12 )
+	( IfcPPEntityEnum::IFCMEMBER, 9 )
+	( IfcPPEntityEnum::IFCOPENINGELEMENT, 9 )
+	( IfcPPEntityEnum::IFCPLATE, 9 )
+	( IfcPPEntityEnum::IFCPOSTALADDRESS, 10 )
+	( IfcPPEntityEnum::IFCPROJECT, 9 )
+	( IfcPPEntityEnum::IFCPROPERTYBOUNDEDVALUE, 6 )
+	( IfcPPEntityEnum::IFCPROPERTYSINGLEVALUE, 4 )
+	( IfcPPEntityEnum::IFCPROPERTYTABLEVALUE, 8 )
+	( IfcPPEntityEnum::IFCQUANTITYAREA, 5 )
+	( IfcPPEntityEnum::IFCQUANTITYCOUNT, 5 )
+	( IfcPPEntityEnum::IFCQUANTITYLENGTH, 5 )
+	( IfcPPEntityEnum::IFCQUANTITYVOLUME, 5 )
+	( IfcPPEntityEnum::IFCQUANTITYWEIGHT, 5 )
+	( IfcPPEntityEnum::IFCRAMPFLIGHT, 9 )
+	( IfcPPEntityEnum::IFCREINFORCINGMESH, 18 )
+	( IfcPPEntityEnum::IFCSIMPLEPROPERTYTEMPLATE, 12 )
+	( IfcPPEntityEnum::IFCSPACETYPE, 11 )
+	( IfcPPEntityEnum::IFCSTAIRFLIGHT, 13 )
+	( IfcPPEntityEnum::IFCSTRUCTURALANALYSISMODEL, 10 )
+	( IfcPPEntityEnum::IFCSTRUCTURALPOINTCONNECTION, 9 )
+	( IfcPPEntityEnum::IFCSTRUCTURALCURVEMEMBER, 9 )
+	( IfcPPEntityEnum::IFCSURFACESTYLE, 3 )
+	( IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 )
+	( IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 )
+	( IfcPPEntityEnum::IFCTELECOMADDRESS, 9 )
+	( IfcPPEntityEnum::IFCTEXTSTYLE, 5 )
+	( IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 )
+	( IfcPPEntityEnum::IFCUSHAPEPROFILEDEF, 10 )
+	( IfcPPEntityEnum::IFCWALL, 9 )
+	( IfcPPEntityEnum::IFCWALLSTANDARDCASE, 9 )
+	( IfcPPEntityEnum::IFCWINDOW, 13 )
+	( IfcPPEntityEnum::IFCWINDOWLININGPROPERTIES, 16 )
+	( IfcPPEntityEnum::IFCZONE, 6 );
+
 
 void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
 {
