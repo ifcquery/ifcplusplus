@@ -15,7 +15,7 @@
 
 #include "IfcPPWriter.h"
 
-class IfcPPWriterXML : public IfcPPWriter
+class IFCPP_EXPORT IfcPPWriterXML : public IfcPPWriter
 {
 public:
 	IfcPPWriterXML();

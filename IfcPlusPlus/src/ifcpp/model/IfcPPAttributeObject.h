@@ -18,7 +18,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "IfcPPGlobal.h"
 
-class IFCPP_EXPORT IfcPPAttributeObjectVector : public IfcPPObject
+class IfcPPAttributeObjectVector : public IfcPPObject
 {
 public:
 	IfcPPAttributeObjectVector() {}
@@ -30,7 +30,7 @@ public:
 	std::vector<shared_ptr<IfcPPObject> > m_vec;
 };
 
-class IFCPP_EXPORT IfcPPBoolAttribute : public IfcPPObject
+class IfcPPBoolAttribute : public IfcPPObject
 {
 public:
 	IfcPPBoolAttribute(){}
@@ -42,7 +42,7 @@ public:
 	bool m_value;
 };
 
-class IFCPP_EXPORT IfcPPLogicalAttribute : public IfcPPObject
+class IfcPPLogicalAttribute : public IfcPPObject
 {
 public:
 	IfcPPLogicalAttribute(){}
@@ -54,7 +54,7 @@ public:
 	LogicalEnum m_value;
 };
 
-class IFCPP_EXPORT IfcPPIntAttribute : public IfcPPObject
+class IfcPPIntAttribute : public IfcPPObject
 {
 public:
 	IfcPPIntAttribute(){}
@@ -66,7 +66,7 @@ public:
 	int m_value;
 };
 
-class IFCPP_EXPORT IfcPPRealAttribute : public IfcPPObject
+class IfcPPRealAttribute : public IfcPPObject
 {
 public:
 	IfcPPRealAttribute(){}
@@ -78,7 +78,7 @@ public:
 	double m_value;
 };
 
-class IFCPP_EXPORT IfcPPStringAttribute : public IfcPPObject
+class IfcPPStringAttribute : public IfcPPObject
 {
 public:
 	IfcPPStringAttribute(){}
@@ -90,7 +90,7 @@ public:
 	std::wstring m_value;
 };
 
-class IFCPP_EXPORT IfcPPBinaryAttribute : public IfcPPObject
+class IfcPPBinaryAttribute : public IfcPPObject
 {
 public:
 	IfcPPBinaryAttribute(){}

@@ -82,7 +82,6 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	std::stringstream uuid_strs;
 	//for( int i=0; i<10; ++i )
 	uuid_strs << createGUID32().c_str() << std::endl;
-	uuid_strs << CreateCompressedGuidString22().c_str() << std::endl;
 
 	m_txt_out->setText( uuid_strs.str().c_str() );
 #endif

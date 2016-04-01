@@ -15,7 +15,7 @@
 
 #include "IfcPPWriter.h"
 
-class IfcPPWriterSTEP : public IfcPPWriter
+class IFCPP_EXPORT IfcPPWriterSTEP : public IfcPPWriter
 {
 public:
 	IfcPPWriterSTEP();

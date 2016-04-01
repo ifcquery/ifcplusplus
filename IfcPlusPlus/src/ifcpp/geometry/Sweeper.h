@@ -261,7 +261,6 @@ public:
 	**/
 	void sweepDisk( const std::vector<carve::geom::vector<3> >& curve_points, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 )
 	{
-		carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 		const size_t num_curve_points = curve_points.size();
 		if( num_curve_points < 2 )
 		{
@@ -302,6 +301,7 @@ public:
 			use_radius_inner = radius;
 		}
 
+		carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 		carve::geom::vector<3>  curve_point_first = curve_points[0];
 		carve::geom::vector<3>  curve_point_second = curve_points[1];
 
@@ -403,8 +403,6 @@ public:
 			}
 			angle += delta_angle;
 		}
-
-		// TODO: use sweepArea
 
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 		if( !poly_data )
@@ -864,27 +862,17 @@ public:
 	**/
 	void sweepArea( const std::vector<carve::geom::vector<3> >& curve_points, const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
 	{
-		// TODO: complete and test
 		if( profile_paths.size() == 0 )
 		{
 			messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
-
-#ifdef _DEBUG
-		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-		if( !polyline_data )
+		const size_t num_curve_points = curve_points.size();
+		if( num_curve_points < 2 )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			messageCallback( "num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			return;
 		}
-		polyline_data->beginPolyline();
-		for( size_t ii = 0; ii < curve_points.size(); ++ii )
-		{
-			polyline_data->addVertex( curve_points[ii] );	
-			polyline_data->addPolylineIndex( ii );
-		}
-		item_data->m_polylines.push_back( polyline_data );
-#endif
 
 		// figure 1: loops and indexes
 		//  3----------------------------2
@@ -914,93 +902,15 @@ public:
 		}
 		poly_data->points.resize( num_points_in_all_loops*curve_points.size() );
 
-		carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
-		const size_t num_curve_points = curve_points.size();
-		if( num_curve_points < 2 )
-		{
-			messageCallback( "num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			return;
-		}
-
 		const carve::geom::vector<3>& curve_point_first = curve_points[0];
 		const carve::geom::vector<3>& curve_point_second = curve_points[1];
-
-		bool bend_found = false;
-		if( num_curve_points > 3 )
-		{
-			// compute local z vector by dot product of the first bend of the reference line
-			for( size_t i = 2; i < num_curve_points; ++i )
-			{
-				const carve::geom::vector<3>& vertex_current = curve_points[i];
-				const carve::geom::vector<3>& vertex_back1 = curve_points[i-1];
-				const carve::geom::vector<3>& vertex_back2 = curve_points[i-2];
-				carve::geom::vector<3> section1 = vertex_back1 - vertex_back2;
-				carve::geom::vector<3> section2 = vertex_current - vertex_back1;
-				const double length1 = section1.length();
-				if( length1 > 0 )
-				{
-					section1 /= length1;
-
-					const double length2 = section2.length();
-					if( length2 > 0 )
-					{
-						section2 /= length2;
-				
-						double dot_product = dot( section1, section2 );
-						double dot_product_abs = std::abs( dot_product );
-
-						// if dot == 1 or -1, then points are colinear
-						if( dot_product_abs < ( 1.0 - 0.0001 ) || dot_product_abs >( 1.0 + 0.0001 ) )
-						{
-							// bend found, compute cross product
-							carve::geom::vector<3> lateral_vec = cross( section1, section2 );
-							local_z = cross( lateral_vec, section1 );
-							local_z.normalize();
-							bend_found = true;
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		if( !bend_found )
-		{
-			// sweeping curve is linear. assume any local z vector
-			carve::geom::vector<3> sweep_dir = curve_point_second - curve_point_first;
-			sweep_dir.normalize();
-			local_z = cross( carve::geom::VECTOR( 0, 0, 1 ), sweep_dir );
-			if( local_z.length2() < 0.001 )
-			{
-				local_z = cross( carve::geom::VECTOR( 0, 1, 0 ), sweep_dir );
-				local_z.normalize();
-			}
-			else
-			{
-				local_z.normalize();
-			}
-			double dot_normal_local_z = dot( sweep_dir, local_z );
-			if( std::abs( dot_normal_local_z - 1.0 ) < 0.0001 )
-			{
-				local_z = cross( carve::geom::VECTOR( 0, 1, 0 ), sweep_dir );
-				local_z.normalize();
-
-				dot_normal_local_z = dot( sweep_dir, local_z );
-				if( std::abs( dot_normal_local_z - 1.0 ) < 0.0001 )
-				{
-					local_z = cross( carve::geom::VECTOR( 1, 0, 0 ), sweep_dir );
-					local_z.normalize();
-				}
-			}
-		}
+		const carve::geom::vector<3> curve_normal = GeomUtils::computePolygonNormal( curve_points );
 
 		// rotate face loops into first direction
-		carve::geom::vector<3>  section_local_y = local_z;
+		carve::geom::vector<3>  section_local_y = curve_normal;
 		carve::geom::vector<3>  section_local_z = curve_point_first - curve_point_second;
 		carve::geom::vector<3>  section_local_x = carve::geom::cross( section_local_y, section_local_z );
 		section_local_y = carve::geom::cross( section_local_x, section_local_z );
-		std::vector<carve::geom::vector<3> > inner_shape_points;
-
 		section_local_x.normalize();
 		section_local_y.normalize();
 		section_local_z.normalize();
@@ -1057,20 +967,7 @@ public:
 			GeomUtils::bisectingPlane( curve_point_before, curve_point_current, curve_point_next, bisecting_normal );
 
 			carve::geom::vector<3> section1 = curve_point_current - curve_point_before;
-			carve::geom::vector<3> section2 = curve_point_next - curve_point_current;
 			section1.normalize();
-			section2.normalize();
-			double dot_product = dot( section1, section2 );
-			double dot_product_abs = std::abs( dot_product );
-
-			if( dot_product_abs < ( 1.0 - 0.0001 ) || dot_product_abs >( 1.0 + 0.0001 ) )
-			{
-				// bend found, compute next local z vector
-				// TODO: vector with local z vectors as parameter
-				carve::geom::vector<3> lateral_vec = cross( section1, section2 );
-				local_z = cross( lateral_vec, section1 );
-				local_z.normalize();
-			}
 			if( ii == num_curve_points - 1 )
 			{
 				bisecting_normal *= -1.0;

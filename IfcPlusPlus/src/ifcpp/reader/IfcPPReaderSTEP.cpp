@@ -913,6 +913,7 @@ static std::map<IfcPPEntityEnum, size_t> global_map_num_args = boost::assign::ma
 	( IfcPPEntityEnum::IFCSURFACESTYLE, 3 )
 	( IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 )
 	( IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 )
+	(IfcPPEntityEnum::IFCSTRUCTURALCURVECONNECTION, 9)
 	( IfcPPEntityEnum::IFCTELECOMADDRESS, 9 )
 	( IfcPPEntityEnum::IFCTEXTSTYLE, 5 )
 	( IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 )

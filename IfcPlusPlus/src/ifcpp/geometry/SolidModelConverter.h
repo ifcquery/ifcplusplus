@@ -832,15 +832,14 @@ public:
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
 		// for every first operand polyhedrons, apply all second operand polyhedrons
-		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& first_operand_meshsets = first_operand_data->m_meshsets;
-		for( size_t i_meshset_first = 0; i_meshset_first < first_operand_meshsets.size(); ++i_meshset_first )
+		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_first_operand_meshsets = first_operand_data->m_meshsets;
+		for( size_t i_meshset_first = 0; i_meshset_first < vec_first_operand_meshsets.size(); ++i_meshset_first )
 		{
-			shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset = first_operand_meshsets[i_meshset_first];
-
-			std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& second_operand_meshsets = second_operand_data->m_meshsets;
-			for( size_t i_meshset_second = 0; i_meshset_second < second_operand_meshsets.size(); ++i_meshset_second )
+			shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset = vec_first_operand_meshsets[i_meshset_first];
+			std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_second_operand_meshsets = second_operand_data->m_meshsets;
+			for( size_t i_meshset_second = 0; i_meshset_second < vec_second_operand_meshsets.size(); ++i_meshset_second )
 			{
-				shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = second_operand_meshsets[i_meshset_second];
+				shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = vec_second_operand_meshsets[i_meshset_second];
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
@@ -876,41 +875,47 @@ public:
 		}
 	}
 
-
 	void convertIfcCsgPrimitive3D( const shared_ptr<IfcCsgPrimitive3D>& csg_primitive, shared_ptr<ItemShapeInputData> item_data )
 	{
-		std::stringstream strs_err;
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-		double length_factor = m_unit_converter->getLengthInMeterFactor();
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// ENTITY IfcCsgPrimitive3D  ABSTRACT SUPERTYPE OF(ONEOF(IfcBlock, IfcRectangularPyramid, IfcRightCircularCone, IfcRightCircularCylinder, IfcSphere
-		shared_ptr<IfcAxis2Placement3D>& primitive_placement = csg_primitive->m_Position;
-
 		carve::math::Matrix primitive_placement_matrix;
+		shared_ptr<IfcAxis2Placement3D>& primitive_placement = csg_primitive->m_Position;
 		if( primitive_placement )
 		{
 			PlacementConverter::convertIfcAxis2Placement3D( primitive_placement, length_factor, primitive_placement_matrix );
 		}
 
+		if( !item_data )
+		{
+			messageCallback( "Invalid item_data", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+			return;
+		}
+
 		shared_ptr<IfcBlock> block = dynamic_pointer_cast<IfcBlock>( csg_primitive );
 		if( block )
 		{
-			double x_length = length_factor;
-			double y_length = length_factor;
-			double z_length = length_factor;
+			if( !block->m_XLength )
+			{
+				messageCallback( "Invalid XLength", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+				return;
+			}
+			if( !block->m_YLength )
+			{
+				messageCallback( "Invalid YLength", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+				return;
+			}
+			if( !block->m_ZLength )
+			{
+				messageCallback( "Invalid ZLength", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+				return;
+			}
 
-			if( block->m_XLength )
-			{
-				x_length = block->m_XLength->m_value*0.5*length_factor;
-			}
-			if( block->m_YLength )
-			{
-				y_length = block->m_YLength->m_value*0.5*length_factor;
-			}
-			if( block->m_ZLength )
-			{
-				z_length = block->m_ZLength->m_value*0.5*length_factor;
-			}
+			const double x_length = block->m_XLength->m_value*0.5*length_factor;
+			const double y_length = block->m_YLength->m_value*0.5*length_factor;
+			const double z_length = block->m_ZLength->m_value*0.5*length_factor;
 
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( x_length, y_length, z_length ) );
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( -x_length, y_length, z_length ) );
@@ -946,22 +951,25 @@ public:
 		shared_ptr<IfcRectangularPyramid> rectangular_pyramid = dynamic_pointer_cast<IfcRectangularPyramid>( csg_primitive );
 		if( rectangular_pyramid )
 		{
-			double x_length = length_factor;
-			double y_length = length_factor;
-			double height = length_factor;
+			if( !rectangular_pyramid->m_XLength )
+			{
+				messageCallback( "Invalid XLength", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+				return;
+			}
+			if( !rectangular_pyramid->m_YLength )
+			{
+				messageCallback( "Invalid YLength", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+				return;
+			}
+			if( !rectangular_pyramid->m_Height )
+			{
+				messageCallback( "Invalid Height", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
+				return;
+			}
 
-			if( rectangular_pyramid->m_XLength )
-			{
-				x_length = rectangular_pyramid->m_XLength->m_value*0.5*length_factor;
-			}
-			if( rectangular_pyramid->m_YLength )
-			{
-				y_length = rectangular_pyramid->m_YLength->m_value*0.5*length_factor;
-			}
-			if( rectangular_pyramid->m_Height )
-			{
-				height = rectangular_pyramid->m_Height->m_value*0.5*length_factor;
-			}
+			const double x_length = rectangular_pyramid->m_XLength->m_value*0.5*length_factor;
+			const double y_length = rectangular_pyramid->m_YLength->m_value*0.5*length_factor;
+			const double height = rectangular_pyramid->m_Height->m_value*0.5*length_factor;
 
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( 0, 0, height ) );
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( x_length, -y_length, 0.0 ) );
@@ -994,8 +1002,8 @@ public:
 				return;
 			}
 
-			double height = right_circular_cone->m_Height->m_value*length_factor;
-			double radius = right_circular_cone->m_BottomRadius->m_value*length_factor;
+			const double height = right_circular_cone->m_Height->m_value*length_factor;
+			const double radius = right_circular_cone->m_BottomRadius->m_value*length_factor;
 
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( 0.0, 0.0, height ) ); // top
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( 0.0, 0.0, 0.0 ) ); // bottom center
@@ -1041,31 +1049,35 @@ public:
 				return;
 			}
 
-			//int slices = m_geom_settings->getNumVerticesPerCircle();
-			//double rad = 0;
-
 			double height = right_circular_cylinder->m_Height->m_value*length_factor;
 			double radius = right_circular_cylinder->m_Radius->m_value*length_factor;
 
 			double angle = 0;
-			double d_angle = 2.0*M_PI / double( m_geom_settings->getNumVerticesPerCircle() );	// TODO: adapt to model size and complexity
-			for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle(); ++i )
+			const size_t num_points = m_geom_settings->getNumVerticesPerCircle();
+			const double d_angle = 2.0*M_PI / double( num_points );	// TODO: adapt to model size and complexity
+			for( int i = 0; i < num_points; ++i )
 			{
-				polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( sin( angle )*radius, cos( angle )*radius, height ) );
-				polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( sin( angle )*radius, cos( angle )*radius, 0.0 ) );
+				double x = cos( angle )*radius;
+				double y = sin( angle )*radius;
+				polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( x, y, height ) );
+				polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( x, y, 0.0 ) );
 				angle += d_angle;
 			}
 
-			for( int i = 0; i < m_geom_settings->getNumVerticesPerCircle() - 1; ++i )
+			for( size_t i = 0; i < num_points; ++i )
 			{
-				polyhedron_data->addFace( 0, i * 2 + 2, i * 2 + 4 );		// top cap:		0-2-4	0-4-6		0-6-8
-				polyhedron_data->addFace( 1, i * 2 + 3, i * 2 + 5 );		// bottom cap:	1-3-5	1-5-7		1-7-9
-				polyhedron_data->addFace( i, i + 1, i + 3 );		// side
-				polyhedron_data->addFace( i + 3, i + 2, i );		// side
+				size_t idx_next = ( i + 1 )%num_points;
+				size_t idx_next_top = idx_next*2;
+				size_t idx_next_bottom = idx_next_top + 1;
+				polyhedron_data->addFace( i*2, i*2 + 1, idx_next_bottom );		// side
+				polyhedron_data->addFace( idx_next_bottom, idx_next_top, i*2 );	// side
 			}
 
-			polyhedron_data->addFace( 2 * m_geom_settings->getNumVerticesPerCircle() - 2, 2 * m_geom_settings->getNumVerticesPerCircle() - 1, 1 );		// side
-			polyhedron_data->addFace( 1, 0, 2 * m_geom_settings->getNumVerticesPerCircle() - 2 );		// side
+			for( size_t i = 0; i < num_points-2; ++i )
+			{
+				polyhedron_data->addFace( 0, i*2 + 2, i*2 + 4 );	// top cap:		0-2-4	0-4-6		0-6-8
+				polyhedron_data->addFace( 1, i*2 + 5, i*2 + 3 );	// bottom cap:	1-5-3	1-7-5		1-9-7
+			}
 
 			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;

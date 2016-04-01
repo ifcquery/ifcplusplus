@@ -20,7 +20,7 @@
 #define __FUNC__ __FUNCTION__
 #define _func_ __FUNCTION__
 
-class IFCPP_EXPORT IfcPPException : public std::exception
+class IfcPPException : public std::exception
 {
 public:
 	IfcPPException( std::string reason )

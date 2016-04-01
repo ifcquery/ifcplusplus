@@ -17,7 +17,7 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "IfcPPReader.h"
 
-class IfcPPReaderXML : public IfcPPReader
+class IFCPP_EXPORT IfcPPReaderXML : public IfcPPReader
 {
 public:
 	IfcPPReaderXML();

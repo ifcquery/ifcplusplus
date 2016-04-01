@@ -17,6 +17,9 @@
 #include "ifcpp/model/IfcPPModel.h"
 #include "ifcpp/reader/IfcPPReaderXML.h"
 
+IfcPPReaderXML::IfcPPReaderXML() {}
+IfcPPReaderXML::~IfcPPReaderXML(){}
+
 void IfcPPReaderXML::removeComments( std::string& buffer )
 {
 	// not implemented

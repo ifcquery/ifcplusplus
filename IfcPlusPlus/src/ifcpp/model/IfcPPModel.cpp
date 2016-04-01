@@ -147,14 +147,14 @@ void IfcPPModel::initIfcModel()
 	insertEntity(unit_assignment);
 
 	
-	project->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( CreateCompressedGuidString22() ) );
+	project->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createGUID32_wstr().c_str() ) );
 	project->m_OwnerHistory = owner_history;
 	project->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"IfcPlusPlus project" ) );
 	project->m_UnitsInContext = unit_assignment;
 
 	// create default IfcSite
 	shared_ptr<IfcSite> site( new IfcSite() );
-	site->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( CreateCompressedGuidString22() ) );
+	site->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( createGUID32_wstr().c_str() ) );
 	site->m_OwnerHistory = owner_history;
 	site->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Site" ) );
 	insertEntity(site);
@@ -165,7 +165,7 @@ void IfcPPModel::initIfcModel()
 
 	// create default Building
 	shared_ptr<IfcBuilding> building( new IfcBuilding() );
-	building->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( CreateCompressedGuidString22() ) );
+	building->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( createGUID32_wstr().c_str() ) );
 	building->m_OwnerHistory = owner_history;
 	building->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Building" ) );
 	insertEntity( building );

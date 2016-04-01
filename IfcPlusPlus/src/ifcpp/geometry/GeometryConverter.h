@@ -675,10 +675,10 @@ public:
 						std::vector<shared_ptr<IfcPropertySetDefinition> >::iterator it_property_set_def;
 						for( it_property_set_def = vec_propterty_set_def.begin(); it_property_set_def != vec_propterty_set_def.end(); ++it_property_set_def )
 						{
-							shared_ptr<IfcPropertySetDefinition> property_set_def = ( *it_property_set_def );
-							if( property_set_def )
+							shared_ptr<IfcPropertySetDefinition> property_set_def2 = ( *it_property_set_def );
+							if( property_set_def2 )
 							{
-								shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def );
+								shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>( property_set_def2 );
 								if( property_set )
 								{
 									readAppearanceFromPropertySet( property_set, product_shape );

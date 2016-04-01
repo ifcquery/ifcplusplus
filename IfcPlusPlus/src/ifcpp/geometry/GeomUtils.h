@@ -1223,10 +1223,10 @@ namespace GeomUtils
 					continue;
 				}
 				set_applied.insert( child_geode );
-				const osg::Geode::DrawableList& drawable_list = child_geode->getDrawableList();
-				for( osg::Geode::DrawableList::const_iterator it_drawables = drawable_list.begin(); it_drawables != drawable_list.end(); ++it_drawables )
+				for( size_t ii_drawables = 0; ii_drawables < child_geode->getNumDrawables(); ++ii_drawables )
 				{
-					osg::Drawable* drawable = ( *it_drawables );
+					osg::Drawable* drawable = child_geode->getDrawable(ii_drawables);
+				
 					osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>( drawable );
 					if( !child_geometry )
 					{

@@ -2,25 +2,24 @@
 
 #include <string>
 #include <sstream>
-#include <cstdlib>
-#include <time.h>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#ifndef GUID_DEFINED
-#define GUID_DEFINED
-typedef struct _GUID {		  // size is 16
-	unsigned long Data1;
-	unsigned short  Data2;
-	unsigned short  Data3;
-	unsigned char Data4[8];
-} GUID;
-#endif
+inline std::string createGUID32()
+{
+	std::stringstream uuid_strs;
+	uuid_strs << std::uppercase;
+	boost::uuids::uuid uuid = boost::uuids::random_generator()( );
+	uuid_strs << uuid;
+	return uuid_strs.str();
+}
 
-void getGuid( GUID   *pGuid );
-std::string createGUID32();
-std::wstring CreateCompressedGuidString22();
-char* CreateCompressedGuidString( char * buf, int len );					   // len >= 23
-char* getString64FromGuid( const GUID *pGuid, char * buf, int len );
-bool getGuidFromString64( const char *string, GUID *pGuid );
+inline std::wstring createGUID32_wstr()
+{
+	std::wstringstream uuid_strs;
+	uuid_strs << std::uppercase;
+	boost::uuids::uuid uuid = boost::uuids::random_generator()( );
+	uuid_strs << uuid;
+	return uuid_strs.str();
+}

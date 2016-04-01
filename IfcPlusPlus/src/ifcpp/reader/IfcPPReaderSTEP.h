@@ -17,7 +17,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "IfcPPReader.h"
 
-class IfcPPReaderSTEP : public IfcPPReader
+class IFCPP_EXPORT IfcPPReaderSTEP : public IfcPPReader
 {
 public:
 	IfcPPReaderSTEP();

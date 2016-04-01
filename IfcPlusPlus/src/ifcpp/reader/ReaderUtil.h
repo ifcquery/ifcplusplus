@@ -13,6 +13,8 @@
 
 #pragma once
 
+#pragma warning ( disable: 4996 )  // for boost\random\detail\polynomial.hpp
+
 #include <algorithm>
 #include <locale>
 #include <string>
@@ -115,7 +117,7 @@ inline void readRealValue( const std::wstring& str, boost::optional<double>& rea
 }
 
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
-void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
+IFCPP_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
 shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_entities );
 IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name );

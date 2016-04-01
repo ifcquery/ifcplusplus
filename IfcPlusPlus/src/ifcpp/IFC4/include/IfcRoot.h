@@ -18,7 +18,7 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
-class IFCPP_EXPORT IfcGloballyUniqueId;
+#include "IfcGloballyUniqueId.h"
 class IFCPP_EXPORT IfcOwnerHistory;
 class IFCPP_EXPORT IfcLabel;
 class IFCPP_EXPORT IfcText;

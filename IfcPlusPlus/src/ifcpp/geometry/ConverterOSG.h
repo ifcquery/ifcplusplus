@@ -481,10 +481,9 @@ public:
 			const osg::Geode* child_geode = dynamic_cast<const osg::Geode*>( node );
 			if( child_geode )
 			{
-				const osg::Geode::DrawableList& drawable_list = child_geode->getDrawableList();
-				for( auto it_drawables = drawable_list.begin(); it_drawables != drawable_list.end(); ++it_drawables )
+				for( size_t i_drawable = 0; i_drawable < child_geode->getNumDrawables(); ++i_drawable )
 				{
-					osg::Drawable* drawable = ( *it_drawables );
+					const osg::Drawable* drawable = child_geode->getDrawable(i_drawable);
 					const osg::Geometry* child_gemetry = dynamic_cast<const osg::Geometry*>( drawable );
 					if( !child_gemetry )
 					{

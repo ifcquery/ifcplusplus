@@ -17,11 +17,12 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <ifcpp/model/IfcPPGlobal.h>
 #include <ifcpp/model/shared_ptr.h>
 
 class IfcPPObject;
 
-std::string encodeStepString( std::wstring arg_str );
+IFCPP_EXPORT std::string encodeStepString( std::wstring arg_str );
 
 template<typename T>
 void writeNumericList( std::stringstream& stream, const std::vector<T>& vec )

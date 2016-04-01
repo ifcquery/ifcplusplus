@@ -16,8 +16,10 @@
 #include <string>
 #include <sstream>
 #include "ifcpp/model/IfcPPModel.h"
-
 #include "ifcpp/writer/IfcPPWriterXML.h"
+
+IfcPPWriterXML::IfcPPWriterXML(){}
+IfcPPWriterXML::~IfcPPWriterXML() {}
 
 void IfcPPWriterXML::writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {

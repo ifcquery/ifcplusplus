@@ -20,7 +20,7 @@
 class IfcPPObject;
 class IfcPPModel;
 
-class IfcPPWriter : public StatusCallback
+class IFCPP_EXPORT IfcPPWriter : public StatusCallback
 {
 public:
 	IfcPPWriter(){}

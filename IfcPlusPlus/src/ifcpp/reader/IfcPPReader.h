@@ -20,7 +20,7 @@
 #include "ifcpp/model/IfcPPModel.h"
 #include "ifcpp/model/StatusCallback.h"
 
-class IfcPPReader : public StatusCallback
+class IFCPP_EXPORT IfcPPReader : public StatusCallback
 {
 public:
 	IfcPPReader();

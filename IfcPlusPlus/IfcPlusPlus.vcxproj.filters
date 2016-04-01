@@ -3525,6 +3525,9 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcZShapeProfileDef.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcpp\model\IfcPPAttributeObject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcpp\model\IfcPPException.h">

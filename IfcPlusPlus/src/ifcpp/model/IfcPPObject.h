@@ -13,6 +13,8 @@
 
 #pragma once
 
+#pragma warning ( disable: 4996 )  // for boost\random\detail\polynomial.hpp
+
 #include <sstream>
 #include <vector>
 #include <map>
