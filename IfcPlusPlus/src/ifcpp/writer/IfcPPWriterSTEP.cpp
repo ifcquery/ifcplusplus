@@ -41,7 +41,10 @@ void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<
 	
 	const std::wstring& file_header_wstr = model->getFileHeader();
 	std::string file_header_str = encodeStepString( file_header_wstr );
+	stream << "ISO-10303-21;\n";
+	stream << "HEADER;";
 	stream << file_header_str.c_str();
+	stream << "ENDSEC;\n";
 	stream << "DATA;\n";
 	stream << std::setprecision( 15 );
 	stream << std::setiosflags( std::ios::showpoint );
