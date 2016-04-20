@@ -63,7 +63,24 @@ void IfcPostalAddress::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_InternalLocation ) { m_InternalLocation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_AddressLines );
+	stream << "(";
+	for( size_t ii = 0; ii < m_AddressLines.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcLabel>& type_object = m_AddressLines[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_PostalBox ) { m_PostalBox->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

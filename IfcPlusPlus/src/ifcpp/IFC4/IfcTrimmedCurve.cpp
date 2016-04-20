@@ -59,9 +59,43 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCTRIMMEDCURVE" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_Trim1, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Trim1.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcTrimmingSelect>& type_object = m_Trim1[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
-	writeTypeList( stream, m_Trim2, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Trim2.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcTrimmingSelect>& type_object = m_Trim2[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_SenseAgreement == false ) { stream << ".F."; }
 	else if( m_SenseAgreement == true ) { stream << ".T."; }

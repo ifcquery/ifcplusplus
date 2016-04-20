@@ -44,7 +44,24 @@ shared_ptr<IfcPPObject> IfcMaterialClassificationRelationship::getDeepCopy( IfcP
 void IfcMaterialClassificationRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCMATERIALCLASSIFICATIONRELATIONSHIP" << "(";
-	writeTypeList( stream, m_MaterialClassifications, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_MaterialClassifications.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcClassificationSelect>& type_object = m_MaterialClassifications[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_ClassifiedMaterial ) { stream << "#" << m_ClassifiedMaterial->m_id; } else { stream << "$"; }
 	stream << ");";

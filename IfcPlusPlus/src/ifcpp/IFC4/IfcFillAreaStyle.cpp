@@ -47,7 +47,24 @@ void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCFILLAREASTYLE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_FillStyles, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_FillStyles.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcFillStyleSelect>& type_object = m_FillStyles[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_ModelorDraughting == false ) { stream << ".F."; }
 	else if( m_ModelorDraughting == true ) { stream << ".T."; }

@@ -37,8 +37,8 @@ public:
 		public:
 			IfcPPSchemaVersion()
 			{
-				m_IFC_FILE_SCHEMA = L"";
-				m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
+				m_IFC_FILE_SCHEMA = L"IFC4";
+				m_ifc_file_schema_enum = IfcPPModel::IFC4;
 			}
 			IfcPPSchemaVersion(std::wstring schema_str, IfcPPVersionEnum schema_enum)
 				: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)
@@ -66,7 +66,6 @@ public:
 	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
 	const std::wstring& getFileName() { return m_IFC_FILE_NAME; }
 
-	void setIfcSchemaVersion( IfcPPSchemaVersion& ver );
 	void setFileHeader( std::wstring header );
 	void setFileDescription( std::wstring schema );
 	void setFileName( std::wstring schema );
@@ -87,10 +86,11 @@ public:
 	friend class IfcPPReaderXML;
 
 private:
-	boost::unordered_map<int, shared_ptr<IfcPPEntity> >	m_map_entities;
+	boost::unordered_map<int, shared_ptr<IfcPPEntity> >			m_map_entities;
 	shared_ptr<IfcProject>										m_ifc_project;
 	shared_ptr<IfcGeometricRepresentationContext>				m_geom_context_3d;
 	shared_ptr<UnitConverter>									m_unit_converter;
+	std::string													m_file_name;
 	std::wstring												m_file_header;
 	std::wstring												m_IFC_FILE_DESCRIPTION;
 	std::wstring												m_IFC_FILE_NAME;

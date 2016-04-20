@@ -42,7 +42,24 @@ shared_ptr<IfcPPObject> IfcTimeSeriesValue::getDeepCopy( IfcPPCopyOptions& optio
 void IfcTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCTIMESERIESVALUE" << "(";
-	writeTypeList( stream, m_ListValues, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_ListValues.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcValue>& type_object = m_ListValues[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcTimeSeriesValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

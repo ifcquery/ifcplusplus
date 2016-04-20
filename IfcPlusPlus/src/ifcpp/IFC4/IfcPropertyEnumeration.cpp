@@ -49,7 +49,24 @@ void IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCPROPERTYENUMERATION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_EnumerationValues, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_EnumerationValues.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcValue>& type_object = m_EnumerationValues[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";

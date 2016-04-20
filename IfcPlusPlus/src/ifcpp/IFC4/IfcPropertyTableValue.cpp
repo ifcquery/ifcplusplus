@@ -68,9 +68,43 @@ void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_DefiningValues, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_DefiningValues.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcValue>& type_object = m_DefiningValues[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
-	writeTypeList( stream, m_DefinedValues, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_DefinedValues.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcValue>& type_object = m_DefinedValues[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

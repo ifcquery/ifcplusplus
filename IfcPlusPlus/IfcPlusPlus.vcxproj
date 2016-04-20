@@ -74,11 +74,11 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -237,16 +237,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>src;../Carve/src/include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;IFCPP_OPENMP;CARVE_SYSTEM_BOOST;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;IFCPP_OPENMP;CARVE_SYSTEM_BOOST;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -1472,9 +1473,6 @@
     <ClCompile Include="src\ifcpp\reader\IfcPPReaderXML.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp" />
     <ClCompile Include="src\ifcpp\writer\IfcPPWriterSTEP.cpp" />
-    <ClCompile Include="src\ifcpp\writer\IfcPPWriterXML.cpp" />
-    <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp" />
-    <ClCompile Include="src\ifcpp\xml\XmlTools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcpp\geometry\ConverterOSG.h" />
@@ -2679,7 +2677,6 @@
     <ClInclude Include="src\ifcpp\writer\IfcPPWriterSTEP.h" />
     <ClInclude Include="src\ifcpp\writer\IfcPPWriterXML.h" />
     <ClInclude Include="src\ifcpp\writer\WriterUtil.h" />
-    <ClInclude Include="src\ifcpp\xml\XmlTools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

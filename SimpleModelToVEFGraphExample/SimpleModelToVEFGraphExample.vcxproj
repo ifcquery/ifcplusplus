@@ -121,7 +121,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Carved.lib;IfcPlusPlusd.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgQtd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;freetype253_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Carve\bin;..\IfcPlusPlus\bin;$(OSG_DIR)\lib;$(OSG_DIR)\..\freetype\2.5.3\objs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Carve\bin;..\IfcPlusPlus\bin;$(OSG_DIR)\lib;$(FREETYPE_DIR)\objs\vc2010\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -171,8 +171,8 @@
       </EnableCOMDATFolding>
       <OptimizeReferences>
       </OptimizeReferences>
-      <AdditionalLibraryDirectories>.\..\Carve\bin;.\..\IfcPlusPlus\bin;$(OSG_DIR)\lib;$(OSG_DIR)\..\freetype\2.5.3\objs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgViewer.lib;osgText.lib;osgFx.lib;freetype253.lib;IfcPlusPlus.lib;Carve.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\..\Carve\bin;.\..\IfcPlusPlus\bin;$(OSG_DIR)\lib;$(FREETYPE_DIR)\objs\vc2010\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgViewer.lib;osgText.lib;osgFx.lib;freetype262.lib;IfcPlusPlus.lib;Carve.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

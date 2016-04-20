@@ -61,7 +61,24 @@ void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_id; } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_Parameter );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Parameter.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcIdentifier>& type_object = m_Parameter[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_URLReference ) { m_URLReference->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

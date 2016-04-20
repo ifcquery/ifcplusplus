@@ -52,7 +52,24 @@ void IfcResourceApprovalRelationship::getStepLine( std::stringstream& stream ) c
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_RelatedResourceObjects, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_RelatedResourceObjects.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcResourceObjectSelect>& type_object = m_RelatedResourceObjects[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->m_id; } else { stream << "$"; }
 	stream << ");";

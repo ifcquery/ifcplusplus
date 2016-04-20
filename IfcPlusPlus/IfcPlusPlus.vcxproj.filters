@@ -24,12 +24,6 @@
     <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcpp\xml\XmlTools.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcpp\IfcPPEntityBroker.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -49,9 +43,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\ifcpp\writer\IfcPPWriterSTEP.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ifcpp\writer\IfcPPWriterXML.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\ifcpp\IFC4\IfcAbsorbedDoseMeasure.cpp">
@@ -3552,9 +3543,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\writer\WriterUtil.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\xml\XmlTools.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\IfcPPEntities.h">

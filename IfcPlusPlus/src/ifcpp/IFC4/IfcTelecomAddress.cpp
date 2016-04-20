@@ -82,17 +82,85 @@ void IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_TelephoneNumbers );
+	stream << "(";
+	for( size_t ii = 0; ii < m_TelephoneNumbers.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcLabel>& type_object = m_TelephoneNumbers[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
-	writeTypeList( stream, m_FacsimileNumbers );
+	stream << "(";
+	for( size_t ii = 0; ii < m_FacsimileNumbers.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcLabel>& type_object = m_FacsimileNumbers[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_PagerNumber ) { m_PagerNumber->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_ElectronicMailAddresses );
+	stream << "(";
+	for( size_t ii = 0; ii < m_ElectronicMailAddresses.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcLabel>& type_object = m_ElectronicMailAddresses[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_WWWHomePageURL ) { m_WWWHomePageURL->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_MessagingIDs );
+	stream << "(";
+	for( size_t ii = 0; ii < m_MessagingIDs.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcURIReference>& type_object = m_MessagingIDs[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -54,7 +54,24 @@ void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCTEXTSTYLEFONTMODEL" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_FontFamily );
+	stream << "(";
+	for( size_t ii = 0; ii < m_FontFamily.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcTextFontName>& type_object = m_FontFamily[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_FontStyle ) { m_FontStyle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

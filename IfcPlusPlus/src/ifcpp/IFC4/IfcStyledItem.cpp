@@ -49,7 +49,24 @@ void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCSTYLEDITEM" << "(";
 	if( m_Item ) { stream << "#" << m_Item->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_Styles, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Styles.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcStyleAssignmentSelect>& type_object = m_Styles[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

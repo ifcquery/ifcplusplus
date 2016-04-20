@@ -44,7 +44,24 @@ shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy( IfcPPCopyOptions& options )
 void IfcTableRow::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCTABLEROW" << "(";
-	writeTypeList( stream, m_RowCells, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_RowCells.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcValue>& type_object = m_RowCells[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_IsHeading == false ) { stream << ".F."; }
 	else if( m_IsHeading == true ) { stream << ".T."; }

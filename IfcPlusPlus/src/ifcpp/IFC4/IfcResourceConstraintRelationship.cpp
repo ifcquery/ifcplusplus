@@ -54,7 +54,24 @@ void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream )
 	stream << ",";
 	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_RelatedResourceObjects, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_RelatedResourceObjects.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcResourceObjectSelect>& type_object = m_RelatedResourceObjects[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
