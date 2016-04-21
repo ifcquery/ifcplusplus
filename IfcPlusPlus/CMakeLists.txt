@@ -40,7 +40,6 @@ SET(IFCPP_SOURCE_FILES
   src/ifcpp/reader/IfcPPReaderXML.cpp
   src/ifcpp/reader/ReaderUtil.cpp
   src/ifcpp/writer/IfcPPWriterSTEP.cpp
-  src/ifcpp/xml/XmlTools.cpp
 
   ${ifc4_source}
 )
