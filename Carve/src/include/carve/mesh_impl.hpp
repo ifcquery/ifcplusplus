@@ -1,18 +1,26 @@
-// Begin License:
-// Copyright (C) 2006-2011 Tobias Sargeant (tobias.sargeant@gmail.com).
-// All rights reserved.
+// Copyright 2006-2015 Tobias Sargeant (tobias.sargeant@gmail.com).
 //
 // This file is part of the Carve CSG Library (http://carve-csg.com/)
 //
-// This file may be used under the terms of the GNU General Public
-// License version 2.0 as published by the Free Software Foundation
-// and appearing in the file LICENSE.GPL2 included in the packaging of
-// this file.
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
-// INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE.
-// End:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 
 #pragma once
@@ -1043,12 +1051,12 @@ namespace carve {
 
       for (size_t i = 0; i != N; ++i) {
         vout.push_back(*vptr[i]);
-        vmap[vptr[i] - &vertex_storage[0]] = &vout[i];
+        vmap[(size_t)(vptr[i] - &vertex_storage[0])] = &vout[i];
       }
 
       for (face_iter i = faceBegin(); i != faceEnd(); ++i) {
         for (typename face_t::edge_iter_t j = (*i)->begin(); j != (*i)->end(); ++j) {
-          (*j).vert = vmap[(*j).vert - &vertex_storage[0]];
+          (*j).vert = vmap[(size_t)((*j).vert - &vertex_storage[0])];
         }
         (*i)->canonicalize();
       }

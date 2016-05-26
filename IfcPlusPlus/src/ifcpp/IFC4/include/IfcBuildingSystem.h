@@ -20,6 +20,7 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSystem.h"
 class IFCPP_EXPORT IfcBuildingSystemTypeEnum;
+class IFCPP_EXPORT IfcLabel;
 //ENTITY
 class IFCPP_EXPORT IfcBuildingSystem : public IfcSystem
 { 
@@ -75,5 +76,6 @@ public:
 	// IfcBuildingSystem -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcBuildingSystemTypeEnum>				m_PredefinedType;			//optional
+	shared_ptr<IfcLabel>								m_LongName;					//optional
 };
 

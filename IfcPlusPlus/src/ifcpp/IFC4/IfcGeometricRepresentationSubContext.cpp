@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcAxis2Placement.h"
+#include "include/IfcCoordinateOperation.h"
 #include "include/IfcDimensionCount.h"
 #include "include/IfcDirection.h"
 #include "include/IfcGeometricProjectionEnum.h"
@@ -27,6 +28,7 @@
 #include "include/IfcGeometricRepresentationSubContext.h"
 #include "include/IfcLabel.h"
 #include "include/IfcPositiveRatioMeasure.h"
+#include "include/IfcReal.h"
 #include "include/IfcRepresentation.h"
 
 // ENTITY IfcGeometricRepresentationSubContext 
@@ -39,7 +41,7 @@ shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy( IfcPP
 	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
 	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy(options) ); }
 	if( m_CoordinateSpaceDimension ) { copy_self->m_CoordinateSpaceDimension = dynamic_pointer_cast<IfcDimensionCount>( m_CoordinateSpaceDimension->getDeepCopy(options) ); }
-	if( m_Precision ) { copy_self->m_Precision = m_Precision; }
+	if( m_Precision ) { copy_self->m_Precision = dynamic_pointer_cast<IfcReal>( m_Precision->getDeepCopy(options) ); }
 	if( m_WorldCoordinateSystem ) { copy_self->m_WorldCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement>( m_WorldCoordinateSystem->getDeepCopy(options) ); }
 	if( m_TrueNorth ) { copy_self->m_TrueNorth = dynamic_pointer_cast<IfcDirection>( m_TrueNorth->getDeepCopy(options) ); }
 	if( m_ParentContext ) { copy_self->m_ParentContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_ParentContext->getDeepCopy(options) ); }
@@ -57,7 +59,7 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	stream << ",";
 	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Precision ){ stream << m_Precision.get(); } else { stream << "*"; }
+	if( m_Precision ) { m_Precision->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
@@ -80,7 +82,7 @@ void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0] );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1] );
 	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromSTEP( args[2] );
-	readRealValue( args[3], m_Precision );
+	m_Precision = IfcReal::createObjectFromSTEP( args[3] );
 	m_WorldCoordinateSystem = IfcAxis2Placement::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_TrueNorth, map );
 	readEntityReference( args[6], m_ParentContext, map );

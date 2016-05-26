@@ -15,12 +15,13 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcProcess.h"
 class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcBoolean;
+class IFCPP_EXPORT IfcInteger;
 class IFCPP_EXPORT IfcTaskTime;
 class IFCPP_EXPORT IfcTaskTypeEnum;
 //ENTITY
@@ -80,8 +81,8 @@ public:
 	// attributes:
 	shared_ptr<IfcLabel>								m_Status;					//optional
 	shared_ptr<IfcLabel>								m_WorkMethod;				//optional
-	bool												m_IsMilestone;
-	boost::optional<int>								m_Priority;					//optional
+	shared_ptr<IfcBoolean>								m_IsMilestone;
+	shared_ptr<IfcInteger>								m_Priority;					//optional
 	shared_ptr<IfcTaskTime>								m_TaskTime;					//optional
 	shared_ptr<IfcTaskTypeEnum>							m_PredefinedType;			//optional
 };

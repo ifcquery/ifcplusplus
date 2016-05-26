@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcCoordinateOperation.h"
 #include "include/IfcIdentifier.h"
 #include "include/IfcLabel.h"
 #include "include/IfcNamedUnit.h"

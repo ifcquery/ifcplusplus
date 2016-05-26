@@ -21,6 +21,7 @@
 #include "IfcTypeProduct.h"
 class IFCPP_EXPORT IfcDoorStyleOperationEnum;
 class IFCPP_EXPORT IfcDoorStyleConstructionEnum;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcDoorStyle : public IfcTypeProduct
 { 
@@ -74,7 +75,7 @@ public:
 	// attributes:
 	shared_ptr<IfcDoorStyleOperationEnum>				m_OperationType;
 	shared_ptr<IfcDoorStyleConstructionEnum>			m_ConstructionType;
-	bool												m_ParameterTakesPrecedence;
-	bool												m_Sizeable;
+	shared_ptr<IfcBoolean>								m_ParameterTakesPrecedence;
+	shared_ptr<IfcBoolean>								m_Sizeable;
 };
 

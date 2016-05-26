@@ -19,8 +19,10 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundedCurve.h"
+class IFCPP_EXPORT IfcInteger;
 class IFCPP_EXPORT IfcCartesianPoint;
 class IFCPP_EXPORT IfcBSplineCurveForm;
+class IFCPP_EXPORT IfcLogical;
 //ENTITY
 class IFCPP_EXPORT IfcBSplineCurve : public IfcBoundedCurve
 { 
@@ -52,10 +54,10 @@ public:
 
 	// IfcBSplineCurve -----------------------------------------------------------
 	// attributes:
-	int														m_Degree;
+	shared_ptr<IfcInteger>									m_Degree;
 	std::vector<shared_ptr<IfcCartesianPoint> >				m_ControlPointsList;
 	shared_ptr<IfcBSplineCurveForm>							m_CurveForm;
-	LogicalEnum												m_ClosedCurve;
-	LogicalEnum												m_SelfIntersect;
+	shared_ptr<IfcLogical>									m_ClosedCurve;
+	shared_ptr<IfcLogical>									m_SelfIntersect;
 };
 

@@ -49,7 +49,7 @@ void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCSURFACESTYLERENDERING" << "(";
 	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DiffuseColour ) { m_DiffuseColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
@@ -84,7 +84,6 @@ void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring
 void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcSurfaceStyleShading::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Transparency", m_Transparency ) );
 	vec_attributes.push_back( std::make_pair( "DiffuseColour", m_DiffuseColour ) );
 	vec_attributes.push_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
 	vec_attributes.push_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );

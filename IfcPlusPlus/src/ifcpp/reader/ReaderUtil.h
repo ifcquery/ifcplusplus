@@ -44,7 +44,8 @@ void readIntList3D( const std::wstring& str, std::vector<std::vector<std::vector
 void readRealList( const std::wstring& str, std::vector<double>& vec );
 void readRealList2D( const std::wstring& str, std::vector<std::vector<double> >& vec );
 void readRealList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec );
-void readBinaryList( const std::wstring& str, std::vector<const char*>& vec );
+void readBinary( const std::wstring& str, std::wstring& target );
+void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec );
 void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
 void checkOpeningClosingParenthesis( const wchar_t* ch_check );
@@ -172,11 +173,6 @@ inline void readString( const std::wstring& attribute_value, std::wstring& targe
 	{
 		target = attribute_value.substr( 1, attribute_value.size()-2 ).c_str();
 	}
-}
-
-inline void readBinary( const char* attribute_value, const char* target )
-{
-	target = attribute_value;
 }
 
 template<typename T>

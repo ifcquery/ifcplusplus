@@ -21,6 +21,7 @@
 #include "IfcSurfaceStyleElementSelect.h"
 #include "IfcPresentationItem.h"
 class IFCPP_EXPORT IfcColourRgb;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
 //ENTITY
 class IFCPP_EXPORT IfcSurfaceStyleShading : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
 { 
@@ -43,6 +44,7 @@ public:
 
 	// IfcSurfaceStyleShading -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcColourRgb>	m_SurfaceColour;
+	shared_ptr<IfcColourRgb>				m_SurfaceColour;
+	shared_ptr<IfcNormalisedRatioMeasure>	m_Transparency;				//optional
 };
 

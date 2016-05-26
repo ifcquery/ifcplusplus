@@ -21,7 +21,8 @@
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcColourRgbList.h"
 #include "include/IfcIndexedColourMap.h"
-#include "include/IfcSurfaceStyleShading.h"
+#include "include/IfcNormalisedRatioMeasure.h"
+#include "include/IfcPositiveInteger.h"
 #include "include/IfcTessellatedFaceSet.h"
 
 // ENTITY IfcIndexedColourMap 
@@ -32,9 +33,16 @@ shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy( IfcPPCopyOptions& opti
 {
 	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
-	if( m_Overrides ) { copy_self->m_Overrides = dynamic_pointer_cast<IfcSurfaceStyleShading>( m_Overrides->getDeepCopy(options) ); }
+	if( m_Opacity ) { copy_self->m_Opacity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Opacity->getDeepCopy(options) ); }
 	if( m_Colours ) { copy_self->m_Colours = dynamic_pointer_cast<IfcColourRgbList>( m_Colours->getDeepCopy(options) ); }
-	if( m_ColourIndex.size() > 0 ) { std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( copy_self->m_ColourIndex ) ); }
+	for( size_t ii=0; ii<m_ColourIndex.size(); ++ii )
+	{
+		auto item_ii = m_ColourIndex[ii];
+		if( item_ii )
+		{
+			copy_self->m_ColourIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
+		}
+	}
 	return copy_self;
 }
 void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
@@ -42,11 +50,28 @@ void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCINDEXEDCOLOURMAP" << "(";
 	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Overrides ) { stream << "#" << m_Overrides->m_id; } else { stream << "$"; }
+	if( m_Opacity ) { m_Opacity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Colours ) { stream << "#" << m_Colours->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeNumericList( stream, m_ColourIndex );
+	stream << "(";
+	for( size_t ii = 0; ii < m_ColourIndex.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcPositiveInteger>& type_object = m_ColourIndex[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -55,24 +80,21 @@ void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& ar
 	const int num_args = (int)args.size();
 	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_MappedTo, map );
-	readEntityReference( args[1], m_Overrides, map );
+	m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Colours, map );
-	readIntList(  args[3], m_ColourIndex );
+	readSelectList( args[3], m_ColourIndex, map );
 }
 void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
-	vec_attributes.push_back( std::make_pair( "Overrides", m_Overrides ) );
+	vec_attributes.push_back( std::make_pair( "Opacity", m_Opacity ) );
 	vec_attributes.push_back( std::make_pair( "Colours", m_Colours ) );
 	if( m_ColourIndex.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_obj( new IfcPPAttributeObjectVector() );
-		for( size_t i=0; i<m_ColourIndex.size(); ++i )
-		{
-			ColourIndex_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_ColourIndex[i] ) ) );
-		}
-		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_obj ) );
+		shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( ColourIndex_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
 	}
 }
 void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

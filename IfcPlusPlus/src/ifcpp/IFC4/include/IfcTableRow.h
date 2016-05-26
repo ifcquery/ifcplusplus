@@ -15,12 +15,11 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 class IFCPP_EXPORT IfcValue;
-class IFCPP_EXPORT IfcTable;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcTableRow : public IfcPPEntity
 { 
@@ -42,8 +41,6 @@ public:
 	// IfcTableRow -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcValue> >	m_RowCells;					//optional
-	boost::optional<bool>				m_IsHeading;				//optional
-	// inverse attributes:
-	weak_ptr<IfcTable>					m_OfTable_inverse;
+	shared_ptr<IfcBoolean>				m_IsHeading;				//optional
 };
 

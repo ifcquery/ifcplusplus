@@ -21,6 +21,7 @@
 #include "IfcCurveOrEdgeCurve.h"
 #include "IfcEdge.h"
 class IFCPP_EXPORT IfcCurve;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcEdgeCurve : virtual public IfcCurveOrEdgeCurve, public IfcEdge
 { 
@@ -54,6 +55,6 @@ public:
 	// IfcEdgeCurve -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcCurve>									m_EdgeGeometry;
-	bool													m_SameSense;
+	shared_ptr<IfcBoolean>									m_SameSense;
 };
 

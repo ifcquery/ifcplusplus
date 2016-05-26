@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcAxis2Placement3D.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcBoundedCurve.h"
 #include "include/IfcPolygonalBoundedHalfSpace.h"
 #include "include/IfcPresentationLayerAssignment.h"
@@ -34,7 +35,7 @@ shared_ptr<IfcPPObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( IfcPPCopyOpti
 {
 	shared_ptr<IfcPolygonalBoundedHalfSpace> copy_self( new IfcPolygonalBoundedHalfSpace() );
 	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy(options) ); }
-	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = m_AgreementFlag; }
+	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = dynamic_pointer_cast<IfcBoolean>( m_AgreementFlag->getDeepCopy(options) ); }
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
 	if( m_PolygonalBoundary ) { copy_self->m_PolygonalBoundary = dynamic_pointer_cast<IfcBoundedCurve>( m_PolygonalBoundary->getDeepCopy(options) ); }
 	return copy_self;
@@ -44,8 +45,7 @@ void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) cons
 	stream << "#" << m_id << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
 	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_AgreementFlag == false ) { stream << ".F."; }
-	else if( m_AgreementFlag == true ) { stream << ".T."; }
+	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
 	stream << ",";
@@ -58,8 +58,7 @@ void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wst
 	const int num_args = (int)args.size();
 	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
-	if( boost::iequals( args[1], L".F." ) ) { m_AgreementFlag = false; }
-	else if( boost::iequals( args[1], L".T." ) ) { m_AgreementFlag = true; }
+	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Position, map );
 	readEntityReference( args[3], m_PolygonalBoundary, map );
 }

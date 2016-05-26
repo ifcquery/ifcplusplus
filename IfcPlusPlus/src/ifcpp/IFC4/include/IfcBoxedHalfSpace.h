@@ -48,7 +48,7 @@ public:
 	// IfcHalfSpaceSolid -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcSurface>									m_BaseSurface;
-	//  bool													m_AgreementFlag;
+	//  shared_ptr<IfcBoolean>									m_AgreementFlag;
 
 	// IfcBoxedHalfSpace -----------------------------------------------------------
 	// attributes:

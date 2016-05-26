@@ -26,6 +26,8 @@
 #include "include/IfcPropertyEnumeratedValue.h"
 #include "include/IfcPropertyEnumeration.h"
 #include "include/IfcPropertySet.h"
+#include "include/IfcResourceApprovalRelationship.h"
+#include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcText.h"
 #include "include/IfcValue.h"
 

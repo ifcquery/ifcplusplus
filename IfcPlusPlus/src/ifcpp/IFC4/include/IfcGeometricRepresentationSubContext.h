@@ -51,11 +51,12 @@ public:
 	// IfcGeometricRepresentationContext -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcDimensionCount>									m_CoordinateSpaceDimension;
-	//  boost::optional<double>											m_Precision;				//optional
+	//  shared_ptr<IfcReal>												m_Precision;				//optional
 	//  shared_ptr<IfcAxis2Placement>									m_WorldCoordinateSystem;
 	//  shared_ptr<IfcDirection>										m_TrueNorth;				//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >	m_HasSubContexts_inverse;
+	//  std::vector<weak_ptr<IfcCoordinateOperation> >					m_HasCoordinateOperation_inverse;
 
 	// IfcGeometricRepresentationSubContext -----------------------------------------------------------
 	// attributes:

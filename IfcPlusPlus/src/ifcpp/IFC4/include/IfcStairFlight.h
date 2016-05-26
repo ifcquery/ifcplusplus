@@ -15,11 +15,11 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElement.h"
+class IFCPP_EXPORT IfcInteger;
 class IFCPP_EXPORT IfcPositiveLengthMeasure;
 class IFCPP_EXPORT IfcStairFlightTypeEnum;
 //ENTITY
@@ -88,15 +88,14 @@ public:
 	//  std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_ProvidesBoundaries_inverse;
 	//  std::vector<weak_ptr<IfcRelConnectsElements> >				m_ConnectedFrom_inverse;
 	//  std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
+	//  std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_HasCoverings_inverse;
 
 	// IfcBuildingElement -----------------------------------------------------------
-	// inverse attributes:
-	//  std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_HasCoverings_inverse;
 
 	// IfcStairFlight -----------------------------------------------------------
 	// attributes:
-	boost::optional<int>										m_NumberOfRiser;			//optional
-	boost::optional<int>										m_NumberOfTreads;			//optional
+	shared_ptr<IfcInteger>										m_NumberOfRisers;			//optional
+	shared_ptr<IfcInteger>										m_NumberOfTreads;			//optional
 	shared_ptr<IfcPositiveLengthMeasure>						m_RiserHeight;				//optional
 	shared_ptr<IfcPositiveLengthMeasure>						m_TreadLength;				//optional
 	shared_ptr<IfcStairFlightTypeEnum>							m_PredefinedType;			//optional

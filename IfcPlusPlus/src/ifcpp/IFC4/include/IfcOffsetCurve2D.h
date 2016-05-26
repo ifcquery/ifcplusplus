@@ -21,6 +21,7 @@
 #include "IfcCurve.h"
 class IFCPP_EXPORT IfcCurve;
 class IFCPP_EXPORT IfcLengthMeasure;
+class IFCPP_EXPORT IfcLogical;
 //ENTITY
 class IFCPP_EXPORT IfcOffsetCurve2D : public IfcCurve
 { 
@@ -52,6 +53,6 @@ public:
 	// attributes:
 	shared_ptr<IfcCurve>									m_BasisCurve;
 	shared_ptr<IfcLengthMeasure>							m_Distance;
-	LogicalEnum												m_SelfIntersect;
+	shared_ptr<IfcLogical>									m_SelfIntersect;
 };
 

@@ -20,6 +20,7 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcEdge.h"
 class IFCPP_EXPORT IfcEdge;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcOrientedEdge : public IfcEdge
 { 
@@ -53,6 +54,6 @@ public:
 	// IfcOrientedEdge -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcEdge>										m_EdgeElement;
-	bool													m_Orientation;
+	shared_ptr<IfcBoolean>									m_Orientation;
 };
 

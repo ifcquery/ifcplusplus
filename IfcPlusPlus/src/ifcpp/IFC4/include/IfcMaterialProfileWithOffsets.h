@@ -50,7 +50,7 @@ public:
 	//  shared_ptr<IfcText>											m_Description;				//optional
 	//  shared_ptr<IfcMaterial>										m_Material;					//optional
 	//  shared_ptr<IfcProfileDef>									m_Profile;
-	//  shared_ptr<IfcNormalisedRatioMeasure>						m_Priority;					//optional
+	//  shared_ptr<IfcInteger>										m_Priority;					//optional
 	//  shared_ptr<IfcLabel>										m_Category;					//optional
 	// inverse attributes:
 	//  weak_ptr<IfcMaterialProfileSet>								m_ToMaterialProfileSet_inverse;

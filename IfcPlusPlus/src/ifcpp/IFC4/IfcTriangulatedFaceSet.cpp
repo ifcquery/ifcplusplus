@@ -19,10 +19,12 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcCartesianPointList3D.h"
 #include "include/IfcIndexedColourMap.h"
 #include "include/IfcIndexedTextureMap.h"
 #include "include/IfcParameterValue.h"
+#include "include/IfcPositiveInteger.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcStyledItem.h"
 #include "include/IfcTriangulatedFaceSet.h"
@@ -49,21 +51,33 @@ shared_ptr<IfcPPObject> IfcTriangulatedFaceSet::getDeepCopy( IfcPPCopyOptions& o
 			}
 		}
 	}
-	if( m_Closed ) { copy_self->m_Closed = m_Closed; }
-	if( m_CoordIndex.size() > 0 )
+	if( m_Closed ) { copy_self->m_Closed = dynamic_pointer_cast<IfcBoolean>( m_Closed->getDeepCopy(options) ); }
+	copy_self->m_CoordIndex.resize( m_CoordIndex.size() );
+	for( size_t ii=0; ii<m_CoordIndex.size(); ++ii )
 	{
-		copy_self->m_CoordIndex.resize( m_CoordIndex.size() );
-		for( size_t i = 0; i < m_CoordIndex.size(); ++i )
+		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_CoordIndex[ii];
+		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_CoordIndex[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
 		{
-			std::copy( m_CoordIndex[i].begin(), m_CoordIndex[i].end(), std::back_inserter( copy_self->m_CoordIndex[i] ) );
+			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
+			}
 		}
 	}
-	if( m_NormalIndex.size() > 0 )
+	copy_self->m_NormalIndex.resize( m_NormalIndex.size() );
+	for( size_t ii=0; ii<m_NormalIndex.size(); ++ii )
 	{
-		copy_self->m_NormalIndex.resize( m_NormalIndex.size() );
-		for( size_t i = 0; i < m_NormalIndex.size(); ++i )
+		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_NormalIndex[ii];
+		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_NormalIndex[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
 		{
-			std::copy( m_NormalIndex[i].begin(), m_NormalIndex[i].end(), std::back_inserter( copy_self->m_NormalIndex[i] ) );
+			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
+			}
 		}
 	}
 	return copy_self;
@@ -75,12 +89,61 @@ void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeNumericTypeList2D( stream, m_Normals );
 	stream << ",";
-	if( m_Closed == false ) { stream << ".F."; }
-	else if( m_Closed == true ) { stream << ".T."; }
+	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeNumericList2D( stream, m_CoordIndex );
+	stream << "("; 
+	for( size_t ii = 0; ii < m_CoordIndex.size(); ++ii )
+	{
+		const std::vector<shared_ptr<IfcPositiveInteger> >&inner_vec = m_CoordIndex[ii];
+		if( ii > 0 )
+		{
+			stream << "), (";
+		}
+		for( size_t jj = 0; jj < inner_vec.size(); ++jj )
+		{
+			if( jj > 0 )
+			{
+				stream << ", ";
+			}
+			const shared_ptr<IfcPositiveInteger>& type_object = inner_vec[jj];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
+		}
+	}
+	stream << ")"; 
 	stream << ",";
-	writeNumericList2D( stream, m_NormalIndex );
+	stream << "("; 
+	for( size_t ii = 0; ii < m_NormalIndex.size(); ++ii )
+	{
+		const std::vector<shared_ptr<IfcPositiveInteger> >&inner_vec = m_NormalIndex[ii];
+		if( ii > 0 )
+		{
+			stream << "), (";
+		}
+		for( size_t jj = 0; jj < inner_vec.size(); ++jj )
+		{
+			if( jj > 0 )
+			{
+				stream << ", ";
+			}
+			const shared_ptr<IfcPositiveInteger>& type_object = inner_vec[jj];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
+		}
+	}
+	stream << ")"; 
 	stream << ");";
 }
 void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -90,10 +153,9 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>&
 	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
-	if( boost::iequals( args[2], L".F." ) ) { m_Closed = false; }
-	else if( boost::iequals( args[2], L".T." ) ) { m_Closed = true; }
-	readIntList2D(  args[3], m_CoordIndex );
-	readIntList2D(  args[4], m_NormalIndex );
+	m_Closed = IfcBoolean::createObjectFromSTEP( args[2] );
+	readEntityReferenceList2D( args[3], m_CoordIndex, map );
+	readEntityReferenceList2D( args[4], m_NormalIndex, map );
 }
 void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

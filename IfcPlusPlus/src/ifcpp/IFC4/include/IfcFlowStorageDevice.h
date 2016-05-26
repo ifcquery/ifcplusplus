@@ -85,6 +85,7 @@ public:
 	//  std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_ProvidesBoundaries_inverse;
 	//  std::vector<weak_ptr<IfcRelConnectsElements> >				m_ConnectedFrom_inverse;
 	//  std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
+	//  std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_HasCoverings_inverse;
 
 	// IfcDistributionElement -----------------------------------------------------------
 	// inverse attributes:

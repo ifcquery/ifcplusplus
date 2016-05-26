@@ -23,6 +23,7 @@
 #include "include/IfcConnectionTypeEnum.h"
 #include "include/IfcElement.h"
 #include "include/IfcGloballyUniqueId.h"
+#include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcOwnerHistory.h"
 #include "include/IfcRelConnectsPathElements.h"
@@ -50,8 +51,22 @@ shared_ptr<IfcPPObject> IfcRelConnectsPathElements::getDeepCopy( IfcPPCopyOption
 	if( m_ConnectionGeometry ) { copy_self->m_ConnectionGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionGeometry->getDeepCopy(options) ); }
 	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement->getDeepCopy(options) ); }
 	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement->getDeepCopy(options) ); }
-	if( m_RelatingPriorities.size() > 0 ) { std::copy( m_RelatingPriorities.begin(), m_RelatingPriorities.end(), std::back_inserter( copy_self->m_RelatingPriorities ) ); }
-	if( m_RelatedPriorities.size() > 0 ) { std::copy( m_RelatedPriorities.begin(), m_RelatedPriorities.end(), std::back_inserter( copy_self->m_RelatedPriorities ) ); }
+	for( size_t ii=0; ii<m_RelatingPriorities.size(); ++ii )
+	{
+		auto item_ii = m_RelatingPriorities[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatingPriorities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+		}
+	}
+	for( size_t ii=0; ii<m_RelatedPriorities.size(); ++ii )
+	{
+		auto item_ii = m_RelatedPriorities[ii];
+		if( item_ii )
+		{
+			copy_self->m_RelatedPriorities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+		}
+	}
 	if( m_RelatedConnectionType ) { copy_self->m_RelatedConnectionType = dynamic_pointer_cast<IfcConnectionTypeEnum>( m_RelatedConnectionType->getDeepCopy(options) ); }
 	if( m_RelatingConnectionType ) { copy_self->m_RelatingConnectionType = dynamic_pointer_cast<IfcConnectionTypeEnum>( m_RelatingConnectionType->getDeepCopy(options) ); }
 	return copy_self;
@@ -73,9 +88,9 @@ void IfcRelConnectsPathElements::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_id; } else { stream << "*"; }
 	stream << ",";
-	writeNumericList( stream, m_RelatingPriorities );
+	writeNumericTypeList( stream, m_RelatingPriorities );
 	stream << ",";
-	writeNumericList( stream, m_RelatedPriorities );
+	writeNumericTypeList( stream, m_RelatedPriorities );
 	stream << ",";
 	if( m_RelatedConnectionType ) { m_RelatedConnectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -94,8 +109,8 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 	readEntityReference( args[4], m_ConnectionGeometry, map );
 	readEntityReference( args[5], m_RelatingElement, map );
 	readEntityReference( args[6], m_RelatedElement, map );
-	readIntList(  args[7], m_RelatingPriorities );
-	readIntList(  args[8], m_RelatedPriorities );
+	readTypeOfIntList( args[7], m_RelatingPriorities );
+	readTypeOfIntList( args[8], m_RelatedPriorities );
 	m_RelatedConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[9] );
 	m_RelatingConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[10] );
 }
@@ -104,21 +119,15 @@ void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::strin
 	IfcRelConnectsElements::getAttributes( vec_attributes );
 	if( m_RelatingPriorities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatingPriorities_vec_obj( new IfcPPAttributeObjectVector() );
-		for( size_t i=0; i<m_RelatingPriorities.size(); ++i )
-		{
-			RelatingPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_RelatingPriorities[i] ) ) );
-		}
-		vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_obj ) );
+		shared_ptr<IfcPPAttributeObjectVector> RelatingPriorities_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatingPriorities.begin(), m_RelatingPriorities.end(), std::back_inserter( RelatingPriorities_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_object ) );
 	}
 	if( m_RelatedPriorities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedPriorities_vec_obj( new IfcPPAttributeObjectVector() );
-		for( size_t i=0; i<m_RelatedPriorities.size(); ++i )
-		{
-			RelatedPriorities_vec_obj->m_vec.push_back( shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute(m_RelatedPriorities[i] ) ) );
-		}
-		vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_obj ) );
+		shared_ptr<IfcPPAttributeObjectVector> RelatedPriorities_vec_object( new  IfcPPAttributeObjectVector() );
+		std::copy( m_RelatedPriorities.begin(), m_RelatedPriorities.end(), std::back_inserter( RelatedPriorities_vec_object->m_vec ) );
+		vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
 	vec_attributes.push_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );

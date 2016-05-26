@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcGloballyUniqueId.h"
 #include "include/IfcIdentifier.h"
 #include "include/IfcLabel.h"
@@ -77,7 +78,7 @@ shared_ptr<IfcPPObject> IfcWindowType::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy(options) ); }
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcWindowTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	if( m_PartitioningType ) { copy_self->m_PartitioningType = dynamic_pointer_cast<IfcWindowTypePartitioningEnum>( m_PartitioningType->getDeepCopy(options) ); }
-	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = m_ParameterTakesPrecedence; }
+	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = dynamic_pointer_cast<IfcBoolean>( m_ParameterTakesPrecedence->getDeepCopy(options) ); }
 	if( m_UserDefinedPartitioningType ) { copy_self->m_UserDefinedPartitioningType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPartitioningType->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -106,8 +107,7 @@ void IfcWindowType::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_PartitioningType ) { m_PartitioningType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ParameterTakesPrecedence == false ) { stream << ".F."; }
-	else if( m_ParameterTakesPrecedence == true ) { stream << ".T."; }
+	if( m_ParameterTakesPrecedence ) { m_ParameterTakesPrecedence->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_UserDefinedPartitioningType ) { m_UserDefinedPartitioningType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -128,8 +128,7 @@ void IfcWindowType::readStepArguments( const std::vector<std::wstring>& args, co
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8] );
 	m_PredefinedType = IfcWindowTypeEnum::createObjectFromSTEP( args[9] );
 	m_PartitioningType = IfcWindowTypePartitioningEnum::createObjectFromSTEP( args[10] );
-	if( boost::iequals( args[11], L".F." ) ) { m_ParameterTakesPrecedence = false; }
-	else if( boost::iequals( args[11], L".T." ) ) { m_ParameterTakesPrecedence = true; }
+	m_ParameterTakesPrecedence = IfcBoolean::createObjectFromSTEP( args[11] );
 	m_UserDefinedPartitioningType = IfcLabel::createObjectFromSTEP( args[12] );
 }
 void IfcWindowType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -137,14 +136,7 @@ void IfcWindowType::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	IfcBuildingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "PartitioningType", m_PartitioningType ) );
-	if( m_ParameterTakesPrecedence )
-	{
-		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedPartitioningType", m_UserDefinedPartitioningType ) );
 }
 void IfcWindowType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

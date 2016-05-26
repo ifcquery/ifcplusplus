@@ -20,6 +20,7 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcGeometricRepresentationItem.h"
 class IFCPP_EXPORT IfcTransitionCode;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcCurve;
 class IFCPP_EXPORT IfcCompositeCurve;
 //ENTITY
@@ -50,7 +51,7 @@ public:
 	// IfcCompositeCurveSegment -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcTransitionCode>							m_Transition;
-	bool													m_SameSense;
+	shared_ptr<IfcBoolean>									m_SameSense;
 	shared_ptr<IfcCurve>									m_ParentCurve;
 	// inverse attributes:
 	std::vector<weak_ptr<IfcCompositeCurve> >				m_UsingCurves_inverse;

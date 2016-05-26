@@ -1406,4 +1406,18 @@ namespace GeomUtils
 		}
 		return false;
 	}
+
+	template<typename T>
+	bool allPointersValid( const std::vector<shared_ptr<T> >& vec )
+	{
+		for( size_t ii = 0; ii < vec.size(); ++ii )
+		{
+			const shared_ptr<T>& ptr = vec[ii];
+			if( !ptr )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }

@@ -15,13 +15,13 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
 class IFCPP_EXPORT IfcWindowTypeEnum;
 class IFCPP_EXPORT IfcWindowTypePartitioningEnum;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcLabel;
 //ENTITY
 class IFCPP_EXPORT IfcWindowType : public IfcBuildingElementType
@@ -82,7 +82,7 @@ public:
 	// attributes:
 	shared_ptr<IfcWindowTypeEnum>						m_PredefinedType;
 	shared_ptr<IfcWindowTypePartitioningEnum>			m_PartitioningType;
-	boost::optional<bool>								m_ParameterTakesPrecedence;	//optional
+	shared_ptr<IfcBoolean>								m_ParameterTakesPrecedence;	//optional
 	shared_ptr<IfcLabel>								m_UserDefinedPartitioningType;	//optional
 };
 

@@ -795,7 +795,7 @@ public:
 						}
 					}
 
-					bool orientation = face_bound->m_Orientation;
+					bool orientation = face_bound->m_Orientation->m_value;
 					if( !orientation )
 					{
 						std::reverse( loop_points.begin(), loop_points.end() );
@@ -828,7 +828,7 @@ public:
 
 			if( loop_points.size() > 2 )
 			{
-				bool orientation = topo_face_bound->m_Orientation;
+				bool orientation = topo_face_bound->m_Orientation->m_value;
 				if( !orientation )
 				{
 					std::reverse( loop_points.begin(), loop_points.end() );

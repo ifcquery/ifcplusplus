@@ -25,6 +25,8 @@
 #include "include/IfcProperty.h"
 #include "include/IfcPropertyDependencyRelationship.h"
 #include "include/IfcPropertySet.h"
+#include "include/IfcResourceApprovalRelationship.h"
+#include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcText.h"
 
 // ENTITY IfcProperty 
@@ -110,6 +112,30 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 			}
 		}
 		vec_attributes_inverse.push_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
+	}
+	if( m_HasConstraints_inverse.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasConstraints_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasConstraints_inverse.size(); ++i )
+		{
+			if( !m_HasConstraints_inverse[i].expired() )
+			{
+				HasConstraints_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceConstraintRelationship>( m_HasConstraints_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasConstraints_inverse", HasConstraints_inverse_vec_obj ) );
+	}
+	if( m_HasApprovals_inverse.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasApprovals_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasApprovals_inverse.size(); ++i )
+		{
+			if( !m_HasApprovals_inverse[i].expired() )
+			{
+				HasApprovals_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceApprovalRelationship>( m_HasApprovals_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasApprovals_inverse", HasApprovals_inverse_vec_obj ) );
 	}
 }
 void IfcProperty::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

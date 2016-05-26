@@ -19,7 +19,6 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcElement.h"
-class IFCPP_EXPORT IfcRelCoversBldgElements;
 //ENTITY
 class IFCPP_EXPORT IfcBuildingElement : public IfcElement
 { 
@@ -86,9 +85,8 @@ public:
 	//  std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_ProvidesBoundaries_inverse;
 	//  std::vector<weak_ptr<IfcRelConnectsElements> >				m_ConnectedFrom_inverse;
 	//  std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
+	//  std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_HasCoverings_inverse;
 
 	// IfcBuildingElement -----------------------------------------------------------
-	// inverse attributes:
-	std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_HasCoverings_inverse;
 };
 

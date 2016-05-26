@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcDoorType.h"
 #include "include/IfcDoorTypeEnum.h"
 #include "include/IfcDoorTypeOperationEnum.h"
@@ -77,7 +78,7 @@ shared_ptr<IfcPPObject> IfcDoorType::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy(options) ); }
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcDoorTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	if( m_OperationType ) { copy_self->m_OperationType = dynamic_pointer_cast<IfcDoorTypeOperationEnum>( m_OperationType->getDeepCopy(options) ); }
-	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = m_ParameterTakesPrecedence; }
+	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = dynamic_pointer_cast<IfcBoolean>( m_ParameterTakesPrecedence->getDeepCopy(options) ); }
 	if( m_UserDefinedOperationType ) { copy_self->m_UserDefinedOperationType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedOperationType->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -106,8 +107,7 @@ void IfcDoorType::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_OperationType ) { m_OperationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ParameterTakesPrecedence == false ) { stream << ".F."; }
-	else if( m_ParameterTakesPrecedence == true ) { stream << ".T."; }
+	if( m_ParameterTakesPrecedence ) { m_ParameterTakesPrecedence->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_UserDefinedOperationType ) { m_UserDefinedOperationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -128,8 +128,7 @@ void IfcDoorType::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8] );
 	m_PredefinedType = IfcDoorTypeEnum::createObjectFromSTEP( args[9] );
 	m_OperationType = IfcDoorTypeOperationEnum::createObjectFromSTEP( args[10] );
-	if( boost::iequals( args[11], L".F." ) ) { m_ParameterTakesPrecedence = false; }
-	else if( boost::iequals( args[11], L".T." ) ) { m_ParameterTakesPrecedence = true; }
+	m_ParameterTakesPrecedence = IfcBoolean::createObjectFromSTEP( args[11] );
 	m_UserDefinedOperationType = IfcLabel::createObjectFromSTEP( args[12] );
 }
 void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -137,14 +136,7 @@ void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 	IfcBuildingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
-	if( m_ParameterTakesPrecedence )
-	{
-		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedOperationType", m_UserDefinedOperationType ) );
 }
 void IfcDoorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

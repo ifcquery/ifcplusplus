@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcColour.h"
 #include "include/IfcCurveFontOrScaledCurveFontSelect.h"
 #include "include/IfcCurveStyle.h"
@@ -36,7 +37,7 @@ shared_ptr<IfcPPObject> IfcCurveStyle::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_CurveFont ) { copy_self->m_CurveFont = dynamic_pointer_cast<IfcCurveFontOrScaledCurveFontSelect>( m_CurveFont->getDeepCopy(options) ); }
 	if( m_CurveWidth ) { copy_self->m_CurveWidth = dynamic_pointer_cast<IfcSizeSelect>( m_CurveWidth->getDeepCopy(options) ); }
 	if( m_CurveColour ) { copy_self->m_CurveColour = dynamic_pointer_cast<IfcColour>( m_CurveColour->getDeepCopy(options) ); }
-	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = m_ModelOrDraughting; }
+	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelOrDraughting->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
@@ -50,8 +51,7 @@ void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_CurveColour ) { m_CurveColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ModelOrDraughting == false ) { stream << ".F."; }
-	else if( m_ModelOrDraughting == true ) { stream << ".T."; }
+	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -63,8 +63,7 @@ void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, co
 	m_CurveFont = IfcCurveFontOrScaledCurveFontSelect::createObjectFromSTEP( args[1], map );
 	m_CurveWidth = IfcSizeSelect::createObjectFromSTEP( args[2], map );
 	m_CurveColour = IfcColour::createObjectFromSTEP( args[3], map );
-	if( boost::iequals( args[4], L".F." ) ) { m_ModelOrDraughting = false; }
-	else if( boost::iequals( args[4], L".T." ) ) { m_ModelOrDraughting = true; }
+	m_ModelOrDraughting = IfcBoolean::createObjectFromSTEP( args[4] );
 }
 void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -72,14 +71,7 @@ void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "CurveFont", m_CurveFont ) );
 	vec_attributes.push_back( std::make_pair( "CurveWidth", m_CurveWidth ) );
 	vec_attributes.push_back( std::make_pair( "CurveColour", m_CurveColour ) );
-	if( m_ModelOrDraughting )
-	{
-		vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelOrDraughting.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
 void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

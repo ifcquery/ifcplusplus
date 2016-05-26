@@ -21,6 +21,7 @@
 class IFCPP_EXPORT IfcShapeModel;
 class IFCPP_EXPORT IfcLabel;
 class IFCPP_EXPORT IfcText;
+class IFCPP_EXPORT IfcLogical;
 class IFCPP_EXPORT IfcProductRepresentationSelect;
 //ENTITY
 class IFCPP_EXPORT IfcShapeAspect : public IfcPPEntity
@@ -45,7 +46,7 @@ public:
 	std::vector<shared_ptr<IfcShapeModel> >		m_ShapeRepresentations;
 	shared_ptr<IfcLabel>						m_Name;						//optional
 	shared_ptr<IfcText>							m_Description;				//optional
-	LogicalEnum									m_ProductDefinitional;
+	shared_ptr<IfcLogical>						m_ProductDefinitional;
 	shared_ptr<IfcProductRepresentationSelect>	m_PartOfProductDefinitionShape;	//optional
 };
 

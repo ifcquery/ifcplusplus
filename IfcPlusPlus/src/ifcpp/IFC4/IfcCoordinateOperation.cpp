@@ -22,6 +22,7 @@
 #include "include/IfcCoordinateOperation.h"
 #include "include/IfcCoordinateReferenceSystem.h"
 #include "include/IfcCoordinateReferenceSystemSelect.h"
+#include "include/IfcGeometricRepresentationContext.h"
 
 // ENTITY IfcCoordinateOperation 
 IfcCoordinateOperation::IfcCoordinateOperation() { m_entity_enum = IFCCOORDINATEOPERATION; }
@@ -58,9 +59,55 @@ void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, s
 void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 }
-void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
 {
+	shared_ptr<IfcCoordinateOperation> ptr_self = dynamic_pointer_cast<IfcCoordinateOperation>( ptr_self_entity );
+	if( !ptr_self ) { throw IfcPPException( "IfcCoordinateOperation::setInverseCounterparts: type mismatch" ); }
+	shared_ptr<IfcCoordinateReferenceSystem>  SourceCRS_IfcCoordinateReferenceSystem = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_SourceCRS );
+	if( SourceCRS_IfcCoordinateReferenceSystem )
+	{
+		SourceCRS_IfcCoordinateReferenceSystem->m_HasCoordinateOperation_inverse.push_back( ptr_self );
+	}
+	shared_ptr<IfcGeometricRepresentationContext>  SourceCRS_IfcGeometricRepresentationContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_SourceCRS );
+	if( SourceCRS_IfcGeometricRepresentationContext )
+	{
+		SourceCRS_IfcGeometricRepresentationContext->m_HasCoordinateOperation_inverse.push_back( ptr_self );
+	}
 }
 void IfcCoordinateOperation::unlinkFromInverseCounterparts()
 {
+	shared_ptr<IfcCoordinateReferenceSystem>  SourceCRS_IfcCoordinateReferenceSystem = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_SourceCRS );
+	if( SourceCRS_IfcCoordinateReferenceSystem )
+	{
+		std::vector<weak_ptr<IfcCoordinateOperation> >& HasCoordinateOperation_inverse = SourceCRS_IfcCoordinateReferenceSystem->m_HasCoordinateOperation_inverse;
+		for( auto it_HasCoordinateOperation_inverse = HasCoordinateOperation_inverse.begin(); it_HasCoordinateOperation_inverse != HasCoordinateOperation_inverse.end(); )
+		{
+			shared_ptr<IfcCoordinateOperation> self_candidate( *it_HasCoordinateOperation_inverse );
+			if( self_candidate.get() == this )
+			{
+				it_HasCoordinateOperation_inverse= HasCoordinateOperation_inverse.erase( it_HasCoordinateOperation_inverse );
+			}
+			else
+			{
+				++it_HasCoordinateOperation_inverse;
+			}
+		}
+	}
+	shared_ptr<IfcGeometricRepresentationContext>  SourceCRS_IfcGeometricRepresentationContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_SourceCRS );
+	if( SourceCRS_IfcGeometricRepresentationContext )
+	{
+		std::vector<weak_ptr<IfcCoordinateOperation> >& HasCoordinateOperation_inverse = SourceCRS_IfcGeometricRepresentationContext->m_HasCoordinateOperation_inverse;
+		for( auto it_HasCoordinateOperation_inverse = HasCoordinateOperation_inverse.begin(); it_HasCoordinateOperation_inverse != HasCoordinateOperation_inverse.end(); )
+		{
+			shared_ptr<IfcCoordinateOperation> self_candidate( *it_HasCoordinateOperation_inverse );
+			if( self_candidate.get() == this )
+			{
+				it_HasCoordinateOperation_inverse= HasCoordinateOperation_inverse.erase( it_HasCoordinateOperation_inverse );
+			}
+			else
+			{
+				++it_HasCoordinateOperation_inverse;
+			}
+		}
+	}
 }

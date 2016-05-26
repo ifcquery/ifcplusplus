@@ -15,7 +15,6 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -24,6 +23,7 @@ class IFCPP_EXPORT IfcDuration;
 class IFCPP_EXPORT IfcPositiveRatioMeasure;
 class IFCPP_EXPORT IfcDateTime;
 class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcResourceTime : public IfcSchedulingTime
 { 
@@ -56,7 +56,7 @@ public:
 	shared_ptr<IfcDateTime>				m_ScheduleFinish;			//optional
 	shared_ptr<IfcLabel>				m_ScheduleContour;			//optional
 	shared_ptr<IfcDuration>				m_LevelingDelay;			//optional
-	boost::optional<bool>				m_IsOverAllocated;			//optional
+	shared_ptr<IfcBoolean>				m_IsOverAllocated;			//optional
 	shared_ptr<IfcDateTime>				m_StatusTime;				//optional
 	shared_ptr<IfcDuration>				m_ActualWork;				//optional
 	shared_ptr<IfcPositiveRatioMeasure>	m_ActualUsage;				//optional

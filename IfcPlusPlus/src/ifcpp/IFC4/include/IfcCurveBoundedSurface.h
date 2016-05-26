@@ -21,6 +21,7 @@
 #include "IfcBoundedSurface.h"
 class IFCPP_EXPORT IfcSurface;
 class IFCPP_EXPORT IfcBoundaryCurve;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcCurveBoundedSurface : public IfcBoundedSurface
 { 
@@ -54,6 +55,6 @@ public:
 	// attributes:
 	shared_ptr<IfcSurface>									m_BasisSurface;
 	std::vector<shared_ptr<IfcBoundaryCurve> >				m_Boundaries;
-	bool													m_ImplicitOuter;
+	shared_ptr<IfcBoolean>									m_ImplicitOuter;
 };
 

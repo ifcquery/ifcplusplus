@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcFillAreaStyle.h"
 #include "include/IfcFillStyleSelect.h"
 #include "include/IfcLabel.h"
@@ -39,7 +40,7 @@ shared_ptr<IfcPPObject> IfcFillAreaStyle::getDeepCopy( IfcPPCopyOptions& options
 			copy_self->m_FillStyles.push_back( dynamic_pointer_cast<IfcFillStyleSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_ModelorDraughting ) { copy_self->m_ModelorDraughting = m_ModelorDraughting; }
+	if( m_ModelorDraughting ) { copy_self->m_ModelorDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelorDraughting->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
@@ -66,8 +67,7 @@ void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 	}
 	stream << ")";
 	stream << ",";
-	if( m_ModelorDraughting == false ) { stream << ".F."; }
-	else if( m_ModelorDraughting == true ) { stream << ".T."; }
+	if( m_ModelorDraughting ) { m_ModelorDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcFillAreaStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -77,8 +77,7 @@ void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args,
 	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyle, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0] );
 	readSelectList( args[1], m_FillStyles, map );
-	if( boost::iequals( args[2], L".F." ) ) { m_ModelorDraughting = false; }
-	else if( boost::iequals( args[2], L".T." ) ) { m_ModelorDraughting = true; }
+	m_ModelorDraughting = IfcBoolean::createObjectFromSTEP( args[2] );
 }
 void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -89,14 +88,7 @@ void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_
 		std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
 	}
-	if( m_ModelorDraughting )
-	{
-		vec_attributes.push_back( std::make_pair( "ModelorDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelorDraughting.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "ModelorDraughting", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "ModelorDraughting", m_ModelorDraughting ) );
 }
 void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -20,6 +20,7 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBoundedCurve.h"
 class IFCPP_EXPORT IfcCompositeCurveSegment;
+class IFCPP_EXPORT IfcLogical;
 //ENTITY
 class IFCPP_EXPORT IfcCompositeCurve : public IfcBoundedCurve
 { 
@@ -52,6 +53,6 @@ public:
 	// IfcCompositeCurve -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcCompositeCurveSegment> >		m_Segments;
-	LogicalEnum												m_SelfIntersect;
+	shared_ptr<IfcLogical>									m_SelfIntersect;
 };
 

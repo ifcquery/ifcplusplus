@@ -15,11 +15,11 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcStructuralActivity.h"
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcStructuralAction : public IfcStructuralActivity
 { 
@@ -80,6 +80,6 @@ public:
 
 	// IfcStructuralAction -----------------------------------------------------------
 	// attributes:
-	boost::optional<bool>										m_DestabilizingLoad;		//optional
+	shared_ptr<IfcBoolean>										m_DestabilizingLoad;		//optional
 };
 

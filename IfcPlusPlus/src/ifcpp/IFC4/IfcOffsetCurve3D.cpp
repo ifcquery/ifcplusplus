@@ -22,6 +22,7 @@
 #include "include/IfcCurve.h"
 #include "include/IfcDirection.h"
 #include "include/IfcLengthMeasure.h"
+#include "include/IfcLogical.h"
 #include "include/IfcOffsetCurve3D.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcStyledItem.h"
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcOffsetCurve3D::getDeepCopy( IfcPPCopyOptions& options
 	shared_ptr<IfcOffsetCurve3D> copy_self( new IfcOffsetCurve3D() );
 	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy(options) ); }
 	if( m_Distance ) { copy_self->m_Distance = dynamic_pointer_cast<IfcLengthMeasure>( m_Distance->getDeepCopy(options) ); }
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
 	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -46,9 +47,7 @@ void IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_id; } else { stream << "$"; }
 	stream << ");";
@@ -60,9 +59,7 @@ void IfcOffsetCurve3D::readStepArguments( const std::vector<std::wstring>& args,
 	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOffsetCurve3D, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
 	m_Distance = IfcLengthMeasure::createObjectFromSTEP( args[1] );
-	if( boost::iequals( args[2], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
-	else if( boost::iequals( args[2], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
-	else if( boost::iequals( args[2], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
+	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[2] );
 	readEntityReference( args[3], m_RefDirection, map );
 }
 void IfcOffsetCurve3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -70,7 +67,7 @@ void IfcOffsetCurve3D::getAttributes( std::vector<std::pair<std::string, shared_
 	IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
 	vec_attributes.push_back( std::make_pair( "Distance", m_Distance ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_SelfIntersect ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 	vec_attributes.push_back( std::make_pair( "RefDirection", m_RefDirection ) );
 }
 void IfcOffsetCurve3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

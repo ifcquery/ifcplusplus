@@ -116,8 +116,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
+#ifdef _MSC_VER
+#define random rand
+#endif
+
+
 //#include <sys/time.h>
-#include <ctime>
 
 /* On some machines, the exact arithmetic routines might be defeated by the  */
 /*   use of internal extended precision floating-point registers.  Sometimes */
@@ -519,9 +524,9 @@ namespace shewchuk {
     long a, b, c;
     long i;
   
-    a = rand();
-    b = rand();
-    c = rand();
+    a = random();
+    b = random();
+    c = random();
     result = (double) (a - 1073741824) * 8388608.0 + (double) (b >> 8);
     for (i = 512, expo = 2; i <= 131072; i *= 2, expo = expo * expo) {
       if (c & i) {
@@ -545,9 +550,9 @@ namespace shewchuk {
     long a, b, c;
     long i;
   
-    a = rand();
-    b = rand();
-    c = rand();
+    a = random();
+    b = random();
+    c = random();
     result = (double) (a - 1073741824) * 8388608.0 + (double) (b >> 8);
     for (i = 512, expo = 2; i <= 2048; i *= 2, expo = expo * expo) {
       if (c & i) {
@@ -568,8 +573,8 @@ namespace shewchuk {
     double result;
     long a, b;
   
-    a = rand();
-    b = rand();
+    a = random();
+    b = random();
     result = (double) (a - 1073741824) * 8388608.0 + (double) (b >> 8);
     return result;
   }

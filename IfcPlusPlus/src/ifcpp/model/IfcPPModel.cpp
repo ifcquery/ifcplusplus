@@ -44,6 +44,7 @@
 #include "ifcpp/IFC4/include/IfcGeometricRepresentationContext.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcDirection.h"
+#include "ifcpp/IFC4/include/IfcReal.h"
 #include "ifcpp/IFC4/include/IfcRelationship.h"
 #include "ifcpp/IFC4/include/IfcRelAggregates.h"
 #include "ifcpp/IFC4/include/IfcSite.h"
@@ -167,15 +168,15 @@ void IfcPPModel::initIfcModel()
 	// set up world coordinate system
 	shared_ptr<IfcDirection> axis( new IfcDirection() );
 	insertEntity(axis);
-	axis->m_DirectionRatios.push_back( 0.0 );
-	axis->m_DirectionRatios.push_back( 0.0 );
-	axis->m_DirectionRatios.push_back( 1.0 );
+	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal(0.0) ) );
+	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
 
 	shared_ptr<IfcDirection> ref_direction( new IfcDirection() );
 	insertEntity(ref_direction);
-	ref_direction->m_DirectionRatios.push_back( 0.0 );
-	ref_direction->m_DirectionRatios.push_back( 0.0 );
-	ref_direction->m_DirectionRatios.push_back( 1.0 );
+	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
 
 	shared_ptr<IfcCartesianPoint> location( new IfcCartesianPoint() );
 	insertEntity(location);

@@ -21,6 +21,7 @@
 #include "IfcBoundedCurve.h"
 class IFCPP_EXPORT IfcCurve;
 class IFCPP_EXPORT IfcTrimmingSelect;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcTrimmingPreference;
 //ENTITY
 class IFCPP_EXPORT IfcTrimmedCurve : public IfcBoundedCurve
@@ -56,7 +57,7 @@ public:
 	shared_ptr<IfcCurve>									m_BasisCurve;
 	std::vector<shared_ptr<IfcTrimmingSelect> >				m_Trim1;
 	std::vector<shared_ptr<IfcTrimmingSelect> >				m_Trim2;
-	bool													m_SenseAgreement;
+	shared_ptr<IfcBoolean>									m_SenseAgreement;
 	shared_ptr<IfcTrimmingPreference>						m_MasterRepresentation;
 };
 

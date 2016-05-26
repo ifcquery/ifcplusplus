@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcDataOriginEnum.h"
 #include "include/IfcDateTime.h"
 #include "include/IfcDuration.h"
@@ -42,7 +43,7 @@ shared_ptr<IfcPPObject> IfcResourceTime::getDeepCopy( IfcPPCopyOptions& options 
 	if( m_ScheduleFinish ) { copy_self->m_ScheduleFinish = dynamic_pointer_cast<IfcDateTime>( m_ScheduleFinish->getDeepCopy(options) ); }
 	if( m_ScheduleContour ) { copy_self->m_ScheduleContour = dynamic_pointer_cast<IfcLabel>( m_ScheduleContour->getDeepCopy(options) ); }
 	if( m_LevelingDelay ) { copy_self->m_LevelingDelay = dynamic_pointer_cast<IfcDuration>( m_LevelingDelay->getDeepCopy(options) ); }
-	if( m_IsOverAllocated ) { copy_self->m_IsOverAllocated = m_IsOverAllocated; }
+	if( m_IsOverAllocated ) { copy_self->m_IsOverAllocated = dynamic_pointer_cast<IfcBoolean>( m_IsOverAllocated->getDeepCopy(options) ); }
 	if( m_StatusTime ) { copy_self->m_StatusTime = dynamic_pointer_cast<IfcDateTime>( m_StatusTime->getDeepCopy(options) ); }
 	if( m_ActualWork ) { copy_self->m_ActualWork = dynamic_pointer_cast<IfcDuration>( m_ActualWork->getDeepCopy(options) ); }
 	if( m_ActualUsage ) { copy_self->m_ActualUsage = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_ActualUsage->getDeepCopy(options) ); }
@@ -74,8 +75,7 @@ void IfcResourceTime::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_LevelingDelay ) { m_LevelingDelay->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IsOverAllocated == false ) { stream << ".F."; }
-	else if( m_IsOverAllocated == true ) { stream << ".T."; }
+	if( m_IsOverAllocated ) { m_IsOverAllocated->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -108,8 +108,7 @@ void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, 
 	m_ScheduleFinish = IfcDateTime::createObjectFromSTEP( args[6] );
 	m_ScheduleContour = IfcLabel::createObjectFromSTEP( args[7] );
 	m_LevelingDelay = IfcDuration::createObjectFromSTEP( args[8] );
-	if( boost::iequals( args[9], L".F." ) ) { m_IsOverAllocated = false; }
-	else if( boost::iequals( args[9], L".T." ) ) { m_IsOverAllocated = true; }
+	m_IsOverAllocated = IfcBoolean::createObjectFromSTEP( args[9] );
 	m_StatusTime = IfcDateTime::createObjectFromSTEP( args[10] );
 	m_ActualWork = IfcDuration::createObjectFromSTEP( args[11] );
 	m_ActualUsage = IfcPositiveRatioMeasure::createObjectFromSTEP( args[12] );
@@ -128,14 +127,7 @@ void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
 	vec_attributes.push_back( std::make_pair( "ScheduleContour", m_ScheduleContour ) );
 	vec_attributes.push_back( std::make_pair( "LevelingDelay", m_LevelingDelay ) );
-	if( m_IsOverAllocated )
-	{
-		vec_attributes.push_back( std::make_pair( "IsOverAllocated", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsOverAllocated.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "IsOverAllocated", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "IsOverAllocated", m_IsOverAllocated ) );
 	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
 	vec_attributes.push_back( std::make_pair( "ActualWork", m_ActualWork ) );
 	vec_attributes.push_back( std::make_pair( "ActualUsage", m_ActualUsage ) );

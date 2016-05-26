@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcCartesianTransformationOperator2D.h"
 #include "include/IfcIdentifier.h"
 #include "include/IfcSurfaceStyleWithTextures.h"
@@ -32,8 +33,8 @@ IfcSurfaceTexture::~IfcSurfaceTexture() {}
 shared_ptr<IfcPPObject> IfcSurfaceTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceTexture> copy_self( new IfcSurfaceTexture() );
-	if( m_RepeatS ) { copy_self->m_RepeatS = m_RepeatS; }
-	if( m_RepeatT ) { copy_self->m_RepeatT = m_RepeatT; }
+	if( m_RepeatS ) { copy_self->m_RepeatS = dynamic_pointer_cast<IfcBoolean>( m_RepeatS->getDeepCopy(options) ); }
+	if( m_RepeatT ) { copy_self->m_RepeatT = dynamic_pointer_cast<IfcBoolean>( m_RepeatT->getDeepCopy(options) ); }
 	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy(options) ); }
 	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
@@ -49,11 +50,9 @@ shared_ptr<IfcPPObject> IfcSurfaceTexture::getDeepCopy( IfcPPCopyOptions& option
 void IfcSurfaceTexture::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSURFACETEXTURE" << "(";
-	if( m_RepeatS == false ) { stream << ".F."; }
-	else if( m_RepeatS == true ) { stream << ".T."; }
+	if( m_RepeatS ) { m_RepeatS->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RepeatT == false ) { stream << ".F."; }
-	else if( m_RepeatT == true ) { stream << ".T."; }
+	if( m_RepeatT ) { m_RepeatT->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -84,10 +83,8 @@ void IfcSurfaceTexture::readStepArguments( const std::vector<std::wstring>& args
 {
 	const int num_args = (int)args.size();
 	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceTexture, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
-	if( boost::iequals( args[0], L".F." ) ) { m_RepeatS = false; }
-	else if( boost::iequals( args[0], L".T." ) ) { m_RepeatS = true; }
-	if( boost::iequals( args[1], L".F." ) ) { m_RepeatT = false; }
-	else if( boost::iequals( args[1], L".T." ) ) { m_RepeatT = true; }
+	m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0] );
+	m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1] );
 	m_Mode = IfcIdentifier::createObjectFromSTEP( args[2] );
 	readEntityReference( args[3], m_TextureTransform, map );
 	readSelectList( args[4], m_Parameter, map );
@@ -95,8 +92,8 @@ void IfcSurfaceTexture::readStepArguments( const std::vector<std::wstring>& args
 void IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RepeatS", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_RepeatS ) ) ) );
-	vec_attributes.push_back( std::make_pair( "RepeatT", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_RepeatT ) ) ) );
+	vec_attributes.push_back( std::make_pair( "RepeatS", m_RepeatS ) );
+	vec_attributes.push_back( std::make_pair( "RepeatT", m_RepeatT ) );
 	vec_attributes.push_back( std::make_pair( "Mode", m_Mode ) );
 	vec_attributes.push_back( std::make_pair( "TextureTransform", m_TextureTransform ) );
 	if( m_Parameter.size() > 0 )

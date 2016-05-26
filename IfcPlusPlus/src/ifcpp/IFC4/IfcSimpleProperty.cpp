@@ -24,6 +24,8 @@
 #include "include/IfcIdentifier.h"
 #include "include/IfcPropertyDependencyRelationship.h"
 #include "include/IfcPropertySet.h"
+#include "include/IfcResourceApprovalRelationship.h"
+#include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcSimpleProperty.h"
 #include "include/IfcText.h"
 

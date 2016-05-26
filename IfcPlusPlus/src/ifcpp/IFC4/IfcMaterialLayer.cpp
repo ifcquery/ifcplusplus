@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcExternalReferenceRelationship.h"
+#include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcLogical.h"
 #include "include/IfcMaterial.h"
@@ -27,7 +28,6 @@
 #include "include/IfcMaterialLayerSet.h"
 #include "include/IfcMaterialProperties.h"
 #include "include/IfcNonNegativeLengthMeasure.h"
-#include "include/IfcNormalisedRatioMeasure.h"
 #include "include/IfcRelAssociatesMaterial.h"
 #include "include/IfcText.h"
 
@@ -44,7 +44,7 @@ shared_ptr<IfcPPObject> IfcMaterialLayer::getDeepCopy( IfcPPCopyOptions& options
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
-	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy(options) ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcInteger>( m_Priority->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcMaterialLayer::getStepLine( std::stringstream& stream ) const
@@ -76,7 +76,7 @@ void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args,
 	m_Name = IfcLabel::createObjectFromSTEP( args[3] );
 	m_Description = IfcText::createObjectFromSTEP( args[4] );
 	m_Category = IfcLabel::createObjectFromSTEP( args[5] );
-	m_Priority = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[6] );
+	m_Priority = IfcInteger::createObjectFromSTEP( args[6] );
 }
 void IfcMaterialLayer::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

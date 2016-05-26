@@ -48,7 +48,7 @@ public:
 	// IfcCompositeCurveSegment -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcTransitionCode>							m_Transition;
-	//  bool													m_SameSense;
+	//  shared_ptr<IfcBoolean>									m_SameSense;
 	//  shared_ptr<IfcCurve>									m_ParentCurve;
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcCompositeCurve> >				m_UsingCurves_inverse;

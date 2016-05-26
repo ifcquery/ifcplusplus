@@ -21,6 +21,7 @@
 #include "IfcGroup.h"
 class IFCPP_EXPORT IfcAnalysisTheoryTypeEnum;
 class IFCPP_EXPORT IfcStructuralLoadGroup;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcStructuralAnalysisModel;
 //ENTITY
 class IFCPP_EXPORT IfcStructuralResultGroup : public IfcGroup
@@ -74,7 +75,7 @@ public:
 	// attributes:
 	shared_ptr<IfcAnalysisTheoryTypeEnum>				m_TheoryType;
 	shared_ptr<IfcStructuralLoadGroup>					m_ResultForLoadGroup;		//optional
-	bool												m_IsLinear;
+	shared_ptr<IfcBoolean>								m_IsLinear;
 	// inverse attributes:
 	std::vector<weak_ptr<IfcStructuralAnalysisModel> >	m_ResultGroupFor_inverse;
 };

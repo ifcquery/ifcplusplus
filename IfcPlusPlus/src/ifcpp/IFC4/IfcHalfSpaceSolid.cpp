@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcHalfSpaceSolid.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcStyledItem.h"
@@ -32,7 +33,7 @@ shared_ptr<IfcPPObject> IfcHalfSpaceSolid::getDeepCopy( IfcPPCopyOptions& option
 {
 	shared_ptr<IfcHalfSpaceSolid> copy_self( new IfcHalfSpaceSolid() );
 	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy(options) ); }
-	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = m_AgreementFlag; }
+	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = dynamic_pointer_cast<IfcBoolean>( m_AgreementFlag->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
@@ -40,8 +41,7 @@ void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCHALFSPACESOLID" << "(";
 	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AgreementFlag == false ) { stream << ".F."; }
-	else if( m_AgreementFlag == true ) { stream << ".T."; }
+	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -50,14 +50,13 @@ void IfcHalfSpaceSolid::readStepArguments( const std::vector<std::wstring>& args
 	const int num_args = (int)args.size();
 	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcHalfSpaceSolid, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
-	if( boost::iequals( args[1], L".F." ) ) { m_AgreementFlag = false; }
-	else if( boost::iequals( args[1], L".T." ) ) { m_AgreementFlag = true; }
+	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1] );
 }
 void IfcHalfSpaceSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BaseSurface", m_BaseSurface ) );
-	vec_attributes.push_back( std::make_pair( "AgreementFlag", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_AgreementFlag ) ) ) );
+	vec_attributes.push_back( std::make_pair( "AgreementFlag", m_AgreementFlag ) );
 }
 void IfcHalfSpaceSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -16,6 +16,7 @@
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
+#include <ifcpp/IFC4/include/IfcBoolean.h>
 #include <ifcpp/IFC4/include/IfcBSplineCurve.h>
 #include <ifcpp/IFC4/include/IfcCartesianPoint.h>
 #include <ifcpp/IFC4/include/IfcCircle.h>
@@ -156,7 +157,7 @@ public:
 				std::vector<carve::geom::vector<3> > basis_curve_points;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim1_vec = trimmed_curve->m_Trim1;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
-				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement;
+				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement->m_value;
 
 				convertIfcCurve( basis_curve, basis_curve_points, segment_start_points, curve_trim1_vec, curve_trim2_vec, trimmed_sense_agreement );
 				GeomUtils::appendPointsToCurve( basis_curve_points, target_vec );
@@ -406,17 +407,17 @@ public:
 				}
 				shared_ptr<IfcDirection> ifc_line_direction = line_vec->m_Orientation;
 
-				std::vector<double>& direction_ratios = ifc_line_direction->m_DirectionRatios;
+				std::vector<shared_ptr<IfcReal> >& direction_ratios = ifc_line_direction->m_DirectionRatios;
 				carve::geom::vector<3> line_direction;
 				if( direction_ratios.size() > 1 )
 				{
 					if( direction_ratios.size() > 2 )
 					{
-						line_direction = carve::geom::VECTOR( direction_ratios[0], direction_ratios[1], direction_ratios[2] );
+						line_direction = carve::geom::VECTOR( direction_ratios[0]->m_value, direction_ratios[1]->m_value, direction_ratios[2]->m_value );
 					}
 					else
 					{
-						line_direction = carve::geom::VECTOR( direction_ratios[0], direction_ratios[1], 0 );
+						line_direction = carve::geom::VECTOR( direction_ratios[0]->m_value, direction_ratios[1]->m_value, 0 );
 					}
 				}
 				line_direction.normalize();

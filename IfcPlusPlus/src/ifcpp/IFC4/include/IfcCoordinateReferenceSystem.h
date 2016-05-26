@@ -22,6 +22,7 @@
 class IFCPP_EXPORT IfcLabel;
 class IFCPP_EXPORT IfcText;
 class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcCoordinateOperation;
 //ENTITY
 class IFCPP_EXPORT IfcCoordinateReferenceSystem : virtual public IfcCoordinateReferenceSystemSelect, public IfcPPEntity
 { 
@@ -42,9 +43,11 @@ public:
 
 	// IfcCoordinateReferenceSystem -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcLabel>		m_Name;						//optional
-	shared_ptr<IfcText>			m_Description;				//optional
-	shared_ptr<IfcIdentifier>	m_GeodeticDatum;
-	shared_ptr<IfcIdentifier>	m_VerticalDatum;			//optional
+	shared_ptr<IfcLabel>							m_Name;
+	shared_ptr<IfcText>								m_Description;				//optional
+	shared_ptr<IfcIdentifier>						m_GeodeticDatum;			//optional
+	shared_ptr<IfcIdentifier>						m_VerticalDatum;			//optional
+	// inverse attributes:
+	std::vector<weak_ptr<IfcCoordinateOperation> >	m_HasCoordinateOperation_inverse;
 };
 

@@ -53,7 +53,7 @@ public:
 	// IfcFaceSurface -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcSurface>									m_FaceSurface;
-	//  bool													m_SameSense;
+	//  shared_ptr<IfcBoolean>									m_SameSense;
 
 	// IfcAdvancedFace -----------------------------------------------------------
 };

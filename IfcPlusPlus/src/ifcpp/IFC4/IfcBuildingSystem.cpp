@@ -57,6 +57,7 @@ shared_ptr<IfcPPObject> IfcBuildingSystem::getDeepCopy( IfcPPCopyOptions& option
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcBuildingSystemTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
+	if( m_LongName ) { copy_self->m_LongName = dynamic_pointer_cast<IfcLabel>( m_LongName->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBuildingSystem::getStepLine( std::stringstream& stream ) const
@@ -73,24 +74,28 @@ void IfcBuildingSystem::getStepLine( std::stringstream& stream ) const
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
+	stream << ",";
+	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcBuildingSystem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 void IfcBuildingSystem::readStepArguments( const std::vector<std::wstring>& args, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const int num_args = (int)args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBuildingSystem, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBuildingSystem, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0] );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2] );
 	m_Description = IfcText::createObjectFromSTEP( args[3] );
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
 	m_PredefinedType = IfcBuildingSystemTypeEnum::createObjectFromSTEP( args[5] );
+	m_LongName = IfcLabel::createObjectFromSTEP( args[6] );
 }
 void IfcBuildingSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
 }
 void IfcBuildingSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

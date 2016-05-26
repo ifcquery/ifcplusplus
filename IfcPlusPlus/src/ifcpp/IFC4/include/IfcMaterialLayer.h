@@ -24,7 +24,7 @@ class IFCPP_EXPORT IfcNonNegativeLengthMeasure;
 class IFCPP_EXPORT IfcLogical;
 class IFCPP_EXPORT IfcLabel;
 class IFCPP_EXPORT IfcText;
-class IFCPP_EXPORT IfcNormalisedRatioMeasure;
+class IFCPP_EXPORT IfcInteger;
 class IFCPP_EXPORT IfcMaterialLayerSet;
 //ENTITY
 class IFCPP_EXPORT IfcMaterialLayer : public IfcMaterialDefinition
@@ -58,7 +58,7 @@ public:
 	shared_ptr<IfcLabel>										m_Name;						//optional
 	shared_ptr<IfcText>											m_Description;				//optional
 	shared_ptr<IfcLabel>										m_Category;					//optional
-	shared_ptr<IfcNormalisedRatioMeasure>						m_Priority;					//optional
+	shared_ptr<IfcInteger>										m_Priority;					//optional
 	// inverse attributes:
 	weak_ptr<IfcMaterialLayerSet>								m_ToMaterialLayerSet_inverse;
 };

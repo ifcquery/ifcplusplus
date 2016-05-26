@@ -22,6 +22,7 @@
 #include "include/IfcIdentifier.h"
 #include "include/IfcLabel.h"
 #include "include/IfcLayeredItem.h"
+#include "include/IfcLogical.h"
 #include "include/IfcPresentationLayerWithStyle.h"
 #include "include/IfcPresentationStyle.h"
 #include "include/IfcText.h"
@@ -44,9 +45,9 @@ shared_ptr<IfcPPObject> IfcPresentationLayerWithStyle::getDeepCopy( IfcPPCopyOpt
 		}
 	}
 	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
-	if( m_LayerOn ) { copy_self->m_LayerOn = m_LayerOn; }
-	if( m_LayerFrozen ) { copy_self->m_LayerFrozen = m_LayerFrozen; }
-	if( m_LayerBlocked ) { copy_self->m_LayerBlocked = m_LayerBlocked; }
+	if( m_LayerOn ) { copy_self->m_LayerOn = dynamic_pointer_cast<IfcLogical>( m_LayerOn->getDeepCopy(options) ); }
+	if( m_LayerFrozen ) { copy_self->m_LayerFrozen = dynamic_pointer_cast<IfcLogical>( m_LayerFrozen->getDeepCopy(options) ); }
+	if( m_LayerBlocked ) { copy_self->m_LayerBlocked = dynamic_pointer_cast<IfcLogical>( m_LayerBlocked->getDeepCopy(options) ); }
 	for( size_t ii=0; ii<m_LayerStyles.size(); ++ii )
 	{
 		auto item_ii = m_LayerStyles[ii];
@@ -85,17 +86,11 @@ void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) con
 	stream << ",";
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LayerOn == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_LayerOn == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_LayerOn ) { m_LayerOn->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LayerFrozen == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_LayerFrozen == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_LayerFrozen ) { m_LayerFrozen->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LayerBlocked == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_LayerBlocked == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_LayerBlocked ) { m_LayerBlocked->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_LayerStyles );
 	stream << ");";
@@ -109,23 +104,17 @@ void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::ws
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readSelectList( args[2], m_AssignedItems, map );
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[3] );
-	if( boost::iequals( args[4], L".F." ) ) { m_LayerOn = LOGICAL_FALSE; }
-	else if( boost::iequals( args[4], L".T." ) ) { m_LayerOn = LOGICAL_TRUE; }
-	else if( boost::iequals( args[4], L".U." ) ) { m_LayerOn = LOGICAL_UNKNOWN; }
-	if( boost::iequals( args[5], L".F." ) ) { m_LayerFrozen = LOGICAL_FALSE; }
-	else if( boost::iequals( args[5], L".T." ) ) { m_LayerFrozen = LOGICAL_TRUE; }
-	else if( boost::iequals( args[5], L".U." ) ) { m_LayerFrozen = LOGICAL_UNKNOWN; }
-	if( boost::iequals( args[6], L".F." ) ) { m_LayerBlocked = LOGICAL_FALSE; }
-	else if( boost::iequals( args[6], L".T." ) ) { m_LayerBlocked = LOGICAL_TRUE; }
-	else if( boost::iequals( args[6], L".U." ) ) { m_LayerBlocked = LOGICAL_UNKNOWN; }
+	m_LayerOn = IfcLogical::createObjectFromSTEP( args[4] );
+	m_LayerFrozen = IfcLogical::createObjectFromSTEP( args[5] );
+	m_LayerBlocked = IfcLogical::createObjectFromSTEP( args[6] );
 	readEntityReferenceList( args[7], m_LayerStyles, map );
 }
 void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcPresentationLayerAssignment::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LayerOn", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_LayerOn ) ) ) );
-	vec_attributes.push_back( std::make_pair( "LayerFrozen", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_LayerFrozen ) ) ) );
-	vec_attributes.push_back( std::make_pair( "LayerBlocked", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_LayerBlocked ) ) ) );
+	vec_attributes.push_back( std::make_pair( "LayerOn", m_LayerOn ) );
+	vec_attributes.push_back( std::make_pair( "LayerFrozen", m_LayerFrozen ) );
+	vec_attributes.push_back( std::make_pair( "LayerBlocked", m_LayerBlocked ) );
 	if( m_LayerStyles.size() > 0 )
 	{
 		shared_ptr<IfcPPAttributeObjectVector> LayerStyles_vec_object( new  IfcPPAttributeObjectVector() );

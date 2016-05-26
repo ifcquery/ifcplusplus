@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcParameterValue.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcRectangularTrimmedSurface.h"
@@ -37,8 +38,8 @@ shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy( IfcPPCopyOpti
 	if( m_V1 ) { copy_self->m_V1 = dynamic_pointer_cast<IfcParameterValue>( m_V1->getDeepCopy(options) ); }
 	if( m_U2 ) { copy_self->m_U2 = dynamic_pointer_cast<IfcParameterValue>( m_U2->getDeepCopy(options) ); }
 	if( m_V2 ) { copy_self->m_V2 = dynamic_pointer_cast<IfcParameterValue>( m_V2->getDeepCopy(options) ); }
-	if( m_Usense ) { copy_self->m_Usense = m_Usense; }
-	if( m_Vsense ) { copy_self->m_Vsense = m_Vsense; }
+	if( m_Usense ) { copy_self->m_Usense = dynamic_pointer_cast<IfcBoolean>( m_Usense->getDeepCopy(options) ); }
+	if( m_Vsense ) { copy_self->m_Vsense = dynamic_pointer_cast<IfcBoolean>( m_Vsense->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
@@ -54,11 +55,9 @@ void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) cons
 	stream << ",";
 	if( m_V2 ) { m_V2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Usense == false ) { stream << ".F."; }
-	else if( m_Usense == true ) { stream << ".T."; }
+	if( m_Usense ) { m_Usense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Vsense == false ) { stream << ".F."; }
-	else if( m_Vsense == true ) { stream << ".T."; }
+	if( m_Vsense ) { m_Vsense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -71,10 +70,8 @@ void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wst
 	m_V1 = IfcParameterValue::createObjectFromSTEP( args[2] );
 	m_U2 = IfcParameterValue::createObjectFromSTEP( args[3] );
 	m_V2 = IfcParameterValue::createObjectFromSTEP( args[4] );
-	if( boost::iequals( args[5], L".F." ) ) { m_Usense = false; }
-	else if( boost::iequals( args[5], L".T." ) ) { m_Usense = true; }
-	if( boost::iequals( args[6], L".F." ) ) { m_Vsense = false; }
-	else if( boost::iequals( args[6], L".T." ) ) { m_Vsense = true; }
+	m_Usense = IfcBoolean::createObjectFromSTEP( args[5] );
+	m_Vsense = IfcBoolean::createObjectFromSTEP( args[6] );
 }
 void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -84,8 +81,8 @@ void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::str
 	vec_attributes.push_back( std::make_pair( "V1", m_V1 ) );
 	vec_attributes.push_back( std::make_pair( "U2", m_U2 ) );
 	vec_attributes.push_back( std::make_pair( "V2", m_V2 ) );
-	vec_attributes.push_back( std::make_pair( "Usense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Usense ) ) ) );
-	vec_attributes.push_back( std::make_pair( "Vsense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Vsense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Usense", m_Usense ) );
+	vec_attributes.push_back( std::make_pair( "Vsense", m_Vsense ) );
 }
 void IfcRectangularTrimmedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

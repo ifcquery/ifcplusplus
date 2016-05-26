@@ -1,18 +1,26 @@
-// Begin License:
-// Copyright (C) 2006-2011 Tobias Sargeant (tobias.sargeant@gmail.com).
-// All rights reserved.
+// Copyright 2006-2015 Tobias Sargeant (tobias.sargeant@gmail.com).
 //
 // This file is part of the Carve CSG Library (http://carve-csg.com/)
 //
-// This file may be used under the terms of the GNU General Public
-// License version 2.0 as published by the Free Software Foundation
-// and appearing in the file LICENSE.GPL2 included in the packaging of
-// this file.
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
-// INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE.
-// End:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 
 #if defined(HAVE_CONFIG_H)
@@ -39,15 +47,7 @@ namespace {
       carve::geom2d::P2 v2 = points[v] - points[vp];
 
       double cp = v1.x * v2.y - v2.x * v1.y;
-	  
-	  if( cp < 0 )
-	  {
-		  if( abs( cp ) < 0.00000001 )
-		  {
-			  std::cout << "grahamScan: abs( cp ) < 0.000001" << std::endl;
-		  }
-		  return false;
-	  }
+      if (cp < 0) return false;
 
       int j = i + 1;
       while (j < (int)ordered.size() && points[ordered[j]] == points[v]) j++;
@@ -78,8 +78,7 @@ namespace carve {
 
       std::vector<std::pair<double, double> > angle_dist;
       std::vector<int> ordered;
-      //angle_dist.reserve(points.size());
-	  angle_dist.resize(points.size());
+      angle_dist.reserve(points.size());
       ordered.reserve(points.size() - 1);
       for (unsigned i = 0; i < points.size(); ++i) {
         if (i == max_v) continue;
@@ -89,7 +88,7 @@ namespace carve {
   
       std::sort(ordered.begin(),
                 ordered.end(),
-                carve::make_index_sort(angle_dist.begin()));
+                make_index_sort(angle_dist.begin()));
 
       std::vector<int> result;
       result.push_back(max_v);

@@ -15,7 +15,6 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -23,6 +22,7 @@
 class IFCPP_EXPORT IfcTaskDurationEnum;
 class IFCPP_EXPORT IfcDuration;
 class IFCPP_EXPORT IfcDateTime;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcPositiveRatioMeasure;
 //ENTITY
 class IFCPP_EXPORT IfcTaskTime : public IfcSchedulingTime
@@ -60,7 +60,7 @@ public:
 	shared_ptr<IfcDateTime>				m_LateFinish;				//optional
 	shared_ptr<IfcDuration>				m_FreeFloat;				//optional
 	shared_ptr<IfcDuration>				m_TotalFloat;				//optional
-	boost::optional<bool>				m_IsCritical;				//optional
+	shared_ptr<IfcBoolean>				m_IsCritical;				//optional
 	shared_ptr<IfcDateTime>				m_StatusTime;				//optional
 	shared_ptr<IfcDuration>				m_ActualDuration;			//optional
 	shared_ptr<IfcDateTime>				m_ActualStart;				//optional

@@ -23,6 +23,7 @@
 #include "include/IfcCartesianTransformationOperator3DnonUniform.h"
 #include "include/IfcDirection.h"
 #include "include/IfcPresentationLayerAssignment.h"
+#include "include/IfcReal.h"
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator3DnonUniform 
@@ -35,10 +36,10 @@ shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepC
 	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
 	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy(options) ); }
 	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy(options) ); }
-	if( m_Scale ) { copy_self->m_Scale = m_Scale; }
+	if( m_Scale ) { copy_self->m_Scale = dynamic_pointer_cast<IfcReal>( m_Scale->getDeepCopy(options) ); }
 	if( m_Axis3 ) { copy_self->m_Axis3 = dynamic_pointer_cast<IfcDirection>( m_Axis3->getDeepCopy(options) ); }
-	if( m_Scale2 ) { copy_self->m_Scale2 = m_Scale2; }
-	if( m_Scale3 ) { copy_self->m_Scale3 = m_Scale3; }
+	if( m_Scale2 ) { copy_self->m_Scale2 = dynamic_pointer_cast<IfcReal>( m_Scale2->getDeepCopy(options) ); }
+	if( m_Scale3 ) { copy_self->m_Scale3 = dynamic_pointer_cast<IfcReal>( m_Scale3->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstream& stream ) const
@@ -50,13 +51,13 @@ void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstr
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale ){ stream << m_Scale.get(); } else { stream << "*"; }
+	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Axis3 ) { stream << "#" << m_Axis3->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Scale2 ){ stream << m_Scale2.get(); } else { stream << "$"; }
+	if( m_Scale2 ) { m_Scale2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale3 ){ stream << m_Scale3.get(); } else { stream << "$"; }
+	if( m_Scale3 ) { m_Scale3->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -67,30 +68,16 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
-	readRealValue( args[3], m_Scale );
+	m_Scale = IfcReal::createObjectFromSTEP( args[3] );
 	readEntityReference( args[4], m_Axis3, map );
-	readRealValue( args[5], m_Scale2 );
-	readRealValue( args[6], m_Scale3 );
+	m_Scale2 = IfcReal::createObjectFromSTEP( args[5] );
+	m_Scale3 = IfcReal::createObjectFromSTEP( args[6] );
 }
 void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
-	if( m_Scale2 )
-	{
-		vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale2.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "Scale2", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
-	}
-	if( m_Scale3 )
-	{
-		vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale3.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "Scale3", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "Scale2", m_Scale2 ) );
+	vec_attributes.push_back( std::make_pair( "Scale3", m_Scale3 ) );
 }
 void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

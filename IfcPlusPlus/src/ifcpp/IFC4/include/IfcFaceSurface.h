@@ -21,6 +21,7 @@
 #include "IfcSurfaceOrFaceSurface.h"
 #include "IfcFace.h"
 class IFCPP_EXPORT IfcSurface;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcFaceSurface : virtual public IfcSurfaceOrFaceSurface, public IfcFace
 { 
@@ -55,6 +56,6 @@ public:
 	// IfcFaceSurface -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcSurface>									m_FaceSurface;
-	bool													m_SameSense;
+	shared_ptr<IfcBoolean>									m_SameSense;
 };
 

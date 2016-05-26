@@ -20,12 +20,12 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcExternalReferenceRelationship.h"
+#include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcMaterial.h"
 #include "include/IfcMaterialProfile.h"
 #include "include/IfcMaterialProfileSet.h"
 #include "include/IfcMaterialProperties.h"
-#include "include/IfcNormalisedRatioMeasure.h"
 #include "include/IfcProfileDef.h"
 #include "include/IfcRelAssociatesMaterial.h"
 #include "include/IfcText.h"
@@ -45,7 +45,7 @@ shared_ptr<IfcPPObject> IfcMaterialProfile::getDeepCopy( IfcPPCopyOptions& optio
 		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_Profile = m_Profile; }
 		else { copy_self->m_Profile = dynamic_pointer_cast<IfcProfileDef>( m_Profile->getDeepCopy(options) ); }
 	}
-	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Priority->getDeepCopy(options) ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcInteger>( m_Priority->getDeepCopy(options) ); }
 	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -74,7 +74,7 @@ void IfcMaterialProfile::readStepArguments( const std::vector<std::wstring>& arg
 	m_Description = IfcText::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_Material, map );
 	readEntityReference( args[3], m_Profile, map );
-	m_Priority = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[4] );
+	m_Priority = IfcInteger::createObjectFromSTEP( args[4] );
 	m_Category = IfcLabel::createObjectFromSTEP( args[5] );
 }
 void IfcMaterialProfile::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

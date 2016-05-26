@@ -313,6 +313,11 @@ public:
 			{
 				const shared_ptr<IfcFaceBound>& face_bound = ( *it_bounds );
 
+				if( !face_bound )
+				{
+					continue;
+				}
+
 				// ENTITY IfcLoop SUPERTYPE OF(ONEOF(IfcEdgeLoop, IfcPolyLoop, IfcVertexLoop))
 				const shared_ptr<IfcLoop>& loop = face_bound->m_Bound;
 				if( !loop )
@@ -343,7 +348,11 @@ public:
 					}
 				}
 
-				bool orientation = face_bound->m_Orientation;
+				bool orientation = true;
+				if( face_bound->m_Orientation )
+				{
+					orientation = face_bound->m_Orientation->m_value;
+				}
 				if( !orientation )
 				{
 					std::reverse( loop_points.begin(), loop_points.end() );
