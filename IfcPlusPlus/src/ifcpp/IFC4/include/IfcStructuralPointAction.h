@@ -79,7 +79,7 @@ public:
 
 	// IfcStructuralAction -----------------------------------------------------------
 	// attributes:
-	//  boost::optional<bool>										m_DestabilizingLoad;		//optional
+	//  shared_ptr<IfcBoolean>										m_DestabilizingLoad;		//optional
 
 	// IfcStructuralPointAction -----------------------------------------------------------
 };

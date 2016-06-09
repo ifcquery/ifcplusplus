@@ -343,14 +343,17 @@ public:
 		// direction and length of extrusion
 		const double depth = extruded_area->m_Depth->m_value*length_factor;
 		carve::geom::vector<3>  extrusion_vector;
-		std::vector<double>& vec_direction = extruded_area->m_ExtrudedDirection->m_DirectionRatios;
-		if( vec_direction.size() > 2 )
+		std::vector<shared_ptr<IfcReal> >& vec_direction = extruded_area->m_ExtrudedDirection->m_DirectionRatios;
+		if( GeomUtils::allPointersValid( vec_direction ) )
 		{
-			extrusion_vector = carve::geom::VECTOR( vec_direction[0] * depth, vec_direction[1] * depth, vec_direction[2] * depth );
-		}
-		else if( vec_direction.size() > 1 )
-		{
-			extrusion_vector = carve::geom::VECTOR( vec_direction[0] * depth, vec_direction[1] * depth, 0 );
+			if( vec_direction.size() > 2 )
+			{
+				extrusion_vector = carve::geom::VECTOR( vec_direction[0]->m_value * depth, vec_direction[1]->m_value * depth, vec_direction[2]->m_value * depth );
+			}
+			else if( vec_direction.size() > 1 )
+			{
+				extrusion_vector = carve::geom::VECTOR( vec_direction[0]->m_value * depth, vec_direction[1]->m_value * depth, 0 );
+			}
 		}
 
 		// swept area
@@ -424,7 +427,7 @@ public:
 			if( axis_placement->m_Axis )
 			{
 				shared_ptr<IfcDirection> axis = axis_placement->m_Axis;
-				axis_direction = carve::geom::VECTOR( axis->m_DirectionRatios[0], axis->m_DirectionRatios[1], axis->m_DirectionRatios[2] );
+				axis_direction = carve::geom::VECTOR( axis->m_DirectionRatios[0]->m_value, axis->m_DirectionRatios[1]->m_value, axis->m_DirectionRatios[2]->m_value );
 			}
 		}
 
@@ -1212,7 +1215,7 @@ public:
 		}
 
 		// If the agreement flag is TRUE, then the subset is the one the normal points away from
-		bool agreement = half_space_solid->m_AgreementFlag;
+		bool agreement = half_space_solid->m_AgreementFlag->m_value;
 		if( !agreement )
 		{
 			base_surface_plane.negate();
@@ -1435,7 +1438,7 @@ public:
 						return;
 					}
 					// If the agreement flag is TRUE, then the subset is the one the normal points away from
-					bool agreement = half_space_solid->m_AgreementFlag;
+					bool agreement = half_space_solid->m_AgreementFlag->m_value;
 					if( !agreement )
 					{
 						std::reverse( base_surface_points.begin(), base_surface_points.end() );

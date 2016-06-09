@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcAdvancedFace.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcFaceBound.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcStyledItem.h"
@@ -42,7 +43,7 @@ shared_ptr<IfcPPObject> IfcAdvancedFace::getDeepCopy( IfcPPCopyOptions& options 
 		}
 	}
 	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy(options) ); }
-	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
+	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
@@ -52,8 +53,7 @@ void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_SameSense == false ) { stream << ".F."; }
-	else if( m_SameSense == true ) { stream << ".T."; }
+	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -63,8 +63,7 @@ void IfcAdvancedFace::readStepArguments( const std::vector<std::wstring>& args, 
 	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAdvancedFace, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 	readEntityReference( args[1], m_FaceSurface, map );
-	if( boost::iequals( args[2], L".F." ) ) { m_SameSense = false; }
-	else if( boost::iequals( args[2], L".T." ) ) { m_SameSense = true; }
+	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2] );
 }
 void IfcAdvancedFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

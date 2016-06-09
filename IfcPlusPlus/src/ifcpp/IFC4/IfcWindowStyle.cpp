@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcGloballyUniqueId.h"
 #include "include/IfcIdentifier.h"
 #include "include/IfcLabel.h"
@@ -76,8 +77,8 @@ shared_ptr<IfcPPObject> IfcWindowStyle::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
 	if( m_ConstructionType ) { copy_self->m_ConstructionType = dynamic_pointer_cast<IfcWindowStyleConstructionEnum>( m_ConstructionType->getDeepCopy(options) ); }
 	if( m_OperationType ) { copy_self->m_OperationType = dynamic_pointer_cast<IfcWindowStyleOperationEnum>( m_OperationType->getDeepCopy(options) ); }
-	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = m_ParameterTakesPrecedence; }
-	if( m_Sizeable ) { copy_self->m_Sizeable = m_Sizeable; }
+	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = dynamic_pointer_cast<IfcBoolean>( m_ParameterTakesPrecedence->getDeepCopy(options) ); }
+	if( m_Sizeable ) { copy_self->m_Sizeable = dynamic_pointer_cast<IfcBoolean>( m_Sizeable->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcWindowStyle::getStepLine( std::stringstream& stream ) const
@@ -103,11 +104,9 @@ void IfcWindowStyle::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_OperationType ) { m_OperationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ParameterTakesPrecedence == false ) { stream << ".F."; }
-	else if( m_ParameterTakesPrecedence == true ) { stream << ".T."; }
+	if( m_ParameterTakesPrecedence ) { m_ParameterTakesPrecedence->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Sizeable == false ) { stream << ".F."; }
-	else if( m_Sizeable == true ) { stream << ".T."; }
+	if( m_Sizeable ) { m_Sizeable->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcWindowStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -125,18 +124,16 @@ void IfcWindowStyle::readStepArguments( const std::vector<std::wstring>& args, c
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7] );
 	m_ConstructionType = IfcWindowStyleConstructionEnum::createObjectFromSTEP( args[8] );
 	m_OperationType = IfcWindowStyleOperationEnum::createObjectFromSTEP( args[9] );
-	if( boost::iequals( args[10], L".F." ) ) { m_ParameterTakesPrecedence = false; }
-	else if( boost::iequals( args[10], L".T." ) ) { m_ParameterTakesPrecedence = true; }
-	if( boost::iequals( args[11], L".F." ) ) { m_Sizeable = false; }
-	else if( boost::iequals( args[11], L".T." ) ) { m_Sizeable = true; }
+	m_ParameterTakesPrecedence = IfcBoolean::createObjectFromSTEP( args[10] );
+	m_Sizeable = IfcBoolean::createObjectFromSTEP( args[11] );
 }
 void IfcWindowStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTypeProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ConstructionType", m_ConstructionType ) );
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
-	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ParameterTakesPrecedence ) ) ) );
-	vec_attributes.push_back( std::make_pair( "Sizeable", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Sizeable ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
+	vec_attributes.push_back( std::make_pair( "Sizeable", m_Sizeable ) );
 }
 void IfcWindowStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -109,9 +109,21 @@ public:
 		{
 			if( m )
 			{
-				if( m->m_message_type != MESSAGE_TYPE_PROGRESS_VALUE && m->m_message_type != MESSAGE_TYPE_PROGRESS_TEXT )
+				switch (m->m_message_type)
 				{
-					std::wcout << L"messageCallback: !m_func_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
+					case MESSAGE_TYPE_UNKNOWN:
+					case MESSAGE_TYPE_GENERAL_MESSAGE:
+					case MESSAGE_TYPE_MINOR_WARNING:
+					case MESSAGE_TYPE_WARNING:
+					case MESSAGE_TYPE_ERROR:
+						std::wcout << L"messageCallback: !m_func_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
+						break;
+					case MESSAGE_TYPE_PROGRESS_VALUE:
+						std::wcout << L"messageCallback: !m_func_call_on_message. Lost progress value: " << m->m_progress_value << std::endl;
+						break;
+					case MESSAGE_TYPE_PROGRESS_TEXT:
+						std::wcout << L"messageCallback: !m_func_call_on_message. Lost progress text: " << m->m_progress_text.c_str() << std::endl;
+						break;
 				}
 				if( !m_obj_call_on_message )
 				{

@@ -19,7 +19,6 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurfaceStyleShading.h"
-class IFCPP_EXPORT IfcNormalisedRatioMeasure;
 class IFCPP_EXPORT IfcColourOrFactor;
 class IFCPP_EXPORT IfcSpecularHighlightSelect;
 class IFCPP_EXPORT IfcReflectanceMethodEnum;
@@ -46,10 +45,10 @@ public:
 	// IfcSurfaceStyleShading -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcColourRgb>				m_SurfaceColour;
+	//  shared_ptr<IfcNormalisedRatioMeasure>	m_Transparency;				//optional
 
 	// IfcSurfaceStyleRendering -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcNormalisedRatioMeasure>	m_Transparency;				//optional
 	shared_ptr<IfcColourOrFactor>			m_DiffuseColour;			//optional
 	shared_ptr<IfcColourOrFactor>			m_TransmissionColour;		//optional
 	shared_ptr<IfcColourOrFactor>			m_DiffuseTransmissionColour;	//optional

@@ -33,6 +33,7 @@
 #include "include/IfcRelConnectsElements.h"
 #include "include/IfcRelConnectsWithRealizingElements.h"
 #include "include/IfcRelContainedInSpatialStructure.h"
+#include "include/IfcRelCoversBldgElements.h"
 #include "include/IfcRelDeclares.h"
 #include "include/IfcRelDefinesByObject.h"
 #include "include/IfcRelDefinesByProperties.h"
@@ -244,6 +245,18 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 			}
 		}
 		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
+	}
+	if( m_HasCoverings_inverse.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasCoverings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
+		{
+			if( !m_HasCoverings_inverse[i].expired() )
+			{
+				HasCoverings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversBldgElements>( m_HasCoverings_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
 	}
 }
 void IfcElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )

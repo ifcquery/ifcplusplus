@@ -26,6 +26,8 @@
 #include "include/IfcPropertyEnumeratedValue.h"
 #include "include/IfcPropertyEnumeration.h"
 #include "include/IfcPropertySet.h"
+#include "include/IfcResourceApprovalRelationship.h"
+#include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcText.h"
 #include "include/IfcValue.h"
 
@@ -56,7 +58,24 @@ void IfcPropertyEnumeratedValue::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_EnumerationValues, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_EnumerationValues.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcValue>& type_object = m_EnumerationValues[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_EnumerationReference ) { stream << "#" << m_EnumerationReference->m_id; } else { stream << "$"; }
 	stream << ");";

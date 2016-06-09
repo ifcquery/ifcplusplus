@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcCurve.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcStyledItem.h"
@@ -50,7 +51,7 @@ shared_ptr<IfcPPObject> IfcTrimmedCurve::getDeepCopy( IfcPPCopyOptions& options 
 			copy_self->m_Trim2.push_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_SenseAgreement ) { copy_self->m_SenseAgreement = m_SenseAgreement; }
+	if( m_SenseAgreement ) { copy_self->m_SenseAgreement = dynamic_pointer_cast<IfcBoolean>( m_SenseAgreement->getDeepCopy(options) ); }
 	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcTrimmingPreference>( m_MasterRepresentation->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -59,12 +60,45 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCTRIMMEDCURVE" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_Trim1, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Trim1.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcTrimmingSelect>& type_object = m_Trim1[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
-	writeTypeList( stream, m_Trim2, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Trim2.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcTrimmingSelect>& type_object = m_Trim2[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
-	if( m_SenseAgreement == false ) { stream << ".F."; }
-	else if( m_SenseAgreement == true ) { stream << ".T."; }
+	if( m_SenseAgreement ) { m_SenseAgreement->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
@@ -77,8 +111,7 @@ void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReference( args[0], m_BasisCurve, map );
 	readSelectList( args[1], m_Trim1, map );
 	readSelectList( args[2], m_Trim2, map );
-	if( boost::iequals( args[3], L".F." ) ) { m_SenseAgreement = false; }
-	else if( boost::iequals( args[3], L".T." ) ) { m_SenseAgreement = true; }
+	m_SenseAgreement = IfcBoolean::createObjectFromSTEP( args[3] );
 	m_MasterRepresentation = IfcTrimmingPreference::createObjectFromSTEP( args[4] );
 }
 void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -97,7 +130,7 @@ void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 		std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Trim2", Trim2_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "SenseAgreement", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_SenseAgreement ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SenseAgreement", m_SenseAgreement ) );
 	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
 void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -22,6 +22,7 @@
 #include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcLogical.h"
+#include "include/IfcPositiveInteger.h"
 #include "include/IfcReal.h"
 #include "include/IfcText.h"
 #include "include/IfcTime.h"
@@ -29,7 +30,7 @@
 #include "include/IfcValue.h"
 #include "include/IfcSimpleValue.h"
 
-// TYPE IfcSimpleValue = SELECT	(IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp);
+// TYPE IfcSimpleValue = SELECT	(IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcPositiveInteger	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp);
 shared_ptr<IfcSimpleValue> IfcSimpleValue::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

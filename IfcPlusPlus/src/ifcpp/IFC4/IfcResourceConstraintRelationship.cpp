@@ -21,6 +21,7 @@
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcConstraint.h"
 #include "include/IfcLabel.h"
+#include "include/IfcProperty.h"
 #include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcResourceObjectSelect.h"
 #include "include/IfcText.h"
@@ -54,7 +55,24 @@ void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream )
 	stream << ",";
 	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_RelatedResourceObjects, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_RelatedResourceObjects.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcResourceObjectSelect>& type_object = m_RelatedResourceObjects[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -87,6 +105,14 @@ void IfcResourceConstraintRelationship::setInverseCounterparts( shared_ptr<IfcPP
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcResourceConstraintRelationship> ptr_self = dynamic_pointer_cast<IfcResourceConstraintRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcResourceConstraintRelationship::setInverseCounterparts: type mismatch" ); }
+	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
+	{
+		shared_ptr<IfcProperty>  RelatedResourceObjects_IfcProperty = dynamic_pointer_cast<IfcProperty>( m_RelatedResourceObjects[i] );
+		if( RelatedResourceObjects_IfcProperty )
+		{
+			RelatedResourceObjects_IfcProperty->m_HasConstraints_inverse.push_back( ptr_self );
+		}
+	}
 	if( m_RelatingConstraint )
 	{
 		m_RelatingConstraint->m_PropertiesForConstraint_inverse.push_back( ptr_self );
@@ -95,6 +121,26 @@ void IfcResourceConstraintRelationship::setInverseCounterparts( shared_ptr<IfcPP
 void IfcResourceConstraintRelationship::unlinkFromInverseCounterparts()
 {
 	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
+	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
+	{
+		shared_ptr<IfcProperty>  RelatedResourceObjects_IfcProperty = dynamic_pointer_cast<IfcProperty>( m_RelatedResourceObjects[i] );
+		if( RelatedResourceObjects_IfcProperty )
+		{
+			std::vector<weak_ptr<IfcResourceConstraintRelationship> >& HasConstraints_inverse = RelatedResourceObjects_IfcProperty->m_HasConstraints_inverse;
+			for( auto it_HasConstraints_inverse = HasConstraints_inverse.begin(); it_HasConstraints_inverse != HasConstraints_inverse.end(); )
+			{
+				shared_ptr<IfcResourceConstraintRelationship> self_candidate( *it_HasConstraints_inverse );
+				if( self_candidate.get() == this )
+				{
+					it_HasConstraints_inverse= HasConstraints_inverse.erase( it_HasConstraints_inverse );
+				}
+				else
+				{
+					++it_HasConstraints_inverse;
+				}
+			}
+		}
+	}
 	if( m_RelatingConstraint )
 	{
 		std::vector<weak_ptr<IfcResourceConstraintRelationship> >& PropertiesForConstraint_inverse = m_RelatingConstraint->m_PropertiesForConstraint_inverse;

@@ -19,6 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcIdentifier;
 class IFCPP_EXPORT IfcCartesianTransformationOperator2D;
 class IFCPP_EXPORT IfcTextureCoordinate;
@@ -45,8 +46,8 @@ public:
 
 	// IfcSurfaceTexture -----------------------------------------------------------
 	// attributes:
-	bool												m_RepeatS;
-	bool												m_RepeatT;
+	shared_ptr<IfcBoolean>								m_RepeatS;
+	shared_ptr<IfcBoolean>								m_RepeatT;
 	shared_ptr<IfcIdentifier>							m_Mode;						//optional
 	shared_ptr<IfcCartesianTransformationOperator2D>	m_TextureTransform;			//optional
 	std::vector<shared_ptr<IfcIdentifier> >				m_Parameter;				//optional

@@ -1,6 +1,13 @@
 #pragma once
 
 #pragma warning (disable: 4267 4334 4244 4100 4996 4589 4456 4457 4458 4589)
+#ifndef CARVE_USE_EXACT_PREDICATES
+	#define CARVE_USE_EXACT_PREDICATES
+#endif
+#ifndef CARVE_SYSTEM_BOOST
+	#define CARVE_SYSTEM_BOOST
+#endif
+
 #include <vector>
 #include <carve/carve.hpp>
 #include <carve/matrix.hpp>

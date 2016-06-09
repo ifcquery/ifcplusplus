@@ -15,13 +15,13 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationStyleSelect.h"
 #include "IfcPresentationStyle.h"
 class IFCPP_EXPORT IfcFillStyleSelect;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcFillAreaStyle : virtual public IfcPresentationStyleSelect, public IfcPresentationStyle
 { 
@@ -47,6 +47,6 @@ public:
 	// IfcFillAreaStyle -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcFillStyleSelect> >	m_FillStyles;
-	boost::optional<bool>							m_ModelorDraughting;		//optional
+	shared_ptr<IfcBoolean>							m_ModelorDraughting;		//optional
 };
 

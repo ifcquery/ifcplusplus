@@ -42,7 +42,24 @@ shared_ptr<IfcPPObject> IfcUnitAssignment::getDeepCopy( IfcPPCopyOptions& option
 void IfcUnitAssignment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCUNITASSIGNMENT" << "(";
-	writeTypeList( stream, m_Units, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Units.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcUnit>& type_object = m_Units[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcUnitAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

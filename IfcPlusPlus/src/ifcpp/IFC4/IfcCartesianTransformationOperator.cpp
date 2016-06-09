@@ -23,6 +23,7 @@
 #include "include/IfcCartesianTransformationOperator.h"
 #include "include/IfcDirection.h"
 #include "include/IfcPresentationLayerAssignment.h"
+#include "include/IfcReal.h"
 #include "include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator 
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcCartesianTransformationOperator::getDeepCopy( IfcPPCo
 	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
 	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy(options) ); }
 	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy(options) ); }
-	if( m_Scale ) { copy_self->m_Scale = m_Scale; }
+	if( m_Scale ) { copy_self->m_Scale = dynamic_pointer_cast<IfcReal>( m_Scale->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcCartesianTransformationOperator::getStepLine( std::stringstream& stream ) const
@@ -47,7 +48,7 @@ void IfcCartesianTransformationOperator::getStepLine( std::stringstream& stream 
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale ){ stream << m_Scale.get(); } else { stream << "$"; }
+	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -58,7 +59,7 @@ void IfcCartesianTransformationOperator::readStepArguments( const std::vector<st
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
-	readRealValue( args[3], m_Scale );
+	m_Scale = IfcReal::createObjectFromSTEP( args[3] );
 }
 void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -66,14 +67,7 @@ void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<st
 	vec_attributes.push_back( std::make_pair( "Axis1", m_Axis1 ) );
 	vec_attributes.push_back( std::make_pair( "Axis2", m_Axis2 ) );
 	vec_attributes.push_back( std::make_pair( "LocalOrigin", m_LocalOrigin ) );
-	if( m_Scale )
-	{
-		vec_attributes.push_back( std::make_pair( "Scale", shared_ptr<IfcPPRealAttribute>( new IfcPPRealAttribute( m_Scale.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "Scale", shared_ptr<IfcPPRealAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "Scale", m_Scale ) );
 }
 void IfcCartesianTransformationOperator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

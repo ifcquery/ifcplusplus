@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcAnalysisTheoryTypeEnum.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcGloballyUniqueId.h"
 #include "include/IfcLabel.h"
 #include "include/IfcOwnerHistory.h"
@@ -59,7 +60,7 @@ shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy( IfcPPCopyOptions&
 	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
 	if( m_TheoryType ) { copy_self->m_TheoryType = dynamic_pointer_cast<IfcAnalysisTheoryTypeEnum>( m_TheoryType->getDeepCopy(options) ); }
 	if( m_ResultForLoadGroup ) { copy_self->m_ResultForLoadGroup = dynamic_pointer_cast<IfcStructuralLoadGroup>( m_ResultForLoadGroup->getDeepCopy(options) ); }
-	if( m_IsLinear ) { copy_self->m_IsLinear = m_IsLinear; }
+	if( m_IsLinear ) { copy_self->m_IsLinear = dynamic_pointer_cast<IfcBoolean>( m_IsLinear->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
@@ -79,8 +80,7 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ResultForLoadGroup ) { stream << "#" << m_ResultForLoadGroup->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_IsLinear == false ) { stream << ".F."; }
-	else if( m_IsLinear == true ) { stream << ".T."; }
+	if( m_IsLinear ) { m_IsLinear->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -95,15 +95,14 @@ void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4] );
 	m_TheoryType = IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( args[5] );
 	readEntityReference( args[6], m_ResultForLoadGroup, map );
-	if( boost::iequals( args[7], L".F." ) ) { m_IsLinear = false; }
-	else if( boost::iequals( args[7], L".T." ) ) { m_IsLinear = true; }
+	m_IsLinear = IfcBoolean::createObjectFromSTEP( args[7] );
 }
 void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TheoryType", m_TheoryType ) );
 	vec_attributes.push_back( std::make_pair( "ResultForLoadGroup", m_ResultForLoadGroup ) );
-	vec_attributes.push_back( std::make_pair( "IsLinear", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsLinear ) ) ) );
+	vec_attributes.push_back( std::make_pair( "IsLinear", m_IsLinear ) );
 }
 void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

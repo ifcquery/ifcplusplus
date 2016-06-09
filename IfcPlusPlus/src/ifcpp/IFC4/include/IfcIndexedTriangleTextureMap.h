@@ -19,6 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcIndexedTextureMap.h"
+class IFCPP_EXPORT IfcPositiveInteger;
 //ENTITY
 class IFCPP_EXPORT IfcIndexedTriangleTextureMap : public IfcIndexedTextureMap
 { 
@@ -50,6 +51,6 @@ public:
 
 	// IfcIndexedTriangleTextureMap -----------------------------------------------------------
 	// attributes:
-	std::vector<std::vector<int > >				m_TexCoordIndex;			//optional
+	std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_TexCoordIndex;			//optional
 };
 

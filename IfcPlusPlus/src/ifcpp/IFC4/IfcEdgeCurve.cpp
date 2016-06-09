@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcCurve.h"
 #include "include/IfcEdgeCurve.h"
 #include "include/IfcPresentationLayerAssignment.h"
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcEdgeCurve::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
 	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy(options) ); }
 	if( m_EdgeGeometry ) { copy_self->m_EdgeGeometry = dynamic_pointer_cast<IfcCurve>( m_EdgeGeometry->getDeepCopy(options) ); }
-	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
+	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
@@ -47,8 +48,7 @@ void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_EdgeGeometry ) { stream << "#" << m_EdgeGeometry->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_SameSense == false ) { stream << ".F."; }
-	else if( m_SameSense == true ) { stream << ".T."; }
+	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -59,14 +59,13 @@ void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeGeometry, map );
-	if( boost::iequals( args[3], L".F." ) ) { m_SameSense = false; }
-	else if( boost::iequals( args[3], L".T." ) ) { m_SameSense = true; }
+	m_SameSense = IfcBoolean::createObjectFromSTEP( args[3] );
 }
 void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeGeometry", m_EdgeGeometry ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_SameSense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 }
 void IfcEdgeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

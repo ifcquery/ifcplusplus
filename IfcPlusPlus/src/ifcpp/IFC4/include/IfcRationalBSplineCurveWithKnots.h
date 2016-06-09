@@ -19,6 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBSplineCurveWithKnots.h"
+class IFCPP_EXPORT IfcReal;
 //ENTITY
 class IFCPP_EXPORT IfcRationalBSplineCurveWithKnots : public IfcBSplineCurveWithKnots
 { 
@@ -50,20 +51,20 @@ public:
 
 	// IfcBSplineCurve -----------------------------------------------------------
 	// attributes:
-	//  int														m_Degree;
+	//  shared_ptr<IfcInteger>									m_Degree;
 	//  std::vector<shared_ptr<IfcCartesianPoint> >				m_ControlPointsList;
 	//  shared_ptr<IfcBSplineCurveForm>							m_CurveForm;
-	//  LogicalEnum												m_ClosedCurve;
-	//  LogicalEnum												m_SelfIntersect;
+	//  shared_ptr<IfcLogical>									m_ClosedCurve;
+	//  shared_ptr<IfcLogical>									m_SelfIntersect;
 
 	// IfcBSplineCurveWithKnots -----------------------------------------------------------
 	// attributes:
-	//  std::vector<int >										m_KnotMultiplicities;
+	//  std::vector<shared_ptr<IfcInteger> >					m_KnotMultiplicities;
 	//  std::vector<shared_ptr<IfcParameterValue> >				m_Knots;
 	//  shared_ptr<IfcKnotType>									m_KnotSpec;
 
 	// IfcRationalBSplineCurveWithKnots -----------------------------------------------------------
 	// attributes:
-	std::vector<double >									m_WeightsData;
+	std::vector<shared_ptr<IfcReal> >						m_WeightsData;
 };
 

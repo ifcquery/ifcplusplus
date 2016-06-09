@@ -54,7 +54,24 @@ void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) co
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_AssignedItems, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_AssignedItems.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcLayeredItem>& type_object = m_AssignedItems[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

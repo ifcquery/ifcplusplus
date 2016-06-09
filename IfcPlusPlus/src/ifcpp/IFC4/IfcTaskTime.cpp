@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcDataOriginEnum.h"
 #include "include/IfcDateTime.h"
 #include "include/IfcDuration.h"
@@ -47,7 +48,7 @@ shared_ptr<IfcPPObject> IfcTaskTime::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_LateFinish ) { copy_self->m_LateFinish = dynamic_pointer_cast<IfcDateTime>( m_LateFinish->getDeepCopy(options) ); }
 	if( m_FreeFloat ) { copy_self->m_FreeFloat = dynamic_pointer_cast<IfcDuration>( m_FreeFloat->getDeepCopy(options) ); }
 	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy(options) ); }
-	if( m_IsCritical ) { copy_self->m_IsCritical = m_IsCritical; }
+	if( m_IsCritical ) { copy_self->m_IsCritical = dynamic_pointer_cast<IfcBoolean>( m_IsCritical->getDeepCopy(options) ); }
 	if( m_StatusTime ) { copy_self->m_StatusTime = dynamic_pointer_cast<IfcDateTime>( m_StatusTime->getDeepCopy(options) ); }
 	if( m_ActualDuration ) { copy_self->m_ActualDuration = dynamic_pointer_cast<IfcDuration>( m_ActualDuration->getDeepCopy(options) ); }
 	if( m_ActualStart ) { copy_self->m_ActualStart = dynamic_pointer_cast<IfcDateTime>( m_ActualStart->getDeepCopy(options) ); }
@@ -85,8 +86,7 @@ void IfcTaskTime::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IsCritical == false ) { stream << ".F."; }
-	else if( m_IsCritical == true ) { stream << ".T."; }
+	if( m_IsCritical ) { m_IsCritical->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -119,8 +119,7 @@ void IfcTaskTime::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_LateFinish = IfcDateTime::createObjectFromSTEP( args[10] );
 	m_FreeFloat = IfcDuration::createObjectFromSTEP( args[11] );
 	m_TotalFloat = IfcDuration::createObjectFromSTEP( args[12] );
-	if( boost::iequals( args[13], L".F." ) ) { m_IsCritical = false; }
-	else if( boost::iequals( args[13], L".T." ) ) { m_IsCritical = true; }
+	m_IsCritical = IfcBoolean::createObjectFromSTEP( args[13] );
 	m_StatusTime = IfcDateTime::createObjectFromSTEP( args[14] );
 	m_ActualDuration = IfcDuration::createObjectFromSTEP( args[15] );
 	m_ActualStart = IfcDateTime::createObjectFromSTEP( args[16] );
@@ -141,14 +140,7 @@ void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 	vec_attributes.push_back( std::make_pair( "LateFinish", m_LateFinish ) );
 	vec_attributes.push_back( std::make_pair( "FreeFloat", m_FreeFloat ) );
 	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
-	if( m_IsCritical )
-	{
-		vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsCritical.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "IsCritical", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "IsCritical", m_IsCritical ) );
 	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
 	vec_attributes.push_back( std::make_pair( "ActualDuration", m_ActualDuration ) );
 	vec_attributes.push_back( std::make_pair( "ActualStart", m_ActualStart ) );

@@ -50,7 +50,24 @@ void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Side ) { m_Side->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_Styles, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Styles.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcSurfaceStyleElementSelect>& type_object = m_Styles[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcSurfaceStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -21,6 +21,7 @@
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcBoundaryCurve.h"
 #include "include/IfcCompositeCurveSegment.h"
+#include "include/IfcLogical.h"
 #include "include/IfcPresentationLayerAssignment.h"
 #include "include/IfcStyledItem.h"
 
@@ -39,7 +40,7 @@ shared_ptr<IfcPPObject> IfcBoundaryCurve::getDeepCopy( IfcPPCopyOptions& options
 			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = m_SelfIntersect; }
+	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcBoundaryCurve::getStepLine( std::stringstream& stream ) const
@@ -47,9 +48,7 @@ void IfcBoundaryCurve::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCBOUNDARYCURVE" << "(";
 	writeEntityList( stream, m_Segments );
 	stream << ",";
-	if( m_SelfIntersect == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_SelfIntersect == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcBoundaryCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -58,9 +57,7 @@ void IfcBoundaryCurve::readStepArguments( const std::vector<std::wstring>& args,
 	const int num_args = (int)args.size();
 	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryCurve, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
-	if( boost::iequals( args[1], L".F." ) ) { m_SelfIntersect = LOGICAL_FALSE; }
-	else if( boost::iequals( args[1], L".T." ) ) { m_SelfIntersect = LOGICAL_TRUE; }
-	else if( boost::iequals( args[1], L".U." ) ) { m_SelfIntersect = LOGICAL_UNKNOWN; }
+	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[1] );
 }
 void IfcBoundaryCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

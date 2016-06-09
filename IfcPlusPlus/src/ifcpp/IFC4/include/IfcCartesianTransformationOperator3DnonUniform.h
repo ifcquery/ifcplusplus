@@ -15,11 +15,11 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCartesianTransformationOperator3D.h"
+class IFCPP_EXPORT IfcReal;
 //ENTITY
 class IFCPP_EXPORT IfcCartesianTransformationOperator3DnonUniform : public IfcCartesianTransformationOperator3D
 { 
@@ -50,7 +50,7 @@ public:
 	//  shared_ptr<IfcDirection>								m_Axis1;					//optional
 	//  shared_ptr<IfcDirection>								m_Axis2;					//optional
 	//  shared_ptr<IfcCartesianPoint>							m_LocalOrigin;
-	//  boost::optional<double>									m_Scale;					//optional
+	//  shared_ptr<IfcReal>										m_Scale;					//optional
 
 	// IfcCartesianTransformationOperator3D -----------------------------------------------------------
 	// attributes:
@@ -58,7 +58,7 @@ public:
 
 	// IfcCartesianTransformationOperator3DnonUniform -----------------------------------------------------------
 	// attributes:
-	boost::optional<double>									m_Scale2;					//optional
-	boost::optional<double>									m_Scale3;					//optional
+	shared_ptr<IfcReal>										m_Scale2;					//optional
+	shared_ptr<IfcReal>										m_Scale3;					//optional
 };
 

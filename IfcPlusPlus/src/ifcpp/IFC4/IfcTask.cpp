@@ -19,8 +19,10 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcGloballyUniqueId.h"
 #include "include/IfcIdentifier.h"
+#include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcOwnerHistory.h"
 #include "include/IfcRelAggregates.h"
@@ -62,8 +64,8 @@ shared_ptr<IfcPPObject> IfcTask::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy(options) ); }
 	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy(options) ); }
 	if( m_WorkMethod ) { copy_self->m_WorkMethod = dynamic_pointer_cast<IfcLabel>( m_WorkMethod->getDeepCopy(options) ); }
-	if( m_IsMilestone ) { copy_self->m_IsMilestone = m_IsMilestone; }
-	if( m_Priority ) { copy_self->m_Priority = m_Priority; }
+	if( m_IsMilestone ) { copy_self->m_IsMilestone = dynamic_pointer_cast<IfcBoolean>( m_IsMilestone->getDeepCopy(options) ); }
+	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcInteger>( m_Priority->getDeepCopy(options) ); }
 	if( m_TaskTime ) { copy_self->m_TaskTime = dynamic_pointer_cast<IfcTaskTime>( m_TaskTime->getDeepCopy(options) ); }
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTaskTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
@@ -89,10 +91,9 @@ void IfcTask::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_WorkMethod ) { m_WorkMethod->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IsMilestone == false ) { stream << ".F."; }
-	else if( m_IsMilestone == true ) { stream << ".T."; }
+	if( m_IsMilestone ) { m_IsMilestone->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Priority ){ stream << m_Priority.get(); } else { stream << "$"; }
+	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TaskTime ) { stream << "#" << m_TaskTime->m_id; } else { stream << "$"; }
 	stream << ",";
@@ -113,9 +114,8 @@ void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const bo
 	m_LongDescription = IfcText::createObjectFromSTEP( args[6] );
 	m_Status = IfcLabel::createObjectFromSTEP( args[7] );
 	m_WorkMethod = IfcLabel::createObjectFromSTEP( args[8] );
-	if( boost::iequals( args[9], L".F." ) ) { m_IsMilestone = false; }
-	else if( boost::iequals( args[9], L".T." ) ) { m_IsMilestone = true; }
-	readIntValue( args[10], m_Priority );
+	m_IsMilestone = IfcBoolean::createObjectFromSTEP( args[9] );
+	m_Priority = IfcInteger::createObjectFromSTEP( args[10] );
 	readEntityReference( args[11], m_TaskTime, map );
 	m_PredefinedType = IfcTaskTypeEnum::createObjectFromSTEP( args[12] );
 }
@@ -124,15 +124,8 @@ void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 	IfcProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
 	vec_attributes.push_back( std::make_pair( "WorkMethod", m_WorkMethod ) );
-	vec_attributes.push_back( std::make_pair( "IsMilestone", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_IsMilestone ) ) ) );
-	if( m_Priority )
-	{
-		vec_attributes.push_back( std::make_pair( "Priority", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_Priority.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "Priority", shared_ptr<IfcPPIntAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "IsMilestone", m_IsMilestone ) );
+	vec_attributes.push_back( std::make_pair( "Priority", m_Priority ) );
 	vec_attributes.push_back( std::make_pair( "TaskTime", m_TaskTime ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }

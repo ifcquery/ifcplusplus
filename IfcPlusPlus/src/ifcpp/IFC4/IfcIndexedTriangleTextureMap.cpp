@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcIndexedTriangleTextureMap.h"
+#include "include/IfcPositiveInteger.h"
 #include "include/IfcSurfaceTexture.h"
 #include "include/IfcTessellatedFaceSet.h"
 #include "include/IfcTextureVertexList.h"
@@ -41,12 +42,18 @@ shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy( IfcPPCopyOpti
 	}
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
 	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy(options) ); }
-	if( m_TexCoordIndex.size() > 0 )
+	copy_self->m_TexCoordIndex.resize( m_TexCoordIndex.size() );
+	for( size_t ii=0; ii<m_TexCoordIndex.size(); ++ii )
 	{
-		copy_self->m_TexCoordIndex.resize( m_TexCoordIndex.size() );
-		for( size_t i = 0; i < m_TexCoordIndex.size(); ++i )
+		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_TexCoordIndex[ii];
+		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_TexCoordIndex[ii];
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
 		{
-			std::copy( m_TexCoordIndex[i].begin(), m_TexCoordIndex[i].end(), std::back_inserter( copy_self->m_TexCoordIndex[i] ) );
+			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
+			if( item_jj )
+			{
+				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
+			}
 		}
 	}
 	return copy_self;
@@ -60,7 +67,32 @@ void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) cons
 	stream << ",";
 	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_id; } else { stream << "*"; }
 	stream << ",";
-	writeNumericList2D( stream, m_TexCoordIndex );
+	stream << "("; 
+	for( size_t ii = 0; ii < m_TexCoordIndex.size(); ++ii )
+	{
+		const std::vector<shared_ptr<IfcPositiveInteger> >&inner_vec = m_TexCoordIndex[ii];
+		if( ii > 0 )
+		{
+			stream << "), (";
+		}
+		for( size_t jj = 0; jj < inner_vec.size(); ++jj )
+		{
+			if( jj > 0 )
+			{
+				stream << ", ";
+			}
+			const shared_ptr<IfcPositiveInteger>& type_object = inner_vec[jj];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
+		}
+	}
+	stream << ")"; 
 	stream << ");";
 }
 void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -71,7 +103,7 @@ void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wst
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );
-	readIntList2D(  args[3], m_TexCoordIndex );
+	readEntityReferenceList2D( args[3], m_TexCoordIndex, map );
 }
 void IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

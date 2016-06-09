@@ -21,6 +21,7 @@
 #include "IfcBoundedSurface.h"
 class IFCPP_EXPORT IfcSurface;
 class IFCPP_EXPORT IfcParameterValue;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcRectangularTrimmedSurface : public IfcBoundedSurface
 { 
@@ -57,7 +58,7 @@ public:
 	shared_ptr<IfcParameterValue>							m_V1;
 	shared_ptr<IfcParameterValue>							m_U2;
 	shared_ptr<IfcParameterValue>							m_V2;
-	bool													m_Usense;
-	bool													m_Vsense;
+	shared_ptr<IfcBoolean>									m_Usense;
+	shared_ptr<IfcBoolean>									m_Vsense;
 };
 

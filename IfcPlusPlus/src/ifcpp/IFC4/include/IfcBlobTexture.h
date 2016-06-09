@@ -20,6 +20,7 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcSurfaceTexture.h"
 class IFCPP_EXPORT IfcIdentifier;
+class IFCPP_EXPORT IfcBinary;
 //ENTITY
 class IFCPP_EXPORT IfcBlobTexture : public IfcSurfaceTexture
 { 
@@ -42,8 +43,8 @@ public:
 
 	// IfcSurfaceTexture -----------------------------------------------------------
 	// attributes:
-	//  bool												m_RepeatS;
-	//  bool												m_RepeatT;
+	//  shared_ptr<IfcBoolean>								m_RepeatS;
+	//  shared_ptr<IfcBoolean>								m_RepeatT;
 	//  shared_ptr<IfcIdentifier>							m_Mode;						//optional
 	//  shared_ptr<IfcCartesianTransformationOperator2D>	m_TextureTransform;			//optional
 	//  std::vector<shared_ptr<IfcIdentifier> >				m_Parameter;				//optional
@@ -54,6 +55,6 @@ public:
 	// IfcBlobTexture -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcIdentifier>							m_RasterFormat;
-	const char*											m_RasterCode;
+	shared_ptr<IfcBinary>								m_RasterCode;
 };
 

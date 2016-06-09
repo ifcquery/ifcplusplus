@@ -447,53 +447,19 @@ void readRealList3D( const std::wstring& str, std::vector<std::vector<std::vecto
 	}
 }
 
-void readBinaryList( const std::wstring& str, std::vector<const char*>& vec )
+void readBinary( const std::wstring& str, std::wstring& target )
 {
-	const wchar_t* ch = str.c_str();
-	const size_t argsize = str.size();
-	if( argsize == 0 )
-	{
-		return;
-	}
-	size_t i=0;
-	size_t last_token = 0;
-	while( i<argsize )
-	{
-		if( ch[i] == '(' )
-		{
-			++i;
-			last_token = i;
-			break;
-		}
-		++i;
-	}
-	while( i<argsize )
-	{
-		if( ch[i] == ',' )
-		{
-			std::wstring wstr_single_arg = str.substr( last_token, i-last_token );
-			std::string str_single_arg;
-			str_single_arg.assign(wstr_single_arg.begin(), wstr_single_arg.end());
-			vec.push_back(str_single_arg.c_str());
-			//vec.push_back( str.substr( last_token, i-last_token ).c_str() );
-			last_token = i+1;
-		}
-		else if( ch[i] == ')' )
-		{
-			std::wstring wstr_single_arg = str.substr( last_token, i-last_token );
-			std::string str_single_arg;
-			str_single_arg.assign(wstr_single_arg.begin(), wstr_single_arg.end());
-			vec.push_back(str_single_arg.c_str());
-			//vec.push_back( str.substr( last_token, i-last_token ).c_str() );
-			return;
-		}
-		++i;
-	}
+	target = str;
 }
 
-void readStringList( const std::string& str, std::vector<std::string>& vec )
+void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec )
 {
-	const char* ch = str.c_str();
+	readStringList( str, vec );
+}
+
+void readStringList( const std::wstring& str, std::vector<std::wstring>& vec )
+{
+	const wchar_t* ch = str.c_str();
 	const size_t argsize = str.size();
 	if( argsize == 0 )
 	{

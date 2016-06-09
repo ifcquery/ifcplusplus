@@ -20,8 +20,9 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationItem.h"
 class IFCPP_EXPORT IfcTessellatedFaceSet;
-class IFCPP_EXPORT IfcSurfaceStyleShading;
+class IFCPP_EXPORT IfcNormalisedRatioMeasure;
 class IFCPP_EXPORT IfcColourRgbList;
+class IFCPP_EXPORT IfcPositiveInteger;
 //ENTITY
 class IFCPP_EXPORT IfcIndexedColourMap : public IfcPresentationItem
 { 
@@ -44,9 +45,9 @@ public:
 
 	// IfcIndexedColourMap -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcTessellatedFaceSet>	m_MappedTo;
-	shared_ptr<IfcSurfaceStyleShading>	m_Overrides;				//optional
-	shared_ptr<IfcColourRgbList>		m_Colours;
-	std::vector<int >					m_ColourIndex;
+	shared_ptr<IfcTessellatedFaceSet>				m_MappedTo;
+	shared_ptr<IfcNormalisedRatioMeasure>			m_Opacity;					//optional
+	shared_ptr<IfcColourRgbList>					m_Colours;
+	std::vector<shared_ptr<IfcPositiveInteger> >	m_ColourIndex;
 };
 

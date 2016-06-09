@@ -21,6 +21,7 @@
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcGloballyUniqueId.h"
 #include "include/IfcIdentifier.h"
+#include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcObjectPlacement.h"
 #include "include/IfcOwnerHistory.h"
@@ -72,8 +73,8 @@ shared_ptr<IfcPPObject> IfcStairFlight::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
 	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcIdentifier>( m_Tag->getDeepCopy(options) ); }
-	if( m_NumberOfRiser ) { copy_self->m_NumberOfRiser = m_NumberOfRiser; }
-	if( m_NumberOfTreads ) { copy_self->m_NumberOfTreads = m_NumberOfTreads; }
+	if( m_NumberOfRisers ) { copy_self->m_NumberOfRisers = dynamic_pointer_cast<IfcInteger>( m_NumberOfRisers->getDeepCopy(options) ); }
+	if( m_NumberOfTreads ) { copy_self->m_NumberOfTreads = dynamic_pointer_cast<IfcInteger>( m_NumberOfTreads->getDeepCopy(options) ); }
 	if( m_RiserHeight ) { copy_self->m_RiserHeight = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_RiserHeight->getDeepCopy(options) ); }
 	if( m_TreadLength ) { copy_self->m_TreadLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_TreadLength->getDeepCopy(options) ); }
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcStairFlightTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
@@ -98,9 +99,9 @@ void IfcStairFlight::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_NumberOfRiser ){ stream << m_NumberOfRiser.get(); } else { stream << "$"; }
+	if( m_NumberOfRisers ) { m_NumberOfRisers->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_NumberOfTreads ){ stream << m_NumberOfTreads.get(); } else { stream << "$"; }
+	if( m_NumberOfTreads ) { m_NumberOfTreads->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RiserHeight ) { m_RiserHeight->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -122,8 +123,8 @@ void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReference( args[5], m_ObjectPlacement, map );
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7] );
-	readIntValue( args[8], m_NumberOfRiser );
-	readIntValue( args[9], m_NumberOfTreads );
+	m_NumberOfRisers = IfcInteger::createObjectFromSTEP( args[8] );
+	m_NumberOfTreads = IfcInteger::createObjectFromSTEP( args[9] );
 	m_RiserHeight = IfcPositiveLengthMeasure::createObjectFromSTEP( args[10] );
 	m_TreadLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[11] );
 	m_PredefinedType = IfcStairFlightTypeEnum::createObjectFromSTEP( args[12] );
@@ -131,22 +132,8 @@ void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
-	if( m_NumberOfRiser )
-	{
-		vec_attributes.push_back( std::make_pair( "NumberOfRiser", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_NumberOfRiser.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "NumberOfRiser", shared_ptr<IfcPPIntAttribute>() ) );	 // empty shared_ptr
-	}
-	if( m_NumberOfTreads )
-	{
-		vec_attributes.push_back( std::make_pair( "NumberOfTreads", shared_ptr<IfcPPIntAttribute>( new IfcPPIntAttribute( m_NumberOfTreads.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "NumberOfTreads", shared_ptr<IfcPPIntAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "NumberOfRisers", m_NumberOfRisers ) );
+	vec_attributes.push_back( std::make_pair( "NumberOfTreads", m_NumberOfTreads ) );
 	vec_attributes.push_back( std::make_pair( "RiserHeight", m_RiserHeight ) );
 	vec_attributes.push_back( std::make_pair( "TreadLength", m_TreadLength ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );

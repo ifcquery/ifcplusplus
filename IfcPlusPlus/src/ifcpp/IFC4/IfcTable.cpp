@@ -88,30 +88,9 @@ void IfcTable::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 void IfcTable::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
 }
-void IfcTable::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTable::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {
-	shared_ptr<IfcTable> ptr_self = dynamic_pointer_cast<IfcTable>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcTable::setInverseCounterparts: type mismatch" ); }
-	for( size_t i=0; i<m_Rows.size(); ++i )
-	{
-		if( m_Rows[i] )
-		{
-			m_Rows[i]->m_OfTable_inverse = ptr_self;
-		}
-	}
 }
 void IfcTable::unlinkFromInverseCounterparts()
 {
-	for( size_t i=0; i<m_Rows.size(); ++i )
-	{
-		if( m_Rows[i] )
-		{
-			shared_ptr<IfcTable> self_candidate( m_Rows[i]->m_OfTable_inverse );
-			if( self_candidate.get() == this )
-			{
-				weak_ptr<IfcTable>& self_candidate_weak = m_Rows[i]->m_OfTable_inverse;
-				self_candidate_weak.reset();
-			}
-		}
-	}
 }

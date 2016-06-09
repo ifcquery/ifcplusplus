@@ -21,6 +21,7 @@
 #include "IfcGridPlacementDirectionSelect.h"
 #include "IfcVectorOrDirection.h"
 #include "IfcGeometricRepresentationItem.h"
+class IFCPP_EXPORT IfcReal;
 //ENTITY
 class IFCPP_EXPORT IfcDirection : virtual public IfcGridPlacementDirectionSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
 { 
@@ -48,6 +49,6 @@ public:
 
 	// IfcDirection -----------------------------------------------------------
 	// attributes:
-	std::vector<double >									m_DirectionRatios;
+	std::vector<shared_ptr<IfcReal> >						m_DirectionRatios;
 };
 

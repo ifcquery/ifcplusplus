@@ -50,6 +50,8 @@ public:
 	//  std::vector<weak_ptr<IfcPropertyDependencyRelationship> >	m_PropertyForDependance_inverse;
 	//  std::vector<weak_ptr<IfcPropertyDependencyRelationship> >	m_PropertyDependsOn_inverse;
 	//  std::vector<weak_ptr<IfcComplexProperty> >					m_PartOfComplex_inverse;
+	//  std::vector<weak_ptr<IfcResourceConstraintRelationship> >	m_HasConstraints_inverse;
+	//  std::vector<weak_ptr<IfcResourceApprovalRelationship> >		m_HasApprovals_inverse;
 
 	// IfcSimpleProperty -----------------------------------------------------------
 };

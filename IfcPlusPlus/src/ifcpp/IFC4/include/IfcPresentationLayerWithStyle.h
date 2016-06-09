@@ -19,6 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcPresentationLayerAssignment.h"
+class IFCPP_EXPORT IfcLogical;
 class IFCPP_EXPORT IfcPresentationStyle;
 //ENTITY
 class IFCPP_EXPORT IfcPresentationLayerWithStyle : public IfcPresentationLayerAssignment
@@ -47,9 +48,9 @@ public:
 
 	// IfcPresentationLayerWithStyle -----------------------------------------------------------
 	// attributes:
-	LogicalEnum										m_LayerOn;
-	LogicalEnum										m_LayerFrozen;
-	LogicalEnum										m_LayerBlocked;
+	shared_ptr<IfcLogical>							m_LayerOn;
+	shared_ptr<IfcLogical>							m_LayerFrozen;
+	shared_ptr<IfcLogical>							m_LayerBlocked;
 	std::vector<shared_ptr<IfcPresentationStyle> >	m_LayerStyles;
 };
 

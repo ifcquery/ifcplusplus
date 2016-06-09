@@ -48,7 +48,32 @@ shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy( IfcPPCopyOptions& options
 void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCCOLOURRGBLIST" << "(";
-	writeTypeList2D( stream, m_ColourList );
+	stream << "("; 
+	for( size_t ii = 0; ii < m_ColourList.size(); ++ii )
+	{
+		const std::vector<shared_ptr<IfcNormalisedRatioMeasure> >&inner_vec = m_ColourList[ii];
+		if( ii > 0 )
+		{
+			stream << "), (";
+		}
+		for( size_t jj = 0; jj < inner_vec.size(); ++jj )
+		{
+			if( jj > 0 )
+			{
+				stream << ", ";
+			}
+			const shared_ptr<IfcNormalisedRatioMeasure>& type_object = inner_vec[jj];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
+		}
+	}
+	stream << ")"; 
 	stream << ");";
 }
 void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

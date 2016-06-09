@@ -138,7 +138,24 @@ void IfcReinforcingMeshType::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_BendingShapeCode ) { m_BendingShapeCode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_BendingParameters, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_BendingParameters.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcBendingParameterSelect>& type_object = m_BendingParameters[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcReinforcingMeshType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

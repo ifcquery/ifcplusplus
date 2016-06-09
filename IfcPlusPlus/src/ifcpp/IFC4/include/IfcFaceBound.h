@@ -20,6 +20,7 @@
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTopologicalRepresentationItem.h"
 class IFCPP_EXPORT IfcLoop;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcFaceBound : public IfcTopologicalRepresentationItem
 { 
@@ -48,6 +49,6 @@ public:
 	// IfcFaceBound -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcLoop>										m_Bound;
-	bool													m_Orientation;
+	shared_ptr<IfcBoolean>									m_Orientation;
 };
 

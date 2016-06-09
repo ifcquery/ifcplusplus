@@ -100,6 +100,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCCABLESEGMENTTYPE:return new IfcCableSegmentType();
 		case IFCCARTESIANPOINT:return new IfcCartesianPoint();
 		case IFCCARTESIANPOINTLIST:return new IfcCartesianPointList();
+		case IFCCARTESIANPOINTLIST2D:return new IfcCartesianPointList2D();
 		case IFCCARTESIANPOINTLIST3D:return new IfcCartesianPointList3D();
 		case IFCCARTESIANTRANSFORMATIONOPERATOR:return new IfcCartesianTransformationOperator();
 		case IFCCARTESIANTRANSFORMATIONOPERATOR2D:return new IfcCartesianTransformationOperator2D();
@@ -339,6 +340,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCISHAPEPROFILEDEF:return new IfcIShapeProfileDef();
 		case IFCIMAGETEXTURE:return new IfcImageTexture();
 		case IFCINDEXEDCOLOURMAP:return new IfcIndexedColourMap();
+		case IFCINDEXEDPOLYCURVE:return new IfcIndexedPolyCurve();
 		case IFCINDEXEDTEXTUREMAP:return new IfcIndexedTextureMap();
 		case IFCINDEXEDTRIANGLETEXTUREMAP:return new IfcIndexedTriangleTextureMap();
 		case IFCINTERCEPTOR:return new IfcInterceptor();

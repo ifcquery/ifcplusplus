@@ -34,6 +34,7 @@
 #include "include/IfcRelConnectsElements.h"
 #include "include/IfcRelConnectsWithRealizingElements.h"
 #include "include/IfcRelContainedInSpatialStructure.h"
+#include "include/IfcRelCoversBldgElements.h"
 #include "include/IfcRelDeclares.h"
 #include "include/IfcRelDefinesByObject.h"
 #include "include/IfcRelDefinesByProperties.h"

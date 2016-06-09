@@ -44,7 +44,24 @@ shared_ptr<IfcPPObject> IfcShellBasedSurfaceModel::getDeepCopy( IfcPPCopyOptions
 void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCSHELLBASEDSURFACEMODEL" << "(";
-	writeTypeList( stream, m_SbsmBoundary, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_SbsmBoundary.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcShell>& type_object = m_SbsmBoundary[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcShellBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -47,7 +47,7 @@ public:
 	// IfcFaceBound -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcLoop>										m_Bound;
-	//  bool													m_Orientation;
+	//  shared_ptr<IfcBoolean>									m_Orientation;
 
 	// IfcFaceOuterBound -----------------------------------------------------------
 };

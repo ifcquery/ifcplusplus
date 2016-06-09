@@ -66,7 +66,24 @@ void IfcClassification::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeList( stream, m_ReferenceTokens );
+	stream << "(";
+	for( size_t ii = 0; ii < m_ReferenceTokens.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcIdentifier>& type_object = m_ReferenceTokens[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcClassification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

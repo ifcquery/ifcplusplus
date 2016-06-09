@@ -42,7 +42,24 @@ shared_ptr<IfcPPObject> IfcPresentationStyleAssignment::getDeepCopy( IfcPPCopyOp
 void IfcPresentationStyleAssignment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCPRESENTATIONSTYLEASSIGNMENT" << "(";
-	writeTypeList( stream, m_Styles, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Styles.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcPresentationStyleSelect>& type_object = m_Styles[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcPresentationStyleAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

@@ -15,7 +15,6 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
@@ -24,6 +23,7 @@
 class IFCPP_EXPORT IfcCurveFontOrScaledCurveFontSelect;
 class IFCPP_EXPORT IfcSizeSelect;
 class IFCPP_EXPORT IfcColour;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcCurveStyle : virtual public IfcPresentationStyleSelect, public IfcPresentationStyle
 { 
@@ -51,6 +51,6 @@ public:
 	shared_ptr<IfcCurveFontOrScaledCurveFontSelect>	m_CurveFont;				//optional
 	shared_ptr<IfcSizeSelect>						m_CurveWidth;				//optional
 	shared_ptr<IfcColour>							m_CurveColour;				//optional
-	boost::optional<bool>							m_ModelOrDraughting;		//optional
+	shared_ptr<IfcBoolean>							m_ModelOrDraughting;		//optional
 };
 

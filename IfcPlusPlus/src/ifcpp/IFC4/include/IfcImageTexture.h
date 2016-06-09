@@ -42,8 +42,8 @@ public:
 
 	// IfcSurfaceTexture -----------------------------------------------------------
 	// attributes:
-	//  bool												m_RepeatS;
-	//  bool												m_RepeatT;
+	//  shared_ptr<IfcBoolean>								m_RepeatS;
+	//  shared_ptr<IfcBoolean>								m_RepeatT;
 	//  shared_ptr<IfcIdentifier>							m_Mode;						//optional
 	//  shared_ptr<IfcCartesianTransformationOperator2D>	m_TextureTransform;			//optional
 	//  std::vector<shared_ptr<IfcIdentifier> >				m_Parameter;				//optional

@@ -120,6 +120,7 @@
 #include "include/IfcInteger.h"
 #include "include/IfcLabel.h"
 #include "include/IfcLogical.h"
+#include "include/IfcPositiveInteger.h"
 #include "include/IfcReal.h"
 #include "include/IfcText.h"
 #include "include/IfcTime.h"

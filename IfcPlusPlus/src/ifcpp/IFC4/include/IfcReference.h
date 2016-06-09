@@ -22,6 +22,7 @@
 #include "IfcMetricValueSelect.h"
 class IFCPP_EXPORT IfcIdentifier;
 class IFCPP_EXPORT IfcLabel;
+class IFCPP_EXPORT IfcInteger;
 class IFCPP_EXPORT IfcReference;
 //ENTITY
 class IFCPP_EXPORT IfcReference : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public IfcPPEntity
@@ -43,10 +44,10 @@ public:
 
 	// IfcReference -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>	m_TypeIdentifier;			//optional
-	shared_ptr<IfcIdentifier>	m_AttributeIdentifier;		//optional
-	shared_ptr<IfcLabel>		m_InstanceName;				//optional
-	std::vector<int >			m_ListPositions;			//optional
-	shared_ptr<IfcReference>	m_InnerReference;			//optional
+	shared_ptr<IfcIdentifier>				m_TypeIdentifier;			//optional
+	shared_ptr<IfcIdentifier>				m_AttributeIdentifier;		//optional
+	shared_ptr<IfcLabel>					m_InstanceName;				//optional
+	std::vector<shared_ptr<IfcInteger> >	m_ListPositions;			//optional
+	shared_ptr<IfcReference>				m_InnerReference;			//optional
 };
 

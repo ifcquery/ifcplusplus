@@ -21,6 +21,7 @@
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcApproval.h"
 #include "include/IfcLabel.h"
+#include "include/IfcProperty.h"
 #include "include/IfcResourceApprovalRelationship.h"
 #include "include/IfcResourceObjectSelect.h"
 #include "include/IfcText.h"
@@ -52,7 +53,24 @@ void IfcResourceApprovalRelationship::getStepLine( std::stringstream& stream ) c
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	writeTypeList( stream, m_RelatedResourceObjects, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_RelatedResourceObjects.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcResourceObjectSelect>& type_object = m_RelatedResourceObjects[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->m_id; } else { stream << "$"; }
 	stream << ");";
@@ -87,6 +105,14 @@ void IfcResourceApprovalRelationship::setInverseCounterparts( shared_ptr<IfcPPEn
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcResourceApprovalRelationship> ptr_self = dynamic_pointer_cast<IfcResourceApprovalRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw IfcPPException( "IfcResourceApprovalRelationship::setInverseCounterparts: type mismatch" ); }
+	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
+	{
+		shared_ptr<IfcProperty>  RelatedResourceObjects_IfcProperty = dynamic_pointer_cast<IfcProperty>( m_RelatedResourceObjects[i] );
+		if( RelatedResourceObjects_IfcProperty )
+		{
+			RelatedResourceObjects_IfcProperty->m_HasApprovals_inverse.push_back( ptr_self );
+		}
+	}
 	if( m_RelatingApproval )
 	{
 		m_RelatingApproval->m_ApprovedResources_inverse.push_back( ptr_self );
@@ -95,6 +121,26 @@ void IfcResourceApprovalRelationship::setInverseCounterparts( shared_ptr<IfcPPEn
 void IfcResourceApprovalRelationship::unlinkFromInverseCounterparts()
 {
 	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
+	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
+	{
+		shared_ptr<IfcProperty>  RelatedResourceObjects_IfcProperty = dynamic_pointer_cast<IfcProperty>( m_RelatedResourceObjects[i] );
+		if( RelatedResourceObjects_IfcProperty )
+		{
+			std::vector<weak_ptr<IfcResourceApprovalRelationship> >& HasApprovals_inverse = RelatedResourceObjects_IfcProperty->m_HasApprovals_inverse;
+			for( auto it_HasApprovals_inverse = HasApprovals_inverse.begin(); it_HasApprovals_inverse != HasApprovals_inverse.end(); )
+			{
+				shared_ptr<IfcResourceApprovalRelationship> self_candidate( *it_HasApprovals_inverse );
+				if( self_candidate.get() == this )
+				{
+					it_HasApprovals_inverse= HasApprovals_inverse.erase( it_HasApprovals_inverse );
+				}
+				else
+				{
+					++it_HasApprovals_inverse;
+				}
+			}
+		}
+	}
 	if( m_RelatingApproval )
 	{
 		std::vector<weak_ptr<IfcResourceApprovalRelationship> >& ApprovedResources_inverse = m_RelatingApproval->m_ApprovedResources_inverse;

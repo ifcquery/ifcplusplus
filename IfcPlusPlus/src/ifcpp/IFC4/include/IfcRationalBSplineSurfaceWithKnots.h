@@ -19,6 +19,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBSplineSurfaceWithKnots.h"
+class IFCPP_EXPORT IfcReal;
 //ENTITY
 class IFCPP_EXPORT IfcRationalBSplineSurfaceWithKnots : public IfcBSplineSurfaceWithKnots
 { 
@@ -50,24 +51,24 @@ public:
 
 	// IfcBSplineSurface -----------------------------------------------------------
 	// attributes:
-	//  int														m_UDegree;
-	//  int														m_VDegree;
+	//  shared_ptr<IfcInteger>									m_UDegree;
+	//  shared_ptr<IfcInteger>									m_VDegree;
 	//  std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >	m_ControlPointsList;
 	//  shared_ptr<IfcBSplineSurfaceForm>						m_SurfaceForm;
-	//  LogicalEnum												m_UClosed;
-	//  LogicalEnum												m_VClosed;
-	//  LogicalEnum												m_SelfIntersect;
+	//  shared_ptr<IfcLogical>									m_UClosed;
+	//  shared_ptr<IfcLogical>									m_VClosed;
+	//  shared_ptr<IfcLogical>									m_SelfIntersect;
 
 	// IfcBSplineSurfaceWithKnots -----------------------------------------------------------
 	// attributes:
-	//  std::vector<int >										m_UMultiplicities;
-	//  std::vector<int >										m_VMultiplicities;
+	//  std::vector<shared_ptr<IfcInteger> >					m_UMultiplicities;
+	//  std::vector<shared_ptr<IfcInteger> >					m_VMultiplicities;
 	//  std::vector<shared_ptr<IfcParameterValue> >				m_UKnots;
 	//  std::vector<shared_ptr<IfcParameterValue> >				m_VKnots;
 	//  shared_ptr<IfcKnotType>									m_KnotSpec;
 
 	// IfcRationalBSplineSurfaceWithKnots -----------------------------------------------------------
 	// attributes:
-	std::vector<std::vector<double > >						m_WeightsData;
+	std::vector<std::vector<shared_ptr<IfcReal> > >			m_WeightsData;
 };
 

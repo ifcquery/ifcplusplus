@@ -1,18 +1,26 @@
-// Begin License:
-// Copyright (C) 2006-2011 Tobias Sargeant (tobias.sargeant@gmail.com).
-// All rights reserved.
+// Copyright 2006-2015 Tobias Sargeant (tobias.sargeant@gmail.com).
 //
 // This file is part of the Carve CSG Library (http://carve-csg.com/)
 //
-// This file may be used under the terms of the GNU General Public
-// License version 2.0 as published by the Free Software Foundation
-// and appearing in the file LICENSE.GPL2 included in the packaging of
-// this file.
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
-// INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE.
-// End:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 
 #pragma once
@@ -584,7 +592,7 @@ namespace carve {
           int n_int4 = countIntersections(v4, v3, v1, overlapping);
 
           if ((n_int3 + n_int4) - (n_int1 + n_int2) > 0) {
-            //std::cerr << "delta[ints] = " << (n_int3 + n_int4) - (n_int1 + n_int2) << std::endl;
+            std::cerr << "delta[ints] = " << (n_int3 + n_int4) - (n_int1 + n_int2) << std::endl;
             // avoid creating a self intersection.
             continue;
           }
@@ -788,12 +796,12 @@ namespace carve {
                                           near_faces.begin(), near_faces.end(),
                                           v1, v2, merge);
           if (i2 != i1) {
-            //std::cerr << "near faces: " << near_faces.size() << " affected faces: " << affected_faces.size() << std::endl;
-            //std::cerr << "merge delta[ints] = " << i2 - i1 << " pre: " << i1 << " post: " << i2 << std::endl;
+            std::cerr << "near faces: " << near_faces.size() << " affected faces: " << affected_faces.size() << std::endl;
+            std::cerr << "merge delta[ints] = " << i2 - i1 << " pre: " << i1 << " post: " << i2 << std::endl;
             if (i2 > i1) continue;
           }
 
-          //std::cerr << "collapse " << e << std::endl;
+          std::cerr << "collapse " << e << std::endl;
 
           v2->v = merge;
           ++n_mods;
@@ -891,9 +899,8 @@ namespace carve {
           edge_t *removed = edge->mergeFaces();
           if (removed == NULL) {
             coplanar_face_edges.erase(edge);
-            
+            ++n_merge;
           } else {
-			  ++n_merge;
             edge_t *e = removed;
             do {
               edge_t *n = e->next;
@@ -1061,7 +1068,7 @@ namespace carve {
       }
 
 
-	public:
+
       size_t cleanFaceEdges(mesh_t *mesh) {
         size_t n_removed = 0;
         for (size_t i = 0; i < mesh->faces.size(); ++i) {
@@ -1164,7 +1171,7 @@ namespace carve {
 
 
 
-
+    public:
       // Merge adjacent coplanar faces (where coplanar is determined
       // by dot-product >= cos(min_normal_angle)).
       size_t mergeCoplanarFaces(meshset_t *meshset, double min_normal_angle) {
@@ -1351,7 +1358,7 @@ namespace carve {
 
         initEdgeInfo(meshset);
 
-        //std::cerr << "initial merge" << std::endl;
+        std::cerr << "initial merge" << std::endl;
         modifications = collapseEdges(meshset, EdgeMerger(0.0));
         removeRemnantFaces(meshset);
 
@@ -1362,24 +1369,24 @@ namespace carve {
           // std::cerr << " " << n << std::endl;
           // n_flip = n;
 
-          //std::cerr << "flip conservative";
+          std::cerr << "flip conservative";
           n = flipEdges(meshset, FlippableConservative());
-          //std::cerr << " " << n << std::endl;
+          std::cerr << " " << n << std::endl;
           n_flip += n;
 
-          //std::cerr << "flip";
+          std::cerr << "flip";
           n = flipEdges(meshset, Flippable(min_colinearity, min_delta_v, min_normal_angle));
-          //std::cerr << " " << n << std::endl;
+          std::cerr << " " << n << std::endl;
           n_flip += n;
 
-          //std::cerr << "merge";
+          std::cerr << "merge";
           n = collapseEdges(meshset, EdgeMerger(min_length));
           removeRemnantFaces(meshset);
-          //std::cerr << " " << n << std::endl;
+          std::cerr << " " << n << std::endl;
           n_merge = n;
 
           modifications += n_flip + n_merge;
-          //std::cerr << "stats:" << n_flip << " " << n_merge << std::endl;
+          std::cerr << "stats:" << n_flip << " " << n_merge << std::endl;
         } while (n_flip || n_merge);
 
         clearEdgeInfo();

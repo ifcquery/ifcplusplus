@@ -251,8 +251,8 @@ namespace CSG_Adapter
 		{
 			for( size_t i = 0; i < meshset->meshes.size(); ++i )
 			{
-				simplifier.removeRemnantFaces( meshset->meshes[i] );
-				simplifier.cleanFaceEdges( meshset->meshes[i] );
+				//simplifier.removeRemnantFaces( meshset->meshes[i] );
+				//simplifier.cleanFaceEdges( meshset->meshes[i] );
 				meshset->meshes[i]->cacheEdges();
 			}
 		}
@@ -809,7 +809,7 @@ namespace CSG_Adapter
 			return;
 		}
 
-		simplifier.removeRemnantFaces( meshset.get() );
+		//simplifier.removeRemnantFaces( meshset.get() );
 		//simplifier.cleanFaceEdges(meshset.get());
 #ifdef _DEBUG
 		meshset_copy = shared_ptr<meshset_t >( meshset->clone() );
@@ -822,7 +822,7 @@ namespace CSG_Adapter
 #endif
 
 		removeFins( meshset );
-		simplifier.cleanFaceEdges( meshset.get() );
+		//simplifier.cleanFaceEdges( meshset.get() );
 
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
 		{

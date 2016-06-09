@@ -41,15 +41,17 @@ public:
 
 	// IfcCoordinateReferenceSystem -----------------------------------------------------------
 	// attributes:
-	//  shared_ptr<IfcLabel>		m_Name;						//optional
-	//  shared_ptr<IfcText>			m_Description;				//optional
-	//  shared_ptr<IfcIdentifier>	m_GeodeticDatum;
-	//  shared_ptr<IfcIdentifier>	m_VerticalDatum;			//optional
+	//  shared_ptr<IfcLabel>							m_Name;
+	//  shared_ptr<IfcText>								m_Description;				//optional
+	//  shared_ptr<IfcIdentifier>						m_GeodeticDatum;			//optional
+	//  shared_ptr<IfcIdentifier>						m_VerticalDatum;			//optional
+	// inverse attributes:
+	//  std::vector<weak_ptr<IfcCoordinateOperation> >	m_HasCoordinateOperation_inverse;
 
 	// IfcProjectedCRS -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcIdentifier>	m_MapProjection;			//optional
-	shared_ptr<IfcIdentifier>	m_MapZone;					//optional
-	shared_ptr<IfcNamedUnit>	m_MapUnit;					//optional
+	shared_ptr<IfcIdentifier>						m_MapProjection;			//optional
+	shared_ptr<IfcIdentifier>						m_MapZone;					//optional
+	shared_ptr<IfcNamedUnit>						m_MapUnit;					//optional
 };
 

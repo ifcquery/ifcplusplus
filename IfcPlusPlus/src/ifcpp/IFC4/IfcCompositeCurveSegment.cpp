@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcCompositeCurve.h"
 #include "include/IfcCompositeCurveSegment.h"
 #include "include/IfcCurve.h"
@@ -34,7 +35,7 @@ shared_ptr<IfcPPObject> IfcCompositeCurveSegment::getDeepCopy( IfcPPCopyOptions&
 {
 	shared_ptr<IfcCompositeCurveSegment> copy_self( new IfcCompositeCurveSegment() );
 	if( m_Transition ) { copy_self->m_Transition = dynamic_pointer_cast<IfcTransitionCode>( m_Transition->getDeepCopy(options) ); }
-	if( m_SameSense ) { copy_self->m_SameSense = m_SameSense; }
+	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
 	if( m_ParentCurve ) { copy_self->m_ParentCurve = dynamic_pointer_cast<IfcCurve>( m_ParentCurve->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -43,8 +44,7 @@ void IfcCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCCOMPOSITECURVESEGMENT" << "(";
 	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SameSense == false ) { stream << ".F."; }
-	else if( m_SameSense == true ) { stream << ".T."; }
+	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->m_id; } else { stream << "$"; }
 	stream << ");";
@@ -55,15 +55,14 @@ void IfcCompositeCurveSegment::readStepArguments( const std::vector<std::wstring
 	const int num_args = (int)args.size();
 	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurveSegment, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Transition = IfcTransitionCode::createObjectFromSTEP( args[0] );
-	if( boost::iequals( args[1], L".F." ) ) { m_SameSense = false; }
-	else if( boost::iequals( args[1], L".T." ) ) { m_SameSense = true; }
+	m_SameSense = IfcBoolean::createObjectFromSTEP( args[1] );
 	readEntityReference( args[2], m_ParentCurve, map );
 }
 void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Transition", m_Transition ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_SameSense ) ) ) );
+	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 	vec_attributes.push_back( std::make_pair( "ParentCurve", m_ParentCurve ) );
 }
 void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

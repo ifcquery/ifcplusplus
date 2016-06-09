@@ -33,7 +33,9 @@
 #include <ifcpp/IFC4/include/IfcObjectPlacement.h>
 #include <ifcpp/IFC4/include/IfcPlacement.h>
 #include <ifcpp/IFC4/include/IfcRepresentationContext.h>
+#include <ifcpp/IFC4/include/IfcReal.h>
 #include <ifcpp/IFC4/include/IfcVirtualGridIntersection.h>
+#include "GeomUtils.h"
 #include "IncludeCarveHeaders.h"
 
 namespace PlacementConverter
@@ -62,8 +64,14 @@ namespace PlacementConverter
 		{
 			if( axis2placement2d->m_RefDirection->m_DirectionRatios.size() > 1 )
 			{
-				ref_direction.x = axis2placement2d->m_RefDirection->m_DirectionRatios[0];
-				ref_direction.y = axis2placement2d->m_RefDirection->m_DirectionRatios[1];
+				if( axis2placement2d->m_RefDirection->m_DirectionRatios[0] )
+				{
+					ref_direction.x = axis2placement2d->m_RefDirection->m_DirectionRatios[0]->m_value;
+				}
+				if( axis2placement2d->m_RefDirection->m_DirectionRatios[1] )
+				{
+					ref_direction.y = axis2placement2d->m_RefDirection->m_DirectionRatios[1]->m_value;
+				}
 				ref_direction.z = 0;
 			}
 		}
@@ -112,10 +120,10 @@ namespace PlacementConverter
 		if( axis2placement3d->m_Axis )
 		{
 			// local z-axis
-			std::vector<double>& axis = axis2placement3d->m_Axis->m_DirectionRatios;
+			std::vector<shared_ptr<IfcReal> >& axis = axis2placement3d->m_Axis->m_DirectionRatios;
 			if( axis.size() > 2 )
 			{
-				local_z = carve::geom::VECTOR( axis[0], axis[1], axis[2] );
+				local_z = carve::geom::VECTOR( axis[0]->m_value, axis[1]->m_value, axis[2]->m_value );
 			}
 		}
 
@@ -123,9 +131,9 @@ namespace PlacementConverter
 		{
 			if( axis2placement3d->m_RefDirection->m_DirectionRatios.size() > 2 )
 			{
-				ref_direction.x = axis2placement3d->m_RefDirection->m_DirectionRatios[0];
-				ref_direction.y = axis2placement3d->m_RefDirection->m_DirectionRatios[1];
-				ref_direction.z = axis2placement3d->m_RefDirection->m_DirectionRatios[2];
+				ref_direction.x = axis2placement3d->m_RefDirection->m_DirectionRatios[0]->m_value;
+				ref_direction.y = axis2placement3d->m_RefDirection->m_DirectionRatios[1]->m_value;
+				ref_direction.z = axis2placement3d->m_RefDirection->m_DirectionRatios[2]->m_value;
 			}
 		}
 
@@ -169,10 +177,10 @@ namespace PlacementConverter
 		if( axis2placement3d->m_Axis )
 		{
 			// local z-axis
-			std::vector<double>& axis = axis2placement3d->m_Axis->m_DirectionRatios;
+			std::vector<shared_ptr<IfcReal> >& axis = axis2placement3d->m_Axis->m_DirectionRatios;
 			if( axis.size() > 2 )
 			{
-				local_z = carve::geom::VECTOR( axis[0], axis[1], axis[2] );
+				local_z = carve::geom::VECTOR( axis[0]->m_value, axis[1]->m_value, axis[2]->m_value );
 			}
 		}
 		local_z.normalize();
@@ -244,9 +252,9 @@ namespace PlacementConverter
 			vec_new_entities.push_back( axis2placement3d->m_Axis );
 		}
 		axis2placement3d->m_Axis->m_DirectionRatios.clear();
-		axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.x );
-		axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.y );
-		axis2placement3d->m_Axis->m_DirectionRatios.push_back( local_z.z );
+		axis2placement3d->m_Axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_z.x ) ) );
+		axis2placement3d->m_Axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_z.y ) ) );
+		axis2placement3d->m_Axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_z.z ) ) );
 
 		if( !axis2placement3d->m_RefDirection )
 		{
@@ -259,9 +267,9 @@ namespace PlacementConverter
 		}
 
 		axis2placement3d->m_RefDirection->m_DirectionRatios.clear();
-		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.x );
-		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.y );
-		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( local_x.z );
+		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_x.x ) ) );
+		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_x.y ) ) );
+		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_x.z ) ) );
 	}
 
 	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, const double length_factor, carve::math::Matrix& resulting_matrix, StatusCallback* sc, bool only_rotation = false )
@@ -446,7 +454,7 @@ namespace PlacementConverter
 
 			if( trans_operator_2d->m_Scale )
 			{
-				scale = trans_operator_2d->m_Scale.get();
+				scale = trans_operator_2d->m_Scale->m_value;
 			}
 			scale_y = scale;
 			scale_z = scale;
@@ -463,11 +471,11 @@ namespace PlacementConverter
 					return;
 				}
 
-				local_x.x = trans_operator_2d->m_Axis1->m_DirectionRatios[0];
-				local_x.y = trans_operator_2d->m_Axis1->m_DirectionRatios[1];
+				local_x.x = trans_operator_2d->m_Axis1->m_DirectionRatios[0]->m_value;
+				local_x.y = trans_operator_2d->m_Axis1->m_DirectionRatios[1]->m_value;
 
-				local_y.x = trans_operator_2d->m_Axis2->m_DirectionRatios[0];
-				local_y.y = trans_operator_2d->m_Axis2->m_DirectionRatios[1];
+				local_y.x = trans_operator_2d->m_Axis2->m_DirectionRatios[0]->m_value;
+				local_y.y = trans_operator_2d->m_Axis2->m_DirectionRatios[1]->m_value;
 			}
 
 			shared_ptr<IfcCartesianTransformationOperator2DnonUniform> non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator2DnonUniform>( transform_operator );
@@ -475,7 +483,7 @@ namespace PlacementConverter
 			{
 				if( non_uniform->m_Scale2 )
 				{
-					scale_y = non_uniform->m_Scale2.get();
+					scale_y = non_uniform->m_Scale2->m_value;
 				}
 			}
 		}
@@ -498,12 +506,15 @@ namespace PlacementConverter
 				sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 				return;
 			}
-			translate.x = trans_operator_3d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
-			translate.y = trans_operator_3d->m_LocalOrigin->m_Coordinates[1]->m_value*length_factor;
-			translate.z = trans_operator_3d->m_LocalOrigin->m_Coordinates[2]->m_value*length_factor;
+			if( GeomUtils::allPointersValid( trans_operator_3d->m_LocalOrigin->m_Coordinates ) )
+			{
+				translate.x = trans_operator_3d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
+				translate.y = trans_operator_3d->m_LocalOrigin->m_Coordinates[1]->m_value*length_factor;
+				translate.z = trans_operator_3d->m_LocalOrigin->m_Coordinates[2]->m_value*length_factor;
+			}
 			if( trans_operator_3d->m_Scale )
 			{
-				scale = trans_operator_3d->m_Scale.get();
+				scale = trans_operator_3d->m_Scale->m_value;
 			}
 			scale_y = scale;
 			scale_z = scale;
@@ -527,17 +538,17 @@ namespace PlacementConverter
 					sc->messageCallback( "Axis3 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 					return;
 				}
-				local_x.x = axis1->m_DirectionRatios[0];
-				local_x.y = axis1->m_DirectionRatios[1];
-				local_x.z = axis1->m_DirectionRatios[2];
+				local_x.x = axis1->m_DirectionRatios[0]->m_value;
+				local_x.y = axis1->m_DirectionRatios[1]->m_value;
+				local_x.z = axis1->m_DirectionRatios[2]->m_value;
 
-				local_y.x = axis2->m_DirectionRatios[0];
-				local_y.y = axis2->m_DirectionRatios[1];
-				local_y.z = axis2->m_DirectionRatios[2];
+				local_y.x = axis2->m_DirectionRatios[0]->m_value;
+				local_y.y = axis2->m_DirectionRatios[1]->m_value;
+				local_y.z = axis2->m_DirectionRatios[2]->m_value;
 
-				local_z.x = axis3->m_DirectionRatios[0];
-				local_z.y = axis3->m_DirectionRatios[1];
-				local_z.z = axis3->m_DirectionRatios[2];
+				local_z.x = axis3->m_DirectionRatios[0]->m_value;
+				local_z.y = axis3->m_DirectionRatios[1]->m_value;
+				local_z.z = axis3->m_DirectionRatios[2]->m_value;
 			}
 
 			shared_ptr<IfcCartesianTransformationOperator3DnonUniform> non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator3DnonUniform>( transform_operator );
@@ -545,11 +556,11 @@ namespace PlacementConverter
 			{
 				if( non_uniform->m_Scale2 )
 				{
-					scale_y = non_uniform->m_Scale2.get();
+					scale_y = non_uniform->m_Scale2->m_value;
 				}
 				if( non_uniform->m_Scale3 )
 				{
-					scale_z = non_uniform->m_Scale3.get();
+					scale_z = non_uniform->m_Scale3->m_value;
 				}
 			}
 		}

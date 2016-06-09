@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcFaceOuterBound.h"
 #include "include/IfcLoop.h"
 #include "include/IfcPresentationLayerAssignment.h"
@@ -32,7 +33,7 @@ shared_ptr<IfcPPObject> IfcFaceOuterBound::getDeepCopy( IfcPPCopyOptions& option
 {
 	shared_ptr<IfcFaceOuterBound> copy_self( new IfcFaceOuterBound() );
 	if( m_Bound ) { copy_self->m_Bound = dynamic_pointer_cast<IfcLoop>( m_Bound->getDeepCopy(options) ); }
-	if( m_Orientation ) { copy_self->m_Orientation = m_Orientation; }
+	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcBoolean>( m_Orientation->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcFaceOuterBound::getStepLine( std::stringstream& stream ) const
@@ -40,8 +41,7 @@ void IfcFaceOuterBound::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_id << "= IFCFACEOUTERBOUND" << "(";
 	if( m_Bound ) { stream << "#" << m_Bound->m_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Orientation == false ) { stream << ".F."; }
-	else if( m_Orientation == true ) { stream << ".T."; }
+	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
 void IfcFaceOuterBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -50,8 +50,7 @@ void IfcFaceOuterBound::readStepArguments( const std::vector<std::wstring>& args
 	const int num_args = (int)args.size();
 	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Bound, map );
-	if( boost::iequals( args[1], L".F." ) ) { m_Orientation = false; }
-	else if( boost::iequals( args[1], L".T." ) ) { m_Orientation = true; }
+	m_Orientation = IfcBoolean::createObjectFromSTEP( args[1] );
 }
 void IfcFaceOuterBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -18,9 +18,11 @@
 
 #include <ifcpp/IFC4/include/IfcBSplineCurve.h>
 #include <ifcpp/IFC4/include/IfcBSplineSurface.h>
+#include <ifcpp/IFC4/include/IfcInteger.h>
 #include <ifcpp/IFC4/include/IfcParameterValue.h>
 #include <ifcpp/IFC4/include/IfcRationalBSplineCurveWithKnots.h>
 #include <ifcpp/IFC4/include/IfcRationalBSplineSurfaceWithKnots.h>
+#include <ifcpp/IFC4/include/IfcReal.h>
 
 #include "PointConverter.h"
 #include "IncludeCarveHeaders.h"
@@ -206,7 +208,15 @@ public:
 
 	void convertBSplineCurve( const shared_ptr<IfcBSplineCurve>& bspline_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points ) const
 	{
-		const int											degree = bspline_curve->m_Degree;
+		if( !bspline_curve )
+		{
+			return;
+		}
+		if( !bspline_curve->m_Degree )
+		{
+			return;
+		}
+		const int											degree = bspline_curve->m_Degree->m_value;
 		const std::vector<shared_ptr<IfcCartesianPoint> >&	control_points = bspline_curve->m_ControlPointsList;
 		//const shared_ptr<IfcBSplineCurveForm>&				curve_form = bspline_curve->m_CurveForm;
 		//const LogicalEnum									closed_curve = bspline_curve->m_ClosedCurve;
@@ -234,7 +244,7 @@ public:
 		shared_ptr<IfcBSplineCurveWithKnots> bspline_curve_with_knots = dynamic_pointer_cast<IfcBSplineCurveWithKnots>( bspline_curve );
 		if( bspline_curve_with_knots )
 		{
-			std::vector<int >&								ifc_knot_mult = bspline_curve_with_knots->m_KnotMultiplicities;
+			std::vector<shared_ptr<IfcInteger> >&			ifc_knot_mult = bspline_curve_with_knots->m_KnotMultiplicities;
 			std::vector<shared_ptr<IfcParameterValue> >&	ifc_knots = bspline_curve_with_knots->m_Knots;
 			//shared_ptr<IfcKnotType>&						ifc_knot_spec = bspline_curve_with_knots->m_KnotSpec;
 
@@ -246,7 +256,7 @@ public:
 
 				if( ifc_knot_mult.size() == ifc_knots.size() )
 				{
-					int num_multiply_knot_value = ifc_knot_mult[ii];
+					int num_multiply_knot_value = ifc_knot_mult[ii]->m_value;
 					for( int jj = 0; jj < num_multiply_knot_value; ++jj )
 					{
 						knot_vec.push_back( knot_value );
@@ -259,11 +269,11 @@ public:
 			shared_ptr<IfcRationalBSplineCurveWithKnots> r_bspline_curve_with_knots = dynamic_pointer_cast<IfcRationalBSplineCurveWithKnots>( bspline_curve_with_knots );
 			if( r_bspline_curve_with_knots )
 			{
-				std::vector<double >& ifc_vec_weigths = r_bspline_curve_with_knots->m_WeightsData;
+				std::vector<shared_ptr<IfcReal> >& ifc_vec_weigths = r_bspline_curve_with_knots->m_WeightsData;
 				vec_weights.resize( ifc_vec_weigths.size() );
 				for( size_t i_weight = 0; i_weight < ifc_vec_weigths.size(); ++i_weight )
 				{
-					vec_weights[i_weight] = ifc_vec_weigths[i_weight];
+					vec_weights[i_weight] = ifc_vec_weigths[i_weight]->m_value;
 				}
 			}
 		}

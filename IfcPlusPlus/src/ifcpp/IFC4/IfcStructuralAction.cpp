@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcGlobalOrLocalEnum.h"
 #include "include/IfcGloballyUniqueId.h"
 #include "include/IfcLabel.h"
@@ -63,7 +64,7 @@ shared_ptr<IfcPPObject> IfcStructuralAction::getDeepCopy( IfcPPCopyOptions& opti
 	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
 	if( m_AppliedLoad ) { copy_self->m_AppliedLoad = dynamic_pointer_cast<IfcStructuralLoad>( m_AppliedLoad->getDeepCopy(options) ); }
 	if( m_GlobalOrLocal ) { copy_self->m_GlobalOrLocal = dynamic_pointer_cast<IfcGlobalOrLocalEnum>( m_GlobalOrLocal->getDeepCopy(options) ); }
-	if( m_DestabilizingLoad ) { copy_self->m_DestabilizingLoad = m_DestabilizingLoad; }
+	if( m_DestabilizingLoad ) { copy_self->m_DestabilizingLoad = dynamic_pointer_cast<IfcBoolean>( m_DestabilizingLoad->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcStructuralAction::getStepLine( std::stringstream& stream ) const
@@ -87,8 +88,7 @@ void IfcStructuralAction::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_GlobalOrLocal ) { m_GlobalOrLocal->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DestabilizingLoad == false ) { stream << ".F."; }
-	else if( m_DestabilizingLoad == true ) { stream << ".T."; }
+	if( m_DestabilizingLoad ) { m_DestabilizingLoad->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcStructuralAction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -105,20 +105,12 @@ void IfcStructuralAction::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReference( args[7], m_AppliedLoad, map );
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8] );
-	if( boost::iequals( args[9], L".F." ) ) { m_DestabilizingLoad = false; }
-	else if( boost::iequals( args[9], L".T." ) ) { m_DestabilizingLoad = true; }
+	m_DestabilizingLoad = IfcBoolean::createObjectFromSTEP( args[9] );
 }
 void IfcStructuralAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcStructuralActivity::getAttributes( vec_attributes );
-	if( m_DestabilizingLoad )
-	{
-		vec_attributes.push_back( std::make_pair( "DestabilizingLoad", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_DestabilizingLoad.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "DestabilizingLoad", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "DestabilizingLoad", m_DestabilizingLoad ) );
 }
 void IfcStructuralAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

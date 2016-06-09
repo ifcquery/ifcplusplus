@@ -19,7 +19,6 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
-#include "include/IfcBuildingElement.h"
 #include "include/IfcCovering.h"
 #include "include/IfcElement.h"
 #include "include/IfcGloballyUniqueId.h"
@@ -113,10 +112,9 @@ void IfcRelCoversBldgElements::setInverseCounterparts( shared_ptr<IfcPPEntity> p
 			m_RelatedCoverings[i]->m_CoversElements_inverse.push_back( ptr_self );
 		}
 	}
-	shared_ptr<IfcBuildingElement>  RelatingBuildingElement_IfcBuildingElement = dynamic_pointer_cast<IfcBuildingElement>( m_RelatingBuildingElement );
-	if( RelatingBuildingElement_IfcBuildingElement )
+	if( m_RelatingBuildingElement )
 	{
-		RelatingBuildingElement_IfcBuildingElement->m_HasCoverings_inverse.push_back( ptr_self );
+		m_RelatingBuildingElement->m_HasCoverings_inverse.push_back( ptr_self );
 	}
 }
 void IfcRelCoversBldgElements::unlinkFromInverseCounterparts()
@@ -141,10 +139,9 @@ void IfcRelCoversBldgElements::unlinkFromInverseCounterparts()
 			}
 		}
 	}
-	shared_ptr<IfcBuildingElement>  RelatingBuildingElement_IfcBuildingElement = dynamic_pointer_cast<IfcBuildingElement>( m_RelatingBuildingElement );
-	if( RelatingBuildingElement_IfcBuildingElement )
+	if( m_RelatingBuildingElement )
 	{
-		std::vector<weak_ptr<IfcRelCoversBldgElements> >& HasCoverings_inverse = RelatingBuildingElement_IfcBuildingElement->m_HasCoverings_inverse;
+		std::vector<weak_ptr<IfcRelCoversBldgElements> >& HasCoverings_inverse = m_RelatingBuildingElement->m_HasCoverings_inverse;
 		for( auto it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); )
 		{
 			shared_ptr<IfcRelCoversBldgElements> self_candidate( *it_HasCoverings_inverse );

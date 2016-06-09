@@ -23,9 +23,9 @@ public:
 	IfcPPReaderSTEP();
 	~IfcPPReaderSTEP();
 	virtual void removeComments( std::string& buffer );
-	virtual void readStreamHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model );
-	virtual void readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map );
-	virtual void readStreamData( std::string& in, shared_ptr<IfcPPModel>& model );
+	virtual void readHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model );
+	virtual void readData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map );
+	virtual void readData( std::string& in, shared_ptr<IfcPPModel>& model );
 	
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
 	  \param[in] file_path Absolute path of the file to read.

@@ -20,7 +20,7 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSensorTypeEnum.h"
 
-// TYPE IfcSensorTypeEnum = ENUMERATION OF	(CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSensorTypeEnum = ENUMERATION OF	(CO2SENSOR	,CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,FROSTSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IDENTIFIERSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
 IfcSensorTypeEnum::IfcSensorTypeEnum() {}
 IfcSensorTypeEnum::~IfcSensorTypeEnum() {}
 shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
@@ -32,7 +32,11 @@ shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSENSORTYPEENUM("; }
-	if( m_enum == ENUM_CONDUCTANCESENSOR )
+	if( m_enum == ENUM_CO2SENSOR )
+	{
+		stream << ".CO2SENSOR.";
+	}
+	else if( m_enum == ENUM_CONDUCTANCESENSOR )
 	{
 		stream << ".CONDUCTANCESENSOR.";
 	}
@@ -48,6 +52,10 @@ void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	{
 		stream << ".FLOWSENSOR.";
 	}
+	else if( m_enum == ENUM_FROSTSENSOR )
+	{
+		stream << ".FROSTSENSOR.";
+	}
 	else if( m_enum == ENUM_GASSENSOR )
 	{
 		stream << ".GASSENSOR.";
@@ -59,6 +67,10 @@ void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	else if( m_enum == ENUM_HUMIDITYSENSOR )
 	{
 		stream << ".HUMIDITYSENSOR.";
+	}
+	else if( m_enum == ENUM_IDENTIFIERSENSOR )
+	{
+		stream << ".IDENTIFIERSENSOR.";
 	}
 	else if( m_enum == ENUM_IONCONCENTRATIONSENSOR )
 	{
@@ -128,7 +140,11 @@ shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	shared_ptr<IfcSensorTypeEnum> type_object( new IfcSensorTypeEnum() );
-	if( boost::iequals( arg, L".CONDUCTANCESENSOR." ) )
+	if( boost::iequals( arg, L".CO2SENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_CO2SENSOR;
+	}
+	else if( boost::iequals( arg, L".CONDUCTANCESENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_CONDUCTANCESENSOR;
 	}
@@ -144,6 +160,10 @@ shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_FLOWSENSOR;
 	}
+	else if( boost::iequals( arg, L".FROSTSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_FROSTSENSOR;
+	}
 	else if( boost::iequals( arg, L".GASSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_GASSENSOR;
@@ -155,6 +175,10 @@ shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std
 	else if( boost::iequals( arg, L".HUMIDITYSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_HUMIDITYSENSOR;
+	}
+	else if( boost::iequals( arg, L".IDENTIFIERSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_IDENTIFIERSENSOR;
 	}
 	else if( boost::iequals( arg, L".IONCONCENTRATIONSENSOR." ) )
 	{

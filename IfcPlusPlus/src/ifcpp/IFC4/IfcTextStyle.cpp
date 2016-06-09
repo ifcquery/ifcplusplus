@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcLabel.h"
 #include "include/IfcTextFontSelect.h"
 #include "include/IfcTextStyle.h"
@@ -36,7 +37,7 @@ shared_ptr<IfcPPObject> IfcTextStyle::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_TextCharacterAppearance ) { copy_self->m_TextCharacterAppearance = dynamic_pointer_cast<IfcTextStyleForDefinedFont>( m_TextCharacterAppearance->getDeepCopy(options) ); }
 	if( m_TextStyle ) { copy_self->m_TextStyle = dynamic_pointer_cast<IfcTextStyleTextModel>( m_TextStyle->getDeepCopy(options) ); }
 	if( m_TextFontStyle ) { copy_self->m_TextFontStyle = dynamic_pointer_cast<IfcTextFontSelect>( m_TextFontStyle->getDeepCopy(options) ); }
-	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = m_ModelOrDraughting; }
+	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelOrDraughting->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTextStyle::getStepLine( std::stringstream& stream ) const
@@ -50,8 +51,7 @@ void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ModelOrDraughting == false ) { stream << ".F."; }
-	else if( m_ModelOrDraughting == true ) { stream << ".T."; }
+	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcTextStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -63,8 +63,7 @@ void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[1], m_TextCharacterAppearance, map );
 	readEntityReference( args[2], m_TextStyle, map );
 	m_TextFontStyle = IfcTextFontSelect::createObjectFromSTEP( args[3], map );
-	if( boost::iequals( args[4], L".F." ) ) { m_ModelOrDraughting = false; }
-	else if( boost::iequals( args[4], L".T." ) ) { m_ModelOrDraughting = true; }
+	m_ModelOrDraughting = IfcBoolean::createObjectFromSTEP( args[4] );
 }
 void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -72,14 +71,7 @@ void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "TextCharacterAppearance", m_TextCharacterAppearance ) );
 	vec_attributes.push_back( std::make_pair( "TextStyle", m_TextStyle ) );
 	vec_attributes.push_back( std::make_pair( "TextFontStyle", m_TextFontStyle ) );
-	if( m_ModelOrDraughting )
-	{
-		vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_ModelOrDraughting.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "ModelOrDraughting", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
 void IfcTextStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

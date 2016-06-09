@@ -21,6 +21,7 @@
 #include "IfcBooleanOperand.h"
 #include "IfcGeometricRepresentationItem.h"
 class IFCPP_EXPORT IfcSurface;
+class IFCPP_EXPORT IfcBoolean;
 //ENTITY
 class IFCPP_EXPORT IfcHalfSpaceSolid : virtual public IfcBooleanOperand, public IfcGeometricRepresentationItem
 { 
@@ -49,6 +50,6 @@ public:
 	// IfcHalfSpaceSolid -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcSurface>									m_BaseSurface;
-	bool													m_AgreementFlag;
+	shared_ptr<IfcBoolean>									m_AgreementFlag;
 };
 

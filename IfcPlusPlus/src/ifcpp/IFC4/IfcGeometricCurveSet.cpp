@@ -44,7 +44,24 @@ shared_ptr<IfcPPObject> IfcGeometricCurveSet::getDeepCopy( IfcPPCopyOptions& opt
 void IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCGEOMETRICCURVESET" << "(";
-	writeTypeList( stream, m_Elements, true );
+	stream << "(";
+	for( size_t ii = 0; ii < m_Elements.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcGeometricSetSelect>& type_object = m_Elements[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcGeometricCurveSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

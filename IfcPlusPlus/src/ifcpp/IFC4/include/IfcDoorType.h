@@ -15,13 +15,13 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcBuildingElementType.h"
 class IFCPP_EXPORT IfcDoorTypeEnum;
 class IFCPP_EXPORT IfcDoorTypeOperationEnum;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcLabel;
 //ENTITY
 class IFCPP_EXPORT IfcDoorType : public IfcBuildingElementType
@@ -82,7 +82,7 @@ public:
 	// attributes:
 	shared_ptr<IfcDoorTypeEnum>							m_PredefinedType;
 	shared_ptr<IfcDoorTypeOperationEnum>				m_OperationType;
-	boost::optional<bool>								m_ParameterTakesPrecedence;	//optional
+	shared_ptr<IfcBoolean>								m_ParameterTakesPrecedence;	//optional
 	shared_ptr<IfcLabel>								m_UserDefinedOperationType;	//optional
 };
 

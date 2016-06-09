@@ -40,19 +40,19 @@ shared_ptr<IfcPPObject> IfcDimensionalExponents::getDeepCopy( IfcPPCopyOptions& 
 void IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_id << "= IFCDIMENSIONALEXPONENTS" << "(";
-	if( m_LengthExponent ){ stream << m_LengthExponent; } else { stream << "$"; }
+	stream << m_LengthExponent;
 	stream << ",";
-	if( m_MassExponent ){ stream << m_MassExponent; } else { stream << "$"; }
+	stream << m_MassExponent;
 	stream << ",";
-	if( m_TimeExponent ){ stream << m_TimeExponent; } else { stream << "$"; }
+	stream << m_TimeExponent;
 	stream << ",";
-	if( m_ElectricCurrentExponent ){ stream << m_ElectricCurrentExponent; } else { stream << "$"; }
+	stream << m_ElectricCurrentExponent;
 	stream << ",";
-	if( m_ThermodynamicTemperatureExponent ){ stream << m_ThermodynamicTemperatureExponent; } else { stream << "$"; }
+	stream << m_ThermodynamicTemperatureExponent;
 	stream << ",";
-	if( m_AmountOfSubstanceExponent ){ stream << m_AmountOfSubstanceExponent; } else { stream << "$"; }
+	stream << m_AmountOfSubstanceExponent;
 	stream << ",";
-	if( m_LuminousIntensityExponent ){ stream << m_LuminousIntensityExponent; } else { stream << "$"; }
+	stream << m_LuminousIntensityExponent;
 	stream << ");";
 }
 void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }

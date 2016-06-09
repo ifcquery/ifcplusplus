@@ -15,16 +15,17 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcCoordinateReferenceSystemSelect.h"
 #include "IfcRepresentationContext.h"
 class IFCPP_EXPORT IfcDimensionCount;
+class IFCPP_EXPORT IfcReal;
 class IFCPP_EXPORT IfcAxis2Placement;
 class IFCPP_EXPORT IfcDirection;
 class IFCPP_EXPORT IfcGeometricRepresentationSubContext;
+class IFCPP_EXPORT IfcCoordinateOperation;
 //ENTITY
 class IFCPP_EXPORT IfcGeometricRepresentationContext : virtual public IfcCoordinateReferenceSystemSelect, public IfcRepresentationContext
 { 
@@ -53,10 +54,11 @@ public:
 	// IfcGeometricRepresentationContext -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcDimensionCount>									m_CoordinateSpaceDimension;
-	boost::optional<double>											m_Precision;				//optional
+	shared_ptr<IfcReal>												m_Precision;				//optional
 	shared_ptr<IfcAxis2Placement>									m_WorldCoordinateSystem;
 	shared_ptr<IfcDirection>										m_TrueNorth;				//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >	m_HasSubContexts_inverse;
+	std::vector<weak_ptr<IfcCoordinateOperation> >					m_HasCoordinateOperation_inverse;
 };
 

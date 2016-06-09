@@ -44,6 +44,7 @@
 #include "ifcpp/IFC4/include/IfcGeometricRepresentationContext.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcDirection.h"
+#include "ifcpp/IFC4/include/IfcReal.h"
 #include "ifcpp/IFC4/include/IfcRelationship.h"
 #include "ifcpp/IFC4/include/IfcRelAggregates.h"
 #include "ifcpp/IFC4/include/IfcSite.h"
@@ -97,7 +98,6 @@ void IfcPPModel::initIfcModel()
 	app->m_ApplicationIdentifier = shared_ptr<IfcIdentifier>( new IfcIdentifier( L"IfcPlusPlus" ) );
 	insertEntity(app);
 
-
 	shared_ptr<IfcCartesianPoint> point( new IfcCartesianPoint() );
 	point->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( 0.0 ) ) );
 	point->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( 0.0 ) ) );
@@ -138,15 +138,10 @@ void IfcPPModel::initIfcModel()
 
 	// assign units
 	shared_ptr<IfcUnitAssignment> unit_assignment( new IfcUnitAssignment() );
-	//shared_ptr<IfcUnit> si_unit_select( new IfcUnit() );
-	//si_unit_select->setObject( si_unit );
 	unit_assignment->m_Units.push_back( si_unit );
-	//shared_ptr<IfcUnit> plane_angle_unit_select( new IfcUnit() );
-	//plane_angle_unit_select->setObject( plane_angle_unit );
 	unit_assignment->m_Units.push_back( plane_angle_unit );
 	insertEntity(unit_assignment);
 
-	
 	project->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createGUID32_wstr().c_str() ) );
 	project->m_OwnerHistory = owner_history;
 	project->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"IfcPlusPlus project" ) );
@@ -169,20 +164,19 @@ void IfcPPModel::initIfcModel()
 	building->m_OwnerHistory = owner_history;
 	building->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Building" ) );
 	insertEntity( building );
-
 	
 	// set up world coordinate system
 	shared_ptr<IfcDirection> axis( new IfcDirection() );
 	insertEntity(axis);
-	axis->m_DirectionRatios.push_back( 0.0 );
-	axis->m_DirectionRatios.push_back( 0.0 );
-	axis->m_DirectionRatios.push_back( 1.0 );
+	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal(0.0) ) );
+	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
 
 	shared_ptr<IfcDirection> ref_direction( new IfcDirection() );
 	insertEntity(ref_direction);
-	ref_direction->m_DirectionRatios.push_back( 0.0 );
-	ref_direction->m_DirectionRatios.push_back( 0.0 );
-	ref_direction->m_DirectionRatios.push_back( 1.0 );
+	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
 
 	shared_ptr<IfcCartesianPoint> location( new IfcCartesianPoint() );
 	insertEntity(location);
@@ -477,11 +471,12 @@ void IfcPPModel::removeUnreferencedEntities()
 
 void IfcPPModel::initFileHeader( std::string file_name )
 {
+	m_file_name = file_name;
 	std::string filename_escaped = boost::replace_all_copy(file_name, "\\", "\\\\");
 	std::wstringstream strs;
 	strs << "ISO-10303-21;" << std::endl;
 	strs << "HEADER;" << std::endl;
-	strs << "FILE_DESCRIPTION(('IFC4'),'2;1');" << std::endl;
+	strs << "FILE_DESCRIPTION(('" << m_ifc_schema_version.m_IFC_FILE_SCHEMA << "'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";
 
 	//2011-04-21T14:25:12
@@ -494,7 +489,7 @@ void IfcPPModel::initFileHeader( std::string file_name )
 
 	strs << ts;
 	strs << "',(''),('',''),'','IfcPlusPlus','');" << std::endl;
-	strs << "FILE_SCHEMA(('IFC4'));" << std::endl;
+	strs << "FILE_SCHEMA(('" << m_ifc_schema_version.m_IFC_FILE_SCHEMA << "'));" << std::endl;
 	strs << "ENDSEC;" << std::endl;
 
 	m_file_header = strs.str().c_str();
@@ -515,19 +510,13 @@ void IfcPPModel::setFileName( std::wstring schema )
 	m_IFC_FILE_NAME = schema;
 }
 
-void IfcPPModel::setIfcSchemaVersion( IfcPPSchemaVersion& ver )
-{
-	m_ifc_schema_version.m_IFC_FILE_SCHEMA = ver.m_IFC_FILE_SCHEMA.c_str();
-	m_ifc_schema_version.m_ifc_file_schema_enum = ver.m_ifc_file_schema_enum;
-}
-
 void IfcPPModel::clearIfcModel()
 {
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
 	m_map_entities.clear();
-	m_ifc_schema_version.m_ifc_file_schema_enum = IFC_VERSION_UNDEFINED;
-	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"";
+	m_ifc_schema_version.m_ifc_file_schema_enum = IFC4;
+	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"IFC4";
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";

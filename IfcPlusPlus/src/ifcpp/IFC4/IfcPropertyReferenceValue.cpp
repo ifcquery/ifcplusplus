@@ -26,6 +26,8 @@
 #include "include/IfcPropertyDependencyRelationship.h"
 #include "include/IfcPropertyReferenceValue.h"
 #include "include/IfcPropertySet.h"
+#include "include/IfcResourceApprovalRelationship.h"
+#include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcText.h"
 
 // ENTITY IfcPropertyReferenceValue 

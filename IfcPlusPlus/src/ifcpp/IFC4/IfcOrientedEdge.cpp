@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcEdge.h"
 #include "include/IfcOrientedEdge.h"
 #include "include/IfcPresentationLayerAssignment.h"
@@ -35,7 +36,7 @@ shared_ptr<IfcPPObject> IfcOrientedEdge::getDeepCopy( IfcPPCopyOptions& options 
 	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
 	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy(options) ); }
 	if( m_EdgeElement ) { copy_self->m_EdgeElement = dynamic_pointer_cast<IfcEdge>( m_EdgeElement->getDeepCopy(options) ); }
-	if( m_Orientation ) { copy_self->m_Orientation = m_Orientation; }
+	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcBoolean>( m_Orientation->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
@@ -47,8 +48,7 @@ void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Orientation == false ) { stream << ".F."; }
-	else if( m_Orientation == true ) { stream << ".T."; }
+	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -59,14 +59,13 @@ void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeElement, map );
-	if( boost::iequals( args[3], L".F." ) ) { m_Orientation = false; }
-	else if( boost::iequals( args[3], L".T." ) ) { m_Orientation = true; }
+	m_Orientation = IfcBoolean::createObjectFromSTEP( args[3] );
 }
 void IfcOrientedEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeElement", m_EdgeElement ) );
-	vec_attributes.push_back( std::make_pair( "Orientation", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Orientation ) ) ) );
+	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcOrientedEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

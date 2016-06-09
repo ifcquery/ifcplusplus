@@ -145,10 +145,14 @@ void IfcPPReaderSTEP::loadModelFromString( std::string& content, shared_ptr<IfcP
 	try
 	{
 		removeComments( content );
-		readStreamHeader( content, target_model );
-		readStreamData( content, target_model );
+		readHeader( content, target_model );
+		readData( content, target_model );
 		target_model->resolveInverseAttributes();
 		target_model->updateCache();
+
+		// currently generated IFC classes are IFC4, files with older versions are converted. So after loading the schema is always IFC4
+		target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
+		target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC4;
 	}
 	catch( IfcPPOutOfMemoryException& e)
 	{
@@ -208,7 +212,7 @@ void IfcPPReaderSTEP::removeComments( std::string& buffer )
 	buffer = buffer.substr( 0, length_without_comments );
 }
 
-void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<IfcPPModel>& target_model )
+void IfcPPReaderSTEP::readHeader( const std::string& read_in, shared_ptr<IfcPPModel>& target_model )
 {
 	if( !target_model )
 	{
@@ -226,8 +230,7 @@ void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<I
 		return;
 	}
 
-	IfcPPModel::IfcPPSchemaVersion schema_version( L"", IfcPPModel::IFC_VERSION_UNDEFINED );
-	target_model->setIfcSchemaVersion( schema_version );
+	target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
 	file_header_start += 7;
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
@@ -289,7 +292,6 @@ void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<I
 		if( header_line.find(L"FILE_SCHEMA") != std::string::npos )
 		{
 			size_t file_schema_begin = header_line.find(L"FILE_SCHEMA") + 11;
-			target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = header_line;
 
 			std::wstring file_schema_args = header_line.substr( 11 );
 			size_t find_whitespace = file_schema_args.find(L" ");
@@ -307,34 +309,41 @@ void IfcPPReaderSTEP::readStreamHeader( const std::string& read_in, shared_ptr<I
 			{
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
 			}
-				
-			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
+			
+			if( file_schema_args.substr( 0, 5 ).compare( L"IFC2X" ) == 0 )
 			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X2;
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X;
+			}
+			else if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
+			{
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X2";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X2;
 			}
 			else if( file_schema_args.substr(0,6).compare(L"IFC2X3") == 0 )
 			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X3;
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X3";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X3;
 			}
 			else if( file_schema_args.substr(0,6).compare(L"IFC2X4") == 0 )
 			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X4;
-			}
-			else if( file_schema_args.substr(0,5).compare(L"IFC2X") == 0 )
-			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC2X;
-			}
-			else if( file_schema_args.compare(L"IFC4") == 0 )
-			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC4;
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X4";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X4;
 			}
 			else if( file_schema_args.compare(L"IFC4RC4") == 0 )
 			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC4;
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4RC4";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC4;
+			}
+			else if( file_schema_args.compare( L"IFC4" ) == 0 )
+			{
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC4;
 			}
 			else
 			{
-				target_model->m_ifc_schema_version.m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC_VERSION_UNDEFINED;
 			}
 		}
 	}
@@ -732,14 +741,14 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	}
 }
 
-void IfcPPReaderSTEP::readStreamData( std::string& read_in, shared_ptr<IfcPPModel>& model )
+void IfcPPReaderSTEP::readData( std::string& read_in, shared_ptr<IfcPPModel>& model )
 {
 	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
 	boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
-	readStreamData( read_in, file_schema_version, map_entities );
+	readData( read_in, file_schema_version, map_entities );
 }
 
-void IfcPPReaderSTEP::readStreamData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& target_map )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");

@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcCoordinateOperation.h"
 #include "include/IfcCoordinateReferenceSystem.h"
 #include "include/IfcIdentifier.h"
 #include "include/IfcLabel.h"
@@ -68,6 +69,18 @@ void IfcCoordinateReferenceSystem::getAttributes( std::vector<std::pair<std::str
 }
 void IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
+	if( m_HasCoordinateOperation_inverse.size() > 0 )
+	{
+		shared_ptr<IfcPPAttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		for( size_t i=0; i<m_HasCoordinateOperation_inverse.size(); ++i )
+		{
+			if( !m_HasCoordinateOperation_inverse[i].expired() )
+			{
+				HasCoordinateOperation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCoordinateOperation>( m_HasCoordinateOperation_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
+	}
 }
 void IfcCoordinateReferenceSystem::setInverseCounterparts( shared_ptr<IfcPPEntity> )
 {

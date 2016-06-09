@@ -24,6 +24,8 @@ class IFCPP_EXPORT IfcText;
 class IFCPP_EXPORT IfcPropertySet;
 class IFCPP_EXPORT IfcPropertyDependencyRelationship;
 class IFCPP_EXPORT IfcComplexProperty;
+class IFCPP_EXPORT IfcResourceConstraintRelationship;
+class IFCPP_EXPORT IfcResourceApprovalRelationship;
 //ENTITY
 class IFCPP_EXPORT IfcProperty : public IfcPropertyAbstraction
 { 
@@ -55,5 +57,7 @@ public:
 	std::vector<weak_ptr<IfcPropertyDependencyRelationship> >	m_PropertyForDependance_inverse;
 	std::vector<weak_ptr<IfcPropertyDependencyRelationship> >	m_PropertyDependsOn_inverse;
 	std::vector<weak_ptr<IfcComplexProperty> >					m_PartOfComplex_inverse;
+	std::vector<weak_ptr<IfcResourceConstraintRelationship> >	m_HasConstraints_inverse;
+	std::vector<weak_ptr<IfcResourceApprovalRelationship> >		m_HasApprovals_inverse;
 };
 

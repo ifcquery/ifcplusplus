@@ -20,6 +20,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
 #include "include/IfcLabel.h"
+#include "include/IfcLogical.h"
 #include "include/IfcProductDefinitionShape.h"
 #include "include/IfcProductRepresentationSelect.h"
 #include "include/IfcRepresentationMap.h"
@@ -44,7 +45,7 @@ shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy( IfcPPCopyOptions& options )
 	}
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ProductDefinitional ) { copy_self->m_ProductDefinitional = m_ProductDefinitional; }
+	if( m_ProductDefinitional ) { copy_self->m_ProductDefinitional = dynamic_pointer_cast<IfcLogical>( m_ProductDefinitional->getDeepCopy(options) ); }
 	if( m_PartOfProductDefinitionShape ) { copy_self->m_PartOfProductDefinitionShape = dynamic_pointer_cast<IfcProductRepresentationSelect>( m_PartOfProductDefinitionShape->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -57,9 +58,7 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProductDefinitional == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_ProductDefinitional == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_ProductDefinitional ) { m_ProductDefinitional->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_PartOfProductDefinitionShape ) { m_PartOfProductDefinitionShape->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
@@ -72,9 +71,7 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReferenceList( args[0], m_ShapeRepresentations, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1] );
 	m_Description = IfcText::createObjectFromSTEP( args[2] );
-	if( boost::iequals( args[3], L".F." ) ) { m_ProductDefinitional = LOGICAL_FALSE; }
-	else if( boost::iequals( args[3], L".T." ) ) { m_ProductDefinitional = LOGICAL_TRUE; }
-	else if( boost::iequals( args[3], L".U." ) ) { m_ProductDefinitional = LOGICAL_UNKNOWN; }
+	m_ProductDefinitional = IfcLogical::createObjectFromSTEP( args[3] );
 	m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromSTEP( args[4], map );
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
@@ -87,7 +84,7 @@ void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_pt
 	}
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "ProductDefinitional", shared_ptr<IfcPPLogicalAttribute>( new IfcPPLogicalAttribute( m_ProductDefinitional ) ) ) );
+	vec_attributes.push_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
 	vec_attributes.push_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
 }
 void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )

@@ -25,6 +25,8 @@
 #include "include/IfcPropertyBoundedValue.h"
 #include "include/IfcPropertyDependencyRelationship.h"
 #include "include/IfcPropertySet.h"
+#include "include/IfcResourceApprovalRelationship.h"
+#include "include/IfcResourceConstraintRelationship.h"
 #include "include/IfcText.h"
 #include "include/IfcUnit.h"
 #include "include/IfcValue.h"

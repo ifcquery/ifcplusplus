@@ -39,6 +39,7 @@ shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const st
 		case IFCANALYSISMODELTYPEENUM:return IfcAnalysisModelTypeEnum::createObjectFromSTEP( arg );
 		case IFCANALYSISTHEORYTYPEENUM:return IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( arg );
 		case IFCANGULARVELOCITYMEASURE:return IfcAngularVelocityMeasure::createObjectFromSTEP( arg );
+		case IFCARCINDEX:return IfcArcIndex::createObjectFromSTEP( arg );
 		case IFCAREADENSITYMEASURE:return IfcAreaDensityMeasure::createObjectFromSTEP( arg );
 		case IFCAREAMEASURE:return IfcAreaMeasure::createObjectFromSTEP( arg );
 		case IFCARITHMETICOPERATORENUM:return IfcArithmeticOperatorEnum::createObjectFromSTEP( arg );
@@ -48,6 +49,7 @@ shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const st
 		case IFCBSPLINESURFACEFORM:return IfcBSplineSurfaceForm::createObjectFromSTEP( arg );
 		case IFCBEAMTYPEENUM:return IfcBeamTypeEnum::createObjectFromSTEP( arg );
 		case IFCBENCHMARKENUM:return IfcBenchmarkEnum::createObjectFromSTEP( arg );
+		case IFCBINARY:return IfcBinary::createObjectFromSTEP( arg );
 		case IFCBOILERTYPEENUM:return IfcBoilerTypeEnum::createObjectFromSTEP( arg );
 		case IFCBOOLEAN:return IfcBoolean::createObjectFromSTEP( arg );
 		case IFCBOOLEANOPERATOR:return IfcBooleanOperator::createObjectFromSTEP( arg );
@@ -183,6 +185,7 @@ shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const st
 		case IFCLIGHTDISTRIBUTIONCURVEENUM:return IfcLightDistributionCurveEnum::createObjectFromSTEP( arg );
 		case IFCLIGHTEMISSIONSOURCEENUM:return IfcLightEmissionSourceEnum::createObjectFromSTEP( arg );
 		case IFCLIGHTFIXTURETYPEENUM:return IfcLightFixtureTypeEnum::createObjectFromSTEP( arg );
+		case IFCLINEINDEX:return IfcLineIndex::createObjectFromSTEP( arg );
 		case IFCLINEARFORCEMEASURE:return IfcLinearForceMeasure::createObjectFromSTEP( arg );
 		case IFCLINEARMOMENTMEASURE:return IfcLinearMomentMeasure::createObjectFromSTEP( arg );
 		case IFCLINEARSTIFFNESSMEASURE:return IfcLinearStiffnessMeasure::createObjectFromSTEP( arg );
@@ -234,6 +237,7 @@ shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const st
 		case IFCPLANARFORCEMEASURE:return IfcPlanarForceMeasure::createObjectFromSTEP( arg );
 		case IFCPLANEANGLEMEASURE:return IfcPlaneAngleMeasure::createObjectFromSTEP( arg );
 		case IFCPLATETYPEENUM:return IfcPlateTypeEnum::createObjectFromSTEP( arg );
+		case IFCPOSITIVEINTEGER:return IfcPositiveInteger::createObjectFromSTEP( arg );
 		case IFCPOSITIVELENGTHMEASURE:return IfcPositiveLengthMeasure::createObjectFromSTEP( arg );
 		case IFCPOSITIVEPLANEANGLEMEASURE:return IfcPositivePlaneAngleMeasure::createObjectFromSTEP( arg );
 		case IFCPOSITIVERATIOMEASURE:return IfcPositiveRatioMeasure::createObjectFromSTEP( arg );
@@ -295,6 +299,7 @@ shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const st
 		case IFCSTAIRFLIGHTTYPEENUM:return IfcStairFlightTypeEnum::createObjectFromSTEP( arg );
 		case IFCSTAIRTYPEENUM:return IfcStairTypeEnum::createObjectFromSTEP( arg );
 		case IFCSTATEENUM:return IfcStateEnum::createObjectFromSTEP( arg );
+		case IFCSTRIPPEDOPTIONAL:return IfcStrippedOptional::createObjectFromSTEP( arg );
 		case IFCSTRUCTURALCURVEACTIVITYTYPEENUM:return IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( arg );
 		case IFCSTRUCTURALCURVEMEMBERTYPEENUM:return IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( arg );
 		case IFCSTRUCTURALSURFACEACTIVITYTYPEENUM:return IfcStructuralSurfaceActivityTypeEnum::createObjectFromSTEP( arg );

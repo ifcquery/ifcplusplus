@@ -58,7 +58,7 @@ public:
 	// attributes:
 	shared_ptr<IfcBenchmarkEnum>								m_Benchmark;
 	shared_ptr<IfcLabel>										m_ValueSource;				//optional
-	shared_ptr<IfcMetricValueSelect>							m_DataValue;
+	shared_ptr<IfcMetricValueSelect>							m_DataValue;				//optional
 	shared_ptr<IfcReference>									m_ReferencePath;			//optional
 };
 

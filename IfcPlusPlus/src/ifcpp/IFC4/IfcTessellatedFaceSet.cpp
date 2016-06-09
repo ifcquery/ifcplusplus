@@ -19,6 +19,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IfcPPEntityEnums.h"
+#include "include/IfcBoolean.h"
 #include "include/IfcCartesianPointList3D.h"
 #include "include/IfcIndexedColourMap.h"
 #include "include/IfcIndexedTextureMap.h"
@@ -49,7 +50,7 @@ shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy( IfcPPCopyOptions& op
 			}
 		}
 	}
-	if( m_Closed ) { copy_self->m_Closed = m_Closed; }
+	if( m_Closed ) { copy_self->m_Closed = dynamic_pointer_cast<IfcBoolean>( m_Closed->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
@@ -59,8 +60,7 @@ void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeNumericTypeList2D( stream, m_Normals );
 	stream << ",";
-	if( m_Closed == false ) { stream << ".F."; }
-	else if( m_Closed == true ) { stream << ".T."; }
+	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -70,21 +70,13 @@ void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& 
 	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
-	if( boost::iequals( args[2], L".F." ) ) { m_Closed = false; }
-	else if( boost::iequals( args[2], L".T." ) ) { m_Closed = true; }
+	m_Closed = IfcBoolean::createObjectFromSTEP( args[2] );
 }
 void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Coordinates", m_Coordinates ) );
-	if( m_Closed )
-	{
-		vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBoolAttribute>( new IfcPPBoolAttribute( m_Closed.get() ) ) ) );
-	}
-	else
-	{
-		vec_attributes.push_back( std::make_pair( "Closed", shared_ptr<IfcPPBoolAttribute>() ) );	 // empty shared_ptr
-	}
+	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
 }
 void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {
