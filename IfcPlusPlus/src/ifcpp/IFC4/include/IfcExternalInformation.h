@@ -25,7 +25,7 @@ class IFCPP_EXPORT IfcExternalInformation : virtual public IfcResourceObjectSele
 public:
 	IfcExternalInformation();
 	IfcExternalInformation( int id );
-	~IfcExternalInformation();
+	virtual ~IfcExternalInformation() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

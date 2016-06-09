@@ -26,7 +26,7 @@ class IFCPP_EXPORT IfcPreDefinedItem : public IfcPresentationItem
 public:
 	IfcPreDefinedItem();
 	IfcPreDefinedItem( int id );
-	~IfcPreDefinedItem();
+	virtual ~IfcPreDefinedItem() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

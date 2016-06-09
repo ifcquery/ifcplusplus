@@ -32,7 +32,7 @@ class IFCPP_EXPORT IfcConstraint : virtual public IfcResourceObjectSelect, publi
 public:
 	IfcConstraint();
 	IfcConstraint( int id );
-	~IfcConstraint();
+	virtual ~IfcConstraint() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

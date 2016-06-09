@@ -36,7 +36,7 @@ class IFCPP_EXPORT IfcElement : virtual public IfcStructuralActivityAssignmentSe
 public:
 	IfcElement();
 	IfcElement( int id );
-	~IfcElement();
+	virtual ~IfcElement() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

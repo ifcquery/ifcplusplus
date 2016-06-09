@@ -26,7 +26,7 @@ class IFCPP_EXPORT IfcObjectPlacement : public IfcPPEntity
 public:
 	IfcObjectPlacement();
 	IfcObjectPlacement( int id );
-	~IfcObjectPlacement();
+	virtual ~IfcObjectPlacement() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

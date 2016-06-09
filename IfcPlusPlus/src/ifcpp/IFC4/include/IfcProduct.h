@@ -29,7 +29,7 @@ class IFCPP_EXPORT IfcProduct : virtual public IfcProductSelect, public IfcObjec
 public:
 	IfcProduct();
 	IfcProduct( int id );
-	~IfcProduct();
+	virtual ~IfcProduct() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

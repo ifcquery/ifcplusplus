@@ -27,7 +27,7 @@ class IFCPP_EXPORT IfcPort : public IfcProduct
 public:
 	IfcPort();
 	IfcPort( int id );
-	~IfcPort();
+	virtual ~IfcPort() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

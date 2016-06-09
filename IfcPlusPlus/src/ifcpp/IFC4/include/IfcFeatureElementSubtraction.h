@@ -26,7 +26,7 @@ class IFCPP_EXPORT IfcFeatureElementSubtraction : public IfcFeatureElement
 public:
 	IfcFeatureElementSubtraction();
 	IfcFeatureElementSubtraction( int id );
-	~IfcFeatureElementSubtraction();
+	virtual ~IfcFeatureElementSubtraction() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

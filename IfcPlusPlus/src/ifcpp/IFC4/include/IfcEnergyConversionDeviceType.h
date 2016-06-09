@@ -25,7 +25,7 @@ class IFCPP_EXPORT IfcEnergyConversionDeviceType : public IfcDistributionFlowEle
 public:
 	IfcEnergyConversionDeviceType();
 	IfcEnergyConversionDeviceType( int id );
-	~IfcEnergyConversionDeviceType();
+	virtual ~IfcEnergyConversionDeviceType() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
