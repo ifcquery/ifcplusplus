@@ -57,14 +57,14 @@ namespace GeomUtils
 		}
 		bool intersectRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point ) const
 		{
-			carve::geom::vector<3>  plane_pos( carve::geom::VECTOR( position.x(), position.y(), position.z() ) );
-			carve::geom::vector<3>  plane_normal( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
+			vec3  plane_pos( carve::geom::VECTOR( position.x(), position.y(), position.z() ) );
+			vec3  plane_normal( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
 			carve::geom::plane<3> plane( plane_normal, plane_pos );
-			carve::geom::vector<3>  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
-			carve::geom::vector<3>  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
-			carve::geom::vector<3>  v_intersect;
+			vec3  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
+			vec3  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
+			vec3  v_intersect;
 
-			carve::geom::vector<3> Rd = v2 - v1;
+			vec3 Rd = v2 - v1;
 			double Vd = dot( plane.N, Rd );
 			double V0 = dot( plane.N, v1 ) + plane.d;
 
@@ -531,8 +531,8 @@ namespace GeomUtils
 			vertices = new osg::Vec3Array();
 			geom->setVertexArray( vertices );
 		}
-		const carve::geom::vector<3>& aabb_pos = aabb.pos;
-		const carve::geom::vector<3>& extent = aabb.extent;
+		const vec3& aabb_pos = aabb.pos;
+		const vec3& extent = aabb.extent;
 		const double dex = extent.x;
 		const double dey = extent.y;
 		const double dez = extent.z;
@@ -569,23 +569,23 @@ namespace GeomUtils
 	}
 
 	/** polygon operations */
-	inline carve::geom::vector<3> computePolygonCentroid( const std::vector<carve::geom::vector<3> >& polygon )
+	inline vec3 computePolygonCentroid( const std::vector<vec3 >& polygon )
 	{
-		carve::geom::vector<3> polygon_centroid( carve::geom::VECTOR( 0, 0, 0 ) );
-		for( std::vector<carve::geom::vector<3> >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
+		vec3 polygon_centroid( carve::geom::VECTOR( 0, 0, 0 ) );
+		for( std::vector<vec3 >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
 		{
-			const carve::geom::vector<3>& vertex_current = ( *it );
+			const vec3& vertex_current = ( *it );
 			polygon_centroid += vertex_current;
 		}
 		polygon_centroid /= (double)( polygon.size() );
 		return polygon_centroid;
 	}
-	inline carve::geom::vector<2> computePolygonCentroid( const std::vector<carve::geom::vector<2> >& polygon )
+	inline vec2 computePolygonCentroid( const std::vector<vec2 >& polygon )
 	{
-		carve::geom::vector<2> polygon_centroid( carve::geom::VECTOR( 0, 0 ) );
-		for( std::vector<carve::geom::vector<2> >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
+		vec2 polygon_centroid( carve::geom::VECTOR( 0, 0 ) );
+		for( std::vector<vec2 >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
 		{
-			const carve::geom::vector<2>& vertex_current = ( *it );
+			const vec2& vertex_current = ( *it );
 			polygon_centroid += vertex_current;
 		}
 		polygon_centroid /= (double)( polygon.size() );
@@ -621,20 +621,20 @@ namespace GeomUtils
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline carve::geom::vector<3> computePolygonNormal( const std::vector<carve::geom::vector<3> >& polygon )
+	inline vec3 computePolygonNormal( const std::vector<vec3 >& polygon )
 	{
-		carve::geom::vector<3> polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
+		vec3 polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
 		bool last_loop = false;
-		for( std::vector<carve::geom::vector<3> >::const_iterator it = polygon.begin();; )
+		for( std::vector<vec3 >::const_iterator it = polygon.begin();; )
 		{
-			const carve::geom::vector<3>& vertex_current = ( *it );
+			const vec3& vertex_current = ( *it );
 			++it;
 			if( it == polygon.end() )
 			{
 				it = polygon.begin();
 				last_loop = true;
 			}
-			const carve::geom::vector<3>& vertex_next = ( *it );
+			const vec3& vertex_next = ( *it );
 			polygon_normal[0] += ( vertex_current.y - vertex_next.y )*( vertex_current.z + vertex_next.z );
 			polygon_normal[1] += ( vertex_current.z - vertex_next.z )*( vertex_current.x + vertex_next.x );
 			polygon_normal[2] += ( vertex_current.x - vertex_next.x )*( vertex_current.y + vertex_next.y );
@@ -646,20 +646,20 @@ namespace GeomUtils
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline carve::geom::vector<3> computePolygon2DNormal( const std::vector<carve::geom::vector<2> >& polygon )
+	inline vec3 computePolygon2DNormal( const std::vector<vec2 >& polygon )
 	{
 		const int num_points = polygon.size();
-		carve::geom::vector<3> polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
+		vec3 polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
 		for( int k = 0; k < num_points; ++k )
 		{
-			const carve::geom::vector<2>& vertex_current = polygon[k];
-			const carve::geom::vector<2>& vertex_next = polygon[( k + 1 ) % num_points];
+			const vec2& vertex_current = polygon[k];
+			const vec2& vertex_next = polygon[( k + 1 ) % num_points];
 			polygon_normal[2] += ( vertex_current.x - vertex_next.x )*( vertex_current.y + vertex_next.y );
 		}
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline bool checkOpenPolygonConvexity( const std::vector<carve::geom::vector<2> >& polygon )
+	inline bool checkOpenPolygonConvexity( const std::vector<vec2 >& polygon )
 	{
 		if( polygon.size() < 3 )
 		{
@@ -669,9 +669,9 @@ namespace GeomUtils
 		double zcrossproduct_previous = 0;
 		for( int k = 0; k < num_points - 2; ++k )
 		{
-			const carve::geom::vector<2>& vertex_current = polygon[k];
-			const carve::geom::vector<2>& vertex_next1 = polygon[k + 1];
-			const carve::geom::vector<2>& vertex_next2 = polygon[k + 2];
+			const vec2& vertex_current = polygon[k];
+			const vec2& vertex_next1 = polygon[k + 1];
+			const vec2& vertex_next2 = polygon[k + 2];
 
 			double dx1 = vertex_next1.x - vertex_current.x;
 			double dy1 = vertex_next1.y - vertex_current.y;
@@ -699,16 +699,16 @@ namespace GeomUtils
 		}
 		return true;
 	}
-	inline void appendPointsToCurve( const std::vector<carve::geom::vector<2> >& points_vec, std::vector<carve::geom::vector<3> >& target_vec )
+	inline void appendPointsToCurve( const std::vector<vec2 >& points_vec, std::vector<vec3 >& target_vec )
 	{
 		// sometimes, sense agreement is not given correctly. try to correct sense of segment if necessary
 		//if( target_vec.size() > 0 && points_vec.size() > 1 )
 		//{
-		//	carve::geom::vector<3> first_target_point = target_vec.front();
-		//	carve::geom::vector<3> last_target_point = target_vec.back();
+		//	vec3 first_target_point = target_vec.front();
+		//	vec3 last_target_point = target_vec.back();
 
-		//	carve::geom::vector<2> first_segment_point = points_vec.front();
-		//	carve::geom::vector<2> last_segment_point = points_vec.back();
+		//	vec2 first_segment_point = points_vec.front();
+		//	vec2 last_segment_point = points_vec.back();
 
 		//	if( (last_target_point.x - first_segment_point).length2() < 0.000001 )
 		//	{
@@ -743,8 +743,8 @@ namespace GeomUtils
 		bool omit_first = false;
 		if( target_vec.size() > 0 )
 		{
-			const carve::geom::vector<3>& last_point = target_vec.back();
-			const carve::geom::vector<2>& first_point_current_segment = points_vec.front();
+			const vec3& last_point = target_vec.back();
+			const vec2& first_point_current_segment = points_vec.front();
 			if( std::abs( last_point.x - first_point_current_segment.x ) < 0.000001 )
 			{
 				if( std::abs( last_point.y - first_point_current_segment.y ) < 0.000001 )
@@ -759,7 +759,7 @@ namespace GeomUtils
 			//target_vec.insert( target_vec.end(), points_vec.begin()+1, points_vec.end() );
 			for( size_t i = 1; i < points_vec.size(); ++i )
 			{
-				const carve::geom::vector<2>& pt = points_vec[i];
+				const vec2& pt = points_vec[i];
 				target_vec.push_back( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
 			}
 		}
@@ -768,23 +768,23 @@ namespace GeomUtils
 			//target_vec.insert( target_vec.end(), points_vec.begin(), points_vec.end() );
 			for( size_t i = 0; i < points_vec.size(); ++i )
 			{
-				const carve::geom::vector<2>& pt = points_vec[i];
+				const vec2& pt = points_vec[i];
 				target_vec.push_back( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
 			}
 		}
-		// TODO: handle all segments separately: std::vector<std::vector<carve::geom::vector<3> > >& target_vec
+		// TODO: handle all segments separately: std::vector<std::vector<vec3 > >& target_vec
 	}
-	inline void appendPointsToCurve( const std::vector<carve::geom::vector<3> >& points_vec_src, std::vector<carve::geom::vector<3> >& target_vec )
+	inline void appendPointsToCurve( const std::vector<vec3 >& points_vec_src, std::vector<vec3 >& target_vec )
 	{
 		// sometimes, sense agreement is not given correctly. try to correct sense of segment if necessary
-		std::vector<carve::geom::vector<3> > points_vec( points_vec_src );
+		std::vector<vec3 > points_vec( points_vec_src );
 		if( target_vec.size() > 0 && points_vec.size() > 1 )
 		{
-			carve::geom::vector<3> first_target_point = target_vec.front();
-			carve::geom::vector<3> last_target_point = target_vec.back();
+			vec3 first_target_point = target_vec.front();
+			vec3 last_target_point = target_vec.back();
 
-			carve::geom::vector<3> first_segment_point = points_vec.front();
-			carve::geom::vector<3> last_segment_point = points_vec.back();
+			vec3 first_segment_point = points_vec.front();
+			vec3 last_segment_point = points_vec.back();
 
 			if( ( last_target_point - first_segment_point ).length2() < 0.000001 )
 			{
@@ -819,8 +819,8 @@ namespace GeomUtils
 		bool omit_first = false;
 		if( target_vec.size() > 0 )
 		{
-			carve::geom::vector<3> last_point = target_vec.back();
-			carve::geom::vector<3> first_point_current_segment = points_vec.front();
+			vec3 last_point = target_vec.back();
+			vec3 first_point_current_segment = points_vec.front();
 			if( ( last_point - first_point_current_segment ).length() < 0.000001 )
 			{
 				omit_first = true;
@@ -835,9 +835,9 @@ namespace GeomUtils
 		{
 			target_vec.insert( target_vec.end(), points_vec.begin(), points_vec.end() );
 		}
-		// TODO: handle all segments separately: std::vector<std::vector<carve::geom::vector<3> > >& target_vec
+		// TODO: handle all segments separately: std::vector<std::vector<vec3 > >& target_vec
 	}
-	inline void addArcWithEndPoint( std::vector<carve::geom::vector<2> >& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments )
+	inline void addArcWithEndPoint( std::vector<vec2 >& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments )
 	{
 		if( num_segments < 3 )
 		{
@@ -858,17 +858,17 @@ namespace GeomUtils
 		}
 	}
 
-	inline bool LineToLineIntersectionHelper( carve::geom::vector<2>& v1, carve::geom::vector<2>& v2, carve::geom::vector<2>& v3, carve::geom::vector<2>& v4, double & r, double & s )
+	inline bool LineToLineIntersectionHelper( vec2& v1, vec2& v2, vec2& v3, vec2& v4, double & r, double & s )
 	{
 		// check if lines are parallel
-		const carve::geom::vector<2> vertex1to2 = v2 - v1;
-		const carve::geom::vector<2> vertex3to4 = v4 - v3;
+		const vec2 vertex1to2 = v2 - v1;
+		const vec2 vertex3to4 = v4 - v3;
 		if( vertex1to2.y / vertex1to2.x != vertex3to4.y / vertex3to4.x )
 		{
 			const double d = vertex1to2.x*vertex3to4.y - vertex1to2.y*vertex3to4.x;
 			if( d != 0 )
 			{
-				const carve::geom::vector<2> vertex3to1 = v1 - v3;
+				const vec2 vertex3to1 = v1 - v3;
 				r = ( vertex3to1.y*vertex3to4.x - vertex3to1.x*vertex3to4.y ) / d;
 				s = ( vertex3to1.y*vertex1to2.x - vertex3to1.x*vertex1to2.y ) / d;
 				return true;
@@ -877,7 +877,7 @@ namespace GeomUtils
 		return false;
 
 	}
-	inline bool LineSegmentToLineIntersection( carve::geom::vector<2>& v1, carve::geom::vector<2>& v2, carve::geom::vector<2>& v3, carve::geom::vector<2>& v4, std::vector<carve::geom::vector<2> >& result )
+	inline bool LineSegmentToLineIntersection( vec2& v1, vec2& v2, vec2& v3, vec2& v4, std::vector<vec2 >& result )
 	{
 		double r, s;
 		if( LineToLineIntersectionHelper( v1, v2, v3, v4, r, s ) )
@@ -890,7 +890,7 @@ namespace GeomUtils
 		}
 		return false;
 	}
-	inline bool LineSegmentToLineSegmentIntersection( carve::geom::vector<2>& v1, carve::geom::vector<2>& v2, carve::geom::vector<2>& v3, carve::geom::vector<2>& v4, std::vector<carve::geom::vector<2> >& result )
+	inline bool LineSegmentToLineSegmentIntersection( vec2& v1, vec2& v2, vec2& v3, vec2& v4, std::vector<vec2 >& result )
 	{
 		double r, s;
 		if( LineToLineIntersectionHelper( v1, v2, v3, v4, r, s ) )
@@ -906,7 +906,7 @@ namespace GeomUtils
 		}
 		return false;
 	}
-	inline void closestPointOnLine( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_origin, const carve::geom::vector<3>& line_direction, carve::geom::vector<3>& closest )
+	inline void closestPointOnLine( const vec3& point, const vec3& line_origin, const vec3& line_direction, vec3& closest )
 	{
 		const double denom = point.x*line_direction.x + point.y*line_direction.y + point.z*line_direction.z - line_direction.x*line_origin.x - line_direction.y*line_origin.y - line_direction.z*line_origin.z;
 		const double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y + line_direction.z*line_direction.z;
@@ -917,7 +917,7 @@ namespace GeomUtils
 		const double lambda = denom / numer;
 		closest = carve::geom::VECTOR( line_origin.x + lambda*line_direction.x, line_origin.y + lambda*line_direction.y, line_origin.z + lambda*line_direction.z );
 	}
-	inline void closestPointOnLine( const carve::geom::vector<2>& point, const carve::geom::vector<2>& line_origin, const carve::geom::vector<2>& line_direction, carve::geom::vector<2>& closest )
+	inline void closestPointOnLine( const vec2& point, const vec2& line_origin, const vec2& line_direction, vec2& closest )
 	{
 		const double denom = point.x*line_direction.x + point.y*line_direction.y + -line_direction.x*line_origin.x - line_direction.y*line_origin.y;
 		const double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y;
@@ -928,12 +928,12 @@ namespace GeomUtils
 		const double lambda = denom / numer;
 		closest = carve::geom::VECTOR( line_origin.x + lambda*line_direction.x, line_origin.y + lambda*line_direction.y );
 	}
-	inline double distancePoint2Line( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_p0, const carve::geom::vector<3>& line_p1 )
+	inline double distancePoint2Line( const vec3& point, const vec3& line_p0, const vec3& line_p1 )
 	{
 		// d = |(point - line_p0)x(point - line_p1)| / |line_p1 - line_p0|
 		return carve::geom::cross( ( point - line_p0 ), ( point - line_p1 ) ).length() / ( line_p1 - line_p0 ).length();
 	}
-	inline double distancePoint2LineUnitDirection( const carve::geom::vector<3>& point, const carve::geom::vector<3>& line_pt, const carve::geom::vector<3>& line_direction_normalized )
+	inline double distancePoint2LineUnitDirection( const vec3& point, const vec3& line_pt, const vec3& line_direction_normalized )
 	{
 		// d = |line_direction_normalized x ( point - line_pt )|
 		return carve::geom::cross( ( point - line_pt ), ( line_direction_normalized ) ).length();
@@ -1112,11 +1112,11 @@ namespace GeomUtils
 		if( std::abs( mat._43 ) > 0.00001 )  return false;
 		return true;
 	}
-	inline void makeLookAt(const carve::geom::vector<3>& eye,const carve::geom::vector<3>& center,const carve::geom::vector<3>& up, carve::math::Matrix& resulting_matrix )
+	inline void makeLookAt(const vec3& eye,const vec3& center,const vec3& up, carve::math::Matrix& resulting_matrix )
 	{
-		carve::geom::vector<3> zaxis = ( center - eye ).normalize();
-		carve::geom::vector<3> xaxis = cross( up, zaxis ).normalize();
-		carve::geom::vector<3> yaxis = cross( zaxis, xaxis );
+		vec3 zaxis = ( center - eye ).normalize();
+		vec3 xaxis = cross( up, zaxis ).normalize();
+		vec3 yaxis = cross( zaxis, xaxis );
 
 		resulting_matrix = carve::math::Matrix(
 			xaxis.x, yaxis.x, zaxis.x, 0,
@@ -1124,11 +1124,11 @@ namespace GeomUtils
 			xaxis.z, yaxis.z, zaxis.z, 0,
 			0, 0, 0, 1 );
 	}
-	inline bool bisectingPlane( const carve::geom::vector<3>& v1, const carve::geom::vector<3>& v2, const carve::geom::vector<3>& v3, carve::geom::vector<3>& normal )
+	inline bool bisectingPlane( const vec3& v1, const vec3& v2, const vec3& v3, vec3& normal )
 	{
 		bool valid = false;
-		carve::geom::vector<3> v21 = v2 - v1;
-		carve::geom::vector<3> v32 = v3 - v2;
+		vec3 v21 = v2 - v1;
+		vec3 v32 = v3 - v2;
 		double len21_square = v21.length2();
 		double len32_square = v32.length2();
 
@@ -1181,15 +1181,15 @@ namespace GeomUtils
 		}
 		return valid;
 	}
-	inline void convertPlane2Matrix( const carve::geom::vector<3>& plane_normal, const carve::geom::vector<3>& plane_position,
-		const carve::geom::vector<3>& local_z, carve::math::Matrix& resulting_matrix )
+	inline void convertPlane2Matrix( const vec3& plane_normal, const vec3& plane_position,
+		const vec3& local_z, carve::math::Matrix& resulting_matrix )
 	{
-		carve::geom::vector<3> local_normal( plane_normal );
+		vec3 local_normal( plane_normal );
 		local_normal.normalize();
-		carve::geom::vector<3> local_z_new( local_z );
+		vec3 local_z_new( local_z );
 		//local_z_new.normalize();
 
-		carve::geom::vector<3> local_y = cross( local_normal, local_z_new );
+		vec3 local_y = cross( local_normal, local_z_new );
 		local_y.normalize();
 		local_z_new = cross( local_y, local_normal );
 		local_z_new.normalize();
@@ -1273,15 +1273,15 @@ namespace GeomUtils
 	{
 		for( size_t ii = 0; ii < poly_data->points.size(); ++ii )
 		{
-			carve::geom::vector<3>& point = poly_data->points[ii];
+			vec3& point = poly_data->points[ii];
 			point = matrix*point;
 		}
 	}
-	inline void applyTranslate( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<3>& pos )
+	inline void applyTranslate( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const vec3& pos )
 	{
 		for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
 		{
-			carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
+			vec3& point = meshset->vertex_storage[i].v;
 			point = point + pos;
 		}
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
@@ -1293,7 +1293,7 @@ namespace GeomUtils
 	{
 		for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
 		{
-			carve::geom::vector<3>& point = meshset->vertex_storage[i].v;
+			vec3& point = meshset->vertex_storage[i].v;
 			point = matrix*point;
 		}
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
@@ -1303,13 +1303,13 @@ namespace GeomUtils
 	}
 	inline void applyPosition( carve::geom::aabb<3>& aabb, const carve::math::Matrix& matrix )
 	{
-		carve::geom::vector<3>& pos = aabb.pos;
-		carve::geom::vector<3>& extent = aabb.extent;
+		vec3& pos = aabb.pos;
+		vec3& extent = aabb.extent;
 
 		pos = matrix*pos;
 		extent = matrix*extent;
 	}
-	inline void removeDuplicates( std::vector<carve::geom::vector<2> >&	loop )
+	inline void removeDuplicates( std::vector<vec2 >&	loop )
 	{
 		if( loop.size() > 1 )
 		{
@@ -1320,7 +1320,7 @@ namespace GeomUtils
 
 			while( it_loop != loop.end() )
 			{
-				carve::geom::vector<2>& current_point = *it_loop;
+				vec2& current_point = *it_loop;
 				if( std::abs( current_point.x - previous_x ) < 0.00001 )
 				{
 					if( std::abs( current_point.y - previous_y ) < 0.00001 )
@@ -1337,28 +1337,28 @@ namespace GeomUtils
 			}
 		}
 	}
-	inline void removeDuplicates( std::vector<std::vector<carve::geom::vector<2> > >&	paths )
+	inline void removeDuplicates( std::vector<std::vector<vec2 > >&	paths )
 	{
 		for( size_t ii = 0; ii < paths.size(); ++ii )
 		{
-			std::vector<carve::geom::vector<2> >& loop = paths[ii];
+			std::vector<vec2 >& loop = paths[ii];
 			removeDuplicates( loop );
 		}
 	}
-	inline void copyClosedLoopSkipDuplicates( const std::vector<carve::geom::vector<2> >& loop_in, std::vector<carve::geom::vector<2> >& loop_out )
+	inline void copyClosedLoopSkipDuplicates( const std::vector<vec2 >& loop_in, std::vector<vec2 >& loop_out )
 	{
 		loop_out.clear();
 		if( loop_in.size() > 0 )
 		{
 			loop_out.reserve( loop_in.size() );
-			carve::geom::vector<2> previous_point = loop_in[0];
+			vec2 previous_point = loop_in[0];
 			loop_out.push_back( previous_point );
 		
 			if( loop_in.size() > 1 )
 			{
 				for( size_t ii = 1; ii < loop_in.size(); ++ii )
 				{
-					const carve::geom::vector<2>& current_point = loop_in[ii];
+					const vec2& current_point = loop_in[ii];
 					if( std::abs( current_point.x - previous_point.x ) < 0.00001 )
 					{
 						if( std::abs( current_point.y - previous_point.y ) < 0.00001 )
@@ -1374,8 +1374,8 @@ namespace GeomUtils
 				// delete last point if equal to first
 				while( loop_out.size() > 2 )
 				{
-					carve::geom::vector<2> & first = loop_out.front();
-					carve::geom::vector<2> & last = loop_out.back();
+					vec2 & first = loop_out.front();
+					vec2 & last = loop_out.back();
 
 					if( std::abs( first.x - last.x ) < 0.00000001 )
 					{

@@ -50,20 +50,18 @@
 #include "SplineConverter.h"
 #include "GeomUtils.h"
 
-typedef carve::geom::vector<2> vector2d_t;
-
 class ProfileConverter : public StatusCallback
 {
 public:
 	
-	const std::vector<std::vector<vector2d_t > >& getCoordinates() { return m_paths; }
+	const std::vector<std::vector<vec2> >& getCoordinates() { return m_paths; }
 	void clearProfileConverter() { m_paths.clear(); }
 
 	shared_ptr<CurveConverter>				m_curve_converter;
 	shared_ptr<SplineConverter>				m_spline_converter;
 
 protected:
-	std::vector<std::vector<vector2d_t > >	m_paths;
+	std::vector<std::vector<vec2> >	m_paths;
 	
 public:
 	ProfileConverter( shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc )
@@ -118,19 +116,19 @@ public:
 
 		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
 	}
-	void addAvoidingDuplicates( const std::vector<vector2d_t >& polygon, std::vector<std::vector<vector2d_t > >& paths )
+	void addAvoidingDuplicates( const std::vector<vec2 >& polygon, std::vector<std::vector<vec2 > >& paths )
 	{
 		if( polygon.size() < 1 )
 		{
 			return;
 		}
 
-		std::vector<vector2d_t > polygon_add;
+		std::vector<vec2 > polygon_add;
 		polygon_add.push_back( polygon[0] );
 		for( size_t i = 1; i < polygon.size(); ++i )
 		{
-			const vector2d_t & point = polygon[i];
-			const vector2d_t & point_previous = polygon[i - 1];
+			const vec2 & point = polygon[i];
+			const vec2 & point_previous = polygon[i - 1];
 
 			// omit duplicate points
 			if( std::abs( point.x - point_previous.x ) > 0.00001 )
@@ -147,13 +145,13 @@ public:
 		}
 		paths.push_back( polygon_add );
 	}
-	void convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile, std::vector<std::vector<vector2d_t > >& paths )
+	void convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile, std::vector<std::vector<vec2 > >& paths )
 	{
 		shared_ptr<IfcCurve> outer_curve = profile->m_OuterCurve;
 		if( outer_curve )
 		{
-			std::vector<vector2d_t > curve_polygon;
-			std::vector<vector2d_t > segment_start_points;
+			std::vector<vec2 > curve_polygon;
+			std::vector<vec2 > segment_start_points;
 			m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points );
 			deleteLastPointIfEqualToFirst( curve_polygon );
 			addAvoidingDuplicates( curve_polygon, paths );
@@ -167,8 +165,8 @@ public:
 			for( size_t i = 0; i < inner_curves.size(); ++i )
 			{
 				shared_ptr<IfcCurve> inner_ifc_curve = inner_curves[i];
-				std::vector<vector2d_t > inner_curve_polygon;
-				std::vector<vector2d_t > segment_start_points;
+				std::vector<vec2 > inner_curve_polygon;
+				std::vector<vec2 > segment_start_points;
 
 				m_curve_converter->convertIfcCurve2D( inner_ifc_curve, inner_curve_polygon, segment_start_points );
 				deleteLastPointIfEqualToFirst( inner_curve_polygon );
@@ -176,7 +174,7 @@ public:
 			}
 		}
 	}
-	void convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcArbitraryOpenProfileDef>& profile, std::vector<std::vector<vector2d_t > >& paths )
+	void convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcArbitraryOpenProfileDef>& profile, std::vector<std::vector<vec2 > >& paths )
 	{
 		// ENTITY IfcArbitraryOpenProfileDef
 		//	SUPERTYPE OF(IfcCenterLineProfileDef)
@@ -193,8 +191,8 @@ public:
 			if( center_line_profile_def->m_Thickness )
 			{
 				const double thickness = center_line_profile_def->m_Thickness->m_value * uc->getLengthInMeterFactor();
-				std::vector<carve::geom::vector<3> > segment_start_points;
-				std::vector<carve::geom::vector<3> > basis_curve_points;
+				std::vector<vec3 > segment_start_points;
+				std::vector<vec3 > basis_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_curve, basis_curve_points, segment_start_points );
 
 				size_t num_base_points = basis_curve_points.size();
@@ -207,29 +205,29 @@ public:
 				}
 
 				carve::math::Matrix matrix_sweep;
-				carve::geom::vector<3> local_z( carve::geom::VECTOR( 0, 0, 1 ) );
-				std::vector<carve::geom::vector<3> > left_points;
-				std::vector<carve::geom::vector<3> > right_points;
-				carve::geom::vector<3> point_left( carve::geom::VECTOR( 0.0, -thickness*0.5, 0.0 ) );
-				carve::geom::vector<3> point_right( carve::geom::VECTOR( 0.0, thickness*0.5, 0.0 ) );
+				vec3 local_z( carve::geom::VECTOR( 0, 0, 1 ) );
+				std::vector<vec3 > left_points;
+				std::vector<vec3 > right_points;
+				vec3 point_left( carve::geom::VECTOR( 0.0, -thickness*0.5, 0.0 ) );
+				vec3 point_right( carve::geom::VECTOR( 0.0, thickness*0.5, 0.0 ) );
 
 				for( size_t ii = 0; ii < num_base_points; ++ii )
 				{
-					carve::geom::vector<3> vertex_current = basis_curve_points[ii];
-					carve::geom::vector<3> vertex_next;
-					carve::geom::vector<3> vertex_before;
+					vec3 vertex_current = basis_curve_points[ii];
+					vec3 vertex_next;
+					vec3 vertex_before;
 					if( ii == 0 )
 					{
 						// first point
 						vertex_next = basis_curve_points[ii + 1];
-						carve::geom::vector<3> delta_element = vertex_next - vertex_current;
+						vec3 delta_element = vertex_next - vertex_current;
 						vertex_before = vertex_current - ( delta_element );
 					}
 					else if( ii == num_base_points - 1 )
 					{
 						// last point
 						vertex_before = basis_curve_points[ii - 1];
-						carve::geom::vector<3> delta_element = vertex_current - vertex_before;
+						vec3 delta_element = vertex_current - vertex_before;
 						vertex_next = vertex_before + ( delta_element );
 					}
 					else
@@ -239,7 +237,7 @@ public:
 						vertex_before = basis_curve_points[ii - 1];
 					}
 
-					carve::geom::vector<3> bisecting_normal;
+					vec3 bisecting_normal;
 					GeomUtils::bisectingPlane( vertex_before, vertex_current, vertex_next, bisecting_normal );
 
 					if( ii == num_base_points - 1 )
@@ -257,15 +255,15 @@ public:
 				}
 
 				std::reverse( right_points.begin(), right_points.end() );
-				std::vector<vector2d_t > polygon;
+				std::vector<vec2 > polygon;
 				for( size_t i2 = 0; i2 < left_points.size(); ++i2 )
 				{
-					carve::geom::vector<3>& point3d = left_points[i2];
+					vec3& point3d = left_points[i2];
 					polygon.push_back( carve::geom::VECTOR( point3d.x, point3d.y ) );
 				}
 				for( size_t i2 = 0; i2 < right_points.size(); ++i2 )
 				{
-					carve::geom::vector<3>& point3d = right_points[i2];
+					vec3& point3d = right_points[i2];
 					polygon.push_back( carve::geom::VECTOR( point3d.x, point3d.y ) );
 				}
 				addAvoidingDuplicates( polygon, paths );
@@ -273,13 +271,13 @@ public:
 		}
 		else
 		{
-			std::vector<vector2d_t > polygon;
-			std::vector<vector2d_t > segment_start_points;
+			std::vector<vec2 > polygon;
+			std::vector<vec2 > segment_start_points;
 			m_curve_converter->convertIfcCurve2D( ifc_curve, polygon, segment_start_points );
 			addAvoidingDuplicates( polygon, paths );
 		}
 	}
-	void convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<vector2d_t > >& paths )
+	void convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<vec2 > >& paths )
 	{
 		std::vector<int> temploop_counts;
 		std::vector<int> tempcontour_counts;
@@ -327,12 +325,12 @@ public:
 			messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
 		}
 	}
-	void convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<vector2d_t > >& paths )
+	void convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<vec2 > >& paths )
 	{
 		const double length_factor = m_curve_converter->m_unit_converter->getLengthInMeterFactor();
 		ProfileConverter temp_profiler( m_curve_converter, m_spline_converter );
 		temp_profiler.computeProfile( derived_profile->m_ParentProfile );
-		const std::vector<std::vector<vector2d_t > >& parent_paths = temp_profiler.getCoordinates();
+		const std::vector<std::vector<vec2 > >& parent_paths = temp_profiler.getCoordinates();
 
 		shared_ptr<IfcCartesianTransformationOperator2D> transf_op_2D = derived_profile->m_Operator;
 
@@ -340,23 +338,23 @@ public:
 		PlacementConverter::convertTransformationOperator( transf_op_2D, length_factor, transform, this );
 		for( size_t i = 0; i < parent_paths.size(); ++i )
 		{
-			const std::vector<vector2d_t >& loop_parent = parent_paths[i];
-			std::vector<vector2d_t > loop;
+			const std::vector<vec2 >& loop_parent = parent_paths[i];
+			std::vector<vec2 > loop;
 
 			for( size_t j = 0; j < loop_parent.size(); ++j )
 			{
-				const vector2d_t& pt = loop_parent[j];
-				carve::geom::vector<3> pt3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
+				const vec2& pt = loop_parent[j];
+				vec3 pt3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
 				pt3d = transform*pt3d;
 				loop.push_back( carve::geom::VECTOR( pt3d.x, pt3d.y ) );
 			}
 			paths.push_back( loop );
 		}
 	}
-	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, std::vector<std::vector<vector2d_t > >& paths )
+	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, std::vector<std::vector<vec2 > >& paths )
 	{
 		const double length_factor = m_curve_converter->m_unit_converter->getLengthInMeterFactor();
-		std::vector<std::vector<vector2d_t > > temp_paths;
+		std::vector<std::vector<vec2 > > temp_paths;
 		convertIfcParameterizedProfileDef( parameterized, temp_paths );
 
 		// local coordinate system
@@ -368,11 +366,11 @@ public:
 
 			for( size_t i = 0; i < temp_paths.size(); ++i )
 			{
-				std::vector<vector2d_t >& path_loop = temp_paths[i];
+				std::vector<vec2 >& path_loop = temp_paths[i];
 				for( size_t j = 0; j < path_loop.size(); ++j )
 				{
-					vector2d_t& pt = path_loop[j];
-					carve::geom::vector<3> pt_3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
+					vec2& pt = path_loop[j];
+					vec3 pt_3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
 					pt_3d = transform*pt_3d;
 					pt.x = pt_3d.x;
 					pt.y = pt_3d.y;
@@ -384,12 +382,12 @@ public:
 		{
 			for( size_t i = 0; i < temp_paths.size(); ++i )
 			{
-				std::vector<vector2d_t >& path_loop = temp_paths[i];
+				std::vector<vec2 >& path_loop = temp_paths[i];
 				paths.push_back( path_loop );
 			}
 		}
 	}
-	void convertIfcParameterizedProfileDef( const shared_ptr<IfcParameterizedProfileDef>& profile, std::vector<std::vector<vector2d_t > >& paths )
+	void convertIfcParameterizedProfileDef( const shared_ptr<IfcParameterizedProfileDef>& profile, std::vector<std::vector<vec2 > >& paths )
 	{
 		//IfcParameterizedProfileDef ABSTRACT SUPERTYPE OF (ONEOF
 		//	(IfcCShapeProfileDef, IfcCircleProfileDef, IfcEllipseProfileDef, IfcIShapeProfileDef, IfcLShapeProfileDef,
@@ -409,7 +407,7 @@ public:
 		}
 
 		const double length_factor = uc->getLengthInMeterFactor();
-		std::vector<vector2d_t > outer_loop;
+		std::vector<vec2 > outer_loop;
 
 		// Rectangle profile
 		shared_ptr<IfcRectangleProfileDef> rectangle_profile = dynamic_pointer_cast<IfcRectangleProfileDef>( profile );
@@ -455,7 +453,7 @@ public:
 						}
 
 						// Inner
-						std::vector<vector2d_t > inner_loop;
+						std::vector<vec2 > inner_loop;
 						x_dim -= 2 * t;
 						y_dim -= 2 * t;
 						if( inner_fillet_radius != 0 )
@@ -546,7 +544,7 @@ public:
 				paths.push_back( outer_loop );
 
 				// CircleHollow
-				std::vector<vector2d_t > inner_loop;
+				std::vector<vec2 > inner_loop;
 				shared_ptr<IfcCircleHollowProfileDef> hollow = dynamic_pointer_cast<IfcCircleHollowProfileDef>( profile );
 				if( hollow )
 				{
@@ -1015,12 +1013,12 @@ public:
 
 		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile.get() );
 	}
-	static void deleteLastPointIfEqualToFirst( std::vector<vector2d_t >& coords )
+	static void deleteLastPointIfEqualToFirst( std::vector<vec2 >& coords )
 	{
 		while( coords.size() > 2 )
 		{
-			vector2d_t & first = coords.front();
-			vector2d_t & last = coords.back();
+			vec2 & first = coords.front();
+			vec2 & last = coords.back();
 
 			if( std::abs( first.x - last.x ) < 0.00000001 )
 			{
@@ -1037,11 +1035,11 @@ public:
 	{
 		simplifyPaths( m_paths );
 	}
-	static void simplifyPaths( std::vector<std::vector<vector2d_t > >& paths )
+	static void simplifyPaths( std::vector<std::vector<vec2 > >& paths )
 	{
-		for( std::vector<std::vector<vector2d_t > >::iterator it_paths = paths.begin(); it_paths != paths.end(); ++it_paths )
+		for( std::vector<std::vector<vec2 > >::iterator it_paths = paths.begin(); it_paths != paths.end(); ++it_paths )
 		{
-			std::vector<vector2d_t >& path = ( *it_paths );
+			std::vector<vec2 >& path = ( *it_paths );
 			if( path.size() < 3 )
 			{
 				continue;
@@ -1049,7 +1047,7 @@ public:
 			simplifyPath( path );
 		}
 	}
-	static void simplifyPath( std::vector<vector2d_t >& path )
+	static void simplifyPath( std::vector<vec2 >& path )
 	{
 		if( path.size() < 3 )
 		{
@@ -1058,10 +1056,10 @@ public:
 
 		for( size_t i = 1; i < path.size(); )
 		{
-			vector2d_t& previous = path[i - 1];
-			vector2d_t& current = path[i];
+			vec2& previous = path[i - 1];
+			vec2& current = path[i];
 
-			vector2d_t segment1 = current - previous;
+			vec2 segment1 = current - previous;
 			if( segment1.length2() < 0.000000001 )
 			{
 				path.erase( path.begin() + i );
@@ -1072,13 +1070,13 @@ public:
 
 		for( size_t i = 1; i < path.size() - 1; )
 		{
-			vector2d_t& previous = path[i - 1];
-			vector2d_t& current = path[i];
-			vector2d_t& next = path[i + 1];
+			vec2& previous = path[i - 1];
+			vec2& current = path[i];
+			vec2& next = path[i + 1];
 
-			vector2d_t segment1 = current - previous;
+			vec2 segment1 = current - previous;
 			segment1.normalize();
-			vector2d_t segment2 = next - current;
+			vec2 segment2 = next - current;
 			segment2.normalize();
 			double angle = std::abs( segment1.x*segment2.x + segment1.y*segment2.y );
 			if( std::abs( angle - 1 ) < 0.00001 )
@@ -1096,14 +1094,14 @@ public:
 
 		if( path.size() > 4 )
 		{
-			vector2d_t& first = path.front();
-			vector2d_t& last = path.back();
+			vec2& first = path.front();
+			vec2& last = path.back();
 
 			if( ( last - first ).length2() < 0.000001 )
 			{
-				vector2d_t first_segment = path[1] - first;
+				vec2 first_segment = path[1] - first;
 				first_segment.normalize();
-				vector2d_t last_segment = last - path[path.size() - 2];
+				vec2 last_segment = last - path[path.size() - 2];
 				last_segment.normalize();
 				double angle = std::abs( first_segment.x*last_segment.x + first_segment.y*last_segment.y );
 				if( std::abs( angle - 1 ) < 0.00001 )
@@ -1115,7 +1113,7 @@ public:
 			}
 		}
 	}
-	void addArc( std::vector<vector2d_t >& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments = 4 ) const
+	void addArc( std::vector<vec2 >& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments = 4 ) const
 	{
 		shared_ptr<GeometrySettings>& gs = m_curve_converter->m_geom_settings;
 		if( !gs )
@@ -1142,13 +1140,13 @@ public:
 		}
 	}
 
-	static void mirrorCopyPath( std::vector<vector2d_t >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis )
+	static void mirrorCopyPath( std::vector<vec2 >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis )
 	{
 		int points_count = coords.size();
 		double x, y;
 		for( int i = 0; i < points_count; ++i )
 		{
-			vector2d_t & p = coords[i];
+			vec2 & p = coords[i];
 			if( mirror_on_y_axis )
 			{
 				x = -p.x;
@@ -1168,13 +1166,13 @@ public:
 			coords.push_back( carve::geom::VECTOR( x, y ) );
 		}
 	}
-	static void mirrorCopyPathReverse( std::vector<vector2d_t >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis )
+	static void mirrorCopyPathReverse( std::vector<vec2 >& coords, bool mirror_on_y_axis, bool mirror_on_x_axis )
 	{
 		int points_count = coords.size();
 		double x, y;
 		for( int i = points_count - 1; i >= 0; --i )
 		{
-			vector2d_t & p = coords[i];
+			vec2 & p = coords[i];
 			if( mirror_on_y_axis )
 			{
 				x = -p.x;

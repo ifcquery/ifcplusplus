@@ -33,7 +33,7 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 
-	inline void Polyhedron2Stream( const carve::poly::Polyhedron* poly, const carve::geom::vector<3>& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out )
+	inline void Polyhedron2Stream( const carve::poly::Polyhedron* poly, const vec3& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out )
 	{
 		strs_out << "Polyhedron{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
@@ -112,7 +112,7 @@ namespace GeomDebugUtils
 		strs_out << std::endl << "}" << std::endl;  // Polyhedron
 	}
 
-	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const carve::geom::vector<3>& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
+	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const vec3& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
 	{
 		std::stringstream strs_out;
 		for( size_t i = 0; i < vec_meshsets.size(); ++i )
@@ -136,7 +136,7 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 
-	inline void dumpPolyhedron( const carve::poly::Polyhedron* poly, const carve::geom::vector<3>& offset, const carve::geom::vector<4>& color, bool append )
+	inline void dumpPolyhedron( const carve::poly::Polyhedron* poly, const vec3& offset, const carve::geom::vector<4>& color, bool append )
 	{
 		std::stringstream strs_out;
 		Polyhedron2Stream( poly, offset, color, strs_out );
@@ -151,7 +151,7 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 	
-	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const carve::geom::vector<3>& offset, const carve::geom::vector<4>& color, bool append )
+	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const vec3& offset, const carve::geom::vector<4>& color, bool append )
 	{
 		dumpPolyhedron( poly_input.create( carve::input::opts() ), offset, color, append );
 	}
@@ -163,7 +163,7 @@ namespace GeomDebugUtils
 			return;
 		}
 		//GeomUtils::applyTranslate( meshset, carve::geom::VECTOR( 0, dump_y_pos_geom, 0 ) );
-		carve::geom::vector<3> offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
 
 		shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset.get(), -1 ) );
 		dumpPolyhedron( poly.get(), offset, color, append );
@@ -280,6 +280,67 @@ namespace GeomDebugUtils
 		}
 		strs_out << std::endl << "}"; // lines
 		strs_out << std::endl << "}"; // PolyLineSet
+
+		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+		dump_ofstream << strs_out.str().c_str();
+		dump_ofstream.close();
+	}
+
+	inline void dumpPolyline( const std::vector<vec2 >& vec_polyline, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
+	{
+		if( vec_polyline.size() < 1 )
+		{
+			return;
+		}
+
+		std::stringstream strs_out;
+		
+
+		if( vec_polyline.size() < 1 )
+		{
+			return;
+		}
+
+		strs_out << "Polyline{" << std::endl;
+		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+
+		strs_out << "vertices{" << std::endl;
+
+		double min_y = 0;
+		double max_y = 0;
+		const size_t num_vertices = vec_polyline.size();
+		for( size_t i = 0; i < num_vertices; ++i )
+		{
+			const vec2& vertex = vec_polyline[i];
+			if( i > 0 )
+			{
+				strs_out << ",";
+				if( vertex.y < min_y ) min_y = vertex.y;
+				else if( vertex.y > max_y ) max_y = vertex.y;
+			}
+			else
+			{
+				min_y = vertex.y;
+				max_y = vertex.y;
+			}
+			strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
+		}
+		strs_out << "}" << std::endl;  // vertices
+		if( move_dump_position )
+		{
+			dump_y_pos_geom += (max_y - min_y)*1.5;
+			if( max_y > dump_y_pos_geom )
+			{
+				dump_y_pos_geom = max_y*1.1;
+			}
+		}
+
+		strs_out << std::endl << "}" << std::endl;  // Polyline
+
+		if( !append )
+		{
+			clearMeshsetDump();
+		}
 
 		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
 		dump_ofstream << strs_out.str().c_str();

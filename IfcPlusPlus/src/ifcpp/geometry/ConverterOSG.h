@@ -58,7 +58,7 @@ public:
 #ifdef _DEBUG
 		std::cout << "not triangulated" << std::endl;
 #endif
-		std::vector<carve::geom::vector<3> > face_vertices;
+		std::vector<vec3 > face_vertices;
 		face_vertices.resize( face->nVertices() );
 		carve::mesh::Edge<3> *e = face->edge;
 		const size_t num_vertices = face->nVertices();
@@ -73,7 +73,7 @@ public:
 			std::cout << "drawFace is meant only for num vertices > 4" << std::endl;
 		}
 
-		carve::geom::vector<3> * vertex_vec;
+		vec3 * vertex_vec;
 		osg::Vec3Array* vertices = new osg::Vec3Array( num_vertices );
 		if( !vertices ) { throw IfcPPOutOfMemoryException(); }
 		osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::POLYGON, num_vertices );
@@ -177,7 +177,7 @@ public:
 				{
 					carve::mesh::Face<3>* face = mesh->faces[i_face];
 					// compute area of projected face:
-					std::vector<carve::geom::vector<2> > projected;
+					std::vector<vec2 > projected;
 					face->getProjectedVertices( projected );
 					double face_area = carve::geom2d::signedArea( projected );
 					map_face_area[face] = abs( face_area );
@@ -199,7 +199,7 @@ public:
 					drawFace( face, geode );
 					continue;
 				}
-				const carve::geom::vector<3> face_normal = face->plane.N;
+				const vec3 face_normal = face->plane.N;
 
 				if( crease_angle > 0 )
 				{
@@ -207,7 +207,7 @@ public:
 					for( size_t jj = 0; jj < n_vertices; ++jj )
 					{
 						carve::mesh::Vertex<3>* vertex = e->vert;
-						carve::geom::vector<3> intermediate_normal;
+						vec3 intermediate_normal;
 
 						// collect all faces at vertex
 						//              | ^
@@ -238,7 +238,7 @@ public:
 								break;
 							}
 
-							carve::geom::vector<3> f1_normal = f1->plane.N;
+							vec3 f1_normal = f1->plane.N;
 							const double cos_angle = dot( f1_normal, face_normal );
 							if( cos_angle > 0 )
 							{
@@ -289,7 +289,7 @@ public:
 							intermediate_normal *= 1.0 / intermediate_normal_length;
 						}
 
-						const carve::geom::vector<3>& vertex_v = vertex->v;
+						const vec3& vertex_v = vertex->v;
 						if( face->n_edges == 3 )
 						{
 							vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
@@ -311,7 +311,7 @@ public:
 					for( size_t jj = 0; jj < n_vertices; ++jj )
 					{
 						carve::mesh::Vertex<3>* vertex = e->vert;
-						const carve::geom::vector<3>& vertex_v = vertex->v;
+						const vec3& vertex_v = vertex->v;
 
 						if( face->n_edges == 3 )
 						{
@@ -745,7 +745,7 @@ public:
 							osg::Vec3Array* vertices = new osg::Vec3Array();
 							for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
 							{
-								carve::geom::vector<3>& carve_point = pointset_data->points[i_pointset_point];
+								vec3& carve_point = pointset_data->points[i_pointset_point];
 								vertices->push_back( osg::Vec3d( carve_point.x, carve_point.y, carve_point.z ) );
 							}
 

@@ -40,7 +40,7 @@ public:
 
 	virtual ~PointConverter(){}
 
-	static bool convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, carve::geom::vector<3>& point, double length_factor )
+	static bool convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, vec3& point, double length_factor )
 	{
 		if( !ifc_point )
 		{
@@ -75,7 +75,7 @@ public:
 		}
 		return false;
 	}
-	void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<carve::geom::vector<3> >& loop ) const
+	void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<vec3 >& loop ) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		const size_t num_points = points.size();
@@ -120,7 +120,7 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVector2D( const std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& vec_points_in, std::vector<carve::geom::vector<3> >& vertices )
+	void convertIfcCartesianPointVector2D( const std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& vec_points_in, std::vector<vec3 >& vertices )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		for( size_t ii = 0; ii < vec_points_in.size(); ++ii )
@@ -147,10 +147,10 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<carve::geom::vector<3> >& loop ) const
+	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<vec3 >& loop ) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
-		carve::geom::vector<3>  vertex_previous;
+		vec3  vertex_previous;
 		for( size_t ii = 0; ii < vec_ifc_points.size(); ++ii )
 		{
 			const shared_ptr<IfcCartesianPoint>& cartesian_point = vec_ifc_points[ii];
@@ -200,7 +200,7 @@ public:
 			vertex_previous.z = z;
 		}
 	}
-	static bool convertIfcVertex( const shared_ptr<IfcVertex>& vertex, carve::geom::vector<3>& point_result, const double length_factor )
+	static bool convertIfcVertex( const shared_ptr<IfcVertex>& vertex, vec3& point_result, const double length_factor )
 	{
 		shared_ptr<IfcVertexPoint> vertex_point = dynamic_pointer_cast<IfcVertexPoint>( vertex );
 		if( vertex_point )
@@ -229,15 +229,15 @@ public:
 	}
 
 	//\brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
-	static double getAngleOnCircle( const carve::geom::vector<3>& circle_center, double circle_radius, const carve::geom::vector<3>& trim_point )
+	static double getAngleOnCircle( const vec3& circle_center, double circle_radius, const vec3& trim_point )
 	{
 		double result_angle = -1.0;
-		carve::geom::vector<3> center_trim_point = trim_point - circle_center;
+		vec3 center_trim_point = trim_point - circle_center;
 		if( std::abs( center_trim_point.length() - circle_radius ) < 0.0001 )
 		{
-			carve::geom::vector<3> center_trim_point_direction = center_trim_point;
+			vec3 center_trim_point_direction = center_trim_point;
 			center_trim_point_direction.normalize();
-			double cos_angle = carve::geom::dot( center_trim_point_direction, carve::geom::vector<3>( carve::geom::VECTOR( 1.0, 0, 0 ) ) );
+			double cos_angle = carve::geom::dot( center_trim_point_direction, vec3( carve::geom::VECTOR( 1.0, 0, 0 ) ) );
 
 			if( std::abs( cos_angle ) < 0.0001 )
 			{

@@ -42,11 +42,11 @@ namespace PlacementConverter
 {
 	inline void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, const double length_factor, carve::math::Matrix& resulting_matrix, bool only_rotation = false )
 	{
-		carve::geom::vector<3>  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
-		carve::geom::vector<3>  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
-		carve::geom::vector<3>  ref_direction( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
+		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
+		vec3  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
+		vec3  ref_direction( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
 
 		if( !only_rotation )
 		{
@@ -77,7 +77,7 @@ namespace PlacementConverter
 		}
 
 		local_x = ref_direction;
-		carve::geom::vector<3>  z_axis( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
+		vec3  z_axis( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
 		local_y = carve::geom::cross( z_axis, local_x );
 		// ref_direction can be just in the x-z-plane, not perpendicular to y and z. so re-compute local x
 		local_x = carve::geom::cross( local_y, local_z );
@@ -95,11 +95,11 @@ namespace PlacementConverter
 
 	inline void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::math::Matrix& resulting_matrix, bool only_rotation = false )
 	{
-		carve::geom::vector<3>  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
-		carve::geom::vector<3>  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
-		carve::geom::vector<3>  ref_direction( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
+		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
+		vec3  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
+		vec3  ref_direction( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
 
 		if( !only_rotation )
 		{
@@ -153,13 +153,13 @@ namespace PlacementConverter
 			0, 0, 0, 1 );
 	}
 
-	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::geom::plane<3>& plane, carve::geom::vector<3>& translate )
+	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::geom::plane<3>& plane, vec3& translate )
 	{
-		carve::geom::vector<3>  location( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
-		carve::geom::vector<3>  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
-		carve::geom::vector<3>  ref_direction( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  location( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
+		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
+		vec3  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
+		vec3  ref_direction( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
 
 		if( axis2placement3d->m_Location )
 		{
@@ -203,10 +203,10 @@ namespace PlacementConverter
 			vec_new_entities.push_back( axis2placement3d );
 		}
 
-		carve::geom::vector<3>  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
-		carve::geom::vector<3>  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
-		carve::geom::vector<3>  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
+		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
+		vec3  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
+		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
 
 		local_x.x = matrix._11;//(0,0);
 		local_x.y = matrix._12;//(0,1);
@@ -425,10 +425,10 @@ namespace PlacementConverter
 	inline void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, const double length_factor, carve::math::Matrix& resulting_matrix, StatusCallback* sc )
 	{
 		// ENTITY IfcCartesianTransformationOperator  ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianTransformationOperator2D, IfcCartesianTransformationOperator3D))
-		carve::geom::vector<3>  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
-		carve::geom::vector<3>  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
-		carve::geom::vector<3>  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
+		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
+		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
+		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
+		vec3  local_z( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
 
 		double scale = 1.0;
 		double scale_y = 1.0;

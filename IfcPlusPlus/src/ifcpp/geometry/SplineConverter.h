@@ -142,7 +142,7 @@ public:
 	static void computeRationalBSpline(
 		const size_t order,
 		const size_t num_curve_pts,
-		const std::vector<carve::geom::vector<3> >& control_points,
+		const std::vector<vec3 >& control_points,
 		const std::vector<double>& weights,
 		std::vector<double>& knot_vec,
 		std::vector<double>& curve_points )
@@ -206,7 +206,7 @@ public:
 	{
 	}
 
-	void convertBSplineCurve( const shared_ptr<IfcBSplineCurve>& bspline_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points ) const
+	void convertBSplineCurve( const shared_ptr<IfcBSplineCurve>& bspline_curve, std::vector<vec3 >& target_vec, std::vector<vec3 >& segment_start_points ) const
 	{
 		if( !bspline_curve )
 		{
@@ -222,7 +222,7 @@ public:
 		//const LogicalEnum									closed_curve = bspline_curve->m_ClosedCurve;
 		//const LogicalEnum									self_intersect = bspline_curve->m_ClosedCurve;
 
-		std::vector<carve::geom::vector<3> > vec_control_points;
+		std::vector<vec3 > vec_control_points;
 		m_point_converter->convertIfcCartesianPointVector( control_points, vec_control_points );
 
 		if( vec_control_points.size() < 2 )
@@ -325,7 +325,7 @@ public:
 			}
 		}
 
-		std::vector<carve::geom::vector<3> > control_point_array;
+		std::vector<vec3 > control_point_array;
 
 		m_point_converter->convertIfcCartesianPointVector2D( ifc_control_points, control_point_array );
 

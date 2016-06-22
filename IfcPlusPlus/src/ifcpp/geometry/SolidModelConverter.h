@@ -124,7 +124,7 @@ public:
 			}
 
 			shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
-			const std::vector<std::vector<carve::geom::vector<2> > >& profile_paths = profile_converter->getCoordinates();
+			const std::vector<std::vector<vec2 > >& profile_paths = profile_converter->getCoordinates();
 
 			shared_ptr<IfcFixedReferenceSweptAreaSolid> fixed_reference_swept_area_solid = dynamic_pointer_cast<IfcFixedReferenceSweptAreaSolid>( swept_area_solid );
 			if( fixed_reference_swept_area_solid )
@@ -140,8 +140,8 @@ public:
 				//shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;				// TODO: apply fixed reference
 				messageCallback( "IfcFixedReferenceSweptAreaSolid: Fixed reference not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, fixed_reference_swept_area_solid.get() );
 
-				std::vector<carve::geom::vector<3> > segment_start_points;
-				std::vector<carve::geom::vector<3> > basis_curve_points;
+				std::vector<vec3 > segment_start_points;
+				std::vector<vec3 > basis_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
@@ -169,8 +169,8 @@ public:
 				shared_ptr<IfcSurface>& ifc_reference_surface = surface_curve_swept_area_solid->m_ReferenceSurface;			// TODO: apply start_param, end_param
 				messageCallback( "IfcSurfaceCurveSweptAreaSolid: StartParam and EndParam not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, surface_curve_swept_area_solid.get() );
 
-				std::vector<carve::geom::vector<3> > segment_start_points;
-				std::vector<carve::geom::vector<3> > directrix_curve_points;
+				std::vector<vec3 > segment_start_points;
+				std::vector<vec3 > directrix_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points );
 
 				// apply reference curve
@@ -182,8 +182,8 @@ public:
 				{
 					for( size_t ii = 0; ii < directrix_curve_points.size(); ++ii )
 					{
-						//carve::geom::vector<3>& point_3d = directrix_curve_points[ii];
-						//carve::geom::vector<2> point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
+						//vec3& point_3d = directrix_curve_points[ii];
+						//vec2 point_2d( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
 						//surface_proxy->computePointOnSurface( point_3d, point_3d );
 						// TODO: implement
 					}
@@ -306,8 +306,8 @@ public:
 
 			// TODO: handle start param, end param
 
-			std::vector<carve::geom::vector<3> > segment_start_points;
-			std::vector<carve::geom::vector<3> > basis_curve_points;
+			std::vector<vec3 > segment_start_points;
+			std::vector<vec3 > basis_curve_points;
 			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
 			shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
@@ -342,7 +342,7 @@ public:
 
 		// direction and length of extrusion
 		const double depth = extruded_area->m_Depth->m_value*length_factor;
-		carve::geom::vector<3>  extrusion_vector;
+		vec3  extrusion_vector;
 		std::vector<shared_ptr<IfcReal> >& vec_direction = extruded_area->m_ExtrudedDirection->m_DirectionRatios;
 		if( GeomUtils::allPointersValid( vec_direction ) )
 		{
@@ -365,7 +365,7 @@ public:
 		}
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
 		profile_converter->simplifyPaths();
-		const std::vector<std::vector<carve::geom::vector<2> > >& paths = profile_converter->getCoordinates();
+		const std::vector<std::vector<vec2 > >& paths = profile_converter->getCoordinates();
 
 		if( paths.size() == 0 )
 		{
@@ -412,8 +412,8 @@ public:
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// revolution axis
-		carve::geom::vector<3>  axis_location;
-		carve::geom::vector<3>  axis_direction;
+		vec3  axis_location;
+		vec3  axis_direction;
 		if( revolved_area->m_Axis )
 		{
 			shared_ptr<IfcAxis1Placement> axis_placement = revolved_area->m_Axis;
@@ -432,21 +432,21 @@ public:
 		}
 
 		// rotation base point is the one with the smallest distance on the rotation axis
-		carve::geom::vector<3>  origin;
-		carve::geom::vector<3>  base_point;
+		vec3  origin;
+		vec3  base_point;
 		GeomUtils::closestPointOnLine( origin, axis_location, axis_direction, base_point );
 		base_point *= -1.0;
 
 		// swept area
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area_profile );
-		const std::vector<std::vector<carve::geom::vector<2> > >& profile_coords_unchecked = profile_converter->getCoordinates();
+		const std::vector<std::vector<vec2 > >& profile_coords_unchecked = profile_converter->getCoordinates();
 
 		bool warning_small_loop_detected = false;
-		std::vector<std::vector<carve::geom::vector<2> > > profile_coords;
+		std::vector<std::vector<vec2 > > profile_coords;
 		for( size_t ii = 0; ii < profile_coords_unchecked.size(); ++ii )
 		{
-			const std::vector<carve::geom::vector<2> >& profile_loop_unchecked = profile_coords_unchecked[ii];
-			carve::geom::vector<3> normal_2d = GeomUtils::computePolygon2DNormal( profile_loop_unchecked );
+			const std::vector<vec2 >& profile_loop_unchecked = profile_coords_unchecked[ii];
+			vec3 normal_2d = GeomUtils::computePolygon2DNormal( profile_loop_unchecked );
 			bool reverse_loop = false;
 			if( ii == 0 )
 			{
@@ -470,8 +470,8 @@ public:
 				continue;
 			}
 
-			profile_coords.push_back( std::vector<carve::geom::vector<2> >() );
-			std::vector<carve::geom::vector<2> >& profile_loop = profile_coords.back();
+			profile_coords.push_back( std::vector<vec2 >() );
+			std::vector<vec2 >& profile_loop = profile_coords.back();
 
 			if( reverse_loop )
 			{
@@ -492,7 +492,7 @@ public:
 
 
 		// triangulate
-		std::vector<carve::geom::vector<2> > path_merged;
+		std::vector<vec2 > path_merged;
 		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
 		std::vector<carve::triangulate::tri_idx> triangulated;
 		try
@@ -510,9 +510,9 @@ public:
 					continue;
 				}
 
-				const std::vector<carve::geom::vector<2> >& loop_2d = profile_coords[loop_number];
+				const std::vector<vec2 >& loop_2d = profile_coords[loop_number];
 
-				const carve::geom::vector<2> & point_2d = loop_2d[index_in_loop];
+				const vec2 & point_2d = loop_2d[index_in_loop];
 				path_merged.push_back( point_2d );
 			}
 			carve::triangulate::triangulate( path_merged, triangulated );
@@ -548,10 +548,10 @@ public:
 		double d_angle = revolution_angle / num_segments;
 
 		// check if we have to change the direction
-		carve::geom::vector<3>  polygon_normal = GeomUtils::computePolygon2DNormal( profile_coords[0] );
-		const carve::geom::vector<2>&  pt0_2d = profile_coords[0][0];
-		carve::geom::vector<3>  pt0_3d( carve::geom::VECTOR( pt0_2d.x, pt0_2d.y, 0 ) );
-		carve::geom::vector<3>  pt0 = carve::math::Matrix::ROT( d_angle, axis_direction )*( pt0_3d + base_point );
+		vec3  polygon_normal = GeomUtils::computePolygon2DNormal( profile_coords[0] );
+		const vec2&  pt0_2d = profile_coords[0][0];
+		vec3  pt0_3d( carve::geom::VECTOR( pt0_2d.x, pt0_2d.y, 0 ) );
+		vec3  pt0 = carve::math::Matrix::ROT( d_angle, axis_direction )*( pt0_3d + base_point );
 		if( polygon_normal.z*pt0.z > 0 )
 		{
 			angle = revolution_angle;
@@ -573,12 +573,12 @@ public:
 			m = carve::math::Matrix::ROT( angle, -axis_direction );
 			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
 			{
-				const std::vector<carve::geom::vector<2> >& loop = profile_coords[jj];
+				const std::vector<vec2 >& loop = profile_coords[jj];
 
 				for( size_t kk = 0; kk < loop.size(); ++kk )
 				{
-					const carve::geom::vector<2>& point = loop[kk];
-					carve::geom::vector<3>  vertex = m*( carve::geom::VECTOR( point.x, point.y, 0 ) + base_point ) - base_point;
+					const vec2& point = loop[kk];
+					vec3  vertex = m*( carve::geom::VECTOR( point.x, point.y, 0 ) + base_point ) - base_point;
 					polyhedron_data->addVertex( vertex );
 				}
 			}
@@ -588,7 +588,7 @@ public:
 		int num_vertices_per_section = 0;
 		for( size_t j = 0; j < profile_coords.size(); ++j )
 		{
-			const std::vector<carve::geom::vector<2> >& loop = profile_coords[j];
+			const std::vector<vec2 >& loop = profile_coords[j];
 			num_vertices_per_section += loop.size();
 		}
 
@@ -605,9 +605,9 @@ public:
 			return;
 		}
 		// compute normal of front cap
-		const carve::geom::vector<3>& vertex0_section0 = polyhedron_data->getVertex( 0 );
-		const carve::geom::vector<3>& vertex0_section1 = polyhedron_data->getVertex( num_vertices_per_section );
-		carve::geom::vector<3> normal_fron_cap = ( vertex0_section0 - vertex0_section1 ).normalize();
+		const vec3& vertex0_section0 = polyhedron_data->getVertex( 0 );
+		const vec3& vertex0_section1 = polyhedron_data->getVertex( num_vertices_per_section );
+		vec3 normal_fron_cap = ( vertex0_section0 - vertex0_section1 ).normalize();
 
 		// front cap
 		int back_cap_offset = num_vertices_per_section*( num_segments );
@@ -684,11 +684,11 @@ public:
 
 			if( ii == 0 )
 			{
-				std::vector<carve::geom::vector<3> > vec_triangle;
+				std::vector<vec3 > vec_triangle;
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_a ) );
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_b ) );
 				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_c ) );
-				carve::geom::vector<3> normal_first_triangle = GeomUtils::computePolygonNormal( vec_triangle );
+				vec3 normal_first_triangle = GeomUtils::computePolygonNormal( vec_triangle );
 
 				if( dot( normal_first_triangle, normal_fron_cap ) < 0 )
 				{
@@ -701,9 +701,9 @@ public:
 			const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex( vertex_id_b );
 			const carve::poly::Vertex<3>& v_c = polyhedron_data->getVertex( vertex_id_c );
 
-			carve::geom::vector<3> pa( carve::geom::VECTOR( v_a.v[0], v_a.v[1], v_a.v[2] ) );
-			carve::geom::vector<3> pb( carve::geom::VECTOR( v_b.v[0], v_b.v[1], v_b.v[2] ) );
-			carve::geom::vector<3> pc( carve::geom::VECTOR( v_c.v[0], v_c.v[1], v_c.v[2] ) );
+			vec3 pa( carve::geom::VECTOR( v_a.v[0], v_a.v[1], v_a.v[2] ) );
+			vec3 pb( carve::geom::VECTOR( v_b.v[0], v_b.v[1], v_b.v[2] ) );
+			vec3 pc( carve::geom::VECTOR( v_c.v[0], v_c.v[1], v_c.v[2] ) );
 
 			double A = 0.5*( cross( pa - pb, pa - pc ).length() );
 			if( std::abs( A ) < 0.000000001 )
@@ -731,7 +731,7 @@ public:
 			size_t loop_offset = segment_offset;
 			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
 			{
-				const std::vector<carve::geom::vector<2> >& loop = profile_coords[jj];
+				const std::vector<vec2 >& loop = profile_coords[jj];
 				const size_t num_points_in_loop = loop.size();
 
 				for( size_t kk = 0; kk < num_points_in_loop; ++kk )
@@ -1167,7 +1167,7 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 	}
 
-	void extrudeBox( const std::vector<carve::geom::vector<3> >& boundary_points, const carve::geom::vector<3>& extrusion_vector, shared_ptr<carve::input::PolyhedronData>& box_data )
+	void extrudeBox( const std::vector<vec3 >& boundary_points, const vec3& extrusion_vector, shared_ptr<carve::input::PolyhedronData>& box_data )
 	{
 		box_data->addVertex( boundary_points[0] );
 		box_data->addVertex( boundary_points[1] );
@@ -1206,7 +1206,7 @@ public:
 		}
 		shared_ptr<IfcAxis2Placement3D>& base_surface_pos = elem_base_surface->m_Position;
 		carve::geom::plane<3> base_surface_plane;
-		carve::geom::vector<3> base_surface_position;
+		vec3 base_surface_position;
 		carve::math::Matrix base_position_matrix( carve::math::Matrix::IDENT() );
 		if( base_surface_pos )
 		{
@@ -1241,7 +1241,7 @@ public:
 			shared_ptr<IfcPositiveLengthMeasure>&	bbox_y_dim = bbox->m_YDim;
 			shared_ptr<IfcPositiveLengthMeasure>&	bbox_z_dim = bbox->m_ZDim;
 
-			carve::geom::vector<3> corner;
+			vec3 corner;
 			PointConverter::convertIfcCartesianPoint( bbox_corner, corner, length_factor );
 			carve::math::Matrix box_position_matrix = base_position_matrix*carve::math::Matrix::TRANS( corner );
 
@@ -1270,9 +1270,9 @@ public:
 			polyhedron_data->addFace( 4, 0, 3 );
 
 			// apply box coordinate system
-			for( std::vector<carve::geom::vector<3> >::iterator it_points = polyhedron_data->points.begin(); it_points != polyhedron_data->points.end(); ++it_points )
+			for( std::vector<vec3 >::iterator it_points = polyhedron_data->points.begin(); it_points != polyhedron_data->points.end(); ++it_points )
 			{
-				carve::geom::vector<3> & poly_point = ( *it_points );
+				vec3 & poly_point = ( *it_points );
 				poly_point = box_position_matrix*poly_point;
 			}
 
@@ -1282,7 +1282,7 @@ public:
 
 		// check dimenstions of other operand
 		double extrusion_depth = HALF_SPACE_BOX_SIZE;
-		//carve::geom::vector<3> other_operand_pos = base_surface_position;
+		//vec3 other_operand_pos = base_surface_position;
 		if( other_operand )
 		{
 			carve::geom::aabb<3> aabb;
@@ -1301,7 +1301,7 @@ public:
 				}
 			}
 
-			carve::geom::vector<3>& aabb_extent = aabb.extent;
+			vec3& aabb_extent = aabb.extent;
 			double max_extent = std::max( aabb_extent.x, std::max( aabb_extent.y, aabb_extent.z ) );
 			extrusion_depth = 2.0*max_extent;
 			//other_operand_pos = aabb.pos;
@@ -1316,8 +1316,8 @@ public:
 			//	PolygonalBoundary	 :	IfcBoundedCurve;
 
 			carve::math::Matrix boundary_position_matrix( carve::math::Matrix::IDENT() );
-			carve::geom::vector<3> boundary_plane_normal( carve::geom::VECTOR( 0, 0, 1 ) );
-			carve::geom::vector<3> boundary_position;
+			vec3 boundary_plane_normal( carve::geom::VECTOR( 0, 0, 1 ) );
+			vec3 boundary_position;
 			if( polygonal_half_space->m_Position )
 			{
 				PlacementConverter::convertIfcAxis2Placement3D( polygonal_half_space->m_Position, length_factor, boundary_position_matrix );
@@ -1326,24 +1326,24 @@ public:
 			}
 
 			// PolygonalBoundary is given in 2D
-			std::vector<carve::geom::vector<2> > polygonal_boundary;
-			std::vector<carve::geom::vector<2> > segment_start_points_2d;
+			std::vector<vec2 > polygonal_boundary;
+			std::vector<vec2 > segment_start_points_2d;
 			shared_ptr<IfcBoundedCurve> bounded_curve = polygonal_half_space->m_PolygonalBoundary;
 			m_curve_converter->convertIfcCurve2D( bounded_curve, polygonal_boundary, segment_start_points_2d );
 			ProfileConverter::deleteLastPointIfEqualToFirst( polygonal_boundary );
 			ProfileConverter::simplifyPath( polygonal_boundary );
 
-			carve::geom::vector<3> solid_extrusion_direction = boundary_plane_normal;
+			vec3 solid_extrusion_direction = boundary_plane_normal;
 			double agreement_check = dot( base_surface_plane.N, boundary_plane_normal );
 			if( agreement_check > 0 )
 			{
 				solid_extrusion_direction = -solid_extrusion_direction;
 			}
 
-			std::vector<std::vector<carve::geom::vector<2> > > paths;
+			std::vector<std::vector<vec2 > > paths;
 			paths.push_back( polygonal_boundary );
 			shared_ptr<ItemShapeInputData> polygonal_halfspace_item_data( new ItemShapeInputData );
-			m_sweeper->extrude( paths, carve::geom::vector<3>( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
+			m_sweeper->extrude( paths, vec3( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
 
 			if( polygonal_halfspace_item_data->m_meshsets.size() != 1 )
 			{
@@ -1370,10 +1370,10 @@ public:
 			for( size_t i_base_point = 0; i_base_point < polygonal_halfspace_meshset->vertex_storage.size(); ++i_base_point )
 			{
 				carve::mesh::Vertex<3>& poly_vert = polygonal_halfspace_meshset->vertex_storage[i_base_point];
-				carve::geom::vector<3>& poly_point = poly_vert.v;
+				vec3& poly_point = poly_vert.v;
 
 				// points below the base surface are projected into plane
-				carve::geom::vector<3> v;
+				vec3 v;
 				double t;
 				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( base_surface_plane, poly_point, poly_point + boundary_plane_normal, v, t );
 				if( intersect > 0 )
@@ -1430,7 +1430,7 @@ public:
 				{
 					shared_ptr<carve::input::PolylineSetData>& surface_data = surface_item_data->m_polylines[0];
 				
-					std::vector<carve::geom::vector<3> > base_surface_points = surface_data->points;
+					std::vector<vec3 > base_surface_points = surface_data->points;
 
 					if( base_surface_points.size() != 4 )
 					{
@@ -1443,9 +1443,9 @@ public:
 					{
 						std::reverse( base_surface_points.begin(), base_surface_points.end() );
 					}
-					carve::geom::vector<3>  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
-					carve::geom::vector<3>  half_space_extrusion_direction = -base_surface_normal;
-					carve::geom::vector<3>  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
+					vec3  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
+					vec3  half_space_extrusion_direction = -base_surface_normal;
+					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 					extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
 					item_data->addOpenOrClosedPolyhedron( half_space_box_data );
@@ -1454,16 +1454,16 @@ public:
 
 			if( var == 1 )
 			{
-				std::vector<carve::geom::vector<3> > box_base_points;
+				std::vector<vec3 > box_base_points;
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( extrusion_depth, extrusion_depth, 0.0 ) );
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( -extrusion_depth, extrusion_depth, 0.0 ) );
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( -extrusion_depth, -extrusion_depth, 0.0 ) );
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( extrusion_depth, -extrusion_depth, 0.0 ) );
 
-				carve::geom::vector<3>  half_space_extrusion_direction = -base_surface_plane.N;
-				carve::geom::vector<3>  half_space_extrusion_vector = half_space_extrusion_direction*extrusion_depth;
+				vec3  half_space_extrusion_direction = -base_surface_plane.N;
+				vec3  half_space_extrusion_vector = half_space_extrusion_direction*extrusion_depth;
 
-				carve::geom::vector<3>  box_base_normal = GeomUtils::computePolygonNormal( box_base_points );
+				vec3  box_base_normal = GeomUtils::computePolygonNormal( box_base_points );
 				double dot_normal = dot( box_base_normal, base_surface_plane.N );
 				if( dot_normal > 0 )
 				{
@@ -1541,8 +1541,8 @@ public:
 			num_segments = vec_cross_section_positions.size() - 1;
 		}
 
-		std::vector<carve::geom::vector<3> > curve_polygon;
-		std::vector<carve::geom::vector<3> > segment_start_points;
+		std::vector<vec3 > curve_polygon;
+		std::vector<vec3 > segment_start_points;
 		//CurveConverter cconv( m_unit_converter );
 		m_curve_converter->convertIfcCurve( spine_curve, curve_polygon, segment_start_points );
 

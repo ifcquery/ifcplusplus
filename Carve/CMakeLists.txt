@@ -57,7 +57,6 @@ SET(CARVE_SOURCE_FILES
   src/lib/shewchuk_predicates.cpp
   src/lib/tag.cpp
   src/lib/timing.cpp
-  src/lib/triangle_intersection.cpp
   src/lib/triangulator.cpp
   src/common/geometry.cpp  
 )

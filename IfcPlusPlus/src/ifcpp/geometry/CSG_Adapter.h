@@ -164,11 +164,11 @@ namespace CSG_Adapter
 					const carve::mesh::Vertex<3>* v2 = edge_i->v2();
 					const carve::mesh::Vertex<3>* v3 = edge_next->v2();
 
-					const carve::geom::vector<3>& v1vec = v1->v;
-					const carve::geom::vector<3>& v2vec = v2->v;
-					const carve::geom::vector<3>& v3vec = v3->v;
-					carve::geom::vector<3> sement12 = v2vec - v1vec;
-					carve::geom::vector<3> sement23 = v3vec - v2vec;
+					const vec3& v1vec = v1->v;
+					const vec3& v2vec = v2->v;
+					const vec3& v3vec = v3->v;
+					vec3 sement12 = v2vec - v1vec;
+					vec3 sement23 = v3vec - v2vec;
 					double sement12_length2 = sement12.length2();
 					double sement23_length2 = sement23.length2();
 #ifdef _DEBUG
@@ -232,8 +232,8 @@ namespace CSG_Adapter
 					{
 						// edges are not in line, so faces should be in a plane
 #ifdef _DEBUG
-						const carve::geom::vector<3>& normal_face_i = edge_i->face->plane.N;
-						const carve::geom::vector<3>& normal_face_i_rev = edge_i->rev->face->plane.N;
+						const vec3& normal_face_i = edge_i->face->plane.N;
+						const vec3& normal_face_i_rev = edge_i->rev->face->plane.N;
 
 
 						double dot_face_angle = dot( normal_face_i, normal_face_i_rev );
@@ -544,8 +544,8 @@ namespace CSG_Adapter
 				face_t* face = edge->face;
 				face_t* face_reverse = edge_reverse->face;
 
-				carve::geom::vector<3>& face_normal = face->plane.N;
-				carve::geom::vector<3>& face_reverse_normal = face_reverse->plane.N;
+				vec3& face_normal = face->plane.N;
+				vec3& face_reverse_normal = face_reverse->plane.N;
 
 				const double cos_angle = dot( face_normal, face_reverse_normal );
 				if( std::abs( cos_angle + 1.0 ) > 0.000001 )
@@ -626,7 +626,7 @@ namespace CSG_Adapter
 
 				//carve::geom3d::Vector normal = face->plane.N;
 
-				std::vector<carve::geom::vector<2> > verts2d;
+				std::vector<vec2 > verts2d;
 				face->getProjectedVertices( verts2d );
 				if( verts2d.size() < 3 )
 				{
@@ -666,7 +666,7 @@ namespace CSG_Adapter
 				edge_t* edge = face->edge;
 				do
 				{
-					const carve::geom::vector<3>& v = edge->vert->v;
+					const vec3& v = edge->vert->v;
 					edge = edge->next;
 					int vertex_index = poly_cache.addPoint( v );
 					map_merged_idx[i_vert] = vertex_index;
@@ -926,7 +926,7 @@ namespace CSG_Adapter
 			// TODO: Subclass from carve::mesh::MeshSet and add attribute to remember which meshset has already been simplified. 
 
 			// check if meshset aabb is far away from origin. if so, move to origin, compute, move back
-			carve::geom::vector<3> translate_avoid_large_numbers;
+			vec3 translate_avoid_large_numbers;
 			const carve::geom::aabb<3>& aabb_op1 = op1->getAABB();
 			if( aabb_op1.pos.length2() > 10000 )
 			{
@@ -934,10 +934,10 @@ namespace CSG_Adapter
 
 				if( aabb_op2.pos.length2() > 10000 )
 				{
-					carve::geom::vector<3> aabb_op1_direction( aabb_op1.pos );
+					vec3 aabb_op1_direction( aabb_op1.pos );
 					aabb_op1_direction.normalize();
 
-					carve::geom::vector<3> aabb_op2_direction( aabb_op2.pos );
+					vec3 aabb_op2_direction( aabb_op2.pos );
 					aabb_op2_direction.normalize();
 
 					double cos_angle = dot( aabb_op1_direction, aabb_op2_direction );

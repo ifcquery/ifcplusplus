@@ -148,7 +148,7 @@ public:
 		}
 	}
 
-	void addPoint( const carve::geom::vector<3>& point )
+	void addPoint( const vec3& point )
 	{
 		shared_ptr<carve::input::VertexData> vertex_data;
 		if( m_vertex_points.size() > 0 )
@@ -185,7 +185,7 @@ public:
 			shared_ptr<carve::input::VertexData>& vertex_data = m_vertex_points[ii];
 			for( size_t j = 0; j<vertex_data->points.size(); ++j )
 			{
-				carve::geom::vector<3>& point = vertex_data->points[j];
+				vec3& point = vertex_data->points[j];
 				point = mat*point;
 			}
 		}
@@ -195,7 +195,7 @@ public:
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
 			for( size_t j = 0; j<polyline_data->points.size(); ++j )
 			{
-				carve::geom::vector<3>& point = polyline_data->points[j];
+				vec3& point = polyline_data->points[j];
 				point = mat*point;
 			}
 		}
@@ -206,7 +206,7 @@ public:
 
 			for( size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
 			{
-				carve::geom::vector<3>& point = item_meshset->vertex_storage[i].v;
+				vec3& point = item_meshset->vertex_storage[i].v;
 				point = mat*point;
 			}
 			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
@@ -221,7 +221,7 @@ public:
 
 			for( size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
 			{
-				carve::geom::vector<3>& point = item_meshset->vertex_storage[i].v;
+				vec3& point = item_meshset->vertex_storage[i].v;
 				point = mat*point;
 			}
 			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
@@ -495,7 +495,7 @@ public:
 		m_poly_data = shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData() );
 	}
 
-	size_t addPointPrecise( const carve::geom::vector<3>& v )
+	size_t addPointPrecise( const vec3& v )
 	{
 		const double vertex_x = v.x;
 		const double vertex_y = v.y;
@@ -521,7 +521,7 @@ public:
 		}
 	}
 	
-	size_t addPoint( const carve::geom::vector<3>& v )
+	size_t addPoint( const vec3& v )
 	{
 		const double vertex_x = round( v.x*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
 		const double vertex_y = round( v.y*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;

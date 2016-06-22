@@ -72,40 +72,40 @@ public:
 	{
 	}
 
-	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<2> >& loops, std::vector<carve::geom::vector<2> >& segment_start_points ) const
+	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2 >& loops, std::vector<vec2 >& segment_start_points ) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
 		convertIfcCurve2D( ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, true );
 	}
 
-	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<2> >& target_vec, std::vector<carve::geom::vector<2> >& segment_start_points,
+	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2 >& target_vec, std::vector<vec2 >& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
-		std::vector<carve::geom::vector<3> > target_vec_3d;
-		std::vector<carve::geom::vector<3> > segment_start_points_3d;
+		std::vector<vec3 > target_vec_3d;
+		std::vector<vec3 > segment_start_points_3d;
 		convertIfcCurve( ifc_curve, target_vec_3d, segment_start_points_3d, trim1_vec, trim2_vec, sense_agreement );
 
 		for( size_t i = 0; i < target_vec_3d.size(); ++i )
 		{
-			carve::geom::vector<3>& point_3d = target_vec_3d[i];
+			vec3& point_3d = target_vec_3d[i];
 			target_vec.push_back( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
 		}
 		for( size_t i = 0; i < segment_start_points_3d.size(); ++i )
 		{
-			carve::geom::vector<3>& point_3d = segment_start_points_3d[i];
+			vec3& point_3d = segment_start_points_3d[i];
 			segment_start_points.push_back( carve::geom::VECTOR( point_3d.x, point_3d.y ) );
 		}
 	}
 
-	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& loops, std::vector<carve::geom::vector<3> >& segment_start_points ) const
+	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3 >& loops, std::vector<vec3 >& segment_start_points ) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
 		convertIfcCurve( ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, true );
 	}
 
-	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<carve::geom::vector<3> >& target_vec, std::vector<carve::geom::vector<3> >& segment_start_points,
+	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3 >& target_vec, std::vector<vec3 >& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
 		double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -124,7 +124,7 @@ public:
 					shared_ptr<IfcCompositeCurveSegment> segement = vec_segements[i_segments];
 					shared_ptr<IfcCurve> segement_curve = segement->m_ParentCurve;
 
-					std::vector<carve::geom::vector<3> > segment_vec;
+					std::vector<vec3 > segment_vec;
 					convertIfcCurve( segement_curve, segment_vec, segment_start_points );
 					if( segment_vec.size() > 0 )
 					{
@@ -154,7 +154,7 @@ public:
 			if( trimmed_curve )
 			{
 				shared_ptr<IfcCurve> basis_curve = trimmed_curve->m_BasisCurve;
-				std::vector<carve::geom::vector<3> > basis_curve_points;
+				std::vector<vec3 > basis_curve_points;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim1_vec = trimmed_curve->m_Trim1;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
 				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement->m_value;
@@ -204,7 +204,7 @@ public:
 					circle_radius = circle->m_Radius->m_value*length_factor;
 				}
 
-				carve::geom::vector<3> circle_center = conic_position_matrix*carve::geom::VECTOR( 0, 0, 0 );
+				vec3 circle_center = conic_position_matrix*carve::geom::VECTOR( 0, 0, 0 );
 
 				double trim_angle1 = 0.0;
 				double trim_angle2 = M_PI*2.0;
@@ -235,7 +235,7 @@ public:
 						shared_ptr<IfcCartesianPoint> trim_point1;
 						if( GeomUtils::findFirstInVector( trim1_vec, trim_point1 ) )
 						{
-							carve::geom::vector<3> trim_point;
+							vec3 trim_point;
 							PointConverter::convertIfcCartesianPoint( trim_point1, trim_point, length_factor );
 							// TODO: get direction of trim_point to circle_center, get angle. This is more robust in case the trim_point is not exactly on the circle
 							trim_angle1 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
@@ -268,7 +268,7 @@ public:
 						shared_ptr<IfcCartesianPoint> ifc_trim_point;
 						if( GeomUtils::findFirstInVector( trim2_vec, ifc_trim_point ) )
 						{
-							carve::geom::vector<3> trim_point;
+							vec3 trim_point;
 							PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
 							trim_angle2 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
 						}
@@ -322,7 +322,7 @@ public:
 				if( num_segments < m_geom_settings->getMinNumVerticesPerArc() ) num_segments = m_geom_settings->getMinNumVerticesPerArc();
 				const double circle_center_x = 0.0;
 				const double circle_center_y = 0.0;
-				std::vector<carve::geom::vector<2> > circle_points;
+				std::vector<vec2 > circle_points;
 				if( circle_radius > 0.0 )
 				{
 					GeomUtils::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
@@ -337,8 +337,8 @@ public:
 					// apply position
 					for( size_t i = 0; i < circle_points.size(); ++i )
 					{
-						carve::geom::vector<2>&  point = circle_points[i];
-						carve::geom::vector<3>  point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
+						vec2&  point = circle_points[i];
+						vec3  point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
 						point3d = conic_position_matrix * point3d;
 						point.x = point3d.x;
 						point.y = point3d.y;
@@ -364,25 +364,25 @@ public:
 
 						// todo: implement clipping
 
-						std::vector<carve::geom::vector<3> > circle_points;
+						std::vector<vec3 > circle_points;
 						double angle = 0;
 						for( int i = 0; i < num_segments; ++i )
 						{
-							circle_points.push_back( carve::geom::vector<3>( carve::geom::VECTOR( x_radius * cos( angle ), y_radius * sin( angle ), 0 ) ) );
+							circle_points.push_back( vec3( carve::geom::VECTOR( x_radius * cos( angle ), y_radius * sin( angle ), 0 ) ) );
 							angle += 2.0*M_PI / double( num_segments );
 						}
 
 						// apply position
 						for( size_t i = 0; i < circle_points.size(); ++i )
 						{
-							carve::geom::vector<3>& point = circle_points[i];
+							vec3& point = circle_points[i];
 							point = conic_position_matrix * point;
 						}
 						GeomUtils::appendPointsToCurve( circle_points, target_vec );
 
 						//if( segment_start_points != nullptr )
 						{
-							carve::geom::vector<3> pt0 = circle_points[0];
+							vec3 pt0 = circle_points[0];
 							segment_start_points.push_back( pt0 );
 						}
 					}
@@ -396,7 +396,7 @@ public:
 		if( line )
 		{
 			shared_ptr<IfcCartesianPoint> ifc_line_point = line->m_Pnt;
-			carve::geom::vector<3> line_origin;
+			vec3 line_origin;
 			if( PointConverter::convertIfcCartesianPoint( ifc_line_point, line_origin, length_factor ) )
 			{
 				// line: lambda(u) = line_point + u*line_direction
@@ -408,7 +408,7 @@ public:
 				shared_ptr<IfcDirection> ifc_line_direction = line_vec->m_Orientation;
 
 				std::vector<shared_ptr<IfcReal> >& direction_ratios = ifc_line_direction->m_DirectionRatios;
-				carve::geom::vector<3> line_direction;
+				vec3 line_direction;
 				if( direction_ratios.size() > 1 )
 				{
 					if( direction_ratios.size() > 2 )
@@ -438,10 +438,10 @@ public:
 					shared_ptr<IfcCartesianPoint> ifc_trim_point;
 					if( GeomUtils::findFirstInVector( trim1_vec, ifc_trim_point ) )
 					{
-						carve::geom::vector<3> trim_point;
+						vec3 trim_point;
 						PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
 
-						carve::geom::vector<3> closest_point_on_line;
+						vec3 closest_point_on_line;
 						GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
 
 						if( ( closest_point_on_line - trim_point ).length() < 0.0001 )
@@ -452,7 +452,7 @@ public:
 					}
 				}
 				// check for trimming at end of line
-				carve::geom::vector<3> line_end;
+				vec3 line_end;
 				shared_ptr<IfcParameterValue> trim_par2;
 				if( GeomUtils::findFirstInVector( trim2_vec, trim_par2 ) )
 				{
@@ -464,10 +464,10 @@ public:
 					shared_ptr<IfcCartesianPoint> ifc_trim_point;
 					if( GeomUtils::findFirstInVector( trim2_vec, ifc_trim_point ) )
 					{
-						carve::geom::vector<3> trim_point;
+						vec3 trim_point;
 						PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
 
-						carve::geom::vector<3> closest_point_on_line;
+						vec3 closest_point_on_line;
 						GeomUtils::closestPointOnLine( trim_point, line_origin, line_direction, closest_point_on_line );
 
 						if( ( closest_point_on_line - trim_point ).length() < 0.0001 )
@@ -478,7 +478,7 @@ public:
 					}
 				}
 
-				std::vector<carve::geom::vector<3> > points_vec;
+				std::vector<vec3 > points_vec;
 				points_vec.push_back( line_origin );
 				points_vec.push_back( line_end );
 
@@ -517,12 +517,12 @@ public:
 	}
 
 
-	void convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<carve::geom::vector<3> >& loop ) const
+	void convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<vec3 >& loop ) const
 	{
 		m_point_converter->convertIfcCartesianPointVector( poly_line->m_Points, loop );
 	}
 
-	void convertIfcLoop( const shared_ptr<IfcLoop>& loop, std::vector<carve::geom::vector<3> >& loop_points ) const
+	void convertIfcLoop( const shared_ptr<IfcLoop>& loop, std::vector<vec3 >& loop_points ) const
 	{
 		const shared_ptr<IfcPolyLoop> poly_loop = dynamic_pointer_cast<IfcPolyLoop>( loop );
 		if( poly_loop )

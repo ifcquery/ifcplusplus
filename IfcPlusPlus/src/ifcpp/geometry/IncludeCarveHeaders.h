@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma warning (disable: 4267 4334 4244 4100 4996 4589 4456 4457 4458 4589)
+#pragma warning (disable: 4267 4334 4244 4100 4996 4589 4456 4457 4458 4589 4018)
 #ifndef CARVE_USE_EXACT_PREDICATES
 	#define CARVE_USE_EXACT_PREDICATES
 #endif
@@ -25,8 +25,11 @@
 	#include <carve/csg_triangulator.hpp>
 #endif
 
+typedef carve::geom::vector<2> vec2;
+typedef carve::geom::vector<3> vec3;
+
 namespace carve{
 	namespace geom2d{
-		int lineSegmentPolyIntersections( const std::vector<carve::geom::vector<2> >& points, carve::geom2d::LineSegment2 line, std::vector<carve::geom2d::PolyIntersectionInfo> &out );
+		int lineSegmentPolyIntersections( const std::vector<vec2>& points, carve::geom2d::LineSegment2 line, std::vector<carve::geom2d::PolyIntersectionInfo> &out );
 	}
 }

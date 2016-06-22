@@ -39,13 +39,13 @@
 class SurfaceProxy
 {
 public:
-	virtual void computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out) = 0;
+	virtual void computePointOnSurface(const vec3& point_in, vec3& point_out) = 0;
 };
 
 class SurfaceProxyLinear : public SurfaceProxy
 {
 public:
-	virtual void computePointOnSurface(const carve::geom::vector<3>& point_in, carve::geom::vector<3>& point_out)
+	virtual void computePointOnSurface(const vec3& point_in, vec3& point_out)
 	{
 		point_out = m_surface_matrix*point_in;
 	}
@@ -113,10 +113,10 @@ public:
 
 				// convert outer boundary
 				shared_ptr<IfcCurve>& outer_boundary = curve_bounded_plane->m_OuterBoundary;
-				std::vector<std::vector<carve::geom::vector<3> > > face_loops;
-				face_loops.push_back( std::vector<carve::geom::vector<3> >() );
-				std::vector<carve::geom::vector<3> >& outer_boundary_loop = face_loops.back();
-				std::vector<carve::geom::vector<3> > segment_start_points;
+				std::vector<std::vector<vec3 > > face_loops;
+				face_loops.push_back( std::vector<vec3 >() );
+				std::vector<vec3 >& outer_boundary_loop = face_loops.back();
+				std::vector<vec3 > segment_start_points;
 				m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points );
 
 				// convert inner boundaries
@@ -127,9 +127,9 @@ public:
 					{
 						continue;
 					}
-					face_loops.push_back( std::vector<carve::geom::vector<3> >() );
-					std::vector<carve::geom::vector<3> >& inner_boundary_loop = face_loops.back();
-					std::vector<carve::geom::vector<3> > segment_start_points;
+					face_loops.push_back( std::vector<vec3 >() );
+					std::vector<vec3 >& inner_boundary_loop = face_loops.back();
+					std::vector<vec3 > segment_start_points;
 					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points );
 				}
 
@@ -234,7 +234,7 @@ public:
 				const double circle_center_x = 0.0;
 				const double circle_center_y = 0.0;
 
-				std::vector<carve::geom::vector<2> > circle_points;
+				std::vector<vec2 > circle_points;
 				GeomUtils::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
 
 				// apply position and insert points
@@ -242,8 +242,8 @@ public:
 				polyline_data->beginPolyline();
 				for( size_t i = 0; i < circle_points.size(); ++i )
 				{
-					carve::geom::vector<2>& point = circle_points[i];
-					carve::geom::vector<3> point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
+					vec2& point = circle_points[i];
+					vec3 point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
 					polyline_data->addVertex( elementary_surface_matrix*point3d );
 					polyline_data->addPolylineIndex( i );
 				}
@@ -306,7 +306,7 @@ public:
 				continue;
 			}
 			const std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
-			std::vector<std::vector<carve::geom::vector<3> > > face_loops;
+			std::vector<std::vector<vec3 > > face_loops;
 			report_entity = ifc_face.get();
 
 			for( auto it_bounds = vec_bounds.begin(); it_bounds != vec_bounds.end(); ++it_bounds )
@@ -332,8 +332,8 @@ public:
 					}
 				}
 
-				face_loops.push_back( std::vector<carve::geom::vector<3> >() );
-				std::vector<carve::geom::vector<3> >& loop_points = face_loops.back();
+				face_loops.push_back( std::vector<vec3 >() );
+				std::vector<vec3 >& loop_points = face_loops.back();
 				m_curve_converter->convertIfcLoop( loop, loop_points );
 
 				if( loop_points.size() < 3 )
