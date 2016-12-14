@@ -18,14 +18,13 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
+#include "IfcBooleanOperand.h"
 #include "IfcTessellatedItem.h"
 class IFCPP_EXPORT IfcCartesianPointList3D;
-class IFCPP_EXPORT IfcParameterValue;
-class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcIndexedColourMap;
 class IFCPP_EXPORT IfcIndexedTextureMap;
 //ENTITY
-class IFCPP_EXPORT IfcTessellatedFaceSet : public IfcTessellatedItem
+class IFCPP_EXPORT IfcTessellatedFaceSet : virtual public IfcBooleanOperand, public IfcTessellatedItem
 { 
 public:
 	IfcTessellatedFaceSet();
@@ -54,8 +53,6 @@ public:
 	// IfcTessellatedFaceSet -----------------------------------------------------------
 	// attributes:
 	shared_ptr<IfcCartesianPointList3D>						m_Coordinates;
-	std::vector<std::vector<shared_ptr<IfcParameterValue> > >	m_Normals;					//optional
-	shared_ptr<IfcBoolean>									m_Closed;					//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcIndexedColourMap> >				m_HasColours_inverse;
 	std::vector<weak_ptr<IfcIndexedTextureMap> >			m_HasTextures_inverse;

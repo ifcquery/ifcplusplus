@@ -28,14 +28,12 @@
 #include <ifcpp/geometry/GeomUtils.h>
 
 #include "IfcPlusPlusSystem.h"
-#include "ViewController.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
 #include "cmd/LoadIfcFileCommand.h"
 #include "cmd/CmdWriteIfcFile.h"
 #include "cmd/CommandManager.h"
 #include "TabReadWrite.h"
-
 
 TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidget* parent ) : m_system(sys), m_viewer(viewer), QWidget( parent )
 {
@@ -118,9 +116,7 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	}
 }
 
-TabReadWrite::~TabReadWrite()
-{
-}
+TabReadWrite::~TabReadWrite(){}
 
 void TabReadWrite::closeEvent( QCloseEvent* )
 {
@@ -289,7 +285,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>( camera_manip );
 		if( orbit_manip )
 		{
-			osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();
+			osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
 			orbit_manip->zoomToBoundingSphere( bs );
 		}
 	}

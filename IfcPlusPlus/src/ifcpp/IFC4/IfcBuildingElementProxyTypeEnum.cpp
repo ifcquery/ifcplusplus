@@ -20,7 +20,7 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcBuildingElementProxyTypeEnum.h"
 
-// TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORVOID	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORVOID	,PROVISIONFORSPACE	,USERDEFINED	,NOTDEFINED);
 IfcBuildingElementProxyTypeEnum::IfcBuildingElementProxyTypeEnum() {}
 IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() {}
 shared_ptr<IfcPPObject> IfcBuildingElementProxyTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
@@ -47,6 +47,10 @@ void IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& strea
 	else if( m_enum == ENUM_PROVISIONFORVOID )
 	{
 		stream << ".PROVISIONFORVOID.";
+	}
+	else if( m_enum == ENUM_PROVISIONFORSPACE )
+	{
+		stream << ".PROVISIONFORSPACE.";
 	}
 	else if( m_enum == ENUM_USERDEFINED )
 	{
@@ -79,6 +83,10 @@ shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::cre
 	else if( boost::iequals( arg, L".PROVISIONFORVOID." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PROVISIONFORVOID;
+	}
+	else if( boost::iequals( arg, L".PROVISIONFORSPACE." ) )
+	{
+		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PROVISIONFORSPACE;
 	}
 	else if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

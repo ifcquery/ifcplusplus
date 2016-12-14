@@ -112,6 +112,7 @@
 #include "include/IfcTimeMeasure.h"
 #include "include/IfcVolumeMeasure.h"
 #include "include/IfcSimpleValue.h"
+#include "include/IfcBinary.h"
 #include "include/IfcBoolean.h"
 #include "include/IfcDate.h"
 #include "include/IfcDateTime.h"

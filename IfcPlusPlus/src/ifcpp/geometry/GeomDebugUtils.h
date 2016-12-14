@@ -286,7 +286,7 @@ namespace GeomDebugUtils
 		dump_ofstream.close();
 	}
 
-	inline void dumpPolyline( const std::vector<vec2 >& vec_polyline, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
+	inline void dumpPolyline( const std::vector<vec2>& vec_polyline, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
 	{
 		if( vec_polyline.size() < 1 )
 		{

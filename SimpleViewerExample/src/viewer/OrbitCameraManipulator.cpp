@@ -25,10 +25,7 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/geometry/GeometryConverter.h>
 #include "IfcPlusPlusSystem.h"
-#include "ViewController.h"
-#include "ViewerUtil.h"
 #include "OrbitCameraManipulator.h"
-
 
 int OrbitCameraManipulator::m_minimum_distance_flag_index = allocateRelativeFlag();
 
@@ -43,8 +40,6 @@ OrbitCameraManipulator::OrbitCameraManipulator( IfcPlusPlusSystem* sys, int flag
 	initManipulator();
 }
 
-
-/// Constructor.
 OrbitCameraManipulator::OrbitCameraManipulator( const OrbitCameraManipulator& om, const osg::CopyOp& copyOp ) : osg::Object(om, copyOp), StandardManipulator( om, copyOp ),
 	m_system( om.m_system), m_eye( om.m_eye ), m_lookat( om.m_lookat ), m_rotate_center( om.m_rotate_center ), 
 	m_wheel_zoom_factor( om.m_wheel_zoom_factor ), m_minimum_distance( om.m_minimum_distance )
@@ -387,7 +382,7 @@ bool OrbitCameraManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAd
 	osg::Group* root_node = nullptr;
 	if( m_system )
 	{
-		root_node = m_system->getViewController()->m_rootnode;
+		root_node = m_system->getRootNode();
 	}
 	else
 	{
@@ -434,7 +429,6 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
 	view->getScene();
-	//osg::Group* model_node = m_system->getViewController()->m_sw_model;
 	iv.apply( *cam );
 
 	bool intersection_geometry_found = false;

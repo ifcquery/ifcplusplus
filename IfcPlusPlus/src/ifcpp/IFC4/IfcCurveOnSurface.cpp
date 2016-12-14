@@ -16,7 +16,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "include/IfcCurveOnSurface.h"
 
-// TYPE IfcCurveOnSurface = SELECT	(IfcCompositeCurveOnSurface	,IfcPcurve);
+// TYPE IfcCurveOnSurface = SELECT	(IfcCompositeCurveOnSurface	,IfcPcurve	,IfcSurfaceCurve);
 shared_ptr<IfcCurveOnSurface> IfcCurveOnSurface::createObjectFromSTEP( const std::wstring& arg, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

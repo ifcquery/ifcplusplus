@@ -58,7 +58,7 @@ public:
 #ifdef _DEBUG
 		std::cout << "not triangulated" << std::endl;
 #endif
-		std::vector<vec3 > face_vertices;
+		std::vector<vec3> face_vertices;
 		face_vertices.resize( face->nVertices() );
 		carve::mesh::Edge<3> *e = face->edge;
 		const size_t num_vertices = face->nVertices();
@@ -177,7 +177,7 @@ public:
 				{
 					carve::mesh::Face<3>* face = mesh->faces[i_face];
 					// compute area of projected face:
-					std::vector<vec2 > projected;
+					std::vector<vec2> projected;
 					face->getProjectedVertices( projected );
 					double face_area = carve::geom2d::signedArea( projected );
 					map_face_area[face] = abs( face_area );

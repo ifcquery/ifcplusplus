@@ -626,7 +626,7 @@ namespace CSG_Adapter
 
 				//carve::geom3d::Vector normal = face->plane.N;
 
-				std::vector<vec2 > verts2d;
+				std::vector<vec2> verts2d;
 				face->getProjectedVertices( verts2d );
 				if( verts2d.size() < 3 )
 				{
@@ -879,6 +879,11 @@ namespace CSG_Adapter
 	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, shared_ptr<meshset_t >& result, StatusCallback* report_callback,
 		IfcPPEntity* entity1, IfcPPEntity* entity2 )
 	{
+		if( !op1 || !op2 )
+		{
+			return;
+		}
+
 #ifdef ROUND_MESH_COORDS
 		MeshOps::roundVertices( op1.get() );
 		MeshOps::roundVertices( op1.get() );

@@ -341,10 +341,13 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCIMAGETEXTURE:return new IfcImageTexture();
 		case IFCINDEXEDCOLOURMAP:return new IfcIndexedColourMap();
 		case IFCINDEXEDPOLYCURVE:return new IfcIndexedPolyCurve();
+		case IFCINDEXEDPOLYGONALFACE:return new IfcIndexedPolygonalFace();
+		case IFCINDEXEDPOLYGONALFACEWITHVOIDS:return new IfcIndexedPolygonalFaceWithVoids();
 		case IFCINDEXEDTEXTUREMAP:return new IfcIndexedTextureMap();
 		case IFCINDEXEDTRIANGLETEXTUREMAP:return new IfcIndexedTriangleTextureMap();
 		case IFCINTERCEPTOR:return new IfcInterceptor();
 		case IFCINTERCEPTORTYPE:return new IfcInterceptorType();
+		case IFCINTERSECTIONCURVE:return new IfcIntersectionCurve();
 		case IFCINVENTORY:return new IfcInventory();
 		case IFCIRREGULARTIMESERIES:return new IfcIrregularTimeSeries();
 		case IFCIRREGULARTIMESERIESVALUE:return new IfcIrregularTimeSeriesValue();
@@ -454,6 +457,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCPOINTONSURFACE:return new IfcPointOnSurface();
 		case IFCPOLYLOOP:return new IfcPolyLoop();
 		case IFCPOLYGONALBOUNDEDHALFSPACE:return new IfcPolygonalBoundedHalfSpace();
+		case IFCPOLYGONALFACESET:return new IfcPolygonalFaceSet();
 		case IFCPOLYLINE:return new IfcPolyline();
 		case IFCPORT:return new IfcPort();
 		case IFCPOSTALADDRESS:return new IfcPostalAddress();
@@ -604,6 +608,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCSANITARYTERMINAL:return new IfcSanitaryTerminal();
 		case IFCSANITARYTERMINALTYPE:return new IfcSanitaryTerminalType();
 		case IFCSCHEDULINGTIME:return new IfcSchedulingTime();
+		case IFCSEAMCURVE:return new IfcSeamCurve();
 		case IFCSECTIONPROPERTIES:return new IfcSectionProperties();
 		case IFCSECTIONREINFORCEMENTPROPERTIES:return new IfcSectionReinforcementProperties();
 		case IFCSECTIONEDSPINE:return new IfcSectionedSpine();
@@ -637,6 +642,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCSPATIALZONE:return new IfcSpatialZone();
 		case IFCSPATIALZONETYPE:return new IfcSpatialZoneType();
 		case IFCSPHERE:return new IfcSphere();
+		case IFCSPHERICALSURFACE:return new IfcSphericalSurface();
 		case IFCSTACKTERMINAL:return new IfcStackTerminal();
 		case IFCSTACKTERMINALTYPE:return new IfcStackTerminalType();
 		case IFCSTAIR:return new IfcStair();
@@ -687,6 +693,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCSUBCONTRACTRESOURCETYPE:return new IfcSubContractResourceType();
 		case IFCSUBEDGE:return new IfcSubedge();
 		case IFCSURFACE:return new IfcSurface();
+		case IFCSURFACECURVE:return new IfcSurfaceCurve();
 		case IFCSURFACECURVESWEPTAREASOLID:return new IfcSurfaceCurveSweptAreaSolid();
 		case IFCSURFACEFEATURE:return new IfcSurfaceFeature();
 		case IFCSURFACEOFLINEAREXTRUSION:return new IfcSurfaceOfLinearExtrusion();
@@ -741,6 +748,7 @@ IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum )
 		case IFCTIMESERIESVALUE:return new IfcTimeSeriesValue();
 		case IFCTOPOLOGICALREPRESENTATIONITEM:return new IfcTopologicalRepresentationItem();
 		case IFCTOPOLOGYREPRESENTATION:return new IfcTopologyRepresentation();
+		case IFCTOROIDALSURFACE:return new IfcToroidalSurface();
 		case IFCTRANSFORMER:return new IfcTransformer();
 		case IFCTRANSFORMERTYPE:return new IfcTransformerType();
 		case IFCTRANSPORTELEMENT:return new IfcTransportElement();

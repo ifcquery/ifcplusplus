@@ -262,6 +262,7 @@
 #include "IFC4/include/IfcPositivePlaneAngleMeasure.h"
 #include "IFC4/include/IfcPositiveRatioMeasure.h"
 #include "IFC4/include/IfcPowerMeasure.h"
+#include "IFC4/include/IfcPreferredSurfaceCurveRepresentation.h"
 #include "IFC4/include/IfcPresentableText.h"
 #include "IFC4/include/IfcPresentationStyleSelect.h"
 #include "IFC4/include/IfcPressureMeasure.h"

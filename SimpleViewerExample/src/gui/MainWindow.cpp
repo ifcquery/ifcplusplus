@@ -20,7 +20,6 @@
 
 #include <ifcpp/geometry/GeomUtils.h>
 #include "IfcPlusPlusSystem.h"
-#include "ViewController.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
@@ -48,11 +47,6 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	zoom_bounds_btn->setStatusTip("Zoom to boundings");
 	connect(zoom_bounds_btn, SIGNAL(triggered()), this, SLOT(slotBtnZoomBoundingsClicked()));
 
-	QAction* wireframe = new QAction(QIcon(":img/TabViewWireframe.png"), "&Wireframe [w]", this );
-	wireframe->setCheckable( true );
-	wireframe->setStatusTip("Wireframe [w]");
-	connect(wireframe, SIGNAL(triggered()), this, SLOT(slotBtnWireframeClicked()));
-
 	QAction* remove_selected_objects = new QAction(QIcon(":img/RemoveSelectedObjects.png"), "&Remove selected objects [del]", this );
 	remove_selected_objects->setStatusTip("Remove selected objects [del]");
 	connect(remove_selected_objects, SIGNAL(triggered()), this, SLOT(slotBtnRemoveSelectedObjectsClicked()));
@@ -60,7 +54,6 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	m_file_toolbar = new QToolBar();
 	m_file_toolbar->setObjectName("FileToolbar");
 	m_file_toolbar->addAction(zoom_bounds_btn);
-	m_file_toolbar->addAction(wireframe);
 	m_file_toolbar->addAction(remove_selected_objects);
 	addToolBar( Qt::LeftToolBarArea, m_file_toolbar );
 
@@ -141,7 +134,7 @@ void MainWindow::createTabWidget()
 
 void MainWindow::slotBtnZoomBoundingsClicked()
 {
-	osg::BoundingSphere bs = m_system->getViewController()->m_sw_model->computeBound();
+	osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
 	
 	osgViewer::View* main_view = m_viewer_widget->getMainView();
 	if( main_view )
@@ -152,20 +145,6 @@ void MainWindow::slotBtnZoomBoundingsClicked()
 		{
 			orbit_manip->zoomToBoundingSphere( bs );
 		}
-	}
-}
-
-void MainWindow::slotBtnWireframeClicked()
-{
-	QAction* toggle_btn = (QAction*)sender();
-
-	if( toggle_btn->isChecked() )
-	{
-		m_system->getViewController()->setViewerMode( ViewController::VIEWER_MODE_WIREFRAME );
-	}
-	else
-	{
-		m_system->getViewController()->setViewerMode( ViewController::VIEWER_MODE_SHADED );
 	}
 }
 

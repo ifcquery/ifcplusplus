@@ -20,7 +20,7 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcExternalSpatialElementTypeEnum.h"
 
-// TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFIEND);
+// TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFINED);
 IfcExternalSpatialElementTypeEnum::IfcExternalSpatialElementTypeEnum() {}
 IfcExternalSpatialElementTypeEnum::~IfcExternalSpatialElementTypeEnum() {}
 shared_ptr<IfcPPObject> IfcExternalSpatialElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
@@ -52,9 +52,9 @@ void IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstream& str
 	{
 		stream << ".USERDEFINED.";
 	}
-	else if( m_enum == ENUM_NOTDEFIEND )
+	else if( m_enum == ENUM_NOTDEFINED )
 	{
-		stream << ".NOTDEFIEND.";
+		stream << ".NOTDEFINED.";
 	}
 	if( is_select_type ) { stream << ")"; }
 }
@@ -84,9 +84,9 @@ shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum:
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFIEND." ) )
+	else if( boost::iequals( arg, L".NOTDEFINED." ) )
 	{
-		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_NOTDEFIEND;
+		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_NOTDEFINED;
 	}
 	return type_object;
 }

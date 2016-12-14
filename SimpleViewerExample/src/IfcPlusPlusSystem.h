@@ -24,7 +24,6 @@ class IfcPPReaderSTEP;
 class IfcPPWriterSTEP;
 class GeometryConverter;
 class CommandManager;
-class ViewController;
 
 struct selectedEntity 
 {
@@ -41,14 +40,17 @@ public:
 	~IfcPlusPlusSystem();
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
-	bool intersectModel( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, bool click, bool doubleclick );
-	
 	shared_ptr<GeometryConverter>	getGeometryConverter()	{ return m_geometry_converter; }
 	shared_ptr<IfcPPReaderSTEP>&	getIfcPPReader()		{ return m_step_reader; }
 	shared_ptr<IfcPPWriterSTEP>&	getIfcPPWriter()		{ return m_step_writer; }
 	shared_ptr<CommandManager>		getCommandManager()		{ return m_command_manager; }
-	shared_ptr<ViewController>		getViewController()		{ return m_view_controller; }
-
+	osg::Group*						getRootNode() { return m_rootnode; }
+	osg::Switch*					getModelNode() { return m_sw_model; }
+	osg::Switch*					getCoordinateAxesNode() { return m_sw_coord_axes; }
+	void setRootNode( osg::Group* root );
+	void toggleSceneLight();
+	void switchCurveRepresentation( osg::Group* grp, bool on_off );
+	
 	void setObjectSelected( shared_ptr<IfcPPEntity> object, bool selected, osg::Group* node = 0 );
 	const std::map<int, shared_ptr<selectedEntity> >& getSelectedObjects() { return m_map_selected; }
 	void clearSelection();
@@ -57,13 +59,18 @@ public:
 	void notifyModelLoadingDone();
 
 private:
-	shared_ptr<GeometryConverter>		m_geometry_converter;
-	shared_ptr<IfcPPReaderSTEP>			m_step_reader;
-	shared_ptr<IfcPPWriterSTEP>			m_step_writer;
-	shared_ptr<CommandManager>			m_command_manager;
-	shared_ptr<ViewController>			m_view_controller;
-	std::map<int, shared_ptr<selectedEntity> > m_map_selected;
-	shared_ptr<IfcPPModel>				m_ifc_model;
+	shared_ptr<GeometryConverter>				m_geometry_converter;
+	shared_ptr<IfcPPReaderSTEP>					m_step_reader;
+	shared_ptr<IfcPPWriterSTEP>					m_step_writer;
+	shared_ptr<CommandManager>					m_command_manager;
+	std::map<int, shared_ptr<selectedEntity> >	m_map_selected;
+	shared_ptr<IfcPPModel>						m_ifc_model;
+	osg::ref_ptr<osg::Group>					m_rootnode;
+	osg::ref_ptr<osg::Switch>					m_sw_coord_axes;
+	osg::ref_ptr<osg::Switch>					m_sw_model;
+	osg::ref_ptr<osg::MatrixTransform>			m_transform_light;
+	bool										m_light_on;
+	bool										m_show_curve_representation;
 
 signals:
 	void signalObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_objects );

@@ -19,6 +19,8 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 #include "IfcTessellatedFaceSet.h"
+class IFCPP_EXPORT IfcParameterValue;
+class IFCPP_EXPORT IfcBoolean;
 class IFCPP_EXPORT IfcPositiveInteger;
 //ENTITY
 class IFCPP_EXPORT IfcTriangulatedFaceSet : public IfcTessellatedFaceSet
@@ -50,15 +52,15 @@ public:
 	// IfcTessellatedFaceSet -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcCartesianPointList3D>						m_Coordinates;
-	//  std::vector<std::vector<shared_ptr<IfcParameterValue> > >	m_Normals;					//optional
-	//  shared_ptr<IfcBoolean>									m_Closed;					//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcIndexedColourMap> >				m_HasColours_inverse;
 	//  std::vector<weak_ptr<IfcIndexedTextureMap> >			m_HasTextures_inverse;
 
 	// IfcTriangulatedFaceSet -----------------------------------------------------------
 	// attributes:
+	std::vector<std::vector<shared_ptr<IfcParameterValue> > >	m_Normals;					//optional
+	shared_ptr<IfcBoolean>									m_Closed;					//optional
 	std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_CoordIndex;
-	std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_NormalIndex;				//optional
+	std::vector<shared_ptr<IfcPositiveInteger> >			m_PnIndex;					//optional
 };
 

@@ -29,7 +29,6 @@
 #include "gui/MainWindow.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
-#include "ViewController.h"
 #include "IfcPlusPlusSystem.h"
 
 class IfcPlusPlusApplication : public QApplication
@@ -69,20 +68,11 @@ protected:
 int main(int argc, char *argv[])
 {
 	IfcPlusPlusApplication app(argc, argv);
-	QPixmap pixmap( ":img/IfcPlusPlusViewerSplash.png" );
-	QSplashScreen splash( pixmap );
-
-#ifndef _DEBUG
-	splash.show();
-	app.processEvents();
-	QTimer::singleShot( 1500, &splash, SLOT(close()));
-#endif
-
 	IfcPlusPlusSystem* sys = new IfcPlusPlusSystem();
-	ViewerWidget* viewer_widget = new ViewerWidget();
+	ViewerWidget* viewer_widget = new ViewerWidget( sys );
 	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator( sys );
 	viewer_widget->getMainView()->setCameraManipulator( camera_manip );
-	viewer_widget->setRootNode( sys->getViewController()->m_rootnode );
+	viewer_widget->setRootNode( sys->getRootNode() );
 
 	MainWindow* window = new MainWindow( sys, viewer_widget );
 	app.connect( window,	SIGNAL(signalMainWindowClosed()),	&app,	SLOT(quit()) );
@@ -127,7 +117,7 @@ int main(int argc, char *argv[])
 		std::cout << "std::exception in app.exec(): " << e->what();
 	}
 
-	viewer_widget->getViewer().setDone(true);
+	viewer_widget->getCompositeViewer()->setDone(true);
 	viewer_widget->stopTimer();
 
 	return re;

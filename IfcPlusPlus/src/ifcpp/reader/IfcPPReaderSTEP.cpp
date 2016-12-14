@@ -56,7 +56,6 @@ IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name_w )
 	return IFC_TYPE_UNDEFINED;
 }
 
-
 IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name_w )
 {
 	std::string entity_name;
@@ -75,9 +74,7 @@ IfcPPReaderSTEP::IfcPPReaderSTEP()
 {
 }
 
-IfcPPReaderSTEP::~IfcPPReaderSTEP()
-{
-}
+IfcPPReaderSTEP::~IfcPPReaderSTEP(){}
 
 void IfcPPReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_ptr<IfcPPModel>& target_model )
 {
@@ -150,7 +147,7 @@ void IfcPPReaderSTEP::loadModelFromString( std::string& content, shared_ptr<IfcP
 		target_model->resolveInverseAttributes();
 		target_model->updateCache();
 
-		// currently generated IFC classes are IFC4, files with older versions are converted. So after loading the schema is always IFC4
+		// currently generated IFC classes are IFC4, files with older versions are converted. So after loading, the schema is always IFC4
 		target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
 		target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC4;
 	}
@@ -310,12 +307,7 @@ void IfcPPReaderSTEP::readHeader( const std::string& read_in, shared_ptr<IfcPPMo
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
 			}
 			
-			if( file_schema_args.substr( 0, 5 ).compare( L"IFC2X" ) == 0 )
-			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X;
-			}
-			else if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
+			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
 			{
 				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X2";
 				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X2;
@@ -329,6 +321,11 @@ void IfcPPReaderSTEP::readHeader( const std::string& read_in, shared_ptr<IfcPPMo
 			{
 				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X4";
 				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X4;
+			}
+			else if( file_schema_args.substr( 0, 5 ).compare( L"IFC2X" ) == 0 )
+			{
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X;
 			}
 			else if( file_schema_args.compare(L"IFC4RC4") == 0 )
 			{
@@ -920,9 +917,10 @@ static std::map<IfcPPEntityEnum, size_t> global_map_num_args = boost::assign::ma
 	( IfcPPEntityEnum::IFCSTRUCTURALPOINTCONNECTION, 9 )
 	( IfcPPEntityEnum::IFCSTRUCTURALCURVEMEMBER, 9 )
 	( IfcPPEntityEnum::IFCSURFACESTYLE, 3 )
+	( IfcPPEntityEnum::IFCSURFACESTYLESHADING, 2)
 	( IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 )
 	( IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 )
-	(IfcPPEntityEnum::IFCSTRUCTURALCURVECONNECTION, 9)
+	( IfcPPEntityEnum::IFCSTRUCTURALCURVECONNECTION, 9)
 	( IfcPPEntityEnum::IFCTELECOMADDRESS, 9 )
 	( IfcPPEntityEnum::IFCTEXTSTYLE, 5 )
 	( IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 )
@@ -941,6 +939,14 @@ void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_versi
 	{
 		throw IfcPPException( "Unsupported IFC version", __FUNC__ );
 	}
+	
+	if( type_enum == IFCCOLOURRGB )
+	{
+		if( args.size() < 4 )
+		{
+			args.insert( args.begin(), L"$" );
+		}
+	}
 
 	std::map<IfcPPEntityEnum, size_t>::iterator it_find_num_args = global_map_num_args.find( type_enum );
 	if( it_find_num_args != global_map_num_args.end() )
@@ -950,19 +956,6 @@ void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_versi
 		while( args.size() < num_args ){ args.push_back( L"$" ); }
 	}
 
-	//if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC4 )
-	//{
-	//	switch( type_enum )
-	//	{
-	//	
-	//	case IFCCOLOURRGB:
-	//		if( args.size() == 3 ) //#315= IFCCOLOURRGB($,0.65882353,0.6627451,0.61960784);
-	//		{
-	//			args.insert( args.begin(), L"$" );
-	//		}
-	//		break;
-	//	}
-	//}
 
 	//IfcRelDecomposes -> IfcRelAggregates
 }

@@ -20,7 +20,7 @@
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
 
-// TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFIEND);
+// TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFINED);
 class IFCPP_EXPORT IfcExternalSpatialElementTypeEnum : virtual public IfcPPObject
 {
 public:
@@ -31,7 +31,7 @@ public:
 		ENUM_EXTERNAL_WATER,
 		ENUM_EXTERNAL_FIRE,
 		ENUM_USERDEFINED,
-		ENUM_NOTDEFIEND
+		ENUM_NOTDEFINED
 	};
 
 	IfcExternalSpatialElementTypeEnum();

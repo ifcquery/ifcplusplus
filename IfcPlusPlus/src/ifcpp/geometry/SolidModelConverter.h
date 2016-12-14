@@ -124,7 +124,7 @@ public:
 			}
 
 			shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
-			const std::vector<std::vector<vec2 > >& profile_paths = profile_converter->getCoordinates();
+			const std::vector<std::vector<vec2> >& profile_paths = profile_converter->getCoordinates();
 
 			shared_ptr<IfcFixedReferenceSweptAreaSolid> fixed_reference_swept_area_solid = dynamic_pointer_cast<IfcFixedReferenceSweptAreaSolid>( swept_area_solid );
 			if( fixed_reference_swept_area_solid )
@@ -140,8 +140,8 @@ public:
 				//shared_ptr<IfcDirection>& ifc_fixed_reference = fixed_reference_swept_area_solid->m_FixedReference;				// TODO: apply fixed reference
 				messageCallback( "IfcFixedReferenceSweptAreaSolid: Fixed reference not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, fixed_reference_swept_area_solid.get() );
 
-				std::vector<vec3 > segment_start_points;
-				std::vector<vec3 > basis_curve_points;
+				std::vector<vec3> segment_start_points;
+				std::vector<vec3> basis_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
@@ -169,8 +169,8 @@ public:
 				shared_ptr<IfcSurface>& ifc_reference_surface = surface_curve_swept_area_solid->m_ReferenceSurface;			// TODO: apply start_param, end_param
 				messageCallback( "IfcSurfaceCurveSweptAreaSolid: StartParam and EndParam not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, surface_curve_swept_area_solid.get() );
 
-				std::vector<vec3 > segment_start_points;
-				std::vector<vec3 > directrix_curve_points;
+				std::vector<vec3> segment_start_points;
+				std::vector<vec3> directrix_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points );
 
 				// apply reference curve
@@ -306,8 +306,8 @@ public:
 
 			// TODO: handle start param, end param
 
-			std::vector<vec3 > segment_start_points;
-			std::vector<vec3 > basis_curve_points;
+			std::vector<vec3> segment_start_points;
+			std::vector<vec3> basis_curve_points;
 			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
 			shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
@@ -365,7 +365,7 @@ public:
 		}
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area );
 		profile_converter->simplifyPaths();
-		const std::vector<std::vector<vec2 > >& paths = profile_converter->getCoordinates();
+		const std::vector<std::vector<vec2> >& paths = profile_converter->getCoordinates();
 
 		if( paths.size() == 0 )
 		{
@@ -373,6 +373,353 @@ public:
 		}
 		m_sweeper->extrude( paths, extrusion_vector, extruded_area.get(), item_data );
 
+	}
+
+	void convertRevolvedAreaSolid( const std::vector<std::vector<vec2> >& profile_coords_unchecked, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeInputData> item_data, IfcPPEntity* entity_of_origin = nullptr )
+	{
+		bool warning_small_loop_detected = false;
+		std::vector<std::vector<vec2> > profile_coords;
+		for( size_t ii = 0; ii < profile_coords_unchecked.size(); ++ii )
+		{
+			const std::vector<vec2>& profile_loop_unchecked = profile_coords_unchecked[ii];
+			vec3 normal_2d = GeomUtils::computePolygon2DNormal( profile_loop_unchecked );
+			bool reverse_loop = false;
+			if( ii == 0 )
+			{
+				if( normal_2d.z < 0 )
+				{
+					reverse_loop = true;
+				}
+			}
+			else
+			{
+				if( normal_2d.z > 0 )
+				{
+					reverse_loop = true;
+				}
+			}
+
+			double signed_area = carve::geom2d::signedArea( profile_loop_unchecked );
+			if( std::abs( signed_area ) < 0.000001 )
+			{
+				warning_small_loop_detected = true;
+				continue;
+			}
+
+			profile_coords.push_back( std::vector<vec2>() );
+			std::vector<vec2>& profile_loop = profile_coords.back();
+
+			if( reverse_loop )
+			{
+				std::copy( profile_loop_unchecked.rbegin(), profile_loop_unchecked.rend(), std::back_inserter( profile_loop ) );
+			}
+			else
+			{
+				std::copy( profile_loop_unchecked.begin(), profile_loop_unchecked.end(), std::back_inserter( profile_loop ) );
+			}
+		}
+
+		if( warning_small_loop_detected )
+		{
+			std::stringstream err;
+			err << "abs( signed_area ) < 1.e-6";
+			messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, entity_of_origin );
+		}
+
+		// triangulate
+		std::vector<vec2> path_merged;
+		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
+		std::vector<carve::triangulate::tri_idx> triangulated;
+		try
+		{
+			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( profile_coords );	// first is loop index, second is vertex index in loop
+			path_merged.reserve( path_incorporated_holes.size() );
+			for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
+			{
+				size_t loop_number = path_incorporated_holes[i].first;
+				size_t index_in_loop = path_incorporated_holes[i].second;
+
+				if( loop_number >= profile_coords.size() )
+				{
+					messageCallback( "loop_number >= profile_coords.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+					continue;
+				}
+
+				const std::vector<vec2>& loop_2d = profile_coords[loop_number];
+
+				const vec2 & point_2d = loop_2d[index_in_loop];
+				path_merged.push_back( point_2d );
+			}
+			carve::triangulate::triangulate( path_merged, triangulated );
+			carve::triangulate::improve( path_merged, triangulated );
+		}
+		catch( ... )
+		{
+			messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+			return;
+		}
+
+		if( profile_coords.size() == 0 )
+		{
+			messageCallback( "profile_coords.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+			return;
+		}
+		if( profile_coords[0].size() < 3 )
+		{
+			messageCallback( "profile_coords[0].size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+			return;
+		}
+		
+
+		if( revolution_angle > M_PI * 2 ) revolution_angle = M_PI * 2;
+		if( revolution_angle < -M_PI * 2 ) revolution_angle = M_PI * 2;
+
+		// TODO: calculate num segments according to length/width/height ratio and overall size of the object
+		int num_segments = m_geom_settings->getNumVerticesPerCircle()*(std::abs( revolution_angle ) / (2.0*M_PI));
+		if( num_segments < 6 )
+		{
+			num_segments = 6;
+		}
+		double angle = 0.0;
+		double d_angle = revolution_angle / num_segments;
+
+		// rotation base point is the one with the smallest distance from origin to the rotation axis
+		vec3  origin;
+		vec3  base_point;
+		GeomUtils::closestPointOnLine( origin, axis_location, axis_direction, base_point );
+		base_point *= -1.0;
+
+		// check if we have to change the direction
+		vec3  polygon_normal = GeomUtils::computePolygon2DNormal( profile_coords[0] );
+		const vec2&  pt0_2d = profile_coords[0][0];
+		vec3  pt0_3d( carve::geom::VECTOR( pt0_2d.x, pt0_2d.y, 0 ) );
+		vec3  pt0 = carve::math::Matrix::ROT( d_angle, axis_direction )*(pt0_3d + base_point);
+		if( polygon_normal.z*pt0.z > 0 )
+		{
+			angle = revolution_angle;
+			d_angle = -d_angle;
+		}
+
+		// TODO: use m_sweeper->sweepArea
+
+		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
+		if( !polyhedron_data )
+		{
+			throw IfcPPOutOfMemoryException( __FUNC__ );
+		}
+
+		// create vertices
+		carve::math::Matrix m;
+		for( int ii = 0; ii <= num_segments; ++ii )
+		{
+			m = carve::math::Matrix::ROT( angle, -axis_direction );
+			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
+			{
+				const std::vector<vec2>& loop = profile_coords[jj];
+
+				for( size_t kk = 0; kk < loop.size(); ++kk )
+				{
+					const vec2& point = loop[kk];
+					vec3  vertex = m*(carve::geom::VECTOR( point.x, point.y, 0 ) + base_point) - base_point;
+					polyhedron_data->addVertex( vertex );
+				}
+			}
+			angle += d_angle;
+		}
+
+		int num_vertices_per_section = 0;
+		for( size_t j = 0; j < profile_coords.size(); ++j )
+		{
+			const std::vector<vec2>& loop = profile_coords[j];
+			num_vertices_per_section += loop.size();
+		}
+
+		if( num_vertices_per_section < 3 )
+		{
+			messageCallback( "num_vertices_per_section < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+			return;
+		}
+
+		const size_t num_vertices_in_poly = polyhedron_data->getVertexCount();
+		if( num_vertices_in_poly <= num_vertices_per_section )
+		{
+			messageCallback( "num_vertices_in_poly <= num_vertices_per_section", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+			return;
+		}
+		// compute normal of front cap
+		const vec3& vertex0_section0 = polyhedron_data->getVertex( 0 );
+		const vec3& vertex0_section1 = polyhedron_data->getVertex( num_vertices_per_section );
+		vec3 normal_front_cap = (vertex0_section0 - vertex0_section1).normalize();
+
+		//if( abs( fmod( revolution_angle, 2.0*M_PI ) ) > 0.0001 )
+		{
+			// in case of a full circle, there are no front and back caps necessary
+			// front cap
+			int back_cap_offset = num_vertices_per_section*(num_segments);
+			bool flip_faces = false;
+			for( size_t ii = 0; ii != triangulated.size(); ++ii )
+			{
+				const carve::triangulate::tri_idx& triangle = triangulated[ii];
+				const size_t vertex_id_a_triangulated = triangle.a;
+				const size_t vertex_id_b_triangulated = triangle.b;
+				const size_t vertex_id_c_triangulated = triangle.c;
+
+				if( vertex_id_a_triangulated >= path_incorporated_holes.size() || vertex_id_b_triangulated >= path_incorporated_holes.size() || vertex_id_c_triangulated >= path_incorporated_holes.size() )
+				{
+					messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+					continue;
+				}
+
+				std::pair<size_t, size_t>& vertex_a_pair = path_incorporated_holes[vertex_id_a_triangulated];
+				size_t loop_idx_a = vertex_a_pair.first;
+				size_t vertex_idx_a = vertex_a_pair.second;
+
+				std::pair<size_t, size_t>& vertex_b_pair = path_incorporated_holes[vertex_id_b_triangulated];
+				size_t loop_idx_b = vertex_b_pair.first;
+				size_t vertex_idx_b = vertex_b_pair.second;
+
+				std::pair<size_t, size_t>& vertex_c_pair = path_incorporated_holes[vertex_id_c_triangulated];
+				size_t loop_idx_c = vertex_c_pair.first;
+				size_t vertex_idx_c = vertex_c_pair.second;
+
+				size_t loop_offset_a = 0;
+				size_t loop_offset_b = 0;
+				size_t loop_offset_c = 0;
+				if( loop_idx_a > 0 )
+				{
+					if( loop_idx_a < profile_coords.size() )
+					{
+						loop_offset_a = profile_coords[loop_idx_a].size();
+					}
+				}
+				if( loop_idx_b > 0 )
+				{
+					if( loop_idx_b < profile_coords.size() )
+					{
+						loop_offset_b = profile_coords[loop_idx_b].size();
+					}
+				}
+				if( loop_idx_c > 0 )
+				{
+					if( loop_idx_c < profile_coords.size() )
+					{
+						loop_offset_c = profile_coords[loop_idx_c].size();
+					}
+				}
+
+				const size_t vertex_id_a = loop_offset_a + vertex_idx_a;
+				const size_t vertex_id_b = loop_offset_b + vertex_idx_b;
+				const size_t vertex_id_c = loop_offset_c + vertex_idx_c;
+
+				if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
+				{
+					messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+					continue;
+				}
+
+				const int vertex_id_a_top = vertex_id_a + back_cap_offset;
+				const int vertex_id_b_top = vertex_id_b + back_cap_offset;
+				const int vertex_id_c_top = vertex_id_c + back_cap_offset;
+
+				if( vertex_id_a_top >= num_vertices_in_poly || vertex_id_b_top >= num_vertices_in_poly || vertex_id_c_top >= num_vertices_in_poly )
+				{
+					messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+					continue;
+				}
+
+				if( ii == 0 )
+				{
+					std::vector<vec3> vec_triangle;
+					vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_a ) );
+					vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_b ) );
+					vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_c ) );
+					vec3 normal_first_triangle = GeomUtils::computePolygonNormal( vec_triangle );
+
+					if( dot( normal_first_triangle, normal_front_cap ) < 0 )
+					{
+						flip_faces = true;
+					}
+				}
+
+#ifdef _DEBUG
+				const carve::poly::Vertex<3>& v_a = polyhedron_data->getVertex( vertex_id_a );
+				const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex( vertex_id_b );
+				const carve::poly::Vertex<3>& v_c = polyhedron_data->getVertex( vertex_id_c );
+
+				vec3 pa( carve::geom::VECTOR( v_a.v[0], v_a.v[1], v_a.v[2] ) );
+				vec3 pb( carve::geom::VECTOR( v_b.v[0], v_b.v[1], v_b.v[2] ) );
+				vec3 pc( carve::geom::VECTOR( v_c.v[0], v_c.v[1], v_c.v[2] ) );
+
+				double A = 0.5*(cross( pa - pb, pa - pc ).length());
+				if( std::abs( A ) < 0.000000001 )
+				{
+					messageCallback( "std::abs(A) < 0.000000001", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+				}
+#endif
+
+				if( flip_faces )
+				{
+					polyhedron_data->addFace( vertex_id_a, vertex_id_c, vertex_id_b );		// bottom cap
+					polyhedron_data->addFace( vertex_id_a_top, vertex_id_b_top, vertex_id_c_top );	// top cap, flipped outward
+				}
+				else
+				{
+					polyhedron_data->addFace( vertex_id_a, vertex_id_b, vertex_id_c );		// bottom cap
+					polyhedron_data->addFace( vertex_id_a_top, vertex_id_c_top, vertex_id_b_top );	// top cap, flipped outward
+				}
+			}
+		}
+
+		// faces of revolved shape
+		size_t segment_offset = 0;
+		for( int ii = 0; ii < num_segments; ++ii )
+		{
+			size_t loop_offset = segment_offset;
+			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
+			{
+				const std::vector<vec2>& loop = profile_coords[jj];
+				const size_t num_points_in_loop = loop.size();
+
+				for( size_t kk = 0; kk < num_points_in_loop; ++kk )
+				{
+					size_t triangle_idx = loop_offset + kk;
+					size_t triangle_idx_up = triangle_idx + num_vertices_per_section;
+					size_t triangle_idx_next = loop_offset + (kk + 1)%num_points_in_loop;
+					size_t triangle_idx_next_up = triangle_idx_next + num_vertices_per_section;
+
+					if( triangle_idx >= num_vertices_in_poly || triangle_idx_up >= num_vertices_in_poly
+						|| triangle_idx_next >= num_vertices_in_poly || triangle_idx_next_up >= num_vertices_in_poly )
+					{
+						messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+						continue;
+					}
+
+					polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
+					polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
+				}
+				loop_offset += num_points_in_loop;
+			}
+			segment_offset += num_vertices_per_section;
+		}
+
+#ifdef _DEBUG
+		GeomDebugUtils::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
+
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
+		if( meshset->meshes.size() != 1 )
+		{
+			messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+			return;
+		}
+		bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, entity_of_origin );
+
+		if( !meshset_ok )
+		{
+			GeomDebugUtils::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+		}
+#endif
+
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 	}
 
 	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeInputData> item_data )
@@ -431,357 +778,10 @@ public:
 			}
 		}
 
-		// rotation base point is the one with the smallest distance on the rotation axis
-		vec3  origin;
-		vec3  base_point;
-		GeomUtils::closestPointOnLine( origin, axis_location, axis_direction, base_point );
-		base_point *= -1.0;
-
 		// swept area
 		shared_ptr<ProfileConverter> profile_converter = m_profile_cache->getProfileConverter( swept_area_profile );
-		const std::vector<std::vector<vec2 > >& profile_coords_unchecked = profile_converter->getCoordinates();
-
-		bool warning_small_loop_detected = false;
-		std::vector<std::vector<vec2 > > profile_coords;
-		for( size_t ii = 0; ii < profile_coords_unchecked.size(); ++ii )
-		{
-			const std::vector<vec2 >& profile_loop_unchecked = profile_coords_unchecked[ii];
-			vec3 normal_2d = GeomUtils::computePolygon2DNormal( profile_loop_unchecked );
-			bool reverse_loop = false;
-			if( ii == 0 )
-			{
-				if( normal_2d.z < 0 )
-				{
-					reverse_loop = true;
-				}
-			}
-			else
-			{
-				if( normal_2d.z > 0 )
-				{
-					reverse_loop = true;
-				}
-			}
-
-			double signed_area = carve::geom2d::signedArea( profile_loop_unchecked );
-			if( std::abs( signed_area ) < 0.000001 )
-			{
-				warning_small_loop_detected = true;
-				continue;
-			}
-
-			profile_coords.push_back( std::vector<vec2 >() );
-			std::vector<vec2 >& profile_loop = profile_coords.back();
-
-			if( reverse_loop )
-			{
-				std::copy( profile_loop_unchecked.rbegin(), profile_loop_unchecked.rend(), std::back_inserter( profile_loop ) );
-			}
-			else
-			{
-				std::copy( profile_loop_unchecked.begin(), profile_loop_unchecked.end(), std::back_inserter( profile_loop ) );
-			}
-		}
-
-		if( warning_small_loop_detected )
-		{
-			std::stringstream err;
-			err << "abs( signed_area ) < 1.e-6";
-			messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, revolved_area.get() );
-		}
-
-
-		// triangulate
-		std::vector<vec2 > path_merged;
-		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
-		std::vector<carve::triangulate::tri_idx> triangulated;
-		try
-		{
-			path_incorporated_holes = carve::triangulate::incorporateHolesIntoPolygon( profile_coords );	// first is loop index, second is vertex index in loop
-			path_merged.reserve( path_incorporated_holes.size() );
-			for( size_t i = 0; i < path_incorporated_holes.size(); ++i )
-			{
-				size_t loop_number = path_incorporated_holes[i].first;
-				size_t index_in_loop = path_incorporated_holes[i].second;
-
-				if( loop_number >= profile_coords.size() )
-				{
-					messageCallback( "loop_number >= profile_coords.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-					continue;
-				}
-
-				const std::vector<vec2 >& loop_2d = profile_coords[loop_number];
-
-				const vec2 & point_2d = loop_2d[index_in_loop];
-				path_merged.push_back( point_2d );
-			}
-			carve::triangulate::triangulate( path_merged, triangulated );
-			carve::triangulate::improve( path_merged, triangulated );
-		}
-		catch( ... )
-		{
-			messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			return;
-		}
-
-		if( profile_coords.size() == 0 )
-		{
-			messageCallback( "profile_coords.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			return;
-		}
-		if( profile_coords[0].size() < 3 )
-		{
-			messageCallback( "profile_coords[0].size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			return;
-		}
-
-		if( revolution_angle > M_PI * 2 ) revolution_angle = M_PI * 2;
-		if( revolution_angle < -M_PI * 2 ) revolution_angle = M_PI * 2;
-
-		// TODO: calculate num segments according to length/width/height ratio and overall size of the object
-		int num_segments = m_geom_settings->getNumVerticesPerCircle()*( std::abs( revolution_angle ) / ( 2.0*M_PI ) );
-		if( num_segments < 6 )
-		{
-			num_segments = 6;
-		}
-		double angle = 0.0;
-		double d_angle = revolution_angle / num_segments;
-
-		// check if we have to change the direction
-		vec3  polygon_normal = GeomUtils::computePolygon2DNormal( profile_coords[0] );
-		const vec2&  pt0_2d = profile_coords[0][0];
-		vec3  pt0_3d( carve::geom::VECTOR( pt0_2d.x, pt0_2d.y, 0 ) );
-		vec3  pt0 = carve::math::Matrix::ROT( d_angle, axis_direction )*( pt0_3d + base_point );
-		if( polygon_normal.z*pt0.z > 0 )
-		{
-			angle = revolution_angle;
-			d_angle = -d_angle;
-		}
-
-		// TODO: use m_sweeper->sweepArea
-
-		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-		if( !polyhedron_data )
-		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
-		}
-
-		// create vertices
-		carve::math::Matrix m;
-		for( int ii = 0; ii <= num_segments; ++ii )
-		{
-			m = carve::math::Matrix::ROT( angle, -axis_direction );
-			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
-			{
-				const std::vector<vec2 >& loop = profile_coords[jj];
-
-				for( size_t kk = 0; kk < loop.size(); ++kk )
-				{
-					const vec2& point = loop[kk];
-					vec3  vertex = m*( carve::geom::VECTOR( point.x, point.y, 0 ) + base_point ) - base_point;
-					polyhedron_data->addVertex( vertex );
-				}
-			}
-			angle += d_angle;
-		}
-
-		int num_vertices_per_section = 0;
-		for( size_t j = 0; j < profile_coords.size(); ++j )
-		{
-			const std::vector<vec2 >& loop = profile_coords[j];
-			num_vertices_per_section += loop.size();
-		}
-
-		if( num_vertices_per_section < 3 )
-		{
-			messageCallback( "num_vertices_per_section < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			return;
-		}
-
-		const size_t num_vertices_in_poly = polyhedron_data->getVertexCount();
-		if( num_vertices_in_poly <= num_vertices_per_section )
-		{
-			messageCallback( "num_vertices_in_poly <= num_vertices_per_section", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			return;
-		}
-		// compute normal of front cap
-		const vec3& vertex0_section0 = polyhedron_data->getVertex( 0 );
-		const vec3& vertex0_section1 = polyhedron_data->getVertex( num_vertices_per_section );
-		vec3 normal_fron_cap = ( vertex0_section0 - vertex0_section1 ).normalize();
-
-		// front cap
-		int back_cap_offset = num_vertices_per_section*( num_segments );
-		bool flip_faces = false;
-		for( size_t ii = 0; ii != triangulated.size(); ++ii )
-		{
-			const carve::triangulate::tri_idx& triangle = triangulated[ii];
-			const size_t vertex_id_a_triangulated = triangle.a;
-			const size_t vertex_id_b_triangulated = triangle.b;
-			const size_t vertex_id_c_triangulated = triangle.c;
-
-			if( vertex_id_a_triangulated >= path_incorporated_holes.size() || vertex_id_b_triangulated >= path_incorporated_holes.size() || vertex_id_c_triangulated >= path_incorporated_holes.size() )
-			{
-				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-				continue;
-			}
-
-			std::pair<size_t, size_t>& vertex_a_pair = path_incorporated_holes[vertex_id_a_triangulated];
-			size_t loop_idx_a = vertex_a_pair.first;
-			size_t vertex_idx_a = vertex_a_pair.second;
-
-			std::pair<size_t, size_t>& vertex_b_pair = path_incorporated_holes[vertex_id_b_triangulated];
-			size_t loop_idx_b = vertex_b_pair.first;
-			size_t vertex_idx_b = vertex_b_pair.second;
-
-			std::pair<size_t, size_t>& vertex_c_pair = path_incorporated_holes[vertex_id_c_triangulated];
-			size_t loop_idx_c = vertex_c_pair.first;
-			size_t vertex_idx_c = vertex_c_pair.second;
-
-			size_t loop_offset_a = 0;
-			size_t loop_offset_b = 0;
-			size_t loop_offset_c = 0;
-			if( loop_idx_a > 0 )
-			{
-				if( loop_idx_a < profile_coords.size() )
-				{
-					loop_offset_a = profile_coords[loop_idx_a].size();
-				}
-			}
-			if( loop_idx_b > 0 )
-			{
-				if( loop_idx_b < profile_coords.size() )
-				{
-					loop_offset_b = profile_coords[loop_idx_b].size();
-				}
-			}
-			if( loop_idx_c > 0 )
-			{
-				if( loop_idx_c < profile_coords.size() )
-				{
-					loop_offset_c = profile_coords[loop_idx_c].size();
-				}
-			}
-			
-			const size_t vertex_id_a = loop_offset_a + vertex_idx_a;
-			const size_t vertex_id_b = loop_offset_b + vertex_idx_b;
-			const size_t vertex_id_c = loop_offset_c + vertex_idx_c;
-
-			if( vertex_id_a == vertex_id_b || vertex_id_a == vertex_id_c || vertex_id_b == vertex_id_c )
-			{
-				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-				continue;
-			}
-
-			const int vertex_id_a_top = vertex_id_a + back_cap_offset;
-			const int vertex_id_b_top = vertex_id_b + back_cap_offset;
-			const int vertex_id_c_top = vertex_id_c + back_cap_offset;
-
-			if( vertex_id_a_top >= num_vertices_in_poly || vertex_id_b_top >= num_vertices_in_poly || vertex_id_c_top >= num_vertices_in_poly )
-			{
-				messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-				continue;
-			}
-
-			if( ii == 0 )
-			{
-				std::vector<vec3 > vec_triangle;
-				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_a ) );
-				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_b ) );
-				vec_triangle.push_back( polyhedron_data->getVertex( vertex_id_c ) );
-				vec3 normal_first_triangle = GeomUtils::computePolygonNormal( vec_triangle );
-
-				if( dot( normal_first_triangle, normal_fron_cap ) < 0 )
-				{
-					flip_faces = true;
-				}
-			}
-
-#ifdef _DEBUG
-			const carve::poly::Vertex<3>& v_a = polyhedron_data->getVertex( vertex_id_a );
-			const carve::poly::Vertex<3>& v_b = polyhedron_data->getVertex( vertex_id_b );
-			const carve::poly::Vertex<3>& v_c = polyhedron_data->getVertex( vertex_id_c );
-
-			vec3 pa( carve::geom::VECTOR( v_a.v[0], v_a.v[1], v_a.v[2] ) );
-			vec3 pb( carve::geom::VECTOR( v_b.v[0], v_b.v[1], v_b.v[2] ) );
-			vec3 pc( carve::geom::VECTOR( v_c.v[0], v_c.v[1], v_c.v[2] ) );
-
-			double A = 0.5*( cross( pa - pb, pa - pc ).length() );
-			if( std::abs( A ) < 0.000000001 )
-			{
-				messageCallback( "std::abs(A) < 0.000000001", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			}
-#endif
-
-			if( flip_faces )
-			{
-				polyhedron_data->addFace( vertex_id_a, vertex_id_c, vertex_id_b );		// bottom cap
-				polyhedron_data->addFace( vertex_id_a_top, vertex_id_b_top, vertex_id_c_top );	// top cap, flipped outward
-			}
-			else
-			{
-				polyhedron_data->addFace( vertex_id_a, vertex_id_b, vertex_id_c );		// bottom cap
-				polyhedron_data->addFace( vertex_id_a_top, vertex_id_c_top, vertex_id_b_top );	// top cap, flipped outward
-			}
-		}
-
-		// faces of revolved shape
-		size_t segment_offset = 0;
-		for( int ii = 0; ii < num_segments; ++ii )
-		{
-			size_t loop_offset = segment_offset;
-			for( size_t jj = 0; jj < profile_coords.size(); ++jj )
-			{
-				const std::vector<vec2 >& loop = profile_coords[jj];
-				const size_t num_points_in_loop = loop.size();
-
-				for( size_t kk = 0; kk < num_points_in_loop; ++kk )
-				{
-					size_t triangle_idx = loop_offset + kk;
-					size_t triangle_idx_up = triangle_idx + num_vertices_per_section;
-					size_t triangle_idx_next = loop_offset + (kk + 1)%num_points_in_loop;
-					size_t triangle_idx_next_up = triangle_idx_next + num_vertices_per_section;
-
-					if( triangle_idx >= num_vertices_in_poly || triangle_idx_up >= num_vertices_in_poly 
-						|| triangle_idx_next >= num_vertices_in_poly || triangle_idx_next_up >= num_vertices_in_poly )
-					{
-						messageCallback( "error in revolved area mesh", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-						continue;
-					}
-
-					polyhedron_data->addFace( triangle_idx, triangle_idx_next, triangle_idx_next_up );
-					polyhedron_data->addFace( triangle_idx_next_up, triangle_idx_up, triangle_idx );
-				}
-				loop_offset += num_points_in_loop;
-			}
-			segment_offset += num_vertices_per_section;
-		}
-
-#ifdef _DEBUG
-		shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-		polyline_data->beginPolyline();
-		for( size_t ii_polyline = 0; ii_polyline < path_merged.size(); ++ii_polyline )
-		{
-			auto& merged_point = path_merged[ii_polyline];
-			polyline_data->addVertex( carve::geom::VECTOR( merged_point.x, merged_point.y, 0 ) );
-			polyline_data->addPolylineIndex( ii_polyline );
-		}
-		GeomDebugUtils::dumpPolylineSet( polyline_data.get(), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
-		if( meshset->meshes.size() != 1 )
-		{
-			messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, revolved_area.get() );
-			return;
-		}
-		bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, revolved_area.get() );
-
-		if( !meshset_ok )
-		{
-			GeomDebugUtils::dumpPolyhedronInput( *( polyhedron_data.get() ), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-		}
-#endif
-
-		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+		const std::vector<std::vector<vec2> >& profile_coords_unchecked = profile_converter->getCoordinates();
+		convertRevolvedAreaSolid( profile_coords_unchecked, axis_location, axis_direction, revolution_angle, item_data );
 	}
 
 	void convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeInputData> item_data )
@@ -1167,7 +1167,7 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 	}
 
-	void extrudeBox( const std::vector<vec3 >& boundary_points, const vec3& extrusion_vector, shared_ptr<carve::input::PolyhedronData>& box_data )
+	void extrudeBox( const std::vector<vec3>& boundary_points, const vec3& extrusion_vector, shared_ptr<carve::input::PolyhedronData>& box_data )
 	{
 		box_data->addVertex( boundary_points[0] );
 		box_data->addVertex( boundary_points[1] );
@@ -1270,7 +1270,7 @@ public:
 			polyhedron_data->addFace( 4, 0, 3 );
 
 			// apply box coordinate system
-			for( std::vector<vec3 >::iterator it_points = polyhedron_data->points.begin(); it_points != polyhedron_data->points.end(); ++it_points )
+			for( std::vector<vec3>::iterator it_points = polyhedron_data->points.begin(); it_points != polyhedron_data->points.end(); ++it_points )
 			{
 				vec3 & poly_point = ( *it_points );
 				poly_point = box_position_matrix*poly_point;
@@ -1326,8 +1326,8 @@ public:
 			}
 
 			// PolygonalBoundary is given in 2D
-			std::vector<vec2 > polygonal_boundary;
-			std::vector<vec2 > segment_start_points_2d;
+			std::vector<vec2> polygonal_boundary;
+			std::vector<vec2> segment_start_points_2d;
 			shared_ptr<IfcBoundedCurve> bounded_curve = polygonal_half_space->m_PolygonalBoundary;
 			m_curve_converter->convertIfcCurve2D( bounded_curve, polygonal_boundary, segment_start_points_2d );
 			ProfileConverter::deleteLastPointIfEqualToFirst( polygonal_boundary );
@@ -1340,7 +1340,7 @@ public:
 				solid_extrusion_direction = -solid_extrusion_direction;
 			}
 
-			std::vector<std::vector<vec2 > > paths;
+			std::vector<std::vector<vec2> > paths;
 			paths.push_back( polygonal_boundary );
 			shared_ptr<ItemShapeInputData> polygonal_halfspace_item_data( new ItemShapeInputData );
 			m_sweeper->extrude( paths, vec3( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
@@ -1430,7 +1430,7 @@ public:
 				{
 					shared_ptr<carve::input::PolylineSetData>& surface_data = surface_item_data->m_polylines[0];
 				
-					std::vector<vec3 > base_surface_points = surface_data->points;
+					std::vector<vec3> base_surface_points = surface_data->points;
 
 					if( base_surface_points.size() != 4 )
 					{
@@ -1454,7 +1454,7 @@ public:
 
 			if( var == 1 )
 			{
-				std::vector<vec3 > box_base_points;
+				std::vector<vec3> box_base_points;
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( extrusion_depth, extrusion_depth, 0.0 ) );
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( -extrusion_depth, extrusion_depth, 0.0 ) );
 				box_base_points.push_back( base_position_matrix*carve::geom::VECTOR( -extrusion_depth, -extrusion_depth, 0.0 ) );
@@ -1541,8 +1541,8 @@ public:
 			num_segments = vec_cross_section_positions.size() - 1;
 		}
 
-		std::vector<vec3 > curve_polygon;
-		std::vector<vec3 > segment_start_points;
+		std::vector<vec3> curve_polygon;
+		std::vector<vec3> segment_start_points;
 		//CurveConverter cconv( m_unit_converter );
 		m_curve_converter->convertIfcCurve( spine_curve, curve_polygon, segment_start_points );
 

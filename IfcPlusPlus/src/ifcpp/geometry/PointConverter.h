@@ -75,7 +75,7 @@ public:
 		}
 		return false;
 	}
-	void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<vec3 >& loop ) const
+	void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<vec3>& loop ) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		const size_t num_points = points.size();
@@ -120,7 +120,7 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVector2D( const std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& vec_points_in, std::vector<vec3 >& vertices )
+	void convertIfcCartesianPointVector2D( const std::vector<std::vector<shared_ptr<IfcCartesianPoint> > >& vec_points_in, std::vector<vec3>& vertices )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		for( size_t ii = 0; ii < vec_points_in.size(); ++ii )
@@ -147,7 +147,7 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<vec3 >& loop ) const
+	void convertIfcCartesianPointVectorSkipDuplicates( const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<vec3>& loop ) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  vertex_previous;

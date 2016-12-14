@@ -19,9 +19,10 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPGlobal.h"
+#include "IfcSimpleValue.h"
 
 // TYPE IfcBinary = BINARY;
-class IFCPP_EXPORT IfcBinary : public IfcPPObject
+class IFCPP_EXPORT IfcBinary : public IfcSimpleValue
 {
 public:
 	IfcBinary();

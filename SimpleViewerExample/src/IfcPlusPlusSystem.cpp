@@ -30,23 +30,36 @@
 
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
-
-#include "ViewController.h"
 #include "IfcPlusPlusSystem.h"
-
 
 IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
-	m_view_controller = shared_ptr<ViewController>( new ViewController() );
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
 	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
 	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
 	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
 	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
+
+	m_rootnode = new osg::Group();
+	m_rootnode->setName( "m_rootnode" );
+	
+	m_sw_model = new osg::Switch();
+	m_sw_model->setName( "m_sw_model" );
+	m_rootnode->addChild( m_sw_model.get() );
+
+	m_sw_coord_axes = new osg::Switch();
+	m_sw_coord_axes->setName( "m_sw_coord_axes" );
+	m_rootnode->addChild( m_sw_coord_axes.get() );
+
+	m_show_curve_representation = true;
+	m_light_on = false;
 }
 
-IfcPlusPlusSystem::~IfcPlusPlusSystem()
+IfcPlusPlusSystem::~IfcPlusPlusSystem(){}
+
+void IfcPlusPlusSystem::setRootNode( osg::Group* root )
 {
+	m_rootnode = root;
 }
 
 bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
@@ -78,11 +91,6 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 				{
 					shared_ptr<CmdRemoveSelectedObjects> cmd_remove( new CmdRemoveSelectedObjects( this ) );
 					m_command_manager->executeCommand( cmd_remove );
-				}
-				else if( key == 't' )
-				{
-					// TODO: fix or disable conflicting window transparency statesets
-					m_view_controller->toggleModelTransparency();
 				}
 				break;
 			}
@@ -156,8 +164,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 	const int id = ifc_object->m_id;
 	if( grp == 0 )
 	{
-		osg::Group* model_group = m_view_controller->m_sw_model;
-		grp = findNodeByIfcId( model_group, id );
+		grp = findNodeByIfcId( m_sw_model, id );
 	}
 
 	if( selected )
@@ -286,4 +293,78 @@ void IfcPlusPlusSystem::notifyModelLoadingStart()
 void IfcPlusPlusSystem::notifyModelLoadingDone()
 {
 	emit( signalModelLoadingDone() );
+}
+
+void IfcPlusPlusSystem::toggleSceneLight()
+{
+	osg::StateSet* stateset_root = m_rootnode->getOrCreateStateSet();
+
+	if( !m_transform_light.valid() )
+	{
+		osg::Group* light_group = new osg::Group();
+		light_group->setName( "light_group" );
+		double model_size = 100; // TODO: adjust when model is loaded
+
+		osg::Light* light6 = new osg::Light();
+		light6->setLightNum( 6 );
+		light6->setPosition( osg::Vec4( 0.0, 0.0, 0.0, 1.0f ) );
+		light6->setAmbient( osg::Vec4( 0.5f, 0.53f, 0.57f, 0.4f ) );
+		light6->setDiffuse( osg::Vec4( 0.5f, 0.53f, 0.57f, 0.4f ) );
+		light6->setConstantAttenuation( 1.0f );
+		light6->setLinearAttenuation( 2.0f/model_size );
+		light6->setQuadraticAttenuation( 2.0f/(model_size*model_size) );
+
+		osg::LightSource* light_source6 = new osg::LightSource();
+		light_source6->setLight( light6 );
+		light_source6->setLocalStateSetModes( osg::StateAttribute::ON );
+		light_source6->setStateSetModes( *stateset_root, osg::StateAttribute::ON );
+		m_transform_light = new osg::MatrixTransform( osg::Matrix::translate( 5, 5, 50 ) );
+		m_transform_light->addChild( light_source6 );
+
+		light_group->addChild( m_transform_light );
+		m_rootnode->addChild( light_group );
+
+		m_light_on = false;
+	}
+
+	m_light_on = !m_light_on;
+	if( m_light_on )
+	{
+		stateset_root->setMode( GL_LIGHT6, osg::StateAttribute::ON );
+	}
+	else
+	{
+		stateset_root->setMode( GL_LIGHT6, osg::StateAttribute::OFF );
+	}
+}
+
+void IfcPlusPlusSystem::switchCurveRepresentation( osg::Group* grp, bool on_off )
+{
+	m_show_curve_representation = on_off;
+	osg::Switch* grp_switch = dynamic_cast<osg::Switch*>( grp );
+	if( grp_switch )
+	{
+		if( grp_switch->getName().compare( "CurveRepresentation" ) == 0 )
+		{
+			if( on_off )
+			{
+				grp_switch->setAllChildrenOn();
+			}
+			else
+			{
+				grp_switch->setAllChildrenOff();
+			}
+		}
+	}
+
+	unsigned int num_children = grp->getNumChildren();
+	for( unsigned int i=0; i<num_children; ++i)
+	{
+		osg::Node* child_node = grp->getChild(i);
+		osg::Group* child_grp = dynamic_cast<osg::Group*>( child_node );
+		if( child_grp )
+		{
+			switchCurveRepresentation( child_grp, on_off );
+		}
+	}
 }

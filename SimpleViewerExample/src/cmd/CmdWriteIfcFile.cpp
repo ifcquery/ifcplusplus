@@ -22,16 +22,13 @@
 #include <ifcpp/geometry/GeometryConverter.h>
 
 #include "IfcPlusPlusSystem.h"
-#include "ViewController.h"
 #include "CmdWriteIfcFile.h"
 
 CmdWriteIfcFile::CmdWriteIfcFile( IfcPlusPlusSystem* system ): Command(system)
 {
 }
 
-CmdWriteIfcFile::~CmdWriteIfcFile()
-{
-}
+CmdWriteIfcFile::~CmdWriteIfcFile(){}
 
 void CmdWriteIfcFile::setFilePath( std::string& path_in )
 {

@@ -242,6 +242,7 @@ shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const st
 		case IFCPOSITIVEPLANEANGLEMEASURE:return IfcPositivePlaneAngleMeasure::createObjectFromSTEP( arg );
 		case IFCPOSITIVERATIOMEASURE:return IfcPositiveRatioMeasure::createObjectFromSTEP( arg );
 		case IFCPOWERMEASURE:return IfcPowerMeasure::createObjectFromSTEP( arg );
+		case IFCPREFERREDSURFACECURVEREPRESENTATION:return IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( arg );
 		case IFCPRESENTABLETEXT:return IfcPresentableText::createObjectFromSTEP( arg );
 		case IFCPRESSUREMEASURE:return IfcPressureMeasure::createObjectFromSTEP( arg );
 		case IFCPROCEDURETYPEENUM:return IfcProcedureTypeEnum::createObjectFromSTEP( arg );

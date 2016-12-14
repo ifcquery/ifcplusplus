@@ -39,7 +39,6 @@ private slots:
 	void slotToggleSceneLight();
 	void slotCullFrontFaces( int state );
 	void slotCullBackFaces( int state );
-	void slotProjectionButtonClicked( int btn );
 	void slotSetNumVertices(int);
 	void slotShowCurves( int );
 };

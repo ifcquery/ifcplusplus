@@ -13,9 +13,28 @@
 #include <ifcpp/IFC4/include/IfcLabel.h>
 #include <ifcpp/geometry/GeometryConverter.h>
 
-#include "viewer/ViewerUtil.h"
 #include "IfcPlusPlusSystem.h"
 #include "IfcTreeWidget.h"
+
+QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id )
+{
+	int num_children = item->childCount();
+	for( int i = 0; i<num_children; ++i )
+	{
+		QTreeWidgetItem* child = item->child( i );
+		int id = child->text( 1 ).toUInt();
+		if( id == ifc_id )
+		{
+			return child;
+		}
+		QTreeWidgetItem* child_of_child = findItemByIfcId( child, ifc_id );
+		if( child_of_child != 0 )
+		{
+			return child_of_child;
+		}
+	}
+	return 0;
+}
 
 IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeWidget(parent), m_system(sys)
 {
@@ -39,9 +58,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	connect( m_system, SIGNAL( signalModelLoadingDone() ),	this, SLOT( slotModelLoadingDone() ) );
 }
 
-IfcTreeWidget::~IfcTreeWidget()
-{
-}
+IfcTreeWidget::~IfcTreeWidget(){}
 
 void IfcTreeWidget::slotObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map )
 {
@@ -62,7 +79,7 @@ void IfcTreeWidget::slotObjectsSelected( boost::unordered_map<int, shared_ptr<If
 	for( int i=0; i<topLevelItemCount(); ++i )
 	{
 		QTreeWidgetItem* toplevel_item = topLevelItem( i );
-		QTreeWidgetItem* selected_item = ViewerUtil::findItemByIfcId( toplevel_item, selected_id );
+		QTreeWidgetItem* selected_item = findItemByIfcId( toplevel_item, selected_id );
 		if( selected_item != 0 )
 		{
 			blockSignals(true);

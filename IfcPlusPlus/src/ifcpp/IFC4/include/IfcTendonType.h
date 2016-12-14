@@ -84,6 +84,6 @@ public:
 	shared_ptr<IfcTendonTypeEnum>						m_PredefinedType;
 	shared_ptr<IfcPositiveLengthMeasure>				m_NominalDiameter;			//optional
 	shared_ptr<IfcAreaMeasure>							m_CrossSectionArea;			//optional
-	shared_ptr<IfcPositiveLengthMeasure>				m_SheethDiameter;			//optional
+	shared_ptr<IfcPositiveLengthMeasure>				m_SheathDiameter;			//optional
 };
 

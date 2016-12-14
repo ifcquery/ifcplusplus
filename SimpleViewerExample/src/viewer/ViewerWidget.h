@@ -15,48 +15,60 @@
 
 #include <osgViewer/Viewer>
 #include <osgViewer/CompositeViewer>
-#include <osgQt/GraphicsWindowQt>
-
+#include <osgGA/StandardManipulator>
+#include <osg/Material>
 #include <QtCore/qglobal.h>
 #include <QtCore/QTimer>
 #include <qwidget.h>
 
+#include "GraphicsWindowQt.h"
+class IfcPlusPlusSystem;
 
 //\brief class to combine OSG Viewer and Qt widget
 class ViewerWidget : public QWidget
 {
-public:
-	enum ViewerProjection
-	{
-		PROJECTION_PARALLEL,
-		PROJECTION_PERSPECTIVE
-	};
+	Q_OBJECT
 
-    ViewerWidget( QWidget* parent = nullptr );
+public:
+    ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent = nullptr );
 	~ViewerWidget();
-		
-	QSize minimumSizeHint() const { return QSize( 100, 100 ); }
-	QSize sizeHint() const { return QSize( 800, 600 ); }
-	virtual void paintEvent( QPaintEvent* event );
-	
-	void setProjection( ViewerProjection p );
+
+	QtOSGWidget*				getOpenGLWidget();
+	GraphicsWindowQt*			getGraphicsWindowQt();
+	osgViewer::View*			getMainView();
+	osgViewer::CompositeViewer* getCompositeViewer();
+	osg::Camera*				getHeadUpCamera();
+	osgGA::StandardManipulator*	getCameraManipulator() { return m_camera_manipulator.get(); }
+	void updateCamera();
 	void setRootNode( osg::Group* node );
 	void stopTimer();
 	void startTimer();
-	osgViewer::CompositeViewer& getViewer()	{ return m_viewer; }
-	osgViewer::View* getMainView() {  return m_main_view.get(); }
+		
+	virtual QSize minimumSizeHint() const { return QSize( 100, 100 ); }
+	virtual QSize sizeHint() const { return QSize( 800, 600 ); }
+	virtual void paintEvent( QPaintEvent* event );
+	virtual void resizeEvent( QResizeEvent * );
+	
+public slots:
+	void slotAnimationFrame();
 
 protected:
-	osgViewer::CompositeViewer		m_viewer;
-	osg::ref_ptr<osgViewer::View>	m_main_view;
-	osgQt::GLWidget*				m_gl_widget;
-	ViewerProjection				m_projection;
-	
-    QTimer							m_timer;
-	double							m_near_plane;
-	double							m_far_plane;
-	osg::ref_ptr<osg::Group>		m_rootnode;
-	osg::ref_ptr<osg::Group>		m_model_node;
-	osg::ref_ptr<osg::Camera>		m_hud_camera;
-	virtual void resizeEvent(QResizeEvent *);
+	IfcPlusPlusSystem*							m_system;
+	QWidget*									m_parent = nullptr;
+	std::string									m_window_name;
+	QTimer										m_timer;
+	double										m_shinyness;
+	double										m_near_plane;
+	double										m_far_plane;
+	osg::ref_ptr<osgViewer::View>				m_main_view;
+	osg::ref_ptr<osgViewer::CompositeViewer>	m_composite_viewer;
+	osg::ref_ptr<osg::Camera>					m_hud_camera;
+	osg::ref_ptr<GraphicsWindowQt>				m_graphics_window;
+	osg::ref_ptr<osgGA::StandardManipulator>	m_camera_manipulator;
+	osg::ref_ptr<osg::Material>					m_material_default;
+	osg::ref_ptr<osg::StateSet>					m_stateset_selected;
+	osg::ref_ptr<osg::StateSet>					m_stateset_default;
+	osg::ref_ptr<osg::StateSet>					m_stateset_transparent;
+
+	void initGLWidgetAndViewer( int width, int height, QWidget* parent );
 };

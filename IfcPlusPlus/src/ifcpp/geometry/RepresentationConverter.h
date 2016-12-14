@@ -443,8 +443,8 @@ public:
 		shared_ptr<IfcCurve> ifc_curve = dynamic_pointer_cast<IfcCurve>( geom_item );
 		if( ifc_curve )
 		{
-			std::vector<vec3 > loops;
-			std::vector<vec3 > segment_start_points;
+			std::vector<vec3> loops;
+			std::vector<vec3> segment_start_points;
 			m_curve_converter->convertIfcCurve( ifc_curve, loops, segment_start_points );
 
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
@@ -503,7 +503,7 @@ public:
 		shared_ptr<IfcPolyline> poly_line = dynamic_pointer_cast<IfcPolyline>( geom_item );
 		if( poly_line )
 		{
-			std::vector<vec3 > poly_vertices;
+			std::vector<vec3> poly_vertices;
 			m_curve_converter->convertIfcPolyline( poly_line, poly_vertices );
 
 			const size_t num_points = poly_vertices.size();
@@ -548,8 +548,8 @@ public:
 				shared_ptr<IfcCurve> select_curve = dynamic_pointer_cast<IfcCurve>( geom_select );
 				if( select_curve )
 				{
-					std::vector<vec3 > loops;
-					std::vector<vec3 > segment_start_points;
+					std::vector<vec3> loops;
+					std::vector<vec3> segment_start_points;
 					m_curve_converter->convertIfcCurve( select_curve, loops, segment_start_points );
 
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
@@ -645,10 +645,10 @@ public:
 		{
 			// convert outer boundary
 			shared_ptr<IfcCurve>& outer_boundary = annotation_fill_area->m_OuterBoundary;
-			std::vector<std::vector<vec3 > > face_loops;
-			face_loops.push_back( std::vector<vec3 >() );
-			std::vector<vec3 >& outer_boundary_loop = face_loops.back();
-			std::vector<vec3 > segment_start_points;
+			std::vector<std::vector<vec3> > face_loops;
+			face_loops.push_back( std::vector<vec3>() );
+			std::vector<vec3>& outer_boundary_loop = face_loops.back();
+			std::vector<vec3> segment_start_points;
 			m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points );
 
 			// convert inner boundaries
@@ -659,9 +659,9 @@ public:
 				{
 					continue;
 				}
-				face_loops.push_back( std::vector<vec3 >() );
-				std::vector<vec3 >& inner_boundary_loop = face_loops.back();
-				std::vector<vec3 > segment_start_points_inner_curve;
+				face_loops.push_back( std::vector<vec3>() );
+				std::vector<vec3>& inner_boundary_loop = face_loops.back();
+				std::vector<vec3> segment_start_points_inner_curve;
 				m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points_inner_curve);
 			}
 
@@ -778,9 +778,9 @@ public:
 						}
 					}
 
-					std::vector<std::vector<vec3 > > face_loops;
-					face_loops.push_back( std::vector<vec3 >() );
-					std::vector<vec3 >& loop_points = face_loops.back();
+					std::vector<std::vector<vec3> > face_loops;
+					face_loops.push_back( std::vector<vec3>() );
+					std::vector<vec3>& loop_points = face_loops.back();
 					m_curve_converter->convertIfcLoop( loop, loop_points );
 
 					if( loop_points.size() < 3 )
@@ -821,9 +821,9 @@ public:
 				std::cout << __FUNC__ << ": Bound invalid " << std::endl;
 				return;
 			}
-			std::vector<std::vector<vec3 > > face_loops;
-			face_loops.push_back( std::vector<vec3 >() );
-			std::vector<vec3 >& loop_points = face_loops.back();
+			std::vector<std::vector<vec3> > face_loops;
+			face_loops.push_back( std::vector<vec3>() );
+			std::vector<vec3>& loop_points = face_loops.back();
 			m_curve_converter->convertIfcLoop( loop, loop_points );
 
 			if( loop_points.size() > 2 )
@@ -848,7 +848,7 @@ public:
 		shared_ptr<IfcLoop> topo_loop = dynamic_pointer_cast<IfcLoop>( topological_item );
 		if( topo_loop )
 		{
-			std::vector<vec3 > loop_points;
+			std::vector<vec3> loop_points;
 			m_curve_converter->convertIfcLoop( topo_loop, loop_points );
 
 			if( loop_points.size() > 0 )

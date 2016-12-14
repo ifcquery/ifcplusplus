@@ -569,10 +569,10 @@ namespace GeomUtils
 	}
 
 	/** polygon operations */
-	inline vec3 computePolygonCentroid( const std::vector<vec3 >& polygon )
+	inline vec3 computePolygonCentroid( const std::vector<vec3>& polygon )
 	{
 		vec3 polygon_centroid( carve::geom::VECTOR( 0, 0, 0 ) );
-		for( std::vector<vec3 >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
+		for( std::vector<vec3>::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
 		{
 			const vec3& vertex_current = ( *it );
 			polygon_centroid += vertex_current;
@@ -580,10 +580,10 @@ namespace GeomUtils
 		polygon_centroid /= (double)( polygon.size() );
 		return polygon_centroid;
 	}
-	inline vec2 computePolygonCentroid( const std::vector<vec2 >& polygon )
+	inline vec2 computePolygonCentroid( const std::vector<vec2>& polygon )
 	{
 		vec2 polygon_centroid( carve::geom::VECTOR( 0, 0 ) );
-		for( std::vector<vec2 >::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
+		for( std::vector<vec2>::const_iterator it = polygon.begin(); it != polygon.end(); ++it )
 		{
 			const vec2& vertex_current = ( *it );
 			polygon_centroid += vertex_current;
@@ -621,11 +621,11 @@ namespace GeomUtils
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline vec3 computePolygonNormal( const std::vector<vec3 >& polygon )
+	inline vec3 computePolygonNormal( const std::vector<vec3>& polygon )
 	{
 		vec3 polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
 		bool last_loop = false;
-		for( std::vector<vec3 >::const_iterator it = polygon.begin();; )
+		for( std::vector<vec3>::const_iterator it = polygon.begin();; )
 		{
 			const vec3& vertex_current = ( *it );
 			++it;
@@ -646,7 +646,7 @@ namespace GeomUtils
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline vec3 computePolygon2DNormal( const std::vector<vec2 >& polygon )
+	inline vec3 computePolygon2DNormal( const std::vector<vec2>& polygon )
 	{
 		const int num_points = polygon.size();
 		vec3 polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
@@ -659,7 +659,7 @@ namespace GeomUtils
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline bool checkOpenPolygonConvexity( const std::vector<vec2 >& polygon )
+	inline bool checkOpenPolygonConvexity( const std::vector<vec2>& polygon )
 	{
 		if( polygon.size() < 3 )
 		{
@@ -699,7 +699,7 @@ namespace GeomUtils
 		}
 		return true;
 	}
-	inline void appendPointsToCurve( const std::vector<vec2 >& points_vec, std::vector<vec3 >& target_vec )
+	inline void appendPointsToCurve( const std::vector<vec2>& points_vec, std::vector<vec3>& target_vec )
 	{
 		// sometimes, sense agreement is not given correctly. try to correct sense of segment if necessary
 		//if( target_vec.size() > 0 && points_vec.size() > 1 )
@@ -772,12 +772,12 @@ namespace GeomUtils
 				target_vec.push_back( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
 			}
 		}
-		// TODO: handle all segments separately: std::vector<std::vector<vec3 > >& target_vec
+		// TODO: handle all segments separately: std::vector<std::vector<vec3> >& target_vec
 	}
-	inline void appendPointsToCurve( const std::vector<vec3 >& points_vec_src, std::vector<vec3 >& target_vec )
+	inline void appendPointsToCurve( const std::vector<vec3>& points_vec_src, std::vector<vec3>& target_vec )
 	{
 		// sometimes, sense agreement is not given correctly. try to correct sense of segment if necessary
-		std::vector<vec3 > points_vec( points_vec_src );
+		std::vector<vec3> points_vec( points_vec_src );
 		if( target_vec.size() > 0 && points_vec.size() > 1 )
 		{
 			vec3 first_target_point = target_vec.front();
@@ -835,9 +835,9 @@ namespace GeomUtils
 		{
 			target_vec.insert( target_vec.end(), points_vec.begin(), points_vec.end() );
 		}
-		// TODO: handle all segments separately: std::vector<std::vector<vec3 > >& target_vec
+		// TODO: handle all segments separately: std::vector<std::vector<vec3> >& target_vec
 	}
-	inline void addArcWithEndPoint( std::vector<vec2 >& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments )
+	inline void addArcWithEndPoint( std::vector<vec2>& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments )
 	{
 		if( num_segments < 3 )
 		{
@@ -877,7 +877,7 @@ namespace GeomUtils
 		return false;
 
 	}
-	inline bool LineSegmentToLineIntersection( vec2& v1, vec2& v2, vec2& v3, vec2& v4, std::vector<vec2 >& result )
+	inline bool LineSegmentToLineIntersection( vec2& v1, vec2& v2, vec2& v3, vec2& v4, std::vector<vec2>& result )
 	{
 		double r, s;
 		if( LineToLineIntersectionHelper( v1, v2, v3, v4, r, s ) )
@@ -890,7 +890,7 @@ namespace GeomUtils
 		}
 		return false;
 	}
-	inline bool LineSegmentToLineSegmentIntersection( vec2& v1, vec2& v2, vec2& v3, vec2& v4, std::vector<vec2 >& result )
+	inline bool LineSegmentToLineSegmentIntersection( vec2& v1, vec2& v2, vec2& v3, vec2& v4, std::vector<vec2>& result )
 	{
 		double r, s;
 		if( LineToLineIntersectionHelper( v1, v2, v3, v4, r, s ) )
@@ -1309,7 +1309,7 @@ namespace GeomUtils
 		pos = matrix*pos;
 		extent = matrix*extent;
 	}
-	inline void removeDuplicates( std::vector<vec2 >&	loop )
+	inline void removeDuplicates( std::vector<vec2>&	loop )
 	{
 		if( loop.size() > 1 )
 		{
@@ -1337,15 +1337,15 @@ namespace GeomUtils
 			}
 		}
 	}
-	inline void removeDuplicates( std::vector<std::vector<vec2 > >&	paths )
+	inline void removeDuplicates( std::vector<std::vector<vec2> >&	paths )
 	{
 		for( size_t ii = 0; ii < paths.size(); ++ii )
 		{
-			std::vector<vec2 >& loop = paths[ii];
+			std::vector<vec2>& loop = paths[ii];
 			removeDuplicates( loop );
 		}
 	}
-	inline void copyClosedLoopSkipDuplicates( const std::vector<vec2 >& loop_in, std::vector<vec2 >& loop_out )
+	inline void copyClosedLoopSkipDuplicates( const std::vector<vec2>& loop_in, std::vector<vec2>& loop_out )
 	{
 		loop_out.clear();
 		if( loop_in.size() > 0 )

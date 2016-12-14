@@ -41,7 +41,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void extrude( const std::vector<std::vector<vec2 > >& face_loops_input, const vec3 extrusion_vector, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
+	void extrude( const std::vector<std::vector<vec2> >& face_loops_input, const vec3 extrusion_vector, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
 	{
 		// TODO: complete and test
 		if( face_loops_input.size() == 0 )
@@ -64,7 +64,7 @@ public:
 		//item_data->m_polylines.push_back( polyline_data );
 #endif
 
-		//std::vector<vec3 > curve_points;
+		//std::vector<vec3> curve_points;
 		//curve_points.push_back( carve::geom::VECTOR( 0, 0, 0 ) );
 		//curve_points.push_back( extrusion_vector );
 		//sweepArea( curve_points, face_loops_input, ifc_entity, item_data );
@@ -81,13 +81,13 @@ public:
 		//  0-------face_loops[0]--------1
 
 		std::vector<int> face_indexes;
-		std::vector<std::vector<vec2 > > face_loops_used_for_triangulation;
+		std::vector<std::vector<vec2> > face_loops_used_for_triangulation;
 		triangulateLoops( face_loops_input, face_loops_used_for_triangulation, face_indexes, ifc_entity, this );
 
 		size_t num_points_in_all_loops = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			const std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 			num_points_in_all_loops += loop.size();
 		}
 
@@ -98,11 +98,11 @@ public:
 		}
 		poly_data->points.resize( num_points_in_all_loops*2 );
 
-		std::vector<vec3 >& polyhedron_points = poly_data->points;
+		std::vector<vec3>& polyhedron_points = poly_data->points;
 		size_t polyhedron_point_index = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			const std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
 				const vec2&  vec_2d = loop[jj];
@@ -129,7 +129,7 @@ public:
 		size_t loop_offset = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			const std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 
 			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
@@ -370,7 +370,7 @@ public:
 		vec3  section_local_z = curve_point_first - curve_point_second;
 		vec3  section_local_x = carve::geom::cross( section_local_y, section_local_z );
 		section_local_y = carve::geom::cross( section_local_x, section_local_z );
-		std::vector<vec3 > inner_shape_points;
+		std::vector<vec3> inner_shape_points;
 	
 		section_local_x.normalize();
 		section_local_y.normalize();
@@ -384,8 +384,8 @@ public:
 
 		double angle = 0;
 		double delta_angle = 2.0*M_PI/double(nvc);	// TODO: adapt to model size and complexity
-		std::vector<vec3 > circle_points(nvc);
-		std::vector<vec3 > circle_points_inner(nvc);
+		std::vector<vec3> circle_points(nvc);
+		std::vector<vec3> circle_points_inner(nvc);
 		for( size_t ii = 0; ii < nvc; ++ii )
 		{
 			// cross section (circle) is defined in XY plane
@@ -632,8 +632,8 @@ public:
 	#endif
 	}
 
-	void triangulateLoops( const std::vector<std::vector<vec2 > >& profile_paths_input,
-		std::vector<std::vector<vec2 > >& face_loops_used_for_triangulation,
+	void triangulateLoops( const std::vector<std::vector<vec2> >& profile_paths_input,
+		std::vector<std::vector<vec2> >& face_loops_used_for_triangulation,
 		std::vector<int>& face_indexes_out, IfcPPEntity* ifc_entity, StatusCallback* report_callback )
 	{
 		// TODO: complete and test
@@ -658,8 +658,8 @@ public:
 		bool polyline_created = false;
 		for( size_t i_face_loops = 0; i_face_loops < profile_paths_input.size(); ++i_face_loops )
 		{
-			const std::vector<vec2 >& loop_input = profile_paths_input[i_face_loops];
-			std::vector<vec2 > loop_2d;
+			const std::vector<vec2>& loop_input = profile_paths_input[i_face_loops];
+			std::vector<vec2> loop_2d;
 
 			GeomUtils::copyClosedLoopSkipDuplicates( loop_input, loop_2d );
 			
@@ -738,12 +738,12 @@ public:
 		size_t num_vertices_in_loops = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 			num_vertices_in_loops += loop.size();
 		}
 
 		// triangulate
-		std::vector<vec2 > merged_path;
+		std::vector<vec2> merged_path;
 		std::vector<carve::triangulate::tri_idx> triangulated;
 		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
 		try
@@ -772,7 +772,7 @@ public:
 					report_callback->messageCallback( "loop_number >= face_loops_used_for_triangulation.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
-				std::vector<vec2 >& loop = face_loops_used_for_triangulation[loop_number];
+				std::vector<vec2>& loop = face_loops_used_for_triangulation[loop_number];
 
 				if( index_in_loop >= loop.size() )
 				{
@@ -860,7 +860,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void sweepArea( const std::vector<vec3 >& curve_points, const std::vector<std::vector<vec2 > >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
+	void sweepArea( const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
 	{
 		if( profile_paths.size() == 0 )
 		{
@@ -885,13 +885,13 @@ public:
 		//  0-------face_loops[0]--------1
 
 		std::vector<int> face_indexes;
-		std::vector<std::vector<vec2 > > face_loops_used_for_triangulation;
+		std::vector<std::vector<vec2> > face_loops_used_for_triangulation;
 		triangulateLoops( profile_paths, face_loops_used_for_triangulation, face_indexes, ifc_entity, this );
 
 		size_t num_points_in_all_loops = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			const std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 			num_points_in_all_loops += loop.size();
 		}
 
@@ -921,11 +921,11 @@ public:
 			section_local_x.z, section_local_y.z, section_local_z.z, 0,
 			0, 0, 0, 1 );
 
-		std::vector<vec3 >& polyhedron_points = poly_data->points;
+		std::vector<vec3>& polyhedron_points = poly_data->points;
 		size_t polyhedron_point_index = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			const std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
 				const vec2&  vec_2d = loop[jj];
@@ -1000,7 +1000,7 @@ public:
 		size_t loop_offset = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
 		{
-			const std::vector<vec2 >&  loop = face_loops_used_for_triangulation[ii];
+			const std::vector<vec2>&  loop = face_loops_used_for_triangulation[ii];
 
 			for( size_t jj = 0; jj < loop.size(); ++jj )
 			{
@@ -1101,10 +1101,10 @@ public:
 	\param[in] ifc_entity: Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	\param[out] poly_cache: Result input object
 	**/
-	void createTriangulated3DFace( const std::vector<std::vector<vec3 > >& vec_bounds, IfcPPEntity* ifc_entity, PolyInputCache3D& poly_cache )
+	void createTriangulated3DFace( const std::vector<std::vector<vec3> >& vec_bounds, IfcPPEntity* ifc_entity, PolyInputCache3D& poly_cache )
 	{
-		std::vector<std::vector<vec2 > > face_loops_2d;
-		std::vector<std::vector<vec3 > > face_loops_3d;
+		std::vector<std::vector<vec2> > face_loops_2d;
+		std::vector<std::vector<vec3> > face_loops_3d;
 		std::map<size_t, size_t> map_merged_idx;
 		bool face_loop_reversed = false;
 		bool warning_small_loop_detected = false;
@@ -1112,7 +1112,7 @@ public:
 
 		for( auto it_bounds = vec_bounds.begin(); it_bounds != vec_bounds.end(); ++it_bounds )
 		{
-			const std::vector<vec3 >& loop_points = *it_bounds;
+			const std::vector<vec3>& loop_points = *it_bounds;
 
 			if( loop_points.size() < 3 )
 			{
@@ -1175,8 +1175,8 @@ public:
 			}
 
 			// project face into 2d plane
-			std::vector<vec2 > path_loop_2d;
-			std::vector<vec3 > path_loop_3d;
+			std::vector<vec2> path_loop_2d;
+			std::vector<vec3> path_loop_3d;
 
 			for( size_t i = 0; i < loop_points.size(); ++i )
 			{
@@ -1264,8 +1264,8 @@ public:
 		if( face_loops_2d.size() > 0 )
 		{
 			std::vector<std::pair<size_t, size_t> > path_incorporated_holes; // first is loop index, second is vertex index in loop
-			std::vector<vec2 > path_merged_2d;
-			std::vector<vec3 > path_merged_3d;
+			std::vector<vec2> path_merged_2d;
+			std::vector<vec3> path_merged_3d;
 			std::vector<carve::triangulate::tri_idx> triangulated;
 
 			try

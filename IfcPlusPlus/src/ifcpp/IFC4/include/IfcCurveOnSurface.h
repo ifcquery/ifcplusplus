@@ -18,7 +18,7 @@
 #include "ifcpp/model/shared_ptr.h"
 #include "ifcpp/model/IfcPPObject.h"
 
-// TYPE IfcCurveOnSurface = SELECT	(IfcCompositeCurveOnSurface	,IfcPcurve);
+// TYPE IfcCurveOnSurface = SELECT	(IfcCompositeCurveOnSurface	,IfcPcurve	,IfcSurfaceCurve);
 class IFCPP_EXPORT IfcCurveOnSurface : virtual public IfcPPObject
 {
 public:

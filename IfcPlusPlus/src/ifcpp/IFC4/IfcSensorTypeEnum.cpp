@@ -20,7 +20,7 @@
 #include "ifcpp/model/IfcPPException.h"
 #include "include/IfcSensorTypeEnum.h"
 
-// TYPE IfcSensorTypeEnum = ENUMERATION OF	(CO2SENSOR	,CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,FROSTSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IDENTIFIERSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSensorTypeEnum = ENUMERATION OF	(COSENSOR	,CO2SENSOR	,CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,FROSTSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IDENTIFIERSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
 IfcSensorTypeEnum::IfcSensorTypeEnum() {}
 IfcSensorTypeEnum::~IfcSensorTypeEnum() {}
 shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
@@ -32,7 +32,11 @@ shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSENSORTYPEENUM("; }
-	if( m_enum == ENUM_CO2SENSOR )
+	if( m_enum == ENUM_COSENSOR )
+	{
+		stream << ".COSENSOR.";
+	}
+	else if( m_enum == ENUM_CO2SENSOR )
 	{
 		stream << ".CO2SENSOR.";
 	}
@@ -140,7 +144,11 @@ shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	shared_ptr<IfcSensorTypeEnum> type_object( new IfcSensorTypeEnum() );
-	if( boost::iequals( arg, L".CO2SENSOR." ) )
+	if( boost::iequals( arg, L".COSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_COSENSOR;
+	}
+	else if( boost::iequals( arg, L".CO2SENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_CO2SENSOR;
 	}

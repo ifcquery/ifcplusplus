@@ -72,18 +72,18 @@ public:
 	{
 	}
 
-	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2 >& loops, std::vector<vec2 >& segment_start_points ) const
+	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& loops, std::vector<vec2>& segment_start_points ) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
 		convertIfcCurve2D( ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, true );
 	}
 
-	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2 >& target_vec, std::vector<vec2 >& segment_start_points,
+	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& target_vec, std::vector<vec2>& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
-		std::vector<vec3 > target_vec_3d;
-		std::vector<vec3 > segment_start_points_3d;
+		std::vector<vec3> target_vec_3d;
+		std::vector<vec3> segment_start_points_3d;
 		convertIfcCurve( ifc_curve, target_vec_3d, segment_start_points_3d, trim1_vec, trim2_vec, sense_agreement );
 
 		for( size_t i = 0; i < target_vec_3d.size(); ++i )
@@ -98,14 +98,14 @@ public:
 		}
 	}
 
-	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3 >& loops, std::vector<vec3 >& segment_start_points ) const
+	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& loops, std::vector<vec3>& segment_start_points ) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
 		convertIfcCurve( ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, true );
 	}
 
-	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3 >& target_vec, std::vector<vec3 >& segment_start_points,
+	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& target_vec, std::vector<vec3>& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
 		double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -124,7 +124,7 @@ public:
 					shared_ptr<IfcCompositeCurveSegment> segement = vec_segements[i_segments];
 					shared_ptr<IfcCurve> segement_curve = segement->m_ParentCurve;
 
-					std::vector<vec3 > segment_vec;
+					std::vector<vec3> segment_vec;
 					convertIfcCurve( segement_curve, segment_vec, segment_start_points );
 					if( segment_vec.size() > 0 )
 					{
@@ -154,7 +154,7 @@ public:
 			if( trimmed_curve )
 			{
 				shared_ptr<IfcCurve> basis_curve = trimmed_curve->m_BasisCurve;
-				std::vector<vec3 > basis_curve_points;
+				std::vector<vec3> basis_curve_points;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim1_vec = trimmed_curve->m_Trim1;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
 				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement->m_value;
@@ -322,7 +322,7 @@ public:
 				if( num_segments < m_geom_settings->getMinNumVerticesPerArc() ) num_segments = m_geom_settings->getMinNumVerticesPerArc();
 				const double circle_center_x = 0.0;
 				const double circle_center_y = 0.0;
-				std::vector<vec2 > circle_points;
+				std::vector<vec2> circle_points;
 				if( circle_radius > 0.0 )
 				{
 					GeomUtils::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
@@ -364,7 +364,7 @@ public:
 
 						// todo: implement clipping
 
-						std::vector<vec3 > circle_points;
+						std::vector<vec3> circle_points;
 						double angle = 0;
 						for( int i = 0; i < num_segments; ++i )
 						{
@@ -478,7 +478,7 @@ public:
 					}
 				}
 
-				std::vector<vec3 > points_vec;
+				std::vector<vec3> points_vec;
 				points_vec.push_back( line_origin );
 				points_vec.push_back( line_end );
 
@@ -517,12 +517,12 @@ public:
 	}
 
 
-	void convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<vec3 >& loop ) const
+	void convertIfcPolyline( const shared_ptr<IfcPolyline>& poly_line, std::vector<vec3>& loop ) const
 	{
 		m_point_converter->convertIfcCartesianPointVector( poly_line->m_Points, loop );
 	}
 
-	void convertIfcLoop( const shared_ptr<IfcLoop>& loop, std::vector<vec3 >& loop_points ) const
+	void convertIfcLoop( const shared_ptr<IfcLoop>& loop, std::vector<vec3>& loop_points ) const
 	{
 		const shared_ptr<IfcPolyLoop> poly_loop = dynamic_pointer_cast<IfcPolyLoop>( loop );
 		if( poly_loop )

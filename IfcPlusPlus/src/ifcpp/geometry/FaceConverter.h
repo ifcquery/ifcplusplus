@@ -113,10 +113,10 @@ public:
 
 				// convert outer boundary
 				shared_ptr<IfcCurve>& outer_boundary = curve_bounded_plane->m_OuterBoundary;
-				std::vector<std::vector<vec3 > > face_loops;
-				face_loops.push_back( std::vector<vec3 >() );
-				std::vector<vec3 >& outer_boundary_loop = face_loops.back();
-				std::vector<vec3 > segment_start_points;
+				std::vector<std::vector<vec3> > face_loops;
+				face_loops.push_back( std::vector<vec3>() );
+				std::vector<vec3>& outer_boundary_loop = face_loops.back();
+				std::vector<vec3> segment_start_points;
 				m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points );
 
 				// convert inner boundaries
@@ -127,9 +127,9 @@ public:
 					{
 						continue;
 					}
-					face_loops.push_back( std::vector<vec3 >() );
-					std::vector<vec3 >& inner_boundary_loop = face_loops.back();
-					std::vector<vec3 > segment_start_points;
+					face_loops.push_back( std::vector<vec3>() );
+					std::vector<vec3>& inner_boundary_loop = face_loops.back();
+					std::vector<vec3> segment_start_points;
 					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points );
 				}
 
@@ -234,7 +234,7 @@ public:
 				const double circle_center_x = 0.0;
 				const double circle_center_y = 0.0;
 
-				std::vector<vec2 > circle_points;
+				std::vector<vec2> circle_points;
 				GeomUtils::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
 
 				// apply position and insert points
@@ -306,7 +306,7 @@ public:
 				continue;
 			}
 			const std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
-			std::vector<std::vector<vec3 > > face_loops;
+			std::vector<std::vector<vec3> > face_loops;
 			report_entity = ifc_face.get();
 
 			for( auto it_bounds = vec_bounds.begin(); it_bounds != vec_bounds.end(); ++it_bounds )
@@ -332,8 +332,8 @@ public:
 					}
 				}
 
-				face_loops.push_back( std::vector<vec3 >() );
-				std::vector<vec3 >& loop_points = face_loops.back();
+				face_loops.push_back( std::vector<vec3>() );
+				std::vector<vec3>& loop_points = face_loops.back();
 				m_curve_converter->convertIfcLoop( loop, loop_points );
 
 				if( loop_points.size() < 3 )

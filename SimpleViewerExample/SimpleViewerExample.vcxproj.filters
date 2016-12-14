@@ -50,9 +50,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ViewController.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -104,11 +101,20 @@
     <ClCompile Include="src\gui\IfcTreeWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\viewer\OrbitCameraManipulator.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\GraphicsWindowQt.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
     <ClCompile Include="src\viewer\ViewerWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\viewer\OrbitCameraManipulator.cpp">
-      <Filter>Source Dateien</Filter>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ViewerWidget.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ViewerWidget.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +134,9 @@
       <Filter>Header Dateien</Filter>
     </CustomBuild>
     <CustomBuild Include="src\gui\TabReadWrite.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\viewer\ViewerWidget.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -172,9 +181,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ViewController.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\cmd\CmdRemoveSelectedObjects.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
@@ -190,13 +196,10 @@
     <ClInclude Include="src\cmd\LoadIfcFileCommand.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\viewer\ViewerUtil.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\viewer\ViewerWidget.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\viewer\OrbitCameraManipulator.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer\GraphicsWindowQt.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
   </ItemGroup>

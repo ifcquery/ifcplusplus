@@ -79,7 +79,7 @@ shared_ptr<IfcPPObject> IfcTendonType::getDeepCopy( IfcPPCopyOptions& options )
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTendonTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	if( m_NominalDiameter ) { copy_self->m_NominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalDiameter->getDeepCopy(options) ); }
 	if( m_CrossSectionArea ) { copy_self->m_CrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_CrossSectionArea->getDeepCopy(options) ); }
-	if( m_SheethDiameter ) { copy_self->m_SheethDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SheethDiameter->getDeepCopy(options) ); }
+	if( m_SheathDiameter ) { copy_self->m_SheathDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SheathDiameter->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTendonType::getStepLine( std::stringstream& stream ) const
@@ -109,7 +109,7 @@ void IfcTendonType::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_CrossSectionArea ) { m_CrossSectionArea->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SheethDiameter ) { m_SheethDiameter->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SheathDiameter ) { m_SheathDiameter->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcTendonType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
@@ -129,7 +129,7 @@ void IfcTendonType::readStepArguments( const std::vector<std::wstring>& args, co
 	m_PredefinedType = IfcTendonTypeEnum::createObjectFromSTEP( args[9] );
 	m_NominalDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[10] );
 	m_CrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[11] );
-	m_SheethDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[12] );
+	m_SheathDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[12] );
 }
 void IfcTendonType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {
@@ -137,7 +137,7 @@ void IfcTendonType::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "NominalDiameter", m_NominalDiameter ) );
 	vec_attributes.push_back( std::make_pair( "CrossSectionArea", m_CrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "SheethDiameter", m_SheethDiameter ) );
+	vec_attributes.push_back( std::make_pair( "SheathDiameter", m_SheathDiameter ) );
 }
 void IfcTendonType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
 {

@@ -41,7 +41,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -53,7 +53,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -126,6 +126,7 @@
     <OutDir>bin32\</OutDir>
     <IntDir>bin32\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>bin\</OutDir>
@@ -149,17 +150,18 @@
     <OutDir>bin32/</OutDir>
     <IntDir>bin32/$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);$(OSG_DIR)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -192,10 +194,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Carve/src/include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>_UNICODE;UNICODE;NDEBUG;CARVE_SYSTEM_BOOST;IFCPP_OPENMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCPP_OPENMP;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
       <DebugInformationFormat />
@@ -248,6 +250,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat />
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -786,6 +789,8 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcImageTexture.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcIndexedColourMap.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcIndexedPolyCurve.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIndexedPolygonalFace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIndexedPolygonalFaceWithVoids.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcIndexedTextureMap.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcIndexedTriangleTextureMap.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcInductanceMeasure.cpp" />
@@ -795,6 +800,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcInterceptorType.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcInterceptorTypeEnum.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcInternalOrExternalEnum.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcIntersectionCurve.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcInventory.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcInventoryTypeEnum.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcIonConcentrationMeasure.cpp" />
@@ -982,6 +988,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcPointOnSurface.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPointOrVertexPoint.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPolygonalBoundedHalfSpace.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPolygonalFaceSet.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPolyline.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPolyLoop.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPort.cpp" />
@@ -997,6 +1004,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedProperties.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedPropertySet.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPreDefinedTextFont.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcPreferredSurfaceCurveRepresentation.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPresentableText.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPresentationItem.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcPresentationLayerAssignment.cpp" />
@@ -1175,6 +1183,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcSanitaryTerminalType.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSanitaryTerminalTypeEnum.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSchedulingTime.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSeamCurve.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSectionalAreaIntegralMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSectionedSpine.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSectionModulusMeasure.cpp" />
@@ -1239,6 +1248,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcSpecularHighlightSelect.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSpecularRoughness.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSphere.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSphericalSurface.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcStackTerminal.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcStackTerminalType.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcStackTerminalTypeEnum.cpp" />
@@ -1301,6 +1311,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcSubContractResourceTypeEnum.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSubedge.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSurface.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceCurve.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceCurveSweptAreaSolid.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceFeature.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcSurfaceFeatureTypeEnum.cpp" />
@@ -1385,6 +1396,7 @@
     <ClCompile Include="src\ifcpp\IFC4\IfcTimeStamp.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcTopologicalRepresentationItem.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcTopologyRepresentation.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\IfcToroidalSurface.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcTorqueMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcTransformer.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\IfcTransformerType.cpp" />
