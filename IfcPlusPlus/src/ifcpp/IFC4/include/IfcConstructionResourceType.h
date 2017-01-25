@@ -27,7 +27,7 @@ class IFCPP_EXPORT IfcConstructionResourceType : public IfcTypeResource
 public:
 	IfcConstructionResourceType();
 	IfcConstructionResourceType( int id );
-	~IfcConstructionResourceType();
+	virtual ~IfcConstructionResourceType() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

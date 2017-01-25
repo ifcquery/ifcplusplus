@@ -26,7 +26,7 @@ class IFCPP_EXPORT IfcPreDefinedTextFont : virtual public IfcTextFontSelect, pub
 public:
 	IfcPreDefinedTextFont();
 	IfcPreDefinedTextFont( int id );
-	~IfcPreDefinedTextFont();
+	virtual ~IfcPreDefinedTextFont() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -26,7 +26,7 @@ class IFCPP_EXPORT IfcPreDefinedColour : virtual public IfcColour, public IfcPre
 public:
 	IfcPreDefinedColour();
 	IfcPreDefinedColour( int id );
-	~IfcPreDefinedColour();
+	virtual ~IfcPreDefinedColour() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

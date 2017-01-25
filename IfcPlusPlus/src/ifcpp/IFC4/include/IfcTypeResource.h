@@ -30,7 +30,7 @@ class IFCPP_EXPORT IfcTypeResource : virtual public IfcResourceSelect, public If
 public:
 	IfcTypeResource();
 	IfcTypeResource( int id );
-	~IfcTypeResource();
+	virtual ~IfcTypeResource() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

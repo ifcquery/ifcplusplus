@@ -25,7 +25,7 @@ class IFCPP_EXPORT IfcStructuralLoadStatic : public IfcStructuralLoadOrResult
 public:
 	IfcStructuralLoadStatic();
 	IfcStructuralLoadStatic( int id );
-	~IfcStructuralLoadStatic();
+	virtual ~IfcStructuralLoadStatic() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

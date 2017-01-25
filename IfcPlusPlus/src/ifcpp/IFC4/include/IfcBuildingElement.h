@@ -25,7 +25,7 @@ class IFCPP_EXPORT IfcBuildingElement : public IfcElement
 public:
 	IfcBuildingElement();
 	IfcBuildingElement( int id );
-	~IfcBuildingElement();
+	virtual ~IfcBuildingElement() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

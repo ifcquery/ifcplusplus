@@ -25,7 +25,7 @@ class IFCPP_EXPORT IfcDistributionControlElementType : public IfcDistributionEle
 public:
 	IfcDistributionControlElementType();
 	IfcDistributionControlElementType( int id );
-	~IfcDistributionControlElementType();
+	virtual ~IfcDistributionControlElementType() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

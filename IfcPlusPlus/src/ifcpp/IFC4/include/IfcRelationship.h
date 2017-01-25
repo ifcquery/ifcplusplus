@@ -25,7 +25,7 @@ class IFCPP_EXPORT IfcRelationship : public IfcRoot
 public:
 	IfcRelationship();
 	IfcRelationship( int id );
-	~IfcRelationship();
+	virtual ~IfcRelationship() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

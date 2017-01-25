@@ -27,7 +27,7 @@ class IFCPP_EXPORT IfcSweptSurface : public IfcSurface
 public:
 	IfcSweptSurface();
 	IfcSweptSurface( int id );
-	~IfcSweptSurface();
+	virtual ~IfcSweptSurface() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -30,7 +30,7 @@ class IFCPP_EXPORT IfcAddress : virtual public IfcObjectReferenceSelect, public 
 public:
 	IfcAddress();
 	IfcAddress( int id );
-	~IfcAddress();
+	virtual ~IfcAddress() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

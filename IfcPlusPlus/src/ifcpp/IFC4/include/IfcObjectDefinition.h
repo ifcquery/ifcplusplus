@@ -31,7 +31,7 @@ class IFCPP_EXPORT IfcObjectDefinition : virtual public IfcDefinitionSelect, pub
 public:
 	IfcObjectDefinition();
 	IfcObjectDefinition( int id );
-	~IfcObjectDefinition();
+	virtual ~IfcObjectDefinition() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

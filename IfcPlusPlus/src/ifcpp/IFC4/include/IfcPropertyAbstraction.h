@@ -26,7 +26,7 @@ class IFCPP_EXPORT IfcPropertyAbstraction : virtual public IfcResourceObjectSele
 public:
 	IfcPropertyAbstraction();
 	IfcPropertyAbstraction( int id );
-	~IfcPropertyAbstraction();
+	virtual ~IfcPropertyAbstraction() = 0;
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
