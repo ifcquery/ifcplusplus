@@ -171,18 +171,23 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);$(OSG_DIR)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;$(BOOST_DIR);$(OSG_DIR)/include;$(CSF_OPT_INC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>
       </EnableParallelCodeGeneration>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
@@ -240,7 +245,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Carve/src/include;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCPP_OPENMP;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
@@ -253,13 +258,20 @@
       <DebugInformationFormat />
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\SimpleViewerExample\bin\$(TargetName)$(TargetExt)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
     <ClCompile>
@@ -1495,26 +1507,46 @@
     <ClCompile Include="src\ifcpp\writer\IfcPPWriterSTEP.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ifcpp\geometry\ConverterOSG.h" />
-    <ClInclude Include="src\ifcpp\geometry\CSG_Adapter.h" />
-    <ClInclude Include="src\ifcpp\geometry\CurveConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\FaceConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\GeomDebugUtils.h" />
-    <ClInclude Include="src\ifcpp\geometry\GeometryConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\GeometryException.h" />
-    <ClInclude Include="src\ifcpp\geometry\GeometryInputData.h" />
-    <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
-    <ClInclude Include="src\ifcpp\geometry\GeomUtils.h" />
-    <ClInclude Include="src\ifcpp\geometry\IncludeCarveHeaders.h" />
-    <ClInclude Include="src\ifcpp\geometry\PlacementConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\PointConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\ProfileCache.h" />
-    <ClInclude Include="src\ifcpp\geometry\ProfileConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\RepresentationConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\SolidModelConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\SplineConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\StylesConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Sweeper.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\ConverterOSG.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\CSG_Adapter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\CurveConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\FaceConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeomDebugUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryException.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryInputData.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeometrySettings.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeomUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\IncludeCarveHeaders.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\PlacementConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\PointConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\ProfileCache.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\ProfileConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\RepresentationConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\SceneGraphUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\SolidModelConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\SplineConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\StylesConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\Sweeper.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\ConverterOSG.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\CSG_Adapter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\CurveConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\FaceConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryException.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryInputData.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometrySettings.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeomUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\PlacementConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\PointConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileCache.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\RepresentationConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SolidModelConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\StylesConverter.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGuid.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAbsorbedDoseMeasure.h" />

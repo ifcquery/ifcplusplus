@@ -130,6 +130,7 @@ QtOSGWidget::QtOSGWidget( QWidget* parent, Qt::WindowFlags f, bool forwardKeyEve
 QtOSGWidget::QtOSGWidget( const QSurfaceFormat& format, QWidget* parent, Qt::WindowFlags f, bool forwardKeyEvents )
 	: QOpenGLWidget( parent, f ),m_forwardKeyEvents( forwardKeyEvents )
 {
+	Q_UNUSED(format)
 	m_devicePixelRatio = GETDEVICEPIXELRATIO();
 
 	QSurfaceFormat format2;
@@ -824,7 +825,9 @@ bool GraphicsWindowQt::isRealizedImplementation() const
 void GraphicsWindowQt::closeImplementation()
 {
 	if( m_opengl_widget )
+	{
 		m_opengl_widget->close();
+	}
 	m_realized = false;
 }
 
@@ -833,11 +836,14 @@ void GraphicsWindowQt::runOperations()
 	// While in graphics thread this is last chance to do something useful before
 	// graphics thread will execute its operations.
 	if( m_opengl_widget->getNumDeferredEvents() > 0 )
+	{
 		m_opengl_widget->processDeferredEvents();
+	}
 
 	if( QOpenGLContext::currentContext() != m_opengl_widget->context() )
+	{
 		m_opengl_widget->makeCurrent();
-
+	}
 
 
 

@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -29,7 +29,6 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 #include "ifcpp/IFC4/include/IfcValue.h"
 
-
 #include "UnitConverter.h"
 
 UnitConverter::UnitConverter()
@@ -53,16 +52,14 @@ UnitConverter::UnitConverter()
 	m_prefix_map[IfcSIPrefix::ENUM_ATTO]	= 1E-18;
 }
 
-UnitConverter::~UnitConverter()
-{
-}
+UnitConverter::~UnitConverter(){}
 
 void UnitConverter::resetUnitFactors()
 {
 	m_loaded_prefix.reset();
 	m_length_unit_factor = 1.0;
 	m_plane_angle_factor = M_PI / 180.0;
-	if( m_angular_unit == RADIAN )
+	if( m_angular_unit == RADIANT )
 	{
 		m_plane_angle_factor = 1.0; // radian
 	}
@@ -150,7 +147,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 					{
 						if( unit_name->m_enum == IfcSIUnitName::ENUM_RADIAN )
 						{
-							m_angular_unit = RADIAN;
+							m_angular_unit = RADIANT;
 							m_plane_angle_factor = 1.0;
 						}
 					}

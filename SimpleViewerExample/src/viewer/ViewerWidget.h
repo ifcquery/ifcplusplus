@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -37,7 +37,7 @@ public:
 	GraphicsWindowQt*			getGraphicsWindowQt();
 	osgViewer::View*			getMainView();
 	osgViewer::CompositeViewer* getCompositeViewer();
-	osg::Camera*				getHeadUpCamera();
+	osg::Camera*				getHeadUpCamera() { return m_hud_camera.get(); }
 	osgGA::StandardManipulator*	getCameraManipulator() { return m_camera_manipulator.get(); }
 	void updateCamera();
 	void setRootNode( osg::Group* node );
@@ -57,9 +57,9 @@ protected:
 	QWidget*									m_parent = nullptr;
 	std::string									m_window_name;
 	QTimer										m_timer;
-	double										m_shinyness;
-	double										m_near_plane;
-	double										m_far_plane;
+	double										m_shinyness = 35;
+	double										m_near_plane = 0.001;
+	double										m_far_plane = 1000.0;
 	osg::ref_ptr<osgViewer::View>				m_main_view;
 	osg::ref_ptr<osgViewer::CompositeViewer>	m_composite_viewer;
 	osg::ref_ptr<osg::Camera>					m_hud_camera;

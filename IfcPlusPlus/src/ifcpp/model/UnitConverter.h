@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -27,7 +27,7 @@
 class UnitConverter : public StatusCallback
 {
 public:
-	enum AngularUnit { UNDEFINED, RADIAN, DEGREE, GON, CONVERSION_BASED };
+	enum AngularUnit { UNDEFINED, RADIANT, DEGREE, GON, CONVERSION_BASED };
 	UnitConverter();
 	virtual ~UnitConverter();
 	void setIfcProject( shared_ptr<IfcProject> project);
@@ -48,7 +48,7 @@ public:
 	void setAngleUnit( AngularUnit unit )
 	{
 		m_angular_unit = unit;
-		if( m_angular_unit == RADIAN )
+		if( m_angular_unit == RADIANT )
 		{
 			m_plane_angle_factor = 1.0; // radian
 		}
@@ -65,7 +65,7 @@ public:
 			messageCallback( "Could not set angular unit", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
 		}
 	}
-	double getAngleInRadianFactor()
+	double getAngleInRadiantFactor()
 	{
 		if( m_angular_unit == UNDEFINED )
 		{

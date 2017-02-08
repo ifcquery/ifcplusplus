@@ -60,13 +60,13 @@ namespace std {
     unordered_map() : super() {}
   };
 
-  template <typename Value, typename Hash = stdext::hash_compare<Key, less<Key> >, typename Pred = std::equal_to<Value> >
-  class unordered_set
-    : public stdext::hash_set<Value, hash_traits<Value, Hash> > {
-    typedef stdext::hash_set<Value, hash_traits<Value, Hash> > super;
-  public:
-    unordered_set() : super() {}
-  };
+  //template <typename Value, typename Hash = stdext::hash_compare<Key, less<Key> >, typename Pred = std::equal_to<Value> >
+  //class unordered_set
+  //  : public stdext::hash_set<Value, hash_traits<Value, Hash> > {
+  //  typedef stdext::hash_set<Value, hash_traits<Value, Hash> > super;
+  //public:
+  //  unordered_set() : super() {}
+  //};
 
 }
 

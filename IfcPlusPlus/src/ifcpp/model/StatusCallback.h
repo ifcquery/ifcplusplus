@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -130,6 +130,11 @@ public:
 					std::wcout << L"messageCallback: !m_obj_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
 				}
 			}
+		}
+
+		if( m->m_message_type == MESSAGE_TYPE_ERROR )
+		{
+			std::wcout << L"error: " << m->m_message_text.c_str() << std::endl;
 		}
 #endif
 

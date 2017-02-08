@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -19,11 +19,11 @@
 #include <osgViewer/CompositeViewer>
 
 #include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/geometry/GeomUtils.h>
-#include <ifcpp/geometry/GeometryConverter.h>
-#include <ifcpp/geometry/RepresentationConverter.h>
-#include <ifcpp/geometry/ConverterOSG.h>
-#include <ifcpp/geometry/CSG_Adapter.h>
+#include <ifcpp/geometry/OCC/GeomUtils.h>
+#include <ifcpp/geometry/OCC/GeometryConverter.h>
+#include <ifcpp/geometry/OCC/RepresentationConverter.h>
+#include <ifcpp/geometry/OCC/ConverterOSG.h>
+#include <ifcpp/geometry/OCC/CSG_Adapter.h>
 
 #include "gui/TabReadWrite.h"
 #include "gui/MainWindow.h"

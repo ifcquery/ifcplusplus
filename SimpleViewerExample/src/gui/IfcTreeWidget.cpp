@@ -11,8 +11,8 @@
 #include <ifcpp/IFC4/include/IfcDirection.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/geometry/GeometryConverter.h>
 
+#include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 #include "IfcTreeWidget.h"
 

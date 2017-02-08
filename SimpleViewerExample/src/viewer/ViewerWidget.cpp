@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -16,7 +16,6 @@
 #include <sstream>
 #include <osgGA/GUIEventAdapter>
 #include <osgGA/OrbitManipulator>
-
 #include <osgViewer/View>
 #include <osgViewer/ViewerEventHandlers>
 #include <osgViewer/Renderer>
@@ -29,9 +28,6 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QtGui/QKeyEvent>
-#if QT_VERSION >= 0x04FF00
-#include <QWindow>
-#endif
 
 #include "IfcPlusPlusSystem.h"
 #include "OrbitCameraManipulator.h"

@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -25,11 +25,10 @@
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcpp/geometry/GeometryConverter.h>
-#include <ifcpp/geometry/GeomUtils.h>
 
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
+#include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 
 IfcPlusPlusSystem::IfcPlusPlusSystem()
@@ -62,7 +61,7 @@ void IfcPlusPlusSystem::setRootNode( osg::Group* root )
 	m_rootnode = root;
 }
 
-bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
+bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& /*aa*/)
 {
 	bool handled=false;
 	try

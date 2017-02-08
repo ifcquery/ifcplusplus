@@ -23,7 +23,7 @@
 #include <osgText/Text>
 
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/geometry/GeometryConverter.h>
+#include <ifcpp/geometry/OCC/GeometryConverter.h>
 #include "IfcPlusPlusSystem.h"
 #include "OrbitCameraManipulator.h"
 
@@ -97,7 +97,7 @@ osg::Matrixd OrbitCameraManipulator::getInverseMatrix() const
 
 
 // doc in parent
-void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg::Quat& rotation )
+void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg::Quat& /*rotation*/ )
 {
 	m_eye.set( eye );
 	// TODO: implement
@@ -106,7 +106,7 @@ void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg
 }
 
 // doc in parent
-void OrbitCameraManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& rotation ) const
+void OrbitCameraManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& /*rotation*/ ) const
 {
 	eye.set( m_eye );
 	// TODO: implement
@@ -252,7 +252,7 @@ bool OrbitCameraManipulator::handleFrame( const osgGA::GUIEventAdapter& ea, osgG
 	return false;
 }
 
-bool OrbitCameraManipulator::handleMouseMove( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+bool OrbitCameraManipulator::handleMouseMove( const osgGA::GUIEventAdapter& /*ea*/, osgGA::GUIActionAdapter& /*aa*/ )
 {
     return false;
 }
@@ -647,7 +647,7 @@ void OrbitCameraManipulator::rotateCamera( float dx, float dy )
 };
 
 /** Moves the camera such that the model remains under the cursor.*/
-void OrbitCameraManipulator::panCamera( const float dx, const float dy, const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
+void OrbitCameraManipulator::panCamera( const float /*dx*/, const float /*dy*/, const osgGA::GUIEventAdapter& /*ea*/, osgGA::GUIActionAdapter& aa )
 {
 	osgViewer::View* view = dynamic_cast<osgViewer::View*>( &aa );
 	if( !view )
@@ -695,7 +695,7 @@ void OrbitCameraManipulator::zoomCamera( const float dy )
 }
 
 ////////////////////////////////////////////////////// animation //////////////////////////////////////////////////////////////////
-void OrbitCameraManipulator::applyAnimationStep( const double currentProgress, const double prevProgress )
+void OrbitCameraManipulator::applyAnimationStep( const double currentProgress, const double /*prevProgress*/ )
 {
 	osg::Vec3d new_eye( m_animation_data->m_start_eye + (m_animation_data->m_target_eye - m_animation_data->m_start_eye) * (currentProgress) );
 	osg::Vec3d new_lookat( m_animation_data->m_start_lookat + (m_animation_data->m_target_lookat - m_animation_data->m_start_lookat) * (currentProgress) );
@@ -801,7 +801,7 @@ double OrbitCameraManipulator::getMinimumDistance( bool *relativeToModelSize ) c
 }
 
 
-void OrbitCameraManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs, double ratio_w )
+void OrbitCameraManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs, double /*ratio_w*/ )
 {
 	osg::Vec3f bs_center( bs.center() );
 	double bs_radius = bs.radius();

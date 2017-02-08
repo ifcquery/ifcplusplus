@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -16,8 +16,8 @@
 
 #include <ifcpp/model/shared_ptr.h>
 #include <ifcpp/model/IfcPPObject.h>
-#include <ifcpp/geometry/GeomUtils.h>
 
+#include "IncludeGeometryHeaders.h"
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"
 #include "CmdRemoveSelectedObjects.h"
@@ -40,7 +40,7 @@ bool CmdRemoveSelectedObjects::doCmd()
 		shared_ptr<IfcPPEntity> entity = selected_entity->entity;
 		osg::Group* grp = selected_entity->osg_group.get();
 	
-		GeomUtils::removeChildren( grp );
+		SceneGraphUtils::removeChildren( grp );
 
 		// TODO: remove also from ifc model
 		m_removed_objects[entity->m_id] = entity;

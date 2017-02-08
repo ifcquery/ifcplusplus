@@ -202,6 +202,9 @@
     <ClInclude Include="src\viewer\GraphicsWindowQt.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\IncludeGeometryHeaders.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\appicon.rc" />

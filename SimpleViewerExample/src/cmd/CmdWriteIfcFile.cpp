@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -19,8 +19,8 @@
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
-#include <ifcpp/geometry/GeometryConverter.h>
 
+#include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 #include "CmdWriteIfcFile.h"
 

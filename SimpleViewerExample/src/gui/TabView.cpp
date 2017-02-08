@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under  
  * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
@@ -24,10 +24,8 @@
 #include <osgGA/OrbitManipulator>
 
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/geometry/GeomUtils.h>
-#include <ifcpp/geometry/GeometrySettings.h>
-#include <ifcpp/geometry/GeometryConverter.h>
 
+#include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
@@ -50,7 +48,7 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	{
 		m_cull_back = settings.value("cullBackFaces").toBool();
 	}
-	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getRootNode()->getOrCreateStateSet() );
+	SceneGraphUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getRootNode()->getOrCreateStateSet() );
 
 	// cull face buttons
 	QCheckBox* cull_front_faces = new QCheckBox( "Cull front faces" );
@@ -145,7 +143,7 @@ void TabView::slotCullFrontFaces( int state )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("cullFrontFaces", m_cull_front );
 
-	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getRootNode()->getOrCreateStateSet() );
+	SceneGraphUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getRootNode()->getOrCreateStateSet() );
 }
 
 void TabView::slotCullBackFaces( int state )
@@ -161,7 +159,7 @@ void TabView::slotCullBackFaces( int state )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("cullBackFaces", m_cull_back );
 
-	GeomUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getRootNode()->getOrCreateStateSet() );
+	SceneGraphUtils::cullFrontBack( m_cull_front, m_cull_back, m_system->getRootNode()->getOrCreateStateSet() );
 }
 
 void TabView::slotSetNumVertices( int num_vertices )

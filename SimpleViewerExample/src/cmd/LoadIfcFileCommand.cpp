@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcplusplus.com  - Copyright (C) 2011 Fabian Gerold
+/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
  *
  * This library is open source and may be redistributed and/or modified under the terms of the
  * OpenSceneGraph Public License (OSGPL) version 0.0 or (at your option) any later version.
@@ -16,9 +16,8 @@
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/reader/IfcPPReaderSTEP.h>
-#include <ifcpp/geometry/GeometryConverter.h>
-#include <ifcpp/geometry/GeomUtils.h>
 
+#include "IncludeGeometryHeaders.h"
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"
 #include "LoadIfcFileCommand.h"
@@ -45,13 +44,13 @@ bool LoadIfcFileCommand::doCmd()
 	// first remove previously loaded geometry from scenegraph
 	
 	osg::ref_ptr<osg::Switch> model_switch = m_system->getModelNode();
-	GeomUtils::removeChildren( model_switch );
+	SceneGraphUtils::removeChildren( model_switch );
 	m_system->clearSelection();
 
 	// reset the IFC model
 	shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
 	geometry_converter->resetModel();
-	carve::setEpsilon( carve::EPSILON*1.5 );
+	//carve::setEpsilon( carve::EPSILON*1.5 );
 	std::stringstream err;
 
 	// load file to model and create geometry
@@ -96,7 +95,7 @@ bool LoadIfcFileCommand::doCmd()
 				if( bsphere.center().length()/bsphere.radius() > 100 )
 				{
 					std::unordered_set<osg::Geode*> set_applied;
-					GeomUtils::applyTranslate( model_switch, -bsphere.center(), set_applied );
+					SceneGraphUtils::translateGroup( model_switch, -bsphere.center(), set_applied );
 				}
 			}
 		}
