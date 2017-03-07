@@ -50,7 +50,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -1507,15 +1507,15 @@
     <ClCompile Include="src\ifcpp\writer\IfcPPWriterSTEP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ifcpp\geometry\AppearanceData.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\ConverterOSG.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\CSG_Adapter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\CurveConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\FaceConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeomDebugUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeomDebugDump.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\GeometryConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryException.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\GeometryInputData.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometrySettings.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\GeomUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\IncludeCarveHeaders.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\PlacementConverter.h" />
@@ -1523,30 +1523,28 @@
     <ClInclude Include="src\ifcpp\geometry\Carve\ProfileCache.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\ProfileConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\RepresentationConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\SceneGraphUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\SolidModelConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\SplineConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\Carve\StylesConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\StylesConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\Sweeper.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\ConverterOSG.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\CSG_Adapter.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\CurveConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\FaceConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugDump.h" />
+    <ClInclude Include="src\ifcpp\geometry\GeometryException.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryException.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\GeometryInputData.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometrySettings.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\GeomUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\PlacementConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\PointConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\ProfileCache.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\ProfileConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\RepresentationConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtils.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtilsOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\SceneGraphUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\SolidModelConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\StylesConverter.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPGuid.h" />
     <ClInclude Include="src\ifcpp\IFC4\include\IfcAbsorbedDoseMeasure.h" />
@@ -2717,7 +2715,7 @@
     <ClInclude Include="src\ifcpp\model\IfcPPModel.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPObject.h" />
     <ClInclude Include="src\ifcpp\model\IfcPPOpenMP.h" />
-    <ClInclude Include="src\ifcpp\model\shared_ptr.h" />
+    <ClInclude Include="src\ifcpp\model\IfcPPBasicTypes.h" />
     <ClInclude Include="src\ifcpp\model\StatusCallback.h" />
     <ClInclude Include="src\ifcpp\model\UnitConverter.h" />
     <ClInclude Include="src\ifcpp\model\UnknownEntityException.h" />

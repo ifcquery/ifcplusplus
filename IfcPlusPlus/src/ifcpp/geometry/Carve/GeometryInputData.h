@@ -1,30 +1,31 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
 #include <vector>
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/AppearanceData.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcRepresentation.h>
 #include <ifcpp/IFC4/include/IfcTextStyle.h>
 #include "IncludeCarveHeaders.h"
 #include "GeomUtils.h"
-#include "GeomDebugUtils.h"
-
-#include <osg/ref_ptr>
-#include <osg/Switch>
 
 class TextItemData
 {
@@ -33,41 +34,12 @@ public:
 	carve::math::Matrix m_text_position;
 };
 
-class AppearanceData
-{
-public:
-	enum GeometryTypeEnum { UNDEFINED, TEXT, CURVE, SURFACE, VOLUME, ANY };
-	AppearanceData( int step_style_id )
-	{
-		m_step_stype_id = step_style_id;
-		m_complete = false;
-		m_set_transparent = false;
-		m_shininess = 10.f;
-		m_transparency = 1.f;
-		m_specular_exponent = 0.f;
-		m_specular_roughness = 0.f;
-		m_apply_to_geometry_type = UNDEFINED;
-	}
-	carve::geom::vector<4> m_color_ambient;
-	carve::geom::vector<4> m_color_diffuse;
-	carve::geom::vector<4> m_color_specular;
-	int m_step_stype_id;
-	float m_shininess;
-	float m_transparency;
-	float m_specular_exponent;
-	float m_specular_roughness;
-	bool m_set_transparent;
-	bool m_complete;
-	shared_ptr<IfcTextStyle> m_text_style;
-	GeometryTypeEnum m_apply_to_geometry_type;
-};
-
 //\brief Class to hold input data of one IFC geometric representation item.
-class ItemShapeInputData
+class ItemShapeData
 {
 public:
-	ItemShapeInputData(){}
-	~ItemShapeInputData(){}
+	ItemShapeData(){}
+	~ItemShapeData(){}
 
 	std::vector<shared_ptr<carve::input::PolylineSetData> > m_polylines;
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets;
@@ -139,11 +111,6 @@ public:
 		else
 		{
 			m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
-
-#ifdef _DEBUG
-			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-			GeomDebugUtils::dumpMeshset( meshset, color, true );
-#endif
 			throw IfcPPException( "Meshset is not closed", __FUNC__ );
 		}
 	}
@@ -237,9 +204,9 @@ public:
 		}
 	}
 
-	shared_ptr<ItemShapeInputData> getDeepCopy()
+	shared_ptr<ItemShapeData> getDeepCopy()
 	{
-		shared_ptr<ItemShapeInputData> copy_item( new ItemShapeInputData() );
+		shared_ptr<ItemShapeData> copy_item( new ItemShapeData() );
 
 		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
 		{
@@ -281,7 +248,7 @@ public:
 	}
 	
 	/** copies the content of other instance and adds it to own content */
-	void addItemData( const shared_ptr<ItemShapeInputData>& other )
+	void addItemData( const shared_ptr<ItemShapeData>& other )
 	{
 		std::copy( other->m_vertex_points.begin(), other->m_vertex_points.end(), std::back_inserter( m_vertex_points ) );
 		std::copy( other->m_polylines.begin(), other->m_polylines.end(), std::back_inserter( m_polylines ) );
@@ -303,21 +270,21 @@ public:
 	ProductRepresentationData() {}
 	~ProductRepresentationData(){}
 
+	weak_ptr<IfcRepresentation>						m_ifc_representation;
 	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
-	std::vector<shared_ptr<ItemShapeInputData> >	m_vec_item_data;
+	std::vector<shared_ptr<ItemShapeData> >	m_vec_item_data;
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
-	osg::ref_ptr<osg::Switch>						m_representation_switch;
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
-
 
 	shared_ptr<ProductRepresentationData> getDeepCopy()
 	{
 		shared_ptr<ProductRepresentationData> copy_representation( new ProductRepresentationData() );
+		copy_representation->m_ifc_representation = m_ifc_representation;
 		copy_representation->m_ifc_representation_context = m_ifc_representation_context;
 		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
 		{
-			shared_ptr<ItemShapeInputData>& item_data = m_vec_item_data[ii];
+			shared_ptr<ItemShapeData>& item_data = m_vec_item_data[ii];
 			copy_representation->m_vec_item_data.push_back( item_data->getDeepCopy() );
 		}
 		std::copy( m_vec_representation_appearances.begin(), m_vec_representation_appearances.end(), std::back_inserter( copy_representation->m_vec_representation_appearances ) );
@@ -339,8 +306,8 @@ public:
 		{
 			for( size_t item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
 			{
-				shared_ptr<ItemShapeInputData>& item_data = other->m_vec_item_data[item_i];
-				m_vec_item_data.push_back( shared_ptr<ItemShapeInputData>( item_data->getDeepCopy() ) );
+				shared_ptr<ItemShapeData>& item_data = other->m_vec_item_data[item_i];
+				m_vec_item_data.push_back( shared_ptr<ItemShapeData>( item_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
 		}
@@ -352,11 +319,11 @@ public:
 		{
 			return;
 		}
-		int append_id = appearance->m_step_stype_id;
+		int append_id = appearance->m_step_style_id;
 		for( size_t ii = 0; ii < m_vec_representation_appearances.size(); ++ii )
 		{
 			shared_ptr<AppearanceData>& appearance = m_vec_representation_appearances[ii];
-			if( appearance->m_step_stype_id == append_id )
+			if( appearance->m_step_style_id == append_id )
 			{
 				return;
 			}
@@ -372,13 +339,9 @@ public:
 	void clearAll()
 	{
 		m_vec_representation_appearances.clear();
+		m_ifc_representation.reset();
 		m_ifc_representation_context.reset();
-		if( m_representation_switch )
-		{
-			GeomUtils::removeChildren( m_representation_switch );
-		}
 		m_vec_item_data.clear();
-		
 		m_representation_identifier = L"";
 		m_representation_type = L"";
 	}
@@ -396,22 +359,23 @@ public:
 	}
 };
 
-class ProductShapeInputData
+class ProductShapeData
 {
 public:
-	ProductShapeInputData() : m_added_to_node(false) {}
-	virtual ~ProductShapeInputData() {}
+	ProductShapeData() : m_added_to_spatial_structure(false) {}
+	virtual ~ProductShapeData() {}
 
-	void addInputData( shared_ptr<ProductShapeInputData>& other )
+	void addInputData( shared_ptr<ProductShapeData>& other )
 	{
 		std::copy( other->m_vec_representations.begin(), other->m_vec_representations.end(), std::back_inserter( m_vec_representations ) );
 		std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
 	}
 
-	void deepCopyFrom( shared_ptr<ProductShapeInputData>& other )
+	void deepCopyFrom( shared_ptr<ProductShapeData>& other )
 	{
 		m_vec_representations.clear();
 		m_vec_product_appearances.clear();
+		m_vec_children.clear();
 
 		if( other )
 		{
@@ -421,6 +385,7 @@ public:
 				m_vec_representations.push_back( shared_ptr<ProductRepresentationData>( representation_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
+			std::copy( other->m_vec_children.begin(), other->m_vec_children.end(), std::back_inserter( m_vec_children ) );
 		}
 	}
 
@@ -430,11 +395,11 @@ public:
 		{
 			return;
 		}
-		int append_id = appearance->m_step_stype_id;
+		int append_id = appearance->m_step_style_id;
 		for( size_t ii = 0; ii < m_vec_product_appearances.size(); ++ii )
 		{
 			shared_ptr<AppearanceData>& appearance = m_vec_product_appearances[ii];
-			if( appearance->m_step_stype_id == append_id )
+			if( appearance->m_step_style_id == append_id )
 			{
 				return;
 			}
@@ -451,14 +416,11 @@ public:
 	{
 		m_vec_product_appearances.clear();
 
-		m_ifc_product.reset();
+		m_ifc_object_definition.reset();
 		m_object_placement.reset();
-		if( m_product_switch )
-		{
-			GeomUtils::removeChildren( m_product_switch );
-		}
+		m_vec_children.clear();
 		m_vec_representations.clear();
-		m_added_to_node = false;
+		m_added_to_spatial_structure = false;
 	}
 
 	void applyPosition( const carve::math::Matrix& matrix )
@@ -472,13 +434,41 @@ public:
 			m_vec_representations[i_item]->applyPosition( matrix, true );
 		}
 	}
-	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
+	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
 
-	weak_ptr<IfcProduct>								m_ifc_product;
+	bool isEmpty( bool check_also_children ) const
+	{
+		if( m_vec_representations.size() > 0 )
+		{
+			return false;
+		}
+		if( m_vec_product_appearances.size() > 0 )
+		{
+			return false;
+		}
+		if( check_also_children )
+		{
+			if( m_vec_product_appearances.size() > 0 )
+			{
+				for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
+				{
+					const shared_ptr<ProductShapeData>& child = m_vec_children[ii];
+					bool child_empty = child->isEmpty( check_also_children );
+					if( !child_empty )
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
-	osg::ref_ptr<osg::Switch>							m_product_switch;
 	std::vector<shared_ptr<ProductRepresentationData> >	m_vec_representations;
-	bool												m_added_to_node;
+	bool												m_added_to_spatial_structure;
+	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
 	
 protected:
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
@@ -502,10 +492,9 @@ public:
 		const double vertex_z = v.z;
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
-		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
-
-		std::map<double, size_t>::iterator it_find_z = map_z_index.find( vertex_z );
+		map_t<double, map_t<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, map_t<double, map_t<double, size_t> >() ) ).first->second;
+		map_t<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, map_t<double, size_t>() ) ).first->second;
+		auto it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
 			// vertex already exists in polyhedron. return its index
@@ -528,10 +517,9 @@ public:
 		const double vertex_z = round( v.z*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
-		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
-
-		std::map<double, size_t>::iterator it_find_z = map_z_index.find( vertex_z );
+		map_t<double, map_t<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, map_t<double, map_t<double, size_t> >() ) ).first->second;
+		map_t<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, map_t<double, size_t>() ) ).first->second;
+		auto it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
 			// vertex already exists in polyhedron. return its index
@@ -580,5 +568,5 @@ public:
 	}
 
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
-	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
+	map_t<double, map_t<double, map_t<double, size_t> > > m_existing_vertices_coords;
 };

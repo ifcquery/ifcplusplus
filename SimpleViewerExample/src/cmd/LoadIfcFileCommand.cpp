@@ -1,18 +1,24 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under the terms of the
- * OpenSceneGraph Public License (OSGPL) version 0.0 or (at your option) any later version.
- * The full license is in LICENSE file included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <osgUtil/Optimizer>
 #include <osgUtil/SmoothingVisitor>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/reader/IfcPPReaderSTEP.h>
@@ -22,12 +28,12 @@
 #include "IfcPlusPlusSystem.h"
 #include "LoadIfcFileCommand.h"
 
-LoadIfcFileCommand::LoadIfcFileCommand( IfcPlusPlusSystem* system ): Command(system)
+LoadIfcFileCommand::LoadIfcFileCommand( IfcPlusPlusSystem* system ) : Command( system )
 {
-	
+
 }
 
-LoadIfcFileCommand::~LoadIfcFileCommand(){}
+LoadIfcFileCommand::~LoadIfcFileCommand() {}
 
 void LoadIfcFileCommand::setFilePath( std::wstring& path_in )
 {
@@ -42,7 +48,6 @@ bool LoadIfcFileCommand::doCmd()
 	}
 
 	// first remove previously loaded geometry from scenegraph
-	
 	osg::ref_ptr<osg::Switch> model_switch = m_system->getModelNode();
 	SceneGraphUtils::removeChildren( model_switch );
 	m_system->clearSelection();
@@ -50,14 +55,34 @@ bool LoadIfcFileCommand::doCmd()
 	// reset the IFC model
 	shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
 	geometry_converter->resetModel();
-	//carve::setEpsilon( carve::EPSILON*1.5 );
 	std::stringstream err;
 
-	// load file to model and create geometry
 	try
 	{
+		// load file to IFC model
 		m_system->getIfcPPReader()->loadModelFromFile( m_file_path, geometry_converter->getIfcPPModel() );
-		geometry_converter->createGeometryOSG( model_switch );
+
+		// convert IFC geometry to Carve or OCC. Choose geometry engine in file IncludeGeometryHeaders.h
+		geometry_converter->convertGeometry();
+
+		// convert Carve or OCC geometry to OSG
+		shared_ptr<ConverterOSG> converter_osg( new ConverterOSG( geometry_converter->getGeomSettings() ) );
+		converter_osg->setMessageTarget( geometry_converter.get() );
+		converter_osg->convertToOSG( geometry_converter->getShapeInputData(), model_switch );
+
+		// in case there are IFC entities that are not in the spatial structure
+		const map_t<int, shared_ptr<IfcPPObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
+		if( objects_outside_spatial_structure.size() > 0 )
+		{
+			osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();
+			sw_objects_outside_spatial_structure->setName( "IfcProduct objects outside spatial structure" );
+			
+			converter_osg->addNodes( objects_outside_spatial_structure, sw_objects_outside_spatial_structure );
+			if( sw_objects_outside_spatial_structure->getNumChildren() > 0 )
+			{
+				model_switch->addChild( sw_objects_outside_spatial_structure );
+			}
+		}
 	}
 	catch( IfcPPOutOfMemoryException& e)
 	{
@@ -81,7 +106,6 @@ bool LoadIfcFileCommand::doCmd()
 		if( model_switch )
 		{
 			bool optimize = true;
-
 			if( optimize )
 			{
 				osgUtil::Optimizer opt;
@@ -94,7 +118,7 @@ bool LoadIfcFileCommand::doCmd()
 			{
 				if( bsphere.center().length()/bsphere.radius() > 100 )
 				{
-					std::unordered_set<osg::Geode*> set_applied;
+					boost::unordered_set<osg::Geode*> set_applied;
 					SceneGraphUtils::translateGroup( model_switch, -bsphere.center(), set_applied );
 				}
 			}

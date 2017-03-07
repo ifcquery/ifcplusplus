@@ -1,19 +1,24 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
@@ -31,7 +36,6 @@
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
 #include "CurveConverter.h"
 #include "SplineConverter.h"
 #include "Sweeper.h"
@@ -70,7 +74,7 @@ public:
 
 	virtual ~FaceConverter(){}
 
-	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeInputData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy )
+	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy )
 	{
 		//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))
 
@@ -295,7 +299,7 @@ public:
 		throw UnhandledRepresentationException( surface );
 	}
 
-	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeInputData> item_data, ShellType st )
+	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeData> item_data, ShellType st )
 	{
 		PolyInputCache3D poly_cache;
 		IfcPPEntity* report_entity = nullptr;
@@ -380,6 +384,12 @@ public:
 			{
 				// not a fatal error, just mesh is not closed
 				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", report_entity );  // calling function already in e.what()
+
+#ifdef IFCPP_GEOM_DEBUG
+				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+				shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
+				GeomDebugDump::dumpMeshset( meshset, color, true );
+#endif
 			}
 		}
 	}

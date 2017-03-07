@@ -1,22 +1,29 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
 #include <set>
+#include <boost/unordered_set.hpp>
+#include <gp_GTrsf.hxx>
 #include <gp_Pln.hxx>
+#include <gp_Trsf.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcAxis1Placement.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement2D.h>
@@ -88,13 +95,13 @@ namespace PlacementConverter
 		local_y.Normalize();
 		local_z.Normalize();
 
-		if( translate.SquareMagnitude() < GEOM_LENGTH_EPSILON )
+		if( translate.SquareMagnitude() < GEOM_EPSILON_LENGTH )
 		{
-			if( (local_x - vec3( 1.0, 0, 0 )).SquareMagnitude() < GEOM_LENGTH_EPSILON )
+			if( (local_x - vec3( 1.0, 0, 0 )).SquareMagnitude() < GEOM_EPSILON_LENGTH )
 			{
-				if( (local_y - vec3( 0, 1.0, 0 )).SquareMagnitude() < GEOM_LENGTH_EPSILON )
+				if( (local_y - vec3( 0, 1.0, 0 )).SquareMagnitude() < GEOM_EPSILON_LENGTH )
 				{
-					if( (local_z - vec3( 0, 0, 1.0 )).SquareMagnitude() < GEOM_LENGTH_EPSILON )
+					if( (local_z - vec3( 0, 0, 1.0 )).SquareMagnitude() < GEOM_EPSILON_LENGTH )
 					{
 						// set to identity
 						resulting_matrix = gp_Trsf();
@@ -171,13 +178,13 @@ namespace PlacementConverter
 
 		convertIfcAxis2Placement3D( axis2placement3d, length_factor, translate, local_x, local_y, local_z, only_rotation );
 
-		if( translate.SquareMagnitude() < GEOM_LENGTH_EPSILON )
+		if( translate.SquareMagnitude() < GEOM_EPSILON_LENGTH )
 		{
-			if( (local_x - vec3( 1.0, 0, 0 )).SquareMagnitude() < GEOM_LENGTH_EPSILON )
+			if( (local_x - vec3( 1.0, 0, 0 )).SquareMagnitude() < GEOM_EPSILON_LENGTH )
 			{
-				if( (local_y - vec3( 0, 1.0, 0 )).SquareMagnitude() < GEOM_LENGTH_EPSILON )
+				if( (local_y - vec3( 0, 1.0, 0 )).SquareMagnitude() < GEOM_EPSILON_LENGTH )
 				{
-					if( (local_z - vec3( 0, 0, 1.0 )).SquareMagnitude() < GEOM_LENGTH_EPSILON )
+					if( (local_z - vec3( 0, 0, 1.0 )).SquareMagnitude() < GEOM_EPSILON_LENGTH )
 					{
 						// set to identity
 						resulting_matrix = gp_Trsf();
@@ -250,7 +257,7 @@ namespace PlacementConverter
 	}
 
 	inline void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, const double length_factor,
-		gp_Trsf& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
+		gp_Trsf& resulting_matrix, boost::unordered_set<IfcRepresentationContext*>& already_applied )
 	{
 		if( !context )
 		{
@@ -303,7 +310,7 @@ namespace PlacementConverter
 
 	//\brief translates an IfcObjectPlacement (or subtype) to gp_Trsf
 	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, const double length_factor, gp_Trsf& resulting_matrix, StatusCallback* sc,
-		std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation = false )
+		boost::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation = false )
 	{
 		if( !ifc_object_placement )
 		{
@@ -369,7 +376,7 @@ namespace PlacementConverter
 		}
 	}
 
-	inline void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, const double length_factor, gp_Trsf& resulting_matrix, StatusCallback* sc )
+	inline void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, const double length_factor, gp_Trsf& resulting_matrix, gp_GTrsf& resulting_general_matrix, bool& non_uniform, StatusCallback* sc )
 	{
 		// ENTITY IfcCartesianTransformationOperator  ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianTransformationOperator2D, IfcCartesianTransformationOperator3D))
 		vec3  translate( 0.0, 0.0, 0.0 );
@@ -380,7 +387,9 @@ namespace PlacementConverter
 		double scale = 1.0;
 		double scale_y = 1.0;
 		double scale_z = 1.0;
-
+		gp_GTrsf gtrsf;
+		non_uniform = false;
+		
 		shared_ptr<IfcCartesianTransformationOperator2D> trans_operator_2d = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( transform_operator );
 		if( trans_operator_2d )
 		{
@@ -421,12 +430,15 @@ namespace PlacementConverter
 				}
 			}
 
-			shared_ptr<IfcCartesianTransformationOperator2DnonUniform> non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator2DnonUniform>( transform_operator );
-			if( non_uniform )
+			shared_ptr<IfcCartesianTransformationOperator2DnonUniform> operator_non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator2DnonUniform>(trans_operator_2d);
+			if( operator_non_uniform )
 			{
-				if( non_uniform->m_Scale2 )
+				if( operator_non_uniform->m_Scale2 )
 				{
-					scale_y = non_uniform->m_Scale2->m_value;
+					scale_y = operator_non_uniform->m_Scale2->m_value;
+					gtrsf.SetValue( 1, 1, scale );
+					gtrsf.SetValue( 2, 2, scale_y );
+					non_uniform = true;
 				}
 			}
 		}
@@ -483,28 +495,43 @@ namespace PlacementConverter
 				}
 			}
 
-			shared_ptr<IfcCartesianTransformationOperator3DnonUniform> non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator3DnonUniform>( transform_operator );
-			if( non_uniform )
+			shared_ptr<IfcCartesianTransformationOperator3DnonUniform> operator_non_uniform = dynamic_pointer_cast<IfcCartesianTransformationOperator3DnonUniform>(trans_operator_3d);
+			if( operator_non_uniform )
 			{
-				if( non_uniform->m_Scale2 )
+				if( operator_non_uniform->m_Scale2 )
 				{
-					scale_y = non_uniform->m_Scale2->m_value;
+					scale_y = operator_non_uniform->m_Scale2->m_value;
 				}
-				if( non_uniform->m_Scale3 )
+				if( operator_non_uniform->m_Scale3 )
 				{
-					scale_z = non_uniform->m_Scale3->m_value;
+					scale_z = operator_non_uniform->m_Scale3->m_value;
 				}
+				gtrsf.SetValue( 1, 1, scale );
+				gtrsf.SetValue( 2, 2, scale_y );
+				gtrsf.SetValue( 3, 3, scale_z );
+				non_uniform = true;
 			}
 		}
 
-		gp_Trsf t1, t2;
-		t1.SetScale( gp_Pnt( 0, 0, 0 ), scale );
+		gp_Trsf t2;
 		t2.SetValues(
 			local_x.X(), local_y.X(), local_z.X(), translate.X(),
 			local_x.Y(), local_y.Y(), local_z.Y(), translate.Y(),
 			local_x.Z(), local_y.Z(), local_z.Z(), translate.Z() );
 
-		t2.Multiply( t1 ); // scale is applied first, rotate and translate second
+		if( non_uniform )
+		{
+			gtrsf.Multiply( t2 );
+			resulting_general_matrix = gtrsf;
+			return;
+		}
+
+		if( abs( scale - 1.0 ) > 0.0001 )
+		{
+			gp_Trsf transform_scale;
+			transform_scale.SetScale( gp_Pnt(0,0,0), scale );
+			t2.Multiply( transform_scale ); // scale is applied first, rotate and translate second
+		}
 		
 		resulting_matrix = t2;
 	}

@@ -1,16 +1,20 @@
-#pragma once
-/* -*-c++-*- OpenSceneGraph - Copyright (C) 2009 Wang Rui
+/* -*-c++-*- IFC++ www.ifcquery.com
 *
-* This library is open source and may be redistributed and/or modified under
-* the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
-* (at your option) any later version.  The full license is in LICENSE file
-* included with this distribution, and on the openscenegraph.org website.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* OpenSceneGraph Public License for more details.
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+#pragma once
 
 #include <osgViewer/GraphicsWindow>
 #include <osgViewer/CompositeViewer>
@@ -29,18 +33,15 @@ class QGestureEvent;
 class QtOSGWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
-	QtOSGWidget( QWidget* parent, Qt::WindowFlags f = 0, bool forwardKeyEvents = false );
-	QtOSGWidget( const QSurfaceFormat& format, QWidget* parent, Qt::WindowFlags f = 0, bool forwardKeyEvents = false );
+	QtOSGWidget( QWidget* parent, Qt::WindowFlags f = 0 );
 	virtual ~QtOSGWidget();
 
 	void setGraphicsWindow( osgViewer::GraphicsWindow* gw ) { m_graphics_window = gw; }
 	osgViewer::View* getView() { return m_main_view; }
 	osgViewer::CompositeViewer* getViewer() { return m_viewer; }
-	bool getForwardKeyEvents() const { return m_forwardKeyEvents; }
 	bool getTouchEventsEnabled() const { return m_touchEventsEnabled; }
 	void setTouchEventsEnabled( bool e );
 	void setKeyboardModifiers( QInputEvent* event );
-	virtual void setForwardKeyEvents( bool f ) { m_forwardKeyEvents = f; }
 	virtual void keyPressEvent( QKeyEvent* event );
 	virtual void keyReleaseEvent( QKeyEvent* event );
 	virtual void mousePressEvent( QMouseEvent* event );
@@ -76,7 +77,7 @@ protected:
 		}
 	}
 	void processDeferredEvents();
-
+	int convertQKeyEnventToOSG( QKeyEvent* event );
 	virtual void paintEvent( QPaintEvent *e );
 	virtual void moveEvent( QMoveEvent* event );
 	virtual bool event( QEvent* event );
@@ -87,65 +88,37 @@ protected:
 	osg::ref_ptr<osgViewer::View> m_main_view;
 	osg::ref_ptr<osgViewer::CompositeViewer> m_viewer;
 
+	std::map<unsigned int, int> m_key_map;
 	QMutex m_deferredEventQueueMutex;
 	QQueue<QEvent::Type> m_deferredEventQueue;
 	QSet<QEvent::Type> m_eventCompressor;
-
 	bool m_touchEventsEnabled = false;
-
-	bool m_forwardKeyEvents;
-	qreal m_devicePixelRatio = 1.0;
+	qreal m_device_pixel_ratio = 1.0;
 };
 
 class GraphicsWindowQt : public osgViewer::GraphicsWindowEmbedded
 {
 public:
-	GraphicsWindowQt( osg::GraphicsContext::Traits* traits, QWidget* parent, Qt::WindowFlags f = 0 );
-	GraphicsWindowQt( QtOSGWidget* widget );
+	GraphicsWindowQt( QWidget* parent, Qt::WindowFlags f = 0 );
 	virtual ~GraphicsWindowQt();
 
 	QtOSGWidget* getOpenGLWidget() { return m_opengl_widget; }
-
-	struct WindowData : public osg::Referenced
-	{
-		WindowData( QtOSGWidget* widget = NULL, QWidget* parent = NULL ) : _widget( widget ), _parent( parent ) {}
-		QtOSGWidget* _widget;
-		QWidget* _parent;
-	};
-
-	bool init( Qt::WindowFlags f, QWidget* parent );
-
-	static QSurfaceFormat traits2qglFormat( const osg::GraphicsContext::Traits* traits );
-	static void qglFormat2traits( const QSurfaceFormat& format, osg::GraphicsContext::Traits* traits );
-	static osg::GraphicsContext::Traits* createTraits( const QOpenGLWidget* widget );
-
-	virtual bool setWindowRectangleImplementation( int x, int y, int width, int height );
-	virtual void getWindowRectangle( int& x, int& y, int& width, int& height );
-	virtual bool setWindowDecorationImplementation( bool windowDecoration );
-	virtual bool getWindowDecoration() const;
 	virtual void grabFocus();
 	virtual void grabFocusIfPointerInWindow();
-	virtual void raiseWindow();
-	virtual void setWindowName( const std::string& name );
-	virtual std::string getWindowName();
 	virtual void useCursor( bool cursorOn );
 	virtual void setCursor( MouseCursor cursor );
-	bool getTouchEventsEnabled() const { return m_opengl_widget->getTouchEventsEnabled(); }
-	virtual void setTouchEventsEnabled( bool e ) { m_opengl_widget->setTouchEventsEnabled( e ); }
 	virtual bool valid() const;
 	virtual bool realizeImplementation();
 	virtual bool isRealizedImplementation() const;
 	virtual void closeImplementation();
 	virtual bool makeCurrentImplementation();
 	virtual bool releaseContextImplementation();
-	virtual void swapBuffersImplementation();
 	virtual void runOperations();
 	virtual void requestWarpPointer( float x, float y );
 
 protected:
 	friend class QtOSGWidget;
 	QtOSGWidget* m_opengl_widget = nullptr;
-	bool m_owns_widget = false;
 	QCursor m_current_cursor;
 	bool m_realized = false;
 };

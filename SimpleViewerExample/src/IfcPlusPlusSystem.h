@@ -1,22 +1,27 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
 #include <QtCore/QObject>
+#include <osg/Material>
 #include <osgGA/GUIEventHandler>
 #include <boost/unordered_map.hpp>
-#include "ifcpp/model/shared_ptr.h"
+#include "ifcpp/model/IfcPPBasicTypes.h"
 
 class IfcPPModel;
 class IfcPPEntity;
@@ -25,10 +30,12 @@ class IfcPPWriterSTEP;
 class GeometryConverter;
 class CommandManager;
 
-struct selectedEntity 
+struct SelectedEntity 
 {
-	shared_ptr<IfcPPEntity> entity;
-	osg::ref_ptr<osg::Group> osg_group;
+	shared_ptr<IfcPPEntity>		m_entity;
+	osg::ref_ptr<osg::Group>	m_osg_group;
+	osg::ref_ptr<osg::Material> m_material_previous;
+	osg::ref_ptr<osg::Material> m_material_selected;
 };
 
 class IfcPlusPlusSystem : public QObject, public osgGA::GUIEventHandler
@@ -41,6 +48,7 @@ public:
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 	shared_ptr<GeometryConverter>	getGeometryConverter()	{ return m_geometry_converter; }
+	shared_ptr<IfcPPModel>&			getIfcModel()			{ return m_ifc_model; }
 	shared_ptr<IfcPPReaderSTEP>&	getIfcPPReader()		{ return m_step_reader; }
 	shared_ptr<IfcPPWriterSTEP>&	getIfcPPWriter()		{ return m_step_writer; }
 	shared_ptr<CommandManager>		getCommandManager()		{ return m_command_manager; }
@@ -52,7 +60,7 @@ public:
 	void switchCurveRepresentation( osg::Group* grp, bool on_off );
 	
 	void setObjectSelected( shared_ptr<IfcPPEntity> object, bool selected, osg::Group* node = 0 );
-	const std::map<int, shared_ptr<selectedEntity> >& getSelectedObjects() { return m_map_selected; }
+	const std::map<int, shared_ptr<SelectedEntity> >& getSelectedObjects() { return m_map_selected; }
 	void clearSelection();
 	void notifyModelCleared();
 	void notifyModelLoadingStart();
@@ -63,12 +71,13 @@ private:
 	shared_ptr<IfcPPReaderSTEP>					m_step_reader;
 	shared_ptr<IfcPPWriterSTEP>					m_step_writer;
 	shared_ptr<CommandManager>					m_command_manager;
-	std::map<int, shared_ptr<selectedEntity> >	m_map_selected;
+	std::map<int, shared_ptr<SelectedEntity> >	m_map_selected;
 	shared_ptr<IfcPPModel>						m_ifc_model;
 	osg::ref_ptr<osg::Group>					m_rootnode;
 	osg::ref_ptr<osg::Switch>					m_sw_coord_axes;
 	osg::ref_ptr<osg::Switch>					m_sw_model;
 	osg::ref_ptr<osg::MatrixTransform>			m_transform_light;
+	osg::ref_ptr<osg::Material>					m_material_selected;
 	bool										m_light_on;
 	bool										m_show_curve_representation;
 

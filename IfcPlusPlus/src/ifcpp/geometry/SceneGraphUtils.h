@@ -1,21 +1,26 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-#include <vector>
-//#include <unordered_set>
-
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <iostream>
+#include <boost/unordered/unordered_set.hpp>
 #include <osg/Array>
 #include <osg/CullFace>
 #include <osg/Geode>
@@ -29,77 +34,80 @@
 #include <osg/Version>
 #include <osgText/Text>
 #include <osgViewer/Viewer>
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPException.h>
-#include "GeometrySettings.h"
-#include "GeomUtils.h"
-
 
 namespace SceneGraphUtils
 {
-	enum ProjectionPlane { UNDEFINED, XY_PLANE, YZ_PLANE, XZ_PLANE };
-
-	class Ray : public osg::Referenced
+	inline bool inParentList( const int entity_id, osg::Group* group )
 	{
-	public:
-		void setRay( Ray* other )
+		if( !group )
 		{
-			origin = other->origin;
-			direction = other->direction;
+			return false;
 		}
-		osg::Vec3d origin;
-		osg::Vec3d direction;
-	};
-	class Plane : public osg::Referenced
-	{
-	public:
-		Plane() {}
-		Plane( osg::Vec3d& _position, osg::Vec3d& _normal )
-		{
-			position = _position;
-			normal = _normal;
-		}
-		bool intersectRay( const GeomUtils::Ray* ray, osg::Vec3d& intersect_point ) const
-		{
-			vec3  plane_pos( carve::geom::VECTOR( position.x(), position.y(), position.z() ) );
-			vec3  plane_normal( carve::geom::VECTOR( normal.x(), normal.y(), normal.z() ) );
-			carve::geom::plane<3> plane( plane_normal, plane_pos );
-			vec3  v1 = carve::geom::VECTOR( ray->origin.x(), ray->origin.y(), ray->origin.z() );
-			vec3  v2 = v1 + carve::geom::VECTOR( ray->direction.x(), ray->direction.y(), ray->direction.z() );
-			vec3  v_intersect;
 
-			vec3 Rd = v2 - v1;
-			double Vd = dot( plane.N, Rd );
-			double V0 = dot( plane.N, v1 ) + plane.d;
-
-			if( carve::math::ZERO( Vd ) )
+		const osg::Group::ParentList& vec_parents = group->getParents();
+		for( size_t ii = 0; ii < vec_parents.size(); ++ii )
+		{
+			osg::Group* parent = vec_parents[ii];
+			if( parent )
 			{
-				if( carve::math::ZERO( V0 ) )
+				const std::string parent_name = parent->getName();
+				if( parent_name.length() > 0 )
 				{
-					return false; // bad intersection
-				}
-				else
-				{
-					return false; // no intersection
+					if( parent_name.at( 0 ) == '#' )
+					{
+						// extract entity id
+						std::string parent_name_id = parent_name.substr( 1 );
+						size_t last_index = parent_name_id.find_first_not_of( "0123456789" );
+						std::string id_str = parent_name_id.substr( 0, last_index );
+						const int id = std::stoi( id_str.c_str() );
+						if( id == entity_id )
+						{
+							return true;
+						}
+						bool in_parent_list = inParentList( entity_id, parent );
+						if( in_parent_list )
+						{
+							return true;
+						}
+
+					}
 				}
 			}
-
-			double t = -V0 / Vd;
-			v_intersect = v1 + t * Rd;
-			intersect_point.set( v_intersect.x, v_intersect.y, v_intersect.z );
-			return true;
 		}
-
-		/** distance point to plane */
-		double distancePointPlane( const osg::Vec3d& point )
+		return false;
+	}
+	inline osg::Vec3d computePolygonNormal( const osg::Vec3dArray* polygon )
+	{
+		const int num_points = polygon->size();
+		osg::Vec3d polygon_normal( 0, 0, 0 );
+		for( int k = 0; k < num_points; ++k )
 		{
-			return normal*(point - position);
+			const osg::Vec3d& vertex_current = polygon->at( k );
+			const osg::Vec3d& vertex_next = polygon->at( (k + 1) % num_points );
+			polygon_normal._v[0] += (vertex_current.y() - vertex_next.y())*(vertex_current.z() + vertex_next.z());
+			polygon_normal._v[1] += (vertex_current.z() - vertex_next.z())*(vertex_current.x() + vertex_next.x());
+			polygon_normal._v[2] += (vertex_current.x() - vertex_next.x())*(vertex_current.y() + vertex_next.y());
 		}
-
-		osg::Vec3d position;
-		osg::Vec3d normal;
-	};
-
+		polygon_normal.normalize();
+		return polygon_normal;
+	}
+	inline osg::Vec3f computePolygonNormal( const osg::Vec3Array* polygon )
+	{
+		const int num_points = polygon->size();
+		osg::Vec3f polygon_normal( 0, 0, 0 );
+		for( int k = 0; k < num_points; ++k )
+		{
+			const osg::Vec3f& vertex_current = polygon->at( k );
+			const osg::Vec3f& vertex_next = polygon->at( (k + 1) % num_points );
+			polygon_normal._v[0] += (vertex_current.y() - vertex_next.y())*(vertex_current.z() + vertex_next.z());
+			polygon_normal._v[1] += (vertex_current.z() - vertex_next.z())*(vertex_current.x() + vertex_next.x());
+			polygon_normal._v[2] += (vertex_current.x() - vertex_next.x())*(vertex_current.y() + vertex_next.y());
+		}
+		polygon_normal.normalize();
+		return polygon_normal;
+	}
 	inline osg::ref_ptr<osg::Geode> createCoordinateAxes( double length )
 	{
 		osg::ref_ptr<osg::Geode> geode = new osg::Geode();
@@ -483,20 +491,7 @@ namespace SceneGraphUtils
 			osg::ref_ptr<osg::Material> mat = dynamic_cast<osg::Material*>( stateset->getAttribute( osg::StateAttribute::MATERIAL ) );
 			if( mat )
 			{
-				//float transparency_restore = mat->getTransparency( osg::Material::FRONT_AND_BACK );
 				mat->setAlpha( osg::Material::FRONT_AND_BACK, alpha );
-
-				//const osg::Vec4& ambient = mat->getAmbient( osg::Material::FRONT_AND_BACK );
-				//mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( ambient.r(), ambient.g(), ambient.b(), transparency ) );
-
-				//const osg::Vec4& diffuse = mat->getDiffuse( osg::Material::FRONT_AND_BACK );
-				//mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( diffuse.r(), diffuse.g(), diffuse.b(), transparency ) );
-
-				//const osg::Vec4& specular = mat->getSpecular( osg::Material::FRONT_AND_BACK );
-				//mat->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4( specular.r(), specular.g(), specular.b(), transparency ) );
-
-				//mat->setShininess( osg::Material::FRONT_AND_BACK, 64.f );
-				//mat->setColorMode( osg::Material::SPECULAR );
 			}
 		}
 		osg::Group* group = dynamic_cast<osg::Group*>( node );
@@ -523,52 +518,8 @@ namespace SceneGraphUtils
 			geode->removeDrawables( 0, geode->getNumDrawables() );
 		}
 	}
-	inline void drawBoundingBoxLines( const carve::geom::aabb<3>& aabb, osg::Geometry* geom )
-	{
-		osg::Vec3Array* vertices = dynamic_cast<osg::Vec3Array*>(geom->getVertexArray());
-		if( !vertices )
-		{
-			vertices = new osg::Vec3Array();
-			geom->setVertexArray( vertices );
-		}
-		const vec3& aabb_pos = aabb.pos;
-		const vec3& extent = aabb.extent;
-		const double dex = extent.x;
-		const double dey = extent.y;
-		const double dez = extent.z;
 
-		const int vert_id_offset = vertices->size();
-		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y - dey, aabb_pos.z - dez ) );
-		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y - dey, aabb_pos.z - dez ) );
-		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z - dez ) );
-		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z - dez ) );
-
-		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y - dey, aabb_pos.z + dez ) );
-		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y - dey, aabb_pos.z + dez ) );
-		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
-		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
-
-		osg::DrawElementsUInt* box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
-		box_lines->push_back( vert_id_offset + 0 );
-		box_lines->push_back( vert_id_offset + 1 );
-		box_lines->push_back( vert_id_offset + 2 );
-		box_lines->push_back( vert_id_offset + 3 );
-		box_lines->push_back( vert_id_offset + 0 );
-		box_lines->push_back( vert_id_offset + 4 );
-		box_lines->push_back( vert_id_offset + 5 );
-		box_lines->push_back( vert_id_offset + 1 );
-		box_lines->push_back( vert_id_offset + 5 );
-		box_lines->push_back( vert_id_offset + 6 );
-		box_lines->push_back( vert_id_offset + 2 );
-		box_lines->push_back( vert_id_offset + 6 );
-		box_lines->push_back( vert_id_offset + 7 );
-		box_lines->push_back( vert_id_offset + 3 );
-		box_lines->push_back( vert_id_offset + 7 );
-		box_lines->push_back( vert_id_offset + 4 );
-		geom->addPrimitiveSet( box_lines );
-	}
-
-	inline void translateGroup( osg::Group* grp, const osg::Vec3f& trans, std::unordered_set<osg::Geode*>& set_applied )
+	inline void translateGroup( osg::Group* grp, const osg::Vec3f& trans, boost::unordered_set<osg::Geode*>& set_applied )
 	{
 		int num_children = grp->getNumChildren();
 		for( int i = 0; i < num_children; ++i )

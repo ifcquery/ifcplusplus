@@ -1,25 +1,27 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-#include <set>
-#include <sstream>
-
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/StylesConverter.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
-
 #include <ifcpp/IFC4/include/IfcAnnotationFillArea.h>
 #include <ifcpp/IFC4/include/IfcBooleanResult.h>
 #include <ifcpp/IFC4/include/IfcBoundingBox.h>
@@ -52,8 +54,7 @@
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
-#include "StylesConverter.h"
+
 #include "Sweeper.h"
 #include "SplineConverter.h"
 #include "PointConverter.h"
@@ -90,14 +91,14 @@ public:
 		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_unit_converter, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
 
 		// this redirects the callback messages from all converters to RepresentationConverter's callback
-		addCallbackChild( m_styles_converter.get() );
-		addCallbackChild( m_point_converter.get() );
-		addCallbackChild( m_spline_converter.get() );
-		addCallbackChild( m_profile_cache.get() );
-		addCallbackChild( m_curve_converter.get() );
-		addCallbackChild( m_face_converter.get() );
-		addCallbackChild( m_solid_converter.get() );
-		addCallbackChild( m_sweeper.get() );
+		m_styles_converter->setMessageTarget( this );
+		m_point_converter->setMessageTarget( this );
+		m_spline_converter->setMessageTarget( this );
+		m_profile_cache->setMessageTarget( this );
+		m_curve_converter->setMessageTarget( this );
+		m_face_converter->setMessageTarget( this );
+		m_solid_converter->setMessageTarget( this );
+		m_sweeper->setMessageTarget( this );
 	}
 
 	virtual ~RepresentationConverter()
@@ -140,9 +141,9 @@ public:
 		}
 	}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& representation, shared_ptr<ProductRepresentationData>& input_data )
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<ProductRepresentationData>& input_data )
 	{
-		if( representation->m_RepresentationIdentifier )
+		if( ifc_representation->m_RepresentationIdentifier )
 		{
 			// http://www.buildingsmart-tech.org/ifc/IFC4/final/html/index.htm
 			// Box	Bounding box as simplified 3D box geometry of an element
@@ -155,10 +156,10 @@ public:
 			// Body-FallBack	3D Body representation, e.g. as tessellation, or other surface, or boundary representation, added in addition to the solid model (potentially involving Boolean operations) of an element
 			// Clearance	3D clearance volume of the element. Such clearance region indicates space that should not intersect with the 'Body' representation of other elements, though may intersect with the 'Clearance' representation of other elements.
 			// Lighting	Representation of emitting light as a light source within a shape representation
-			input_data->m_representation_identifier = representation->m_RepresentationIdentifier->m_value;
+			input_data->m_representation_identifier = ifc_representation->m_RepresentationIdentifier->m_value;
 		}
 
-		if( representation->m_RepresentationType )
+		if( ifc_representation->m_RepresentationType )
 		{
 			// Point	2 or 3 dimensional point(s)
 			// PointCloud	3 dimensional points prepresented by a point list
@@ -183,21 +184,22 @@ public:
 			//		AdvancedBrep	Brep's based on advanced faces, with b-spline surface geometry, with and without voids
 			//		CSG	Boolean results of operations between solid models, half spaces and Boolean results
 			//		Clipping	Boolean differences between swept area solids, half spaces and Boolean results
-			input_data->m_representation_type = representation->m_RepresentationType->m_value;
+			input_data->m_representation_type = ifc_representation->m_RepresentationType->m_value;
 		}
 
-		input_data->m_ifc_representation_context = representation->m_ContextOfItems;
+		input_data->m_ifc_representation = ifc_representation;
+		input_data->m_ifc_representation_context = ifc_representation->m_ContextOfItems;
 
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
-		for( size_t i_representation_items = 0; i_representation_items < representation->m_Items.size(); ++i_representation_items )
+		for( size_t i_representation_items = 0; i_representation_items < ifc_representation->m_Items.size(); ++i_representation_items )
 		{
-			shared_ptr<IfcRepresentationItem> representation_item = representation->m_Items[i_representation_items];
+			shared_ptr<IfcRepresentationItem> representation_item = ifc_representation->m_Items[i_representation_items];
 
 			//ENTITY IfcRepresentationItem  ABSTRACT SUPERTYPE OF(ONEOF(IfcGeometricRepresentationItem, IfcMappedItem, IfcStyledItem, IfcTopologicalRepresentationItem));
 			shared_ptr<IfcGeometricRepresentationItem> geom_item = dynamic_pointer_cast<IfcGeometricRepresentationItem>( representation_item );
 			if( geom_item )
 			{
-				shared_ptr<ItemShapeInputData> geom_item_data( new ItemShapeInputData() );
+				shared_ptr<ItemShapeData> geom_item_data( new ItemShapeData() );
 				if( !geom_item_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -295,7 +297,7 @@ public:
 						// overwrite item appearances with parent appearance
 						for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->m_vec_item_data.size(); ++i_mapped_item )
 						{
-							shared_ptr<ItemShapeInputData>& mapped_item_data = mapped_input_data->m_vec_item_data[i_mapped_item];
+							shared_ptr<ItemShapeData>& mapped_item_data = mapped_input_data->m_vec_item_data[i_mapped_item];
 							mapped_item_data->m_vec_item_appearances.clear();
 
 							for( size_t jj_appearance = 0; jj_appearance < vec_appearance_data.size(); ++jj_appearance )
@@ -326,7 +328,7 @@ public:
 			shared_ptr<IfcTopologicalRepresentationItem> topo_item = dynamic_pointer_cast<IfcTopologicalRepresentationItem>( representation_item );
 			if( topo_item )
 			{
-				shared_ptr<ItemShapeInputData> topological_item_data( new ItemShapeInputData() );
+				shared_ptr<ItemShapeData> topological_item_data( new ItemShapeData() );
 				if( !topological_item_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -358,7 +360,7 @@ public:
 
 		if( m_geom_settings->handleLayerAssignments() )
 		{
-			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& vec_layer_assignments_inverse = representation->m_LayerAssignments_inverse;
+			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& vec_layer_assignments_inverse = ifc_representation->m_LayerAssignments_inverse;
 			for( size_t ii = 0; ii < vec_layer_assignments_inverse.size(); ++ii )
 			{
 				shared_ptr<IfcPresentationLayerAssignment> layer_assignment( vec_layer_assignments_inverse[ii] );
@@ -387,7 +389,7 @@ public:
 		}
 	}
 
-	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData> item_data )
 	{
 		//ENTITY IfcGeometricRepresentationItem
 		//ABSTRACT SUPERTYPE OF(ONEOF(
@@ -692,7 +694,7 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get() );
 	}
 
-	void convertTopologicalRepresentationItem( const shared_ptr<IfcTopologicalRepresentationItem>& topological_item, shared_ptr<ItemShapeInputData> topo_item_data )
+	void convertTopologicalRepresentationItem( const shared_ptr<IfcTopologicalRepresentationItem>& topological_item, shared_ptr<ItemShapeData> topo_item_data )
 	{
 		//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
 		const shared_ptr<IfcConnectedFaceSet> topo_connected_face_set = dynamic_pointer_cast<IfcConnectedFaceSet>( topological_item );
@@ -890,7 +892,7 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, topological_item.get() );
 	}
 
-	void subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeInputData>& product_shape )
+	void subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeData>& product_shape )
 	{
 		std::vector<shared_ptr<ProductRepresentationData> > vec_opening_data;
 		std::vector<weak_ptr<IfcRelVoidsElement> > vec_rel_voids( ifc_element->m_HasOpenings_inverse );
@@ -926,7 +928,7 @@ public:
 			carve::math::Matrix opening_placement_matrix( carve::math::Matrix::IDENT() );
 			if( opening_placement )
 			{
-				std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
+				boost::unordered_set<IfcObjectPlacement*> opening_placements_applied;
 				PlacementConverter::convertIfcObjectPlacement( opening_placement, length_factor, opening_placement_matrix, this, opening_placements_applied );
 			}
 
@@ -971,7 +973,7 @@ public:
 				continue;
 			}
 
-			std::vector<shared_ptr<ItemShapeInputData> >& vec_opening_items = opening_representation_data->m_vec_item_data;
+			std::vector<shared_ptr<ItemShapeData> >& vec_opening_items = opening_representation_data->m_vec_item_data;
 			for( auto& opening_item_data : vec_opening_items )
 			{
 				if( opening_item_data )
@@ -1029,7 +1031,7 @@ public:
 		{
 			for( auto& product_representation : product_shape->m_vec_representations )
 			{
-				std::vector<shared_ptr<ItemShapeInputData> >& vec_product_items = product_representation->m_vec_item_data;
+				std::vector<shared_ptr<ItemShapeData> >& vec_product_items = product_representation->m_vec_item_data;
 				for( auto& item_data : vec_product_items )
 				{
 					if( item_data )

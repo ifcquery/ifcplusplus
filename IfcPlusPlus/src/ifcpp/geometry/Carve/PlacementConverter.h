@@ -1,20 +1,24 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
 #include <set>
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcAxis1Placement.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement2D.h>
@@ -296,7 +300,7 @@ namespace PlacementConverter
 	}
 
 	inline void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, const double length_factor,
-		carve::math::Matrix& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
+		carve::math::Matrix& resulting_matrix, boost::unordered_set<IfcRepresentationContext*>& already_applied )
 	{
 		if( !context )
 		{
@@ -348,12 +352,8 @@ namespace PlacementConverter
 	}
 
 	//\brief translates an IfcObjectPlacement (or subtype) to carve Matrix
-	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement,
-		const double length_factor,
-		carve::math::Matrix& resulting_matrix,
-		StatusCallback* sc,
-		std::unordered_set<IfcObjectPlacement*>& placement_already_applied,
-		bool only_rotation = false )
+	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, const double length_factor,
+		carve::math::Matrix& resulting_matrix, StatusCallback* sc, boost::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation = false )
 	{
 		if( !ifc_object_placement )
 		{

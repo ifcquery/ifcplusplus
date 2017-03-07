@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma warning( disable: 4996 )
@@ -17,7 +21,7 @@
 #include <QFileDialog>
 #include <QFile>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/IfcPPGuid.h>
@@ -123,7 +127,7 @@ void TabReadWrite::closeEvent( QCloseEvent* )
 	settings.setValue("IOsplitterSizes", m_io_splitter->saveState());
 }
 
-void TabReadWrite::slotMessageWrapper( void* ptr, shared_ptr<StatusCallback::Message> m )
+void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message> m )
 {
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
@@ -201,9 +205,9 @@ void TabReadWrite::slotRecentFilesIndexChanged(int)
 void TabReadWrite::slotLoadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
-	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
-	m_system->getIfcPPReader()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
-	m_system->getIfcPPWriter()->setMessageCallBack( this, &TabReadWrite::slotMessageWrapper );
+	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getIfcPPReader()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getIfcPPWriter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
 	
 
 	slotTxtOut( QString( "loading file: " ) + path_in );
@@ -290,7 +294,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 	}
 
 	clock_t time_diff = clock() - millisecs;
-	int num_entities = m_system->getGeometryConverter()->getIfcPPModel()->getMapIfcEntities().size();
+	int num_entities = m_system->getIfcModel()->getMapIfcEntities().size();
 	slotTxtOut( tr("File loaded: ") + QString::number(num_entities) + " entities in " + QString::number( round(time_diff*0.1)*0.01 ) + " sec."  );
 
 	m_system->notifyModelLoadingDone();
@@ -312,21 +316,30 @@ void TabReadWrite::slotTxtOutError( QString txt )
 	m_txt_out->append( "<div style=\"color:red;\">Error: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
-void TabReadWrite::slotProgressValue( double progress_value, const std::string& progress_type )
+void TabReadWrite::slotProgressValue( double progress_value_in, const std::string& progress_type )
 {
+	double progress_value = progress_value_in;
 	if( progress_value >= 0.0 )
 	{
 		if( progress_type.compare( "parse" ) == 0 )
 		{
-			progress_value = progress_value*0.5;
+			progress_value = progress_value*0.3;
 		}
 		else if( progress_type.compare( "geometry" ) == 0 )
 		{
-			progress_value = 0.5 + progress_value*0.5;
+			progress_value = 0.3 + progress_value*0.6;
 		}
-
-		m_progress_bar->setValue( (int)( progress_value * 1000 ) );
-		QApplication::processEvents();
+		else if( progress_type.compare( "scenegraph" ) == 0 )
+		{
+			progress_value = 0.9 + progress_value*0.1;
+		}
+	
+		if( abs( m_current_progress_value - progress_value ) > 0.015 || progress_value == 0.0 || progress_value == 1.0 )
+		{
+			m_progress_bar->setValue( (int)(progress_value * 1000) );
+			QApplication::processEvents();
+			m_current_progress_value = progress_value;
+		}
 	}
 }
 

@@ -1,14 +1,18 @@
-/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2006 Robert Osfield
+/* -*-c++-*- IFC++ www.ifcquery.com
 *
-* This library is open source and may be redistributed and/or modified under
-* the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
-* (at your option) any later version.  The full license is in LICENSE file
-* included with this distribution, and on the openscenegraph.org website.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* OpenSceneGraph Public License for more details.
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <iostream>
@@ -19,11 +23,9 @@
 #include <osg/MatrixTransform>
 #include <osg/Switch>
 #include <osgViewer/View>
-#include <osgFX/Scribe>
 #include <osgText/Text>
 
 #include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/geometry/OCC/GeometryConverter.h>
 #include "IfcPlusPlusSystem.h"
 #include "OrbitCameraManipulator.h"
 
@@ -86,7 +88,6 @@ osg::Matrixd OrbitCameraManipulator::getMatrix() const
 	return m;
 }
 
-
 /** Get the position of the manipulator as a inverse matrix of the manipulator, typically used as a model view matrix.*/
 osg::Matrixd OrbitCameraManipulator::getInverseMatrix() const
 {
@@ -95,8 +96,6 @@ osg::Matrixd OrbitCameraManipulator::getInverseMatrix() const
 	return m;
 }
 
-
-// doc in parent
 void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg::Quat& /*rotation*/ )
 {
 	m_eye.set( eye );
@@ -105,15 +104,12 @@ void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg
 	//m_rotation = rotation;
 }
 
-// doc in parent
 void OrbitCameraManipulator::getTransformation( osg::Vec3d& eye, osg::Quat& /*rotation*/ ) const
 {
 	eye.set( m_eye );
 	// TODO: implement
-
 }
 
-// doc in parent
 void OrbitCameraManipulator::setTransformation( const osg::Vec3d& eye, const osg::Vec3d& center, const osg::Vec3d& up )
 {
 	m_eye.set( eye );
@@ -158,7 +154,6 @@ void OrbitCameraManipulator::computeRayPointer( const osgGA::GUIEventAdapter& ea
 		m_fovy = fovy;
 	}
 }
-
 
 /** Handles events. Returns true if handled, false otherwise.*/
 bool OrbitCameraManipulator::handle( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa )
@@ -337,7 +332,6 @@ bool OrbitCameraManipulator::handleMouseRelease( const osgGA::GUIEventAdapter& e
 			{
 				m_system->clearSelection();
 			}
-			
 		}
 	}
 	m_pointer_push_drag = false;
@@ -379,22 +373,10 @@ bool OrbitCameraManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAd
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
 
-	osg::Group* root_node = nullptr;
-	if( m_system )
+	if( cam )
 	{
-		root_node = m_system->getRootNode();
+		iv.apply( *cam );
 	}
-	else
-	{
-		root_node = (osg::Group*)view->getSceneData();
-	}
-
-	if( root_node == nullptr )
-	{
-		return false;
-	}
-
-	iv.apply( *cam );
 
 	if( picker->containsIntersections() )
 	{
@@ -411,6 +393,7 @@ bool OrbitCameraManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAd
 			// set rotate center to intersection point
 			m_rotate_center.set( m_pointer_intersection );
 			m_intersect_hit_geometry = true;
+			break;
 		}
 	}
 
@@ -428,7 +411,6 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 	picker->setIntersectionLimit( osgUtil::Intersector::LIMIT_NEAREST );
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
-	view->getScene();
 	iv.apply( *cam );
 
 	bool intersection_geometry_found = false;
@@ -466,22 +448,22 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 			std::string id_str = node_name_id.substr( 0, last_index );
 			const int id = atoi( id_str.c_str() );
 
-			const std::map<int, shared_ptr<selectedEntity> >& map_selected = m_system->getSelectedObjects();
-			std::map<int, shared_ptr<selectedEntity> >::const_iterator it_selected = map_selected.find( id );
+			const std::map<int, shared_ptr<SelectedEntity> >& map_selected = m_system->getSelectedObjects();
+			std::map<int, shared_ptr<SelectedEntity> >::const_iterator it_selected = map_selected.find( id );
 
 			if( it_selected != map_selected.end() )
 			{
-				shared_ptr<selectedEntity> selected_entity = it_selected->second;
+				shared_ptr<SelectedEntity> selected_entity = it_selected->second;
 				// is already selected, so deselect
-				m_system->setObjectSelected( selected_entity->entity, false, selected_entity->osg_group );
+				m_system->setObjectSelected( selected_entity->m_entity, false, selected_entity->m_osg_group );
 				return true;
 			}
 			else
 			{
 				// select
-				shared_ptr<IfcPPModel> ifc_model = m_system->getGeometryConverter()->getIfcPPModel();
-				const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
-				boost::unordered_map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find = map_ifc_objects.find(id);
+				shared_ptr<IfcPPModel> ifc_model = m_system->getIfcModel();
+				const map_t<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
+				auto it_find = map_ifc_objects.find(id);
 				if( it_find != map_ifc_objects.end() )
 				{
 					shared_ptr<IfcPPEntity> entitiy_selected = it_find->second;
@@ -493,8 +475,6 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 				}
 				return true;
 			}
-
-
 		}
 	}
 
@@ -724,8 +704,10 @@ void OrbitCameraManipulator::setAnimationTime( const double t )
         return;
     }
 
-    if( !m_animation_data )
-        allocAnimationData();
+	if( !m_animation_data )
+	{
+		m_animation_data = new OrbitAnimationData();
+	}
 
     m_animation_data->_animationTime = t;
 }
@@ -737,8 +719,10 @@ bool OrbitCameraManipulator::performAnimationMovement( const osgGA::GUIEventAdap
     {
         f = 1.;
         m_animation_data->_isAnimating = false;
-        if( !_thrown )
-            aa.requestContinuousUpdate( false );
+		if( !_thrown )
+		{
+			aa.requestContinuousUpdate( false );
+		}
     }
 
     applyAnimationStep( f, m_animation_data->_phase );
@@ -751,10 +735,14 @@ bool OrbitCameraManipulator::performAnimationMovement( const osgGA::GUIEventAdap
 
 bool OrbitCameraManipulator::isAnimating() const
 {
-    if( m_animation_data )
-        return m_animation_data->_isAnimating;
-    else
-        return false;
+	if( m_animation_data )
+	{
+		return m_animation_data->_isAnimating;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 

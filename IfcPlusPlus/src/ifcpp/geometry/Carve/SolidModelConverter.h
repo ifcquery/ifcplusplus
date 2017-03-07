@@ -1,19 +1,24 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
@@ -43,7 +48,6 @@
 #include <ifcpp/IFC4/include/IfcSweptDiskSolid.h>
 
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
 #include "PointConverter.h"
 #include "ProfileCache.h"
 #include "FaceConverter.h"
@@ -63,9 +67,8 @@ public:
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<Sweeper>					m_sweeper;
 
-
-	SolidModelConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc,
-		shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>& cc, shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache, shared_ptr<Sweeper>& sw )
+	SolidModelConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>& cc, 
+		shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache, shared_ptr<Sweeper>& sw )
 		: m_geom_settings( gs ), m_point_converter( pc ), m_unit_converter( uc ), m_curve_converter( cc ), m_face_converter( fc ), m_profile_cache( pcache ), m_sweeper( sw )
 	{
 	}
@@ -75,7 +78,7 @@ public:
 	}
 
 	// ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
-	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data )
 	{
 		const int nvc = m_geom_settings->getNumVerticesPerCircle();
 		const double length_in_meter = m_unit_converter->getLengthInMeterFactor();
@@ -99,7 +102,7 @@ public:
 				return;
 			}
 			
-			shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
+			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
 			if( !item_data_solid )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -310,7 +313,7 @@ public:
 			std::vector<vec3> basis_curve_points;
 			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
 
-			shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
+			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
 			if( !item_data_solid )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -325,7 +328,7 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 	}
 
-	void convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemShapeData> item_data )
 	{
 		if( !extruded_area->m_ExtrudedDirection )
 		{
@@ -375,7 +378,7 @@ public:
 
 	}
 
-	void convertRevolvedAreaSolid( const std::vector<std::vector<vec2> >& profile_coords_unchecked, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeInputData> item_data, IfcPPEntity* entity_of_origin = nullptr )
+	void convertRevolvedAreaSolid( const std::vector<std::vector<vec2> >& profile_coords_unchecked, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeData> item_data, IfcPPEntity* entity_of_origin = nullptr )
 	{
 		bool warning_small_loop_detected = false;
 		std::vector<std::vector<vec2> > profile_coords;
@@ -702,8 +705,8 @@ public:
 			segment_offset += num_vertices_per_section;
 		}
 
-#ifdef _DEBUG
-		GeomDebugUtils::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
+#ifdef IFCPP_GEOM_DEBUG
+		GeomDebugDump::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
 
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
 		if( meshset->meshes.size() != 1 )
@@ -715,14 +718,14 @@ public:
 
 		if( !meshset_ok )
 		{
-			GeomDebugUtils::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+			GeomDebugDump::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 		}
 #endif
 
 		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 	}
 
-	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeData> item_data )
 	{
 		// TODO: use Sweeper::sweepArea
 		if( !revolved_area )
@@ -784,7 +787,7 @@ public:
 		convertRevolvedAreaSolid( profile_coords_unchecked, axis_location, axis_direction, revolution_angle, item_data );
 	}
 
-	void convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeData> item_data )
 	{
 		shared_ptr<IfcBooleanOperator>& ifc_boolean_operator = bool_result->m_Operator;
 		shared_ptr<IfcBooleanOperand> ifc_first_operand = bool_result->m_FirstOperand;
@@ -815,16 +818,16 @@ public:
 		}
 
 		// convert the first operand
-		shared_ptr<ItemShapeInputData> first_operand_data( new ItemShapeInputData() );
+		shared_ptr<ItemShapeData> first_operand_data( new ItemShapeData() );
 		if( !first_operand_data )
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
-		shared_ptr<ItemShapeInputData> empty_operand;
+		shared_ptr<ItemShapeData> empty_operand;
 		convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand );
 
 		// convert the second operand
-		shared_ptr<ItemShapeInputData> second_operand_data( new ItemShapeInputData() );
+		shared_ptr<ItemShapeData> second_operand_data( new ItemShapeData() );
 		if( !second_operand_data )
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -875,7 +878,7 @@ public:
 		}
 	}
 
-	void convertIfcCsgPrimitive3D( const shared_ptr<IfcCsgPrimitive3D>& csg_primitive, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcCsgPrimitive3D( const shared_ptr<IfcCsgPrimitive3D>& csg_primitive, shared_ptr<ItemShapeData> item_data )
 	{
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -1188,7 +1191,7 @@ public:
 		box_data->addFace( 7, 3, 2 );
 	}
 
-	void convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemShapeInputData> item_data, const shared_ptr<ItemShapeInputData>& other_operand )
+	void convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemShapeData> item_data, const shared_ptr<ItemShapeData>& other_operand )
 	{
 		//ENTITY IfcHalfSpaceSolid SUPERTYPE OF(ONEOF(IfcBoxedHalfSpace, IfcPolygonalBoundedHalfSpace))
 		double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -1339,7 +1342,7 @@ public:
 
 			std::vector<std::vector<vec2> > paths;
 			paths.push_back( polygonal_boundary );
-			shared_ptr<ItemShapeInputData> polygonal_halfspace_item_data( new ItemShapeInputData );
+			shared_ptr<ItemShapeData> polygonal_halfspace_item_data( new ItemShapeData );
 			m_sweeper->extrude( paths, vec3( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
 
 			if( polygonal_halfspace_item_data->m_meshsets.size() != 1 )
@@ -1420,7 +1423,7 @@ public:
 			if( var == 0 )
 			{
 				//shared_ptr<carve::input::PolylineSetData> surface_data( new carve::input::PolylineSetData() );
-				shared_ptr<ItemShapeInputData> surface_item_data( new ItemShapeInputData() );
+				shared_ptr<ItemShapeData> surface_item_data( new ItemShapeData() );
 				shared_ptr<SurfaceProxy> surface_proxy;
 				m_face_converter->convertIfcSurface( base_surface, surface_item_data, surface_proxy );
 				if( surface_item_data->m_polylines.size() > 0 )
@@ -1476,7 +1479,7 @@ public:
 		}
 	}
 
-	void convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeInputData> item_data, const shared_ptr<ItemShapeInputData>& other_operand )
+	void convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeData> item_data, const shared_ptr<ItemShapeData>& other_operand )
 	{
 		// TYPE IfcBooleanOperand = SELECT	(IfcBooleanResult	,IfcCsgPrimitive3D	,IfcHalfSpaceSolid	,IfcSolidModel);
 		shared_ptr<IfcSolidModel> solid_model = dynamic_pointer_cast<IfcSolidModel>( operand_select );
@@ -1512,7 +1515,7 @@ public:
 		throw IfcPPException( strs_err.str().c_str(), __FUNC__ );
 	}
 
-	void convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeData> item_data )
 	{
 		const shared_ptr<IfcCompositeCurve> spine_curve = spine->m_SpineCurve;
 		if( !spine_curve )

@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -19,39 +23,59 @@
 #include <osg/Point>
 #include <osgUtil/Tessellator>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
+#include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
+#include <ifcpp/IFC4/include/IfcProject.h>
 #include <ifcpp/IFC4/include/IfcSpace.h>
 #include <ifcpp/IFC4/include/IfcWindow.h>
+#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
 
-#include "IncludeCarveHeaders.h"
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/geometry/SceneGraphUtils.h>
+#include <ifcpp/geometry/AppearanceData.h>
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
+#include "IncludeCarveHeaders.h"
 #include "CSG_Adapter.h"
 
 class ConverterOSG : public StatusCallback
 {
 protected:
-	shared_ptr<GeometrySettings>	m_geom_settings;
-	osg::ref_ptr<osg::CullFace>		m_cull_back_off;
-	osg::ref_ptr<osg::StateSet>		m_glass_stateset;
+	shared_ptr<GeometrySettings>				m_geom_settings;
+	map_t<int, osg::ref_ptr<osg::Switch> >		m_map_entity_id_to_switch;
+	map_t<int, osg::ref_ptr<osg::Switch> >		m_map_representation_id_to_switch;
+	double										m_recent_progress;
+	osg::ref_ptr<osg::CullFace>					m_cull_back_off;
+	osg::ref_ptr<osg::StateSet>					m_glass_stateset;
 	//\brief StateSet caching and re-use
-	std::vector<osg::ref_ptr<osg::StateSet> > m_vec_existing_statesets;
+	std::vector<osg::ref_ptr<osg::StateSet> >	m_vec_existing_statesets;
+	bool										m_enable_stateset_caching = false;
+
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_appearance_cache;
 #endif
 
 public:
-	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings ) : m_geom_settings( geom_settings )
+	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings ) : m_geom_settings(geom_settings)
 	{
 		m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
-
 		m_glass_stateset = new osg::StateSet();
 		m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 		m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 	}
 	virtual ~ConverterOSG() {}
+
+	// Map: IfcProduct ID -> scenegraph switch
+	map_t<int, osg::ref_ptr<osg::Switch> >& getMapEntityIdToSwitch() { return m_map_entity_id_to_switch; }
+	// Map: Representation Identifier -> scenegraph switch
+	map_t<int, osg::ref_ptr<osg::Switch> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
+
+	void clearInputCache()
+	{
+		m_map_entity_id_to_switch.clear();
+		m_map_representation_id_to_switch.clear();
+	}
 
 	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false )
 	{
@@ -87,7 +111,7 @@ public:
 			( *triangles )[i] = i;// ->push_back( i );
 		}
 
-		osg::Vec3f poly_normal = GeomUtils::computePolygonNormal( vertices );
+		osg::Vec3f poly_normal = SceneGraphUtils::computePolygonNormal( vertices );
 		osg::Vec3Array* normals = new osg::Vec3Array();
 		normals->resize( num_vertices, poly_normal );
 
@@ -164,8 +188,8 @@ public:
 		osg::ref_ptr<osg::Vec3Array> normals_quad;
 
 		const size_t max_num_faces_per_vertex = 10000;
-		std::map<carve::mesh::Face<3>*, double> map_face_area;
-		std::map<carve::mesh::Face<3>*, double>::iterator it_face_area;
+		map_t<carve::mesh::Face<3>*, double> map_face_area;
+		map_t<carve::mesh::Face<3>*, double>::iterator it_face_area;
 
 		if( crease_angle > 0 )
 		{
@@ -409,7 +433,7 @@ public:
 		}
 	}
 
-	void drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false )
+	static void drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false )
 	{
 		osg::Vec3Array* vertices = new osg::Vec3Array();
 		if( !vertices ) { throw IfcPPOutOfMemoryException(); }
@@ -460,160 +484,6 @@ public:
 		geode->addDrawable( geometry );
 	}
 
-	double computeSurfaceAreaOfGroup( const osg::Group* grp )
-	{
-		if( !grp )
-		{
-			return 0.0;
-		}
-
-		double surface_area = 0.0;
-		unsigned int num_children = grp->getNumChildren();
-		for( unsigned int i = 0; i < num_children; ++i )
-		{
-			const osg::Node* node = grp->getChild( i );
-			const osg::Group* child_group = dynamic_cast<const osg::Group*>( node );
-			if( child_group )
-			{
-				surface_area += computeSurfaceAreaOfGroup( child_group );
-				continue;
-			}
-			const osg::Geode* child_geode = dynamic_cast<const osg::Geode*>( node );
-			if( child_geode )
-			{
-				for( size_t i_drawable = 0; i_drawable < child_geode->getNumDrawables(); ++i_drawable )
-				{
-					const osg::Drawable* drawable = child_geode->getDrawable(i_drawable);
-					const osg::Geometry* child_gemetry = dynamic_cast<const osg::Geometry*>( drawable );
-					if( !child_gemetry )
-					{
-#ifdef _DEBUG
-						std::cout << __FUNC__ << " !child_gemetry" << std::endl;
-#endif
-						return 0;
-					}
-					const osg::Array* vertices_array = child_gemetry->getVertexArray();
-					const osg::Vec3Array* vertices_float = dynamic_cast<const osg::Vec3Array*>( vertices_array );
-
-					if( !vertices_float )
-					{
-#ifdef _DEBUG
-						std::cout << __FUNC__ << " !vertices_float" << std::endl;
-#endif
-						return 0;
-					}
-
-					const osg::Geometry::PrimitiveSetList& primitive_sets = child_gemetry->getPrimitiveSetList();
-					for( auto it_primitives = primitive_sets.begin(); it_primitives != primitive_sets.end(); ++it_primitives )
-					{
-						const osg::PrimitiveSet* p_set = ( *it_primitives );
-
-						const unsigned int num_elements = p_set->getNumIndices();
-						if( num_elements < 3 )
-						{
-#ifdef _DEBUG
-							std::cout << "num_elements < 3" << std::endl;
-#endif
-							continue;
-						}
-
-						if( p_set->getMode() == osg::PrimitiveSet::QUADS )
-						{
-							for( unsigned int k = 0; k < num_elements - 3; k += 4 )
-							{
-								const osg::Vec3& v0 = vertices_float->at( p_set->index( k ) );
-								const osg::Vec3& v1 = vertices_float->at( p_set->index( k + 1 ) );
-								const osg::Vec3& v2 = vertices_float->at( p_set->index( k + 2 ) );
-								const osg::Vec3& v3 = vertices_float->at( p_set->index( k + 3 ) );
-
-#ifdef _DEBUG
-								if( ( v0 - v1 ).length2() < 0.00001 )
-								{
-									continue;
-								}
-								if( ( v1 - v2 ).length2() < 0.00001 )
-								{
-									continue;
-								}
-								if( ( v2 - v3 ).length2() < 0.00001 )
-								{
-									continue;
-								}
-								if( ( v3 - v0 ).length2() < 0.00001 )
-								{
-									continue;
-								}
-#endif
-								osg::Vec3d v0_v1 = v1 - v0;
-								osg::Vec3d v0_v3 = v3 - v0;
-								osg::Vec3d v2_v1 = v1 - v2;
-								osg::Vec3d v2_v3 = v3 - v2;
-								osg::Vec3d cross_vec = v0_v1 ^ v0_v3;
-								surface_area += cross_vec.length()*0.5;
-
-								cross_vec = v2_v1 ^ v2_v3;
-								surface_area += cross_vec.length()*0.5;
-							}
-						}
-						else if( p_set->getMode() == osg::PrimitiveSet::TRIANGLES )
-						{
-							for( unsigned int k = 0; k < num_elements - 2; k += 3 )
-							{
-								const osg::Vec3& v0 = vertices_float->at( p_set->index( k ) );
-								const osg::Vec3& v1 = vertices_float->at( p_set->index( k + 1 ) );
-								const osg::Vec3& v2 = vertices_float->at( p_set->index( k + 2 ) );
-
-								osg::Vec3d v0_v1 = v1 - v0;
-								osg::Vec3d v0_v2 = v2 - v0;
-
-								osg::Vec3d cross_vec = v0_v1 ^ v0_v2;
-								surface_area += cross_vec.length()*0.5;
-							}
-						}
-						else if( p_set->getMode() == osg::PrimitiveSet::TRIANGLE_STRIP )
-						{
-							for( unsigned int k = 0; k < num_elements - 3; ++k )
-							{
-								const osg::Vec3& v0 = vertices_float->at( p_set->index( k ) );
-								const osg::Vec3& v1 = vertices_float->at( p_set->index( k + 1 ) );
-								const osg::Vec3& v2 = vertices_float->at( p_set->index( k + 2 ) );
-
-								osg::Vec3d v0_v1 = v1 - v0;
-								osg::Vec3d v0_v2 = v2 - v0;
-
-								osg::Vec3d cross_vec = v0_v1 ^ v0_v2;
-								surface_area += cross_vec.length()*0.5;
-							}
-						}
-						else if( p_set->getMode() == osg::PrimitiveSet::TRIANGLE_FAN )
-						{
-							const osg::Vec3& v0 = vertices_float->at( p_set->index( 0 ) );
-							for( unsigned int k = 0; k < num_elements - 2; ++k )
-							{
-								const osg::Vec3& v1 = vertices_float->at( p_set->index( k + 1 ) );
-								const osg::Vec3& v2 = vertices_float->at( p_set->index( k + 2 ) );
-
-								osg::Vec3d v0_v1 = v1 - v0;
-								osg::Vec3d v0_v2 = v2 - v0;
-
-								osg::Vec3d cross_vec = v0_v1 ^ v0_v2;
-								surface_area += cross_vec.length()*0.5;
-							}
-						}
-						else
-						{
-#ifdef _DEBUG
-							std::cout << "other primitive set mode" << std::endl;
-#endif
-							return 0;
-						}
-					}
-				}
-			}
-		}
-		return surface_area;
-	}
-
 	void applyAppearancesToGroup( const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances, osg::Group* grp )
 	{
 		for( size_t ii = 0; ii < vec_product_appearances.size(); ++ii )
@@ -624,7 +494,7 @@ public:
 				continue;
 			}
 
-			if( appearance->m_apply_to_geometry_type == AppearanceData::SURFACE || appearance->m_apply_to_geometry_type == AppearanceData::ANY )
+			if( appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_SURFACE || appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_ANY )
 			{
 				osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
 				if( item_stateset != nullptr )
@@ -643,47 +513,55 @@ public:
 					}
 				}
 			}
-			else if( appearance->m_apply_to_geometry_type == AppearanceData::CURVE )
+			else if( appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_CURVE )
 			{
 
 			}
 		}
 	}
 
-	//\brief creates geometry objects from an IfcProduct object
+	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-	void convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double length_factor )
+	void convertProductShapeToOSG( shared_ptr<ProductShapeData>& product_shape, map_t<int, osg::ref_ptr<osg::Switch> >& map_representation_switches )
 	{
-		osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
-		if( !product_switch ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
-
-		std::stringstream strs_product_switch_name;
-		shared_ptr<IfcProduct> ifc_product;
-		if( !product_shape->m_ifc_product.expired() )
+		if( product_shape->m_ifc_object_definition.expired() )
 		{
-			ifc_product = shared_ptr<IfcProduct>( product_shape->m_ifc_product );
-			const int product_id = ifc_product->m_id;
-			strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
-			product_switch->setName( strs_product_switch_name.str().c_str() );
+			return;
 		}
+		
+		shared_ptr<IfcObjectDefinition> ifc_object_def( product_shape->m_ifc_object_definition );
+		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( ifc_object_def );
+		if( !ifc_product )
+		{
+			return;
+		}
+		const int product_id = ifc_product->m_id;
+		std::stringstream strs_product_switch_name;
+		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
 		
 		// create OSG objects
 		std::vector<shared_ptr<ProductRepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
 		for( size_t ii_representation = 0; ii_representation < vec_product_representations.size(); ++ii_representation )
 		{
 			const shared_ptr<ProductRepresentationData>& product_representation_data = vec_product_representations[ii_representation];
-			osg::ref_ptr<osg::Switch> product_representation_switch = new osg::Switch();
-
+			if( product_representation_data->m_ifc_representation.expired() )
+			{
+				continue;
+			}
+			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
+			const int representation_id = ifc_representation->m_id;
+			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
+			
 #ifdef _DEBUG
 			std::stringstream strs_representation_name;
 			strs_representation_name << strs_product_switch_name.str().c_str() << ", representation " << ii_representation;
-			product_representation_switch->setName( strs_representation_name.str().c_str() );
+			representation_switch->setName( strs_representation_name.str().c_str() );
 #endif
 
-			const std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_representation_data->m_vec_item_data;
+			const std::vector<shared_ptr<ItemShapeData> >& product_items = product_representation_data->m_vec_item_data;
 			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 			{
-				const shared_ptr<ItemShapeInputData>& item_shape = product_items[i_item];
+				const shared_ptr<ItemShapeData>& item_shape = product_items[i_item];
 				osg::ref_ptr<osg::Group> item_group = new osg::Group();
 				if( !item_group ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 
@@ -836,98 +714,305 @@ public:
 						std::cout << __FUNC__ << "item_group->getNumParents() > 0" << std::endl;
 					}
 #endif
-					product_representation_switch->addChild( item_group );
+					representation_switch->addChild( item_group );
 				}
 			}
 
 			// apply statesets if there are any
 			if( product_representation_data->m_vec_representation_appearances.size() > 0 )
 			{
-				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, product_representation_switch );
+				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, representation_switch );
 			}
 
 			// If anything has been created, add it to the product group
-			if( product_representation_switch->getNumChildren() > 0 )
+			if( representation_switch->getNumChildren() > 0 )
 			{
 #ifdef _DEBUG
-				if( product_representation_switch->getNumParents() > 0 )
+				if( representation_switch->getNumParents() > 0 )
 				{
 					std::cout << __FUNC__ << "product_representation_switch->getNumParents() > 0" << std::endl;
 				}
-				if( product_representation_data->m_representation_switch )
-				{
-					std::cout << __FUNC__ << "product_representation_data->m_representation_switch already set" << std::endl;
-				}
 #endif
-				product_representation_data->m_representation_switch = product_representation_switch.get();
-				product_switch->addChild( product_representation_switch );
-			}
-		}
-
-		// apply statesets if there are any
-		const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = product_shape->getAppearances();
-		if( vec_product_appearances.size() > 0 )
-		{
-			applyAppearancesToGroup( vec_product_appearances, product_switch );
-		}
-
-		// enable transparency for certain objects
-		if( dynamic_pointer_cast<IfcSpace>( ifc_product ) )
-		{
-			product_switch->setStateSet( m_glass_stateset );
-		}
-		else if( dynamic_pointer_cast<IfcCurtainWall>( ifc_product ) || dynamic_pointer_cast<IfcWindow>( ifc_product ) )
-		{
-			for( auto& product_representation_data : vec_product_representations )
-			{
-				if( product_representation_data->m_representation_switch )
+				// enable transparency for certain objects
+				if( dynamic_pointer_cast<IfcSpace>(ifc_product) )
 				{
-					product_representation_data->m_representation_switch->setStateSet( m_glass_stateset );
-					GeomUtils::setMaterialAlpha( product_representation_data->m_representation_switch, 0.6f );
+					representation_switch->setStateSet( m_glass_stateset );
 				}
-			}
+				else if( dynamic_pointer_cast<IfcCurtainWall>(ifc_product) || dynamic_pointer_cast<IfcWindow>(ifc_product) )
+				{
+					representation_switch->setStateSet( m_glass_stateset );
+					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f );
+				}
 
-			// TODO: make only glass part of window transparent
-			product_switch->setStateSet( m_glass_stateset );
-			GeomUtils::setMaterialAlpha( product_switch, 0.6f );
+				map_representation_switches.insert( std::make_pair( representation_id, representation_switch ) );
+			}
 		}
 
 		// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
+	}
 
-		if( product_switch->getNumChildren() > 0 )
+	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
+	\param[out] parent_group Group to append the geometry.
+	**/
+	void convertToOSG( const map_t<int, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
+	{
+		progressTextCallback( L"Converting geometry to OpenGL format ..." );
+		progressValueCallback( 0, "scenegraph" );
+		m_map_entity_id_to_switch.clear();
+		m_map_representation_id_to_switch.clear();
+
+		shared_ptr<ProductShapeData> ifc_project_data;
+		std::vector<shared_ptr<ProductShapeData> > vec_products;
+
+		for( auto it = map_shape_data.begin(); it != map_shape_data.end(); ++it )
 		{
-#ifdef _DEBUG
-			if( product_switch->getNumParents() > 0 )
+			shared_ptr<ProductShapeData> shape_data = it->second;
+			if( shape_data )
 			{
-				std::cout << __FUNC__ << "product_switch->getNumParents() > 0" << std::endl;
+				vec_products.push_back( shape_data );
 			}
-			if( product_shape->m_product_switch )
-			{
-				std::cout << __FUNC__ << "product_shape->m_product_switch already set" << std::endl;
-			}
+		}
+
+		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
+		map_t<int, osg::ref_ptr<osg::Switch> >* map_entity_id = &m_map_entity_id_to_switch;
+		map_t<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
+		const int num_products = (int)vec_products.size();
+
+#ifdef IFCPP_OPENMP
+		Mutex writelock_map;
+		Mutex writelock_ifc_project;
+
+#pragma omp parallel firstprivate(num_products) shared(map_entity_id, map_representations)
+		{
+			// time for one product may vary significantly, so schedule not so many
+#pragma omp for schedule(dynamic,10)
 #endif
-			product_shape->m_product_switch = product_switch;
+			for( int i = 0; i < num_products; ++i )
+			{
+				shared_ptr<ProductShapeData>& shape_data = vec_products[i];
+				
+				weak_ptr<IfcObjectDefinition>& ifc_object_def_weak = shape_data->m_ifc_object_definition;
+				if( ifc_object_def_weak.expired() )
+				{
+					continue;
+				}
+				shared_ptr<IfcObjectDefinition> ifc_object_def( ifc_object_def_weak );
+				
+				std::stringstream thread_err;
+				if( dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object_def) )
+				{
+					// geometry will be created in method subtractOpenings
+					continue;
+				}
+				else if( dynamic_pointer_cast<IfcProject>(ifc_object_def) )
+				{
+#ifdef IFCPP_OPENMP
+					ScopedLock scoped_lock( writelock_ifc_project );
+#endif
+					ifc_project_data = shape_data;
+				}
+
+				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+				if( !ifc_product )
+				{
+					continue;
+				}
+
+				if( !ifc_product->m_Representation )
+				{
+					continue;
+				}
+				
+				const int product_id = ifc_product->m_id;
+				map_t<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
+				try
+				{
+					convertProductShapeToOSG( shape_data, map_representation_switches );
+				}
+				catch( IfcPPOutOfMemoryException& e )
+				{
+					throw e;
+				}
+				catch( IfcPPException& e )
+				{
+					thread_err << e.what();
+				}
+				catch( carve::exception& e )
+				{
+					thread_err << e.str();
+				}
+				catch( std::exception& e )
+				{
+					thread_err << e.what();
+				}
+				catch( ... )
+				{
+					thread_err << "undefined error, product id " << product_id;
+				}
+
+				if( map_representation_switches.size() > 0 )
+				{
+					osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+					std::stringstream strs_product_switch_name;
+					strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+					product_switch->setName( strs_product_switch_name.str().c_str() );
+
+					for( auto it_map = map_representation_switches.begin(); it_map != map_representation_switches.end(); ++it_map )
+					{
+						osg::ref_ptr<osg::Switch>& repres_switch = it_map->second;
+						product_switch->addChild( repres_switch );
+					}
+
+					// apply statesets if there are any
+					const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = shape_data->getAppearances();
+					if( vec_product_appearances.size() > 0 )
+					{
+						applyAppearancesToGroup( vec_product_appearances, product_switch );
+					}
+
+#ifdef IFCPP_OPENMP
+					ScopedLock scoped_lock( writelock_map );
+#endif
+					map_entity_id->insert( std::make_pair( product_id, product_switch ) );
+					map_representations->insert( map_representation_switches.begin(), map_representation_switches.end() );
+				}
+
+				if( thread_err.tellp() > 0 )
+				{
+					messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+				}
+
+				// progress callback
+				double progress = (double)i / (double)num_products;
+				if( progress - m_recent_progress > 0.02 )
+				{
+#ifdef IFCPP_OPENMP
+					if( omp_get_thread_num() == 0 )
+#endif
+					{
+						// leave 10% of progress to openscenegraph internals
+						progressValueCallback( progress*0.9, "scenegraph" );
+						m_recent_progress = progress;
+					}
+				}
+			}
+#ifdef IFCPP_OPENMP
+		} // implicit barrier
+#endif
+
+		try
+		{
+			// now resolve spatial structure
+			if( ifc_project_data )
+			{
+				resolveProjectStructure( ifc_project_data, parent_group );
+			}
+		}
+		catch( IfcPPOutOfMemoryException& e )
+		{
+			throw e;
+		}
+		catch( IfcPPException& e )
+		{
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+		}
+		catch( std::exception& e )
+		{
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+		}
+		catch( ... )
+		{
+			messageCallback( "undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		}
 	}
 
-	static inline void convertCarveToOsgMatrix( const carve::math::Matrix& matrix_in, osg::Matrix& matrix_out )
+	void addNodes( const map_t<int, shared_ptr<IfcPPObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
 	{
-		matrix_out = osg::Matrix(
-			matrix_in._11, matrix_in._12, matrix_in._13, matrix_in._14,
-			matrix_in._21, matrix_in._22, matrix_in._23, matrix_in._24,
-			matrix_in._31, matrix_in._32, matrix_in._33, matrix_in._34,
-			matrix_in._41, matrix_in._42, matrix_in._43, matrix_in._44
-			);
+		// check if there are entities that are not in spatial structure
+		if( !target_group )
+		{
+			target_group = new osg::Switch();
+		}
+
+		for( auto it_product_shapes = map_shape_data.begin(); it_product_shapes != map_shape_data.end(); ++it_product_shapes )
+		{
+			int product_id = it_product_shapes->first;
+			auto it_find = m_map_entity_id_to_switch.find( product_id );
+
+			if( it_find != m_map_entity_id_to_switch.end() )
+			{
+				osg::ref_ptr<osg::Switch>& sw = it_find->second;
+				if( sw )
+				{
+					target_group->addChild( sw );
+				}
+			}
+		}
 	}
 
-	static inline void convertOsgToCarveMatrix( const osg::Matrix& matrix_in, carve::math::Matrix& matrix_out )
+	void resolveProjectStructure( shared_ptr<ProductShapeData>& product_data, osg::ref_ptr<osg::Switch> group )
 	{
-		matrix_out = carve::math::Matrix(
-			matrix_in( 0, 0 ), matrix_in( 1, 0 ), matrix_in( 2, 0 ), matrix_in( 3, 0 ),
-			matrix_in( 0, 1 ), matrix_in( 1, 1 ), matrix_in( 2, 1 ), matrix_in( 3, 1 ),
-			matrix_in( 0, 2 ), matrix_in( 1, 2 ), matrix_in( 2, 2 ), matrix_in( 3, 2 ),
-			matrix_in( 0, 3 ), matrix_in( 1, 3 ), matrix_in( 2, 3 ), matrix_in( 3, 3 )
-			);
+		if( !product_data )
+		{
+			return;
+		}
+
+		if( product_data->m_ifc_object_definition.expired() )
+		{
+			return;
+		}
+
+		shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
+		const int entity_id = object_def->m_id;
+		if( SceneGraphUtils::inParentList( entity_id, group ) )
+		{
+			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
+			return;
+		}
+
+		for( size_t ii = 0; ii < product_data->m_vec_children.size(); ++ii )
+		{
+			shared_ptr<ProductShapeData>& child_product_data = product_data->m_vec_children[ii];
+			if( !child_product_data )
+			{
+				continue;
+			}
+
+			osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
+			if( !child_product_data->m_ifc_object_definition.expired() )
+			{
+				shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
+				std::stringstream group_subparts_name;
+				group_subparts_name << "#" << child_obj_def->m_id << "=";
+				group_subparts_name << child_obj_def->className();
+				group_subparts->setName( group_subparts_name.str().c_str() );
+			}
+
+			group->addChild( group_subparts );
+			resolveProjectStructure( child_product_data, group_subparts );
+		}
+
+		auto it_product_map = m_map_entity_id_to_switch.find( entity_id );
+		if( it_product_map != m_map_entity_id_to_switch.end() )
+		{
+			const osg::ref_ptr<osg::Switch>& product_switch = it_product_map->second;
+			if( product_switch )
+			{
+				group->addChild( product_switch );
+			}
+		}
+		else
+		{
+			if( group->getNumChildren() == 0 )
+			{
+				osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+				group->addChild( product_switch );
+
+				std::stringstream switch_name;
+				switch_name << "#" << entity_id << "=" << object_def->className();
+				product_switch->setName( switch_name.str().c_str() );
+			}
+		}
 	}
 
 	void clearAppearanceCache()
@@ -948,71 +1033,75 @@ public:
 		const float transparency = appearence->m_transparency;
 		const bool set_transparent = appearence->m_set_transparent;
 
-		const float color_ambient_r = appearence->m_color_ambient.x;
-		const float color_ambient_g = appearence->m_color_ambient.y;
-		const float color_ambient_b = appearence->m_color_ambient.z;
-		const float color_ambient_a = appearence->m_color_ambient.w;
+		const float color_ambient_r = appearence->m_color_ambient.r();
+		const float color_ambient_g = appearence->m_color_ambient.g();
+		const float color_ambient_b = appearence->m_color_ambient.b();
+		const float color_ambient_a = appearence->m_color_ambient.a();
 
-		const float color_diffuse_r = appearence->m_color_diffuse.x;
-		const float color_diffuse_g = appearence->m_color_diffuse.y;
-		const float color_diffuse_b = appearence->m_color_diffuse.z;
-		const float color_diffuse_a = appearence->m_color_diffuse.w;
+		const float color_diffuse_r = appearence->m_color_diffuse.r();
+		const float color_diffuse_g = appearence->m_color_diffuse.g();
+		const float color_diffuse_b = appearence->m_color_diffuse.b();
+		const float color_diffuse_a = appearence->m_color_diffuse.a();
 
-		const float color_specular_r = appearence->m_color_specular.x;
-		const float color_specular_g = appearence->m_color_specular.y;
-		const float color_specular_b = appearence->m_color_specular.z;
-		const float color_specular_a = appearence->m_color_specular.w;
+		const float color_specular_r = appearence->m_color_specular.r();
+		const float color_specular_g = appearence->m_color_specular.g();
+		const float color_specular_b = appearence->m_color_specular.b();
+		const float color_specular_a = appearence->m_color_specular.a();
 
-	#ifdef IFCPP_OPENMP
-		ScopedLock lock( m_writelock_appearance_cache );
-	#endif
-
-		for( size_t i=0; i<m_vec_existing_statesets.size(); ++i )
+		if( m_enable_stateset_caching )
 		{
-			const osg::ref_ptr<osg::StateSet> stateset_existing = m_vec_existing_statesets[i];
 
-			if( !stateset_existing.valid() )
+#ifdef IFCPP_OPENMP
+			ScopedLock lock( m_writelock_appearance_cache );
+#endif
+
+			for( size_t i = 0; i<m_vec_existing_statesets.size(); ++i )
 			{
-				continue;
+				const osg::ref_ptr<osg::StateSet> stateset_existing = m_vec_existing_statesets[i];
+
+				if( !stateset_existing.valid() )
+				{
+					continue;
+				}
+
+				osg::ref_ptr<osg::Material> mat_existing = (osg::Material*)stateset_existing->getAttribute( osg::StateAttribute::MATERIAL );
+				if( !mat_existing )
+				{
+					continue;
+				}
+
+				// compare
+				osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
+				if( fabs( color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
+				if( fabs( color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
+				if( fabs( color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
+				if( fabs( color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
+
+				osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
+				if( fabs( color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
+				if( fabs( color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
+				if( fabs( color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
+				if( fabs( color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
+
+				osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
+				if( fabs( color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
+				if( fabs( color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
+				if( fabs( color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
+				if( fabs( color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
+
+				float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
+				if( fabs( shininess_existing - shininess ) > 0.03 ) break;
+
+				bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
+				if( blend_on_existing != set_transparent ) break;
+
+				bool transparent_bin = stateset_existing->getRenderingHint() == osg::StateSet::TRANSPARENT_BIN;
+				if( transparent_bin != set_transparent ) break;
+
+				// if we get here, appearance is same as existing state set
+				// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
+				return stateset_existing;
 			}
-
-			osg::ref_ptr<osg::Material> mat_existing = (osg::Material*)stateset_existing->getAttribute(osg::StateAttribute::MATERIAL);
-			if( !mat_existing )
-			{
-				continue;
-			}
-
-			// compare
-			osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
-			if( fabs(color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
-			if( fabs(color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
-			if( fabs(color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
-			if( fabs(color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
-
-			osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
-			if( fabs(color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
-			if( fabs(color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
-			if( fabs(color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
-			if( fabs(color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
-
-			osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
-			if( fabs(color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
-			if( fabs(color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
-			if( fabs(color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
-			if( fabs(color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
-
-			float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
-			if( fabs(shininess_existing - shininess ) > 0.03 ) break;
-
-			bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
-			if( blend_on_existing != set_transparent ) break;
-
-			bool transparent_bin = stateset_existing->getRenderingHint() == osg::StateSet::TRANSPARENT_BIN;
-			if( transparent_bin != set_transparent ) break;
-
-			// if we get here, appearance is same as existing state set
-			// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
-			return stateset_existing;
 		}
 
 		osg::Vec4f ambientColor(	color_ambient_r,	color_ambient_g,	color_ambient_b,	transparency );
@@ -1046,7 +1135,10 @@ public:
 			// todo: add to scenegraph
 		}
 
-		m_vec_existing_statesets.push_back( stateset );
+		if( m_enable_stateset_caching )
+		{
+			m_vec_existing_statesets.push_back( stateset );
+		}
 		return stateset;
 	}
 };

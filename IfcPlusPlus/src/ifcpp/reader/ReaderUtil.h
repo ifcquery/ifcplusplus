@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -25,7 +29,7 @@
 #include <string>
 #include <boost/unordered_map.hpp>
 #include <boost/optional.hpp>
-#include "ifcpp/model/shared_ptr.h"
+#include "ifcpp/model/IfcPPBasicTypes.h"
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/IfcPPTypeEnums.h"
@@ -119,7 +123,7 @@ inline void readRealValue( const std::wstring& str, boost::optional<double>& rea
 
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 IFCPP_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_entities );
+shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const map_t<int, shared_ptr<IfcPPEntity> >& map_entities );
 IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name );
 IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name );
@@ -390,7 +394,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 }
 
 template<typename T>
-void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	if( str.length() == 0)
 	{
@@ -399,7 +403,7 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 	if( str.at(0) == '#' )
 	{
 		int entity_id = std::stoi( str.substr( 1 ) );
-		boost::unordered_map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map_entities.find( entity_id );
+		map_t<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map_entities.find( entity_id );
 		if( it_entity != map_entities.end() )
 		{
 			shared_ptr<IfcPPEntity> found_obj = it_entity->second;
@@ -427,7 +431,7 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 }
 
 template<typename T>
-void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	//(IFCPARAMETERVALUE(0.5),*,IFCPARAMETERVALUE(2.0))
 	wchar_t* pos_opening = nullptr;
@@ -461,7 +465,7 @@ void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >&
 }
 
 template<typename select_t>
-void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_entities )
+void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, const map_t<int, shared_ptr<IfcPPEntity> >& map_entities )
 {
 	wchar_t* ch = (wchar_t*)item.c_str();
 	if( *ch == '#' )
@@ -520,7 +524,7 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 }
 
 template<typename select_t>
-void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<select_t> >& vec, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<select_t> >& vec, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	//(#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
 	wchar_t* pos_opening = nullptr;
@@ -573,7 +577,7 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 }
 
 template<typename T>
-void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_ptr<T> >& vec, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_ptr<T> >& vec, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	//(#287,#291,#295,#299)
 	wchar_t* pos_opening = nullptr;
@@ -598,7 +602,7 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 	std::vector<int> list_items;
 	tokenizeEntityList( arg, list_items );
 	std::vector<int> vec_not_found;
-	boost::unordered_map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity;
+	map_t<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity;
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		const int id = list_items[i];
@@ -635,7 +639,7 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 }
 
 template<typename T>
-void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T> >& vec, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T> >& vec, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	//(#287,#291,#295,#299)
 	wchar_t* ch = (wchar_t*)str.c_str();
@@ -643,7 +647,7 @@ void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T>
 }
 
 template<typename T>
-void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& vec, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& vec, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	//((#287,#291,#295,#299),(#287,#291,#295,#299))
 	wchar_t* ch = (wchar_t*)str.c_str();
@@ -695,7 +699,7 @@ void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector
 }
 
 template<typename T>
-void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	//(((#287,#291,#295,#299),(#287,#291,#295,#299)),((#287,#291,#295,#299),(#287,#291,#295,#299)))
 	const size_t argsize = str.size();

@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -17,7 +21,8 @@
 #include <BRepBuilderAPI_MakeVertex.hxx>
 #include <BRepFilletAPI_MakeFillet2d.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/IFC4/include/IfcCartesianPoint.h>
 #include <ifcpp/IFC4/include/IfcCurve.h>
 #include <ifcpp/IFC4/include/IfcDirection.h>
@@ -32,7 +37,6 @@
 #include <ifcpp/IFC4/include/IfcVertexPoint.h>
 
 #include "GeomUtils.h"
-#include "GeometrySettings.h"
 
 //\brief class to convert IFC point representations to OCC
 class PointConverter
@@ -103,246 +107,6 @@ public:
 		return true;
 	}
 
-	static void createWireFromPoints( const std::vector<vec2>& coordinates, TopoDS_Wire& wire, bool close_wire_with_first_point )
-	{
-		std::vector<TopoDS_Vertex> vertices;
-		for( size_t ii = 0; ii < coordinates.size(); ++ii )
-		{
-			const vec2& vec = coordinates[ii];
-			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), 0 ) ) );
-		}
-
-		BRepBuilderAPI_MakeWire mk_wire;
-		for( size_t ii = 0; ii < vertices.size(); ii++ )
-		{
-			size_t idx_next = (ii + 1) % vertices.size();
-			TopoDS_Vertex& vertex_ii = vertices[ii];
-			TopoDS_Vertex& vertex_next = vertices[idx_next];
-
-			if( ii == vertices.size() - 1 )
-			{
-				if( !close_wire_with_first_point )
-				{
-					break;
-				}
-			}
-
-			if( coordinates.size() == vertices.size() )
-			{
-				const vec2& vec = coordinates[ii];
-				const vec2& vec_next = coordinates[idx_next];
-				if( GeomUtils::equal( vec, vec_next ) )
-				{
-					// points are equal, length of edge would be zero
-					continue;
-				}
-			}
-
-			if( vertex_ii.IsNull() )
-			{
-				continue;
-			}
-
-			if( vertex_next.IsNull() )
-			{
-				continue;
-			}
-
-			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
-			if( !mk_edge.IsDone() )
-			{
-				continue;
-			}
-			mk_wire.Add( mk_edge );
-		}
-		wire = mk_wire.Wire();
-	}
-
-	static void createWireFromPoints( const std::vector<gp_Vec>& coordinates, TopoDS_Wire& wire, bool close_wire_with_first_point )
-	{
-		std::vector<TopoDS_Vertex> vertices;
-		for( size_t ii = 0; ii < coordinates.size(); ++ii )
-		{
-			const gp_Vec& vec = coordinates[ii];
-			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), vec.Z() ) ) );
-		}
-
-		BRepBuilderAPI_MakeWire mk_wire;
-		for( size_t ii = 0; ii < vertices.size(); ii++ )
-		{
-			size_t idx_next = (ii + 1) % vertices.size();
-			TopoDS_Vertex& vertex_ii = vertices[ii];
-			TopoDS_Vertex& vertex_next = vertices[idx_next];
-
-			if( ii == vertices.size() - 1 )
-			{
-				if( !close_wire_with_first_point )
-				{
-					break;
-				}
-			}
-
-			if( coordinates.size() == vertices.size() )
-			{
-				const gp_Vec& vec = coordinates[ii];
-				const gp_Vec& vec_next = coordinates[idx_next];
-				if( GeomUtils::equal( vec, vec_next ) )
-				{
-					// points are equal, length of edge would be zero
-					continue;
-				}
-			}
-
-			if( vertex_ii.IsNull() )
-			{
-				continue;
-			}
-
-			if( vertex_next.IsNull() )
-			{
-				continue;
-			}
-
-			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
-			if( !mk_edge.IsDone() )
-			{
-				continue;
-			}
-			mk_wire.Add( mk_edge );
-		}
-		wire = mk_wire.Wire();
-	}
-	static void createFaceFromPoints( const std::vector<vec2>& coordinates, TopoDS_Face& face )
-	{
-		std::vector<TopoDS_Vertex> vertices;
-		for( size_t ii = 0; ii < coordinates.size(); ++ii )
-		{
-			const vec2& vec = coordinates[ii];
-			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), 0.0f ) ) );
-		}
-
-		BRepBuilderAPI_MakeWire mk_wire;
-		for( size_t ii = 0; ii < vertices.size(); ii++ )
-		{
-			size_t idx_next = (ii + 1) % vertices.size();
-			TopoDS_Vertex& vertex_ii = vertices[ii];
-			TopoDS_Vertex& vertex_next = vertices[idx_next];
-
-			if( coordinates.size() == vertices.size() )
-			{
-				const vec2& vec = coordinates[ii];
-				const vec2& vec_next = coordinates[idx_next];
-				if( GeomUtils::equal( vec, vec_next ) )
-				{
-					// points are equal, length of edge would be zero
-					continue;
-				}
-			}
-
-			if( vertex_ii.IsNull() )
-			{
-				continue;
-			}
-			if( vertex_next.IsNull() )
-			{
-				continue;
-			}
-			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
-			if( !mk_edge.IsDone() )
-			{
-				continue;
-			}
-			mk_wire.Add( mk_edge );
-		}
-
-		TopoDS_Wire wire = mk_wire.Wire();
-
-		BRepBuilderAPI_MakeFace mk_face( wire, false );
-		face = mk_face.Face();
-	}
-
-	static void createFaceFromPoints( const std::vector<TangentialPoint2D>& tangential_points, TopoDS_Face& face )
-	{
-		std::vector<TopoDS_Vertex> vertices;
-		bool have_radius = false;
-		for( size_t ii = 0; ii < tangential_points.size(); ++ii )
-		{
-			const TangentialPoint2D& tangent_point = tangential_points[ii];
-			const vec2& vec = tangent_point.m_coords;
-			const double radius = tangent_point.m_radius;
-			if( abs( radius ) > 0.0001 )
-			{
-				have_radius = true;
-			}
-			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), 0.0f ) ) );
-		}
-
-		TopoDS_Edge previous_edge;
-		BRepBuilderAPI_MakeWire mk_wire;
-		for( size_t ii = 0; ii < vertices.size(); ii++ )
-		{
-			size_t idx_next = (ii + 1) % vertices.size();
-			TopoDS_Vertex& vertex_ii = vertices[ii];
-			TopoDS_Vertex& vertex_next = vertices[idx_next];
-
-			if( tangential_points.size() == vertices.size() )
-			{
-				const TangentialPoint2D& tangent_point = tangential_points[ii];
-				const TangentialPoint2D& tangent_point_next = tangential_points[idx_next];
-				const vec2& vec = tangent_point.m_coords;
-				const vec2& vec_next = tangent_point_next.m_coords;
-				if( GeomUtils::equal( vec, vec_next ) )
-				{
-					// points are equal, length of edge would be zero
-					continue;
-				}
-			}
-
-			if( vertex_ii.IsNull() )
-			{
-				continue;
-			}
-			if( vertex_next.IsNull() )
-			{
-				continue;
-			}
-			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
-			if( !mk_edge.IsDone() )
-			{
-				continue;
-			}
-
-			mk_wire.Add( mk_edge );
-		}
-
-		TopoDS_Wire wire = mk_wire.Wire();
-
-		BRepBuilderAPI_MakeFace mk_face( wire, false );
-		face = mk_face.Face();
-
-		if( have_radius )
-		{
-			BRepFilletAPI_MakeFillet2d fillet( face );
-
-			for( size_t ii = 0; ii < tangential_points.size(); ++ii )
-			{
-				const double radius = tangential_points[ii].m_radius;
-				if( abs( radius ) > 0.0001 )
-				{
-					fillet.AddFillet( vertices[ii], abs( radius ) );
-				}
-			}
-			fillet.Build();
-			if( fillet.IsDone() )
-			{
-				face = TopoDS::Face( fillet.Shape() );
-			}
-			else
-			{
-				std::cout << "Failed to process profile fillets";
-			}
-		}
-	}
 	static void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, TopoDS_Wire& target_wire, double length_factor )
 	{
 		const size_t num_points = points.size();
@@ -388,7 +152,7 @@ public:
 			}
 		}
 
-		createWireFromPoints( vec_vertices, target_wire, false );
+		GeomUtils::createWireFromPoints( vec_vertices, target_wire, false );
 	}
 	static void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<gp_Vec>& loop, double length_factor )
 	{
@@ -514,7 +278,7 @@ public:
 			previous_y = y;
 			previous_z = z;
 		}
-		createWireFromPoints( vec_points, wire, close_wire_with_first_point );
+		GeomUtils::createWireFromPoints( vec_points, wire, close_wire_with_first_point );
 	}
 	static bool convertIfcVertex( const shared_ptr<IfcVertex>& vertex, gp_Vec& point_result, const double length_factor )
 	{

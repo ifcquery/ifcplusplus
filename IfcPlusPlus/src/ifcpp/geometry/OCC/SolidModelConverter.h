@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -30,7 +34,8 @@
 #include <ShapeAnalysis.hxx>
 #include <TopoDS.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
@@ -60,7 +65,6 @@
 #include <ifcpp/IFC4/include/IfcSweptDiskSolid.h>
 
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
 #include "PointConverter.h"
 #include "ProfileCache.h"
 #include "FaceConverter.h"
@@ -84,7 +88,7 @@ public:
 	virtual ~SolidModelConverter(){}
 
 	// ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
-	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data )
 	{
 		const int nvc = m_geom_settings->getNumVerticesPerCircle();
 		const double length_in_meter = m_unit_converter->getLengthInMeterFactor();
@@ -108,7 +112,7 @@ public:
 				return;
 			}
 
-			shared_ptr<ItemShapeInputData> item_data_solid( new ItemShapeInputData() );
+			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
 			if( !item_data_solid )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -152,8 +156,8 @@ public:
 				TopoDS_Wire directrix_wire;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_wire );
 
-#ifdef _DEBUG
-				GeomDebugUtils::dumpShape( directrix_wire, vec4( 0.5, 0.5, 0.3, 1.0 ), true, true );
+#ifdef IFCPP_GEOM_DEBUG
+				GeomDebugDump::dumpShape( directrix_wire, vec4( 0.5, 0.5, 0.3, 1.0 ), true, true );
 #endif
 
 				gp_Trsf directrix, position;
@@ -261,10 +265,10 @@ public:
 				{
 					messageCallback( sf.GetMessageString(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 					std::cout << sf.GetMessageString() << std::endl;
-					GeomDebugUtils::dumpShape( directrix_wire, vec4( 0.5, 0.5, 0.3, 1.0 ), true, false );
-					GeomDebugUtils::dumpShape( swept_area_face, vec4( 0.5, 0.5, 0.3, 1.0 ), true, false );
+					GeomDebugDump::dumpShape( directrix_wire, vec4( 0.5, 0.5, 0.3, 1.0 ), true, false );
+					GeomDebugDump::dumpShape( swept_area_face, vec4( 0.5, 0.5, 0.3, 1.0 ), true, false );
 #endif
 				}
 				return;
@@ -427,7 +431,7 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 	}
 
-	void convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcExtrudedAreaSolid( const shared_ptr<IfcExtrudedAreaSolid>& extruded_area, shared_ptr<ItemShapeData> item_data )
 	{
 		if( !extruded_area->m_ExtrudedDirection )
 		{
@@ -489,7 +493,7 @@ public:
 		}
 	}
 
-	void convertRevolvedAreaSolid( const TopoDS_Face& revolving_face, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeInputData> item_data, IfcPPEntity* entity_of_origin = nullptr )
+	void convertRevolvedAreaSolid( const TopoDS_Face& revolving_face, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeData> item_data, IfcPPEntity* entity_of_origin = nullptr )
 	{
 		gp_Pnt revolution_axis_location( axis_location.X(), axis_location.Y(), axis_location.Z() );
 		gp_Ax1 revolution_axis( revolution_axis_location, gp_Dir( axis_direction.X(), axis_direction.Y(), axis_direction.Z() ) );
@@ -500,7 +504,7 @@ public:
 		try
 		{
 			TopoDS_Shape revolved_shape;
-			if( revolution_angle >= 2.0*M_PI - GEOM_LENGTH_EPSILON )
+			if( revolution_angle >= 2.0*M_PI - GEOM_EPSILON_LENGTH )
 			{
 				revolved_shape = BRepPrimAPI_MakeRevol( revolving_face, revolution_axis );
 			}
@@ -523,7 +527,7 @@ public:
 		}
 	}
 
-	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeData> item_data )
 	{
 		// TODO: use Sweeper::sweepArea
 		if( !revolved_area )
@@ -586,7 +590,7 @@ public:
 		convertRevolvedAreaSolid( extrusion_face, axis_location, axis_direction, revolution_angle, item_data );
 	}
 
-	void convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcBooleanResult( const shared_ptr<IfcBooleanResult>& bool_result, shared_ptr<ItemShapeData> item_data )
 	{
 		const shared_ptr<IfcBooleanOperator>& ifc_boolean_operator = bool_result->m_Operator;
 		const shared_ptr<IfcBooleanOperand>& ifc_first_operand = bool_result->m_FirstOperand;
@@ -617,16 +621,16 @@ public:
 		}
 
 		// convert the first operand
-		shared_ptr<ItemShapeInputData> first_operand_data( new ItemShapeInputData() );
+		shared_ptr<ItemShapeData> first_operand_data( new ItemShapeData() );
 		if( !first_operand_data )
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
 		}
-		shared_ptr<ItemShapeInputData> empty_operand;
+		shared_ptr<ItemShapeData> empty_operand;
 		convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand );
 
 		// convert the second operand
-		shared_ptr<ItemShapeInputData> second_operand_data( new ItemShapeInputData() );
+		shared_ptr<ItemShapeData> second_operand_data( new ItemShapeData() );
 		if( !second_operand_data )
 		{
 			throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -634,10 +638,10 @@ public:
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
 		// for every first operand polyhedrons, apply all second operand polyhedrons
-		const std::vector<TopoDS_Shape>& vec_first_operand_shapes = first_operand_data->m_shapes;
+		std::vector<TopoDS_Shape>& vec_first_operand_shapes = first_operand_data->m_shapes;
 		for( size_t i_shape_first = 0; i_shape_first < vec_first_operand_shapes.size(); ++i_shape_first )
 		{
-			TopoDS_Shape first_operand_shape = vec_first_operand_shapes[i_shape_first];
+			TopoDS_Shape& first_operand_shape = vec_first_operand_shapes[i_shape_first];
 			if( first_operand_shape.IsNull() )
 			{
 				messageCallback( "bad first operand", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, bool_result.get() );
@@ -654,11 +658,11 @@ public:
 				}
 
 				TopoDS_Shape result;
-#ifdef _DEBUG
-				GeomDebugUtils::dumpShape( first_operand_shape, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );
-				GeomDebugUtils::dumpShape( second_operand_shape, vec4( 0.4, 0.5, 0.6, 1.0 ), true, true );
+#ifdef IFCPP_GEOM_DEBUG
+				GeomDebugDump::dumpEdgesOfShape( first_operand_shape, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );
+				GeomDebugDump::dumpShape( second_operand_shape, vec4( 0.4, 0.5, 0.6, 1.0 ), true, false );
 #endif
-				CSG_Adapter::computeCSG( first_operand_shape, second_operand_shape, result, csg_op, GEOM_CSG_FUZZY_EPSILON, this, bool_result.get() );
+				CSG_Adapter::computeCSG( first_operand_shape, second_operand_shape, result, csg_op, GEOM_EPSILON_CSG_FUZZY, this, bool_result.get() );
 				first_operand_shape = result;
 			}
 		}
@@ -677,7 +681,7 @@ public:
 		}
 	}
 
-	void convertIfcCsgPrimitive3D( const shared_ptr<IfcCsgPrimitive3D>& csg_primitive, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcCsgPrimitive3D( const shared_ptr<IfcCsgPrimitive3D>& csg_primitive, shared_ptr<ItemShapeData> item_data )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
@@ -821,14 +825,14 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
 	}
 
-	void convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemShapeInputData> item_data, const shared_ptr<ItemShapeInputData>& other_operand )
+	void convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemShapeData> item_data, const shared_ptr<ItemShapeData>& other_operand )
 	{
 		//ENTITY IfcHalfSpaceSolid SUPERTYPE OF(ONEOF(IfcBoxedHalfSpace, IfcPolygonalBoundedHalfSpace))
 		double length_factor = m_unit_converter->getLengthInMeterFactor();
-		shared_ptr<IfcSurface> base_surface = half_space_solid->m_BaseSurface;
+		shared_ptr<IfcSurface> ifc_base_surface = half_space_solid->m_BaseSurface;
 
 		// base surface
-		shared_ptr<IfcElementarySurface> elem_base_surface = dynamic_pointer_cast<IfcElementarySurface>(base_surface);
+		shared_ptr<IfcElementarySurface> elem_base_surface = dynamic_pointer_cast<IfcElementarySurface>(ifc_base_surface);
 		if( !elem_base_surface )
 		{
 			messageCallback( "The base surface shall be an unbounded surface (subtype of IfcElementarySurface)", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, half_space_solid.get() );
@@ -923,7 +927,7 @@ public:
 			m_curve_converter->convertIfcCurve( bounded_curve, polygonal_boundary );
 			GeomUtils::applyMatrixToShape( polygonal_boundary, boundary_position_transform );
 
-			vec3 clipping_solid_extrusion_direction = -boundary_normal.Multiplied( extrusion_depth*2.0 );
+			vec3 clipping_solid_extrusion_direction = boundary_normal.Multiplied( extrusion_depth*2.0 );
 			gp_Dir base_surface_normal = base_surface_plane.Axis().Direction();
 
 			// If the agreement flag is TRUE, then the subset is the one the normal points away from
@@ -960,15 +964,20 @@ public:
 				TopoDS_Face base_surface_face = BRepBuilderAPI_MakeFace( base_surface_plane, -extrusion_depth, extrusion_depth, -extrusion_depth, extrusion_depth );
 				TopoDS_Solid clipping_solid = TopoDS::Solid( BRepPrimAPI_MakePrism( base_surface_face, clipping_solid_extrusion_direction ) );
 
-				GeomDebugUtils::dumpShape( half_space_shape, vec4( 0.5, 0.6, 0.7, 1.0 ), true, false );
-				GeomDebugUtils::dumpShape( clipping_solid, vec4( 0.5, 0.6, 0.7, 1.0 ), true, false );
+#ifdef IFCPP_GEOM_DEBUG
+				GeomDebugDump::dumpEdgesOfShape( half_space_shape, vec4( 0.5, 0.6, 0.7, 1.0 ), true, false );
+				GeomDebugDump::dumpEdgesOfShape( clipping_solid, vec4( 0.7, 0.6, 0.7, 1.0 ), true, false );
+				GeomDebugDump::dumpShape( base_surface_face, vec4( 0.7, 0.6, 0.7, 0.5 ), true, false );
+#endif
 
 				TopoDS_Solid result;
-				CSG_Adapter::computeCSG( half_space_shape, clipping_solid, result, CSG_A_MINUS_B, GEOM_CSG_FUZZY_EPSILON, this, polygonal_half_space.get() );
+				CSG_Adapter::computeCSG( half_space_shape, clipping_solid, result, CSG_A_MINUS_B, GEOM_EPSILON_CSG_FUZZY, this, polygonal_half_space.get() );
 
 				if( !result.IsNull() )
 				{
-					GeomDebugUtils::dumpShape( result, vec4( 0.5, 0.6, 0.7, 1.0 ), true, true );
+#ifdef IFCPP_GEOM_DEBUG
+					GeomDebugDump::dumpShape( result, vec4( 0.5, 0.6, 0.7, 1.0 ), true, false );
+#endif
 					half_space_shape = result;
 				}
 			}
@@ -996,45 +1005,67 @@ public:
 			// unbounded half space solid, create simple box
 			Handle_Geom_Surface geom_surface;
 			TopoDS_Face base_face;
-			m_face_converter->convertIfcSurface( base_surface, geom_surface, base_face );
-			if( !base_face.IsNull() )
+			m_face_converter->convertIfcSurface( ifc_base_surface, geom_surface, base_face );
+			if( base_face.IsNull() )
 			{
-				try
+				messageCallback( "Could not convert BaseSurface", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
+				return;
+			}
+
+			try
+			{
+				gp_Vec face_normal = GeomUtils::computeFaceNormal( base_face );
+				bool agreement = half_space_solid->m_AgreementFlag->m_value;
+				if( !agreement )
 				{
-					gp_Vec face_normal = GeomUtils::computeFaceNormal( base_face );
-
-					bool agreement = half_space_solid->m_AgreementFlag->m_value;
-					if( !agreement )
-					{
-						face_normal = -face_normal;
-					}
-
-					gp_Vec  half_space_extrusion_direction = -face_normal;
-					gp_Vec  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
-
-					TopoDS_Solid extruded_half_space = TopoDS::Solid( BRepPrimAPI_MakePrism( base_face, half_space_extrusion_vector ) );
-					if( !extruded_half_space.IsNull() )
-					{
-						item_data->addShape( extruded_half_space );
-					}
+					face_normal = -face_normal;
 				}
-				catch( Standard_Failure sf )
+
+				gp_Vec  half_space_extrusion_direction = -face_normal;
+				gp_Vec  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
+
+				TopoDS_Solid extruded_half_space = TopoDS::Solid( BRepPrimAPI_MakePrism( base_face, half_space_extrusion_vector ) );
+				if( !extruded_half_space.IsNull() )
 				{
-					messageCallback( sf.GetMessageString(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
-					return;
+					item_data->addShape( extruded_half_space );
+#ifdef IFCPP_GEOM_DEBUG
+					GeomDebugDump::dumpShape( extruded_half_space, vec4( 0.5, 0.57, 0.6, 1.0 ), true, true );
+#endif
 				}
-				catch( ... )
+				else
 				{
-					messageCallback( "BRepPrimAPI_MakePrism failed", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
-					return;
+#ifdef IFCPP_GEOM_DEBUG
+					GeomDebugDump::dumpShape( base_face, vec4( 0.5, 0.57, 0.6, 1.0 ), true, true );
+					for( TopExp_Explorer exp( base_face, TopAbs_VERTEX ); exp.More(); exp.Next() )
+					{
+						TopoDS_Vertex vert = TopoDS::Vertex( exp.Current() );
+						gp_Pnt vertex_point = BRep_Tool::Pnt( vert );
+						vec3 normal = GeomUtils::computeFaceNormal( base_face );
+						gp_Pnt extruded_point( vertex_point.X() + half_space_extrusion_vector.X(), vertex_point.Y() + half_space_extrusion_vector.Y(), vertex_point.Z() + half_space_extrusion_vector.X() );
+
+						TopoDS_Edge edge = BRepBuilderAPI_MakeEdge( vert, BRepBuilderAPI_MakeVertex( extruded_point ) );
+						GeomDebugDump::dumpShape( edge, vec4( 0.5, 0.57, 0.6, 1.0 ), true, true );
+					}
+#endif
 				}
 			}
+			catch( Standard_Failure sf )
+			{
+				messageCallback( sf.GetMessageString(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
+				return;
+			}
+			catch( ... )
+			{
+				messageCallback( "BRepPrimAPI_MakePrism failed", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
+				return;
+			}
+			
 			return;
 		}
 	}
 
 
-	void convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeInputData> item_data, const shared_ptr<ItemShapeInputData>& other_operand )
+	void convertIfcBooleanOperand( const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeData> item_data, const shared_ptr<ItemShapeData>& other_operand )
 	{
 		// TYPE IfcBooleanOperand = SELECT	(IfcBooleanResult	,IfcCsgPrimitive3D	,IfcHalfSpaceSolid	,IfcSolidModel);
 		shared_ptr<IfcSolidModel> solid_model = dynamic_pointer_cast<IfcSolidModel>(operand_select);
@@ -1070,7 +1101,7 @@ public:
 		throw IfcPPException( strs_err.str().c_str(), __FUNC__ );
 	}
 
-	void convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeInputData> item_data )
+	void convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeData> item_data )
 	{
 		const shared_ptr<IfcCompositeCurve> spine_curve = spine->m_SpineCurve;
 		if( !spine_curve )

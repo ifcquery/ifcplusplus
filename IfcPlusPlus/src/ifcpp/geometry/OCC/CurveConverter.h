@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -19,7 +23,9 @@
 #include <GC_MakeEllipse.hxx>
 #include <gp_Circ.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometryException.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcBoolean.h>
@@ -50,14 +56,12 @@
 #include <ifcpp/IFC4/include/IfcVertexPoint.h>
 
 #include "SplineConverter.h"
-#include "GeometrySettings.h"
 #include "GeomUtils.h"
-#include "GeomDebugUtils.h"
-#include "GeometryException.h"
+#include "GeomDebugDump.h"
 #include "PlacementConverter.h"
 #include "SplineConverter.h"
 
-//\brief class to convert different kinds of IFC curve representations into OCC input geometry
+//\brief class to convert different types of IFC curve representations into OCC input geometry
 class IFCPP_EXPORT CurveConverter : public StatusCallback
 {
 public:	
@@ -433,10 +437,10 @@ public:
 			PointConverter::convertIfcCartesianPointVectorSkipDuplicates( ifc_points, target_wire, true, length_factor );
 			GeomUtils::closeWire( target_wire );
 
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 			if( !target_wire.Closed() )
 			{
-				GeomDebugUtils::dumpShape( target_wire, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );
+				GeomDebugDump::dumpShape( target_wire, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );
 			}
 #endif
 			return;

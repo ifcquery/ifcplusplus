@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -16,7 +20,8 @@
 #include <map>
 #include <boost/algorithm/string.hpp>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/AppearanceData.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
 #include <ifcpp/IFC4/include/IfcSpecularExponent.h>
@@ -52,13 +57,10 @@
 #include <ifcpp/IFC4/include/IfcSurfaceStyleWithTextures.h>
 #include <ifcpp/IFC4/include/IfcValue.h>
 
-#include "GeometryInputData.h"
-#include "StylesConverter.h"
-
 class StylesConverter : public StatusCallback
 {
 protected:
-	std::map<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
+	map_t<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
 
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_styles_converter;
@@ -91,23 +93,23 @@ public:
 		}
 	}
 
-	void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, carve::geom::vector<4>& color )
+	void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, vec4& color )
 	{
 		if( color_rgb->m_Red )
 		{
-			color.x = (float)color_rgb->m_Red->m_value;
+			color.m_r = (float)color_rgb->m_Red->m_value;
 		}
 		if( color_rgb->m_Green )
 		{
-			color.y = (float)color_rgb->m_Green->m_value;
+			color.m_g = (float)color_rgb->m_Green->m_value;
 		}
 		if( color_rgb->m_Blue )
 		{
-			color.z = (float)color_rgb->m_Blue->m_value;
+			color.m_b = (float)color_rgb->m_Blue->m_value;
 		}
 	}
 
-	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, carve::geom::vector<4>& src_color, carve::geom::vector<4>& target_color )
+	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color )
 	{
 		// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
 		shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_or_factor );
@@ -121,12 +123,12 @@ public:
 		if( ratio_measure )
 		{
 			float factor = ratio_measure->m_value;
-			target_color = carve::geom::VECTOR( src_color.x*factor, src_color.y*factor, src_color.z*factor, src_color.w );
+			target_color.setColor( src_color.r()*factor, src_color.g()*factor, src_color.b()*factor, src_color.a() );
 			return;
 		}
 	}
 
-	void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, carve::geom::vector<4>& color )
+	void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, vec4& color )
 	{
 		// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
 		shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>( ifc_color_select );
@@ -151,14 +153,14 @@ public:
 				if( draughting_predefined_color->m_Name )
 				{
 					std::wstring predefined_name = draughting_predefined_color->m_Name->m_value;
-					if( boost::iequals( predefined_name, L"black" ) )			color = carve::geom::VECTOR( 0.0f, 0.0f, 0.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"red" ) )		color = carve::geom::VECTOR( 1.0f, 0.0f, 0.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"green" ) )	color = carve::geom::VECTOR( 0.0f, 1.0f, 0.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"blue" ) )		color = carve::geom::VECTOR( 0.0f, 0.0f, 1.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"yellow" ) )	color = carve::geom::VECTOR( 1.0f, 1.0f, 0.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"magenta" ) )	color = carve::geom::VECTOR( 1.0f, 0.0f, 1.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"cyan" ) )		color = carve::geom::VECTOR( 0.0f, 1.0f, 1.0f, 1.f );
-					else if( boost::iequals( predefined_name, L"white" ) )	color = carve::geom::VECTOR( 1.0f, 1.0f, 1.0f, 1.f );
+					if( boost::iequals( predefined_name, L"black" ) )			color.setColor( 0.0, 0.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"red" ) )		color.setColor( 1.0, 0.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"green" ) )		color.setColor( 0.0, 1.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"blue" ) )		color.setColor( 0.0, 0.0, 1.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"yellow" ) )		color.setColor( 1.0, 1.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"magenta" ) )	color.setColor( 1.0, 0.0, 1.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"cyan" ) )		color.setColor( 0.0, 1.0, 1.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"white" ) )		color.setColor( 1.0, 1.0, 1.0, 1.0 );
 				}
 			}
 			return;
@@ -195,7 +197,7 @@ public:
 #endif
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
-		appearance_data->m_apply_to_geometry_type = AppearanceData::SURFACE;
+		appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_SURFACE;
 
 		std::vector<shared_ptr<IfcSurfaceStyleElementSelect> >& vec_styles = surface_style->m_Styles;
 		if( vec_styles.size() == 0 )
@@ -214,24 +216,24 @@ public:
 			shared_ptr<IfcSurfaceStyleShading> surface_style_shading = dynamic_pointer_cast<IfcSurfaceStyleShading>( surf_style_element_select );
 			if( surface_style_shading )
 			{
-				carve::geom::vector<4> surface_color = carve::geom::VECTOR( 0.8, 0.82, 0.84, 1.f );
+				vec4 surface_color( 0.8, 0.82, 0.84, 1.0 );
 				if( surface_style_shading->m_SurfaceColour )
 				{
 					shared_ptr<IfcColourRgb> surf_color = surface_style_shading->m_SurfaceColour;
 					convertIfcColourRgb( surf_color, surface_color );
 				}
 
-				if( surface_color.x < 0.05 && surface_color.y < 0.05 && surface_color.z < 0.05 )
+				if( surface_color.r() < 0.05 && surface_color.g() < 0.05 && surface_color.b() < 0.05 )
 				{
-					surface_color = carve::geom::VECTOR( 0.1, 0.12, 0.15, surface_color.w );
+					surface_color.setColor( 0.11, 0.12, 0.13, surface_color.a() );
 				}
 
-				carve::geom::vector<4> ambient_color( surface_color );
-				//carve::geom::vector<4> emissive_color( 0.0f, 0.0f, 0.0f, 1.f );
-				carve::geom::vector<4> diffuse_color( surface_color );
-				carve::geom::vector<4> specular_color( surface_color );
-				float shininess = 35.f;
-				float transparency = surface_color.w;//0.7f;
+				vec4 ambient_color( surface_color );
+				//vec4 emissive_color( 0.0f, 0.0f, 0.0f, 1.f );
+				vec4 diffuse_color( surface_color );
+				vec4 specular_color( surface_color );
+				double shininess = 35.f;
+				double transparency = surface_color.a();//0.7;
 				bool set_transparent = false;
 
 				shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>( surf_style_element_select );
@@ -245,7 +247,7 @@ public:
 
 					if( surf_style_rendering->m_SpecularColour )
 					{
-						shared_ptr<IfcColourOrFactor> specular_color = surf_style_rendering->m_SpecularColour;
+						shared_ptr<IfcColourOrFactor> ifc_specular_color = surf_style_rendering->m_SpecularColour;
 						//convertIfcColourOrFactor(specular_color, color, specularColor);
 					}
 
@@ -282,9 +284,10 @@ public:
 					}
 				}
 
-				appearance_data->m_color_ambient = carve::geom::VECTOR( ambient_color.x*0.8f, ambient_color.y*0.8f, ambient_color.z*0.8f, transparency );
-				appearance_data->m_color_diffuse = carve::geom::VECTOR( diffuse_color.x, diffuse_color.y, diffuse_color.z, transparency );
-				appearance_data->m_color_specular = carve::geom::VECTOR( specular_color.x*0.1, specular_color.y*0.1, specular_color.z*0.1, transparency );
+				appearance_data->m_color_ambient.setColor( ambient_color.r()*0.8, ambient_color.g()*0.8, ambient_color.b()*0.8, transparency );
+				appearance_data->m_color_diffuse.setColor( diffuse_color.r(), diffuse_color.g(), diffuse_color.b(), transparency );
+				appearance_data->m_color_specular.setColor( specular_color.r()*0.1, specular_color.g()*0.1, specular_color.b()*0.1, transparency );
+
 				appearance_data->m_shininess = shininess;
 				appearance_data->m_set_transparent = set_transparent;
 				appearance_data->m_transparency = transparency;
@@ -392,12 +395,12 @@ public:
 					{
 						if( !appearance_data )
 						{
-							int style_id = text_style->m_id;
-							appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
+							int text_style_id = text_style->m_id;
+							appearance_data = shared_ptr<AppearanceData>( new AppearanceData( text_style_id ) );
 						}
 
 						appearance_data->m_text_style = text_style;
-						appearance_data->m_apply_to_geometry_type = AppearanceData::TEXT;
+						appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_TEXT;
 						appearance_data->m_complete = true;
 						vec_appearance_data.push_back( appearance_data );
 						continue;
@@ -440,7 +443,7 @@ public:
 		}
 	}
 
-	void convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> complex_property, carve::geom::vector<4>& vec_color )
+	void convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> complex_property, vec4& vec_color )
 	{
 		std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 		if( !complex_property->m_UsageName ) return;
@@ -477,17 +480,17 @@ public:
 							g = 0.12;
 							b = 0.15;
 						}
-						vec_color.x = r;
-						vec_color.y = g;
-						vec_color.z = b;
-						vec_color.w = 1.0;
+						vec_color.m_r = r;
+						vec_color.m_g = g;
+						vec_color.m_b = b;
+						vec_color.m_a = 1.0;
 
 #ifdef IFCPP_OPENMP
 						//ScopedLock lock( m_writelock_styles_converter );
 #endif
-						//appearance_data->color_ambient = carve::geom::VECTOR( r, g, b, 1.f );
-						//appearance_data->color_diffuse = carve::geom::VECTOR( r, g, b, 1.f );
-						//appearance_data->color_specular = carve::geom::VECTOR( r, g, b, 1.f );
+						//appearance_data->color_ambient.setColor( r, g, b, 1.f );
+						//appearance_data->color_diffuse.setColor( r, g, b, 1.f );
+						//appearance_data->color_specular.setColor( r, g, b, 1.f );
 						//appearance_data->shininess = 35.f;
 
 						//m_map_ifc_styles[complex_property_id] = appearance_data;
@@ -586,7 +589,7 @@ public:
 #endif
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
-		appearance_data->m_apply_to_geometry_type = AppearanceData::CURVE;
+		appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_CURVE;
 
 		//CurveFont		: OPTIONAL IfcCurveFontOrScaledCurveFontSelect;
 		//CurveWidth	: OPTIONAL IfcSizeSelect;
@@ -595,21 +598,18 @@ public:
 		shared_ptr<IfcColour> curve_color = curve_style->m_CurveColour;
 		if( curve_color )
 		{
-			carve::geom::vector<4> color = carve::geom::VECTOR( 0.2, 0.25, 0.3, 1.f );
+			vec4 color( 0.2, 0.25, 0.3, 1.0 );
 			convertIfcColour( curve_color, color );
 
-			if( color.x < 0.05 && color.y < 0.05 && color.z < 0.05 )
+			if( color.r() < 0.05 && color.g() < 0.05 && color.b() < 0.05 )
 			{
-				color = carve::geom::VECTOR( 0.1, 0.125, 0.15, color.w );
+				color.setColor( 0.1, 0.125, 0.15, color.a() );
 			}
 
-			float shininess = 35.f;
-			//float transparency = 0.7f;
-
-			appearance_data->m_color_ambient = carve::geom::VECTOR( color.x*0.8, color.y*0.8, color.z*0.8, color.w );
-			appearance_data->m_color_diffuse = carve::geom::VECTOR( color.x, color.y, color.z, color.w );
-			appearance_data->m_color_specular = carve::geom::VECTOR( color.x*0.1, color.y*0.1, color.z*0.1, color.w );
-
+			double shininess = 35.0;
+			appearance_data->m_color_ambient.setColor( color.r()*0.8, color.g()*0.8, color.b()*0.8, color.a() );
+			appearance_data->m_color_diffuse.setColor( color.r(), color.g(), color.b(), color.a() );
+			appearance_data->m_color_specular.setColor( color.r()*0.1, color.g()*0.1, color.b()*0.1, color.a() );
 			appearance_data->m_shininess = shininess;
 			appearance_data->m_set_transparent = false;
 			appearance_data->m_complete = true;

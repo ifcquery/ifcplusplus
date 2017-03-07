@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <vector>
@@ -31,7 +35,7 @@ void IfcPPReaderXML::readStreamHeader(	const std::string& in, shared_ptr<IfcPPMo
 	// not implemented
 }
 
-void IfcPPReaderXML::readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPPReaderXML::readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// not implemented
 }
@@ -39,6 +43,6 @@ void IfcPPReaderXML::readStreamData( std::string& in, const IfcPPModel::IfcPPSch
 void IfcPPReaderXML::readStreamData( std::string& in, shared_ptr<IfcPPModel>& model )
 {
 	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
-	boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
+	map_t<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
 	readStreamData( in, file_schema_version, map_entities );
 }

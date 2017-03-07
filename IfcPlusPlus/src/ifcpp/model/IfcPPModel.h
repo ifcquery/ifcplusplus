@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -17,7 +21,7 @@
 #include <map>
 #include <string>
 #include <boost/unordered_map.hpp>
-#include "shared_ptr.h"
+#include "IfcPPBasicTypes.h"
 #include "StatusCallback.h"
 
 class IfcPPEntity;
@@ -51,8 +55,8 @@ public:
 			IfcPPVersionEnum	m_ifc_file_schema_enum;
 	};
 	
-	const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& getMapIfcEntities() const { return m_map_entities; }
-	void setMapIfcEntities( const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map );
+	const map_t<int, shared_ptr<IfcPPEntity> >& getMapIfcEntities() const { return m_map_entities; }
+	void setMapIfcEntities( const map_t<int, shared_ptr<IfcPPEntity> >& map );
 	void insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing = false, bool warn_on_existing_objects = true );
 	void removeEntity( shared_ptr<IfcPPEntity> e );
 	void removeEntity( int entity_id );
@@ -86,13 +90,13 @@ public:
 	friend class IfcPPReaderXML;
 
 private:
-	boost::unordered_map<int, shared_ptr<IfcPPEntity> >			m_map_entities;
-	shared_ptr<IfcProject>										m_ifc_project;
-	shared_ptr<IfcGeometricRepresentationContext>				m_geom_context_3d;
-	shared_ptr<UnitConverter>									m_unit_converter;
-	std::string													m_file_name;
-	std::wstring												m_file_header;
-	std::wstring												m_IFC_FILE_DESCRIPTION;
-	std::wstring												m_IFC_FILE_NAME;
-	IfcPPSchemaVersion											m_ifc_schema_version;
+	map_t<int, shared_ptr<IfcPPEntity> >			m_map_entities;
+	shared_ptr<IfcProject>							m_ifc_project;
+	shared_ptr<IfcGeometricRepresentationContext>	m_geom_context_3d;
+	shared_ptr<UnitConverter>						m_unit_converter;
+	std::string										m_file_name;
+	std::wstring									m_file_header;
+	std::wstring									m_IFC_FILE_DESCRIPTION;
+	std::wstring									m_IFC_FILE_NAME;
+	IfcPPSchemaVersion								m_ifc_schema_version;
 };

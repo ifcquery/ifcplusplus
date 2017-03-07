@@ -1,30 +1,37 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
+#include <BRepBndLib.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepFilletAPI_MakeFillet2d.hxx>
 #include <BRepOffsetAPI_MakeOffset.hxx>
 #include <Geom_Circle.hxx>
 #include <gp_Trsf2d.hxx>
+#include <gp_Lin2d.hxx>
 #include <IntAna2d_AnaIntersection.hxx>
 #include <ShapeAnalysis.hxx>
 #include <ShapeFix_Shape.hxx>
 #include <TopoDS_Wire.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcArbitraryClosedProfileDef.h>
@@ -53,7 +60,7 @@
 #include <ifcpp/IFC4/include/IfcTShapeProfileDef.h>
 #include <ifcpp/IFC4/include/IfcUShapeProfileDef.h>
 #include <ifcpp/IFC4/include/IfcZShapeProfileDef.h>
-#include "GeometrySettings.h"
+
 #include "PointConverter.h"
 #include "CurveConverter.h"
 #include "PlacementConverter.h"
@@ -143,7 +150,7 @@ public:
 				}
 			}
 
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 			Standard_Boolean closed = curve_wire.Closed();
 			if( !closed )
 			{
@@ -156,13 +163,13 @@ public:
 					gp_Pnt point1 = BRep_Tool::Pnt( result_vert );
 					loop_points.push_back( point1 );
 				}
-				GeomDebugUtils::dumpPolyline( loop_points, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
+				GeomDebugDump::dumpPolyline( loop_points, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
 
 				gp_Trsf transform;
 				transform.SetTranslation( vec3( 0, 0, 1 ) );
 				GeomUtils::applyMatrixToShape( curve_wire, transform );
-				GeomDebugUtils::dumpShape( curve_wire, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
-				GeomDebugUtils::dumpShape( target_face, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
+				GeomDebugDump::dumpShape( curve_wire, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
+				GeomDebugDump::dumpShape( target_face, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
 			}
 #endif
 		}
@@ -285,10 +292,19 @@ public:
 		TopoDS_Face parent_profile_face = temp_profiler.getProfileFace();
 
 		gp_Trsf transform;
+		gp_GTrsf general_transform;
+		bool non_uniform = false;
 		const shared_ptr<IfcCartesianTransformationOperator2D>& transf_op_2D = derived_profile->m_Operator;
-		PlacementConverter::convertTransformationOperator( transf_op_2D, length_factor, transform, this );
+		PlacementConverter::convertTransformationOperator( transf_op_2D, length_factor, transform, general_transform, non_uniform, this );
 
-		GeomUtils::applyMatrixToShape( parent_profile_face, transform );
+		if( non_uniform )
+		{
+			GeomUtils::applyMatrixToShape( parent_profile_face, general_transform );
+		}
+		else
+		{
+			GeomUtils::applyMatrixToShape( parent_profile_face, transform );
+		}
 		face = parent_profile_face;
 	}
 	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, TopoDS_Face& face )
@@ -342,7 +358,7 @@ public:
 				double x_dim = rectangle_profile->m_XDim->m_value*length_factor;
 				double y_dim = rectangle_profile->m_YDim->m_value*length_factor;
 
-				if( x_dim < GEOM_PROFILE_SIZE_EPSILON || y_dim < GEOM_PROFILE_SIZE_EPSILON )
+				if( x_dim < GEOM_EPSILON_PROFILE_SIZE || y_dim < GEOM_EPSILON_PROFILE_SIZE )
 				{
 					messageCallback( "Invalid profile size", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
 					return;
@@ -396,8 +412,8 @@ public:
 
 						TopoDS_Face face_outer;
 						TopoDS_Face face_inner;
-						PointConverter::createFaceFromPoints( coords_with_radius_outer, face_outer );
-						PointConverter::createFaceFromPoints( coords_with_radius_inner, face_inner );
+						GeomUtils::createFaceFromPoints( coords_with_radius_outer, face_outer );
+						GeomUtils::createFaceFromPoints( coords_with_radius_inner, face_inner );
 
 						if( face_outer.IsNull() || face_outer.IsNull() )
 						{
@@ -435,13 +451,13 @@ public:
 							coords_with_radius[3].m_radius = rounding_radius;
 						}
 
-						PointConverter::createFaceFromPoints( coords_with_radius, face );
+						GeomUtils::createFaceFromPoints( coords_with_radius, face );
 					}
 					return;
 				}
 
 				// plain rectangle
-				PointConverter::createFaceFromPoints( coords_outer, face );
+				GeomUtils::createFaceFromPoints( coords_outer, face );
 				return;
 			}
 		}
@@ -461,7 +477,7 @@ public:
 				profile_loop.push_back( vec2( x_bottom*0.5, -y_dim*0.5 ) );
 				profile_loop.push_back( vec2( -x_bottom*0.5 + x_offset + x_top, y_dim*0.5 ) );
 				profile_loop.push_back( vec2( -x_bottom*0.5 + x_offset, y_dim*0.5 ) );
-				PointConverter::createFaceFromPoints( profile_loop, face );
+				GeomUtils::createFaceFromPoints( profile_loop, face );
 			}
 			return;
 		}
@@ -478,7 +494,7 @@ public:
 			}
 
 			double radius = radius_measure->m_value*length_factor;
-			if( radius < GEOM_PROFILE_SIZE_EPSILON )
+			if( radius < GEOM_EPSILON_PROFILE_SIZE )
 			{
 				messageCallback( "Invalid profile size", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
 				return;
@@ -675,7 +691,7 @@ public:
 				coords_with_radius[11].m_radius = flange_edge_radius;
 			}
 
-			PointConverter::createFaceFromPoints( coords_with_radius, face );
+			GeomUtils::createFaceFromPoints( coords_with_radius, face );
 
 			return;
 		}
@@ -734,7 +750,7 @@ public:
 				leg_slope_radiant = l_shape->m_LegSlope->m_value*angle_factor;
 			}
 
-			if( width*0.5 < GEOM_PROFILE_SIZE_EPSILON || profile_height*0.5 < GEOM_PROFILE_SIZE_EPSILON || t < GEOM_PROFILE_SIZE_EPSILON )
+			if( width*0.5 < GEOM_EPSILON_PROFILE_SIZE || profile_height*0.5 < GEOM_EPSILON_PROFILE_SIZE || t < GEOM_EPSILON_PROFILE_SIZE )
 			{
 				messageCallback( "Invalid profile size", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
 				return;
@@ -789,7 +805,7 @@ public:
 				coords_with_radius[4].m_radius = edge_radius;
 			}
 
-			PointConverter::createFaceFromPoints( coords_with_radius, face );
+			GeomUtils::createFaceFromPoints( coords_with_radius, face );
 
 			return;
 		}
@@ -818,7 +834,7 @@ public:
 				edge_radius = u_shape->m_EdgeRadius->m_value*length_factor;
 			}
 
-			if( width < GEOM_PROFILE_SIZE_EPSILON || height < GEOM_PROFILE_SIZE_EPSILON || t_web < GEOM_PROFILE_SIZE_EPSILON || t_flange < GEOM_PROFILE_SIZE_EPSILON )
+			if( width < GEOM_EPSILON_PROFILE_SIZE || height < GEOM_EPSILON_PROFILE_SIZE || t_web < GEOM_EPSILON_PROFILE_SIZE || t_flange < GEOM_EPSILON_PROFILE_SIZE )
 			{
 				messageCallback( "Invalid profile size", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
 				return;
@@ -908,7 +924,7 @@ public:
 				coords_with_radius[5].m_radius = edge_radius;
 			}
 
-			PointConverter::createFaceFromPoints( coords_with_radius, face );
+			GeomUtils::createFaceFromPoints( coords_with_radius, face );
 
 			return;
 		}
@@ -933,7 +949,7 @@ public:
 				fillet_radius = c_shape->m_InternalFilletRadius->m_value*length_factor;
 			}
 
-			if( width*0.5 < GEOM_PROFILE_SIZE_EPSILON || profile_height*0.5 < GEOM_PROFILE_SIZE_EPSILON || t < GEOM_PROFILE_SIZE_EPSILON || girth < GEOM_PROFILE_SIZE_EPSILON )
+			if( width*0.5 < GEOM_EPSILON_PROFILE_SIZE || profile_height*0.5 < GEOM_EPSILON_PROFILE_SIZE || t < GEOM_EPSILON_PROFILE_SIZE || girth < GEOM_EPSILON_PROFILE_SIZE )
 			{
 				messageCallback( "Invalid profile size", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
 				return;
@@ -970,7 +986,7 @@ public:
 				coords_with_radius[11].m_radius = outer_fillet_radius;
 			}
 
-			PointConverter::createFaceFromPoints( coords_with_radius, face );
+			GeomUtils::createFaceFromPoints( coords_with_radius, face );
 
 			return;
 		}
@@ -1050,7 +1066,7 @@ public:
 				web_slope = t_shape->m_WebSlope->m_value*angle_factor;
 			}
 
-			if( width*0.5 < GEOM_PROFILE_SIZE_EPSILON || profile_height*0.5 < GEOM_PROFILE_SIZE_EPSILON || t_web < GEOM_PROFILE_SIZE_EPSILON || t_flange < GEOM_PROFILE_SIZE_EPSILON )
+			if( width*0.5 < GEOM_EPSILON_PROFILE_SIZE || profile_height*0.5 < GEOM_EPSILON_PROFILE_SIZE || t_web < GEOM_EPSILON_PROFILE_SIZE || t_flange < GEOM_EPSILON_PROFILE_SIZE )
 			{
 				messageCallback( "Invalid profile size", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
 				return;
@@ -1156,7 +1172,7 @@ public:
 				coords_with_radius[4].m_radius = web_edge_radius;
 			}
 
-			PointConverter::createFaceFromPoints( coords_with_radius, face );
+			GeomUtils::createFaceFromPoints( coords_with_radius, face );
 			
 			return;
 		}

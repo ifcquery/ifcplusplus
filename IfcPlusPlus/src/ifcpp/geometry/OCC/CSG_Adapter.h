@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -21,12 +25,12 @@
 #include <ShapeFix_Shape.hxx>
 #include <TopoDS_Shape.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometryException.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/StatusCallback.h>
-#include "GeometryException.h"
 #include "GeometryInputData.h"
-#include "GeomDebugUtils.h"
+#include "GeomDebugDump.h"
 
 enum CSG_Operation { CSG_UNION, CSG_INTERSECTION, CSG_A_MINUS_B };
 
@@ -39,17 +43,16 @@ namespace CSG_Adapter
 		TopoDS_Shape result;
 		try
 		{
-			TopTools_ListOfShape s1s;
-			s1s.Append( operand1 );
-			TopTools_ListOfShape s2s;
-			s2s.Append( operand2 );
+			TopTools_ListOfShape argument_shapes;
+			argument_shapes.Append( operand1 );
+			TopTools_ListOfShape tool_shapes;
+			tool_shapes.Append( operand2 );
 			
 			boolean_brep_algo.SetFuzzyValue( fuzzy_value );
-			boolean_brep_algo.SetArguments( s1s );
-			boolean_brep_algo.SetTools( s2s );
+			boolean_brep_algo.SetArguments( argument_shapes );
+			boolean_brep_algo.SetTools( tool_shapes );
+			boolean_brep_algo.SetRunParallel( false );
 			boolean_brep_algo.Build();
-			//	bool is_parallel = boolean_brep_algo.RunParallel();
-			boolean_brep_algo.SetRunParallel( true );
 
 			if( boolean_brep_algo.IsDone() )
 			{
@@ -105,13 +108,13 @@ namespace CSG_Adapter
 				report_callback->messageCallback( strs_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNCTION__, entity );
 			}
 
-#ifdef _DEBUG
-			GeomDebugUtils::dumpShape( operand1, vec4( 0.7, 0.7, 0.7, 1.0 ), true, true );
-			GeomDebugUtils::dumpShape( operand2, vec4( 0.6, 0.2, 0.2, 1.0 ), true, true );
+#ifdef IFCPP_GEOM_DEBUG
+			GeomDebugDump::dumpShape( operand1, vec4( 0.7, 0.7, 0.7, 1.0 ), true, true );
+			GeomDebugDump::dumpShape( operand2, vec4( 0.6, 0.2, 0.2, 1.0 ), true, true );
 
 			if( !result.IsNull() )
 			{
-				GeomDebugUtils::dumpShape( result, vec4( 0.6, 0.2, 0.2, 1.0 ), true, true );
+				GeomDebugDump::dumpShape( result, vec4( 0.6, 0.2, 0.2, 1.0 ), true, true );
 			}
 #endif
 
@@ -136,7 +139,7 @@ namespace CSG_Adapter
 		}
 	}
 
-	inline void computeCSG( const TopoDS_Shape& operand1, const TopoDS_Shape& operand2, TopoDS_Shape& result_shape, CSG_Operation op, double fuzzy_value = GEOM_CSG_FUZZY_EPSILON, StatusCallback* report_callback = nullptr, IfcPPEntity* entity = nullptr )
+	inline void computeCSG( const TopoDS_Shape& operand1, const TopoDS_Shape& operand2, TopoDS_Shape& result_shape, CSG_Operation op, double fuzzy_value = GEOM_EPSILON_CSG_FUZZY, StatusCallback* report_callback = nullptr, IfcPPEntity* entity = nullptr )
 	{
 		if( op == CSG_UNION )
 		{

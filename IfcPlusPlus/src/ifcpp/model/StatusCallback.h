@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -16,7 +20,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
-#include "shared_ptr.h"
+#include "IfcPPBasicTypes.h"
 #include "IfcPPGlobal.h"
 #include "IfcPPOpenMP.h"
 
@@ -64,46 +68,35 @@ public:
 	{
 		unsetMessageCallBack();
 	}
-	virtual ~StatusCallback()
-	{
-	}
+	virtual ~StatusCallback(){}
 
 	//\brief error callback mechanism to show messages in gui
 	virtual void setMessageCallBack( void* obj_ptr, void (*func)(void*, shared_ptr<Message> t) )
 	{
 		m_obj_call_on_message = obj_ptr;
 		m_func_call_on_message = func;
+	}
 
-		// pass to children
-		for( auto it = m_callback_children.begin(); it != m_callback_children.end(); ++it )
-		{
-			StatusCallback* child = *it;
-			if( child )
-			{
-				child->setMessageCallBack( obj_ptr, func );
-			}
-		}
+	virtual void setMessageTarget( StatusCallback* other )
+	{
+		m_redirect_target = other;
 	}
 
 	virtual void unsetMessageCallBack()
 	{
 		m_obj_call_on_message = nullptr;
 		m_func_call_on_message = nullptr;
-
-		// pass to children
-		for( auto it = m_callback_children.begin(); it != m_callback_children.end(); ++it )
-		{
-			StatusCallback* child = *it;
-			if( child )
-			{
-				child->unsetMessageCallBack();
-			}
-		}
 	}
 
 	//\brief trigger the callback to pass a message, warning, or error, for example to store in a logfile
 	virtual void messageCallback( shared_ptr<Message> m )
 	{
+		if( m_redirect_target )
+		{
+			m_redirect_target->messageCallback( m );
+			return;
+		}
+
 #ifdef _DEBUG
 		if( !m_func_call_on_message )
 		{
@@ -186,55 +179,6 @@ public:
 		messageCallback( progress_message );
 	}
 
-	//\brief callbacks are set to children as well
-	void addCallbackChild( StatusCallback* child )
-	{
-		if( child == this )
-		{
-#ifdef _DEBUG
-			std::cout << "addCallbackChild: trying to add 'this' to children." << std::endl;
-#endif
-			return;
-		}
-		m_callback_children.push_back( child );
-
-		if( m_obj_call_on_message )
-		{
-			if( m_func_call_on_message )
-			{
-				child->setMessageCallBack( m_obj_call_on_message, m_func_call_on_message );
-			}
-		}
-	}
-	void removeCallbackChild( StatusCallback* remove_child )
-	{
-		for( auto it = m_callback_children.begin(); it != m_callback_children.end(); )
-		{
-			StatusCallback* child = *it;
-			if( child == remove_child )
-			{
-				child->unsetMessageCallBack();
-				it = m_callback_children.erase( it );
-			}
-			else
-			{
-				++it;
-			}
-		}
-	}
-	void clearCallbackChildren()
-	{
-		for( auto it = m_callback_children.begin(); it != m_callback_children.end(); )
-		{
-			StatusCallback* child = *it;
-			if( child )
-			{
-				child->unsetMessageCallBack();
-			}
-		}
-		m_callback_children.clear();
-	}
-
 protected:
 	//\brief Pointer to the object on which the message callback function is called.
 	void* m_obj_call_on_message;
@@ -242,7 +186,8 @@ protected:
 	//\brief Pointer to the callback function for messages.
 	void (*m_func_call_on_message)(void*, shared_ptr<Message> t);
 
-	std::vector<StatusCallback*> m_callback_children;
+	StatusCallback* m_redirect_target = nullptr;
+
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock;
 #endif

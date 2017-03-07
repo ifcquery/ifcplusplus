@@ -1,156 +1,108 @@
-/* -*-c++-*- OpenSceneGraph - Copyright (C) 2009 Wang Rui
+/* -*-c++-*- IFC++ www.ifcquery.com
 *
-* This library is open source and may be redistributed and/or modified under
-* the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or
-* (at your option) any later version.  The full license is in LICENSE file
-* included with this distribution, and on the openscenegraph.org website.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* OpenSceneGraph Public License for more details.
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <osg/DeleteHandler>
 #include <osgViewer/ViewerBase>
 #include <QInputEvent>
-#include <QPointer>
 #include <QOpenGLContext>
 
-#if (QT_VERSION>=QT_VERSION_CHECK(4, 6, 0))
-# define USE_GESTURES
-# include <QGestureEvent>
-# include <QGesture>
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 6, 0))
+	#define USE_GESTURES
+	#include <QGestureEvent>
+	#include <QGesture>
 #endif
 
 #include "GraphicsWindowQt.h"
 
-class QtKeyboardMap
+QtOSGWidget::QtOSGWidget( QWidget* parent, Qt::WindowFlags f ) : QOpenGLWidget( parent, f )
 {
-
-public:
-	QtKeyboardMap()
-	{
-		mKeyMap[Qt::Key_Escape] = osgGA::GUIEventAdapter::KEY_Escape;
-		mKeyMap[Qt::Key_Delete] = osgGA::GUIEventAdapter::KEY_Delete;
-		mKeyMap[Qt::Key_Home] = osgGA::GUIEventAdapter::KEY_Home;
-		mKeyMap[Qt::Key_Enter] = osgGA::GUIEventAdapter::KEY_KP_Enter;
-		mKeyMap[Qt::Key_End] = osgGA::GUIEventAdapter::KEY_End;
-		mKeyMap[Qt::Key_Return] = osgGA::GUIEventAdapter::KEY_Return;
-		mKeyMap[Qt::Key_PageUp] = osgGA::GUIEventAdapter::KEY_Page_Up;
-		mKeyMap[Qt::Key_PageDown] = osgGA::GUIEventAdapter::KEY_Page_Down;
-		mKeyMap[Qt::Key_Left] = osgGA::GUIEventAdapter::KEY_Left;
-		mKeyMap[Qt::Key_Right] = osgGA::GUIEventAdapter::KEY_Right;
-		mKeyMap[Qt::Key_Up] = osgGA::GUIEventAdapter::KEY_Up;
-		mKeyMap[Qt::Key_Down] = osgGA::GUIEventAdapter::KEY_Down;
-		mKeyMap[Qt::Key_Backspace] = osgGA::GUIEventAdapter::KEY_BackSpace;
-		mKeyMap[Qt::Key_Tab] = osgGA::GUIEventAdapter::KEY_Tab;
-		mKeyMap[Qt::Key_Space] = osgGA::GUIEventAdapter::KEY_Space;
-		mKeyMap[Qt::Key_Delete] = osgGA::GUIEventAdapter::KEY_Delete;
-		mKeyMap[Qt::Key_Alt] = osgGA::GUIEventAdapter::KEY_Alt_L;
-		mKeyMap[Qt::Key_Shift] = osgGA::GUIEventAdapter::KEY_Shift_L;
-		mKeyMap[Qt::Key_Control] = osgGA::GUIEventAdapter::KEY_Control_L;
-		mKeyMap[Qt::Key_Meta] = osgGA::GUIEventAdapter::KEY_Meta_L;
-
-		mKeyMap[Qt::Key_F1] = osgGA::GUIEventAdapter::KEY_F1;
-		mKeyMap[Qt::Key_F2] = osgGA::GUIEventAdapter::KEY_F2;
-		mKeyMap[Qt::Key_F3] = osgGA::GUIEventAdapter::KEY_F3;
-		mKeyMap[Qt::Key_F4] = osgGA::GUIEventAdapter::KEY_F4;
-		mKeyMap[Qt::Key_F5] = osgGA::GUIEventAdapter::KEY_F5;
-		mKeyMap[Qt::Key_F6] = osgGA::GUIEventAdapter::KEY_F6;
-		mKeyMap[Qt::Key_F7] = osgGA::GUIEventAdapter::KEY_F7;
-		mKeyMap[Qt::Key_F8] = osgGA::GUIEventAdapter::KEY_F8;
-		mKeyMap[Qt::Key_F9] = osgGA::GUIEventAdapter::KEY_F9;
-		mKeyMap[Qt::Key_F10] = osgGA::GUIEventAdapter::KEY_F10;
-		mKeyMap[Qt::Key_F11] = osgGA::GUIEventAdapter::KEY_F11;
-		mKeyMap[Qt::Key_F12] = osgGA::GUIEventAdapter::KEY_F12;
-		mKeyMap[Qt::Key_F13] = osgGA::GUIEventAdapter::KEY_F13;
-		mKeyMap[Qt::Key_F14] = osgGA::GUIEventAdapter::KEY_F14;
-		mKeyMap[Qt::Key_F15] = osgGA::GUIEventAdapter::KEY_F15;
-		mKeyMap[Qt::Key_F16] = osgGA::GUIEventAdapter::KEY_F16;
-		mKeyMap[Qt::Key_F17] = osgGA::GUIEventAdapter::KEY_F17;
-		mKeyMap[Qt::Key_F18] = osgGA::GUIEventAdapter::KEY_F18;
-		mKeyMap[Qt::Key_F19] = osgGA::GUIEventAdapter::KEY_F19;
-		mKeyMap[Qt::Key_F20] = osgGA::GUIEventAdapter::KEY_F20;
-
-		mKeyMap[Qt::Key_hyphen] = '-';
-		mKeyMap[Qt::Key_Equal] = '=';
-
-		mKeyMap[Qt::Key_division] = osgGA::GUIEventAdapter::KEY_KP_Divide;
-		mKeyMap[Qt::Key_multiply] = osgGA::GUIEventAdapter::KEY_KP_Multiply;
-		mKeyMap[Qt::Key_Minus] = '-';
-		mKeyMap[Qt::Key_Plus] = '+';
-		//mKeyMap[Qt::Key_H              ] = osgGA::GUIEventAdapter::KEY_KP_Home;
-		//mKeyMap[Qt::Key_              ] = osgGA::GUIEventAdapter::KEY_KP_Up;
-		//mKeyMap[92                    ] = osgGA::GUIEventAdapter::KEY_KP_Page_Up;
-		//mKeyMap[86                    ] = osgGA::GUIEventAdapter::KEY_KP_Left;
-		//mKeyMap[87                    ] = osgGA::GUIEventAdapter::KEY_KP_Begin;
-		//mKeyMap[88                    ] = osgGA::GUIEventAdapter::KEY_KP_Right;
-		//mKeyMap[83                    ] = osgGA::GUIEventAdapter::KEY_KP_End;
-		//mKeyMap[84                    ] = osgGA::GUIEventAdapter::KEY_KP_Down;
-		//mKeyMap[85                    ] = osgGA::GUIEventAdapter::KEY_KP_Page_Down;
-		mKeyMap[Qt::Key_Insert] = osgGA::GUIEventAdapter::KEY_KP_Insert;
-		//mKeyMap[Qt::Key_Delete        ] = osgGA::GUIEventAdapter::KEY_KP_Delete;
-	}
-
-	~QtKeyboardMap()
-	{
-	}
-
-	int remapKey( QKeyEvent* event )
-	{
-		KeyMap::iterator itr = mKeyMap.find( event->key() );
-		if( itr == mKeyMap.end() )
-		{
-			return int( *(event->text().toLatin1().data()) );
-		}
-		else
-			return itr->second;
-	}
-
-private:
-	typedef std::map<unsigned int, int> KeyMap;
-	KeyMap mKeyMap;
-};
-
-static QtKeyboardMap s_QtKeyboardMap;
-
-#if (QT_VERSION < QT_VERSION_CHECK(5, 2, 0))
-#define GETDEVICEPIXELRATIO() 1.0
-#else
-#define GETDEVICEPIXELRATIO() devicePixelRatio()
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+	m_device_pixel_ratio = devicePixelRatio();
 #endif
-
-QtOSGWidget::QtOSGWidget( QWidget* parent, Qt::WindowFlags f, bool forwardKeyEvents )
-	: QOpenGLWidget( parent, f ), m_forwardKeyEvents( forwardKeyEvents )
-{
-	m_devicePixelRatio = GETDEVICEPIXELRATIO();
-}
-
-QtOSGWidget::QtOSGWidget( const QSurfaceFormat& format, QWidget* parent, Qt::WindowFlags f, bool forwardKeyEvents )
-	: QOpenGLWidget( parent, f ),m_forwardKeyEvents( forwardKeyEvents )
-{
-	Q_UNUSED(format)
-	m_devicePixelRatio = GETDEVICEPIXELRATIO();
-
-	QSurfaceFormat format2;
-	format2.setDepthBufferSize( 24 );
-	format2.setStencilBufferSize( 8 );
-	format2.setVersion( 3, 2 );
-	format2.setProfile( QSurfaceFormat::CoreProfile );
-	//setFormat( format2 ); // must be called before the widget or its parent window gets shown
-
 	m_main_view = new osgViewer::View();
 	m_viewer = new osgViewer::CompositeViewer();
+
+	m_key_map[Qt::Key_Escape] = osgGA::GUIEventAdapter::KEY_Escape;
+	m_key_map[Qt::Key_Delete] = osgGA::GUIEventAdapter::KEY_Delete;
+	m_key_map[Qt::Key_Home] = osgGA::GUIEventAdapter::KEY_Home;
+	m_key_map[Qt::Key_Enter] = osgGA::GUIEventAdapter::KEY_KP_Enter;
+	m_key_map[Qt::Key_End] = osgGA::GUIEventAdapter::KEY_End;
+	m_key_map[Qt::Key_Return] = osgGA::GUIEventAdapter::KEY_Return;
+	m_key_map[Qt::Key_PageUp] = osgGA::GUIEventAdapter::KEY_Page_Up;
+	m_key_map[Qt::Key_PageDown] = osgGA::GUIEventAdapter::KEY_Page_Down;
+	m_key_map[Qt::Key_Left] = osgGA::GUIEventAdapter::KEY_Left;
+	m_key_map[Qt::Key_Right] = osgGA::GUIEventAdapter::KEY_Right;
+	m_key_map[Qt::Key_Up] = osgGA::GUIEventAdapter::KEY_Up;
+	m_key_map[Qt::Key_Down] = osgGA::GUIEventAdapter::KEY_Down;
+	m_key_map[Qt::Key_Backspace] = osgGA::GUIEventAdapter::KEY_BackSpace;
+	m_key_map[Qt::Key_Tab] = osgGA::GUIEventAdapter::KEY_Tab;
+	m_key_map[Qt::Key_Space] = osgGA::GUIEventAdapter::KEY_Space;
+	m_key_map[Qt::Key_Delete] = osgGA::GUIEventAdapter::KEY_Delete;
+	m_key_map[Qt::Key_Alt] = osgGA::GUIEventAdapter::KEY_Alt_L;
+	m_key_map[Qt::Key_Shift] = osgGA::GUIEventAdapter::KEY_Shift_L;
+	m_key_map[Qt::Key_Control] = osgGA::GUIEventAdapter::KEY_Control_L;
+	m_key_map[Qt::Key_Meta] = osgGA::GUIEventAdapter::KEY_Meta_L;
+	m_key_map[Qt::Key_F1] = osgGA::GUIEventAdapter::KEY_F1;
+	m_key_map[Qt::Key_F2] = osgGA::GUIEventAdapter::KEY_F2;
+	m_key_map[Qt::Key_F3] = osgGA::GUIEventAdapter::KEY_F3;
+	m_key_map[Qt::Key_F4] = osgGA::GUIEventAdapter::KEY_F4;
+	m_key_map[Qt::Key_F5] = osgGA::GUIEventAdapter::KEY_F5;
+	m_key_map[Qt::Key_F6] = osgGA::GUIEventAdapter::KEY_F6;
+	m_key_map[Qt::Key_F7] = osgGA::GUIEventAdapter::KEY_F7;
+	m_key_map[Qt::Key_F8] = osgGA::GUIEventAdapter::KEY_F8;
+	m_key_map[Qt::Key_F9] = osgGA::GUIEventAdapter::KEY_F9;
+	m_key_map[Qt::Key_F10] = osgGA::GUIEventAdapter::KEY_F10;
+	m_key_map[Qt::Key_F11] = osgGA::GUIEventAdapter::KEY_F11;
+	m_key_map[Qt::Key_F12] = osgGA::GUIEventAdapter::KEY_F12;
+	m_key_map[Qt::Key_F13] = osgGA::GUIEventAdapter::KEY_F13;
+	m_key_map[Qt::Key_F14] = osgGA::GUIEventAdapter::KEY_F14;
+	m_key_map[Qt::Key_F15] = osgGA::GUIEventAdapter::KEY_F15;
+	m_key_map[Qt::Key_F16] = osgGA::GUIEventAdapter::KEY_F16;
+	m_key_map[Qt::Key_F17] = osgGA::GUIEventAdapter::KEY_F17;
+	m_key_map[Qt::Key_F18] = osgGA::GUIEventAdapter::KEY_F18;
+	m_key_map[Qt::Key_F19] = osgGA::GUIEventAdapter::KEY_F19;
+	m_key_map[Qt::Key_F20] = osgGA::GUIEventAdapter::KEY_F20;
+	m_key_map[Qt::Key_hyphen] = '-';
+	m_key_map[Qt::Key_Equal] = '=';
+	m_key_map[Qt::Key_division] = osgGA::GUIEventAdapter::KEY_KP_Divide;
+	m_key_map[Qt::Key_multiply] = osgGA::GUIEventAdapter::KEY_KP_Multiply;
+	m_key_map[Qt::Key_Minus] = '-';
+	m_key_map[Qt::Key_Plus] = '+';
+	m_key_map[Qt::Key_Insert] = osgGA::GUIEventAdapter::KEY_KP_Insert;
 }
 
 QtOSGWidget::~QtOSGWidget()
 {
-	// close GraphicsWindowQt
 	if( m_graphics_window )
 	{
 		m_graphics_window->close();
 		m_graphics_window = NULL;
+	}
+}
+
+int QtOSGWidget::convertQKeyEnventToOSG( QKeyEvent* event )
+{
+	auto itr = m_key_map.find( event->key() );
+	if( itr == m_key_map.end() )
+	{
+		return int( *(event->text().toLatin1().data()) );
+	}
+	else
+	{
+		return itr->second;
 	}
 }
 
@@ -293,8 +245,8 @@ void QtOSGWidget::paintEvent( QPaintEvent* )
 void QtOSGWidget::moveEvent( QMoveEvent* event )
 {
 	const QPoint& pos = event->pos();
-	int scaled_width = static_cast<int>(width()*m_devicePixelRatio);
-	int scaled_height = static_cast<int>(height()*m_devicePixelRatio);
+	int scaled_width = static_cast<int>(width()*m_device_pixel_ratio);
+	int scaled_height = static_cast<int>(height()*m_device_pixel_ratio);
 	m_graphics_window->resized( pos.x(), pos.y(), scaled_width, scaled_height );
 	m_graphics_window->getEventQueue()->windowResize( pos.x(), pos.y(), scaled_width, scaled_height );
 }
@@ -302,15 +254,8 @@ void QtOSGWidget::moveEvent( QMoveEvent* event )
 void QtOSGWidget::keyPressEvent( QKeyEvent* event )
 {
 	setKeyboardModifiers( event );
-	int value = s_QtKeyboardMap.remapKey( event );
+	int value = convertQKeyEnventToOSG( event );
 	m_graphics_window->getEventQueue()->keyPress( value );
-
-	// this passes the event to the regular Qt key event processing,
-	// among others, it closes popup windows on ESC and forwards the event to the parent widgets
-	if( m_forwardKeyEvents )
-	{
-		QOpenGLWidget::keyPressEvent( event );
-	}
 }
 
 void QtOSGWidget::keyReleaseEvent( QKeyEvent* event )
@@ -322,15 +267,8 @@ void QtOSGWidget::keyReleaseEvent( QKeyEvent* event )
 	else
 	{
 		setKeyboardModifiers( event );
-		int value = s_QtKeyboardMap.remapKey( event );
+		int value = convertQKeyEnventToOSG( event );
 		m_graphics_window->getEventQueue()->keyRelease( value );
-	}
-
-	// this passes the event to the regular Qt key event processing,
-	// among others, it closes popup windows on ESC and forwards the event to the parent widgets
-	if( m_forwardKeyEvents )
-	{
-		QOpenGLWidget::keyReleaseEvent( event );
 	}
 }
 
@@ -346,7 +284,7 @@ void QtOSGWidget::mousePressEvent( QMouseEvent* event )
 	default: button = 0; break;
 	}
 	setKeyboardModifiers( event );
-	m_graphics_window->getEventQueue()->mouseButtonPress( event->x()*m_devicePixelRatio, event->y()*m_devicePixelRatio, button );
+	m_graphics_window->getEventQueue()->mouseButtonPress( event->x()*m_device_pixel_ratio, event->y()*m_device_pixel_ratio, button );
 }
 
 void QtOSGWidget::mouseReleaseEvent( QMouseEvent* event )
@@ -361,7 +299,7 @@ void QtOSGWidget::mouseReleaseEvent( QMouseEvent* event )
 	default: button = 0; break;
 	}
 	setKeyboardModifiers( event );
-	m_graphics_window->getEventQueue()->mouseButtonRelease( event->x()*m_devicePixelRatio, event->y()*m_devicePixelRatio, button );
+	m_graphics_window->getEventQueue()->mouseButtonRelease( event->x()*m_device_pixel_ratio, event->y()*m_device_pixel_ratio, button );
 }
 
 void QtOSGWidget::mouseDoubleClickEvent( QMouseEvent* event )
@@ -376,13 +314,13 @@ void QtOSGWidget::mouseDoubleClickEvent( QMouseEvent* event )
 	default: button = 0; break;
 	}
 	setKeyboardModifiers( event );
-	m_graphics_window->getEventQueue()->mouseDoubleButtonPress( event->x()*m_devicePixelRatio, event->y()*m_devicePixelRatio, button );
+	m_graphics_window->getEventQueue()->mouseDoubleButtonPress( event->x()*m_device_pixel_ratio, event->y()*m_device_pixel_ratio, button );
 }
 
 void QtOSGWidget::mouseMoveEvent( QMouseEvent* event )
 {
 	setKeyboardModifiers( event );
-	m_graphics_window->getEventQueue()->mouseMotion( event->x()*m_devicePixelRatio, event->y()*m_devicePixelRatio );
+	m_graphics_window->getEventQueue()->mouseMotion( event->x()*m_device_pixel_ratio, event->y()*m_device_pixel_ratio );
 }
 
 void QtOSGWidget::wheelEvent( QWheelEvent* event )
@@ -475,76 +413,40 @@ bool QtOSGWidget::gestureEvent( QGestureEvent* qevent )
 
 
 
-GraphicsWindowQt::GraphicsWindowQt( osg::GraphicsContext::Traits* traits, QWidget* parent, Qt::WindowFlags f )
+GraphicsWindowQt::GraphicsWindowQt( QWidget* parent, Qt::WindowFlags f )
 {
-	_traits = traits;
-	init( f, parent );
-}
+	osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+	osg::setNotifyLevel( osg::NotifySeverity::FATAL );
 
-GraphicsWindowQt::GraphicsWindowQt( QtOSGWidget* widget )
-{
-	m_opengl_widget = widget;
-	_traits = m_opengl_widget ? createTraits( m_opengl_widget ) : new osg::GraphicsContext::Traits;
-	init( 0, nullptr );
-}
-
-GraphicsWindowQt::~GraphicsWindowQt()
-{
-	close();
-
-	// remove reference from QtOSGWidget
-	if( m_opengl_widget )
+	_traits = new osg::GraphicsContext::Traits();
+	_traits->windowDecoration = false;
+	_traits->x = 0;
+	_traits->y = 0;
+	_traits->width = 100;
+	_traits->height = 100;
+	_traits->doubleBuffer = true;
+	if( ds )
 	{
-		m_opengl_widget->m_graphics_window = NULL;
+		_traits->alpha = ds->getMinimumNumAlphaBits();
+		_traits->stencil = ds->getMinimumNumStencilBits();
+		_traits->sampleBuffers = ds->getMultiSamples();
+		_traits->samples = ds->getNumMultiSamples();
 	}
-}
-
-bool GraphicsWindowQt::init( Qt::WindowFlags f, QWidget* parent )
-{
-	// update _widget and parent by WindowData
-	WindowData* windowData = _traits.get() ? dynamic_cast<WindowData*>(_traits->inheritedWindowData.get()) : 0;
-	if( !m_opengl_widget )
+	if( parent )
 	{
-		m_opengl_widget = windowData ? windowData->_widget : NULL;
-	}
-	if( !parent )
-	{
-		parent = windowData ? windowData->_parent : NULL;
+		_traits->width = parent->width();
+		_traits->height = parent->height();
 	}
 
 	// create widget if it does not exist
-	m_owns_widget = m_opengl_widget == NULL;
 	if( !m_opengl_widget )
 	{
 		// WindowFlags
 		Qt::WindowFlags flags = f | Qt::Widget;
-		if( _traits->windowDecoration )
-		{
-			flags |= Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint
-#if (QT_VERSION_CHECK(4, 5, 0) <= QT_VERSION)
-				| Qt::WindowCloseButtonHint
-#endif
-				;
-		}
-
 		// create widget
-		QSurfaceFormat format = traits2qglFormat( _traits.get() );
-		m_opengl_widget = new QtOSGWidget( format, parent, flags );
+		m_opengl_widget = new QtOSGWidget( parent, flags );
 	}
 
-	// set widget name and position
-	// (do not set it when we inherited the widget)
-	m_owns_widget = false;
-	if( m_owns_widget )
-	{
-		m_opengl_widget->setWindowTitle( _traits->windowName.c_str() );
-		m_opengl_widget->move( _traits->x, _traits->y );
-		if( !_traits->supportsResize ) m_opengl_widget->setFixedSize( _traits->width, _traits->height );
-		else m_opengl_widget->resize( _traits->width, _traits->height );
-	}
-
-	// initialize widget properties
-	//m_opengl_widget->setAutoBufferSwap( false );
 	m_opengl_widget->setMouseTracking( true );
 	m_opengl_widget->setFocusPolicy( Qt::WheelFocus );
 	m_opengl_widget->setGraphicsWindow( this );
@@ -567,116 +469,17 @@ bool GraphicsWindowQt::init( Qt::WindowFlags f, QWidget* parent )
 
 	// make sure the event queue has the correct window rectangle size and input range
 	getEventQueue()->syncWindowRectangleWithGraphicsContext();
-
-	return true;
 }
 
-QSurfaceFormat GraphicsWindowQt::traits2qglFormat( const osg::GraphicsContext::Traits* traits )
+GraphicsWindowQt::~GraphicsWindowQt()
 {
-	QSurfaceFormat format( QSurfaceFormat::defaultFormat() );
+	close();
 
-	format.setAlphaBufferSize( traits->alpha );
-	format.setRedBufferSize( traits->red );
-	format.setGreenBufferSize( traits->green );
-	format.setBlueBufferSize( traits->blue );
-	format.setDepthBufferSize( traits->depth );
-	format.setStencilBufferSize( traits->stencil );
-	//format.setSampleBuffers( traits->sampleBuffers );
-	format.setSamples( traits->samples );
-
-	//format.setAlpha( traits->alpha>0 );
-	//format.setDepth( traits->depth>0 );
-	//format.setStencil( traits->stencil>0 );
-	//format.setDoubleBuffer( traits->doubleBuffer );
-	format.setSwapInterval( traits->vsync ? 1 : 0 );
-	format.setStereo( traits->quadBufferStereo ? 1 : 0 );
-
-	return format;
-}
-
-void GraphicsWindowQt::qglFormat2traits( const QSurfaceFormat& format, osg::GraphicsContext::Traits* traits )
-{
-	traits->red = format.redBufferSize();
-	traits->green = format.greenBufferSize();
-	traits->blue = format.blueBufferSize();
-	//traits->alpha = format.alpha() ? format.alphaBufferSize() : 0;
-	//traits->depth = format.depth() ? format.depthBufferSize() : 0;
-	//traits->stencil = format.stencil() ? format.stencilBufferSize() : 0;
-
-	//traits->sampleBuffers = format.sampleBuffers() ? 1 : 0;
-	traits->samples = format.samples();
-
-	traits->quadBufferStereo = format.stereo();
-	//traits->doubleBuffer = format.doubleBuffer();
-
-	traits->vsync = format.swapInterval() >= 1;
-}
-
-osg::GraphicsContext::Traits* GraphicsWindowQt::createTraits( const QOpenGLWidget* widget )
-{
-	osg::GraphicsContext::Traits *traits = new osg::GraphicsContext::Traits;
-
-	qglFormat2traits( widget->format(), traits );
-
-	QRect r = widget->geometry();
-	traits->x = r.x();
-	traits->y = r.y();
-	traits->width = r.width();
-	traits->height = r.height();
-	traits->windowName = widget->windowTitle().toLocal8Bit().data();
-	Qt::WindowFlags f = widget->windowFlags();
-	traits->windowDecoration = (f & Qt::WindowTitleHint) && (f & Qt::WindowMinMaxButtonsHint) && (f & Qt::WindowSystemMenuHint);
-	QSizePolicy sp = widget->sizePolicy();
-	traits->supportsResize = sp.horizontalPolicy() != QSizePolicy::Fixed || sp.verticalPolicy() != QSizePolicy::Fixed;
-
-	return traits;
-}
-
-bool GraphicsWindowQt::setWindowRectangleImplementation( int x, int y, int width, int height )
-{
-	if( m_opengl_widget == NULL )
-	{
-		return false;
-	}
-
-	m_opengl_widget->setGeometry( x, y, width, height );
-	return true;
-}
-
-void GraphicsWindowQt::getWindowRectangle( int& x, int& y, int& width, int& height )
-{
+	// remove reference from QtOSGWidget
 	if( m_opengl_widget )
 	{
-		const QRect& geom = m_opengl_widget->geometry();
-		x = geom.x();
-		y = geom.y();
-		width = geom.width();
-		height = geom.height();
+		m_opengl_widget->m_graphics_window = NULL;
 	}
-}
-
-bool GraphicsWindowQt::setWindowDecorationImplementation( bool windowDecoration )
-{
-	Qt::WindowFlags flags = Qt::Widget; //::Window|Qt::CustomizeWindowHint;//|Qt::WindowStaysOnTopHint;
-	if( windowDecoration )
-	{
-		flags |= Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowSystemMenuHint;
-	}
-	_traits->windowDecoration = windowDecoration;
-
-	if( m_opengl_widget )
-	{
-		m_opengl_widget->setWindowFlags( flags );
-
-		return true;
-	}
-
-	return false;
-}
-
-bool GraphicsWindowQt::getWindowDecoration() const
-{
-	return _traits->windowDecoration;
 }
 
 void GraphicsWindowQt::grabFocus()
@@ -693,27 +496,6 @@ void GraphicsWindowQt::grabFocusIfPointerInWindow()
 	{
 		m_opengl_widget->setFocus( Qt::ActiveWindowFocusReason );
 	}
-}
-
-void GraphicsWindowQt::raiseWindow()
-{
-	if( m_opengl_widget )
-	{
-		m_opengl_widget->raise();
-	}
-}
-
-void GraphicsWindowQt::setWindowName( const std::string& name )
-{
-	if( m_opengl_widget )
-	{
-		m_opengl_widget->setWindowTitle( name.c_str() );
-	}
-}
-
-std::string GraphicsWindowQt::getWindowName()
-{
-	return m_opengl_widget ? m_opengl_widget->windowTitle().toStdString() : "";
 }
 
 void GraphicsWindowQt::useCursor( bool cursorOn )
@@ -756,24 +538,28 @@ void GraphicsWindowQt::setCursor( MouseCursor cursor )
 	case BottomLeftCorner: m_current_cursor = Qt::SizeFDiagCursor; break;
 	default: break;
 	};
-	if( m_opengl_widget ) m_opengl_widget->setCursor( m_current_cursor );
+	if( m_opengl_widget )
+	{
+		m_opengl_widget->setCursor( m_current_cursor );
+	}
 }
 
 bool GraphicsWindowQt::valid() const
 {
-	return m_opengl_widget && m_opengl_widget->isValid();
+	if( m_opengl_widget == nullptr )
+	{
+		return false;
+	}
+	return m_opengl_widget->isValid();
 }
 
 bool GraphicsWindowQt::realizeImplementation()
 {
-	// save the current context
-	// note: this will save only Qt-based contexts
-	const QOpenGLContext *savedContext = QOpenGLContext::currentContext();
+	const QOpenGLContext *saved_context = QOpenGLContext::currentContext();
 
 	// initialize GL context for the widget
 	if( !valid() )
 	{
-		//_widget->glInit();
 		m_opengl_widget->initializeGL();
 	}
 
@@ -785,10 +571,10 @@ bool GraphicsWindowQt::realizeImplementation()
 	// fail if we do not have current context
 	if( !result )
 	{
-		if( savedContext )
+		if( saved_context )
 		{
-			QSurface* surf = savedContext->surface();
-			const_cast<QOpenGLContext*>(savedContext)->makeCurrent( surf );
+			QSurface* surf = saved_context->surface();
+			const_cast<QOpenGLContext*>(saved_context)->makeCurrent( surf );
 		}
 
 		OSG_WARN << "Window realize: Can make context current." << std::endl;
@@ -809,9 +595,9 @@ bool GraphicsWindowQt::realizeImplementation()
 	}
 
 	// restore previous context
-	if( savedContext )
+	if( saved_context )
 	{
-		const_cast<QOpenGLContext*>(savedContext)->makeCurrent( savedContext->surface() );
+		const_cast<QOpenGLContext*>(saved_context)->makeCurrent( saved_context->surface() );
 	}
 
 	return true;
@@ -845,8 +631,6 @@ void GraphicsWindowQt::runOperations()
 		m_opengl_widget->makeCurrent();
 	}
 
-
-
 	GraphicsWindow::runOperations();
 }
 
@@ -866,34 +650,6 @@ bool GraphicsWindowQt::releaseContextImplementation()
 {
 	m_opengl_widget->doneCurrent();
 	return true;
-}
-
-void GraphicsWindowQt::swapBuffersImplementation()
-{
-	return;
-
-	//_widget->swapBuffers();
-
-	// FIXME: the processDeferredEvents should really be executed in a GUI (main) thread context but
-	// I couln't find any reliable way to do this. For now, lets hope non of *GUI thread only operations* will
-	// be executed in a QGLWidget::event handler. On the other hand, calling GUI only operations in the
-	// QGLWidget event handler is an indication of a Qt bug.
-	if( m_opengl_widget->getNumDeferredEvents() > 0 )
-	{
-		m_opengl_widget->processDeferredEvents();
-	}
-
-	// We need to call makeCurrent here to restore our previously current context
-	// which may be changed by the processDeferredEvents function.
-
-	const QOpenGLContext *current_context = QOpenGLContext::currentContext();
-
-	if( current_context != m_opengl_widget->context() )
-	{
-		m_opengl_widget->makeCurrent();
-	}
-	//if (QGLContext::currentContext() != _widget->context())
-	//  _widget->makeCurrent();
 }
 
 void GraphicsWindowQt::requestWarpPointer( float x, float y )

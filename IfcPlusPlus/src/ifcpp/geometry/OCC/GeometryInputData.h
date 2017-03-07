@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
@@ -19,17 +23,14 @@
 #include <TopoDS_Solid.hxx>
 #include <TopoDS_Wire.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/AppearanceData.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcRepresentation.h>
 #include <ifcpp/IFC4/include/IfcTextStyle.h>
 
 #include "GeomUtils.h"
-#include "SceneGraphUtils.h"
-
-#include <osg/ref_ptr>
-#include <osg/Switch>
 
 class TextItemData
 {
@@ -38,41 +39,12 @@ public:
 	gp_Trsf m_text_position;
 };
 
-class AppearanceData
-{
-public:
-	enum GeometryTypeEnum { UNDEFINED, TEXT, CURVE, SURFACE, VOLUME, ANY };
-	AppearanceData( int step_style_id )
-	{
-		m_step_style_id = step_style_id;
-		m_complete = false;
-		m_set_transparent = false;
-		m_shininess = 10.f;
-		m_transparency = 1.f;
-		m_specular_exponent = 0.f;
-		m_specular_roughness = 0.f;
-		m_apply_to_geometry_type = UNDEFINED;
-	}
-	vec4 m_color_ambient;
-	vec4  m_color_diffuse;
-	vec4  m_color_specular;
-	int m_step_style_id;
-	double m_shininess;
-	double m_transparency;
-	double m_specular_exponent;
-	double m_specular_roughness;
-	bool m_set_transparent;
-	bool m_complete;
-	shared_ptr<IfcTextStyle> m_text_style;
-	GeometryTypeEnum m_apply_to_geometry_type;
-};
-
 //\brief Class to hold input data of one IFC geometric representation item.
-class ItemShapeInputData
+class ItemShapeData
 {
 public:
-	ItemShapeInputData(){}
-	~ItemShapeInputData(){}
+	ItemShapeData(){}
+	~ItemShapeData(){}
 
 	bool isEmpty()
 	{
@@ -139,9 +111,45 @@ public:
 		}
 	}
 
-	shared_ptr<ItemShapeInputData> getDeepCopy()
+	void applyPosition( const gp_GTrsf& mat, bool matrix_identity_checked = false )
 	{
-		shared_ptr<ItemShapeInputData> copy_item( new ItemShapeInputData() );
+		if( !matrix_identity_checked )
+		{
+			//if( GeomUtils::isMatrixIdentity( mat ) )
+			//{
+			//	return;
+			//}
+		}
+
+		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
+		{
+			TopoDS_Vertex& vertex_data = m_vertex_points[ii];
+
+			GeomUtils::applyMatrixToShape( vertex_data, mat );
+		}
+
+		for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
+		{
+			TopoDS_Wire& wire = m_polylines[polyline_i];
+			GeomUtils::applyMatrixToShape( wire, mat );
+		}
+
+		for( size_t i_meshsets = 0; i_meshsets < m_shapes.size(); ++i_meshsets )
+		{
+			TopoDS_Shape& item_meshset = m_shapes[i_meshsets];
+			GeomUtils::applyMatrixToShape( item_meshset, mat );
+		}
+
+		for( size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
+		{
+			shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
+			text_literals->m_text_position = (mat*text_literals->m_text_position).Trsf();
+		}
+	}
+
+	shared_ptr<ItemShapeData> getDeepCopy()
+	{
+		shared_ptr<ItemShapeData> copy_item( new ItemShapeData() );
 
 		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
 		{
@@ -177,7 +185,7 @@ public:
 	}
 	
 	/** copies the content of other instance and adds it to own content */
-	void addItemData( const shared_ptr<ItemShapeInputData>& other )
+	void addItemData( const shared_ptr<ItemShapeData>& other )
 	{
 		std::copy( other->m_vertex_points.begin(), other->m_vertex_points.end(), std::back_inserter( m_vertex_points ) );
 		std::copy( other->m_polylines.begin(), other->m_polylines.end(), std::back_inserter( m_polylines ) );
@@ -209,10 +217,10 @@ public:
 	ProductRepresentationData() {}
 	~ProductRepresentationData(){}
 
+	weak_ptr<IfcRepresentation>						m_ifc_representation;
 	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
-	std::vector<shared_ptr<ItemShapeInputData> >	m_vec_item_data;
+	std::vector<shared_ptr<ItemShapeData> >	m_vec_item_data;
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
-	osg::ref_ptr<osg::Switch>						m_representation_switch;
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
 
@@ -220,10 +228,11 @@ public:
 	shared_ptr<ProductRepresentationData> getDeepCopy()
 	{
 		shared_ptr<ProductRepresentationData> copy_representation( new ProductRepresentationData() );
+		copy_representation->m_ifc_representation = m_ifc_representation;
 		copy_representation->m_ifc_representation_context = m_ifc_representation_context;
 		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
 		{
-			shared_ptr<ItemShapeInputData>& item_data = m_vec_item_data[ii];
+			shared_ptr<ItemShapeData>& item_data = m_vec_item_data[ii];
 			copy_representation->m_vec_item_data.push_back( item_data->getDeepCopy() );
 		}
 		std::copy( m_vec_representation_appearances.begin(), m_vec_representation_appearances.end(), std::back_inserter( copy_representation->m_vec_representation_appearances ) );
@@ -245,8 +254,8 @@ public:
 		{
 			for( size_t item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
 			{
-				shared_ptr<ItemShapeInputData>& item_data = other->m_vec_item_data[item_i];
-				m_vec_item_data.push_back( shared_ptr<ItemShapeInputData>( item_data->getDeepCopy() ) );
+				shared_ptr<ItemShapeData>& item_data = other->m_vec_item_data[item_i];
+				m_vec_item_data.push_back( shared_ptr<ItemShapeData>( item_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
 		}
@@ -278,13 +287,9 @@ public:
 	void clearAll()
 	{
 		m_vec_representation_appearances.clear();
+		m_ifc_representation.reset();
 		m_ifc_representation_context.reset();
-		if( m_representation_switch )
-		{
-			SceneGraphUtils::removeChildren( m_representation_switch );
-		}
 		m_vec_item_data.clear();
-		
 		m_representation_identifier = L"";
 		m_representation_type = L"";
 	}
@@ -300,21 +305,32 @@ public:
 			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
 		}
 	}
+	void applyPosition( const gp_GTrsf& matrix, bool matrix_identity_checked = false )
+	{
+		//if( GeomUtils::isMatrixIdentity( matrix ) )
+		//{
+		//	return;
+		//}
+		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
+		{
+			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
+		}
+	}
 };
 
-class ProductShapeInputData
+class ProductShapeData
 {
 public:
-	ProductShapeInputData() : m_added_to_node(false) {}
-	virtual ~ProductShapeInputData() {}
+	ProductShapeData() : m_added_to_spatial_structure(false) {}
+	virtual ~ProductShapeData() {}
 
-	void addInputData( shared_ptr<ProductShapeInputData>& other )
+	void addInputData( shared_ptr<ProductShapeData>& other )
 	{
 		std::copy( other->m_vec_representations.begin(), other->m_vec_representations.end(), std::back_inserter( m_vec_representations ) );
 		std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
 	}
 
-	void deepCopyFrom( shared_ptr<ProductShapeInputData>& other )
+	void deepCopyFrom( shared_ptr<ProductShapeData>& other )
 	{
 		m_vec_representations.clear();
 		m_vec_product_appearances.clear();
@@ -357,14 +373,10 @@ public:
 	{
 		m_vec_product_appearances.clear();
 
-		m_ifc_product.reset();
+		m_ifc_object_definition.reset();
 		m_object_placement.reset();
-		if( m_product_switch )
-		{
-			SceneGraphUtils::removeChildren( m_product_switch );
-		}
 		m_vec_representations.clear();
-		m_added_to_node = false;
+		m_added_to_spatial_structure = false;
 	}
 
 	void applyPosition( const gp_Trsf& matrix )
@@ -380,11 +392,11 @@ public:
 	}
 	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
 
-	weak_ptr<IfcProduct>								m_ifc_product;
+	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
-	osg::ref_ptr<osg::Switch>							m_product_switch;
 	std::vector<shared_ptr<ProductRepresentationData> >	m_vec_representations;
-	bool												m_added_to_node;
+	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
+	bool												m_added_to_spatial_structure;
 	
 protected:
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;

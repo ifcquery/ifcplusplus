@@ -1,16 +1,19 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
-*/
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
 
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 #include <stdlib.h>
 #include <sstream>
@@ -170,34 +173,11 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 }
 ViewerWidget::~ViewerWidget() {}
 
-void ViewerWidget::initGLWidgetAndViewer( int width, int height, QWidget* parent )
+void ViewerWidget::initGLWidgetAndViewer()
 {
 	osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::SingleThreaded;
-
 	m_system->getRootNode()->setCullingActive( false );
-
-	//initGraphicsWindow( m_window_name.c_str(), false, width, height );
-	osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
-	if( !ds )
-	{
-		return;
-	}
-
-	osg::setNotifyLevel( osg::NotifySeverity::FATAL );
-
-	osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
-	traits->windowName = m_window_name.c_str();
-	traits->windowDecoration = false;
-	traits->x = 0;
-	traits->y = 0;
-	traits->width = width;
-	traits->height = height;
-	traits->doubleBuffer = true;
-	traits->alpha = ds->getMinimumNumAlphaBits();
-	traits->stencil = ds->getMinimumNumStencilBits();
-	traits->sampleBuffers = ds->getMultiSamples();
-	traits->samples = ds->getNumMultiSamples();
-	m_graphics_window = new GraphicsWindowQt( traits.get(), parent );
+	m_graphics_window = new GraphicsWindowQt( this );
 	QtOSGWidget* opengl_widget = m_graphics_window->getOpenGLWidget();
 	opengl_widget->setMinimumSize( QSize( 150, 150 ) );
 	m_main_view = opengl_widget->getView();
@@ -224,7 +204,7 @@ QtOSGWidget* ViewerWidget::getOpenGLWidget()
 {
 	if( !m_graphics_window )
 	{
-		initGLWidgetAndViewer( width(), height(), m_parent );
+		initGLWidgetAndViewer();
 	}
 	if( m_graphics_window )
 	{
@@ -238,7 +218,7 @@ GraphicsWindowQt* ViewerWidget::getGraphicsWindowQt()
 {
 	if( !m_graphics_window )
 	{
-		initGLWidgetAndViewer( width(), height(), m_parent );
+		initGLWidgetAndViewer();
 	}
 	return m_graphics_window;
 }
@@ -246,7 +226,7 @@ osgViewer::View* ViewerWidget::getMainView()
 {
 	if( !m_main_view )
 	{
-		initGLWidgetAndViewer( width(), height(), m_parent );
+		initGLWidgetAndViewer();
 	}
 	return m_main_view;
 }
@@ -254,7 +234,7 @@ osgViewer::CompositeViewer* ViewerWidget::getCompositeViewer()
 {
 	if( !m_composite_viewer )
 	{
-		initGLWidgetAndViewer( width(), height(), m_parent );
+		initGLWidgetAndViewer();
 	}
 	return m_composite_viewer;
 }

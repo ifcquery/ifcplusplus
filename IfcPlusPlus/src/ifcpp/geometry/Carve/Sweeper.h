@@ -1,30 +1,32 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
+#include "GeomDebugDump.h"
 #include "CSG_Adapter.h"
 
 class GeometrySettings;
 class UnitConverter;
-
-//#define MAP_T boost::unordered_map
-#define MAP_T std::map
 
 class Sweeper : public StatusCallback
 {
@@ -41,7 +43,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void extrude( const std::vector<std::vector<vec2> >& face_loops_input, const vec3 extrusion_vector, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
+	void extrude( const std::vector<std::vector<vec2> >& face_loops_input, const vec3 extrusion_vector, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data )
 	{
 		// TODO: complete and test
 		if( face_loops_input.size() == 0 )
@@ -237,11 +239,11 @@ public:
 		}
 		catch( IfcPPException& exception )
 		{
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 			std::cout << exception.what() << std::endl;
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
-			GeomDebugUtils::dumpMeshset( meshset, color, true );
+			GeomDebugDump::dumpMeshset( meshset, color, true );
 #endif
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
 		}
@@ -259,7 +261,7 @@ public:
 	  \param[in] nvc Number of vertices per circle
 	  \param[in] radius_inner If positive value is given, the swept disk becomes a pipe
 	**/
-	void sweepDisk( const std::vector<vec3>& curve_points, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 )
+	void sweepDisk( const std::vector<vec3>& curve_points, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 )
 	{
 		const size_t num_curve_points = curve_points.size();
 		if( num_curve_points < 2 )
@@ -624,6 +626,11 @@ public:
 		catch( IfcPPException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
+#ifdef IFCPP_GEOM_DEBUG
+			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+			GeomDebugDump::dumpMeshset( meshset, color, true );
+#endif
 		}
 
 	#ifdef _DEBUG
@@ -860,7 +867,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void sweepArea( const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeInputData>& item_data )
+	void sweepArea( const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data )
 	{
 		if( profile_paths.size() == 0 )
 		{
@@ -1088,6 +1095,11 @@ public:
 		catch( IfcPPException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
+#ifdef IFCPP_GEOM_DEBUG
+			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+			GeomDebugDump::dumpMeshset( meshset, color, true );
+#endif
 		}
 
 #ifdef _DEBUG
@@ -1105,7 +1117,7 @@ public:
 	{
 		std::vector<std::vector<vec2> > face_loops_2d;
 		std::vector<std::vector<vec3> > face_loops_3d;
-		std::map<size_t, size_t> map_merged_idx;
+		map_t<size_t, size_t> map_merged_idx;
 		bool face_loop_reversed = false;
 		bool warning_small_loop_detected = false;
 		GeomUtils::ProjectionPlane face_plane = GeomUtils::UNDEFINED;

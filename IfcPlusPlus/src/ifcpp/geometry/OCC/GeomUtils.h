@@ -1,26 +1,32 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
 #include <vector>
-#include <unordered_set>
-
 #include <Bnd_Box.hxx>
 #include <BRepAdaptor_Curve.hxx>
 #include <BRepAdaptor_Surface.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
+#include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepFilletAPI_MakeFillet2d.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
+#include <BRepBuilderAPI_GTransform.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
 #include <BRep_Tool.hxx>
 #include <GCPnts_AbscissaPoint.hxx>
@@ -38,26 +44,12 @@
 #include <TopoDS_Vertex.hxx>
 #include <TopoDS_Wire.hxx>
 
-#include <osg/Array>
-#include <osg/CullFace>
-#include <osg/Geode>
-#include <osg/Group>
-#include <osg/LineStipple>
-#include <osg/PolygonMode>
-#include <osg/PolygonOffset>
-#include <osg/ShapeDrawable>
-#include <osg/Material>
-#include <osg/MatrixTransform>
-#include <osg/Version>
-#include <osgText/Text>
-#include <osgViewer/Viewer>
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPException.h>
-#include "GeometrySettings.h"
 
-#define GEOM_LENGTH_EPSILON 1.4901161193847656e-08
-#define GEOM_CSG_FUZZY_EPSILON 0.0001
-#define GEOM_PROFILE_SIZE_EPSILON 0.00000001
+#define GEOM_EPSILON_LENGTH 1.4901161193847656e-08
+#define GEOM_EPSILON_CSG_FUZZY 0.0001
+#define GEOM_EPSILON_PROFILE_SIZE 0.00000001
 
 typedef gp_Vec2d vec2;
 typedef gp_Vec vec3;
@@ -78,33 +70,68 @@ struct TangentialPoint2D
 	double m_radius;
 };
 
-class vec4
-{
-public:
-	vec4() {}
-	vec4( double r, double g, double b, double a ) : m_r( r ), m_g( g ), m_b( b ), m_a( a ) {}
-	vec4( const vec4& other )
-	{
-		m_r = other.m_r;
-		m_g = other.m_g;
-		m_b = other.m_b;
-		m_a = other.m_a;
-	}
-	double r() const { return m_r; }
-	double g() const { return m_g; }
-	double b() const { return m_b; }
-	double a() const { return m_a; }
-
-	double m_r = 0;
-	double m_g = 0;
-	double m_b = 0;
-	double m_a = 0;
-};
-
 namespace GeomUtils
 {
+	class Ray
+	{
+	public:
+		void setRay( Ray* other )
+		{
+			origin = other->origin;
+			direction = other->direction;
+		}
+		vec3 origin;
+		vec3 direction;
+	};
+	class Plane
+	{
+	public:
+		Plane() {}
+		Plane( vec3& position, vec3& normal )
+		{
+			m_position = position;
+			m_normal = normal;
+		}
+		bool intersectRay( const Ray* ray, bool intersect_in_both_directions, vec3& intersect_point ) const
+		{
+			vec3 plane_pos( m_position );
+			gp_Dir plane_normal( m_normal.X(), m_normal.Y(), m_normal.Z() );
+			//gp_Pln plane = gp_Pln( plane_pos, plane_normal );
+
+			vec3 ray_origin( ray->origin.X(), ray->origin.Y(), ray->origin.Z() );
+			gp_Dir ray_direction( ray->direction.X(), ray->direction.Y(), ray->direction.Z() );
+
+			double denom = plane_normal.Dot( ray_direction );
+			double abs_denom = abs( denom );
+			if( abs_denom < 0.0001 )
+			{
+				return false;
+			}
+
+			double t = (plane_pos - ray_origin).Dot( plane_normal ) / denom;
+			if( !intersect_in_both_directions )
+			{
+				if( t < -0.0001 )
+				{
+					return false;
+				}
+			}
+			intersect_point = ray_origin + t * ray_direction;
+			return true;
+		}
+
+		/** distance point to plane */
+		double distancePointPlane( const vec3& point )
+		{
+			return m_normal*(point - m_position);
+		}
+
+		vec3 m_position;
+		vec3 m_normal;
+	};
+
 	/** polygon operations */
-	static inline bool equal( const vec2& pt1, const vec2& pt2, const double tolerance = GEOM_LENGTH_EPSILON )
+	static inline bool equal( const vec2& pt1, const vec2& pt2, const double tolerance = GEOM_EPSILON_LENGTH )
 	{
 		// comparing square distance saves a call to sqrt
 		double distance_square = (pt2-pt1).SquareMagnitude();
@@ -114,7 +141,7 @@ namespace GeomUtils
 		}
 		return false;
 	}
-	static inline bool equal( const gp_Vec& pt1, const gp_Vec& pt2, const double tolerance = GEOM_LENGTH_EPSILON )
+	static inline bool equal( const vec3& pt1, const vec3& pt2, const double tolerance = GEOM_EPSILON_LENGTH )
 	{
 		// comparing square distance saves a call to sqrt
 		double distance_square = (pt2-pt1).SquareMagnitude();
@@ -124,7 +151,7 @@ namespace GeomUtils
 		}
 		return false;
 	}
-	static inline bool isZero( const gp_Vec2d& vec, double epsilon = GEOM_LENGTH_EPSILON )
+	static inline bool isZero( const vec2& vec, double epsilon = GEOM_EPSILON_LENGTH )
 	{
 		return (vec.X()*vec.X() + vec.Y()*vec.Y()) < epsilon * epsilon;
 	}
@@ -150,36 +177,6 @@ namespace GeomUtils
 		}
 		polygon_centroid /= (double)( polygon.size() );
 		return polygon_centroid;
-	}
-	inline osg::Vec3d computePolygonNormal( const osg::Vec3dArray* polygon )
-	{
-		const int num_points = polygon->size();
-		osg::Vec3d polygon_normal( 0, 0, 0 );
-		for( int k = 0; k < num_points; ++k )
-		{
-			const osg::Vec3d& vertex_current = polygon->at( k );
-			const osg::Vec3d& vertex_next = polygon->at( ( k + 1 ) % num_points );
-			polygon_normal._v[0] += ( vertex_current.y() - vertex_next.y() )*( vertex_current.z() + vertex_next.z() );
-			polygon_normal._v[1] += ( vertex_current.z() - vertex_next.z() )*( vertex_current.x() + vertex_next.x() );
-			polygon_normal._v[2] += ( vertex_current.x() - vertex_next.x() )*( vertex_current.y() + vertex_next.y() );
-		}
-		polygon_normal.normalize();
-		return polygon_normal;
-	}
-	inline osg::Vec3f computePolygonNormal( const osg::Vec3Array* polygon )
-	{
-		const int num_points = polygon->size();
-		osg::Vec3f polygon_normal( 0, 0, 0 );
-		for( int k = 0; k < num_points; ++k )
-		{
-			const osg::Vec3f& vertex_current = polygon->at( k );
-			const osg::Vec3f& vertex_next = polygon->at( ( k + 1 ) % num_points );
-			polygon_normal._v[0] += ( vertex_current.y() - vertex_next.y() )*( vertex_current.z() + vertex_next.z() );
-			polygon_normal._v[1] += ( vertex_current.z() - vertex_next.z() )*( vertex_current.x() + vertex_next.x() );
-			polygon_normal._v[2] += ( vertex_current.x() - vertex_next.x() )*( vertex_current.y() + vertex_next.y() );
-		}
-		polygon_normal.normalize();
-		return polygon_normal;
 	}
 	inline vec3 computePolygonNormal( const std::vector<vec3>& polygon )
 	{
@@ -219,7 +216,7 @@ namespace GeomUtils
 		polygon_normal.Normalize();
 		return polygon_normal;
 	}
-	inline gp_Vec computeFaceNormal( const TopoDS_Face& face )
+	inline vec3 computeFaceNormal( const TopoDS_Face& face )
 	{
 		BRepAdaptor_Surface surface( face );
 		Standard_Real u1, u2, v1, v2;
@@ -229,7 +226,7 @@ namespace GeomUtils
 		v2 = surface.LastVParameter();
 
 		gp_Pnt face_center_point;
-		gp_Vec first_vec_on_face, second_vec_on_face, face_normal;
+		vec3 first_vec_on_face, second_vec_on_face, face_normal;
 
 		surface.D1( (u1+u2)/2, (v1+v2)/2, face_center_point, first_vec_on_face, second_vec_on_face );
 
@@ -422,7 +419,191 @@ namespace GeomUtils
 
 		}
 	}
+	static void createWireFromPoints( const std::vector<vec3>& coordinates, TopoDS_Wire& wire, bool close_wire_with_first_point )
+	{
+		std::vector<TopoDS_Vertex> vertices;
+		for( size_t ii = 0; ii < coordinates.size(); ++ii )
+		{
+			const vec3& vec = coordinates[ii];
+			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), vec.Z() ) ) );
+		}
 
+		BRepBuilderAPI_MakeWire mk_wire;
+		for( size_t ii = 0; ii < vertices.size(); ii++ )
+		{
+			size_t idx_next = (ii + 1) % vertices.size();
+			TopoDS_Vertex& vertex_ii = vertices[ii];
+			TopoDS_Vertex& vertex_next = vertices[idx_next];
+
+			if( ii == vertices.size() - 1 )
+			{
+				if( !close_wire_with_first_point )
+				{
+					break;
+				}
+			}
+
+			if( coordinates.size() == vertices.size() )
+			{
+				const vec3& vec = coordinates[ii];
+				const vec3& vec_next = coordinates[idx_next];
+				if( GeomUtils::equal( vec, vec_next ) )
+				{
+					// points are equal, length of edge would be zero
+					continue;
+				}
+			}
+
+			if( vertex_ii.IsNull() )
+			{
+				continue;
+			}
+
+			if( vertex_next.IsNull() )
+			{
+				continue;
+			}
+
+			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
+			if( !mk_edge.IsDone() )
+			{
+				continue;
+			}
+			mk_wire.Add( mk_edge );
+		}
+		wire = mk_wire.Wire();
+	}
+	static void createFaceFromPoints( const std::vector<vec2>& coordinates, TopoDS_Face& face )
+	{
+		std::vector<TopoDS_Vertex> vertices;
+		for( size_t ii = 0; ii < coordinates.size(); ++ii )
+		{
+			const vec2& vec = coordinates[ii];
+			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), 0.0f ) ) );
+		}
+
+		BRepBuilderAPI_MakeWire mk_wire;
+		for( size_t ii = 0; ii < vertices.size(); ii++ )
+		{
+			size_t idx_next = (ii + 1) % vertices.size();
+			TopoDS_Vertex& vertex_ii = vertices[ii];
+			TopoDS_Vertex& vertex_next = vertices[idx_next];
+
+			if( coordinates.size() == vertices.size() )
+			{
+				const vec2& vec = coordinates[ii];
+				const vec2& vec_next = coordinates[idx_next];
+				if( GeomUtils::equal( vec, vec_next ) )
+				{
+					// points are equal, length of edge would be zero
+					continue;
+				}
+			}
+
+			if( vertex_ii.IsNull() )
+			{
+				continue;
+			}
+			if( vertex_next.IsNull() )
+			{
+				continue;
+			}
+			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
+			if( !mk_edge.IsDone() )
+			{
+				continue;
+			}
+			mk_wire.Add( mk_edge );
+		}
+
+		TopoDS_Wire wire = mk_wire.Wire();
+
+		BRepBuilderAPI_MakeFace mk_face( wire, false );
+		face = mk_face.Face();
+	}
+
+	static void createFaceFromPoints( const std::vector<TangentialPoint2D>& tangential_points, TopoDS_Face& face )
+	{
+		std::vector<TopoDS_Vertex> vertices;
+		bool have_radius = false;
+		for( size_t ii = 0; ii < tangential_points.size(); ++ii )
+		{
+			const TangentialPoint2D& tangent_point = tangential_points[ii];
+			const vec2& vec = tangent_point.m_coords;
+			const double radius = tangent_point.m_radius;
+			if( abs( radius ) > 0.0001 )
+			{
+				have_radius = true;
+			}
+			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), 0.0f ) ) );
+		}
+
+		TopoDS_Edge previous_edge;
+		BRepBuilderAPI_MakeWire mk_wire;
+		for( size_t ii = 0; ii < vertices.size(); ii++ )
+		{
+			size_t idx_next = (ii + 1) % vertices.size();
+			TopoDS_Vertex& vertex_ii = vertices[ii];
+			TopoDS_Vertex& vertex_next = vertices[idx_next];
+
+			if( tangential_points.size() == vertices.size() )
+			{
+				const TangentialPoint2D& tangent_point = tangential_points[ii];
+				const TangentialPoint2D& tangent_point_next = tangential_points[idx_next];
+				const vec2& vec = tangent_point.m_coords;
+				const vec2& vec_next = tangent_point_next.m_coords;
+				if( GeomUtils::equal( vec, vec_next ) )
+				{
+					// points are equal, length of edge would be zero
+					continue;
+				}
+			}
+
+			if( vertex_ii.IsNull() )
+			{
+				continue;
+			}
+			if( vertex_next.IsNull() )
+			{
+				continue;
+			}
+			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
+			if( !mk_edge.IsDone() )
+			{
+				continue;
+			}
+
+			mk_wire.Add( mk_edge );
+		}
+
+		TopoDS_Wire wire = mk_wire.Wire();
+
+		BRepBuilderAPI_MakeFace mk_face( wire, false );
+		face = mk_face.Face();
+
+		if( have_radius )
+		{
+			BRepFilletAPI_MakeFillet2d fillet( face );
+
+			for( size_t ii = 0; ii < tangential_points.size(); ++ii )
+			{
+				const double radius = tangential_points[ii].m_radius;
+				if( abs( radius ) > 0.0001 )
+				{
+					fillet.AddFillet( vertices[ii], abs( radius ) );
+				}
+			}
+			fillet.Build();
+			if( fillet.IsDone() )
+			{
+				face = TopoDS::Face( fillet.Shape() );
+			}
+			else
+			{
+				std::cout << "Failed to process profile fillets";
+			}
+		}
+	}
 
 	/* \brief closes gaps between edges in the given wire, without changing the order of the edges in the wire */
 	inline void closeWire( TopoDS_Wire& wire )
@@ -717,7 +898,7 @@ namespace GeomUtils
 		}
 		return false;
 	}
-	inline void closestPointOnLine( const gp_Vec& point, const gp_Vec& line_origin, const gp_Vec& line_direction, gp_Vec& closest )
+	inline void closestPointOnLine( const vec3& point, const vec3& line_origin, const vec3& line_direction, vec3& closest )
 	{
 		const double denom = point.X()*line_direction.X() + point.Y()*line_direction.Y() + point.Z()*line_direction.Z() - line_direction.X()*line_origin.X() - line_direction.Y()*line_origin.Y() - line_direction.Z()*line_origin.Z();
 		const double numer = line_direction.X()*line_direction.X() + line_direction.Y()*line_direction.Y() + line_direction.Z()*line_direction.Z();
@@ -726,7 +907,7 @@ namespace GeomUtils
 			throw IfcPPException( "Line is degenerated: the line's direction vector is a null vector!", __FUNC__ );
 		}
 		const double lambda = denom / numer;
-		closest = gp_Vec( line_origin.X() + lambda*line_direction.X(), line_origin.Y() + lambda*line_direction.Y(), line_origin.Z() + lambda*line_direction.Z() );
+		closest = vec3( line_origin.X() + lambda*line_direction.X(), line_origin.Y() + lambda*line_direction.Y(), line_origin.Z() + lambda*line_direction.Z() );
 	}
 	inline void closestPointOnLine( const vec2& point, const vec2& line_origin, const vec2& line_direction, vec2& closest )
 	{
@@ -760,7 +941,7 @@ namespace GeomUtils
 		if( form == gp_Translation )
 		{
 			double length_square = mat.TranslationPart().SquareModulus();
-			if( length_square < GEOM_LENGTH_EPSILON )
+			if( length_square < GEOM_EPSILON_LENGTH )
 			{
 				return true;
 			}
@@ -787,8 +968,27 @@ namespace GeomUtils
 			shape = transformed_shape;
 		}
 	}
+	inline void applyMatrixToShape( TopoDS_Shape& shape, const gp_GTrsf& pos )
+	{
+		if( shape.IsNull() )
+		{
+			return;
+		}
 
-	inline void applyTranslationToShape( TopoDS_Shape& shape, const gp_Vec& delta_pos )
+		//if( isMatrixIdentity( pos ) )
+		//{
+		//	return;
+		//}
+
+		BRepBuilderAPI_GTransform transform( shape, pos );
+		TopoDS_Shape transformed_shape = transform.Shape();
+		if( !transformed_shape.IsNull() )
+		{
+			shape = transformed_shape;
+		}
+	}
+
+	inline void applyTranslationToShape( TopoDS_Shape& shape, const vec3& delta_pos )
 	{
 		if( shape.IsNull() )
 		{
@@ -796,7 +996,7 @@ namespace GeomUtils
 		}
 
 		double length_square = delta_pos.SquareMagnitude();
-		if( length_square < GEOM_LENGTH_EPSILON )
+		if( length_square < GEOM_EPSILON_LENGTH )
 		{
 			return;
 		}

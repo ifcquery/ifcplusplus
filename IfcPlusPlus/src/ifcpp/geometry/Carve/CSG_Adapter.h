@@ -1,23 +1,28 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometryException.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPException.h>
 #include <ifcpp/model/StatusCallback.h>
+
 #include "IncludeCarveHeaders.h"
-#include "GeometryException.h"
 #include "GeometryInputData.h"
 
 typedef carve::mesh::Edge<3> edge_t;
@@ -95,7 +100,7 @@ namespace CSG_Adapter
 		}
 		bool meshset_dirty = false;
 
-		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
+		map_t<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
@@ -315,14 +320,14 @@ namespace CSG_Adapter
 					}
 					if( !e->rev )
 					{
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 						std::vector<face_t*> vec_faces;
 						vec_faces.push_back( face );
-						GeomDebugUtils::dumpFaces( meshset, vec_faces );
+						GeomDebugDump::dumpFaces( meshset, vec_faces );
 
 						std::vector<edge_t*> vec_edges;
 						vec_edges.push_back( e );
-						GeomDebugUtils::dumpEdges( meshset, vec_edges );
+						GeomDebugDump::dumpEdges( meshset, vec_edges );
 #endif
 						return false;
 					}
@@ -529,7 +534,7 @@ namespace CSG_Adapter
 		}
 		bool meshset_dirty = false;
 
-		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
+		map_t<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
@@ -833,9 +838,9 @@ namespace CSG_Adapter
 		bool simplified_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !simplified_meshset_ok )
 		{
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 			std::cout << err_simplified.str().c_str() << std::endl;
-			GeomDebugUtils::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+			GeomDebugDump::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 			meshset = meshset_copy;
 			return;
@@ -852,19 +857,19 @@ namespace CSG_Adapter
 		bool retriangulated_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !retriangulated_meshset_ok )
 		{
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 			std::cout << err_retriangulated.str().c_str() << std::endl;
 
 			shared_ptr<meshset_t > meshset_pre_triang( meshset_copy->clone() );
 			//applyTranslate( meshset_pre_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-			GeomDebugUtils::dumpMeshset( meshset_pre_triang, color, true );
+			GeomDebugDump::dumpMeshset( meshset_pre_triang, color, true );
 			//dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
 
 			shared_ptr<meshset_t > meshset_post_triang( meshset->clone() );
 			//applyTranslate( meshset_post_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
 			color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
-			GeomDebugUtils::dumpMeshset( meshset_post_triang, color, true );
+			GeomDebugDump::dumpMeshset( meshset_post_triang, color, true );
 			//dump_y_pos += meshset_post_triang->getAABB().extent.y*2.2;
 
 #endif
@@ -901,9 +906,9 @@ namespace CSG_Adapter
 				{
 					result = op2;
 				}
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-				GeomDebugUtils::dumpMeshset( op1, color, true );
+				GeomDebugDump::dumpMeshset( op1, color, true );
 #endif
 				return;
 			}
@@ -918,9 +923,9 @@ namespace CSG_Adapter
 				{
 					result = op1;
 				}
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-				GeomDebugUtils::dumpMeshset( op2, color, true );
+				GeomDebugDump::dumpMeshset( op2, color, true );
 #endif
 				return;
 			}
@@ -983,9 +988,9 @@ namespace CSG_Adapter
 				{
 					result = op2;
 				}
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-				GeomDebugUtils::dumpMeshset( op1, color, true );
+				GeomDebugDump::dumpMeshset( op1, color, true );
 #endif
 				return;
 			}
@@ -1000,9 +1005,9 @@ namespace CSG_Adapter
 				{
 					result = op1;
 				}
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-				GeomDebugUtils::dumpMeshset( op2, color, true );
+				GeomDebugDump::dumpMeshset( op2, color, true );
 #endif
 				return;
 			}
@@ -1064,12 +1069,6 @@ namespace CSG_Adapter
 				GeomUtils::applyTranslate( op2, translate_avoid_large_numbers );
 			}
 		}
-#ifdef _DEBUG
-		catch( DebugBreakException& e )
-		{
-			throw e;
-		}
-#endif
 		catch( carve::exception& ce )
 		{
 			strs_err << ce.str().c_str();
@@ -1089,19 +1088,19 @@ namespace CSG_Adapter
 
 		if( strs_err.tellp() > 0 )
 		{
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 
 			shared_ptr<meshset_t > op1_copy( op1->clone() );
 			
 			GeomUtils::applyTranslate( op1_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-			GeomDebugUtils::dumpMeshset( op1_copy, color, true );
+			GeomDebugDump::dumpMeshset( op1_copy, color, true );
 			dump_y_pos += op1_copy->getAABB().extent.y*2.2;
 
 			shared_ptr<meshset_t > op2_copy( op2->clone() );
 			GeomUtils::applyTranslate( op2_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
 			color = carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 );
-			GeomDebugUtils::dumpMeshset( op2_copy, color, true );
+			GeomDebugDump::dumpMeshset( op2_copy, color, true );
 			dump_y_pos += op2_copy->getAABB().extent.y*2.2;
 
 			if( result )
@@ -1109,7 +1108,7 @@ namespace CSG_Adapter
 				shared_ptr<meshset_t > result_copy( result->clone() );
 				GeomUtils::applyTranslate( result_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
 				color = carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 );
-				GeomDebugUtils::dumpMeshset( result_copy, color, true );
+				GeomDebugDump::dumpMeshset( result_copy, color, true );
 				dump_y_pos += result_copy->getAABB().extent.y*2.2;
 			}
 #endif

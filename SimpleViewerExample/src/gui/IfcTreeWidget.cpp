@@ -1,4 +1,21 @@
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
 
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/IfcPPObject.h>
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/IFC4/include/IfcObjectDefinition.h>
@@ -50,9 +67,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setIndentation( 4 );
 
 	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( m_system, SIGNAL( signalObjectsSelected(boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ),	this, 
-		SLOT( slotObjectsSelected(boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ) );
-
+	connect( m_system, SIGNAL( signalObjectsSelected(boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ),	this, SLOT( slotObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ) );
 	connect( m_system, SIGNAL( signalModelCleared() ),		this, SLOT( slotModelCleared() ) );
 	connect( m_system, SIGNAL( signalModelLoadingStart() ),	this, SLOT( slotModelLoadingStart() ) );
 	connect( m_system, SIGNAL( signalModelLoadingDone() ),	this, SLOT( slotModelLoadingDone() ) );
@@ -98,8 +113,8 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 	{
 		return;
 	}
-	const boost::unordered_map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getGeometryConverter()->getIfcPPModel()->getMapIfcEntities();
-	boost::unordered_map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
+	const map_t<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
+	map_t<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
 	if( previous )
 	{
 		int id = previous->text(1).toUInt();
@@ -147,7 +162,7 @@ void IfcTreeWidget::slotModelLoadingStart()
 	slotModelCleared();
 }
 
-QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& set_visited )
+QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, boost::unordered_set<int>& set_visited )
 {
 	QTreeWidgetItem* item = nullptr;
 
@@ -231,8 +246,8 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::set<int>& s
 
 void IfcTreeWidget::slotModelLoadingDone()
 {
-	std::set<int> set_visited;
-	shared_ptr<IfcProject> project = m_system->getGeometryConverter()->getIfcPPModel()->getIfcProject();
+	boost::unordered_set<int> set_visited;
+	shared_ptr<IfcProject> project = m_system->getIfcModel()->getIfcProject();
 	if( project )
 	{
 		
@@ -248,24 +263,25 @@ void IfcTreeWidget::slotModelLoadingDone()
 		}
 	}
 
-	QTreeWidgetItem* item_outside = new QTreeWidgetItem();
-	item_outside->setText( 0, "OutsideSpatialStructure" );
-
-	boost::unordered_map<int,shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
-	for( auto it = map_outside.begin(); it != map_outside.end(); ++it )
-	{
-		shared_ptr<IfcPPObject>& ifc_object = it->second;
-		QTreeWidgetItem* object_item = resolveTreeItems( ifc_object, set_visited );
-		if( object_item != NULL )
-		{
-			blockSignals(true);
-			item_outside->addChild( object_item );
-			blockSignals(false);
-		}
-	}
-
+	map_t<int, shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
+	
 	if( map_outside.size() > 0 )
 	{
+		QTreeWidgetItem* item_outside = new QTreeWidgetItem();
+		item_outside->setText( 0, "OutsideSpatialStructure" );
+
+		for( auto it = map_outside.begin(); it != map_outside.end(); ++it )
+		{
+			shared_ptr<IfcPPObject>& ifc_object = it->second;
+			QTreeWidgetItem* object_item = resolveTreeItems( ifc_object, set_visited );
+			if( object_item != NULL )
+			{
+				blockSignals( true );
+				item_outside->addChild( object_item );
+				blockSignals( false );
+			}
+		}
+
 		m_block_selection_signals = true;
 		blockSignals( true );
 		insertTopLevelItem( topLevelItemCount(), item_outside );
@@ -274,4 +290,3 @@ void IfcTreeWidget::slotModelLoadingDone()
 		m_block_selection_signals = false;
 	}
 }
-

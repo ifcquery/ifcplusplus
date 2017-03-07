@@ -1,28 +1,35 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
-
+#include <BRep_Builder.hxx>
+#include <BRepBuilderAPI_MakeEdge.hxx>
+#include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepCheck_Analyzer.hxx>
 #include <BRepClass3d_SolidClassifier.hxx>
 #include <BRepOffsetAPI_Sewing.hxx>
 #include <Geom_Plane.hxx>
+#include <ShapeFix_Solid.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
-
 #include <ifcpp/IFC4/include/IfcCurveBoundedPlane.h>
 #include <ifcpp/IFC4/include/IfcCurveBoundedSurface.h>
 #include <ifcpp/IFC4/include/IfcCylindricalSurface.h>
@@ -36,25 +43,8 @@
 #include <ifcpp/IFC4/include/IfcSweptSurface.h>
 
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
 #include "CurveConverter.h"
 #include "SplineConverter.h"
-
-class SurfaceProxy
-{
-public:
-	virtual void computePointOnSurface(const vec3& point_in, vec3& point_out) = 0;
-};
-
-class SurfaceProxyLinear : public SurfaceProxy
-{
-public:
-	virtual void computePointOnSurface(const vec3& point_in, vec3& point_out)
-	{
-		point_out = point_in.Transformed( m_surface_matrix );
-	}
-	gp_Trsf m_surface_matrix;
-};
 
 class FaceConverter : public StatusCallback
 {
@@ -334,17 +324,17 @@ public:
 				}
 				else
 				{
-					BRep_Builder B;
+					BRep_Builder brep_builder;
 					if( complete_shape.ShapeType() != TopAbs_COMPOUND )
 					{
-						TopoDS_Compound C;
-						B.MakeCompound( C );
-						B.Add( C, complete_shape );
-						complete_shape = C;
+						TopoDS_Compound compound;
+						brep_builder.MakeCompound( compound );
+						brep_builder.Add( compound, complete_shape );
+						complete_shape = compound;
 
 						messageCallback( "Failed to connect faces", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", entity );
 					}
-					B.Add( complete_shape, result_shape );
+					brep_builder.Add( complete_shape, result_shape );
 				}
 			}
 			shape = complete_shape;
@@ -387,7 +377,7 @@ public:
 		}
 	}
 
-	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeInputData> item_data, ShellType st )
+	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeData> item_data, ShellType st )
 	{
 		TopTools_ListOfShape list_of_shapes;
 		IfcPPEntity* report_entity = nullptr;

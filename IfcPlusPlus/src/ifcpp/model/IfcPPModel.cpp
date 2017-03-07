@@ -1,14 +1,18 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma warning( disable: 4996 )
@@ -62,13 +66,11 @@
 IfcPPModel::IfcPPModel()
 {
 	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
-	addCallbackChild( m_unit_converter.get() );
+	m_unit_converter->setMessageTarget( this );
 	initFileHeader( "IfcPlusPlus-export.ifc" );
 }
 
-IfcPPModel::~IfcPPModel()
-{
-}
+IfcPPModel::~IfcPPModel(){}
 
 void IfcPPModel::initIfcModel()
 {
@@ -243,7 +245,7 @@ void IfcPPModel::setUnitConverter( shared_ptr<UnitConverter>& uc )
 	m_unit_converter = uc;
 }
 
-void IfcPPModel::setMapIfcEntities( const boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map )
+void IfcPPModel::setMapIfcEntities( const map_t<int, shared_ptr<IfcPPEntity> >& map )
 {
 	clearIfcModel();
 	m_map_entities.clear();
@@ -266,7 +268,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		entity_id = next_unused_id;
 	}
 
-	boost::unordered_map<int,shared_ptr<IfcPPEntity> >::iterator it_find = m_map_entities.find( entity_id );
+	map_t<int,shared_ptr<IfcPPEntity> >::iterator it_find = m_map_entities.find( entity_id );
 	if( it_find != m_map_entities.end() )
 	{
 		// key already exists
@@ -285,7 +287,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	else
 	{
 		// the key does not exist in the map
-		m_map_entities.insert( it_find, boost::unordered_map<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
+		m_map_entities.insert( it_find, map_t<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
 	}
 #ifdef _DEBUG
 	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );

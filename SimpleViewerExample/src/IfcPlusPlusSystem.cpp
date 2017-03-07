@@ -1,19 +1,22 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <osg/Group>
 #include <osg/Material>
-#include <osgFX/Scribe>
 #include <osgViewer/ViewerEventHandlers>
 #include <osgGA/GUIActionAdapter>
 
@@ -35,6 +38,7 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
 	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
+	shared_ptr<GeometrySettings> geom_settings( new GeometrySettings() );
 	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
 	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
 	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
@@ -52,6 +56,12 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 
 	m_show_curve_representation = true;
 	m_light_on = false;
+
+	m_material_selected = new osg::Material();
+	m_material_selected->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.98f, 0.2f, 0.5f ) );
+	m_material_selected->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.85f, 0.2f, 1.0f ) );
+	m_material_selected->setShininess( osg::Material::FRONT_AND_BACK, 35.0 );
+	m_material_selected->setColorMode( osg::Material::SPECULAR );
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem(){}
@@ -120,7 +130,6 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 #define _DEBUG_GEOMETRY
 #endif
 
-
 osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
 {
 	int num_children = group->getNumChildren();
@@ -157,11 +166,10 @@ osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
 	return 0;
 }
 
-
 void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, bool selected, osg::Group* grp )
 {
 	const int id = ifc_object->m_id;
-	if( grp == 0 )
+	if( !grp )
 	{
 		grp = findNodeByIfcId( m_sw_model, id );
 	}
@@ -171,9 +179,9 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 		if( grp )
 		{
 			// insert into set of selected objects
-			shared_ptr<selectedEntity> selected_entity( new selectedEntity() );
-			selected_entity->entity = ifc_object;
-			selected_entity->osg_group = grp;
+			shared_ptr<SelectedEntity> selected_entity( new SelectedEntity() );
+			selected_entity->m_entity = ifc_object;
+			selected_entity->m_osg_group = grp;
 			m_map_selected[id] = selected_entity;
 
 			bool site_selected = false;
@@ -181,39 +189,33 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 			{
 				site_selected = true;
 			}
-
-			for( unsigned int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
+			bool select_child = true;
+			if( site_selected )
 			{
-				osg::Node* child_node = grp->getChild( child_ii );
-
-				osgFX::Scribe* child_as_scribe = dynamic_cast<osgFX::Scribe*>(child_node);
-				if( !child_as_scribe )
+				if( grp->getName().find( "IfcBuilding" ) != std::string::npos )
 				{
-					bool select_child = true;
-					if( site_selected )
-					{
-						if( child_node->getName().find( "IfcBuilding" ) != std::string::npos )
-						{
-							// do not select building with site
-							select_child = false;
-						}
-					}
-					
-					if( select_child )
-					{
-						// highlight object with an osgFX::Scribe
-						osgFX::Scribe* scribe = new osgFX::Scribe();
-						scribe->addChild( child_node );
-						scribe->setWireframeColor( osg::Vec4f( 0.98f, 0.98f, 0.22f, 0.9f ) );
-						grp->replaceChild( child_node, scribe );
-					}
+					// do not select building with site
+					select_child = false;
 				}
 			}
-		}
 
-		boost::unordered_map<int, shared_ptr<IfcPPEntity> > map_objects;
-		map_objects[id] = ifc_object;
-		emit( signalObjectsSelected( map_objects ) );
+			if( select_child )
+			{
+				osg::ref_ptr<osg::StateSet> stateset = grp->getOrCreateStateSet();
+				osg::Material* material_previous = (osg::Material*)stateset->getAttribute( osg::StateAttribute::MATERIAL );
+				if( material_previous )
+				{
+					selected_entity->m_material_previous = material_previous;
+				}
+
+				stateset->setAttribute( m_material_selected, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+				selected_entity->m_material_selected = m_material_selected;
+			}
+
+			boost::unordered_map<int, shared_ptr<IfcPPEntity> > map_objects;
+			map_objects[id] = ifc_object;
+			emit( signalObjectsSelected( map_objects ) );
+		}
 	}
 	else
 	{
@@ -223,24 +225,21 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
  			auto it_selected = m_map_selected.find( id );
 			if( it_selected != m_map_selected.end() )
 			{
-				shared_ptr<selectedEntity> selected_entity = it_selected->second;
-				for( unsigned int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
+				shared_ptr<SelectedEntity> selected_entity = it_selected->second;
+
+				if( selected_entity->m_osg_group )
 				{
-					osg::Node* child_node = grp->getChild( child_ii );
-					osg::Group* child_as_group = dynamic_cast<osg::Group*>(child_node);
-					if( child_as_group )
+					osg::ref_ptr<osg::StateSet> stateset_selected_node = selected_entity->m_osg_group->getOrCreateStateSet();
+					if( selected_entity->m_material_previous )
 					{
-						osgFX::Scribe* child_as_scribe = dynamic_cast<osgFX::Scribe*>(child_as_group);
-						if( child_as_scribe )
-						{
-							if( child_as_scribe->getNumChildren() > 0 )
-							{
-								osg::Node* original_child = child_as_scribe->getChild(0);
-								grp->replaceChild( child_node, original_child );
-							}
-						}
+						stateset_selected_node->setAttribute( selected_entity->m_material_previous, osg::StateAttribute::ON );
+					}
+					else if( selected_entity->m_material_selected )
+					{
+						stateset_selected_node->removeAttribute( selected_entity->m_material_selected );
 					}
 				}
+
 				m_map_selected.erase( it_selected );
 			}
 		}
@@ -254,25 +253,19 @@ void IfcPlusPlusSystem::clearSelection()
 {
 	for( auto it = m_map_selected.begin(); it != m_map_selected.end(); ++it )
 	{
-		shared_ptr<selectedEntity>& selected_entity = (*it).second;
-		shared_ptr<IfcPPEntity> entity = selected_entity->entity;
-		osg::Group* grp = selected_entity->osg_group;
+		shared_ptr<SelectedEntity>& selected_entity = (*it).second;
+		shared_ptr<IfcPPEntity> entity = selected_entity->m_entity;
 
-		for( unsigned int child_ii = 0; child_ii < grp->getNumChildren(); ++child_ii )
+		if( selected_entity->m_osg_group )
 		{
-			osg::Node* child_node = grp->getChild( child_ii );
-			osg::Group* child_as_group = dynamic_cast<osg::Group*>(child_node);
-			if( child_as_group )
+			osg::ref_ptr<osg::StateSet> stateset_selected_node = selected_entity->m_osg_group->getOrCreateStateSet();
+			if( selected_entity->m_material_previous )
 			{
-				osgFX::Scribe* child_as_scribe = dynamic_cast<osgFX::Scribe*>(child_as_group);
-				if( child_as_scribe )
-				{
-					if( child_as_scribe->getNumChildren() > 0 )
-					{
-						osg::Node* original_child = child_as_scribe->getChild(0);
-						grp->replaceChild( child_node, original_child );
-					}
-				}
+				stateset_selected_node->setAttribute( selected_entity->m_material_previous, osg::StateAttribute::ON );
+			}
+			else if( selected_entity->m_material_selected )
+			{
+				stateset_selected_node->removeAttribute( selected_entity->m_material_selected );
 			}
 		}
 	}

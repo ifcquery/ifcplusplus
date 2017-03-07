@@ -3581,9 +3581,6 @@
     <ClInclude Include="src\ifcpp\model\IfcPPObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\model\shared_ptr.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\model\UnitConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -7118,9 +7115,6 @@
     <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\StylesConverter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\geometry\OCC\ConverterOSG.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -7133,19 +7127,7 @@
     <ClInclude Include="src\ifcpp\geometry\OCC\FaceConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugUtils.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryException.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\geometry\OCC\GeometryInputData.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometrySettings.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\geometry\OCC\GeomUtils.h">
@@ -7169,12 +7151,6 @@
     <ClInclude Include="src\ifcpp\geometry\OCC\SolidModelConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtils.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\geometry\Carve\Sweeper.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -7190,19 +7166,7 @@
     <ClInclude Include="src\ifcpp\geometry\Carve\FaceConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeomDebugUtils.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryConverter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryException.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\geometry\Carve\GeometryInputData.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\Carve\GeometrySettings.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ifcpp\geometry\Carve\GeomUtils.h">
@@ -7232,10 +7196,40 @@
     <ClInclude Include="src\ifcpp\geometry\Carve\SplineConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\Carve\StylesConverter.h">
+    <ClInclude Include="src\ifcpp\geometry\SceneGraphUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\geometry\Carve\SceneGraphUtils.h">
+    <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugDump.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeomDebugDump.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\GeometryException.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\Carve\GeometryConverter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtilsOCC.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\model\IfcPPBasicTypes.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\StylesConverter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\AppearanceData.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

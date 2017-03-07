@@ -1,23 +1,29 @@
-/* -*-c++-*- IfcPlusPlus - www.ifcquery.com  - Copyright (C) 2011 Fabian Gerold
- *
- * This library is open source and may be redistributed and/or modified under  
- * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
- * (at your option) any later version.  The full license is in LICENSE file
- * included with this distribution, and on the openscenegraph.org website.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- * OpenSceneGraph Public License for more details.
+/* -*-c++-*- IFC++ www.ifcquery.com
+*
+MIT License
+
+Copyright (c) 2017 Fabian Gerold
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #pragma once
 
+#include <boost/unordered/unordered_set.hpp>
 #include <osg/Material>
 #include <osg/Geode>
 #include <osg/CullFace>
 #include <osg/Point>
-#include <osgUtil/Tessellator>
+#include <osg/Switch>
+#include <osgText/Text>
 
 #include <BRepAdaptor_Curve.hxx>
 #include <BRep_Tool.hxx>
@@ -34,23 +40,35 @@
 #include <StlMesh_Mesh.hxx>
 #include <StlTransfer.hxx>
 
-#include <ifcpp/model/shared_ptr.h>
+#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/geometry/SceneGraphUtils.h>
+#include <ifcpp/model/IfcPPModel.h>
+#include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
+#include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
+#include <ifcpp/IFC4/include/IfcProject.h>
+#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
+#include <ifcpp/IFC4/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
 #include <ifcpp/IFC4/include/IfcSpace.h>
 #include <ifcpp/IFC4/include/IfcWindow.h>
 
 #include "GeometryInputData.h"
-#include "GeometrySettings.h"
 
 class ConverterOSG : public StatusCallback
 {
 protected:
+	map_t<int, osg::ref_ptr<osg::Switch> > m_map_entity_id_to_switch;		// Map: IfcProduct ID -> scenegraph switch
+	map_t<int, osg::ref_ptr<osg::Switch> > m_map_representation_to_switch;	// Map: Representation identifier -> scenegraph switch
 	shared_ptr<GeometrySettings>	m_geom_settings;
+	double m_recent_progress = 0;
 	osg::ref_ptr<osg::CullFace>		m_cull_back_off;
 	osg::ref_ptr<osg::StateSet>		m_glass_stateset;
 	//\brief StateSet caching and re-use
-	std::vector<osg::ref_ptr<osg::StateSet> > m_vec_existing_statesets;
+	std::vector<osg::ref_ptr<osg::StateSet> >	m_vec_existing_statesets;
+	bool										m_enable_stateset_caching = false;
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_appearance_cache;
 #endif
@@ -59,7 +77,6 @@ public:
 	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings ) : m_geom_settings( geom_settings )
 	{
 		m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
-
 		m_glass_stateset = new osg::StateSet();
 		m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 		m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
@@ -68,10 +85,7 @@ public:
 
 	struct RenderOptions
 	{
-		RenderOptions()
-		{
-
-		}
+		RenderOptions(){}
 		RenderOptions( osg::Vec4f color, double distance_between_points_in_mm = 0.5, bool create_points_along_straight_line = false )
 		{
 			m_color = color;
@@ -84,6 +98,13 @@ public:
 		double m_distance_between_points_in_mm = 0.5;
 		bool m_create_points_along_straight_line = false;
 	};
+
+	void clearInputCache()
+	{
+		m_map_entity_id_to_switch.clear();
+		m_map_representation_to_switch.clear();
+		m_vec_existing_statesets.clear();
+	}
 
 	static void getEdgePoints( const TopoDS_Edge& edge, osg::Vec3Array* vertices, const RenderOptions& render_options )
 	{
@@ -147,7 +168,6 @@ public:
 			}
 		}
 	}
-
 
 	static void drawShape( const TopoDS_Shape& shape, osg::Geode* parent_geode, const RenderOptions& render_options )
 	{
@@ -363,7 +383,7 @@ public:
 			}
 
 			AppearanceData::GeometryTypeEnum geom_type = appearance->m_apply_to_geometry_type;
-			if( geom_type == AppearanceData::SURFACE || geom_type == AppearanceData::ANY )
+			if( geom_type == AppearanceData::GEOM_TYPE_SURFACE || geom_type == AppearanceData::GEOM_TYPE_ANY )
 			{
 				osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
 				if( item_stateset != nullptr )
@@ -382,7 +402,7 @@ public:
 					}
 				}
 			}
-			else if( geom_type == AppearanceData::CURVE )
+			else if( geom_type == AppearanceData::GEOM_TYPE_CURVE )
 			{
 				//osg::Vec4f color_lines( appearance->m_color_ambient.m_r, appearance->m_color_ambient.m_g, appearance->m_color_ambient.m_b, appearance->m_color_ambient.m_a );
 				//GeomUtils::setColorToLines( grp, color_lines );
@@ -390,41 +410,49 @@ public:
 		}
 	}
 
-	//\brief creates geometry objects from an IfcProduct object
+	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-	void convertToOSG( shared_ptr<ProductShapeInputData>& product_shape, const double /*length_factor*/ )
+	void convertProductShapeToOSG( shared_ptr<ProductShapeData>& product_shape, map_t<int, osg::ref_ptr<osg::Switch> >& map_representation_switches )
 	{
-		osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
-		if( !product_switch ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+		if( product_shape->m_ifc_object_definition.expired() )
+		{
+			return;
+		}
 
 		RenderOptions render_options;
-		std::stringstream strs_product_switch_name;
-		shared_ptr<IfcProduct> ifc_product;
-		if( !product_shape->m_ifc_product.expired() )
+		shared_ptr<IfcObjectDefinition> ifc_object_def( product_shape->m_ifc_object_definition );
+		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+		if( !ifc_product )
 		{
-			ifc_product = shared_ptr<IfcProduct>( product_shape->m_ifc_product );
-			const int product_id = ifc_product->m_id;
-			strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
-			product_switch->setName( strs_product_switch_name.str().c_str() );
+			return;
 		}
-		
+		const int product_id = ifc_product->m_id;
+		std::stringstream strs_product_switch_name;
+		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+
 		// create OSG objects
 		std::vector<shared_ptr<ProductRepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
 		for( size_t ii_representation = 0; ii_representation < vec_product_representations.size(); ++ii_representation )
 		{
 			const shared_ptr<ProductRepresentationData>& product_representation_data = vec_product_representations[ii_representation];
-			osg::ref_ptr<osg::Switch> product_representation_switch = new osg::Switch();
-
+			if( product_representation_data->m_ifc_representation.expired() )
+			{
+				continue;
+			}
+			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
+			const int representation_id = ifc_representation->m_id;
+			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
+			
 #ifdef _DEBUG
 			std::stringstream strs_representation_name;
 			strs_representation_name << strs_product_switch_name.str().c_str() << ", representation " << ii_representation;
-			product_representation_switch->setName( strs_representation_name.str().c_str() );
+			representation_switch->setName( strs_representation_name.str().c_str() );
 #endif
 
-			const std::vector<shared_ptr<ItemShapeInputData> >& product_items = product_representation_data->m_vec_item_data;
+			const std::vector<shared_ptr<ItemShapeData> >& product_items = product_representation_data->m_vec_item_data;
 			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 			{
-				const shared_ptr<ItemShapeInputData>& item_input_data = product_items[i_item];
+				const shared_ptr<ItemShapeData>& item_input_data = product_items[i_item];
 				osg::ref_ptr<osg::Group> item_group = new osg::Group();
 				if( !item_group ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 
@@ -435,25 +463,26 @@ public:
 #endif
 
 				// create shape for open shells
-				for( size_t ii_polylines = 0; ii_polylines < item_input_data->getShapes().size(); ++ii_polylines )
+				for( size_t ii_shapes = 0; ii_shapes < item_input_data->getShapes().size(); ++ii_shapes )
 				{
-					const TopoDS_Shape& item_shape = item_input_data->getShapes()[ii_polylines];
-					
+					const TopoDS_Shape& item_shape = item_input_data->getShapes()[ii_shapes];
+
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 					if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 					drawShape( item_shape, geode, render_options );
 
 					// disable back face culling for open meshes
 					geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
-					item_group->addChild( geode );
-
+					if( geode->getNumDrawables() > 0 )
+					{
+						item_group->addChild( geode );
 #ifdef _DEBUG
-					std::stringstream strs_item_shape_name;
-					strs_item_shape_name << strs_item_name.str().c_str() << ", open shape " << ii_polylines;
-					geode->setName( strs_item_shape_name.str().c_str() );
+						std::stringstream strs_item_shape_name;
+						strs_item_shape_name << strs_item_name.str().c_str() << ", open shape " << ii_shapes;
+						geode->setName( strs_item_shape_name.str().c_str() );
 #endif
+					}
 				}
-
 
 				// create shape for points
 				const std::vector<TopoDS_Vertex>& vertex_points = item_input_data->getVertexPoints();
@@ -498,9 +527,9 @@ public:
 				}
 
 				// create shape for polylines
-				for( size_t ii_polylines = 0; ii_polylines < item_input_data->getPolylines().size(); ++ii_polylines )
+				for( size_t ii_shapes = 0; ii_shapes < item_input_data->getPolylines().size(); ++ii_shapes )
 				{
-					const TopoDS_Wire& polyline_data = item_input_data->getPolylines()[ii_polylines];
+					const TopoDS_Wire& polyline_data = item_input_data->getPolylines()[ii_shapes];
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 					if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 					geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
@@ -515,7 +544,7 @@ public:
 							{
 								continue;
 							}
-							if( appearance->m_apply_to_geometry_type == AppearanceData::CURVE || appearance->m_apply_to_geometry_type == AppearanceData::ANY )
+							if( appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_CURVE || appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_ANY )
 							{
 								osg::Vec4f color_lines( appearance->m_color_ambient.m_r, appearance->m_color_ambient.m_g, appearance->m_color_ambient.m_b, appearance->m_color_ambient.m_a );
 								render_options_polyline.m_color = color_lines;
@@ -526,13 +555,15 @@ public:
 					}
 
 					drawShape( polyline_data, geode, render_options_polyline );
-					item_group->addChild( geode );
-
+					if( geode->getNumDrawables() > 0 )
+					{
+						item_group->addChild( geode );
 #ifdef _DEBUG
-					std::stringstream strs_item_shape_name;
-					strs_item_shape_name << strs_item_name.str().c_str() << ", polylines " << ii_polylines;
-					geode->setName( strs_item_shape_name.str().c_str() );
+						std::stringstream strs_item_shape_name;
+						strs_item_shape_name << strs_item_name.str().c_str() << ", polylines " << ii_shapes;
+						geode->setName( strs_item_shape_name.str().c_str() );
 #endif
+					}
 				}
 
 				if( m_geom_settings->isShowTextLiterals() )
@@ -567,12 +598,12 @@ public:
 						txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
 						osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-						if( !geode ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+						if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 						geode->addDrawable( txt );
 						item_group->addChild( geode );
 					}
 				}
-			
+
 				// apply statesets if there are any
 				if( item_input_data->getAppearances().size() > 0 )
 				{
@@ -588,77 +619,349 @@ public:
 						std::cout << __FUNC__ << "item_group->getNumParents() > 0" << std::endl;
 					}
 #endif
-					product_representation_switch->addChild( item_group );
+					representation_switch->addChild( item_group );
 				}
 			}
 
 			// apply statesets if there are any
 			if( product_representation_data->m_vec_representation_appearances.size() > 0 )
 			{
-				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, product_representation_switch );
+				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, representation_switch );
 			}
 
 			// If anything has been created, add it to the product group
-			if( product_representation_switch->getNumChildren() > 0 )
+			if( representation_switch->getNumChildren() > 0 )
 			{
 #ifdef _DEBUG
-				if( product_representation_switch->getNumParents() > 0 )
+				if( representation_switch->getNumParents() > 0 )
 				{
 					std::cout << __FUNC__ << "product_representation_switch->getNumParents() > 0" << std::endl;
 				}
-				if( product_representation_data->m_representation_switch )
-				{
-					std::cout << __FUNC__ << "product_representation_data->m_representation_switch already set" << std::endl;
-				}
 #endif
-				product_representation_data->m_representation_switch = product_representation_switch.get();
-				product_switch->addChild( product_representation_switch );
-			}
-		}
 
-		// apply statesets if there are any
-		const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = product_shape->getAppearances();
-		if( vec_product_appearances.size() > 0 )
-		{
-			applyAppearancesToGroup( vec_product_appearances, product_switch );
-		}
-
-		// enable transparency for certain objects
-		if( dynamic_pointer_cast<IfcSpace>( ifc_product ) )
-		{
-			product_switch->setStateSet( m_glass_stateset );
-		}
-		else if( dynamic_pointer_cast<IfcCurtainWall>( ifc_product ) || dynamic_pointer_cast<IfcWindow>( ifc_product ) )
-		{
-			for( auto& product_representation_data : vec_product_representations )
-			{
-				if( product_representation_data->m_representation_switch )
+				// enable transparency for certain objects
+				if( dynamic_pointer_cast<IfcSpace>(ifc_product) )
 				{
-					product_representation_data->m_representation_switch->setStateSet( m_glass_stateset );
-					SceneGraphUtils::setMaterialAlpha( product_representation_data->m_representation_switch, 0.6f );
+					representation_switch->setStateSet( m_glass_stateset );
+				}
+				else if( dynamic_pointer_cast<IfcCurtainWall>(ifc_product) || dynamic_pointer_cast<IfcWindow>(ifc_product) )
+				{
+					representation_switch->setStateSet( m_glass_stateset );
+					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f );
 				}
 			}
 
-			// TODO: make only glass part of window transparent
-			product_switch->setStateSet( m_glass_stateset );
-			SceneGraphUtils::setMaterialAlpha( product_switch, 0.6f );
+			map_representation_switches.insert( std::make_pair( representation_id, representation_switch ) );
 		}
 
 		// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
+	}
 
-		if( product_switch->getNumChildren() > 0 )
+	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
+	\param[out] parent_group Group to append the geometry.
+	**/
+	void convertToOSG( map_t<int, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
+	{
+		progressTextCallback( L"Converting geometry to OpenGL format ..." );
+		progressValueCallback( 0, "scenegraph" );
+		m_map_entity_id_to_switch.clear();
+		m_map_representation_to_switch.clear();
+
+		shared_ptr<ProductShapeData> ifc_project_data;
+		std::vector<shared_ptr<ProductShapeData> > vec_products;
+
+		for( auto it = map_shape_data.begin(); it != map_shape_data.end(); ++it )
 		{
-#ifdef _DEBUG
-			if( product_switch->getNumParents() > 0 )
+			shared_ptr<ProductShapeData> shape_data = it->second;
+			if( shape_data )
 			{
-				std::cout << __FUNC__ << "product_switch->getNumParents() > 0" << std::endl;
+				vec_products.push_back( shape_data );
 			}
-			if( product_shape->m_product_switch )
+		}
+
+		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
+		map_t<int, osg::ref_ptr<osg::Switch> >* map_entity_id = &m_map_entity_id_to_switch;
+		map_t<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_to_switch;
+		const int num_products = (int)vec_products.size();
+
+	#ifdef IFCPP_OPENMP
+		Mutex writelock_map;
+		Mutex writelock_ifc_project;
+
+	#pragma omp parallel firstprivate(num_products) shared(map_entity_id, map_representations)
+		{
+			// time for one product may vary significantly, so schedule not so many
+	#pragma omp for schedule(dynamic,10)
+	#endif
+			for( int i = 0; i < num_products; ++i )
 			{
-				std::cout << __FUNC__ << "product_shape->m_product_switch already set" << std::endl;
+				shared_ptr<ProductShapeData>& shape_data = vec_products[i];
+
+				weak_ptr<IfcObjectDefinition>& ifc_object_def_weak = shape_data->m_ifc_object_definition;
+				if( ifc_object_def_weak.expired() )
+				{
+					continue;
+				}
+				shared_ptr<IfcObjectDefinition> ifc_object_def( ifc_object_def_weak );
+
+				std::stringstream thread_err;
+				if( dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object_def) )
+				{
+					// geometry will be created in method subtractOpenings
+					continue;
+				}
+				else if( dynamic_pointer_cast<IfcProject>(ifc_object_def) )
+				{
+	#ifdef IFCPP_OPENMP
+					ScopedLock scoped_lock( writelock_ifc_project );
+	#endif
+					ifc_project_data = shape_data;
+				}
+
+				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+				if( !ifc_product )
+				{
+					continue;
+				}
+
+				if( !ifc_product->m_Representation )
+				{
+					continue;
+				}
+
+				const int product_id = ifc_product->m_id;
+				
+				map_t<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
+				try
+				{
+					convertProductShapeToOSG( shape_data, map_representation_switches );
+				}
+				catch( IfcPPOutOfMemoryException& e )
+				{
+					throw e;
+				}
+				catch( IfcPPException& e )
+				{
+					thread_err << e.what();
+				}
+				catch( Standard_Failure& sf )
+				{
+					thread_err << sf.GetMessageString();
+				}
+				catch( std::exception& e )
+				{
+					thread_err << e.what();
+				}
+				catch( ... )
+				{
+					thread_err << "undefined error, product id " << product_id;
+				}
+
+				if( map_representation_switches.size() > 0 )
+				{
+					osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+					std::stringstream strs_product_switch_name;
+					strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+					product_switch->setName( strs_product_switch_name.str().c_str() );
+
+					for( auto it_map = map_representation_switches.begin(); it_map != map_representation_switches.end(); ++it_map )
+					{
+						osg::ref_ptr<osg::Switch>& repres_switch = it_map->second;
+						product_switch->addChild( repres_switch );
+					}
+
+					// apply statesets if there are any
+					const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances = shape_data->getAppearances();
+					if( vec_product_appearances.size() > 0 )
+					{
+						applyAppearancesToGroup( vec_product_appearances, product_switch );
+					}
+
+	#ifdef IFCPP_OPENMP
+					ScopedLock scoped_lock( writelock_map );
+	#endif
+					map_entity_id->insert( std::make_pair( product_id, product_switch ) );
+					map_representations->insert( map_representation_switches.begin(), map_representation_switches.end() );
+				}
+
+				if( thread_err.tellp() > 0 )
+				{
+					messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+				}
+
+				// progress callback
+				double progress = (double)i / (double)num_products;
+				if( progress - m_recent_progress > 0.02 )
+				{
+
+	#ifdef IFCPP_OPENMP
+					if( omp_get_thread_num() == 0 )
+	#endif
+					{
+						// leave 10% of progress to openscenegraph internals
+						progressValueCallback( progress*0.9, "scenegraph" );
+						m_recent_progress = progress;
+					}
+				}
 			}
-#endif
-			product_shape->m_product_switch = product_switch;
+	#ifdef IFCPP_OPENMP
+		} // implicit barrier
+	#endif
+
+		try
+		{
+			// now resolve spatial structure
+			if( ifc_project_data )
+			{
+				resolveProjectStructure( ifc_project_data, parent_group );
+			}
+		}
+		catch( IfcPPOutOfMemoryException& e )
+		{
+			throw e;
+		}
+		catch( IfcPPException& e )
+		{
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+		}
+		catch( std::exception& e )
+		{
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
+		}
+		catch( ... )
+		{
+			messageCallback( "undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		}
+	}
+
+	void addNodes( const map_t<int, shared_ptr<IfcPPObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
+	{
+		// check if there are entities that are not in spatial structure
+		if( !target_group )
+		{
+			target_group = new osg::Switch();
+		}
+
+		for( auto it_product_shapes = map_shape_data.begin(); it_product_shapes != map_shape_data.end(); ++it_product_shapes )
+		{
+			int product_id = it_product_shapes->first;
+			auto it_find = m_map_entity_id_to_switch.find( product_id );
+
+			if( it_find != m_map_entity_id_to_switch.end() )
+			{
+				osg::ref_ptr<osg::Switch>& sw = it_find->second;
+				if( sw )
+				{
+					target_group->addChild( sw );
+				}
+			}
+		}
+	}
+
+	bool inParentList( const int entity_id, osg::Group* group )
+	{
+		if( !group )
+		{
+			return false;
+		}
+
+		const osg::Group::ParentList& vec_parents = group->getParents();
+		for( size_t ii = 0; ii < vec_parents.size(); ++ii )
+		{
+			osg::Group* parent = vec_parents[ii];
+			if( parent )
+			{
+				const std::string parent_name = parent->getName();
+				if( parent_name.length() > 0 )
+				{
+					if( parent_name.at( 0 ) == '#' )
+					{
+						// extract entity id
+						std::string parent_name_id = parent_name.substr( 1 );
+						size_t last_index = parent_name_id.find_first_not_of( "0123456789" );
+						std::string id_str = parent_name_id.substr( 0, last_index );
+						const int id = std::stoi( id_str.c_str() );
+						if( id == entity_id )
+						{
+							return true;
+						}
+						bool in_parent_list = inParentList( entity_id, parent );
+						if( in_parent_list )
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	void resolveProjectStructure( shared_ptr<ProductShapeData>& product_data, osg::ref_ptr<osg::Switch> group )
+	{
+		if( !product_data )
+		{
+			return;
+		}
+
+		if( product_data->m_ifc_object_definition.expired() )
+		{
+			return;
+		}
+
+		shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
+		const int entity_id = object_def->m_id;
+		if( SceneGraphUtils::inParentList( entity_id, group ) )
+		{
+			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
+			return;
+		}
+
+		for( size_t ii = 0; ii < product_data->m_vec_children.size(); ++ii )
+		{
+			shared_ptr<ProductShapeData>& child_product_data = product_data->m_vec_children[ii];
+			if( !child_product_data )
+			{
+				continue;
+			}
+
+			osg::ref_ptr<osg::Switch> group_subparts = new osg::Switch();
+			resolveProjectStructure( child_product_data, group_subparts );
+			if( group_subparts->getNumChildren() > 0 )
+			{
+				if( !child_product_data->m_ifc_object_definition.expired() )
+				{
+					shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
+					std::stringstream group_subparts_name;
+					group_subparts_name << "#" << child_obj_def->m_id << "=";
+					group_subparts_name << child_obj_def->className();
+					group_subparts->setName( group_subparts_name.str().c_str() );
+				}
+
+				group->addChild( group_subparts );
+			}
+		}
+
+		auto it_product_map = m_map_entity_id_to_switch.find( entity_id );
+		if( it_product_map != m_map_entity_id_to_switch.end() )
+		{
+			const osg::ref_ptr<osg::Switch>& product_switch = it_product_map->second;
+			if( product_switch )
+			{
+				group->addChild( product_switch );
+			}
+		}
+		else
+		{
+			if( group->getNumChildren() == 0 )
+			{
+				osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+				group->addChild( product_switch );
+
+				std::stringstream switch_name;
+				switch_name << "#" << entity_id << "=" << object_def->className();
+				product_switch->setName( switch_name.str().c_str() );
+			}
 		}
 	}
 
@@ -695,65 +998,68 @@ public:
 		const float color_specular_b = appearence->m_color_specular.b();
 		const float color_specular_a = appearence->m_color_specular.a();
 
-	#ifdef IFCPP_OPENMP
-		ScopedLock lock( m_writelock_appearance_cache );
-	#endif
-
-		for( size_t i=0; i<m_vec_existing_statesets.size(); ++i )
+		if( m_enable_stateset_caching )
 		{
-			const osg::ref_ptr<osg::StateSet> stateset_existing = m_vec_existing_statesets[i];
+#ifdef IFCPP_OPENMP
+			ScopedLock lock( m_writelock_appearance_cache );
+#endif
 
-			if( !stateset_existing.valid() )
+			for( size_t i = 0; i<m_vec_existing_statesets.size(); ++i )
 			{
-				continue;
+				const osg::ref_ptr<osg::StateSet> stateset_existing = m_vec_existing_statesets[i];
+
+				if( !stateset_existing.valid() )
+				{
+					continue;
+				}
+
+				osg::ref_ptr<osg::Material> mat_existing = (osg::Material*)stateset_existing->getAttribute( osg::StateAttribute::MATERIAL );
+				if( !mat_existing )
+				{
+					continue;
+				}
+
+				// compare
+				osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
+				if( abs( color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
+				if( abs( color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
+				if( abs( color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
+				if( abs( color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
+
+				osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
+				if( abs( color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
+				if( abs( color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
+				if( abs( color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
+				if( abs( color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
+
+				osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
+				if( abs( color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
+				if( abs( color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
+				if( abs( color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
+				if( abs( color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
+
+				float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
+				if( abs( shininess_existing - shininess ) > 0.03 ) break;
+
+				bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
+				if( blend_on_existing != set_transparent ) break;
+
+				bool transparent_bin = stateset_existing->getRenderingHint() == osg::StateSet::TRANSPARENT_BIN;
+				if( transparent_bin != set_transparent ) break;
+
+				// if we get here, appearance is same as existing state set
+				// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
+				return stateset_existing;
 			}
-
-			osg::ref_ptr<osg::Material> mat_existing = (osg::Material*)stateset_existing->getAttribute(osg::StateAttribute::MATERIAL);
-			if( !mat_existing )
-			{
-				continue;
-			}
-
-			// compare
-			osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
-			if( abs(color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
-			if( abs(color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
-			if( abs(color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
-			if( abs(color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
-
-			osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
-			if( abs(color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
-			if( abs(color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
-			if( abs(color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
-			if( abs(color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
-
-			osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
-			if( abs(color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
-			if( abs(color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
-			if( abs(color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
-			if( abs(color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
-
-			float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
-			if( abs(shininess_existing - shininess ) > 0.03 ) break;
-
-			bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
-			if( blend_on_existing != set_transparent ) break;
-
-			bool transparent_bin = stateset_existing->getRenderingHint() == osg::StateSet::TRANSPARENT_BIN;
-			if( transparent_bin != set_transparent ) break;
-
-			// if we get here, appearance is same as existing state set
-			// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
-			return stateset_existing;
 		}
 
-		osg::Vec4f ambientColor(	color_ambient_r,	color_ambient_g,	color_ambient_b,	transparency );
-		osg::Vec4f diffuseColor(	color_diffuse_r,	color_diffuse_g,	color_diffuse_b,	transparency  );
-		osg::Vec4f specularColor(	color_specular_r,	color_specular_g,	color_specular_b,	transparency );
+		osg::Vec4f ambientColor( color_ambient_r, color_ambient_g, color_ambient_b, transparency );
+		osg::Vec4f diffuseColor( color_diffuse_r, color_diffuse_g, color_diffuse_b, transparency );
+		osg::Vec4f specularColor( color_specular_r, color_specular_g, color_specular_b, transparency );
 
 		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
-		if( !mat ){ throw IfcPPOutOfMemoryException(); }
+		if( !mat ) { throw IfcPPOutOfMemoryException(); }
 		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
 		mat->setDiffuse( osg::Material::FRONT_AND_BACK, diffuseColor );
 		mat->setSpecular( osg::Material::FRONT_AND_BACK, specularColor );
@@ -761,12 +1067,12 @@ public:
 		mat->setColorMode( osg::Material::SPECULAR );
 
 		osg::StateSet* stateset = new osg::StateSet();
-		if( !stateset ){ throw IfcPPOutOfMemoryException(); }
+		if( !stateset ) { throw IfcPPOutOfMemoryException(); }
 		stateset->setAttribute( mat, osg::StateAttribute::ON );
-	
+
 		if( appearence->m_set_transparent )
 		{
-			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );	
+			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );
 			stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 		}
@@ -778,7 +1084,10 @@ public:
 			// todo: add to scenegraph
 		}
 
-		m_vec_existing_statesets.push_back( stateset );
+		if( m_enable_stateset_caching )
+		{
+			m_vec_existing_statesets.push_back( stateset );
+		}
 		return stateset;
 	}
 };
