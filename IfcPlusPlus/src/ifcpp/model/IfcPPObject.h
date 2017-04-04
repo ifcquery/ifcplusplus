@@ -25,9 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <boost/algorithm/string.hpp>
 #include <boost/unordered_map.hpp>
 #include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/IfcPPEntityEnums.h"
 #include "IfcPPGlobal.h"
 
+enum IfcPPEntityEnum;
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 
 struct IfcPPCopyOptions
@@ -77,6 +77,9 @@ public:
 	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities ) = 0;
 
+	/** \brief Number of attributes, including inherited attributes, without inverse attributes */
+	virtual size_t getNumAttributes() = 0;
+
 	/** \brief Adds all attributes (including inherited attributes) with name and value to vec_attributes. Single attributes can be accessed directly, without this method.*/
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes ) = 0;
 
@@ -91,7 +94,4 @@ public:
 
 	/// Entity ID (same as STEP ID)
 	int m_id;
-	
-	/// Enum reqresenting the entity type
-	IfcPPEntityEnum m_entity_enum;
 };

@@ -30,7 +30,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 LoadIfcFileCommand::LoadIfcFileCommand( IfcPlusPlusSystem* system ) : Command( system )
 {
-
 }
 
 LoadIfcFileCommand::~LoadIfcFileCommand() {}
@@ -61,7 +60,7 @@ bool LoadIfcFileCommand::doCmd()
 	{
 		// load file to IFC model
 		m_system->getIfcPPReader()->loadModelFromFile( m_file_path, geometry_converter->getIfcPPModel() );
-
+		
 		// convert IFC geometry to Carve or OCC. Choose geometry engine in file IncludeGeometryHeaders.h
 		geometry_converter->convertGeometry();
 
@@ -100,7 +99,7 @@ bool LoadIfcFileCommand::doCmd()
 	{
 		err << "loadModelFromFile, createGeometryOSG failed" << std::endl;
 	}
-	
+
 	try
 	{
 		if( model_switch )

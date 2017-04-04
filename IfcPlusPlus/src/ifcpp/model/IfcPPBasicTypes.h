@@ -62,11 +62,13 @@ using boost::dynamic_pointer_cast;
 #endif
 
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
+//#define map_t std::map
+//#else
+//#define map_t boost::unordered_map
+//#endif
+
 #define map_t std::map
-#else
-#define map_t boost::unordered_map
-#endif
 
 struct vec4
 {

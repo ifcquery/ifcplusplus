@@ -43,6 +43,4 @@ public:
 	}
 
 	shared_ptr<IfcRepresentationItem> m_item;
-	//shared_ptr<IfcPPAbstractSelect> m_select;
 };
-

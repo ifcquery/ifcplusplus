@@ -98,10 +98,11 @@ class IfcPPBinaryAttribute : public IfcPPObject
 {
 public:
 	IfcPPBinaryAttribute(){}
-	IfcPPBinaryAttribute( const char* value ) : m_value( value ){}
+	IfcPPBinaryAttribute( const std::wstring& value ) { m_value = value.c_str(); }
+	IfcPPBinaryAttribute( const wchar_t* value ) : m_value( value ) {}
 	virtual ~IfcPPBinaryAttribute(){}
 	virtual const char* className() const { return "IfcPPBinaryAttribute"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy() { return shared_ptr<IfcPPObject>( new IfcPPBinaryAttribute( m_value ) );  }
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const{}
-	const char* m_value;
+	const wchar_t* m_value;
 };

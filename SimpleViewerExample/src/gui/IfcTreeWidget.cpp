@@ -67,7 +67,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setIndentation( 4 );
 
 	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( m_system, SIGNAL( signalObjectsSelected(boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ),	this, SLOT( slotObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >&) ) );
+	connect( m_system, SIGNAL( signalObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >&) ),	this, SLOT( slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >&) ) );
 	connect( m_system, SIGNAL( signalModelCleared() ),		this, SLOT( slotModelCleared() ) );
 	connect( m_system, SIGNAL( signalModelLoadingStart() ),	this, SLOT( slotModelLoadingStart() ) );
 	connect( m_system, SIGNAL( signalModelLoadingDone() ),	this, SLOT( slotModelLoadingDone() ) );
@@ -75,7 +75,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 
 IfcTreeWidget::~IfcTreeWidget(){}
 
-void IfcTreeWidget::slotObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map )
+void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map )
 {
 	if( m_block_selection_signals )
 	{

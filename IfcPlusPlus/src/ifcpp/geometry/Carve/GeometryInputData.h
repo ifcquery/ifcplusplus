@@ -102,7 +102,7 @@ public:
 		}
 
 		std::map<std::string, std::string> mesh_input_options;
-		mesh_input_options["avoid_cavities"] = "true";
+		//mesh_input_options["avoid_cavities"] = "true";
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( mesh_input_options ) );
 		if( meshset->isClosed() )
 		{

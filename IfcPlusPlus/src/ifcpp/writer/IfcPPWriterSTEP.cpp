@@ -28,7 +28,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
-
 #include "ifcpp/writer/IfcPPWriterSTEP.h"
 
 IfcPPWriterSTEP::IfcPPWriterSTEP()

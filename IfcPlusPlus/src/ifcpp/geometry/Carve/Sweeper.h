@@ -235,6 +235,18 @@ public:
 
 		try
 		{
+#ifdef _DEBUG
+			poly_data->points;
+			std::vector<int>& vec_face_indices = poly_data->faceIndices;
+			for( size_t ii_f = 0; ii_f < vec_face_indices.size(); ++ii_f )
+			{
+				int idx = vec_face_indices[ii_f];
+				if( idx >= poly_data->points.size() )
+				{
+					std::cout << "invalid idx" << std::endl;
+				}
+			}
+#endif
 			item_data->addClosedPolyhedron( poly_data );
 		}
 		catch( IfcPPException& exception )

@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <map>
 #include <string>
 #include "ifcpp/model/IfcPPModel.h"
-#include "ifcpp/reader/IfcPPReaderXML.h"
+#include "IfcPPReaderXML.h"
 
 IfcPPReaderXML::IfcPPReaderXML() {}
 IfcPPReaderXML::~IfcPPReaderXML(){}

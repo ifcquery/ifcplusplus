@@ -33,51 +33,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/model/IfcPPObject.h"
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/UnknownEntityException.h"
-#include "ifcpp/IfcPPTypeMap.h"
-#include "ifcpp/IfcPPEntitiesMap.h"
-#include "ifcpp/reader/ReaderUtil.h"
-#include "ifcpp/reader/IfcPPReaderSTEP.h"
+#include "ifcpp/IFC4/IfcPPEntityFactory.h"
+#include "ReaderUtil.h"
+#include "IfcPPReaderSTEP.h"
 
-static std::map<std::string,IfcPPEntityEnum> map_string2entity_enum(initializers_IfcPP_entity, initializers_IfcPP_entity + sizeof(initializers_IfcPP_entity)/sizeof(initializers_IfcPP_entity[0]));
-static std::map<std::string,IfcPPTypeEnum> map_string2type_enum(initializers_IfcPP_type, initializers_IfcPP_type + sizeof(initializers_IfcPP_type)/sizeof(initializers_IfcPP_type[0]));
-
-void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args );
-void applyBackwardCompatibility( std::string& keyword, std::string& step_line );
-IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
 void findEndOfString( char*& stream_pos );
 void findEndOfWString( wchar_t*& stream_pos );
 
-IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name_w )
-{
-	std::string type_name;
-	type_name.assign(type_name_w.begin(), type_name_w.end());
-	std::map<std::string,IfcPPTypeEnum>::iterator it_type_enum = map_string2type_enum.find( type_name );
-	if( it_type_enum != map_string2type_enum.end() )
-	{
-		IfcPPTypeEnum type_enum = it_type_enum->second;
-		return type_enum;
-	}
-	return IFC_TYPE_UNDEFINED;
-}
-
-IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name_w )
-{
-	std::string entity_name;
-	entity_name.assign(entity_name_w.begin(), entity_name_w.end());
-	std::map<std::string,IfcPPEntityEnum>::iterator it_enum = map_string2entity_enum.find( entity_name );
-	if( it_enum != map_string2entity_enum.end() )
-	{
-		IfcPPEntityEnum entity_enum = it_enum->second;
-		return entity_enum;
-	}
-	return IFC_ENTITY_UNDEFINED;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-IfcPPReaderSTEP::IfcPPReaderSTEP()
-{
-}
-
+IfcPPReaderSTEP::IfcPPReaderSTEP(){}
 IfcPPReaderSTEP::~IfcPPReaderSTEP(){}
 
 void IfcPPReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_ptr<IfcPPModel>& target_model )
@@ -487,23 +450,29 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 			}
 			catch(UnknownEntityException& e)
 			{
+				std::string step_line_fix = step_line;
 				std::string unknown_keyword = e.m_keyword;
-				std::string step_line = step_lines[i];
-				applyBackwardCompatibility( unknown_keyword, step_line );
-				try
+
+				if( unknown_keyword.compare( "IFC2DCOMPOSITECURVE" ) == 0 )
 				{
-					readSingleStepLine( step_line, entity_read_obj );
-				}
-				catch( UnknownEntityException& )
-				{
-					if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
+					size_t pos_find = step_line_fix.find( "IFC2DCOMPOSITECURVE" );
+					step_line_fix = step_line_fix.erase( pos_find + 3, 2 );
+				
+					try
 					{
+						readSingleStepLine( step_line_fix, entity_read_obj );
+					}
+					catch( UnknownEntityException& )
+					{
+						if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
+						{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-						{
-							unkown_entities.insert( unknown_keyword );
-							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+							{
+								unkown_entities.insert( unknown_keyword );
+								err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+							}
 						}
 					}
 				}
@@ -590,11 +559,11 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 	while( isspace( *stream_pos ) ) { ++stream_pos; }
 
 	// extract keyword
-	const char* keyword_begin = stream_pos;
+	const char* entity_name_begin = stream_pos;
 	while( isalnum( *stream_pos ) ) { ++stream_pos; }
 
-	std::string keyword( keyword_begin, stream_pos - keyword_begin );
-	std::transform( keyword.begin(), keyword.end(), keyword.begin(), toupper );
+	std::string entity_name_upper( entity_name_begin, stream_pos - entity_name_begin );
+	std::transform( entity_name_upper.begin(), entity_name_upper.end(), entity_name_upper.begin(), toupper );
 
 	// proceed to '('
 	if( *stream_pos != '(' )
@@ -609,43 +578,31 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 		}
 	}
 
-	if( keyword.size() == 0 )
+	if( entity_name_upper.size() == 0 )
 	{
 		std::stringstream strs;
 		strs << "Could not read STEP line: " << line.c_str();
 		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	std::map<std::string,IfcPPEntityEnum>::iterator it_entity_enum = map_string2entity_enum.find( keyword );
-	if( it_entity_enum == map_string2entity_enum.end() )
+	
+	shared_ptr<IfcPPEntity> obj( IfcPPEntityFactory::createEntityObject( entity_name_upper.c_str() ) );
+	if( obj )
 	{
-		throw UnknownEntityException( keyword );
+		obj->m_id = entity_id;
+		target_read_object.second = obj;
+		size_t sub_length = line.size() - (stream_pos - line.c_str());
+		std::string entity_arg( stream_pos, sub_length );
+		target_read_object.first.assign( entity_arg.begin(), entity_arg.end() );
 	}
 	else
 	{
-		IfcPPEntityEnum entity_enum = it_entity_enum->second;
-		shared_ptr<IfcPPEntity> obj( createIfcPPEntity( entity_enum ) );
-		if( obj )
-		{
-			obj->m_id = entity_id;
-			obj->m_entity_enum = entity_enum;
-			target_read_object.second = obj;
-			size_t sub_length = line.size() - ( stream_pos - line.c_str() );
-			std::string entity_arg( stream_pos, sub_length );
-			target_read_object.first.assign( entity_arg.begin(), entity_arg.end() );
-		}
-		else
-		{
-			std::stringstream strs;
-			strs << "Could not create object of type " << keyword << ", entity id " << entity_id;
-			messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-		}
+		throw UnknownEntityException( entity_name_upper );
 	}
 }
 
-void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version,
-	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities, 
-	const map_t<int,shared_ptr<IfcPPEntity> >& map_entities  )
+void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, 
+	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities,  const map_t<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -686,10 +643,19 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 
 			if( ifc_version.m_ifc_file_schema_enum != IfcPPModel::IFC4 )
 			{
-				if( ifc_version.m_ifc_file_schema_enum != IfcPPModel::IFC_VERSION_UNDEFINED && ifc_version.m_ifc_file_schema_enum != IfcPPModel::IFC_VERSION_UNKNOWN )
+				size_t num_expected_arguments = entity->getNumAttributes();
+				if( num_expected_arguments != arguments_w.size() )
 				{
-					IfcPPEntityEnum entity_enum = entity->m_entity_enum;
-					applyBackwardCompatibility( ifc_version, entity_enum, arguments_w );
+					while( arguments_w.size() > num_expected_arguments ) { arguments_w.pop_back(); }
+					while( arguments_w.size() < num_expected_arguments ) { arguments_w.push_back( L"$" ); }
+				}
+			}
+
+			if( std::string( entity->className() ).compare( "IfcColourRGB" ) == 0 )
+			{
+				if( arguments_w.size() < 4 )
+				{
+					arguments_w.insert( arguments_w.begin(), L"$" );
 				}
 			}
 
@@ -843,123 +809,4 @@ void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSch
 	{
 		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
-}
-
-void applyBackwardCompatibility( std::string& keyword, std::string& step_line )
-{
-	// TODO: systematic backward compatibility, possibly generated from schema diff
-	if( keyword.compare("IFC2DCOMPOSITECURVE") == 0 )
-	{
-		size_t pos_find = step_line.find("IFC2DCOMPOSITECURVE");
-		step_line = step_line.erase(pos_find+3,2);
-		return;
-	}
-
-	if( keyword.compare("IFCDATEANDTIME") == 0 )
-	{
-		// TODO: replace IFCDATEANDTIME
-		return;
-	}
-
-	if( keyword.compare("IFCCOORDINATEDUNIVERSALTIMEOFFSET") == 0 )
-	{
-		// TODO: replace IFCDATEANDTIME
-		return;
-	}
-}
-
-static std::map<IfcPPEntityEnum, size_t> global_map_num_args = boost::assign::map_list_of 
-	( IfcPPEntityEnum::IFCBEAM, 9 )
-	( IfcPPEntityEnum::IFCBUILDINGELEMENTPART, 9 )
-	( IfcPPEntityEnum::IFCCLASSIFICATION, 7 )
-	( IfcPPEntityEnum::IFCCLASSIFICATIONREFERENCE, 6 )
-	( IfcPPEntityEnum::IFCCOLOURRGB, 4 )
-	( IfcPPEntityEnum::IFCCOLUMN, 9 )
-	( IfcPPEntityEnum::IFCCSHAPEPROFILEDEF, 8 )
-	( IfcPPEntityEnum::IFCCURTAINWALL, 9 )
-	( IfcPPEntityEnum::IFCCURVESTYLE, 5 )
-	( IfcPPEntityEnum::IFCDISCRETEACCESSORY, 9 )
-	( IfcPPEntityEnum::IFCDISCRETEACCESSORYTYPE, 10 )
-	( IfcPPEntityEnum::IFCDISTRIBUTIONPORT, 10 )
-	( IfcPPEntityEnum::IFCDOCUMENTREFERENCE, 5 )
-	( IfcPPEntityEnum::IFCDOOR, 13 )
-	( IfcPPEntityEnum::IFCDOORLININGPROPERTIES, 17 )
-	( IfcPPEntityEnum::IFCFASTENER, 9 )
-	( IfcPPEntityEnum::IFCFILLAREASTYLE, 3 )
-	( IfcPPEntityEnum::IFCFLOWTERMINAL, 8 )
-	( IfcPPEntityEnum::IFCFURNITURETYPE, 11 )
-	( IfcPPEntityEnum::IFCGRID, 11 )
-	( IfcPPEntityEnum::IFCISHAPEPROFILEDEF, 10 )
-	( IfcPPEntityEnum::IFCLIBRARYREFERENCE, 6 )
-	( IfcPPEntityEnum::IFCLSHAPEPROFILEDEF, 9 )
-	( IfcPPEntityEnum::IFCMATERIAL, 3 )
-	( IfcPPEntityEnum::IFCMATERIALLAYER, 7 )
-	( IfcPPEntityEnum::IFCMATERIALLAYERSET, 3 )
-	( IfcPPEntityEnum::IFCMATERIALLAYERSETUSAGE, 5 )
-	( IfcPPEntityEnum::IFCMATERIALPROFILESETUSAGE, 3 )
-	( IfcPPEntityEnum::IFCMECHANICALFASTENER, 11 )
-	( IfcPPEntityEnum::IFCMECHANICALFASTENERTYPE, 12 )
-	( IfcPPEntityEnum::IFCMEMBER, 9 )
-	( IfcPPEntityEnum::IFCOPENINGELEMENT, 9 )
-	( IfcPPEntityEnum::IFCPLATE, 9 )
-	( IfcPPEntityEnum::IFCPOSTALADDRESS, 10 )
-	( IfcPPEntityEnum::IFCPROJECT, 9 )
-	( IfcPPEntityEnum::IFCPROPERTYBOUNDEDVALUE, 6 )
-	( IfcPPEntityEnum::IFCPROPERTYSINGLEVALUE, 4 )
-	( IfcPPEntityEnum::IFCPROPERTYTABLEVALUE, 8 )
-	( IfcPPEntityEnum::IFCQUANTITYAREA, 5 )
-	( IfcPPEntityEnum::IFCQUANTITYCOUNT, 5 )
-	( IfcPPEntityEnum::IFCQUANTITYLENGTH, 5 )
-	( IfcPPEntityEnum::IFCQUANTITYVOLUME, 5 )
-	( IfcPPEntityEnum::IFCQUANTITYWEIGHT, 5 )
-	( IfcPPEntityEnum::IFCRAMPFLIGHT, 9 )
-	( IfcPPEntityEnum::IFCREINFORCINGMESH, 18 )
-	( IfcPPEntityEnum::IFCSIMPLEPROPERTYTEMPLATE, 12 )
-	( IfcPPEntityEnum::IFCSPACETYPE, 11 )
-	( IfcPPEntityEnum::IFCSTAIRFLIGHT, 13 )
-	( IfcPPEntityEnum::IFCSTRUCTURALANALYSISMODEL, 10 )
-	( IfcPPEntityEnum::IFCSTRUCTURALPOINTCONNECTION, 9 )
-	( IfcPPEntityEnum::IFCSTRUCTURALCURVEMEMBER, 9 )
-	( IfcPPEntityEnum::IFCSURFACESTYLE, 3 )
-	( IfcPPEntityEnum::IFCSURFACESTYLESHADING, 2)
-	( IfcPPEntityEnum::IFCSYSTEMFURNITUREELEMENTTYPE, 10 )
-	( IfcPPEntityEnum::IFCTSHAPEPROFILEDEF, 12 )
-	( IfcPPEntityEnum::IFCSTRUCTURALCURVECONNECTION, 9)
-	( IfcPPEntityEnum::IFCTELECOMADDRESS, 9 )
-	( IfcPPEntityEnum::IFCTEXTSTYLE, 5 )
-	( IfcPPEntityEnum::IFCTRANSPORTELEMENT, 9 )
-	( IfcPPEntityEnum::IFCUSHAPEPROFILEDEF, 10 )
-	( IfcPPEntityEnum::IFCWALL, 9 )
-	( IfcPPEntityEnum::IFCWALLSTANDARDCASE, 9 )
-	( IfcPPEntityEnum::IFCWINDOW, 13 )
-	( IfcPPEntityEnum::IFCWINDOWLININGPROPERTIES, 16 )
-	( IfcPPEntityEnum::IFCZONE, 6 );
-
-
-void applyBackwardCompatibility( const IfcPPModel::IfcPPSchemaVersion& ifc_version, IfcPPEntityEnum type_enum, std::vector<std::wstring>& args )
-{
-	// TODO: replace this workaround with a systematic backward compatibility, possibly generated from schema diff
-	if( ifc_version.m_ifc_file_schema_enum < IfcPPModel::IFC2X )
-	{
-		throw IfcPPException( "Unsupported IFC version", __FUNC__ );
-	}
-	
-	if( type_enum == IFCCOLOURRGB )
-	{
-		if( args.size() < 4 )
-		{
-			args.insert( args.begin(), L"$" );
-		}
-	}
-
-	std::map<IfcPPEntityEnum, size_t>::iterator it_find_num_args = global_map_num_args.find( type_enum );
-	if( it_find_num_args != global_map_num_args.end() )
-	{
-		size_t num_args = it_find_num_args->second;
-		while( args.size() > num_args ){ args.pop_back(); }
-		while( args.size() < num_args ){ args.push_back( L"$" ); }
-	}
-
-
-	//IfcRelDecomposes -> IfcRelAggregates
 }

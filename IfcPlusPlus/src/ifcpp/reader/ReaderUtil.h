@@ -32,8 +32,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/model/IfcPPBasicTypes.h"
 #include "ifcpp/model/IfcPPException.h"
 #include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/IfcPPTypeEnums.h"
-#include "ifcpp/IfcPPEntityEnums.h"
+#include "ifcpp/IFC4/IfcPPTypeFactory.h"
 
 #ifdef _MSC_VER
 #include <cstdio>
@@ -53,8 +52,8 @@ void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec );
 void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
 void checkOpeningClosingParenthesis( const wchar_t* ch_check );
-void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments );
-void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments );
+IFCPP_EXPORT void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments );
+IFCPP_EXPORT void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments );
 void tokenizeInlineArgument( const std::wstring input, std::wstring& keyword, std::wstring& inner_argument );
 void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing );
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
@@ -123,10 +122,6 @@ inline void readRealValue( const std::wstring& str, boost::optional<double>& rea
 
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 IFCPP_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
-shared_ptr<IfcPPObject> createIfcPPType( const IfcPPTypeEnum type_enum, const std::wstring& arg, const map_t<int, shared_ptr<IfcPPEntity> >& map_entities );
-IfcPPEntity* createIfcPPEntity( const IfcPPEntityEnum entity_enum );
-IfcPPTypeEnum findTypeEnumForString( const std::wstring& type_name );
-IfcPPEntityEnum findEntityEnumForString( const std::wstring& entity_name );
 
 inline void readBool( const std::wstring& attribute_value, bool& target )
 {
@@ -394,6 +389,78 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 }
 
 template<typename T>
+void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
+{
+	//(.38,12.0,.04)
+	wchar_t* ch = (wchar_t*)str;
+	wchar_t* last_token = nullptr;
+
+	// ignore leading space or opening parenthesis
+	while( *ch != '\0' )
+	{
+		if( *ch == '(' )
+		{
+			checkOpeningClosingParenthesis( ch );
+			++ch;
+			last_token = ch;
+			break;
+		}
+		else if( isspace( *ch ) ) { ++ch; }
+		else { break; }
+	}
+
+	while( *ch != '\0' )
+	{
+		if( isspace( *ch ) )
+		{
+			++ch;
+			continue;
+		}
+
+		while( *ch != ',' && *ch != L'\0' && *ch != ')' )
+		{
+			++ch;
+		}
+
+		if( last_token != nullptr )
+		{
+			size_t length_str = ch - last_token;
+			if( length_str > 0 )
+			{
+				std::wstring str_value( last_token, length_str );
+				target_vec.push_back( shared_ptr<T>( new T( str_value ) ) );
+			}
+		}
+
+		if( *ch == L'\0' )
+		{
+			break;
+		}
+
+		if( *ch == ')' )
+		{
+			break;
+		}
+#ifdef _DEBUG
+		if( *ch != ',' )
+		{
+			std::cout << __FUNC__ << ": *ch != ','" << std::endl;
+		}
+#endif
+
+		++ch;
+		last_token = ch;
+	}
+}
+
+template<typename T>
+void readTypeOfStringList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
+{
+	wchar_t* ch = (wchar_t*)str.c_str();
+	readTypeOfStringList( ch, target_vec );
+}
+
+template<typename T>
 void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
 	if( str.length() == 0)
@@ -491,33 +558,27 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 		return;
 	}
 
-	IfcPPTypeEnum type_enum = findTypeEnumForString( keyword );
-	if( type_enum != IfcPPTypeEnum::IFC_TYPE_UNDEFINED )
+	std::string type_name_upper( keyword.begin(), keyword.end() );
+	std::transform( type_name_upper.begin(), type_name_upper.end(), type_name_upper.begin(), toupper );
+	
+	shared_ptr<IfcPPObject> type_instance = IfcPPTypeFactory::createTypeObject( type_name_upper.c_str(), inline_arg, map_entities );
+	if( type_instance )
 	{
-		shared_ptr<IfcPPObject> type_instance = createIfcPPType( type_enum, inline_arg, map_entities );
-		if( type_instance )
-		{
-			result = dynamic_pointer_cast<select_t>(type_instance);
-			return;
-		}
+		result = dynamic_pointer_cast<select_t>(type_instance);
+		return;
 	}
 
-	IfcPPEntityEnum entity_enum = findEntityEnumForString( keyword );
-	if( entity_enum != IfcPPEntityEnum::IFC_ENTITY_UNDEFINED )
-	{
-		shared_ptr<IfcPPEntity> entity_instance( createIfcPPEntity( entity_enum ) );
-		if( entity_instance )
-		{
-			entity_instance->m_id = -1;
-			entity_instance->m_entity_enum = entity_enum;
-			std::vector<std::wstring> args;
-			args.push_back( inline_arg );
-			entity_instance->readStepArguments( args, map_entities );
-			result = dynamic_pointer_cast<select_t>(entity_instance);
-			return;	
-		}
-	}
-	
+	//shared_ptr<IfcPPEntity> entity_instance( IfcPPEntityFactory::createEntityObject( type_name_upper.c_str() ) );
+	//if( entity_instance )
+	//{
+	//	entity_instance->m_id = -1;
+	//	std::vector<std::wstring> args;
+	//	args.push_back( inline_arg );
+	//	entity_instance->readStepArguments( args, map_entities );
+	//	result = dynamic_pointer_cast<select_t>(entity_instance);
+	//	return;
+	//}
+
 	std::wstringstream strs;
 	strs << "unhandled select argument: " << item << " in function " << __FUNC__ << std::endl;
 	throw IfcPPException( strs.str() );

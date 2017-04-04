@@ -65,6 +65,11 @@ protected:
 
 int main(int argc, char *argv[])
 {
+	int n = 0;
+	//for( ; begin != end; ++begin, ++n ) { c += adapt( *begin ); }
+	double c = 3;
+	c /= double( n );
+
 	IfcPlusPlusApplication app(argc, argv);
 	IfcPlusPlusSystem* sys = new IfcPlusPlusSystem();
 	ViewerWidget* viewer_widget = new ViewerWidget( sys );

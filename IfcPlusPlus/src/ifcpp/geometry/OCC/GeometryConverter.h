@@ -188,7 +188,7 @@ public:
 
 				try
 				{
-					convertIfcProduct( product_geom_input_data );
+					convertIfcProductShape( product_geom_input_data );
 				}
 				catch( IfcPPOutOfMemoryException& e )
 				{
@@ -298,7 +298,7 @@ public:
 
 	//\brief method convertIfcProduct: Creates geometry objects (meshset with connected vertex-edge-face graph) from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-	void convertIfcProduct( shared_ptr<ProductShapeData>& product_shape )
+	void convertIfcProductShape( shared_ptr<ProductShapeData>& product_shape )
 	{
 		if( product_shape->m_ifc_object_definition.expired() )
 		{

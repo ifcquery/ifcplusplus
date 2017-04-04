@@ -21,9 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <map>
-#include <ifcpp/model/IfcPPGlobal.h>
-#include <ifcpp/model/IfcPPObject.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/IfcPPBasicTypes.h"
 
 inline std::string encodeStepString( const std::wstring& str )
 {
@@ -268,6 +268,21 @@ void writeEntityList3D( std::stringstream& stream, const std::vector<std::vector
 			stream << ",";
 		}
 		writeEntityList2D( stream, inner_vec );
+	}
+	stream << ")";
+}
+
+inline void writeStringList( std::stringstream& stream, const std::vector<std::wstring >& vec_strings )
+{
+	stream << "(";
+	for( size_t ii = 0; ii < vec_strings.size(); ++ii )
+	{
+		const std::wstring& str = vec_strings[ii];
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		stream << str.c_str();
 	}
 	stream << ")";
 }

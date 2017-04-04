@@ -391,6 +391,11 @@ namespace carve {
       c.setZero();
       int n = 0;
       for (; begin != end; ++begin, ++n) { c += *begin; }
+	  if( n == 0 )
+	  {
+		  std::cout << "centroid(...): unexpected iter_t begin == iter_t end" << std::endl;
+		  return;
+	  }
       c /= double(n);
     }
 
@@ -399,6 +404,11 @@ namespace carve {
       c.setZero();
       int n = 0;
       for (; begin != end; ++begin, ++n) { c += adapt(*begin); }
+	  if( n == 0 )
+	  {
+		  std::cout << "centroid(...): unexpected iter_t begin == iter_t end" << std::endl;
+		  return;
+	  }
       c /= double(n);
     }
 

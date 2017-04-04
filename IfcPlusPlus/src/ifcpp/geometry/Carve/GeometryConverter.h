@@ -53,8 +53,8 @@ public:
 	shared_ptr<IfcPPModel>&						getIfcPPModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter() { return m_representation_converter; }
 	shared_ptr<GeometrySettings>&				getGeomSettings() { return m_geom_settings; }
-	map_t<int, shared_ptr<ProductShapeData> >&		getShapeInputData() { return m_shape_input_data; }
-	map_t<int, shared_ptr<IfcPPObject> >&	getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	map_t<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_shape_input_data; }
+	map_t<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 
 	GeometryConverter( shared_ptr<IfcPPModel>& ifc_model )
 	{
@@ -272,9 +272,18 @@ public:
 		m_map_outside_spatial_structure.clear();
 		m_representation_converter->clearCache();
 
+		if( !m_ifc_model )
+		{
+			return;
+		}
+
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_defs;
-		const double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+		double length_to_meter_factor = 1.0;
+		if( m_ifc_model->getUnitConverter() )
+		{
+			length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+		}
 		carve::setEpsilon( 1.5e-05*length_to_meter_factor );
 
 		const map_t<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
@@ -324,7 +333,7 @@ public:
 
 				try
 				{
-					convertIfcProduct( product_geom_input_data );
+					convertIfcProductShape( product_geom_input_data );
 				}
 				catch( IfcPPOutOfMemoryException& e )
 				{
@@ -434,7 +443,7 @@ public:
 
 	//\brief method convertIfcProduct: Creates geometry objects (meshset with connected vertex-edge-face graph) from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-	void convertIfcProduct( shared_ptr<ProductShapeData>& product_shape )
+	void convertIfcProductShape( shared_ptr<ProductShapeData>& product_shape )
 	{
 		if( product_shape->m_ifc_object_definition.expired() )
 		{
@@ -451,8 +460,15 @@ public:
 			return;
 		}
 
-		//const int product_id = ifc_product->m_id;
-		const double length_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+		
+		double length_factor = 1.0;
+		if( m_ifc_model )
+		{
+			if( m_ifc_model->getUnitConverter() )
+			{
+				length_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+			}
+		}
 
 		// evaluate IFC geometry
 		shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
@@ -460,6 +476,11 @@ public:
 		for( size_t i_representations = 0; i_representations < vec_representations.size(); ++i_representations )
 		{
 			const shared_ptr<IfcRepresentation>& representation = vec_representations[i_representations];
+			if( !representation )
+			{
+				continue;
+			}
+
 			try
 			{
 				shared_ptr<ProductRepresentationData> representation_data( new ProductRepresentationData() );

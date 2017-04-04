@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #endif
 
 
-// choose between 1 for Carve or 2 for OpenCascade for boolean operations in geometric representations
-#define GEOM_LIBRARY 2
+// geometric modelling library: choose 1 for Carve or 2 for OpenCascade
+#define GEOM_LIBRARY 1
 
 
 #if GEOM_LIBRARY == 1

@@ -82,8 +82,8 @@ private:
 	bool										m_show_curve_representation;
 
 signals:
-	void signalObjectsSelected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_objects );
-	void signalObjectsUnselected( boost::unordered_map<int, shared_ptr<IfcPPEntity> >& map_objects );
+	void signalObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map_objects );
+	void signalObjectsUnselected( std::map<int, shared_ptr<IfcPPEntity> >& map_objects );
 	void signalModelCleared();
 	void signalModelLoadingStart();
 	void signalModelLoadingDone();

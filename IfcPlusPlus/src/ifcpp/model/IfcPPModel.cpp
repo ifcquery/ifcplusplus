@@ -514,9 +514,9 @@ void IfcPPModel::setFileName( std::wstring schema )
 
 void IfcPPModel::clearIfcModel()
 {
+	m_map_entities.clear();
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
-	m_map_entities.clear();
 	m_ifc_schema_version.m_ifc_file_schema_enum = IFC4;
 	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"IFC4";
 	m_IFC_FILE_NAME = L"";

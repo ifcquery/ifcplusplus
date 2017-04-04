@@ -22,12 +22,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <ifcpp/model/IfcPPModel.h>
 #include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/IfcPPGuid.h>
 #include <ifcpp/reader/IfcPPReaderSTEP.h>
 #include <ifcpp/reader/ReaderUtil.h>
 #include <ifcpp/writer/IfcPPWriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
+#include <ifcpp/IFC4/include/IfcOpeningElement.h>
+#include <ifcpp/IFC4/include/IfcOwnerHistory.h>
+#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
 
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
@@ -212,7 +216,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				selected_entity->m_material_selected = m_material_selected;
 			}
 
-			boost::unordered_map<int, shared_ptr<IfcPPEntity> > map_objects;
+			std::map<int, shared_ptr<IfcPPEntity> > map_objects;
 			map_objects[id] = ifc_object;
 			emit( signalObjectsSelected( map_objects ) );
 		}
@@ -243,7 +247,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				m_map_selected.erase( it_selected );
 			}
 		}
-		boost::unordered_map<int, shared_ptr<IfcPPEntity> > map_objects;
+		std::map<int, shared_ptr<IfcPPEntity> > map_objects;
 		map_objects[id] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}
