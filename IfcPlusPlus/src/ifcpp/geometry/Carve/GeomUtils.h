@@ -35,6 +35,11 @@ namespace GeomUtils
 			origin = other->origin;
 			direction = other->direction;
 		}
+		void setRay( const Ray& other )
+		{
+			origin = other.origin;
+			direction = other.direction;
+		}
 		vec3 origin;
 		vec3 direction;
 	};

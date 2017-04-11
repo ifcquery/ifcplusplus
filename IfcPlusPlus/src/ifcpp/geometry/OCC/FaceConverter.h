@@ -26,7 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <Geom_Plane.hxx>
 #include <ShapeFix_Solid.hxx>
 
-#include <ifcpp/geometry/GeometrySettings.h>
+#include <ifcpp/geometry/Carve/GeometrySettings.h>
 #include <ifcpp/model/IfcPPBasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
@@ -64,7 +64,7 @@ public:
 	virtual ~FaceConverter(){}
 
 	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, Handle_Geom_Surface& target_surface, TopoDS_Face& target_face )
-		//void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeInputData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy )
+		//void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy )
 		
 	{
 		//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))

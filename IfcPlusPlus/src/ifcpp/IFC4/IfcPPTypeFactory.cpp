@@ -402,7 +402,7 @@
 #include "ifcpp/IFC4/include/IfcWorkScheduleTypeEnum.h"
 #include "IfcPPTypeFactory.h"
 
-static std::map<std::string, std::function<shared_ptr<IfcPPObject>( const std::wstring&, const map_t<int, shared_ptr<IfcPPEntity> >& )> > type_factory_map = {
+	static std::map<std::string, std::function<shared_ptr<IfcPPObject>( const std::wstring&, const map_t<int, shared_ptr<IfcPPEntity> >& )> > type_factory_map = {
 { "IFCABSORBEDDOSEMEASURE", []( const std::wstring& arg, const map_t<int, shared_ptr<IfcPPEntity> >& map )->shared_ptr<IfcPPObject> { return IfcAbsorbedDoseMeasure::createObjectFromSTEP( arg, map ); } },
 { "IFCACCELERATIONMEASURE", []( const std::wstring& arg, const map_t<int, shared_ptr<IfcPPEntity> >& map )->shared_ptr<IfcPPObject> { return IfcAccelerationMeasure::createObjectFromSTEP( arg, map ); } },
 { "IFCACTIONREQUESTTYPEENUM", []( const std::wstring& arg, const map_t<int, shared_ptr<IfcPPEntity> >& map )->shared_ptr<IfcPPObject> { return IfcActionRequestTypeEnum::createObjectFromSTEP( arg, map ); } },
