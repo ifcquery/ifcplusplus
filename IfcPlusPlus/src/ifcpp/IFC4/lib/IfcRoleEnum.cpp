@@ -21,99 +21,63 @@ shared_ptr<IfcPPObject> IfcRoleEnum::getDeepCopy( IfcPPCopyOptions& options )
 void IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROLEENUM("; }
-	if( m_enum == ENUM_SUPPLIER )
+	switch( m_enum )
 	{
-		stream << ".SUPPLIER.";
-	}
-	else if( m_enum == ENUM_MANUFACTURER )
-	{
-		stream << ".MANUFACTURER.";
-	}
-	else if( m_enum == ENUM_CONTRACTOR )
-	{
-		stream << ".CONTRACTOR.";
-	}
-	else if( m_enum == ENUM_SUBCONTRACTOR )
-	{
-		stream << ".SUBCONTRACTOR.";
-	}
-	else if( m_enum == ENUM_ARCHITECT )
-	{
-		stream << ".ARCHITECT.";
-	}
-	else if( m_enum == ENUM_STRUCTURALENGINEER )
-	{
-		stream << ".STRUCTURALENGINEER.";
-	}
-	else if( m_enum == ENUM_COSTENGINEER )
-	{
-		stream << ".COSTENGINEER.";
-	}
-	else if( m_enum == ENUM_CLIENT )
-	{
-		stream << ".CLIENT.";
-	}
-	else if( m_enum == ENUM_BUILDINGOWNER )
-	{
-		stream << ".BUILDINGOWNER.";
-	}
-	else if( m_enum == ENUM_BUILDINGOPERATOR )
-	{
-		stream << ".BUILDINGOPERATOR.";
-	}
-	else if( m_enum == ENUM_MECHANICALENGINEER )
-	{
-		stream << ".MECHANICALENGINEER.";
-	}
-	else if( m_enum == ENUM_ELECTRICALENGINEER )
-	{
-		stream << ".ELECTRICALENGINEER.";
-	}
-	else if( m_enum == ENUM_PROJECTMANAGER )
-	{
-		stream << ".PROJECTMANAGER.";
-	}
-	else if( m_enum == ENUM_FACILITIESMANAGER )
-	{
-		stream << ".FACILITIESMANAGER.";
-	}
-	else if( m_enum == ENUM_CIVILENGINEER )
-	{
-		stream << ".CIVILENGINEER.";
-	}
-	else if( m_enum == ENUM_COMMISSIONINGENGINEER )
-	{
-		stream << ".COMMISSIONINGENGINEER.";
-	}
-	else if( m_enum == ENUM_ENGINEER )
-	{
-		stream << ".ENGINEER.";
-	}
-	else if( m_enum == ENUM_OWNER )
-	{
-		stream << ".OWNER.";
-	}
-	else if( m_enum == ENUM_CONSULTANT )
-	{
-		stream << ".CONSULTANT.";
-	}
-	else if( m_enum == ENUM_CONSTRUCTIONMANAGER )
-	{
-		stream << ".CONSTRUCTIONMANAGER.";
-	}
-	else if( m_enum == ENUM_FIELDCONSTRUCTIONMANAGER )
-	{
-		stream << ".FIELDCONSTRUCTIONMANAGER.";
-	}
-	else if( m_enum == ENUM_RESELLER )
-	{
-		stream << ".RESELLER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
+		case ENUM_SUPPLIER:	stream << ".SUPPLIER."; break;
+		case ENUM_MANUFACTURER:	stream << ".MANUFACTURER."; break;
+		case ENUM_CONTRACTOR:	stream << ".CONTRACTOR."; break;
+		case ENUM_SUBCONTRACTOR:	stream << ".SUBCONTRACTOR."; break;
+		case ENUM_ARCHITECT:	stream << ".ARCHITECT."; break;
+		case ENUM_STRUCTURALENGINEER:	stream << ".STRUCTURALENGINEER."; break;
+		case ENUM_COSTENGINEER:	stream << ".COSTENGINEER."; break;
+		case ENUM_CLIENT:	stream << ".CLIENT."; break;
+		case ENUM_BUILDINGOWNER:	stream << ".BUILDINGOWNER."; break;
+		case ENUM_BUILDINGOPERATOR:	stream << ".BUILDINGOPERATOR."; break;
+		case ENUM_MECHANICALENGINEER:	stream << ".MECHANICALENGINEER."; break;
+		case ENUM_ELECTRICALENGINEER:	stream << ".ELECTRICALENGINEER."; break;
+		case ENUM_PROJECTMANAGER:	stream << ".PROJECTMANAGER."; break;
+		case ENUM_FACILITIESMANAGER:	stream << ".FACILITIESMANAGER."; break;
+		case ENUM_CIVILENGINEER:	stream << ".CIVILENGINEER."; break;
+		case ENUM_COMMISSIONINGENGINEER:	stream << ".COMMISSIONINGENGINEER."; break;
+		case ENUM_ENGINEER:	stream << ".ENGINEER."; break;
+		case ENUM_OWNER:	stream << ".OWNER."; break;
+		case ENUM_CONSULTANT:	stream << ".CONSULTANT."; break;
+		case ENUM_CONSTRUCTIONMANAGER:	stream << ".CONSTRUCTIONMANAGER."; break;
+		case ENUM_FIELDCONSTRUCTIONMANAGER:	stream << ".FIELDCONSTRUCTIONMANAGER."; break;
+		case ENUM_RESELLER:	stream << ".RESELLER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcRoleEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SUPPLIER:	return L"SUPPLIER";
+		case ENUM_MANUFACTURER:	return L"MANUFACTURER";
+		case ENUM_CONTRACTOR:	return L"CONTRACTOR";
+		case ENUM_SUBCONTRACTOR:	return L"SUBCONTRACTOR";
+		case ENUM_ARCHITECT:	return L"ARCHITECT";
+		case ENUM_STRUCTURALENGINEER:	return L"STRUCTURALENGINEER";
+		case ENUM_COSTENGINEER:	return L"COSTENGINEER";
+		case ENUM_CLIENT:	return L"CLIENT";
+		case ENUM_BUILDINGOWNER:	return L"BUILDINGOWNER";
+		case ENUM_BUILDINGOPERATOR:	return L"BUILDINGOPERATOR";
+		case ENUM_MECHANICALENGINEER:	return L"MECHANICALENGINEER";
+		case ENUM_ELECTRICALENGINEER:	return L"ELECTRICALENGINEER";
+		case ENUM_PROJECTMANAGER:	return L"PROJECTMANAGER";
+		case ENUM_FACILITIESMANAGER:	return L"FACILITIESMANAGER";
+		case ENUM_CIVILENGINEER:	return L"CIVILENGINEER";
+		case ENUM_COMMISSIONINGENGINEER:	return L"COMMISSIONINGENGINEER";
+		case ENUM_ENGINEER:	return L"ENGINEER";
+		case ENUM_OWNER:	return L"OWNER";
+		case ENUM_CONSULTANT:	return L"CONSULTANT";
+		case ENUM_CONSTRUCTIONMANAGER:	return L"CONSTRUCTIONMANAGER";
+		case ENUM_FIELDCONSTRUCTIONMANAGER:	return L"FIELDCONSTRUCTIONMANAGER";
+		case ENUM_RESELLER:	return L"RESELLER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

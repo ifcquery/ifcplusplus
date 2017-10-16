@@ -49,6 +49,7 @@ void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcClassificationReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcClassificationReference::toString() const { return L"IfcClassificationReference"; }
 void IfcClassificationReference::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -36,6 +36,7 @@ void IfcPointOnSurface::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPointOnSurface::toString() const { return L"IfcPointOnSurface"; }
 void IfcPointOnSurface::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

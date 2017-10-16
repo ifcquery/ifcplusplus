@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcControllerTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcControllerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONTROLLERTYPEENUM("; }
-	if( m_enum == ENUM_FLOATING )
+	switch( m_enum )
 	{
-		stream << ".FLOATING.";
-	}
-	else if( m_enum == ENUM_PROGRAMMABLE )
-	{
-		stream << ".PROGRAMMABLE.";
-	}
-	else if( m_enum == ENUM_PROPORTIONAL )
-	{
-		stream << ".PROPORTIONAL.";
-	}
-	else if( m_enum == ENUM_MULTIPOSITION )
-	{
-		stream << ".MULTIPOSITION.";
-	}
-	else if( m_enum == ENUM_TWOPOSITION )
-	{
-		stream << ".TWOPOSITION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FLOATING:	stream << ".FLOATING."; break;
+		case ENUM_PROGRAMMABLE:	stream << ".PROGRAMMABLE."; break;
+		case ENUM_PROPORTIONAL:	stream << ".PROPORTIONAL."; break;
+		case ENUM_MULTIPOSITION:	stream << ".MULTIPOSITION."; break;
+		case ENUM_TWOPOSITION:	stream << ".TWOPOSITION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcControllerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FLOATING:	return L"FLOATING";
+		case ENUM_PROGRAMMABLE:	return L"PROGRAMMABLE";
+		case ENUM_PROPORTIONAL:	return L"PROPORTIONAL";
+		case ENUM_MULTIPOSITION:	return L"MULTIPOSITION";
+		case ENUM_TWOPOSITION:	return L"TWOPOSITION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

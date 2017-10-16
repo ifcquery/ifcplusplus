@@ -26,6 +26,12 @@ void IfcPHMeasure::getStepParameter( std::stringstream& stream, bool is_select_t
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcPHMeasure::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcPHMeasure> IfcPHMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

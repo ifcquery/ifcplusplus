@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcAnalysisTheoryTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcAnalysisTheoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANALYSISTHEORYTYPEENUM("; }
-	if( m_enum == ENUM_FIRST_ORDER_THEORY )
+	switch( m_enum )
 	{
-		stream << ".FIRST_ORDER_THEORY.";
-	}
-	else if( m_enum == ENUM_SECOND_ORDER_THEORY )
-	{
-		stream << ".SECOND_ORDER_THEORY.";
-	}
-	else if( m_enum == ENUM_THIRD_ORDER_THEORY )
-	{
-		stream << ".THIRD_ORDER_THEORY.";
-	}
-	else if( m_enum == ENUM_FULL_NONLINEAR_THEORY )
-	{
-		stream << ".FULL_NONLINEAR_THEORY.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FIRST_ORDER_THEORY:	stream << ".FIRST_ORDER_THEORY."; break;
+		case ENUM_SECOND_ORDER_THEORY:	stream << ".SECOND_ORDER_THEORY."; break;
+		case ENUM_THIRD_ORDER_THEORY:	stream << ".THIRD_ORDER_THEORY."; break;
+		case ENUM_FULL_NONLINEAR_THEORY:	stream << ".FULL_NONLINEAR_THEORY."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAnalysisTheoryTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FIRST_ORDER_THEORY:	return L"FIRST_ORDER_THEORY";
+		case ENUM_SECOND_ORDER_THEORY:	return L"SECOND_ORDER_THEORY";
+		case ENUM_THIRD_ORDER_THEORY:	return L"THIRD_ORDER_THEORY";
+		case ENUM_FULL_NONLINEAR_THEORY:	return L"FULL_NONLINEAR_THEORY";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

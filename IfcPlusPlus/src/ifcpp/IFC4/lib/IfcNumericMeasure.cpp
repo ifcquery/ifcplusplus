@@ -26,6 +26,12 @@ void IfcNumericMeasure::getStepParameter( std::stringstream& stream, bool is_sel
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcNumericMeasure::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

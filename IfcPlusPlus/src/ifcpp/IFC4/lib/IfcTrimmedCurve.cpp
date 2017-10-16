@@ -92,6 +92,7 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTrimmedCurve::toString() const { return L"IfcTrimmedCurve"; }
 void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

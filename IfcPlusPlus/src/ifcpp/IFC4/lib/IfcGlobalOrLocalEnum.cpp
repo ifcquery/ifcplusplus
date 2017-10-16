@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcGlobalOrLocalEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcGlobalOrLocalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGLOBALORLOCALENUM("; }
-	if( m_enum == ENUM_GLOBAL_COORDS )
+	switch( m_enum )
 	{
-		stream << ".GLOBAL_COORDS.";
-	}
-	else if( m_enum == ENUM_LOCAL_COORDS )
-	{
-		stream << ".LOCAL_COORDS.";
+		case ENUM_GLOBAL_COORDS:	stream << ".GLOBAL_COORDS."; break;
+		case ENUM_LOCAL_COORDS:	stream << ".LOCAL_COORDS."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcGlobalOrLocalEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_GLOBAL_COORDS:	return L"GLOBAL_COORDS";
+		case ENUM_LOCAL_COORDS:	return L"LOCAL_COORDS";
+	}
+	return L"";
 }
 shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

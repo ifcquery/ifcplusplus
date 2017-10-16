@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcCableFittingTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcCableFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLEFITTINGTYPEENUM("; }
-	if( m_enum == ENUM_CONNECTOR )
+	switch( m_enum )
 	{
-		stream << ".CONNECTOR.";
-	}
-	else if( m_enum == ENUM_ENTRY )
-	{
-		stream << ".ENTRY.";
-	}
-	else if( m_enum == ENUM_EXIT )
-	{
-		stream << ".EXIT.";
-	}
-	else if( m_enum == ENUM_JUNCTION )
-	{
-		stream << ".JUNCTION.";
-	}
-	else if( m_enum == ENUM_TRANSITION )
-	{
-		stream << ".TRANSITION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONNECTOR:	stream << ".CONNECTOR."; break;
+		case ENUM_ENTRY:	stream << ".ENTRY."; break;
+		case ENUM_EXIT:	stream << ".EXIT."; break;
+		case ENUM_JUNCTION:	stream << ".JUNCTION."; break;
+		case ENUM_TRANSITION:	stream << ".TRANSITION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCableFittingTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONNECTOR:	return L"CONNECTOR";
+		case ENUM_ENTRY:	return L"ENTRY";
+		case ENUM_EXIT:	return L"EXIT";
+		case ENUM_JUNCTION:	return L"JUNCTION";
+		case ENUM_TRANSITION:	return L"TRANSITION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

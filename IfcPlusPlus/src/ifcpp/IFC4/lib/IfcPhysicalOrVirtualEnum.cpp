@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcPhysicalOrVirtualEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPHYSICALORVIRTUALENUM("; }
-	if( m_enum == ENUM_PHYSICAL )
+	switch( m_enum )
 	{
-		stream << ".PHYSICAL.";
-	}
-	else if( m_enum == ENUM_VIRTUAL )
-	{
-		stream << ".VIRTUAL.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PHYSICAL:	stream << ".PHYSICAL."; break;
+		case ENUM_VIRTUAL:	stream << ".VIRTUAL."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPhysicalOrVirtualEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PHYSICAL:	return L"PHYSICAL";
+		case ENUM_VIRTUAL:	return L"VIRTUAL";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

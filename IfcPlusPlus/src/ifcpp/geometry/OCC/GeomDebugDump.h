@@ -28,8 +28,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <BRepTools.hxx>
 #include <TopoDS_Compound.hxx>
 #include <TopoDS_Edge.hxx>
-#include <StlMesh_Mesh.hxx>
-#include <StlTransfer.hxx>
 
 #include <osgDB/fstream>
 #include <osgDB/WriteFile>

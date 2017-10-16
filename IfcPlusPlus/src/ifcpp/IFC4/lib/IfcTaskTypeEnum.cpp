@@ -21,63 +21,45 @@ shared_ptr<IfcPPObject> IfcTaskTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcTaskTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTASKTYPEENUM("; }
-	if( m_enum == ENUM_ATTENDANCE )
+	switch( m_enum )
 	{
-		stream << ".ATTENDANCE.";
-	}
-	else if( m_enum == ENUM_CONSTRUCTION )
-	{
-		stream << ".CONSTRUCTION.";
-	}
-	else if( m_enum == ENUM_DEMOLITION )
-	{
-		stream << ".DEMOLITION.";
-	}
-	else if( m_enum == ENUM_DISMANTLE )
-	{
-		stream << ".DISMANTLE.";
-	}
-	else if( m_enum == ENUM_DISPOSAL )
-	{
-		stream << ".DISPOSAL.";
-	}
-	else if( m_enum == ENUM_INSTALLATION )
-	{
-		stream << ".INSTALLATION.";
-	}
-	else if( m_enum == ENUM_LOGISTIC )
-	{
-		stream << ".LOGISTIC.";
-	}
-	else if( m_enum == ENUM_MAINTENANCE )
-	{
-		stream << ".MAINTENANCE.";
-	}
-	else if( m_enum == ENUM_MOVE )
-	{
-		stream << ".MOVE.";
-	}
-	else if( m_enum == ENUM_OPERATION )
-	{
-		stream << ".OPERATION.";
-	}
-	else if( m_enum == ENUM_REMOVAL )
-	{
-		stream << ".REMOVAL.";
-	}
-	else if( m_enum == ENUM_RENOVATION )
-	{
-		stream << ".RENOVATION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ATTENDANCE:	stream << ".ATTENDANCE."; break;
+		case ENUM_CONSTRUCTION:	stream << ".CONSTRUCTION."; break;
+		case ENUM_DEMOLITION:	stream << ".DEMOLITION."; break;
+		case ENUM_DISMANTLE:	stream << ".DISMANTLE."; break;
+		case ENUM_DISPOSAL:	stream << ".DISPOSAL."; break;
+		case ENUM_INSTALLATION:	stream << ".INSTALLATION."; break;
+		case ENUM_LOGISTIC:	stream << ".LOGISTIC."; break;
+		case ENUM_MAINTENANCE:	stream << ".MAINTENANCE."; break;
+		case ENUM_MOVE:	stream << ".MOVE."; break;
+		case ENUM_OPERATION:	stream << ".OPERATION."; break;
+		case ENUM_REMOVAL:	stream << ".REMOVAL."; break;
+		case ENUM_RENOVATION:	stream << ".RENOVATION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTaskTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ATTENDANCE:	return L"ATTENDANCE";
+		case ENUM_CONSTRUCTION:	return L"CONSTRUCTION";
+		case ENUM_DEMOLITION:	return L"DEMOLITION";
+		case ENUM_DISMANTLE:	return L"DISMANTLE";
+		case ENUM_DISPOSAL:	return L"DISPOSAL";
+		case ENUM_INSTALLATION:	return L"INSTALLATION";
+		case ENUM_LOGISTIC:	return L"LOGISTIC";
+		case ENUM_MAINTENANCE:	return L"MAINTENANCE";
+		case ENUM_MOVE:	return L"MOVE";
+		case ENUM_OPERATION:	return L"OPERATION";
+		case ENUM_REMOVAL:	return L"REMOVAL";
+		case ENUM_RENOVATION:	return L"RENOVATION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -65,6 +65,7 @@ void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) co
 	stream << ");";
 }
 void IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPresentationLayerAssignment::toString() const { return L"IfcPresentationLayerAssignment"; }
 void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

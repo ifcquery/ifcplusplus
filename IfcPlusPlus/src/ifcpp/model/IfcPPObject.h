@@ -45,6 +45,11 @@ class IFCPP_EXPORT IfcPPObject
 public:
 	virtual const char* className() const = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
+	
+	/** \brief Returns a self-description of the Type or Entity 
+	*  Enum types return their value as they appear in the STEP file
+	*/
+	virtual const std::wstring toString() const = 0;
 };
 
 // ENTITY

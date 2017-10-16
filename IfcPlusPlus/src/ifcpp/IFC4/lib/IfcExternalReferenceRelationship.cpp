@@ -74,6 +74,7 @@ void IfcExternalReferenceRelationship::getStepLine( std::stringstream& stream ) 
 	stream << ");";
 }
 void IfcExternalReferenceRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcExternalReferenceRelationship::toString() const { return L"IfcExternalReferenceRelationship"; }
 void IfcExternalReferenceRelationship::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

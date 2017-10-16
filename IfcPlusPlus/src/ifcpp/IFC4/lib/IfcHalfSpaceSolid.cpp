@@ -33,6 +33,7 @@ void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcHalfSpaceSolid::toString() const { return L"IfcHalfSpaceSolid"; }
 void IfcHalfSpaceSolid::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

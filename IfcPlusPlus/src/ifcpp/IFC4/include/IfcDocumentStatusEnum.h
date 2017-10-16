@@ -28,6 +28,7 @@ public:
 	virtual const char* className() const { return "IfcDocumentStatusEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+	virtual const std::wstring toString() const;
 	static shared_ptr<IfcDocumentStatusEnum> createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map );
 	IfcDocumentStatusEnumEnum m_enum;
 };

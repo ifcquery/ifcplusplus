@@ -37,6 +37,7 @@ void IfcBoundaryFaceCondition::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBoundaryFaceCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcBoundaryFaceCondition::toString() const { return L"IfcBoundaryFaceCondition"; }
 void IfcBoundaryFaceCondition::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

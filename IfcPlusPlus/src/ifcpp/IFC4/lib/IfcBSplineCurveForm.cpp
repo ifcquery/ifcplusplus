@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcBSplineCurveForm::getDeepCopy( IfcPPCopyOptions& opti
 void IfcBSplineCurveForm::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBSPLINECURVEFORM("; }
-	if( m_enum == ENUM_POLYLINE_FORM )
+	switch( m_enum )
 	{
-		stream << ".POLYLINE_FORM.";
-	}
-	else if( m_enum == ENUM_CIRCULAR_ARC )
-	{
-		stream << ".CIRCULAR_ARC.";
-	}
-	else if( m_enum == ENUM_ELLIPTIC_ARC )
-	{
-		stream << ".ELLIPTIC_ARC.";
-	}
-	else if( m_enum == ENUM_PARABOLIC_ARC )
-	{
-		stream << ".PARABOLIC_ARC.";
-	}
-	else if( m_enum == ENUM_HYPERBOLIC_ARC )
-	{
-		stream << ".HYPERBOLIC_ARC.";
-	}
-	else if( m_enum == ENUM_UNSPECIFIED )
-	{
-		stream << ".UNSPECIFIED.";
+		case ENUM_POLYLINE_FORM:	stream << ".POLYLINE_FORM."; break;
+		case ENUM_CIRCULAR_ARC:	stream << ".CIRCULAR_ARC."; break;
+		case ENUM_ELLIPTIC_ARC:	stream << ".ELLIPTIC_ARC."; break;
+		case ENUM_PARABOLIC_ARC:	stream << ".PARABOLIC_ARC."; break;
+		case ENUM_HYPERBOLIC_ARC:	stream << ".HYPERBOLIC_ARC."; break;
+		case ENUM_UNSPECIFIED:	stream << ".UNSPECIFIED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBSplineCurveForm::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_POLYLINE_FORM:	return L"POLYLINE_FORM";
+		case ENUM_CIRCULAR_ARC:	return L"CIRCULAR_ARC";
+		case ENUM_ELLIPTIC_ARC:	return L"ELLIPTIC_ARC";
+		case ENUM_PARABOLIC_ARC:	return L"PARABOLIC_ARC";
+		case ENUM_HYPERBOLIC_ARC:	return L"HYPERBOLIC_ARC";
+		case ENUM_UNSPECIFIED:	return L"UNSPECIFIED";
+	}
+	return L"";
 }
 shared_ptr<IfcBSplineCurveForm> IfcBSplineCurveForm::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

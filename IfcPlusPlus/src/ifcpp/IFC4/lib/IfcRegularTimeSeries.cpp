@@ -69,6 +69,7 @@ void IfcRegularTimeSeries::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRegularTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRegularTimeSeries::toString() const { return L"IfcRegularTimeSeries"; }
 void IfcRegularTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

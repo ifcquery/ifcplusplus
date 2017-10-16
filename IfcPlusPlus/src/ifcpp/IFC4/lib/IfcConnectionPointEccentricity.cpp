@@ -40,6 +40,7 @@ void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) co
 	stream << ");";
 }
 void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcConnectionPointEccentricity::toString() const { return L"IfcConnectionPointEccentricity"; }
 void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

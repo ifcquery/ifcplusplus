@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcWorkCalendarTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKCALENDARTYPEENUM("; }
-	if( m_enum == ENUM_FIRSTSHIFT )
+	switch( m_enum )
 	{
-		stream << ".FIRSTSHIFT.";
-	}
-	else if( m_enum == ENUM_SECONDSHIFT )
-	{
-		stream << ".SECONDSHIFT.";
-	}
-	else if( m_enum == ENUM_THIRDSHIFT )
-	{
-		stream << ".THIRDSHIFT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FIRSTSHIFT:	stream << ".FIRSTSHIFT."; break;
+		case ENUM_SECONDSHIFT:	stream << ".SECONDSHIFT."; break;
+		case ENUM_THIRDSHIFT:	stream << ".THIRDSHIFT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWorkCalendarTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FIRSTSHIFT:	return L"FIRSTSHIFT";
+		case ENUM_SECONDSHIFT:	return L"SECONDSHIFT";
+		case ENUM_THIRDSHIFT:	return L"THIRDSHIFT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

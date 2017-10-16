@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcActionRequestTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcActionRequestTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONREQUESTTYPEENUM("; }
-	if( m_enum == ENUM_EMAIL )
+	switch( m_enum )
 	{
-		stream << ".EMAIL.";
-	}
-	else if( m_enum == ENUM_FAX )
-	{
-		stream << ".FAX.";
-	}
-	else if( m_enum == ENUM_PHONE )
-	{
-		stream << ".PHONE.";
-	}
-	else if( m_enum == ENUM_POST )
-	{
-		stream << ".POST.";
-	}
-	else if( m_enum == ENUM_VERBAL )
-	{
-		stream << ".VERBAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_EMAIL:	stream << ".EMAIL."; break;
+		case ENUM_FAX:	stream << ".FAX."; break;
+		case ENUM_PHONE:	stream << ".PHONE."; break;
+		case ENUM_POST:	stream << ".POST."; break;
+		case ENUM_VERBAL:	stream << ".VERBAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcActionRequestTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_EMAIL:	return L"EMAIL";
+		case ENUM_FAX:	return L"FAX";
+		case ENUM_PHONE:	return L"PHONE";
+		case ENUM_POST:	return L"POST";
+		case ENUM_VERBAL:	return L"VERBAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcTendonTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONTYPEENUM("; }
-	if( m_enum == ENUM_BAR )
+	switch( m_enum )
 	{
-		stream << ".BAR.";
-	}
-	else if( m_enum == ENUM_COATED )
-	{
-		stream << ".COATED.";
-	}
-	else if( m_enum == ENUM_STRAND )
-	{
-		stream << ".STRAND.";
-	}
-	else if( m_enum == ENUM_WIRE )
-	{
-		stream << ".WIRE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BAR:	stream << ".BAR."; break;
+		case ENUM_COATED:	stream << ".COATED."; break;
+		case ENUM_STRAND:	stream << ".STRAND."; break;
+		case ENUM_WIRE:	stream << ".WIRE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTendonTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BAR:	return L"BAR";
+		case ENUM_COATED:	return L"COATED";
+		case ENUM_STRAND:	return L"STRAND";
+		case ENUM_WIRE:	return L"WIRE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -26,6 +26,12 @@ void IfcAccelerationMeasure::getStepParameter( std::stringstream& stream, bool i
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcAccelerationMeasure::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcAccelerationMeasure> IfcAccelerationMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

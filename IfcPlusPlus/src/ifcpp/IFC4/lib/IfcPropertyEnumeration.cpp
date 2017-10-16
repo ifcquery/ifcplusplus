@@ -60,6 +60,7 @@ void IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPropertyEnumeration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPropertyEnumeration::toString() const { return L"IfcPropertyEnumeration"; }
 void IfcPropertyEnumeration::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

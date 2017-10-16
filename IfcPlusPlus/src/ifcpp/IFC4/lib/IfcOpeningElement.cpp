@@ -85,6 +85,7 @@ void IfcOpeningElement::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcOpeningElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcOpeningElement::toString() const { return L"IfcOpeningElement"; }
 void IfcOpeningElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

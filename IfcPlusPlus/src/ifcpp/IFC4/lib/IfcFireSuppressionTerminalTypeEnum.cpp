@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcFireSuppressionTerminalTypeEnum::getDeepCopy( IfcPPCo
 void IfcFireSuppressionTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFIRESUPPRESSIONTERMINALTYPEENUM("; }
-	if( m_enum == ENUM_BREECHINGINLET )
+	switch( m_enum )
 	{
-		stream << ".BREECHINGINLET.";
-	}
-	else if( m_enum == ENUM_FIREHYDRANT )
-	{
-		stream << ".FIREHYDRANT.";
-	}
-	else if( m_enum == ENUM_HOSEREEL )
-	{
-		stream << ".HOSEREEL.";
-	}
-	else if( m_enum == ENUM_SPRINKLER )
-	{
-		stream << ".SPRINKLER.";
-	}
-	else if( m_enum == ENUM_SPRINKLERDEFLECTOR )
-	{
-		stream << ".SPRINKLERDEFLECTOR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BREECHINGINLET:	stream << ".BREECHINGINLET."; break;
+		case ENUM_FIREHYDRANT:	stream << ".FIREHYDRANT."; break;
+		case ENUM_HOSEREEL:	stream << ".HOSEREEL."; break;
+		case ENUM_SPRINKLER:	stream << ".SPRINKLER."; break;
+		case ENUM_SPRINKLERDEFLECTOR:	stream << ".SPRINKLERDEFLECTOR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFireSuppressionTerminalTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BREECHINGINLET:	return L"BREECHINGINLET";
+		case ENUM_FIREHYDRANT:	return L"FIREHYDRANT";
+		case ENUM_HOSEREEL:	return L"HOSEREEL";
+		case ENUM_SPRINKLER:	return L"SPRINKLER";
+		case ENUM_SPRINKLERDEFLECTOR:	return L"SPRINKLERDEFLECTOR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFireSuppressionTerminalTypeEnum> IfcFireSuppressionTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

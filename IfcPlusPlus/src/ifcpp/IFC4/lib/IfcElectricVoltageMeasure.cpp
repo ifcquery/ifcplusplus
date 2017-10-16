@@ -26,6 +26,12 @@ void IfcElectricVoltageMeasure::getStepParameter( std::stringstream& stream, boo
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcElectricVoltageMeasure::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcElectricVoltageMeasure> IfcElectricVoltageMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

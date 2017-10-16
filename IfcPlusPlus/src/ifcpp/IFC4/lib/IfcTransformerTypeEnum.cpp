@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcTransformerTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcTransformerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSFORMERTYPEENUM("; }
-	if( m_enum == ENUM_CURRENT )
+	switch( m_enum )
 	{
-		stream << ".CURRENT.";
-	}
-	else if( m_enum == ENUM_FREQUENCY )
-	{
-		stream << ".FREQUENCY.";
-	}
-	else if( m_enum == ENUM_INVERTER )
-	{
-		stream << ".INVERTER.";
-	}
-	else if( m_enum == ENUM_RECTIFIER )
-	{
-		stream << ".RECTIFIER.";
-	}
-	else if( m_enum == ENUM_VOLTAGE )
-	{
-		stream << ".VOLTAGE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CURRENT:	stream << ".CURRENT."; break;
+		case ENUM_FREQUENCY:	stream << ".FREQUENCY."; break;
+		case ENUM_INVERTER:	stream << ".INVERTER."; break;
+		case ENUM_RECTIFIER:	stream << ".RECTIFIER."; break;
+		case ENUM_VOLTAGE:	stream << ".VOLTAGE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTransformerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CURRENT:	return L"CURRENT";
+		case ENUM_FREQUENCY:	return L"FREQUENCY";
+		case ENUM_INVERTER:	return L"INVERTER";
+		case ENUM_RECTIFIER:	return L"RECTIFIER";
+		case ENUM_VOLTAGE:	return L"VOLTAGE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcWindowTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcWindowTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWTYPEENUM("; }
-	if( m_enum == ENUM_WINDOW )
+	switch( m_enum )
 	{
-		stream << ".WINDOW.";
-	}
-	else if( m_enum == ENUM_SKYLIGHT )
-	{
-		stream << ".SKYLIGHT.";
-	}
-	else if( m_enum == ENUM_LIGHTDOME )
-	{
-		stream << ".LIGHTDOME.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_WINDOW:	stream << ".WINDOW."; break;
+		case ENUM_SKYLIGHT:	stream << ".SKYLIGHT."; break;
+		case ENUM_LIGHTDOME:	stream << ".LIGHTDOME."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWindowTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_WINDOW:	return L"WINDOW";
+		case ENUM_SKYLIGHT:	return L"SKYLIGHT";
+		case ENUM_LIGHTDOME:	return L"LIGHTDOME";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -80,6 +80,7 @@ void IfcStructuralPointAction::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcStructuralPointAction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcStructuralPointAction::toString() const { return L"IfcStructuralPointAction"; }
 void IfcStructuralPointAction::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

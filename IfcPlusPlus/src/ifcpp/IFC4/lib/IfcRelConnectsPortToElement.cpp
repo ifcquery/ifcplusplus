@@ -55,6 +55,7 @@ void IfcRelConnectsPortToElement::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelConnectsPortToElement::toString() const { return L"IfcRelConnectsPortToElement"; }
 void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

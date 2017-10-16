@@ -22,11 +22,19 @@ shared_ptr<IfcPPObject> IfcNullStyle::getDeepCopy( IfcPPCopyOptions& options )
 void IfcNullStyle::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNULLSTYLE("; }
-	if( m_enum == ENUM_ENUM_NULL )
+	switch( m_enum )
 	{
-		stream << ".ENUM_NULL.";
+		case ENUM_ENUM_NULL:	stream << ".ENUM_NULL."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcNullStyle::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ENUM_NULL:	return L"NULL";
+	}
+	return L"";
 }
 shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

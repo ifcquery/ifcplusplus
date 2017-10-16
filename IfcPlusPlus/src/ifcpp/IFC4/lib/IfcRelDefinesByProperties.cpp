@@ -65,6 +65,7 @@ void IfcRelDefinesByProperties::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelDefinesByProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelDefinesByProperties::toString() const { return L"IfcRelDefinesByProperties"; }
 void IfcRelDefinesByProperties::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

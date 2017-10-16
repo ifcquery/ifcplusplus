@@ -76,6 +76,7 @@ void IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcAsymmetricIShapeProfileDef::toString() const { return L"IfcAsymmetricIShapeProfileDef"; }
 void IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

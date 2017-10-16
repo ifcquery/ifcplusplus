@@ -21,55 +21,41 @@ shared_ptr<IfcPPObject> IfcMechanicalFastenerTypeEnum::getDeepCopy( IfcPPCopyOpt
 void IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMECHANICALFASTENERTYPEENUM("; }
-	if( m_enum == ENUM_ANCHORBOLT )
+	switch( m_enum )
 	{
-		stream << ".ANCHORBOLT.";
-	}
-	else if( m_enum == ENUM_BOLT )
-	{
-		stream << ".BOLT.";
-	}
-	else if( m_enum == ENUM_DOWEL )
-	{
-		stream << ".DOWEL.";
-	}
-	else if( m_enum == ENUM_NAIL )
-	{
-		stream << ".NAIL.";
-	}
-	else if( m_enum == ENUM_NAILPLATE )
-	{
-		stream << ".NAILPLATE.";
-	}
-	else if( m_enum == ENUM_RIVET )
-	{
-		stream << ".RIVET.";
-	}
-	else if( m_enum == ENUM_SCREW )
-	{
-		stream << ".SCREW.";
-	}
-	else if( m_enum == ENUM_SHEARCONNECTOR )
-	{
-		stream << ".SHEARCONNECTOR.";
-	}
-	else if( m_enum == ENUM_STAPLE )
-	{
-		stream << ".STAPLE.";
-	}
-	else if( m_enum == ENUM_STUDSHEARCONNECTOR )
-	{
-		stream << ".STUDSHEARCONNECTOR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ANCHORBOLT:	stream << ".ANCHORBOLT."; break;
+		case ENUM_BOLT:	stream << ".BOLT."; break;
+		case ENUM_DOWEL:	stream << ".DOWEL."; break;
+		case ENUM_NAIL:	stream << ".NAIL."; break;
+		case ENUM_NAILPLATE:	stream << ".NAILPLATE."; break;
+		case ENUM_RIVET:	stream << ".RIVET."; break;
+		case ENUM_SCREW:	stream << ".SCREW."; break;
+		case ENUM_SHEARCONNECTOR:	stream << ".SHEARCONNECTOR."; break;
+		case ENUM_STAPLE:	stream << ".STAPLE."; break;
+		case ENUM_STUDSHEARCONNECTOR:	stream << ".STUDSHEARCONNECTOR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcMechanicalFastenerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ANCHORBOLT:	return L"ANCHORBOLT";
+		case ENUM_BOLT:	return L"BOLT";
+		case ENUM_DOWEL:	return L"DOWEL";
+		case ENUM_NAIL:	return L"NAIL";
+		case ENUM_NAILPLATE:	return L"NAILPLATE";
+		case ENUM_RIVET:	return L"RIVET";
+		case ENUM_SCREW:	return L"SCREW";
+		case ENUM_SHEARCONNECTOR:	return L"SHEARCONNECTOR";
+		case ENUM_STAPLE:	return L"STAPLE";
+		case ENUM_STUDSHEARCONNECTOR:	return L"STUDSHEARCONNECTOR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -87,6 +87,7 @@ void IfcDistributionChamberElement::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcDistributionChamberElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcDistributionChamberElement::toString() const { return L"IfcDistributionChamberElement"; }
 void IfcDistributionChamberElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcAddressTypeEnum::getDeepCopy( IfcPPCopyOptions& optio
 void IfcAddressTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCADDRESSTYPEENUM("; }
-	if( m_enum == ENUM_OFFICE )
+	switch( m_enum )
 	{
-		stream << ".OFFICE.";
-	}
-	else if( m_enum == ENUM_SITE )
-	{
-		stream << ".SITE.";
-	}
-	else if( m_enum == ENUM_HOME )
-	{
-		stream << ".HOME.";
-	}
-	else if( m_enum == ENUM_DISTRIBUTIONPOINT )
-	{
-		stream << ".DISTRIBUTIONPOINT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
+		case ENUM_OFFICE:	stream << ".OFFICE."; break;
+		case ENUM_SITE:	stream << ".SITE."; break;
+		case ENUM_HOME:	stream << ".HOME."; break;
+		case ENUM_DISTRIBUTIONPOINT:	stream << ".DISTRIBUTIONPOINT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAddressTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_OFFICE:	return L"OFFICE";
+		case ENUM_SITE:	return L"SITE";
+		case ENUM_HOME:	return L"HOME";
+		case ENUM_DISTRIBUTIONPOINT:	return L"DISTRIBUTIONPOINT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

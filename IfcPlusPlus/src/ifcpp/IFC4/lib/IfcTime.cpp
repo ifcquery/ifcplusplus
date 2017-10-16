@@ -26,6 +26,10 @@ void IfcTime::getStepParameter( std::stringstream& stream, bool is_select_type )
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcTime::toString() const
+{
+	return m_value;
+}
 shared_ptr<IfcTime> IfcTime::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

@@ -158,11 +158,15 @@ namespace GeomDebugDump
 		dumpPolyhedron( poly_input.create( carve::input::opts() ), offset, color, append );
 	}
 
-	inline void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<4>& color, bool append )
+	inline void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<4>& color, bool append, bool move_offset = true )
 	{
 		if( meshset->meshes.size() == 0 )
 		{
 			return;
+		}
+		if( !move_offset )
+		{
+			//dump_y_pos_geom = 0;
 		}
 		//GeomUtils::applyTranslate( meshset, carve::geom::VECTOR( 0, dump_y_pos_geom, 0 ) );
 		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
@@ -170,7 +174,10 @@ namespace GeomDebugDump
 		shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset.get(), -1 ) );
 		dumpPolyhedron( poly.get(), offset, color, append );
 
-		dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
+		if( move_offset )
+		{
+			dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
+		}
 	}
 
 	inline void dumpFaces( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const std::vector<carve::mesh::Face<3>* >& vec_faces )

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcTendonAnchorTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcTendonAnchorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONANCHORTYPEENUM("; }
-	if( m_enum == ENUM_COUPLER )
+	switch( m_enum )
 	{
-		stream << ".COUPLER.";
-	}
-	else if( m_enum == ENUM_FIXED_END )
-	{
-		stream << ".FIXED_END.";
-	}
-	else if( m_enum == ENUM_TENSIONING_END )
-	{
-		stream << ".TENSIONING_END.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COUPLER:	stream << ".COUPLER."; break;
+		case ENUM_FIXED_END:	stream << ".FIXED_END."; break;
+		case ENUM_TENSIONING_END:	stream << ".TENSIONING_END."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTendonAnchorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COUPLER:	return L"COUPLER";
+		case ENUM_FIXED_END:	return L"FIXED_END";
+		case ENUM_TENSIONING_END:	return L"TENSIONING_END";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -29,6 +29,7 @@ void IfcPlane::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPlane::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPlane::toString() const { return L"IfcPlane"; }
 void IfcPlane::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

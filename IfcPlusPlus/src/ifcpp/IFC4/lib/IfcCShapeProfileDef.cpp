@@ -54,6 +54,7 @@ void IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCShapeProfileDef::toString() const { return L"IfcCShapeProfileDef"; }
 void IfcCShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

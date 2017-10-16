@@ -21,59 +21,43 @@ shared_ptr<IfcPPObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy( IfcPPCopyO
 void IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAUDIOVISUALAPPLIANCETYPEENUM("; }
-	if( m_enum == ENUM_AMPLIFIER )
+	switch( m_enum )
 	{
-		stream << ".AMPLIFIER.";
-	}
-	else if( m_enum == ENUM_CAMERA )
-	{
-		stream << ".CAMERA.";
-	}
-	else if( m_enum == ENUM_DISPLAY )
-	{
-		stream << ".DISPLAY.";
-	}
-	else if( m_enum == ENUM_MICROPHONE )
-	{
-		stream << ".MICROPHONE.";
-	}
-	else if( m_enum == ENUM_PLAYER )
-	{
-		stream << ".PLAYER.";
-	}
-	else if( m_enum == ENUM_PROJECTOR )
-	{
-		stream << ".PROJECTOR.";
-	}
-	else if( m_enum == ENUM_RECEIVER )
-	{
-		stream << ".RECEIVER.";
-	}
-	else if( m_enum == ENUM_SPEAKER )
-	{
-		stream << ".SPEAKER.";
-	}
-	else if( m_enum == ENUM_SWITCHER )
-	{
-		stream << ".SWITCHER.";
-	}
-	else if( m_enum == ENUM_TELEPHONE )
-	{
-		stream << ".TELEPHONE.";
-	}
-	else if( m_enum == ENUM_TUNER )
-	{
-		stream << ".TUNER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AMPLIFIER:	stream << ".AMPLIFIER."; break;
+		case ENUM_CAMERA:	stream << ".CAMERA."; break;
+		case ENUM_DISPLAY:	stream << ".DISPLAY."; break;
+		case ENUM_MICROPHONE:	stream << ".MICROPHONE."; break;
+		case ENUM_PLAYER:	stream << ".PLAYER."; break;
+		case ENUM_PROJECTOR:	stream << ".PROJECTOR."; break;
+		case ENUM_RECEIVER:	stream << ".RECEIVER."; break;
+		case ENUM_SPEAKER:	stream << ".SPEAKER."; break;
+		case ENUM_SWITCHER:	stream << ".SWITCHER."; break;
+		case ENUM_TELEPHONE:	stream << ".TELEPHONE."; break;
+		case ENUM_TUNER:	stream << ".TUNER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAudioVisualApplianceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AMPLIFIER:	return L"AMPLIFIER";
+		case ENUM_CAMERA:	return L"CAMERA";
+		case ENUM_DISPLAY:	return L"DISPLAY";
+		case ENUM_MICROPHONE:	return L"MICROPHONE";
+		case ENUM_PLAYER:	return L"PLAYER";
+		case ENUM_PROJECTOR:	return L"PROJECTOR";
+		case ENUM_RECEIVER:	return L"RECEIVER";
+		case ENUM_SPEAKER:	return L"SPEAKER";
+		case ENUM_SWITCHER:	return L"SWITCHER";
+		case ENUM_TELEPHONE:	return L"TELEPHONE";
+		case ENUM_TUNER:	return L"TUNER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

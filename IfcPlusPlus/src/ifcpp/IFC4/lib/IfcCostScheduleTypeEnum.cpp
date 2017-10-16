@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcCostScheduleTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOSTSCHEDULETYPEENUM("; }
-	if( m_enum == ENUM_BUDGET )
+	switch( m_enum )
 	{
-		stream << ".BUDGET.";
-	}
-	else if( m_enum == ENUM_COSTPLAN )
-	{
-		stream << ".COSTPLAN.";
-	}
-	else if( m_enum == ENUM_ESTIMATE )
-	{
-		stream << ".ESTIMATE.";
-	}
-	else if( m_enum == ENUM_TENDER )
-	{
-		stream << ".TENDER.";
-	}
-	else if( m_enum == ENUM_PRICEDBILLOFQUANTITIES )
-	{
-		stream << ".PRICEDBILLOFQUANTITIES.";
-	}
-	else if( m_enum == ENUM_UNPRICEDBILLOFQUANTITIES )
-	{
-		stream << ".UNPRICEDBILLOFQUANTITIES.";
-	}
-	else if( m_enum == ENUM_SCHEDULEOFRATES )
-	{
-		stream << ".SCHEDULEOFRATES.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BUDGET:	stream << ".BUDGET."; break;
+		case ENUM_COSTPLAN:	stream << ".COSTPLAN."; break;
+		case ENUM_ESTIMATE:	stream << ".ESTIMATE."; break;
+		case ENUM_TENDER:	stream << ".TENDER."; break;
+		case ENUM_PRICEDBILLOFQUANTITIES:	stream << ".PRICEDBILLOFQUANTITIES."; break;
+		case ENUM_UNPRICEDBILLOFQUANTITIES:	stream << ".UNPRICEDBILLOFQUANTITIES."; break;
+		case ENUM_SCHEDULEOFRATES:	stream << ".SCHEDULEOFRATES."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCostScheduleTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BUDGET:	return L"BUDGET";
+		case ENUM_COSTPLAN:	return L"COSTPLAN";
+		case ENUM_ESTIMATE:	return L"ESTIMATE";
+		case ENUM_TENDER:	return L"TENDER";
+		case ENUM_PRICEDBILLOFQUANTITIES:	return L"PRICEDBILLOFQUANTITIES";
+		case ENUM_UNPRICEDBILLOFQUANTITIES:	return L"UNPRICEDBILLOFQUANTITIES";
+		case ENUM_SCHEDULEOFRATES:	return L"SCHEDULEOFRATES";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

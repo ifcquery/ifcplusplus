@@ -88,6 +88,7 @@ void IfcTendonAnchor::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTendonAnchor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTendonAnchor::toString() const { return L"IfcTendonAnchor"; }
 void IfcTendonAnchor::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcTransportElementTypeEnum::getDeepCopy( IfcPPCopyOptio
 void IfcTransportElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSPORTELEMENTTYPEENUM("; }
-	if( m_enum == ENUM_ELEVATOR )
+	switch( m_enum )
 	{
-		stream << ".ELEVATOR.";
-	}
-	else if( m_enum == ENUM_ESCALATOR )
-	{
-		stream << ".ESCALATOR.";
-	}
-	else if( m_enum == ENUM_MOVINGWALKWAY )
-	{
-		stream << ".MOVINGWALKWAY.";
-	}
-	else if( m_enum == ENUM_CRANEWAY )
-	{
-		stream << ".CRANEWAY.";
-	}
-	else if( m_enum == ENUM_LIFTINGGEAR )
-	{
-		stream << ".LIFTINGGEAR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ELEVATOR:	stream << ".ELEVATOR."; break;
+		case ENUM_ESCALATOR:	stream << ".ESCALATOR."; break;
+		case ENUM_MOVINGWALKWAY:	stream << ".MOVINGWALKWAY."; break;
+		case ENUM_CRANEWAY:	stream << ".CRANEWAY."; break;
+		case ENUM_LIFTINGGEAR:	stream << ".LIFTINGGEAR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTransportElementTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ELEVATOR:	return L"ELEVATOR";
+		case ENUM_ESCALATOR:	return L"ESCALATOR";
+		case ENUM_MOVINGWALKWAY:	return L"MOVINGWALKWAY";
+		case ENUM_CRANEWAY:	return L"CRANEWAY";
+		case ENUM_LIFTINGGEAR:	return L"LIFTINGGEAR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

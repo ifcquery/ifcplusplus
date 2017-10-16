@@ -51,6 +51,7 @@ void IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream
 	stream << ");";
 }
 void IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcStructuralLoadSingleForceWarping::toString() const { return L"IfcStructuralLoadSingleForceWarping"; }
 void IfcStructuralLoadSingleForceWarping::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

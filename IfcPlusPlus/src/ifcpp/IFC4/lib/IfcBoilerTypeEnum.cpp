@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcBoilerTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcBoilerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOILERTYPEENUM("; }
-	if( m_enum == ENUM_WATER )
+	switch( m_enum )
 	{
-		stream << ".WATER.";
-	}
-	else if( m_enum == ENUM_STEAM )
-	{
-		stream << ".STEAM.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_WATER:	stream << ".WATER."; break;
+		case ENUM_STEAM:	stream << ".STEAM."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBoilerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_WATER:	return L"WATER";
+		case ENUM_STEAM:	return L"STEAM";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

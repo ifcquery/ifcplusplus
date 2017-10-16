@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcConnectionTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONNECTIONTYPEENUM("; }
-	if( m_enum == ENUM_ATPATH )
+	switch( m_enum )
 	{
-		stream << ".ATPATH.";
-	}
-	else if( m_enum == ENUM_ATSTART )
-	{
-		stream << ".ATSTART.";
-	}
-	else if( m_enum == ENUM_ATEND )
-	{
-		stream << ".ATEND.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ATPATH:	stream << ".ATPATH."; break;
+		case ENUM_ATSTART:	stream << ".ATSTART."; break;
+		case ENUM_ATEND:	stream << ".ATEND."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcConnectionTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ATPATH:	return L"ATPATH";
+		case ENUM_ATSTART:	return L"ATSTART";
+		case ENUM_ATEND:	return L"ATEND";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

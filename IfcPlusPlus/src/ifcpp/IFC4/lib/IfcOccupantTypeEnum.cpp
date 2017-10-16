@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcOccupantTypeEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcOccupantTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOCCUPANTTYPEENUM("; }
-	if( m_enum == ENUM_ASSIGNEE )
+	switch( m_enum )
 	{
-		stream << ".ASSIGNEE.";
-	}
-	else if( m_enum == ENUM_ASSIGNOR )
-	{
-		stream << ".ASSIGNOR.";
-	}
-	else if( m_enum == ENUM_LESSEE )
-	{
-		stream << ".LESSEE.";
-	}
-	else if( m_enum == ENUM_LESSOR )
-	{
-		stream << ".LESSOR.";
-	}
-	else if( m_enum == ENUM_LETTINGAGENT )
-	{
-		stream << ".LETTINGAGENT.";
-	}
-	else if( m_enum == ENUM_OWNER )
-	{
-		stream << ".OWNER.";
-	}
-	else if( m_enum == ENUM_TENANT )
-	{
-		stream << ".TENANT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ASSIGNEE:	stream << ".ASSIGNEE."; break;
+		case ENUM_ASSIGNOR:	stream << ".ASSIGNOR."; break;
+		case ENUM_LESSEE:	stream << ".LESSEE."; break;
+		case ENUM_LESSOR:	stream << ".LESSOR."; break;
+		case ENUM_LETTINGAGENT:	stream << ".LETTINGAGENT."; break;
+		case ENUM_OWNER:	stream << ".OWNER."; break;
+		case ENUM_TENANT:	stream << ".TENANT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcOccupantTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ASSIGNEE:	return L"ASSIGNEE";
+		case ENUM_ASSIGNOR:	return L"ASSIGNOR";
+		case ENUM_LESSEE:	return L"LESSEE";
+		case ENUM_LESSOR:	return L"LESSOR";
+		case ENUM_LETTINGAGENT:	return L"LETTINGAGENT";
+		case ENUM_OWNER:	return L"OWNER";
+		case ENUM_TENANT:	return L"TENANT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

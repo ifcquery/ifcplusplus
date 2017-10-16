@@ -21,79 +21,53 @@ shared_ptr<IfcPPObject> IfcElectricApplianceTypeEnum::getDeepCopy( IfcPPCopyOpti
 void IfcElectricApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICAPPLIANCETYPEENUM("; }
-	if( m_enum == ENUM_DISHWASHER )
+	switch( m_enum )
 	{
-		stream << ".DISHWASHER.";
-	}
-	else if( m_enum == ENUM_ELECTRICCOOKER )
-	{
-		stream << ".ELECTRICCOOKER.";
-	}
-	else if( m_enum == ENUM_FREESTANDINGELECTRICHEATER )
-	{
-		stream << ".FREESTANDINGELECTRICHEATER.";
-	}
-	else if( m_enum == ENUM_FREESTANDINGFAN )
-	{
-		stream << ".FREESTANDINGFAN.";
-	}
-	else if( m_enum == ENUM_FREESTANDINGWATERHEATER )
-	{
-		stream << ".FREESTANDINGWATERHEATER.";
-	}
-	else if( m_enum == ENUM_FREESTANDINGWATERCOOLER )
-	{
-		stream << ".FREESTANDINGWATERCOOLER.";
-	}
-	else if( m_enum == ENUM_FREEZER )
-	{
-		stream << ".FREEZER.";
-	}
-	else if( m_enum == ENUM_FRIDGE_FREEZER )
-	{
-		stream << ".FRIDGE_FREEZER.";
-	}
-	else if( m_enum == ENUM_HANDDRYER )
-	{
-		stream << ".HANDDRYER.";
-	}
-	else if( m_enum == ENUM_KITCHENMACHINE )
-	{
-		stream << ".KITCHENMACHINE.";
-	}
-	else if( m_enum == ENUM_MICROWAVE )
-	{
-		stream << ".MICROWAVE.";
-	}
-	else if( m_enum == ENUM_PHOTOCOPIER )
-	{
-		stream << ".PHOTOCOPIER.";
-	}
-	else if( m_enum == ENUM_REFRIGERATOR )
-	{
-		stream << ".REFRIGERATOR.";
-	}
-	else if( m_enum == ENUM_TUMBLEDRYER )
-	{
-		stream << ".TUMBLEDRYER.";
-	}
-	else if( m_enum == ENUM_VENDINGMACHINE )
-	{
-		stream << ".VENDINGMACHINE.";
-	}
-	else if( m_enum == ENUM_WASHINGMACHINE )
-	{
-		stream << ".WASHINGMACHINE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DISHWASHER:	stream << ".DISHWASHER."; break;
+		case ENUM_ELECTRICCOOKER:	stream << ".ELECTRICCOOKER."; break;
+		case ENUM_FREESTANDINGELECTRICHEATER:	stream << ".FREESTANDINGELECTRICHEATER."; break;
+		case ENUM_FREESTANDINGFAN:	stream << ".FREESTANDINGFAN."; break;
+		case ENUM_FREESTANDINGWATERHEATER:	stream << ".FREESTANDINGWATERHEATER."; break;
+		case ENUM_FREESTANDINGWATERCOOLER:	stream << ".FREESTANDINGWATERCOOLER."; break;
+		case ENUM_FREEZER:	stream << ".FREEZER."; break;
+		case ENUM_FRIDGE_FREEZER:	stream << ".FRIDGE_FREEZER."; break;
+		case ENUM_HANDDRYER:	stream << ".HANDDRYER."; break;
+		case ENUM_KITCHENMACHINE:	stream << ".KITCHENMACHINE."; break;
+		case ENUM_MICROWAVE:	stream << ".MICROWAVE."; break;
+		case ENUM_PHOTOCOPIER:	stream << ".PHOTOCOPIER."; break;
+		case ENUM_REFRIGERATOR:	stream << ".REFRIGERATOR."; break;
+		case ENUM_TUMBLEDRYER:	stream << ".TUMBLEDRYER."; break;
+		case ENUM_VENDINGMACHINE:	stream << ".VENDINGMACHINE."; break;
+		case ENUM_WASHINGMACHINE:	stream << ".WASHINGMACHINE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElectricApplianceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DISHWASHER:	return L"DISHWASHER";
+		case ENUM_ELECTRICCOOKER:	return L"ELECTRICCOOKER";
+		case ENUM_FREESTANDINGELECTRICHEATER:	return L"FREESTANDINGELECTRICHEATER";
+		case ENUM_FREESTANDINGFAN:	return L"FREESTANDINGFAN";
+		case ENUM_FREESTANDINGWATERHEATER:	return L"FREESTANDINGWATERHEATER";
+		case ENUM_FREESTANDINGWATERCOOLER:	return L"FREESTANDINGWATERCOOLER";
+		case ENUM_FREEZER:	return L"FREEZER";
+		case ENUM_FRIDGE_FREEZER:	return L"FRIDGE_FREEZER";
+		case ENUM_HANDDRYER:	return L"HANDDRYER";
+		case ENUM_KITCHENMACHINE:	return L"KITCHENMACHINE";
+		case ENUM_MICROWAVE:	return L"MICROWAVE";
+		case ENUM_PHOTOCOPIER:	return L"PHOTOCOPIER";
+		case ENUM_REFRIGERATOR:	return L"REFRIGERATOR";
+		case ENUM_TUMBLEDRYER:	return L"TUMBLEDRYER";
+		case ENUM_VENDINGMACHINE:	return L"VENDINGMACHINE";
+		case ENUM_WASHINGMACHINE:	return L"WASHINGMACHINE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElectricApplianceTypeEnum> IfcElectricApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcMotorConnectionTypeEnum::getDeepCopy( IfcPPCopyOption
 void IfcMotorConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOTORCONNECTIONTYPEENUM("; }
-	if( m_enum == ENUM_BELTDRIVE )
+	switch( m_enum )
 	{
-		stream << ".BELTDRIVE.";
-	}
-	else if( m_enum == ENUM_COUPLING )
-	{
-		stream << ".COUPLING.";
-	}
-	else if( m_enum == ENUM_DIRECTDRIVE )
-	{
-		stream << ".DIRECTDRIVE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BELTDRIVE:	stream << ".BELTDRIVE."; break;
+		case ENUM_COUPLING:	stream << ".COUPLING."; break;
+		case ENUM_DIRECTDRIVE:	stream << ".DIRECTDRIVE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcMotorConnectionTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BELTDRIVE:	return L"BELTDRIVE";
+		case ENUM_COUPLING:	return L"COUPLING";
+		case ENUM_DIRECTDRIVE:	return L"DIRECTDRIVE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

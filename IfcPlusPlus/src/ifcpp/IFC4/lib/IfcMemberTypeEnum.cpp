@@ -21,63 +21,45 @@ shared_ptr<IfcPPObject> IfcMemberTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMEMBERTYPEENUM("; }
-	if( m_enum == ENUM_BRACE )
+	switch( m_enum )
 	{
-		stream << ".BRACE.";
-	}
-	else if( m_enum == ENUM_CHORD )
-	{
-		stream << ".CHORD.";
-	}
-	else if( m_enum == ENUM_COLLAR )
-	{
-		stream << ".COLLAR.";
-	}
-	else if( m_enum == ENUM_MEMBER )
-	{
-		stream << ".MEMBER.";
-	}
-	else if( m_enum == ENUM_MULLION )
-	{
-		stream << ".MULLION.";
-	}
-	else if( m_enum == ENUM_PLATE )
-	{
-		stream << ".PLATE.";
-	}
-	else if( m_enum == ENUM_POST )
-	{
-		stream << ".POST.";
-	}
-	else if( m_enum == ENUM_PURLIN )
-	{
-		stream << ".PURLIN.";
-	}
-	else if( m_enum == ENUM_RAFTER )
-	{
-		stream << ".RAFTER.";
-	}
-	else if( m_enum == ENUM_STRINGER )
-	{
-		stream << ".STRINGER.";
-	}
-	else if( m_enum == ENUM_STRUT )
-	{
-		stream << ".STRUT.";
-	}
-	else if( m_enum == ENUM_STUD )
-	{
-		stream << ".STUD.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BRACE:	stream << ".BRACE."; break;
+		case ENUM_CHORD:	stream << ".CHORD."; break;
+		case ENUM_COLLAR:	stream << ".COLLAR."; break;
+		case ENUM_MEMBER:	stream << ".MEMBER."; break;
+		case ENUM_MULLION:	stream << ".MULLION."; break;
+		case ENUM_PLATE:	stream << ".PLATE."; break;
+		case ENUM_POST:	stream << ".POST."; break;
+		case ENUM_PURLIN:	stream << ".PURLIN."; break;
+		case ENUM_RAFTER:	stream << ".RAFTER."; break;
+		case ENUM_STRINGER:	stream << ".STRINGER."; break;
+		case ENUM_STRUT:	stream << ".STRUT."; break;
+		case ENUM_STUD:	stream << ".STUD."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcMemberTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BRACE:	return L"BRACE";
+		case ENUM_CHORD:	return L"CHORD";
+		case ENUM_COLLAR:	return L"COLLAR";
+		case ENUM_MEMBER:	return L"MEMBER";
+		case ENUM_MULLION:	return L"MULLION";
+		case ENUM_PLATE:	return L"PLATE";
+		case ENUM_POST:	return L"POST";
+		case ENUM_PURLIN:	return L"PURLIN";
+		case ENUM_RAFTER:	return L"RAFTER";
+		case ENUM_STRINGER:	return L"STRINGER";
+		case ENUM_STRUT:	return L"STRUT";
+		case ENUM_STUD:	return L"STUD";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcMemberTypeEnum> IfcMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

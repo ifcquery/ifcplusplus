@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcDoorStyleConstructionEnum::getDeepCopy( IfcPPCopyOpti
 void IfcDoorStyleConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORSTYLECONSTRUCTIONENUM("; }
-	if( m_enum == ENUM_ALUMINIUM )
+	switch( m_enum )
 	{
-		stream << ".ALUMINIUM.";
-	}
-	else if( m_enum == ENUM_HIGH_GRADE_STEEL )
-	{
-		stream << ".HIGH_GRADE_STEEL.";
-	}
-	else if( m_enum == ENUM_STEEL )
-	{
-		stream << ".STEEL.";
-	}
-	else if( m_enum == ENUM_WOOD )
-	{
-		stream << ".WOOD.";
-	}
-	else if( m_enum == ENUM_ALUMINIUM_WOOD )
-	{
-		stream << ".ALUMINIUM_WOOD.";
-	}
-	else if( m_enum == ENUM_ALUMINIUM_PLASTIC )
-	{
-		stream << ".ALUMINIUM_PLASTIC.";
-	}
-	else if( m_enum == ENUM_PLASTIC )
-	{
-		stream << ".PLASTIC.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ALUMINIUM:	stream << ".ALUMINIUM."; break;
+		case ENUM_HIGH_GRADE_STEEL:	stream << ".HIGH_GRADE_STEEL."; break;
+		case ENUM_STEEL:	stream << ".STEEL."; break;
+		case ENUM_WOOD:	stream << ".WOOD."; break;
+		case ENUM_ALUMINIUM_WOOD:	stream << ".ALUMINIUM_WOOD."; break;
+		case ENUM_ALUMINIUM_PLASTIC:	stream << ".ALUMINIUM_PLASTIC."; break;
+		case ENUM_PLASTIC:	stream << ".PLASTIC."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDoorStyleConstructionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ALUMINIUM:	return L"ALUMINIUM";
+		case ENUM_HIGH_GRADE_STEEL:	return L"HIGH_GRADE_STEEL";
+		case ENUM_STEEL:	return L"STEEL";
+		case ENUM_WOOD:	return L"WOOD";
+		case ENUM_ALUMINIUM_WOOD:	return L"ALUMINIUM_WOOD";
+		case ENUM_ALUMINIUM_PLASTIC:	return L"ALUMINIUM_PLASTIC";
+		case ENUM_PLASTIC:	return L"PLASTIC";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

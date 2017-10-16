@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcDataOriginEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDATAORIGINENUM("; }
-	if( m_enum == ENUM_MEASURED )
+	switch( m_enum )
 	{
-		stream << ".MEASURED.";
-	}
-	else if( m_enum == ENUM_PREDICTED )
-	{
-		stream << ".PREDICTED.";
-	}
-	else if( m_enum == ENUM_SIMULATED )
-	{
-		stream << ".SIMULATED.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_MEASURED:	stream << ".MEASURED."; break;
+		case ENUM_PREDICTED:	stream << ".PREDICTED."; break;
+		case ENUM_SIMULATED:	stream << ".SIMULATED."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDataOriginEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_MEASURED:	return L"MEASURED";
+		case ENUM_PREDICTED:	return L"PREDICTED";
+		case ENUM_SIMULATED:	return L"SIMULATED";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -29,6 +29,7 @@ void IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCsgPrimitive3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCsgPrimitive3D::toString() const { return L"IfcCsgPrimitive3D"; }
 void IfcCsgPrimitive3D::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

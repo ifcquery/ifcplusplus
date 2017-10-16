@@ -81,6 +81,7 @@ void IfcBuildingStorey::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBuildingStorey::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcBuildingStorey::toString() const { return L"IfcBuildingStorey"; }
 void IfcBuildingStorey::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

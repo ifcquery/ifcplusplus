@@ -40,6 +40,7 @@ void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& strea
 	stream << ");";
 }
 void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCartesianTransformationOperator2D::toString() const { return L"IfcCartesianTransformationOperator2D"; }
 void IfcCartesianTransformationOperator2D::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

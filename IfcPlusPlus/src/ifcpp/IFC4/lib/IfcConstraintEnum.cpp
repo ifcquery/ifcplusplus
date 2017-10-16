@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcConstraintEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRAINTENUM("; }
-	if( m_enum == ENUM_HARD )
+	switch( m_enum )
 	{
-		stream << ".HARD.";
-	}
-	else if( m_enum == ENUM_SOFT )
-	{
-		stream << ".SOFT.";
-	}
-	else if( m_enum == ENUM_ADVISORY )
-	{
-		stream << ".ADVISORY.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_HARD:	stream << ".HARD."; break;
+		case ENUM_SOFT:	stream << ".SOFT."; break;
+		case ENUM_ADVISORY:	stream << ".ADVISORY."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcConstraintEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_HARD:	return L"HARD";
+		case ENUM_SOFT:	return L"SOFT";
+		case ENUM_ADVISORY:	return L"ADVISORY";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

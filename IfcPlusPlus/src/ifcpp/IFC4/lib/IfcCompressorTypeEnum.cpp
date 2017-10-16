@@ -21,75 +21,51 @@ shared_ptr<IfcPPObject> IfcCompressorTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcCompressorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPRESSORTYPEENUM("; }
-	if( m_enum == ENUM_DYNAMIC )
+	switch( m_enum )
 	{
-		stream << ".DYNAMIC.";
-	}
-	else if( m_enum == ENUM_RECIPROCATING )
-	{
-		stream << ".RECIPROCATING.";
-	}
-	else if( m_enum == ENUM_ROTARY )
-	{
-		stream << ".ROTARY.";
-	}
-	else if( m_enum == ENUM_SCROLL )
-	{
-		stream << ".SCROLL.";
-	}
-	else if( m_enum == ENUM_TROCHOIDAL )
-	{
-		stream << ".TROCHOIDAL.";
-	}
-	else if( m_enum == ENUM_SINGLESTAGE )
-	{
-		stream << ".SINGLESTAGE.";
-	}
-	else if( m_enum == ENUM_BOOSTER )
-	{
-		stream << ".BOOSTER.";
-	}
-	else if( m_enum == ENUM_OPENTYPE )
-	{
-		stream << ".OPENTYPE.";
-	}
-	else if( m_enum == ENUM_HERMETIC )
-	{
-		stream << ".HERMETIC.";
-	}
-	else if( m_enum == ENUM_SEMIHERMETIC )
-	{
-		stream << ".SEMIHERMETIC.";
-	}
-	else if( m_enum == ENUM_WELDEDSHELLHERMETIC )
-	{
-		stream << ".WELDEDSHELLHERMETIC.";
-	}
-	else if( m_enum == ENUM_ROLLINGPISTON )
-	{
-		stream << ".ROLLINGPISTON.";
-	}
-	else if( m_enum == ENUM_ROTARYVANE )
-	{
-		stream << ".ROTARYVANE.";
-	}
-	else if( m_enum == ENUM_SINGLESCREW )
-	{
-		stream << ".SINGLESCREW.";
-	}
-	else if( m_enum == ENUM_TWINSCREW )
-	{
-		stream << ".TWINSCREW.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DYNAMIC:	stream << ".DYNAMIC."; break;
+		case ENUM_RECIPROCATING:	stream << ".RECIPROCATING."; break;
+		case ENUM_ROTARY:	stream << ".ROTARY."; break;
+		case ENUM_SCROLL:	stream << ".SCROLL."; break;
+		case ENUM_TROCHOIDAL:	stream << ".TROCHOIDAL."; break;
+		case ENUM_SINGLESTAGE:	stream << ".SINGLESTAGE."; break;
+		case ENUM_BOOSTER:	stream << ".BOOSTER."; break;
+		case ENUM_OPENTYPE:	stream << ".OPENTYPE."; break;
+		case ENUM_HERMETIC:	stream << ".HERMETIC."; break;
+		case ENUM_SEMIHERMETIC:	stream << ".SEMIHERMETIC."; break;
+		case ENUM_WELDEDSHELLHERMETIC:	stream << ".WELDEDSHELLHERMETIC."; break;
+		case ENUM_ROLLINGPISTON:	stream << ".ROLLINGPISTON."; break;
+		case ENUM_ROTARYVANE:	stream << ".ROTARYVANE."; break;
+		case ENUM_SINGLESCREW:	stream << ".SINGLESCREW."; break;
+		case ENUM_TWINSCREW:	stream << ".TWINSCREW."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCompressorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DYNAMIC:	return L"DYNAMIC";
+		case ENUM_RECIPROCATING:	return L"RECIPROCATING";
+		case ENUM_ROTARY:	return L"ROTARY";
+		case ENUM_SCROLL:	return L"SCROLL";
+		case ENUM_TROCHOIDAL:	return L"TROCHOIDAL";
+		case ENUM_SINGLESTAGE:	return L"SINGLESTAGE";
+		case ENUM_BOOSTER:	return L"BOOSTER";
+		case ENUM_OPENTYPE:	return L"OPENTYPE";
+		case ENUM_HERMETIC:	return L"HERMETIC";
+		case ENUM_SEMIHERMETIC:	return L"SEMIHERMETIC";
+		case ENUM_WELDEDSHELLHERMETIC:	return L"WELDEDSHELLHERMETIC";
+		case ENUM_ROLLINGPISTON:	return L"ROLLINGPISTON";
+		case ENUM_ROTARYVANE:	return L"ROTARYVANE";
+		case ENUM_SINGLESCREW:	return L"SINGLESCREW";
+		case ENUM_TWINSCREW:	return L"TWINSCREW";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCompressorTypeEnum> IfcCompressorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -47,6 +47,7 @@ void IfcBoundaryEdgeCondition::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBoundaryEdgeCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcBoundaryEdgeCondition::toString() const { return L"IfcBoundaryEdgeCondition"; }
 void IfcBoundaryEdgeCondition::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

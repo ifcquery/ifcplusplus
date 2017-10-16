@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcProjectOrderTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcProjectOrderTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTORDERTYPEENUM("; }
-	if( m_enum == ENUM_CHANGEORDER )
+	switch( m_enum )
 	{
-		stream << ".CHANGEORDER.";
-	}
-	else if( m_enum == ENUM_MAINTENANCEWORKORDER )
-	{
-		stream << ".MAINTENANCEWORKORDER.";
-	}
-	else if( m_enum == ENUM_MOVEORDER )
-	{
-		stream << ".MOVEORDER.";
-	}
-	else if( m_enum == ENUM_PURCHASEORDER )
-	{
-		stream << ".PURCHASEORDER.";
-	}
-	else if( m_enum == ENUM_WORKORDER )
-	{
-		stream << ".WORKORDER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CHANGEORDER:	stream << ".CHANGEORDER."; break;
+		case ENUM_MAINTENANCEWORKORDER:	stream << ".MAINTENANCEWORKORDER."; break;
+		case ENUM_MOVEORDER:	stream << ".MOVEORDER."; break;
+		case ENUM_PURCHASEORDER:	stream << ".PURCHASEORDER."; break;
+		case ENUM_WORKORDER:	stream << ".WORKORDER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcProjectOrderTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CHANGEORDER:	return L"CHANGEORDER";
+		case ENUM_MAINTENANCEWORKORDER:	return L"MAINTENANCEWORKORDER";
+		case ENUM_MOVEORDER:	return L"MOVEORDER";
+		case ENUM_PURCHASEORDER:	return L"PURCHASEORDER";
+		case ENUM_WORKORDER:	return L"WORKORDER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcProjectOrderTypeEnum> IfcProjectOrderTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

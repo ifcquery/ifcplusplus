@@ -86,8 +86,7 @@ namespace CSG_Adapter
 			}
 			else
 			{
-				int error_status = boolean_brep_algo.ErrorStatus();
-				std::cout << "BRepAlgoAPI_BooleanOperation error: " << error_status << std::endl;
+				std::cout << "BRepAlgoAPI_BooleanOperation error " << std::endl;
 			}
 		}
 		catch( Standard_Failure sf )

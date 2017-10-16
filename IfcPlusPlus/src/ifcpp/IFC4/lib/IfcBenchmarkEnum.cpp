@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcBenchmarkEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcBenchmarkEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBENCHMARKENUM("; }
-	if( m_enum == ENUM_GREATERTHAN )
+	switch( m_enum )
 	{
-		stream << ".GREATERTHAN.";
-	}
-	else if( m_enum == ENUM_GREATERTHANOREQUALTO )
-	{
-		stream << ".GREATERTHANOREQUALTO.";
-	}
-	else if( m_enum == ENUM_LESSTHAN )
-	{
-		stream << ".LESSTHAN.";
-	}
-	else if( m_enum == ENUM_LESSTHANOREQUALTO )
-	{
-		stream << ".LESSTHANOREQUALTO.";
-	}
-	else if( m_enum == ENUM_EQUALTO )
-	{
-		stream << ".EQUALTO.";
-	}
-	else if( m_enum == ENUM_NOTEQUALTO )
-	{
-		stream << ".NOTEQUALTO.";
-	}
-	else if( m_enum == ENUM_INCLUDES )
-	{
-		stream << ".INCLUDES.";
-	}
-	else if( m_enum == ENUM_NOTINCLUDES )
-	{
-		stream << ".NOTINCLUDES.";
-	}
-	else if( m_enum == ENUM_INCLUDEDIN )
-	{
-		stream << ".INCLUDEDIN.";
-	}
-	else if( m_enum == ENUM_NOTINCLUDEDIN )
-	{
-		stream << ".NOTINCLUDEDIN.";
+		case ENUM_GREATERTHAN:	stream << ".GREATERTHAN."; break;
+		case ENUM_GREATERTHANOREQUALTO:	stream << ".GREATERTHANOREQUALTO."; break;
+		case ENUM_LESSTHAN:	stream << ".LESSTHAN."; break;
+		case ENUM_LESSTHANOREQUALTO:	stream << ".LESSTHANOREQUALTO."; break;
+		case ENUM_EQUALTO:	stream << ".EQUALTO."; break;
+		case ENUM_NOTEQUALTO:	stream << ".NOTEQUALTO."; break;
+		case ENUM_INCLUDES:	stream << ".INCLUDES."; break;
+		case ENUM_NOTINCLUDES:	stream << ".NOTINCLUDES."; break;
+		case ENUM_INCLUDEDIN:	stream << ".INCLUDEDIN."; break;
+		case ENUM_NOTINCLUDEDIN:	stream << ".NOTINCLUDEDIN."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBenchmarkEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_GREATERTHAN:	return L"GREATERTHAN";
+		case ENUM_GREATERTHANOREQUALTO:	return L"GREATERTHANOREQUALTO";
+		case ENUM_LESSTHAN:	return L"LESSTHAN";
+		case ENUM_LESSTHANOREQUALTO:	return L"LESSTHANOREQUALTO";
+		case ENUM_EQUALTO:	return L"EQUALTO";
+		case ENUM_NOTEQUALTO:	return L"NOTEQUALTO";
+		case ENUM_INCLUDES:	return L"INCLUDES";
+		case ENUM_NOTINCLUDES:	return L"NOTINCLUDES";
+		case ENUM_INCLUDEDIN:	return L"INCLUDEDIN";
+		case ENUM_NOTINCLUDEDIN:	return L"NOTINCLUDEDIN";
+	}
+	return L"";
 }
 shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

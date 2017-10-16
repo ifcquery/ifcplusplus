@@ -87,6 +87,7 @@ void IfcCondenser::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCondenser::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCondenser::toString() const { return L"IfcCondenser"; }
 void IfcCondenser::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

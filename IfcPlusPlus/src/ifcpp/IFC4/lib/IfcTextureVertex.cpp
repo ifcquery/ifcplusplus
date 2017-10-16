@@ -34,6 +34,7 @@ void IfcTextureVertex::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTextureVertex::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTextureVertex::toString() const { return L"IfcTextureVertex"; }
 void IfcTextureVertex::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

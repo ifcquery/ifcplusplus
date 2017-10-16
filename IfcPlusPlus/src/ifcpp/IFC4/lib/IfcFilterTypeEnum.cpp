@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcFilterTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcFilterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFILTERTYPEENUM("; }
-	if( m_enum == ENUM_AIRPARTICLEFILTER )
+	switch( m_enum )
 	{
-		stream << ".AIRPARTICLEFILTER.";
-	}
-	else if( m_enum == ENUM_COMPRESSEDAIRFILTER )
-	{
-		stream << ".COMPRESSEDAIRFILTER.";
-	}
-	else if( m_enum == ENUM_ODORFILTER )
-	{
-		stream << ".ODORFILTER.";
-	}
-	else if( m_enum == ENUM_OILFILTER )
-	{
-		stream << ".OILFILTER.";
-	}
-	else if( m_enum == ENUM_STRAINER )
-	{
-		stream << ".STRAINER.";
-	}
-	else if( m_enum == ENUM_WATERFILTER )
-	{
-		stream << ".WATERFILTER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRPARTICLEFILTER:	stream << ".AIRPARTICLEFILTER."; break;
+		case ENUM_COMPRESSEDAIRFILTER:	stream << ".COMPRESSEDAIRFILTER."; break;
+		case ENUM_ODORFILTER:	stream << ".ODORFILTER."; break;
+		case ENUM_OILFILTER:	stream << ".OILFILTER."; break;
+		case ENUM_STRAINER:	stream << ".STRAINER."; break;
+		case ENUM_WATERFILTER:	stream << ".WATERFILTER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFilterTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRPARTICLEFILTER:	return L"AIRPARTICLEFILTER";
+		case ENUM_COMPRESSEDAIRFILTER:	return L"COMPRESSEDAIRFILTER";
+		case ENUM_ODORFILTER:	return L"ODORFILTER";
+		case ENUM_OILFILTER:	return L"OILFILTER";
+		case ENUM_STRAINER:	return L"STRAINER";
+		case ENUM_WATERFILTER:	return L"WATERFILTER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

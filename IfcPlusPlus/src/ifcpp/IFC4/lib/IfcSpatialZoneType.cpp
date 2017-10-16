@@ -93,6 +93,7 @@ void IfcSpatialZoneType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSpatialZoneType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSpatialZoneType::toString() const { return L"IfcSpatialZoneType"; }
 void IfcSpatialZoneType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

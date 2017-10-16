@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcLayerSetDirectionEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcLayerSetDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLAYERSETDIRECTIONENUM("; }
-	if( m_enum == ENUM_AXIS1 )
+	switch( m_enum )
 	{
-		stream << ".AXIS1.";
-	}
-	else if( m_enum == ENUM_AXIS2 )
-	{
-		stream << ".AXIS2.";
-	}
-	else if( m_enum == ENUM_AXIS3 )
-	{
-		stream << ".AXIS3.";
+		case ENUM_AXIS1:	stream << ".AXIS1."; break;
+		case ENUM_AXIS2:	stream << ".AXIS2."; break;
+		case ENUM_AXIS3:	stream << ".AXIS3."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLayerSetDirectionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AXIS1:	return L"AXIS1";
+		case ENUM_AXIS2:	return L"AXIS2";
+		case ENUM_AXIS3:	return L"AXIS3";
+	}
+	return L"";
 }
 shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

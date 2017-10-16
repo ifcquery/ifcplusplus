@@ -45,6 +45,7 @@ void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcAdvancedFace::toString() const { return L"IfcAdvancedFace"; }
 void IfcAdvancedFace::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

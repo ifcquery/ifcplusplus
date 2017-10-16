@@ -24,6 +24,7 @@ void IfcExternalInformation::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcExternalInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcExternalInformation::toString() const { return L"IfcExternalInformation"; }
 void IfcExternalInformation::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

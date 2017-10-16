@@ -21,55 +21,41 @@ shared_ptr<IfcPPObject> IfcSanitaryTerminalTypeEnum::getDeepCopy( IfcPPCopyOptio
 void IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSANITARYTERMINALTYPEENUM("; }
-	if( m_enum == ENUM_BATH )
+	switch( m_enum )
 	{
-		stream << ".BATH.";
-	}
-	else if( m_enum == ENUM_BIDET )
-	{
-		stream << ".BIDET.";
-	}
-	else if( m_enum == ENUM_CISTERN )
-	{
-		stream << ".CISTERN.";
-	}
-	else if( m_enum == ENUM_SHOWER )
-	{
-		stream << ".SHOWER.";
-	}
-	else if( m_enum == ENUM_SINK )
-	{
-		stream << ".SINK.";
-	}
-	else if( m_enum == ENUM_SANITARYFOUNTAIN )
-	{
-		stream << ".SANITARYFOUNTAIN.";
-	}
-	else if( m_enum == ENUM_TOILETPAN )
-	{
-		stream << ".TOILETPAN.";
-	}
-	else if( m_enum == ENUM_URINAL )
-	{
-		stream << ".URINAL.";
-	}
-	else if( m_enum == ENUM_WASHHANDBASIN )
-	{
-		stream << ".WASHHANDBASIN.";
-	}
-	else if( m_enum == ENUM_WCSEAT )
-	{
-		stream << ".WCSEAT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BATH:	stream << ".BATH."; break;
+		case ENUM_BIDET:	stream << ".BIDET."; break;
+		case ENUM_CISTERN:	stream << ".CISTERN."; break;
+		case ENUM_SHOWER:	stream << ".SHOWER."; break;
+		case ENUM_SINK:	stream << ".SINK."; break;
+		case ENUM_SANITARYFOUNTAIN:	stream << ".SANITARYFOUNTAIN."; break;
+		case ENUM_TOILETPAN:	stream << ".TOILETPAN."; break;
+		case ENUM_URINAL:	stream << ".URINAL."; break;
+		case ENUM_WASHHANDBASIN:	stream << ".WASHHANDBASIN."; break;
+		case ENUM_WCSEAT:	stream << ".WCSEAT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSanitaryTerminalTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BATH:	return L"BATH";
+		case ENUM_BIDET:	return L"BIDET";
+		case ENUM_CISTERN:	return L"CISTERN";
+		case ENUM_SHOWER:	return L"SHOWER";
+		case ENUM_SINK:	return L"SINK";
+		case ENUM_SANITARYFOUNTAIN:	return L"SANITARYFOUNTAIN";
+		case ENUM_TOILETPAN:	return L"TOILETPAN";
+		case ENUM_URINAL:	return L"URINAL";
+		case ENUM_WASHHANDBASIN:	return L"WASHHANDBASIN";
+		case ENUM_WCSEAT:	return L"WCSEAT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -26,6 +26,12 @@ void IfcSoundPressureMeasure::getStepParameter( std::stringstream& stream, bool 
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcSoundPressureMeasure::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcSoundPressureMeasure> IfcSoundPressureMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcSubContractResourceTypeEnum::getDeepCopy( IfcPPCopyOp
 void IfcSubContractResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSUBCONTRACTRESOURCETYPEENUM("; }
-	if( m_enum == ENUM_PURCHASE )
+	switch( m_enum )
 	{
-		stream << ".PURCHASE.";
-	}
-	else if( m_enum == ENUM_WORK )
-	{
-		stream << ".WORK.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PURCHASE:	stream << ".PURCHASE."; break;
+		case ENUM_WORK:	stream << ".WORK."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSubContractResourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PURCHASE:	return L"PURCHASE";
+		case ENUM_WORK:	return L"WORK";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

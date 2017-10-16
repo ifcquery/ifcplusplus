@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcSystemFurnitureElementTypeEnum::getDeepCopy( IfcPPCop
 void IfcSystemFurnitureElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSYSTEMFURNITUREELEMENTTYPEENUM("; }
-	if( m_enum == ENUM_PANEL )
+	switch( m_enum )
 	{
-		stream << ".PANEL.";
-	}
-	else if( m_enum == ENUM_WORKSURFACE )
-	{
-		stream << ".WORKSURFACE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PANEL:	stream << ".PANEL."; break;
+		case ENUM_WORKSURFACE:	stream << ".WORKSURFACE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSystemFurnitureElementTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PANEL:	return L"PANEL";
+		case ENUM_WORKSURFACE:	return L"WORKSURFACE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

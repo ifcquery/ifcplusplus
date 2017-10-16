@@ -67,6 +67,7 @@ void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelInterferesElements::toString() const { return L"IfcRelInterferesElements"; }
 void IfcRelInterferesElements::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

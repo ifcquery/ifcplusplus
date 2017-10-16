@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcStackTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcStackTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTACKTERMINALTYPEENUM("; }
-	if( m_enum == ENUM_BIRDCAGE )
+	switch( m_enum )
 	{
-		stream << ".BIRDCAGE.";
-	}
-	else if( m_enum == ENUM_COWL )
-	{
-		stream << ".COWL.";
-	}
-	else if( m_enum == ENUM_RAINWATERHOPPER )
-	{
-		stream << ".RAINWATERHOPPER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BIRDCAGE:	stream << ".BIRDCAGE."; break;
+		case ENUM_COWL:	stream << ".COWL."; break;
+		case ENUM_RAINWATERHOPPER:	stream << ".RAINWATERHOPPER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStackTerminalTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BIRDCAGE:	return L"BIRDCAGE";
+		case ENUM_COWL:	return L"COWL";
+		case ENUM_RAINWATERHOPPER:	return L"RAINWATERHOPPER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

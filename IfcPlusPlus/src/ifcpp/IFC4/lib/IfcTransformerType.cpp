@@ -90,6 +90,7 @@ void IfcTransformerType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTransformerType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTransformerType::toString() const { return L"IfcTransformerType"; }
 void IfcTransformerType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -97,6 +97,7 @@ void IfcLaborResourceType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcLaborResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcLaborResourceType::toString() const { return L"IfcLaborResourceType"; }
 void IfcLaborResourceType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcActionTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcActionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONTYPEENUM("; }
-	if( m_enum == ENUM_PERMANENT_G )
+	switch( m_enum )
 	{
-		stream << ".PERMANENT_G.";
-	}
-	else if( m_enum == ENUM_VARIABLE_Q )
-	{
-		stream << ".VARIABLE_Q.";
-	}
-	else if( m_enum == ENUM_EXTRAORDINARY_A )
-	{
-		stream << ".EXTRAORDINARY_A.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PERMANENT_G:	stream << ".PERMANENT_G."; break;
+		case ENUM_VARIABLE_Q:	stream << ".VARIABLE_Q."; break;
+		case ENUM_EXTRAORDINARY_A:	stream << ".EXTRAORDINARY_A."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcActionTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PERMANENT_G:	return L"PERMANENT_G";
+		case ENUM_VARIABLE_Q:	return L"VARIABLE_Q";
+		case ENUM_EXTRAORDINARY_A:	return L"EXTRAORDINARY_A";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

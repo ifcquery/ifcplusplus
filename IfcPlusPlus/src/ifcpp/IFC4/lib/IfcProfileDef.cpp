@@ -33,6 +33,7 @@ void IfcProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcProfileDef::toString() const { return L"IfcProfileDef"; }
 void IfcProfileDef::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

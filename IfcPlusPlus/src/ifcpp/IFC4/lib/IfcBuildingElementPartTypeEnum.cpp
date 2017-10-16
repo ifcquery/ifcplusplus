@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcBuildingElementPartTypeEnum::getDeepCopy( IfcPPCopyOp
 void IfcBuildingElementPartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGELEMENTPARTTYPEENUM("; }
-	if( m_enum == ENUM_INSULATION )
+	switch( m_enum )
 	{
-		stream << ".INSULATION.";
-	}
-	else if( m_enum == ENUM_PRECASTPANEL )
-	{
-		stream << ".PRECASTPANEL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_INSULATION:	stream << ".INSULATION."; break;
+		case ENUM_PRECASTPANEL:	stream << ".PRECASTPANEL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBuildingElementPartTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_INSULATION:	return L"INSULATION";
+		case ENUM_PRECASTPANEL:	return L"PRECASTPANEL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

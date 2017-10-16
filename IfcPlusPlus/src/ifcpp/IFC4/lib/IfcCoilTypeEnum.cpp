@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcCoilTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcCoilTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOILTYPEENUM("; }
-	if( m_enum == ENUM_DXCOOLINGCOIL )
+	switch( m_enum )
 	{
-		stream << ".DXCOOLINGCOIL.";
-	}
-	else if( m_enum == ENUM_ELECTRICHEATINGCOIL )
-	{
-		stream << ".ELECTRICHEATINGCOIL.";
-	}
-	else if( m_enum == ENUM_GASHEATINGCOIL )
-	{
-		stream << ".GASHEATINGCOIL.";
-	}
-	else if( m_enum == ENUM_HYDRONICCOIL )
-	{
-		stream << ".HYDRONICCOIL.";
-	}
-	else if( m_enum == ENUM_STEAMHEATINGCOIL )
-	{
-		stream << ".STEAMHEATINGCOIL.";
-	}
-	else if( m_enum == ENUM_WATERCOOLINGCOIL )
-	{
-		stream << ".WATERCOOLINGCOIL.";
-	}
-	else if( m_enum == ENUM_WATERHEATINGCOIL )
-	{
-		stream << ".WATERHEATINGCOIL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DXCOOLINGCOIL:	stream << ".DXCOOLINGCOIL."; break;
+		case ENUM_ELECTRICHEATINGCOIL:	stream << ".ELECTRICHEATINGCOIL."; break;
+		case ENUM_GASHEATINGCOIL:	stream << ".GASHEATINGCOIL."; break;
+		case ENUM_HYDRONICCOIL:	stream << ".HYDRONICCOIL."; break;
+		case ENUM_STEAMHEATINGCOIL:	stream << ".STEAMHEATINGCOIL."; break;
+		case ENUM_WATERCOOLINGCOIL:	stream << ".WATERCOOLINGCOIL."; break;
+		case ENUM_WATERHEATINGCOIL:	stream << ".WATERHEATINGCOIL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCoilTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DXCOOLINGCOIL:	return L"DXCOOLINGCOIL";
+		case ENUM_ELECTRICHEATINGCOIL:	return L"ELECTRICHEATINGCOIL";
+		case ENUM_GASHEATINGCOIL:	return L"GASHEATINGCOIL";
+		case ENUM_HYDRONICCOIL:	return L"HYDRONICCOIL";
+		case ENUM_STEAMHEATINGCOIL:	return L"STEAMHEATINGCOIL";
+		case ENUM_WATERCOOLINGCOIL:	return L"WATERCOOLINGCOIL";
+		case ENUM_WATERHEATINGCOIL:	return L"WATERHEATINGCOIL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCoilTypeEnum> IfcCoilTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

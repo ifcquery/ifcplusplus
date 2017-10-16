@@ -110,6 +110,7 @@ void IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcDocumentInformation::toString() const { return L"IfcDocumentInformation"; }
 void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

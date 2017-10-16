@@ -85,6 +85,7 @@ void IfcFurniture::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcFurniture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcFurniture::toString() const { return L"IfcFurniture"; }
 void IfcFurniture::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

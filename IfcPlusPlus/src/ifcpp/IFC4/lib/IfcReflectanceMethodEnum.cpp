@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcReflectanceMethodEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcReflectanceMethodEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREFLECTANCEMETHODENUM("; }
-	if( m_enum == ENUM_BLINN )
+	switch( m_enum )
 	{
-		stream << ".BLINN.";
-	}
-	else if( m_enum == ENUM_FLAT )
-	{
-		stream << ".FLAT.";
-	}
-	else if( m_enum == ENUM_GLASS )
-	{
-		stream << ".GLASS.";
-	}
-	else if( m_enum == ENUM_MATT )
-	{
-		stream << ".MATT.";
-	}
-	else if( m_enum == ENUM_METAL )
-	{
-		stream << ".METAL.";
-	}
-	else if( m_enum == ENUM_MIRROR )
-	{
-		stream << ".MIRROR.";
-	}
-	else if( m_enum == ENUM_PHONG )
-	{
-		stream << ".PHONG.";
-	}
-	else if( m_enum == ENUM_PLASTIC )
-	{
-		stream << ".PLASTIC.";
-	}
-	else if( m_enum == ENUM_STRAUSS )
-	{
-		stream << ".STRAUSS.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BLINN:	stream << ".BLINN."; break;
+		case ENUM_FLAT:	stream << ".FLAT."; break;
+		case ENUM_GLASS:	stream << ".GLASS."; break;
+		case ENUM_MATT:	stream << ".MATT."; break;
+		case ENUM_METAL:	stream << ".METAL."; break;
+		case ENUM_MIRROR:	stream << ".MIRROR."; break;
+		case ENUM_PHONG:	stream << ".PHONG."; break;
+		case ENUM_PLASTIC:	stream << ".PLASTIC."; break;
+		case ENUM_STRAUSS:	stream << ".STRAUSS."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcReflectanceMethodEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BLINN:	return L"BLINN";
+		case ENUM_FLAT:	return L"FLAT";
+		case ENUM_GLASS:	return L"GLASS";
+		case ENUM_MATT:	return L"MATT";
+		case ENUM_METAL:	return L"METAL";
+		case ENUM_MIRROR:	return L"MIRROR";
+		case ENUM_PHONG:	return L"PHONG";
+		case ENUM_PLASTIC:	return L"PLASTIC";
+		case ENUM_STRAUSS:	return L"STRAUSS";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcDocumentStatusEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcDocumentStatusEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOCUMENTSTATUSENUM("; }
-	if( m_enum == ENUM_DRAFT )
+	switch( m_enum )
 	{
-		stream << ".DRAFT.";
-	}
-	else if( m_enum == ENUM_FINALDRAFT )
-	{
-		stream << ".FINALDRAFT.";
-	}
-	else if( m_enum == ENUM_FINAL )
-	{
-		stream << ".FINAL.";
-	}
-	else if( m_enum == ENUM_REVISION )
-	{
-		stream << ".REVISION.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DRAFT:	stream << ".DRAFT."; break;
+		case ENUM_FINALDRAFT:	stream << ".FINALDRAFT."; break;
+		case ENUM_FINAL:	stream << ".FINAL."; break;
+		case ENUM_REVISION:	stream << ".REVISION."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDocumentStatusEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DRAFT:	return L"DRAFT";
+		case ENUM_FINALDRAFT:	return L"FINALDRAFT";
+		case ENUM_FINAL:	return L"FINAL";
+		case ENUM_REVISION:	return L"REVISION";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDocumentStatusEnum> IfcDocumentStatusEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

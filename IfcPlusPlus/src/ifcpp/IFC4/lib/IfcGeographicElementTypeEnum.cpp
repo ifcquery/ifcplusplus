@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcGeographicElementTypeEnum::getDeepCopy( IfcPPCopyOpti
 void IfcGeographicElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGEOGRAPHICELEMENTTYPEENUM("; }
-	if( m_enum == ENUM_TERRAIN )
+	switch( m_enum )
 	{
-		stream << ".TERRAIN.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_TERRAIN:	stream << ".TERRAIN."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcGeographicElementTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_TERRAIN:	return L"TERRAIN";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcGeographicElementTypeEnum> IfcGeographicElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

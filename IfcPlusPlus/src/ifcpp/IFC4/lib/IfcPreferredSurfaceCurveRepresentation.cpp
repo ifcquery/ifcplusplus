@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcPreferredSurfaceCurveRepresentation::getDeepCopy( Ifc
 void IfcPreferredSurfaceCurveRepresentation::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPREFERREDSURFACECURVEREPRESENTATION("; }
-	if( m_enum == ENUM_CURVE3D )
+	switch( m_enum )
 	{
-		stream << ".CURVE3D.";
-	}
-	else if( m_enum == ENUM_PCURVE_S1 )
-	{
-		stream << ".PCURVE_S1.";
-	}
-	else if( m_enum == ENUM_PCURVE_S2 )
-	{
-		stream << ".PCURVE_S2.";
+		case ENUM_CURVE3D:	stream << ".CURVE3D."; break;
+		case ENUM_PCURVE_S1:	stream << ".PCURVE_S1."; break;
+		case ENUM_PCURVE_S2:	stream << ".PCURVE_S2."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPreferredSurfaceCurveRepresentation::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CURVE3D:	return L"CURVE3D";
+		case ENUM_PCURVE_S1:	return L"PCURVE_S1";
+		case ENUM_PCURVE_S2:	return L"PCURVE_S2";
+	}
+	return L"";
 }
 shared_ptr<IfcPreferredSurfaceCurveRepresentation> IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -36,6 +36,7 @@ void IfcFaceBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcFaceBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcFaceBasedSurfaceModel::toString() const { return L"IfcFaceBasedSurfaceModel"; }
 void IfcFaceBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

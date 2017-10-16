@@ -90,6 +90,7 @@ void IfcAirTerminalBoxType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcAirTerminalBoxType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcAirTerminalBoxType::toString() const { return L"IfcAirTerminalBoxType"; }
 void IfcAirTerminalBoxType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

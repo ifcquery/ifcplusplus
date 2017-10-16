@@ -27,6 +27,7 @@ public:
 	virtual const char* className() const { return "IfcJunctionBoxTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+	virtual const std::wstring toString() const;
 	static shared_ptr<IfcJunctionBoxTypeEnum> createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map );
 	IfcJunctionBoxTypeEnumEnum m_enum;
 };

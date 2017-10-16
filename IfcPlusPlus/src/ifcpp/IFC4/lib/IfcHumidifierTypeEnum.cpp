@@ -21,67 +21,47 @@ shared_ptr<IfcPPObject> IfcHumidifierTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcHumidifierTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHUMIDIFIERTYPEENUM("; }
-	if( m_enum == ENUM_STEAMINJECTION )
+	switch( m_enum )
 	{
-		stream << ".STEAMINJECTION.";
-	}
-	else if( m_enum == ENUM_ADIABATICAIRWASHER )
-	{
-		stream << ".ADIABATICAIRWASHER.";
-	}
-	else if( m_enum == ENUM_ADIABATICPAN )
-	{
-		stream << ".ADIABATICPAN.";
-	}
-	else if( m_enum == ENUM_ADIABATICWETTEDELEMENT )
-	{
-		stream << ".ADIABATICWETTEDELEMENT.";
-	}
-	else if( m_enum == ENUM_ADIABATICATOMIZING )
-	{
-		stream << ".ADIABATICATOMIZING.";
-	}
-	else if( m_enum == ENUM_ADIABATICULTRASONIC )
-	{
-		stream << ".ADIABATICULTRASONIC.";
-	}
-	else if( m_enum == ENUM_ADIABATICRIGIDMEDIA )
-	{
-		stream << ".ADIABATICRIGIDMEDIA.";
-	}
-	else if( m_enum == ENUM_ADIABATICCOMPRESSEDAIRNOZZLE )
-	{
-		stream << ".ADIABATICCOMPRESSEDAIRNOZZLE.";
-	}
-	else if( m_enum == ENUM_ASSISTEDELECTRIC )
-	{
-		stream << ".ASSISTEDELECTRIC.";
-	}
-	else if( m_enum == ENUM_ASSISTEDNATURALGAS )
-	{
-		stream << ".ASSISTEDNATURALGAS.";
-	}
-	else if( m_enum == ENUM_ASSISTEDPROPANE )
-	{
-		stream << ".ASSISTEDPROPANE.";
-	}
-	else if( m_enum == ENUM_ASSISTEDBUTANE )
-	{
-		stream << ".ASSISTEDBUTANE.";
-	}
-	else if( m_enum == ENUM_ASSISTEDSTEAM )
-	{
-		stream << ".ASSISTEDSTEAM.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_STEAMINJECTION:	stream << ".STEAMINJECTION."; break;
+		case ENUM_ADIABATICAIRWASHER:	stream << ".ADIABATICAIRWASHER."; break;
+		case ENUM_ADIABATICPAN:	stream << ".ADIABATICPAN."; break;
+		case ENUM_ADIABATICWETTEDELEMENT:	stream << ".ADIABATICWETTEDELEMENT."; break;
+		case ENUM_ADIABATICATOMIZING:	stream << ".ADIABATICATOMIZING."; break;
+		case ENUM_ADIABATICULTRASONIC:	stream << ".ADIABATICULTRASONIC."; break;
+		case ENUM_ADIABATICRIGIDMEDIA:	stream << ".ADIABATICRIGIDMEDIA."; break;
+		case ENUM_ADIABATICCOMPRESSEDAIRNOZZLE:	stream << ".ADIABATICCOMPRESSEDAIRNOZZLE."; break;
+		case ENUM_ASSISTEDELECTRIC:	stream << ".ASSISTEDELECTRIC."; break;
+		case ENUM_ASSISTEDNATURALGAS:	stream << ".ASSISTEDNATURALGAS."; break;
+		case ENUM_ASSISTEDPROPANE:	stream << ".ASSISTEDPROPANE."; break;
+		case ENUM_ASSISTEDBUTANE:	stream << ".ASSISTEDBUTANE."; break;
+		case ENUM_ASSISTEDSTEAM:	stream << ".ASSISTEDSTEAM."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcHumidifierTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_STEAMINJECTION:	return L"STEAMINJECTION";
+		case ENUM_ADIABATICAIRWASHER:	return L"ADIABATICAIRWASHER";
+		case ENUM_ADIABATICPAN:	return L"ADIABATICPAN";
+		case ENUM_ADIABATICWETTEDELEMENT:	return L"ADIABATICWETTEDELEMENT";
+		case ENUM_ADIABATICATOMIZING:	return L"ADIABATICATOMIZING";
+		case ENUM_ADIABATICULTRASONIC:	return L"ADIABATICULTRASONIC";
+		case ENUM_ADIABATICRIGIDMEDIA:	return L"ADIABATICRIGIDMEDIA";
+		case ENUM_ADIABATICCOMPRESSEDAIRNOZZLE:	return L"ADIABATICCOMPRESSEDAIRNOZZLE";
+		case ENUM_ASSISTEDELECTRIC:	return L"ASSISTEDELECTRIC";
+		case ENUM_ASSISTEDNATURALGAS:	return L"ASSISTEDNATURALGAS";
+		case ENUM_ASSISTEDPROPANE:	return L"ASSISTEDPROPANE";
+		case ENUM_ASSISTEDBUTANE:	return L"ASSISTEDBUTANE";
+		case ENUM_ASSISTEDSTEAM:	return L"ASSISTEDSTEAM";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

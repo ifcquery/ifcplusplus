@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcPermeableCoveringOperationEnum::getDeepCopy( IfcPPCop
 void IfcPermeableCoveringOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERMEABLECOVERINGOPERATIONENUM("; }
-	if( m_enum == ENUM_GRILL )
+	switch( m_enum )
 	{
-		stream << ".GRILL.";
-	}
-	else if( m_enum == ENUM_LOUVER )
-	{
-		stream << ".LOUVER.";
-	}
-	else if( m_enum == ENUM_SCREEN )
-	{
-		stream << ".SCREEN.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_GRILL:	stream << ".GRILL."; break;
+		case ENUM_LOUVER:	stream << ".LOUVER."; break;
+		case ENUM_SCREEN:	stream << ".SCREEN."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPermeableCoveringOperationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_GRILL:	return L"GRILL";
+		case ENUM_LOUVER:	return L"LOUVER";
+		case ENUM_SCREEN:	return L"SCREEN";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

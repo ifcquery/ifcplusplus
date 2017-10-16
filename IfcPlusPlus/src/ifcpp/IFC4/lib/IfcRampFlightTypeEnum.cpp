@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcRampFlightTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcRampFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAMPFLIGHTTYPEENUM("; }
-	if( m_enum == ENUM_STRAIGHT )
+	switch( m_enum )
 	{
-		stream << ".STRAIGHT.";
-	}
-	else if( m_enum == ENUM_SPIRAL )
-	{
-		stream << ".SPIRAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_STRAIGHT:	stream << ".STRAIGHT."; break;
+		case ENUM_SPIRAL:	stream << ".SPIRAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcRampFlightTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_STRAIGHT:	return L"STRAIGHT";
+		case ENUM_SPIRAL:	return L"SPIRAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

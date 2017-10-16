@@ -25,6 +25,7 @@ void IfcPreDefinedProperties::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPreDefinedProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPreDefinedProperties::toString() const { return L"IfcPreDefinedProperties"; }
 void IfcPreDefinedProperties::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcReinforcingBarRoleEnum::getDeepCopy( IfcPPCopyOptions
 void IfcReinforcingBarRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARROLEENUM("; }
-	if( m_enum == ENUM_MAIN )
+	switch( m_enum )
 	{
-		stream << ".MAIN.";
-	}
-	else if( m_enum == ENUM_SHEAR )
-	{
-		stream << ".SHEAR.";
-	}
-	else if( m_enum == ENUM_LIGATURE )
-	{
-		stream << ".LIGATURE.";
-	}
-	else if( m_enum == ENUM_STUD )
-	{
-		stream << ".STUD.";
-	}
-	else if( m_enum == ENUM_PUNCHING )
-	{
-		stream << ".PUNCHING.";
-	}
-	else if( m_enum == ENUM_EDGE )
-	{
-		stream << ".EDGE.";
-	}
-	else if( m_enum == ENUM_RING )
-	{
-		stream << ".RING.";
-	}
-	else if( m_enum == ENUM_ANCHORING )
-	{
-		stream << ".ANCHORING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_MAIN:	stream << ".MAIN."; break;
+		case ENUM_SHEAR:	stream << ".SHEAR."; break;
+		case ENUM_LIGATURE:	stream << ".LIGATURE."; break;
+		case ENUM_STUD:	stream << ".STUD."; break;
+		case ENUM_PUNCHING:	stream << ".PUNCHING."; break;
+		case ENUM_EDGE:	stream << ".EDGE."; break;
+		case ENUM_RING:	stream << ".RING."; break;
+		case ENUM_ANCHORING:	stream << ".ANCHORING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcReinforcingBarRoleEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_MAIN:	return L"MAIN";
+		case ENUM_SHEAR:	return L"SHEAR";
+		case ENUM_LIGATURE:	return L"LIGATURE";
+		case ENUM_STUD:	return L"STUD";
+		case ENUM_PUNCHING:	return L"PUNCHING";
+		case ENUM_EDGE:	return L"EDGE";
+		case ENUM_RING:	return L"RING";
+		case ENUM_ANCHORING:	return L"ANCHORING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcReinforcingBarRoleEnum> IfcReinforcingBarRoleEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

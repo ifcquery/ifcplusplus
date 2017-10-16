@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcProtectiveDeviceTypeEnum::getDeepCopy( IfcPPCopyOptio
 void IfcProtectiveDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROTECTIVEDEVICETYPEENUM("; }
-	if( m_enum == ENUM_CIRCUITBREAKER )
+	switch( m_enum )
 	{
-		stream << ".CIRCUITBREAKER.";
-	}
-	else if( m_enum == ENUM_EARTHLEAKAGECIRCUITBREAKER )
-	{
-		stream << ".EARTHLEAKAGECIRCUITBREAKER.";
-	}
-	else if( m_enum == ENUM_EARTHINGSWITCH )
-	{
-		stream << ".EARTHINGSWITCH.";
-	}
-	else if( m_enum == ENUM_FUSEDISCONNECTOR )
-	{
-		stream << ".FUSEDISCONNECTOR.";
-	}
-	else if( m_enum == ENUM_RESIDUALCURRENTCIRCUITBREAKER )
-	{
-		stream << ".RESIDUALCURRENTCIRCUITBREAKER.";
-	}
-	else if( m_enum == ENUM_RESIDUALCURRENTSWITCH )
-	{
-		stream << ".RESIDUALCURRENTSWITCH.";
-	}
-	else if( m_enum == ENUM_VARISTOR )
-	{
-		stream << ".VARISTOR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CIRCUITBREAKER:	stream << ".CIRCUITBREAKER."; break;
+		case ENUM_EARTHLEAKAGECIRCUITBREAKER:	stream << ".EARTHLEAKAGECIRCUITBREAKER."; break;
+		case ENUM_EARTHINGSWITCH:	stream << ".EARTHINGSWITCH."; break;
+		case ENUM_FUSEDISCONNECTOR:	stream << ".FUSEDISCONNECTOR."; break;
+		case ENUM_RESIDUALCURRENTCIRCUITBREAKER:	stream << ".RESIDUALCURRENTCIRCUITBREAKER."; break;
+		case ENUM_RESIDUALCURRENTSWITCH:	stream << ".RESIDUALCURRENTSWITCH."; break;
+		case ENUM_VARISTOR:	stream << ".VARISTOR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcProtectiveDeviceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CIRCUITBREAKER:	return L"CIRCUITBREAKER";
+		case ENUM_EARTHLEAKAGECIRCUITBREAKER:	return L"EARTHLEAKAGECIRCUITBREAKER";
+		case ENUM_EARTHINGSWITCH:	return L"EARTHINGSWITCH";
+		case ENUM_FUSEDISCONNECTOR:	return L"FUSEDISCONNECTOR";
+		case ENUM_RESIDUALCURRENTCIRCUITBREAKER:	return L"RESIDUALCURRENTCIRCUITBREAKER";
+		case ENUM_RESIDUALCURRENTSWITCH:	return L"RESIDUALCURRENTSWITCH";
+		case ENUM_VARISTOR:	return L"VARISTOR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -90,6 +90,7 @@ void IfcCoveringType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCoveringType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCoveringType::toString() const { return L"IfcCoveringType"; }
 void IfcCoveringType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

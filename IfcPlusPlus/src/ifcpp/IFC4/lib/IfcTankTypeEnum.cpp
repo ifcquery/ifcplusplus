@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcTankTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTANKTYPEENUM("; }
-	if( m_enum == ENUM_BASIN )
+	switch( m_enum )
 	{
-		stream << ".BASIN.";
-	}
-	else if( m_enum == ENUM_BREAKPRESSURE )
-	{
-		stream << ".BREAKPRESSURE.";
-	}
-	else if( m_enum == ENUM_EXPANSION )
-	{
-		stream << ".EXPANSION.";
-	}
-	else if( m_enum == ENUM_FEEDANDEXPANSION )
-	{
-		stream << ".FEEDANDEXPANSION.";
-	}
-	else if( m_enum == ENUM_PRESSUREVESSEL )
-	{
-		stream << ".PRESSUREVESSEL.";
-	}
-	else if( m_enum == ENUM_STORAGE )
-	{
-		stream << ".STORAGE.";
-	}
-	else if( m_enum == ENUM_VESSEL )
-	{
-		stream << ".VESSEL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BASIN:	stream << ".BASIN."; break;
+		case ENUM_BREAKPRESSURE:	stream << ".BREAKPRESSURE."; break;
+		case ENUM_EXPANSION:	stream << ".EXPANSION."; break;
+		case ENUM_FEEDANDEXPANSION:	stream << ".FEEDANDEXPANSION."; break;
+		case ENUM_PRESSUREVESSEL:	stream << ".PRESSUREVESSEL."; break;
+		case ENUM_STORAGE:	stream << ".STORAGE."; break;
+		case ENUM_VESSEL:	stream << ".VESSEL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTankTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BASIN:	return L"BASIN";
+		case ENUM_BREAKPRESSURE:	return L"BREAKPRESSURE";
+		case ENUM_EXPANSION:	return L"EXPANSION";
+		case ENUM_FEEDANDEXPANSION:	return L"FEEDANDEXPANSION";
+		case ENUM_PRESSUREVESSEL:	return L"PRESSUREVESSEL";
+		case ENUM_STORAGE:	return L"STORAGE";
+		case ENUM_VESSEL:	return L"VESSEL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

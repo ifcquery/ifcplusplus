@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcInternalOrExternalEnum::getDeepCopy( IfcPPCopyOptions
 void IfcInternalOrExternalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTERNALOREXTERNALENUM("; }
-	if( m_enum == ENUM_INTERNAL )
+	switch( m_enum )
 	{
-		stream << ".INTERNAL.";
-	}
-	else if( m_enum == ENUM_EXTERNAL )
-	{
-		stream << ".EXTERNAL.";
-	}
-	else if( m_enum == ENUM_EXTERNAL_EARTH )
-	{
-		stream << ".EXTERNAL_EARTH.";
-	}
-	else if( m_enum == ENUM_EXTERNAL_WATER )
-	{
-		stream << ".EXTERNAL_WATER.";
-	}
-	else if( m_enum == ENUM_EXTERNAL_FIRE )
-	{
-		stream << ".EXTERNAL_FIRE.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_INTERNAL:	stream << ".INTERNAL."; break;
+		case ENUM_EXTERNAL:	stream << ".EXTERNAL."; break;
+		case ENUM_EXTERNAL_EARTH:	stream << ".EXTERNAL_EARTH."; break;
+		case ENUM_EXTERNAL_WATER:	stream << ".EXTERNAL_WATER."; break;
+		case ENUM_EXTERNAL_FIRE:	stream << ".EXTERNAL_FIRE."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcInternalOrExternalEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_INTERNAL:	return L"INTERNAL";
+		case ENUM_EXTERNAL:	return L"EXTERNAL";
+		case ENUM_EXTERNAL_EARTH:	return L"EXTERNAL_EARTH";
+		case ENUM_EXTERNAL_WATER:	return L"EXTERNAL_WATER";
+		case ENUM_EXTERNAL_FIRE:	return L"EXTERNAL_FIRE";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

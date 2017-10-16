@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcEventTriggerTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcEventTriggerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEVENTTRIGGERTYPEENUM("; }
-	if( m_enum == ENUM_EVENTRULE )
+	switch( m_enum )
 	{
-		stream << ".EVENTRULE.";
-	}
-	else if( m_enum == ENUM_EVENTMESSAGE )
-	{
-		stream << ".EVENTMESSAGE.";
-	}
-	else if( m_enum == ENUM_EVENTTIME )
-	{
-		stream << ".EVENTTIME.";
-	}
-	else if( m_enum == ENUM_EVENTCOMPLEX )
-	{
-		stream << ".EVENTCOMPLEX.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_EVENTRULE:	stream << ".EVENTRULE."; break;
+		case ENUM_EVENTMESSAGE:	stream << ".EVENTMESSAGE."; break;
+		case ENUM_EVENTTIME:	stream << ".EVENTTIME."; break;
+		case ENUM_EVENTCOMPLEX:	stream << ".EVENTCOMPLEX."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcEventTriggerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_EVENTRULE:	return L"EVENTRULE";
+		case ENUM_EVENTMESSAGE:	return L"EVENTMESSAGE";
+		case ENUM_EVENTTIME:	return L"EVENTTIME";
+		case ENUM_EVENTCOMPLEX:	return L"EVENTCOMPLEX";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcEventTriggerTypeEnum> IfcEventTriggerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

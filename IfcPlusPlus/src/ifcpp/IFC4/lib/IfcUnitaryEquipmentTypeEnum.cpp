@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcUnitaryEquipmentTypeEnum::getDeepCopy( IfcPPCopyOptio
 void IfcUnitaryEquipmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCUNITARYEQUIPMENTTYPEENUM("; }
-	if( m_enum == ENUM_AIRHANDLER )
+	switch( m_enum )
 	{
-		stream << ".AIRHANDLER.";
-	}
-	else if( m_enum == ENUM_AIRCONDITIONINGUNIT )
-	{
-		stream << ".AIRCONDITIONINGUNIT.";
-	}
-	else if( m_enum == ENUM_DEHUMIDIFIER )
-	{
-		stream << ".DEHUMIDIFIER.";
-	}
-	else if( m_enum == ENUM_SPLITSYSTEM )
-	{
-		stream << ".SPLITSYSTEM.";
-	}
-	else if( m_enum == ENUM_ROOFTOPUNIT )
-	{
-		stream << ".ROOFTOPUNIT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRHANDLER:	stream << ".AIRHANDLER."; break;
+		case ENUM_AIRCONDITIONINGUNIT:	stream << ".AIRCONDITIONINGUNIT."; break;
+		case ENUM_DEHUMIDIFIER:	stream << ".DEHUMIDIFIER."; break;
+		case ENUM_SPLITSYSTEM:	stream << ".SPLITSYSTEM."; break;
+		case ENUM_ROOFTOPUNIT:	stream << ".ROOFTOPUNIT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcUnitaryEquipmentTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRHANDLER:	return L"AIRHANDLER";
+		case ENUM_AIRCONDITIONINGUNIT:	return L"AIRCONDITIONINGUNIT";
+		case ENUM_DEHUMIDIFIER:	return L"DEHUMIDIFIER";
+		case ENUM_SPLITSYSTEM:	return L"SPLITSYSTEM";
+		case ENUM_ROOFTOPUNIT:	return L"ROOFTOPUNIT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

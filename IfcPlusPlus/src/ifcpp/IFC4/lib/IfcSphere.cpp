@@ -33,6 +33,7 @@ void IfcSphere::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSphere::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSphere::toString() const { return L"IfcSphere"; }
 void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

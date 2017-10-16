@@ -74,6 +74,7 @@ void IfcProxy::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProxy::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcProxy::toString() const { return L"IfcProxy"; }
 void IfcProxy::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

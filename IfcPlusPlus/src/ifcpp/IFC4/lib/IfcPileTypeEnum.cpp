@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcPileTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcPileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPILETYPEENUM("; }
-	if( m_enum == ENUM_BORED )
+	switch( m_enum )
 	{
-		stream << ".BORED.";
-	}
-	else if( m_enum == ENUM_DRIVEN )
-	{
-		stream << ".DRIVEN.";
-	}
-	else if( m_enum == ENUM_JETGROUTING )
-	{
-		stream << ".JETGROUTING.";
-	}
-	else if( m_enum == ENUM_COHESION )
-	{
-		stream << ".COHESION.";
-	}
-	else if( m_enum == ENUM_FRICTION )
-	{
-		stream << ".FRICTION.";
-	}
-	else if( m_enum == ENUM_SUPPORT )
-	{
-		stream << ".SUPPORT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BORED:	stream << ".BORED."; break;
+		case ENUM_DRIVEN:	stream << ".DRIVEN."; break;
+		case ENUM_JETGROUTING:	stream << ".JETGROUTING."; break;
+		case ENUM_COHESION:	stream << ".COHESION."; break;
+		case ENUM_FRICTION:	stream << ".FRICTION."; break;
+		case ENUM_SUPPORT:	stream << ".SUPPORT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPileTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BORED:	return L"BORED";
+		case ENUM_DRIVEN:	return L"DRIVEN";
+		case ENUM_JETGROUTING:	return L"JETGROUTING";
+		case ENUM_COHESION:	return L"COHESION";
+		case ENUM_FRICTION:	return L"FRICTION";
+		case ENUM_SUPPORT:	return L"SUPPORT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

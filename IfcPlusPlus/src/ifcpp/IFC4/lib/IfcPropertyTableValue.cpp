@@ -106,6 +106,7 @@ void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPropertyTableValue::toString() const { return L"IfcPropertyTableValue"; }
 void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

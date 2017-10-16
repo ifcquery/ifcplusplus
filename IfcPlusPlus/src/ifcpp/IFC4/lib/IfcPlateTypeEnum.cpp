@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcPlateTypeEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPLATETYPEENUM("; }
-	if( m_enum == ENUM_CURTAIN_PANEL )
+	switch( m_enum )
 	{
-		stream << ".CURTAIN_PANEL.";
-	}
-	else if( m_enum == ENUM_SHEET )
-	{
-		stream << ".SHEET.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CURTAIN_PANEL:	stream << ".CURTAIN_PANEL."; break;
+		case ENUM_SHEET:	stream << ".SHEET."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPlateTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CURTAIN_PANEL:	return L"CURTAIN_PANEL";
+		case ENUM_SHEET:	return L"SHEET";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

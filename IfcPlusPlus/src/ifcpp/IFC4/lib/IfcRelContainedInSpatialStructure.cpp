@@ -65,6 +65,7 @@ void IfcRelContainedInSpatialStructure::getStepLine( std::stringstream& stream )
 	stream << ");";
 }
 void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelContainedInSpatialStructure::toString() const { return L"IfcRelContainedInSpatialStructure"; }
 void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

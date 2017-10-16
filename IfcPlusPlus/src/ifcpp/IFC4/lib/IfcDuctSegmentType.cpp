@@ -90,6 +90,7 @@ void IfcDuctSegmentType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcDuctSegmentType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcDuctSegmentType::toString() const { return L"IfcDuctSegmentType"; }
 void IfcDuctSegmentType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

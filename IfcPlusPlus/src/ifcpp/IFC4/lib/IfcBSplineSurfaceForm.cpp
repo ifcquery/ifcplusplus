@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcBSplineSurfaceForm::getDeepCopy( IfcPPCopyOptions& op
 void IfcBSplineSurfaceForm::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBSPLINESURFACEFORM("; }
-	if( m_enum == ENUM_PLANE_SURF )
+	switch( m_enum )
 	{
-		stream << ".PLANE_SURF.";
-	}
-	else if( m_enum == ENUM_CYLINDRICAL_SURF )
-	{
-		stream << ".CYLINDRICAL_SURF.";
-	}
-	else if( m_enum == ENUM_CONICAL_SURF )
-	{
-		stream << ".CONICAL_SURF.";
-	}
-	else if( m_enum == ENUM_SPHERICAL_SURF )
-	{
-		stream << ".SPHERICAL_SURF.";
-	}
-	else if( m_enum == ENUM_TOROIDAL_SURF )
-	{
-		stream << ".TOROIDAL_SURF.";
-	}
-	else if( m_enum == ENUM_SURF_OF_REVOLUTION )
-	{
-		stream << ".SURF_OF_REVOLUTION.";
-	}
-	else if( m_enum == ENUM_RULED_SURF )
-	{
-		stream << ".RULED_SURF.";
-	}
-	else if( m_enum == ENUM_GENERALISED_CONE )
-	{
-		stream << ".GENERALISED_CONE.";
-	}
-	else if( m_enum == ENUM_QUADRIC_SURF )
-	{
-		stream << ".QUADRIC_SURF.";
-	}
-	else if( m_enum == ENUM_SURF_OF_LINEAR_EXTRUSION )
-	{
-		stream << ".SURF_OF_LINEAR_EXTRUSION.";
-	}
-	else if( m_enum == ENUM_UNSPECIFIED )
-	{
-		stream << ".UNSPECIFIED.";
+		case ENUM_PLANE_SURF:	stream << ".PLANE_SURF."; break;
+		case ENUM_CYLINDRICAL_SURF:	stream << ".CYLINDRICAL_SURF."; break;
+		case ENUM_CONICAL_SURF:	stream << ".CONICAL_SURF."; break;
+		case ENUM_SPHERICAL_SURF:	stream << ".SPHERICAL_SURF."; break;
+		case ENUM_TOROIDAL_SURF:	stream << ".TOROIDAL_SURF."; break;
+		case ENUM_SURF_OF_REVOLUTION:	stream << ".SURF_OF_REVOLUTION."; break;
+		case ENUM_RULED_SURF:	stream << ".RULED_SURF."; break;
+		case ENUM_GENERALISED_CONE:	stream << ".GENERALISED_CONE."; break;
+		case ENUM_QUADRIC_SURF:	stream << ".QUADRIC_SURF."; break;
+		case ENUM_SURF_OF_LINEAR_EXTRUSION:	stream << ".SURF_OF_LINEAR_EXTRUSION."; break;
+		case ENUM_UNSPECIFIED:	stream << ".UNSPECIFIED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBSplineSurfaceForm::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PLANE_SURF:	return L"PLANE_SURF";
+		case ENUM_CYLINDRICAL_SURF:	return L"CYLINDRICAL_SURF";
+		case ENUM_CONICAL_SURF:	return L"CONICAL_SURF";
+		case ENUM_SPHERICAL_SURF:	return L"SPHERICAL_SURF";
+		case ENUM_TOROIDAL_SURF:	return L"TOROIDAL_SURF";
+		case ENUM_SURF_OF_REVOLUTION:	return L"SURF_OF_REVOLUTION";
+		case ENUM_RULED_SURF:	return L"RULED_SURF";
+		case ENUM_GENERALISED_CONE:	return L"GENERALISED_CONE";
+		case ENUM_QUADRIC_SURF:	return L"QUADRIC_SURF";
+		case ENUM_SURF_OF_LINEAR_EXTRUSION:	return L"SURF_OF_LINEAR_EXTRUSION";
+		case ENUM_UNSPECIFIED:	return L"UNSPECIFIED";
+	}
+	return L"";
 }
 shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

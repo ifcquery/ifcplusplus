@@ -90,6 +90,7 @@ void IfcWasteTerminalType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcWasteTerminalType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcWasteTerminalType::toString() const { return L"IfcWasteTerminalType"; }
 void IfcWasteTerminalType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcRecurrenceTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRECURRENCETYPEENUM("; }
-	if( m_enum == ENUM_DAILY )
+	switch( m_enum )
 	{
-		stream << ".DAILY.";
-	}
-	else if( m_enum == ENUM_WEEKLY )
-	{
-		stream << ".WEEKLY.";
-	}
-	else if( m_enum == ENUM_MONTHLY_BY_DAY_OF_MONTH )
-	{
-		stream << ".MONTHLY_BY_DAY_OF_MONTH.";
-	}
-	else if( m_enum == ENUM_MONTHLY_BY_POSITION )
-	{
-		stream << ".MONTHLY_BY_POSITION.";
-	}
-	else if( m_enum == ENUM_BY_DAY_COUNT )
-	{
-		stream << ".BY_DAY_COUNT.";
-	}
-	else if( m_enum == ENUM_BY_WEEKDAY_COUNT )
-	{
-		stream << ".BY_WEEKDAY_COUNT.";
-	}
-	else if( m_enum == ENUM_YEARLY_BY_DAY_OF_MONTH )
-	{
-		stream << ".YEARLY_BY_DAY_OF_MONTH.";
-	}
-	else if( m_enum == ENUM_YEARLY_BY_POSITION )
-	{
-		stream << ".YEARLY_BY_POSITION.";
+		case ENUM_DAILY:	stream << ".DAILY."; break;
+		case ENUM_WEEKLY:	stream << ".WEEKLY."; break;
+		case ENUM_MONTHLY_BY_DAY_OF_MONTH:	stream << ".MONTHLY_BY_DAY_OF_MONTH."; break;
+		case ENUM_MONTHLY_BY_POSITION:	stream << ".MONTHLY_BY_POSITION."; break;
+		case ENUM_BY_DAY_COUNT:	stream << ".BY_DAY_COUNT."; break;
+		case ENUM_BY_WEEKDAY_COUNT:	stream << ".BY_WEEKDAY_COUNT."; break;
+		case ENUM_YEARLY_BY_DAY_OF_MONTH:	stream << ".YEARLY_BY_DAY_OF_MONTH."; break;
+		case ENUM_YEARLY_BY_POSITION:	stream << ".YEARLY_BY_POSITION."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcRecurrenceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DAILY:	return L"DAILY";
+		case ENUM_WEEKLY:	return L"WEEKLY";
+		case ENUM_MONTHLY_BY_DAY_OF_MONTH:	return L"MONTHLY_BY_DAY_OF_MONTH";
+		case ENUM_MONTHLY_BY_POSITION:	return L"MONTHLY_BY_POSITION";
+		case ENUM_BY_DAY_COUNT:	return L"BY_DAY_COUNT";
+		case ENUM_BY_WEEKDAY_COUNT:	return L"BY_WEEKDAY_COUNT";
+		case ENUM_YEARLY_BY_DAY_OF_MONTH:	return L"YEARLY_BY_DAY_OF_MONTH";
+		case ENUM_YEARLY_BY_POSITION:	return L"YEARLY_BY_POSITION";
+	}
+	return L"";
 }
 shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

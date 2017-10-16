@@ -21,59 +21,43 @@ shared_ptr<IfcPPObject> IfcObjectiveEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcObjectiveEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOBJECTIVEENUM("; }
-	if( m_enum == ENUM_CODECOMPLIANCE )
+	switch( m_enum )
 	{
-		stream << ".CODECOMPLIANCE.";
-	}
-	else if( m_enum == ENUM_CODEWAIVER )
-	{
-		stream << ".CODEWAIVER.";
-	}
-	else if( m_enum == ENUM_DESIGNINTENT )
-	{
-		stream << ".DESIGNINTENT.";
-	}
-	else if( m_enum == ENUM_EXTERNAL )
-	{
-		stream << ".EXTERNAL.";
-	}
-	else if( m_enum == ENUM_HEALTHANDSAFETY )
-	{
-		stream << ".HEALTHANDSAFETY.";
-	}
-	else if( m_enum == ENUM_MERGECONFLICT )
-	{
-		stream << ".MERGECONFLICT.";
-	}
-	else if( m_enum == ENUM_MODELVIEW )
-	{
-		stream << ".MODELVIEW.";
-	}
-	else if( m_enum == ENUM_PARAMETER )
-	{
-		stream << ".PARAMETER.";
-	}
-	else if( m_enum == ENUM_REQUIREMENT )
-	{
-		stream << ".REQUIREMENT.";
-	}
-	else if( m_enum == ENUM_SPECIFICATION )
-	{
-		stream << ".SPECIFICATION.";
-	}
-	else if( m_enum == ENUM_TRIGGERCONDITION )
-	{
-		stream << ".TRIGGERCONDITION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CODECOMPLIANCE:	stream << ".CODECOMPLIANCE."; break;
+		case ENUM_CODEWAIVER:	stream << ".CODEWAIVER."; break;
+		case ENUM_DESIGNINTENT:	stream << ".DESIGNINTENT."; break;
+		case ENUM_EXTERNAL:	stream << ".EXTERNAL."; break;
+		case ENUM_HEALTHANDSAFETY:	stream << ".HEALTHANDSAFETY."; break;
+		case ENUM_MERGECONFLICT:	stream << ".MERGECONFLICT."; break;
+		case ENUM_MODELVIEW:	stream << ".MODELVIEW."; break;
+		case ENUM_PARAMETER:	stream << ".PARAMETER."; break;
+		case ENUM_REQUIREMENT:	stream << ".REQUIREMENT."; break;
+		case ENUM_SPECIFICATION:	stream << ".SPECIFICATION."; break;
+		case ENUM_TRIGGERCONDITION:	stream << ".TRIGGERCONDITION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcObjectiveEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CODECOMPLIANCE:	return L"CODECOMPLIANCE";
+		case ENUM_CODEWAIVER:	return L"CODEWAIVER";
+		case ENUM_DESIGNINTENT:	return L"DESIGNINTENT";
+		case ENUM_EXTERNAL:	return L"EXTERNAL";
+		case ENUM_HEALTHANDSAFETY:	return L"HEALTHANDSAFETY";
+		case ENUM_MERGECONFLICT:	return L"MERGECONFLICT";
+		case ENUM_MODELVIEW:	return L"MODELVIEW";
+		case ENUM_PARAMETER:	return L"PARAMETER";
+		case ENUM_REQUIREMENT:	return L"REQUIREMENT";
+		case ENUM_SPECIFICATION:	return L"SPECIFICATION";
+		case ENUM_TRIGGERCONDITION:	return L"TRIGGERCONDITION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

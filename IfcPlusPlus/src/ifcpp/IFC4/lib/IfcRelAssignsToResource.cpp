@@ -68,6 +68,7 @@ void IfcRelAssignsToResource::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelAssignsToResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelAssignsToResource::toString() const { return L"IfcRelAssignsToResource"; }
 void IfcRelAssignsToResource::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

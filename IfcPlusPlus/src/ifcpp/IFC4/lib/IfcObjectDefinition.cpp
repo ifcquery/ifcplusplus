@@ -52,6 +52,7 @@ void IfcObjectDefinition::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcObjectDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcObjectDefinition::toString() const { return L"IfcObjectDefinition"; }
 void IfcObjectDefinition::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

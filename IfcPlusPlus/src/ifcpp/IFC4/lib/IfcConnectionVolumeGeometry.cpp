@@ -30,6 +30,7 @@ void IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcConnectionVolumeGeometry::toString() const { return L"IfcConnectionVolumeGeometry"; }
 void IfcConnectionVolumeGeometry::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

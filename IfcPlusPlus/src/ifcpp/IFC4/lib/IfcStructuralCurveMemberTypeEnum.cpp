@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcStructuralCurveMemberTypeEnum::getDeepCopy( IfcPPCopy
 void IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEMEMBERTYPEENUM("; }
-	if( m_enum == ENUM_RIGID_JOINED_MEMBER )
+	switch( m_enum )
 	{
-		stream << ".RIGID_JOINED_MEMBER.";
-	}
-	else if( m_enum == ENUM_PIN_JOINED_MEMBER )
-	{
-		stream << ".PIN_JOINED_MEMBER.";
-	}
-	else if( m_enum == ENUM_CABLE )
-	{
-		stream << ".CABLE.";
-	}
-	else if( m_enum == ENUM_TENSION_MEMBER )
-	{
-		stream << ".TENSION_MEMBER.";
-	}
-	else if( m_enum == ENUM_COMPRESSION_MEMBER )
-	{
-		stream << ".COMPRESSION_MEMBER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_RIGID_JOINED_MEMBER:	stream << ".RIGID_JOINED_MEMBER."; break;
+		case ENUM_PIN_JOINED_MEMBER:	stream << ".PIN_JOINED_MEMBER."; break;
+		case ENUM_CABLE:	stream << ".CABLE."; break;
+		case ENUM_TENSION_MEMBER:	stream << ".TENSION_MEMBER."; break;
+		case ENUM_COMPRESSION_MEMBER:	stream << ".COMPRESSION_MEMBER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStructuralCurveMemberTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_RIGID_JOINED_MEMBER:	return L"RIGID_JOINED_MEMBER";
+		case ENUM_PIN_JOINED_MEMBER:	return L"PIN_JOINED_MEMBER";
+		case ENUM_CABLE:	return L"CABLE";
+		case ENUM_TENSION_MEMBER:	return L"TENSION_MEMBER";
+		case ENUM_COMPRESSION_MEMBER:	return L"COMPRESSION_MEMBER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcStructuralCurveMemberTypeEnum> IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

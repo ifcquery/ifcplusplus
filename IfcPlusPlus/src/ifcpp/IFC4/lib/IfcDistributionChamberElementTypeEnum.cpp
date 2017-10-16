@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcDistributionChamberElementTypeEnum::getDeepCopy( IfcP
 void IfcDistributionChamberElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONCHAMBERELEMENTTYPEENUM("; }
-	if( m_enum == ENUM_FORMEDDUCT )
+	switch( m_enum )
 	{
-		stream << ".FORMEDDUCT.";
-	}
-	else if( m_enum == ENUM_INSPECTIONCHAMBER )
-	{
-		stream << ".INSPECTIONCHAMBER.";
-	}
-	else if( m_enum == ENUM_INSPECTIONPIT )
-	{
-		stream << ".INSPECTIONPIT.";
-	}
-	else if( m_enum == ENUM_MANHOLE )
-	{
-		stream << ".MANHOLE.";
-	}
-	else if( m_enum == ENUM_METERCHAMBER )
-	{
-		stream << ".METERCHAMBER.";
-	}
-	else if( m_enum == ENUM_SUMP )
-	{
-		stream << ".SUMP.";
-	}
-	else if( m_enum == ENUM_TRENCH )
-	{
-		stream << ".TRENCH.";
-	}
-	else if( m_enum == ENUM_VALVECHAMBER )
-	{
-		stream << ".VALVECHAMBER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FORMEDDUCT:	stream << ".FORMEDDUCT."; break;
+		case ENUM_INSPECTIONCHAMBER:	stream << ".INSPECTIONCHAMBER."; break;
+		case ENUM_INSPECTIONPIT:	stream << ".INSPECTIONPIT."; break;
+		case ENUM_MANHOLE:	stream << ".MANHOLE."; break;
+		case ENUM_METERCHAMBER:	stream << ".METERCHAMBER."; break;
+		case ENUM_SUMP:	stream << ".SUMP."; break;
+		case ENUM_TRENCH:	stream << ".TRENCH."; break;
+		case ENUM_VALVECHAMBER:	stream << ".VALVECHAMBER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDistributionChamberElementTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FORMEDDUCT:	return L"FORMEDDUCT";
+		case ENUM_INSPECTIONCHAMBER:	return L"INSPECTIONCHAMBER";
+		case ENUM_INSPECTIONPIT:	return L"INSPECTIONPIT";
+		case ENUM_MANHOLE:	return L"MANHOLE";
+		case ENUM_METERCHAMBER:	return L"METERCHAMBER";
+		case ENUM_SUMP:	return L"SUMP";
+		case ENUM_TRENCH:	return L"TRENCH";
+		case ENUM_VALVECHAMBER:	return L"VALVECHAMBER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

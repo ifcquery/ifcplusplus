@@ -87,6 +87,7 @@ void IfcDuctSilencer::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcDuctSilencer::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcDuctSilencer::toString() const { return L"IfcDuctSilencer"; }
 void IfcDuctSilencer::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

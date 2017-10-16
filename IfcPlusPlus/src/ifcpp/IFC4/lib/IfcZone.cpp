@@ -63,6 +63,7 @@ void IfcZone::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcZone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcZone::toString() const { return L"IfcZone"; }
 void IfcZone::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

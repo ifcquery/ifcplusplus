@@ -21,87 +21,57 @@ shared_ptr<IfcPPObject> IfcDoorTypeOperationEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcDoorTypeOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORTYPEOPERATIONENUM("; }
-	if( m_enum == ENUM_SINGLE_SWING_LEFT )
+	switch( m_enum )
 	{
-		stream << ".SINGLE_SWING_LEFT.";
-	}
-	else if( m_enum == ENUM_SINGLE_SWING_RIGHT )
-	{
-		stream << ".SINGLE_SWING_RIGHT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_DOOR_SINGLE_SWING )
-	{
-		stream << ".DOUBLE_DOOR_SINGLE_SWING.";
-	}
-	else if( m_enum == ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT )
-	{
-		stream << ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT )
-	{
-		stream << ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_SWING_LEFT )
-	{
-		stream << ".DOUBLE_SWING_LEFT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_SWING_RIGHT )
-	{
-		stream << ".DOUBLE_SWING_RIGHT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_DOOR_DOUBLE_SWING )
-	{
-		stream << ".DOUBLE_DOOR_DOUBLE_SWING.";
-	}
-	else if( m_enum == ENUM_SLIDING_TO_LEFT )
-	{
-		stream << ".SLIDING_TO_LEFT.";
-	}
-	else if( m_enum == ENUM_SLIDING_TO_RIGHT )
-	{
-		stream << ".SLIDING_TO_RIGHT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_DOOR_SLIDING )
-	{
-		stream << ".DOUBLE_DOOR_SLIDING.";
-	}
-	else if( m_enum == ENUM_FOLDING_TO_LEFT )
-	{
-		stream << ".FOLDING_TO_LEFT.";
-	}
-	else if( m_enum == ENUM_FOLDING_TO_RIGHT )
-	{
-		stream << ".FOLDING_TO_RIGHT.";
-	}
-	else if( m_enum == ENUM_DOUBLE_DOOR_FOLDING )
-	{
-		stream << ".DOUBLE_DOOR_FOLDING.";
-	}
-	else if( m_enum == ENUM_REVOLVING )
-	{
-		stream << ".REVOLVING.";
-	}
-	else if( m_enum == ENUM_ROLLINGUP )
-	{
-		stream << ".ROLLINGUP.";
-	}
-	else if( m_enum == ENUM_SWING_FIXED_LEFT )
-	{
-		stream << ".SWING_FIXED_LEFT.";
-	}
-	else if( m_enum == ENUM_SWING_FIXED_RIGHT )
-	{
-		stream << ".SWING_FIXED_RIGHT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SINGLE_SWING_LEFT:	stream << ".SINGLE_SWING_LEFT."; break;
+		case ENUM_SINGLE_SWING_RIGHT:	stream << ".SINGLE_SWING_RIGHT."; break;
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING:	stream << ".DOUBLE_DOOR_SINGLE_SWING."; break;
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT:	stream << ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT."; break;
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT:	stream << ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT."; break;
+		case ENUM_DOUBLE_SWING_LEFT:	stream << ".DOUBLE_SWING_LEFT."; break;
+		case ENUM_DOUBLE_SWING_RIGHT:	stream << ".DOUBLE_SWING_RIGHT."; break;
+		case ENUM_DOUBLE_DOOR_DOUBLE_SWING:	stream << ".DOUBLE_DOOR_DOUBLE_SWING."; break;
+		case ENUM_SLIDING_TO_LEFT:	stream << ".SLIDING_TO_LEFT."; break;
+		case ENUM_SLIDING_TO_RIGHT:	stream << ".SLIDING_TO_RIGHT."; break;
+		case ENUM_DOUBLE_DOOR_SLIDING:	stream << ".DOUBLE_DOOR_SLIDING."; break;
+		case ENUM_FOLDING_TO_LEFT:	stream << ".FOLDING_TO_LEFT."; break;
+		case ENUM_FOLDING_TO_RIGHT:	stream << ".FOLDING_TO_RIGHT."; break;
+		case ENUM_DOUBLE_DOOR_FOLDING:	stream << ".DOUBLE_DOOR_FOLDING."; break;
+		case ENUM_REVOLVING:	stream << ".REVOLVING."; break;
+		case ENUM_ROLLINGUP:	stream << ".ROLLINGUP."; break;
+		case ENUM_SWING_FIXED_LEFT:	stream << ".SWING_FIXED_LEFT."; break;
+		case ENUM_SWING_FIXED_RIGHT:	stream << ".SWING_FIXED_RIGHT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDoorTypeOperationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SINGLE_SWING_LEFT:	return L"SINGLE_SWING_LEFT";
+		case ENUM_SINGLE_SWING_RIGHT:	return L"SINGLE_SWING_RIGHT";
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING:	return L"DOUBLE_DOOR_SINGLE_SWING";
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT:	return L"DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT";
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT:	return L"DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT";
+		case ENUM_DOUBLE_SWING_LEFT:	return L"DOUBLE_SWING_LEFT";
+		case ENUM_DOUBLE_SWING_RIGHT:	return L"DOUBLE_SWING_RIGHT";
+		case ENUM_DOUBLE_DOOR_DOUBLE_SWING:	return L"DOUBLE_DOOR_DOUBLE_SWING";
+		case ENUM_SLIDING_TO_LEFT:	return L"SLIDING_TO_LEFT";
+		case ENUM_SLIDING_TO_RIGHT:	return L"SLIDING_TO_RIGHT";
+		case ENUM_DOUBLE_DOOR_SLIDING:	return L"DOUBLE_DOOR_SLIDING";
+		case ENUM_FOLDING_TO_LEFT:	return L"FOLDING_TO_LEFT";
+		case ENUM_FOLDING_TO_RIGHT:	return L"FOLDING_TO_RIGHT";
+		case ENUM_DOUBLE_DOOR_FOLDING:	return L"DOUBLE_DOOR_FOLDING";
+		case ENUM_REVOLVING:	return L"REVOLVING";
+		case ENUM_ROLLINGUP:	return L"ROLLINGUP";
+		case ENUM_SWING_FIXED_LEFT:	return L"SWING_FIXED_LEFT";
+		case ENUM_SWING_FIXED_RIGHT:	return L"SWING_FIXED_RIGHT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDoorTypeOperationEnum> IfcDoorTypeOperationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

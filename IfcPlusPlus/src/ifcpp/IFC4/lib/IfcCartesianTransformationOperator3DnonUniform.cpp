@@ -49,6 +49,7 @@ void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstr
 	stream << ");";
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCartesianTransformationOperator3DnonUniform::toString() const { return L"IfcCartesianTransformationOperator3DnonUniform"; }
 void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

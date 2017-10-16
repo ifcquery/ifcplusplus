@@ -29,6 +29,7 @@ public:
 	virtual const char* className() const { return "IfcEventTriggerTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+	virtual const std::wstring toString() const;
 	static shared_ptr<IfcEventTriggerTypeEnum> createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map );
 	IfcEventTriggerTypeEnumEnum m_enum;
 };

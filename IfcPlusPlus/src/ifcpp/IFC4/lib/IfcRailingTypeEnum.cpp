@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcRailingTypeEnum::getDeepCopy( IfcPPCopyOptions& optio
 void IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAILINGTYPEENUM("; }
-	if( m_enum == ENUM_HANDRAIL )
+	switch( m_enum )
 	{
-		stream << ".HANDRAIL.";
-	}
-	else if( m_enum == ENUM_GUARDRAIL )
-	{
-		stream << ".GUARDRAIL.";
-	}
-	else if( m_enum == ENUM_BALUSTRADE )
-	{
-		stream << ".BALUSTRADE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_HANDRAIL:	stream << ".HANDRAIL."; break;
+		case ENUM_GUARDRAIL:	stream << ".GUARDRAIL."; break;
+		case ENUM_BALUSTRADE:	stream << ".BALUSTRADE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcRailingTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_HANDRAIL:	return L"HANDRAIL";
+		case ENUM_GUARDRAIL:	return L"GUARDRAIL";
+		case ENUM_BALUSTRADE:	return L"BALUSTRADE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -25,6 +25,12 @@ void IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_ty
 	//TODO: implement
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcArcIndex::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcArcIndex> IfcArcIndex::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

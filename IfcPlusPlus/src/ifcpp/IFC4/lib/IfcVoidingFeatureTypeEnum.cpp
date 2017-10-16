@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcVoidingFeatureTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcVoidingFeatureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOIDINGFEATURETYPEENUM("; }
-	if( m_enum == ENUM_CUTOUT )
+	switch( m_enum )
 	{
-		stream << ".CUTOUT.";
-	}
-	else if( m_enum == ENUM_NOTCH )
-	{
-		stream << ".NOTCH.";
-	}
-	else if( m_enum == ENUM_HOLE )
-	{
-		stream << ".HOLE.";
-	}
-	else if( m_enum == ENUM_MITER )
-	{
-		stream << ".MITER.";
-	}
-	else if( m_enum == ENUM_CHAMFER )
-	{
-		stream << ".CHAMFER.";
-	}
-	else if( m_enum == ENUM_EDGE )
-	{
-		stream << ".EDGE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CUTOUT:	stream << ".CUTOUT."; break;
+		case ENUM_NOTCH:	stream << ".NOTCH."; break;
+		case ENUM_HOLE:	stream << ".HOLE."; break;
+		case ENUM_MITER:	stream << ".MITER."; break;
+		case ENUM_CHAMFER:	stream << ".CHAMFER."; break;
+		case ENUM_EDGE:	stream << ".EDGE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcVoidingFeatureTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CUTOUT:	return L"CUTOUT";
+		case ENUM_NOTCH:	return L"NOTCH";
+		case ENUM_HOLE:	return L"HOLE";
+		case ENUM_MITER:	return L"MITER";
+		case ENUM_CHAMFER:	return L"CHAMFER";
+		case ENUM_EDGE:	return L"EDGE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -87,6 +87,7 @@ void IfcJunctionBox::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcJunctionBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcJunctionBox::toString() const { return L"IfcJunctionBox"; }
 void IfcJunctionBox::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -31,6 +31,7 @@ void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTessellatedFaceSet::toString() const { return L"IfcTessellatedFaceSet"; }
 void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

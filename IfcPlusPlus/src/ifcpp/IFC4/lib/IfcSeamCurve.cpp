@@ -44,6 +44,7 @@ void IfcSeamCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSeamCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSeamCurve::toString() const { return L"IfcSeamCurve"; }
 void IfcSeamCurve::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

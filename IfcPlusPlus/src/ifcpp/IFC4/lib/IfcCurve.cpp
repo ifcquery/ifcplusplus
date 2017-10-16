@@ -26,6 +26,7 @@ void IfcCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCurve::toString() const { return L"IfcCurve"; }
 void IfcCurve::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

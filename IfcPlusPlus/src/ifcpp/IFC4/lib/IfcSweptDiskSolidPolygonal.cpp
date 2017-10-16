@@ -46,6 +46,7 @@ void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSweptDiskSolidPolygonal::toString() const { return L"IfcSweptDiskSolidPolygonal"; }
 void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

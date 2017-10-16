@@ -44,6 +44,7 @@ void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCurveBoundedSurface::toString() const { return L"IfcCurveBoundedSurface"; }
 void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

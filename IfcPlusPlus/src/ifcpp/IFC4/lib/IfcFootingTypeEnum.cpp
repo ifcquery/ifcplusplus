@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcFootingTypeEnum::getDeepCopy( IfcPPCopyOptions& optio
 void IfcFootingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFOOTINGTYPEENUM("; }
-	if( m_enum == ENUM_CAISSON_FOUNDATION )
+	switch( m_enum )
 	{
-		stream << ".CAISSON_FOUNDATION.";
-	}
-	else if( m_enum == ENUM_FOOTING_BEAM )
-	{
-		stream << ".FOOTING_BEAM.";
-	}
-	else if( m_enum == ENUM_PAD_FOOTING )
-	{
-		stream << ".PAD_FOOTING.";
-	}
-	else if( m_enum == ENUM_PILE_CAP )
-	{
-		stream << ".PILE_CAP.";
-	}
-	else if( m_enum == ENUM_STRIP_FOOTING )
-	{
-		stream << ".STRIP_FOOTING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CAISSON_FOUNDATION:	stream << ".CAISSON_FOUNDATION."; break;
+		case ENUM_FOOTING_BEAM:	stream << ".FOOTING_BEAM."; break;
+		case ENUM_PAD_FOOTING:	stream << ".PAD_FOOTING."; break;
+		case ENUM_PILE_CAP:	stream << ".PILE_CAP."; break;
+		case ENUM_STRIP_FOOTING:	stream << ".STRIP_FOOTING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFootingTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CAISSON_FOUNDATION:	return L"CAISSON_FOUNDATION";
+		case ENUM_FOOTING_BEAM:	return L"FOOTING_BEAM";
+		case ENUM_PAD_FOOTING:	return L"PAD_FOOTING";
+		case ENUM_PILE_CAP:	return L"PILE_CAP";
+		case ENUM_STRIP_FOOTING:	return L"STRIP_FOOTING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

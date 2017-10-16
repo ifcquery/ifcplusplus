@@ -21,55 +21,41 @@ shared_ptr<IfcPPObject> IfcSimplePropertyTemplateTypeEnum::getDeepCopy( IfcPPCop
 void IfcSimplePropertyTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIMPLEPROPERTYTEMPLATETYPEENUM("; }
-	if( m_enum == ENUM_P_SINGLEVALUE )
+	switch( m_enum )
 	{
-		stream << ".P_SINGLEVALUE.";
-	}
-	else if( m_enum == ENUM_P_ENUMERATEDVALUE )
-	{
-		stream << ".P_ENUMERATEDVALUE.";
-	}
-	else if( m_enum == ENUM_P_BOUNDEDVALUE )
-	{
-		stream << ".P_BOUNDEDVALUE.";
-	}
-	else if( m_enum == ENUM_P_LISTVALUE )
-	{
-		stream << ".P_LISTVALUE.";
-	}
-	else if( m_enum == ENUM_P_TABLEVALUE )
-	{
-		stream << ".P_TABLEVALUE.";
-	}
-	else if( m_enum == ENUM_P_REFERENCEVALUE )
-	{
-		stream << ".P_REFERENCEVALUE.";
-	}
-	else if( m_enum == ENUM_Q_LENGTH )
-	{
-		stream << ".Q_LENGTH.";
-	}
-	else if( m_enum == ENUM_Q_AREA )
-	{
-		stream << ".Q_AREA.";
-	}
-	else if( m_enum == ENUM_Q_VOLUME )
-	{
-		stream << ".Q_VOLUME.";
-	}
-	else if( m_enum == ENUM_Q_COUNT )
-	{
-		stream << ".Q_COUNT.";
-	}
-	else if( m_enum == ENUM_Q_WEIGHT )
-	{
-		stream << ".Q_WEIGHT.";
-	}
-	else if( m_enum == ENUM_Q_TIME )
-	{
-		stream << ".Q_TIME.";
+		case ENUM_P_SINGLEVALUE:	stream << ".P_SINGLEVALUE."; break;
+		case ENUM_P_ENUMERATEDVALUE:	stream << ".P_ENUMERATEDVALUE."; break;
+		case ENUM_P_BOUNDEDVALUE:	stream << ".P_BOUNDEDVALUE."; break;
+		case ENUM_P_LISTVALUE:	stream << ".P_LISTVALUE."; break;
+		case ENUM_P_TABLEVALUE:	stream << ".P_TABLEVALUE."; break;
+		case ENUM_P_REFERENCEVALUE:	stream << ".P_REFERENCEVALUE."; break;
+		case ENUM_Q_LENGTH:	stream << ".Q_LENGTH."; break;
+		case ENUM_Q_AREA:	stream << ".Q_AREA."; break;
+		case ENUM_Q_VOLUME:	stream << ".Q_VOLUME."; break;
+		case ENUM_Q_COUNT:	stream << ".Q_COUNT."; break;
+		case ENUM_Q_WEIGHT:	stream << ".Q_WEIGHT."; break;
+		case ENUM_Q_TIME:	stream << ".Q_TIME."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSimplePropertyTemplateTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_P_SINGLEVALUE:	return L"P_SINGLEVALUE";
+		case ENUM_P_ENUMERATEDVALUE:	return L"P_ENUMERATEDVALUE";
+		case ENUM_P_BOUNDEDVALUE:	return L"P_BOUNDEDVALUE";
+		case ENUM_P_LISTVALUE:	return L"P_LISTVALUE";
+		case ENUM_P_TABLEVALUE:	return L"P_TABLEVALUE";
+		case ENUM_P_REFERENCEVALUE:	return L"P_REFERENCEVALUE";
+		case ENUM_Q_LENGTH:	return L"Q_LENGTH";
+		case ENUM_Q_AREA:	return L"Q_AREA";
+		case ENUM_Q_VOLUME:	return L"Q_VOLUME";
+		case ENUM_Q_COUNT:	return L"Q_COUNT";
+		case ENUM_Q_WEIGHT:	return L"Q_WEIGHT";
+		case ENUM_Q_TIME:	return L"Q_TIME";
+	}
+	return L"";
 }
 shared_ptr<IfcSimplePropertyTemplateTypeEnum> IfcSimplePropertyTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

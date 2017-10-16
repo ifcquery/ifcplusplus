@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcMedicalDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcMedicalDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMEDICALDEVICETYPEENUM("; }
-	if( m_enum == ENUM_AIRSTATION )
+	switch( m_enum )
 	{
-		stream << ".AIRSTATION.";
-	}
-	else if( m_enum == ENUM_FEEDAIRUNIT )
-	{
-		stream << ".FEEDAIRUNIT.";
-	}
-	else if( m_enum == ENUM_OXYGENGENERATOR )
-	{
-		stream << ".OXYGENGENERATOR.";
-	}
-	else if( m_enum == ENUM_OXYGENPLANT )
-	{
-		stream << ".OXYGENPLANT.";
-	}
-	else if( m_enum == ENUM_VACUUMSTATION )
-	{
-		stream << ".VACUUMSTATION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRSTATION:	stream << ".AIRSTATION."; break;
+		case ENUM_FEEDAIRUNIT:	stream << ".FEEDAIRUNIT."; break;
+		case ENUM_OXYGENGENERATOR:	stream << ".OXYGENGENERATOR."; break;
+		case ENUM_OXYGENPLANT:	stream << ".OXYGENPLANT."; break;
+		case ENUM_VACUUMSTATION:	stream << ".VACUUMSTATION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcMedicalDeviceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRSTATION:	return L"AIRSTATION";
+		case ENUM_FEEDAIRUNIT:	return L"FEEDAIRUNIT";
+		case ENUM_OXYGENGENERATOR:	return L"OXYGENGENERATOR";
+		case ENUM_OXYGENPLANT:	return L"OXYGENPLANT";
+		case ENUM_VACUUMSTATION:	return L"VACUUMSTATION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

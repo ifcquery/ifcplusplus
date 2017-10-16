@@ -21,91 +21,59 @@ shared_ptr<IfcPPObject> IfcLaborResourceTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcLaborResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLABORRESOURCETYPEENUM("; }
-	if( m_enum == ENUM_ADMINISTRATION )
+	switch( m_enum )
 	{
-		stream << ".ADMINISTRATION.";
-	}
-	else if( m_enum == ENUM_CARPENTRY )
-	{
-		stream << ".CARPENTRY.";
-	}
-	else if( m_enum == ENUM_CLEANING )
-	{
-		stream << ".CLEANING.";
-	}
-	else if( m_enum == ENUM_CONCRETE )
-	{
-		stream << ".CONCRETE.";
-	}
-	else if( m_enum == ENUM_DRYWALL )
-	{
-		stream << ".DRYWALL.";
-	}
-	else if( m_enum == ENUM_ELECTRIC )
-	{
-		stream << ".ELECTRIC.";
-	}
-	else if( m_enum == ENUM_FINISHING )
-	{
-		stream << ".FINISHING.";
-	}
-	else if( m_enum == ENUM_FLOORING )
-	{
-		stream << ".FLOORING.";
-	}
-	else if( m_enum == ENUM_GENERAL )
-	{
-		stream << ".GENERAL.";
-	}
-	else if( m_enum == ENUM_HVAC )
-	{
-		stream << ".HVAC.";
-	}
-	else if( m_enum == ENUM_LANDSCAPING )
-	{
-		stream << ".LANDSCAPING.";
-	}
-	else if( m_enum == ENUM_MASONRY )
-	{
-		stream << ".MASONRY.";
-	}
-	else if( m_enum == ENUM_PAINTING )
-	{
-		stream << ".PAINTING.";
-	}
-	else if( m_enum == ENUM_PAVING )
-	{
-		stream << ".PAVING.";
-	}
-	else if( m_enum == ENUM_PLUMBING )
-	{
-		stream << ".PLUMBING.";
-	}
-	else if( m_enum == ENUM_ROOFING )
-	{
-		stream << ".ROOFING.";
-	}
-	else if( m_enum == ENUM_SITEGRADING )
-	{
-		stream << ".SITEGRADING.";
-	}
-	else if( m_enum == ENUM_STEELWORK )
-	{
-		stream << ".STEELWORK.";
-	}
-	else if( m_enum == ENUM_SURVEYING )
-	{
-		stream << ".SURVEYING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ADMINISTRATION:	stream << ".ADMINISTRATION."; break;
+		case ENUM_CARPENTRY:	stream << ".CARPENTRY."; break;
+		case ENUM_CLEANING:	stream << ".CLEANING."; break;
+		case ENUM_CONCRETE:	stream << ".CONCRETE."; break;
+		case ENUM_DRYWALL:	stream << ".DRYWALL."; break;
+		case ENUM_ELECTRIC:	stream << ".ELECTRIC."; break;
+		case ENUM_FINISHING:	stream << ".FINISHING."; break;
+		case ENUM_FLOORING:	stream << ".FLOORING."; break;
+		case ENUM_GENERAL:	stream << ".GENERAL."; break;
+		case ENUM_HVAC:	stream << ".HVAC."; break;
+		case ENUM_LANDSCAPING:	stream << ".LANDSCAPING."; break;
+		case ENUM_MASONRY:	stream << ".MASONRY."; break;
+		case ENUM_PAINTING:	stream << ".PAINTING."; break;
+		case ENUM_PAVING:	stream << ".PAVING."; break;
+		case ENUM_PLUMBING:	stream << ".PLUMBING."; break;
+		case ENUM_ROOFING:	stream << ".ROOFING."; break;
+		case ENUM_SITEGRADING:	stream << ".SITEGRADING."; break;
+		case ENUM_STEELWORK:	stream << ".STEELWORK."; break;
+		case ENUM_SURVEYING:	stream << ".SURVEYING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLaborResourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ADMINISTRATION:	return L"ADMINISTRATION";
+		case ENUM_CARPENTRY:	return L"CARPENTRY";
+		case ENUM_CLEANING:	return L"CLEANING";
+		case ENUM_CONCRETE:	return L"CONCRETE";
+		case ENUM_DRYWALL:	return L"DRYWALL";
+		case ENUM_ELECTRIC:	return L"ELECTRIC";
+		case ENUM_FINISHING:	return L"FINISHING";
+		case ENUM_FLOORING:	return L"FLOORING";
+		case ENUM_GENERAL:	return L"GENERAL";
+		case ENUM_HVAC:	return L"HVAC";
+		case ENUM_LANDSCAPING:	return L"LANDSCAPING";
+		case ENUM_MASONRY:	return L"MASONRY";
+		case ENUM_PAINTING:	return L"PAINTING";
+		case ENUM_PAVING:	return L"PAVING";
+		case ENUM_PLUMBING:	return L"PLUMBING";
+		case ENUM_ROOFING:	return L"ROOFING";
+		case ENUM_SITEGRADING:	return L"SITEGRADING";
+		case ENUM_STEELWORK:	return L"STEELWORK";
+		case ENUM_SURVEYING:	return L"SURVEYING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcLaborResourceTypeEnum> IfcLaborResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

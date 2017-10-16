@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcLightEmissionSourceEnum::getDeepCopy( IfcPPCopyOption
 void IfcLightEmissionSourceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTEMISSIONSOURCEENUM("; }
-	if( m_enum == ENUM_COMPACTFLUORESCENT )
+	switch( m_enum )
 	{
-		stream << ".COMPACTFLUORESCENT.";
-	}
-	else if( m_enum == ENUM_FLUORESCENT )
-	{
-		stream << ".FLUORESCENT.";
-	}
-	else if( m_enum == ENUM_HIGHPRESSUREMERCURY )
-	{
-		stream << ".HIGHPRESSUREMERCURY.";
-	}
-	else if( m_enum == ENUM_HIGHPRESSURESODIUM )
-	{
-		stream << ".HIGHPRESSURESODIUM.";
-	}
-	else if( m_enum == ENUM_LIGHTEMITTINGDIODE )
-	{
-		stream << ".LIGHTEMITTINGDIODE.";
-	}
-	else if( m_enum == ENUM_LOWPRESSURESODIUM )
-	{
-		stream << ".LOWPRESSURESODIUM.";
-	}
-	else if( m_enum == ENUM_LOWVOLTAGEHALOGEN )
-	{
-		stream << ".LOWVOLTAGEHALOGEN.";
-	}
-	else if( m_enum == ENUM_MAINVOLTAGEHALOGEN )
-	{
-		stream << ".MAINVOLTAGEHALOGEN.";
-	}
-	else if( m_enum == ENUM_METALHALIDE )
-	{
-		stream << ".METALHALIDE.";
-	}
-	else if( m_enum == ENUM_TUNGSTENFILAMENT )
-	{
-		stream << ".TUNGSTENFILAMENT.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COMPACTFLUORESCENT:	stream << ".COMPACTFLUORESCENT."; break;
+		case ENUM_FLUORESCENT:	stream << ".FLUORESCENT."; break;
+		case ENUM_HIGHPRESSUREMERCURY:	stream << ".HIGHPRESSUREMERCURY."; break;
+		case ENUM_HIGHPRESSURESODIUM:	stream << ".HIGHPRESSURESODIUM."; break;
+		case ENUM_LIGHTEMITTINGDIODE:	stream << ".LIGHTEMITTINGDIODE."; break;
+		case ENUM_LOWPRESSURESODIUM:	stream << ".LOWPRESSURESODIUM."; break;
+		case ENUM_LOWVOLTAGEHALOGEN:	stream << ".LOWVOLTAGEHALOGEN."; break;
+		case ENUM_MAINVOLTAGEHALOGEN:	stream << ".MAINVOLTAGEHALOGEN."; break;
+		case ENUM_METALHALIDE:	stream << ".METALHALIDE."; break;
+		case ENUM_TUNGSTENFILAMENT:	stream << ".TUNGSTENFILAMENT."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLightEmissionSourceEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COMPACTFLUORESCENT:	return L"COMPACTFLUORESCENT";
+		case ENUM_FLUORESCENT:	return L"FLUORESCENT";
+		case ENUM_HIGHPRESSUREMERCURY:	return L"HIGHPRESSUREMERCURY";
+		case ENUM_HIGHPRESSURESODIUM:	return L"HIGHPRESSURESODIUM";
+		case ENUM_LIGHTEMITTINGDIODE:	return L"LIGHTEMITTINGDIODE";
+		case ENUM_LOWPRESSURESODIUM:	return L"LOWPRESSURESODIUM";
+		case ENUM_LOWVOLTAGEHALOGEN:	return L"LOWVOLTAGEHALOGEN";
+		case ENUM_MAINVOLTAGEHALOGEN:	return L"MAINVOLTAGEHALOGEN";
+		case ENUM_METALHALIDE:	return L"METALHALIDE";
+		case ENUM_TUNGSTENFILAMENT:	return L"TUNGSTENFILAMENT";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcLightEmissionSourceEnum> IfcLightEmissionSourceEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

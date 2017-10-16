@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcHeatExchangerTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcHeatExchangerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHEATEXCHANGERTYPEENUM("; }
-	if( m_enum == ENUM_PLATE )
+	switch( m_enum )
 	{
-		stream << ".PLATE.";
-	}
-	else if( m_enum == ENUM_SHELLANDTUBE )
-	{
-		stream << ".SHELLANDTUBE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PLATE:	stream << ".PLATE."; break;
+		case ENUM_SHELLANDTUBE:	stream << ".SHELLANDTUBE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcHeatExchangerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PLATE:	return L"PLATE";
+		case ENUM_SHELLANDTUBE:	return L"SHELLANDTUBE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

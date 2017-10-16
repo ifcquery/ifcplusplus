@@ -21,127 +21,77 @@ shared_ptr<IfcPPObject> IfcSIUnitName::getDeepCopy( IfcPPCopyOptions& options )
 void IfcSIUnitName::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIUNITNAME("; }
-	if( m_enum == ENUM_AMPERE )
+	switch( m_enum )
 	{
-		stream << ".AMPERE.";
-	}
-	else if( m_enum == ENUM_BECQUEREL )
-	{
-		stream << ".BECQUEREL.";
-	}
-	else if( m_enum == ENUM_CANDELA )
-	{
-		stream << ".CANDELA.";
-	}
-	else if( m_enum == ENUM_COULOMB )
-	{
-		stream << ".COULOMB.";
-	}
-	else if( m_enum == ENUM_CUBIC_METRE )
-	{
-		stream << ".CUBIC_METRE.";
-	}
-	else if( m_enum == ENUM_DEGREE_CELSIUS )
-	{
-		stream << ".DEGREE_CELSIUS.";
-	}
-	else if( m_enum == ENUM_FARAD )
-	{
-		stream << ".FARAD.";
-	}
-	else if( m_enum == ENUM_GRAM )
-	{
-		stream << ".GRAM.";
-	}
-	else if( m_enum == ENUM_GRAY )
-	{
-		stream << ".GRAY.";
-	}
-	else if( m_enum == ENUM_HENRY )
-	{
-		stream << ".HENRY.";
-	}
-	else if( m_enum == ENUM_HERTZ )
-	{
-		stream << ".HERTZ.";
-	}
-	else if( m_enum == ENUM_JOULE )
-	{
-		stream << ".JOULE.";
-	}
-	else if( m_enum == ENUM_KELVIN )
-	{
-		stream << ".KELVIN.";
-	}
-	else if( m_enum == ENUM_LUMEN )
-	{
-		stream << ".LUMEN.";
-	}
-	else if( m_enum == ENUM_LUX )
-	{
-		stream << ".LUX.";
-	}
-	else if( m_enum == ENUM_METRE )
-	{
-		stream << ".METRE.";
-	}
-	else if( m_enum == ENUM_MOLE )
-	{
-		stream << ".MOLE.";
-	}
-	else if( m_enum == ENUM_NEWTON )
-	{
-		stream << ".NEWTON.";
-	}
-	else if( m_enum == ENUM_OHM )
-	{
-		stream << ".OHM.";
-	}
-	else if( m_enum == ENUM_PASCAL )
-	{
-		stream << ".PASCAL.";
-	}
-	else if( m_enum == ENUM_RADIAN )
-	{
-		stream << ".RADIAN.";
-	}
-	else if( m_enum == ENUM_SECOND )
-	{
-		stream << ".SECOND.";
-	}
-	else if( m_enum == ENUM_SIEMENS )
-	{
-		stream << ".SIEMENS.";
-	}
-	else if( m_enum == ENUM_SIEVERT )
-	{
-		stream << ".SIEVERT.";
-	}
-	else if( m_enum == ENUM_SQUARE_METRE )
-	{
-		stream << ".SQUARE_METRE.";
-	}
-	else if( m_enum == ENUM_STERADIAN )
-	{
-		stream << ".STERADIAN.";
-	}
-	else if( m_enum == ENUM_TESLA )
-	{
-		stream << ".TESLA.";
-	}
-	else if( m_enum == ENUM_VOLT )
-	{
-		stream << ".VOLT.";
-	}
-	else if( m_enum == ENUM_WATT )
-	{
-		stream << ".WATT.";
-	}
-	else if( m_enum == ENUM_WEBER )
-	{
-		stream << ".WEBER.";
+		case ENUM_AMPERE:	stream << ".AMPERE."; break;
+		case ENUM_BECQUEREL:	stream << ".BECQUEREL."; break;
+		case ENUM_CANDELA:	stream << ".CANDELA."; break;
+		case ENUM_COULOMB:	stream << ".COULOMB."; break;
+		case ENUM_CUBIC_METRE:	stream << ".CUBIC_METRE."; break;
+		case ENUM_DEGREE_CELSIUS:	stream << ".DEGREE_CELSIUS."; break;
+		case ENUM_FARAD:	stream << ".FARAD."; break;
+		case ENUM_GRAM:	stream << ".GRAM."; break;
+		case ENUM_GRAY:	stream << ".GRAY."; break;
+		case ENUM_HENRY:	stream << ".HENRY."; break;
+		case ENUM_HERTZ:	stream << ".HERTZ."; break;
+		case ENUM_JOULE:	stream << ".JOULE."; break;
+		case ENUM_KELVIN:	stream << ".KELVIN."; break;
+		case ENUM_LUMEN:	stream << ".LUMEN."; break;
+		case ENUM_LUX:	stream << ".LUX."; break;
+		case ENUM_METRE:	stream << ".METRE."; break;
+		case ENUM_MOLE:	stream << ".MOLE."; break;
+		case ENUM_NEWTON:	stream << ".NEWTON."; break;
+		case ENUM_OHM:	stream << ".OHM."; break;
+		case ENUM_PASCAL:	stream << ".PASCAL."; break;
+		case ENUM_RADIAN:	stream << ".RADIAN."; break;
+		case ENUM_SECOND:	stream << ".SECOND."; break;
+		case ENUM_SIEMENS:	stream << ".SIEMENS."; break;
+		case ENUM_SIEVERT:	stream << ".SIEVERT."; break;
+		case ENUM_SQUARE_METRE:	stream << ".SQUARE_METRE."; break;
+		case ENUM_STERADIAN:	stream << ".STERADIAN."; break;
+		case ENUM_TESLA:	stream << ".TESLA."; break;
+		case ENUM_VOLT:	stream << ".VOLT."; break;
+		case ENUM_WATT:	stream << ".WATT."; break;
+		case ENUM_WEBER:	stream << ".WEBER."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSIUnitName::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AMPERE:	return L"AMPERE";
+		case ENUM_BECQUEREL:	return L"BECQUEREL";
+		case ENUM_CANDELA:	return L"CANDELA";
+		case ENUM_COULOMB:	return L"COULOMB";
+		case ENUM_CUBIC_METRE:	return L"CUBIC_METRE";
+		case ENUM_DEGREE_CELSIUS:	return L"DEGREE_CELSIUS";
+		case ENUM_FARAD:	return L"FARAD";
+		case ENUM_GRAM:	return L"GRAM";
+		case ENUM_GRAY:	return L"GRAY";
+		case ENUM_HENRY:	return L"HENRY";
+		case ENUM_HERTZ:	return L"HERTZ";
+		case ENUM_JOULE:	return L"JOULE";
+		case ENUM_KELVIN:	return L"KELVIN";
+		case ENUM_LUMEN:	return L"LUMEN";
+		case ENUM_LUX:	return L"LUX";
+		case ENUM_METRE:	return L"METRE";
+		case ENUM_MOLE:	return L"MOLE";
+		case ENUM_NEWTON:	return L"NEWTON";
+		case ENUM_OHM:	return L"OHM";
+		case ENUM_PASCAL:	return L"PASCAL";
+		case ENUM_RADIAN:	return L"RADIAN";
+		case ENUM_SECOND:	return L"SECOND";
+		case ENUM_SIEMENS:	return L"SIEMENS";
+		case ENUM_SIEVERT:	return L"SIEVERT";
+		case ENUM_SQUARE_METRE:	return L"SQUARE_METRE";
+		case ENUM_STERADIAN:	return L"STERADIAN";
+		case ENUM_TESLA:	return L"TESLA";
+		case ENUM_VOLT:	return L"VOLT";
+		case ENUM_WATT:	return L"WATT";
+		case ENUM_WEBER:	return L"WEBER";
+	}
+	return L"";
 }
 shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

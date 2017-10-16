@@ -73,6 +73,7 @@ void IfcPermit::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPermit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPermit::toString() const { return L"IfcPermit"; }
 void IfcPermit::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

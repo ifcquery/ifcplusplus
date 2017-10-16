@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcColumnTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOLUMNTYPEENUM("; }
-	if( m_enum == ENUM_COLUMN )
+	switch( m_enum )
 	{
-		stream << ".COLUMN.";
-	}
-	else if( m_enum == ENUM_PILASTER )
-	{
-		stream << ".PILASTER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COLUMN:	stream << ".COLUMN."; break;
+		case ENUM_PILASTER:	stream << ".PILASTER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcColumnTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COLUMN:	return L"COLUMN";
+		case ENUM_PILASTER:	return L"PILASTER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

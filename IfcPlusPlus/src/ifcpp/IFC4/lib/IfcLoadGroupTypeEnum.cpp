@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcLoadGroupTypeEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcLoadGroupTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLOADGROUPTYPEENUM("; }
-	if( m_enum == ENUM_LOAD_GROUP )
+	switch( m_enum )
 	{
-		stream << ".LOAD_GROUP.";
-	}
-	else if( m_enum == ENUM_LOAD_CASE )
-	{
-		stream << ".LOAD_CASE.";
-	}
-	else if( m_enum == ENUM_LOAD_COMBINATION )
-	{
-		stream << ".LOAD_COMBINATION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_LOAD_GROUP:	stream << ".LOAD_GROUP."; break;
+		case ENUM_LOAD_CASE:	stream << ".LOAD_CASE."; break;
+		case ENUM_LOAD_COMBINATION:	stream << ".LOAD_COMBINATION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLoadGroupTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_LOAD_GROUP:	return L"LOAD_GROUP";
+		case ENUM_LOAD_CASE:	return L"LOAD_CASE";
+		case ENUM_LOAD_COMBINATION:	return L"LOAD_COMBINATION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcLoadGroupTypeEnum> IfcLoadGroupTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

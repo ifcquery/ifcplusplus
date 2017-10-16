@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcAirToAirHeatRecoveryTypeEnum::getDeepCopy( IfcPPCopyO
 void IfcAirToAirHeatRecoveryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTOAIRHEATRECOVERYTYPEENUM("; }
-	if( m_enum == ENUM_FIXEDPLATECOUNTERFLOWEXCHANGER )
+	switch( m_enum )
 	{
-		stream << ".FIXEDPLATECOUNTERFLOWEXCHANGER.";
-	}
-	else if( m_enum == ENUM_FIXEDPLATECROSSFLOWEXCHANGER )
-	{
-		stream << ".FIXEDPLATECROSSFLOWEXCHANGER.";
-	}
-	else if( m_enum == ENUM_FIXEDPLATEPARALLELFLOWEXCHANGER )
-	{
-		stream << ".FIXEDPLATEPARALLELFLOWEXCHANGER.";
-	}
-	else if( m_enum == ENUM_ROTARYWHEEL )
-	{
-		stream << ".ROTARYWHEEL.";
-	}
-	else if( m_enum == ENUM_RUNAROUNDCOILLOOP )
-	{
-		stream << ".RUNAROUNDCOILLOOP.";
-	}
-	else if( m_enum == ENUM_HEATPIPE )
-	{
-		stream << ".HEATPIPE.";
-	}
-	else if( m_enum == ENUM_TWINTOWERENTHALPYRECOVERYLOOPS )
-	{
-		stream << ".TWINTOWERENTHALPYRECOVERYLOOPS.";
-	}
-	else if( m_enum == ENUM_THERMOSIPHONSEALEDTUBEHEATEXCHANGERS )
-	{
-		stream << ".THERMOSIPHONSEALEDTUBEHEATEXCHANGERS.";
-	}
-	else if( m_enum == ENUM_THERMOSIPHONCOILTYPEHEATEXCHANGERS )
-	{
-		stream << ".THERMOSIPHONCOILTYPEHEATEXCHANGERS.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FIXEDPLATECOUNTERFLOWEXCHANGER:	stream << ".FIXEDPLATECOUNTERFLOWEXCHANGER."; break;
+		case ENUM_FIXEDPLATECROSSFLOWEXCHANGER:	stream << ".FIXEDPLATECROSSFLOWEXCHANGER."; break;
+		case ENUM_FIXEDPLATEPARALLELFLOWEXCHANGER:	stream << ".FIXEDPLATEPARALLELFLOWEXCHANGER."; break;
+		case ENUM_ROTARYWHEEL:	stream << ".ROTARYWHEEL."; break;
+		case ENUM_RUNAROUNDCOILLOOP:	stream << ".RUNAROUNDCOILLOOP."; break;
+		case ENUM_HEATPIPE:	stream << ".HEATPIPE."; break;
+		case ENUM_TWINTOWERENTHALPYRECOVERYLOOPS:	stream << ".TWINTOWERENTHALPYRECOVERYLOOPS."; break;
+		case ENUM_THERMOSIPHONSEALEDTUBEHEATEXCHANGERS:	stream << ".THERMOSIPHONSEALEDTUBEHEATEXCHANGERS."; break;
+		case ENUM_THERMOSIPHONCOILTYPEHEATEXCHANGERS:	stream << ".THERMOSIPHONCOILTYPEHEATEXCHANGERS."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAirToAirHeatRecoveryTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FIXEDPLATECOUNTERFLOWEXCHANGER:	return L"FIXEDPLATECOUNTERFLOWEXCHANGER";
+		case ENUM_FIXEDPLATECROSSFLOWEXCHANGER:	return L"FIXEDPLATECROSSFLOWEXCHANGER";
+		case ENUM_FIXEDPLATEPARALLELFLOWEXCHANGER:	return L"FIXEDPLATEPARALLELFLOWEXCHANGER";
+		case ENUM_ROTARYWHEEL:	return L"ROTARYWHEEL";
+		case ENUM_RUNAROUNDCOILLOOP:	return L"RUNAROUNDCOILLOOP";
+		case ENUM_HEATPIPE:	return L"HEATPIPE";
+		case ENUM_TWINTOWERENTHALPYRECOVERYLOOPS:	return L"TWINTOWERENTHALPYRECOVERYLOOPS";
+		case ENUM_THERMOSIPHONSEALEDTUBEHEATEXCHANGERS:	return L"THERMOSIPHONSEALEDTUBEHEATEXCHANGERS";
+		case ENUM_THERMOSIPHONCOILTYPEHEATEXCHANGERS:	return L"THERMOSIPHONCOILTYPEHEATEXCHANGERS";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> IfcAirToAirHeatRecoveryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

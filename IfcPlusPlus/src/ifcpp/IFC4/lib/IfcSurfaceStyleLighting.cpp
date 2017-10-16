@@ -36,6 +36,7 @@ void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSurfaceStyleLighting::toString() const { return L"IfcSurfaceStyleLighting"; }
 void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( IfcPPCopyOpti
 void IfcDiscreteAccessoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISCRETEACCESSORYTYPEENUM("; }
-	if( m_enum == ENUM_ANCHORPLATE )
+	switch( m_enum )
 	{
-		stream << ".ANCHORPLATE.";
-	}
-	else if( m_enum == ENUM_BRACKET )
-	{
-		stream << ".BRACKET.";
-	}
-	else if( m_enum == ENUM_SHOE )
-	{
-		stream << ".SHOE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ANCHORPLATE:	stream << ".ANCHORPLATE."; break;
+		case ENUM_BRACKET:	stream << ".BRACKET."; break;
+		case ENUM_SHOE:	stream << ".SHOE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDiscreteAccessoryTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ANCHORPLATE:	return L"ANCHORPLATE";
+		case ENUM_BRACKET:	return L"BRACKET";
+		case ENUM_SHOE:	return L"SHOE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

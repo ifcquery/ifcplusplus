@@ -53,6 +53,7 @@ void IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream )
 	stream << ");";
 }
 void IfcSectionReinforcementProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSectionReinforcementProperties::toString() const { return L"IfcSectionReinforcementProperties"; }
 void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

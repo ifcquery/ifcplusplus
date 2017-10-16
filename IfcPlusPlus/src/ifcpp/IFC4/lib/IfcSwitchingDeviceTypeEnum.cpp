@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcSwitchingDeviceTypeEnum::getDeepCopy( IfcPPCopyOption
 void IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSWITCHINGDEVICETYPEENUM("; }
-	if( m_enum == ENUM_CONTACTOR )
+	switch( m_enum )
 	{
-		stream << ".CONTACTOR.";
-	}
-	else if( m_enum == ENUM_DIMMERSWITCH )
-	{
-		stream << ".DIMMERSWITCH.";
-	}
-	else if( m_enum == ENUM_EMERGENCYSTOP )
-	{
-		stream << ".EMERGENCYSTOP.";
-	}
-	else if( m_enum == ENUM_KEYPAD )
-	{
-		stream << ".KEYPAD.";
-	}
-	else if( m_enum == ENUM_MOMENTARYSWITCH )
-	{
-		stream << ".MOMENTARYSWITCH.";
-	}
-	else if( m_enum == ENUM_SELECTORSWITCH )
-	{
-		stream << ".SELECTORSWITCH.";
-	}
-	else if( m_enum == ENUM_STARTER )
-	{
-		stream << ".STARTER.";
-	}
-	else if( m_enum == ENUM_SWITCHDISCONNECTOR )
-	{
-		stream << ".SWITCHDISCONNECTOR.";
-	}
-	else if( m_enum == ENUM_TOGGLESWITCH )
-	{
-		stream << ".TOGGLESWITCH.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONTACTOR:	stream << ".CONTACTOR."; break;
+		case ENUM_DIMMERSWITCH:	stream << ".DIMMERSWITCH."; break;
+		case ENUM_EMERGENCYSTOP:	stream << ".EMERGENCYSTOP."; break;
+		case ENUM_KEYPAD:	stream << ".KEYPAD."; break;
+		case ENUM_MOMENTARYSWITCH:	stream << ".MOMENTARYSWITCH."; break;
+		case ENUM_SELECTORSWITCH:	stream << ".SELECTORSWITCH."; break;
+		case ENUM_STARTER:	stream << ".STARTER."; break;
+		case ENUM_SWITCHDISCONNECTOR:	stream << ".SWITCHDISCONNECTOR."; break;
+		case ENUM_TOGGLESWITCH:	stream << ".TOGGLESWITCH."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSwitchingDeviceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONTACTOR:	return L"CONTACTOR";
+		case ENUM_DIMMERSWITCH:	return L"DIMMERSWITCH";
+		case ENUM_EMERGENCYSTOP:	return L"EMERGENCYSTOP";
+		case ENUM_KEYPAD:	return L"KEYPAD";
+		case ENUM_MOMENTARYSWITCH:	return L"MOMENTARYSWITCH";
+		case ENUM_SELECTORSWITCH:	return L"SELECTORSWITCH";
+		case ENUM_STARTER:	return L"STARTER";
+		case ENUM_SWITCHDISCONNECTOR:	return L"SWITCHDISCONNECTOR";
+		case ENUM_TOGGLESWITCH:	return L"TOGGLESWITCH";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

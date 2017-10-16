@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcCableSegmentTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcCableSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLESEGMENTTYPEENUM("; }
-	if( m_enum == ENUM_BUSBARSEGMENT )
+	switch( m_enum )
 	{
-		stream << ".BUSBARSEGMENT.";
-	}
-	else if( m_enum == ENUM_CABLESEGMENT )
-	{
-		stream << ".CABLESEGMENT.";
-	}
-	else if( m_enum == ENUM_CONDUCTORSEGMENT )
-	{
-		stream << ".CONDUCTORSEGMENT.";
-	}
-	else if( m_enum == ENUM_CORESEGMENT )
-	{
-		stream << ".CORESEGMENT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BUSBARSEGMENT:	stream << ".BUSBARSEGMENT."; break;
+		case ENUM_CABLESEGMENT:	stream << ".CABLESEGMENT."; break;
+		case ENUM_CONDUCTORSEGMENT:	stream << ".CONDUCTORSEGMENT."; break;
+		case ENUM_CORESEGMENT:	stream << ".CORESEGMENT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCableSegmentTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BUSBARSEGMENT:	return L"BUSBARSEGMENT";
+		case ENUM_CABLESEGMENT:	return L"CABLESEGMENT";
+		case ENUM_CONDUCTORSEGMENT:	return L"CONDUCTORSEGMENT";
+		case ENUM_CORESEGMENT:	return L"CORESEGMENT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCableSegmentTypeEnum> IfcCableSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

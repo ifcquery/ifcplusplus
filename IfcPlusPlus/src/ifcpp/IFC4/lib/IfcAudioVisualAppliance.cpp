@@ -87,6 +87,7 @@ void IfcAudioVisualAppliance::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcAudioVisualAppliance::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcAudioVisualAppliance::toString() const { return L"IfcAudioVisualAppliance"; }
 void IfcAudioVisualAppliance::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

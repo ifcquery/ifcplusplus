@@ -573,6 +573,143 @@ namespace GeomUtils
 		pos = matrix*pos;
 		extent = matrix*extent;
 	}
+	/** matrix operations */
+	inline void computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv )
+	{
+		int i, j;	// col, row
+		int s;		// step
+		int prow;	// pivot
+		int err_flag = 0;
+		double factor;
+		const double eps = 0.01;
+		double max;
+		int pivot = 1;
+		double a[4][8];
+
+		a[0][0] = matrix_a._11;
+		a[0][1] = matrix_a._12;
+		a[0][2] = matrix_a._13;
+		a[0][3] = matrix_a._14;
+
+		a[1][0] = matrix_a._21;
+		a[1][1] = matrix_a._22;
+		a[1][2] = matrix_a._23;
+		a[1][3] = matrix_a._24;
+
+		a[2][0] = matrix_a._31;
+		a[2][1] = matrix_a._32;
+		a[2][2] = matrix_a._33;
+		a[2][3] = matrix_a._34;
+
+		a[3][0] = matrix_a._41;
+		a[3][1] = matrix_a._42;
+		a[3][2] = matrix_a._43;
+		a[3][3] = matrix_a._44;
+
+		// append identity at the right
+		for( i = 0; i < 4; ++i )
+		{
+			for( j = 0; j < 4; ++j )
+			{
+				a[i][4 + j] = 0.0;
+				if( i == j )
+				{
+					a[i][4 + j] = 1.0;
+				}
+			}
+		}
+
+		s = 0;
+		do
+		{
+			max = std::abs( a[s][s] );
+			if( pivot )
+			{
+				prow = s;
+				for( i = s + 1; i < 4; ++i )
+				{
+					if( std::abs( a[i][s] ) > max )
+					{
+						max = std::abs( a[i][s] );
+						prow = i;
+					}
+				}
+			}
+			err_flag = max < eps;
+
+			if( err_flag ) break;
+
+			if( pivot )
+			{
+				if( prow != s )
+				{
+					// change rows
+					double temp;
+					for( j = s; j < 2 * 4; ++j )
+					{
+						temp = a[s][j];
+						a[s][j] = a[prow][j];
+						a[prow][j] = temp;
+					}
+				}
+			}
+
+			// elimination: divide by pivot coefficient f = a[s][s]
+			factor = a[s][s];
+			for( j = s; j < 2 * 4; ++j )
+			{
+				a[s][j] = a[s][j] / factor;
+			}
+
+			for( i = 0; i < 4; ++i )
+			{
+				if( i != s )
+				{
+					factor = -a[i][s];
+					for( j = s; j < 2 * 4; ++j )
+					{
+						a[i][j] += factor*a[s][j];
+					}
+				}
+			}
+			++s;
+		} while( s < 4 );
+
+		if( err_flag )
+		{
+			throw IfcPPException( "cannot compute inverse of matrix", __FUNC__ );
+		}
+
+		inv._11 = a[0][4];
+		inv._12 = a[0][5];
+		inv._13 = a[0][6];
+		inv._14 = a[0][7];
+
+		inv._21 = a[1][4];
+		inv._22 = a[1][5];
+		inv._23 = a[1][6];
+		inv._24 = a[1][7];
+
+		inv._31 = a[2][4];
+		inv._32 = a[2][5];
+		inv._33 = a[2][6];
+		inv._34 = a[2][7];
+
+		inv._41 = a[3][4];
+		inv._42 = a[3][5];
+		inv._43 = a[3][6];
+		inv._44 = a[3][7];
+	}
+	inline bool checkMatricesIdentical( const carve::math::Matrix &A, const carve::math::Matrix &B, double tolerance = 0.000001 ) 
+	{
+		for( size_t i = 0; i < 16; ++i )
+		{
+			double delta = A.v[i] - B.v[i];
+			if( abs(delta) > tolerance ) return false;
+		}
+		return true;
+	}
+
 	inline void removeDuplicates( std::vector<vec2>&	loop )
 	{
 		if( loop.size() > 1 )

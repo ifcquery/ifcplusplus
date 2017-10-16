@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcLightFixtureTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTFIXTURETYPEENUM("; }
-	if( m_enum == ENUM_POINTSOURCE )
+	switch( m_enum )
 	{
-		stream << ".POINTSOURCE.";
-	}
-	else if( m_enum == ENUM_DIRECTIONSOURCE )
-	{
-		stream << ".DIRECTIONSOURCE.";
-	}
-	else if( m_enum == ENUM_SECURITYLIGHTING )
-	{
-		stream << ".SECURITYLIGHTING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_POINTSOURCE:	stream << ".POINTSOURCE."; break;
+		case ENUM_DIRECTIONSOURCE:	stream << ".DIRECTIONSOURCE."; break;
+		case ENUM_SECURITYLIGHTING:	stream << ".SECURITYLIGHTING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLightFixtureTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_POINTSOURCE:	return L"POINTSOURCE";
+		case ENUM_DIRECTIONSOURCE:	return L"DIRECTIONSOURCE";
+		case ENUM_SECURITYLIGHTING:	return L"SECURITYLIGHTING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

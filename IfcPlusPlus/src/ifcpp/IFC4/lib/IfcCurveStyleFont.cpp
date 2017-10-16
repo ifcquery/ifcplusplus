@@ -38,6 +38,7 @@ void IfcCurveStyleFont::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCurveStyleFont::toString() const { return L"IfcCurveStyleFont"; }
 void IfcCurveStyleFont::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

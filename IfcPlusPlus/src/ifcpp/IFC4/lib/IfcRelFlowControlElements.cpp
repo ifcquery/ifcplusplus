@@ -62,6 +62,7 @@ void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelFlowControlElements::toString() const { return L"IfcRelFlowControlElements"; }
 void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

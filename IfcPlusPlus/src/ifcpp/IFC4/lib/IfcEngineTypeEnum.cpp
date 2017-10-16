@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcEngineTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcEngineTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCENGINETYPEENUM("; }
-	if( m_enum == ENUM_EXTERNALCOMBUSTION )
+	switch( m_enum )
 	{
-		stream << ".EXTERNALCOMBUSTION.";
-	}
-	else if( m_enum == ENUM_INTERNALCOMBUSTION )
-	{
-		stream << ".INTERNALCOMBUSTION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_EXTERNALCOMBUSTION:	stream << ".EXTERNALCOMBUSTION."; break;
+		case ENUM_INTERNALCOMBUSTION:	stream << ".INTERNALCOMBUSTION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcEngineTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_EXTERNALCOMBUSTION:	return L"EXTERNALCOMBUSTION";
+		case ENUM_INTERNALCOMBUSTION:	return L"INTERNALCOMBUSTION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcJunctionBoxTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcJunctionBoxTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCJUNCTIONBOXTYPEENUM("; }
-	if( m_enum == ENUM_DATA )
+	switch( m_enum )
 	{
-		stream << ".DATA.";
-	}
-	else if( m_enum == ENUM_POWER )
-	{
-		stream << ".POWER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DATA:	stream << ".DATA."; break;
+		case ENUM_POWER:	stream << ".POWER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcJunctionBoxTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DATA:	return L"DATA";
+		case ENUM_POWER:	return L"POWER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcJunctionBoxTypeEnum> IfcJunctionBoxTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

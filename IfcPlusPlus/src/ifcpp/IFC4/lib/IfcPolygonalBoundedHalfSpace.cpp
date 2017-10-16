@@ -41,6 +41,7 @@ void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPolygonalBoundedHalfSpace::toString() const { return L"IfcPolygonalBoundedHalfSpace"; }
 void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

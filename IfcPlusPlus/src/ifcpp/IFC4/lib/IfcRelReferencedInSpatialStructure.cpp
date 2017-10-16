@@ -63,6 +63,7 @@ void IfcRelReferencedInSpatialStructure::getStepLine( std::stringstream& stream 
 	stream << ");";
 }
 void IfcRelReferencedInSpatialStructure::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelReferencedInSpatialStructure::toString() const { return L"IfcRelReferencedInSpatialStructure"; }
 void IfcRelReferencedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcBuildingElementProxyTypeEnum::getDeepCopy( IfcPPCopyO
 void IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGELEMENTPROXYTYPEENUM("; }
-	if( m_enum == ENUM_COMPLEX )
+	switch( m_enum )
 	{
-		stream << ".COMPLEX.";
-	}
-	else if( m_enum == ENUM_ELEMENT )
-	{
-		stream << ".ELEMENT.";
-	}
-	else if( m_enum == ENUM_PARTIAL )
-	{
-		stream << ".PARTIAL.";
-	}
-	else if( m_enum == ENUM_PROVISIONFORVOID )
-	{
-		stream << ".PROVISIONFORVOID.";
-	}
-	else if( m_enum == ENUM_PROVISIONFORSPACE )
-	{
-		stream << ".PROVISIONFORSPACE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COMPLEX:	stream << ".COMPLEX."; break;
+		case ENUM_ELEMENT:	stream << ".ELEMENT."; break;
+		case ENUM_PARTIAL:	stream << ".PARTIAL."; break;
+		case ENUM_PROVISIONFORVOID:	stream << ".PROVISIONFORVOID."; break;
+		case ENUM_PROVISIONFORSPACE:	stream << ".PROVISIONFORSPACE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBuildingElementProxyTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COMPLEX:	return L"COMPLEX";
+		case ENUM_ELEMENT:	return L"ELEMENT";
+		case ENUM_PARTIAL:	return L"PARTIAL";
+		case ENUM_PROVISIONFORVOID:	return L"PROVISIONFORVOID";
+		case ENUM_PROVISIONFORSPACE:	return L"PROVISIONFORSPACE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

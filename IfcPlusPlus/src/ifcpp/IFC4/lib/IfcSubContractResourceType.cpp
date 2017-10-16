@@ -97,6 +97,7 @@ void IfcSubContractResourceType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSubContractResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSubContractResourceType::toString() const { return L"IfcSubContractResourceType"; }
 void IfcSubContractResourceType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

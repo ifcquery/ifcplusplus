@@ -51,6 +51,7 @@ void IfcProfileProperties::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProfileProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcProfileProperties::toString() const { return L"IfcProfileProperties"; }
 void IfcProfileProperties::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

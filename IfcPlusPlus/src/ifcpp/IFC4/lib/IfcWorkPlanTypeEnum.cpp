@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcWorkPlanTypeEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKPLANTYPEENUM("; }
-	if( m_enum == ENUM_ACTUAL )
+	switch( m_enum )
 	{
-		stream << ".ACTUAL.";
-	}
-	else if( m_enum == ENUM_BASELINE )
-	{
-		stream << ".BASELINE.";
-	}
-	else if( m_enum == ENUM_PLANNED )
-	{
-		stream << ".PLANNED.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ACTUAL:	stream << ".ACTUAL."; break;
+		case ENUM_BASELINE:	stream << ".BASELINE."; break;
+		case ENUM_PLANNED:	stream << ".PLANNED."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWorkPlanTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ACTUAL:	return L"ACTUAL";
+		case ENUM_BASELINE:	return L"BASELINE";
+		case ENUM_PLANNED:	return L"PLANNED";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWorkPlanTypeEnum> IfcWorkPlanTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

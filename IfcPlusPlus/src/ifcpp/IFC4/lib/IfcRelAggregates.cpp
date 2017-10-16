@@ -61,6 +61,7 @@ void IfcRelAggregates::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelAggregates::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelAggregates::toString() const { return L"IfcRelAggregates"; }
 void IfcRelAggregates::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcPropertySetTemplateTypeEnum::getDeepCopy( IfcPPCopyOp
 void IfcPropertySetTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROPERTYSETTEMPLATETYPEENUM("; }
-	if( m_enum == ENUM_PSET_TYPEDRIVENONLY )
+	switch( m_enum )
 	{
-		stream << ".PSET_TYPEDRIVENONLY.";
-	}
-	else if( m_enum == ENUM_PSET_TYPEDRIVENOVERRIDE )
-	{
-		stream << ".PSET_TYPEDRIVENOVERRIDE.";
-	}
-	else if( m_enum == ENUM_PSET_OCCURRENCEDRIVEN )
-	{
-		stream << ".PSET_OCCURRENCEDRIVEN.";
-	}
-	else if( m_enum == ENUM_PSET_PERFORMANCEDRIVEN )
-	{
-		stream << ".PSET_PERFORMANCEDRIVEN.";
-	}
-	else if( m_enum == ENUM_QTO_TYPEDRIVENONLY )
-	{
-		stream << ".QTO_TYPEDRIVENONLY.";
-	}
-	else if( m_enum == ENUM_QTO_TYPEDRIVENOVERRIDE )
-	{
-		stream << ".QTO_TYPEDRIVENOVERRIDE.";
-	}
-	else if( m_enum == ENUM_QTO_OCCURRENCEDRIVEN )
-	{
-		stream << ".QTO_OCCURRENCEDRIVEN.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PSET_TYPEDRIVENONLY:	stream << ".PSET_TYPEDRIVENONLY."; break;
+		case ENUM_PSET_TYPEDRIVENOVERRIDE:	stream << ".PSET_TYPEDRIVENOVERRIDE."; break;
+		case ENUM_PSET_OCCURRENCEDRIVEN:	stream << ".PSET_OCCURRENCEDRIVEN."; break;
+		case ENUM_PSET_PERFORMANCEDRIVEN:	stream << ".PSET_PERFORMANCEDRIVEN."; break;
+		case ENUM_QTO_TYPEDRIVENONLY:	stream << ".QTO_TYPEDRIVENONLY."; break;
+		case ENUM_QTO_TYPEDRIVENOVERRIDE:	stream << ".QTO_TYPEDRIVENOVERRIDE."; break;
+		case ENUM_QTO_OCCURRENCEDRIVEN:	stream << ".QTO_OCCURRENCEDRIVEN."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPropertySetTemplateTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PSET_TYPEDRIVENONLY:	return L"PSET_TYPEDRIVENONLY";
+		case ENUM_PSET_TYPEDRIVENOVERRIDE:	return L"PSET_TYPEDRIVENOVERRIDE";
+		case ENUM_PSET_OCCURRENCEDRIVEN:	return L"PSET_OCCURRENCEDRIVEN";
+		case ENUM_PSET_PERFORMANCEDRIVEN:	return L"PSET_PERFORMANCEDRIVEN";
+		case ENUM_QTO_TYPEDRIVENONLY:	return L"QTO_TYPEDRIVENONLY";
+		case ENUM_QTO_TYPEDRIVENOVERRIDE:	return L"QTO_TYPEDRIVENOVERRIDE";
+		case ENUM_QTO_OCCURRENCEDRIVEN:	return L"QTO_OCCURRENCEDRIVEN";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPropertySetTemplateTypeEnum> IfcPropertySetTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

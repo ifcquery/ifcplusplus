@@ -77,6 +77,7 @@ void IfcStructuralSurfaceMember::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcStructuralSurfaceMember::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcStructuralSurfaceMember::toString() const { return L"IfcStructuralSurfaceMember"; }
 void IfcStructuralSurfaceMember::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

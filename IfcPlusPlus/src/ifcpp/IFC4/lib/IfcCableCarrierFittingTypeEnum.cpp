@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcCableCarrierFittingTypeEnum::getDeepCopy( IfcPPCopyOp
 void IfcCableCarrierFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLECARRIERFITTINGTYPEENUM("; }
-	if( m_enum == ENUM_BEND )
+	switch( m_enum )
 	{
-		stream << ".BEND.";
-	}
-	else if( m_enum == ENUM_CROSS )
-	{
-		stream << ".CROSS.";
-	}
-	else if( m_enum == ENUM_REDUCER )
-	{
-		stream << ".REDUCER.";
-	}
-	else if( m_enum == ENUM_TEE )
-	{
-		stream << ".TEE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BEND:	stream << ".BEND."; break;
+		case ENUM_CROSS:	stream << ".CROSS."; break;
+		case ENUM_REDUCER:	stream << ".REDUCER."; break;
+		case ENUM_TEE:	stream << ".TEE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCableCarrierFittingTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BEND:	return L"BEND";
+		case ENUM_CROSS:	return L"CROSS";
+		case ENUM_REDUCER:	return L"REDUCER";
+		case ENUM_TEE:	return L"TEE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

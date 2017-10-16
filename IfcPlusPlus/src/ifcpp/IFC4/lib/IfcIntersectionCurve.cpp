@@ -44,6 +44,7 @@ void IfcIntersectionCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcIntersectionCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcIntersectionCurve::toString() const { return L"IfcIntersectionCurve"; }
 void IfcIntersectionCurve::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

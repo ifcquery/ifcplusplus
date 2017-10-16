@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcDoorPanelPositionEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcDoorPanelPositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORPANELPOSITIONENUM("; }
-	if( m_enum == ENUM_LEFT )
+	switch( m_enum )
 	{
-		stream << ".LEFT.";
-	}
-	else if( m_enum == ENUM_MIDDLE )
-	{
-		stream << ".MIDDLE.";
-	}
-	else if( m_enum == ENUM_RIGHT )
-	{
-		stream << ".RIGHT.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_LEFT:	stream << ".LEFT."; break;
+		case ENUM_MIDDLE:	stream << ".MIDDLE."; break;
+		case ENUM_RIGHT:	stream << ".RIGHT."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDoorPanelPositionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_LEFT:	return L"LEFT";
+		case ENUM_MIDDLE:	return L"MIDDLE";
+		case ENUM_RIGHT:	return L"RIGHT";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

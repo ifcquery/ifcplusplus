@@ -21,63 +21,45 @@ shared_ptr<IfcPPObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( IfcPPCo
 void IfcCommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMMUNICATIONSAPPLIANCETYPEENUM("; }
-	if( m_enum == ENUM_ANTENNA )
+	switch( m_enum )
 	{
-		stream << ".ANTENNA.";
-	}
-	else if( m_enum == ENUM_COMPUTER )
-	{
-		stream << ".COMPUTER.";
-	}
-	else if( m_enum == ENUM_FAX )
-	{
-		stream << ".FAX.";
-	}
-	else if( m_enum == ENUM_GATEWAY )
-	{
-		stream << ".GATEWAY.";
-	}
-	else if( m_enum == ENUM_MODEM )
-	{
-		stream << ".MODEM.";
-	}
-	else if( m_enum == ENUM_NETWORKAPPLIANCE )
-	{
-		stream << ".NETWORKAPPLIANCE.";
-	}
-	else if( m_enum == ENUM_NETWORKBRIDGE )
-	{
-		stream << ".NETWORKBRIDGE.";
-	}
-	else if( m_enum == ENUM_NETWORKHUB )
-	{
-		stream << ".NETWORKHUB.";
-	}
-	else if( m_enum == ENUM_PRINTER )
-	{
-		stream << ".PRINTER.";
-	}
-	else if( m_enum == ENUM_REPEATER )
-	{
-		stream << ".REPEATER.";
-	}
-	else if( m_enum == ENUM_ROUTER )
-	{
-		stream << ".ROUTER.";
-	}
-	else if( m_enum == ENUM_SCANNER )
-	{
-		stream << ".SCANNER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ANTENNA:	stream << ".ANTENNA."; break;
+		case ENUM_COMPUTER:	stream << ".COMPUTER."; break;
+		case ENUM_FAX:	stream << ".FAX."; break;
+		case ENUM_GATEWAY:	stream << ".GATEWAY."; break;
+		case ENUM_MODEM:	stream << ".MODEM."; break;
+		case ENUM_NETWORKAPPLIANCE:	stream << ".NETWORKAPPLIANCE."; break;
+		case ENUM_NETWORKBRIDGE:	stream << ".NETWORKBRIDGE."; break;
+		case ENUM_NETWORKHUB:	stream << ".NETWORKHUB."; break;
+		case ENUM_PRINTER:	stream << ".PRINTER."; break;
+		case ENUM_REPEATER:	stream << ".REPEATER."; break;
+		case ENUM_ROUTER:	stream << ".ROUTER."; break;
+		case ENUM_SCANNER:	stream << ".SCANNER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCommunicationsApplianceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ANTENNA:	return L"ANTENNA";
+		case ENUM_COMPUTER:	return L"COMPUTER";
+		case ENUM_FAX:	return L"FAX";
+		case ENUM_GATEWAY:	return L"GATEWAY";
+		case ENUM_MODEM:	return L"MODEM";
+		case ENUM_NETWORKAPPLIANCE:	return L"NETWORKAPPLIANCE";
+		case ENUM_NETWORKBRIDGE:	return L"NETWORKBRIDGE";
+		case ENUM_NETWORKHUB:	return L"NETWORKHUB";
+		case ENUM_PRINTER:	return L"PRINTER";
+		case ENUM_REPEATER:	return L"REPEATER";
+		case ENUM_ROUTER:	return L"ROUTER";
+		case ENUM_SCANNER:	return L"SCANNER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

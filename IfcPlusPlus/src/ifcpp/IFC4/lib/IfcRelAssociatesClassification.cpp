@@ -81,6 +81,7 @@ void IfcRelAssociatesClassification::getStepLine( std::stringstream& stream ) co
 	stream << ");";
 }
 void IfcRelAssociatesClassification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelAssociatesClassification::toString() const { return L"IfcRelAssociatesClassification"; }
 void IfcRelAssociatesClassification::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

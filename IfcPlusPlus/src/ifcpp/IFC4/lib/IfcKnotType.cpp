@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcKnotType::getDeepCopy( IfcPPCopyOptions& options )
 void IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCKNOTTYPE("; }
-	if( m_enum == ENUM_UNIFORM_KNOTS )
+	switch( m_enum )
 	{
-		stream << ".UNIFORM_KNOTS.";
-	}
-	else if( m_enum == ENUM_QUASI_UNIFORM_KNOTS )
-	{
-		stream << ".QUASI_UNIFORM_KNOTS.";
-	}
-	else if( m_enum == ENUM_PIECEWISE_BEZIER_KNOTS )
-	{
-		stream << ".PIECEWISE_BEZIER_KNOTS.";
-	}
-	else if( m_enum == ENUM_UNSPECIFIED )
-	{
-		stream << ".UNSPECIFIED.";
+		case ENUM_UNIFORM_KNOTS:	stream << ".UNIFORM_KNOTS."; break;
+		case ENUM_QUASI_UNIFORM_KNOTS:	stream << ".QUASI_UNIFORM_KNOTS."; break;
+		case ENUM_PIECEWISE_BEZIER_KNOTS:	stream << ".PIECEWISE_BEZIER_KNOTS."; break;
+		case ENUM_UNSPECIFIED:	stream << ".UNSPECIFIED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcKnotType::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_UNIFORM_KNOTS:	return L"UNIFORM_KNOTS";
+		case ENUM_QUASI_UNIFORM_KNOTS:	return L"QUASI_UNIFORM_KNOTS";
+		case ENUM_PIECEWISE_BEZIER_KNOTS:	return L"PIECEWISE_BEZIER_KNOTS";
+		case ENUM_UNSPECIFIED:	return L"UNSPECIFIED";
+	}
+	return L"";
 }
 shared_ptr<IfcKnotType> IfcKnotType::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

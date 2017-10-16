@@ -90,6 +90,7 @@ void IfcElectricMotorType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcElectricMotorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcElectricMotorType::toString() const { return L"IfcElectricMotorType"; }
 void IfcElectricMotorType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

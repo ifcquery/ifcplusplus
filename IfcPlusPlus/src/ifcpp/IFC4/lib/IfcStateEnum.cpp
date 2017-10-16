@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcStateEnum::getDeepCopy( IfcPPCopyOptions& options )
 void IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTATEENUM("; }
-	if( m_enum == ENUM_READWRITE )
+	switch( m_enum )
 	{
-		stream << ".READWRITE.";
-	}
-	else if( m_enum == ENUM_READONLY )
-	{
-		stream << ".READONLY.";
-	}
-	else if( m_enum == ENUM_LOCKED )
-	{
-		stream << ".LOCKED.";
-	}
-	else if( m_enum == ENUM_READWRITELOCKED )
-	{
-		stream << ".READWRITELOCKED.";
-	}
-	else if( m_enum == ENUM_READONLYLOCKED )
-	{
-		stream << ".READONLYLOCKED.";
+		case ENUM_READWRITE:	stream << ".READWRITE."; break;
+		case ENUM_READONLY:	stream << ".READONLY."; break;
+		case ENUM_LOCKED:	stream << ".LOCKED."; break;
+		case ENUM_READWRITELOCKED:	stream << ".READWRITELOCKED."; break;
+		case ENUM_READONLYLOCKED:	stream << ".READONLYLOCKED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStateEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_READWRITE:	return L"READWRITE";
+		case ENUM_READONLY:	return L"READONLY";
+		case ENUM_LOCKED:	return L"LOCKED";
+		case ENUM_READWRITELOCKED:	return L"READWRITELOCKED";
+		case ENUM_READONLYLOCKED:	return L"READONLYLOCKED";
+	}
+	return L"";
 }
 shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

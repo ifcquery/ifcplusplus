@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( IfcPPCopy
 void IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCUNITARYCONTROLELEMENTTYPEENUM("; }
-	if( m_enum == ENUM_ALARMPANEL )
+	switch( m_enum )
 	{
-		stream << ".ALARMPANEL.";
-	}
-	else if( m_enum == ENUM_CONTROLPANEL )
-	{
-		stream << ".CONTROLPANEL.";
-	}
-	else if( m_enum == ENUM_GASDETECTIONPANEL )
-	{
-		stream << ".GASDETECTIONPANEL.";
-	}
-	else if( m_enum == ENUM_INDICATORPANEL )
-	{
-		stream << ".INDICATORPANEL.";
-	}
-	else if( m_enum == ENUM_MIMICPANEL )
-	{
-		stream << ".MIMICPANEL.";
-	}
-	else if( m_enum == ENUM_HUMIDISTAT )
-	{
-		stream << ".HUMIDISTAT.";
-	}
-	else if( m_enum == ENUM_THERMOSTAT )
-	{
-		stream << ".THERMOSTAT.";
-	}
-	else if( m_enum == ENUM_WEATHERSTATION )
-	{
-		stream << ".WEATHERSTATION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ALARMPANEL:	stream << ".ALARMPANEL."; break;
+		case ENUM_CONTROLPANEL:	stream << ".CONTROLPANEL."; break;
+		case ENUM_GASDETECTIONPANEL:	stream << ".GASDETECTIONPANEL."; break;
+		case ENUM_INDICATORPANEL:	stream << ".INDICATORPANEL."; break;
+		case ENUM_MIMICPANEL:	stream << ".MIMICPANEL."; break;
+		case ENUM_HUMIDISTAT:	stream << ".HUMIDISTAT."; break;
+		case ENUM_THERMOSTAT:	stream << ".THERMOSTAT."; break;
+		case ENUM_WEATHERSTATION:	stream << ".WEATHERSTATION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcUnitaryControlElementTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ALARMPANEL:	return L"ALARMPANEL";
+		case ENUM_CONTROLPANEL:	return L"CONTROLPANEL";
+		case ENUM_GASDETECTIONPANEL:	return L"GASDETECTIONPANEL";
+		case ENUM_INDICATORPANEL:	return L"INDICATORPANEL";
+		case ENUM_MIMICPANEL:	return L"MIMICPANEL";
+		case ENUM_HUMIDISTAT:	return L"HUMIDISTAT";
+		case ENUM_THERMOSTAT:	return L"THERMOSTAT";
+		case ENUM_WEATHERSTATION:	return L"WEATHERSTATION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

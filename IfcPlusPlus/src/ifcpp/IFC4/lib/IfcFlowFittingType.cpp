@@ -86,6 +86,7 @@ void IfcFlowFittingType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcFlowFittingType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcFlowFittingType::toString() const { return L"IfcFlowFittingType"; }
 void IfcFlowFittingType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

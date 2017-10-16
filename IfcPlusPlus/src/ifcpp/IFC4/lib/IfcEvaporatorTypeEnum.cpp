@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcEvaporatorTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcEvaporatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEVAPORATORTYPEENUM("; }
-	if( m_enum == ENUM_DIRECTEXPANSION )
+	switch( m_enum )
 	{
-		stream << ".DIRECTEXPANSION.";
-	}
-	else if( m_enum == ENUM_DIRECTEXPANSIONSHELLANDTUBE )
-	{
-		stream << ".DIRECTEXPANSIONSHELLANDTUBE.";
-	}
-	else if( m_enum == ENUM_DIRECTEXPANSIONTUBEINTUBE )
-	{
-		stream << ".DIRECTEXPANSIONTUBEINTUBE.";
-	}
-	else if( m_enum == ENUM_DIRECTEXPANSIONBRAZEDPLATE )
-	{
-		stream << ".DIRECTEXPANSIONBRAZEDPLATE.";
-	}
-	else if( m_enum == ENUM_FLOODEDSHELLANDTUBE )
-	{
-		stream << ".FLOODEDSHELLANDTUBE.";
-	}
-	else if( m_enum == ENUM_SHELLANDCOIL )
-	{
-		stream << ".SHELLANDCOIL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DIRECTEXPANSION:	stream << ".DIRECTEXPANSION."; break;
+		case ENUM_DIRECTEXPANSIONSHELLANDTUBE:	stream << ".DIRECTEXPANSIONSHELLANDTUBE."; break;
+		case ENUM_DIRECTEXPANSIONTUBEINTUBE:	stream << ".DIRECTEXPANSIONTUBEINTUBE."; break;
+		case ENUM_DIRECTEXPANSIONBRAZEDPLATE:	stream << ".DIRECTEXPANSIONBRAZEDPLATE."; break;
+		case ENUM_FLOODEDSHELLANDTUBE:	stream << ".FLOODEDSHELLANDTUBE."; break;
+		case ENUM_SHELLANDCOIL:	stream << ".SHELLANDCOIL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcEvaporatorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DIRECTEXPANSION:	return L"DIRECTEXPANSION";
+		case ENUM_DIRECTEXPANSIONSHELLANDTUBE:	return L"DIRECTEXPANSIONSHELLANDTUBE";
+		case ENUM_DIRECTEXPANSIONTUBEINTUBE:	return L"DIRECTEXPANSIONTUBEINTUBE";
+		case ENUM_DIRECTEXPANSIONBRAZEDPLATE:	return L"DIRECTEXPANSIONBRAZEDPLATE";
+		case ENUM_FLOODEDSHELLANDTUBE:	return L"FLOODEDSHELLANDTUBE";
+		case ENUM_SHELLANDCOIL:	return L"SHELLANDCOIL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

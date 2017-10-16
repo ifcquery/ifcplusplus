@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcElementCompositionEnum::getDeepCopy( IfcPPCopyOptions
 void IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTCOMPOSITIONENUM("; }
-	if( m_enum == ENUM_COMPLEX )
+	switch( m_enum )
 	{
-		stream << ".COMPLEX.";
-	}
-	else if( m_enum == ENUM_ELEMENT )
-	{
-		stream << ".ELEMENT.";
-	}
-	else if( m_enum == ENUM_PARTIAL )
-	{
-		stream << ".PARTIAL.";
+		case ENUM_COMPLEX:	stream << ".COMPLEX."; break;
+		case ENUM_ELEMENT:	stream << ".ELEMENT."; break;
+		case ENUM_PARTIAL:	stream << ".PARTIAL."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElementCompositionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COMPLEX:	return L"COMPLEX";
+		case ENUM_ELEMENT:	return L"ELEMENT";
+		case ENUM_PARTIAL:	return L"PARTIAL";
+	}
+	return L"";
 }
 shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -37,6 +37,7 @@ void IfcSweptSurface::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSweptSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSweptSurface::toString() const { return L"IfcSweptSurface"; }
 void IfcSweptSurface::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

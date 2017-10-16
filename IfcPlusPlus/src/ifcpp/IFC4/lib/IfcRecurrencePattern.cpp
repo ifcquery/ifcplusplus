@@ -81,6 +81,7 @@ void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRecurrencePattern::toString() const { return L"IfcRecurrencePattern"; }
 void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

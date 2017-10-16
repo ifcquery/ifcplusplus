@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcArithmeticOperatorEnum::getDeepCopy( IfcPPCopyOptions
 void IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARITHMETICOPERATORENUM("; }
-	if( m_enum == ENUM_ADD )
+	switch( m_enum )
 	{
-		stream << ".ADD.";
-	}
-	else if( m_enum == ENUM_DIVIDE )
-	{
-		stream << ".DIVIDE.";
-	}
-	else if( m_enum == ENUM_MULTIPLY )
-	{
-		stream << ".MULTIPLY.";
-	}
-	else if( m_enum == ENUM_SUBTRACT )
-	{
-		stream << ".SUBTRACT.";
+		case ENUM_ADD:	stream << ".ADD."; break;
+		case ENUM_DIVIDE:	stream << ".DIVIDE."; break;
+		case ENUM_MULTIPLY:	stream << ".MULTIPLY."; break;
+		case ENUM_SUBTRACT:	stream << ".SUBTRACT."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcArithmeticOperatorEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ADD:	return L"ADD";
+		case ENUM_DIVIDE:	return L"DIVIDE";
+		case ENUM_MULTIPLY:	return L"MULTIPLY";
+		case ENUM_SUBTRACT:	return L"SUBTRACT";
+	}
+	return L"";
 }
 shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcElectricMotorTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcElectricMotorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICMOTORTYPEENUM("; }
-	if( m_enum == ENUM_DC )
+	switch( m_enum )
 	{
-		stream << ".DC.";
-	}
-	else if( m_enum == ENUM_INDUCTION )
-	{
-		stream << ".INDUCTION.";
-	}
-	else if( m_enum == ENUM_POLYPHASE )
-	{
-		stream << ".POLYPHASE.";
-	}
-	else if( m_enum == ENUM_RELUCTANCESYNCHRONOUS )
-	{
-		stream << ".RELUCTANCESYNCHRONOUS.";
-	}
-	else if( m_enum == ENUM_SYNCHRONOUS )
-	{
-		stream << ".SYNCHRONOUS.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DC:	stream << ".DC."; break;
+		case ENUM_INDUCTION:	stream << ".INDUCTION."; break;
+		case ENUM_POLYPHASE:	stream << ".POLYPHASE."; break;
+		case ENUM_RELUCTANCESYNCHRONOUS:	stream << ".RELUCTANCESYNCHRONOUS."; break;
+		case ENUM_SYNCHRONOUS:	stream << ".SYNCHRONOUS."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElectricMotorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DC:	return L"DC";
+		case ENUM_INDUCTION:	return L"INDUCTION";
+		case ENUM_POLYPHASE:	return L"POLYPHASE";
+		case ENUM_RELUCTANCESYNCHRONOUS:	return L"RELUCTANCESYNCHRONOUS";
+		case ENUM_SYNCHRONOUS:	return L"SYNCHRONOUS";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

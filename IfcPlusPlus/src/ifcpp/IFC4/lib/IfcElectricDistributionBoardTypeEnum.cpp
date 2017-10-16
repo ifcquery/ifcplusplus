@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcElectricDistributionBoardTypeEnum::getDeepCopy( IfcPP
 void IfcElectricDistributionBoardTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICDISTRIBUTIONBOARDTYPEENUM("; }
-	if( m_enum == ENUM_CONSUMERUNIT )
+	switch( m_enum )
 	{
-		stream << ".CONSUMERUNIT.";
-	}
-	else if( m_enum == ENUM_DISTRIBUTIONBOARD )
-	{
-		stream << ".DISTRIBUTIONBOARD.";
-	}
-	else if( m_enum == ENUM_MOTORCONTROLCENTRE )
-	{
-		stream << ".MOTORCONTROLCENTRE.";
-	}
-	else if( m_enum == ENUM_SWITCHBOARD )
-	{
-		stream << ".SWITCHBOARD.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONSUMERUNIT:	stream << ".CONSUMERUNIT."; break;
+		case ENUM_DISTRIBUTIONBOARD:	stream << ".DISTRIBUTIONBOARD."; break;
+		case ENUM_MOTORCONTROLCENTRE:	stream << ".MOTORCONTROLCENTRE."; break;
+		case ENUM_SWITCHBOARD:	stream << ".SWITCHBOARD."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElectricDistributionBoardTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONSUMERUNIT:	return L"CONSUMERUNIT";
+		case ENUM_DISTRIBUTIONBOARD:	return L"DISTRIBUTIONBOARD";
+		case ENUM_MOTORCONTROLCENTRE:	return L"MOTORCONTROLCENTRE";
+		case ENUM_SWITCHBOARD:	return L"SWITCHBOARD";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,183 +21,105 @@ shared_ptr<IfcPPObject> IfcDistributionSystemEnum::getDeepCopy( IfcPPCopyOptions
 void IfcDistributionSystemEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONSYSTEMENUM("; }
-	if( m_enum == ENUM_AIRCONDITIONING )
+	switch( m_enum )
 	{
-		stream << ".AIRCONDITIONING.";
-	}
-	else if( m_enum == ENUM_AUDIOVISUAL )
-	{
-		stream << ".AUDIOVISUAL.";
-	}
-	else if( m_enum == ENUM_CHEMICAL )
-	{
-		stream << ".CHEMICAL.";
-	}
-	else if( m_enum == ENUM_CHILLEDWATER )
-	{
-		stream << ".CHILLEDWATER.";
-	}
-	else if( m_enum == ENUM_COMMUNICATION )
-	{
-		stream << ".COMMUNICATION.";
-	}
-	else if( m_enum == ENUM_COMPRESSEDAIR )
-	{
-		stream << ".COMPRESSEDAIR.";
-	}
-	else if( m_enum == ENUM_CONDENSERWATER )
-	{
-		stream << ".CONDENSERWATER.";
-	}
-	else if( m_enum == ENUM_CONTROL )
-	{
-		stream << ".CONTROL.";
-	}
-	else if( m_enum == ENUM_CONVEYING )
-	{
-		stream << ".CONVEYING.";
-	}
-	else if( m_enum == ENUM_DATA )
-	{
-		stream << ".DATA.";
-	}
-	else if( m_enum == ENUM_DISPOSAL )
-	{
-		stream << ".DISPOSAL.";
-	}
-	else if( m_enum == ENUM_DOMESTICCOLDWATER )
-	{
-		stream << ".DOMESTICCOLDWATER.";
-	}
-	else if( m_enum == ENUM_DOMESTICHOTWATER )
-	{
-		stream << ".DOMESTICHOTWATER.";
-	}
-	else if( m_enum == ENUM_DRAINAGE )
-	{
-		stream << ".DRAINAGE.";
-	}
-	else if( m_enum == ENUM_EARTHING )
-	{
-		stream << ".EARTHING.";
-	}
-	else if( m_enum == ENUM_ELECTRICAL )
-	{
-		stream << ".ELECTRICAL.";
-	}
-	else if( m_enum == ENUM_ELECTROACOUSTIC )
-	{
-		stream << ".ELECTROACOUSTIC.";
-	}
-	else if( m_enum == ENUM_EXHAUST )
-	{
-		stream << ".EXHAUST.";
-	}
-	else if( m_enum == ENUM_FIREPROTECTION )
-	{
-		stream << ".FIREPROTECTION.";
-	}
-	else if( m_enum == ENUM_FUEL )
-	{
-		stream << ".FUEL.";
-	}
-	else if( m_enum == ENUM_GAS )
-	{
-		stream << ".GAS.";
-	}
-	else if( m_enum == ENUM_HAZARDOUS )
-	{
-		stream << ".HAZARDOUS.";
-	}
-	else if( m_enum == ENUM_HEATING )
-	{
-		stream << ".HEATING.";
-	}
-	else if( m_enum == ENUM_LIGHTING )
-	{
-		stream << ".LIGHTING.";
-	}
-	else if( m_enum == ENUM_LIGHTNINGPROTECTION )
-	{
-		stream << ".LIGHTNINGPROTECTION.";
-	}
-	else if( m_enum == ENUM_MUNICIPALSOLIDWASTE )
-	{
-		stream << ".MUNICIPALSOLIDWASTE.";
-	}
-	else if( m_enum == ENUM_OIL )
-	{
-		stream << ".OIL.";
-	}
-	else if( m_enum == ENUM_OPERATIONAL )
-	{
-		stream << ".OPERATIONAL.";
-	}
-	else if( m_enum == ENUM_POWERGENERATION )
-	{
-		stream << ".POWERGENERATION.";
-	}
-	else if( m_enum == ENUM_RAINWATER )
-	{
-		stream << ".RAINWATER.";
-	}
-	else if( m_enum == ENUM_REFRIGERATION )
-	{
-		stream << ".REFRIGERATION.";
-	}
-	else if( m_enum == ENUM_SECURITY )
-	{
-		stream << ".SECURITY.";
-	}
-	else if( m_enum == ENUM_SEWAGE )
-	{
-		stream << ".SEWAGE.";
-	}
-	else if( m_enum == ENUM_SIGNAL )
-	{
-		stream << ".SIGNAL.";
-	}
-	else if( m_enum == ENUM_STORMWATER )
-	{
-		stream << ".STORMWATER.";
-	}
-	else if( m_enum == ENUM_TELEPHONE )
-	{
-		stream << ".TELEPHONE.";
-	}
-	else if( m_enum == ENUM_TV )
-	{
-		stream << ".TV.";
-	}
-	else if( m_enum == ENUM_VACUUM )
-	{
-		stream << ".VACUUM.";
-	}
-	else if( m_enum == ENUM_VENT )
-	{
-		stream << ".VENT.";
-	}
-	else if( m_enum == ENUM_VENTILATION )
-	{
-		stream << ".VENTILATION.";
-	}
-	else if( m_enum == ENUM_WASTEWATER )
-	{
-		stream << ".WASTEWATER.";
-	}
-	else if( m_enum == ENUM_WATERSUPPLY )
-	{
-		stream << ".WATERSUPPLY.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRCONDITIONING:	stream << ".AIRCONDITIONING."; break;
+		case ENUM_AUDIOVISUAL:	stream << ".AUDIOVISUAL."; break;
+		case ENUM_CHEMICAL:	stream << ".CHEMICAL."; break;
+		case ENUM_CHILLEDWATER:	stream << ".CHILLEDWATER."; break;
+		case ENUM_COMMUNICATION:	stream << ".COMMUNICATION."; break;
+		case ENUM_COMPRESSEDAIR:	stream << ".COMPRESSEDAIR."; break;
+		case ENUM_CONDENSERWATER:	stream << ".CONDENSERWATER."; break;
+		case ENUM_CONTROL:	stream << ".CONTROL."; break;
+		case ENUM_CONVEYING:	stream << ".CONVEYING."; break;
+		case ENUM_DATA:	stream << ".DATA."; break;
+		case ENUM_DISPOSAL:	stream << ".DISPOSAL."; break;
+		case ENUM_DOMESTICCOLDWATER:	stream << ".DOMESTICCOLDWATER."; break;
+		case ENUM_DOMESTICHOTWATER:	stream << ".DOMESTICHOTWATER."; break;
+		case ENUM_DRAINAGE:	stream << ".DRAINAGE."; break;
+		case ENUM_EARTHING:	stream << ".EARTHING."; break;
+		case ENUM_ELECTRICAL:	stream << ".ELECTRICAL."; break;
+		case ENUM_ELECTROACOUSTIC:	stream << ".ELECTROACOUSTIC."; break;
+		case ENUM_EXHAUST:	stream << ".EXHAUST."; break;
+		case ENUM_FIREPROTECTION:	stream << ".FIREPROTECTION."; break;
+		case ENUM_FUEL:	stream << ".FUEL."; break;
+		case ENUM_GAS:	stream << ".GAS."; break;
+		case ENUM_HAZARDOUS:	stream << ".HAZARDOUS."; break;
+		case ENUM_HEATING:	stream << ".HEATING."; break;
+		case ENUM_LIGHTING:	stream << ".LIGHTING."; break;
+		case ENUM_LIGHTNINGPROTECTION:	stream << ".LIGHTNINGPROTECTION."; break;
+		case ENUM_MUNICIPALSOLIDWASTE:	stream << ".MUNICIPALSOLIDWASTE."; break;
+		case ENUM_OIL:	stream << ".OIL."; break;
+		case ENUM_OPERATIONAL:	stream << ".OPERATIONAL."; break;
+		case ENUM_POWERGENERATION:	stream << ".POWERGENERATION."; break;
+		case ENUM_RAINWATER:	stream << ".RAINWATER."; break;
+		case ENUM_REFRIGERATION:	stream << ".REFRIGERATION."; break;
+		case ENUM_SECURITY:	stream << ".SECURITY."; break;
+		case ENUM_SEWAGE:	stream << ".SEWAGE."; break;
+		case ENUM_SIGNAL:	stream << ".SIGNAL."; break;
+		case ENUM_STORMWATER:	stream << ".STORMWATER."; break;
+		case ENUM_TELEPHONE:	stream << ".TELEPHONE."; break;
+		case ENUM_TV:	stream << ".TV."; break;
+		case ENUM_VACUUM:	stream << ".VACUUM."; break;
+		case ENUM_VENT:	stream << ".VENT."; break;
+		case ENUM_VENTILATION:	stream << ".VENTILATION."; break;
+		case ENUM_WASTEWATER:	stream << ".WASTEWATER."; break;
+		case ENUM_WATERSUPPLY:	stream << ".WATERSUPPLY."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDistributionSystemEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRCONDITIONING:	return L"AIRCONDITIONING";
+		case ENUM_AUDIOVISUAL:	return L"AUDIOVISUAL";
+		case ENUM_CHEMICAL:	return L"CHEMICAL";
+		case ENUM_CHILLEDWATER:	return L"CHILLEDWATER";
+		case ENUM_COMMUNICATION:	return L"COMMUNICATION";
+		case ENUM_COMPRESSEDAIR:	return L"COMPRESSEDAIR";
+		case ENUM_CONDENSERWATER:	return L"CONDENSERWATER";
+		case ENUM_CONTROL:	return L"CONTROL";
+		case ENUM_CONVEYING:	return L"CONVEYING";
+		case ENUM_DATA:	return L"DATA";
+		case ENUM_DISPOSAL:	return L"DISPOSAL";
+		case ENUM_DOMESTICCOLDWATER:	return L"DOMESTICCOLDWATER";
+		case ENUM_DOMESTICHOTWATER:	return L"DOMESTICHOTWATER";
+		case ENUM_DRAINAGE:	return L"DRAINAGE";
+		case ENUM_EARTHING:	return L"EARTHING";
+		case ENUM_ELECTRICAL:	return L"ELECTRICAL";
+		case ENUM_ELECTROACOUSTIC:	return L"ELECTROACOUSTIC";
+		case ENUM_EXHAUST:	return L"EXHAUST";
+		case ENUM_FIREPROTECTION:	return L"FIREPROTECTION";
+		case ENUM_FUEL:	return L"FUEL";
+		case ENUM_GAS:	return L"GAS";
+		case ENUM_HAZARDOUS:	return L"HAZARDOUS";
+		case ENUM_HEATING:	return L"HEATING";
+		case ENUM_LIGHTING:	return L"LIGHTING";
+		case ENUM_LIGHTNINGPROTECTION:	return L"LIGHTNINGPROTECTION";
+		case ENUM_MUNICIPALSOLIDWASTE:	return L"MUNICIPALSOLIDWASTE";
+		case ENUM_OIL:	return L"OIL";
+		case ENUM_OPERATIONAL:	return L"OPERATIONAL";
+		case ENUM_POWERGENERATION:	return L"POWERGENERATION";
+		case ENUM_RAINWATER:	return L"RAINWATER";
+		case ENUM_REFRIGERATION:	return L"REFRIGERATION";
+		case ENUM_SECURITY:	return L"SECURITY";
+		case ENUM_SEWAGE:	return L"SEWAGE";
+		case ENUM_SIGNAL:	return L"SIGNAL";
+		case ENUM_STORMWATER:	return L"STORMWATER";
+		case ENUM_TELEPHONE:	return L"TELEPHONE";
+		case ENUM_TV:	return L"TV";
+		case ENUM_VACUUM:	return L"VACUUM";
+		case ENUM_VENT:	return L"VENT";
+		case ENUM_VENTILATION:	return L"VENTILATION";
+		case ENUM_WASTEWATER:	return L"WASTEWATER";
+		case ENUM_WATERSUPPLY:	return L"WATERSUPPLY";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -34,7 +34,24 @@ public:
 	carve::math::Matrix m_text_position;
 };
 
-//\brief Class to hold input data of one IFC geometric representation item.
+inline void premultMatrix( const carve::math::Matrix& matrix_to_append, carve::math::Matrix& target_matrix )
+{
+	target_matrix = matrix_to_append*target_matrix;
+}
+
+class RepresentationData;
+class ProductShapeData;
+
+/**
+* 
+*\brief Class ItemShapeData: holds input data of one IFC geometric representation item.
+* Parent-child relationship of ItemShapeData, RepresentationData, ProductShapeData:
+*        ...
+*          |-> ProductShapeData [1...n]
+*                   |-> ProductShapeData [1...n]
+*                           |-> RepresentationData [1...n]
+*                                     |-> ItemShapeData [1...n]
+*/
 class ItemShapeData
 {
 public:
@@ -46,7 +63,13 @@ public:
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets_open;
 	std::vector<shared_ptr<AppearanceData> >				m_vec_item_appearances;
 	std::vector<shared_ptr<TextItemData> >					m_vec_text_literals;
+	carve::math::Matrix										m_item_matrix;
+	weak_ptr<RepresentationData>							m_parent_representation;  // Pointer to representation object that this item belongs to
 
+protected:
+	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
+
+public:
 	bool isEmpty()
 	{
 		if( m_vertex_points.size() > 0 )			{ return false; }
@@ -137,7 +160,23 @@ public:
 		vertex_data->points.push_back( point );
 	}
 
-	void applyPosition( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
+	/**
+	* \brief Computes the transformation matrix, that puts the geometry of this item into global coordinates
+	* This item may be part of a representation, which again is a part of a product. That product may have parents too.
+	* The method getTotalTransform() recursively calls getTotalTransform() of all parent representations and product objects, until there is no further parent.
+	* All transformation matrices of all parents are multiplied.
+	* No check for reference cycles is implemented.
+	*/
+	inline carve::math::Matrix getTotalTransform();
+	carve::math::Matrix getTransform()
+	{
+		return m_item_matrix;
+	}
+	void setPositionToItem( const carve::math::Matrix& matrix )
+	{
+		premultMatrix( matrix, m_item_matrix );
+	}
+	void applyPositionToItem( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -243,6 +282,7 @@ public:
 		}
 
 		std::copy( m_vec_item_appearances.begin(), m_vec_item_appearances.end(), std::back_inserter( copy_item->m_vec_item_appearances ) );
+		copy_item->m_item_matrix = m_item_matrix;
 
 		return copy_item;
 	}
@@ -259,27 +299,26 @@ public:
 	}
 
 	const std::vector<shared_ptr<carve::input::VertexData> >& getVertexPoints() { return m_vertex_points; }
-
-protected:
-	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
 };
 
-class ProductRepresentationData
+class RepresentationData
 {
 public:
-	ProductRepresentationData() {}
-	~ProductRepresentationData(){}
+	RepresentationData() {}
+	~RepresentationData(){}
 
 	weak_ptr<IfcRepresentation>						m_ifc_representation;
 	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
-	std::vector<shared_ptr<ItemShapeData> >	m_vec_item_data;
+	std::vector<shared_ptr<ItemShapeData> >			m_vec_item_data;
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
+	carve::math::Matrix								m_representation_matrix;
+	weak_ptr<ProductShapeData>						m_parent_product;  // Pointer to product object that this representation belongs to
 
-	shared_ptr<ProductRepresentationData> getDeepCopy()
+	shared_ptr<RepresentationData> getDeepCopy()
 	{
-		shared_ptr<ProductRepresentationData> copy_representation( new ProductRepresentationData() );
+		shared_ptr<RepresentationData> copy_representation( new RepresentationData() );
 		copy_representation->m_ifc_representation = m_ifc_representation;
 		copy_representation->m_ifc_representation_context = m_ifc_representation_context;
 		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
@@ -288,16 +327,17 @@ public:
 			copy_representation->m_vec_item_data.push_back( item_data->getDeepCopy() );
 		}
 		std::copy( m_vec_representation_appearances.begin(), m_vec_representation_appearances.end(), std::back_inserter( copy_representation->m_vec_representation_appearances ) );
+		copy_representation->m_representation_matrix = m_representation_matrix;
 		return copy_representation;
 	}
 
-	void addInputData( shared_ptr<ProductRepresentationData>& other )
+	void addInputData( shared_ptr<RepresentationData>& other )
 	{
 		std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
 		std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
 	}
 
-	void deepCopyFrom( shared_ptr<ProductRepresentationData>& other )
+	void deepCopyFrom( shared_ptr<RepresentationData>& other )
 	{
 		m_vec_item_data.clear();
 		m_vec_representation_appearances.clear();
@@ -310,6 +350,7 @@ public:
 				m_vec_item_data.push_back( shared_ptr<ItemShapeData>( item_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
+			m_representation_matrix = other->m_representation_matrix;
 		}
 	}
 
@@ -344,9 +385,19 @@ public:
 		m_vec_item_data.clear();
 		m_representation_identifier = L"";
 		m_representation_type = L"";
+		m_representation_matrix = carve::math::Matrix::IDENT();
 	}
-
-	void applyPosition( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
+	
+	inline carve::math::Matrix getTotalTransform();
+	carve::math::Matrix getTransform()
+	{
+		return m_representation_matrix;
+	}
+	void setPositionOfRepresentation( const carve::math::Matrix& matrix )
+	{
+		premultMatrix( matrix, m_representation_matrix );
+	}
+	void applyPositionToRepresentation( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
 		{
@@ -354,7 +405,7 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
+			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
 		}
 	}
 };
@@ -362,9 +413,18 @@ public:
 class ProductShapeData
 {
 public:
-	ProductShapeData() : m_added_to_spatial_structure(false) {}
-	virtual ~ProductShapeData() {}
+	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
+	weak_ptr<IfcObjectPlacement>						m_object_placement;
+	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
+	bool												m_added_to_spatial_structure = false;
+	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
+	weak_ptr<ProductShapeData>							m_parent;
+	carve::math::Matrix									m_product_matrix;
 
+protected:
+	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
+
+public:
 	void addInputData( shared_ptr<ProductShapeData>& other )
 	{
 		std::copy( other->m_vec_representations.begin(), other->m_vec_representations.end(), std::back_inserter( m_vec_representations ) );
@@ -381,11 +441,14 @@ public:
 		{
 			for( size_t item_i = 0; item_i < other->m_vec_representations.size(); ++item_i )
 			{
-				shared_ptr<ProductRepresentationData>& representation_data = other->m_vec_representations[item_i];
-				m_vec_representations.push_back( shared_ptr<ProductRepresentationData>( representation_data->getDeepCopy() ) );
+				shared_ptr<RepresentationData>& representation_data = other->m_vec_representations[item_i];
+				shared_ptr<RepresentationData> representation_data_copy = representation_data->getDeepCopy();
+				m_vec_representations.push_back( representation_data_copy );
 			}
 			std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
 			std::copy( other->m_vec_children.begin(), other->m_vec_children.end(), std::back_inserter( m_vec_children ) );
+			m_product_matrix = other->m_product_matrix;
+			m_parent = other->m_parent;
 		}
 	}
 
@@ -421,9 +484,19 @@ public:
 		m_vec_children.clear();
 		m_vec_representations.clear();
 		m_added_to_spatial_structure = false;
+		m_product_matrix = carve::math::Matrix::IDENT();
 	}
 
-	void applyPosition( const carve::math::Matrix& matrix )
+	inline carve::math::Matrix getTotalTransform();
+	carve::math::Matrix getTransform()
+	{
+		return m_product_matrix;
+	}
+	void setPositionOfProduct( const carve::math::Matrix& matrix )
+	{
+		premultMatrix( matrix, m_product_matrix );
+	}
+	void applyPositionToProduct( const carve::math::Matrix& matrix )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
 		{
@@ -431,7 +504,7 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_representations.size(); ++i_item )
 		{
-			m_vec_representations[i_item]->applyPosition( matrix, true );
+			m_vec_representations[i_item]->applyPositionToRepresentation( matrix, true );
 		}
 	}
 	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
@@ -463,16 +536,44 @@ public:
 		}
 		return true;
 	}
-
-	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
-	weak_ptr<IfcObjectPlacement>						m_object_placement;
-	std::vector<shared_ptr<ProductRepresentationData> >	m_vec_representations;
-	bool												m_added_to_spatial_structure;
-	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
-	
-protected:
-	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 };
+
+carve::math::Matrix ItemShapeData::getTotalTransform()
+{
+	carve::math::Matrix total_transform = m_item_matrix;
+	if( !m_parent_representation.expired() )
+	{
+		shared_ptr<RepresentationData> is_item_of_representation( m_parent_representation );
+		carve::math::Matrix parent_transform = is_item_of_representation->getTotalTransform();
+		total_transform = parent_transform * total_transform;
+	}
+	return total_transform;
+}
+
+carve::math::Matrix RepresentationData::getTotalTransform()
+{
+	carve::math::Matrix total_transform = m_representation_matrix;
+	if( !m_parent_product.expired() )
+	{
+		shared_ptr<ProductShapeData> is_representation_of_product( m_parent_product );
+		carve::math::Matrix parent_transform = is_representation_of_product->getTotalTransform();
+		total_transform = parent_transform * total_transform;
+	}
+	return total_transform;
+}
+
+carve::math::Matrix ProductShapeData::getTotalTransform()
+{
+	carve::math::Matrix total_transform = m_product_matrix;
+	if( !m_parent.expired() )
+	{
+		shared_ptr<ProductShapeData> parent_product( m_parent );
+		carve::math::Matrix parent_transform = parent_product->getTotalTransform();
+		total_transform = parent_transform * total_transform;
+	}
+	return total_transform;
+}
+
 
 #define ROUND_POLY_COORDINATES_UP 1000000.0
 #define ROUND_POLY_COORDINATES_DOWN 0.000001

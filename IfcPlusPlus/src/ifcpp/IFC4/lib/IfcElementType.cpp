@@ -86,6 +86,7 @@ void IfcElementType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcElementType::toString() const { return L"IfcElementType"; }
 void IfcElementType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

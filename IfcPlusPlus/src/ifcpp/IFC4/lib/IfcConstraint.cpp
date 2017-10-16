@@ -51,6 +51,7 @@ void IfcConstraint::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcConstraint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcConstraint::toString() const { return L"IfcConstraint"; }
 void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

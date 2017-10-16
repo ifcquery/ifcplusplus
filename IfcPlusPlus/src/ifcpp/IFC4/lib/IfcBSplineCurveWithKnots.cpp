@@ -76,6 +76,7 @@ void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcBSplineCurveWithKnots::toString() const { return L"IfcBSplineCurveWithKnots"; }
 void IfcBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

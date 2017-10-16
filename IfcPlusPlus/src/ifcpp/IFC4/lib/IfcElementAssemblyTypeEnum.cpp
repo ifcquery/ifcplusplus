@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcElementAssemblyTypeEnum::getDeepCopy( IfcPPCopyOption
 void IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTASSEMBLYTYPEENUM("; }
-	if( m_enum == ENUM_ACCESSORY_ASSEMBLY )
+	switch( m_enum )
 	{
-		stream << ".ACCESSORY_ASSEMBLY.";
-	}
-	else if( m_enum == ENUM_ARCH )
-	{
-		stream << ".ARCH.";
-	}
-	else if( m_enum == ENUM_BEAM_GRID )
-	{
-		stream << ".BEAM_GRID.";
-	}
-	else if( m_enum == ENUM_BRACED_FRAME )
-	{
-		stream << ".BRACED_FRAME.";
-	}
-	else if( m_enum == ENUM_GIRDER )
-	{
-		stream << ".GIRDER.";
-	}
-	else if( m_enum == ENUM_REINFORCEMENT_UNIT )
-	{
-		stream << ".REINFORCEMENT_UNIT.";
-	}
-	else if( m_enum == ENUM_RIGID_FRAME )
-	{
-		stream << ".RIGID_FRAME.";
-	}
-	else if( m_enum == ENUM_SLAB_FIELD )
-	{
-		stream << ".SLAB_FIELD.";
-	}
-	else if( m_enum == ENUM_TRUSS )
-	{
-		stream << ".TRUSS.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ACCESSORY_ASSEMBLY:	stream << ".ACCESSORY_ASSEMBLY."; break;
+		case ENUM_ARCH:	stream << ".ARCH."; break;
+		case ENUM_BEAM_GRID:	stream << ".BEAM_GRID."; break;
+		case ENUM_BRACED_FRAME:	stream << ".BRACED_FRAME."; break;
+		case ENUM_GIRDER:	stream << ".GIRDER."; break;
+		case ENUM_REINFORCEMENT_UNIT:	stream << ".REINFORCEMENT_UNIT."; break;
+		case ENUM_RIGID_FRAME:	stream << ".RIGID_FRAME."; break;
+		case ENUM_SLAB_FIELD:	stream << ".SLAB_FIELD."; break;
+		case ENUM_TRUSS:	stream << ".TRUSS."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElementAssemblyTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ACCESSORY_ASSEMBLY:	return L"ACCESSORY_ASSEMBLY";
+		case ENUM_ARCH:	return L"ARCH";
+		case ENUM_BEAM_GRID:	return L"BEAM_GRID";
+		case ENUM_BRACED_FRAME:	return L"BRACED_FRAME";
+		case ENUM_GIRDER:	return L"GIRDER";
+		case ENUM_REINFORCEMENT_UNIT:	return L"REINFORCEMENT_UNIT";
+		case ENUM_RIGID_FRAME:	return L"RIGID_FRAME";
+		case ENUM_SLAB_FIELD:	return L"SLAB_FIELD";
+		case ENUM_TRUSS:	return L"TRUSS";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

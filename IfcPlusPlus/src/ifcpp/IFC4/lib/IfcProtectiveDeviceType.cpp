@@ -90,6 +90,7 @@ void IfcProtectiveDeviceType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProtectiveDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcProtectiveDeviceType::toString() const { return L"IfcProtectiveDeviceType"; }
 void IfcProtectiveDeviceType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

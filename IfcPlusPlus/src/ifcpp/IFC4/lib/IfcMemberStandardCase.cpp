@@ -85,6 +85,7 @@ void IfcMemberStandardCase::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcMemberStandardCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcMemberStandardCase::toString() const { return L"IfcMemberStandardCase"; }
 void IfcMemberStandardCase::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

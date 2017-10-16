@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcElectricGeneratorTypeEnum::getDeepCopy( IfcPPCopyOpti
 void IfcElectricGeneratorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICGENERATORTYPEENUM("; }
-	if( m_enum == ENUM_CHP )
+	switch( m_enum )
 	{
-		stream << ".CHP.";
-	}
-	else if( m_enum == ENUM_ENGINEGENERATOR )
-	{
-		stream << ".ENGINEGENERATOR.";
-	}
-	else if( m_enum == ENUM_STANDALONE )
-	{
-		stream << ".STANDALONE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CHP:	stream << ".CHP."; break;
+		case ENUM_ENGINEGENERATOR:	stream << ".ENGINEGENERATOR."; break;
+		case ENUM_STANDALONE:	stream << ".STANDALONE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElectricGeneratorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CHP:	return L"CHP";
+		case ENUM_ENGINEGENERATOR:	return L"ENGINEGENERATOR";
+		case ENUM_STANDALONE:	return L"STANDALONE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

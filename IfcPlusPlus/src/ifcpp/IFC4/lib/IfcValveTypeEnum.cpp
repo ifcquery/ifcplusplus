@@ -21,99 +21,63 @@ shared_ptr<IfcPPObject> IfcValveTypeEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcValveTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVALVETYPEENUM("; }
-	if( m_enum == ENUM_AIRRELEASE )
+	switch( m_enum )
 	{
-		stream << ".AIRRELEASE.";
-	}
-	else if( m_enum == ENUM_ANTIVACUUM )
-	{
-		stream << ".ANTIVACUUM.";
-	}
-	else if( m_enum == ENUM_CHANGEOVER )
-	{
-		stream << ".CHANGEOVER.";
-	}
-	else if( m_enum == ENUM_CHECK )
-	{
-		stream << ".CHECK.";
-	}
-	else if( m_enum == ENUM_COMMISSIONING )
-	{
-		stream << ".COMMISSIONING.";
-	}
-	else if( m_enum == ENUM_DIVERTING )
-	{
-		stream << ".DIVERTING.";
-	}
-	else if( m_enum == ENUM_DRAWOFFCOCK )
-	{
-		stream << ".DRAWOFFCOCK.";
-	}
-	else if( m_enum == ENUM_DOUBLECHECK )
-	{
-		stream << ".DOUBLECHECK.";
-	}
-	else if( m_enum == ENUM_DOUBLEREGULATING )
-	{
-		stream << ".DOUBLEREGULATING.";
-	}
-	else if( m_enum == ENUM_FAUCET )
-	{
-		stream << ".FAUCET.";
-	}
-	else if( m_enum == ENUM_FLUSHING )
-	{
-		stream << ".FLUSHING.";
-	}
-	else if( m_enum == ENUM_GASCOCK )
-	{
-		stream << ".GASCOCK.";
-	}
-	else if( m_enum == ENUM_GASTAP )
-	{
-		stream << ".GASTAP.";
-	}
-	else if( m_enum == ENUM_ISOLATING )
-	{
-		stream << ".ISOLATING.";
-	}
-	else if( m_enum == ENUM_MIXING )
-	{
-		stream << ".MIXING.";
-	}
-	else if( m_enum == ENUM_PRESSUREREDUCING )
-	{
-		stream << ".PRESSUREREDUCING.";
-	}
-	else if( m_enum == ENUM_PRESSURERELIEF )
-	{
-		stream << ".PRESSURERELIEF.";
-	}
-	else if( m_enum == ENUM_REGULATING )
-	{
-		stream << ".REGULATING.";
-	}
-	else if( m_enum == ENUM_SAFETYCUTOFF )
-	{
-		stream << ".SAFETYCUTOFF.";
-	}
-	else if( m_enum == ENUM_STEAMTRAP )
-	{
-		stream << ".STEAMTRAP.";
-	}
-	else if( m_enum == ENUM_STOPCOCK )
-	{
-		stream << ".STOPCOCK.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRRELEASE:	stream << ".AIRRELEASE."; break;
+		case ENUM_ANTIVACUUM:	stream << ".ANTIVACUUM."; break;
+		case ENUM_CHANGEOVER:	stream << ".CHANGEOVER."; break;
+		case ENUM_CHECK:	stream << ".CHECK."; break;
+		case ENUM_COMMISSIONING:	stream << ".COMMISSIONING."; break;
+		case ENUM_DIVERTING:	stream << ".DIVERTING."; break;
+		case ENUM_DRAWOFFCOCK:	stream << ".DRAWOFFCOCK."; break;
+		case ENUM_DOUBLECHECK:	stream << ".DOUBLECHECK."; break;
+		case ENUM_DOUBLEREGULATING:	stream << ".DOUBLEREGULATING."; break;
+		case ENUM_FAUCET:	stream << ".FAUCET."; break;
+		case ENUM_FLUSHING:	stream << ".FLUSHING."; break;
+		case ENUM_GASCOCK:	stream << ".GASCOCK."; break;
+		case ENUM_GASTAP:	stream << ".GASTAP."; break;
+		case ENUM_ISOLATING:	stream << ".ISOLATING."; break;
+		case ENUM_MIXING:	stream << ".MIXING."; break;
+		case ENUM_PRESSUREREDUCING:	stream << ".PRESSUREREDUCING."; break;
+		case ENUM_PRESSURERELIEF:	stream << ".PRESSURERELIEF."; break;
+		case ENUM_REGULATING:	stream << ".REGULATING."; break;
+		case ENUM_SAFETYCUTOFF:	stream << ".SAFETYCUTOFF."; break;
+		case ENUM_STEAMTRAP:	stream << ".STEAMTRAP."; break;
+		case ENUM_STOPCOCK:	stream << ".STOPCOCK."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcValveTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRRELEASE:	return L"AIRRELEASE";
+		case ENUM_ANTIVACUUM:	return L"ANTIVACUUM";
+		case ENUM_CHANGEOVER:	return L"CHANGEOVER";
+		case ENUM_CHECK:	return L"CHECK";
+		case ENUM_COMMISSIONING:	return L"COMMISSIONING";
+		case ENUM_DIVERTING:	return L"DIVERTING";
+		case ENUM_DRAWOFFCOCK:	return L"DRAWOFFCOCK";
+		case ENUM_DOUBLECHECK:	return L"DOUBLECHECK";
+		case ENUM_DOUBLEREGULATING:	return L"DOUBLEREGULATING";
+		case ENUM_FAUCET:	return L"FAUCET";
+		case ENUM_FLUSHING:	return L"FLUSHING";
+		case ENUM_GASCOCK:	return L"GASCOCK";
+		case ENUM_GASTAP:	return L"GASTAP";
+		case ENUM_ISOLATING:	return L"ISOLATING";
+		case ENUM_MIXING:	return L"MIXING";
+		case ENUM_PRESSUREREDUCING:	return L"PRESSUREREDUCING";
+		case ENUM_PRESSURERELIEF:	return L"PRESSURERELIEF";
+		case ENUM_REGULATING:	return L"REGULATING";
+		case ENUM_SAFETYCUTOFF:	return L"SAFETYCUTOFF";
+		case ENUM_STEAMTRAP:	return L"STEAMTRAP";
+		case ENUM_STOPCOCK:	return L"STOPCOCK";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcValveTypeEnum> IfcValveTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

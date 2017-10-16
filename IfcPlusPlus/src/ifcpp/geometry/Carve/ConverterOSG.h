@@ -520,6 +520,14 @@ public:
 		}
 	}
 
+	osg::Matrixd convertMatrixToOSG( const carve::math::Matrix& mat_in )
+	{
+		return osg::Matrixd( mat_in.m[0][0], mat_in.m[0][1], mat_in.m[0][2], mat_in.m[0][3],
+			mat_in.m[1][0], mat_in.m[1][1], mat_in.m[1][2], mat_in.m[1][3],
+			mat_in.m[2][0], mat_in.m[2][1], mat_in.m[2][2], mat_in.m[2][3],
+			mat_in.m[3][0], mat_in.m[3][1], mat_in.m[3][2], mat_in.m[3][3] );
+	}
+
 	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
 	void convertProductShapeToOSG( shared_ptr<ProductShapeData>& product_shape, map_t<int, osg::ref_ptr<osg::Switch> >& map_representation_switches )
@@ -540,10 +548,10 @@ public:
 		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
 		
 		// create OSG objects
-		std::vector<shared_ptr<ProductRepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
+		std::vector<shared_ptr<RepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
 		for( size_t ii_representation = 0; ii_representation < vec_product_representations.size(); ++ii_representation )
 		{
-			const shared_ptr<ProductRepresentationData>& product_representation_data = vec_product_representations[ii_representation];
+			const shared_ptr<RepresentationData>& product_representation_data = vec_product_representations[ii_representation];
 			if( product_representation_data->m_ifc_representation.expired() )
 			{
 				continue;
@@ -551,6 +559,11 @@ public:
 			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
 			const int representation_id = ifc_representation->m_id;
 			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
+
+			osg::ref_ptr<osg::MatrixTransform> representation_matrix = new osg::MatrixTransform();
+			
+			representation_matrix->setMatrix( convertMatrixToOSG( product_representation_data->getTransform() ) );
+			representation_switch->addChild( representation_matrix );
 			
 #ifdef _DEBUG
 			std::stringstream strs_representation_name;
@@ -562,8 +575,9 @@ public:
 			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 			{
 				const shared_ptr<ItemShapeData>& item_shape = product_items[i_item];
-				osg::ref_ptr<osg::Group> item_group = new osg::Group();
+				osg::ref_ptr<osg::MatrixTransform> item_group = new osg::MatrixTransform();
 				if( !item_group ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+				item_group->setMatrix( convertMatrixToOSG( item_shape->getTransform() ) );
 
 #ifdef _DEBUG
 				std::stringstream strs_item_name;
@@ -714,21 +728,21 @@ public:
 						std::cout << __FUNC__ << "item_group->getNumParents() > 0" << std::endl;
 					}
 #endif
-					representation_switch->addChild( item_group );
+					representation_matrix->addChild( item_group );
 				}
 			}
 
 			// apply statesets if there are any
 			if( product_representation_data->m_vec_representation_appearances.size() > 0 )
 			{
-				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, representation_switch );
+				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, representation_matrix );
 			}
 
 			// If anything has been created, add it to the product group
-			if( representation_switch->getNumChildren() > 0 )
+			if( representation_matrix->getNumChildren() > 0 )
 			{
 #ifdef _DEBUG
-				if( representation_switch->getNumParents() > 0 )
+				if( representation_matrix->getNumParents() > 0 )
 				{
 					std::cout << __FUNC__ << "product_representation_switch->getNumParents() > 0" << std::endl;
 				}
@@ -853,6 +867,11 @@ public:
 				if( map_representation_switches.size() > 0 )
 				{
 					osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+
+					osg::ref_ptr<osg::MatrixTransform> product_transform = new osg::MatrixTransform();
+					product_transform->setMatrix( convertMatrixToOSG( shape_data->getTransform() ) );
+					product_switch->addChild( product_transform );
+
 					std::stringstream strs_product_switch_name;
 					strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
 					product_switch->setName( strs_product_switch_name.str().c_str() );
@@ -860,7 +879,7 @@ public:
 					for( auto it_map = map_representation_switches.begin(); it_map != map_representation_switches.end(); ++it_map )
 					{
 						osg::ref_ptr<osg::Switch>& repres_switch = it_map->second;
-						product_switch->addChild( repres_switch );
+						product_transform->addChild( repres_switch );
 					}
 
 					// apply statesets if there are any

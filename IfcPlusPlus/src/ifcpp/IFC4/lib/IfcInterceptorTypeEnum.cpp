@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcInterceptorTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcInterceptorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTERCEPTORTYPEENUM("; }
-	if( m_enum == ENUM_CYCLONIC )
+	switch( m_enum )
 	{
-		stream << ".CYCLONIC.";
-	}
-	else if( m_enum == ENUM_GREASE )
-	{
-		stream << ".GREASE.";
-	}
-	else if( m_enum == ENUM_OIL )
-	{
-		stream << ".OIL.";
-	}
-	else if( m_enum == ENUM_PETROL )
-	{
-		stream << ".PETROL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CYCLONIC:	stream << ".CYCLONIC."; break;
+		case ENUM_GREASE:	stream << ".GREASE."; break;
+		case ENUM_OIL:	stream << ".OIL."; break;
+		case ENUM_PETROL:	stream << ".PETROL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcInterceptorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CYCLONIC:	return L"CYCLONIC";
+		case ENUM_GREASE:	return L"GREASE";
+		case ENUM_OIL:	return L"OIL";
+		case ENUM_PETROL:	return L"PETROL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

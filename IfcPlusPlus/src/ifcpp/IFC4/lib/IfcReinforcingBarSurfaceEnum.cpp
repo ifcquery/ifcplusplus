@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcReinforcingBarSurfaceEnum::getDeepCopy( IfcPPCopyOpti
 void IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARSURFACEENUM("; }
-	if( m_enum == ENUM_PLAIN )
+	switch( m_enum )
 	{
-		stream << ".PLAIN.";
-	}
-	else if( m_enum == ENUM_TEXTURED )
-	{
-		stream << ".TEXTURED.";
+		case ENUM_PLAIN:	stream << ".PLAIN."; break;
+		case ENUM_TEXTURED:	stream << ".TEXTURED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcReinforcingBarSurfaceEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PLAIN:	return L"PLAIN";
+		case ENUM_TEXTURED:	return L"TEXTURED";
+	}
+	return L"";
 }
 shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

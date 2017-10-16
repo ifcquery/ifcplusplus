@@ -45,6 +45,7 @@ void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcVirtualGridIntersection::toString() const { return L"IfcVirtualGridIntersection"; }
 void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

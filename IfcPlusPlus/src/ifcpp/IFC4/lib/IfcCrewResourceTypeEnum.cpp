@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcCrewResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCREWRESOURCETYPEENUM("; }
-	if( m_enum == ENUM_OFFICE )
+	switch( m_enum )
 	{
-		stream << ".OFFICE.";
-	}
-	else if( m_enum == ENUM_SITE )
-	{
-		stream << ".SITE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_OFFICE:	stream << ".OFFICE."; break;
+		case ENUM_SITE:	stream << ".SITE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCrewResourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_OFFICE:	return L"OFFICE";
+		case ENUM_SITE:	return L"SITE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

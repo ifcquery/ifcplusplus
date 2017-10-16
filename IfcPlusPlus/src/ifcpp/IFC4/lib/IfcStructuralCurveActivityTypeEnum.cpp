@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcStructuralCurveActivityTypeEnum::getDeepCopy( IfcPPCo
 void IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEACTIVITYTYPEENUM("; }
-	if( m_enum == ENUM_CONST )
+	switch( m_enum )
 	{
-		stream << ".CONST.";
-	}
-	else if( m_enum == ENUM_LINEAR )
-	{
-		stream << ".LINEAR.";
-	}
-	else if( m_enum == ENUM_POLYGONAL )
-	{
-		stream << ".POLYGONAL.";
-	}
-	else if( m_enum == ENUM_EQUIDISTANT )
-	{
-		stream << ".EQUIDISTANT.";
-	}
-	else if( m_enum == ENUM_SINUS )
-	{
-		stream << ".SINUS.";
-	}
-	else if( m_enum == ENUM_PARABOLA )
-	{
-		stream << ".PARABOLA.";
-	}
-	else if( m_enum == ENUM_DISCRETE )
-	{
-		stream << ".DISCRETE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONST:	stream << ".CONST."; break;
+		case ENUM_LINEAR:	stream << ".LINEAR."; break;
+		case ENUM_POLYGONAL:	stream << ".POLYGONAL."; break;
+		case ENUM_EQUIDISTANT:	stream << ".EQUIDISTANT."; break;
+		case ENUM_SINUS:	stream << ".SINUS."; break;
+		case ENUM_PARABOLA:	stream << ".PARABOLA."; break;
+		case ENUM_DISCRETE:	stream << ".DISCRETE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStructuralCurveActivityTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONST:	return L"CONST";
+		case ENUM_LINEAR:	return L"LINEAR";
+		case ENUM_POLYGONAL:	return L"POLYGONAL";
+		case ENUM_EQUIDISTANT:	return L"EQUIDISTANT";
+		case ENUM_SINUS:	return L"SINUS";
+		case ENUM_PARABOLA:	return L"PARABOLA";
+		case ENUM_DISCRETE:	return L"DISCRETE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

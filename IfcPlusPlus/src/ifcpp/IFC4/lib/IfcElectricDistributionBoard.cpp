@@ -87,6 +87,7 @@ void IfcElectricDistributionBoard::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcElectricDistributionBoard::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcElectricDistributionBoard::toString() const { return L"IfcElectricDistributionBoard"; }
 void IfcElectricDistributionBoard::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

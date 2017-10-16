@@ -52,6 +52,7 @@ void IfcQuantitySet::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcQuantitySet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcQuantitySet::toString() const { return L"IfcQuantitySet"; }
 void IfcQuantitySet::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

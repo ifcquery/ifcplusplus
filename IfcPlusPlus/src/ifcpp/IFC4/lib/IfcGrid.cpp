@@ -103,6 +103,7 @@ void IfcGrid::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcGrid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcGrid::toString() const { return L"IfcGrid"; }
 void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

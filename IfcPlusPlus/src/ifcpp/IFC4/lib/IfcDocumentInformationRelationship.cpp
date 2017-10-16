@@ -48,6 +48,7 @@ void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream 
 	stream << ");";
 }
 void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcDocumentInformationRelationship::toString() const { return L"IfcDocumentInformationRelationship"; }
 void IfcDocumentInformationRelationship::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

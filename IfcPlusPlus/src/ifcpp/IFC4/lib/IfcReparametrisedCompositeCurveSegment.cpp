@@ -42,6 +42,7 @@ void IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& str
 	stream << ");";
 }
 void IfcReparametrisedCompositeCurveSegment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcReparametrisedCompositeCurveSegment::toString() const { return L"IfcReparametrisedCompositeCurveSegment"; }
 void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcDoorTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcDoorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORTYPEENUM("; }
-	if( m_enum == ENUM_DOOR )
+	switch( m_enum )
 	{
-		stream << ".DOOR.";
-	}
-	else if( m_enum == ENUM_GATE )
-	{
-		stream << ".GATE.";
-	}
-	else if( m_enum == ENUM_TRAPDOOR )
-	{
-		stream << ".TRAPDOOR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DOOR:	stream << ".DOOR."; break;
+		case ENUM_GATE:	stream << ".GATE."; break;
+		case ENUM_TRAPDOOR:	stream << ".TRAPDOOR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDoorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DOOR:	return L"DOOR";
+		case ENUM_GATE:	return L"GATE";
+		case ENUM_TRAPDOOR:	return L"TRAPDOOR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

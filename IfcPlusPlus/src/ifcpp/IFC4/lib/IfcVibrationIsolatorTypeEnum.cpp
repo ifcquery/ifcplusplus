@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcVibrationIsolatorTypeEnum::getDeepCopy( IfcPPCopyOpti
 void IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVIBRATIONISOLATORTYPEENUM("; }
-	if( m_enum == ENUM_COMPRESSION )
+	switch( m_enum )
 	{
-		stream << ".COMPRESSION.";
-	}
-	else if( m_enum == ENUM_SPRING )
-	{
-		stream << ".SPRING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COMPRESSION:	stream << ".COMPRESSION."; break;
+		case ENUM_SPRING:	stream << ".SPRING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcVibrationIsolatorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COMPRESSION:	return L"COMPRESSION";
+		case ENUM_SPRING:	return L"SPRING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -32,6 +32,7 @@ void IfcPlanarExtent::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPlanarExtent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPlanarExtent::toString() const { return L"IfcPlanarExtent"; }
 void IfcPlanarExtent::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

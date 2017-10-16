@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcAlarmTypeEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcAlarmTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCALARMTYPEENUM("; }
-	if( m_enum == ENUM_BELL )
+	switch( m_enum )
 	{
-		stream << ".BELL.";
-	}
-	else if( m_enum == ENUM_BREAKGLASSBUTTON )
-	{
-		stream << ".BREAKGLASSBUTTON.";
-	}
-	else if( m_enum == ENUM_LIGHT )
-	{
-		stream << ".LIGHT.";
-	}
-	else if( m_enum == ENUM_MANUALPULLBOX )
-	{
-		stream << ".MANUALPULLBOX.";
-	}
-	else if( m_enum == ENUM_SIREN )
-	{
-		stream << ".SIREN.";
-	}
-	else if( m_enum == ENUM_WHISTLE )
-	{
-		stream << ".WHISTLE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BELL:	stream << ".BELL."; break;
+		case ENUM_BREAKGLASSBUTTON:	stream << ".BREAKGLASSBUTTON."; break;
+		case ENUM_LIGHT:	stream << ".LIGHT."; break;
+		case ENUM_MANUALPULLBOX:	stream << ".MANUALPULLBOX."; break;
+		case ENUM_SIREN:	stream << ".SIREN."; break;
+		case ENUM_WHISTLE:	stream << ".WHISTLE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAlarmTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BELL:	return L"BELL";
+		case ENUM_BREAKGLASSBUTTON:	return L"BREAKGLASSBUTTON";
+		case ENUM_LIGHT:	return L"LIGHT";
+		case ENUM_MANUALPULLBOX:	return L"MANUALPULLBOX";
+		case ENUM_SIREN:	return L"SIREN";
+		case ENUM_WHISTLE:	return L"WHISTLE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

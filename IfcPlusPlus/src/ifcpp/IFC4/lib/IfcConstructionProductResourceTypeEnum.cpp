@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcConstructionProductResourceTypeEnum::getDeepCopy( Ifc
 void IfcConstructionProductResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRUCTIONPRODUCTRESOURCETYPEENUM("; }
-	if( m_enum == ENUM_ASSEMBLY )
+	switch( m_enum )
 	{
-		stream << ".ASSEMBLY.";
-	}
-	else if( m_enum == ENUM_FORMWORK )
-	{
-		stream << ".FORMWORK.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ASSEMBLY:	stream << ".ASSEMBLY."; break;
+		case ENUM_FORMWORK:	stream << ".FORMWORK."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcConstructionProductResourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ASSEMBLY:	return L"ASSEMBLY";
+		case ENUM_FORMWORK:	return L"FORMWORK";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

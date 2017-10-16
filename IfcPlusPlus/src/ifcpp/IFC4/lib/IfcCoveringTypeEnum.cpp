@@ -21,55 +21,41 @@ shared_ptr<IfcPPObject> IfcCoveringTypeEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOVERINGTYPEENUM("; }
-	if( m_enum == ENUM_CEILING )
+	switch( m_enum )
 	{
-		stream << ".CEILING.";
-	}
-	else if( m_enum == ENUM_FLOORING )
-	{
-		stream << ".FLOORING.";
-	}
-	else if( m_enum == ENUM_CLADDING )
-	{
-		stream << ".CLADDING.";
-	}
-	else if( m_enum == ENUM_ROOFING )
-	{
-		stream << ".ROOFING.";
-	}
-	else if( m_enum == ENUM_MOLDING )
-	{
-		stream << ".MOLDING.";
-	}
-	else if( m_enum == ENUM_SKIRTINGBOARD )
-	{
-		stream << ".SKIRTINGBOARD.";
-	}
-	else if( m_enum == ENUM_INSULATION )
-	{
-		stream << ".INSULATION.";
-	}
-	else if( m_enum == ENUM_MEMBRANE )
-	{
-		stream << ".MEMBRANE.";
-	}
-	else if( m_enum == ENUM_SLEEVING )
-	{
-		stream << ".SLEEVING.";
-	}
-	else if( m_enum == ENUM_WRAPPING )
-	{
-		stream << ".WRAPPING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CEILING:	stream << ".CEILING."; break;
+		case ENUM_FLOORING:	stream << ".FLOORING."; break;
+		case ENUM_CLADDING:	stream << ".CLADDING."; break;
+		case ENUM_ROOFING:	stream << ".ROOFING."; break;
+		case ENUM_MOLDING:	stream << ".MOLDING."; break;
+		case ENUM_SKIRTINGBOARD:	stream << ".SKIRTINGBOARD."; break;
+		case ENUM_INSULATION:	stream << ".INSULATION."; break;
+		case ENUM_MEMBRANE:	stream << ".MEMBRANE."; break;
+		case ENUM_SLEEVING:	stream << ".SLEEVING."; break;
+		case ENUM_WRAPPING:	stream << ".WRAPPING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCoveringTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CEILING:	return L"CEILING";
+		case ENUM_FLOORING:	return L"FLOORING";
+		case ENUM_CLADDING:	return L"CLADDING";
+		case ENUM_ROOFING:	return L"ROOFING";
+		case ENUM_MOLDING:	return L"MOLDING";
+		case ENUM_SKIRTINGBOARD:	return L"SKIRTINGBOARD";
+		case ENUM_INSULATION:	return L"INSULATION";
+		case ENUM_MEMBRANE:	return L"MEMBRANE";
+		case ENUM_SLEEVING:	return L"SLEEVING";
+		case ENUM_WRAPPING:	return L"WRAPPING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

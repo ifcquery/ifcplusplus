@@ -52,6 +52,7 @@ void IfcRepresentation::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRepresentation::toString() const { return L"IfcRepresentation"; }
 void IfcRepresentation::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

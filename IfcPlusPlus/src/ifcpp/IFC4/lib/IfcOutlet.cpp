@@ -87,6 +87,7 @@ void IfcOutlet::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcOutlet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcOutlet::toString() const { return L"IfcOutlet"; }
 void IfcOutlet::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

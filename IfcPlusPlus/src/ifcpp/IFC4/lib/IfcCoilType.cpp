@@ -90,6 +90,7 @@ void IfcCoilType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCoilType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCoilType::toString() const { return L"IfcCoilType"; }
 void IfcCoilType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -40,6 +40,7 @@ void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcOrientedEdge::toString() const { return L"IfcOrientedEdge"; }
 void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

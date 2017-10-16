@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcFlowMeterTypeEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcFlowMeterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWMETERTYPEENUM("; }
-	if( m_enum == ENUM_ENERGYMETER )
+	switch( m_enum )
 	{
-		stream << ".ENERGYMETER.";
-	}
-	else if( m_enum == ENUM_GASMETER )
-	{
-		stream << ".GASMETER.";
-	}
-	else if( m_enum == ENUM_OILMETER )
-	{
-		stream << ".OILMETER.";
-	}
-	else if( m_enum == ENUM_WATERMETER )
-	{
-		stream << ".WATERMETER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ENERGYMETER:	stream << ".ENERGYMETER."; break;
+		case ENUM_GASMETER:	stream << ".GASMETER."; break;
+		case ENUM_OILMETER:	stream << ".OILMETER."; break;
+		case ENUM_WATERMETER:	stream << ".WATERMETER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFlowMeterTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ENERGYMETER:	return L"ENERGYMETER";
+		case ENUM_GASMETER:	return L"GASMETER";
+		case ENUM_OILMETER:	return L"OILMETER";
+		case ENUM_WATERMETER:	return L"WATERMETER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

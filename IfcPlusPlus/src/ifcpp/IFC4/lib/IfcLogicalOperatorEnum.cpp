@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcLogicalOperatorEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLOGICALOPERATORENUM("; }
-	if( m_enum == ENUM_LOGICALAND )
+	switch( m_enum )
 	{
-		stream << ".LOGICALAND.";
-	}
-	else if( m_enum == ENUM_LOGICALOR )
-	{
-		stream << ".LOGICALOR.";
-	}
-	else if( m_enum == ENUM_LOGICALXOR )
-	{
-		stream << ".LOGICALXOR.";
-	}
-	else if( m_enum == ENUM_LOGICALNOTAND )
-	{
-		stream << ".LOGICALNOTAND.";
-	}
-	else if( m_enum == ENUM_LOGICALNOTOR )
-	{
-		stream << ".LOGICALNOTOR.";
+		case ENUM_LOGICALAND:	stream << ".LOGICALAND."; break;
+		case ENUM_LOGICALOR:	stream << ".LOGICALOR."; break;
+		case ENUM_LOGICALXOR:	stream << ".LOGICALXOR."; break;
+		case ENUM_LOGICALNOTAND:	stream << ".LOGICALNOTAND."; break;
+		case ENUM_LOGICALNOTOR:	stream << ".LOGICALNOTOR."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLogicalOperatorEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_LOGICALAND:	return L"LOGICALAND";
+		case ENUM_LOGICALOR:	return L"LOGICALOR";
+		case ENUM_LOGICALXOR:	return L"LOGICALXOR";
+		case ENUM_LOGICALNOTAND:	return L"LOGICALNOTAND";
+		case ENUM_LOGICALNOTOR:	return L"LOGICALNOTOR";
+	}
+	return L"";
 }
 shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

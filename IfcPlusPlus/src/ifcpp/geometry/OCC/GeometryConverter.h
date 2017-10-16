@@ -19,7 +19,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <BRepAdaptor_Curve.hxx>
 #include <BRep_Tool.hxx>
-#include <BRepMesh_IncrementalMesh.hxx>
 #include <GCPnts_AbscissaPoint.hxx>
 #include <GCPnts_UniformAbscissa.hxx>
 #include <Geom_Line.hxx>
@@ -29,8 +28,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Vertex.hxx>
-#include <StlMesh_Mesh.hxx>
-#include <StlTransfer.hxx>
 
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/model/IfcPPModel.h>
@@ -324,7 +321,7 @@ public:
 			const shared_ptr<IfcRepresentation>& representation = vec_representations[i_representations];
 			try
 			{
-				shared_ptr<ProductRepresentationData> representation_data( new ProductRepresentationData() );
+				shared_ptr<RepresentationData> representation_data( new RepresentationData() );
 				m_representation_converter->convertIfcRepresentation( representation, representation_data );
 				product_shape->m_vec_representations.push_back( representation_data );
 			}
@@ -349,7 +346,7 @@ public:
 			// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 			boost::unordered_set<IfcObjectPlacement*> placement_already_applied;
 			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
-			product_shape->applyPosition( product_placement_matrix );
+			product_shape->applyPositionToProduct( product_placement_matrix );
 		}
 
 		// handle openings

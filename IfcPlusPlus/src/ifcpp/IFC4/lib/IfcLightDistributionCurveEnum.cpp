@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcLightDistributionCurveEnum::getDeepCopy( IfcPPCopyOpt
 void IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTDISTRIBUTIONCURVEENUM("; }
-	if( m_enum == ENUM_TYPE_A )
+	switch( m_enum )
 	{
-		stream << ".TYPE_A.";
-	}
-	else if( m_enum == ENUM_TYPE_B )
-	{
-		stream << ".TYPE_B.";
-	}
-	else if( m_enum == ENUM_TYPE_C )
-	{
-		stream << ".TYPE_C.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_TYPE_A:	stream << ".TYPE_A."; break;
+		case ENUM_TYPE_B:	stream << ".TYPE_B."; break;
+		case ENUM_TYPE_C:	stream << ".TYPE_C."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLightDistributionCurveEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_TYPE_A:	return L"TYPE_A";
+		case ENUM_TYPE_B:	return L"TYPE_B";
+		case ENUM_TYPE_C:	return L"TYPE_C";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -51,6 +51,7 @@ void IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstre
 	stream << ");";
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcStructuralLoadSingleDisplacementDistortion::toString() const { return L"IfcStructuralLoadSingleDisplacementDistortion"; }
 void IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

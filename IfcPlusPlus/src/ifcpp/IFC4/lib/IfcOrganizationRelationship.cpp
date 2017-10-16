@@ -45,6 +45,7 @@ void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcOrganizationRelationship::toString() const { return L"IfcOrganizationRelationship"; }
 void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -87,6 +87,7 @@ void IfcAlarm::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcAlarm::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcAlarm::toString() const { return L"IfcAlarm"; }
 void IfcAlarm::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

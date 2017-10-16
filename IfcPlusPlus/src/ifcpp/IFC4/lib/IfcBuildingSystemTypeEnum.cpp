@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcBuildingSystemTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcBuildingSystemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGSYSTEMTYPEENUM("; }
-	if( m_enum == ENUM_FENESTRATION )
+	switch( m_enum )
 	{
-		stream << ".FENESTRATION.";
-	}
-	else if( m_enum == ENUM_FOUNDATION )
-	{
-		stream << ".FOUNDATION.";
-	}
-	else if( m_enum == ENUM_LOADBEARING )
-	{
-		stream << ".LOADBEARING.";
-	}
-	else if( m_enum == ENUM_OUTERSHELL )
-	{
-		stream << ".OUTERSHELL.";
-	}
-	else if( m_enum == ENUM_SHADING )
-	{
-		stream << ".SHADING.";
-	}
-	else if( m_enum == ENUM_TRANSPORT )
-	{
-		stream << ".TRANSPORT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FENESTRATION:	stream << ".FENESTRATION."; break;
+		case ENUM_FOUNDATION:	stream << ".FOUNDATION."; break;
+		case ENUM_LOADBEARING:	stream << ".LOADBEARING."; break;
+		case ENUM_OUTERSHELL:	stream << ".OUTERSHELL."; break;
+		case ENUM_SHADING:	stream << ".SHADING."; break;
+		case ENUM_TRANSPORT:	stream << ".TRANSPORT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBuildingSystemTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FENESTRATION:	return L"FENESTRATION";
+		case ENUM_FOUNDATION:	return L"FOUNDATION";
+		case ENUM_LOADBEARING:	return L"LOADBEARING";
+		case ENUM_OUTERSHELL:	return L"OUTERSHELL";
+		case ENUM_SHADING:	return L"SHADING";
+		case ENUM_TRANSPORT:	return L"TRANSPORT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

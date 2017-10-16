@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcRampTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcRampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAMPTYPEENUM("; }
-	if( m_enum == ENUM_STRAIGHT_RUN_RAMP )
+	switch( m_enum )
 	{
-		stream << ".STRAIGHT_RUN_RAMP.";
-	}
-	else if( m_enum == ENUM_TWO_STRAIGHT_RUN_RAMP )
-	{
-		stream << ".TWO_STRAIGHT_RUN_RAMP.";
-	}
-	else if( m_enum == ENUM_QUARTER_TURN_RAMP )
-	{
-		stream << ".QUARTER_TURN_RAMP.";
-	}
-	else if( m_enum == ENUM_TWO_QUARTER_TURN_RAMP )
-	{
-		stream << ".TWO_QUARTER_TURN_RAMP.";
-	}
-	else if( m_enum == ENUM_HALF_TURN_RAMP )
-	{
-		stream << ".HALF_TURN_RAMP.";
-	}
-	else if( m_enum == ENUM_SPIRAL_RAMP )
-	{
-		stream << ".SPIRAL_RAMP.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_STRAIGHT_RUN_RAMP:	stream << ".STRAIGHT_RUN_RAMP."; break;
+		case ENUM_TWO_STRAIGHT_RUN_RAMP:	stream << ".TWO_STRAIGHT_RUN_RAMP."; break;
+		case ENUM_QUARTER_TURN_RAMP:	stream << ".QUARTER_TURN_RAMP."; break;
+		case ENUM_TWO_QUARTER_TURN_RAMP:	stream << ".TWO_QUARTER_TURN_RAMP."; break;
+		case ENUM_HALF_TURN_RAMP:	stream << ".HALF_TURN_RAMP."; break;
+		case ENUM_SPIRAL_RAMP:	stream << ".SPIRAL_RAMP."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcRampTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_STRAIGHT_RUN_RAMP:	return L"STRAIGHT_RUN_RAMP";
+		case ENUM_TWO_STRAIGHT_RUN_RAMP:	return L"TWO_STRAIGHT_RUN_RAMP";
+		case ENUM_QUARTER_TURN_RAMP:	return L"QUARTER_TURN_RAMP";
+		case ENUM_TWO_QUARTER_TURN_RAMP:	return L"TWO_QUARTER_TURN_RAMP";
+		case ENUM_HALF_TURN_RAMP:	return L"HALF_TURN_RAMP";
+		case ENUM_SPIRAL_RAMP:	return L"SPIRAL_RAMP";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

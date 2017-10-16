@@ -63,6 +63,7 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	stream << ");";
 }
 void IfcGeometricRepresentationSubContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcGeometricRepresentationSubContext::toString() const { return L"IfcGeometricRepresentationSubContext"; }
 void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

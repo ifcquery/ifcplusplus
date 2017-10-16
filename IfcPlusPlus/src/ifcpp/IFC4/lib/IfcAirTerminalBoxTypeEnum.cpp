@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcAirTerminalBoxTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcAirTerminalBoxTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTERMINALBOXTYPEENUM("; }
-	if( m_enum == ENUM_CONSTANTFLOW )
+	switch( m_enum )
 	{
-		stream << ".CONSTANTFLOW.";
-	}
-	else if( m_enum == ENUM_VARIABLEFLOWPRESSUREDEPENDANT )
-	{
-		stream << ".VARIABLEFLOWPRESSUREDEPENDANT.";
-	}
-	else if( m_enum == ENUM_VARIABLEFLOWPRESSUREINDEPENDANT )
-	{
-		stream << ".VARIABLEFLOWPRESSUREINDEPENDANT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONSTANTFLOW:	stream << ".CONSTANTFLOW."; break;
+		case ENUM_VARIABLEFLOWPRESSUREDEPENDANT:	stream << ".VARIABLEFLOWPRESSUREDEPENDANT."; break;
+		case ENUM_VARIABLEFLOWPRESSUREINDEPENDANT:	stream << ".VARIABLEFLOWPRESSUREINDEPENDANT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAirTerminalBoxTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONSTANTFLOW:	return L"CONSTANTFLOW";
+		case ENUM_VARIABLEFLOWPRESSUREDEPENDANT:	return L"VARIABLEFLOWPRESSUREDEPENDANT";
+		case ENUM_VARIABLEFLOWPRESSUREINDEPENDANT:	return L"VARIABLEFLOWPRESSUREINDEPENDANT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAirTerminalBoxTypeEnum> IfcAirTerminalBoxTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

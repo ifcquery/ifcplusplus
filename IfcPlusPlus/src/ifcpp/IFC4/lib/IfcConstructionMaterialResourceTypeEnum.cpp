@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcConstructionMaterialResourceTypeEnum::getDeepCopy( If
 void IfcConstructionMaterialResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRUCTIONMATERIALRESOURCETYPEENUM("; }
-	if( m_enum == ENUM_AGGREGATES )
+	switch( m_enum )
 	{
-		stream << ".AGGREGATES.";
-	}
-	else if( m_enum == ENUM_CONCRETE )
-	{
-		stream << ".CONCRETE.";
-	}
-	else if( m_enum == ENUM_DRYWALL )
-	{
-		stream << ".DRYWALL.";
-	}
-	else if( m_enum == ENUM_FUEL )
-	{
-		stream << ".FUEL.";
-	}
-	else if( m_enum == ENUM_GYPSUM )
-	{
-		stream << ".GYPSUM.";
-	}
-	else if( m_enum == ENUM_MASONRY )
-	{
-		stream << ".MASONRY.";
-	}
-	else if( m_enum == ENUM_METAL )
-	{
-		stream << ".METAL.";
-	}
-	else if( m_enum == ENUM_PLASTIC )
-	{
-		stream << ".PLASTIC.";
-	}
-	else if( m_enum == ENUM_WOOD )
-	{
-		stream << ".WOOD.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
+		case ENUM_AGGREGATES:	stream << ".AGGREGATES."; break;
+		case ENUM_CONCRETE:	stream << ".CONCRETE."; break;
+		case ENUM_DRYWALL:	stream << ".DRYWALL."; break;
+		case ENUM_FUEL:	stream << ".FUEL."; break;
+		case ENUM_GYPSUM:	stream << ".GYPSUM."; break;
+		case ENUM_MASONRY:	stream << ".MASONRY."; break;
+		case ENUM_METAL:	stream << ".METAL."; break;
+		case ENUM_PLASTIC:	stream << ".PLASTIC."; break;
+		case ENUM_WOOD:	stream << ".WOOD."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcConstructionMaterialResourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AGGREGATES:	return L"AGGREGATES";
+		case ENUM_CONCRETE:	return L"CONCRETE";
+		case ENUM_DRYWALL:	return L"DRYWALL";
+		case ENUM_FUEL:	return L"FUEL";
+		case ENUM_GYPSUM:	return L"GYPSUM";
+		case ENUM_MASONRY:	return L"MASONRY";
+		case ENUM_METAL:	return L"METAL";
+		case ENUM_PLASTIC:	return L"PLASTIC";
+		case ENUM_WOOD:	return L"WOOD";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcConstructionMaterialResourceTypeEnum> IfcConstructionMaterialResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

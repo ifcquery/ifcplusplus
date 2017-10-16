@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcGridTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGRIDTYPEENUM("; }
-	if( m_enum == ENUM_RECTANGULAR )
+	switch( m_enum )
 	{
-		stream << ".RECTANGULAR.";
-	}
-	else if( m_enum == ENUM_RADIAL )
-	{
-		stream << ".RADIAL.";
-	}
-	else if( m_enum == ENUM_TRIANGULAR )
-	{
-		stream << ".TRIANGULAR.";
-	}
-	else if( m_enum == ENUM_IRREGULAR )
-	{
-		stream << ".IRREGULAR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_RECTANGULAR:	stream << ".RECTANGULAR."; break;
+		case ENUM_RADIAL:	stream << ".RADIAL."; break;
+		case ENUM_TRIANGULAR:	stream << ".TRIANGULAR."; break;
+		case ENUM_IRREGULAR:	stream << ".IRREGULAR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcGridTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_RECTANGULAR:	return L"RECTANGULAR";
+		case ENUM_RADIAL:	return L"RADIAL";
+		case ENUM_TRIANGULAR:	return L"TRIANGULAR";
+		case ENUM_IRREGULAR:	return L"IRREGULAR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcGridTypeEnum> IfcGridTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

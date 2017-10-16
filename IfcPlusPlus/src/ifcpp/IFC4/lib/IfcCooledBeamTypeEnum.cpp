@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcCooledBeamTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLEDBEAMTYPEENUM("; }
-	if( m_enum == ENUM_ACTIVE )
+	switch( m_enum )
 	{
-		stream << ".ACTIVE.";
-	}
-	else if( m_enum == ENUM_PASSIVE )
-	{
-		stream << ".PASSIVE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ACTIVE:	stream << ".ACTIVE."; break;
+		case ENUM_PASSIVE:	stream << ".PASSIVE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCooledBeamTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ACTIVE:	return L"ACTIVE";
+		case ENUM_PASSIVE:	return L"PASSIVE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

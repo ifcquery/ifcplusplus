@@ -54,6 +54,7 @@ void IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcRectangleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRectangleHollowProfileDef::toString() const { return L"IfcRectangleHollowProfileDef"; }
 void IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcWasteTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWASTETERMINALTYPEENUM("; }
-	if( m_enum == ENUM_FLOORTRAP )
+	switch( m_enum )
 	{
-		stream << ".FLOORTRAP.";
-	}
-	else if( m_enum == ENUM_FLOORWASTE )
-	{
-		stream << ".FLOORWASTE.";
-	}
-	else if( m_enum == ENUM_GULLYSUMP )
-	{
-		stream << ".GULLYSUMP.";
-	}
-	else if( m_enum == ENUM_GULLYTRAP )
-	{
-		stream << ".GULLYTRAP.";
-	}
-	else if( m_enum == ENUM_ROOFDRAIN )
-	{
-		stream << ".ROOFDRAIN.";
-	}
-	else if( m_enum == ENUM_WASTEDISPOSALUNIT )
-	{
-		stream << ".WASTEDISPOSALUNIT.";
-	}
-	else if( m_enum == ENUM_WASTETRAP )
-	{
-		stream << ".WASTETRAP.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FLOORTRAP:	stream << ".FLOORTRAP."; break;
+		case ENUM_FLOORWASTE:	stream << ".FLOORWASTE."; break;
+		case ENUM_GULLYSUMP:	stream << ".GULLYSUMP."; break;
+		case ENUM_GULLYTRAP:	stream << ".GULLYTRAP."; break;
+		case ENUM_ROOFDRAIN:	stream << ".ROOFDRAIN."; break;
+		case ENUM_WASTEDISPOSALUNIT:	stream << ".WASTEDISPOSALUNIT."; break;
+		case ENUM_WASTETRAP:	stream << ".WASTETRAP."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWasteTerminalTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FLOORTRAP:	return L"FLOORTRAP";
+		case ENUM_FLOORWASTE:	return L"FLOORWASTE";
+		case ENUM_GULLYSUMP:	return L"GULLYSUMP";
+		case ENUM_GULLYTRAP:	return L"GULLYTRAP";
+		case ENUM_ROOFDRAIN:	return L"ROOFDRAIN";
+		case ENUM_WASTEDISPOSALUNIT:	return L"WASTEDISPOSALUNIT";
+		case ENUM_WASTETRAP:	return L"WASTETRAP";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

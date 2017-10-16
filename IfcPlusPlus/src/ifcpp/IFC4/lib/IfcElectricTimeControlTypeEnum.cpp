@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcElectricTimeControlTypeEnum::getDeepCopy( IfcPPCopyOp
 void IfcElectricTimeControlTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICTIMECONTROLTYPEENUM("; }
-	if( m_enum == ENUM_TIMECLOCK )
+	switch( m_enum )
 	{
-		stream << ".TIMECLOCK.";
-	}
-	else if( m_enum == ENUM_TIMEDELAY )
-	{
-		stream << ".TIMEDELAY.";
-	}
-	else if( m_enum == ENUM_RELAY )
-	{
-		stream << ".RELAY.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_TIMECLOCK:	stream << ".TIMECLOCK."; break;
+		case ENUM_TIMEDELAY:	stream << ".TIMEDELAY."; break;
+		case ENUM_RELAY:	stream << ".RELAY."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElectricTimeControlTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_TIMECLOCK:	return L"TIMECLOCK";
+		case ENUM_TIMEDELAY:	return L"TIMEDELAY";
+		case ENUM_RELAY:	return L"RELAY";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

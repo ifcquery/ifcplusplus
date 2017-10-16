@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcCoolingTowerTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcCoolingTowerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLINGTOWERTYPEENUM("; }
-	if( m_enum == ENUM_NATURALDRAFT )
+	switch( m_enum )
 	{
-		stream << ".NATURALDRAFT.";
-	}
-	else if( m_enum == ENUM_MECHANICALINDUCEDDRAFT )
-	{
-		stream << ".MECHANICALINDUCEDDRAFT.";
-	}
-	else if( m_enum == ENUM_MECHANICALFORCEDDRAFT )
-	{
-		stream << ".MECHANICALFORCEDDRAFT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_NATURALDRAFT:	stream << ".NATURALDRAFT."; break;
+		case ENUM_MECHANICALINDUCEDDRAFT:	stream << ".MECHANICALINDUCEDDRAFT."; break;
+		case ENUM_MECHANICALFORCEDDRAFT:	stream << ".MECHANICALFORCEDDRAFT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCoolingTowerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_NATURALDRAFT:	return L"NATURALDRAFT";
+		case ENUM_MECHANICALINDUCEDDRAFT:	return L"MECHANICALINDUCEDDRAFT";
+		case ENUM_MECHANICALFORCEDDRAFT:	return L"MECHANICALFORCEDDRAFT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCoolingTowerTypeEnum> IfcCoolingTowerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

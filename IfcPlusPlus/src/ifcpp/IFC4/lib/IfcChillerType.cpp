@@ -90,6 +90,7 @@ void IfcChillerType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcChillerType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcChillerType::toString() const { return L"IfcChillerType"; }
 void IfcChillerType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -69,6 +69,7 @@ void IfcRelSpaceBoundary::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelSpaceBoundary::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelSpaceBoundary::toString() const { return L"IfcRelSpaceBoundary"; }
 void IfcRelSpaceBoundary::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

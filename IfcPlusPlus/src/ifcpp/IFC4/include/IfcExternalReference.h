@@ -31,6 +31,7 @@ public:
 	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
 	virtual void unlinkFromInverseCounterparts();
 	virtual const char* className() const { return "IfcExternalReference"; }
+	virtual const std::wstring toString() const;
 
 
 	// IfcExternalReference -----------------------------------------------------------

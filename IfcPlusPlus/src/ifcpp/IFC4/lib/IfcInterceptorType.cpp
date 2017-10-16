@@ -90,6 +90,7 @@ void IfcInterceptorType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcInterceptorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcInterceptorType::toString() const { return L"IfcInterceptorType"; }
 void IfcInterceptorType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

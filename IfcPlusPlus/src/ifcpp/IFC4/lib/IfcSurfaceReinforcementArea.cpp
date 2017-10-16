@@ -52,6 +52,7 @@ void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSurfaceReinforcementArea::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSurfaceReinforcementArea::toString() const { return L"IfcSurfaceReinforcementArea"; }
 void IfcSurfaceReinforcementArea::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

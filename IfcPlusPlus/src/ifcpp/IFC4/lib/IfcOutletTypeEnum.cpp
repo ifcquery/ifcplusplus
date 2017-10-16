@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcOutletTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcOutletTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOUTLETTYPEENUM("; }
-	if( m_enum == ENUM_AUDIOVISUALOUTLET )
+	switch( m_enum )
 	{
-		stream << ".AUDIOVISUALOUTLET.";
-	}
-	else if( m_enum == ENUM_COMMUNICATIONSOUTLET )
-	{
-		stream << ".COMMUNICATIONSOUTLET.";
-	}
-	else if( m_enum == ENUM_POWEROUTLET )
-	{
-		stream << ".POWEROUTLET.";
-	}
-	else if( m_enum == ENUM_DATAOUTLET )
-	{
-		stream << ".DATAOUTLET.";
-	}
-	else if( m_enum == ENUM_TELEPHONEOUTLET )
-	{
-		stream << ".TELEPHONEOUTLET.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AUDIOVISUALOUTLET:	stream << ".AUDIOVISUALOUTLET."; break;
+		case ENUM_COMMUNICATIONSOUTLET:	stream << ".COMMUNICATIONSOUTLET."; break;
+		case ENUM_POWEROUTLET:	stream << ".POWEROUTLET."; break;
+		case ENUM_DATAOUTLET:	stream << ".DATAOUTLET."; break;
+		case ENUM_TELEPHONEOUTLET:	stream << ".TELEPHONEOUTLET."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcOutletTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AUDIOVISUALOUTLET:	return L"AUDIOVISUALOUTLET";
+		case ENUM_COMMUNICATIONSOUTLET:	return L"COMMUNICATIONSOUTLET";
+		case ENUM_POWEROUTLET:	return L"POWEROUTLET";
+		case ENUM_DATAOUTLET:	return L"DATAOUTLET";
+		case ENUM_TELEPHONEOUTLET:	return L"TELEPHONEOUTLET";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

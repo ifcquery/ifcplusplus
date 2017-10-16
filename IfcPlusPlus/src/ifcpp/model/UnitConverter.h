@@ -47,7 +47,11 @@ public:
 			messageCallback( "No length unit definition found in model", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
 		}
 
-		return m_length_unit_factor;
+		return m_length_unit_factor * m_custom_length_factor;
+	}
+	void setCustomLengthFactor( double custom_factor )
+	{
+		m_custom_length_factor = custom_factor;
 	}
 	void setAngleUnit( AngularUnit unit )
 	{
@@ -87,6 +91,7 @@ protected:
 	std::map<int, double> m_prefix_map;
 	shared_ptr<IfcSIPrefix>	m_loaded_prefix;
 	double m_length_unit_factor;
+	double m_custom_length_factor = 1.0;
 	bool m_length_unit_found;
 	double m_plane_angle_factor;
 	AngularUnit	m_angular_unit;

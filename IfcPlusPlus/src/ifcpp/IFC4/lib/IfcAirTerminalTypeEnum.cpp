@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcAirTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcAirTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTERMINALTYPEENUM("; }
-	if( m_enum == ENUM_DIFFUSER )
+	switch( m_enum )
 	{
-		stream << ".DIFFUSER.";
-	}
-	else if( m_enum == ENUM_GRILLE )
-	{
-		stream << ".GRILLE.";
-	}
-	else if( m_enum == ENUM_LOUVRE )
-	{
-		stream << ".LOUVRE.";
-	}
-	else if( m_enum == ENUM_REGISTER )
-	{
-		stream << ".REGISTER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DIFFUSER:	stream << ".DIFFUSER."; break;
+		case ENUM_GRILLE:	stream << ".GRILLE."; break;
+		case ENUM_LOUVRE:	stream << ".LOUVRE."; break;
+		case ENUM_REGISTER:	stream << ".REGISTER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAirTerminalTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DIFFUSER:	return L"DIFFUSER";
+		case ENUM_GRILLE:	return L"GRILLE";
+		case ENUM_LOUVRE:	return L"LOUVRE";
+		case ENUM_REGISTER:	return L"REGISTER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

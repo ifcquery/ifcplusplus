@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcChangeActionEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcChangeActionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCHANGEACTIONENUM("; }
-	if( m_enum == ENUM_NOCHANGE )
+	switch( m_enum )
 	{
-		stream << ".NOCHANGE.";
-	}
-	else if( m_enum == ENUM_MODIFIED )
-	{
-		stream << ".MODIFIED.";
-	}
-	else if( m_enum == ENUM_ADDED )
-	{
-		stream << ".ADDED.";
-	}
-	else if( m_enum == ENUM_DELETED )
-	{
-		stream << ".DELETED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_NOCHANGE:	stream << ".NOCHANGE."; break;
+		case ENUM_MODIFIED:	stream << ".MODIFIED."; break;
+		case ENUM_ADDED:	stream << ".ADDED."; break;
+		case ENUM_DELETED:	stream << ".DELETED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcChangeActionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_NOCHANGE:	return L"NOCHANGE";
+		case ENUM_MODIFIED:	return L"MODIFIED";
+		case ENUM_ADDED:	return L"ADDED";
+		case ENUM_DELETED:	return L"DELETED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcChangeActionEnum> IfcChangeActionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

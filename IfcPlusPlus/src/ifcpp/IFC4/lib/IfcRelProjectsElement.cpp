@@ -55,6 +55,7 @@ void IfcRelProjectsElement::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRelProjectsElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRelProjectsElement::toString() const { return L"IfcRelProjectsElement"; }
 void IfcRelProjectsElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

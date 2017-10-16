@@ -24,6 +24,7 @@ void IfcConnectionGeometry::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcConnectionGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcConnectionGeometry::toString() const { return L"IfcConnectionGeometry"; }
 void IfcConnectionGeometry::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

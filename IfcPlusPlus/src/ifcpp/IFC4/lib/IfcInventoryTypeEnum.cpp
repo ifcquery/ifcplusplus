@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcInventoryTypeEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINVENTORYTYPEENUM("; }
-	if( m_enum == ENUM_ASSETINVENTORY )
+	switch( m_enum )
 	{
-		stream << ".ASSETINVENTORY.";
-	}
-	else if( m_enum == ENUM_SPACEINVENTORY )
-	{
-		stream << ".SPACEINVENTORY.";
-	}
-	else if( m_enum == ENUM_FURNITUREINVENTORY )
-	{
-		stream << ".FURNITUREINVENTORY.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ASSETINVENTORY:	stream << ".ASSETINVENTORY."; break;
+		case ENUM_SPACEINVENTORY:	stream << ".SPACEINVENTORY."; break;
+		case ENUM_FURNITUREINVENTORY:	stream << ".FURNITUREINVENTORY."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcInventoryTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ASSETINVENTORY:	return L"ASSETINVENTORY";
+		case ENUM_SPACEINVENTORY:	return L"SPACEINVENTORY";
+		case ENUM_FURNITUREINVENTORY:	return L"FURNITUREINVENTORY";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

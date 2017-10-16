@@ -27,6 +27,7 @@ void IfcMaterialDefinition::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcMaterialDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcMaterialDefinition::toString() const { return L"IfcMaterialDefinition"; }
 void IfcMaterialDefinition::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

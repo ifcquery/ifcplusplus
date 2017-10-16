@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcPileConstructionEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPILECONSTRUCTIONENUM("; }
-	if( m_enum == ENUM_CAST_IN_PLACE )
+	switch( m_enum )
 	{
-		stream << ".CAST_IN_PLACE.";
-	}
-	else if( m_enum == ENUM_COMPOSITE )
-	{
-		stream << ".COMPOSITE.";
-	}
-	else if( m_enum == ENUM_PRECAST_CONCRETE )
-	{
-		stream << ".PRECAST_CONCRETE.";
-	}
-	else if( m_enum == ENUM_PREFAB_STEEL )
-	{
-		stream << ".PREFAB_STEEL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CAST_IN_PLACE:	stream << ".CAST_IN_PLACE."; break;
+		case ENUM_COMPOSITE:	stream << ".COMPOSITE."; break;
+		case ENUM_PRECAST_CONCRETE:	stream << ".PRECAST_CONCRETE."; break;
+		case ENUM_PREFAB_STEEL:	stream << ".PREFAB_STEEL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPileConstructionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CAST_IN_PLACE:	return L"CAST_IN_PLACE";
+		case ENUM_COMPOSITE:	return L"COMPOSITE";
+		case ENUM_PRECAST_CONCRETE:	return L"PRECAST_CONCRETE";
+		case ENUM_PREFAB_STEEL:	return L"PREFAB_STEEL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

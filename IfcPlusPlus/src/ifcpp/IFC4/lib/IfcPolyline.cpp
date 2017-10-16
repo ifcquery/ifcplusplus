@@ -36,6 +36,7 @@ void IfcPolyline::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPolyline::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPolyline::toString() const { return L"IfcPolyline"; }
 void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

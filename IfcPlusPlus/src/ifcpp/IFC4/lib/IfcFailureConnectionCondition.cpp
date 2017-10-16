@@ -46,6 +46,7 @@ void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcFailureConnectionCondition::toString() const { return L"IfcFailureConnectionCondition"; }
 void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

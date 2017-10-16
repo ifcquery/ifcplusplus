@@ -78,6 +78,7 @@ void IfcExternalSpatialElement::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcExternalSpatialElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcExternalSpatialElement::toString() const { return L"IfcExternalSpatialElement"; }
 void IfcExternalSpatialElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

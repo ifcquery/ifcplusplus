@@ -90,6 +90,7 @@ void IfcBurnerType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBurnerType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcBurnerType::toString() const { return L"IfcBurnerType"; }
 void IfcBurnerType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

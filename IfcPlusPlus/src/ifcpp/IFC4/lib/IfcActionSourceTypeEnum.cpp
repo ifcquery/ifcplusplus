@@ -21,115 +21,71 @@ shared_ptr<IfcPPObject> IfcActionSourceTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcActionSourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONSOURCETYPEENUM("; }
-	if( m_enum == ENUM_DEAD_LOAD_G )
+	switch( m_enum )
 	{
-		stream << ".DEAD_LOAD_G.";
-	}
-	else if( m_enum == ENUM_COMPLETION_G1 )
-	{
-		stream << ".COMPLETION_G1.";
-	}
-	else if( m_enum == ENUM_LIVE_LOAD_Q )
-	{
-		stream << ".LIVE_LOAD_Q.";
-	}
-	else if( m_enum == ENUM_SNOW_S )
-	{
-		stream << ".SNOW_S.";
-	}
-	else if( m_enum == ENUM_WIND_W )
-	{
-		stream << ".WIND_W.";
-	}
-	else if( m_enum == ENUM_PRESTRESSING_P )
-	{
-		stream << ".PRESTRESSING_P.";
-	}
-	else if( m_enum == ENUM_SETTLEMENT_U )
-	{
-		stream << ".SETTLEMENT_U.";
-	}
-	else if( m_enum == ENUM_TEMPERATURE_T )
-	{
-		stream << ".TEMPERATURE_T.";
-	}
-	else if( m_enum == ENUM_EARTHQUAKE_E )
-	{
-		stream << ".EARTHQUAKE_E.";
-	}
-	else if( m_enum == ENUM_FIRE )
-	{
-		stream << ".FIRE.";
-	}
-	else if( m_enum == ENUM_IMPULSE )
-	{
-		stream << ".IMPULSE.";
-	}
-	else if( m_enum == ENUM_IMPACT )
-	{
-		stream << ".IMPACT.";
-	}
-	else if( m_enum == ENUM_TRANSPORT )
-	{
-		stream << ".TRANSPORT.";
-	}
-	else if( m_enum == ENUM_ERECTION )
-	{
-		stream << ".ERECTION.";
-	}
-	else if( m_enum == ENUM_PROPPING )
-	{
-		stream << ".PROPPING.";
-	}
-	else if( m_enum == ENUM_SYSTEM_IMPERFECTION )
-	{
-		stream << ".SYSTEM_IMPERFECTION.";
-	}
-	else if( m_enum == ENUM_SHRINKAGE )
-	{
-		stream << ".SHRINKAGE.";
-	}
-	else if( m_enum == ENUM_CREEP )
-	{
-		stream << ".CREEP.";
-	}
-	else if( m_enum == ENUM_LACK_OF_FIT )
-	{
-		stream << ".LACK_OF_FIT.";
-	}
-	else if( m_enum == ENUM_BUOYANCY )
-	{
-		stream << ".BUOYANCY.";
-	}
-	else if( m_enum == ENUM_ICE )
-	{
-		stream << ".ICE.";
-	}
-	else if( m_enum == ENUM_CURRENT )
-	{
-		stream << ".CURRENT.";
-	}
-	else if( m_enum == ENUM_WAVE )
-	{
-		stream << ".WAVE.";
-	}
-	else if( m_enum == ENUM_RAIN )
-	{
-		stream << ".RAIN.";
-	}
-	else if( m_enum == ENUM_BRAKES )
-	{
-		stream << ".BRAKES.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DEAD_LOAD_G:	stream << ".DEAD_LOAD_G."; break;
+		case ENUM_COMPLETION_G1:	stream << ".COMPLETION_G1."; break;
+		case ENUM_LIVE_LOAD_Q:	stream << ".LIVE_LOAD_Q."; break;
+		case ENUM_SNOW_S:	stream << ".SNOW_S."; break;
+		case ENUM_WIND_W:	stream << ".WIND_W."; break;
+		case ENUM_PRESTRESSING_P:	stream << ".PRESTRESSING_P."; break;
+		case ENUM_SETTLEMENT_U:	stream << ".SETTLEMENT_U."; break;
+		case ENUM_TEMPERATURE_T:	stream << ".TEMPERATURE_T."; break;
+		case ENUM_EARTHQUAKE_E:	stream << ".EARTHQUAKE_E."; break;
+		case ENUM_FIRE:	stream << ".FIRE."; break;
+		case ENUM_IMPULSE:	stream << ".IMPULSE."; break;
+		case ENUM_IMPACT:	stream << ".IMPACT."; break;
+		case ENUM_TRANSPORT:	stream << ".TRANSPORT."; break;
+		case ENUM_ERECTION:	stream << ".ERECTION."; break;
+		case ENUM_PROPPING:	stream << ".PROPPING."; break;
+		case ENUM_SYSTEM_IMPERFECTION:	stream << ".SYSTEM_IMPERFECTION."; break;
+		case ENUM_SHRINKAGE:	stream << ".SHRINKAGE."; break;
+		case ENUM_CREEP:	stream << ".CREEP."; break;
+		case ENUM_LACK_OF_FIT:	stream << ".LACK_OF_FIT."; break;
+		case ENUM_BUOYANCY:	stream << ".BUOYANCY."; break;
+		case ENUM_ICE:	stream << ".ICE."; break;
+		case ENUM_CURRENT:	stream << ".CURRENT."; break;
+		case ENUM_WAVE:	stream << ".WAVE."; break;
+		case ENUM_RAIN:	stream << ".RAIN."; break;
+		case ENUM_BRAKES:	stream << ".BRAKES."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcActionSourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DEAD_LOAD_G:	return L"DEAD_LOAD_G";
+		case ENUM_COMPLETION_G1:	return L"COMPLETION_G1";
+		case ENUM_LIVE_LOAD_Q:	return L"LIVE_LOAD_Q";
+		case ENUM_SNOW_S:	return L"SNOW_S";
+		case ENUM_WIND_W:	return L"WIND_W";
+		case ENUM_PRESTRESSING_P:	return L"PRESTRESSING_P";
+		case ENUM_SETTLEMENT_U:	return L"SETTLEMENT_U";
+		case ENUM_TEMPERATURE_T:	return L"TEMPERATURE_T";
+		case ENUM_EARTHQUAKE_E:	return L"EARTHQUAKE_E";
+		case ENUM_FIRE:	return L"FIRE";
+		case ENUM_IMPULSE:	return L"IMPULSE";
+		case ENUM_IMPACT:	return L"IMPACT";
+		case ENUM_TRANSPORT:	return L"TRANSPORT";
+		case ENUM_ERECTION:	return L"ERECTION";
+		case ENUM_PROPPING:	return L"PROPPING";
+		case ENUM_SYSTEM_IMPERFECTION:	return L"SYSTEM_IMPERFECTION";
+		case ENUM_SHRINKAGE:	return L"SHRINKAGE";
+		case ENUM_CREEP:	return L"CREEP";
+		case ENUM_LACK_OF_FIT:	return L"LACK_OF_FIT";
+		case ENUM_BUOYANCY:	return L"BUOYANCY";
+		case ENUM_ICE:	return L"ICE";
+		case ENUM_CURRENT:	return L"CURRENT";
+		case ENUM_WAVE:	return L"WAVE";
+		case ENUM_RAIN:	return L"RAIN";
+		case ENUM_BRAKES:	return L"BRAKES";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

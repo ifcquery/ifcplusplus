@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcSectionTypeEnum::getDeepCopy( IfcPPCopyOptions& optio
 void IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSECTIONTYPEENUM("; }
-	if( m_enum == ENUM_UNIFORM )
+	switch( m_enum )
 	{
-		stream << ".UNIFORM.";
-	}
-	else if( m_enum == ENUM_TAPERED )
-	{
-		stream << ".TAPERED.";
+		case ENUM_UNIFORM:	stream << ".UNIFORM."; break;
+		case ENUM_TAPERED:	stream << ".TAPERED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSectionTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_UNIFORM:	return L"UNIFORM";
+		case ENUM_TAPERED:	return L"TAPERED";
+	}
+	return L"";
 }
 shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

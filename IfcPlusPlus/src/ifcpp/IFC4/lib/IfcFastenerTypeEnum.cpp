@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcFastenerTypeEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFASTENERTYPEENUM("; }
-	if( m_enum == ENUM_GLUE )
+	switch( m_enum )
 	{
-		stream << ".GLUE.";
-	}
-	else if( m_enum == ENUM_MORTAR )
-	{
-		stream << ".MORTAR.";
-	}
-	else if( m_enum == ENUM_WELD )
-	{
-		stream << ".WELD.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_GLUE:	stream << ".GLUE."; break;
+		case ENUM_MORTAR:	stream << ".MORTAR."; break;
+		case ENUM_WELD:	stream << ".WELD."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFastenerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_GLUE:	return L"GLUE";
+		case ENUM_MORTAR:	return L"MORTAR";
+		case ENUM_WELD:	return L"WELD";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

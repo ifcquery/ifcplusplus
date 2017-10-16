@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcTrimmingPreference::getDeepCopy( IfcPPCopyOptions& op
 void IfcTrimmingPreference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRIMMINGPREFERENCE("; }
-	if( m_enum == ENUM_CARTESIAN )
+	switch( m_enum )
 	{
-		stream << ".CARTESIAN.";
-	}
-	else if( m_enum == ENUM_PARAMETER )
-	{
-		stream << ".PARAMETER.";
-	}
-	else if( m_enum == ENUM_UNSPECIFIED )
-	{
-		stream << ".UNSPECIFIED.";
+		case ENUM_CARTESIAN:	stream << ".CARTESIAN."; break;
+		case ENUM_PARAMETER:	stream << ".PARAMETER."; break;
+		case ENUM_UNSPECIFIED:	stream << ".UNSPECIFIED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTrimmingPreference::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CARTESIAN:	return L"CARTESIAN";
+		case ENUM_PARAMETER:	return L"PARAMETER";
+		case ENUM_UNSPECIFIED:	return L"UNSPECIFIED";
+	}
+	return L"";
 }
 shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

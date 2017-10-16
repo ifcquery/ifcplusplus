@@ -90,6 +90,7 @@ void IfcCableFittingType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCableFittingType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCableFittingType::toString() const { return L"IfcCableFittingType"; }
 void IfcCableFittingType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

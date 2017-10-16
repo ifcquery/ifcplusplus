@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcStairFlightTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcStairFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTAIRFLIGHTTYPEENUM("; }
-	if( m_enum == ENUM_STRAIGHT )
+	switch( m_enum )
 	{
-		stream << ".STRAIGHT.";
-	}
-	else if( m_enum == ENUM_WINDER )
-	{
-		stream << ".WINDER.";
-	}
-	else if( m_enum == ENUM_SPIRAL )
-	{
-		stream << ".SPIRAL.";
-	}
-	else if( m_enum == ENUM_CURVED )
-	{
-		stream << ".CURVED.";
-	}
-	else if( m_enum == ENUM_FREEFORM )
-	{
-		stream << ".FREEFORM.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_STRAIGHT:	stream << ".STRAIGHT."; break;
+		case ENUM_WINDER:	stream << ".WINDER."; break;
+		case ENUM_SPIRAL:	stream << ".SPIRAL."; break;
+		case ENUM_CURVED:	stream << ".CURVED."; break;
+		case ENUM_FREEFORM:	stream << ".FREEFORM."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStairFlightTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_STRAIGHT:	return L"STRAIGHT";
+		case ENUM_WINDER:	return L"WINDER";
+		case ENUM_SPIRAL:	return L"SPIRAL";
+		case ENUM_CURVED:	return L"CURVED";
+		case ENUM_FREEFORM:	return L"FREEFORM";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcStairFlightTypeEnum> IfcStairFlightTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

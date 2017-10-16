@@ -44,6 +44,7 @@ void IfcCircleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCircleHollowProfileDef::toString() const { return L"IfcCircleHollowProfileDef"; }
 void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcSequenceEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcSequenceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSEQUENCEENUM("; }
-	if( m_enum == ENUM_START_START )
+	switch( m_enum )
 	{
-		stream << ".START_START.";
-	}
-	else if( m_enum == ENUM_START_FINISH )
-	{
-		stream << ".START_FINISH.";
-	}
-	else if( m_enum == ENUM_FINISH_START )
-	{
-		stream << ".FINISH_START.";
-	}
-	else if( m_enum == ENUM_FINISH_FINISH )
-	{
-		stream << ".FINISH_FINISH.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_START_START:	stream << ".START_START."; break;
+		case ENUM_START_FINISH:	stream << ".START_FINISH."; break;
+		case ENUM_FINISH_START:	stream << ".FINISH_START."; break;
+		case ENUM_FINISH_FINISH:	stream << ".FINISH_FINISH."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSequenceEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_START_START:	return L"START_START";
+		case ENUM_START_FINISH:	return L"START_FINISH";
+		case ENUM_FINISH_START:	return L"FINISH_START";
+		case ENUM_FINISH_FINISH:	return L"FINISH_FINISH";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

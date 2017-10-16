@@ -27,6 +27,7 @@ void IfcPreDefinedColour::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPreDefinedColour::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPreDefinedColour::toString() const { return L"IfcPreDefinedColour"; }
 void IfcPreDefinedColour::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

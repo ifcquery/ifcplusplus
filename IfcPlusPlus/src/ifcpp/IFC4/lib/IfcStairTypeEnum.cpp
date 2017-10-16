@@ -21,71 +21,49 @@ shared_ptr<IfcPPObject> IfcStairTypeEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcStairTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTAIRTYPEENUM("; }
-	if( m_enum == ENUM_STRAIGHT_RUN_STAIR )
+	switch( m_enum )
 	{
-		stream << ".STRAIGHT_RUN_STAIR.";
-	}
-	else if( m_enum == ENUM_TWO_STRAIGHT_RUN_STAIR )
-	{
-		stream << ".TWO_STRAIGHT_RUN_STAIR.";
-	}
-	else if( m_enum == ENUM_QUARTER_WINDING_STAIR )
-	{
-		stream << ".QUARTER_WINDING_STAIR.";
-	}
-	else if( m_enum == ENUM_QUARTER_TURN_STAIR )
-	{
-		stream << ".QUARTER_TURN_STAIR.";
-	}
-	else if( m_enum == ENUM_HALF_WINDING_STAIR )
-	{
-		stream << ".HALF_WINDING_STAIR.";
-	}
-	else if( m_enum == ENUM_HALF_TURN_STAIR )
-	{
-		stream << ".HALF_TURN_STAIR.";
-	}
-	else if( m_enum == ENUM_TWO_QUARTER_WINDING_STAIR )
-	{
-		stream << ".TWO_QUARTER_WINDING_STAIR.";
-	}
-	else if( m_enum == ENUM_TWO_QUARTER_TURN_STAIR )
-	{
-		stream << ".TWO_QUARTER_TURN_STAIR.";
-	}
-	else if( m_enum == ENUM_THREE_QUARTER_WINDING_STAIR )
-	{
-		stream << ".THREE_QUARTER_WINDING_STAIR.";
-	}
-	else if( m_enum == ENUM_THREE_QUARTER_TURN_STAIR )
-	{
-		stream << ".THREE_QUARTER_TURN_STAIR.";
-	}
-	else if( m_enum == ENUM_SPIRAL_STAIR )
-	{
-		stream << ".SPIRAL_STAIR.";
-	}
-	else if( m_enum == ENUM_DOUBLE_RETURN_STAIR )
-	{
-		stream << ".DOUBLE_RETURN_STAIR.";
-	}
-	else if( m_enum == ENUM_CURVED_RUN_STAIR )
-	{
-		stream << ".CURVED_RUN_STAIR.";
-	}
-	else if( m_enum == ENUM_TWO_CURVED_RUN_STAIR )
-	{
-		stream << ".TWO_CURVED_RUN_STAIR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_STRAIGHT_RUN_STAIR:	stream << ".STRAIGHT_RUN_STAIR."; break;
+		case ENUM_TWO_STRAIGHT_RUN_STAIR:	stream << ".TWO_STRAIGHT_RUN_STAIR."; break;
+		case ENUM_QUARTER_WINDING_STAIR:	stream << ".QUARTER_WINDING_STAIR."; break;
+		case ENUM_QUARTER_TURN_STAIR:	stream << ".QUARTER_TURN_STAIR."; break;
+		case ENUM_HALF_WINDING_STAIR:	stream << ".HALF_WINDING_STAIR."; break;
+		case ENUM_HALF_TURN_STAIR:	stream << ".HALF_TURN_STAIR."; break;
+		case ENUM_TWO_QUARTER_WINDING_STAIR:	stream << ".TWO_QUARTER_WINDING_STAIR."; break;
+		case ENUM_TWO_QUARTER_TURN_STAIR:	stream << ".TWO_QUARTER_TURN_STAIR."; break;
+		case ENUM_THREE_QUARTER_WINDING_STAIR:	stream << ".THREE_QUARTER_WINDING_STAIR."; break;
+		case ENUM_THREE_QUARTER_TURN_STAIR:	stream << ".THREE_QUARTER_TURN_STAIR."; break;
+		case ENUM_SPIRAL_STAIR:	stream << ".SPIRAL_STAIR."; break;
+		case ENUM_DOUBLE_RETURN_STAIR:	stream << ".DOUBLE_RETURN_STAIR."; break;
+		case ENUM_CURVED_RUN_STAIR:	stream << ".CURVED_RUN_STAIR."; break;
+		case ENUM_TWO_CURVED_RUN_STAIR:	stream << ".TWO_CURVED_RUN_STAIR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStairTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_STRAIGHT_RUN_STAIR:	return L"STRAIGHT_RUN_STAIR";
+		case ENUM_TWO_STRAIGHT_RUN_STAIR:	return L"TWO_STRAIGHT_RUN_STAIR";
+		case ENUM_QUARTER_WINDING_STAIR:	return L"QUARTER_WINDING_STAIR";
+		case ENUM_QUARTER_TURN_STAIR:	return L"QUARTER_TURN_STAIR";
+		case ENUM_HALF_WINDING_STAIR:	return L"HALF_WINDING_STAIR";
+		case ENUM_HALF_TURN_STAIR:	return L"HALF_TURN_STAIR";
+		case ENUM_TWO_QUARTER_WINDING_STAIR:	return L"TWO_QUARTER_WINDING_STAIR";
+		case ENUM_TWO_QUARTER_TURN_STAIR:	return L"TWO_QUARTER_TURN_STAIR";
+		case ENUM_THREE_QUARTER_WINDING_STAIR:	return L"THREE_QUARTER_WINDING_STAIR";
+		case ENUM_THREE_QUARTER_TURN_STAIR:	return L"THREE_QUARTER_TURN_STAIR";
+		case ENUM_SPIRAL_STAIR:	return L"SPIRAL_STAIR";
+		case ENUM_DOUBLE_RETURN_STAIR:	return L"DOUBLE_RETURN_STAIR";
+		case ENUM_CURVED_RUN_STAIR:	return L"CURVED_RUN_STAIR";
+		case ENUM_TWO_CURVED_RUN_STAIR:	return L"TWO_CURVED_RUN_STAIR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcStairTypeEnum> IfcStairTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

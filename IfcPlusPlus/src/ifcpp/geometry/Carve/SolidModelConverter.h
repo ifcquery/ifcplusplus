@@ -121,7 +121,7 @@ public:
 			if( extruded_area )
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
-				item_data_solid->applyPosition( swept_area_pos );
+				item_data->setPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}
@@ -148,7 +148,7 @@ public:
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
-				item_data_solid->applyPosition( swept_area_pos );
+				item_data->setPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 
 				return;
@@ -158,7 +158,7 @@ public:
 			if( revolved_area_solid )
 			{
 				convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid );
-				item_data_solid->applyPosition( swept_area_pos );
+				item_data->setPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}
@@ -193,7 +193,7 @@ public:
 				}
 
 				m_sweeper->sweepArea( directrix_curve_points, profile_paths, surface_curve_swept_area_solid.get(), item_data_solid );
-				item_data_solid->applyPosition( swept_area_pos );
+				item_data->setPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 
 				return;
@@ -834,6 +834,13 @@ public:
 		}
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
+		// transform meshset into global coordinates
+		carve::math::Matrix first_operand_resulting_matrix = first_operand_data->getTransform();
+		first_operand_data->applyPositionToItem( first_operand_resulting_matrix );
+
+		carve::math::Matrix second_operand_resulting_matrix = second_operand_data->getTransform();
+		second_operand_data->applyPositionToItem( second_operand_resulting_matrix );
+
 		// for every first operand polyhedrons, apply all second operand polyhedrons
 		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_first_operand_meshsets = first_operand_data->m_meshsets;
 		for( size_t i_meshset_first = 0; i_meshset_first < vec_first_operand_meshsets.size(); ++i_meshset_first )
@@ -846,7 +853,15 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
+#ifdef _DEBUG
+					GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
+					GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+#endif
 					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result.get() );
+
+#ifdef _DEBUG
+					GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+#endif
 				}
 				catch( IfcPPOutOfMemoryException& e )
 				{
@@ -866,6 +881,12 @@ public:
 
 		// now copy processed first operands to result input data
 		std::copy( first_operand_data->m_meshsets.begin(), first_operand_data->m_meshsets.end(), std::back_inserter( item_data->m_meshsets ) );
+
+		// transform meshset back into local coordinates
+		carve::math::Matrix first_inverse_matrix;
+		GeomUtils::computeInverse( first_operand_resulting_matrix, first_inverse_matrix );
+		item_data->applyPositionToItem( first_inverse_matrix );
+		item_data->m_item_matrix = first_operand_resulting_matrix;
 
 		shared_ptr<IfcBooleanClippingResult> boolean_clipping_result = dynamic_pointer_cast<IfcBooleanClippingResult>( bool_result );
 		if( boolean_clipping_result )
@@ -1352,7 +1373,7 @@ public:
 			}
 
 			// apply position of PolygonalBoundary
-			polygonal_halfspace_item_data->applyPosition( boundary_position_matrix );
+			polygonal_halfspace_item_data->applyPositionToItem( boundary_position_matrix );
 
 			shared_ptr<carve::mesh::MeshSet<3> > polygonal_halfspace_meshset = polygonal_halfspace_item_data->m_meshsets[0];
 			const size_t num_poly_points = polygonal_halfspace_meshset->vertex_storage.size();

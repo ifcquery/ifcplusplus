@@ -75,7 +75,7 @@ public:
 		m_vertex_points.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( point.X(), point.Y(), point.Z() ) ) );
 	}
 
-	void applyPosition( const gp_Trsf& mat, bool matrix_identity_checked = false )
+	void applyPositionToItem( const gp_Trsf& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -111,7 +111,7 @@ public:
 		}
 	}
 
-	void applyPosition( const gp_GTrsf& mat, bool matrix_identity_checked = false )
+	void applyPositionToItem( const gp_GTrsf& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -211,11 +211,11 @@ friend class SolidModelConverter;
 friend class RepresentationConverter;
 };
 
-class ProductRepresentationData
+class RepresentationData
 {
 public:
-	ProductRepresentationData() {}
-	~ProductRepresentationData(){}
+	RepresentationData() {}
+	~RepresentationData(){}
 
 	weak_ptr<IfcRepresentation>						m_ifc_representation;
 	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
@@ -225,9 +225,9 @@ public:
 	std::wstring									m_representation_type;
 
 
-	shared_ptr<ProductRepresentationData> getDeepCopy()
+	shared_ptr<RepresentationData> getDeepCopy()
 	{
-		shared_ptr<ProductRepresentationData> copy_representation( new ProductRepresentationData() );
+		shared_ptr<RepresentationData> copy_representation( new RepresentationData() );
 		copy_representation->m_ifc_representation = m_ifc_representation;
 		copy_representation->m_ifc_representation_context = m_ifc_representation_context;
 		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
@@ -239,13 +239,13 @@ public:
 		return copy_representation;
 	}
 
-	void addInputData( shared_ptr<ProductRepresentationData>& other )
+	void addInputData( shared_ptr<RepresentationData>& other )
 	{
 		std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
 		std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
 	}
 
-	void deepCopyFrom( shared_ptr<ProductRepresentationData>& other )
+	void deepCopyFrom( shared_ptr<RepresentationData>& other )
 	{
 		m_vec_item_data.clear();
 		m_vec_representation_appearances.clear();
@@ -294,7 +294,7 @@ public:
 		m_representation_type = L"";
 	}
 
-	void applyPosition( const gp_Trsf& matrix, bool matrix_identity_checked = false )
+	void applyPositionToRepresentation( const gp_Trsf& matrix, bool matrix_identity_checked = false )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
 		{
@@ -305,7 +305,7 @@ public:
 			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
 		}
 	}
-	void applyPosition( const gp_GTrsf& matrix, bool matrix_identity_checked = false )
+	void applyPositionToRepresentation( const gp_GTrsf& matrix, bool matrix_identity_checked = false )
 	{
 		//if( GeomUtils::isMatrixIdentity( matrix ) )
 		//{
@@ -339,8 +339,8 @@ public:
 		{
 			for( size_t item_i = 0; item_i < other->m_vec_representations.size(); ++item_i )
 			{
-				shared_ptr<ProductRepresentationData>& representation_data = other->m_vec_representations[item_i];
-				m_vec_representations.push_back( shared_ptr<ProductRepresentationData>( representation_data->getDeepCopy() ) );
+				shared_ptr<RepresentationData>& representation_data = other->m_vec_representations[item_i];
+				m_vec_representations.push_back( shared_ptr<RepresentationData>( representation_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
 		}
@@ -379,7 +379,7 @@ public:
 		m_added_to_spatial_structure = false;
 	}
 
-	void applyPosition( const gp_Trsf& matrix )
+	void applyPositionToProduct( const gp_Trsf& matrix )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
 		{
@@ -394,7 +394,7 @@ public:
 
 	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
-	std::vector<shared_ptr<ProductRepresentationData> >	m_vec_representations;
+	std::vector<shared_ptr<RepresentationData> >	m_vec_representations;
 	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
 	bool												m_added_to_spatial_structure;
 	

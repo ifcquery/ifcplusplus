@@ -53,6 +53,7 @@ void IfcShapeModel::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcShapeModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcShapeModel::toString() const { return L"IfcShapeModel"; }
 void IfcShapeModel::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

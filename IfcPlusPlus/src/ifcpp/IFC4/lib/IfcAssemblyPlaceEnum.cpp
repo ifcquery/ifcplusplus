@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcAssemblyPlaceEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCASSEMBLYPLACEENUM("; }
-	if( m_enum == ENUM_SITE )
+	switch( m_enum )
 	{
-		stream << ".SITE.";
-	}
-	else if( m_enum == ENUM_FACTORY )
-	{
-		stream << ".FACTORY.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SITE:	stream << ".SITE."; break;
+		case ENUM_FACTORY:	stream << ".FACTORY."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAssemblyPlaceEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SITE:	return L"SITE";
+		case ENUM_FACTORY:	return L"FACTORY";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

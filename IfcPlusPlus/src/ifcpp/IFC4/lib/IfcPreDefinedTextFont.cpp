@@ -27,6 +27,7 @@ void IfcPreDefinedTextFont::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPreDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPreDefinedTextFont::toString() const { return L"IfcPreDefinedTextFont"; }
 void IfcPreDefinedTextFont::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

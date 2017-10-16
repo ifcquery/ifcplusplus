@@ -51,6 +51,7 @@ void IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPropertyBoundedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPropertyBoundedValue::toString() const { return L"IfcPropertyBoundedValue"; }
 void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

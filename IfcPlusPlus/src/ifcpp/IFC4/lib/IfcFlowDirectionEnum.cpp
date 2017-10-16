@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcFlowDirectionEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcFlowDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWDIRECTIONENUM("; }
-	if( m_enum == ENUM_SOURCE )
+	switch( m_enum )
 	{
-		stream << ".SOURCE.";
-	}
-	else if( m_enum == ENUM_SINK )
-	{
-		stream << ".SINK.";
-	}
-	else if( m_enum == ENUM_SOURCEANDSINK )
-	{
-		stream << ".SOURCEANDSINK.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SOURCE:	stream << ".SOURCE."; break;
+		case ENUM_SINK:	stream << ".SINK."; break;
+		case ENUM_SOURCEANDSINK:	stream << ".SOURCEANDSINK."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFlowDirectionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SOURCE:	return L"SOURCE";
+		case ENUM_SINK:	return L"SINK";
+		case ENUM_SOURCEANDSINK:	return L"SOURCEANDSINK";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFlowDirectionEnum> IfcFlowDirectionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

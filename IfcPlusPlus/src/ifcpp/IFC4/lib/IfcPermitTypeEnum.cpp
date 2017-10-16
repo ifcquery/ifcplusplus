@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcPermitTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERMITTYPEENUM("; }
-	if( m_enum == ENUM_ACCESS )
+	switch( m_enum )
 	{
-		stream << ".ACCESS.";
-	}
-	else if( m_enum == ENUM_BUILDING )
-	{
-		stream << ".BUILDING.";
-	}
-	else if( m_enum == ENUM_WORK )
-	{
-		stream << ".WORK.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ACCESS:	stream << ".ACCESS."; break;
+		case ENUM_BUILDING:	stream << ".BUILDING."; break;
+		case ENUM_WORK:	stream << ".WORK."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPermitTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ACCESS:	return L"ACCESS";
+		case ENUM_BUILDING:	return L"BUILDING";
+		case ENUM_WORK:	return L"WORK";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

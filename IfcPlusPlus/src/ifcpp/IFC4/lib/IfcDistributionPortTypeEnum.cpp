@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcDistributionPortTypeEnum::getDeepCopy( IfcPPCopyOptio
 void IfcDistributionPortTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONPORTTYPEENUM("; }
-	if( m_enum == ENUM_CABLE )
+	switch( m_enum )
 	{
-		stream << ".CABLE.";
-	}
-	else if( m_enum == ENUM_CABLECARRIER )
-	{
-		stream << ".CABLECARRIER.";
-	}
-	else if( m_enum == ENUM_DUCT )
-	{
-		stream << ".DUCT.";
-	}
-	else if( m_enum == ENUM_PIPE )
-	{
-		stream << ".PIPE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CABLE:	stream << ".CABLE."; break;
+		case ENUM_CABLECARRIER:	stream << ".CABLECARRIER."; break;
+		case ENUM_DUCT:	stream << ".DUCT."; break;
+		case ENUM_PIPE:	stream << ".PIPE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDistributionPortTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CABLE:	return L"CABLE";
+		case ENUM_CABLECARRIER:	return L"CABLECARRIER";
+		case ENUM_DUCT:	return L"DUCT";
+		case ENUM_PIPE:	return L"PIPE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

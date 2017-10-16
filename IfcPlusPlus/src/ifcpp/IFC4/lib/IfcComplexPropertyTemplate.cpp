@@ -68,6 +68,7 @@ void IfcComplexPropertyTemplate::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcComplexPropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcComplexPropertyTemplate::toString() const { return L"IfcComplexPropertyTemplate"; }
 void IfcComplexPropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -25,6 +25,10 @@ void IfcTextFontName::getStepParameter( std::stringstream& stream, bool is_selec
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcTextFontName::toString() const
+{
+	return m_value;
+}
 shared_ptr<IfcTextFontName> IfcTextFontName::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

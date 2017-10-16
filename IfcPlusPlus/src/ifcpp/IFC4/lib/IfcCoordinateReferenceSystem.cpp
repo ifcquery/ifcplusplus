@@ -39,6 +39,7 @@ void IfcCoordinateReferenceSystem::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCoordinateReferenceSystem::toString() const { return L"IfcCoordinateReferenceSystem"; }
 void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

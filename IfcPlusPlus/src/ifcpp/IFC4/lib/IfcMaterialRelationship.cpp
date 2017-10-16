@@ -48,6 +48,7 @@ void IfcMaterialRelationship::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcMaterialRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcMaterialRelationship::toString() const { return L"IfcMaterialRelationship"; }
 void IfcMaterialRelationship::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

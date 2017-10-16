@@ -32,6 +32,18 @@ void IfcStrippedOptional::getStepParameter( std::stringstream& stream, bool is_s
 	}
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcStrippedOptional::toString() const
+{
+	if( m_value == false )
+	{
+		return L"false";
+	}
+	else if( m_value == true )
+	{
+		return L"true";
+	}
+	return L"";
+}
 shared_ptr<IfcStrippedOptional> IfcStrippedOptional::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

@@ -150,6 +150,7 @@ public:
 							if( related_product_shape )
 							{
 								product_data->m_vec_children.push_back( related_product_shape );
+								related_product_shape->m_parent = weak_ptr<ProductShapeData>( product_data );
 								resolveProjectStructure( related_product_shape );
 							}
 						}
@@ -186,6 +187,7 @@ public:
 								if( related_product_shape )
 								{
 									product_data->m_vec_children.push_back( related_product_shape );
+									related_product_shape->m_parent = weak_ptr<ProductShapeData>( product_data );
 									resolveProjectStructure( related_product_shape );
 								}
 							}
@@ -459,7 +461,6 @@ public:
 		{
 			return;
 		}
-
 		
 		double length_factor = 1.0;
 		if( m_ifc_model )
@@ -483,9 +484,10 @@ public:
 
 			try
 			{
-				shared_ptr<ProductRepresentationData> representation_data( new ProductRepresentationData() );
+				shared_ptr<RepresentationData> representation_data( new RepresentationData() );
 				m_representation_converter->convertIfcRepresentation( representation, representation_data );
 				product_shape->m_vec_representations.push_back( representation_data );
+				representation_data->m_parent_product = product_shape;
 			}
 			catch( IfcPPOutOfMemoryException& e )
 			{
@@ -508,7 +510,7 @@ public:
 			// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 			boost::unordered_set<IfcObjectPlacement*> placement_already_applied;
 			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
-			product_shape->applyPosition( product_placement_matrix );
+			product_shape->setPositionOfProduct( product_placement_matrix );
 		}
 
 		// handle openings

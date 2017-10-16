@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcPipeSegmentTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcPipeSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPIPESEGMENTTYPEENUM("; }
-	if( m_enum == ENUM_CULVERT )
+	switch( m_enum )
 	{
-		stream << ".CULVERT.";
-	}
-	else if( m_enum == ENUM_FLEXIBLESEGMENT )
-	{
-		stream << ".FLEXIBLESEGMENT.";
-	}
-	else if( m_enum == ENUM_RIGIDSEGMENT )
-	{
-		stream << ".RIGIDSEGMENT.";
-	}
-	else if( m_enum == ENUM_GUTTER )
-	{
-		stream << ".GUTTER.";
-	}
-	else if( m_enum == ENUM_SPOOL )
-	{
-		stream << ".SPOOL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CULVERT:	stream << ".CULVERT."; break;
+		case ENUM_FLEXIBLESEGMENT:	stream << ".FLEXIBLESEGMENT."; break;
+		case ENUM_RIGIDSEGMENT:	stream << ".RIGIDSEGMENT."; break;
+		case ENUM_GUTTER:	stream << ".GUTTER."; break;
+		case ENUM_SPOOL:	stream << ".SPOOL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPipeSegmentTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CULVERT:	return L"CULVERT";
+		case ENUM_FLEXIBLESEGMENT:	return L"FLEXIBLESEGMENT";
+		case ENUM_RIGIDSEGMENT:	return L"RIGIDSEGMENT";
+		case ENUM_GUTTER:	return L"GUTTER";
+		case ENUM_SPOOL:	return L"SPOOL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

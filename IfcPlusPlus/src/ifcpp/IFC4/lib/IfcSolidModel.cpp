@@ -26,6 +26,7 @@ void IfcSolidModel::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSolidModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSolidModel::toString() const { return L"IfcSolidModel"; }
 void IfcSolidModel::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

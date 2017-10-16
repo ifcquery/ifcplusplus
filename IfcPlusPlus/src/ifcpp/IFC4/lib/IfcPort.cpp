@@ -69,6 +69,7 @@ void IfcPort::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPort::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPort::toString() const { return L"IfcPort"; }
 void IfcPort::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

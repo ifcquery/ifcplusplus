@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcWindowStyleOperationEnum::getDeepCopy( IfcPPCopyOptio
 void IfcWindowStyleOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWSTYLEOPERATIONENUM("; }
-	if( m_enum == ENUM_SINGLE_PANEL )
+	switch( m_enum )
 	{
-		stream << ".SINGLE_PANEL.";
-	}
-	else if( m_enum == ENUM_DOUBLE_PANEL_VERTICAL )
-	{
-		stream << ".DOUBLE_PANEL_VERTICAL.";
-	}
-	else if( m_enum == ENUM_DOUBLE_PANEL_HORIZONTAL )
-	{
-		stream << ".DOUBLE_PANEL_HORIZONTAL.";
-	}
-	else if( m_enum == ENUM_TRIPLE_PANEL_VERTICAL )
-	{
-		stream << ".TRIPLE_PANEL_VERTICAL.";
-	}
-	else if( m_enum == ENUM_TRIPLE_PANEL_BOTTOM )
-	{
-		stream << ".TRIPLE_PANEL_BOTTOM.";
-	}
-	else if( m_enum == ENUM_TRIPLE_PANEL_TOP )
-	{
-		stream << ".TRIPLE_PANEL_TOP.";
-	}
-	else if( m_enum == ENUM_TRIPLE_PANEL_LEFT )
-	{
-		stream << ".TRIPLE_PANEL_LEFT.";
-	}
-	else if( m_enum == ENUM_TRIPLE_PANEL_RIGHT )
-	{
-		stream << ".TRIPLE_PANEL_RIGHT.";
-	}
-	else if( m_enum == ENUM_TRIPLE_PANEL_HORIZONTAL )
-	{
-		stream << ".TRIPLE_PANEL_HORIZONTAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SINGLE_PANEL:	stream << ".SINGLE_PANEL."; break;
+		case ENUM_DOUBLE_PANEL_VERTICAL:	stream << ".DOUBLE_PANEL_VERTICAL."; break;
+		case ENUM_DOUBLE_PANEL_HORIZONTAL:	stream << ".DOUBLE_PANEL_HORIZONTAL."; break;
+		case ENUM_TRIPLE_PANEL_VERTICAL:	stream << ".TRIPLE_PANEL_VERTICAL."; break;
+		case ENUM_TRIPLE_PANEL_BOTTOM:	stream << ".TRIPLE_PANEL_BOTTOM."; break;
+		case ENUM_TRIPLE_PANEL_TOP:	stream << ".TRIPLE_PANEL_TOP."; break;
+		case ENUM_TRIPLE_PANEL_LEFT:	stream << ".TRIPLE_PANEL_LEFT."; break;
+		case ENUM_TRIPLE_PANEL_RIGHT:	stream << ".TRIPLE_PANEL_RIGHT."; break;
+		case ENUM_TRIPLE_PANEL_HORIZONTAL:	stream << ".TRIPLE_PANEL_HORIZONTAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWindowStyleOperationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SINGLE_PANEL:	return L"SINGLE_PANEL";
+		case ENUM_DOUBLE_PANEL_VERTICAL:	return L"DOUBLE_PANEL_VERTICAL";
+		case ENUM_DOUBLE_PANEL_HORIZONTAL:	return L"DOUBLE_PANEL_HORIZONTAL";
+		case ENUM_TRIPLE_PANEL_VERTICAL:	return L"TRIPLE_PANEL_VERTICAL";
+		case ENUM_TRIPLE_PANEL_BOTTOM:	return L"TRIPLE_PANEL_BOTTOM";
+		case ENUM_TRIPLE_PANEL_TOP:	return L"TRIPLE_PANEL_TOP";
+		case ENUM_TRIPLE_PANEL_LEFT:	return L"TRIPLE_PANEL_LEFT";
+		case ENUM_TRIPLE_PANEL_RIGHT:	return L"TRIPLE_PANEL_RIGHT";
+		case ENUM_TRIPLE_PANEL_HORIZONTAL:	return L"TRIPLE_PANEL_HORIZONTAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWindowStyleOperationEnum> IfcWindowStyleOperationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

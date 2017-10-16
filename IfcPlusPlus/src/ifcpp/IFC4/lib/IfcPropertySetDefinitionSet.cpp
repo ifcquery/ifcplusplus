@@ -33,6 +33,22 @@ void IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& stream, b
 	writeEntityList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcPropertySetDefinitionSet::toString() const
+{
+	std::wstring result_str;
+	for( size_t ii = 0; ii < m_vec.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			result_str.append( L", " );
+		}
+		if( m_vec[ii]  )
+		{
+			result_str.append( m_vec[ii]->toString() );
+		}
+	}
+	return result_str; 
+}
 shared_ptr<IfcPropertySetDefinitionSet> IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

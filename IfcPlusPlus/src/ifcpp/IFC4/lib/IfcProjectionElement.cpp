@@ -85,6 +85,7 @@ void IfcProjectionElement::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProjectionElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcProjectionElement::toString() const { return L"IfcProjectionElement"; }
 void IfcProjectionElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

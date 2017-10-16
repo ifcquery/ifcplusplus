@@ -45,6 +45,7 @@ void IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcApprovalRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcApprovalRelationship::toString() const { return L"IfcApprovalRelationship"; }
 void IfcApprovalRelationship::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

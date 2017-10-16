@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcDuctSilencerTypeEnum::getDeepCopy( IfcPPCopyOptions& 
 void IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSILENCERTYPEENUM("; }
-	if( m_enum == ENUM_FLATOVAL )
+	switch( m_enum )
 	{
-		stream << ".FLATOVAL.";
-	}
-	else if( m_enum == ENUM_RECTANGULAR )
-	{
-		stream << ".RECTANGULAR.";
-	}
-	else if( m_enum == ENUM_ROUND )
-	{
-		stream << ".ROUND.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FLATOVAL:	stream << ".FLATOVAL."; break;
+		case ENUM_RECTANGULAR:	stream << ".RECTANGULAR."; break;
+		case ENUM_ROUND:	stream << ".ROUND."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDuctSilencerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FLATOVAL:	return L"FLATOVAL";
+		case ENUM_RECTANGULAR:	return L"RECTANGULAR";
+		case ENUM_ROUND:	return L"ROUND";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

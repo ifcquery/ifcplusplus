@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcSpatialZoneTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcSpatialZoneTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPATIALZONETYPEENUM("; }
-	if( m_enum == ENUM_CONSTRUCTION )
+	switch( m_enum )
 	{
-		stream << ".CONSTRUCTION.";
-	}
-	else if( m_enum == ENUM_FIRESAFETY )
-	{
-		stream << ".FIRESAFETY.";
-	}
-	else if( m_enum == ENUM_LIGHTING )
-	{
-		stream << ".LIGHTING.";
-	}
-	else if( m_enum == ENUM_OCCUPANCY )
-	{
-		stream << ".OCCUPANCY.";
-	}
-	else if( m_enum == ENUM_SECURITY )
-	{
-		stream << ".SECURITY.";
-	}
-	else if( m_enum == ENUM_THERMAL )
-	{
-		stream << ".THERMAL.";
-	}
-	else if( m_enum == ENUM_TRANSPORT )
-	{
-		stream << ".TRANSPORT.";
-	}
-	else if( m_enum == ENUM_VENTILATION )
-	{
-		stream << ".VENTILATION.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONSTRUCTION:	stream << ".CONSTRUCTION."; break;
+		case ENUM_FIRESAFETY:	stream << ".FIRESAFETY."; break;
+		case ENUM_LIGHTING:	stream << ".LIGHTING."; break;
+		case ENUM_OCCUPANCY:	stream << ".OCCUPANCY."; break;
+		case ENUM_SECURITY:	stream << ".SECURITY."; break;
+		case ENUM_THERMAL:	stream << ".THERMAL."; break;
+		case ENUM_TRANSPORT:	stream << ".TRANSPORT."; break;
+		case ENUM_VENTILATION:	stream << ".VENTILATION."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSpatialZoneTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONSTRUCTION:	return L"CONSTRUCTION";
+		case ENUM_FIRESAFETY:	return L"FIRESAFETY";
+		case ENUM_LIGHTING:	return L"LIGHTING";
+		case ENUM_OCCUPANCY:	return L"OCCUPANCY";
+		case ENUM_SECURITY:	return L"SECURITY";
+		case ENUM_THERMAL:	return L"THERMAL";
+		case ENUM_TRANSPORT:	return L"TRANSPORT";
+		case ENUM_VENTILATION:	return L"VENTILATION";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

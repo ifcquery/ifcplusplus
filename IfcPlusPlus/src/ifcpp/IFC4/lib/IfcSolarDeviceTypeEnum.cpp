@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcSolarDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcSolarDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOLARDEVICETYPEENUM("; }
-	if( m_enum == ENUM_SOLARCOLLECTOR )
+	switch( m_enum )
 	{
-		stream << ".SOLARCOLLECTOR.";
-	}
-	else if( m_enum == ENUM_SOLARPANEL )
-	{
-		stream << ".SOLARPANEL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SOLARCOLLECTOR:	stream << ".SOLARCOLLECTOR."; break;
+		case ENUM_SOLARPANEL:	stream << ".SOLARPANEL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSolarDeviceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SOLARCOLLECTOR:	return L"SOLARCOLLECTOR";
+		case ENUM_SOLARPANEL:	return L"SOLARPANEL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -49,6 +49,7 @@ void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTextureCoordinateGenerator::toString() const { return L"IfcTextureCoordinateGenerator"; }
 void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -81,6 +81,7 @@ void IfcFeatureElementSubtraction::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcFeatureElementSubtraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcFeatureElementSubtraction::toString() const { return L"IfcFeatureElementSubtraction"; }
 void IfcFeatureElementSubtraction::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

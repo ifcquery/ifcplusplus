@@ -88,7 +88,7 @@ public:
 	virtual ~SolidModelConverter(){}
 
 	// ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
-	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data )
+	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData>& item_data )
 	{
 		const int nvc = m_geom_settings->getNumVerticesPerCircle();
 		const double length_in_meter = m_unit_converter->getLengthInMeterFactor();
@@ -112,7 +112,7 @@ public:
 				return;
 			}
 
-			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
+			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );  // TODO create only before actually necessary
 			if( !item_data_solid )
 			{
 				throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -131,7 +131,7 @@ public:
 			if( extruded_area )
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
-				item_data_solid->applyPosition( swept_area_pos );
+				item_data_solid->applyPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}
@@ -192,7 +192,7 @@ public:
 				TopoDS_Shape shape = mk_sweep.Shape();
 				GeomUtils::applyMatrixToShape( shape, swept_area_pos );
 				item_data_solid->addShape( shape );
-				item_data->addItemData( item_data_solid );
+				vec_item_data.push_back( item_data_solid );
 				return;
 			}
 
@@ -200,8 +200,8 @@ public:
 			if( revolved_area_solid )
 			{
 				convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid );
-				item_data_solid->applyPosition( swept_area_pos );
-				item_data->addItemData( item_data_solid );
+				item_data_solid->applyPositionToItem( swept_area_pos );
+				vec_item_data.push_back( item_data_solid );
 				return;
 			}
 
@@ -258,7 +258,7 @@ public:
 					GeomUtils::applyMatrixToShape( shape, swept_area_pos );
 
 					item_data_solid->addShape( shape );
-					item_data->addItemData( item_data_solid );
+					vec_item_data.push_back( item_data_solid );
 
 				}
 				catch( Standard_Failure& sf )
@@ -291,7 +291,9 @@ public:
 			{
 				// first convert outer shell
 				std::vector<shared_ptr<IfcFace> >& vec_faces_outer_shell = outer_shell->m_CfsFaces;
-				m_face_converter->convertIfcFaceList( vec_faces_outer_shell, item_data, FaceConverter::CLOSED_SHELL );
+				shared_ptr<ItemShapeData> item_data_shell( new ItemShapeData() );
+				m_face_converter->convertIfcFaceList( vec_faces_outer_shell, item_data_shell, FaceConverter::CLOSED_SHELL );
+				vec_item_data.push_back( item_data_shell );
 			}
 
 			shared_ptr<IfcFacetedBrep> faceted_brep = dynamic_pointer_cast<IfcFacetedBrep>(manifold_solid_brep);
@@ -329,14 +331,18 @@ public:
 			shared_ptr<IfcBooleanResult> csg_select_boolean_result = dynamic_pointer_cast<IfcBooleanResult>(csg_select);
 			if( csg_select_boolean_result )
 			{
-				convertIfcBooleanResult( csg_select_boolean_result, item_data );
+				shared_ptr<ItemShapeData> item_data_boolean_result( new ItemShapeData() );
+				convertIfcBooleanResult( csg_select_boolean_result, item_data_boolean_result );
+				vec_item_data.push_back( item_data_boolean_result );
 			}
 			else
 			{
 				shared_ptr<IfcCsgPrimitive3D> csg_select_primitive_3d = dynamic_pointer_cast<IfcCsgPrimitive3D>(csg_select);
 				if( csg_select_primitive_3d )
 				{
+					shared_ptr<ItemShapeData> item_data( new ItemShapeData() );
 					convertIfcCsgPrimitive3D( csg_select_primitive_3d, item_data );
+					vec_item_data.push_back( item_data );
 				}
 			}
 			return;
@@ -416,7 +422,9 @@ public:
 				mk_sweep.Build();
 				mk_sweep.MakeSolid();
 				TopoDS_Shape swept_shape = mk_sweep.Shape();
+				shared_ptr<ItemShapeData> item_data( new ItemShapeData() );
 				item_data->addShape( swept_shape );
+				vec_item_data.push_back( item_data );
 			}
 			catch( Standard_Failure sf )
 			{

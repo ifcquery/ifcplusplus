@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcElectricFlowStorageDeviceTypeEnum::getDeepCopy( IfcPP
 void IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICFLOWSTORAGEDEVICETYPEENUM("; }
-	if( m_enum == ENUM_BATTERY )
+	switch( m_enum )
 	{
-		stream << ".BATTERY.";
-	}
-	else if( m_enum == ENUM_CAPACITORBANK )
-	{
-		stream << ".CAPACITORBANK.";
-	}
-	else if( m_enum == ENUM_HARMONICFILTER )
-	{
-		stream << ".HARMONICFILTER.";
-	}
-	else if( m_enum == ENUM_INDUCTORBANK )
-	{
-		stream << ".INDUCTORBANK.";
-	}
-	else if( m_enum == ENUM_UPS )
-	{
-		stream << ".UPS.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BATTERY:	stream << ".BATTERY."; break;
+		case ENUM_CAPACITORBANK:	stream << ".CAPACITORBANK."; break;
+		case ENUM_HARMONICFILTER:	stream << ".HARMONICFILTER."; break;
+		case ENUM_INDUCTORBANK:	stream << ".INDUCTORBANK."; break;
+		case ENUM_UPS:	stream << ".UPS."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcElectricFlowStorageDeviceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BATTERY:	return L"BATTERY";
+		case ENUM_CAPACITORBANK:	return L"CAPACITORBANK";
+		case ENUM_HARMONICFILTER:	return L"HARMONICFILTER";
+		case ENUM_INDUCTORBANK:	return L"INDUCTORBANK";
+		case ENUM_UPS:	return L"UPS";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> IfcElectricFlowStorageDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -38,6 +38,7 @@ void IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcLightIntensityDistribution::toString() const { return L"IfcLightIntensityDistribution"; }
 void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

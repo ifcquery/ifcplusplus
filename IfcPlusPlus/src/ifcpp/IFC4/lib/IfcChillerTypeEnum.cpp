@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcChillerTypeEnum::getDeepCopy( IfcPPCopyOptions& optio
 void IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCHILLERTYPEENUM("; }
-	if( m_enum == ENUM_AIRCOOLED )
+	switch( m_enum )
 	{
-		stream << ".AIRCOOLED.";
-	}
-	else if( m_enum == ENUM_WATERCOOLED )
-	{
-		stream << ".WATERCOOLED.";
-	}
-	else if( m_enum == ENUM_HEATRECOVERY )
-	{
-		stream << ".HEATRECOVERY.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRCOOLED:	stream << ".AIRCOOLED."; break;
+		case ENUM_WATERCOOLED:	stream << ".WATERCOOLED."; break;
+		case ENUM_HEATRECOVERY:	stream << ".HEATRECOVERY."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcChillerTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRCOOLED:	return L"AIRCOOLED";
+		case ENUM_WATERCOOLED:	return L"WATERCOOLED";
+		case ENUM_HEATRECOVERY:	return L"HEATRECOVERY";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

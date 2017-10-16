@@ -25,6 +25,10 @@ void IfcTextTransformation::getStepParameter( std::stringstream& stream, bool is
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcTextTransformation::toString() const
+{
+	return m_value;
+}
 shared_ptr<IfcTextTransformation> IfcTextTransformation::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

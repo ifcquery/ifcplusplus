@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcWallTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWALLTYPEENUM("; }
-	if( m_enum == ENUM_MOVABLE )
+	switch( m_enum )
 	{
-		stream << ".MOVABLE.";
-	}
-	else if( m_enum == ENUM_PARAPET )
-	{
-		stream << ".PARAPET.";
-	}
-	else if( m_enum == ENUM_PARTITIONING )
-	{
-		stream << ".PARTITIONING.";
-	}
-	else if( m_enum == ENUM_PLUMBINGWALL )
-	{
-		stream << ".PLUMBINGWALL.";
-	}
-	else if( m_enum == ENUM_SHEAR )
-	{
-		stream << ".SHEAR.";
-	}
-	else if( m_enum == ENUM_SOLIDWALL )
-	{
-		stream << ".SOLIDWALL.";
-	}
-	else if( m_enum == ENUM_STANDARD )
-	{
-		stream << ".STANDARD.";
-	}
-	else if( m_enum == ENUM_POLYGONAL )
-	{
-		stream << ".POLYGONAL.";
-	}
-	else if( m_enum == ENUM_ELEMENTEDWALL )
-	{
-		stream << ".ELEMENTEDWALL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_MOVABLE:	stream << ".MOVABLE."; break;
+		case ENUM_PARAPET:	stream << ".PARAPET."; break;
+		case ENUM_PARTITIONING:	stream << ".PARTITIONING."; break;
+		case ENUM_PLUMBINGWALL:	stream << ".PLUMBINGWALL."; break;
+		case ENUM_SHEAR:	stream << ".SHEAR."; break;
+		case ENUM_SOLIDWALL:	stream << ".SOLIDWALL."; break;
+		case ENUM_STANDARD:	stream << ".STANDARD."; break;
+		case ENUM_POLYGONAL:	stream << ".POLYGONAL."; break;
+		case ENUM_ELEMENTEDWALL:	stream << ".ELEMENTEDWALL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWallTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_MOVABLE:	return L"MOVABLE";
+		case ENUM_PARAPET:	return L"PARAPET";
+		case ENUM_PARTITIONING:	return L"PARTITIONING";
+		case ENUM_PLUMBINGWALL:	return L"PLUMBINGWALL";
+		case ENUM_SHEAR:	return L"SHEAR";
+		case ENUM_SOLIDWALL:	return L"SOLIDWALL";
+		case ENUM_STANDARD:	return L"STANDARD";
+		case ENUM_POLYGONAL:	return L"POLYGONAL";
+		case ENUM_ELEMENTEDWALL:	return L"ELEMENTEDWALL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

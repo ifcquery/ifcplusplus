@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcTubeBundleTypeEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcTubeBundleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTUBEBUNDLETYPEENUM("; }
-	if( m_enum == ENUM_FINNED )
+	switch( m_enum )
 	{
-		stream << ".FINNED.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FINNED:	stream << ".FINNED."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTubeBundleTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FINNED:	return L"FINNED";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTubeBundleTypeEnum> IfcTubeBundleTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

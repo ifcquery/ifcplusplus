@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcFlowInstrumentTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWINSTRUMENTTYPEENUM("; }
-	if( m_enum == ENUM_PRESSUREGAUGE )
+	switch( m_enum )
 	{
-		stream << ".PRESSUREGAUGE.";
-	}
-	else if( m_enum == ENUM_THERMOMETER )
-	{
-		stream << ".THERMOMETER.";
-	}
-	else if( m_enum == ENUM_AMMETER )
-	{
-		stream << ".AMMETER.";
-	}
-	else if( m_enum == ENUM_FREQUENCYMETER )
-	{
-		stream << ".FREQUENCYMETER.";
-	}
-	else if( m_enum == ENUM_POWERFACTORMETER )
-	{
-		stream << ".POWERFACTORMETER.";
-	}
-	else if( m_enum == ENUM_PHASEANGLEMETER )
-	{
-		stream << ".PHASEANGLEMETER.";
-	}
-	else if( m_enum == ENUM_VOLTMETER_PEAK )
-	{
-		stream << ".VOLTMETER_PEAK.";
-	}
-	else if( m_enum == ENUM_VOLTMETER_RMS )
-	{
-		stream << ".VOLTMETER_RMS.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PRESSUREGAUGE:	stream << ".PRESSUREGAUGE."; break;
+		case ENUM_THERMOMETER:	stream << ".THERMOMETER."; break;
+		case ENUM_AMMETER:	stream << ".AMMETER."; break;
+		case ENUM_FREQUENCYMETER:	stream << ".FREQUENCYMETER."; break;
+		case ENUM_POWERFACTORMETER:	stream << ".POWERFACTORMETER."; break;
+		case ENUM_PHASEANGLEMETER:	stream << ".PHASEANGLEMETER."; break;
+		case ENUM_VOLTMETER_PEAK:	stream << ".VOLTMETER_PEAK."; break;
+		case ENUM_VOLTMETER_RMS:	stream << ".VOLTMETER_RMS."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFlowInstrumentTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PRESSUREGAUGE:	return L"PRESSUREGAUGE";
+		case ENUM_THERMOMETER:	return L"THERMOMETER";
+		case ENUM_AMMETER:	return L"AMMETER";
+		case ENUM_FREQUENCYMETER:	return L"FREQUENCYMETER";
+		case ENUM_POWERFACTORMETER:	return L"POWERFACTORMETER";
+		case ENUM_PHASEANGLEMETER:	return L"PHASEANGLEMETER";
+		case ENUM_VOLTMETER_PEAK:	return L"VOLTMETER_PEAK";
+		case ENUM_VOLTMETER_RMS:	return L"VOLTMETER_RMS";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFlowInstrumentTypeEnum> IfcFlowInstrumentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

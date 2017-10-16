@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcBeamTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBEAMTYPEENUM("; }
-	if( m_enum == ENUM_BEAM )
+	switch( m_enum )
 	{
-		stream << ".BEAM.";
-	}
-	else if( m_enum == ENUM_JOIST )
-	{
-		stream << ".JOIST.";
-	}
-	else if( m_enum == ENUM_HOLLOWCORE )
-	{
-		stream << ".HOLLOWCORE.";
-	}
-	else if( m_enum == ENUM_LINTEL )
-	{
-		stream << ".LINTEL.";
-	}
-	else if( m_enum == ENUM_SPANDREL )
-	{
-		stream << ".SPANDREL.";
-	}
-	else if( m_enum == ENUM_T_BEAM )
-	{
-		stream << ".T_BEAM.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BEAM:	stream << ".BEAM."; break;
+		case ENUM_JOIST:	stream << ".JOIST."; break;
+		case ENUM_HOLLOWCORE:	stream << ".HOLLOWCORE."; break;
+		case ENUM_LINTEL:	stream << ".LINTEL."; break;
+		case ENUM_SPANDREL:	stream << ".SPANDREL."; break;
+		case ENUM_T_BEAM:	stream << ".T_BEAM."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBeamTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BEAM:	return L"BEAM";
+		case ENUM_JOIST:	return L"JOIST";
+		case ENUM_HOLLOWCORE:	return L"HOLLOWCORE";
+		case ENUM_LINTEL:	return L"LINTEL";
+		case ENUM_SPANDREL:	return L"SPANDREL";
+		case ENUM_T_BEAM:	return L"T_BEAM";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

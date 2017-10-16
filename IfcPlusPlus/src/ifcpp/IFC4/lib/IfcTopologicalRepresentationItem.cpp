@@ -26,6 +26,7 @@ void IfcTopologicalRepresentationItem::getStepLine( std::stringstream& stream ) 
 	stream << ");";
 }
 void IfcTopologicalRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcTopologicalRepresentationItem::toString() const { return L"IfcTopologicalRepresentationItem"; }
 void IfcTopologicalRepresentationItem::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

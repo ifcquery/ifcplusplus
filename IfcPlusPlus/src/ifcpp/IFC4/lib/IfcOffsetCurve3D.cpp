@@ -41,6 +41,7 @@ void IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcOffsetCurve3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcOffsetCurve3D::toString() const { return L"IfcOffsetCurve3D"; }
 void IfcOffsetCurve3D::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

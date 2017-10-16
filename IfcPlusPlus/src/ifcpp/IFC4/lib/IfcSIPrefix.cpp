@@ -21,71 +21,49 @@ shared_ptr<IfcPPObject> IfcSIPrefix::getDeepCopy( IfcPPCopyOptions& options )
 void IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIPREFIX("; }
-	if( m_enum == ENUM_EXA )
+	switch( m_enum )
 	{
-		stream << ".EXA.";
-	}
-	else if( m_enum == ENUM_PETA )
-	{
-		stream << ".PETA.";
-	}
-	else if( m_enum == ENUM_TERA )
-	{
-		stream << ".TERA.";
-	}
-	else if( m_enum == ENUM_GIGA )
-	{
-		stream << ".GIGA.";
-	}
-	else if( m_enum == ENUM_MEGA )
-	{
-		stream << ".MEGA.";
-	}
-	else if( m_enum == ENUM_KILO )
-	{
-		stream << ".KILO.";
-	}
-	else if( m_enum == ENUM_HECTO )
-	{
-		stream << ".HECTO.";
-	}
-	else if( m_enum == ENUM_DECA )
-	{
-		stream << ".DECA.";
-	}
-	else if( m_enum == ENUM_DECI )
-	{
-		stream << ".DECI.";
-	}
-	else if( m_enum == ENUM_CENTI )
-	{
-		stream << ".CENTI.";
-	}
-	else if( m_enum == ENUM_MILLI )
-	{
-		stream << ".MILLI.";
-	}
-	else if( m_enum == ENUM_MICRO )
-	{
-		stream << ".MICRO.";
-	}
-	else if( m_enum == ENUM_NANO )
-	{
-		stream << ".NANO.";
-	}
-	else if( m_enum == ENUM_PICO )
-	{
-		stream << ".PICO.";
-	}
-	else if( m_enum == ENUM_FEMTO )
-	{
-		stream << ".FEMTO.";
-	}
-	else if( m_enum == ENUM_ATTO )
-	{
-		stream << ".ATTO.";
+		case ENUM_EXA:	stream << ".EXA."; break;
+		case ENUM_PETA:	stream << ".PETA."; break;
+		case ENUM_TERA:	stream << ".TERA."; break;
+		case ENUM_GIGA:	stream << ".GIGA."; break;
+		case ENUM_MEGA:	stream << ".MEGA."; break;
+		case ENUM_KILO:	stream << ".KILO."; break;
+		case ENUM_HECTO:	stream << ".HECTO."; break;
+		case ENUM_DECA:	stream << ".DECA."; break;
+		case ENUM_DECI:	stream << ".DECI."; break;
+		case ENUM_CENTI:	stream << ".CENTI."; break;
+		case ENUM_MILLI:	stream << ".MILLI."; break;
+		case ENUM_MICRO:	stream << ".MICRO."; break;
+		case ENUM_NANO:	stream << ".NANO."; break;
+		case ENUM_PICO:	stream << ".PICO."; break;
+		case ENUM_FEMTO:	stream << ".FEMTO."; break;
+		case ENUM_ATTO:	stream << ".ATTO."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSIPrefix::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_EXA:	return L"EXA";
+		case ENUM_PETA:	return L"PETA";
+		case ENUM_TERA:	return L"TERA";
+		case ENUM_GIGA:	return L"GIGA";
+		case ENUM_MEGA:	return L"MEGA";
+		case ENUM_KILO:	return L"KILO";
+		case ENUM_HECTO:	return L"HECTO";
+		case ENUM_DECA:	return L"DECA";
+		case ENUM_DECI:	return L"DECI";
+		case ENUM_CENTI:	return L"CENTI";
+		case ENUM_MILLI:	return L"MILLI";
+		case ENUM_MICRO:	return L"MICRO";
+		case ENUM_NANO:	return L"NANO";
+		case ENUM_PICO:	return L"PICO";
+		case ENUM_FEMTO:	return L"FEMTO";
+		case ENUM_ATTO:	return L"ATTO";
+	}
+	return L"";
 }
 shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

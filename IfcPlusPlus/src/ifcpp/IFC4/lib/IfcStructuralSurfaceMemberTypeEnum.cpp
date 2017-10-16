@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcStructuralSurfaceMemberTypeEnum::getDeepCopy( IfcPPCo
 void IfcStructuralSurfaceMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALSURFACEMEMBERTYPEENUM("; }
-	if( m_enum == ENUM_BENDING_ELEMENT )
+	switch( m_enum )
 	{
-		stream << ".BENDING_ELEMENT.";
-	}
-	else if( m_enum == ENUM_MEMBRANE_ELEMENT )
-	{
-		stream << ".MEMBRANE_ELEMENT.";
-	}
-	else if( m_enum == ENUM_SHELL )
-	{
-		stream << ".SHELL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BENDING_ELEMENT:	stream << ".BENDING_ELEMENT."; break;
+		case ENUM_MEMBRANE_ELEMENT:	stream << ".MEMBRANE_ELEMENT."; break;
+		case ENUM_SHELL:	stream << ".SHELL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcStructuralSurfaceMemberTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BENDING_ELEMENT:	return L"BENDING_ELEMENT";
+		case ENUM_MEMBRANE_ELEMENT:	return L"MEMBRANE_ELEMENT";
+		case ENUM_SHELL:	return L"SHELL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcStructuralSurfaceMemberTypeEnum> IfcStructuralSurfaceMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

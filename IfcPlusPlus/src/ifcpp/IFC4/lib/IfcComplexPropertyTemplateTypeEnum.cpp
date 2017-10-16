@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcComplexPropertyTemplateTypeEnum::getDeepCopy( IfcPPCo
 void IfcComplexPropertyTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXPROPERTYTEMPLATETYPEENUM("; }
-	if( m_enum == ENUM_P_COMPLEX )
+	switch( m_enum )
 	{
-		stream << ".P_COMPLEX.";
-	}
-	else if( m_enum == ENUM_Q_COMPLEX )
-	{
-		stream << ".Q_COMPLEX.";
+		case ENUM_P_COMPLEX:	stream << ".P_COMPLEX."; break;
+		case ENUM_Q_COMPLEX:	stream << ".Q_COMPLEX."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcComplexPropertyTemplateTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_P_COMPLEX:	return L"P_COMPLEX";
+		case ENUM_Q_COMPLEX:	return L"Q_COMPLEX";
+	}
+	return L"";
 }
 shared_ptr<IfcComplexPropertyTemplateTypeEnum> IfcComplexPropertyTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

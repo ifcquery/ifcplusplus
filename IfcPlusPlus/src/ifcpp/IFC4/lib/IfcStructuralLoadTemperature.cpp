@@ -37,6 +37,7 @@ void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcStructuralLoadTemperature::toString() const { return L"IfcStructuralLoadTemperature"; }
 void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

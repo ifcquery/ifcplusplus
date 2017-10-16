@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcGeometricProjectionEnum::getDeepCopy( IfcPPCopyOption
 void IfcGeometricProjectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGEOMETRICPROJECTIONENUM("; }
-	if( m_enum == ENUM_GRAPH_VIEW )
+	switch( m_enum )
 	{
-		stream << ".GRAPH_VIEW.";
-	}
-	else if( m_enum == ENUM_SKETCH_VIEW )
-	{
-		stream << ".SKETCH_VIEW.";
-	}
-	else if( m_enum == ENUM_MODEL_VIEW )
-	{
-		stream << ".MODEL_VIEW.";
-	}
-	else if( m_enum == ENUM_PLAN_VIEW )
-	{
-		stream << ".PLAN_VIEW.";
-	}
-	else if( m_enum == ENUM_REFLECTED_PLAN_VIEW )
-	{
-		stream << ".REFLECTED_PLAN_VIEW.";
-	}
-	else if( m_enum == ENUM_SECTION_VIEW )
-	{
-		stream << ".SECTION_VIEW.";
-	}
-	else if( m_enum == ENUM_ELEVATION_VIEW )
-	{
-		stream << ".ELEVATION_VIEW.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_GRAPH_VIEW:	stream << ".GRAPH_VIEW."; break;
+		case ENUM_SKETCH_VIEW:	stream << ".SKETCH_VIEW."; break;
+		case ENUM_MODEL_VIEW:	stream << ".MODEL_VIEW."; break;
+		case ENUM_PLAN_VIEW:	stream << ".PLAN_VIEW."; break;
+		case ENUM_REFLECTED_PLAN_VIEW:	stream << ".REFLECTED_PLAN_VIEW."; break;
+		case ENUM_SECTION_VIEW:	stream << ".SECTION_VIEW."; break;
+		case ENUM_ELEVATION_VIEW:	stream << ".ELEVATION_VIEW."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcGeometricProjectionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_GRAPH_VIEW:	return L"GRAPH_VIEW";
+		case ENUM_SKETCH_VIEW:	return L"SKETCH_VIEW";
+		case ENUM_MODEL_VIEW:	return L"MODEL_VIEW";
+		case ENUM_PLAN_VIEW:	return L"PLAN_VIEW";
+		case ENUM_REFLECTED_PLAN_VIEW:	return L"REFLECTED_PLAN_VIEW";
+		case ENUM_SECTION_VIEW:	return L"SECTION_VIEW";
+		case ENUM_ELEVATION_VIEW:	return L"ELEVATION_VIEW";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

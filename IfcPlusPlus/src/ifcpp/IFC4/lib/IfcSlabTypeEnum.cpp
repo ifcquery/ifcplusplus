@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcSlabTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSLABTYPEENUM("; }
-	if( m_enum == ENUM_FLOOR )
+	switch( m_enum )
 	{
-		stream << ".FLOOR.";
-	}
-	else if( m_enum == ENUM_ROOF )
-	{
-		stream << ".ROOF.";
-	}
-	else if( m_enum == ENUM_LANDING )
-	{
-		stream << ".LANDING.";
-	}
-	else if( m_enum == ENUM_BASESLAB )
-	{
-		stream << ".BASESLAB.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FLOOR:	stream << ".FLOOR."; break;
+		case ENUM_ROOF:	stream << ".ROOF."; break;
+		case ENUM_LANDING:	stream << ".LANDING."; break;
+		case ENUM_BASESLAB:	stream << ".BASESLAB."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSlabTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FLOOR:	return L"FLOOR";
+		case ENUM_ROOF:	return L"ROOF";
+		case ENUM_LANDING:	return L"LANDING";
+		case ENUM_BASESLAB:	return L"BASESLAB";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

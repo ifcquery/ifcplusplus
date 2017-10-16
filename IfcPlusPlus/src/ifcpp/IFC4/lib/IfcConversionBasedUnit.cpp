@@ -40,6 +40,7 @@ void IfcConversionBasedUnit::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcConversionBasedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcConversionBasedUnit::toString() const { return L"IfcConversionBasedUnit"; }
 void IfcConversionBasedUnit::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

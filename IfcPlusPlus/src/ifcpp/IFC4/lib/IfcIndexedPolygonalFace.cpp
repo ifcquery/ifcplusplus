@@ -54,6 +54,7 @@ void IfcIndexedPolygonalFace::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcIndexedPolygonalFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcIndexedPolygonalFace::toString() const { return L"IfcIndexedPolygonalFace"; }
 void IfcIndexedPolygonalFace::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

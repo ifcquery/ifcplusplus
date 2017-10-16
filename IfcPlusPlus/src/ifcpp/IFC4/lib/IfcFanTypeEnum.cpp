@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcFanTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
 void IfcFanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFANTYPEENUM("; }
-	if( m_enum == ENUM_CENTRIFUGALFORWARDCURVED )
+	switch( m_enum )
 	{
-		stream << ".CENTRIFUGALFORWARDCURVED.";
-	}
-	else if( m_enum == ENUM_CENTRIFUGALRADIAL )
-	{
-		stream << ".CENTRIFUGALRADIAL.";
-	}
-	else if( m_enum == ENUM_CENTRIFUGALBACKWARDINCLINEDCURVED )
-	{
-		stream << ".CENTRIFUGALBACKWARDINCLINEDCURVED.";
-	}
-	else if( m_enum == ENUM_CENTRIFUGALAIRFOIL )
-	{
-		stream << ".CENTRIFUGALAIRFOIL.";
-	}
-	else if( m_enum == ENUM_TUBEAXIAL )
-	{
-		stream << ".TUBEAXIAL.";
-	}
-	else if( m_enum == ENUM_VANEAXIAL )
-	{
-		stream << ".VANEAXIAL.";
-	}
-	else if( m_enum == ENUM_PROPELLORAXIAL )
-	{
-		stream << ".PROPELLORAXIAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CENTRIFUGALFORWARDCURVED:	stream << ".CENTRIFUGALFORWARDCURVED."; break;
+		case ENUM_CENTRIFUGALRADIAL:	stream << ".CENTRIFUGALRADIAL."; break;
+		case ENUM_CENTRIFUGALBACKWARDINCLINEDCURVED:	stream << ".CENTRIFUGALBACKWARDINCLINEDCURVED."; break;
+		case ENUM_CENTRIFUGALAIRFOIL:	stream << ".CENTRIFUGALAIRFOIL."; break;
+		case ENUM_TUBEAXIAL:	stream << ".TUBEAXIAL."; break;
+		case ENUM_VANEAXIAL:	stream << ".VANEAXIAL."; break;
+		case ENUM_PROPELLORAXIAL:	stream << ".PROPELLORAXIAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFanTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CENTRIFUGALFORWARDCURVED:	return L"CENTRIFUGALFORWARDCURVED";
+		case ENUM_CENTRIFUGALRADIAL:	return L"CENTRIFUGALRADIAL";
+		case ENUM_CENTRIFUGALBACKWARDINCLINEDCURVED:	return L"CENTRIFUGALBACKWARDINCLINEDCURVED";
+		case ENUM_CENTRIFUGALAIRFOIL:	return L"CENTRIFUGALAIRFOIL";
+		case ENUM_TUBEAXIAL:	return L"TUBEAXIAL";
+		case ENUM_VANEAXIAL:	return L"VANEAXIAL";
+		case ENUM_PROPELLORAXIAL:	return L"PROPELLORAXIAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

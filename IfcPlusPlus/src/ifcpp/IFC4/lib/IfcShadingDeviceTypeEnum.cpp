@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcShadingDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSHADINGDEVICETYPEENUM("; }
-	if( m_enum == ENUM_JALOUSIE )
+	switch( m_enum )
 	{
-		stream << ".JALOUSIE.";
-	}
-	else if( m_enum == ENUM_SHUTTER )
-	{
-		stream << ".SHUTTER.";
-	}
-	else if( m_enum == ENUM_AWNING )
-	{
-		stream << ".AWNING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_JALOUSIE:	stream << ".JALOUSIE."; break;
+		case ENUM_SHUTTER:	stream << ".SHUTTER."; break;
+		case ENUM_AWNING:	stream << ".AWNING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcShadingDeviceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_JALOUSIE:	return L"JALOUSIE";
+		case ENUM_SHUTTER:	return L"SHUTTER";
+		case ENUM_AWNING:	return L"AWNING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

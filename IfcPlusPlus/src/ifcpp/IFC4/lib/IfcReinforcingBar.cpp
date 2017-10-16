@@ -103,6 +103,7 @@ void IfcReinforcingBar::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcReinforcingBar::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcReinforcingBar::toString() const { return L"IfcReinforcingBar"; }
 void IfcReinforcingBar::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

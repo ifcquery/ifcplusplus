@@ -21,51 +21,39 @@ shared_ptr<IfcPPObject> IfcLampTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcLampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLAMPTYPEENUM("; }
-	if( m_enum == ENUM_COMPACTFLUORESCENT )
+	switch( m_enum )
 	{
-		stream << ".COMPACTFLUORESCENT.";
-	}
-	else if( m_enum == ENUM_FLUORESCENT )
-	{
-		stream << ".FLUORESCENT.";
-	}
-	else if( m_enum == ENUM_HALOGEN )
-	{
-		stream << ".HALOGEN.";
-	}
-	else if( m_enum == ENUM_HIGHPRESSUREMERCURY )
-	{
-		stream << ".HIGHPRESSUREMERCURY.";
-	}
-	else if( m_enum == ENUM_HIGHPRESSURESODIUM )
-	{
-		stream << ".HIGHPRESSURESODIUM.";
-	}
-	else if( m_enum == ENUM_LED )
-	{
-		stream << ".LED.";
-	}
-	else if( m_enum == ENUM_METALHALIDE )
-	{
-		stream << ".METALHALIDE.";
-	}
-	else if( m_enum == ENUM_OLED )
-	{
-		stream << ".OLED.";
-	}
-	else if( m_enum == ENUM_TUNGSTENFILAMENT )
-	{
-		stream << ".TUNGSTENFILAMENT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COMPACTFLUORESCENT:	stream << ".COMPACTFLUORESCENT."; break;
+		case ENUM_FLUORESCENT:	stream << ".FLUORESCENT."; break;
+		case ENUM_HALOGEN:	stream << ".HALOGEN."; break;
+		case ENUM_HIGHPRESSUREMERCURY:	stream << ".HIGHPRESSUREMERCURY."; break;
+		case ENUM_HIGHPRESSURESODIUM:	stream << ".HIGHPRESSURESODIUM."; break;
+		case ENUM_LED:	stream << ".LED."; break;
+		case ENUM_METALHALIDE:	stream << ".METALHALIDE."; break;
+		case ENUM_OLED:	stream << ".OLED."; break;
+		case ENUM_TUNGSTENFILAMENT:	stream << ".TUNGSTENFILAMENT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcLampTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COMPACTFLUORESCENT:	return L"COMPACTFLUORESCENT";
+		case ENUM_FLUORESCENT:	return L"FLUORESCENT";
+		case ENUM_HALOGEN:	return L"HALOGEN";
+		case ENUM_HIGHPRESSUREMERCURY:	return L"HIGHPRESSUREMERCURY";
+		case ENUM_HIGHPRESSURESODIUM:	return L"HIGHPRESSURESODIUM";
+		case ENUM_LED:	return L"LED";
+		case ENUM_METALHALIDE:	return L"METALHALIDE";
+		case ENUM_OLED:	return L"OLED";
+		case ENUM_TUNGSTENFILAMENT:	return L"TUNGSTENFILAMENT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

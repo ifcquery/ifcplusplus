@@ -65,6 +65,7 @@ void IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) con
 	stream << ");";
 }
 void IfcMaterialProfileWithOffsets::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcMaterialProfileWithOffsets::toString() const { return L"IfcMaterialProfileWithOffsets"; }
 void IfcMaterialProfileWithOffsets::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

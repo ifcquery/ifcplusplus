@@ -29,6 +29,11 @@ void IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, 
 	writeNumericList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcCompoundPlaneAngleMeasure::toString() const
+{
+	std::wstringstream strs;
+	for( size_t ii = 0; ii < m_vec.size(); ++ii )				{					if( ii > 0 )					{						strs << L", ";					}					strs << m_vec[ii];				}			return strs.str(); 
+}
 shared_ptr<IfcCompoundPlaneAngleMeasure> IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

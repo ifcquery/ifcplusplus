@@ -21,59 +21,43 @@ shared_ptr<IfcPPObject> IfcDamperTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDAMPERTYPEENUM("; }
-	if( m_enum == ENUM_BACKDRAFTDAMPER )
+	switch( m_enum )
 	{
-		stream << ".BACKDRAFTDAMPER.";
-	}
-	else if( m_enum == ENUM_BALANCINGDAMPER )
-	{
-		stream << ".BALANCINGDAMPER.";
-	}
-	else if( m_enum == ENUM_BLASTDAMPER )
-	{
-		stream << ".BLASTDAMPER.";
-	}
-	else if( m_enum == ENUM_CONTROLDAMPER )
-	{
-		stream << ".CONTROLDAMPER.";
-	}
-	else if( m_enum == ENUM_FIREDAMPER )
-	{
-		stream << ".FIREDAMPER.";
-	}
-	else if( m_enum == ENUM_FIRESMOKEDAMPER )
-	{
-		stream << ".FIRESMOKEDAMPER.";
-	}
-	else if( m_enum == ENUM_FUMEHOODEXHAUST )
-	{
-		stream << ".FUMEHOODEXHAUST.";
-	}
-	else if( m_enum == ENUM_GRAVITYDAMPER )
-	{
-		stream << ".GRAVITYDAMPER.";
-	}
-	else if( m_enum == ENUM_GRAVITYRELIEFDAMPER )
-	{
-		stream << ".GRAVITYRELIEFDAMPER.";
-	}
-	else if( m_enum == ENUM_RELIEFDAMPER )
-	{
-		stream << ".RELIEFDAMPER.";
-	}
-	else if( m_enum == ENUM_SMOKEDAMPER )
-	{
-		stream << ".SMOKEDAMPER.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_BACKDRAFTDAMPER:	stream << ".BACKDRAFTDAMPER."; break;
+		case ENUM_BALANCINGDAMPER:	stream << ".BALANCINGDAMPER."; break;
+		case ENUM_BLASTDAMPER:	stream << ".BLASTDAMPER."; break;
+		case ENUM_CONTROLDAMPER:	stream << ".CONTROLDAMPER."; break;
+		case ENUM_FIREDAMPER:	stream << ".FIREDAMPER."; break;
+		case ENUM_FIRESMOKEDAMPER:	stream << ".FIRESMOKEDAMPER."; break;
+		case ENUM_FUMEHOODEXHAUST:	stream << ".FUMEHOODEXHAUST."; break;
+		case ENUM_GRAVITYDAMPER:	stream << ".GRAVITYDAMPER."; break;
+		case ENUM_GRAVITYRELIEFDAMPER:	stream << ".GRAVITYRELIEFDAMPER."; break;
+		case ENUM_RELIEFDAMPER:	stream << ".RELIEFDAMPER."; break;
+		case ENUM_SMOKEDAMPER:	stream << ".SMOKEDAMPER."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDamperTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_BACKDRAFTDAMPER:	return L"BACKDRAFTDAMPER";
+		case ENUM_BALANCINGDAMPER:	return L"BALANCINGDAMPER";
+		case ENUM_BLASTDAMPER:	return L"BLASTDAMPER";
+		case ENUM_CONTROLDAMPER:	return L"CONTROLDAMPER";
+		case ENUM_FIREDAMPER:	return L"FIREDAMPER";
+		case ENUM_FIRESMOKEDAMPER:	return L"FIRESMOKEDAMPER";
+		case ENUM_FUMEHOODEXHAUST:	return L"FUMEHOODEXHAUST";
+		case ENUM_GRAVITYDAMPER:	return L"GRAVITYDAMPER";
+		case ENUM_GRAVITYRELIEFDAMPER:	return L"GRAVITYRELIEFDAMPER";
+		case ENUM_RELIEFDAMPER:	return L"RELIEFDAMPER";
+		case ENUM_SMOKEDAMPER:	return L"SMOKEDAMPER";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDamperTypeEnum> IfcDamperTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

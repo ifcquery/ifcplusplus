@@ -90,6 +90,7 @@ void IfcAirToAirHeatRecoveryType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcAirToAirHeatRecoveryType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcAirToAirHeatRecoveryType::toString() const { return L"IfcAirToAirHeatRecoveryType"; }
 void IfcAirToAirHeatRecoveryType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

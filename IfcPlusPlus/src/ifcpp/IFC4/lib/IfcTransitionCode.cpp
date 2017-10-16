@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcTransitionCode::getDeepCopy( IfcPPCopyOptions& option
 void IfcTransitionCode::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSITIONCODE("; }
-	if( m_enum == ENUM_DISCONTINUOUS )
+	switch( m_enum )
 	{
-		stream << ".DISCONTINUOUS.";
-	}
-	else if( m_enum == ENUM_CONTINUOUS )
-	{
-		stream << ".CONTINUOUS.";
-	}
-	else if( m_enum == ENUM_CONTSAMEGRADIENT )
-	{
-		stream << ".CONTSAMEGRADIENT.";
-	}
-	else if( m_enum == ENUM_CONTSAMEGRADIENTSAMECURVATURE )
-	{
-		stream << ".CONTSAMEGRADIENTSAMECURVATURE.";
+		case ENUM_DISCONTINUOUS:	stream << ".DISCONTINUOUS."; break;
+		case ENUM_CONTINUOUS:	stream << ".CONTINUOUS."; break;
+		case ENUM_CONTSAMEGRADIENT:	stream << ".CONTSAMEGRADIENT."; break;
+		case ENUM_CONTSAMEGRADIENTSAMECURVATURE:	stream << ".CONTSAMEGRADIENTSAMECURVATURE."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTransitionCode::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DISCONTINUOUS:	return L"DISCONTINUOUS";
+		case ENUM_CONTINUOUS:	return L"CONTINUOUS";
+		case ENUM_CONTSAMEGRADIENT:	return L"CONTSAMEGRADIENT";
+		case ENUM_CONTSAMEGRADIENTSAMECURVATURE:	return L"CONTSAMEGRADIENTSAMECURVATURE";
+	}
+	return L"";
 }
 shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

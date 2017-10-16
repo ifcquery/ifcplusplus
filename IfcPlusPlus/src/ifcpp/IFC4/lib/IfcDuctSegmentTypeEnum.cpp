@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcDuctSegmentTypeEnum::getDeepCopy( IfcPPCopyOptions& o
 void IfcDuctSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSEGMENTTYPEENUM("; }
-	if( m_enum == ENUM_RIGIDSEGMENT )
+	switch( m_enum )
 	{
-		stream << ".RIGIDSEGMENT.";
-	}
-	else if( m_enum == ENUM_FLEXIBLESEGMENT )
-	{
-		stream << ".FLEXIBLESEGMENT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_RIGIDSEGMENT:	stream << ".RIGIDSEGMENT."; break;
+		case ENUM_FLEXIBLESEGMENT:	stream << ".FLEXIBLESEGMENT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDuctSegmentTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_RIGIDSEGMENT:	return L"RIGIDSEGMENT";
+		case ENUM_FLEXIBLESEGMENT:	return L"FLEXIBLESEGMENT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDuctSegmentTypeEnum> IfcDuctSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,39 +21,33 @@ shared_ptr<IfcPPObject> IfcObjectTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcObjectTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOBJECTTYPEENUM("; }
-	if( m_enum == ENUM_PRODUCT )
+	switch( m_enum )
 	{
-		stream << ".PRODUCT.";
-	}
-	else if( m_enum == ENUM_PROCESS )
-	{
-		stream << ".PROCESS.";
-	}
-	else if( m_enum == ENUM_CONTROL )
-	{
-		stream << ".CONTROL.";
-	}
-	else if( m_enum == ENUM_RESOURCE )
-	{
-		stream << ".RESOURCE.";
-	}
-	else if( m_enum == ENUM_ACTOR )
-	{
-		stream << ".ACTOR.";
-	}
-	else if( m_enum == ENUM_GROUP )
-	{
-		stream << ".GROUP.";
-	}
-	else if( m_enum == ENUM_PROJECT )
-	{
-		stream << ".PROJECT.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PRODUCT:	stream << ".PRODUCT."; break;
+		case ENUM_PROCESS:	stream << ".PROCESS."; break;
+		case ENUM_CONTROL:	stream << ".CONTROL."; break;
+		case ENUM_RESOURCE:	stream << ".RESOURCE."; break;
+		case ENUM_ACTOR:	stream << ".ACTOR."; break;
+		case ENUM_GROUP:	stream << ".GROUP."; break;
+		case ENUM_PROJECT:	stream << ".PROJECT."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcObjectTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PRODUCT:	return L"PRODUCT";
+		case ENUM_PROCESS:	return L"PROCESS";
+		case ENUM_CONTROL:	return L"CONTROL";
+		case ENUM_RESOURCE:	return L"RESOURCE";
+		case ENUM_ACTOR:	return L"ACTOR";
+		case ENUM_GROUP:	return L"GROUP";
+		case ENUM_PROJECT:	return L"PROJECT";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

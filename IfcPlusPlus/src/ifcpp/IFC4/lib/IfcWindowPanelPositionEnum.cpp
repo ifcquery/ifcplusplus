@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcWindowPanelPositionEnum::getDeepCopy( IfcPPCopyOption
 void IfcWindowPanelPositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWPANELPOSITIONENUM("; }
-	if( m_enum == ENUM_LEFT )
+	switch( m_enum )
 	{
-		stream << ".LEFT.";
-	}
-	else if( m_enum == ENUM_MIDDLE )
-	{
-		stream << ".MIDDLE.";
-	}
-	else if( m_enum == ENUM_RIGHT )
-	{
-		stream << ".RIGHT.";
-	}
-	else if( m_enum == ENUM_BOTTOM )
-	{
-		stream << ".BOTTOM.";
-	}
-	else if( m_enum == ENUM_TOP )
-	{
-		stream << ".TOP.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_LEFT:	stream << ".LEFT."; break;
+		case ENUM_MIDDLE:	stream << ".MIDDLE."; break;
+		case ENUM_RIGHT:	stream << ".RIGHT."; break;
+		case ENUM_BOTTOM:	stream << ".BOTTOM."; break;
+		case ENUM_TOP:	stream << ".TOP."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWindowPanelPositionEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_LEFT:	return L"LEFT";
+		case ENUM_MIDDLE:	return L"MIDDLE";
+		case ENUM_RIGHT:	return L"RIGHT";
+		case ENUM_BOTTOM:	return L"BOTTOM";
+		case ENUM_TOP:	return L"TOP";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWindowPanelPositionEnum> IfcWindowPanelPositionEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

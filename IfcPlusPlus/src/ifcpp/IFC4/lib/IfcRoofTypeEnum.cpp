@@ -21,67 +21,47 @@ shared_ptr<IfcPPObject> IfcRoofTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcRoofTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROOFTYPEENUM("; }
-	if( m_enum == ENUM_FLAT_ROOF )
+	switch( m_enum )
 	{
-		stream << ".FLAT_ROOF.";
-	}
-	else if( m_enum == ENUM_SHED_ROOF )
-	{
-		stream << ".SHED_ROOF.";
-	}
-	else if( m_enum == ENUM_GABLE_ROOF )
-	{
-		stream << ".GABLE_ROOF.";
-	}
-	else if( m_enum == ENUM_HIP_ROOF )
-	{
-		stream << ".HIP_ROOF.";
-	}
-	else if( m_enum == ENUM_HIPPED_GABLE_ROOF )
-	{
-		stream << ".HIPPED_GABLE_ROOF.";
-	}
-	else if( m_enum == ENUM_GAMBREL_ROOF )
-	{
-		stream << ".GAMBREL_ROOF.";
-	}
-	else if( m_enum == ENUM_MANSARD_ROOF )
-	{
-		stream << ".MANSARD_ROOF.";
-	}
-	else if( m_enum == ENUM_BARREL_ROOF )
-	{
-		stream << ".BARREL_ROOF.";
-	}
-	else if( m_enum == ENUM_RAINBOW_ROOF )
-	{
-		stream << ".RAINBOW_ROOF.";
-	}
-	else if( m_enum == ENUM_BUTTERFLY_ROOF )
-	{
-		stream << ".BUTTERFLY_ROOF.";
-	}
-	else if( m_enum == ENUM_PAVILION_ROOF )
-	{
-		stream << ".PAVILION_ROOF.";
-	}
-	else if( m_enum == ENUM_DOME_ROOF )
-	{
-		stream << ".DOME_ROOF.";
-	}
-	else if( m_enum == ENUM_FREEFORM )
-	{
-		stream << ".FREEFORM.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_FLAT_ROOF:	stream << ".FLAT_ROOF."; break;
+		case ENUM_SHED_ROOF:	stream << ".SHED_ROOF."; break;
+		case ENUM_GABLE_ROOF:	stream << ".GABLE_ROOF."; break;
+		case ENUM_HIP_ROOF:	stream << ".HIP_ROOF."; break;
+		case ENUM_HIPPED_GABLE_ROOF:	stream << ".HIPPED_GABLE_ROOF."; break;
+		case ENUM_GAMBREL_ROOF:	stream << ".GAMBREL_ROOF."; break;
+		case ENUM_MANSARD_ROOF:	stream << ".MANSARD_ROOF."; break;
+		case ENUM_BARREL_ROOF:	stream << ".BARREL_ROOF."; break;
+		case ENUM_RAINBOW_ROOF:	stream << ".RAINBOW_ROOF."; break;
+		case ENUM_BUTTERFLY_ROOF:	stream << ".BUTTERFLY_ROOF."; break;
+		case ENUM_PAVILION_ROOF:	stream << ".PAVILION_ROOF."; break;
+		case ENUM_DOME_ROOF:	stream << ".DOME_ROOF."; break;
+		case ENUM_FREEFORM:	stream << ".FREEFORM."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcRoofTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_FLAT_ROOF:	return L"FLAT_ROOF";
+		case ENUM_SHED_ROOF:	return L"SHED_ROOF";
+		case ENUM_GABLE_ROOF:	return L"GABLE_ROOF";
+		case ENUM_HIP_ROOF:	return L"HIP_ROOF";
+		case ENUM_HIPPED_GABLE_ROOF:	return L"HIPPED_GABLE_ROOF";
+		case ENUM_GAMBREL_ROOF:	return L"GAMBREL_ROOF";
+		case ENUM_MANSARD_ROOF:	return L"MANSARD_ROOF";
+		case ENUM_BARREL_ROOF:	return L"BARREL_ROOF";
+		case ENUM_RAINBOW_ROOF:	return L"RAINBOW_ROOF";
+		case ENUM_BUTTERFLY_ROOF:	return L"BUTTERFLY_ROOF";
+		case ENUM_PAVILION_ROOF:	return L"PAVILION_ROOF";
+		case ENUM_DOME_ROOF:	return L"DOME_ROOF";
+		case ENUM_FREEFORM:	return L"FREEFORM";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcRoofTypeEnum> IfcRoofTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

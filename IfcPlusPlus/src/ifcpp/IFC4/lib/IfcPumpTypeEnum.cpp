@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcPumpTypeEnum::getDeepCopy( IfcPPCopyOptions& options 
 void IfcPumpTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPUMPTYPEENUM("; }
-	if( m_enum == ENUM_CIRCULATOR )
+	switch( m_enum )
 	{
-		stream << ".CIRCULATOR.";
-	}
-	else if( m_enum == ENUM_ENDSUCTION )
-	{
-		stream << ".ENDSUCTION.";
-	}
-	else if( m_enum == ENUM_SPLITCASE )
-	{
-		stream << ".SPLITCASE.";
-	}
-	else if( m_enum == ENUM_SUBMERSIBLEPUMP )
-	{
-		stream << ".SUBMERSIBLEPUMP.";
-	}
-	else if( m_enum == ENUM_SUMPPUMP )
-	{
-		stream << ".SUMPPUMP.";
-	}
-	else if( m_enum == ENUM_VERTICALINLINE )
-	{
-		stream << ".VERTICALINLINE.";
-	}
-	else if( m_enum == ENUM_VERTICALTURBINE )
-	{
-		stream << ".VERTICALTURBINE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CIRCULATOR:	stream << ".CIRCULATOR."; break;
+		case ENUM_ENDSUCTION:	stream << ".ENDSUCTION."; break;
+		case ENUM_SPLITCASE:	stream << ".SPLITCASE."; break;
+		case ENUM_SUBMERSIBLEPUMP:	stream << ".SUBMERSIBLEPUMP."; break;
+		case ENUM_SUMPPUMP:	stream << ".SUMPPUMP."; break;
+		case ENUM_VERTICALINLINE:	stream << ".VERTICALINLINE."; break;
+		case ENUM_VERTICALTURBINE:	stream << ".VERTICALTURBINE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcPumpTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CIRCULATOR:	return L"CIRCULATOR";
+		case ENUM_ENDSUCTION:	return L"ENDSUCTION";
+		case ENUM_SPLITCASE:	return L"SPLITCASE";
+		case ENUM_SUBMERSIBLEPUMP:	return L"SUBMERSIBLEPUMP";
+		case ENUM_SUMPPUMP:	return L"SUMPPUMP";
+		case ENUM_VERTICALINLINE:	return L"VERTICALINLINE";
+		case ENUM_VERTICALTURBINE:	return L"VERTICALTURBINE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

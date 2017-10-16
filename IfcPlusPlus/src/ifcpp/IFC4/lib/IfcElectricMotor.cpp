@@ -87,6 +87,7 @@ void IfcElectricMotor::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcElectricMotor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcElectricMotor::toString() const { return L"IfcElectricMotor"; }
 void IfcElectricMotor::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -101,6 +101,7 @@ void IfcWindowType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcWindowType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcWindowType::toString() const { return L"IfcWindowType"; }
 void IfcWindowType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

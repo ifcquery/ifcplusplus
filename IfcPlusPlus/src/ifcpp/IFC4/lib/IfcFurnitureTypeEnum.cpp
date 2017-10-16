@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcFurnitureTypeEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcFurnitureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFURNITURETYPEENUM("; }
-	if( m_enum == ENUM_CHAIR )
+	switch( m_enum )
 	{
-		stream << ".CHAIR.";
-	}
-	else if( m_enum == ENUM_TABLE )
-	{
-		stream << ".TABLE.";
-	}
-	else if( m_enum == ENUM_DESK )
-	{
-		stream << ".DESK.";
-	}
-	else if( m_enum == ENUM_BED )
-	{
-		stream << ".BED.";
-	}
-	else if( m_enum == ENUM_FILECABINET )
-	{
-		stream << ".FILECABINET.";
-	}
-	else if( m_enum == ENUM_SHELF )
-	{
-		stream << ".SHELF.";
-	}
-	else if( m_enum == ENUM_SOFA )
-	{
-		stream << ".SOFA.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CHAIR:	stream << ".CHAIR."; break;
+		case ENUM_TABLE:	stream << ".TABLE."; break;
+		case ENUM_DESK:	stream << ".DESK."; break;
+		case ENUM_BED:	stream << ".BED."; break;
+		case ENUM_FILECABINET:	stream << ".FILECABINET."; break;
+		case ENUM_SHELF:	stream << ".SHELF."; break;
+		case ENUM_SOFA:	stream << ".SOFA."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcFurnitureTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CHAIR:	return L"CHAIR";
+		case ENUM_TABLE:	return L"TABLE";
+		case ENUM_DESK:	return L"DESK";
+		case ENUM_BED:	return L"BED";
+		case ENUM_FILECABINET:	return L"FILECABINET";
+		case ENUM_SHELF:	return L"SHELF";
+		case ENUM_SOFA:	return L"SOFA";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

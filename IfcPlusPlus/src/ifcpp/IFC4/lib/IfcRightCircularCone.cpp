@@ -36,6 +36,7 @@ void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcRightCircularCone::toString() const { return L"IfcRightCircularCone"; }
 void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -31,14 +31,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <GCPnts_AbscissaPoint.hxx>
 #include <GCPnts_UniformAbscissa.hxx>
 #include <Geom_Line.hxx>
+#include <Poly.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Vertex.hxx>
-#include <StlMesh_Mesh.hxx>
-#include <StlTransfer.hxx>
 
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/SceneGraphUtils.h>
@@ -180,6 +179,7 @@ public:
 		osg::ref_ptr<osg::Vec3Array> vertices_tri_storage = new osg::Vec3Array();
 		osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
 		osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
+		osg::ref_ptr<osg::Vec3Array> normals_tri_storage = new osg::Vec3Array();
 		osg::ref_ptr<osg::Vec3Array> vertices_quad;
 		osg::ref_ptr<osg::Vec3Array> normals_quad;
 
@@ -201,70 +201,111 @@ public:
 		{
 			// TopAbs_COMPOUND, TopAbs_COMPSOLID, TopAbs_SOLID, TopAbs_SHELL, TopAbs_FACE
 			Standard_Real deflection = 0.006;
-			Handle( StlMesh_Mesh ) stl_mesh = new StlMesh_Mesh();
+			//Handle( StlMesh_Mesh ) stl_mesh = new StlMesh_Mesh();
 			BRepMesh_IncrementalMesh incremental_mesh( shape, deflection );
-			StlTransfer::RetrieveMesh( shape, stl_mesh );
+			//StlTransfer::RetrieveMesh( shape, stl_mesh );
 
-			int num_domains = stl_mesh->NbDomains();
-			for( int domain = 1; domain < num_domains + 1; ++domain )
+			TopExp_Explorer shape_explorer( shape, TopAbs_FACE );
+			for( ; shape_explorer.More(); shape_explorer.Next() )
 			{
-				const TColgp_SequenceOfXYZ& vertices = stl_mesh->Vertices( domain );
+				const TopoDS_Face& face = TopoDS::Face( shape_explorer.Current() );
+				TopLoc_Location L = TopLoc_Location();
+				const Handle( Poly_Triangulation )& poly_triangulation = BRep_Tool::Triangulation( face, L );
 
-				size_t offset_vertex_storage = vertices_tri_storage->size();
-
-				for( auto it = vertices.begin(); it != vertices.end(); ++it )
+				if( poly_triangulation.IsNull() )
 				{
-					const gp_Pnt& node = *it;
-					vertices_tri_storage->push_back( osg::Vec3d( node.X(), node.Y(), node.Z() ) );
+					continue;
 				}
 
-				// TODO: compute triangles like in StdPrs_ToolTriangulatedShape::Normal
-				// TODO: use c:\lib\opencascade\7.1.0\src\StdPrs\StdPrs_ShadedShape.cxx
-				// static Handle( Graphic3d_ArrayOfTriangles ) fillTriangles( const TopoDS_Shape&    theShape,
+				const gp_Trsf & face_trsf = L.Transformation();
 
 
-				//	Standard_Integer NBTRIANGLES = stl_mesh->NbTriangles();
-				const StlMesh_SequenceOfMeshTriangle& triangles = stl_mesh->Triangles( domain );
+				Poly::ComputeNormals( poly_triangulation );
+				const TColgp_Array1OfPnt&       triang_vertices = poly_triangulation->Nodes();
+				const TShort_Array1OfShortReal& triang_normals = poly_triangulation->Normals();
+				const Poly_Array1OfTriangle& triangles = poly_triangulation->Triangles();
 
-				//			int num_triangles = triangles.Size();
+				// Number of nodes in the triangulation
+				int num_vertices = poly_triangulation->Nodes().Length();
+				if( num_vertices*3 != triang_normals.Length() )
+				{
+					std::cout << "Different number of normals and vertices\n";
+					return;
+				}
+
+				if( !vertices_tri_storage )
+				{
+					vertices_tri_storage = new osg::Vec3Array();
+				}
+				size_t offset_vertex_storage = vertices_tri_storage->size();
+				if( !normals_tri_storage )
+				{
+					normals_tri_storage = new osg::Vec3Array();
+				}
+				//size_t offset_normals_storage = normals_tri_storage->size();
+
+				// Get each vertex index, checking common vertexes between shapes
+				for( int i = 0; i < num_vertices; i++ )
+				{
+					gp_Pnt triang_point = triang_vertices.Value( i+1 );
+					gp_Vec normal( triang_normals.Value( i*3 + 1 ), triang_normals.Value( i*3 + 2 ), triang_normals.Value( i*3 + 3 ) );
+					if( face_trsf.Form() != gp_Identity )
+					{
+						triang_point.Transform( face_trsf );
+						normal.Transform( face_trsf );
+					}
+					double x = std::round( triang_point.X()*10.0 )*0.1;
+					double y = std::round( triang_point.Y()*10.0 )*0.1;
+					double z = std::round( triang_point.Z()*10.0 )*0.1;
+
+					vertices_tri_storage->push_back( osg::Vec3d( x, y, z ) );
+					normals_tri_storage->push_back( osg::Vec3d( normal.X(), normal.Y(), normal.Z() ) );
+				}
+
+				if( !vertices_tri )
+				{
+					vertices_tri = new osg::Vec3Array();
+				}
+				if( !normals_tri )
+				{
+					normals_tri = new osg::Vec3Array();
+				}
+
+				int num_stored_vertices = vertices_tri_storage->size();
 				for( auto it = triangles.begin(); it != triangles.end(); ++it )
 				{
-					const Handle_StlMesh_MeshTriangle& triang = *it;
+					const Poly_Triangle& triang = *it;
+					int idx_tri1, idx_tri2, idx_tri3;
+					triang.Get( idx_tri1, idx_tri2, idx_tri3 );
 
-					int n1, n2, n3;
-					double xn, yn, zn;
-					triang->GetVertexAndOrientation( n1, n2, n3, xn, yn, zn );
+					int idx1 = offset_vertex_storage + idx_tri1 - 1;
+					int idx2 = offset_vertex_storage + idx_tri2 - 1;
+					int idx3 = offset_vertex_storage + idx_tri3 - 1;
 
-					int idx1 = offset_vertex_storage + n1 - 1;
-					int idx2 = offset_vertex_storage + n2 - 1;
-					int idx3 = offset_vertex_storage + n3 - 1;
-
-					if( idx1 < vertices_tri_storage->size() && idx2 < vertices_tri_storage->size() && idx3 < vertices_tri_storage->size() )
+					if( idx1 >= num_stored_vertices || idx2 >= num_stored_vertices || idx3 >= num_stored_vertices )
 					{
-						osg::Vec3 v1 = vertices_tri_storage->at( idx1 );
-						osg::Vec3 v2 = vertices_tri_storage->at( idx2 );
-						osg::Vec3 v3 = vertices_tri_storage->at( idx3 );
-
-						vertices_tri->push_back( v1 );
-						vertices_tri->push_back( v2 );
-						vertices_tri->push_back( v3 );
-
-						normals_tri->push_back( osg::Vec3( xn, yn, zn ) );
-						normals_tri->push_back( osg::Vec3( xn, yn, zn ) );
-						normals_tri->push_back( osg::Vec3( xn, yn, zn ) );
-
-#ifdef _DEBUG
-						vertices_triangle_edges->push_back( v1 );
-						vertices_triangle_edges->push_back( v2 );
-						vertices_triangle_edges->push_back( v2 );
-						vertices_triangle_edges->push_back( v3 );
-						vertices_triangle_edges->push_back( v3 );
-						vertices_triangle_edges->push_back( v1 );
-#endif
+						std::cout << "idx > num_stored_vertices" << std::endl;
+						continue;
 					}
+					osg::Vec3 v1 = vertices_tri_storage->at( idx1 );
+					osg::Vec3 v2 = vertices_tri_storage->at( idx2 );
+					osg::Vec3 v3 = vertices_tri_storage->at( idx3 );
+					vertices_tri->push_back( v1 );
+					vertices_tri->push_back( v2 );
+					vertices_tri->push_back( v3 );
+
+					osg::Vec3 n1 = normals_tri_storage->at( idx1 );
+					osg::Vec3 n2 = normals_tri_storage->at( idx2 );
+					osg::Vec3 n3 = normals_tri_storage->at( idx3 );
+					normals_tri->push_back( n1 );
+					normals_tri->push_back( n2 );
+					normals_tri->push_back( n3 );
+
+
 				}
 			}
 		}
+
 
 		if( vertices_tri->size() > 0 )
 		{
@@ -431,10 +472,10 @@ public:
 		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
 
 		// create OSG objects
-		std::vector<shared_ptr<ProductRepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
+		std::vector<shared_ptr<RepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
 		for( size_t ii_representation = 0; ii_representation < vec_product_representations.size(); ++ii_representation )
 		{
-			const shared_ptr<ProductRepresentationData>& product_representation_data = vec_product_representations[ii_representation];
+			const shared_ptr<RepresentationData>& product_representation_data = vec_product_representations[ii_representation];
 			if( product_representation_data->m_ifc_representation.expired() )
 			{
 				continue;

@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcSpaceTypeEnum::getDeepCopy( IfcPPCopyOptions& options
 void IfcSpaceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPACETYPEENUM("; }
-	if( m_enum == ENUM_SPACE )
+	switch( m_enum )
 	{
-		stream << ".SPACE.";
-	}
-	else if( m_enum == ENUM_PARKING )
-	{
-		stream << ".PARKING.";
-	}
-	else if( m_enum == ENUM_GFA )
-	{
-		stream << ".GFA.";
-	}
-	else if( m_enum == ENUM_INTERNAL )
-	{
-		stream << ".INTERNAL.";
-	}
-	else if( m_enum == ENUM_EXTERNAL )
-	{
-		stream << ".EXTERNAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SPACE:	stream << ".SPACE."; break;
+		case ENUM_PARKING:	stream << ".PARKING."; break;
+		case ENUM_GFA:	stream << ".GFA."; break;
+		case ENUM_INTERNAL:	stream << ".INTERNAL."; break;
+		case ENUM_EXTERNAL:	stream << ".EXTERNAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSpaceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SPACE:	return L"SPACE";
+		case ENUM_PARKING:	return L"PARKING";
+		case ENUM_GFA:	return L"GFA";
+		case ENUM_INTERNAL:	return L"INTERNAL";
+		case ENUM_EXTERNAL:	return L"EXTERNAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

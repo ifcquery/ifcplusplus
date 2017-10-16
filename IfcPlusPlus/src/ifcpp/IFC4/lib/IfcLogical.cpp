@@ -37,6 +37,22 @@ void IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_typ
 	}
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcLogical::toString() const
+{
+	if( m_value == LOGICAL_FALSE )
+	{
+		return L"false";
+	}
+	else if( m_value == LOGICAL_TRUE )
+	{
+		return L"true";
+	}
+	else if( m_value == LOGICAL_UNKNOWN )
+	{
+		return L"unknown";
+	}
+	return L"";
+}
 shared_ptr<IfcLogical> IfcLogical::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

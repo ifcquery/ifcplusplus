@@ -36,6 +36,7 @@ void IfcConnectedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcConnectedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcConnectedFaceSet::toString() const { return L"IfcConnectedFaceSet"; }
 void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

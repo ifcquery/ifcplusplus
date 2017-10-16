@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcSurfaceFeatureTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcSurfaceFeatureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACEFEATURETYPEENUM("; }
-	if( m_enum == ENUM_MARK )
+	switch( m_enum )
 	{
-		stream << ".MARK.";
-	}
-	else if( m_enum == ENUM_TAG )
-	{
-		stream << ".TAG.";
-	}
-	else if( m_enum == ENUM_TREATMENT )
-	{
-		stream << ".TREATMENT.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_MARK:	stream << ".MARK."; break;
+		case ENUM_TAG:	stream << ".TAG."; break;
+		case ENUM_TREATMENT:	stream << ".TREATMENT."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSurfaceFeatureTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_MARK:	return L"MARK";
+		case ENUM_TAG:	return L"TAG";
+		case ENUM_TREATMENT:	return L"TREATMENT";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

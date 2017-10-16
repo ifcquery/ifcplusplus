@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcDocumentConfidentialityEnum::getDeepCopy( IfcPPCopyOp
 void IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOCUMENTCONFIDENTIALITYENUM("; }
-	if( m_enum == ENUM_PUBLIC )
+	switch( m_enum )
 	{
-		stream << ".PUBLIC.";
-	}
-	else if( m_enum == ENUM_RESTRICTED )
-	{
-		stream << ".RESTRICTED.";
-	}
-	else if( m_enum == ENUM_CONFIDENTIAL )
-	{
-		stream << ".CONFIDENTIAL.";
-	}
-	else if( m_enum == ENUM_PERSONAL )
-	{
-		stream << ".PERSONAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_PUBLIC:	stream << ".PUBLIC."; break;
+		case ENUM_RESTRICTED:	stream << ".RESTRICTED."; break;
+		case ENUM_CONFIDENTIAL:	stream << ".CONFIDENTIAL."; break;
+		case ENUM_PERSONAL:	stream << ".PERSONAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDocumentConfidentialityEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PUBLIC:	return L"PUBLIC";
+		case ENUM_RESTRICTED:	return L"RESTRICTED";
+		case ENUM_CONFIDENTIAL:	return L"CONFIDENTIAL";
+		case ENUM_PERSONAL:	return L"PERSONAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

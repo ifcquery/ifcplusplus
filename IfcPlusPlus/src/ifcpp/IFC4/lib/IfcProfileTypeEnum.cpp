@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcProfileTypeEnum::getDeepCopy( IfcPPCopyOptions& optio
 void IfcProfileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROFILETYPEENUM("; }
-	if( m_enum == ENUM_CURVE )
+	switch( m_enum )
 	{
-		stream << ".CURVE.";
-	}
-	else if( m_enum == ENUM_AREA )
-	{
-		stream << ".AREA.";
+		case ENUM_CURVE:	stream << ".CURVE."; break;
+		case ENUM_AREA:	stream << ".AREA."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcProfileTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CURVE:	return L"CURVE";
+		case ENUM_AREA:	return L"AREA";
+	}
+	return L"";
 }
 shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

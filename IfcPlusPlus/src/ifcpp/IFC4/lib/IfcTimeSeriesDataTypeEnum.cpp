@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcTimeSeriesDataTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcTimeSeriesDataTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMESERIESDATATYPEENUM("; }
-	if( m_enum == ENUM_CONTINUOUS )
+	switch( m_enum )
 	{
-		stream << ".CONTINUOUS.";
-	}
-	else if( m_enum == ENUM_DISCRETE )
-	{
-		stream << ".DISCRETE.";
-	}
-	else if( m_enum == ENUM_DISCRETEBINARY )
-	{
-		stream << ".DISCRETEBINARY.";
-	}
-	else if( m_enum == ENUM_PIECEWISEBINARY )
-	{
-		stream << ".PIECEWISEBINARY.";
-	}
-	else if( m_enum == ENUM_PIECEWISECONSTANT )
-	{
-		stream << ".PIECEWISECONSTANT.";
-	}
-	else if( m_enum == ENUM_PIECEWISECONTINUOUS )
-	{
-		stream << ".PIECEWISECONTINUOUS.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_CONTINUOUS:	stream << ".CONTINUOUS."; break;
+		case ENUM_DISCRETE:	stream << ".DISCRETE."; break;
+		case ENUM_DISCRETEBINARY:	stream << ".DISCRETEBINARY."; break;
+		case ENUM_PIECEWISEBINARY:	stream << ".PIECEWISEBINARY."; break;
+		case ENUM_PIECEWISECONSTANT:	stream << ".PIECEWISECONSTANT."; break;
+		case ENUM_PIECEWISECONTINUOUS:	stream << ".PIECEWISECONTINUOUS."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTimeSeriesDataTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_CONTINUOUS:	return L"CONTINUOUS";
+		case ENUM_DISCRETE:	return L"DISCRETE";
+		case ENUM_DISCRETEBINARY:	return L"DISCRETEBINARY";
+		case ENUM_PIECEWISEBINARY:	return L"PIECEWISEBINARY";
+		case ENUM_PIECEWISECONSTANT:	return L"PIECEWISECONSTANT";
+		case ENUM_PIECEWISECONTINUOUS:	return L"PIECEWISECONTINUOUS";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

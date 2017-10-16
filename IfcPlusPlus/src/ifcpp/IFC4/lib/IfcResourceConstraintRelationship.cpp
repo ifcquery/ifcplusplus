@@ -64,6 +64,7 @@ void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream )
 	stream << ");";
 }
 void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcResourceConstraintRelationship::toString() const { return L"IfcResourceConstraintRelationship"; }
 void IfcResourceConstraintRelationship::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

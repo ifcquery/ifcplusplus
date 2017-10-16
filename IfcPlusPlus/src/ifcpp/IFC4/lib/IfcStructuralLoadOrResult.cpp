@@ -27,6 +27,7 @@ void IfcStructuralLoadOrResult::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcStructuralLoadOrResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcStructuralLoadOrResult::toString() const { return L"IfcStructuralLoadOrResult"; }
 void IfcStructuralLoadOrResult::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

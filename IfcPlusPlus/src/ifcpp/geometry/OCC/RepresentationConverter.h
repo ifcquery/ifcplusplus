@@ -133,7 +133,7 @@ public:
 		}
 	}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<ProductRepresentationData>& input_data )
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<RepresentationData>& input_data )
 	{
 		if( ifc_representation->m_RepresentationIdentifier )
 		{
@@ -224,7 +224,7 @@ public:
 					}
 				}
 
-				shared_ptr<ProductRepresentationData> mapped_input_data( new ProductRepresentationData() );
+				shared_ptr<RepresentationData> mapped_input_data( new RepresentationData() );
 				if( !mapped_input_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -275,12 +275,12 @@ public:
 				if( target_non_uniform )
 				{
 					gp_GTrsf mapped_pos( map_matrix_target_general*map_matrix_origin );
-					mapped_input_data->applyPosition( mapped_pos );
+					mapped_input_data->applyPositionToRepresentation( mapped_pos );
 				}
 				else
 				{
 					gp_Trsf mapped_pos( map_matrix_target*map_matrix_origin );
-					mapped_input_data->applyPosition( mapped_pos );
+					mapped_input_data->applyPositionToRepresentation( mapped_pos );
 				}
 				input_data->addInputData( mapped_input_data );
 
@@ -740,7 +740,7 @@ public:
 
 	void subtractOpenings( const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeData>& product_shape )
 	{
-		std::vector<shared_ptr<ProductRepresentationData> > vec_opening_data;
+		std::vector<shared_ptr<RepresentationData> > vec_opening_data;
 		std::vector<weak_ptr<IfcRelVoidsElement> > vec_rel_voids( ifc_element->m_HasOpenings_inverse );
 		if( vec_rel_voids.size() == 0 )
 		{
@@ -779,7 +779,7 @@ public:
 			for( size_t i_representations = 0; i_representations < vec_opening_representations.size(); ++i_representations )
 			{
 				shared_ptr<IfcRepresentation> ifc_opening_representation = vec_opening_representations[i_representations];
-				shared_ptr<ProductRepresentationData> opening_representation_data( new ProductRepresentationData() );
+				shared_ptr<RepresentationData> opening_representation_data( new RepresentationData() );
 				if( !opening_representation_data )
 				{
 					throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -803,7 +803,7 @@ public:
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
 
-				opening_representation_data->applyPosition( opening_placement_matrix );
+				opening_representation_data->applyPositionToRepresentation( opening_placement_matrix );
 				vec_opening_data.push_back( opening_representation_data );
 			}
 		}

@@ -26,6 +26,7 @@ void IfcBoundedCurve::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcBoundedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcBoundedCurve::toString() const { return L"IfcBoundedCurve"; }
 void IfcBoundedCurve::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 }

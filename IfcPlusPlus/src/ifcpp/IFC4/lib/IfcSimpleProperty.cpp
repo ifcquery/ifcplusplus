@@ -37,6 +37,7 @@ void IfcSimpleProperty::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSimpleProperty::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSimpleProperty::toString() const { return L"IfcSimpleProperty"; }
 void IfcSimpleProperty::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

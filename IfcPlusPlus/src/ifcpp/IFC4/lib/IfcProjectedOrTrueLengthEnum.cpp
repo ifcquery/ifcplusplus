@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcProjectedOrTrueLengthEnum::getDeepCopy( IfcPPCopyOpti
 void IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTEDORTRUELENGTHENUM("; }
-	if( m_enum == ENUM_PROJECTED_LENGTH )
+	switch( m_enum )
 	{
-		stream << ".PROJECTED_LENGTH.";
-	}
-	else if( m_enum == ENUM_TRUE_LENGTH )
-	{
-		stream << ".TRUE_LENGTH.";
+		case ENUM_PROJECTED_LENGTH:	stream << ".PROJECTED_LENGTH."; break;
+		case ENUM_TRUE_LENGTH:	stream << ".TRUE_LENGTH."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcProjectedOrTrueLengthEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_PROJECTED_LENGTH:	return L"PROJECTED_LENGTH";
+		case ENUM_TRUE_LENGTH:	return L"TRUE_LENGTH";
+	}
+	return L"";
 }
 shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

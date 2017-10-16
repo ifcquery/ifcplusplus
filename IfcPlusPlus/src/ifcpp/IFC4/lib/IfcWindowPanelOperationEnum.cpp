@@ -21,63 +21,45 @@ shared_ptr<IfcPPObject> IfcWindowPanelOperationEnum::getDeepCopy( IfcPPCopyOptio
 void IfcWindowPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWPANELOPERATIONENUM("; }
-	if( m_enum == ENUM_SIDEHUNGRIGHTHAND )
+	switch( m_enum )
 	{
-		stream << ".SIDEHUNGRIGHTHAND.";
-	}
-	else if( m_enum == ENUM_SIDEHUNGLEFTHAND )
-	{
-		stream << ".SIDEHUNGLEFTHAND.";
-	}
-	else if( m_enum == ENUM_TILTANDTURNRIGHTHAND )
-	{
-		stream << ".TILTANDTURNRIGHTHAND.";
-	}
-	else if( m_enum == ENUM_TILTANDTURNLEFTHAND )
-	{
-		stream << ".TILTANDTURNLEFTHAND.";
-	}
-	else if( m_enum == ENUM_TOPHUNG )
-	{
-		stream << ".TOPHUNG.";
-	}
-	else if( m_enum == ENUM_BOTTOMHUNG )
-	{
-		stream << ".BOTTOMHUNG.";
-	}
-	else if( m_enum == ENUM_PIVOTHORIZONTAL )
-	{
-		stream << ".PIVOTHORIZONTAL.";
-	}
-	else if( m_enum == ENUM_PIVOTVERTICAL )
-	{
-		stream << ".PIVOTVERTICAL.";
-	}
-	else if( m_enum == ENUM_SLIDINGHORIZONTAL )
-	{
-		stream << ".SLIDINGHORIZONTAL.";
-	}
-	else if( m_enum == ENUM_SLIDINGVERTICAL )
-	{
-		stream << ".SLIDINGVERTICAL.";
-	}
-	else if( m_enum == ENUM_REMOVABLECASEMENT )
-	{
-		stream << ".REMOVABLECASEMENT.";
-	}
-	else if( m_enum == ENUM_FIXEDCASEMENT )
-	{
-		stream << ".FIXEDCASEMENT.";
-	}
-	else if( m_enum == ENUM_OTHEROPERATION )
-	{
-		stream << ".OTHEROPERATION.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SIDEHUNGRIGHTHAND:	stream << ".SIDEHUNGRIGHTHAND."; break;
+		case ENUM_SIDEHUNGLEFTHAND:	stream << ".SIDEHUNGLEFTHAND."; break;
+		case ENUM_TILTANDTURNRIGHTHAND:	stream << ".TILTANDTURNRIGHTHAND."; break;
+		case ENUM_TILTANDTURNLEFTHAND:	stream << ".TILTANDTURNLEFTHAND."; break;
+		case ENUM_TOPHUNG:	stream << ".TOPHUNG."; break;
+		case ENUM_BOTTOMHUNG:	stream << ".BOTTOMHUNG."; break;
+		case ENUM_PIVOTHORIZONTAL:	stream << ".PIVOTHORIZONTAL."; break;
+		case ENUM_PIVOTVERTICAL:	stream << ".PIVOTVERTICAL."; break;
+		case ENUM_SLIDINGHORIZONTAL:	stream << ".SLIDINGHORIZONTAL."; break;
+		case ENUM_SLIDINGVERTICAL:	stream << ".SLIDINGVERTICAL."; break;
+		case ENUM_REMOVABLECASEMENT:	stream << ".REMOVABLECASEMENT."; break;
+		case ENUM_FIXEDCASEMENT:	stream << ".FIXEDCASEMENT."; break;
+		case ENUM_OTHEROPERATION:	stream << ".OTHEROPERATION."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcWindowPanelOperationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SIDEHUNGRIGHTHAND:	return L"SIDEHUNGRIGHTHAND";
+		case ENUM_SIDEHUNGLEFTHAND:	return L"SIDEHUNGLEFTHAND";
+		case ENUM_TILTANDTURNRIGHTHAND:	return L"TILTANDTURNRIGHTHAND";
+		case ENUM_TILTANDTURNLEFTHAND:	return L"TILTANDTURNLEFTHAND";
+		case ENUM_TOPHUNG:	return L"TOPHUNG";
+		case ENUM_BOTTOMHUNG:	return L"BOTTOMHUNG";
+		case ENUM_PIVOTHORIZONTAL:	return L"PIVOTHORIZONTAL";
+		case ENUM_PIVOTVERTICAL:	return L"PIVOTVERTICAL";
+		case ENUM_SLIDINGHORIZONTAL:	return L"SLIDINGHORIZONTAL";
+		case ENUM_SLIDINGVERTICAL:	return L"SLIDINGVERTICAL";
+		case ENUM_REMOVABLECASEMENT:	return L"REMOVABLECASEMENT";
+		case ENUM_FIXEDCASEMENT:	return L"FIXEDCASEMENT";
+		case ENUM_OTHEROPERATION:	return L"OTHEROPERATION";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcWindowPanelOperationEnum> IfcWindowPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

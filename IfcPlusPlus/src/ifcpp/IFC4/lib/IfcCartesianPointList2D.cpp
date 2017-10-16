@@ -42,6 +42,7 @@ void IfcCartesianPointList2D::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCartesianPointList2D::toString() const { return L"IfcCartesianPointList2D"; }
 void IfcCartesianPointList2D::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -36,6 +36,7 @@ void IfcExternallyDefinedTextFont::getStepLine( std::stringstream& stream ) cons
 	stream << ");";
 }
 void IfcExternallyDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcExternallyDefinedTextFont::toString() const { return L"IfcExternallyDefinedTextFont"; }
 void IfcExternallyDefinedTextFont::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

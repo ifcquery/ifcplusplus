@@ -21,27 +21,27 @@ shared_ptr<IfcPPObject> IfcAnalysisModelTypeEnum::getDeepCopy( IfcPPCopyOptions&
 void IfcAnalysisModelTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANALYSISMODELTYPEENUM("; }
-	if( m_enum == ENUM_IN_PLANE_LOADING_2D )
+	switch( m_enum )
 	{
-		stream << ".IN_PLANE_LOADING_2D.";
-	}
-	else if( m_enum == ENUM_OUT_PLANE_LOADING_2D )
-	{
-		stream << ".OUT_PLANE_LOADING_2D.";
-	}
-	else if( m_enum == ENUM_LOADING_3D )
-	{
-		stream << ".LOADING_3D.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_IN_PLANE_LOADING_2D:	stream << ".IN_PLANE_LOADING_2D."; break;
+		case ENUM_OUT_PLANE_LOADING_2D:	stream << ".OUT_PLANE_LOADING_2D."; break;
+		case ENUM_LOADING_3D:	stream << ".LOADING_3D."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcAnalysisModelTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_IN_PLANE_LOADING_2D:	return L"IN_PLANE_LOADING_2D";
+		case ENUM_OUT_PLANE_LOADING_2D:	return L"OUT_PLANE_LOADING_2D";
+		case ENUM_LOADING_3D:	return L"LOADING_3D";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcAnalysisModelTypeEnum> IfcAnalysisModelTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -36,6 +36,7 @@ void IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCartesianPoint::toString() const { return L"IfcCartesianPoint"; }
 void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

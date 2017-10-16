@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcCurveInterpolationEnum::getDeepCopy( IfcPPCopyOptions
 void IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURVEINTERPOLATIONENUM("; }
-	if( m_enum == ENUM_LINEAR )
+	switch( m_enum )
 	{
-		stream << ".LINEAR.";
-	}
-	else if( m_enum == ENUM_LOG_LINEAR )
-	{
-		stream << ".LOG_LINEAR.";
-	}
-	else if( m_enum == ENUM_LOG_LOG )
-	{
-		stream << ".LOG_LOG.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_LINEAR:	stream << ".LINEAR."; break;
+		case ENUM_LOG_LINEAR:	stream << ".LOG_LINEAR."; break;
+		case ENUM_LOG_LOG:	stream << ".LOG_LOG."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCurveInterpolationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_LINEAR:	return L"LINEAR";
+		case ENUM_LOG_LINEAR:	return L"LOG_LINEAR";
+		case ENUM_LOG_LOG:	return L"LOG_LOG";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

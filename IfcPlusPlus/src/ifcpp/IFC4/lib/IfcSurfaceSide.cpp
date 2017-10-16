@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcSurfaceSide::getDeepCopy( IfcPPCopyOptions& options )
 void IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACESIDE("; }
-	if( m_enum == ENUM_POSITIVE )
+	switch( m_enum )
 	{
-		stream << ".POSITIVE.";
-	}
-	else if( m_enum == ENUM_NEGATIVE )
-	{
-		stream << ".NEGATIVE.";
-	}
-	else if( m_enum == ENUM_BOTH )
-	{
-		stream << ".BOTH.";
+		case ENUM_POSITIVE:	stream << ".POSITIVE."; break;
+		case ENUM_NEGATIVE:	stream << ".NEGATIVE."; break;
+		case ENUM_BOTH:	stream << ".BOTH."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSurfaceSide::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_POSITIVE:	return L"POSITIVE";
+		case ENUM_NEGATIVE:	return L"NEGATIVE";
+		case ENUM_BOTH:	return L"BOTH";
+	}
+	return L"";
 }
 shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

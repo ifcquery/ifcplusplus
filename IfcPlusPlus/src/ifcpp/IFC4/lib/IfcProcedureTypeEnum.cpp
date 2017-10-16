@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcProcedureTypeEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROCEDURETYPEENUM("; }
-	if( m_enum == ENUM_ADVICE_CAUTION )
+	switch( m_enum )
 	{
-		stream << ".ADVICE_CAUTION.";
-	}
-	else if( m_enum == ENUM_ADVICE_NOTE )
-	{
-		stream << ".ADVICE_NOTE.";
-	}
-	else if( m_enum == ENUM_ADVICE_WARNING )
-	{
-		stream << ".ADVICE_WARNING.";
-	}
-	else if( m_enum == ENUM_CALIBRATION )
-	{
-		stream << ".CALIBRATION.";
-	}
-	else if( m_enum == ENUM_DIAGNOSTIC )
-	{
-		stream << ".DIAGNOSTIC.";
-	}
-	else if( m_enum == ENUM_SHUTDOWN )
-	{
-		stream << ".SHUTDOWN.";
-	}
-	else if( m_enum == ENUM_STARTUP )
-	{
-		stream << ".STARTUP.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ADVICE_CAUTION:	stream << ".ADVICE_CAUTION."; break;
+		case ENUM_ADVICE_NOTE:	stream << ".ADVICE_NOTE."; break;
+		case ENUM_ADVICE_WARNING:	stream << ".ADVICE_WARNING."; break;
+		case ENUM_CALIBRATION:	stream << ".CALIBRATION."; break;
+		case ENUM_DIAGNOSTIC:	stream << ".DIAGNOSTIC."; break;
+		case ENUM_SHUTDOWN:	stream << ".SHUTDOWN."; break;
+		case ENUM_STARTUP:	stream << ".STARTUP."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcProcedureTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ADVICE_CAUTION:	return L"ADVICE_CAUTION";
+		case ENUM_ADVICE_NOTE:	return L"ADVICE_NOTE";
+		case ENUM_ADVICE_WARNING:	return L"ADVICE_WARNING";
+		case ENUM_CALIBRATION:	return L"CALIBRATION";
+		case ENUM_DIAGNOSTIC:	return L"DIAGNOSTIC";
+		case ENUM_SHUTDOWN:	return L"SHUTDOWN";
+		case ENUM_STARTUP:	return L"STARTUP";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

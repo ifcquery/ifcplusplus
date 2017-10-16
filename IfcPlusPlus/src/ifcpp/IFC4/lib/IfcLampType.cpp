@@ -90,6 +90,7 @@ void IfcLampType::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcLampType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcLampType::toString() const { return L"IfcLampType"; }
 void IfcLampType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

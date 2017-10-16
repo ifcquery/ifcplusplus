@@ -44,6 +44,7 @@ void IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcMaterialLayerSetUsage::toString() const { return L"IfcMaterialLayerSetUsage"; }
 void IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

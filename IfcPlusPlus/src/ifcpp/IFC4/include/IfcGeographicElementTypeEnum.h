@@ -26,6 +26,7 @@ public:
 	virtual const char* className() const { return "IfcGeographicElementTypeEnum"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+	virtual const std::wstring toString() const;
 	static shared_ptr<IfcGeographicElementTypeEnum> createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map );
 	IfcGeographicElementTypeEnumEnum m_enum;
 };

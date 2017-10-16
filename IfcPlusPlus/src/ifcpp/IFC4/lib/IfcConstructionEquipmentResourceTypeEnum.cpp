@@ -21,47 +21,37 @@ shared_ptr<IfcPPObject> IfcConstructionEquipmentResourceTypeEnum::getDeepCopy( I
 void IfcConstructionEquipmentResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRUCTIONEQUIPMENTRESOURCETYPEENUM("; }
-	if( m_enum == ENUM_DEMOLISHING )
+	switch( m_enum )
 	{
-		stream << ".DEMOLISHING.";
-	}
-	else if( m_enum == ENUM_EARTHMOVING )
-	{
-		stream << ".EARTHMOVING.";
-	}
-	else if( m_enum == ENUM_ERECTING )
-	{
-		stream << ".ERECTING.";
-	}
-	else if( m_enum == ENUM_HEATING )
-	{
-		stream << ".HEATING.";
-	}
-	else if( m_enum == ENUM_LIGHTING )
-	{
-		stream << ".LIGHTING.";
-	}
-	else if( m_enum == ENUM_PAVING )
-	{
-		stream << ".PAVING.";
-	}
-	else if( m_enum == ENUM_PUMPING )
-	{
-		stream << ".PUMPING.";
-	}
-	else if( m_enum == ENUM_TRANSPORTING )
-	{
-		stream << ".TRANSPORTING.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_DEMOLISHING:	stream << ".DEMOLISHING."; break;
+		case ENUM_EARTHMOVING:	stream << ".EARTHMOVING."; break;
+		case ENUM_ERECTING:	stream << ".ERECTING."; break;
+		case ENUM_HEATING:	stream << ".HEATING."; break;
+		case ENUM_LIGHTING:	stream << ".LIGHTING."; break;
+		case ENUM_PAVING:	stream << ".PAVING."; break;
+		case ENUM_PUMPING:	stream << ".PUMPING."; break;
+		case ENUM_TRANSPORTING:	stream << ".TRANSPORTING."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcConstructionEquipmentResourceTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_DEMOLISHING:	return L"DEMOLISHING";
+		case ENUM_EARTHMOVING:	return L"EARTHMOVING";
+		case ENUM_ERECTING:	return L"ERECTING";
+		case ENUM_HEATING:	return L"HEATING";
+		case ENUM_LIGHTING:	return L"LIGHTING";
+		case ENUM_PAVING:	return L"PAVING";
+		case ENUM_PUMPING:	return L"PUMPING";
+		case ENUM_TRANSPORTING:	return L"TRANSPORTING";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcConstructionEquipmentResourceTypeEnum> IfcConstructionEquipmentResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

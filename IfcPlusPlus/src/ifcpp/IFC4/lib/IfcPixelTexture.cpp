@@ -105,6 +105,7 @@ void IfcPixelTexture::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcPixelTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcPixelTexture::toString() const { return L"IfcPixelTexture"; }
 void IfcPixelTexture::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

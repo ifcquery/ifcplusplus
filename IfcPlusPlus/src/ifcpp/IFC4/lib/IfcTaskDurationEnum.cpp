@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcTaskDurationEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTASKDURATIONENUM("; }
-	if( m_enum == ENUM_ELAPSEDTIME )
+	switch( m_enum )
 	{
-		stream << ".ELAPSEDTIME.";
-	}
-	else if( m_enum == ENUM_WORKTIME )
-	{
-		stream << ".WORKTIME.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ELAPSEDTIME:	stream << ".ELAPSEDTIME."; break;
+		case ENUM_WORKTIME:	stream << ".WORKTIME."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcTaskDurationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ELAPSEDTIME:	return L"ELAPSEDTIME";
+		case ENUM_WORKTIME:	return L"WORKTIME";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

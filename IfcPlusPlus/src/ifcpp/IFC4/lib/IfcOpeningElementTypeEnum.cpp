@@ -21,23 +21,25 @@ shared_ptr<IfcPPObject> IfcOpeningElementTypeEnum::getDeepCopy( IfcPPCopyOptions
 void IfcOpeningElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOPENINGELEMENTTYPEENUM("; }
-	if( m_enum == ENUM_OPENING )
+	switch( m_enum )
 	{
-		stream << ".OPENING.";
-	}
-	else if( m_enum == ENUM_RECESS )
-	{
-		stream << ".RECESS.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_OPENING:	stream << ".OPENING."; break;
+		case ENUM_RECESS:	stream << ".RECESS."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcOpeningElementTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_OPENING:	return L"OPENING";
+		case ENUM_RECESS:	return L"RECESS";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

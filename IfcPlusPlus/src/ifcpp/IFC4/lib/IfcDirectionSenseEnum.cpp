@@ -21,15 +21,21 @@ shared_ptr<IfcPPObject> IfcDirectionSenseEnum::getDeepCopy( IfcPPCopyOptions& op
 void IfcDirectionSenseEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDIRECTIONSENSEENUM("; }
-	if( m_enum == ENUM_POSITIVE )
+	switch( m_enum )
 	{
-		stream << ".POSITIVE.";
-	}
-	else if( m_enum == ENUM_NEGATIVE )
-	{
-		stream << ".NEGATIVE.";
+		case ENUM_POSITIVE:	stream << ".POSITIVE."; break;
+		case ENUM_NEGATIVE:	stream << ".NEGATIVE."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDirectionSenseEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_POSITIVE:	return L"POSITIVE";
+		case ENUM_NEGATIVE:	return L"NEGATIVE";
+	}
+	return L"";
 }
 shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

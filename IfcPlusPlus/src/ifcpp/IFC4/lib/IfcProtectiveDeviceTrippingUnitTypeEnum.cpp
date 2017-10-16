@@ -21,31 +21,29 @@ shared_ptr<IfcPPObject> IfcProtectiveDeviceTrippingUnitTypeEnum::getDeepCopy( If
 void IfcProtectiveDeviceTrippingUnitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROTECTIVEDEVICETRIPPINGUNITTYPEENUM("; }
-	if( m_enum == ENUM_ELECTRONIC )
+	switch( m_enum )
 	{
-		stream << ".ELECTRONIC.";
-	}
-	else if( m_enum == ENUM_ELECTROMAGNETIC )
-	{
-		stream << ".ELECTROMAGNETIC.";
-	}
-	else if( m_enum == ENUM_RESIDUALCURRENT )
-	{
-		stream << ".RESIDUALCURRENT.";
-	}
-	else if( m_enum == ENUM_THERMAL )
-	{
-		stream << ".THERMAL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ELECTRONIC:	stream << ".ELECTRONIC."; break;
+		case ENUM_ELECTROMAGNETIC:	stream << ".ELECTROMAGNETIC."; break;
+		case ENUM_RESIDUALCURRENT:	stream << ".RESIDUALCURRENT."; break;
+		case ENUM_THERMAL:	stream << ".THERMAL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcProtectiveDeviceTrippingUnitTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ELECTRONIC:	return L"ELECTRONIC";
+		case ENUM_ELECTROMAGNETIC:	return L"ELECTROMAGNETIC";
+		case ENUM_RESIDUALCURRENT:	return L"RESIDUALCURRENT";
+		case ENUM_THERMAL:	return L"THERMAL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> IfcProtectiveDeviceTrippingUnitTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

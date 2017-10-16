@@ -83,6 +83,7 @@ void IfcFlowStorageDevice::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcFlowStorageDevice::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcFlowStorageDevice::toString() const { return L"IfcFlowStorageDevice"; }
 void IfcFlowStorageDevice::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

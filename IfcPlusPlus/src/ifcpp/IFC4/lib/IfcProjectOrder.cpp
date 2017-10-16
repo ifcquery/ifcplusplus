@@ -73,6 +73,7 @@ void IfcProjectOrder::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcProjectOrder::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcProjectOrder::toString() const { return L"IfcProjectOrder"; }
 void IfcProjectOrder::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

@@ -21,35 +21,31 @@ shared_ptr<IfcPPObject> IfcActuatorTypeEnum::getDeepCopy( IfcPPCopyOptions& opti
 void IfcActuatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTUATORTYPEENUM("; }
-	if( m_enum == ENUM_ELECTRICACTUATOR )
+	switch( m_enum )
 	{
-		stream << ".ELECTRICACTUATOR.";
-	}
-	else if( m_enum == ENUM_HANDOPERATEDACTUATOR )
-	{
-		stream << ".HANDOPERATEDACTUATOR.";
-	}
-	else if( m_enum == ENUM_HYDRAULICACTUATOR )
-	{
-		stream << ".HYDRAULICACTUATOR.";
-	}
-	else if( m_enum == ENUM_PNEUMATICACTUATOR )
-	{
-		stream << ".PNEUMATICACTUATOR.";
-	}
-	else if( m_enum == ENUM_THERMOSTATICACTUATOR )
-	{
-		stream << ".THERMOSTATICACTUATOR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_ELECTRICACTUATOR:	stream << ".ELECTRICACTUATOR."; break;
+		case ENUM_HANDOPERATEDACTUATOR:	stream << ".HANDOPERATEDACTUATOR."; break;
+		case ENUM_HYDRAULICACTUATOR:	stream << ".HYDRAULICACTUATOR."; break;
+		case ENUM_PNEUMATICACTUATOR:	stream << ".PNEUMATICACTUATOR."; break;
+		case ENUM_THERMOSTATICACTUATOR:	stream << ".THERMOSTATICACTUATOR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcActuatorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_ELECTRICACTUATOR:	return L"ELECTRICACTUATOR";
+		case ENUM_HANDOPERATEDACTUATOR:	return L"HANDOPERATEDACTUATOR";
+		case ENUM_HYDRAULICACTUATOR:	return L"HYDRAULICACTUATOR";
+		case ENUM_PNEUMATICACTUATOR:	return L"PNEUMATICACTUATOR";
+		case ENUM_THERMOSTATICACTUATOR:	return L"THERMOSTATICACTUATOR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -21,111 +21,69 @@ shared_ptr<IfcPPObject> IfcSensorTypeEnum::getDeepCopy( IfcPPCopyOptions& option
 void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSENSORTYPEENUM("; }
-	if( m_enum == ENUM_COSENSOR )
+	switch( m_enum )
 	{
-		stream << ".COSENSOR.";
-	}
-	else if( m_enum == ENUM_CO2SENSOR )
-	{
-		stream << ".CO2SENSOR.";
-	}
-	else if( m_enum == ENUM_CONDUCTANCESENSOR )
-	{
-		stream << ".CONDUCTANCESENSOR.";
-	}
-	else if( m_enum == ENUM_CONTACTSENSOR )
-	{
-		stream << ".CONTACTSENSOR.";
-	}
-	else if( m_enum == ENUM_FIRESENSOR )
-	{
-		stream << ".FIRESENSOR.";
-	}
-	else if( m_enum == ENUM_FLOWSENSOR )
-	{
-		stream << ".FLOWSENSOR.";
-	}
-	else if( m_enum == ENUM_FROSTSENSOR )
-	{
-		stream << ".FROSTSENSOR.";
-	}
-	else if( m_enum == ENUM_GASSENSOR )
-	{
-		stream << ".GASSENSOR.";
-	}
-	else if( m_enum == ENUM_HEATSENSOR )
-	{
-		stream << ".HEATSENSOR.";
-	}
-	else if( m_enum == ENUM_HUMIDITYSENSOR )
-	{
-		stream << ".HUMIDITYSENSOR.";
-	}
-	else if( m_enum == ENUM_IDENTIFIERSENSOR )
-	{
-		stream << ".IDENTIFIERSENSOR.";
-	}
-	else if( m_enum == ENUM_IONCONCENTRATIONSENSOR )
-	{
-		stream << ".IONCONCENTRATIONSENSOR.";
-	}
-	else if( m_enum == ENUM_LEVELSENSOR )
-	{
-		stream << ".LEVELSENSOR.";
-	}
-	else if( m_enum == ENUM_LIGHTSENSOR )
-	{
-		stream << ".LIGHTSENSOR.";
-	}
-	else if( m_enum == ENUM_MOISTURESENSOR )
-	{
-		stream << ".MOISTURESENSOR.";
-	}
-	else if( m_enum == ENUM_MOVEMENTSENSOR )
-	{
-		stream << ".MOVEMENTSENSOR.";
-	}
-	else if( m_enum == ENUM_PHSENSOR )
-	{
-		stream << ".PHSENSOR.";
-	}
-	else if( m_enum == ENUM_PRESSURESENSOR )
-	{
-		stream << ".PRESSURESENSOR.";
-	}
-	else if( m_enum == ENUM_RADIATIONSENSOR )
-	{
-		stream << ".RADIATIONSENSOR.";
-	}
-	else if( m_enum == ENUM_RADIOACTIVITYSENSOR )
-	{
-		stream << ".RADIOACTIVITYSENSOR.";
-	}
-	else if( m_enum == ENUM_SMOKESENSOR )
-	{
-		stream << ".SMOKESENSOR.";
-	}
-	else if( m_enum == ENUM_SOUNDSENSOR )
-	{
-		stream << ".SOUNDSENSOR.";
-	}
-	else if( m_enum == ENUM_TEMPERATURESENSOR )
-	{
-		stream << ".TEMPERATURESENSOR.";
-	}
-	else if( m_enum == ENUM_WINDSENSOR )
-	{
-		stream << ".WINDSENSOR.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_COSENSOR:	stream << ".COSENSOR."; break;
+		case ENUM_CO2SENSOR:	stream << ".CO2SENSOR."; break;
+		case ENUM_CONDUCTANCESENSOR:	stream << ".CONDUCTANCESENSOR."; break;
+		case ENUM_CONTACTSENSOR:	stream << ".CONTACTSENSOR."; break;
+		case ENUM_FIRESENSOR:	stream << ".FIRESENSOR."; break;
+		case ENUM_FLOWSENSOR:	stream << ".FLOWSENSOR."; break;
+		case ENUM_FROSTSENSOR:	stream << ".FROSTSENSOR."; break;
+		case ENUM_GASSENSOR:	stream << ".GASSENSOR."; break;
+		case ENUM_HEATSENSOR:	stream << ".HEATSENSOR."; break;
+		case ENUM_HUMIDITYSENSOR:	stream << ".HUMIDITYSENSOR."; break;
+		case ENUM_IDENTIFIERSENSOR:	stream << ".IDENTIFIERSENSOR."; break;
+		case ENUM_IONCONCENTRATIONSENSOR:	stream << ".IONCONCENTRATIONSENSOR."; break;
+		case ENUM_LEVELSENSOR:	stream << ".LEVELSENSOR."; break;
+		case ENUM_LIGHTSENSOR:	stream << ".LIGHTSENSOR."; break;
+		case ENUM_MOISTURESENSOR:	stream << ".MOISTURESENSOR."; break;
+		case ENUM_MOVEMENTSENSOR:	stream << ".MOVEMENTSENSOR."; break;
+		case ENUM_PHSENSOR:	stream << ".PHSENSOR."; break;
+		case ENUM_PRESSURESENSOR:	stream << ".PRESSURESENSOR."; break;
+		case ENUM_RADIATIONSENSOR:	stream << ".RADIATIONSENSOR."; break;
+		case ENUM_RADIOACTIVITYSENSOR:	stream << ".RADIOACTIVITYSENSOR."; break;
+		case ENUM_SMOKESENSOR:	stream << ".SMOKESENSOR."; break;
+		case ENUM_SOUNDSENSOR:	stream << ".SOUNDSENSOR."; break;
+		case ENUM_TEMPERATURESENSOR:	stream << ".TEMPERATURESENSOR."; break;
+		case ENUM_WINDSENSOR:	stream << ".WINDSENSOR."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcSensorTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_COSENSOR:	return L"COSENSOR";
+		case ENUM_CO2SENSOR:	return L"CO2SENSOR";
+		case ENUM_CONDUCTANCESENSOR:	return L"CONDUCTANCESENSOR";
+		case ENUM_CONTACTSENSOR:	return L"CONTACTSENSOR";
+		case ENUM_FIRESENSOR:	return L"FIRESENSOR";
+		case ENUM_FLOWSENSOR:	return L"FLOWSENSOR";
+		case ENUM_FROSTSENSOR:	return L"FROSTSENSOR";
+		case ENUM_GASSENSOR:	return L"GASSENSOR";
+		case ENUM_HEATSENSOR:	return L"HEATSENSOR";
+		case ENUM_HUMIDITYSENSOR:	return L"HUMIDITYSENSOR";
+		case ENUM_IDENTIFIERSENSOR:	return L"IDENTIFIERSENSOR";
+		case ENUM_IONCONCENTRATIONSENSOR:	return L"IONCONCENTRATIONSENSOR";
+		case ENUM_LEVELSENSOR:	return L"LEVELSENSOR";
+		case ENUM_LIGHTSENSOR:	return L"LIGHTSENSOR";
+		case ENUM_MOISTURESENSOR:	return L"MOISTURESENSOR";
+		case ENUM_MOVEMENTSENSOR:	return L"MOVEMENTSENSOR";
+		case ENUM_PHSENSOR:	return L"PHSENSOR";
+		case ENUM_PRESSURESENSOR:	return L"PRESSURESENSOR";
+		case ENUM_RADIATIONSENSOR:	return L"RADIATIONSENSOR";
+		case ENUM_RADIOACTIVITYSENSOR:	return L"RADIOACTIVITYSENSOR";
+		case ENUM_SMOKESENSOR:	return L"SMOKESENSOR";
+		case ENUM_SOUNDSENSOR:	return L"SOUNDSENSOR";
+		case ENUM_TEMPERATURESENSOR:	return L"TEMPERATURESENSOR";
+		case ENUM_WINDSENSOR:	return L"WINDSENSOR";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -33,6 +33,7 @@ void IfcSphericalSurface::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcSphericalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcSphericalSurface::toString() const { return L"IfcSphericalSurface"; }
 void IfcSphericalSurface::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

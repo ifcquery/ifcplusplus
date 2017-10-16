@@ -43,6 +43,7 @@ void IfcCurveBoundedPlane::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCurveBoundedPlane::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCurveBoundedPlane::toString() const { return L"IfcCurveBoundedPlane"; }
 void IfcCurveBoundedPlane::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();

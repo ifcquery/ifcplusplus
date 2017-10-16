@@ -26,6 +26,12 @@ void IfcThermodynamicTemperatureMeasure::getStepParameter( std::stringstream& st
 	stream << m_value;
 	if( is_select_type ) { stream << ")"; }
 }
+const std::wstring IfcThermodynamicTemperatureMeasure::toString() const
+{
+	std::wstringstream strs;
+	strs << m_value;
+	return strs.str();
+}
 shared_ptr<IfcThermodynamicTemperatureMeasure> IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// read TYPE

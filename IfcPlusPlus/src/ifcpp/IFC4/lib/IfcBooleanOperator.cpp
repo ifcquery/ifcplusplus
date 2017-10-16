@@ -21,19 +21,23 @@ shared_ptr<IfcPPObject> IfcBooleanOperator::getDeepCopy( IfcPPCopyOptions& optio
 void IfcBooleanOperator::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEANOPERATOR("; }
-	if( m_enum == ENUM_UNION )
+	switch( m_enum )
 	{
-		stream << ".UNION.";
-	}
-	else if( m_enum == ENUM_INTERSECTION )
-	{
-		stream << ".INTERSECTION.";
-	}
-	else if( m_enum == ENUM_DIFFERENCE )
-	{
-		stream << ".DIFFERENCE.";
+		case ENUM_UNION:	stream << ".UNION."; break;
+		case ENUM_INTERSECTION:	stream << ".INTERSECTION."; break;
+		case ENUM_DIFFERENCE:	stream << ".DIFFERENCE."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcBooleanOperator::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_UNION:	return L"UNION";
+		case ENUM_INTERSECTION:	return L"INTERSECTION";
+		case ENUM_DIFFERENCE:	return L"DIFFERENCE";
+	}
+	return L"";
 }
 shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

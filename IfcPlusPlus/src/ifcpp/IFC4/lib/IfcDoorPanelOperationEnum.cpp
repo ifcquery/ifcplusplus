@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcDoorPanelOperationEnum::getDeepCopy( IfcPPCopyOptions
 void IfcDoorPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORPANELOPERATIONENUM("; }
-	if( m_enum == ENUM_SWINGING )
+	switch( m_enum )
 	{
-		stream << ".SWINGING.";
-	}
-	else if( m_enum == ENUM_DOUBLE_ACTING )
-	{
-		stream << ".DOUBLE_ACTING.";
-	}
-	else if( m_enum == ENUM_SLIDING )
-	{
-		stream << ".SLIDING.";
-	}
-	else if( m_enum == ENUM_FOLDING )
-	{
-		stream << ".FOLDING.";
-	}
-	else if( m_enum == ENUM_REVOLVING )
-	{
-		stream << ".REVOLVING.";
-	}
-	else if( m_enum == ENUM_ROLLINGUP )
-	{
-		stream << ".ROLLINGUP.";
-	}
-	else if( m_enum == ENUM_FIXEDPANEL )
-	{
-		stream << ".FIXEDPANEL.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_SWINGING:	stream << ".SWINGING."; break;
+		case ENUM_DOUBLE_ACTING:	stream << ".DOUBLE_ACTING."; break;
+		case ENUM_SLIDING:	stream << ".SLIDING."; break;
+		case ENUM_FOLDING:	stream << ".FOLDING."; break;
+		case ENUM_REVOLVING:	stream << ".REVOLVING."; break;
+		case ENUM_ROLLINGUP:	stream << ".ROLLINGUP."; break;
+		case ENUM_FIXEDPANEL:	stream << ".FIXEDPANEL."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcDoorPanelOperationEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_SWINGING:	return L"SWINGING";
+		case ENUM_DOUBLE_ACTING:	return L"DOUBLE_ACTING";
+		case ENUM_SLIDING:	return L"SLIDING";
+		case ENUM_FOLDING:	return L"FOLDING";
+		case ENUM_REVOLVING:	return L"REVOLVING";
+		case ENUM_ROLLINGUP:	return L"ROLLINGUP";
+		case ENUM_FIXEDPANEL:	return L"FIXEDPANEL";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

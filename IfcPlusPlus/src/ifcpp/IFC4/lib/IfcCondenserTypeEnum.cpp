@@ -21,43 +21,35 @@ shared_ptr<IfcPPObject> IfcCondenserTypeEnum::getDeepCopy( IfcPPCopyOptions& opt
 void IfcCondenserTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONDENSERTYPEENUM("; }
-	if( m_enum == ENUM_AIRCOOLED )
+	switch( m_enum )
 	{
-		stream << ".AIRCOOLED.";
-	}
-	else if( m_enum == ENUM_EVAPORATIVECOOLED )
-	{
-		stream << ".EVAPORATIVECOOLED.";
-	}
-	else if( m_enum == ENUM_WATERCOOLED )
-	{
-		stream << ".WATERCOOLED.";
-	}
-	else if( m_enum == ENUM_WATERCOOLEDBRAZEDPLATE )
-	{
-		stream << ".WATERCOOLEDBRAZEDPLATE.";
-	}
-	else if( m_enum == ENUM_WATERCOOLEDSHELLCOIL )
-	{
-		stream << ".WATERCOOLEDSHELLCOIL.";
-	}
-	else if( m_enum == ENUM_WATERCOOLEDSHELLTUBE )
-	{
-		stream << ".WATERCOOLEDSHELLTUBE.";
-	}
-	else if( m_enum == ENUM_WATERCOOLEDTUBEINTUBE )
-	{
-		stream << ".WATERCOOLEDTUBEINTUBE.";
-	}
-	else if( m_enum == ENUM_USERDEFINED )
-	{
-		stream << ".USERDEFINED.";
-	}
-	else if( m_enum == ENUM_NOTDEFINED )
-	{
-		stream << ".NOTDEFINED.";
+		case ENUM_AIRCOOLED:	stream << ".AIRCOOLED."; break;
+		case ENUM_EVAPORATIVECOOLED:	stream << ".EVAPORATIVECOOLED."; break;
+		case ENUM_WATERCOOLED:	stream << ".WATERCOOLED."; break;
+		case ENUM_WATERCOOLEDBRAZEDPLATE:	stream << ".WATERCOOLEDBRAZEDPLATE."; break;
+		case ENUM_WATERCOOLEDSHELLCOIL:	stream << ".WATERCOOLEDSHELLCOIL."; break;
+		case ENUM_WATERCOOLEDSHELLTUBE:	stream << ".WATERCOOLEDSHELLTUBE."; break;
+		case ENUM_WATERCOOLEDTUBEINTUBE:	stream << ".WATERCOOLEDTUBEINTUBE."; break;
+		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
+		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
 	if( is_select_type ) { stream << ")"; }
+}
+const std::wstring IfcCondenserTypeEnum::toString() const
+{
+	switch( m_enum ) 
+	{
+		case ENUM_AIRCOOLED:	return L"AIRCOOLED";
+		case ENUM_EVAPORATIVECOOLED:	return L"EVAPORATIVECOOLED";
+		case ENUM_WATERCOOLED:	return L"WATERCOOLED";
+		case ENUM_WATERCOOLEDBRAZEDPLATE:	return L"WATERCOOLEDBRAZEDPLATE";
+		case ENUM_WATERCOOLEDSHELLCOIL:	return L"WATERCOOLEDSHELLCOIL";
+		case ENUM_WATERCOOLEDSHELLTUBE:	return L"WATERCOOLEDSHELLTUBE";
+		case ENUM_WATERCOOLEDTUBEINTUBE:	return L"WATERCOOLEDTUBEINTUBE";
+		case ENUM_USERDEFINED:	return L"USERDEFINED";
+		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
+	}
+	return L"";
 }
 shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {

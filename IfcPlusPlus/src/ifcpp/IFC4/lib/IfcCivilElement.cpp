@@ -81,6 +81,7 @@ void IfcCivilElement::getStepLine( std::stringstream& stream ) const
 	stream << ");";
 }
 void IfcCivilElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+const std::wstring IfcCivilElement::toString() const { return L"IfcCivilElement"; }
 void IfcCivilElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
