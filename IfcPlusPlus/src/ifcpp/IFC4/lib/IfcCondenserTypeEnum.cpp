@@ -51,9 +51,8 @@ const std::wstring IfcCondenserTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	shared_ptr<IfcCondenserTypeEnum> type_object( new IfcCondenserTypeEnum() );

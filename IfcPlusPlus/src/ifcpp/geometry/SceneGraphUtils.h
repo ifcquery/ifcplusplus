@@ -519,7 +519,7 @@ namespace SceneGraphUtils
 		}
 	}
 
-	inline void translateGroup( osg::Group* grp, const osg::Vec3f& trans, boost::unordered_set<osg::Geode*>& set_applied )
+	inline void translateGroup( osg::Group* grp, const osg::Vec3f& trans, std::unordered_set<osg::Geode*>& set_applied )
 	{
 		int num_children = grp->getNumChildren();
 		for( int i = 0; i < num_children; ++i )

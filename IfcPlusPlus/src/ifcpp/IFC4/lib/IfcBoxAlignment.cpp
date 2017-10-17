@@ -28,13 +28,11 @@ const std::wstring IfcBoxAlignment::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcBoxAlignment> IfcBoxAlignment::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcBoxAlignment> IfcBoxAlignment::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
 	shared_ptr<IfcBoxAlignment> type_object( new IfcBoxAlignment() );
-	// read TYPE
 	readString( arg, type_object->m_value );
 	return type_object;
 }

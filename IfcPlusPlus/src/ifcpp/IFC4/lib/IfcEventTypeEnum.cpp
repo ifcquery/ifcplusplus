@@ -43,9 +43,8 @@ const std::wstring IfcEventTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
 	shared_ptr<IfcEventTypeEnum> type_object( new IfcEventTypeEnum() );

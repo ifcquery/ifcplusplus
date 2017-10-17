@@ -43,8 +43,8 @@ class ConverterOSG : public StatusCallback
 {
 protected:
 	shared_ptr<GeometrySettings>				m_geom_settings;
-	map_t<int, osg::ref_ptr<osg::Switch> >		m_map_entity_id_to_switch;
-	map_t<int, osg::ref_ptr<osg::Switch> >		m_map_representation_id_to_switch;
+	std::map<int, osg::ref_ptr<osg::Switch> >		m_map_entity_id_to_switch;
+	std::map<int, osg::ref_ptr<osg::Switch> >		m_map_representation_id_to_switch;
 	double										m_recent_progress;
 	osg::ref_ptr<osg::CullFace>					m_cull_back_off;
 	osg::ref_ptr<osg::StateSet>					m_glass_stateset;
@@ -67,9 +67,9 @@ public:
 	virtual ~ConverterOSG() {}
 
 	// Map: IfcProduct ID -> scenegraph switch
-	map_t<int, osg::ref_ptr<osg::Switch> >& getMapEntityIdToSwitch() { return m_map_entity_id_to_switch; }
+	std::map<int, osg::ref_ptr<osg::Switch> >& getMapEntityIdToSwitch() { return m_map_entity_id_to_switch; }
 	// Map: Representation Identifier -> scenegraph switch
-	map_t<int, osg::ref_ptr<osg::Switch> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
+	std::map<int, osg::ref_ptr<osg::Switch> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
 
 	void clearInputCache()
 	{
@@ -188,8 +188,8 @@ public:
 		osg::ref_ptr<osg::Vec3Array> normals_quad;
 
 		const size_t max_num_faces_per_vertex = 10000;
-		map_t<carve::mesh::Face<3>*, double> map_face_area;
-		map_t<carve::mesh::Face<3>*, double>::iterator it_face_area;
+		std::map<carve::mesh::Face<3>*, double> map_face_area;
+		std::map<carve::mesh::Face<3>*, double>::iterator it_face_area;
 
 		if( crease_angle > 0 )
 		{
@@ -530,7 +530,7 @@ public:
 
 	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-	void convertProductShapeToOSG( shared_ptr<ProductShapeData>& product_shape, map_t<int, osg::ref_ptr<osg::Switch> >& map_representation_switches )
+	void convertProductShapeToOSG( shared_ptr<ProductShapeData>& product_shape, std::map<int, osg::ref_ptr<osg::Switch> >& map_representation_switches )
 	{
 		if( product_shape->m_ifc_object_definition.expired() )
 		{
@@ -562,7 +562,7 @@ public:
 
 			osg::ref_ptr<osg::MatrixTransform> representation_matrix = new osg::MatrixTransform();
 			
-			representation_matrix->setMatrix( convertMatrixToOSG( product_representation_data->getTransform() ) );
+			//representation_matrix->setMatrix( convertMatrixToOSG( product_representation_data->getTransform() ) );
 			representation_switch->addChild( representation_matrix );
 			
 #ifdef _DEBUG
@@ -768,7 +768,7 @@ public:
 	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
 	\param[out] parent_group Group to append the geometry.
 	**/
-	void convertToOSG( const map_t<int, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
+	void convertToOSG( const std::map<int, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
 	{
 		progressTextCallback( L"Converting geometry to OpenGL format ..." );
 		progressValueCallback( 0, "scenegraph" );
@@ -788,8 +788,8 @@ public:
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		map_t<int, osg::ref_ptr<osg::Switch> >* map_entity_id = &m_map_entity_id_to_switch;
-		map_t<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
+		std::map<int, osg::ref_ptr<osg::Switch> >* map_entity_id = &m_map_entity_id_to_switch;
+		std::map<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
 		const int num_products = (int)vec_products.size();
 
 #ifdef IFCPP_OPENMP
@@ -838,7 +838,7 @@ public:
 				}
 				
 				const int product_id = ifc_product->m_id;
-				map_t<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
+				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
 				try
 				{
 					convertProductShapeToOSG( shape_data, map_representation_switches );
@@ -945,7 +945,7 @@ public:
 		}
 	}
 
-	void addNodes( const map_t<int, shared_ptr<IfcPPObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
+	void addNodes( const std::map<int, shared_ptr<IfcPPObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
 	{
 		// check if there are entities that are not in spatial structure
 		if( !target_group )

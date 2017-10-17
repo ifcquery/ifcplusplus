@@ -31,6 +31,6 @@ public:
 	virtual ~IfcPPReader();
 	virtual void removeComments( std::string& buffer ) = 0;
 	virtual void readHeader(	const std::string& in, shared_ptr<IfcPPModel>& target_model ) = 0;
-	virtual void readData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, map_t<int,shared_ptr<IfcPPEntity> >& map ) = 0;
+	virtual void readData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map ) = 0;
 	virtual void readData( std::string& in, shared_ptr<IfcPPModel>& model ) = 0;
 };

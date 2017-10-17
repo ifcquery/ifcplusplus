@@ -99,7 +99,7 @@ void IfcDoorStyle::getStepLine( std::stringstream& stream ) const
 }
 void IfcDoorStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcDoorStyle::toString() const { return L"IfcDoorStyle"; }
-void IfcDoorStyle::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDoorStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorStyle, expecting 12, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

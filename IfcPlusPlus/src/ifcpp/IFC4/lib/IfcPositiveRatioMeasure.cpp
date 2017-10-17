@@ -32,13 +32,11 @@ const std::wstring IfcPositiveRatioMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	shared_ptr<IfcPositiveRatioMeasure> type_object( new IfcPositiveRatioMeasure() );
-	// read TYPE
 	readReal( arg, type_object->m_value );
 	return type_object;
 }

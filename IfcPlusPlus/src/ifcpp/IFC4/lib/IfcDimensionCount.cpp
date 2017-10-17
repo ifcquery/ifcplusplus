@@ -31,9 +31,8 @@ const std::wstring IfcDimensionCount::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	shared_ptr<IfcDimensionCount> type_object( new IfcDimensionCount() );

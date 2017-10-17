@@ -60,7 +60,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class StylesConverter : public StatusCallback
 {
 protected:
-	map_t<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
+	std::map<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
 
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_styles_converter;

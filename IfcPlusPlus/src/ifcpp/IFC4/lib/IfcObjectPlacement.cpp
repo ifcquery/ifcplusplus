@@ -27,7 +27,7 @@ void IfcObjectPlacement::getStepLine( std::stringstream& stream ) const
 }
 void IfcObjectPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcObjectPlacement::toString() const { return L"IfcObjectPlacement"; }
-void IfcObjectPlacement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcObjectPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 }
 void IfcObjectPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

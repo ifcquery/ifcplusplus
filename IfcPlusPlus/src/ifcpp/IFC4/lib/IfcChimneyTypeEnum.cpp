@@ -37,9 +37,8 @@ const std::wstring IfcChimneyTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
 	shared_ptr<IfcChimneyTypeEnum> type_object( new IfcChimneyTypeEnum() );

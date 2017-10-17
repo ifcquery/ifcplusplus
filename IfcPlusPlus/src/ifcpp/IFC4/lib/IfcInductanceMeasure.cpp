@@ -32,9 +32,8 @@ const std::wstring IfcInductanceMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
 	shared_ptr<IfcInductanceMeasure> type_object( new IfcInductanceMeasure() );

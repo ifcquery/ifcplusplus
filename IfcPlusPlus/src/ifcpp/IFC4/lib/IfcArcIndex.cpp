@@ -22,7 +22,14 @@ shared_ptr<IfcPPObject> IfcArcIndex::getDeepCopy( IfcPPCopyOptions& options )
 void IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARCINDEX("; }
-	//TODO: implement
+	for( size_t ii = 0; ii < m_vec.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ", ";
+		}
+		stream << m_vec[ii].m_value;
+	}
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcArcIndex::toString() const
@@ -31,14 +38,11 @@ const std::wstring IfcArcIndex::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcArcIndex> IfcArcIndex::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcArcIndex> IfcArcIndex::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	shared_ptr<IfcArcIndex> type_object( new IfcArcIndex() );
-	// read TYPE
-	// read TYPE
 	readInt( arg, type_object->m_value );
 	return type_object;
 }

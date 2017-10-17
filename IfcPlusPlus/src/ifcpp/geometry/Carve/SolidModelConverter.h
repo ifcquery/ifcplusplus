@@ -47,6 +47,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcSurfaceCurveSweptAreaSolid.h>
 #include <ifcpp/IFC4/include/IfcSweptDiskSolid.h>
 
+#include "GeomDebugDump.h"
 #include "GeometryInputData.h"
 #include "PointConverter.h"
 #include "ProfileCache.h"
@@ -121,7 +122,7 @@ public:
 			if( extruded_area )
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
-				item_data->setPositionToItem( swept_area_pos );
+				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}
@@ -148,7 +149,7 @@ public:
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
-				item_data->setPositionToItem( swept_area_pos );
+				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 
 				return;
@@ -158,7 +159,7 @@ public:
 			if( revolved_area_solid )
 			{
 				convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid );
-				item_data->setPositionToItem( swept_area_pos );
+				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}
@@ -193,7 +194,7 @@ public:
 				}
 
 				m_sweeper->sweepArea( directrix_curve_points, profile_paths, surface_curve_swept_area_solid.get(), item_data_solid );
-				item_data->setPositionToItem( swept_area_pos );
+				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 
 				return;
@@ -853,13 +854,13 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 					GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
 					GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result.get() );
 
-#ifdef _DEBUG
+#ifdef IFCPP_GEOM_DEBUG
 					GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 				}
@@ -883,8 +884,18 @@ public:
 		std::copy( first_operand_data->m_meshsets.begin(), first_operand_data->m_meshsets.end(), std::back_inserter( item_data->m_meshsets ) );
 
 		// transform meshset back into local coordinates
+
 		carve::math::Matrix first_inverse_matrix;
-		GeomUtils::computeInverse( first_operand_resulting_matrix, first_inverse_matrix );
+		try
+		{
+			GeomUtils::computeInverse( first_operand_resulting_matrix, first_inverse_matrix, 0.01/m_unit_converter->getCustomLengthFactor() );
+		}
+		catch( std::exception& e )
+		{
+			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, bool_result.get() );
+		}
+
+		
 		item_data->applyPositionToItem( first_inverse_matrix );
 		item_data->m_item_matrix = first_operand_resulting_matrix;
 
@@ -1302,7 +1313,7 @@ public:
 		}
 
 		// check dimenstions of other operand
-		double extrusion_depth = HALF_SPACE_BOX_SIZE;
+		double extrusion_depth = HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
 		//vec3 other_operand_pos = base_surface_position;
 		if( other_operand )
 		{
@@ -1466,7 +1477,7 @@ public:
 					}
 					vec3  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
 					vec3  half_space_extrusion_direction = -base_surface_normal;
-					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE;
+					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 					extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
 					item_data->addOpenOrClosedPolyhedron( half_space_box_data );

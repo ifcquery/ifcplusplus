@@ -602,7 +602,7 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 }
 
 void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion& ifc_version, 
-	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities,  const map_t<int,shared_ptr<IfcPPEntity> >& map_entities  )
+	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >& vec_entities,  const std::map<int,shared_ptr<IfcPPEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -613,14 +613,14 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 	double progress = 0.3;
 	progressValueCallback( progress, "parse" );
 	double last_progress = 0.3;
-	const map_t<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
+	const std::map<int,shared_ptr<IfcPPEntity> >* map_entities_ptr = &map_entities;
 	const std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* vec_entities_ptr = &vec_entities;
 
 #ifdef IFCPP_OPENMP
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
 #endif
 	{
-		const map_t<int,shared_ptr<IfcPPEntity> > &map_entities_ptr_local = *map_entities_ptr;
+		const std::map<int,shared_ptr<IfcPPEntity> > &map_entities_ptr_local = *map_entities_ptr;
 
 #ifdef IFCPP_OPENMP
 #pragma omp for schedule(dynamic, 100)
@@ -711,11 +711,11 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 void IfcPPReaderSTEP::readData( std::string& read_in, shared_ptr<IfcPPModel>& model )
 {
 	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
-	map_t<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
+	std::map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
 	readData( read_in, file_schema_version, map_entities );
 }
 
-void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, map_t<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");

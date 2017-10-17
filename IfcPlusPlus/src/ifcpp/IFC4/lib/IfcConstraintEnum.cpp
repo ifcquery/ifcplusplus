@@ -43,9 +43,8 @@ const std::wstring IfcConstraintEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
 	shared_ptr<IfcConstraintEnum> type_object( new IfcConstraintEnum() );

@@ -7,9 +7,8 @@
 #include "ifcpp/IFC4/include/IfcFillStyleSelect.h"
 
 // TYPE IfcFillStyleSelect = SELECT	(IfcColour	,IfcExternallyDefinedHatchStyle	,IfcFillAreaStyleHatching	,IfcFillAreaStyleTiles);
-shared_ptr<IfcFillStyleSelect> IfcFillStyleSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFillStyleSelect> IfcFillStyleSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcFillStyleSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

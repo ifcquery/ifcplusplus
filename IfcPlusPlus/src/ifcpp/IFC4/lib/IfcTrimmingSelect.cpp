@@ -7,9 +7,8 @@
 #include "ifcpp/IFC4/include/IfcTrimmingSelect.h"
 
 // TYPE IfcTrimmingSelect = SELECT	(IfcCartesianPoint	,IfcParameterValue);
-shared_ptr<IfcTrimmingSelect> IfcTrimmingSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTrimmingSelect> IfcTrimmingSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcTrimmingSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

@@ -91,7 +91,7 @@ void IfcCondenserType::getStepLine( std::stringstream& stream ) const
 }
 void IfcCondenserType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcCondenserType::toString() const { return L"IfcCondenserType"; }
-void IfcCondenserType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCondenserType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCondenserType, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

@@ -237,7 +237,10 @@ namespace PlacementConverter
 	{
 		if( dynamic_pointer_cast<IfcAxis1Placement>( placement ) )
 		{
-			sc->messageCallback( "IfcAxis1Placement not implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
+			if( sc )
+			{
+				sc->messageCallback( "IfcAxis1Placement not implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
+			}
 			return;
 		}
 		else if( dynamic_pointer_cast<IfcAxis2Placement2D>( placement ) )
@@ -252,12 +255,15 @@ namespace PlacementConverter
 		}
 		else
 		{
-			sc->messageCallback( "IfcPlacement is not IfcAxis2Placement2D or IfcAxis2Placement3D", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
+			if( sc )
+			{
+				sc->messageCallback( "IfcPlacement is not IfcAxis2Placement2D or IfcAxis2Placement3D", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
+			}
 		}
 	}
 
 	inline void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, const double length_factor,
-		gp_Trsf& resulting_matrix, boost::unordered_set<IfcRepresentationContext*>& already_applied )
+		gp_Trsf& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
 	{
 		if( !context )
 		{
@@ -310,7 +316,7 @@ namespace PlacementConverter
 
 	//\brief translates an IfcObjectPlacement (or subtype) to gp_Trsf
 	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, const double length_factor, gp_Trsf& resulting_matrix, StatusCallback* sc,
-		boost::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation = false )
+		std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation = false )
 	{
 		if( !ifc_object_placement )
 		{
@@ -341,7 +347,10 @@ namespace PlacementConverter
 				}
 				else
 				{
-					sc->messageCallback( "unhandled placement", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, local_placement.get() );
+					if( sc )
+					{
+						sc->messageCallback( "unhandled placement", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, local_placement.get() );
+					}
 				}
 			}
 
@@ -370,7 +379,10 @@ namespace PlacementConverter
 				// todo: implement
 
 			}
-			sc->messageCallback( "IfcGridPlacement not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, grid_placement.get() );
+			if( sc )
+			{
+				sc->messageCallback( "IfcGridPlacement not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, grid_placement.get() );
+			}
 
 			//IfcGridPlacementDirectionSelect* ref_direction = grid_placement->m_PlacementRefDirection.get();	//optional
 		}
@@ -396,12 +408,18 @@ namespace PlacementConverter
 			// ENTITY IfcCartesianTransformationOperator2D SUPERTYPE OF(IfcCartesianTransformationOperator2DnonUniform)
 			if( !trans_operator_2d->m_LocalOrigin )
 			{
-				sc->messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+				if( sc )
+				{
+					sc->messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+				}
 				return;
 			}
 			if( trans_operator_2d->m_LocalOrigin->m_Coordinates.size() < 2 )
 			{
-				sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+				if( sc )
+				{
+					sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+				}
 				return;
 			}
 			double x = trans_operator_2d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
@@ -420,12 +438,18 @@ namespace PlacementConverter
 				const shared_ptr<IfcDirection>& axis2 = trans_operator_2d->m_Axis2;
 				if( !PointConverter::convertIfcDirection( axis1, local_x ) )
 				{
-					sc->messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+					if( sc )
+					{
+						sc->messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+					}
 					return;
 				}
 				if( !PointConverter::convertIfcDirection( axis2, local_y ) )
 				{
-					sc->messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+					if( sc )
+					{
+						sc->messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
+					}
 					return;
 				}
 			}
@@ -448,17 +472,26 @@ namespace PlacementConverter
 			shared_ptr<IfcCartesianTransformationOperator3D> trans_operator_3d = dynamic_pointer_cast<IfcCartesianTransformationOperator3D>( transform_operator );
 			if( !trans_operator_3d )
 			{
-				sc->messageCallback( "IfcCartesianTransformationOperator is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+				if( sc )
+				{
+					sc->messageCallback( "IfcCartesianTransformationOperator is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+				}
 				return;
 			}
 			if( !trans_operator_3d->m_LocalOrigin )
 			{
-				sc->messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+				if( sc )
+				{
+					sc->messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+				}
 				return;
 			}
 			if( trans_operator_3d->m_LocalOrigin->m_Coordinates.size() < 3 )
 			{
-				sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+				if( sc )
+				{
+					sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+				}
 				return;
 			}
 			if( GeomUtils::allPointersValid( trans_operator_3d->m_LocalOrigin->m_Coordinates ) )
@@ -480,17 +513,26 @@ namespace PlacementConverter
 				const shared_ptr<IfcDirection>& axis3 = trans_operator_3d->m_Axis3;
 				if( !PointConverter::convertIfcDirection( axis1, local_x ) )
 				{
-					sc->messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+					if( sc )
+					{
+						sc->messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+					}
 					return;
 				}
 				if( !PointConverter::convertIfcDirection( axis2, local_y ) )
 				{
-					sc->messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+					if( sc )
+					{
+						sc->messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+					}
 					return;
 				}
 				if( !PointConverter::convertIfcDirection( axis3, local_z ) )
 				{
-					sc->messageCallback( "Axis3 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+					if( sc )
+					{
+						sc->messageCallback( "Axis3 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
+					}
 					return;
 				}
 			}

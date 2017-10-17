@@ -84,7 +84,7 @@ void IfcResourceTime::getStepLine( std::stringstream& stream ) const
 }
 void IfcResourceTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcResourceTime::toString() const { return L"IfcResourceTime"; }
-void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 18 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceTime, expecting 18, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

@@ -28,13 +28,11 @@ const std::wstring IfcLanguageId::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	shared_ptr<IfcLanguageId> type_object( new IfcLanguageId() );
-	// read TYPE
 	readString( arg, type_object->m_value );
 	return type_object;
 }

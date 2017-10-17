@@ -245,7 +245,7 @@ void IfcPPModel::setUnitConverter( shared_ptr<UnitConverter>& uc )
 	m_unit_converter = uc;
 }
 
-void IfcPPModel::setMapIfcEntities( const map_t<int, shared_ptr<IfcPPEntity> >& map )
+void IfcPPModel::setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> >& map )
 {
 	clearIfcModel();
 	m_map_entities.clear();
@@ -268,7 +268,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 		entity_id = next_unused_id;
 	}
 
-	map_t<int,shared_ptr<IfcPPEntity> >::iterator it_find = m_map_entities.find( entity_id );
+	std::map<int,shared_ptr<IfcPPEntity> >::iterator it_find = m_map_entities.find( entity_id );
 	if( it_find != m_map_entities.end() )
 	{
 		// key already exists
@@ -287,7 +287,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	else
 	{
 		// the key does not exist in the map
-		m_map_entities.insert( it_find, map_t<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
+		m_map_entities.insert( it_find, std::map<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
 	}
 #ifdef _DEBUG
 	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );

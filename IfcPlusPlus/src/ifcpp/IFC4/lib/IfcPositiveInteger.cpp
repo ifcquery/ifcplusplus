@@ -31,13 +31,11 @@ const std::wstring IfcPositiveInteger::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcPositiveInteger> IfcPositiveInteger::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPositiveInteger> IfcPositiveInteger::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	shared_ptr<IfcPositiveInteger> type_object( new IfcPositiveInteger() );
-	// read TYPE
 	readInt( arg, type_object->m_value );
 	return type_object;
 }

@@ -658,7 +658,10 @@ public:
 		// TODO: complete and test
 		if( profile_paths_input.size() == 0 )
 		{
-			report_callback->messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			if( report_callback )
+			{
+				report_callback->messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			}
 			return;
 		}
 
@@ -724,7 +727,10 @@ public:
 
 			if( loop_2d.size() < 3 )
 			{
-				report_callback->messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				if( report_callback )
+				{
+					report_callback->messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				}
 			}
 
 			double signed_area = carve::geom2d::signedArea( loop_2d );
@@ -740,7 +746,10 @@ public:
 
 		if( warning_small_loop_detected )
 		{
-			report_callback->messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
+			if( report_callback )
+			{
+				report_callback->messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
+			}
 		}
 
 		if( face_loops_used_for_triangulation.size() == 0 )
@@ -750,7 +759,10 @@ public:
 				// already handled as curve
 				return;
 			}
-			report_callback->messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			if( report_callback )
+			{
+				report_callback->messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			}
 			return;
 		}
 
@@ -788,14 +800,20 @@ public:
 
 				if( loop_number >= face_loops_used_for_triangulation.size() )
 				{
-					report_callback->messageCallback( "loop_number >= face_loops_used_for_triangulation.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					if( report_callback )
+					{
+						report_callback->messageCallback( "loop_number >= face_loops_used_for_triangulation.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					}
 					continue;
 				}
 				std::vector<vec2>& loop = face_loops_used_for_triangulation[loop_number];
 
 				if( index_in_loop >= loop.size() )
 				{
-					report_callback->messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					if( report_callback )
+					{
+						report_callback->messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					}
 					continue;
 				}
 				vec2& point_in_loop = loop[index_in_loop];
@@ -816,7 +834,10 @@ public:
 		}
 		catch( ... )
 		{
-			report_callback->messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			if( report_callback )
+			{
+				report_callback->messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			}
 			return;
 		}
 
@@ -1129,7 +1150,7 @@ public:
 	{
 		std::vector<std::vector<vec2> > face_loops_2d;
 		std::vector<std::vector<vec3> > face_loops_3d;
-		map_t<size_t, size_t> map_merged_idx;
+		std::map<size_t, size_t> map_merged_idx;
 		bool face_loop_reversed = false;
 		bool warning_small_loop_detected = false;
 		GeomUtils::ProjectionPlane face_plane = GeomUtils::UNDEFINED;

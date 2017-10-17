@@ -113,8 +113,8 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 	{
 		return;
 	}
-	const map_t<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
-	map_t<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
+	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
+	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
 	if( previous )
 	{
 		int id = previous->text(1).toUInt();
@@ -162,7 +162,7 @@ void IfcTreeWidget::slotModelLoadingStart()
 	slotModelCleared();
 }
 
-QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, boost::unordered_set<int>& set_visited )
+QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::unordered_set<int>& set_visited )
 {
 	QTreeWidgetItem* item = nullptr;
 
@@ -246,7 +246,7 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, boost::unordered
 
 void IfcTreeWidget::slotModelLoadingDone()
 {
-	boost::unordered_set<int> set_visited;
+	std::unordered_set<int> set_visited;
 	shared_ptr<IfcProject> project = m_system->getIfcModel()->getIfcProject();
 	if( project )
 	{
@@ -263,7 +263,7 @@ void IfcTreeWidget::slotModelLoadingDone()
 		}
 	}
 
-	map_t<int, shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
+	std::map<int, shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
 	
 	if( map_outside.size() > 0 )
 	{

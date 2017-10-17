@@ -140,7 +140,7 @@ public:
 				PolyInputCache3D poly_cache;
 				m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
 				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
-				item_data->setPositionToItem( curve_bounded_plane_matrix );
+				item_data->premultPositionToItem( curve_bounded_plane_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
 			{
@@ -209,7 +209,7 @@ public:
 				//  |    |     |
 				//  2----3     ---> x
 				{
-					double plane_span = HALF_SPACE_BOX_SIZE;
+					double plane_span = HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					polyline_data->beginPolyline();
 					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( plane_span, plane_span, 0.0 ) );

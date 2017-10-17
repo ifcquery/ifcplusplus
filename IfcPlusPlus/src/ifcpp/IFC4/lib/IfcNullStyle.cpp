@@ -36,9 +36,8 @@ const std::wstring IfcNullStyle::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
 	shared_ptr<IfcNullStyle> type_object( new IfcNullStyle() );

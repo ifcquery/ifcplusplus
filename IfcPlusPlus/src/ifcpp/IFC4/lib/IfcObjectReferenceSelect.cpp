@@ -6,9 +6,8 @@
 #include "ifcpp/IFC4/include/IfcObjectReferenceSelect.h"
 
 // TYPE IfcObjectReferenceSelect = SELECT	(IfcAddress	,IfcAppliedValue	,IfcExternalReference	,IfcMaterialDefinition	,IfcOrganization	,IfcPerson	,IfcPersonAndOrganization	,IfcTable	,IfcTimeSeries);
-shared_ptr<IfcObjectReferenceSelect> IfcObjectReferenceSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcObjectReferenceSelect> IfcObjectReferenceSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcObjectReferenceSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

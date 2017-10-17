@@ -43,9 +43,8 @@ const std::wstring IfcAddressTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
 	shared_ptr<IfcAddressTypeEnum> type_object( new IfcAddressTypeEnum() );

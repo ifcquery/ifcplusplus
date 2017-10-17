@@ -37,9 +37,8 @@ const std::wstring IfcCostItemTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcCostItemTypeEnum> IfcCostItemTypeEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCostItemTypeEnum> IfcCostItemTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
 	shared_ptr<IfcCostItemTypeEnum> type_object( new IfcCostItemTypeEnum() );

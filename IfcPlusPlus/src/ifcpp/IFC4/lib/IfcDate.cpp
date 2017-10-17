@@ -30,9 +30,8 @@ const std::wstring IfcDate::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcDate> IfcDate::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDate> IfcDate::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDate>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDate>(); }
 	shared_ptr<IfcDate> type_object( new IfcDate() );

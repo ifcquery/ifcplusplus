@@ -52,7 +52,7 @@ void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<
 	stream << std::setprecision( 15 );
 	stream << std::setiosflags( std::ios::showpoint );
 	stream << std::fixed;
-	const map_t<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcEntities();
+	const std::map<int,shared_ptr<IfcPPEntity> >& map = model->getMapIfcEntities();
 	std::map<int, shared_ptr<IfcPPEntity> > map_ordered( map.begin(), map.end() );
 	size_t i = 0;
 	double last_progress = 0.0;

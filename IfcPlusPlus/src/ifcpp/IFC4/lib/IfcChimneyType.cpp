@@ -91,7 +91,7 @@ void IfcChimneyType::getStepLine( std::stringstream& stream ) const
 }
 void IfcChimneyType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcChimneyType::toString() const { return L"IfcChimneyType"; }
-void IfcChimneyType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcChimneyType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcChimneyType, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

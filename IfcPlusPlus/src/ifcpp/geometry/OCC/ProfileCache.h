@@ -30,7 +30,7 @@ class ProfileCache : public StatusCallback
 protected:
 	shared_ptr<CurveConverter>					m_curve_converter;
 	shared_ptr<SplineConverter>					m_spline_converter;
-	map_t<int,shared_ptr<ProfileConverter> >	m_profile_cache;
+	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_profile_cache;
@@ -63,7 +63,7 @@ public:
 			throw IfcPPException( strs.str().c_str(), __FUNC__ );
 		}
 
-		map_t<int, shared_ptr<ProfileConverter> >::iterator it_profile_cache = m_profile_cache.find( profile_id );
+		std::map<int, shared_ptr<ProfileConverter> >::iterator it_profile_cache = m_profile_cache.find( profile_id );
 		if( it_profile_cache != m_profile_cache.end() )
 		{
 			return it_profile_cache->second;

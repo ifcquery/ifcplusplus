@@ -771,7 +771,7 @@ public:
 			gp_Trsf opening_placement_matrix;
 			if( opening_placement )
 			{
-				boost::unordered_set<IfcObjectPlacement*> opening_placements_applied;
+				std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
 				PlacementConverter::convertIfcObjectPlacement( opening_placement, length_factor, opening_placement_matrix, this, opening_placements_applied );
 			}
 

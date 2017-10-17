@@ -8,9 +8,8 @@
 #include "ifcpp/IFC4/include/IfcBendingParameterSelect.h"
 
 // TYPE IfcBendingParameterSelect = SELECT	(IfcLengthMeasure	,IfcPlaneAngleMeasure);
-shared_ptr<IfcBendingParameterSelect> IfcBendingParameterSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcBendingParameterSelect> IfcBendingParameterSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcBendingParameterSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

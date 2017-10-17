@@ -6,9 +6,8 @@
 #include "ifcpp/IFC4/include/IfcResourceObjectSelect.h"
 
 // TYPE IfcResourceObjectSelect = SELECT	(IfcActorRole	,IfcAppliedValue	,IfcApproval	,IfcConstraint	,IfcContextDependentUnit	,IfcConversionBasedUnit	,IfcExternalInformation	,IfcExternalReference	,IfcMaterialDefinition	,IfcOrganization	,IfcPerson	,IfcPersonAndOrganization	,IfcPhysicalQuantity	,IfcProfileDef	,IfcPropertyAbstraction	,IfcTimeSeries);
-shared_ptr<IfcResourceObjectSelect> IfcResourceObjectSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcResourceObjectSelect> IfcResourceObjectSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcResourceObjectSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

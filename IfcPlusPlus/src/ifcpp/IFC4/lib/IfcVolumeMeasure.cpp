@@ -32,9 +32,8 @@ const std::wstring IfcVolumeMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
 	shared_ptr<IfcVolumeMeasure> type_object( new IfcVolumeMeasure() );

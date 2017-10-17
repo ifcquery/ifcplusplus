@@ -32,9 +32,8 @@ const std::wstring IfcFrequencyMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcFrequencyMeasure> IfcFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFrequencyMeasure> IfcFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
 	shared_ptr<IfcFrequencyMeasure> type_object( new IfcFrequencyMeasure() );

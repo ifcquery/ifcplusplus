@@ -50,10 +50,10 @@ protected:
 	shared_ptr<IfcPPModel>						m_ifc_model;
 	shared_ptr<GeometrySettings>				m_geom_settings;
 	shared_ptr<RepresentationConverter>			m_representation_converter;
-	map_t<int, shared_ptr<ProductShapeData> >	m_shape_input_data;
-	map_t<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
+	std::map<int, shared_ptr<ProductShapeData> >	m_shape_input_data;
+	std::map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
 	double										m_recent_progress;
-	map_t<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
+	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_messages;
 	Mutex m_writelock_appearance_cache;
@@ -63,9 +63,9 @@ public:
 	// getters and setters
 	shared_ptr<IfcPPModel>&						getIfcPPModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter() { return m_representation_converter; }
-	map_t<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_shape_input_data; }
+	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_shape_input_data; }
 	shared_ptr<GeometrySettings>&				getGeomSettings() { return m_geom_settings; }
-	map_t<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	std::map<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 	
 	GeometryConverter( shared_ptr<IfcPPModel>& ifc_model )
 	{
@@ -138,7 +138,7 @@ public:
 		std::vector<shared_ptr<IfcObjectDefinition> > vec_ifc_object_defs;
 		const double length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 
-		const map_t<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		const std::map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 		{
 			shared_ptr<IfcPPEntity> obj = it->second;
@@ -150,7 +150,7 @@ public:
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		map_t<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_shape_input_data;
+		std::map<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_shape_input_data;
 		const int num_products = (int)vec_ifc_object_defs.size();
 
 #ifdef IFCPP_OPENMP
@@ -344,7 +344,7 @@ public:
 		if( ifc_product->m_ObjectPlacement )
 		{
 			// IfcPlacement2Matrix follows related placements in case of local coordinate systems
-			boost::unordered_set<IfcObjectPlacement*> placement_already_applied;
+			std::unordered_set<IfcObjectPlacement*> placement_already_applied;
 			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
 			product_shape->applyPositionToProduct( product_placement_matrix );
 		}

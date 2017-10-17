@@ -79,7 +79,7 @@ void IfcExternalSpatialElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcExternalSpatialElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcExternalSpatialElement::toString() const { return L"IfcExternalSpatialElement"; }
-void IfcExternalSpatialElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcExternalSpatialElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternalSpatialElement, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

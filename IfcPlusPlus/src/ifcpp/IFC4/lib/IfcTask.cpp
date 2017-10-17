@@ -90,7 +90,7 @@ void IfcTask::getStepLine( std::stringstream& stream ) const
 }
 void IfcTask::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcTask::toString() const { return L"IfcTask"; }
-void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTask, expecting 13, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

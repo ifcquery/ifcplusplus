@@ -574,14 +574,14 @@ namespace GeomUtils
 		extent = matrix*extent;
 	}
 	/** matrix operations */
-	inline void computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv )
+	inline void computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv, const double eps = 0.01 )
 	{
 		int i, j;	// col, row
 		int s;		// step
 		int prow;	// pivot
 		int err_flag = 0;
 		double factor;
-		const double eps = 0.01;
+		//const double eps = 0.01;
 		double max;
 		int pivot = 1;
 		double a[4][8];

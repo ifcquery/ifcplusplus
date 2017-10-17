@@ -94,7 +94,7 @@ void IfcSpaceType::getStepLine( std::stringstream& stream ) const
 }
 void IfcSpaceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcSpaceType::toString() const { return L"IfcSpaceType"; }
-void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSpaceType, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

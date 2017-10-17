@@ -102,7 +102,7 @@ void IfcWindowType::getStepLine( std::stringstream& stream ) const
 }
 void IfcWindowType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcWindowType::toString() const { return L"IfcWindowType"; }
-void IfcWindowType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcWindowType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowType, expecting 13, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

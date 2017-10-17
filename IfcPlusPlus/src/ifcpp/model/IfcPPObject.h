@@ -80,7 +80,7 @@ public:
 	virtual void getStepLine( std::stringstream& stream ) const = 0;
 
 	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map_entities ) = 0;
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities ) = 0;
 
 	/** \brief Number of attributes, including inherited attributes, without inverse attributes */
 	virtual size_t getNumAttributes() = 0;

@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcSizeSelect.h"
 
 // TYPE IfcSizeSelect = SELECT	(IfcDescriptiveMeasure	,IfcLengthMeasure	,IfcNormalisedRatioMeasure	,IfcPositiveLengthMeasure	,IfcPositiveRatioMeasure	,IfcRatioMeasure);
-shared_ptr<IfcSizeSelect> IfcSizeSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSizeSelect> IfcSizeSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcSizeSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

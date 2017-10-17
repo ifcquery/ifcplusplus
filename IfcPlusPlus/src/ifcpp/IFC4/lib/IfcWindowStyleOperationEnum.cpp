@@ -55,9 +55,8 @@ const std::wstring IfcWindowStyleOperationEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcWindowStyleOperationEnum> IfcWindowStyleOperationEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcWindowStyleOperationEnum> IfcWindowStyleOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowStyleOperationEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowStyleOperationEnum>(); }
 	shared_ptr<IfcWindowStyleOperationEnum> type_object( new IfcWindowStyleOperationEnum() );

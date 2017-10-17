@@ -87,7 +87,7 @@ void IfcFlowFittingType::getStepLine( std::stringstream& stream ) const
 }
 void IfcFlowFittingType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcFlowFittingType::toString() const { return L"IfcFlowFittingType"; }
-void IfcFlowFittingType::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFlowFittingType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFlowFittingType, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

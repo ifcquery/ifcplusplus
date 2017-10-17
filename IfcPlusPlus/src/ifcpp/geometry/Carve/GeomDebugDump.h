@@ -186,7 +186,7 @@ namespace GeomDebugDump
 		strs_out << "Polyhedron{" << std::endl;
 		strs_out << "vertices{" << std::endl;
 
-		map_t<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
+		std::map<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
 		const size_t num_vertices = meshset->vertex_storage.size();
 		for( size_t i = 0; i < num_vertices; ++i )
 		{
@@ -240,7 +240,7 @@ namespace GeomDebugDump
 		strs_out << "PolyLineSet{" << std::endl;
 		strs_out << "vertices{" << std::endl;
 
-		map_t<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
+		std::map<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
 		size_t vertex_idx = 0;
 		for( size_t i = 0; i < vec_edges.size(); ++i )
 		{

@@ -8,9 +8,8 @@
 #include "ifcpp/IFC4/include/IfcSpecularHighlightSelect.h"
 
 // TYPE IfcSpecularHighlightSelect = SELECT	(IfcSpecularExponent	,IfcSpecularRoughness);
-shared_ptr<IfcSpecularHighlightSelect> IfcSpecularHighlightSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSpecularHighlightSelect> IfcSpecularHighlightSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcSpecularHighlightSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

@@ -32,9 +32,8 @@ const std::wstring IfcIntegerCountRateMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcIntegerCountRateMeasure> IfcIntegerCountRateMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcIntegerCountRateMeasure> IfcIntegerCountRateMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	shared_ptr<IfcIntegerCountRateMeasure> type_object( new IfcIntegerCountRateMeasure() );

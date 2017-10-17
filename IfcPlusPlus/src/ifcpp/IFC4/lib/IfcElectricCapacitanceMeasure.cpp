@@ -32,9 +32,8 @@ const std::wstring IfcElectricCapacitanceMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcElectricCapacitanceMeasure> IfcElectricCapacitanceMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcElectricCapacitanceMeasure> IfcElectricCapacitanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	shared_ptr<IfcElectricCapacitanceMeasure> type_object( new IfcElectricCapacitanceMeasure() );

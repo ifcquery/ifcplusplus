@@ -41,9 +41,8 @@ const std::wstring IfcKnotType::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcKnotType> IfcKnotType::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcKnotType> IfcKnotType::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
 	shared_ptr<IfcKnotType> type_object( new IfcKnotType() );

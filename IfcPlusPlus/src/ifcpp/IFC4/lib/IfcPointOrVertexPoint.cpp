@@ -6,9 +6,8 @@
 #include "ifcpp/IFC4/include/IfcPointOrVertexPoint.h"
 
 // TYPE IfcPointOrVertexPoint = SELECT	(IfcPoint	,IfcVertexPoint);
-shared_ptr<IfcPointOrVertexPoint> IfcPointOrVertexPoint::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPointOrVertexPoint> IfcPointOrVertexPoint::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcPointOrVertexPoint>(); }
 	if( arg.compare(L"$")==0 )
 	{

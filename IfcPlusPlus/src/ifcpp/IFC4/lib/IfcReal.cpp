@@ -32,9 +32,8 @@ const std::wstring IfcReal::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcReal> IfcReal::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcReal> IfcReal::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReal>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReal>(); }
 	shared_ptr<IfcReal> type_object( new IfcReal() );

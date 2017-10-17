@@ -32,7 +32,7 @@ class CmdRemoveSelectedObjects : public Command
 {
 
 protected:
-	map_t<int, shared_ptr<IfcPPEntity> > m_removed_objects;
+	std::map<int, shared_ptr<IfcPPEntity> > m_removed_objects;
 
 public:
 	CmdRemoveSelectedObjects( IfcPlusPlusSystem* system );

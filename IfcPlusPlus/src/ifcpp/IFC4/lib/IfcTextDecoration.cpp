@@ -29,9 +29,8 @@ const std::wstring IfcTextDecoration::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcTextDecoration> IfcTextDecoration::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTextDecoration> IfcTextDecoration::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
 	shared_ptr<IfcTextDecoration> type_object( new IfcTextDecoration() );

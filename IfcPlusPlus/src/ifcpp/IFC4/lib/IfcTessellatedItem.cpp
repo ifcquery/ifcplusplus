@@ -27,7 +27,7 @@ void IfcTessellatedItem::getStepLine( std::stringstream& stream ) const
 }
 void IfcTessellatedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcTessellatedItem::toString() const { return L"IfcTessellatedItem"; }
-void IfcTessellatedItem::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTessellatedItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 }
 void IfcTessellatedItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

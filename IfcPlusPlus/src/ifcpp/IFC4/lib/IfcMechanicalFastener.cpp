@@ -93,7 +93,7 @@ void IfcMechanicalFastener::getStepLine( std::stringstream& stream ) const
 }
 void IfcMechanicalFastener::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcMechanicalFastener::toString() const { return L"IfcMechanicalFastener"; }
-void IfcMechanicalFastener::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMechanicalFastener::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMechanicalFastener, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

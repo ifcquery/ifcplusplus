@@ -80,7 +80,7 @@ void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 }
 void IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcSimplePropertyTemplate::toString() const { return L"IfcSimplePropertyTemplate"; }
-void IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSimplePropertyTemplate, expecting 12, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

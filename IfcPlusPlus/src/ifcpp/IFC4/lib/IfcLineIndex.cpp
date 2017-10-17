@@ -22,7 +22,6 @@ shared_ptr<IfcPPObject> IfcLineIndex::getDeepCopy( IfcPPCopyOptions& options )
 void IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEINDEX("; }
-	//TODO: implement
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcLineIndex::toString() const
@@ -31,14 +30,11 @@ const std::wstring IfcLineIndex::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcLineIndex> IfcLineIndex::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLineIndex> IfcLineIndex::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	shared_ptr<IfcLineIndex> type_object( new IfcLineIndex() );
-	// read TYPE
-	// read TYPE
 	readInt( arg, type_object->m_value );
 	return type_object;
 }

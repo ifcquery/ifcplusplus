@@ -29,9 +29,8 @@ const std::wstring IfcFontVariant::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcFontVariant> IfcFontVariant::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFontVariant> IfcFontVariant::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontVariant>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontVariant>(); }
 	shared_ptr<IfcFontVariant> type_object( new IfcFontVariant() );

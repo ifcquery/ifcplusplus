@@ -30,9 +30,8 @@ const std::wstring IfcLabel::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcLabel> IfcLabel::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLabel> IfcLabel::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	shared_ptr<IfcLabel> type_object( new IfcLabel() );

@@ -16,6 +16,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #include <iostream>
+#include <algorithm>
+#include <cctype>
+#include <iostream>
+#include <string>
 
 #include <QtCore/qglobal.h>
 #include <QApplication>
@@ -87,7 +91,7 @@ int main(int argc, char *argv[])
 		if( arg1.length() > 4 )
 		{
 			std::string file_type = arg1.substr(arg1.find_last_of(".") + 1);
-			std::transform(file_type.begin(), file_type.end(), file_type.begin(), toupper);
+			std::transform( file_type.begin(), file_type.end(), file_type.begin(), []( unsigned char c ) -> unsigned char { return std::toupper( c ); } );
 
 			if( file_type.compare( "IFC" ) == 0 || file_type.compare( "STP" ) == 0  )
 			{

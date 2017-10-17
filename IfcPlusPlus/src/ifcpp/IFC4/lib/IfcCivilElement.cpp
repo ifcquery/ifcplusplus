@@ -82,7 +82,7 @@ void IfcCivilElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcCivilElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcCivilElement::toString() const { return L"IfcCivilElement"; }
-void IfcCivilElement::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCivilElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCivilElement, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

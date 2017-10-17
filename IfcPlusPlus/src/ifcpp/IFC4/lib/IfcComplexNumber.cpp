@@ -34,9 +34,8 @@ const std::wstring IfcComplexNumber::toString() const
 	std::wstringstream strs;
 	for( size_t ii = 0; ii < m_vec.size(); ++ii )				{					if( ii > 0 )					{						strs << L", ";					}					strs << m_vec[ii];				}			return strs.str(); 
 }
-shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	shared_ptr<IfcComplexNumber> type_object( new IfcComplexNumber() );

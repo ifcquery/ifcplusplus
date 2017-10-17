@@ -32,9 +32,8 @@ const std::wstring IfcMonetaryMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
 	shared_ptr<IfcMonetaryMeasure> type_object( new IfcMonetaryMeasure() );

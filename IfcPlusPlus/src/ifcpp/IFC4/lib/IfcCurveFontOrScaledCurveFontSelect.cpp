@@ -7,9 +7,8 @@
 #include "ifcpp/IFC4/include/IfcCurveFontOrScaledCurveFontSelect.h"
 
 // TYPE IfcCurveFontOrScaledCurveFontSelect = SELECT	(IfcCurveStyleFontAndScaling	,IfcCurveStyleFontSelect);
-shared_ptr<IfcCurveFontOrScaledCurveFontSelect> IfcCurveFontOrScaledCurveFontSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCurveFontOrScaledCurveFontSelect> IfcCurveFontOrScaledCurveFontSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcCurveFontOrScaledCurveFontSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

@@ -32,9 +32,8 @@ const std::wstring IfcThermalResistanceMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcThermalResistanceMeasure> IfcThermalResistanceMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcThermalResistanceMeasure> IfcThermalResistanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalResistanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalResistanceMeasure>(); }
 	shared_ptr<IfcThermalResistanceMeasure> type_object( new IfcThermalResistanceMeasure() );

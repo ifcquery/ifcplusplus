@@ -172,10 +172,12 @@ public:
 	{
 		return m_item_matrix;
 	}
-	void setPositionToItem( const carve::math::Matrix& matrix )
+	
+	void premultPositionToItem( const carve::math::Matrix& matrix )
 	{
 		premultMatrix( matrix, m_item_matrix );
 	}
+
 	void applyPositionToItem( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
@@ -313,7 +315,6 @@ public:
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
-	carve::math::Matrix								m_representation_matrix;
 	weak_ptr<ProductShapeData>						m_parent_product;  // Pointer to product object that this representation belongs to
 
 	shared_ptr<RepresentationData> getDeepCopy()
@@ -327,13 +328,20 @@ public:
 			copy_representation->m_vec_item_data.push_back( item_data->getDeepCopy() );
 		}
 		std::copy( m_vec_representation_appearances.begin(), m_vec_representation_appearances.end(), std::back_inserter( copy_representation->m_vec_representation_appearances ) );
-		copy_representation->m_representation_matrix = m_representation_matrix;
 		return copy_representation;
 	}
 
-	void addInputData( shared_ptr<RepresentationData>& other )
+	void appendRepresentationData( shared_ptr<RepresentationData>& other, shared_ptr<RepresentationData>& ptr_self )
 	{
-		std::copy( other->m_vec_item_data.begin(), other->m_vec_item_data.end(), std::back_inserter( m_vec_item_data ) );
+		if( ptr_self.get() != this )
+		{
+			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
+		}
+		for( auto item_data : other->m_vec_item_data )
+		{
+			item_data->m_parent_representation = ptr_self;
+			m_vec_item_data.push_back( item_data );
+		}
 		std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
 	}
 
@@ -350,7 +358,6 @@ public:
 				m_vec_item_data.push_back( shared_ptr<ItemShapeData>( item_data->getDeepCopy() ) );
 			}
 			std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
-			m_representation_matrix = other->m_representation_matrix;
 		}
 	}
 
@@ -385,17 +392,18 @@ public:
 		m_vec_item_data.clear();
 		m_representation_identifier = L"";
 		m_representation_type = L"";
-		m_representation_matrix = carve::math::Matrix::IDENT();
 	}
 	
-	inline carve::math::Matrix getTotalTransform();
-	carve::math::Matrix getTransform()
+	void premultTransformToChildItems( const carve::math::Matrix& matrix )
 	{
-		return m_representation_matrix;
-	}
-	void setPositionOfRepresentation( const carve::math::Matrix& matrix )
-	{
-		premultMatrix( matrix, m_representation_matrix );
+		if( GeomUtils::isMatrixIdentity( matrix ) )
+		{
+			return;
+		}
+		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
+		{
+			m_vec_item_data[i_item]->premultPositionToItem( matrix );
+		}
 	}
 	void applyPositionToRepresentation( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
 	{
@@ -425,12 +433,6 @@ protected:
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 
 public:
-	void addInputData( shared_ptr<ProductShapeData>& other )
-	{
-		std::copy( other->m_vec_representations.begin(), other->m_vec_representations.end(), std::back_inserter( m_vec_representations ) );
-		std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
-	}
-
 	void deepCopyFrom( shared_ptr<ProductShapeData>& other )
 	{
 		m_vec_representations.clear();
@@ -487,15 +489,38 @@ public:
 		m_product_matrix = carve::math::Matrix::IDENT();
 	}
 
-	inline carve::math::Matrix getTotalTransform();
+	void addChildProduct( shared_ptr<ProductShapeData>& child_product, shared_ptr<ProductShapeData>& ptr_self )
+	{
+		if( ptr_self.get() != this )
+		{
+			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
+		}
+		child_product->m_parent = ptr_self;
+		m_vec_children.push_back( child_product );
+	}
+
+	carve::math::Matrix ProductShapeData::getTotalTransform()
+	{
+		carve::math::Matrix total_transform = m_product_matrix;
+		if( !m_parent.expired() )
+		{
+			shared_ptr<ProductShapeData> parent_product( m_parent );
+			carve::math::Matrix parent_transform = parent_product->getTotalTransform();
+			total_transform = parent_transform * total_transform;
+		}
+		return total_transform;
+	}
+
 	carve::math::Matrix getTransform()
 	{
 		return m_product_matrix;
 	}
-	void setPositionOfProduct( const carve::math::Matrix& matrix )
+	
+	void premultPositionToProduct( const carve::math::Matrix& matrix )
 	{
 		premultMatrix( matrix, m_product_matrix );
 	}
+
 	void applyPositionToProduct( const carve::math::Matrix& matrix )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
@@ -544,36 +569,15 @@ carve::math::Matrix ItemShapeData::getTotalTransform()
 	if( !m_parent_representation.expired() )
 	{
 		shared_ptr<RepresentationData> is_item_of_representation( m_parent_representation );
-		carve::math::Matrix parent_transform = is_item_of_representation->getTotalTransform();
-		total_transform = parent_transform * total_transform;
+		if( !is_item_of_representation->m_parent_product.expired() )
+		{
+			shared_ptr<ProductShapeData> is_item_of_product( is_item_of_representation->m_parent_product );
+			carve::math::Matrix parent_transform = is_item_of_product->getTotalTransform();
+			total_transform = parent_transform * total_transform;
+		}
 	}
 	return total_transform;
 }
-
-carve::math::Matrix RepresentationData::getTotalTransform()
-{
-	carve::math::Matrix total_transform = m_representation_matrix;
-	if( !m_parent_product.expired() )
-	{
-		shared_ptr<ProductShapeData> is_representation_of_product( m_parent_product );
-		carve::math::Matrix parent_transform = is_representation_of_product->getTotalTransform();
-		total_transform = parent_transform * total_transform;
-	}
-	return total_transform;
-}
-
-carve::math::Matrix ProductShapeData::getTotalTransform()
-{
-	carve::math::Matrix total_transform = m_product_matrix;
-	if( !m_parent.expired() )
-	{
-		shared_ptr<ProductShapeData> parent_product( m_parent );
-		carve::math::Matrix parent_transform = parent_product->getTotalTransform();
-		total_transform = parent_transform * total_transform;
-	}
-	return total_transform;
-}
-
 
 #define ROUND_POLY_COORDINATES_UP 1000000.0
 #define ROUND_POLY_COORDINATES_DOWN 0.000001
@@ -593,8 +597,8 @@ public:
 		const double vertex_z = v.z;
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		map_t<double, map_t<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, map_t<double, map_t<double, size_t> >() ) ).first->second;
-		map_t<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, map_t<double, size_t>() ) ).first->second;
+		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
+		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
 		auto it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
@@ -618,8 +622,8 @@ public:
 		const double vertex_z = round( v.z*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		map_t<double, map_t<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, map_t<double, map_t<double, size_t> >() ) ).first->second;
-		map_t<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, map_t<double, size_t>() ) ).first->second;
+		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
+		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
 		auto it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
@@ -669,5 +673,5 @@ public:
 	}
 
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
-	map_t<double, map_t<double, map_t<double, size_t> > > m_existing_vertices_coords;
+	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
 };

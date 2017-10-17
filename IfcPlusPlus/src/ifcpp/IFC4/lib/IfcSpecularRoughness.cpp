@@ -32,9 +32,8 @@ const std::wstring IfcSpecularRoughness::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
 	shared_ptr<IfcSpecularRoughness> type_object( new IfcSpecularRoughness() );

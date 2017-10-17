@@ -139,9 +139,8 @@ const std::wstring IfcDerivedUnitEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDerivedUnitEnum> IfcDerivedUnitEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDerivedUnitEnum> IfcDerivedUnitEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	shared_ptr<IfcDerivedUnitEnum> type_object( new IfcDerivedUnitEnum() );

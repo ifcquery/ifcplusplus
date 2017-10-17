@@ -30,9 +30,8 @@ const std::wstring IfcBinary::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcBinary> IfcBinary::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcBinary> IfcBinary::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	shared_ptr<IfcBinary> type_object( new IfcBinary() );

@@ -35,7 +35,7 @@ void IfcPPReaderXML::readStreamHeader(	const std::string& in, shared_ptr<IfcPPMo
 	// not implemented
 }
 
-void IfcPPReaderXML::readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPPReaderXML::readStreamData( std::string& in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	// not implemented
 }
@@ -43,6 +43,6 @@ void IfcPPReaderXML::readStreamData( std::string& in, const IfcPPModel::IfcPPSch
 void IfcPPReaderXML::readStreamData( std::string& in, shared_ptr<IfcPPModel>& model )
 {
 	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
-	map_t<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
+	std::map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
 	readStreamData( in, file_schema_version, map_entities );
 }

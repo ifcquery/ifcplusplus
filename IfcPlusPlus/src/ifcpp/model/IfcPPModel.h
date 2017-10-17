@@ -55,8 +55,8 @@ public:
 			IfcPPVersionEnum	m_ifc_file_schema_enum;
 	};
 	
-	const map_t<int, shared_ptr<IfcPPEntity> >& getMapIfcEntities() const { return m_map_entities; }
-	void setMapIfcEntities( const map_t<int, shared_ptr<IfcPPEntity> >& map );
+	const std::map<int, shared_ptr<IfcPPEntity> >& getMapIfcEntities() const { return m_map_entities; }
+	void setMapIfcEntities( const std::map<int, shared_ptr<IfcPPEntity> >& map );
 	void insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existing = false, bool warn_on_existing_objects = true );
 	void removeEntity( shared_ptr<IfcPPEntity> e );
 	void removeEntity( int entity_id );
@@ -90,7 +90,7 @@ public:
 	friend class IfcPPReaderXML;
 
 private:
-	map_t<int, shared_ptr<IfcPPEntity> >			m_map_entities;
+	std::map<int, shared_ptr<IfcPPEntity> >			m_map_entities;
 	shared_ptr<IfcProject>							m_ifc_project;
 	shared_ptr<IfcGeometricRepresentationContext>	m_geom_context_3d;
 	shared_ptr<UnitConverter>						m_unit_converter;

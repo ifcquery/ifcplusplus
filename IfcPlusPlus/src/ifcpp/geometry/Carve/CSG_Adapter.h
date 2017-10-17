@@ -101,7 +101,7 @@ namespace CSG_Adapter
 		}
 		bool meshset_dirty = false;
 
-		map_t<face_t*, std::vector<edge_t*> > map_omit_face_edges;
+		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
@@ -453,7 +453,10 @@ namespace CSG_Adapter
 		if( err.tellp() > 0 )
 		{
 #ifdef _DEBUG
-			report_callback->messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity );
+			if( report_callback )
+			{
+				report_callback->messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity );
+			}
 #endif
 			return false;
 		}
@@ -519,7 +522,10 @@ namespace CSG_Adapter
 		if( err.tellp() > 0 )
 		{
 #ifdef _DEBUG
-			report_callback->messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity );
+			if( report_callback )
+			{
+				report_callback->messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity );
+			}
 #endif
 			return false;
 		}
@@ -535,7 +541,7 @@ namespace CSG_Adapter
 		}
 		bool meshset_dirty = false;
 
-		map_t<face_t*, std::vector<edge_t*> > map_omit_face_edges;
+		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];

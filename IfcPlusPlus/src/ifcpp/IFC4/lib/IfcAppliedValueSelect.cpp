@@ -118,9 +118,8 @@
 #include "ifcpp/IFC4/include/IfcAppliedValueSelect.h"
 
 // TYPE IfcAppliedValueSelect = SELECT	(IfcMeasureWithUnit	,IfcReference	,IfcValue);
-shared_ptr<IfcAppliedValueSelect> IfcAppliedValueSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcAppliedValueSelect> IfcAppliedValueSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcAppliedValueSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{

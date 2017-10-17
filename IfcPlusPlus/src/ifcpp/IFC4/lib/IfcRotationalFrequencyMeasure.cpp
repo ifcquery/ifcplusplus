@@ -32,9 +32,8 @@ const std::wstring IfcRotationalFrequencyMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcRotationalFrequencyMeasure> IfcRotationalFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcRotationalFrequencyMeasure> IfcRotationalFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	shared_ptr<IfcRotationalFrequencyMeasure> type_object( new IfcRotationalFrequencyMeasure() );

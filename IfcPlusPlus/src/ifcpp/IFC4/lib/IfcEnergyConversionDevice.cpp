@@ -84,7 +84,7 @@ void IfcEnergyConversionDevice::getStepLine( std::stringstream& stream ) const
 }
 void IfcEnergyConversionDevice::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
 const std::wstring IfcEnergyConversionDevice::toString() const { return L"IfcEnergyConversionDevice"; }
-void IfcEnergyConversionDevice::readStepArguments( const std::vector<std::wstring>& args, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+void IfcEnergyConversionDevice::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
 	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEnergyConversionDevice, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }

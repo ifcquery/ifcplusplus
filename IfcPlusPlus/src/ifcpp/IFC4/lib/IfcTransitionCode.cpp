@@ -41,9 +41,8 @@ const std::wstring IfcTransitionCode::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
 	shared_ptr<IfcTransitionCode> type_object( new IfcTransitionCode() );

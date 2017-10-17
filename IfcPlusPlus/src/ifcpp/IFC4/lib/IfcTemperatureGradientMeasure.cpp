@@ -32,9 +32,8 @@ const std::wstring IfcTemperatureGradientMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcTemperatureGradientMeasure> IfcTemperatureGradientMeasure::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTemperatureGradientMeasure> IfcTemperatureGradientMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
 	shared_ptr<IfcTemperatureGradientMeasure> type_object( new IfcTemperatureGradientMeasure() );

@@ -121,9 +121,8 @@ const std::wstring IfcDistributionSystemEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	shared_ptr<IfcDistributionSystemEnum> type_object( new IfcDistributionSystemEnum() );

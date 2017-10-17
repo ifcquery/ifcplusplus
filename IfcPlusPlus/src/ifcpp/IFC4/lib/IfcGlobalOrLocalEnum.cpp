@@ -37,9 +37,8 @@ const std::wstring IfcGlobalOrLocalEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
 	shared_ptr<IfcGlobalOrLocalEnum> type_object( new IfcGlobalOrLocalEnum() );

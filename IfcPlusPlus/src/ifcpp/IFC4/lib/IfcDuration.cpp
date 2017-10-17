@@ -31,9 +31,8 @@ const std::wstring IfcDuration::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcDuration> IfcDuration::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDuration> IfcDuration::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuration>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuration>(); }
 	shared_ptr<IfcDuration> type_object( new IfcDuration() );

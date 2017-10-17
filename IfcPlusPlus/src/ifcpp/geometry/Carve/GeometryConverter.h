@@ -40,10 +40,10 @@ protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<RepresentationConverter> m_representation_converter;
 
-	map_t<int, shared_ptr<ProductShapeData> >	m_shape_input_data;
-	map_t<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
+	std::map<int, shared_ptr<ProductShapeData> >	m_shape_input_data;
+	std::map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
 	double m_recent_progress;
-	map_t<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
+	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef IFCPP_OPENMP
 	Mutex m_writelock_messages;
 #endif
@@ -53,8 +53,8 @@ public:
 	shared_ptr<IfcPPModel>&						getIfcPPModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter() { return m_representation_converter; }
 	shared_ptr<GeometrySettings>&				getGeomSettings() { return m_geom_settings; }
-	map_t<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_shape_input_data; }
-	map_t<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_shape_input_data; }
+	std::map<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 
 	GeometryConverter( shared_ptr<IfcPPModel>& ifc_model )
 	{
@@ -149,8 +149,7 @@ public:
 							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
 							if( related_product_shape )
 							{
-								product_data->m_vec_children.push_back( related_product_shape );
-								related_product_shape->m_parent = weak_ptr<ProductShapeData>( product_data );
+								product_data->addChildProduct( related_product_shape, product_data );
 								resolveProjectStructure( related_product_shape );
 							}
 						}
@@ -186,8 +185,7 @@ public:
 								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
 								if( related_product_shape )
 								{
-									product_data->m_vec_children.push_back( related_product_shape );
-									related_product_shape->m_parent = weak_ptr<ProductShapeData>( product_data );
+									product_data->addChildProduct( related_product_shape, product_data );
 									resolveProjectStructure( related_product_shape );
 								}
 							}
@@ -288,7 +286,7 @@ public:
 		}
 		carve::setEpsilon( 1.5e-05*length_to_meter_factor );
 
-		const map_t<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		const std::map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 		{
 			shared_ptr<IfcPPEntity> obj = it->second;
@@ -300,7 +298,7 @@ public:
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		map_t<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_shape_input_data;
+		std::map<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_shape_input_data;
 		const int num_products = (int)vec_object_defs.size();
 
 #ifdef IFCPP_OPENMP
@@ -508,9 +506,21 @@ public:
 		if( ifc_product->m_ObjectPlacement )
 		{
 			// IfcPlacement2Matrix follows related placements in case of local coordinate systems
-			boost::unordered_set<IfcObjectPlacement*> placement_already_applied;
+			std::unordered_set<IfcObjectPlacement*> placement_already_applied;
 			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
-			product_shape->setPositionOfProduct( product_placement_matrix );
+			product_shape->premultPositionToProduct( product_placement_matrix );
+
+#ifdef _DEBUG
+			try
+			{
+				carve::math::Matrix inv_mat;
+				GeomUtils::computeInverse( product_placement_matrix, inv_mat, 0.01/m_ifc_model->getUnitConverter()->getCustomLengthFactor() );
+			}
+			catch( std::exception& e )
+			{
+				std::cout << e.what() << std::endl;
+			}
+#endif
 		}
 
 		// handle openings

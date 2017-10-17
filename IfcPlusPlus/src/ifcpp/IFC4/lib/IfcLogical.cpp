@@ -53,9 +53,8 @@ const std::wstring IfcLogical::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcLogical> IfcLogical::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLogical> IfcLogical::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	shared_ptr<IfcLogical> type_object( new IfcLogical() );

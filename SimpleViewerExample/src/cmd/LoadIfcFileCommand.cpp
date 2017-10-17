@@ -55,6 +55,11 @@ bool LoadIfcFileCommand::doCmd()
 	shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
 	geometry_converter->resetModel();
 	std::stringstream err;
+	
+#ifdef _DEBUG
+	// only for testing
+	geometry_converter->getIfcPPModel()->getUnitConverter()->setCustomLengthFactor( 100 );
+#endif
 
 	try
 	{
@@ -70,7 +75,7 @@ bool LoadIfcFileCommand::doCmd()
 		converter_osg->convertToOSG( geometry_converter->getShapeInputData(), model_switch );
 
 		// in case there are IFC entities that are not in the spatial structure
-		const map_t<int, shared_ptr<IfcPPObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
+		const std::map<int, shared_ptr<IfcPPObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
 		if( objects_outside_spatial_structure.size() > 0 )
 		{
 			osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();
@@ -117,7 +122,7 @@ bool LoadIfcFileCommand::doCmd()
 			{
 				if( bsphere.center().length()/bsphere.radius() > 100 )
 				{
-					boost::unordered_set<osg::Geode*> set_applied;
+					std::unordered_set<osg::Geode*> set_applied;
 					SceneGraphUtils::translateGroup( model_switch, -bsphere.center(), set_applied );
 				}
 			}

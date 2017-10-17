@@ -32,9 +32,8 @@ const std::wstring IfcInteger::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcInteger> IfcInteger::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcInteger> IfcInteger::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	shared_ptr<IfcInteger> type_object( new IfcInteger() );

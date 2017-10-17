@@ -6,9 +6,8 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleElementSelect.h"
 
 // TYPE IfcSurfaceStyleElementSelect = SELECT	(IfcExternallyDefinedSurfaceStyle	,IfcSurfaceStyleLighting	,IfcSurfaceStyleRefraction	,IfcSurfaceStyleShading	,IfcSurfaceStyleWithTextures);
-shared_ptr<IfcSurfaceStyleElementSelect> IfcSurfaceStyleElementSelect::createObjectFromSTEP( const std::wstring& arg, const map_t<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSurfaceStyleElementSelect> IfcSurfaceStyleElementSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
-	// read TYPE
 	if( arg.size() == 0 ){ return shared_ptr<IfcSurfaceStyleElementSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
