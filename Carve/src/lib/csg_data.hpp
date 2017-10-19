@@ -22,7 +22,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #pragma once
 
 #include <carve/csg.hpp>
@@ -30,10 +29,14 @@
 #include "csg_detail.hpp"
 
 struct carve::csg::detail::Data {
-//        * @param[out] vmap A mapping from vertex pointer to intersection point.
-//        * @param[out] emap A mapping from edge pointer to intersection points.
-//        * @param[out] fmap A mapping from face pointer to intersection points.
-//        * @param[out] fmap_rev A mapping from intersection points to face pointers.
+  //        * @param[out] vmap A mapping from vertex pointer to intersection
+  //        point.
+  //        * @param[out] emap A mapping from edge pointer to intersection
+  //        points.
+  //        * @param[out] fmap A mapping from face pointer to intersection
+  //        points.
+  //        * @param[out] fmap_rev A mapping from intersection points to face
+  //        pointers.
   // map from intersected vertex to intersection point.
   VVMap vmap;
 

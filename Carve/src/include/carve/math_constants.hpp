@@ -22,7 +22,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #pragma once
 
 #include <math.h>
@@ -38,4 +37,3 @@
 #ifndef M_TWOPI
 #define M_TWOPI (M_PI + M_PI)
 #endif
-

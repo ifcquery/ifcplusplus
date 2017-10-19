@@ -894,8 +894,6 @@ public:
 		{
 			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, bool_result.get() );
 		}
-
-		
 		item_data->applyPositionToItem( first_inverse_matrix );
 		item_data->m_item_matrix = first_operand_resulting_matrix;
 

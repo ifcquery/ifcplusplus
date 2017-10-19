@@ -22,46 +22,44 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #if defined(HAVE_CONFIG_H)
-#  include <carve_config.h>
+#include <carve_config.h>
 #endif
 
 #include <carve/geom.hpp>
 #include <carve/pointset.hpp>
 
 namespace carve {
-  namespace point {
+namespace point {
 
-    PointSet::PointSet(const std::vector<carve::geom3d::Vector> &points) {
-      vertices.resize(points.size());
-      for (size_t i = 0; i < points.size(); ++i) {
-        vertices[i].v = points[i];
-      }
-      aabb.fit(points.begin(), points.end());
-    }
-
-    void PointSet::sortVertices(const carve::geom3d::Vector &axis) {
-      std::vector<std::pair<double, size_t> > temp;
-      temp.reserve(vertices.size());
-      for (size_t i = 0; i < vertices.size(); ++i) {
-        temp.push_back(std::make_pair(dot(axis, vertices[i].v), i));
-      }
-      std::sort(temp.begin(), temp.end());
-
-      std::vector<Vertex> vnew;
-      vnew.reserve(vertices.size());
-
-      // std::vector<int> revmap;
-      // revmap.resize(vertices.size());
-
-      for (size_t i = 0; i < vertices.size(); ++i) {
-        vnew.push_back(vertices[temp[i].second]);
-        // revmap[temp[i].second] = i;
-      }
-
-      vertices.swap(vnew);
-   }
-
+PointSet::PointSet(const std::vector<carve::geom3d::Vector>& points) {
+  vertices.resize(points.size());
+  for (size_t i = 0; i < points.size(); ++i) {
+    vertices[i].v = points[i];
   }
+  aabb.fit(points.begin(), points.end());
 }
+
+void PointSet::sortVertices(const carve::geom3d::Vector& axis) {
+  std::vector<std::pair<double, size_t> > temp;
+  temp.reserve(vertices.size());
+  for (size_t i = 0; i < vertices.size(); ++i) {
+    temp.push_back(std::make_pair(dot(axis, vertices[i].v), i));
+  }
+  std::sort(temp.begin(), temp.end());
+
+  std::vector<Vertex> vnew;
+  vnew.reserve(vertices.size());
+
+  // std::vector<int> revmap;
+  // revmap.resize(vertices.size());
+
+  for (size_t i = 0; i < vertices.size(); ++i) {
+    vnew.push_back(vertices[temp[i].second]);
+    // revmap[temp[i].second] = i;
+  }
+
+  vertices.swap(vnew);
+}
+}  // namespace point
+}  // namespace carve

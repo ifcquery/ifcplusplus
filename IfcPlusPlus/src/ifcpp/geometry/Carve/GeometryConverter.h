@@ -509,18 +509,6 @@ public:
 			std::unordered_set<IfcObjectPlacement*> placement_already_applied;
 			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
 			product_shape->premultPositionToProduct( product_placement_matrix );
-
-#ifdef _DEBUG
-			try
-			{
-				carve::math::Matrix inv_mat;
-				GeomUtils::computeInverse( product_placement_matrix, inv_mat, 0.01/m_ifc_model->getUnitConverter()->getCustomLengthFactor() );
-			}
-			catch( std::exception& e )
-			{
-				std::cout << e.what() << std::endl;
-			}
-#endif
 		}
 
 		// handle openings

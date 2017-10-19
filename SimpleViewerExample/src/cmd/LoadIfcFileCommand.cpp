@@ -56,11 +56,6 @@ bool LoadIfcFileCommand::doCmd()
 	geometry_converter->resetModel();
 	std::stringstream err;
 	
-#ifdef _DEBUG
-	// only for testing
-	geometry_converter->getIfcPPModel()->getUnitConverter()->setCustomLengthFactor( 100 );
-#endif
-
 	try
 	{
 		// load file to IFC model

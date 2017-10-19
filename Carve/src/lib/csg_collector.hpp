@@ -22,11 +22,9 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 namespace carve {
-  namespace csg {
-    CSG::Collector *makeCollector(CSG::OP op,
-                                  const carve::mesh::MeshSet<3> *poly_a,
-                                  const carve::mesh::MeshSet<3> *poly_b);
-  }
+namespace csg {
+CSG::Collector* makeCollector(CSG::OP op, const carve::mesh::MeshSet<3>* poly_a,
+                              const carve::mesh::MeshSet<3>* poly_b);
+}
 }

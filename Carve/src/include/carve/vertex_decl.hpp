@@ -22,98 +22,91 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #pragma once
 
 #include <carve/carve.hpp>
 
-#include <carve/geom2d.hpp>
-#include <carve/vector.hpp>
-#include <carve/matrix.hpp>
-#include <carve/geom3d.hpp>
 #include <carve/aabb.hpp>
+#include <carve/geom2d.hpp>
+#include <carve/geom3d.hpp>
+#include <carve/matrix.hpp>
 #include <carve/tag.hpp>
+#include <carve/vector.hpp>
 
-#include <vector>
 #include <list>
 #include <map>
+#include <vector>
 
 namespace carve {
-  namespace poly {
+namespace poly {
 
+struct Object;
 
+template <unsigned ndim>
+class Vertex : public tagable {
+ public:
+  typedef carve::geom::vector<ndim> vector_t;
+  typedef Object obj_t;
 
-    struct Object;
+  vector_t v;
+  obj_t* owner;
 
+  Vertex() : tagable(), v() {}
 
+  ~Vertex() {}
 
-    template<unsigned ndim>
-    class Vertex : public tagable {
-    public:
-      typedef carve::geom::vector<ndim> vector_t;
-      typedef Object obj_t;
+  Vertex(const vector_t& _v) : tagable(), v(_v) {}
+};
 
-      vector_t v;
-      obj_t *owner;
-
-      Vertex() : tagable(), v() {
-      }
-
-      ~Vertex() {
-      }
-
-      Vertex(const vector_t &_v) : tagable(), v(_v) {
-      }
-    };
-
-
-
-    struct hash_vertex_ptr {
-      template<unsigned ndim>
-      size_t operator()(const Vertex<ndim> * const &v) const {
-        return (size_t)v;
-      }
-
-      template<unsigned ndim>
-      size_t operator()(const std::pair<const Vertex<ndim> *, const Vertex<ndim> *> &v) const {
-        size_t r = (size_t)v.first;
-        size_t s = (size_t)v.second;
-        return r ^ ((s >> 16) | (s << 16));
-      }
-
-    };
-
-
-
-    template<unsigned ndim>
-    double distance(const Vertex<ndim> *v1, const Vertex<ndim> *v2) {
-      return distance(v1->v, v2->v);
-    }
-
-    template<unsigned ndim>
-    double distance(const Vertex<ndim> &v1, const Vertex<ndim> &v2) {
-      return distance(v1.v, v2.v);
-    }
-
-    struct vec_adapt_vertex_ref {
-      template<unsigned ndim>
-      const typename Vertex<ndim>::vector_t &operator()(const Vertex<ndim> &v) const { return v.v; }
-
-      template<unsigned ndim>
-      typename Vertex<ndim>::vector_t &operator()(Vertex<ndim> &v) const { return v.v; }
-    };
-
-
-
-    struct vec_adapt_vertex_ptr {
-      template<unsigned ndim>
-      const typename Vertex<ndim>::vector_t &operator()(const Vertex<ndim> *v) const { return v->v; }
-
-      template<unsigned ndim>
-      typename Vertex<ndim>::vector_t &operator()(Vertex<ndim> *v) const { return v->v; }
-    };
-
-
-
+struct hash_vertex_ptr {
+  template <unsigned ndim>
+  size_t operator()(const Vertex<ndim>* const& v) const {
+    return (size_t)v;
   }
+
+  template <unsigned ndim>
+  size_t operator()(
+      const std::pair<const Vertex<ndim>*, const Vertex<ndim>*>& v) const {
+    size_t r = (size_t)v.first;
+    size_t s = (size_t)v.second;
+    return r ^ ((s >> 16) | (s << 16));
+  }
+};
+
+template <unsigned ndim>
+double distance(const Vertex<ndim>* v1, const Vertex<ndim>* v2) {
+  return distance(v1->v, v2->v);
 }
+
+template <unsigned ndim>
+double distance(const Vertex<ndim>& v1, const Vertex<ndim>& v2) {
+  return distance(v1.v, v2.v);
+}
+
+struct vec_adapt_vertex_ref {
+  template <unsigned ndim>
+  const typename Vertex<ndim>::vector_t& operator()(
+      const Vertex<ndim>& v) const {
+    return v.v;
+  }
+
+  template <unsigned ndim>
+  typename Vertex<ndim>::vector_t& operator()(Vertex<ndim>& v) const {
+    return v.v;
+  }
+};
+
+struct vec_adapt_vertex_ptr {
+  template <unsigned ndim>
+  const typename Vertex<ndim>::vector_t& operator()(
+      const Vertex<ndim>* v) const {
+    return v->v;
+  }
+
+  template <unsigned ndim>
+  typename Vertex<ndim>::vector_t& operator()(Vertex<ndim>* v) const {
+    return v->v;
+  }
+};
+}  // namespace poly
+}  // namespace carve

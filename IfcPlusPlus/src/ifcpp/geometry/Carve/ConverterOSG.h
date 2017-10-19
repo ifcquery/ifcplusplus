@@ -562,7 +562,7 @@ public:
 
 			osg::ref_ptr<osg::MatrixTransform> representation_matrix = new osg::MatrixTransform();
 			
-			//representation_matrix->setMatrix( convertMatrixToOSG( product_representation_data->getTransform() ) );
+			representation_matrix->setMatrix( convertMatrixToOSG( product_representation_data->getTransform() ) );
 			representation_switch->addChild( representation_matrix );
 			
 #ifdef _DEBUG

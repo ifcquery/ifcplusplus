@@ -22,14 +22,7 @@ shared_ptr<IfcPPObject> IfcArcIndex::getDeepCopy( IfcPPCopyOptions& options )
 void IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARCINDEX("; }
-	for( size_t ii = 0; ii < m_vec.size(); ++ii )
-	{
-		if( ii > 0 )
-		{
-			stream << ", ";
-		}
-		stream << m_vec[ii].m_value;
-	}
+	for( size_t ii = 0; ii < m_vec.size(); ++ii ){if( ii > 0 ){stream << ", ";}stream << m_vec[ii].m_value;}
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcArcIndex::toString() const

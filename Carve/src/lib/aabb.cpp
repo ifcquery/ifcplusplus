@@ -22,16 +22,13 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #if defined(HAVE_CONFIG_H)
-#  include <carve_config.h>
+#include <carve_config.h>
 #endif
 
 #include <carve/aabb.hpp>
 #include <carve/geom3d.hpp>
 
 namespace carve {
-  namespace geom3d {
-  }
+namespace geom3d {}
 }
-

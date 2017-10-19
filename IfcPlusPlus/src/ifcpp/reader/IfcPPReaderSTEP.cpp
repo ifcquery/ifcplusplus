@@ -294,11 +294,6 @@ void IfcPPReaderSTEP::readHeader( const std::string& read_in, shared_ptr<IfcPPMo
 				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X";
 				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC2X;
 			}
-			else if( file_schema_args.compare(L"IFC4RC4") == 0 )
-			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4RC4";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = IfcPPModel::IFC4;
-			}
 			else if( file_schema_args.compare( L"IFC4" ) == 0 )
 			{
 				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";

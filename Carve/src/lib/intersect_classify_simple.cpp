@@ -22,21 +22,20 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #if defined(HAVE_CONFIG_H)
-#  include <carve_config.h>
+#include <carve_config.h>
 #endif
 
 #include <carve/csg.hpp>
 
+#include <iostream>
 #include <list>
 #include <set>
-#include <iostream>
 
 #include <algorithm>
 
-#include "intersect_common.hpp"
 #include "intersect_classify_common.hpp"
+#include "intersect_common.hpp"
 
 #if 0
 
@@ -362,7 +361,7 @@ static void classifyOnFaces_2(FaceLoopList &a_face_loops,
                 << b_loopset.size() << " poly_b faces in reverse loop ("
                 << a_extra_edges.size() << " extra edges in set a, "
                 << b_extra_edges.size() << " extra edges in set b)"
-                << std::endl; 
+                << std::endl;
 #endif
       FaceClass a_class, b_class;
 
@@ -453,7 +452,7 @@ static void classifyOnFaces_2(FaceLoopList &a_face_loops,
                 << b_loopset.size() << " poly_b faces in forward loop"
                 << a_extra_edges.size() << " extra edges in set a, "
                 << b_extra_edges.size() << " extra edges in set b)"
-                << std::endl; 
+                << std::endl;
 #endif
       FaceClass a_class, b_class;
 
@@ -602,15 +601,12 @@ void classifyEasyFaces(FaceLoopList &face_loops,
 }
 #endif
 
-void carve::csg::CSG::classifyFaceGroupsSimple(const V2Set &shared_edges,
-                                               VertexClassification &vclass,
-                                               const carve::poly::Polyhedron  *poly_a,                           
-                                               FLGroupList &a_loops_grouped,
-                                               const LoopEdges &a_edge_map,
-                                               const carve::poly::Polyhedron  *poly_b,
-                                               FLGroupList &b_loops_grouped,
-                                               const LoopEdges &b_edge_map,
-                                               Collector &collector) {
+void carve::csg::CSG::classifyFaceGroupsSimple(
+    const V2Set& shared_edges, VertexClassification& vclass,
+    const carve::poly::Polyhedron* poly_a, FLGroupList& a_loops_grouped,
+    const LoopEdges& a_edge_map, const carve::poly::Polyhedron* poly_b,
+    FLGroupList& b_loops_grouped, const LoopEdges& b_edge_map,
+    Collector& collector) {
 #if 0
   // Old proto
   void carve::csg::CSG::classifyFaces(carve::csg::FaceLoopList &a_face_loops,

@@ -25,45 +25,41 @@
 #pragma once
 
 #include <iterator>
-#include <list>
 #include <iterator>
 #include <limits>
+#include <list>
 
-#include <carve/carve.hpp>
-#include <carve/tag.hpp>
-#include <carve/geom.hpp>
-#include <carve/kd_node.hpp>
-#include <carve/geom3d.hpp>
 #include <carve/aabb.hpp>
+#include <carve/carve.hpp>
+#include <carve/geom.hpp>
+#include <carve/geom3d.hpp>
+#include <carve/kd_node.hpp>
+#include <carve/tag.hpp>
 
 namespace carve {
-  namespace point {
+namespace point {
 
-    struct Vertex : public tagable {
-      carve::geom3d::Vector v;
-    };
+struct Vertex : public tagable {
+  carve::geom3d::Vector v;
+};
 
-
-
-    struct vec_adapt_vertex_ptr {
-      const carve::geom3d::Vector &operator()(const Vertex * const &v) { return v->v; }
-      carve::geom3d::Vector &operator()(Vertex *&v) { return v->v; }
-    };
-
-
-
-    struct PointSet {
-      std::vector<Vertex> vertices;
-      carve::geom3d::AABB aabb;
-
-      PointSet(const std::vector<carve::geom3d::Vector> &points);
-      PointSet() {
-      }
-
-      void sortVertices(const carve::geom3d::Vector &axis);
-
-      size_t vertexToIndex_fast(const Vertex *v) const;
-    };
-
+struct vec_adapt_vertex_ptr {
+  const carve::geom3d::Vector& operator()(const Vertex* const& v) {
+    return v->v;
   }
-}
+  carve::geom3d::Vector& operator()(Vertex*& v) { return v->v; }
+};
+
+struct PointSet {
+  std::vector<Vertex> vertices;
+  carve::geom3d::AABB aabb;
+
+  PointSet(const std::vector<carve::geom3d::Vector>& points);
+  PointSet() {}
+
+  void sortVertices(const carve::geom3d::Vector& axis);
+
+  size_t vertexToIndex_fast(const Vertex* v) const;
+};
+}  // namespace point
+}  // namespace carve

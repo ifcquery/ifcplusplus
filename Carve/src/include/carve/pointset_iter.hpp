@@ -23,4 +23,3 @@
 // SOFTWARE.
 
 #pragma once
-

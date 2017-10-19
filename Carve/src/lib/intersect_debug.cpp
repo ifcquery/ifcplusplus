@@ -22,23 +22,22 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #if defined(HAVE_CONFIG_H)
-#  include <carve_config.h>
+#include <carve_config.h>
 #endif
 
 #include <carve/csg.hpp>
 
+#include <iostream>
 #include <list>
 #include <set>
-#include <iostream>
 
 #include <algorithm>
 
 #include "intersect_debug.hpp"
 
 namespace carve {
-  namespace csg {
+namespace csg {
 
 #if defined(CARVE_DEBUG)
 
@@ -49,25 +48,29 @@ namespace carve {
 // #define DEBUG_DRAW_GROUPS
 // #define DEBUG_PRINT_RESULT_FACES
 
-    IntersectDebugHooks *g_debug = NULL;
+IntersectDebugHooks* g_debug = NULL;
 
-    IntersectDebugHooks *intersect_installDebugHooks(IntersectDebugHooks *hooks) {
-      IntersectDebugHooks *h = g_debug;
-      g_debug = hooks;
-      return h;
-    }
+IntersectDebugHooks* intersect_installDebugHooks(IntersectDebugHooks* hooks) {
+  IntersectDebugHooks* h = g_debug;
+  g_debug = hooks;
+  return h;
+}
 
-    bool intersect_debugEnabled() { return true; }
+bool intersect_debugEnabled() {
+  return true;
+}
 
 #else
 
-    IntersectDebugHooks *intersect_installDebugHooks(IntersectDebugHooks * /* hooks */) {
-      return NULL;
-    }
+IntersectDebugHooks* intersect_installDebugHooks(
+    IntersectDebugHooks* /* hooks */) {
+  return nullptr;
+}
 
-    bool intersect_debugEnabled() { return false; }
+bool intersect_debugEnabled() {
+  return false;
+}
 
 #endif
-
-  }
-}
+}  // namespace csg
+}  // namespace carve

@@ -22,7 +22,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #pragma once
 
 #include <functional>
@@ -31,43 +30,49 @@ struct cRGB {
   typedef float value_type;
   value_type r, g, b;
 
-  cRGB() : r(0), g(0), b(0) { }
+  cRGB() : r(0), g(0), b(0) {}
 
-  cRGB(float _r, float _g, float _b) : r(_r), g(_g), b(_b) { }
+  cRGB(float _r, float _g, float _b) : r(_r), g(_g), b(_b) {}
 };
 
 struct cRGBA {
   typedef float value_type;
   value_type r, g, b, a;
 
-  cRGBA() : r(0),g(0),b(0),a(1) { }
+  cRGBA() : r(0), g(0), b(0), a(1) {}
 
-  cRGBA(float _r, float _g, float _b, float _a = 1.0f) : r(_r), g(_g), b(_b), a(_a) { }
+  cRGBA(float _r, float _g, float _b, float _a = 1.0f)
+      : r(_r), g(_g), b(_b), a(_a) {}
 
-  cRGBA(const cRGB &rgb) : r(rgb.r), g(rgb.g), b(rgb.b), a(1) { }
+  cRGBA(const cRGB& rgb) : r(rgb.r), g(rgb.g), b(rgb.b), a(1) {}
 };
 
-static inline cRGB operator+(const cRGB &a, const cRGB &b) {
+static inline cRGB operator+(const cRGB& a, const cRGB& b) {
   return cRGB(a.r + b.r, a.g + b.g, a.b + b.b);
 }
-static inline cRGB &operator+=(cRGB &a, const cRGB &b) {
-  a.r += b.r; a.g += b.g; a.b += b.b;
+static inline cRGB& operator+=(cRGB& a, const cRGB& b) {
+  a.r += b.r;
+  a.g += b.g;
+  a.b += b.b;
   return a;
 }
 
-static inline cRGB operator*(float s, const cRGB &a) {
+static inline cRGB operator*(float s, const cRGB& a) {
   return cRGB(s * a.r, s * a.g, s * a.b);
 }
 
-static inline cRGBA operator+(const cRGBA &a, const cRGBA &b) {
+static inline cRGBA operator+(const cRGBA& a, const cRGBA& b) {
   return cRGBA(a.r + b.r, a.g + b.g, a.b + b.b, a.a + b.a);
 }
-static inline cRGBA &operator+=(cRGBA &a, const cRGBA &b) {
-  a.r += b.r; a.g += b.g; a.b += b.b; a.a += b.a;
+static inline cRGBA& operator+=(cRGBA& a, const cRGBA& b) {
+  a.r += b.r;
+  a.g += b.g;
+  a.b += b.b;
+  a.a += b.a;
   return a;
 }
 
-static inline cRGBA operator*(float s, const cRGBA &a) {
+static inline cRGBA operator*(float s, const cRGBA& a) {
   return cRGBA(s * a.r, s * a.g, s * a.b, s * a.a);
 }
 
@@ -82,24 +87,30 @@ static inline cRGB HSV2RGB(float H, float S, float V) {
     float p2 = V * (1.0f - S * f);
     float p3 = V * (1.0f - S * (1.0f - f));
     switch (i) {
-    case 0: return cRGB(V, p3, p1);
-    case 1: return cRGB(p2,  V, p1);
-    case 2: return cRGB(p1,  V, p3);
-    case 3: return cRGB(p1, p2,  V);
-    case 4: return cRGB(p3, p1,  V);
-    case 5: return cRGB(V, p1, p2);
+      case 0:
+        return cRGB(V, p3, p1);
+      case 1:
+        return cRGB(p2, V, p1);
+      case 2:
+        return cRGB(p1, V, p3);
+      case 3:
+        return cRGB(p1, p2, V);
+      case 4:
+        return cRGB(p3, p1, V);
+      case 5:
+        return cRGB(V, p1, p2);
     }
   }
   return cRGB(0, 0, 0);
 }
 
 struct colour_clamp_t {
-  cRGB operator()(const cRGB &c) const {
+  cRGB operator()(const cRGB& c) const {
     return cRGB(std::min(std::max(c.r, 0.0f), 1.0f),
                 std::min(std::max(c.g, 0.0f), 1.0f),
                 std::min(std::max(c.b, 0.0f), 1.0f));
   }
-  cRGBA operator()(const cRGBA &c) const {
+  cRGBA operator()(const cRGBA& c) const {
     return cRGBA(std::min(std::max(c.r, 0.0f), 1.0f),
                  std::min(std::max(c.g, 0.0f), 1.0f),
                  std::min(std::max(c.b, 0.0f), 1.0f),

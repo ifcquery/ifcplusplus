@@ -22,7 +22,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #pragma once
 
 #include <carve/carve.hpp>
@@ -34,14 +33,14 @@
 #include <gloop/glut.hpp>
 
 class Option {
-public:
+ public:
   bool isChecked();
   void setChecked(bool value);
 };
 
 class OptionGroup {
-public:
-  Option* createOption(const char *caption, bool initialValue);
+ public:
+  Option* createOption(const char* caption, bool initialValue);
 };
 
 class Scene {
@@ -58,10 +57,9 @@ class Scene {
   carve::geom3d::Vector CAM_LOOK_REAL;
   double CAM_DIST_REAL;
 
-
   int WIDTH;
   int HEIGHT;
-  
+
   bool initialised;
   bool disp_grid;
   bool disp_axes;
@@ -74,22 +72,19 @@ class Scene {
   virtual void _init();
 
   void updateDisplay();
-  
-protected:
 
+ protected:
   virtual bool key(unsigned char k, int x, int y);
   virtual GLvoid draw();
   virtual void click(int button, int state, int x, int y);
-  
 
-public:
-  Scene(int argc, char **argv);
+ public:
+  Scene(int argc, char** argv);
   virtual ~Scene();
   virtual void run();
   void init();
 
   carve::geom3d::Ray getRay(int x, int y);
   void zoomTo(carve::geom3d::Vector pos, double dist);
-  OptionGroup* createOptionGroup(const char *title);
-
+  OptionGroup* createOptionGroup(const char* title);
 };

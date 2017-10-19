@@ -168,11 +168,11 @@ public:
 	* No check for reference cycles is implemented.
 	*/
 	inline carve::math::Matrix getTotalTransform();
-	carve::math::Matrix getTransform()
+	const carve::math::Matrix& getTransform()
 	{
 		return m_item_matrix;
 	}
-	
+
 	void premultPositionToItem( const carve::math::Matrix& matrix )
 	{
 		premultMatrix( matrix, m_item_matrix );
@@ -245,7 +245,7 @@ public:
 		}
 	}
 
-	shared_ptr<ItemShapeData> getDeepCopy()
+	shared_ptr<ItemShapeData> getItemShapeDataDeepCopy()
 	{
 		shared_ptr<ItemShapeData> copy_item( new ItemShapeData() );
 
@@ -315,9 +315,10 @@ public:
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
+	carve::math::Matrix								m_representation_matrix;
 	weak_ptr<ProductShapeData>						m_parent_product;  // Pointer to product object that this representation belongs to
 
-	shared_ptr<RepresentationData> getDeepCopy()
+	shared_ptr<RepresentationData> getRepresentationDataDeepCopy()
 	{
 		shared_ptr<RepresentationData> copy_representation( new RepresentationData() );
 		copy_representation->m_ifc_representation = m_ifc_representation;
@@ -325,10 +326,21 @@ public:
 		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
 		{
 			shared_ptr<ItemShapeData>& item_data = m_vec_item_data[ii];
-			copy_representation->m_vec_item_data.push_back( item_data->getDeepCopy() );
+			copy_representation->m_vec_item_data.push_back( item_data->getItemShapeDataDeepCopy() );
 		}
 		std::copy( m_vec_representation_appearances.begin(), m_vec_representation_appearances.end(), std::back_inserter( copy_representation->m_vec_representation_appearances ) );
+		copy_representation->m_representation_matrix = m_representation_matrix;
 		return copy_representation;
+	}
+
+	void addChildItem( shared_ptr<ItemShapeData>& item_data, shared_ptr<RepresentationData>& ptr_self )
+	{
+		if( ptr_self.get() != this )
+		{
+			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
+		}
+		m_vec_item_data.push_back( item_data );
+		item_data->m_parent_representation = ptr_self;
 	}
 
 	void appendRepresentationData( shared_ptr<RepresentationData>& other, shared_ptr<RepresentationData>& ptr_self )
@@ -343,22 +355,6 @@ public:
 			m_vec_item_data.push_back( item_data );
 		}
 		std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
-	}
-
-	void deepCopyFrom( shared_ptr<RepresentationData>& other )
-	{
-		m_vec_item_data.clear();
-		m_vec_representation_appearances.clear();
-
-		if( other )
-		{
-			for( size_t item_i = 0; item_i < other->m_vec_item_data.size(); ++item_i )
-			{
-				shared_ptr<ItemShapeData>& item_data = other->m_vec_item_data[item_i];
-				m_vec_item_data.push_back( shared_ptr<ItemShapeData>( item_data->getDeepCopy() ) );
-			}
-			std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
-		}
 	}
 
 	void addAppearance( shared_ptr<AppearanceData>& appearance )
@@ -392,18 +388,17 @@ public:
 		m_vec_item_data.clear();
 		m_representation_identifier = L"";
 		m_representation_type = L"";
+		m_representation_matrix = carve::math::Matrix::IDENT();
 	}
 	
-	void premultTransformToChildItems( const carve::math::Matrix& matrix )
+	inline carve::math::Matrix getTotalTransform();
+	const carve::math::Matrix& getTransform()
 	{
-		if( GeomUtils::isMatrixIdentity( matrix ) )
-		{
-			return;
-		}
-		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
-		{
-			m_vec_item_data[i_item]->premultPositionToItem( matrix );
-		}
+		return m_representation_matrix;
+	}
+	void premultPositionToRepresentation( const carve::math::Matrix& matrix )
+	{
+		premultMatrix( matrix, m_representation_matrix );
 	}
 	void applyPositionToRepresentation( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
 	{
@@ -414,6 +409,17 @@ public:
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
 			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
+		}
+	}
+	void premultPositionToChildItems( const carve::math::Matrix& matrix )
+	{
+		if( GeomUtils::isMatrixIdentity( matrix ) )
+		{
+			return;
+		}
+		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
+		{
+			m_vec_item_data[i_item]->premultPositionToItem( matrix );
 		}
 	}
 };
@@ -433,25 +439,25 @@ protected:
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 
 public:
-	void deepCopyFrom( shared_ptr<ProductShapeData>& other )
+	shared_ptr<ProductShapeData> getDeepCopy()
 	{
-		m_vec_representations.clear();
-		m_vec_product_appearances.clear();
-		m_vec_children.clear();
-
-		if( other )
+		shared_ptr<ProductShapeData> copy_data( new ProductShapeData() );
+		for( size_t item_i = 0; item_i < m_vec_representations.size(); ++item_i )
 		{
-			for( size_t item_i = 0; item_i < other->m_vec_representations.size(); ++item_i )
-			{
-				shared_ptr<RepresentationData>& representation_data = other->m_vec_representations[item_i];
-				shared_ptr<RepresentationData> representation_data_copy = representation_data->getDeepCopy();
-				m_vec_representations.push_back( representation_data_copy );
-			}
-			std::copy( other->m_vec_product_appearances.begin(), other->m_vec_product_appearances.end(), std::back_inserter( m_vec_product_appearances ) );
-			std::copy( other->m_vec_children.begin(), other->m_vec_children.end(), std::back_inserter( m_vec_children ) );
-			m_product_matrix = other->m_product_matrix;
-			m_parent = other->m_parent;
+			shared_ptr<RepresentationData>& representation_data = m_vec_representations[item_i];
+			shared_ptr<RepresentationData> representation_data_copy = representation_data->getRepresentationDataDeepCopy();
+			copy_data->m_vec_representations.push_back( representation_data_copy );
 		}
+
+		std::copy( m_vec_product_appearances.begin(), m_vec_product_appearances.end(), std::back_inserter( copy_data->m_vec_product_appearances ) );
+		for( auto child_product_data : m_vec_children )
+		{
+			shared_ptr<ProductShapeData> child_copy = child_product_data->getDeepCopy();
+			copy_data->m_vec_children.push_back( child_product_data );
+		}
+		copy_data->m_product_matrix = m_product_matrix;
+		copy_data->m_parent = m_parent;
+		return copy_data;
 	}
 
 	void addAppearance( shared_ptr<AppearanceData>& appearance )
@@ -493,13 +499,13 @@ public:
 	{
 		if( ptr_self.get() != this )
 		{
-			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
+			std::cout << __FUNCTION__ << "ptr_self.get() != this" << std::endl;
 		}
-		child_product->m_parent = ptr_self;
 		m_vec_children.push_back( child_product );
+		child_product->m_parent = ptr_self;
 	}
 
-	carve::math::Matrix ProductShapeData::getTotalTransform()
+	carve::math::Matrix getTotalTransform()
 	{
 		carve::math::Matrix total_transform = m_product_matrix;
 		if( !m_parent.expired() )
@@ -511,11 +517,11 @@ public:
 		return total_transform;
 	}
 
-	carve::math::Matrix getTransform()
+	const carve::math::Matrix& getTransform() const
 	{
 		return m_product_matrix;
 	}
-	
+
 	void premultPositionToProduct( const carve::math::Matrix& matrix )
 	{
 		premultMatrix( matrix, m_product_matrix );
@@ -569,12 +575,20 @@ carve::math::Matrix ItemShapeData::getTotalTransform()
 	if( !m_parent_representation.expired() )
 	{
 		shared_ptr<RepresentationData> is_item_of_representation( m_parent_representation );
-		if( !is_item_of_representation->m_parent_product.expired() )
-		{
-			shared_ptr<ProductShapeData> is_item_of_product( is_item_of_representation->m_parent_product );
-			carve::math::Matrix parent_transform = is_item_of_product->getTotalTransform();
-			total_transform = parent_transform * total_transform;
-		}
+		carve::math::Matrix parent_transform = is_item_of_representation->getTotalTransform();
+		total_transform = parent_transform * total_transform;
+	}
+	return total_transform;
+}
+
+carve::math::Matrix RepresentationData::getTotalTransform()
+{
+	carve::math::Matrix total_transform = m_representation_matrix;
+	if( !m_parent_product.expired() )
+	{
+		shared_ptr<ProductShapeData> is_representation_of_product( m_parent_product );
+		carve::math::Matrix parent_transform = is_representation_of_product->getTotalTransform();
+		total_transform = parent_transform * total_transform;
 	}
 	return total_transform;
 }

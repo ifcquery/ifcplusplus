@@ -84,7 +84,7 @@ public:
 
 		std::vector<int> face_indexes;
 		std::vector<std::vector<vec2> > face_loops_used_for_triangulation;
-		triangulateLoops( face_loops_input, face_loops_used_for_triangulation, face_indexes, ifc_entity, this );
+		triangulateLoops( face_loops_input, face_loops_used_for_triangulation, face_indexes, ifc_entity );
 
 		size_t num_points_in_all_loops = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )
@@ -653,15 +653,12 @@ public:
 
 	void triangulateLoops( const std::vector<std::vector<vec2> >& profile_paths_input,
 		std::vector<std::vector<vec2> >& face_loops_used_for_triangulation,
-		std::vector<int>& face_indexes_out, IfcPPEntity* ifc_entity, StatusCallback* report_callback )
+		std::vector<int>& face_indexes_out, IfcPPEntity* ifc_entity )
 	{
 		// TODO: complete and test
 		if( profile_paths_input.size() == 0 )
 		{
-			if( report_callback )
-			{
-				report_callback->messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			}
+			messageCallback( "profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
 
@@ -727,10 +724,7 @@ public:
 
 			if( loop_2d.size() < 3 )
 			{
-				if( report_callback )
-				{
-					report_callback->messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-				}
+				messageCallback( "loop_2d.size() < 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			}
 
 			double signed_area = carve::geom2d::signedArea( loop_2d );
@@ -746,10 +740,7 @@ public:
 
 		if( warning_small_loop_detected )
 		{
-			if( report_callback )
-			{
-				report_callback->messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
-			}
+			messageCallback( "abs( signed_area ) < 1.e-10", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity );
 		}
 
 		if( face_loops_used_for_triangulation.size() == 0 )
@@ -759,10 +750,7 @@ public:
 				// already handled as curve
 				return;
 			}
-			if( report_callback )
-			{
-				report_callback->messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			}
+			messageCallback( "face_loops.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
 
@@ -800,20 +788,14 @@ public:
 
 				if( loop_number >= face_loops_used_for_triangulation.size() )
 				{
-					if( report_callback )
-					{
-						report_callback->messageCallback( "loop_number >= face_loops_used_for_triangulation.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-					}
+					messageCallback( "loop_number >= face_loops_used_for_triangulation.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
 				std::vector<vec2>& loop = face_loops_used_for_triangulation[loop_number];
 
 				if( index_in_loop >= loop.size() )
 				{
-					if( report_callback )
-					{
-						report_callback->messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-					}
+					messageCallback( "index_in_loop >= loop.size()", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 					continue;
 				}
 				vec2& point_in_loop = loop[index_in_loop];
@@ -834,10 +816,7 @@ public:
 		}
 		catch( ... )
 		{
-			if( report_callback )
-			{
-				report_callback->messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-			}
+			messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 			return;
 		}
 
@@ -926,7 +905,7 @@ public:
 
 		std::vector<int> face_indexes;
 		std::vector<std::vector<vec2> > face_loops_used_for_triangulation;
-		triangulateLoops( profile_paths, face_loops_used_for_triangulation, face_indexes, ifc_entity, this );
+		triangulateLoops( profile_paths, face_loops_used_for_triangulation, face_indexes, ifc_entity );
 
 		size_t num_points_in_all_loops = 0;
 		for( size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii )

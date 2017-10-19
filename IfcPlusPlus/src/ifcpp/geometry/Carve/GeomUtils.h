@@ -462,7 +462,7 @@ namespace GeomUtils
 		double len21_square = v21.length2();
 		double len32_square = v32.length2();
 
-		if( len21_square <= carve::EPSILON * len32_square )
+		if( len21_square <= carve::CARVE_EPSILON * len32_square )
 		{
 			if( len32_square == 0.0 )
 			{
@@ -483,7 +483,7 @@ namespace GeomUtils
 		else
 		{
 			valid = true;
-			if( len32_square <= carve::EPSILON * len21_square )
+			if( len32_square <= carve::CARVE_EPSILON * len21_square )
 			{
 				// return v21 as bisector
 				v21.normalize();
@@ -497,7 +497,7 @@ namespace GeomUtils
 				double dot_product = dot( v32, v21 );
 				double dot_product_abs = std::abs( dot_product );
 
-				if( dot_product_abs > ( 1.0 + carve::EPSILON ) || dot_product_abs < ( 1.0 - carve::EPSILON ) )
+				if( dot_product_abs > ( 1.0 + carve::CARVE_EPSILON ) || dot_product_abs < ( 1.0 - carve::CARVE_EPSILON ) )
 				{
 					normal = ( v32 + v21 )*dot_product - v32 - v21;
 					normal.normalize();

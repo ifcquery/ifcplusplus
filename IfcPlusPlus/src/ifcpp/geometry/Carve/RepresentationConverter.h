@@ -264,7 +264,6 @@ public:
 						continue;
 					}
 				}
-				carve::math::Matrix resulting_mapped_pos( map_matrix_target*map_matrix_origin );
 
 				shared_ptr<RepresentationData> mapped_input_data( new RepresentationData() );
 				if( !mapped_input_data )
@@ -313,7 +312,9 @@ public:
 						}
 					}
 				}
-				mapped_input_data->premultTransformToChildItems( resulting_mapped_pos );
+
+				carve::math::Matrix mapped_pos( map_matrix_target*map_matrix_origin );
+				mapped_input_data->premultPositionToChildItems( mapped_pos );
 				representation_data->appendRepresentationData( mapped_input_data, representation_data );
 
 				continue;
@@ -959,7 +960,7 @@ public:
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
 
-				opening_representation_data->premultTransformToChildItems( opening_placement_matrix );
+				opening_representation_data->premultPositionToRepresentation( opening_placement_matrix );
 				vec_opening_data.push_back( opening_representation_data );
 			}
 		}

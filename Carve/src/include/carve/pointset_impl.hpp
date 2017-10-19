@@ -26,19 +26,18 @@
 
 #include <vector>
 
-#include <carve/carve.hpp>
-#include <carve/tag.hpp>
-#include <carve/geom.hpp>
-#include <carve/kd_node.hpp>
-#include <carve/geom3d.hpp>
 #include <carve/aabb.hpp>
+#include <carve/carve.hpp>
+#include <carve/geom.hpp>
+#include <carve/geom3d.hpp>
+#include <carve/kd_node.hpp>
+#include <carve/tag.hpp>
 
 namespace carve {
-  namespace point {
+namespace point {
 
-    inline size_t PointSet::vertexToIndex_fast(const Vertex *v) const {
-      return (size_t)(v - &vertices[0]);
-    }
-
-  }
+inline size_t PointSet::vertexToIndex_fast(const Vertex* v) const {
+  return (size_t)(v - &vertices[0]);
+}
+}
 }
