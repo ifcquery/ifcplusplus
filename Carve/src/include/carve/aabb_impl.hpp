@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <carve/carve.hpp>
 
 #include <carve/geom3d.hpp>
