@@ -51,7 +51,6 @@ INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSG_BINARY_DIR}/include )
 
 SET(IFCPPVIEWER_SOURCE_FILES 
   src/IfcPlusPlusSystem.cpp
-  src/ViewController.cpp
   src/main.cpp
   src/cmd/CmdRemoveSelectedObjects.cpp
   src/cmd/CmdWriteIfcFile.cpp
@@ -62,6 +61,8 @@ SET(IFCPPVIEWER_SOURCE_FILES
   src/gui/MainWindow.cpp
   src/gui/TabReadWrite.cpp
   src/gui/TabView.cpp
+  src/viewer/GraphicsWindowQt.cpp
+  src/viewer/OrbitCameraManipulator.cpp
   src/viewer/OrbitCameraManipulator.cpp
   src/viewer/ViewerWidget.cpp
 )

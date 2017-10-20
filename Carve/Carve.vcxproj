@@ -314,6 +314,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\geometry.cpp" />
     <ClCompile Include="src\lib\carve.cpp" />
     <ClCompile Include="src\lib\convex_hull.cpp" />
     <ClCompile Include="src\lib\csg.cpp" />

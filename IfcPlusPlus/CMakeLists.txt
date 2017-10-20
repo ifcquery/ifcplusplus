@@ -27,12 +27,11 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include)
 INCLUDE_DIRECTORIES( ${INCLUDE_DIRECTORIES} ${OSG_INCLUDE_DIR} )
 
 LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}) 
-FILE (GLOB ifc4_source "src/ifcpp/IFC4/*.cpp")
+FILE (GLOB ifc4_source "src/ifcpp/IFC4/lib/*.cpp")
 
 SET(IFCPP_SOURCE_FILES 
-  src/ifcpp/IfcPPEntityBroker.cpp
-  src/ifcpp/IfcPPTypeBroker.cpp
-  src/ifcpp/model/IfcPPGuid.cpp
+  src/ifcpp/IFC4/IfcPPEntityFactory.cpp
+  src/ifcpp/IFC4/IfcPPTypeFactory.cpp
   src/ifcpp/model/IfcPPModel.cpp
   src/ifcpp/model/UnitConverter.cpp
   src/ifcpp/reader/IfcPPReader.cpp
