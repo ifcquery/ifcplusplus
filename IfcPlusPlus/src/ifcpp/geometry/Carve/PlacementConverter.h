@@ -40,11 +40,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcReal.h>
 #include <ifcpp/IFC4/include/IfcVirtualGridIntersection.h>
 #include "GeomUtils.h"
+#include "GeometryInputData.h"
 #include "IncludeCarveHeaders.h"
 
 namespace PlacementConverter
 {
-	inline void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, const double length_factor, carve::math::Matrix& resulting_matrix, bool only_rotation = false )
+	inline void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, const double length_factor, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
 	{
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
 		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
@@ -90,14 +91,20 @@ namespace PlacementConverter
 		local_y.normalize();
 		local_z.normalize();
 
-		resulting_matrix = carve::math::Matrix(
+		if( !resulting_matrix )
+		{
+			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+		}
+		resulting_matrix->m_matrix = carve::math::Matrix(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
+		resulting_matrix->m_placement_entity = axis2placement2d;
+		resulting_matrix->m_placement_id = axis2placement2d->m_id;
 	}
 
-	inline void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::math::Matrix& resulting_matrix, bool only_rotation = false )
+	inline void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
 	{
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
 		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
@@ -150,11 +157,17 @@ namespace PlacementConverter
 		local_y.normalize();
 		local_z.normalize();
 
-		resulting_matrix = carve::math::Matrix(
+		if( !resulting_matrix )
+		{
+			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+		}
+		resulting_matrix->m_matrix = carve::math::Matrix(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
+		resulting_matrix->m_placement_entity = axis2placement3d;
+		resulting_matrix->m_placement_id = axis2placement3d->m_id;
 	}
 
 	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::geom::plane<3>& plane, vec3& translate )
@@ -276,7 +289,7 @@ namespace PlacementConverter
 		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_x.z ) ) );
 	}
 
-	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, const double length_factor, carve::math::Matrix& resulting_matrix, StatusCallback* sc, bool only_rotation = false )
+	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, const double length_factor, shared_ptr<TransformData>& resulting_matrix, StatusCallback* sc, bool only_rotation = false )
 	{
 		if( dynamic_pointer_cast<IfcAxis1Placement>( placement ) )
 		{
@@ -306,7 +319,7 @@ namespace PlacementConverter
 	}
 
 	inline void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, const double length_factor,
-		carve::math::Matrix& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
+		shared_ptr<TransformData>& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
 	{
 		if( !context )
 		{
@@ -333,14 +346,18 @@ namespace PlacementConverter
 		//shared_ptr<IfcDirection>& true_north = geom_context->m_TrueNorth;				//optional
 		// inverse attributes: std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >	m_HasSubContexts_inverse;
 
-		carve::math::Matrix world_coords_matrix( carve::math::Matrix::IDENT() );
+		shared_ptr<TransformData> world_coords_matrix( new TransformData() );
 		shared_ptr<IfcAxis2Placement3D> world_coords_3d = dynamic_pointer_cast<IfcAxis2Placement3D>( world_coords_select );
 		if( world_coords_3d )
 		{
 			convertIfcAxis2Placement3D( world_coords_3d, length_factor, world_coords_matrix );
 		}
 
-		resulting_matrix = resulting_matrix*world_coords_matrix;
+		if( !resulting_matrix )
+		{
+			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+		}
+		resulting_matrix->m_matrix = resulting_matrix->m_matrix*world_coords_matrix->m_matrix;
 
 		shared_ptr<IfcGeometricRepresentationSubContext> geom_sub_context = dynamic_pointer_cast<IfcGeometricRepresentationSubContext>( geom_context );
 		if( geom_sub_context )
@@ -359,7 +376,7 @@ namespace PlacementConverter
 
 	//\brief translates an IfcObjectPlacement (or subtype) to carve Matrix
 	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, const double length_factor,
-		carve::math::Matrix& resulting_matrix, StatusCallback* sc, std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation = false )
+		shared_ptr<ProductShapeData>& product_data, StatusCallback* sc, std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation )
 	{
 		if( !ifc_object_placement )
 		{
@@ -373,10 +390,16 @@ namespace PlacementConverter
 		}
 		placement_already_applied.insert( placement_ptr );
 
-		resulting_matrix = carve::math::Matrix::IDENT();
 		shared_ptr<IfcLocalPlacement> local_placement = dynamic_pointer_cast<IfcLocalPlacement>( ifc_object_placement );
 		if( local_placement )
 		{
+			if( local_placement->m_PlacementRelTo )
+			{
+				// placement is relative to other placement
+				shared_ptr<IfcObjectPlacement> rel_to_placement = local_placement->m_PlacementRelTo;
+				convertIfcObjectPlacement( rel_to_placement, length_factor, product_data, sc, placement_already_applied, only_rotation );
+			}
+
 			shared_ptr<IfcAxis2Placement> relative_axis2placement_select = local_placement->m_RelativePlacement;
 			if( relative_axis2placement_select )
 			{
@@ -384,9 +407,9 @@ namespace PlacementConverter
 				shared_ptr<IfcPlacement> relative_placement = dynamic_pointer_cast<IfcPlacement>( relative_axis2placement_select );
 				if( relative_placement )
 				{
-					carve::math::Matrix relative_placement_matrix( carve::math::Matrix::IDENT() );
+					shared_ptr<TransformData> relative_placement_matrix;
 					convertIfcPlacement( relative_placement, length_factor, relative_placement_matrix, sc, only_rotation );
-					resulting_matrix = relative_placement_matrix;
+					product_data->addTransform( relative_placement_matrix );
 				}
 				else
 				{
@@ -395,22 +418,6 @@ namespace PlacementConverter
 						sc->messageCallback( "unhandled placement", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, local_placement.get() );
 					}
 				}
-			}
-
-			if( local_placement->m_PlacementRelTo )
-			{
-				// placement is relative to other placement
-				shared_ptr<IfcObjectPlacement> rel_to_placement = local_placement->m_PlacementRelTo;
-				carve::math::Matrix rel_to_placement_matrix( carve::math::Matrix::IDENT() );
-				convertIfcObjectPlacement( rel_to_placement, length_factor, rel_to_placement_matrix, sc, placement_already_applied, only_rotation );
-				resulting_matrix = rel_to_placement_matrix*resulting_matrix;
-			}
-			else
-			{
-				// If the PlacementRelTo is not given, then the IfcProduct is placed absolutely within the world coordinate system
-				//carve::math::Matrix context_matrix( carve::math::Matrix::IDENT() );
-				//applyContext( context, context_matrix, length_factor, placement_already_applied );
-				//object_placement = context_matrix*object_placement;
 			}
 		}
 		else if( dynamic_pointer_cast<IfcGridPlacement>( ifc_object_placement ) )
@@ -434,7 +441,7 @@ namespace PlacementConverter
 		}
 	}
 
-	inline void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, const double length_factor, carve::math::Matrix& resulting_matrix, StatusCallback* sc )
+	inline void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, const double length_factor, shared_ptr<TransformData>& resulting_matrix, StatusCallback* sc )
 	{
 		// ENTITY IfcCartesianTransformationOperator  ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianTransformationOperator2D, IfcCartesianTransformationOperator3D))
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
@@ -610,11 +617,17 @@ namespace PlacementConverter
 		local_y.normalize();
 		local_z.normalize();
 
+		if( !resulting_matrix )
+		{
+			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+		}
 		carve::math::Matrix rotate_translate(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
-		resulting_matrix = rotate_translate*carve::math::Matrix::SCALE( scale, scale_y, scale_z ); // scale is applied first, rotate second
+		resulting_matrix->m_matrix = rotate_translate*carve::math::Matrix::SCALE( scale, scale_y, scale_z ); // scale is applied first, rotate second
+		resulting_matrix->m_placement_entity = transform_operator;
+		resulting_matrix->m_placement_id = transform_operator->m_id;
 	}
 };

@@ -110,7 +110,7 @@ public:
 			}
 
 			// check if local coordinate system is specified for extrusion
-			carve::math::Matrix swept_area_pos;
+			shared_ptr<TransformData> swept_area_pos;
 			if( swept_area_solid->m_Position )
 			{
 				double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -122,8 +122,8 @@ public:
 			if( extruded_area )
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
-				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
+				item_data->applyPositionToItem( swept_area_pos );
 				return;
 			}
 
@@ -149,8 +149,8 @@ public:
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
-				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
+				item_data->applyPositionToItem( swept_area_pos );
 
 				return;
 			}
@@ -159,8 +159,8 @@ public:
 			if( revolved_area_solid )
 			{
 				convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid );
-				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
+				item_data->applyPositionToItem( swept_area_pos );
 				return;
 			}
 
@@ -194,8 +194,8 @@ public:
 				}
 
 				m_sweeper->sweepArea( directrix_curve_points, profile_paths, surface_curve_swept_area_solid.get(), item_data_solid );
-				item_data->premultPositionToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
+				item_data->applyPositionToItem( swept_area_pos );
 
 				return;
 			}
@@ -835,13 +835,6 @@ public:
 		}
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
-		// transform meshset into global coordinates
-		carve::math::Matrix first_operand_resulting_matrix = first_operand_data->getTransform();
-		first_operand_data->applyPositionToItem( first_operand_resulting_matrix );
-
-		carve::math::Matrix second_operand_resulting_matrix = second_operand_data->getTransform();
-		second_operand_data->applyPositionToItem( second_operand_resulting_matrix );
-
 		// for every first operand polyhedrons, apply all second operand polyhedrons
 		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_first_operand_meshsets = first_operand_data->m_meshsets;
 		for( size_t i_meshset_first = 0; i_meshset_first < vec_first_operand_meshsets.size(); ++i_meshset_first )
@@ -883,20 +876,6 @@ public:
 		// now copy processed first operands to result input data
 		std::copy( first_operand_data->m_meshsets.begin(), first_operand_data->m_meshsets.end(), std::back_inserter( item_data->m_meshsets ) );
 
-		// transform meshset back into local coordinates
-
-		carve::math::Matrix first_inverse_matrix;
-		try
-		{
-			GeomUtils::computeInverse( first_operand_resulting_matrix, first_inverse_matrix, 0.01/m_unit_converter->getCustomLengthFactor() );
-		}
-		catch( std::exception& e )
-		{
-			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, bool_result.get() );
-		}
-		item_data->applyPositionToItem( first_inverse_matrix );
-		item_data->m_item_matrix = first_operand_resulting_matrix;
-
 		shared_ptr<IfcBooleanClippingResult> boolean_clipping_result = dynamic_pointer_cast<IfcBooleanClippingResult>( bool_result );
 		if( boolean_clipping_result )
 		{
@@ -914,11 +893,17 @@ public:
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// ENTITY IfcCsgPrimitive3D  ABSTRACT SUPERTYPE OF(ONEOF(IfcBlock, IfcRectangularPyramid, IfcRightCircularCone, IfcRightCircularCylinder, IfcSphere
-		carve::math::Matrix primitive_placement_matrix;
+		shared_ptr<TransformData> primitive_placement_transform;
 		shared_ptr<IfcAxis2Placement3D>& primitive_placement = csg_primitive->m_Position;
 		if( primitive_placement )
 		{
-			PlacementConverter::convertIfcAxis2Placement3D( primitive_placement, length_factor, primitive_placement_matrix );
+			PlacementConverter::convertIfcAxis2Placement3D( primitive_placement, length_factor, primitive_placement_transform );
+		}
+
+		carve::math::Matrix primitive_placement_matrix;
+		if( primitive_placement_transform )
+		{
+			primitive_placement_matrix = primitive_placement_transform->m_matrix;
 		}
 
 		if( !item_data )
@@ -1237,11 +1222,16 @@ public:
 		shared_ptr<IfcAxis2Placement3D>& base_surface_pos = elem_base_surface->m_Position;
 		carve::geom::plane<3> base_surface_plane;
 		vec3 base_surface_position;
-		carve::math::Matrix base_position_matrix( carve::math::Matrix::IDENT() );
+		shared_ptr<TransformData> base_position_transform;
 		if( base_surface_pos )
 		{
 			PlacementConverter::getPlane( base_surface_pos, length_factor, base_surface_plane, base_surface_position );
-			PlacementConverter::convertIfcAxis2Placement3D( base_surface_pos, length_factor, base_position_matrix );
+			PlacementConverter::convertIfcAxis2Placement3D( base_surface_pos, length_factor, base_position_transform );
+		}
+		carve::math::Matrix base_position_matrix;
+		if( base_position_transform )
+		{
+			base_position_matrix = base_position_transform->m_matrix;
 		}
 
 		// If the agreement flag is TRUE, then the subset is the one the normal points away from
@@ -1345,12 +1335,17 @@ public:
 			//	Position	 :	IfcAxis2Placement3D;
 			//	PolygonalBoundary	 :	IfcBoundedCurve;
 
+			shared_ptr<TransformData> boundary_transform;
 			carve::math::Matrix boundary_position_matrix( carve::math::Matrix::IDENT() );
 			vec3 boundary_plane_normal( carve::geom::VECTOR( 0, 0, 1 ) );
 			vec3 boundary_position;
 			if( polygonal_half_space->m_Position )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( polygonal_half_space->m_Position, length_factor, boundary_position_matrix );
+				PlacementConverter::convertIfcAxis2Placement3D( polygonal_half_space->m_Position, length_factor, boundary_transform );
+				if( boundary_transform )
+				{
+					boundary_position_matrix = boundary_transform->m_matrix;
+				}
 				boundary_plane_normal = carve::geom::VECTOR( boundary_position_matrix._31, boundary_position_matrix._32, boundary_position_matrix._33 );
 				boundary_position = carve::geom::VECTOR( boundary_position_matrix._41, boundary_position_matrix._42, boundary_position_matrix._43 );
 			}
@@ -1580,5 +1575,4 @@ public:
 		std::cout << "IfcSectionedSpine not implemented." << std::endl;
 #endif
 	}
-
 };

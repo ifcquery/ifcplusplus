@@ -339,7 +339,7 @@ public:
 
 		shared_ptr<IfcCartesianTransformationOperator2D> transf_op_2D = derived_profile->m_Operator;
 
-		carve::math::Matrix transform( carve::math::Matrix::IDENT() );
+		shared_ptr<TransformData> transform;
 		PlacementConverter::convertTransformationOperator( transf_op_2D, length_factor, transform, this );
 		for( size_t i = 0; i < parent_paths.size(); ++i )
 		{
@@ -350,7 +350,10 @@ public:
 			{
 				const vec2& pt = loop_parent[j];
 				vec3 pt3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
-				pt3d = transform*pt3d;
+				if( transform )
+				{
+					pt3d = transform->m_matrix*pt3d;
+				}
 				loop.push_back( carve::geom::VECTOR( pt3d.x, pt3d.y ) );
 			}
 			paths.push_back( loop );
@@ -366,7 +369,7 @@ public:
 		if( parameterized->m_Position )
 		{
 			shared_ptr<IfcAxis2Placement2D> axis2Placement2D = parameterized->m_Position;
-			carve::math::Matrix transform( carve::math::Matrix::IDENT() );
+			shared_ptr<TransformData> transform;
 			PlacementConverter::convertIfcPlacement( axis2Placement2D, length_factor, transform, this );
 
 			for( size_t i = 0; i < temp_paths.size(); ++i )
@@ -376,7 +379,10 @@ public:
 				{
 					vec2& pt = path_loop[j];
 					vec3 pt_3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
-					pt_3d = transform*pt_3d;
+					if( transform )
+					{
+						pt_3d = transform->m_matrix*pt_3d;
+					}
 					pt.x = pt_3d.x;
 					pt.y = pt_3d.y;
 				}

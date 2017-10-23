@@ -77,6 +77,65 @@ public:
 		m_map_representation_id_to_switch.clear();
 	}
 
+	static void drawBoundingBox( const carve::geom::aabb<3>& aabb, osg::Geometry* geom )
+	{
+		osg::Vec3Array* vertices = dynamic_cast<osg::Vec3Array*>( geom->getVertexArray() );
+		if( !vertices )
+		{
+			vertices = new osg::Vec3Array();
+			geom->setVertexArray( vertices );
+		}
+		const carve::geom::vector<3>& aabb_pos = aabb.pos;
+		const carve::geom::vector<3>& extent = aabb.extent;
+		const double dex = extent.x;
+		const double dey = extent.y;
+		const double dez = extent.z;
+
+		const int vert_id_offset = vertices->size();
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y - dey, aabb_pos.z - dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y - dey, aabb_pos.z - dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z - dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z - dez ) );
+
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y - dey, aabb_pos.z + dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y - dey, aabb_pos.z + dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
+		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
+
+		osg::DrawElementsUInt* box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
+		box_lines->push_back( vert_id_offset + 0 );
+		box_lines->push_back( vert_id_offset + 1 );
+		box_lines->push_back( vert_id_offset + 2 );
+		box_lines->push_back( vert_id_offset + 3 );
+		box_lines->push_back( vert_id_offset + 0 );
+		box_lines->push_back( vert_id_offset + 4 );
+		box_lines->push_back( vert_id_offset + 5 );
+		box_lines->push_back( vert_id_offset + 1 );
+		box_lines->push_back( vert_id_offset + 5 );
+		box_lines->push_back( vert_id_offset + 6 );
+		box_lines->push_back( vert_id_offset + 2 );
+		box_lines->push_back( vert_id_offset + 6 );
+		box_lines->push_back( vert_id_offset + 7 );
+		box_lines->push_back( vert_id_offset + 3 );
+		box_lines->push_back( vert_id_offset + 7 );
+		box_lines->push_back( vert_id_offset + 4 );
+		geom->addPrimitiveSet( box_lines );
+
+		osg::ref_ptr<osg::Material> mat = new osg::Material();
+		if( !mat ) { throw IfcPPOutOfMemoryException(); }
+		osg::Vec4f ambientColor( 1.f, 0.2f, 0.1f, 1.f );
+		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
+		mat->setDiffuse( osg::Material::FRONT_AND_BACK, ambientColor );
+		mat->setSpecular( osg::Material::FRONT_AND_BACK, ambientColor );
+		//mat->setShininess( osg::Material::FRONT_AND_BACK, shininess );
+		//mat->setColorMode( osg::Material::SPECULAR );
+
+		osg::StateSet* stateset = geom->getOrCreateStateSet();
+		if( !stateset ) { throw IfcPPOutOfMemoryException(); }
+		stateset->setAttribute( mat, osg::StateAttribute::ON );
+		stateset->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+	}
+
 	static void drawFace( const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false )
 	{
 #ifdef _DEBUG
@@ -546,6 +605,7 @@ public:
 		const int product_id = ifc_product->m_id;
 		std::stringstream strs_product_switch_name;
 		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+		bool draw_bounding_box = false;
 		
 		// create OSG objects
 		std::vector<shared_ptr<RepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
@@ -559,11 +619,6 @@ public:
 			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
 			const int representation_id = ifc_representation->m_id;
 			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
-
-			osg::ref_ptr<osg::MatrixTransform> representation_matrix = new osg::MatrixTransform();
-			
-			representation_matrix->setMatrix( convertMatrixToOSG( product_representation_data->getTransform() ) );
-			representation_switch->addChild( representation_matrix );
 			
 #ifdef _DEBUG
 			std::stringstream strs_representation_name;
@@ -577,7 +632,6 @@ public:
 				const shared_ptr<ItemShapeData>& item_shape = product_items[i_item];
 				osg::ref_ptr<osg::MatrixTransform> item_group = new osg::MatrixTransform();
 				if( !item_group ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-				item_group->setMatrix( convertMatrixToOSG( item_shape->getTransform() ) );
 
 #ifdef _DEBUG
 				std::stringstream strs_item_name;
@@ -598,6 +652,14 @@ public:
 					geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
 					item_group->addChild( geode );
 
+					if( draw_bounding_box )
+					{
+						carve::geom::aabb<3> bbox = item_meshset->getAABB();
+						osg::ref_ptr<osg::Geometry> bbox_geom = new osg::Geometry();
+						drawBoundingBox( bbox, bbox_geom );
+						geode->addDrawable( bbox_geom );
+					}
+
 #ifdef _DEBUG
 					std::stringstream strs_item_meshset_name;
 					strs_item_meshset_name << strs_item_name.str().c_str() << ", open meshset " << ii;
@@ -614,6 +676,15 @@ public:
 					if( !geode_meshset ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 					drawMeshSet( item_meshset, geode_meshset, m_geom_settings->getMinCreaseAngle() );
 					item_group->addChild( geode_meshset );
+
+
+					if( draw_bounding_box )
+					{
+						carve::geom::aabb<3> bbox = item_meshset->getAABB();
+						osg::ref_ptr<osg::Geometry> bbox_geom = new osg::Geometry();
+						drawBoundingBox( bbox, bbox_geom );
+						geode_meshset->addDrawable( bbox_geom );
+					}
 
 #ifdef _DEBUG
 					std::stringstream strs_item_meshset_name;
@@ -725,26 +796,26 @@ public:
 #ifdef _DEBUG
 					if( item_group->getNumParents() > 0 )
 					{
-						std::cout << __FUNC__ << "item_group->getNumParents() > 0" << std::endl;
+						std::cout << __FUNC__ << ": item_group->getNumParents() > 0" << std::endl;
 					}
 #endif
-					representation_matrix->addChild( item_group );
+					representation_switch->addChild( item_group );
 				}
 			}
 
 			// apply statesets if there are any
 			if( product_representation_data->m_vec_representation_appearances.size() > 0 )
 			{
-				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, representation_matrix );
+				applyAppearancesToGroup( product_representation_data->m_vec_representation_appearances, representation_switch );
 			}
 
 			// If anything has been created, add it to the product group
-			if( representation_matrix->getNumChildren() > 0 )
+			if( representation_switch->getNumChildren() > 0 )
 			{
 #ifdef _DEBUG
-				if( representation_matrix->getNumParents() > 0 )
+				if( representation_switch->getNumParents() > 0 )
 				{
-					std::cout << __FUNC__ << "product_representation_switch->getNumParents() > 0" << std::endl;
+					std::cout << __FUNC__ << ": product_representation_switch->getNumParents() > 0" << std::endl;
 				}
 #endif
 				// enable transparency for certain objects

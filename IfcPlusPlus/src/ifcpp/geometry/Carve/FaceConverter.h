@@ -103,7 +103,7 @@ public:
 			{
 				// ENTITY IfcCurveBoundedPlane SUBTYPE OF IfcBoundedSurface;
 				shared_ptr<IfcCurveBoundedPlane> curve_bounded_plane = dynamic_pointer_cast<IfcCurveBoundedPlane>( bounded_surface );
-				carve::math::Matrix curve_bounded_plane_matrix;
+				shared_ptr<TransformData> curve_bounded_plane_matrix;
 				shared_ptr<IfcPlane>& basis_surface = curve_bounded_plane->m_BasisSurface;
 				if( basis_surface )
 				{
@@ -140,7 +140,7 @@ public:
 				PolyInputCache3D poly_cache;
 				m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
 				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
-				item_data->premultPositionToItem( curve_bounded_plane_matrix );
+				item_data->applyPositionToItem( curve_bounded_plane_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
 			{
@@ -190,15 +190,17 @@ public:
 			//ENTITY IfcElementarySurface	ABSTRACT SUPERTYPE OF(ONEOF(IfcCylindricalSurface, IfcPlane))
 			shared_ptr<IfcAxis2Placement3D>& elementary_surface_placement = elementary_surface->m_Position;
 
-			carve::math::Matrix elementary_surface_matrix;
+			shared_ptr<TransformData> elementary_surface_transform;
 			if( elementary_surface_placement )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( elementary_surface_placement, length_factor, elementary_surface_matrix );
-				//elementary_surface_matrix = pos*elementary_surface_matrix;
+				PlacementConverter::convertIfcAxis2Placement3D( elementary_surface_placement, length_factor, elementary_surface_transform );
 			}
 
 			shared_ptr<SurfaceProxyLinear> proxy_linear( new SurfaceProxyLinear() );
-			proxy_linear->m_surface_matrix = elementary_surface_matrix;
+			if( elementary_surface_transform )
+			{
+				proxy_linear->m_surface_matrix = elementary_surface_transform->m_matrix;
+			}
 			surface_proxy = proxy_linear;
 
 			shared_ptr<IfcPlane> elementary_surface_plane = dynamic_pointer_cast<IfcPlane>( elementary_surface );
@@ -212,10 +214,10 @@ public:
 					double plane_span = HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					polyline_data->beginPolyline();
-					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( plane_span, plane_span, 0.0 ) );
-					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( -plane_span, plane_span, 0.0 ) );
-					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( -plane_span, -plane_span, 0.0 ) );
-					polyline_data->addVertex( elementary_surface_matrix*carve::geom::VECTOR( plane_span, -plane_span, 0.0 ) );
+					polyline_data->addVertex( proxy_linear->m_surface_matrix*carve::geom::VECTOR( plane_span, plane_span, 0.0 ) );
+					polyline_data->addVertex( proxy_linear->m_surface_matrix*carve::geom::VECTOR( -plane_span, plane_span, 0.0 ) );
+					polyline_data->addVertex( proxy_linear->m_surface_matrix*carve::geom::VECTOR( -plane_span, -plane_span, 0.0 ) );
+					polyline_data->addVertex( proxy_linear->m_surface_matrix*carve::geom::VECTOR( plane_span, -plane_span, 0.0 ) );
 
 					polyline_data->addPolylineIndex( 0 );
 					polyline_data->addPolylineIndex( 1 );
@@ -248,7 +250,10 @@ public:
 				{
 					vec2& point = circle_points[i];
 					vec3 point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
-					polyline_data->addVertex( elementary_surface_matrix*point3d );
+					if( elementary_surface_transform )
+					{
+						polyline_data->addVertex( elementary_surface_transform->m_matrix*point3d );
+					}
 					polyline_data->addPolylineIndex( i );
 				}
 				item_data->m_polylines.push_back( polyline_data );
@@ -265,11 +270,10 @@ public:
 			//shared_ptr<IfcProfileDef>& swept_surface_profile = swept_surface->m_SweptCurve;
 			shared_ptr<IfcAxis2Placement3D>& swept_surface_placement = swept_surface->m_Position;
 
-			carve::math::Matrix swept_surface_matrix;
+			shared_ptr<TransformData> swept_surface_transform;
 			if( swept_surface_placement )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( swept_surface_placement, length_factor, swept_surface_matrix );
-				//swept_surface_matrix = pos*swept_surface_matrix;
+				PlacementConverter::convertIfcAxis2Placement3D( swept_surface_placement, length_factor, swept_surface_transform );
 			}
 
 			shared_ptr<IfcSurfaceOfLinearExtrusion> linear_extrusion = dynamic_pointer_cast<IfcSurfaceOfLinearExtrusion>( swept_surface );

@@ -502,13 +502,12 @@ public:
 		}
 
 		// IfcProduct has an ObjectPlacement that can be local or global
-		carve::math::Matrix product_placement_matrix( carve::math::Matrix::IDENT() );
+		product_shape->m_object_placement = ifc_product->m_ObjectPlacement;
 		if( ifc_product->m_ObjectPlacement )
 		{
 			// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 			std::unordered_set<IfcObjectPlacement*> placement_already_applied;
-			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
-			product_shape->premultPositionToProduct( product_placement_matrix );
+			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_shape, this, placement_already_applied, false );
 		}
 
 		// handle openings

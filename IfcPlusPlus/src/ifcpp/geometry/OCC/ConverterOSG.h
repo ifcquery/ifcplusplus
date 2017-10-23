@@ -657,7 +657,7 @@ public:
 #ifdef _DEBUG
 					if( item_group->getNumParents() > 0 )
 					{
-						std::cout << __FUNC__ << "item_group->getNumParents() > 0" << std::endl;
+						std::cout << __FUNC__ << ": item_group->getNumParents() > 0" << std::endl;
 					}
 #endif
 					representation_switch->addChild( item_group );
@@ -676,7 +676,7 @@ public:
 #ifdef _DEBUG
 				if( representation_switch->getNumParents() > 0 )
 				{
-					std::cout << __FUNC__ << "product_representation_switch->getNumParents() > 0" << std::endl;
+					std::cout << __FUNC__ << ": product_representation_switch->getNumParents() > 0" << std::endl;
 				}
 #endif
 

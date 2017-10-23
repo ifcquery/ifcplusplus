@@ -183,7 +183,7 @@ public:
 		{
 			// ENTITY IfcConic ABSTRACT SUPERTYPE OF(ONEOF(IfcCircle, IfcEllipse))
 
-			carve::math::Matrix conic_position_matrix( carve::math::Matrix::IDENT() );
+			shared_ptr<TransformData> conic_position_matrix;
 			// TYPE IfcAxis2Placement = SELECT	(IfcAxis2Placement2D	,IfcAxis2Placement3D);
 			shared_ptr<IfcAxis2Placement> conic_placement_select = conic->m_Position;
 			if( conic_placement_select )
@@ -209,7 +209,11 @@ public:
 					circle_radius = circle->m_Radius->m_value*length_factor;
 				}
 
-				vec3 circle_center = conic_position_matrix*carve::geom::VECTOR( 0, 0, 0 );
+				vec3 circle_center;
+				if( conic_position_matrix )
+				{
+					circle_center = conic_position_matrix->m_matrix*carve::geom::VECTOR( 0, 0, 0 );
+				}
 
 				double trim_angle1 = 0.0;
 				double trim_angle2 = M_PI*2.0;
@@ -344,7 +348,10 @@ public:
 					{
 						vec2&  point = circle_points[i];
 						vec3  point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
-						point3d = conic_position_matrix * point3d;
+						if( conic_position_matrix )
+						{
+							point3d = conic_position_matrix->m_matrix * point3d;
+						}
 						point.x = point3d.x;
 						point.y = point3d.y;
 					}
@@ -378,10 +385,13 @@ public:
 						}
 
 						// apply position
-						for( size_t i = 0; i < circle_points.size(); ++i )
+						if( conic_position_matrix )
 						{
-							vec3& point = circle_points[i];
-							point = conic_position_matrix * point;
+							for( size_t i = 0; i < circle_points.size(); ++i )
+							{
+								vec3& point = circle_points[i];
+								point = conic_position_matrix->m_matrix * point;
+							}
 						}
 						GeomUtils::appendPointsToCurve( circle_points, target_vec );
 
