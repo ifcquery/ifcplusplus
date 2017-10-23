@@ -471,6 +471,11 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 						}
 					}
 				}
+				else
+				{
+					unkown_entities.insert( unknown_keyword );
+					err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+				}
 			}
 
 			if( i%10 == 0)
