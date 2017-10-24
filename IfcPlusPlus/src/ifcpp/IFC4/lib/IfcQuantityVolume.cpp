@@ -17,7 +17,7 @@
 
 // ENTITY IfcQuantityVolume 
 IfcQuantityVolume::IfcQuantityVolume() {}
-IfcQuantityVolume::IfcQuantityVolume( int id ) { m_id = id; }
+IfcQuantityVolume::IfcQuantityVolume( int id ) { m_entity_id = id; }
 IfcQuantityVolume::~IfcQuantityVolume() {}
 shared_ptr<IfcPPObject> IfcQuantityVolume::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,24 +31,24 @@ shared_ptr<IfcPPObject> IfcQuantityVolume::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcQuantityVolume::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCQUANTITYVOLUME" << "(";
+	stream << "#" << m_entity_id << "= IFCQUANTITYVOLUME" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Unit ) { stream << "#" << m_Unit->m_id; } else { stream << "*"; }
+	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_VolumeValue ) { m_VolumeValue->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Formula ) { m_Formula->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcQuantityVolume::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcQuantityVolume::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcQuantityVolume::toString() const { return L"IfcQuantityVolume"; }
 void IfcQuantityVolume::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcQuantityVolume, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcQuantityVolume, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Unit, map );

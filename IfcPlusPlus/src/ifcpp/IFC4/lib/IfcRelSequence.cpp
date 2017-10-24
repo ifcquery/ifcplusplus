@@ -18,7 +18,7 @@
 
 // ENTITY IfcRelSequence 
 IfcRelSequence::IfcRelSequence() {}
-IfcRelSequence::IfcRelSequence( int id ) { m_id = id; }
+IfcRelSequence::IfcRelSequence( int id ) { m_entity_id = id; }
 IfcRelSequence::~IfcRelSequence() {}
 shared_ptr<IfcPPObject> IfcRelSequence::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -44,32 +44,32 @@ shared_ptr<IfcPPObject> IfcRelSequence::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcRelSequence::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELSEQUENCE" << "(";
+	stream << "#" << m_entity_id << "= IFCRELSEQUENCE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingProcess ) { stream << "#" << m_RelatingProcess->m_id; } else { stream << "$"; }
+	if( m_RelatingProcess ) { stream << "#" << m_RelatingProcess->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatedProcess ) { stream << "#" << m_RelatedProcess->m_id; } else { stream << "$"; }
+	if( m_RelatedProcess ) { stream << "#" << m_RelatedProcess->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TimeLag ) { stream << "#" << m_TimeLag->m_id; } else { stream << "$"; }
+	if( m_TimeLag ) { stream << "#" << m_TimeLag->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SequenceType ) { m_SequenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_UserDefinedSequenceType ) { m_UserDefinedSequenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelSequence::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelSequence::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelSequence::toString() const { return L"IfcRelSequence"; }
 void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

@@ -14,7 +14,7 @@
 
 // ENTITY IfcPolyLoop 
 IfcPolyLoop::IfcPolyLoop() {}
-IfcPolyLoop::IfcPolyLoop( int id ) { m_id = id; }
+IfcPolyLoop::IfcPolyLoop( int id ) { m_entity_id = id; }
 IfcPolyLoop::~IfcPolyLoop() {}
 shared_ptr<IfcPPObject> IfcPolyLoop::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,16 +31,16 @@ shared_ptr<IfcPPObject> IfcPolyLoop::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPolyLoop::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPOLYLOOP" << "(";
+	stream << "#" << m_entity_id << "= IFCPOLYLOOP" << "(";
 	writeEntityList( stream, m_Polygon );
 	stream << ");";
 }
-void IfcPolyLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPolyLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolyLoop::toString() const { return L"IfcPolyLoop"; }
 void IfcPolyLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyLoop, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Polygon, map );
 }
 void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

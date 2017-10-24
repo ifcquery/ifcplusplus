@@ -15,7 +15,7 @@
 
 // ENTITY IfcStructuralLoadSingleDisplacementDistortion 
 IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion() {}
-IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion( int id ) { m_id = id; }
+IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleDisplacementDistortion::~IfcStructuralLoadSingleDisplacementDistortion() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacementDistortion::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,7 +32,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacementDistortion::getDeepCo
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream ); } else { stream << "*"; }
@@ -50,12 +50,12 @@ void IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstre
 	if( m_Distortion ) { m_Distortion->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleDisplacementDistortion::toString() const { return L"IfcStructuralLoadSingleDisplacementDistortion"; }
 void IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacementDistortion, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacementDistortion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DisplacementX = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_DisplacementY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );

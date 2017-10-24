@@ -12,7 +12,7 @@
 
 // ENTITY IfcTimePeriod 
 IfcTimePeriod::IfcTimePeriod() {}
-IfcTimePeriod::IfcTimePeriod( int id ) { m_id = id; }
+IfcTimePeriod::IfcTimePeriod( int id ) { m_entity_id = id; }
 IfcTimePeriod::~IfcTimePeriod() {}
 shared_ptr<IfcPPObject> IfcTimePeriod::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -23,18 +23,18 @@ shared_ptr<IfcPPObject> IfcTimePeriod::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTimePeriod::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTIMEPERIOD" << "(";
+	stream << "#" << m_entity_id << "= IFCTIMEPERIOD" << "(";
 	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTimePeriod::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTimePeriod::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTimePeriod::toString() const { return L"IfcTimePeriod"; }
 void IfcTimePeriod::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimePeriod, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimePeriod, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_StartTime = IfcTime::createObjectFromSTEP( args[0], map );
 	m_EndTime = IfcTime::createObjectFromSTEP( args[1], map );
 }

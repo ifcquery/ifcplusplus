@@ -14,7 +14,7 @@
 
 // ENTITY IfcCoordinateOperation 
 IfcCoordinateOperation::IfcCoordinateOperation() {}
-IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_id = id; }
+IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_entity_id = id; }
 IfcCoordinateOperation::~IfcCoordinateOperation() {}
 shared_ptr<IfcPPObject> IfcCoordinateOperation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -25,18 +25,18 @@ shared_ptr<IfcPPObject> IfcCoordinateOperation::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCOORDINATEOPERATION" << "(";
+	stream << "#" << m_entity_id << "= IFCCOORDINATEOPERATION" << "(";
 	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_id; } else { stream << "$"; }
+	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoordinateOperation::toString() const { return L"IfcCoordinateOperation"; }
 void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateOperation, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateOperation, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 }

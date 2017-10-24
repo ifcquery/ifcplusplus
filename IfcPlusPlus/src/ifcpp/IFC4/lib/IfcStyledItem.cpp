@@ -15,7 +15,7 @@
 
 // ENTITY IfcStyledItem 
 IfcStyledItem::IfcStyledItem() {}
-IfcStyledItem::IfcStyledItem( int id ) { m_id = id; }
+IfcStyledItem::IfcStyledItem( int id ) { m_entity_id = id; }
 IfcStyledItem::~IfcStyledItem() {}
 shared_ptr<IfcPPObject> IfcStyledItem::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,8 +34,8 @@ shared_ptr<IfcPPObject> IfcStyledItem::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTYLEDITEM" << "(";
-	if( m_Item ) { stream << "#" << m_Item->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSTYLEDITEM" << "(";
+	if( m_Item ) { stream << "#" << m_Item->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Styles.size(); ++ii )
@@ -59,12 +59,12 @@ void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStyledItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStyledItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStyledItem::toString() const { return L"IfcStyledItem"; }
 void IfcStyledItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Item, map );
 	readSelectList( args[1], m_Styles, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

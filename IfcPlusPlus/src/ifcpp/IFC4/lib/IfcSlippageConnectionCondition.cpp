@@ -13,7 +13,7 @@
 
 // ENTITY IfcSlippageConnectionCondition 
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition() {}
-IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int id ) { m_id = id; }
+IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int id ) { m_entity_id = id; }
 IfcSlippageConnectionCondition::~IfcSlippageConnectionCondition() {}
 shared_ptr<IfcPPObject> IfcSlippageConnectionCondition::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,7 +26,7 @@ shared_ptr<IfcPPObject> IfcSlippageConnectionCondition::getDeepCopy( IfcPPCopyOp
 }
 void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSLIPPAGECONNECTIONCONDITION" << "(";
+	stream << "#" << m_entity_id << "= IFCSLIPPAGECONNECTIONCONDITION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_SlippageX ) { m_SlippageX->getStepParameter( stream ); } else { stream << "$"; }
@@ -36,12 +36,12 @@ void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) co
 	if( m_SlippageZ ) { m_SlippageZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSlippageConnectionCondition::toString() const { return L"IfcSlippageConnectionCondition"; }
 void IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_SlippageX = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_SlippageY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );

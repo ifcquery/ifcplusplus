@@ -15,7 +15,7 @@
 
 // ENTITY IfcFace 
 IfcFace::IfcFace() {}
-IfcFace::IfcFace( int id ) { m_id = id; }
+IfcFace::IfcFace( int id ) { m_entity_id = id; }
 IfcFace::~IfcFace() {}
 shared_ptr<IfcPPObject> IfcFace::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,16 +32,16 @@ shared_ptr<IfcPPObject> IfcFace::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcFace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ");";
 }
-void IfcFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFace::toString() const { return L"IfcFace"; }
 void IfcFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFace, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFace, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 }
 void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

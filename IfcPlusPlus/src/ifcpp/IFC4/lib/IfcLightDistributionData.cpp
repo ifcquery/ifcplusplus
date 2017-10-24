@@ -13,7 +13,7 @@
 
 // ENTITY IfcLightDistributionData 
 IfcLightDistributionData::IfcLightDistributionData() {}
-IfcLightDistributionData::IfcLightDistributionData( int id ) { m_id = id; }
+IfcLightDistributionData::IfcLightDistributionData( int id ) { m_entity_id = id; }
 IfcLightDistributionData::~IfcLightDistributionData() {}
 shared_ptr<IfcPPObject> IfcLightDistributionData::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -39,7 +39,7 @@ shared_ptr<IfcPPObject> IfcLightDistributionData::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTDISTRIBUTIONDATA" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTDISTRIBUTIONDATA" << "(";
 	if( m_MainPlaneAngle ) { m_MainPlaneAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_SecondaryPlaneAngle );
@@ -47,12 +47,12 @@ void IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_LuminousIntensity );
 	stream << ");";
 }
-void IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightDistributionData::toString() const { return L"IfcLightDistributionData"; }
 void IfcLightDistributionData::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightDistributionData, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightDistributionData, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_MainPlaneAngle = IfcPlaneAngleMeasure::createObjectFromSTEP( args[0], map );
 	readTypeOfRealList( args[1], m_SecondaryPlaneAngle );
 	readTypeOfRealList( args[2], m_LuminousIntensity );

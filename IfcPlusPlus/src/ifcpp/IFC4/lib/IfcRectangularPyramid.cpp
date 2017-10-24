@@ -15,7 +15,7 @@
 
 // ENTITY IfcRectangularPyramid 
 IfcRectangularPyramid::IfcRectangularPyramid() {}
-IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_id = id; }
+IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_entity_id = id; }
 IfcRectangularPyramid::~IfcRectangularPyramid() {}
 shared_ptr<IfcPPObject> IfcRectangularPyramid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,8 +28,8 @@ shared_ptr<IfcPPObject> IfcRectangularPyramid::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRECTANGULARPYRAMID" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCRECTANGULARPYRAMID" << "(";
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_XLength ) { m_XLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -38,12 +38,12 @@ void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangularPyramid::toString() const { return L"IfcRectangularPyramid"; }
 void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_XLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );

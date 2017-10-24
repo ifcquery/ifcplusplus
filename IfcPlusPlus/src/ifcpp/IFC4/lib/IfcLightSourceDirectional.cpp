@@ -17,7 +17,7 @@
 
 // ENTITY IfcLightSourceDirectional 
 IfcLightSourceDirectional::IfcLightSourceDirectional() {}
-IfcLightSourceDirectional::IfcLightSourceDirectional( int id ) { m_id = id; }
+IfcLightSourceDirectional::IfcLightSourceDirectional( int id ) { m_entity_id = id; }
 IfcLightSourceDirectional::~IfcLightSourceDirectional() {}
 shared_ptr<IfcPPObject> IfcLightSourceDirectional::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,24 +31,24 @@ shared_ptr<IfcPPObject> IfcLightSourceDirectional::getDeepCopy( IfcPPCopyOptions
 }
 void IfcLightSourceDirectional::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTSOURCEDIRECTIONAL" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTSOURCEDIRECTIONAL" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Orientation ) { stream << "#" << m_Orientation->m_id; } else { stream << "$"; }
+	if( m_Orientation ) { stream << "#" << m_Orientation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceDirectional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightSourceDirectional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceDirectional::toString() const { return L"IfcLightSourceDirectional"; }
 void IfcLightSourceDirectional::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceDirectional, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceDirectional, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );

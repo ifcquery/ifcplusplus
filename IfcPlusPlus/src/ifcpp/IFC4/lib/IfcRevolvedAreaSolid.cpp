@@ -17,7 +17,7 @@
 
 // ENTITY IfcRevolvedAreaSolid 
 IfcRevolvedAreaSolid::IfcRevolvedAreaSolid() {}
-IfcRevolvedAreaSolid::IfcRevolvedAreaSolid( int id ) { m_id = id; }
+IfcRevolvedAreaSolid::IfcRevolvedAreaSolid( int id ) { m_entity_id = id; }
 IfcRevolvedAreaSolid::~IfcRevolvedAreaSolid() {}
 shared_ptr<IfcPPObject> IfcRevolvedAreaSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,22 +34,22 @@ shared_ptr<IfcPPObject> IfcRevolvedAreaSolid::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcRevolvedAreaSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCREVOLVEDAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCREVOLVEDAREASOLID" << "(";
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis ) { stream << "#" << m_Axis->m_id; } else { stream << "$"; }
+	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Angle ) { m_Angle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRevolvedAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRevolvedAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRevolvedAreaSolid::toString() const { return L"IfcRevolvedAreaSolid"; }
 void IfcRevolvedAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolid, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Axis, map );

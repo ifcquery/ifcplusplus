@@ -15,7 +15,7 @@
 
 // ENTITY IfcTextStyleTextModel 
 IfcTextStyleTextModel::IfcTextStyleTextModel() {}
-IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_id = id; }
+IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_entity_id = id; }
 IfcTextStyleTextModel::~IfcTextStyleTextModel() {}
 shared_ptr<IfcPPObject> IfcTextStyleTextModel::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,7 +31,7 @@ shared_ptr<IfcPPObject> IfcTextStyleTextModel::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTEXTSTYLETEXTMODEL" << "(";
+	stream << "#" << m_entity_id << "= IFCTEXTSTYLETEXTMODEL" << "(";
 	if( m_TextIndent ) { m_TextIndent->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TextAlign ) { m_TextAlign->getStepParameter( stream ); } else { stream << "$"; }
@@ -47,12 +47,12 @@ void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleTextModel::toString() const { return L"IfcTextStyleTextModel"; }
 void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TextIndent = IfcSizeSelect::createObjectFromSTEP( args[0], map );
 	m_TextAlign = IfcTextAlignment::createObjectFromSTEP( args[1], map );
 	m_TextDecoration = IfcTextDecoration::createObjectFromSTEP( args[2], map );

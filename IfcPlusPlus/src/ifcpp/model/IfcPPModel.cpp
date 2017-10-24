@@ -260,15 +260,15 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	{
 		return;
 	}
-	int entity_id = e->m_id;
+	int entity_id = e->m_entity_id;
 	if( entity_id < 0 )
 	{
 		int next_unused_id = getMaxUsedEntityId() + 1;
-		e->m_id = next_unused_id;
+		e->m_entity_id = next_unused_id;
 		entity_id = next_unused_id;
 	}
 
-	std::map<int,shared_ptr<IfcPPEntity> >::iterator it_find = m_map_entities.find( entity_id );
+	auto it_find = m_map_entities.find( entity_id );
 	if( it_find != m_map_entities.end() )
 	{
 		// key already exists
@@ -287,7 +287,7 @@ void IfcPPModel::insertEntity( shared_ptr<IfcPPEntity> e, bool overwrite_existin
 	else
 	{
 		// the key does not exist in the map
-		m_map_entities.insert( it_find, std::map<int,shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
+		m_map_entities.insert( it_find, std::map<int, shared_ptr<IfcPPEntity> >::value_type( entity_id, e ) );
 	}
 #ifdef _DEBUG
 	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );
@@ -315,7 +315,7 @@ void IfcPPModel::removeEntity( shared_ptr<IfcPPEntity> e )
 		messageCallback( "Entity not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
 		return;
 	}
-	int remove_id = e->m_id;
+	int remove_id = e->m_entity_id;
 	auto it_find = m_map_entities.find(remove_id);
 	if( it_find == m_map_entities.end() )
 	{
@@ -374,16 +374,9 @@ int IfcPPModel::getMaxUsedEntityId()
 	{
 		return 0;
 	}
-	int max_used_id = 1;
-	for( auto it = m_map_entities.begin(); it != m_map_entities.end(); ++it )
-	{
-		if( it->first > max_used_id )
-		{
-			max_used_id = it->first + 1;
-		}
-	}
-	//m_map_entities.rbegin()->first;
-	return max_used_id;
+	// since it is an ordered map, we can just take the key of the last entry
+	int max_id = m_map_entities.rbegin()->first;
+	return max_id;
 }
 
 void IfcPPModel::removeUnreferencedEntities()
@@ -452,7 +445,7 @@ void IfcPPModel::removeUnreferencedEntities()
 				entity->unlinkFromInverseCounterparts();
 				auto erase_it = it_entities;
 #ifdef _DEBUG
-				int entity_id = entity->m_id;
+				int entity_id = entity->m_entity_id;
 				const char* entity_className = entity->className();
 #endif
 				++it_entities;
@@ -615,7 +608,7 @@ void IfcPPModel::collectDependentEntities( shared_ptr<IfcPPEntity>& entity, std:
 	shared_ptr<IfcElementAssembly> ele_assembly = dynamic_pointer_cast<IfcElementAssembly>( entity );
 	if( ele_assembly )
 	{
-		int assembly_id = ele_assembly->m_id;
+		int assembly_id = ele_assembly->m_entity_id;
 		std::vector<weak_ptr<IfcRelAggregates> >& vec_is_decomposed_by = ele_assembly->m_IsDecomposedBy_inverse;
 		for( size_t ii = 0; ii < vec_is_decomposed_by.size(); ++ii )
 		{
@@ -628,7 +621,7 @@ void IfcPPModel::collectDependentEntities( shared_ptr<IfcPPEntity>& entity, std:
 			shared_ptr<IfcRelAggregates> is_decomposed_ptr( is_decomposed_weak_ptr );
 			if( is_decomposed_ptr )
 			{
-				int rel_aggregates_id = is_decomposed_ptr->m_id;
+				int rel_aggregates_id = is_decomposed_ptr->m_entity_id;
 
 				shared_ptr<IfcPPEntity> as_ifcpp_entity = is_decomposed_ptr;
 				collectDependentEntities( as_ifcpp_entity, target_map );

@@ -13,7 +13,7 @@
 
 // ENTITY IfcStructuralLoadTemperature 
 IfcStructuralLoadTemperature::IfcStructuralLoadTemperature() {}
-IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_id = id; }
+IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_entity_id = id; }
 IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadTemperature::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,7 +26,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadTemperature::getDeepCopy( IfcPPCopyOpti
 }
 void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADTEMPERATURE" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADTEMPERATURE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DeltaTConstant ) { m_DeltaTConstant->getStepParameter( stream ); } else { stream << "$"; }
@@ -36,12 +36,12 @@ void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) cons
 	if( m_DeltaTZ ) { m_DeltaTZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadTemperature::toString() const { return L"IfcStructuralLoadTemperature"; }
 void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadTemperature, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadTemperature, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DeltaTConstant = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[1], map );
 	m_DeltaTY = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[2], map );

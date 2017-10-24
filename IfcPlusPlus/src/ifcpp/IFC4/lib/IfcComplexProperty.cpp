@@ -19,7 +19,7 @@
 
 // ENTITY IfcComplexProperty 
 IfcComplexProperty::IfcComplexProperty() {}
-IfcComplexProperty::IfcComplexProperty( int id ) { m_id = id; }
+IfcComplexProperty::IfcComplexProperty( int id ) { m_entity_id = id; }
 IfcComplexProperty::~IfcComplexProperty() {}
 shared_ptr<IfcPPObject> IfcComplexProperty::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -39,7 +39,7 @@ shared_ptr<IfcPPObject> IfcComplexProperty::getDeepCopy( IfcPPCopyOptions& optio
 }
 void IfcComplexProperty::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCOMPLEXPROPERTY" << "(";
+	stream << "#" << m_entity_id << "= IFCCOMPLEXPROPERTY" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
@@ -49,12 +49,12 @@ void IfcComplexProperty::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_HasProperties );
 	stream << ");";
 }
-void IfcComplexProperty::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcComplexProperty::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcComplexProperty::toString() const { return L"IfcComplexProperty"; }
 void IfcComplexProperty::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UsageName = IfcIdentifier::createObjectFromSTEP( args[2], map );

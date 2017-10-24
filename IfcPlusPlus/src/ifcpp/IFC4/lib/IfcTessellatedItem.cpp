@@ -13,7 +13,7 @@
 
 // ENTITY IfcTessellatedItem 
 IfcTessellatedItem::IfcTessellatedItem() {}
-IfcTessellatedItem::IfcTessellatedItem( int id ) { m_id = id; }
+IfcTessellatedItem::IfcTessellatedItem( int id ) { m_entity_id = id; }
 IfcTessellatedItem::~IfcTessellatedItem() {}
 shared_ptr<IfcPPObject> IfcTessellatedItem::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcTessellatedItem::getDeepCopy( IfcPPCopyOptions& optio
 }
 void IfcTessellatedItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTESSELLATEDITEM" << "(";
+	stream << "#" << m_entity_id << "= IFCTESSELLATEDITEM" << "(";
 	stream << ");";
 }
-void IfcTessellatedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTessellatedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTessellatedItem::toString() const { return L"IfcTessellatedItem"; }
 void IfcTessellatedItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

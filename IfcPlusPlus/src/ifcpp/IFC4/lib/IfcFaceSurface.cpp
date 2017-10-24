@@ -17,7 +17,7 @@
 
 // ENTITY IfcFaceSurface 
 IfcFaceSurface::IfcFaceSurface() {}
-IfcFaceSurface::IfcFaceSurface( int id ) { m_id = id; }
+IfcFaceSurface::IfcFaceSurface( int id ) { m_entity_id = id; }
 IfcFaceSurface::~IfcFaceSurface() {}
 shared_ptr<IfcPPObject> IfcFaceSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -36,20 +36,20 @@ shared_ptr<IfcPPObject> IfcFaceSurface::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcFaceSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFACESURFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCFACESURFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ",";
-	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_id; } else { stream << "$"; }
+	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFaceSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFaceSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceSurface::toString() const { return L"IfcFaceSurface"; }
 void IfcFaceSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceSurface, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 	readEntityReference( args[1], m_FaceSurface, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2], map );

@@ -14,7 +14,7 @@
 
 // ENTITY IfcBoundaryNodeCondition 
 IfcBoundaryNodeCondition::IfcBoundaryNodeCondition() {}
-IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int id ) { m_id = id; }
+IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int id ) { m_entity_id = id; }
 IfcBoundaryNodeCondition::~IfcBoundaryNodeCondition() {}
 shared_ptr<IfcPPObject> IfcBoundaryNodeCondition::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,7 +30,7 @@ shared_ptr<IfcPPObject> IfcBoundaryNodeCondition::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBOUNDARYNODECONDITION" << "(";
+	stream << "#" << m_entity_id << "= IFCBOUNDARYNODECONDITION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TranslationalStiffnessX ) { m_TranslationalStiffnessX->getStepParameter( stream, true ); } else { stream << "$" ; }
@@ -46,12 +46,12 @@ void IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream ) const
 	if( m_RotationalStiffnessZ ) { m_RotationalStiffnessZ->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryNodeCondition::toString() const { return L"IfcBoundaryNodeCondition"; }
 void IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TranslationalStiffnessX = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[1], map );
 	m_TranslationalStiffnessY = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[2], map );

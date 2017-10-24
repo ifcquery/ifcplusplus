@@ -14,7 +14,7 @@
 
 // ENTITY IfcStructuralLoadConfiguration 
 IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration() {}
-IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int id ) { m_id = id; }
+IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int id ) { m_entity_id = id; }
 IfcStructuralLoadConfiguration::~IfcStructuralLoadConfiguration() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadConfiguration::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -46,7 +46,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadConfiguration::getDeepCopy( IfcPPCopyOp
 }
 void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADCONFIGURATION" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADCONFIGURATION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Values );
@@ -54,12 +54,12 @@ void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) co
 	writeNumericTypeList2D( stream, m_Locations );
 	stream << ");";
 }
-void IfcStructuralLoadConfiguration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadConfiguration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadConfiguration::toString() const { return L"IfcStructuralLoadConfiguration"; }
 void IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadConfiguration, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadConfiguration, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_Values, map );
 	readTypeOfRealList2D( args[2], m_Locations );

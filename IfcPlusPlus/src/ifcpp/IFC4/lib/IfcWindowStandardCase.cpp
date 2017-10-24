@@ -40,7 +40,7 @@
 
 // ENTITY IfcWindowStandardCase 
 IfcWindowStandardCase::IfcWindowStandardCase() {}
-IfcWindowStandardCase::IfcWindowStandardCase( int id ) { m_id = id; }
+IfcWindowStandardCase::IfcWindowStandardCase( int id ) { m_entity_id = id; }
 IfcWindowStandardCase::~IfcWindowStandardCase() {}
 shared_ptr<IfcPPObject> IfcWindowStandardCase::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -70,10 +70,10 @@ shared_ptr<IfcPPObject> IfcWindowStandardCase::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcWindowStandardCase::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCWINDOWSTANDARDCASE" << "(";
+	stream << "#" << m_entity_id << "= IFCWINDOWSTANDARDCASE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -81,9 +81,9 @@ void IfcWindowStandardCase::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -98,12 +98,12 @@ void IfcWindowStandardCase::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedPartitioningType ) { m_UserDefinedPartitioningType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcWindowStandardCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcWindowStandardCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowStandardCase::toString() const { return L"IfcWindowStandardCase"; }
 void IfcWindowStandardCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowStandardCase, expecting 13, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowStandardCase, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

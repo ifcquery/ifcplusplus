@@ -12,7 +12,7 @@
 
 // ENTITY IfcSurfaceStyleWithTextures 
 IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures() {}
-IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures( int id ) { m_id = id; }
+IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures( int id ) { m_entity_id = id; }
 IfcSurfaceStyleWithTextures::~IfcSurfaceStyleWithTextures() {}
 shared_ptr<IfcPPObject> IfcSurfaceStyleWithTextures::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,16 +29,16 @@ shared_ptr<IfcPPObject> IfcSurfaceStyleWithTextures::getDeepCopy( IfcPPCopyOptio
 }
 void IfcSurfaceStyleWithTextures::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACESTYLEWITHTEXTURES" << "(";
+	stream << "#" << m_entity_id << "= IFCSURFACESTYLEWITHTEXTURES" << "(";
 	writeEntityList( stream, m_Textures );
 	stream << ");";
 }
-void IfcSurfaceStyleWithTextures::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceStyleWithTextures::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleWithTextures::toString() const { return L"IfcSurfaceStyleWithTextures"; }
 void IfcSurfaceStyleWithTextures::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleWithTextures, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleWithTextures, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Textures, map );
 }
 void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

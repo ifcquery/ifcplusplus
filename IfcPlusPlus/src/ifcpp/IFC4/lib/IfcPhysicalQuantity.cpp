@@ -15,7 +15,7 @@
 
 // ENTITY IfcPhysicalQuantity 
 IfcPhysicalQuantity::IfcPhysicalQuantity() {}
-IfcPhysicalQuantity::IfcPhysicalQuantity( int id ) { m_id = id; }
+IfcPhysicalQuantity::IfcPhysicalQuantity( int id ) { m_entity_id = id; }
 IfcPhysicalQuantity::~IfcPhysicalQuantity() {}
 shared_ptr<IfcPPObject> IfcPhysicalQuantity::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcPhysicalQuantity::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcPhysicalQuantity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPHYSICALQUANTITY" << "(";
+	stream << "#" << m_entity_id << "= IFCPHYSICALQUANTITY" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPhysicalQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPhysicalQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPhysicalQuantity::toString() const { return L"IfcPhysicalQuantity"; }
 void IfcPhysicalQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalQuantity, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalQuantity, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 }

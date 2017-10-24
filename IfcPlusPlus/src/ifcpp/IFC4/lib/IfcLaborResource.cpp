@@ -29,7 +29,7 @@
 
 // ENTITY IfcLaborResource 
 IfcLaborResource::IfcLaborResource() {}
-IfcLaborResource::IfcLaborResource( int id ) { m_id = id; }
+IfcLaborResource::IfcLaborResource( int id ) { m_entity_id = id; }
 IfcLaborResource::~IfcLaborResource() {}
 shared_ptr<IfcPPObject> IfcLaborResource::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -64,10 +64,10 @@ shared_ptr<IfcPPObject> IfcLaborResource::getDeepCopy( IfcPPCopyOptions& options
 }
 void IfcLaborResource::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLABORRESOURCE" << "(";
+	stream << "#" << m_entity_id << "= IFCLABORRESOURCE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -79,21 +79,21 @@ void IfcLaborResource::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Usage ) { stream << "#" << m_Usage->m_id; } else { stream << "*"; }
+	if( m_Usage ) { stream << "#" << m_Usage->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_BaseCosts );
 	stream << ",";
-	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->m_id; } else { stream << "*"; }
+	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLaborResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLaborResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLaborResource::toString() const { return L"IfcLaborResource"; }
 void IfcLaborResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLaborResource, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLaborResource, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

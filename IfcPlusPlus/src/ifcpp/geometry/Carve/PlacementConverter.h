@@ -101,7 +101,7 @@ namespace PlacementConverter
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
 		resulting_matrix->m_placement_entity = axis2placement2d;
-		resulting_matrix->m_placement_id = axis2placement2d->m_id;
+		resulting_matrix->m_placement_id = axis2placement2d->m_entity_id;
 	}
 
 	inline void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
@@ -167,7 +167,7 @@ namespace PlacementConverter
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
 		resulting_matrix->m_placement_entity = axis2placement3d;
-		resulting_matrix->m_placement_id = axis2placement3d->m_id;
+		resulting_matrix->m_placement_id = axis2placement3d->m_entity_id;
 	}
 
 	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::geom::plane<3>& plane, vec3& translate )
@@ -215,7 +215,7 @@ namespace PlacementConverter
 			axis2placement3d = shared_ptr<IfcAxis2Placement3D>( new IfcAxis2Placement3D() );
 			if( entity_id > 0 )
 			{
-				axis2placement3d->m_id = entity_id++;
+				axis2placement3d->m_entity_id = entity_id++;
 			}
 			vec_new_entities.push_back( axis2placement3d );
 		}
@@ -250,7 +250,7 @@ namespace PlacementConverter
 			axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>( new IfcCartesianPoint() );
 			if( entity_id > 0 )
 			{
-				axis2placement3d->m_Location->m_id = entity_id++;
+				axis2placement3d->m_Location->m_entity_id = entity_id++;
 			}
 			vec_new_entities.push_back( axis2placement3d->m_Location );
 		}
@@ -264,7 +264,7 @@ namespace PlacementConverter
 			axis2placement3d->m_Axis = shared_ptr<IfcDirection>( new IfcDirection() );
 			if( entity_id > 0 )
 			{
-				axis2placement3d->m_Axis->m_id = entity_id++;
+				axis2placement3d->m_Axis->m_entity_id = entity_id++;
 			}
 			vec_new_entities.push_back( axis2placement3d->m_Axis );
 		}
@@ -278,7 +278,7 @@ namespace PlacementConverter
 			axis2placement3d->m_RefDirection = shared_ptr<IfcDirection>( new IfcDirection() );
 			if( entity_id > 0 )
 			{
-				axis2placement3d->m_RefDirection->m_id = entity_id++;
+				axis2placement3d->m_RefDirection->m_entity_id = entity_id++;
 			}
 			vec_new_entities.push_back( axis2placement3d->m_RefDirection );
 		}
@@ -628,6 +628,6 @@ namespace PlacementConverter
 			0, 0, 0, 1 );
 		resulting_matrix->m_matrix = rotate_translate*carve::math::Matrix::SCALE( scale, scale_y, scale_z ); // scale is applied first, rotate second
 		resulting_matrix->m_placement_entity = transform_operator;
-		resulting_matrix->m_placement_id = transform_operator->m_id;
+		resulting_matrix->m_placement_id = transform_operator->m_entity_id;
 	}
 };

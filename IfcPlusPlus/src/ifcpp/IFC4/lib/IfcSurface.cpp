@@ -13,7 +13,7 @@
 
 // ENTITY IfcSurface 
 IfcSurface::IfcSurface() {}
-IfcSurface::IfcSurface( int id ) { m_id = id; }
+IfcSurface::IfcSurface( int id ) { m_entity_id = id; }
 IfcSurface::~IfcSurface() {}
 shared_ptr<IfcPPObject> IfcSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcSurface::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCSURFACE" << "(";
 	stream << ");";
 }
-void IfcSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurface::toString() const { return L"IfcSurface"; }
 void IfcSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

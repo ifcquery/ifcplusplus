@@ -16,7 +16,7 @@
 
 // ENTITY IfcSurfaceStyleRendering 
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() {}
-IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_id = id; }
+IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_entity_id = id; }
 IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
 shared_ptr<IfcPPObject> IfcSurfaceStyleRendering::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,8 +34,8 @@ shared_ptr<IfcPPObject> IfcSurfaceStyleRendering::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACESTYLERENDERING" << "(";
-	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCSURFACESTYLERENDERING" << "(";
+	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -54,12 +54,12 @@ void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 	if( m_ReflectanceMethod ) { m_ReflectanceMethod->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleRendering::toString() const { return L"IfcSurfaceStyleRendering"; }
 void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SurfaceColour, map );
 	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 	m_DiffuseColour = IfcColourOrFactor::createObjectFromSTEP( args[2], map );

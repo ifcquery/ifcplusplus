@@ -14,7 +14,7 @@
 
 // ENTITY IfcApprovalRelationship 
 IfcApprovalRelationship::IfcApprovalRelationship() {}
-IfcApprovalRelationship::IfcApprovalRelationship( int id ) { m_id = id; }
+IfcApprovalRelationship::IfcApprovalRelationship( int id ) { m_entity_id = id; }
 IfcApprovalRelationship::~IfcApprovalRelationship() {}
 shared_ptr<IfcPPObject> IfcApprovalRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,22 +34,22 @@ shared_ptr<IfcPPObject> IfcApprovalRelationship::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCAPPROVALRELATIONSHIP" << "(";
+	stream << "#" << m_entity_id << "= IFCAPPROVALRELATIONSHIP" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->m_id; } else { stream << "$"; }
+	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedApprovals );
 	stream << ");";
 }
-void IfcApprovalRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcApprovalRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApprovalRelationship::toString() const { return L"IfcApprovalRelationship"; }
 void IfcApprovalRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApprovalRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApprovalRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingApproval, map );

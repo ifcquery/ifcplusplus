@@ -13,7 +13,7 @@
 
 // ENTITY IfcPoint 
 IfcPoint::IfcPoint() {}
-IfcPoint::IfcPoint( int id ) { m_id = id; }
+IfcPoint::IfcPoint( int id ) { m_entity_id = id; }
 IfcPoint::~IfcPoint() {}
 shared_ptr<IfcPPObject> IfcPoint::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcPoint::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPoint::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPOINT" << "(";
+	stream << "#" << m_entity_id << "= IFCPOINT" << "(";
 	stream << ");";
 }
-void IfcPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPoint::toString() const { return L"IfcPoint"; }
 void IfcPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

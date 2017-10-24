@@ -12,7 +12,7 @@
 
 // ENTITY IfcMonetaryUnit 
 IfcMonetaryUnit::IfcMonetaryUnit() {}
-IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_id = id; }
+IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_entity_id = id; }
 IfcMonetaryUnit::~IfcMonetaryUnit() {}
 shared_ptr<IfcPPObject> IfcMonetaryUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,16 +22,16 @@ shared_ptr<IfcPPObject> IfcMonetaryUnit::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcMonetaryUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMONETARYUNIT" << "(";
+	stream << "#" << m_entity_id << "= IFCMONETARYUNIT" << "(";
 	if( m_Currency ) { m_Currency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMonetaryUnit::toString() const { return L"IfcMonetaryUnit"; }
 void IfcMonetaryUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMonetaryUnit, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMonetaryUnit, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Currency = IfcLabel::createObjectFromSTEP( args[0], map );
 }
 void IfcMonetaryUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

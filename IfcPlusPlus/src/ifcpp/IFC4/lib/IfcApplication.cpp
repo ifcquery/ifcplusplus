@@ -14,7 +14,7 @@
 
 // ENTITY IfcApplication 
 IfcApplication::IfcApplication() {}
-IfcApplication::IfcApplication( int id ) { m_id = id; }
+IfcApplication::IfcApplication( int id ) { m_entity_id = id; }
 IfcApplication::~IfcApplication() {}
 shared_ptr<IfcPPObject> IfcApplication::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,8 +27,8 @@ shared_ptr<IfcPPObject> IfcApplication::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcApplication::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCAPPLICATION" << "(";
-	if( m_ApplicationDeveloper ) { stream << "#" << m_ApplicationDeveloper->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCAPPLICATION" << "(";
+	if( m_ApplicationDeveloper ) { stream << "#" << m_ApplicationDeveloper->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Version ) { m_Version->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -37,12 +37,12 @@ void IfcApplication::getStepLine( std::stringstream& stream ) const
 	if( m_ApplicationIdentifier ) { m_ApplicationIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcApplication::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcApplication::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApplication::toString() const { return L"IfcApplication"; }
 void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ApplicationDeveloper, map );
 	m_Version = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_ApplicationFullName = IfcLabel::createObjectFromSTEP( args[2], map );

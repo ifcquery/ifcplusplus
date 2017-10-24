@@ -14,7 +14,7 @@
 
 // ENTITY IfcDerivedUnit 
 IfcDerivedUnit::IfcDerivedUnit() {}
-IfcDerivedUnit::IfcDerivedUnit( int id ) { m_id = id; }
+IfcDerivedUnit::IfcDerivedUnit( int id ) { m_entity_id = id; }
 IfcDerivedUnit::~IfcDerivedUnit() {}
 shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,7 +33,7 @@ shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcDerivedUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCDERIVEDUNIT" << "(";
+	stream << "#" << m_entity_id << "= IFCDERIVEDUNIT" << "(";
 	writeEntityList( stream, m_Elements );
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
@@ -41,12 +41,12 @@ void IfcDerivedUnit::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedType ) { m_UserDefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDerivedUnit::toString() const { return L"IfcDerivedUnit"; }
 void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Elements, map );
 	m_UnitType = IfcDerivedUnitEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedType = IfcLabel::createObjectFromSTEP( args[2], map );

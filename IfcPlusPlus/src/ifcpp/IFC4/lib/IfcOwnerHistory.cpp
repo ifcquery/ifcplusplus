@@ -16,7 +16,7 @@
 
 // ENTITY IfcOwnerHistory 
 IfcOwnerHistory::IfcOwnerHistory() {}
-IfcOwnerHistory::IfcOwnerHistory( int id ) { m_id = id; }
+IfcOwnerHistory::IfcOwnerHistory( int id ) { m_entity_id = id; }
 IfcOwnerHistory::~IfcOwnerHistory() {}
 shared_ptr<IfcPPObject> IfcOwnerHistory::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,10 +33,10 @@ shared_ptr<IfcPPObject> IfcOwnerHistory::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCOWNERHISTORY" << "(";
-	if( m_OwningUser ) { stream << "#" << m_OwningUser->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCOWNERHISTORY" << "(";
+	if( m_OwningUser ) { stream << "#" << m_OwningUser->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_OwningApplication ) { stream << "#" << m_OwningApplication->m_id; } else { stream << "$"; }
+	if( m_OwningApplication ) { stream << "#" << m_OwningApplication->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_State ) { m_State->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -44,19 +44,19 @@ void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_LastModifiedDate ) { m_LastModifiedDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LastModifyingUser ) { stream << "#" << m_LastModifyingUser->m_id; } else { stream << "$"; }
+	if( m_LastModifyingUser ) { stream << "#" << m_LastModifyingUser->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_LastModifyingApplication ) { stream << "#" << m_LastModifyingApplication->m_id; } else { stream << "$"; }
+	if( m_LastModifyingApplication ) { stream << "#" << m_LastModifyingApplication->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOwnerHistory::toString() const { return L"IfcOwnerHistory"; }
 void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_OwningUser, map );
 	readEntityReference( args[1], m_OwningApplication, map );
 	m_State = IfcStateEnum::createObjectFromSTEP( args[2], map );

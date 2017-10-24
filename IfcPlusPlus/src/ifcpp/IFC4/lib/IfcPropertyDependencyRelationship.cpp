@@ -14,7 +14,7 @@
 
 // ENTITY IfcPropertyDependencyRelationship 
 IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship() {}
-IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int id ) { m_id = id; }
+IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int id ) { m_entity_id = id; }
 IfcPropertyDependencyRelationship::~IfcPropertyDependencyRelationship() {}
 shared_ptr<IfcPPObject> IfcPropertyDependencyRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,24 +28,24 @@ shared_ptr<IfcPPObject> IfcPropertyDependencyRelationship::getDeepCopy( IfcPPCop
 }
 void IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROPERTYDEPENDENCYRELATIONSHIP" << "(";
+	stream << "#" << m_entity_id << "= IFCPROPERTYDEPENDENCYRELATIONSHIP" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_DependingProperty ) { stream << "#" << m_DependingProperty->m_id; } else { stream << "$"; }
+	if( m_DependingProperty ) { stream << "#" << m_DependingProperty->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_DependantProperty ) { stream << "#" << m_DependantProperty->m_id; } else { stream << "$"; }
+	if( m_DependantProperty ) { stream << "#" << m_DependantProperty->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyDependencyRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPropertyDependencyRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyDependencyRelationship::toString() const { return L"IfcPropertyDependencyRelationship"; }
 void IfcPropertyDependencyRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyDependencyRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyDependencyRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_DependingProperty, map );

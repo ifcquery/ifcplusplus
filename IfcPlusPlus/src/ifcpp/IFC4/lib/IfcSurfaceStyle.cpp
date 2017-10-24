@@ -14,7 +14,7 @@
 
 // ENTITY IfcSurfaceStyle 
 IfcSurfaceStyle::IfcSurfaceStyle() {}
-IfcSurfaceStyle::IfcSurfaceStyle( int id ) { m_id = id; }
+IfcSurfaceStyle::IfcSurfaceStyle( int id ) { m_entity_id = id; }
 IfcSurfaceStyle::~IfcSurfaceStyle() {}
 shared_ptr<IfcPPObject> IfcSurfaceStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,7 +33,7 @@ shared_ptr<IfcPPObject> IfcSurfaceStyle::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACESTYLE" << "(";
+	stream << "#" << m_entity_id << "= IFCSURFACESTYLE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Side ) { m_Side->getStepParameter( stream ); } else { stream << "$"; }
@@ -58,12 +58,12 @@ void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcSurfaceStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyle::toString() const { return L"IfcSurfaceStyle"; }
 void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyle, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Side = IfcSurfaceSide::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_Styles, map );

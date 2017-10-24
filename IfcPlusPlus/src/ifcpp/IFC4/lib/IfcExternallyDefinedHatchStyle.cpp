@@ -15,7 +15,7 @@
 
 // ENTITY IfcExternallyDefinedHatchStyle 
 IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle() {}
-IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int id ) { m_id = id; }
+IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int id ) { m_entity_id = id; }
 IfcExternallyDefinedHatchStyle::~IfcExternallyDefinedHatchStyle() {}
 shared_ptr<IfcPPObject> IfcExternallyDefinedHatchStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,7 +27,7 @@ shared_ptr<IfcPPObject> IfcExternallyDefinedHatchStyle::getDeepCopy( IfcPPCopyOp
 }
 void IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCEXTERNALLYDEFINEDHATCHSTYLE" << "(";
+	stream << "#" << m_entity_id << "= IFCEXTERNALLYDEFINEDHATCHSTYLE" << "(";
 	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
@@ -35,12 +35,12 @@ void IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) co
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternallyDefinedHatchStyle::toString() const { return L"IfcExternallyDefinedHatchStyle"; }
 void IfcExternallyDefinedHatchStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedHatchStyle, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedHatchStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

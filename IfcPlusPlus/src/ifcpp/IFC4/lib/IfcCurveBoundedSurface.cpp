@@ -16,7 +16,7 @@
 
 // ENTITY IfcCurveBoundedSurface 
 IfcCurveBoundedSurface::IfcCurveBoundedSurface() {}
-IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_id = id; }
+IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_entity_id = id; }
 IfcCurveBoundedSurface::~IfcCurveBoundedSurface() {}
 shared_ptr<IfcPPObject> IfcCurveBoundedSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,20 +35,20 @@ shared_ptr<IfcPPObject> IfcCurveBoundedSurface::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCURVEBOUNDEDSURFACE" << "(";
-	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCCURVEBOUNDEDSURFACE" << "(";
+	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Boundaries );
 	stream << ",";
 	if( m_ImplicitOuter ) { m_ImplicitOuter->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveBoundedSurface::toString() const { return L"IfcCurveBoundedSurface"; }
 void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReferenceList( args[1], m_Boundaries, map );
 	m_ImplicitOuter = IfcBoolean::createObjectFromSTEP( args[2], map );

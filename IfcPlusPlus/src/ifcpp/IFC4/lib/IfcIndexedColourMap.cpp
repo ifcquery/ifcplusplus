@@ -15,7 +15,7 @@
 
 // ENTITY IfcIndexedColourMap 
 IfcIndexedColourMap::IfcIndexedColourMap() {}
-IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_id = id; }
+IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_entity_id = id; }
 IfcIndexedColourMap::~IfcIndexedColourMap() {}
 shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,12 +35,12 @@ shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCINDEXEDCOLOURMAP" << "(";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCINDEXEDCOLOURMAP" << "(";
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Opacity ) { m_Opacity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Colours ) { stream << "#" << m_Colours->m_id; } else { stream << "$"; }
+	if( m_Colours ) { stream << "#" << m_Colours->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_ColourIndex.size(); ++ii )
@@ -62,12 +62,12 @@ void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedColourMap::toString() const { return L"IfcIndexedColourMap"; }
 void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_MappedTo, map );
 	m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Colours, map );

@@ -15,7 +15,7 @@
 
 // ENTITY IfcRightCircularCone 
 IfcRightCircularCone::IfcRightCircularCone() {}
-IfcRightCircularCone::IfcRightCircularCone( int id ) { m_id = id; }
+IfcRightCircularCone::IfcRightCircularCone( int id ) { m_entity_id = id; }
 IfcRightCircularCone::~IfcRightCircularCone() {}
 shared_ptr<IfcPPObject> IfcRightCircularCone::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,20 +27,20 @@ shared_ptr<IfcPPObject> IfcRightCircularCone::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRIGHTCIRCULARCONE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCRIGHTCIRCULARCONE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_BottomRadius ) { m_BottomRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRightCircularCone::toString() const { return L"IfcRightCircularCone"; }
 void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCone, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCone, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_BottomRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );

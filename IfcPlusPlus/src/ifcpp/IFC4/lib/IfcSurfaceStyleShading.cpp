@@ -13,7 +13,7 @@
 
 // ENTITY IfcSurfaceStyleShading 
 IfcSurfaceStyleShading::IfcSurfaceStyleShading() {}
-IfcSurfaceStyleShading::IfcSurfaceStyleShading( int id ) { m_id = id; }
+IfcSurfaceStyleShading::IfcSurfaceStyleShading( int id ) { m_entity_id = id; }
 IfcSurfaceStyleShading::~IfcSurfaceStyleShading() {}
 shared_ptr<IfcPPObject> IfcSurfaceStyleShading::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,18 +24,18 @@ shared_ptr<IfcPPObject> IfcSurfaceStyleShading::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcSurfaceStyleShading::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACESTYLESHADING" << "(";
-	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSURFACESTYLESHADING" << "(";
+	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleShading::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceStyleShading::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleShading::toString() const { return L"IfcSurfaceStyleShading"; }
 void IfcSurfaceStyleShading::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleShading, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleShading, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SurfaceColour, map );
 	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 }

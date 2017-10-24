@@ -11,7 +11,7 @@
 
 // ENTITY IfcExternalInformation 
 IfcExternalInformation::IfcExternalInformation() {}
-IfcExternalInformation::IfcExternalInformation( int id ) { m_id = id; }
+IfcExternalInformation::IfcExternalInformation( int id ) { m_entity_id = id; }
 IfcExternalInformation::~IfcExternalInformation() {}
 shared_ptr<IfcPPObject> IfcExternalInformation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -20,10 +20,10 @@ shared_ptr<IfcPPObject> IfcExternalInformation::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcExternalInformation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCEXTERNALINFORMATION" << "(";
+	stream << "#" << m_entity_id << "= IFCEXTERNALINFORMATION" << "(";
 	stream << ");";
 }
-void IfcExternalInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcExternalInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternalInformation::toString() const { return L"IfcExternalInformation"; }
 void IfcExternalInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

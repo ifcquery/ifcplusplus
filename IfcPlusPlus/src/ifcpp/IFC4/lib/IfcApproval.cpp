@@ -20,7 +20,7 @@
 
 // ENTITY IfcApproval 
 IfcApproval::IfcApproval() {}
-IfcApproval::IfcApproval( int id ) { m_id = id; }
+IfcApproval::IfcApproval( int id ) { m_entity_id = id; }
 IfcApproval::~IfcApproval() {}
 shared_ptr<IfcPPObject> IfcApproval::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -38,7 +38,7 @@ shared_ptr<IfcPPObject> IfcApproval::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcApproval::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCAPPROVAL" << "(";
+	stream << "#" << m_entity_id << "= IFCAPPROVAL" << "(";
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
@@ -58,12 +58,12 @@ void IfcApproval::getStepLine( std::stringstream& stream ) const
 	if( m_GivingApproval ) { m_GivingApproval->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcApproval::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcApproval::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApproval::toString() const { return L"IfcApproval"; }
 void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );

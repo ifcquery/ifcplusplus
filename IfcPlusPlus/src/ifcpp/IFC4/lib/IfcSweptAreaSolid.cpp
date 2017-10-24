@@ -15,7 +15,7 @@
 
 // ENTITY IfcSweptAreaSolid 
 IfcSweptAreaSolid::IfcSweptAreaSolid() {}
-IfcSweptAreaSolid::IfcSweptAreaSolid( int id ) { m_id = id; }
+IfcSweptAreaSolid::IfcSweptAreaSolid( int id ) { m_entity_id = id; }
 IfcSweptAreaSolid::~IfcSweptAreaSolid() {}
 shared_ptr<IfcPPObject> IfcSweptAreaSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,18 +30,18 @@ shared_ptr<IfcPPObject> IfcSweptAreaSolid::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSWEPTAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSWEPTAREASOLID" << "(";
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptAreaSolid::toString() const { return L"IfcSweptAreaSolid"; }
 void IfcSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptAreaSolid, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptAreaSolid, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 }

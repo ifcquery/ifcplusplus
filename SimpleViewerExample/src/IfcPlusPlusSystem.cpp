@@ -172,7 +172,7 @@ osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
 
 void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, bool selected, osg::Group* grp )
 {
-	const int id = ifc_object->m_id;
+	const int id = ifc_object->m_entity_id;
 	if( !grp )
 	{
 		grp = findNodeByIfcId( m_sw_model, id );

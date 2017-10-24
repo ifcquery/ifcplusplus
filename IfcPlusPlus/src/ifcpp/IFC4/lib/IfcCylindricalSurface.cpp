@@ -15,7 +15,7 @@
 
 // ENTITY IfcCylindricalSurface 
 IfcCylindricalSurface::IfcCylindricalSurface() {}
-IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_id = id; }
+IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_entity_id = id; }
 IfcCylindricalSurface::~IfcCylindricalSurface() {}
 shared_ptr<IfcPPObject> IfcCylindricalSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcCylindricalSurface::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCYLINDRICALSURFACE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCCYLINDRICALSURFACE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCylindricalSurface::toString() const { return L"IfcCylindricalSurface"; }
 void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }

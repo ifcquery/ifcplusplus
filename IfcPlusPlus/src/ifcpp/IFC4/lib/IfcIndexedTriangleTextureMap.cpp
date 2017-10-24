@@ -15,7 +15,7 @@
 
 // ENTITY IfcIndexedTriangleTextureMap 
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap() {}
-IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int id ) { m_id = id; }
+IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int id ) { m_entity_id = id; }
 IfcIndexedTriangleTextureMap::~IfcIndexedTriangleTextureMap() {}
 shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -48,12 +48,12 @@ shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy( IfcPPCopyOpti
 }
 void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCINDEXEDTRIANGLETEXTUREMAP" << "(";
+	stream << "#" << m_entity_id << "= IFCINDEXEDTRIANGLETEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "*"; }
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_id; } else { stream << "*"; }
+	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	stream << "("; 
 	for( size_t ii = 0; ii < m_TexCoordIndex.size(); ++ii )
@@ -83,12 +83,12 @@ void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) cons
 	stream << ")"; 
 	stream << ");";
 }
-void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedTriangleTextureMap::toString() const { return L"IfcIndexedTriangleTextureMap"; }
 void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );

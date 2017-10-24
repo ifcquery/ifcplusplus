@@ -12,7 +12,7 @@
 
 // ENTITY IfcColourRgbList 
 IfcColourRgbList::IfcColourRgbList() {}
-IfcColourRgbList::IfcColourRgbList( int id ) { m_id = id; }
+IfcColourRgbList::IfcColourRgbList( int id ) { m_entity_id = id; }
 IfcColourRgbList::~IfcColourRgbList() {}
 shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,7 +35,7 @@ shared_ptr<IfcPPObject> IfcColourRgbList::getDeepCopy( IfcPPCopyOptions& options
 }
 void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCOLOURRGBLIST" << "(";
+	stream << "#" << m_entity_id << "= IFCCOLOURRGBLIST" << "(";
 	stream << "("; 
 	for( size_t ii = 0; ii < m_ColourList.size(); ++ii )
 	{
@@ -64,12 +64,12 @@ void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 	stream << ")"; 
 	stream << ");";
 }
-void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcColourRgbList::toString() const { return L"IfcColourRgbList"; }
 void IfcColourRgbList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList2D( args[0], m_ColourList, map );
 }
 void IfcColourRgbList::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

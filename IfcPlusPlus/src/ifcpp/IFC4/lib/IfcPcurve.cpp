@@ -15,7 +15,7 @@
 
 // ENTITY IfcPcurve 
 IfcPcurve::IfcPcurve() {}
-IfcPcurve::IfcPcurve( int id ) { m_id = id; }
+IfcPcurve::IfcPcurve( int id ) { m_entity_id = id; }
 IfcPcurve::~IfcPcurve() {}
 shared_ptr<IfcPPObject> IfcPcurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcPcurve::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPcurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPCURVE" << "(";
-	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCPCURVE" << "(";
+	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ReferenceCurve ) { stream << "#" << m_ReferenceCurve->m_id; } else { stream << "$"; }
+	if( m_ReferenceCurve ) { stream << "#" << m_ReferenceCurve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPcurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPcurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPcurve::toString() const { return L"IfcPcurve"; }
 void IfcPcurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReference( args[1], m_ReferenceCurve, map );
 }

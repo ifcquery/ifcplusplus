@@ -23,7 +23,7 @@
 
 // ENTITY IfcSimplePropertyTemplate 
 IfcSimplePropertyTemplate::IfcSimplePropertyTemplate() {}
-IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int id ) { m_id = id; }
+IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int id ) { m_entity_id = id; }
 IfcSimplePropertyTemplate::~IfcSimplePropertyTemplate() {}
 shared_ptr<IfcPPObject> IfcSimplePropertyTemplate::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -52,10 +52,10 @@ shared_ptr<IfcPPObject> IfcSimplePropertyTemplate::getDeepCopy( IfcPPCopyOptions
 }
 void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSIMPLEPROPERTYTEMPLATE" << "(";
+	stream << "#" << m_entity_id << "= IFCSIMPLEPROPERTYTEMPLATE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -67,7 +67,7 @@ void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_SecondaryMeasureType ) { m_SecondaryMeasureType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Enumerators ) { stream << "#" << m_Enumerators->m_id; } else { stream << "$"; }
+	if( m_Enumerators ) { stream << "#" << m_Enumerators->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_PrimaryUnit ) { m_PrimaryUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
@@ -78,12 +78,12 @@ void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 	if( m_AccessState ) { m_AccessState->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSimplePropertyTemplate::toString() const { return L"IfcSimplePropertyTemplate"; }
 void IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSimplePropertyTemplate, expecting 12, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSimplePropertyTemplate, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

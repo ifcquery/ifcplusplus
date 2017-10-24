@@ -15,7 +15,7 @@
 
 // ENTITY IfcFillAreaStyleTiles 
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles() {}
-IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_id = id; }
+IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_entity_id = id; }
 IfcFillAreaStyleTiles::~IfcFillAreaStyleTiles() {}
 shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -41,7 +41,7 @@ shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFILLAREASTYLETILES" << "(";
+	stream << "#" << m_entity_id << "= IFCFILLAREASTYLETILES" << "(";
 	writeEntityList( stream, m_TilingPattern );
 	stream << ",";
 	writeEntityList( stream, m_Tiles );
@@ -49,12 +49,12 @@ void IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
 	if( m_TilingScale ) { m_TilingScale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFillAreaStyleTiles::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFillAreaStyleTiles::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyleTiles::toString() const { return L"IfcFillAreaStyleTiles"; }
 void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_TilingPattern, map );
 	readEntityReferenceList( args[1], m_Tiles, map );
 	m_TilingScale = IfcPositiveRatioMeasure::createObjectFromSTEP( args[2], map );

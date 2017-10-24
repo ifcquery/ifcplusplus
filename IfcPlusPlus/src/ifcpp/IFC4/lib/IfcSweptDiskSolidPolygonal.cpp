@@ -16,7 +16,7 @@
 
 // ENTITY IfcSweptDiskSolidPolygonal 
 IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal() {}
-IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int id ) { m_id = id; }
+IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int id ) { m_entity_id = id; }
 IfcSweptDiskSolidPolygonal::~IfcSweptDiskSolidPolygonal() {}
 shared_ptr<IfcPPObject> IfcSweptDiskSolidPolygonal::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,8 +31,8 @@ shared_ptr<IfcPPObject> IfcSweptDiskSolidPolygonal::getDeepCopy( IfcPPCopyOption
 }
 void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSWEPTDISKSOLIDPOLYGONAL" << "(";
-	if( m_Directrix ) { stream << "#" << m_Directrix->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCSWEPTDISKSOLIDPOLYGONAL" << "(";
+	if( m_Directrix ) { stream << "#" << m_Directrix->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -45,12 +45,12 @@ void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 	if( m_FilletRadius ) { m_FilletRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptDiskSolidPolygonal::toString() const { return L"IfcSweptDiskSolidPolygonal"; }
 void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Directrix, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_InnerRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );

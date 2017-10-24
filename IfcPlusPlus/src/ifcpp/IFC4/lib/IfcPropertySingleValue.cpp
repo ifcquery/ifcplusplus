@@ -21,7 +21,7 @@
 
 // ENTITY IfcPropertySingleValue 
 IfcPropertySingleValue::IfcPropertySingleValue() {}
-IfcPropertySingleValue::IfcPropertySingleValue( int id ) { m_id = id; }
+IfcPropertySingleValue::IfcPropertySingleValue( int id ) { m_entity_id = id; }
 IfcPropertySingleValue::~IfcPropertySingleValue() {}
 shared_ptr<IfcPPObject> IfcPropertySingleValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,7 +34,7 @@ shared_ptr<IfcPPObject> IfcPropertySingleValue::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcPropertySingleValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROPERTYSINGLEVALUE" << "(";
+	stream << "#" << m_entity_id << "= IFCPROPERTYSINGLEVALUE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
@@ -44,12 +44,12 @@ void IfcPropertySingleValue::getStepLine( std::stringstream& stream ) const
 	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertySingleValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPropertySingleValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertySingleValue::toString() const { return L"IfcPropertySingleValue"; }
 void IfcPropertySingleValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertySingleValue, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertySingleValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_NominalValue = IfcValue::createObjectFromSTEP( args[2], map );

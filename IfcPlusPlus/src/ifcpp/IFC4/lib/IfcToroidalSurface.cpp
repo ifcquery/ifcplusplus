@@ -15,7 +15,7 @@
 
 // ENTITY IfcToroidalSurface 
 IfcToroidalSurface::IfcToroidalSurface() {}
-IfcToroidalSurface::IfcToroidalSurface( int id ) { m_id = id; }
+IfcToroidalSurface::IfcToroidalSurface( int id ) { m_entity_id = id; }
 IfcToroidalSurface::~IfcToroidalSurface() {}
 shared_ptr<IfcPPObject> IfcToroidalSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,20 +27,20 @@ shared_ptr<IfcPPObject> IfcToroidalSurface::getDeepCopy( IfcPPCopyOptions& optio
 }
 void IfcToroidalSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTOROIDALSURFACE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCTOROIDALSURFACE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_MajorRadius ) { m_MajorRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_MinorRadius ) { m_MinorRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcToroidalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcToroidalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcToroidalSurface::toString() const { return L"IfcToroidalSurface"; }
 void IfcToroidalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcToroidalSurface, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcToroidalSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_MajorRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_MinorRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );

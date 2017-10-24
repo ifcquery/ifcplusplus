@@ -13,7 +13,7 @@
 
 // ENTITY IfcLoop 
 IfcLoop::IfcLoop() {}
-IfcLoop::IfcLoop( int id ) { m_id = id; }
+IfcLoop::IfcLoop( int id ) { m_entity_id = id; }
 IfcLoop::~IfcLoop() {}
 shared_ptr<IfcPPObject> IfcLoop::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcLoop::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcLoop::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLOOP" << "(";
+	stream << "#" << m_entity_id << "= IFCLOOP" << "(";
 	stream << ");";
 }
-void IfcLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLoop::toString() const { return L"IfcLoop"; }
 void IfcLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

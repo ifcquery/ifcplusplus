@@ -14,7 +14,7 @@
 
 // ENTITY IfcStructuralLoadSingleDisplacement 
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement() {}
-IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement( int id ) { m_id = id; }
+IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleDisplacement::~IfcStructuralLoadSingleDisplacement() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,7 +30,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( IfcPPC
 }
 void IfcStructuralLoadSingleDisplacement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENT" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream ); } else { stream << "$"; }
@@ -46,12 +46,12 @@ void IfcStructuralLoadSingleDisplacement::getStepLine( std::stringstream& stream
 	if( m_RotationalDisplacementRZ ) { m_RotationalDisplacementRZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleDisplacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadSingleDisplacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleDisplacement::toString() const { return L"IfcStructuralLoadSingleDisplacement"; }
 void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DisplacementX = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_DisplacementY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );

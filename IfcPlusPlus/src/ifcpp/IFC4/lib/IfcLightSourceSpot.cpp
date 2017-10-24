@@ -21,7 +21,7 @@
 
 // ENTITY IfcLightSourceSpot 
 IfcLightSourceSpot::IfcLightSourceSpot() {}
-IfcLightSourceSpot::IfcLightSourceSpot( int id ) { m_id = id; }
+IfcLightSourceSpot::IfcLightSourceSpot( int id ) { m_entity_id = id; }
 IfcLightSourceSpot::~IfcLightSourceSpot() {}
 shared_ptr<IfcPPObject> IfcLightSourceSpot::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -43,16 +43,16 @@ shared_ptr<IfcPPObject> IfcLightSourceSpot::getDeepCopy( IfcPPCopyOptions& optio
 }
 void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTSOURCESPOT" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTSOURCESPOT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -62,7 +62,7 @@ void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_QuadricAttenuation ) { m_QuadricAttenuation->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Orientation ) { stream << "#" << m_Orientation->m_id; } else { stream << "$"; }
+	if( m_Orientation ) { stream << "#" << m_Orientation->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ConcentrationExponent ) { m_ConcentrationExponent->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -71,12 +71,12 @@ void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 	if( m_BeamWidthAngle ) { m_BeamWidthAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceSpot::toString() const { return L"IfcLightSourceSpot"; }
 void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceSpot, expecting 13, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceSpot, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );

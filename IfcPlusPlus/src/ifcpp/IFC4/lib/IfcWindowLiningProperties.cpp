@@ -25,7 +25,7 @@
 
 // ENTITY IfcWindowLiningProperties 
 IfcWindowLiningProperties::IfcWindowLiningProperties() {}
-IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_id = id; }
+IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_entity_id = id; }
 IfcWindowLiningProperties::~IfcWindowLiningProperties() {}
 shared_ptr<IfcPPObject> IfcWindowLiningProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -58,10 +58,10 @@ shared_ptr<IfcPPObject> IfcWindowLiningProperties::getDeepCopy( IfcPPCopyOptions
 }
 void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCWINDOWLININGPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCWINDOWLININGPROPERTIES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -83,7 +83,7 @@ void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_SecondMullionOffset ) { m_SecondMullionOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_id; } else { stream << "$"; }
+	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_LiningOffset ) { m_LiningOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -92,12 +92,12 @@ void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 	if( m_LiningToPanelOffsetY ) { m_LiningToPanelOffsetY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWindowLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcWindowLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowLiningProperties::toString() const { return L"IfcWindowLiningProperties"; }
 void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 16 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 16 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

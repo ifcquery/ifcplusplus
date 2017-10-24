@@ -602,7 +602,7 @@ public:
 		{
 			return;
 		}
-		const int product_id = ifc_product->m_id;
+		const int product_id = ifc_product->m_entity_id;
 		std::stringstream strs_product_switch_name;
 		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
 		bool draw_bounding_box = false;
@@ -617,7 +617,7 @@ public:
 				continue;
 			}
 			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
-			const int representation_id = ifc_representation->m_id;
+			const int representation_id = ifc_representation->m_entity_id;
 			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
 			
 #ifdef _DEBUG
@@ -908,7 +908,7 @@ public:
 					continue;
 				}
 				
-				const int product_id = ifc_product->m_id;
+				const int product_id = ifc_product->m_entity_id;
 				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
 				try
 				{
@@ -1053,7 +1053,7 @@ public:
 		}
 
 		shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
-		const int entity_id = object_def->m_id;
+		const int entity_id = object_def->m_entity_id;
 		if( SceneGraphUtils::inParentList( entity_id, group ) )
 		{
 			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
@@ -1073,7 +1073,7 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
 				std::stringstream group_subparts_name;
-				group_subparts_name << "#" << child_obj_def->m_id << "=";
+				group_subparts_name << "#" << child_obj_def->m_entity_id << "=";
 				group_subparts_name << child_obj_def->className();
 				group_subparts->setName( group_subparts_name.str().c_str() );
 			}

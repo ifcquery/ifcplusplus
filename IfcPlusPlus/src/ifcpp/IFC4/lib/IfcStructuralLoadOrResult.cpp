@@ -12,7 +12,7 @@
 
 // ENTITY IfcStructuralLoadOrResult 
 IfcStructuralLoadOrResult::IfcStructuralLoadOrResult() {}
-IfcStructuralLoadOrResult::IfcStructuralLoadOrResult( int id ) { m_id = id; }
+IfcStructuralLoadOrResult::IfcStructuralLoadOrResult( int id ) { m_entity_id = id; }
 IfcStructuralLoadOrResult::~IfcStructuralLoadOrResult() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadOrResult::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,16 +22,16 @@ shared_ptr<IfcPPObject> IfcStructuralLoadOrResult::getDeepCopy( IfcPPCopyOptions
 }
 void IfcStructuralLoadOrResult::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADORRESULT" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADORRESULT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcStructuralLoadOrResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadOrResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadOrResult::toString() const { return L"IfcStructuralLoadOrResult"; }
 void IfcStructuralLoadOrResult::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadOrResult, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadOrResult, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 }
 void IfcStructuralLoadOrResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

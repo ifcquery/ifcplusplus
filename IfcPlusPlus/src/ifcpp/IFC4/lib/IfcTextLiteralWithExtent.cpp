@@ -18,7 +18,7 @@
 
 // ENTITY IfcTextLiteralWithExtent 
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() {}
-IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_id = id; }
+IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_entity_id = id; }
 IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() {}
 shared_ptr<IfcPPObject> IfcTextLiteralWithExtent::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,24 +32,24 @@ shared_ptr<IfcPPObject> IfcTextLiteralWithExtent::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTEXTLITERALWITHEXTENT" << "(";
+	stream << "#" << m_entity_id << "= IFCTEXTLITERALWITHEXTENT" << "(";
 	if( m_Literal ) { m_Literal->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Extent ) { stream << "#" << m_Extent->m_id; } else { stream << "$"; }
+	if( m_Extent ) { stream << "#" << m_Extent->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_BoxAlignment ) { m_BoxAlignment->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextLiteralWithExtent::toString() const { return L"IfcTextLiteralWithExtent"; }
 void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 	m_Path = IfcTextPath::createObjectFromSTEP( args[2], map );

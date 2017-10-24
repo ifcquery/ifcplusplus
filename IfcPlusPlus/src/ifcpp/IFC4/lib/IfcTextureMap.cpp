@@ -14,7 +14,7 @@
 
 // ENTITY IfcTextureMap 
 IfcTextureMap::IfcTextureMap() {}
-IfcTextureMap::IfcTextureMap( int id ) { m_id = id; }
+IfcTextureMap::IfcTextureMap( int id ) { m_entity_id = id; }
 IfcTextureMap::~IfcTextureMap() {}
 shared_ptr<IfcPPObject> IfcTextureMap::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,20 +40,20 @@ shared_ptr<IfcPPObject> IfcTextureMap::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTextureMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTEXTUREMAP" << "(";
+	stream << "#" << m_entity_id << "= IFCTEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
 	writeEntityList( stream, m_Vertices );
 	stream << ",";
-	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_id; } else { stream << "$"; }
+	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureMap::toString() const { return L"IfcTextureMap"; }
 void IfcTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureMap, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureMap, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReferenceList( args[1], m_Vertices, map );
 	readEntityReference( args[2], m_MappedTo, map );

@@ -16,7 +16,7 @@
 
 // ENTITY IfcBoxedHalfSpace 
 IfcBoxedHalfSpace::IfcBoxedHalfSpace() {}
-IfcBoxedHalfSpace::IfcBoxedHalfSpace( int id ) { m_id = id; }
+IfcBoxedHalfSpace::IfcBoxedHalfSpace( int id ) { m_entity_id = id; }
 IfcBoxedHalfSpace::~IfcBoxedHalfSpace() {}
 shared_ptr<IfcPPObject> IfcBoxedHalfSpace::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,20 +28,20 @@ shared_ptr<IfcPPObject> IfcBoxedHalfSpace::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBOXEDHALFSPACE" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCBOXEDHALFSPACE" << "(";
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Enclosure ) { stream << "#" << m_Enclosure->m_id; } else { stream << "$"; }
+	if( m_Enclosure ) { stream << "#" << m_Enclosure->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoxedHalfSpace::toString() const { return L"IfcBoxedHalfSpace"; }
 void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoxedHalfSpace, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoxedHalfSpace, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Enclosure, map );

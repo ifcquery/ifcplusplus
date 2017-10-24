@@ -15,7 +15,7 @@
 
 // ENTITY IfcOuterBoundaryCurve 
 IfcOuterBoundaryCurve::IfcOuterBoundaryCurve() {}
-IfcOuterBoundaryCurve::IfcOuterBoundaryCurve( int id ) { m_id = id; }
+IfcOuterBoundaryCurve::IfcOuterBoundaryCurve( int id ) { m_entity_id = id; }
 IfcOuterBoundaryCurve::~IfcOuterBoundaryCurve() {}
 shared_ptr<IfcPPObject> IfcOuterBoundaryCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,18 +33,18 @@ shared_ptr<IfcPPObject> IfcOuterBoundaryCurve::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcOuterBoundaryCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCOUTERBOUNDARYCURVE" << "(";
+	stream << "#" << m_entity_id << "= IFCOUTERBOUNDARYCURVE" << "(";
 	writeEntityList( stream, m_Segments );
 	stream << ",";
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcOuterBoundaryCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcOuterBoundaryCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOuterBoundaryCurve::toString() const { return L"IfcOuterBoundaryCurve"; }
 void IfcOuterBoundaryCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOuterBoundaryCurve, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOuterBoundaryCurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[1], map );
 }

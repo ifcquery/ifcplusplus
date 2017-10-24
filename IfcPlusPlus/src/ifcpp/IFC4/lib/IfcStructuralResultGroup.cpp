@@ -28,7 +28,7 @@
 
 // ENTITY IfcStructuralResultGroup 
 IfcStructuralResultGroup::IfcStructuralResultGroup() {}
-IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_id = id; }
+IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_entity_id = id; }
 IfcStructuralResultGroup::~IfcStructuralResultGroup() {}
 shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -53,10 +53,10 @@ shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALRESULTGROUP" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALRESULTGROUP" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -66,17 +66,17 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TheoryType ) { m_TheoryType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ResultForLoadGroup ) { stream << "#" << m_ResultForLoadGroup->m_id; } else { stream << "$"; }
+	if( m_ResultForLoadGroup ) { stream << "#" << m_ResultForLoadGroup->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_IsLinear ) { m_IsLinear->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralResultGroup::toString() const { return L"IfcStructuralResultGroup"; }
 void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

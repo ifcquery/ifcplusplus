@@ -14,7 +14,7 @@
 
 // ENTITY IfcSectionProperties 
 IfcSectionProperties::IfcSectionProperties() {}
-IfcSectionProperties::IfcSectionProperties( int id ) { m_id = id; }
+IfcSectionProperties::IfcSectionProperties( int id ) { m_entity_id = id; }
 IfcSectionProperties::~IfcSectionProperties() {}
 shared_ptr<IfcPPObject> IfcSectionProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,20 +34,20 @@ shared_ptr<IfcPPObject> IfcSectionProperties::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSECTIONPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCSECTIONPROPERTIES" << "(";
 	if( m_SectionType ) { m_SectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartProfile ) { stream << "#" << m_StartProfile->m_id; } else { stream << "$"; }
+	if( m_StartProfile ) { stream << "#" << m_StartProfile->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EndProfile ) { stream << "#" << m_EndProfile->m_id; } else { stream << "$"; }
+	if( m_EndProfile ) { stream << "#" << m_EndProfile->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSectionProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSectionProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionProperties::toString() const { return L"IfcSectionProperties"; }
 void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SectionType = IfcSectionTypeEnum::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_StartProfile, map );
 	readEntityReference( args[2], m_EndProfile, map );

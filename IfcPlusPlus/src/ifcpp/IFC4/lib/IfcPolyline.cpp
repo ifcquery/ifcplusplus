@@ -14,7 +14,7 @@
 
 // ENTITY IfcPolyline 
 IfcPolyline::IfcPolyline() {}
-IfcPolyline::IfcPolyline( int id ) { m_id = id; }
+IfcPolyline::IfcPolyline( int id ) { m_entity_id = id; }
 IfcPolyline::~IfcPolyline() {}
 shared_ptr<IfcPPObject> IfcPolyline::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,16 +31,16 @@ shared_ptr<IfcPPObject> IfcPolyline::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPolyline::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPOLYLINE" << "(";
+	stream << "#" << m_entity_id << "= IFCPOLYLINE" << "(";
 	writeEntityList( stream, m_Points );
 	stream << ");";
 }
-void IfcPolyline::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPolyline::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolyline::toString() const { return L"IfcPolyline"; }
 void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Points, map );
 }
 void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

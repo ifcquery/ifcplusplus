@@ -12,7 +12,7 @@
 
 // ENTITY IfcPreDefinedItem 
 IfcPreDefinedItem::IfcPreDefinedItem() {}
-IfcPreDefinedItem::IfcPreDefinedItem( int id ) { m_id = id; }
+IfcPreDefinedItem::IfcPreDefinedItem( int id ) { m_entity_id = id; }
 IfcPreDefinedItem::~IfcPreDefinedItem() {}
 shared_ptr<IfcPPObject> IfcPreDefinedItem::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,16 +22,16 @@ shared_ptr<IfcPPObject> IfcPreDefinedItem::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcPreDefinedItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPREDEFINEDITEM" << "(";
+	stream << "#" << m_entity_id << "= IFCPREDEFINEDITEM" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPreDefinedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPreDefinedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPreDefinedItem::toString() const { return L"IfcPreDefinedItem"; }
 void IfcPreDefinedItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPreDefinedItem, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPreDefinedItem, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 }
 void IfcPreDefinedItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

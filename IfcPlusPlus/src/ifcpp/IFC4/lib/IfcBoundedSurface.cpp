@@ -13,7 +13,7 @@
 
 // ENTITY IfcBoundedSurface 
 IfcBoundedSurface::IfcBoundedSurface() {}
-IfcBoundedSurface::IfcBoundedSurface( int id ) { m_id = id; }
+IfcBoundedSurface::IfcBoundedSurface( int id ) { m_entity_id = id; }
 IfcBoundedSurface::~IfcBoundedSurface() {}
 shared_ptr<IfcPPObject> IfcBoundedSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcBoundedSurface::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcBoundedSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBOUNDEDSURFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCBOUNDEDSURFACE" << "(";
 	stream << ");";
 }
-void IfcBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundedSurface::toString() const { return L"IfcBoundedSurface"; }
 void IfcBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

@@ -12,7 +12,7 @@
 
 // ENTITY IfcDerivedUnitElement 
 IfcDerivedUnitElement::IfcDerivedUnitElement() {}
-IfcDerivedUnitElement::IfcDerivedUnitElement( int id ) { m_id = id; }
+IfcDerivedUnitElement::IfcDerivedUnitElement( int id ) { m_entity_id = id; }
 IfcDerivedUnitElement::~IfcDerivedUnitElement() {}
 shared_ptr<IfcPPObject> IfcDerivedUnitElement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -23,18 +23,18 @@ shared_ptr<IfcPPObject> IfcDerivedUnitElement::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcDerivedUnitElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCDERIVEDUNITELEMENT" << "(";
-	if( m_Unit ) { stream << "#" << m_Unit->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCDERIVEDUNITELEMENT" << "(";
+	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << m_Exponent;
 	stream << ");";
 }
-void IfcDerivedUnitElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcDerivedUnitElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDerivedUnitElement::toString() const { return L"IfcDerivedUnitElement"; }
 void IfcDerivedUnitElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnitElement, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnitElement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Unit, map );
 	readIntValue( args[1], m_Exponent );
 }

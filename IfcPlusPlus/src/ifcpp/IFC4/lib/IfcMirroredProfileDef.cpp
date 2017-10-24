@@ -17,7 +17,7 @@
 
 // ENTITY IfcMirroredProfileDef 
 IfcMirroredProfileDef::IfcMirroredProfileDef() {}
-IfcMirroredProfileDef::IfcMirroredProfileDef( int id ) { m_id = id; }
+IfcMirroredProfileDef::IfcMirroredProfileDef( int id ) { m_entity_id = id; }
 IfcMirroredProfileDef::~IfcMirroredProfileDef() {}
 shared_ptr<IfcPPObject> IfcMirroredProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,24 +35,24 @@ shared_ptr<IfcPPObject> IfcMirroredProfileDef::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMIRROREDPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCMIRROREDPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_id; } else { stream << "*"; }
+	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Operator ) { stream << "#" << m_Operator->m_id; } else { stream << "*"; }
+	if( m_Operator ) { stream << "#" << m_Operator->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMirroredProfileDef::toString() const { return L"IfcMirroredProfileDef"; }
 void IfcMirroredProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMirroredProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMirroredProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_ParentProfile, map );

@@ -391,7 +391,7 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 			if( entity )
 			{
-				std::cout << "MeshSet of entity #" << entity->m_id << " not valid" << std::endl;
+				std::cout << "MeshSet of entity #" << entity->m_entity_id << " not valid" << std::endl;
 			}
 #endif
 			return false;
@@ -401,7 +401,7 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 			if( entity )
 			{
-				std::cout << "MeshSet of entity #" << entity->m_id << " has no meshes" << std::endl;
+				std::cout << "MeshSet of entity #" << entity->m_entity_id << " has no meshes" << std::endl;
 			}
 #endif
 			return false;
@@ -470,7 +470,7 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 			if( entity )
 			{
-				std::cout << "MeshSet of entity #" << entity->m_id << " not valid" << std::endl;
+				std::cout << "MeshSet of entity #" << entity->m_entity_id << " not valid" << std::endl;
 			}
 #endif
 			return false;
@@ -480,7 +480,7 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 			if( entity )
 			{
-				std::cout << "MeshSet of entity #" << entity->m_id << " has no meshes" << std::endl;
+				std::cout << "MeshSet of entity #" << entity->m_entity_id << " has no meshes" << std::endl;
 			}
 #endif
 			return false;

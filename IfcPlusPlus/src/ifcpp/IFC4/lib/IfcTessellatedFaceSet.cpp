@@ -16,7 +16,7 @@
 
 // ENTITY IfcTessellatedFaceSet 
 IfcTessellatedFaceSet::IfcTessellatedFaceSet() {}
-IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_id = id; }
+IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_entity_id = id; }
 IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
 shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,16 +26,16 @@ shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTESSELLATEDFACESET" << "(";
-	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCTESSELLATEDFACESET" << "(";
+	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTessellatedFaceSet::toString() const { return L"IfcTessellatedFaceSet"; }
 void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 }
 void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

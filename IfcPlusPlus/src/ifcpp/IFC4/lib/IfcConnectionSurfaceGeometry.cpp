@@ -12,7 +12,7 @@
 
 // ENTITY IfcConnectionSurfaceGeometry 
 IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry() {}
-IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry( int id ) { m_id = id; }
+IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry( int id ) { m_entity_id = id; }
 IfcConnectionSurfaceGeometry::~IfcConnectionSurfaceGeometry() {}
 shared_ptr<IfcPPObject> IfcConnectionSurfaceGeometry::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -23,18 +23,18 @@ shared_ptr<IfcPPObject> IfcConnectionSurfaceGeometry::getDeepCopy( IfcPPCopyOpti
 }
 void IfcConnectionSurfaceGeometry::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONNECTIONSURFACEGEOMETRY" << "(";
+	stream << "#" << m_entity_id << "= IFCCONNECTIONSURFACEGEOMETRY" << "(";
 	if( m_SurfaceOnRelatingElement ) { m_SurfaceOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_SurfaceOnRelatedElement ) { m_SurfaceOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConnectionSurfaceGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConnectionSurfaceGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionSurfaceGeometry::toString() const { return L"IfcConnectionSurfaceGeometry"; }
 void IfcConnectionSurfaceGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionSurfaceGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionSurfaceGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SurfaceOnRelatingElement = IfcSurfaceOrFaceSurface::createObjectFromSTEP( args[0], map );
 	m_SurfaceOnRelatedElement = IfcSurfaceOrFaceSurface::createObjectFromSTEP( args[1], map );
 }

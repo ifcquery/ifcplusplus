@@ -16,7 +16,7 @@
 
 // ENTITY IfcArbitraryClosedProfileDef 
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef() {}
-IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int id ) { m_id = id; }
+IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int id ) { m_entity_id = id; }
 IfcArbitraryClosedProfileDef::~IfcArbitraryClosedProfileDef() {}
 shared_ptr<IfcPPObject> IfcArbitraryClosedProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,20 +28,20 @@ shared_ptr<IfcPPObject> IfcArbitraryClosedProfileDef::getDeepCopy( IfcPPCopyOpti
 }
 void IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCARBITRARYCLOSEDPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCARBITRARYCLOSEDPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_id; } else { stream << "$"; }
+	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcArbitraryClosedProfileDef::toString() const { return L"IfcArbitraryClosedProfileDef"; }
 void IfcArbitraryClosedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_OuterCurve, map );

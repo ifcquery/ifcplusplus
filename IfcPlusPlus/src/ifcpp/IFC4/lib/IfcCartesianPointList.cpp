@@ -13,7 +13,7 @@
 
 // ENTITY IfcCartesianPointList 
 IfcCartesianPointList::IfcCartesianPointList() {}
-IfcCartesianPointList::IfcCartesianPointList( int id ) { m_id = id; }
+IfcCartesianPointList::IfcCartesianPointList( int id ) { m_entity_id = id; }
 IfcCartesianPointList::~IfcCartesianPointList() {}
 shared_ptr<IfcPPObject> IfcCartesianPointList::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcCartesianPointList::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcCartesianPointList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCARTESIANPOINTLIST" << "(";
+	stream << "#" << m_entity_id << "= IFCCARTESIANPOINTLIST" << "(";
 	stream << ");";
 }
-void IfcCartesianPointList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCartesianPointList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPointList::toString() const { return L"IfcCartesianPointList"; }
 void IfcCartesianPointList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

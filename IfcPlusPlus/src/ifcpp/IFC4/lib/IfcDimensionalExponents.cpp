@@ -11,7 +11,7 @@
 
 // ENTITY IfcDimensionalExponents 
 IfcDimensionalExponents::IfcDimensionalExponents() {}
-IfcDimensionalExponents::IfcDimensionalExponents( int id ) { m_id = id; }
+IfcDimensionalExponents::IfcDimensionalExponents( int id ) { m_entity_id = id; }
 IfcDimensionalExponents::~IfcDimensionalExponents() {}
 shared_ptr<IfcPPObject> IfcDimensionalExponents::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,7 +27,7 @@ shared_ptr<IfcPPObject> IfcDimensionalExponents::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCDIMENSIONALEXPONENTS" << "(";
+	stream << "#" << m_entity_id << "= IFCDIMENSIONALEXPONENTS" << "(";
 	stream << m_LengthExponent;
 	stream << ",";
 	stream << m_MassExponent;
@@ -43,12 +43,12 @@ void IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 	stream << m_LuminousIntensityExponent;
 	stream << ");";
 }
-void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDimensionalExponents::toString() const { return L"IfcDimensionalExponents"; }
 void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDimensionalExponents, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDimensionalExponents, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readIntValue( args[0], m_LengthExponent );
 	readIntValue( args[1], m_MassExponent );
 	readIntValue( args[2], m_TimeExponent );

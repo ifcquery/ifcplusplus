@@ -18,7 +18,7 @@
 
 // ENTITY IfcClassification 
 IfcClassification::IfcClassification() {}
-IfcClassification::IfcClassification( int id ) { m_id = id; }
+IfcClassification::IfcClassification( int id ) { m_entity_id = id; }
 IfcClassification::~IfcClassification() {}
 shared_ptr<IfcPPObject> IfcClassification::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -41,7 +41,7 @@ shared_ptr<IfcPPObject> IfcClassification::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcClassification::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCLASSIFICATION" << "(";
+	stream << "#" << m_entity_id << "= IFCCLASSIFICATION" << "(";
 	if( m_Source ) { m_Source->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Edition ) { m_Edition->getStepParameter( stream ); } else { stream << "$"; }
@@ -74,12 +74,12 @@ void IfcClassification::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcClassification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcClassification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcClassification::toString() const { return L"IfcClassification"; }
 void IfcClassification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Source = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Edition = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_EditionDate = IfcDate::createObjectFromSTEP( args[2], map );

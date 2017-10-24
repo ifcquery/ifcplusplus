@@ -16,7 +16,7 @@
 
 // ENTITY IfcCompositeProfileDef 
 IfcCompositeProfileDef::IfcCompositeProfileDef() {}
-IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_id = id; }
+IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_entity_id = id; }
 IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
 shared_ptr<IfcPPObject> IfcCompositeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -36,7 +36,7 @@ shared_ptr<IfcPPObject> IfcCompositeProfileDef::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCOMPOSITEPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCCOMPOSITEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
@@ -46,12 +46,12 @@ void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeProfileDef::toString() const { return L"IfcCompositeProfileDef"; }
 void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Profiles, map );

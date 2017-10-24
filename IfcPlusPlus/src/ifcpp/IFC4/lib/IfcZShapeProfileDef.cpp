@@ -18,7 +18,7 @@
 
 // ENTITY IfcZShapeProfileDef 
 IfcZShapeProfileDef::IfcZShapeProfileDef() {}
-IfcZShapeProfileDef::IfcZShapeProfileDef( int id ) { m_id = id; }
+IfcZShapeProfileDef::IfcZShapeProfileDef( int id ) { m_entity_id = id; }
 IfcZShapeProfileDef::~IfcZShapeProfileDef() {}
 shared_ptr<IfcPPObject> IfcZShapeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -36,12 +36,12 @@ shared_ptr<IfcPPObject> IfcZShapeProfileDef::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcZShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCZSHAPEPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCZSHAPEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -56,12 +56,12 @@ void IfcZShapeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_EdgeRadius ) { m_EdgeRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcZShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcZShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcZShapeProfileDef::toString() const { return L"IfcZShapeProfileDef"; }
 void IfcZShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcZShapeProfileDef, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcZShapeProfileDef, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );

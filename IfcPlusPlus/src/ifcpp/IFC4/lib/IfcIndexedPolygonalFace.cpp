@@ -15,7 +15,7 @@
 
 // ENTITY IfcIndexedPolygonalFace 
 IfcIndexedPolygonalFace::IfcIndexedPolygonalFace() {}
-IfcIndexedPolygonalFace::IfcIndexedPolygonalFace( int id ) { m_id = id; }
+IfcIndexedPolygonalFace::IfcIndexedPolygonalFace( int id ) { m_entity_id = id; }
 IfcIndexedPolygonalFace::~IfcIndexedPolygonalFace() {}
 shared_ptr<IfcPPObject> IfcIndexedPolygonalFace::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,7 +32,7 @@ shared_ptr<IfcPPObject> IfcIndexedPolygonalFace::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcIndexedPolygonalFace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCINDEXEDPOLYGONALFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCINDEXEDPOLYGONALFACE" << "(";
 	stream << "(";
 	for( size_t ii = 0; ii < m_CoordIndex.size(); ++ii )
 	{
@@ -53,12 +53,12 @@ void IfcIndexedPolygonalFace::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIndexedPolygonalFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcIndexedPolygonalFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolygonalFace::toString() const { return L"IfcIndexedPolygonalFace"; }
 void IfcIndexedPolygonalFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFace, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFace, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readTypeList( args[0], m_CoordIndex, map );
 }
 void IfcIndexedPolygonalFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

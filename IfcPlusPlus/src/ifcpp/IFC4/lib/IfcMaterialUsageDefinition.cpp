@@ -12,7 +12,7 @@
 
 // ENTITY IfcMaterialUsageDefinition 
 IfcMaterialUsageDefinition::IfcMaterialUsageDefinition() {}
-IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_id = id; }
+IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_entity_id = id; }
 IfcMaterialUsageDefinition::~IfcMaterialUsageDefinition() {}
 shared_ptr<IfcPPObject> IfcMaterialUsageDefinition::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -21,10 +21,10 @@ shared_ptr<IfcPPObject> IfcMaterialUsageDefinition::getDeepCopy( IfcPPCopyOption
 }
 void IfcMaterialUsageDefinition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMATERIALUSAGEDEFINITION" << "(";
+	stream << "#" << m_entity_id << "= IFCMATERIALUSAGEDEFINITION" << "(";
 	stream << ");";
 }
-void IfcMaterialUsageDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMaterialUsageDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialUsageDefinition::toString() const { return L"IfcMaterialUsageDefinition"; }
 void IfcMaterialUsageDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

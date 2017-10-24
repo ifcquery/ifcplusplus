@@ -21,7 +21,7 @@
 
 // ENTITY IfcPropertyListValue 
 IfcPropertyListValue::IfcPropertyListValue() {}
-IfcPropertyListValue::IfcPropertyListValue( int id ) { m_id = id; }
+IfcPropertyListValue::IfcPropertyListValue( int id ) { m_entity_id = id; }
 IfcPropertyListValue::~IfcPropertyListValue() {}
 shared_ptr<IfcPPObject> IfcPropertyListValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -41,7 +41,7 @@ shared_ptr<IfcPPObject> IfcPropertyListValue::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcPropertyListValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROPERTYLISTVALUE" << "(";
+	stream << "#" << m_entity_id << "= IFCPROPERTYLISTVALUE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
@@ -68,12 +68,12 @@ void IfcPropertyListValue::getStepLine( std::stringstream& stream ) const
 	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertyListValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPropertyListValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyListValue::toString() const { return L"IfcPropertyListValue"; }
 void IfcPropertyListValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyListValue, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyListValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_ListValues, map );

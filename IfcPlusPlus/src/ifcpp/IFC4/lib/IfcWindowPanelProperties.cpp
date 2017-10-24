@@ -24,7 +24,7 @@
 
 // ENTITY IfcWindowPanelProperties 
 IfcWindowPanelProperties::IfcWindowPanelProperties() {}
-IfcWindowPanelProperties::IfcWindowPanelProperties( int id ) { m_id = id; }
+IfcWindowPanelProperties::IfcWindowPanelProperties( int id ) { m_entity_id = id; }
 IfcWindowPanelProperties::~IfcWindowPanelProperties() {}
 shared_ptr<IfcPPObject> IfcWindowPanelProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -50,10 +50,10 @@ shared_ptr<IfcPPObject> IfcWindowPanelProperties::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcWindowPanelProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCWINDOWPANELPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCWINDOWPANELPROPERTIES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -67,15 +67,15 @@ void IfcWindowPanelProperties::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_FrameThickness ) { m_FrameThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_id; } else { stream << "$"; }
+	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWindowPanelProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcWindowPanelProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowPanelProperties::toString() const { return L"IfcWindowPanelProperties"; }
 void IfcWindowPanelProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowPanelProperties, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowPanelProperties, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

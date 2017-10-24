@@ -14,7 +14,7 @@
 
 // ENTITY IfcVertexPoint 
 IfcVertexPoint::IfcVertexPoint() {}
-IfcVertexPoint::IfcVertexPoint( int id ) { m_id = id; }
+IfcVertexPoint::IfcVertexPoint( int id ) { m_entity_id = id; }
 IfcVertexPoint::~IfcVertexPoint() {}
 shared_ptr<IfcPPObject> IfcVertexPoint::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,16 +24,16 @@ shared_ptr<IfcPPObject> IfcVertexPoint::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcVertexPoint::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCVERTEXPOINT" << "(";
-	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCVERTEXPOINT" << "(";
+	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcVertexPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcVertexPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVertexPoint::toString() const { return L"IfcVertexPoint"; }
 void IfcVertexPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_VertexGeometry, map );
 }
 void IfcVertexPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

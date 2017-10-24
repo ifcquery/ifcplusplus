@@ -17,7 +17,7 @@
 
 // ENTITY IfcTrimmedCurve 
 IfcTrimmedCurve::IfcTrimmedCurve() {}
-IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_id = id; }
+IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_entity_id = id; }
 IfcTrimmedCurve::~IfcTrimmedCurve() {}
 shared_ptr<IfcPPObject> IfcTrimmedCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -45,8 +45,8 @@ shared_ptr<IfcPPObject> IfcTrimmedCurve::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTRIMMEDCURVE" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCTRIMMEDCURVE" << "(";
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Trim1.size(); ++ii )
@@ -91,12 +91,12 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTrimmedCurve::toString() const { return L"IfcTrimmedCurve"; }
 void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
 	readSelectList( args[1], m_Trim1, map );
 	readSelectList( args[2], m_Trim2, map );

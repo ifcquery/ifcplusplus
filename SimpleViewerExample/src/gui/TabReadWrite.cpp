@@ -145,7 +145,7 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 
 		if( m->m_entity )
 		{
-			strs_report << ", IFC entity: #" << m->m_entity->m_id << "=" << m->m_entity->className();
+			strs_report << ", IFC entity: #" << m->m_entity->m_entity_id << "=" << m->m_entity->className();
 		}
 		std::wstring message_str = strs_report.str().c_str();
 

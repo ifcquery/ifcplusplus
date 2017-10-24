@@ -16,7 +16,7 @@
 
 // ENTITY IfcSurfaceCurve 
 IfcSurfaceCurve::IfcSurfaceCurve() {}
-IfcSurfaceCurve::IfcSurfaceCurve( int id ) { m_id = id; }
+IfcSurfaceCurve::IfcSurfaceCurve( int id ) { m_entity_id = id; }
 IfcSurfaceCurve::~IfcSurfaceCurve() {}
 shared_ptr<IfcPPObject> IfcSurfaceCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,20 +35,20 @@ shared_ptr<IfcPPObject> IfcSurfaceCurve::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcSurfaceCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACECURVE" << "(";
-	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSURFACECURVE" << "(";
+	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_AssociatedGeometry );
 	stream << ",";
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceCurve::toString() const { return L"IfcSurfaceCurve"; }
 void IfcSurfaceCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceCurve, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Curve3D, map );
 	readEntityReferenceList( args[1], m_AssociatedGeometry, map );
 	m_MasterRepresentation = IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( args[2], map );

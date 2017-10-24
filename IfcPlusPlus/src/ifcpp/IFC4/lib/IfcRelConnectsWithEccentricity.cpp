@@ -22,7 +22,7 @@
 
 // ENTITY IfcRelConnectsWithEccentricity 
 IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity() {}
-IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity( int id ) { m_id = id; }
+IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity( int id ) { m_entity_id = id; }
 IfcRelConnectsWithEccentricity::~IfcRelConnectsWithEccentricity() {}
 shared_ptr<IfcPPObject> IfcRelConnectsWithEccentricity::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -50,36 +50,36 @@ shared_ptr<IfcPPObject> IfcRelConnectsWithEccentricity::getDeepCopy( IfcPPCopyOp
 }
 void IfcRelConnectsWithEccentricity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELCONNECTSWITHECCENTRICITY" << "(";
+	stream << "#" << m_entity_id << "= IFCRELCONNECTSWITHECCENTRICITY" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingStructuralMember ) { stream << "#" << m_RelatingStructuralMember->m_id; } else { stream << "*"; }
+	if( m_RelatingStructuralMember ) { stream << "#" << m_RelatingStructuralMember->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatedStructuralConnection ) { stream << "#" << m_RelatedStructuralConnection->m_id; } else { stream << "*"; }
+	if( m_RelatedStructuralConnection ) { stream << "#" << m_RelatedStructuralConnection->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->m_id; } else { stream << "*"; }
+	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_AdditionalConditions ) { stream << "#" << m_AdditionalConditions->m_id; } else { stream << "*"; }
+	if( m_AdditionalConditions ) { stream << "#" << m_AdditionalConditions->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_SupportedLength ) { m_SupportedLength->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConditionCoordinateSystem ) { stream << "#" << m_ConditionCoordinateSystem->m_id; } else { stream << "*"; }
+	if( m_ConditionCoordinateSystem ) { stream << "#" << m_ConditionCoordinateSystem->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_ConnectionConstraint ) { stream << "#" << m_ConnectionConstraint->m_id; } else { stream << "$"; }
+	if( m_ConnectionConstraint ) { stream << "#" << m_ConnectionConstraint->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsWithEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelConnectsWithEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsWithEccentricity::toString() const { return L"IfcRelConnectsWithEccentricity"; }
 void IfcRelConnectsWithEccentricity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsWithEccentricity, expecting 11, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsWithEccentricity, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

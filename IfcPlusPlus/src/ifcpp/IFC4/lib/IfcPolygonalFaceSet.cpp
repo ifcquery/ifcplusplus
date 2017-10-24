@@ -19,7 +19,7 @@
 
 // ENTITY IfcPolygonalFaceSet 
 IfcPolygonalFaceSet::IfcPolygonalFaceSet() {}
-IfcPolygonalFaceSet::IfcPolygonalFaceSet( int id ) { m_id = id; }
+IfcPolygonalFaceSet::IfcPolygonalFaceSet( int id ) { m_entity_id = id; }
 IfcPolygonalFaceSet::~IfcPolygonalFaceSet() {}
 shared_ptr<IfcPPObject> IfcPolygonalFaceSet::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -46,8 +46,8 @@ shared_ptr<IfcPPObject> IfcPolygonalFaceSet::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcPolygonalFaceSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPOLYGONALFACESET" << "(";
-	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCPOLYGONALFACESET" << "(";
+	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -73,12 +73,12 @@ void IfcPolygonalFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcPolygonalFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPolygonalFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolygonalFaceSet::toString() const { return L"IfcPolygonalFaceSet"; }
 void IfcPolygonalFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalFaceSet, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalFaceSet, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	m_Closed = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Faces, map );

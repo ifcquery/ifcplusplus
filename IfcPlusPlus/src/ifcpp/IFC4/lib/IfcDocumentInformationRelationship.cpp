@@ -14,7 +14,7 @@
 
 // ENTITY IfcDocumentInformationRelationship 
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship() {}
-IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_id = id; }
+IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_entity_id = id; }
 IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() {}
 shared_ptr<IfcPPObject> IfcDocumentInformationRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,24 +35,24 @@ shared_ptr<IfcPPObject> IfcDocumentInformationRelationship::getDeepCopy( IfcPPCo
 }
 void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCDOCUMENTINFORMATIONRELATIONSHIP" << "(";
+	stream << "#" << m_entity_id << "= IFCDOCUMENTINFORMATIONRELATIONSHIP" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingDocument ) { stream << "#" << m_RelatingDocument->m_id; } else { stream << "$"; }
+	if( m_RelatingDocument ) { stream << "#" << m_RelatingDocument->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedDocuments );
 	stream << ",";
 	if( m_RelationshipType ) { m_RelationshipType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDocumentInformationRelationship::toString() const { return L"IfcDocumentInformationRelationship"; }
 void IfcDocumentInformationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingDocument, map );

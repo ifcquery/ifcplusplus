@@ -13,7 +13,7 @@
 
 // ENTITY IfcConnectionPointEccentricity 
 IfcConnectionPointEccentricity::IfcConnectionPointEccentricity() {}
-IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_id = id; }
+IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_entity_id = id; }
 IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() {}
 shared_ptr<IfcPPObject> IfcConnectionPointEccentricity::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,7 +27,7 @@ shared_ptr<IfcPPObject> IfcConnectionPointEccentricity::getDeepCopy( IfcPPCopyOp
 }
 void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONNECTIONPOINTECCENTRICITY" << "(";
+	stream << "#" << m_entity_id << "= IFCCONNECTIONPOINTECCENTRICITY" << "(";
 	if( m_PointOnRelatingElement ) { m_PointOnRelatingElement->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "*" ; }
@@ -39,12 +39,12 @@ void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) co
 	if( m_EccentricityInZ ) { m_EccentricityInZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionPointEccentricity::toString() const { return L"IfcConnectionPointEccentricity"; }
 void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointEccentricity, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointEccentricity, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_PointOnRelatingElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[0], map );
 	m_PointOnRelatedElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[1], map );
 	m_EccentricityInX = IfcLengthMeasure::createObjectFromSTEP( args[2], map );

@@ -15,7 +15,7 @@
 
 // ENTITY IfcCircle 
 IfcCircle::IfcCircle() {}
-IfcCircle::IfcCircle( int id ) { m_id = id; }
+IfcCircle::IfcCircle( int id ) { m_entity_id = id; }
 IfcCircle::~IfcCircle() {}
 shared_ptr<IfcPPObject> IfcCircle::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcCircle::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcCircle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCIRCLE" << "(";
+	stream << "#" << m_entity_id << "= IFCCIRCLE" << "(";
 	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCircle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCircle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCircle::toString() const { return L"IfcCircle"; }
 void IfcCircle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircle, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }

@@ -18,7 +18,7 @@
 
 // ENTITY IfcReinforcementBarProperties 
 IfcReinforcementBarProperties::IfcReinforcementBarProperties() {}
-IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_id = id; }
+IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_entity_id = id; }
 IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
 shared_ptr<IfcPPObject> IfcReinforcementBarProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,7 +33,7 @@ shared_ptr<IfcPPObject> IfcReinforcementBarProperties::getDeepCopy( IfcPPCopyOpt
 }
 void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCREINFORCEMENTBARPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCREINFORCEMENTBARPROPERTIES" << "(";
 	if( m_TotalCrossSectionArea ) { m_TotalCrossSectionArea->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SteelGrade ) { m_SteelGrade->getStepParameter( stream ); } else { stream << "$"; }
@@ -47,12 +47,12 @@ void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) con
 	if( m_BarCount ) { m_BarCount->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcementBarProperties::toString() const { return L"IfcReinforcementBarProperties"; }
 void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TotalCrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[0], map );
 	m_SteelGrade = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[2], map );

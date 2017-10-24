@@ -21,7 +21,7 @@
 
 // ENTITY IfcGeometricRepresentationSubContext 
 IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext() {}
-IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_id = id; }
+IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_entity_id = id; }
 IfcGeometricRepresentationSubContext::~IfcGeometricRepresentationSubContext() {}
 shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,7 +40,7 @@ shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy( IfcPP
 }
 void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCGEOMETRICREPRESENTATIONSUBCONTEXT" << "(";
+	stream << "#" << m_entity_id << "= IFCGEOMETRICREPRESENTATIONSUBCONTEXT" << "(";
 	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "*"; }
@@ -51,9 +51,9 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	stream << ",";
 	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_id; } else { stream << "*"; }
+	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_ParentContext ) { stream << "#" << m_ParentContext->m_id; } else { stream << "$"; }
+	if( m_ParentContext ) { stream << "#" << m_ParentContext->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_TargetScale ) { m_TargetScale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -62,12 +62,12 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	if( m_UserDefinedTargetView ) { m_UserDefinedTargetView->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGeometricRepresentationSubContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcGeometricRepresentationSubContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricRepresentationSubContext::toString() const { return L"IfcGeometricRepresentationSubContext"; }
 void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromSTEP( args[2], map );

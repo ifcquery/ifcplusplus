@@ -55,7 +55,7 @@ public:
 		{
 			return shared_ptr<ProfileConverter>();
 		}
-		const int profile_id = ifc_profile->m_id;
+		const int profile_id = ifc_profile->m_entity_id;
 		if( profile_id < 0 )
 		{
 			std::stringstream strs;

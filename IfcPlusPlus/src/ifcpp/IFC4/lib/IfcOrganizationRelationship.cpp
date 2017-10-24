@@ -14,7 +14,7 @@
 
 // ENTITY IfcOrganizationRelationship 
 IfcOrganizationRelationship::IfcOrganizationRelationship() {}
-IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_id = id; }
+IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_entity_id = id; }
 IfcOrganizationRelationship::~IfcOrganizationRelationship() {}
 shared_ptr<IfcPPObject> IfcOrganizationRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,22 +34,22 @@ shared_ptr<IfcPPObject> IfcOrganizationRelationship::getDeepCopy( IfcPPCopyOptio
 }
 void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCORGANIZATIONRELATIONSHIP" << "(";
+	stream << "#" << m_entity_id << "= IFCORGANIZATIONRELATIONSHIP" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingOrganization ) { stream << "#" << m_RelatingOrganization->m_id; } else { stream << "$"; }
+	if( m_RelatingOrganization ) { stream << "#" << m_RelatingOrganization->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedOrganizations );
 	stream << ");";
 }
-void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrganizationRelationship::toString() const { return L"IfcOrganizationRelationship"; }
 void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingOrganization, map );

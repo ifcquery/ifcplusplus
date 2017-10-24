@@ -16,7 +16,7 @@
 
 // ENTITY IfcPerson 
 IfcPerson::IfcPerson() {}
-IfcPerson::IfcPerson( int id ) { m_id = id; }
+IfcPerson::IfcPerson( int id ) { m_entity_id = id; }
 IfcPerson::~IfcPerson() {}
 shared_ptr<IfcPPObject> IfcPerson::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -68,7 +68,7 @@ shared_ptr<IfcPPObject> IfcPerson::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPerson::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPERSON" << "(";
+	stream << "#" << m_entity_id << "= IFCPERSON" << "(";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_FamilyName ) { m_FamilyName->getStepParameter( stream ); } else { stream << "$"; }
@@ -137,12 +137,12 @@ void IfcPerson::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Addresses );
 	stream << ");";
 }
-void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPerson::toString() const { return L"IfcPerson"; }
 void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_FamilyName = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_GivenName = IfcLabel::createObjectFromSTEP( args[2], map );

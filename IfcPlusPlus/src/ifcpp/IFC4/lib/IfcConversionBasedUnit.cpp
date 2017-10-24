@@ -16,7 +16,7 @@
 
 // ENTITY IfcConversionBasedUnit 
 IfcConversionBasedUnit::IfcConversionBasedUnit() {}
-IfcConversionBasedUnit::IfcConversionBasedUnit( int id ) { m_id = id; }
+IfcConversionBasedUnit::IfcConversionBasedUnit( int id ) { m_entity_id = id; }
 IfcConversionBasedUnit::~IfcConversionBasedUnit() {}
 shared_ptr<IfcPPObject> IfcConversionBasedUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,22 +29,22 @@ shared_ptr<IfcPPObject> IfcConversionBasedUnit::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcConversionBasedUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONVERSIONBASEDUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCCONVERSIONBASEDUNIT" << "(";
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConversionFactor ) { stream << "#" << m_ConversionFactor->m_id; } else { stream << "$"; }
+	if( m_ConversionFactor ) { stream << "#" << m_ConversionFactor->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConversionBasedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConversionBasedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConversionBasedUnit::toString() const { return L"IfcConversionBasedUnit"; }
 void IfcConversionBasedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnit, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnit, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

@@ -18,7 +18,7 @@
 
 // ENTITY IfcConstraint 
 IfcConstraint::IfcConstraint() {}
-IfcConstraint::IfcConstraint( int id ) { m_id = id; }
+IfcConstraint::IfcConstraint( int id ) { m_entity_id = id; }
 IfcConstraint::~IfcConstraint() {}
 shared_ptr<IfcPPObject> IfcConstraint::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,7 +34,7 @@ shared_ptr<IfcPPObject> IfcConstraint::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcConstraint::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONSTRAINT" << "(";
+	stream << "#" << m_entity_id << "= IFCCONSTRAINT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -50,12 +50,12 @@ void IfcConstraint::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConstraint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConstraint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstraint::toString() const { return L"IfcConstraint"; }
 void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_ConstraintGrade = IfcConstraintEnum::createObjectFromSTEP( args[2], map );

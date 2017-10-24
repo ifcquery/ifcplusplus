@@ -20,7 +20,7 @@
 
 // ENTITY IfcRationalBSplineSurfaceWithKnots 
 IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots() {}
-IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots( int id ) { m_id = id; }
+IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
 IfcRationalBSplineSurfaceWithKnots::~IfcRationalBSplineSurfaceWithKnots() {}
 shared_ptr<IfcPPObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -96,7 +96,7 @@ shared_ptr<IfcPPObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( IfcPPCo
 }
 void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRATIONALBSPLINESURFACEWITHKNOTS" << "(";
+	stream << "#" << m_entity_id << "= IFCRATIONALBSPLINESURFACEWITHKNOTS" << "(";
 	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "*"; }
@@ -124,12 +124,12 @@ void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream 
 	writeNumericTypeList2D( stream, m_WeightsData );
 	stream << ");";
 }
-void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRationalBSplineSurfaceWithKnots::toString() const { return L"IfcRationalBSplineSurfaceWithKnots"; }
 void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );

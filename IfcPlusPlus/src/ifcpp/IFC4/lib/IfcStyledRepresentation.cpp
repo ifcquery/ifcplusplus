@@ -17,7 +17,7 @@
 
 // ENTITY IfcStyledRepresentation 
 IfcStyledRepresentation::IfcStyledRepresentation() {}
-IfcStyledRepresentation::IfcStyledRepresentation( int id ) { m_id = id; }
+IfcStyledRepresentation::IfcStyledRepresentation( int id ) { m_entity_id = id; }
 IfcStyledRepresentation::~IfcStyledRepresentation() {}
 shared_ptr<IfcPPObject> IfcStyledRepresentation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -41,8 +41,8 @@ shared_ptr<IfcPPObject> IfcStyledRepresentation::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcStyledRepresentation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTYLEDREPRESENTATION" << "(";
-	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCSTYLEDREPRESENTATION" << "(";
+	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -51,12 +51,12 @@ void IfcStyledRepresentation::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcStyledRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStyledRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStyledRepresentation::toString() const { return L"IfcStyledRepresentation"; }
 void IfcStyledRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );

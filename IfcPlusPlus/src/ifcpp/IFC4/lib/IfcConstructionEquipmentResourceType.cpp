@@ -27,7 +27,7 @@
 
 // ENTITY IfcConstructionEquipmentResourceType 
 IfcConstructionEquipmentResourceType::IfcConstructionEquipmentResourceType() {}
-IfcConstructionEquipmentResourceType::IfcConstructionEquipmentResourceType( int id ) { m_id = id; }
+IfcConstructionEquipmentResourceType::IfcConstructionEquipmentResourceType( int id ) { m_entity_id = id; }
 IfcConstructionEquipmentResourceType::~IfcConstructionEquipmentResourceType() {}
 shared_ptr<IfcPPObject> IfcConstructionEquipmentResourceType::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -70,10 +70,10 @@ shared_ptr<IfcPPObject> IfcConstructionEquipmentResourceType::getDeepCopy( IfcPP
 }
 void IfcConstructionEquipmentResourceType::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONSTRUCTIONEQUIPMENTRESOURCETYPE" << "(";
+	stream << "#" << m_entity_id << "= IFCCONSTRUCTIONEQUIPMENTRESOURCETYPE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -91,17 +91,17 @@ void IfcConstructionEquipmentResourceType::getStepLine( std::stringstream& strea
 	stream << ",";
 	writeEntityList( stream, m_BaseCosts );
 	stream << ",";
-	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->m_id; } else { stream << "*"; }
+	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConstructionEquipmentResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConstructionEquipmentResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstructionEquipmentResourceType::toString() const { return L"IfcConstructionEquipmentResourceType"; }
 void IfcConstructionEquipmentResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstructionEquipmentResourceType, expecting 12, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstructionEquipmentResourceType, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

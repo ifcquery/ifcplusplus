@@ -16,7 +16,7 @@
 
 // ENTITY IfcCartesianTransformationOperator3DnonUniform 
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform() {}
-IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform( int id ) { m_id = id; }
+IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform( int id ) { m_entity_id = id; }
 IfcCartesianTransformationOperator3DnonUniform::~IfcCartesianTransformationOperator3DnonUniform() {}
 shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,28 +32,28 @@ shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepC
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis2 ) { stream << "#" << m_Axis2->m_id; } else { stream << "*"; }
+	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_id; } else { stream << "*"; }
+	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis3 ) { stream << "#" << m_Axis3->m_id; } else { stream << "*"; }
+	if( m_Axis3 ) { stream << "#" << m_Axis3->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Scale2 ) { m_Scale2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Scale3 ) { m_Scale3->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator3DnonUniform::toString() const { return L"IfcCartesianTransformationOperator3DnonUniform"; }
 void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );

@@ -13,7 +13,7 @@
 
 // ENTITY IfcVirtualGridIntersection 
 IfcVirtualGridIntersection::IfcVirtualGridIntersection() {}
-IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_id = id; }
+IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_entity_id = id; }
 IfcVirtualGridIntersection::~IfcVirtualGridIntersection() {}
 shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -38,18 +38,18 @@ shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy( IfcPPCopyOption
 }
 void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCVIRTUALGRIDINTERSECTION" << "(";
+	stream << "#" << m_entity_id << "= IFCVIRTUALGRIDINTERSECTION" << "(";
 	writeEntityList( stream, m_IntersectingAxes );
 	stream << ",";
 	writeNumericTypeList( stream, m_OffsetDistances );
 	stream << ");";
 }
-void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVirtualGridIntersection::toString() const { return L"IfcVirtualGridIntersection"; }
 void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_IntersectingAxes, map );
 	readTypeOfRealList( args[1], m_OffsetDistances );
 }

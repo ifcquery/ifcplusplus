@@ -16,7 +16,7 @@
 
 // ENTITY IfcArbitraryOpenProfileDef 
 IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef() {}
-IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef( int id ) { m_id = id; }
+IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef( int id ) { m_entity_id = id; }
 IfcArbitraryOpenProfileDef::~IfcArbitraryOpenProfileDef() {}
 shared_ptr<IfcPPObject> IfcArbitraryOpenProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,20 +28,20 @@ shared_ptr<IfcPPObject> IfcArbitraryOpenProfileDef::getDeepCopy( IfcPPCopyOption
 }
 void IfcArbitraryOpenProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCARBITRARYOPENPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCARBITRARYOPENPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Curve ) { stream << "#" << m_Curve->m_id; } else { stream << "$"; }
+	if( m_Curve ) { stream << "#" << m_Curve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcArbitraryOpenProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcArbitraryOpenProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcArbitraryOpenProfileDef::toString() const { return L"IfcArbitraryOpenProfileDef"; }
 void IfcArbitraryOpenProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryOpenProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryOpenProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Curve, map );

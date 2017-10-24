@@ -14,7 +14,7 @@
 
 // ENTITY IfcLocalPlacement 
 IfcLocalPlacement::IfcLocalPlacement() {}
-IfcLocalPlacement::IfcLocalPlacement( int id ) { m_id = id; }
+IfcLocalPlacement::IfcLocalPlacement( int id ) { m_entity_id = id; }
 IfcLocalPlacement::~IfcLocalPlacement() {}
 shared_ptr<IfcPPObject> IfcLocalPlacement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,18 +29,18 @@ shared_ptr<IfcPPObject> IfcLocalPlacement::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcLocalPlacement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLOCALPLACEMENT" << "(";
-	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCLOCALPLACEMENT" << "(";
+	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_RelativePlacement ) { m_RelativePlacement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcLocalPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLocalPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLocalPlacement::toString() const { return L"IfcLocalPlacement"; }
 void IfcLocalPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLocalPlacement, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLocalPlacement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_PlacementRelTo, map );
 	m_RelativePlacement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 }

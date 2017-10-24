@@ -165,7 +165,7 @@ public:
 			for( int i = 0; i < num_products; ++i )
 			{
 				shared_ptr<IfcObjectDefinition> ifc_object_def = vec_ifc_object_defs[i];
-				const int product_id = ifc_object_def->m_id;
+				const int product_id = ifc_object_def->m_entity_id;
 				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData() );
 				product_geom_input_data->m_ifc_object_definition = ifc_object_def;
 
@@ -266,7 +266,7 @@ public:
 						{
 							continue;
 						}
-						m_map_outside_spatial_structure[ifc_product->m_id] = ifc_product;
+						m_map_outside_spatial_structure[ifc_product->m_entity_id] = ifc_product;
 					}
 				}
 			}
@@ -478,7 +478,7 @@ public:
 		}
 		product_data->m_added_to_spatial_structure = true;
 		shared_ptr<IfcObjectDefinition> ifc_object_def( product_data->m_ifc_object_definition );
-		const int entity_id = ifc_object_def->m_id;
+		const int entity_id = ifc_object_def->m_entity_id;
 
 		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_object_def->m_IsDecomposedBy_inverse;
 		for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
@@ -497,7 +497,7 @@ public:
 					const shared_ptr<IfcObjectDefinition>& related_obj_def = vec_related_objects[jj];
 					if( related_obj_def )
 					{
-						auto it_product_map = m_shape_input_data.find( related_obj_def->m_id );
+						auto it_product_map = m_shape_input_data.find( related_obj_def->m_entity_id );
 						if( it_product_map != m_shape_input_data.end() )
 						{
 							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
@@ -533,7 +533,7 @@ public:
 						const shared_ptr<IfcProduct>& related_product = vec_related_elements[jj];
 						if( related_product )
 						{
-							auto it_product_map = m_shape_input_data.find( related_product->m_id );
+							auto it_product_map = m_shape_input_data.find( related_product->m_entity_id );
 							if( it_product_map != m_shape_input_data.end() )
 							{
 								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
@@ -564,7 +564,7 @@ public:
 	#endif
 
 				// make sure that the same message for one entity does not appear several times
-				const int entity_id = m->m_entity->m_id;
+				const int entity_id = m->m_entity->m_entity_id;
 
 				auto it = myself->m_messages.find( entity_id );
 				if( it != myself->m_messages.end() )

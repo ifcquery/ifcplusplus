@@ -17,7 +17,7 @@
 
 // ENTITY IfcConversionBasedUnitWithOffset 
 IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset() {}
-IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_id = id; }
+IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_entity_id = id; }
 IfcConversionBasedUnitWithOffset::~IfcConversionBasedUnitWithOffset() {}
 shared_ptr<IfcPPObject> IfcConversionBasedUnitWithOffset::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,24 +31,24 @@ shared_ptr<IfcPPObject> IfcConversionBasedUnitWithOffset::getDeepCopy( IfcPPCopy
 }
 void IfcConversionBasedUnitWithOffset::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONVERSIONBASEDUNITWITHOFFSET" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCCONVERSIONBASEDUNITWITHOFFSET" << "(";
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ConversionFactor ) { stream << "#" << m_ConversionFactor->m_id; } else { stream << "*"; }
+	if( m_ConversionFactor ) { stream << "#" << m_ConversionFactor->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_ConversionOffset ) { m_ConversionOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConversionBasedUnitWithOffset::toString() const { return L"IfcConversionBasedUnitWithOffset"; }
 void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnitWithOffset, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnitWithOffset, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

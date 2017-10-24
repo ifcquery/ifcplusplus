@@ -14,7 +14,7 @@
 
 // ENTITY IfcGeometricSet 
 IfcGeometricSet::IfcGeometricSet() {}
-IfcGeometricSet::IfcGeometricSet( int id ) { m_id = id; }
+IfcGeometricSet::IfcGeometricSet( int id ) { m_entity_id = id; }
 IfcGeometricSet::~IfcGeometricSet() {}
 shared_ptr<IfcPPObject> IfcGeometricSet::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,7 +31,7 @@ shared_ptr<IfcPPObject> IfcGeometricSet::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcGeometricSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCGEOMETRICSET" << "(";
+	stream << "#" << m_entity_id << "= IFCGEOMETRICSET" << "(";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Elements.size(); ++ii )
 	{
@@ -52,12 +52,12 @@ void IfcGeometricSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcGeometricSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcGeometricSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricSet::toString() const { return L"IfcGeometricSet"; }
 void IfcGeometricSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricSet, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readSelectList( args[0], m_Elements, map );
 }
 void IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

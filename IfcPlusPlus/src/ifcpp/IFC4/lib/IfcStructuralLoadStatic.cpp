@@ -12,7 +12,7 @@
 
 // ENTITY IfcStructuralLoadStatic 
 IfcStructuralLoadStatic::IfcStructuralLoadStatic() {}
-IfcStructuralLoadStatic::IfcStructuralLoadStatic( int id ) { m_id = id; }
+IfcStructuralLoadStatic::IfcStructuralLoadStatic( int id ) { m_entity_id = id; }
 IfcStructuralLoadStatic::~IfcStructuralLoadStatic() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadStatic::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,16 +22,16 @@ shared_ptr<IfcPPObject> IfcStructuralLoadStatic::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcStructuralLoadStatic::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADSTATIC" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSTATIC" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcStructuralLoadStatic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadStatic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadStatic::toString() const { return L"IfcStructuralLoadStatic"; }
 void IfcStructuralLoadStatic::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadStatic, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadStatic, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 }
 void IfcStructuralLoadStatic::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

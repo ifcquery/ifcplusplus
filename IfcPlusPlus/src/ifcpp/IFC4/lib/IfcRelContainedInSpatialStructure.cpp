@@ -20,7 +20,7 @@
 
 // ENTITY IfcRelContainedInSpatialStructure 
 IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure() {}
-IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure( int id ) { m_id = id; }
+IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure( int id ) { m_entity_id = id; }
 IfcRelContainedInSpatialStructure::~IfcRelContainedInSpatialStructure() {}
 shared_ptr<IfcPPObject> IfcRelContainedInSpatialStructure::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -50,10 +50,10 @@ shared_ptr<IfcPPObject> IfcRelContainedInSpatialStructure::getDeepCopy( IfcPPCop
 }
 void IfcRelContainedInSpatialStructure::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELCONTAINEDINSPATIALSTRUCTURE" << "(";
+	stream << "#" << m_entity_id << "= IFCRELCONTAINEDINSPATIALSTRUCTURE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -61,15 +61,15 @@ void IfcRelContainedInSpatialStructure::getStepLine( std::stringstream& stream )
 	stream << ",";
 	writeEntityList( stream, m_RelatedElements );
 	stream << ",";
-	if( m_RelatingStructure ) { stream << "#" << m_RelatingStructure->m_id; } else { stream << "$"; }
+	if( m_RelatingStructure ) { stream << "#" << m_RelatingStructure->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelContainedInSpatialStructure::toString() const { return L"IfcRelContainedInSpatialStructure"; }
 void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelContainedInSpatialStructure, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelContainedInSpatialStructure, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

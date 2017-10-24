@@ -16,7 +16,7 @@
 
 // ENTITY IfcProfileProperties 
 IfcProfileProperties::IfcProfileProperties() {}
-IfcProfileProperties::IfcProfileProperties( int id ) { m_id = id; }
+IfcProfileProperties::IfcProfileProperties( int id ) { m_entity_id = id; }
 IfcProfileProperties::~IfcProfileProperties() {}
 shared_ptr<IfcPPObject> IfcProfileProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,22 +40,22 @@ shared_ptr<IfcPPObject> IfcProfileProperties::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcProfileProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROFILEPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCPROFILEPROPERTIES" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Properties );
 	stream << ",";
-	if( m_ProfileDefinition ) { stream << "#" << m_ProfileDefinition->m_id; } else { stream << "$"; }
+	if( m_ProfileDefinition ) { stream << "#" << m_ProfileDefinition->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProfileProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcProfileProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProfileProperties::toString() const { return L"IfcProfileProperties"; }
 void IfcProfileProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProfileProperties, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProfileProperties, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Properties, map );

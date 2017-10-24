@@ -15,7 +15,7 @@
 
 // ENTITY IfcMaterialDefinitionRepresentation 
 IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation() {}
-IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation( int id ) { m_id = id; }
+IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation( int id ) { m_entity_id = id; }
 IfcMaterialDefinitionRepresentation::~IfcMaterialDefinitionRepresentation() {}
 shared_ptr<IfcPPObject> IfcMaterialDefinitionRepresentation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,22 +35,22 @@ shared_ptr<IfcPPObject> IfcMaterialDefinitionRepresentation::getDeepCopy( IfcPPC
 }
 void IfcMaterialDefinitionRepresentation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMATERIALDEFINITIONREPRESENTATION" << "(";
+	stream << "#" << m_entity_id << "= IFCMATERIALDEFINITIONREPRESENTATION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Representations );
 	stream << ",";
-	if( m_RepresentedMaterial ) { stream << "#" << m_RepresentedMaterial->m_id; } else { stream << "$"; }
+	if( m_RepresentedMaterial ) { stream << "#" << m_RepresentedMaterial->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialDefinitionRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMaterialDefinitionRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialDefinitionRepresentation::toString() const { return L"IfcMaterialDefinitionRepresentation"; }
 void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );

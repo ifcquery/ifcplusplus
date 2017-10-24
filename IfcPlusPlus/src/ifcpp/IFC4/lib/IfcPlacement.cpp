@@ -14,7 +14,7 @@
 
 // ENTITY IfcPlacement 
 IfcPlacement::IfcPlacement() {}
-IfcPlacement::IfcPlacement( int id ) { m_id = id; }
+IfcPlacement::IfcPlacement( int id ) { m_entity_id = id; }
 IfcPlacement::~IfcPlacement() {}
 shared_ptr<IfcPPObject> IfcPlacement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,16 +24,16 @@ shared_ptr<IfcPPObject> IfcPlacement::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPlacement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPLACEMENT" << "(";
-	if( m_Location ) { stream << "#" << m_Location->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCPLACEMENT" << "(";
+	if( m_Location ) { stream << "#" << m_Location->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlacement::toString() const { return L"IfcPlacement"; }
 void IfcPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlacement, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlacement, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Location, map );
 }
 void IfcPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

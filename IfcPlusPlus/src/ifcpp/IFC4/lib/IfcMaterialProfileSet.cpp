@@ -18,7 +18,7 @@
 
 // ENTITY IfcMaterialProfileSet 
 IfcMaterialProfileSet::IfcMaterialProfileSet() {}
-IfcMaterialProfileSet::IfcMaterialProfileSet( int id ) { m_id = id; }
+IfcMaterialProfileSet::IfcMaterialProfileSet( int id ) { m_entity_id = id; }
 IfcMaterialProfileSet::~IfcMaterialProfileSet() {}
 shared_ptr<IfcPPObject> IfcMaterialProfileSet::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -38,22 +38,22 @@ shared_ptr<IfcPPObject> IfcMaterialProfileSet::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcMaterialProfileSet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMATERIALPROFILESET" << "(";
+	stream << "#" << m_entity_id << "= IFCMATERIALPROFILESET" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_MaterialProfiles );
 	stream << ",";
-	if( m_CompositeProfile ) { stream << "#" << m_CompositeProfile->m_id; } else { stream << "$"; }
+	if( m_CompositeProfile ) { stream << "#" << m_CompositeProfile->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialProfileSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMaterialProfileSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialProfileSet::toString() const { return L"IfcMaterialProfileSet"; }
 void IfcMaterialProfileSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSet, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSet, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_MaterialProfiles, map );

@@ -18,7 +18,7 @@
 
 // ENTITY IfcFixedReferenceSweptAreaSolid 
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid() {}
-IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_id = id; }
+IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_entity_id = id; }
 IfcFixedReferenceSweptAreaSolid::~IfcFixedReferenceSweptAreaSolid() {}
 shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -37,26 +37,26 @@ shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( IfcPPCopyO
 }
 void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Directrix ) { stream << "#" << m_Directrix->m_id; } else { stream << "$"; }
+	if( m_Directrix ) { stream << "#" << m_Directrix->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_StartParam ) { m_StartParam->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndParam ) { m_EndParam->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FixedReference ) { stream << "#" << m_FixedReference->m_id; } else { stream << "$"; }
+	if( m_FixedReference ) { stream << "#" << m_FixedReference->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFixedReferenceSweptAreaSolid::toString() const { return L"IfcFixedReferenceSweptAreaSolid"; }
 void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Directrix, map );

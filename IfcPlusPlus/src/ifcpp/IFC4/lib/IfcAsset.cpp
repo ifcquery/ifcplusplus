@@ -29,7 +29,7 @@
 
 // ENTITY IfcAsset 
 IfcAsset::IfcAsset() {}
-IfcAsset::IfcAsset( int id ) { m_id = id; }
+IfcAsset::IfcAsset( int id ) { m_entity_id = id; }
 IfcAsset::~IfcAsset() {}
 shared_ptr<IfcPPObject> IfcAsset::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -60,10 +60,10 @@ shared_ptr<IfcPPObject> IfcAsset::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcAsset::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCASSET" << "(";
+	stream << "#" << m_entity_id << "= IFCASSET" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -73,29 +73,29 @@ void IfcAsset::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OriginalValue ) { stream << "#" << m_OriginalValue->m_id; } else { stream << "$"; }
+	if( m_OriginalValue ) { stream << "#" << m_OriginalValue->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_CurrentValue ) { stream << "#" << m_CurrentValue->m_id; } else { stream << "$"; }
+	if( m_CurrentValue ) { stream << "#" << m_CurrentValue->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TotalReplacementCost ) { stream << "#" << m_TotalReplacementCost->m_id; } else { stream << "$"; }
+	if( m_TotalReplacementCost ) { stream << "#" << m_TotalReplacementCost->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Owner ) { m_Owner->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_User ) { m_User->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ResponsiblePerson ) { stream << "#" << m_ResponsiblePerson->m_id; } else { stream << "$"; }
+	if( m_ResponsiblePerson ) { stream << "#" << m_ResponsiblePerson->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_IncorporationDate ) { m_IncorporationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DepreciatedValue ) { stream << "#" << m_DepreciatedValue->m_id; } else { stream << "$"; }
+	if( m_DepreciatedValue ) { stream << "#" << m_DepreciatedValue->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAsset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcAsset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAsset::toString() const { return L"IfcAsset"; }
 void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 14 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 14 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

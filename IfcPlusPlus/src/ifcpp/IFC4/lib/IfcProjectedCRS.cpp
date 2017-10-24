@@ -16,7 +16,7 @@
 
 // ENTITY IfcProjectedCRS 
 IfcProjectedCRS::IfcProjectedCRS() {}
-IfcProjectedCRS::IfcProjectedCRS( int id ) { m_id = id; }
+IfcProjectedCRS::IfcProjectedCRS( int id ) { m_entity_id = id; }
 IfcProjectedCRS::~IfcProjectedCRS() {}
 shared_ptr<IfcPPObject> IfcProjectedCRS::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,7 +32,7 @@ shared_ptr<IfcPPObject> IfcProjectedCRS::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROJECTEDCRS" << "(";
+	stream << "#" << m_entity_id << "= IFCPROJECTEDCRS" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
@@ -45,15 +45,15 @@ void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_MapZone ) { m_MapZone->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MapUnit ) { stream << "#" << m_MapUnit->m_id; } else { stream << "$"; }
+	if( m_MapUnit ) { stream << "#" << m_MapUnit->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProjectedCRS::toString() const { return L"IfcProjectedCRS"; }
 void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2], map );

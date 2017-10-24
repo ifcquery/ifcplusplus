@@ -14,7 +14,7 @@
 
 // ENTITY IfcFaceBasedSurfaceModel 
 IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel() {}
-IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel( int id ) { m_id = id; }
+IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel( int id ) { m_entity_id = id; }
 IfcFaceBasedSurfaceModel::~IfcFaceBasedSurfaceModel() {}
 shared_ptr<IfcPPObject> IfcFaceBasedSurfaceModel::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,16 +31,16 @@ shared_ptr<IfcPPObject> IfcFaceBasedSurfaceModel::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcFaceBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFACEBASEDSURFACEMODEL" << "(";
+	stream << "#" << m_entity_id << "= IFCFACEBASEDSURFACEMODEL" << "(";
 	writeEntityList( stream, m_FbsmFaces );
 	stream << ");";
 }
-void IfcFaceBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFaceBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceBasedSurfaceModel::toString() const { return L"IfcFaceBasedSurfaceModel"; }
 void IfcFaceBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_FbsmFaces, map );
 }
 void IfcFaceBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

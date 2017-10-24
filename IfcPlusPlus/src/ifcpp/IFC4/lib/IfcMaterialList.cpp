@@ -12,7 +12,7 @@
 
 // ENTITY IfcMaterialList 
 IfcMaterialList::IfcMaterialList() {}
-IfcMaterialList::IfcMaterialList( int id ) { m_id = id; }
+IfcMaterialList::IfcMaterialList( int id ) { m_entity_id = id; }
 IfcMaterialList::~IfcMaterialList() {}
 shared_ptr<IfcPPObject> IfcMaterialList::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,16 +29,16 @@ shared_ptr<IfcPPObject> IfcMaterialList::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcMaterialList::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMATERIALLIST" << "(";
+	stream << "#" << m_entity_id << "= IFCMATERIALLIST" << "(";
 	writeEntityList( stream, m_Materials );
 	stream << ");";
 }
-void IfcMaterialList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMaterialList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialList::toString() const { return L"IfcMaterialList"; }
 void IfcMaterialList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialList, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialList, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Materials, map );
 }
 void IfcMaterialList::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

@@ -17,7 +17,7 @@
 
 // ENTITY IfcImageTexture 
 IfcImageTexture::IfcImageTexture() {}
-IfcImageTexture::IfcImageTexture( int id ) { m_id = id; }
+IfcImageTexture::IfcImageTexture( int id ) { m_entity_id = id; }
 IfcImageTexture::~IfcImageTexture() {}
 shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -39,14 +39,14 @@ shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCIMAGETEXTURE" << "(";
+	stream << "#" << m_entity_id << "= IFCIMAGETEXTURE" << "(";
 	if( m_RepeatS ) { m_RepeatS->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RepeatT ) { m_RepeatT->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_id; } else { stream << "*"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Parameter.size(); ++ii )
@@ -70,12 +70,12 @@ void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 	if( m_URLReference ) { m_URLReference->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcImageTexture::toString() const { return L"IfcImageTexture"; }
 void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0], map );
 	m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1], map );
 	m_Mode = IfcIdentifier::createObjectFromSTEP( args[2], map );

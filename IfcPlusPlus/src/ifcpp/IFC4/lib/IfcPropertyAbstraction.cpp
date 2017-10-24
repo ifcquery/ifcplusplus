@@ -12,7 +12,7 @@
 
 // ENTITY IfcPropertyAbstraction 
 IfcPropertyAbstraction::IfcPropertyAbstraction() {}
-IfcPropertyAbstraction::IfcPropertyAbstraction( int id ) { m_id = id; }
+IfcPropertyAbstraction::IfcPropertyAbstraction( int id ) { m_entity_id = id; }
 IfcPropertyAbstraction::~IfcPropertyAbstraction() {}
 shared_ptr<IfcPPObject> IfcPropertyAbstraction::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -21,10 +21,10 @@ shared_ptr<IfcPPObject> IfcPropertyAbstraction::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcPropertyAbstraction::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROPERTYABSTRACTION" << "(";
+	stream << "#" << m_entity_id << "= IFCPROPERTYABSTRACTION" << "(";
 	stream << ");";
 }
-void IfcPropertyAbstraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPropertyAbstraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyAbstraction::toString() const { return L"IfcPropertyAbstraction"; }
 void IfcPropertyAbstraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

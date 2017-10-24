@@ -14,7 +14,7 @@
 
 // ENTITY IfcShellBasedSurfaceModel 
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel() {}
-IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel( int id ) { m_id = id; }
+IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel( int id ) { m_entity_id = id; }
 IfcShellBasedSurfaceModel::~IfcShellBasedSurfaceModel() {}
 shared_ptr<IfcPPObject> IfcShellBasedSurfaceModel::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,7 +31,7 @@ shared_ptr<IfcPPObject> IfcShellBasedSurfaceModel::getDeepCopy( IfcPPCopyOptions
 }
 void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSHELLBASEDSURFACEMODEL" << "(";
+	stream << "#" << m_entity_id << "= IFCSHELLBASEDSURFACEMODEL" << "(";
 	stream << "(";
 	for( size_t ii = 0; ii < m_SbsmBoundary.size(); ++ii )
 	{
@@ -52,12 +52,12 @@ void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcShellBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcShellBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShellBasedSurfaceModel::toString() const { return L"IfcShellBasedSurfaceModel"; }
 void IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShellBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShellBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readSelectList( args[0], m_SbsmBoundary, map );
 }
 void IfcShellBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

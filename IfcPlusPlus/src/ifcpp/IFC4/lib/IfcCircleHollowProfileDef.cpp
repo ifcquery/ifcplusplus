@@ -17,7 +17,7 @@
 
 // ENTITY IfcCircleHollowProfileDef 
 IfcCircleHollowProfileDef::IfcCircleHollowProfileDef() {}
-IfcCircleHollowProfileDef::IfcCircleHollowProfileDef( int id ) { m_id = id; }
+IfcCircleHollowProfileDef::IfcCircleHollowProfileDef( int id ) { m_entity_id = id; }
 IfcCircleHollowProfileDef::~IfcCircleHollowProfileDef() {}
 shared_ptr<IfcPPObject> IfcCircleHollowProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,24 +31,24 @@ shared_ptr<IfcPPObject> IfcCircleHollowProfileDef::getDeepCopy( IfcPPCopyOptions
 }
 void IfcCircleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCIRCLEHOLLOWPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCCIRCLEHOLLOWPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCircleHollowProfileDef::toString() const { return L"IfcCircleHollowProfileDef"; }
 void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircleHollowProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircleHollowProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );

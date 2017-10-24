@@ -61,6 +61,8 @@ public:
 	void removeEntity( shared_ptr<IfcPPEntity> e );
 	void removeEntity( int entity_id );
 	void removeUnreferencedEntities();
+	
+	/*! \brief Method getMaxUsedEntityId. Return the highest entity id in the model. */
 	int getMaxUsedEntityId();
 	shared_ptr<IfcProject> getIfcProject();
 	shared_ptr<IfcGeometricRepresentationContext> getIfcGeometricRepresentationContext3D();

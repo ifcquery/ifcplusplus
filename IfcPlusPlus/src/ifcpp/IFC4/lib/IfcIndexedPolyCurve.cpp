@@ -16,7 +16,7 @@
 
 // ENTITY IfcIndexedPolyCurve 
 IfcIndexedPolyCurve::IfcIndexedPolyCurve() {}
-IfcIndexedPolyCurve::IfcIndexedPolyCurve( int id ) { m_id = id; }
+IfcIndexedPolyCurve::IfcIndexedPolyCurve( int id ) { m_entity_id = id; }
 IfcIndexedPolyCurve::~IfcIndexedPolyCurve() {}
 shared_ptr<IfcPPObject> IfcIndexedPolyCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -35,8 +35,8 @@ shared_ptr<IfcPPObject> IfcIndexedPolyCurve::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcIndexedPolyCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCINDEXEDPOLYCURVE" << "(";
-	if( m_Points ) { stream << "#" << m_Points->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCINDEXEDPOLYCURVE" << "(";
+	if( m_Points ) { stream << "#" << m_Points->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Segments.size(); ++ii )
@@ -60,12 +60,12 @@ void IfcIndexedPolyCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcIndexedPolyCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcIndexedPolyCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolyCurve::toString() const { return L"IfcIndexedPolyCurve"; }
 void IfcIndexedPolyCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolyCurve, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolyCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Points, map );
 	readSelectList( args[1], m_Segments, map );
 	m_SelfIntersect = IfcBoolean::createObjectFromSTEP( args[2], map );

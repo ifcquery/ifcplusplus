@@ -17,7 +17,7 @@
 
 // ENTITY IfcFillAreaStyleHatching 
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching() {}
-IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int id ) { m_id = id; }
+IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int id ) { m_entity_id = id; }
 IfcFillAreaStyleHatching::~IfcFillAreaStyleHatching() {}
 shared_ptr<IfcPPObject> IfcFillAreaStyleHatching::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,24 +31,24 @@ shared_ptr<IfcPPObject> IfcFillAreaStyleHatching::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFILLAREASTYLEHATCHING" << "(";
-	if( m_HatchLineAppearance ) { stream << "#" << m_HatchLineAppearance->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCFILLAREASTYLEHATCHING" << "(";
+	if( m_HatchLineAppearance ) { stream << "#" << m_HatchLineAppearance->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_StartOfNextHatchLine ) { m_StartOfNextHatchLine->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_PointOfReferenceHatchLine ) { stream << "#" << m_PointOfReferenceHatchLine->m_id; } else { stream << "$"; }
+	if( m_PointOfReferenceHatchLine ) { stream << "#" << m_PointOfReferenceHatchLine->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_PatternStart ) { stream << "#" << m_PatternStart->m_id; } else { stream << "$"; }
+	if( m_PatternStart ) { stream << "#" << m_PatternStart->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_HatchLineAngle ) { m_HatchLineAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyleHatching::toString() const { return L"IfcFillAreaStyleHatching"; }
 void IfcFillAreaStyleHatching::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyleHatching, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyleHatching, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_HatchLineAppearance, map );
 	m_StartOfNextHatchLine = IfcHatchLineDistanceSelect::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_PointOfReferenceHatchLine, map );

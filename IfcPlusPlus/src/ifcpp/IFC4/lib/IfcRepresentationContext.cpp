@@ -13,7 +13,7 @@
 
 // ENTITY IfcRepresentationContext 
 IfcRepresentationContext::IfcRepresentationContext() {}
-IfcRepresentationContext::IfcRepresentationContext( int id ) { m_id = id; }
+IfcRepresentationContext::IfcRepresentationContext( int id ) { m_entity_id = id; }
 IfcRepresentationContext::~IfcRepresentationContext() {}
 shared_ptr<IfcPPObject> IfcRepresentationContext::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,18 +24,18 @@ shared_ptr<IfcPPObject> IfcRepresentationContext::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcRepresentationContext::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCREPRESENTATIONCONTEXT" << "(";
+	stream << "#" << m_entity_id << "= IFCREPRESENTATIONCONTEXT" << "(";
 	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRepresentationContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRepresentationContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentationContext::toString() const { return L"IfcRepresentationContext"; }
 void IfcRepresentationContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentationContext, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentationContext, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1], map );
 }

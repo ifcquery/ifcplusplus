@@ -15,7 +15,7 @@
 
 // ENTITY IfcEllipse 
 IfcEllipse::IfcEllipse() {}
-IfcEllipse::IfcEllipse( int id ) { m_id = id; }
+IfcEllipse::IfcEllipse( int id ) { m_entity_id = id; }
 IfcEllipse::~IfcEllipse() {}
 shared_ptr<IfcPPObject> IfcEllipse::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,7 +27,7 @@ shared_ptr<IfcPPObject> IfcEllipse::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcEllipse::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCELLIPSE" << "(";
+	stream << "#" << m_entity_id << "= IFCELLIPSE" << "(";
 	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
 	if( m_SemiAxis1 ) { m_SemiAxis1->getStepParameter( stream ); } else { stream << "$"; }
@@ -35,12 +35,12 @@ void IfcEllipse::getStepLine( std::stringstream& stream ) const
 	if( m_SemiAxis2 ) { m_SemiAxis2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEllipse::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcEllipse::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEllipse::toString() const { return L"IfcEllipse"; }
 void IfcEllipse::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEllipse, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEllipse, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	m_SemiAxis1 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_SemiAxis2 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );

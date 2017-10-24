@@ -15,7 +15,7 @@
 
 // ENTITY IfcBoundaryNodeConditionWarping 
 IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping() {}
-IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping( int id ) { m_id = id; }
+IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping( int id ) { m_entity_id = id; }
 IfcBoundaryNodeConditionWarping::~IfcBoundaryNodeConditionWarping() {}
 shared_ptr<IfcPPObject> IfcBoundaryNodeConditionWarping::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,7 +32,7 @@ shared_ptr<IfcPPObject> IfcBoundaryNodeConditionWarping::getDeepCopy( IfcPPCopyO
 }
 void IfcBoundaryNodeConditionWarping::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBOUNDARYNODECONDITIONWARPING" << "(";
+	stream << "#" << m_entity_id << "= IFCBOUNDARYNODECONDITIONWARPING" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TranslationalStiffnessX ) { m_TranslationalStiffnessX->getStepParameter( stream, true ); } else { stream << "*" ; }
@@ -50,12 +50,12 @@ void IfcBoundaryNodeConditionWarping::getStepLine( std::stringstream& stream ) c
 	if( m_WarpingStiffness ) { m_WarpingStiffness->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryNodeConditionWarping::toString() const { return L"IfcBoundaryNodeConditionWarping"; }
 void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeConditionWarping, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeConditionWarping, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TranslationalStiffnessX = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[1], map );
 	m_TranslationalStiffnessY = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[2], map );

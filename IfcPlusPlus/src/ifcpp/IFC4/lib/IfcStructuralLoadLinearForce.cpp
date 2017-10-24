@@ -14,7 +14,7 @@
 
 // ENTITY IfcStructuralLoadLinearForce 
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce() {}
-IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_id = id; }
+IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_entity_id = id; }
 IfcStructuralLoadLinearForce::~IfcStructuralLoadLinearForce() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadLinearForce::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,7 +30,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadLinearForce::getDeepCopy( IfcPPCopyOpti
 }
 void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADLINEARFORCE" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADLINEARFORCE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_LinearForceX ) { m_LinearForceX->getStepParameter( stream ); } else { stream << "$"; }
@@ -46,12 +46,12 @@ void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) cons
 	if( m_LinearMomentZ ) { m_LinearMomentZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadLinearForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadLinearForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadLinearForce::toString() const { return L"IfcStructuralLoadLinearForce"; }
 void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_LinearForceX = IfcLinearForceMeasure::createObjectFromSTEP( args[1], map );
 	m_LinearForceY = IfcLinearForceMeasure::createObjectFromSTEP( args[2], map );

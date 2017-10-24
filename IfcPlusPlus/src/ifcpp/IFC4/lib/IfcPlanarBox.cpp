@@ -15,7 +15,7 @@
 
 // ENTITY IfcPlanarBox 
 IfcPlanarBox::IfcPlanarBox() {}
-IfcPlanarBox::IfcPlanarBox( int id ) { m_id = id; }
+IfcPlanarBox::IfcPlanarBox( int id ) { m_entity_id = id; }
 IfcPlanarBox::~IfcPlanarBox() {}
 shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -27,7 +27,7 @@ shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPLANARBOX" << "(";
+	stream << "#" << m_entity_id << "= IFCPLANARBOX" << "(";
 	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "*"; }
@@ -35,12 +35,12 @@ void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlanarBox::toString() const { return L"IfcPlanarBox"; }
 void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[2], map );

@@ -15,7 +15,7 @@
 
 // ENTITY IfcGridPlacement 
 IfcGridPlacement::IfcGridPlacement() {}
-IfcGridPlacement::IfcGridPlacement( int id ) { m_id = id; }
+IfcGridPlacement::IfcGridPlacement( int id ) { m_entity_id = id; }
 IfcGridPlacement::~IfcGridPlacement() {}
 shared_ptr<IfcPPObject> IfcGridPlacement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcGridPlacement::getDeepCopy( IfcPPCopyOptions& options
 }
 void IfcGridPlacement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCGRIDPLACEMENT" << "(";
-	if( m_PlacementLocation ) { stream << "#" << m_PlacementLocation->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCGRIDPLACEMENT" << "(";
+	if( m_PlacementLocation ) { stream << "#" << m_PlacementLocation->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcGridPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcGridPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGridPlacement::toString() const { return L"IfcGridPlacement"; }
 void IfcGridPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridPlacement, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridPlacement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_PlacementLocation, map );
 	m_PlacementRefDirection = IfcGridPlacementDirectionSelect::createObjectFromSTEP( args[1], map );
 }

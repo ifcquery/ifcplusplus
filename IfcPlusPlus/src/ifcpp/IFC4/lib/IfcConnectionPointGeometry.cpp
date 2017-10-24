@@ -12,7 +12,7 @@
 
 // ENTITY IfcConnectionPointGeometry 
 IfcConnectionPointGeometry::IfcConnectionPointGeometry() {}
-IfcConnectionPointGeometry::IfcConnectionPointGeometry( int id ) { m_id = id; }
+IfcConnectionPointGeometry::IfcConnectionPointGeometry( int id ) { m_entity_id = id; }
 IfcConnectionPointGeometry::~IfcConnectionPointGeometry() {}
 shared_ptr<IfcPPObject> IfcConnectionPointGeometry::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -23,18 +23,18 @@ shared_ptr<IfcPPObject> IfcConnectionPointGeometry::getDeepCopy( IfcPPCopyOption
 }
 void IfcConnectionPointGeometry::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCONNECTIONPOINTGEOMETRY" << "(";
+	stream << "#" << m_entity_id << "= IFCCONNECTIONPOINTGEOMETRY" << "(";
 	if( m_PointOnRelatingElement ) { m_PointOnRelatingElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConnectionPointGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcConnectionPointGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionPointGeometry::toString() const { return L"IfcConnectionPointGeometry"; }
 void IfcConnectionPointGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_PointOnRelatingElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[0], map );
 	m_PointOnRelatedElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[1], map );
 }

@@ -17,7 +17,7 @@
 
 // ENTITY IfcRepresentation 
 IfcRepresentation::IfcRepresentation() {}
-IfcRepresentation::IfcRepresentation( int id ) { m_id = id; }
+IfcRepresentation::IfcRepresentation( int id ) { m_entity_id = id; }
 IfcRepresentation::~IfcRepresentation() {}
 shared_ptr<IfcPPObject> IfcRepresentation::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -41,8 +41,8 @@ shared_ptr<IfcPPObject> IfcRepresentation::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcRepresentation::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCREPRESENTATION" << "(";
-	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCREPRESENTATION" << "(";
+	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -51,12 +51,12 @@ void IfcRepresentation::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentation::toString() const { return L"IfcRepresentation"; }
 void IfcRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );

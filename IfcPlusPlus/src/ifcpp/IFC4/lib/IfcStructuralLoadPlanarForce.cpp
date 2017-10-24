@@ -13,7 +13,7 @@
 
 // ENTITY IfcStructuralLoadPlanarForce 
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce() {}
-IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int id ) { m_id = id; }
+IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int id ) { m_entity_id = id; }
 IfcStructuralLoadPlanarForce::~IfcStructuralLoadPlanarForce() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadPlanarForce::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,7 +26,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadPlanarForce::getDeepCopy( IfcPPCopyOpti
 }
 void IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADPLANARFORCE" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADPLANARFORCE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PlanarForceX ) { m_PlanarForceX->getStepParameter( stream ); } else { stream << "$"; }
@@ -36,12 +36,12 @@ void IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) cons
 	if( m_PlanarForceZ ) { m_PlanarForceZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadPlanarForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadPlanarForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadPlanarForce::toString() const { return L"IfcStructuralLoadPlanarForce"; }
 void IfcStructuralLoadPlanarForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadPlanarForce, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadPlanarForce, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_PlanarForceX = IfcPlanarForceMeasure::createObjectFromSTEP( args[1], map );
 	m_PlanarForceY = IfcPlanarForceMeasure::createObjectFromSTEP( args[2], map );

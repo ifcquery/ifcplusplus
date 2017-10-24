@@ -15,7 +15,7 @@
 
 // ENTITY IfcFaceBound 
 IfcFaceBound::IfcFaceBound() {}
-IfcFaceBound::IfcFaceBound( int id ) { m_id = id; }
+IfcFaceBound::IfcFaceBound( int id ) { m_entity_id = id; }
 IfcFaceBound::~IfcFaceBound() {}
 shared_ptr<IfcPPObject> IfcFaceBound::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcFaceBound::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcFaceBound::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFACEBOUND" << "(";
-	if( m_Bound ) { stream << "#" << m_Bound->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCFACEBOUND" << "(";
+	if( m_Bound ) { stream << "#" << m_Bound->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFaceBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFaceBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceBound::toString() const { return L"IfcFaceBound"; }
 void IfcFaceBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBound, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBound, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Bound, map );
 	m_Orientation = IfcBoolean::createObjectFromSTEP( args[1], map );
 }

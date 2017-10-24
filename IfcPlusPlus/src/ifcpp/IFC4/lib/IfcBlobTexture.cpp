@@ -17,7 +17,7 @@
 
 // ENTITY IfcBlobTexture 
 IfcBlobTexture::IfcBlobTexture() {}
-IfcBlobTexture::IfcBlobTexture( int id ) { m_id = id; }
+IfcBlobTexture::IfcBlobTexture( int id ) { m_entity_id = id; }
 IfcBlobTexture::~IfcBlobTexture() {}
 shared_ptr<IfcPPObject> IfcBlobTexture::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,14 +40,14 @@ shared_ptr<IfcPPObject> IfcBlobTexture::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcBlobTexture::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBLOBTEXTURE" << "(";
+	stream << "#" << m_entity_id << "= IFCBLOBTEXTURE" << "(";
 	if( m_RepeatS ) { m_RepeatS->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_RepeatT ) { m_RepeatT->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_id; } else { stream << "*"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Parameter.size(); ++ii )
@@ -73,12 +73,12 @@ void IfcBlobTexture::getStepLine( std::stringstream& stream ) const
 	if( m_RasterCode ) { m_RasterCode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBlobTexture::toString() const { return L"IfcBlobTexture"; }
 void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0], map );
 	m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1], map );
 	m_Mode = IfcIdentifier::createObjectFromSTEP( args[2], map );

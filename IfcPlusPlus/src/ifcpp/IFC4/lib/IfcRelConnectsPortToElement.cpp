@@ -17,7 +17,7 @@
 
 // ENTITY IfcRelConnectsPortToElement 
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement() {}
-IfcRelConnectsPortToElement::IfcRelConnectsPortToElement( int id ) { m_id = id; }
+IfcRelConnectsPortToElement::IfcRelConnectsPortToElement( int id ) { m_entity_id = id; }
 IfcRelConnectsPortToElement::~IfcRelConnectsPortToElement() {}
 shared_ptr<IfcPPObject> IfcRelConnectsPortToElement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,26 +40,26 @@ shared_ptr<IfcPPObject> IfcRelConnectsPortToElement::getDeepCopy( IfcPPCopyOptio
 }
 void IfcRelConnectsPortToElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELCONNECTSPORTTOELEMENT" << "(";
+	stream << "#" << m_entity_id << "= IFCRELCONNECTSPORTTOELEMENT" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingPort ) { stream << "#" << m_RelatingPort->m_id; } else { stream << "$"; }
+	if( m_RelatingPort ) { stream << "#" << m_RelatingPort->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_id; } else { stream << "$"; }
+	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsPortToElement::toString() const { return L"IfcRelConnectsPortToElement"; }
 void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

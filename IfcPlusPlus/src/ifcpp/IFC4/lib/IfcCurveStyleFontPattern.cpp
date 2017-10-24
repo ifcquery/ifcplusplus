@@ -13,7 +13,7 @@
 
 // ENTITY IfcCurveStyleFontPattern 
 IfcCurveStyleFontPattern::IfcCurveStyleFontPattern() {}
-IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int id ) { m_id = id; }
+IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int id ) { m_entity_id = id; }
 IfcCurveStyleFontPattern::~IfcCurveStyleFontPattern() {}
 shared_ptr<IfcPPObject> IfcCurveStyleFontPattern::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,18 +24,18 @@ shared_ptr<IfcPPObject> IfcCurveStyleFontPattern::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCURVESTYLEFONTPATTERN" << "(";
+	stream << "#" << m_entity_id << "= IFCCURVESTYLEFONTPATTERN" << "(";
 	if( m_VisibleSegmentLength ) { m_VisibleSegmentLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_InvisibleSegmentLength ) { m_InvisibleSegmentLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveStyleFontPattern::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCurveStyleFontPattern::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyleFontPattern::toString() const { return L"IfcCurveStyleFontPattern"; }
 void IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFontPattern, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFontPattern, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_VisibleSegmentLength = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_InvisibleSegmentLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }

@@ -16,7 +16,7 @@
 
 // ENTITY IfcResourceConstraintRelationship 
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship() {}
-IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int id ) { m_id = id; }
+IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int id ) { m_entity_id = id; }
 IfcResourceConstraintRelationship::~IfcResourceConstraintRelationship() {}
 shared_ptr<IfcPPObject> IfcResourceConstraintRelationship::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -36,12 +36,12 @@ shared_ptr<IfcPPObject> IfcResourceConstraintRelationship::getDeepCopy( IfcPPCop
 }
 void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRESOURCECONSTRAINTRELATIONSHIP" << "(";
+	stream << "#" << m_entity_id << "= IFCRESOURCECONSTRAINTRELATIONSHIP" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_id; } else { stream << "$"; }
+	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_RelatedResourceObjects.size(); ++ii )
@@ -63,12 +63,12 @@ void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream )
 	stream << ")";
 	stream << ");";
 }
-void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcResourceConstraintRelationship::toString() const { return L"IfcResourceConstraintRelationship"; }
 void IfcResourceConstraintRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceConstraintRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceConstraintRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingConstraint, map );

@@ -15,7 +15,7 @@
 
 // ENTITY IfcStructuralLoadSingleForceWarping 
 IfcStructuralLoadSingleForceWarping::IfcStructuralLoadSingleForceWarping() {}
-IfcStructuralLoadSingleForceWarping::IfcStructuralLoadSingleForceWarping( int id ) { m_id = id; }
+IfcStructuralLoadSingleForceWarping::IfcStructuralLoadSingleForceWarping( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleForceWarping::~IfcStructuralLoadSingleForceWarping() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadSingleForceWarping::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,7 +32,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadSingleForceWarping::getDeepCopy( IfcPPC
 }
 void IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADSINGLEFORCEWARPING" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSINGLEFORCEWARPING" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ForceX ) { m_ForceX->getStepParameter( stream ); } else { stream << "*"; }
@@ -50,12 +50,12 @@ void IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream
 	if( m_WarpingMoment ) { m_WarpingMoment->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleForceWarping::toString() const { return L"IfcStructuralLoadSingleForceWarping"; }
 void IfcStructuralLoadSingleForceWarping::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForceWarping, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForceWarping, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ForceX = IfcForceMeasure::createObjectFromSTEP( args[1], map );
 	m_ForceY = IfcForceMeasure::createObjectFromSTEP( args[2], map );

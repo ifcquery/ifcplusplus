@@ -24,7 +24,7 @@
 
 // ENTITY IfcPermeableCoveringProperties 
 IfcPermeableCoveringProperties::IfcPermeableCoveringProperties() {}
-IfcPermeableCoveringProperties::IfcPermeableCoveringProperties( int id ) { m_id = id; }
+IfcPermeableCoveringProperties::IfcPermeableCoveringProperties( int id ) { m_entity_id = id; }
 IfcPermeableCoveringProperties::~IfcPermeableCoveringProperties() {}
 shared_ptr<IfcPPObject> IfcPermeableCoveringProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -50,10 +50,10 @@ shared_ptr<IfcPPObject> IfcPermeableCoveringProperties::getDeepCopy( IfcPPCopyOp
 }
 void IfcPermeableCoveringProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPERMEABLECOVERINGPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCPERMEABLECOVERINGPROPERTIES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -67,15 +67,15 @@ void IfcPermeableCoveringProperties::getStepLine( std::stringstream& stream ) co
 	stream << ",";
 	if( m_FrameThickness ) { m_FrameThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_id; } else { stream << "$"; }
+	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPermeableCoveringProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPermeableCoveringProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPermeableCoveringProperties::toString() const { return L"IfcPermeableCoveringProperties"; }
 void IfcPermeableCoveringProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPermeableCoveringProperties, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPermeableCoveringProperties, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

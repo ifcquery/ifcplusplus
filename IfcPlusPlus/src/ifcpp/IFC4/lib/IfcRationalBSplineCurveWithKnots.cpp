@@ -20,7 +20,7 @@
 
 // ENTITY IfcRationalBSplineCurveWithKnots 
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots() {}
-IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_id = id; }
+IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_entity_id = id; }
 IfcRationalBSplineCurveWithKnots::~IfcRationalBSplineCurveWithKnots() {}
 shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -66,7 +66,7 @@ shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( IfcPPCopy
 }
 void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRATIONALBSPLINECURVEWITHKNOTS" << "(";
+	stream << "#" << m_entity_id << "= IFCRATIONALBSPLINECURVEWITHKNOTS" << "(";
 	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
@@ -86,12 +86,12 @@ void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) 
 	writeNumericTypeList( stream, m_WeightsData );
 	stream << ");";
 }
-void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRationalBSplineCurveWithKnots::toString() const { return L"IfcRationalBSplineCurveWithKnots"; }
 void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Degree = IfcInteger::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map );

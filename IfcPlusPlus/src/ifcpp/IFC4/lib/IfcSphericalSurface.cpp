@@ -15,7 +15,7 @@
 
 // ENTITY IfcSphericalSurface 
 IfcSphericalSurface::IfcSphericalSurface() {}
-IfcSphericalSurface::IfcSphericalSurface( int id ) { m_id = id; }
+IfcSphericalSurface::IfcSphericalSurface( int id ) { m_entity_id = id; }
 IfcSphericalSurface::~IfcSphericalSurface() {}
 shared_ptr<IfcPPObject> IfcSphericalSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcSphericalSurface::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcSphericalSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSPHERICALSURFACE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCSPHERICALSURFACE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSphericalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSphericalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSphericalSurface::toString() const { return L"IfcSphericalSurface"; }
 void IfcSphericalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphericalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphericalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }

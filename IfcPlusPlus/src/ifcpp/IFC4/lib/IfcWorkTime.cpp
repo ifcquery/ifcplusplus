@@ -15,7 +15,7 @@
 
 // ENTITY IfcWorkTime 
 IfcWorkTime::IfcWorkTime() {}
-IfcWorkTime::IfcWorkTime( int id ) { m_id = id; }
+IfcWorkTime::IfcWorkTime( int id ) { m_entity_id = id; }
 IfcWorkTime::~IfcWorkTime() {}
 shared_ptr<IfcPPObject> IfcWorkTime::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,26 +30,26 @@ shared_ptr<IfcPPObject> IfcWorkTime::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcWorkTime::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCWORKTIME" << "(";
+	stream << "#" << m_entity_id << "= IFCWORKTIME" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RecurrencePattern ) { stream << "#" << m_RecurrencePattern->m_id; } else { stream << "$"; }
+	if( m_RecurrencePattern ) { stream << "#" << m_RecurrencePattern->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Start ) { m_Start->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Finish ) { m_Finish->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWorkTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcWorkTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWorkTime::toString() const { return L"IfcWorkTime"; }
 void IfcWorkTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );

@@ -17,7 +17,7 @@
 
 // ENTITY IfcRevolvedAreaSolidTapered 
 IfcRevolvedAreaSolidTapered::IfcRevolvedAreaSolidTapered() {}
-IfcRevolvedAreaSolidTapered::IfcRevolvedAreaSolidTapered( int id ) { m_id = id; }
+IfcRevolvedAreaSolidTapered::IfcRevolvedAreaSolidTapered( int id ) { m_entity_id = id; }
 IfcRevolvedAreaSolidTapered::~IfcRevolvedAreaSolidTapered() {}
 shared_ptr<IfcPPObject> IfcRevolvedAreaSolidTapered::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -39,24 +39,24 @@ shared_ptr<IfcPPObject> IfcRevolvedAreaSolidTapered::getDeepCopy( IfcPPCopyOptio
 }
 void IfcRevolvedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCREVOLVEDAREASOLIDTAPERED" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCREVOLVEDAREASOLIDTAPERED" << "(";
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis ) { stream << "#" << m_Axis->m_id; } else { stream << "*"; }
+	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Angle ) { m_Angle->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_id; } else { stream << "$"; }
+	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRevolvedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRevolvedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRevolvedAreaSolidTapered::toString() const { return L"IfcRevolvedAreaSolidTapered"; }
 void IfcRevolvedAreaSolidTapered::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolidTapered, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolidTapered, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Axis, map );

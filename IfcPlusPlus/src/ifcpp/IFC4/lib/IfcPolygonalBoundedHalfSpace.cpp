@@ -17,7 +17,7 @@
 
 // ENTITY IfcPolygonalBoundedHalfSpace 
 IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace() {}
-IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_id = id; }
+IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_entity_id = id; }
 IfcPolygonalBoundedHalfSpace::~IfcPolygonalBoundedHalfSpace() {}
 shared_ptr<IfcPPObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,22 +30,22 @@ shared_ptr<IfcPPObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( IfcPPCopyOpti
 }
 void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_PolygonalBoundary ) { stream << "#" << m_PolygonalBoundary->m_id; } else { stream << "$"; }
+	if( m_PolygonalBoundary ) { stream << "#" << m_PolygonalBoundary->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolygonalBoundedHalfSpace::toString() const { return L"IfcPolygonalBoundedHalfSpace"; }
 void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );

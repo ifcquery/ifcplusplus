@@ -16,7 +16,7 @@
 
 // ENTITY IfcOrientedEdge 
 IfcOrientedEdge::IfcOrientedEdge() {}
-IfcOrientedEdge::IfcOrientedEdge( int id ) { m_id = id; }
+IfcOrientedEdge::IfcOrientedEdge( int id ) { m_entity_id = id; }
 IfcOrientedEdge::~IfcOrientedEdge() {}
 shared_ptr<IfcPPObject> IfcOrientedEdge::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,22 +29,22 @@ shared_ptr<IfcPPObject> IfcOrientedEdge::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCORIENTEDEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCORIENTEDEDGE" << "(";
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_id; } else { stream << "$"; }
+	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrientedEdge::toString() const { return L"IfcOrientedEdge"; }
 void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeElement, map );

@@ -56,11 +56,11 @@ public:
 class IFCPP_EXPORT IfcPPEntity : virtual public IfcPPObject
 {
 public:
-	IfcPPEntity() : m_id(-1)
+	IfcPPEntity() : m_entity_id(-1)
 	{
 	}
 
-	IfcPPEntity( int id ) : m_id(id)
+	IfcPPEntity( int id ) : m_entity_id(id)
 	{
 	}
 
@@ -98,5 +98,5 @@ public:
 	virtual void unlinkFromInverseCounterparts() = 0;
 
 	/// Entity ID (same as STEP ID)
-	int m_id;
+	int m_entity_id;
 };

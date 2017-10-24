@@ -16,7 +16,7 @@
 
 // ENTITY IfcTextStyle 
 IfcTextStyle::IfcTextStyle() {}
-IfcTextStyle::IfcTextStyle( int id ) { m_id = id; }
+IfcTextStyle::IfcTextStyle( int id ) { m_entity_id = id; }
 IfcTextStyle::~IfcTextStyle() {}
 shared_ptr<IfcPPObject> IfcTextStyle::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,24 +30,24 @@ shared_ptr<IfcPPObject> IfcTextStyle::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTEXTSTYLE" << "(";
+	stream << "#" << m_entity_id << "= IFCTEXTSTYLE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->m_id; } else { stream << "$"; }
+	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TextStyle ) { stream << "#" << m_TextStyle->m_id; } else { stream << "$"; }
+	if( m_TextStyle ) { stream << "#" << m_TextStyle->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTextStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyle::toString() const { return L"IfcTextStyle"; }
 void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TextCharacterAppearance, map );
 	readEntityReference( args[2], m_TextStyle, map );

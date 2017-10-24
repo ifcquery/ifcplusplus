@@ -19,7 +19,7 @@
 
 // ENTITY IfcClassificationReference 
 IfcClassificationReference::IfcClassificationReference() {}
-IfcClassificationReference::IfcClassificationReference( int id ) { m_id = id; }
+IfcClassificationReference::IfcClassificationReference( int id ) { m_entity_id = id; }
 IfcClassificationReference::~IfcClassificationReference() {}
 shared_ptr<IfcPPObject> IfcClassificationReference::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,7 +34,7 @@ shared_ptr<IfcPPObject> IfcClassificationReference::getDeepCopy( IfcPPCopyOption
 }
 void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCLASSIFICATIONREFERENCE" << "(";
+	stream << "#" << m_entity_id << "= IFCCLASSIFICATIONREFERENCE" << "(";
 	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
@@ -48,12 +48,12 @@ void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 	if( m_Sort ) { m_Sort->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcClassificationReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcClassificationReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcClassificationReference::toString() const { return L"IfcClassificationReference"; }
 void IfcClassificationReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassificationReference, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassificationReference, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

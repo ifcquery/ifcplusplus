@@ -16,7 +16,7 @@
 
 // ENTITY IfcRectangularTrimmedSurface 
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface() {}
-IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_id = id; }
+IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_entity_id = id; }
 IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() {}
 shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,8 +32,8 @@ shared_ptr<IfcPPObject> IfcRectangularTrimmedSurface::getDeepCopy( IfcPPCopyOpti
 }
 void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRECTANGULARTRIMMEDSURFACE" << "(";
-	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCRECTANGULARTRIMMEDSURFACE" << "(";
+	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_U1 ) { m_U1->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -48,12 +48,12 @@ void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) cons
 	if( m_Vsense ) { m_Vsense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangularTrimmedSurface::toString() const { return L"IfcRectangularTrimmedSurface"; }
 void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	m_U1 = IfcParameterValue::createObjectFromSTEP( args[1], map );
 	m_V1 = IfcParameterValue::createObjectFromSTEP( args[2], map );

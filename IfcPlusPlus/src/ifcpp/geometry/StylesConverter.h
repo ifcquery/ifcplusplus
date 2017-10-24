@@ -174,7 +174,7 @@ public:
 		{
 			return;
 		}
-		const int style_id = surface_style->m_id;
+		const int style_id = surface_style->m_entity_id;
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
@@ -340,7 +340,7 @@ public:
 			return;
 		}
 		shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
-		const int style_id = styled_item->m_id;
+		const int style_id = styled_item->m_entity_id;
 
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -395,7 +395,7 @@ public:
 					{
 						if( !appearance_data )
 						{
-							int text_style_id = text_style->m_id;
+							int text_style_id = text_style->m_entity_id;
 							appearance_data = shared_ptr<AppearanceData>( new AppearanceData( text_style_id ) );
 						}
 
@@ -504,7 +504,7 @@ public:
 
 	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 	{
-		int style_id = presentation_style->m_id;
+		int style_id = presentation_style->m_entity_id;
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
@@ -568,7 +568,7 @@ public:
 		{
 			return;
 		}
-		int style_id = curve_style->m_id;
+		int style_id = curve_style->m_entity_id;
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{

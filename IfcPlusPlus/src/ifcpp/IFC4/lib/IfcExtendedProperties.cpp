@@ -15,7 +15,7 @@
 
 // ENTITY IfcExtendedProperties 
 IfcExtendedProperties::IfcExtendedProperties() {}
-IfcExtendedProperties::IfcExtendedProperties( int id ) { m_id = id; }
+IfcExtendedProperties::IfcExtendedProperties( int id ) { m_entity_id = id; }
 IfcExtendedProperties::~IfcExtendedProperties() {}
 shared_ptr<IfcPPObject> IfcExtendedProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,7 +34,7 @@ shared_ptr<IfcPPObject> IfcExtendedProperties::getDeepCopy( IfcPPCopyOptions& op
 }
 void IfcExtendedProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCEXTENDEDPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCEXTENDEDPROPERTIES" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -42,12 +42,12 @@ void IfcExtendedProperties::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Properties );
 	stream << ");";
 }
-void IfcExtendedProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcExtendedProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExtendedProperties::toString() const { return L"IfcExtendedProperties"; }
 void IfcExtendedProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtendedProperties, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtendedProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Properties, map );

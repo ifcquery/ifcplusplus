@@ -16,7 +16,7 @@
 
 // ENTITY IfcTextLiteral 
 IfcTextLiteral::IfcTextLiteral() {}
-IfcTextLiteral::IfcTextLiteral( int id ) { m_id = id; }
+IfcTextLiteral::IfcTextLiteral( int id ) { m_entity_id = id; }
 IfcTextLiteral::~IfcTextLiteral() {}
 shared_ptr<IfcPPObject> IfcTextLiteral::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,7 +28,7 @@ shared_ptr<IfcPPObject> IfcTextLiteral::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTEXTLITERAL" << "(";
+	stream << "#" << m_entity_id << "= IFCTEXTLITERAL" << "(";
 	if( m_Literal ) { m_Literal->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
@@ -36,12 +36,12 @@ void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextLiteral::toString() const { return L"IfcTextLiteral"; }
 void IfcTextLiteral::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 	m_Path = IfcTextPath::createObjectFromSTEP( args[2], map );

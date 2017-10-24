@@ -11,7 +11,7 @@
 
 // ENTITY IfcPresentationItem 
 IfcPresentationItem::IfcPresentationItem() {}
-IfcPresentationItem::IfcPresentationItem( int id ) { m_id = id; }
+IfcPresentationItem::IfcPresentationItem( int id ) { m_entity_id = id; }
 IfcPresentationItem::~IfcPresentationItem() {}
 shared_ptr<IfcPPObject> IfcPresentationItem::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -20,10 +20,10 @@ shared_ptr<IfcPPObject> IfcPresentationItem::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcPresentationItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPRESENTATIONITEM" << "(";
+	stream << "#" << m_entity_id << "= IFCPRESENTATIONITEM" << "(";
 	stream << ");";
 }
-void IfcPresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationItem::toString() const { return L"IfcPresentationItem"; }
 void IfcPresentationItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

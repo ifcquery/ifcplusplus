@@ -13,7 +13,7 @@
 
 // ENTITY IfcNamedUnit 
 IfcNamedUnit::IfcNamedUnit() {}
-IfcNamedUnit::IfcNamedUnit( int id ) { m_id = id; }
+IfcNamedUnit::IfcNamedUnit( int id ) { m_entity_id = id; }
 IfcNamedUnit::~IfcNamedUnit() {}
 shared_ptr<IfcPPObject> IfcNamedUnit::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,18 +24,18 @@ shared_ptr<IfcPPObject> IfcNamedUnit::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcNamedUnit::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCNAMEDUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCNAMEDUNIT" << "(";
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcNamedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcNamedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcNamedUnit::toString() const { return L"IfcNamedUnit"; }
 void IfcNamedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 }

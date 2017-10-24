@@ -16,7 +16,7 @@
 
 // ENTITY IfcAddress 
 IfcAddress::IfcAddress() {}
-IfcAddress::IfcAddress( int id ) { m_id = id; }
+IfcAddress::IfcAddress( int id ) { m_entity_id = id; }
 IfcAddress::~IfcAddress() {}
 shared_ptr<IfcPPObject> IfcAddress::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,7 +28,7 @@ shared_ptr<IfcPPObject> IfcAddress::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcAddress::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCADDRESS" << "(";
+	stream << "#" << m_entity_id << "= IFCADDRESS" << "(";
 	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
@@ -36,12 +36,12 @@ void IfcAddress::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAddress::toString() const { return L"IfcAddress"; }
 void IfcAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAddress, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAddress, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map );

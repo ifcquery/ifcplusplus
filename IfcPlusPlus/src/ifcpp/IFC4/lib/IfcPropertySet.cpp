@@ -21,7 +21,7 @@
 
 // ENTITY IfcPropertySet 
 IfcPropertySet::IfcPropertySet() {}
-IfcPropertySet::IfcPropertySet( int id ) { m_id = id; }
+IfcPropertySet::IfcPropertySet( int id ) { m_entity_id = id; }
 IfcPropertySet::~IfcPropertySet() {}
 shared_ptr<IfcPPObject> IfcPropertySet::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -50,10 +50,10 @@ shared_ptr<IfcPPObject> IfcPropertySet::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcPropertySet::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROPERTYSET" << "(";
+	stream << "#" << m_entity_id << "= IFCPROPERTYSET" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -62,12 +62,12 @@ void IfcPropertySet::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_HasProperties );
 	stream << ");";
 }
-void IfcPropertySet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPropertySet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertySet::toString() const { return L"IfcPropertySet"; }
 void IfcPropertySet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertySet, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertySet, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

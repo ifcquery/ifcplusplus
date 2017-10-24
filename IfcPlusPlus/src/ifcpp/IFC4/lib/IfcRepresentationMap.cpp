@@ -15,7 +15,7 @@
 
 // ENTITY IfcRepresentationMap 
 IfcRepresentationMap::IfcRepresentationMap() {}
-IfcRepresentationMap::IfcRepresentationMap( int id ) { m_id = id; }
+IfcRepresentationMap::IfcRepresentationMap( int id ) { m_entity_id = id; }
 IfcRepresentationMap::~IfcRepresentationMap() {}
 shared_ptr<IfcPPObject> IfcRepresentationMap::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcRepresentationMap::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcRepresentationMap::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCREPRESENTATIONMAP" << "(";
+	stream << "#" << m_entity_id << "= IFCREPRESENTATIONMAP" << "(";
 	if( m_MappingOrigin ) { m_MappingOrigin->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_MappedRepresentation ) { stream << "#" << m_MappedRepresentation->m_id; } else { stream << "$"; }
+	if( m_MappedRepresentation ) { stream << "#" << m_MappedRepresentation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRepresentationMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRepresentationMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentationMap::toString() const { return L"IfcRepresentationMap"; }
 void IfcRepresentationMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_MappingOrigin = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_MappedRepresentation, map );
 }

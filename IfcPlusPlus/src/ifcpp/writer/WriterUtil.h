@@ -215,7 +215,7 @@ void writeEntityList( std::stringstream& stream, const std::vector<shared_ptr<T>
 		const shared_ptr<T>& entity = vec[ii];
 		if( entity )
 		{
-			stream << "#" << entity->m_id;
+			stream << "#" << entity->m_entity_id;
 		}
 		else
 		{

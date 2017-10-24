@@ -19,7 +19,7 @@
 
 // ENTITY IfcTaskTimeRecurring 
 IfcTaskTimeRecurring::IfcTaskTimeRecurring() {}
-IfcTaskTimeRecurring::IfcTaskTimeRecurring( int id ) { m_id = id; }
+IfcTaskTimeRecurring::IfcTaskTimeRecurring( int id ) { m_entity_id = id; }
 IfcTaskTimeRecurring::~IfcTaskTimeRecurring() {}
 shared_ptr<IfcPPObject> IfcTaskTimeRecurring::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -49,7 +49,7 @@ shared_ptr<IfcPPObject> IfcTaskTimeRecurring::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTASKTIMERECURRING" << "(";
+	stream << "#" << m_entity_id << "= IFCTASKTIMERECURRING" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
@@ -90,15 +90,15 @@ void IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Recurrence ) { stream << "#" << m_Recurrence->m_id; } else { stream << "$"; }
+	if( m_Recurrence ) { stream << "#" << m_Recurrence->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTaskTimeRecurring::toString() const { return L"IfcTaskTimeRecurring"; }
 void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 21 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTaskTimeRecurring, expecting 21, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 21 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTaskTimeRecurring, expecting 21, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );

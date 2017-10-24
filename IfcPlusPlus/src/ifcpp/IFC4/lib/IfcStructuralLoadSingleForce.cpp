@@ -14,7 +14,7 @@
 
 // ENTITY IfcStructuralLoadSingleForce 
 IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce() {}
-IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_id = id; }
+IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleForce::~IfcStructuralLoadSingleForce() {}
 shared_ptr<IfcPPObject> IfcStructuralLoadSingleForce::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,7 +30,7 @@ shared_ptr<IfcPPObject> IfcStructuralLoadSingleForce::getDeepCopy( IfcPPCopyOpti
 }
 void IfcStructuralLoadSingleForce::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSTRUCTURALLOADSINGLEFORCE" << "(";
+	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSINGLEFORCE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ForceX ) { m_ForceX->getStepParameter( stream ); } else { stream << "$"; }
@@ -46,12 +46,12 @@ void IfcStructuralLoadSingleForce::getStepLine( std::stringstream& stream ) cons
 	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleForce::toString() const { return L"IfcStructuralLoadSingleForce"; }
 void IfcStructuralLoadSingleForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForce, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForce, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ForceX = IfcForceMeasure::createObjectFromSTEP( args[1], map );
 	m_ForceY = IfcForceMeasure::createObjectFromSTEP( args[2], map );

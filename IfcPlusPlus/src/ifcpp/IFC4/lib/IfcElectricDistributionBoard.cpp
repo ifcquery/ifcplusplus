@@ -40,7 +40,7 @@
 
 // ENTITY IfcElectricDistributionBoard 
 IfcElectricDistributionBoard::IfcElectricDistributionBoard() {}
-IfcElectricDistributionBoard::IfcElectricDistributionBoard( int id ) { m_id = id; }
+IfcElectricDistributionBoard::IfcElectricDistributionBoard( int id ) { m_entity_id = id; }
 IfcElectricDistributionBoard::~IfcElectricDistributionBoard() {}
 shared_ptr<IfcPPObject> IfcElectricDistributionBoard::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -66,10 +66,10 @@ shared_ptr<IfcPPObject> IfcElectricDistributionBoard::getDeepCopy( IfcPPCopyOpti
 }
 void IfcElectricDistributionBoard::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCELECTRICDISTRIBUTIONBOARD" << "(";
+	stream << "#" << m_entity_id << "= IFCELECTRICDISTRIBUTIONBOARD" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -77,21 +77,21 @@ void IfcElectricDistributionBoard::getStepLine( std::stringstream& stream ) cons
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricDistributionBoard::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcElectricDistributionBoard::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricDistributionBoard::toString() const { return L"IfcElectricDistributionBoard"; }
 void IfcElectricDistributionBoard::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElectricDistributionBoard, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElectricDistributionBoard, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

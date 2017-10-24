@@ -18,7 +18,7 @@
 
 // ENTITY IfcShapeAspect 
 IfcShapeAspect::IfcShapeAspect() {}
-IfcShapeAspect::IfcShapeAspect( int id ) { m_id = id; }
+IfcShapeAspect::IfcShapeAspect( int id ) { m_entity_id = id; }
 IfcShapeAspect::~IfcShapeAspect() {}
 shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -39,7 +39,7 @@ shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSHAPEASPECT" << "(";
+	stream << "#" << m_entity_id << "= IFCSHAPEASPECT" << "(";
 	writeEntityList( stream, m_ShapeRepresentations );
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
@@ -51,12 +51,12 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 	if( m_PartOfProductDefinitionShape ) { m_PartOfProductDefinitionShape->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeAspect::toString() const { return L"IfcShapeAspect"; }
 void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_ShapeRepresentations, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );

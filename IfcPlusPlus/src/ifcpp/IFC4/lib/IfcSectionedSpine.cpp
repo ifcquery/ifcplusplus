@@ -16,7 +16,7 @@
 
 // ENTITY IfcSectionedSpine 
 IfcSectionedSpine::IfcSectionedSpine() {}
-IfcSectionedSpine::IfcSectionedSpine( int id ) { m_id = id; }
+IfcSectionedSpine::IfcSectionedSpine( int id ) { m_entity_id = id; }
 IfcSectionedSpine::~IfcSectionedSpine() {}
 shared_ptr<IfcPPObject> IfcSectionedSpine::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -42,20 +42,20 @@ shared_ptr<IfcPPObject> IfcSectionedSpine::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSECTIONEDSPINE" << "(";
-	if( m_SpineCurve ) { stream << "#" << m_SpineCurve->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSECTIONEDSPINE" << "(";
+	if( m_SpineCurve ) { stream << "#" << m_SpineCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_CrossSections );
 	stream << ",";
 	writeEntityList( stream, m_CrossSectionPositions );
 	stream << ");";
 }
-void IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionedSpine::toString() const { return L"IfcSectionedSpine"; }
 void IfcSectionedSpine::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionedSpine, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionedSpine, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SpineCurve, map );
 	readEntityReferenceList( args[1], m_CrossSections, map );
 	readEntityReferenceList( args[2], m_CrossSectionPositions, map );

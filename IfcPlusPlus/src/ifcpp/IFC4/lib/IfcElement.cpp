@@ -37,7 +37,7 @@
 
 // ENTITY IfcElement 
 IfcElement::IfcElement() {}
-IfcElement::IfcElement( int id ) { m_id = id; }
+IfcElement::IfcElement( int id ) { m_entity_id = id; }
 IfcElement::~IfcElement() {}
 shared_ptr<IfcPPObject> IfcElement::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -62,10 +62,10 @@ shared_ptr<IfcPPObject> IfcElement::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcElement::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCELEMENT" << "(";
+	stream << "#" << m_entity_id << "= IFCELEMENT" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -73,19 +73,19 @@ void IfcElement::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElement::toString() const { return L"IfcElement"; }
 void IfcElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElement, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

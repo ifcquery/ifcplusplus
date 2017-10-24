@@ -13,7 +13,7 @@
 
 // ENTITY IfcSolidModel 
 IfcSolidModel::IfcSolidModel() {}
-IfcSolidModel::IfcSolidModel( int id ) { m_id = id; }
+IfcSolidModel::IfcSolidModel( int id ) { m_entity_id = id; }
 IfcSolidModel::~IfcSolidModel() {}
 shared_ptr<IfcPPObject> IfcSolidModel::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcSolidModel::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcSolidModel::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSOLIDMODEL" << "(";
+	stream << "#" << m_entity_id << "= IFCSOLIDMODEL" << "(";
 	stream << ");";
 }
-void IfcSolidModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSolidModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSolidModel::toString() const { return L"IfcSolidModel"; }
 void IfcSolidModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

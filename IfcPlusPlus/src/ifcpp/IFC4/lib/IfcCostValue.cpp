@@ -19,7 +19,7 @@
 
 // ENTITY IfcCostValue 
 IfcCostValue::IfcCostValue() {}
-IfcCostValue::IfcCostValue( int id ) { m_id = id; }
+IfcCostValue::IfcCostValue( int id ) { m_entity_id = id; }
 IfcCostValue::~IfcCostValue() {}
 shared_ptr<IfcPPObject> IfcCostValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -45,14 +45,14 @@ shared_ptr<IfcPPObject> IfcCostValue::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcCostValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCOSTVALUE" << "(";
+	stream << "#" << m_entity_id << "= IFCCOSTVALUE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_UnitBasis ) { stream << "#" << m_UnitBasis->m_id; } else { stream << "*"; }
+	if( m_UnitBasis ) { stream << "#" << m_UnitBasis->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_ApplicableDate ) { m_ApplicableDate->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -67,12 +67,12 @@ void IfcCostValue::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Components );
 	stream << ");";
 }
-void IfcCostValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCostValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCostValue::toString() const { return L"IfcCostValue"; }
 void IfcCostValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCostValue, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCostValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_AppliedValue = IfcAppliedValueSelect::createObjectFromSTEP( args[2], map );

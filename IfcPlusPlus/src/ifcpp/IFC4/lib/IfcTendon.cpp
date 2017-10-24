@@ -43,7 +43,7 @@
 
 // ENTITY IfcTendon 
 IfcTendon::IfcTendon() {}
-IfcTendon::IfcTendon( int id ) { m_id = id; }
+IfcTendon::IfcTendon( int id ) { m_entity_id = id; }
 IfcTendon::~IfcTendon() {}
 shared_ptr<IfcPPObject> IfcTendon::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -77,10 +77,10 @@ shared_ptr<IfcPPObject> IfcTendon::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTendon::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTENDON" << "(";
+	stream << "#" << m_entity_id << "= IFCTENDON" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -88,9 +88,9 @@ void IfcTendon::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_id; } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->m_id; } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -113,12 +113,12 @@ void IfcTendon::getStepLine( std::stringstream& stream ) const
 	if( m_MinCurvatureRadius ) { m_MinCurvatureRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTendon::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTendon::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTendon::toString() const { return L"IfcTendon"; }
 void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTendon, expecting 17, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTendon, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

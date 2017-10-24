@@ -17,7 +17,7 @@
 
 // ENTITY IfcCenterLineProfileDef 
 IfcCenterLineProfileDef::IfcCenterLineProfileDef() {}
-IfcCenterLineProfileDef::IfcCenterLineProfileDef( int id ) { m_id = id; }
+IfcCenterLineProfileDef::IfcCenterLineProfileDef( int id ) { m_entity_id = id; }
 IfcCenterLineProfileDef::~IfcCenterLineProfileDef() {}
 shared_ptr<IfcPPObject> IfcCenterLineProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,22 +30,22 @@ shared_ptr<IfcPPObject> IfcCenterLineProfileDef::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCENTERLINEPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCCENTERLINEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Curve ) { stream << "#" << m_Curve->m_id; } else { stream << "*"; }
+	if( m_Curve ) { stream << "#" << m_Curve->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCenterLineProfileDef::toString() const { return L"IfcCenterLineProfileDef"; }
 void IfcCenterLineProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCenterLineProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCenterLineProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Curve, map );

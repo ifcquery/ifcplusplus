@@ -19,7 +19,7 @@
 
 // ENTITY IfcBSplineCurveWithKnots 
 IfcBSplineCurveWithKnots::IfcBSplineCurveWithKnots() {}
-IfcBSplineCurveWithKnots::IfcBSplineCurveWithKnots( int id ) { m_id = id; }
+IfcBSplineCurveWithKnots::IfcBSplineCurveWithKnots( int id ) { m_entity_id = id; }
 IfcBSplineCurveWithKnots::~IfcBSplineCurveWithKnots() {}
 shared_ptr<IfcPPObject> IfcBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -57,7 +57,7 @@ shared_ptr<IfcPPObject> IfcBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBSPLINECURVEWITHKNOTS" << "(";
+	stream << "#" << m_entity_id << "= IFCBSPLINECURVEWITHKNOTS" << "(";
 	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
@@ -75,12 +75,12 @@ void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineCurveWithKnots::toString() const { return L"IfcBSplineCurveWithKnots"; }
 void IfcBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineCurveWithKnots, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineCurveWithKnots, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Degree = IfcInteger::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map );

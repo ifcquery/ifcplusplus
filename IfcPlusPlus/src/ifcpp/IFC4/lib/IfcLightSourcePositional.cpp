@@ -19,7 +19,7 @@
 
 // ENTITY IfcLightSourcePositional 
 IfcLightSourcePositional::IfcLightSourcePositional() {}
-IfcLightSourcePositional::IfcLightSourcePositional( int id ) { m_id = id; }
+IfcLightSourcePositional::IfcLightSourcePositional( int id ) { m_entity_id = id; }
 IfcLightSourcePositional::~IfcLightSourcePositional() {}
 shared_ptr<IfcPPObject> IfcLightSourcePositional::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -37,16 +37,16 @@ shared_ptr<IfcPPObject> IfcLightSourcePositional::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcLightSourcePositional::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTSOURCEPOSITIONAL" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTSOURCEPOSITIONAL" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -57,12 +57,12 @@ void IfcLightSourcePositional::getStepLine( std::stringstream& stream ) const
 	if( m_QuadricAttenuation ) { m_QuadricAttenuation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourcePositional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightSourcePositional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourcePositional::toString() const { return L"IfcLightSourcePositional"; }
 void IfcLightSourcePositional::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourcePositional, expecting 9, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourcePositional, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );

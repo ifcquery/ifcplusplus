@@ -14,7 +14,7 @@
 
 // ENTITY IfcTextureCoordinateGenerator 
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator() {}
-IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_id = id; }
+IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_entity_id = id; }
 IfcTextureCoordinateGenerator::~IfcTextureCoordinateGenerator() {}
 shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,7 +40,7 @@ shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy( IfcPPCopyOpt
 }
 void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTEXTURECOORDINATEGENERATOR" << "(";
+	stream << "#" << m_entity_id << "= IFCTEXTURECOORDINATEGENERATOR" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
@@ -48,12 +48,12 @@ void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) con
 	writeNumericTypeList( stream, m_Parameter );
 	stream << ");";
 }
-void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureCoordinateGenerator::toString() const { return L"IfcTextureCoordinateGenerator"; }
 void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	m_Mode = IfcLabel::createObjectFromSTEP( args[1], map );
 	readTypeOfRealList( args[2], m_Parameter );

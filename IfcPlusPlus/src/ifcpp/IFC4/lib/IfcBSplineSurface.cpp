@@ -17,7 +17,7 @@
 
 // ENTITY IfcBSplineSurface 
 IfcBSplineSurface::IfcBSplineSurface() {}
-IfcBSplineSurface::IfcBSplineSurface( int id ) { m_id = id; }
+IfcBSplineSurface::IfcBSplineSurface( int id ) { m_entity_id = id; }
 IfcBSplineSurface::~IfcBSplineSurface() {}
 shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -46,7 +46,7 @@ shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBSPLINESURFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCBSPLINESURFACE" << "(";
 	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "$"; }
@@ -62,12 +62,12 @@ void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurface::toString() const { return L"IfcBSplineSurface"; }
 void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );

@@ -13,7 +13,7 @@
 
 // ENTITY IfcLightIntensityDistribution 
 IfcLightIntensityDistribution::IfcLightIntensityDistribution() {}
-IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_id = id; }
+IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_entity_id = id; }
 IfcLightIntensityDistribution::~IfcLightIntensityDistribution() {}
 shared_ptr<IfcPPObject> IfcLightIntensityDistribution::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,18 +31,18 @@ shared_ptr<IfcPPObject> IfcLightIntensityDistribution::getDeepCopy( IfcPPCopyOpt
 }
 void IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTINTENSITYDISTRIBUTION" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTINTENSITYDISTRIBUTION" << "(";
 	if( m_LightDistributionCurve ) { m_LightDistributionCurve->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_DistributionData );
 	stream << ");";
 }
-void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightIntensityDistribution::toString() const { return L"IfcLightIntensityDistribution"; }
 void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_LightDistributionCurve = IfcLightDistributionCurveEnum::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_DistributionData, map );
 }

@@ -19,7 +19,7 @@
 
 // ENTITY IfcAsymmetricIShapeProfileDef 
 IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef() {}
-IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_id = id; }
+IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_entity_id = id; }
 IfcAsymmetricIShapeProfileDef::~IfcAsymmetricIShapeProfileDef() {}
 shared_ptr<IfcPPObject> IfcAsymmetricIShapeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -43,12 +43,12 @@ shared_ptr<IfcPPObject> IfcAsymmetricIShapeProfileDef::getDeepCopy( IfcPPCopyOpt
 }
 void IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCASYMMETRICISHAPEPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCASYMMETRICISHAPEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_BottomFlangeWidth ) { m_BottomFlangeWidth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -75,12 +75,12 @@ void IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) con
 	if( m_TopFlangeSlope ) { m_TopFlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAsymmetricIShapeProfileDef::toString() const { return L"IfcAsymmetricIShapeProfileDef"; }
 void IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 15 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsymmetricIShapeProfileDef, expecting 15, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 15 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsymmetricIShapeProfileDef, expecting 15, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );

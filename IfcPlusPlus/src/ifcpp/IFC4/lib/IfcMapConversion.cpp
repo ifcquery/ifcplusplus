@@ -15,7 +15,7 @@
 
 // ENTITY IfcMapConversion 
 IfcMapConversion::IfcMapConversion() {}
-IfcMapConversion::IfcMapConversion( int id ) { m_id = id; }
+IfcMapConversion::IfcMapConversion( int id ) { m_entity_id = id; }
 IfcMapConversion::~IfcMapConversion() {}
 shared_ptr<IfcPPObject> IfcMapConversion::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,10 +32,10 @@ shared_ptr<IfcPPObject> IfcMapConversion::getDeepCopy( IfcPPCopyOptions& options
 }
 void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMAPCONVERSION" << "(";
+	stream << "#" << m_entity_id << "= IFCMAPCONVERSION" << "(";
 	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "*" ; }
 	stream << ",";
-	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_id; } else { stream << "*"; }
+	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Eastings ) { m_Eastings->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -50,12 +50,12 @@ void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMapConversion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcMapConversion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMapConversion::toString() const { return L"IfcMapConversion"; }
 void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 	m_Eastings = IfcLengthMeasure::createObjectFromSTEP( args[2], map );

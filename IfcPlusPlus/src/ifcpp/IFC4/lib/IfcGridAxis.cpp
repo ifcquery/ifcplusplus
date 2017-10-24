@@ -16,7 +16,7 @@
 
 // ENTITY IfcGridAxis 
 IfcGridAxis::IfcGridAxis() {}
-IfcGridAxis::IfcGridAxis( int id ) { m_id = id; }
+IfcGridAxis::IfcGridAxis( int id ) { m_entity_id = id; }
 IfcGridAxis::~IfcGridAxis() {}
 shared_ptr<IfcPPObject> IfcGridAxis::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -28,20 +28,20 @@ shared_ptr<IfcPPObject> IfcGridAxis::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcGridAxis::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCGRIDAXIS" << "(";
+	stream << "#" << m_entity_id << "= IFCGRIDAXIS" << "(";
 	if( m_AxisTag ) { m_AxisTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AxisCurve ) { stream << "#" << m_AxisCurve->m_id; } else { stream << "$"; }
+	if( m_AxisCurve ) { stream << "#" << m_AxisCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGridAxis::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcGridAxis::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGridAxis::toString() const { return L"IfcGridAxis"; }
 void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_AxisTag = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_AxisCurve, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2], map );

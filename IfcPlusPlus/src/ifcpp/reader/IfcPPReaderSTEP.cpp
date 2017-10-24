@@ -589,7 +589,7 @@ void IfcPPReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std
 	shared_ptr<IfcPPEntity> obj( IfcPPEntityFactory::createEntityObject( entity_name_upper.c_str() ) );
 	if( obj )
 	{
-		obj->m_id = entity_id;
+		obj->m_entity_id = entity_id;
 		target_read_object.second = obj;
 		size_t sub_length = line.size() - (stream_pos - line.c_str());
 		std::string entity_arg( stream_pos, sub_length );
@@ -668,21 +668,21 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_id << "=" << entity->className() << ": " << e.what();
+				err << "#" << entity->m_entity_id << "=" << entity->className() << ": " << e.what();
 			}
 			catch( std::exception* e )
 			{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_id << "=" << entity->className() << ": " << e->what();
+				err << "#" << entity->m_entity_id << "=" << entity->className() << ": " << e->what();
 			}
 			catch(...)
 			{
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_id << "=" << entity->className() << " readStepData: error occurred" << std::endl;
+				err << "#" << entity->m_entity_id << "=" << entity->className() << " readStepData: error occurred" << std::endl;
 			}
 
 			if( i%10 == 0 )
@@ -711,11 +711,11 @@ void IfcPPReaderSTEP::readEntityArguments( const IfcPPModel::IfcPPSchemaVersion&
 void IfcPPReaderSTEP::readData( std::string& read_in, shared_ptr<IfcPPModel>& model )
 {
 	IfcPPModel::IfcPPSchemaVersion& file_schema_version = model->getIfcSchemaVersion();
-	std::map<int,shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
+	std::map<int, shared_ptr<IfcPPEntity> >& map_entities = model->m_map_entities;
 	readData( read_in, file_schema_version, map_entities );
 }
 
-void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int,shared_ptr<IfcPPEntity> >& target_map )
+void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSchemaVersion& ifc_version, std::map<int, shared_ptr<IfcPPEntity> >& target_map )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
@@ -779,7 +779,7 @@ void IfcPPReaderSTEP::readData(	std::string& read_in, const IfcPPModel::IfcPPSch
 
 		if( entity ) // skip aborted entities
 		{
-			target_map.insert( std::make_pair( entity->m_id, entity ) );
+			target_map.insert( std::make_pair( entity->m_entity_id, entity ) );
 		}
 	}
 

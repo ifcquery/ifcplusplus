@@ -44,7 +44,7 @@ bool CmdRemoveSelectedObjects::doCmd()
 		SceneGraphUtils::removeChildren( grp );
 
 		// TODO: remove also from ifc model
-		m_removed_objects[entity->m_id] = entity;
+		m_removed_objects[entity->m_entity_id] = entity;
 	}
 	m_system->clearSelection();
 

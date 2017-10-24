@@ -26,7 +26,7 @@
 
 // ENTITY IfcDistributionChamberElementType 
 IfcDistributionChamberElementType::IfcDistributionChamberElementType() {}
-IfcDistributionChamberElementType::IfcDistributionChamberElementType( int id ) { m_id = id; }
+IfcDistributionChamberElementType::IfcDistributionChamberElementType( int id ) { m_entity_id = id; }
 IfcDistributionChamberElementType::~IfcDistributionChamberElementType() {}
 shared_ptr<IfcPPObject> IfcDistributionChamberElementType::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -67,10 +67,10 @@ shared_ptr<IfcPPObject> IfcDistributionChamberElementType::getDeepCopy( IfcPPCop
 }
 void IfcDistributionChamberElementType::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCDISTRIBUTIONCHAMBERELEMENTTYPE" << "(";
+	stream << "#" << m_entity_id << "= IFCDISTRIBUTIONCHAMBERELEMENTTYPE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -89,12 +89,12 @@ void IfcDistributionChamberElementType::getStepLine( std::stringstream& stream )
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDistributionChamberElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcDistributionChamberElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDistributionChamberElementType::toString() const { return L"IfcDistributionChamberElementType"; }
 void IfcDistributionChamberElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionChamberElementType, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionChamberElementType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

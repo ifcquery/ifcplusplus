@@ -15,7 +15,7 @@
 
 // ENTITY IfcSphere 
 IfcSphere::IfcSphere() {}
-IfcSphere::IfcSphere( int id ) { m_id = id; }
+IfcSphere::IfcSphere( int id ) { m_entity_id = id; }
 IfcSphere::~IfcSphere() {}
 shared_ptr<IfcPPObject> IfcSphere::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcSphere::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcSphere::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSPHERE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCSPHERE" << "(";
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSphere::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSphere::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSphere::toString() const { return L"IfcSphere"; }
 void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphere, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphere, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }

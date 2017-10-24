@@ -16,7 +16,7 @@
 
 // ENTITY IfcTableColumn 
 IfcTableColumn::IfcTableColumn() {}
-IfcTableColumn::IfcTableColumn( int id ) { m_id = id; }
+IfcTableColumn::IfcTableColumn( int id ) { m_entity_id = id; }
 IfcTableColumn::~IfcTableColumn() {}
 shared_ptr<IfcPPObject> IfcTableColumn::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,7 +30,7 @@ shared_ptr<IfcPPObject> IfcTableColumn::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTableColumn::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTABLECOLUMN" << "(";
+	stream << "#" << m_entity_id << "= IFCTABLECOLUMN" << "(";
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
@@ -39,15 +39,15 @@ void IfcTableColumn::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ReferencePath ) { stream << "#" << m_ReferencePath->m_id; } else { stream << "$"; }
+	if( m_ReferencePath ) { stream << "#" << m_ReferencePath->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTableColumn::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTableColumn::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTableColumn::toString() const { return L"IfcTableColumn"; }
 void IfcTableColumn::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableColumn, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableColumn, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );

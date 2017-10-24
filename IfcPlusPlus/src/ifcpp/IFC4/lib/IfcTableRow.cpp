@@ -13,7 +13,7 @@
 
 // ENTITY IfcTableRow 
 IfcTableRow::IfcTableRow() {}
-IfcTableRow::IfcTableRow( int id ) { m_id = id; }
+IfcTableRow::IfcTableRow( int id ) { m_entity_id = id; }
 IfcTableRow::~IfcTableRow() {}
 shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,7 +31,7 @@ shared_ptr<IfcPPObject> IfcTableRow::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcTableRow::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTABLEROW" << "(";
+	stream << "#" << m_entity_id << "= IFCTABLEROW" << "(";
 	stream << "(";
 	for( size_t ii = 0; ii < m_RowCells.size(); ++ii )
 	{
@@ -54,12 +54,12 @@ void IfcTableRow::getStepLine( std::stringstream& stream ) const
 	if( m_IsHeading ) { m_IsHeading->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTableRow::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTableRow::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTableRow::toString() const { return L"IfcTableRow"; }
 void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readSelectList( args[0], m_RowCells, map );
 	m_IsHeading = IfcBoolean::createObjectFromSTEP( args[1], map );
 }

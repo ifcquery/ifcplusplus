@@ -15,7 +15,7 @@
 
 // ENTITY IfcLagTime 
 IfcLagTime::IfcLagTime() {}
-IfcLagTime::IfcLagTime( int id ) { m_id = id; }
+IfcLagTime::IfcLagTime( int id ) { m_entity_id = id; }
 IfcLagTime::~IfcLagTime() {}
 shared_ptr<IfcPPObject> IfcLagTime::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,7 +29,7 @@ shared_ptr<IfcPPObject> IfcLagTime::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcLagTime::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLAGTIME" << "(";
+	stream << "#" << m_entity_id << "= IFCLAGTIME" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
@@ -41,12 +41,12 @@ void IfcLagTime::getStepLine( std::stringstream& stream ) const
 	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLagTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLagTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLagTime::toString() const { return L"IfcLagTime"; }
 void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );

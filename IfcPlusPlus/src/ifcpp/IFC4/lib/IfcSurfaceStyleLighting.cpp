@@ -12,7 +12,7 @@
 
 // ENTITY IfcSurfaceStyleLighting 
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting() {}
-IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_id = id; }
+IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_entity_id = id; }
 IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() {}
 shared_ptr<IfcPPObject> IfcSurfaceStyleLighting::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -25,22 +25,22 @@ shared_ptr<IfcPPObject> IfcSurfaceStyleLighting::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACESTYLELIGHTING" << "(";
-	if( m_DiffuseTransmissionColour ) { stream << "#" << m_DiffuseTransmissionColour->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSURFACESTYLELIGHTING" << "(";
+	if( m_DiffuseTransmissionColour ) { stream << "#" << m_DiffuseTransmissionColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_DiffuseReflectionColour ) { stream << "#" << m_DiffuseReflectionColour->m_id; } else { stream << "$"; }
+	if( m_DiffuseReflectionColour ) { stream << "#" << m_DiffuseReflectionColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_TransmissionColour ) { stream << "#" << m_TransmissionColour->m_id; } else { stream << "$"; }
+	if( m_TransmissionColour ) { stream << "#" << m_TransmissionColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ReflectanceColour ) { stream << "#" << m_ReflectanceColour->m_id; } else { stream << "$"; }
+	if( m_ReflectanceColour ) { stream << "#" << m_ReflectanceColour->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleLighting::toString() const { return L"IfcSurfaceStyleLighting"; }
 void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_DiffuseTransmissionColour, map );
 	readEntityReference( args[1], m_DiffuseReflectionColour, map );
 	readEntityReference( args[2], m_TransmissionColour, map );

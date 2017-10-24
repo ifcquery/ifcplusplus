@@ -19,7 +19,7 @@
 
 // ENTITY IfcBSplineSurfaceWithKnots 
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots() {}
-IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_id = id; }
+IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
 IfcBSplineSurfaceWithKnots::~IfcBSplineSurfaceWithKnots() {}
 shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -81,7 +81,7 @@ shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy( IfcPPCopyOption
 }
 void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBSPLINESURFACEWITHKNOTS" << "(";
+	stream << "#" << m_entity_id << "= IFCBSPLINESURFACEWITHKNOTS" << "(";
 	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "*"; }
@@ -107,12 +107,12 @@ void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurfaceWithKnots::toString() const { return L"IfcBSplineSurfaceWithKnots"; }
 void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );

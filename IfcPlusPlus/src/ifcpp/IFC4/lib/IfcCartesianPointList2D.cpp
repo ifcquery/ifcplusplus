@@ -14,7 +14,7 @@
 
 // ENTITY IfcCartesianPointList2D 
 IfcCartesianPointList2D::IfcCartesianPointList2D() {}
-IfcCartesianPointList2D::IfcCartesianPointList2D( int id ) { m_id = id; }
+IfcCartesianPointList2D::IfcCartesianPointList2D( int id ) { m_entity_id = id; }
 IfcCartesianPointList2D::~IfcCartesianPointList2D() {}
 shared_ptr<IfcPPObject> IfcCartesianPointList2D::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -37,16 +37,16 @@ shared_ptr<IfcPPObject> IfcCartesianPointList2D::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcCartesianPointList2D::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCARTESIANPOINTLIST2D" << "(";
+	stream << "#" << m_entity_id << "= IFCCARTESIANPOINTLIST2D" << "(";
 	writeNumericTypeList2D( stream, m_CoordList );
 	stream << ");";
 }
-void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPointList2D::toString() const { return L"IfcCartesianPointList2D"; }
 void IfcCartesianPointList2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList2D, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList2D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readTypeOfRealList2D( args[0], m_CoordList );
 }
 void IfcCartesianPointList2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

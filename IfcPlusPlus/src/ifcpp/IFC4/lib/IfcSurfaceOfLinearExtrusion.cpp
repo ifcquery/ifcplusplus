@@ -17,7 +17,7 @@
 
 // ENTITY IfcSurfaceOfLinearExtrusion 
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion() {}
-IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion( int id ) { m_id = id; }
+IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion( int id ) { m_entity_id = id; }
 IfcSurfaceOfLinearExtrusion::~IfcSurfaceOfLinearExtrusion() {}
 shared_ptr<IfcPPObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -34,22 +34,22 @@ shared_ptr<IfcPPObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( IfcPPCopyOptio
 }
 void IfcSurfaceOfLinearExtrusion::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACEOFLINEAREXTRUSION" << "(";
-	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCSURFACEOFLINEAREXTRUSION" << "(";
+	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_id; } else { stream << "$"; }
+	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceOfLinearExtrusion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceOfLinearExtrusion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceOfLinearExtrusion::toString() const { return L"IfcSurfaceOfLinearExtrusion"; }
 void IfcSurfaceOfLinearExtrusion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceOfLinearExtrusion, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceOfLinearExtrusion, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptCurve, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_ExtrudedDirection, map );

@@ -17,7 +17,7 @@
 
 // ENTITY IfcRelFlowControlElements 
 IfcRelFlowControlElements::IfcRelFlowControlElements() {}
-IfcRelFlowControlElements::IfcRelFlowControlElements( int id ) { m_id = id; }
+IfcRelFlowControlElements::IfcRelFlowControlElements( int id ) { m_entity_id = id; }
 IfcRelFlowControlElements::~IfcRelFlowControlElements() {}
 shared_ptr<IfcPPObject> IfcRelFlowControlElements::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -47,10 +47,10 @@ shared_ptr<IfcPPObject> IfcRelFlowControlElements::getDeepCopy( IfcPPCopyOptions
 }
 void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELFLOWCONTROLELEMENTS" << "(";
+	stream << "#" << m_entity_id << "= IFCRELFLOWCONTROLELEMENTS" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -58,15 +58,15 @@ void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeEntityList( stream, m_RelatedControlElements );
 	stream << ",";
-	if( m_RelatingFlowElement ) { stream << "#" << m_RelatingFlowElement->m_id; } else { stream << "$"; }
+	if( m_RelatingFlowElement ) { stream << "#" << m_RelatingFlowElement->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelFlowControlElements::toString() const { return L"IfcRelFlowControlElements"; }
 void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

@@ -14,7 +14,7 @@
 
 // ENTITY IfcFacetedBrepWithVoids 
 IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids() {}
-IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids( int id ) { m_id = id; }
+IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids( int id ) { m_entity_id = id; }
 IfcFacetedBrepWithVoids::~IfcFacetedBrepWithVoids() {}
 shared_ptr<IfcPPObject> IfcFacetedBrepWithVoids::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -32,18 +32,18 @@ shared_ptr<IfcPPObject> IfcFacetedBrepWithVoids::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcFacetedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFACETEDBREPWITHVOIDS" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCFACETEDBREPWITHVOIDS" << "(";
+	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	writeEntityList( stream, m_Voids );
 	stream << ");";
 }
-void IfcFacetedBrepWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFacetedBrepWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFacetedBrepWithVoids::toString() const { return L"IfcFacetedBrepWithVoids"; }
 void IfcFacetedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFacetedBrepWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFacetedBrepWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 	readEntityReferenceList( args[1], m_Voids, map );
 }

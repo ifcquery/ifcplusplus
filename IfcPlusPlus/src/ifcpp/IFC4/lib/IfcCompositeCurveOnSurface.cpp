@@ -15,7 +15,7 @@
 
 // ENTITY IfcCompositeCurveOnSurface 
 IfcCompositeCurveOnSurface::IfcCompositeCurveOnSurface() {}
-IfcCompositeCurveOnSurface::IfcCompositeCurveOnSurface( int id ) { m_id = id; }
+IfcCompositeCurveOnSurface::IfcCompositeCurveOnSurface( int id ) { m_entity_id = id; }
 IfcCompositeCurveOnSurface::~IfcCompositeCurveOnSurface() {}
 shared_ptr<IfcPPObject> IfcCompositeCurveOnSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,18 +33,18 @@ shared_ptr<IfcPPObject> IfcCompositeCurveOnSurface::getDeepCopy( IfcPPCopyOption
 }
 void IfcCompositeCurveOnSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCCOMPOSITECURVEONSURFACE" << "(";
+	stream << "#" << m_entity_id << "= IFCCOMPOSITECURVEONSURFACE" << "(";
 	writeEntityList( stream, m_Segments );
 	stream << ",";
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ");";
 }
-void IfcCompositeCurveOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcCompositeCurveOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeCurveOnSurface::toString() const { return L"IfcCompositeCurveOnSurface"; }
 void IfcCompositeCurveOnSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurveOnSurface, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurveOnSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[1], map );
 }

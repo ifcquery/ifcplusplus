@@ -13,7 +13,7 @@
 
 // ENTITY IfcFailureConnectionCondition 
 IfcFailureConnectionCondition::IfcFailureConnectionCondition() {}
-IfcFailureConnectionCondition::IfcFailureConnectionCondition( int id ) { m_id = id; }
+IfcFailureConnectionCondition::IfcFailureConnectionCondition( int id ) { m_entity_id = id; }
 IfcFailureConnectionCondition::~IfcFailureConnectionCondition() {}
 shared_ptr<IfcPPObject> IfcFailureConnectionCondition::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,7 +29,7 @@ shared_ptr<IfcPPObject> IfcFailureConnectionCondition::getDeepCopy( IfcPPCopyOpt
 }
 void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCFAILURECONNECTIONCONDITION" << "(";
+	stream << "#" << m_entity_id << "= IFCFAILURECONNECTIONCONDITION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_TensionFailureX ) { m_TensionFailureX->getStepParameter( stream ); } else { stream << "$"; }
@@ -45,12 +45,12 @@ void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) con
 	if( m_CompressionFailureZ ) { m_CompressionFailureZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFailureConnectionCondition::toString() const { return L"IfcFailureConnectionCondition"; }
 void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFailureConnectionCondition, expecting 7, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFailureConnectionCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TensionFailureX = IfcForceMeasure::createObjectFromSTEP( args[1], map );
 	m_TensionFailureY = IfcForceMeasure::createObjectFromSTEP( args[2], map );

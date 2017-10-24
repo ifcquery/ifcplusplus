@@ -19,7 +19,7 @@
 
 // ENTITY IfcRelAssignsToActor 
 IfcRelAssignsToActor::IfcRelAssignsToActor() {}
-IfcRelAssignsToActor::IfcRelAssignsToActor( int id ) { m_id = id; }
+IfcRelAssignsToActor::IfcRelAssignsToActor( int id ) { m_entity_id = id; }
 IfcRelAssignsToActor::~IfcRelAssignsToActor() {}
 shared_ptr<IfcPPObject> IfcRelAssignsToActor::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -51,10 +51,10 @@ shared_ptr<IfcPPObject> IfcRelAssignsToActor::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcRelAssignsToActor::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELASSIGNSTOACTOR" << "(";
+	stream << "#" << m_entity_id << "= IFCRELASSIGNSTOACTOR" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -64,17 +64,17 @@ void IfcRelAssignsToActor::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_RelatingActor ) { stream << "#" << m_RelatingActor->m_id; } else { stream << "$"; }
+	if( m_RelatingActor ) { stream << "#" << m_RelatingActor->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ActingRole ) { stream << "#" << m_ActingRole->m_id; } else { stream << "$"; }
+	if( m_ActingRole ) { stream << "#" << m_ActingRole->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssignsToActor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelAssignsToActor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToActor::toString() const { return L"IfcRelAssignsToActor"; }
 void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToActor, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToActor, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

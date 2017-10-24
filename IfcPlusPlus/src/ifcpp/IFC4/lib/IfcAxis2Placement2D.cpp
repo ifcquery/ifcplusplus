@@ -15,7 +15,7 @@
 
 // ENTITY IfcAxis2Placement2D 
 IfcAxis2Placement2D::IfcAxis2Placement2D() {}
-IfcAxis2Placement2D::IfcAxis2Placement2D( int id ) { m_id = id; }
+IfcAxis2Placement2D::IfcAxis2Placement2D( int id ) { m_entity_id = id; }
 IfcAxis2Placement2D::~IfcAxis2Placement2D() {}
 shared_ptr<IfcPPObject> IfcAxis2Placement2D::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcAxis2Placement2D::getDeepCopy( IfcPPCopyOptions& opti
 }
 void IfcAxis2Placement2D::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCAXIS2PLACEMENT2D" << "(";
-	if( m_Location ) { stream << "#" << m_Location->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCAXIS2PLACEMENT2D" << "(";
+	if( m_Location ) { stream << "#" << m_Location->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_id; } else { stream << "$"; }
+	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAxis2Placement2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcAxis2Placement2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAxis2Placement2D::toString() const { return L"IfcAxis2Placement2D"; }
 void IfcAxis2Placement2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAxis2Placement2D, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAxis2Placement2D, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Location, map );
 	readEntityReference( args[1], m_RefDirection, map );
 }

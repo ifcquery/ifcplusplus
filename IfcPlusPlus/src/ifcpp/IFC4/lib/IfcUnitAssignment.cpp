@@ -12,7 +12,7 @@
 
 // ENTITY IfcUnitAssignment 
 IfcUnitAssignment::IfcUnitAssignment() {}
-IfcUnitAssignment::IfcUnitAssignment( int id ) { m_id = id; }
+IfcUnitAssignment::IfcUnitAssignment( int id ) { m_entity_id = id; }
 IfcUnitAssignment::~IfcUnitAssignment() {}
 shared_ptr<IfcPPObject> IfcUnitAssignment::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,7 +29,7 @@ shared_ptr<IfcPPObject> IfcUnitAssignment::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcUnitAssignment::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCUNITASSIGNMENT" << "(";
+	stream << "#" << m_entity_id << "= IFCUNITASSIGNMENT" << "(";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Units.size(); ++ii )
 	{
@@ -50,12 +50,12 @@ void IfcUnitAssignment::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcUnitAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcUnitAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcUnitAssignment::toString() const { return L"IfcUnitAssignment"; }
 void IfcUnitAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcUnitAssignment, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcUnitAssignment, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readSelectList( args[0], m_Units, map );
 }
 void IfcUnitAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

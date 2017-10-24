@@ -13,7 +13,7 @@
 
 // ENTITY IfcTopologicalRepresentationItem 
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem() {}
-IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int id ) { m_id = id; }
+IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int id ) { m_entity_id = id; }
 IfcTopologicalRepresentationItem::~IfcTopologicalRepresentationItem() {}
 shared_ptr<IfcPPObject> IfcTopologicalRepresentationItem::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -22,10 +22,10 @@ shared_ptr<IfcPPObject> IfcTopologicalRepresentationItem::getDeepCopy( IfcPPCopy
 }
 void IfcTopologicalRepresentationItem::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCTOPOLOGICALREPRESENTATIONITEM" << "(";
+	stream << "#" << m_entity_id << "= IFCTOPOLOGICALREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
-void IfcTopologicalRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcTopologicalRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTopologicalRepresentationItem::toString() const { return L"IfcTopologicalRepresentationItem"; }
 void IfcTopologicalRepresentationItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {

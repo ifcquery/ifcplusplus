@@ -20,7 +20,7 @@
 
 // ENTITY IfcPropertyReferenceValue 
 IfcPropertyReferenceValue::IfcPropertyReferenceValue() {}
-IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_id = id; }
+IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_entity_id = id; }
 IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
 shared_ptr<IfcPPObject> IfcPropertyReferenceValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -33,7 +33,7 @@ shared_ptr<IfcPPObject> IfcPropertyReferenceValue::getDeepCopy( IfcPPCopyOptions
 }
 void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPROPERTYREFERENCEVALUE" << "(";
+	stream << "#" << m_entity_id << "= IFCPROPERTYREFERENCEVALUE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
@@ -43,12 +43,12 @@ void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 	if( m_PropertyReference ) { m_PropertyReference->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyReferenceValue::toString() const { return L"IfcPropertyReferenceValue"; }
 void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UsageName = IfcText::createObjectFromSTEP( args[2], map );

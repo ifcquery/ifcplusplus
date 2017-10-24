@@ -15,7 +15,7 @@
 
 // ENTITY IfcIndexedPolygonalFaceWithVoids 
 IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids() {}
-IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids( int id ) { m_id = id; }
+IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids( int id ) { m_entity_id = id; }
 IfcIndexedPolygonalFaceWithVoids::~IfcIndexedPolygonalFaceWithVoids() {}
 shared_ptr<IfcPPObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -46,7 +46,7 @@ shared_ptr<IfcPPObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( IfcPPCopy
 }
 void IfcIndexedPolygonalFaceWithVoids::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCINDEXEDPOLYGONALFACEWITHVOIDS" << "(";
+	stream << "#" << m_entity_id << "= IFCINDEXEDPOLYGONALFACEWITHVOIDS" << "(";
 	stream << "(";
 	for( size_t ii = 0; ii < m_CoordIndex.size(); ++ii )
 	{
@@ -94,12 +94,12 @@ void IfcIndexedPolygonalFaceWithVoids::getStepLine( std::stringstream& stream ) 
 	stream << ")"; 
 	stream << ");";
 }
-void IfcIndexedPolygonalFaceWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcIndexedPolygonalFaceWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolygonalFaceWithVoids::toString() const { return L"IfcIndexedPolygonalFaceWithVoids"; }
 void IfcIndexedPolygonalFaceWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFaceWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFaceWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readTypeList( args[0], m_CoordIndex, map );
 	readEntityReferenceList2D( args[1], m_InnerCoordIndices, map );
 }

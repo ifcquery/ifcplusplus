@@ -16,7 +16,7 @@
 
 // ENTITY IfcEdgeCurve 
 IfcEdgeCurve::IfcEdgeCurve() {}
-IfcEdgeCurve::IfcEdgeCurve( int id ) { m_id = id; }
+IfcEdgeCurve::IfcEdgeCurve( int id ) { m_entity_id = id; }
 IfcEdgeCurve::~IfcEdgeCurve() {}
 shared_ptr<IfcPPObject> IfcEdgeCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,22 +29,22 @@ shared_ptr<IfcPPObject> IfcEdgeCurve::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCEDGECURVE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_id; } else { stream << "*"; }
+	stream << "#" << m_entity_id << "= IFCEDGECURVE" << "(";
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeGeometry ) { stream << "#" << m_EdgeGeometry->m_id; } else { stream << "$"; }
+	if( m_EdgeGeometry ) { stream << "#" << m_EdgeGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEdgeCurve::toString() const { return L"IfcEdgeCurve"; }
 void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdgeCurve, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdgeCurve, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeGeometry, map );

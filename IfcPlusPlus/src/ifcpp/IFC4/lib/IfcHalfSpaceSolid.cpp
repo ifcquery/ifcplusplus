@@ -15,7 +15,7 @@
 
 // ENTITY IfcHalfSpaceSolid 
 IfcHalfSpaceSolid::IfcHalfSpaceSolid() {}
-IfcHalfSpaceSolid::IfcHalfSpaceSolid( int id ) { m_id = id; }
+IfcHalfSpaceSolid::IfcHalfSpaceSolid( int id ) { m_entity_id = id; }
 IfcHalfSpaceSolid::~IfcHalfSpaceSolid() {}
 shared_ptr<IfcPPObject> IfcHalfSpaceSolid::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcHalfSpaceSolid::getDeepCopy( IfcPPCopyOptions& option
 }
 void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCHALFSPACESOLID" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCHALFSPACESOLID" << "(";
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcHalfSpaceSolid::toString() const { return L"IfcHalfSpaceSolid"; }
 void IfcHalfSpaceSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcHalfSpaceSolid, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcHalfSpaceSolid, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1], map );
 }

@@ -17,7 +17,7 @@
 
 // ENTITY IfcRecurrencePattern 
 IfcRecurrencePattern::IfcRecurrencePattern() {}
-IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_id = id; }
+IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_entity_id = id; }
 IfcRecurrencePattern::~IfcRecurrencePattern() {}
 shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -62,7 +62,7 @@ shared_ptr<IfcPPObject> IfcRecurrencePattern::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRECURRENCEPATTERN" << "(";
+	stream << "#" << m_entity_id << "= IFCRECURRENCEPATTERN" << "(";
 	if( m_RecurrenceType ) { m_RecurrenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_DayComponent );
@@ -80,12 +80,12 @@ void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_TimePeriods );
 	stream << ");";
 }
-void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRecurrencePattern::toString() const { return L"IfcRecurrencePattern"; }
 void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_RecurrenceType = IfcRecurrenceTypeEnum::createObjectFromSTEP( args[0], map );
 	readTypeOfIntList( args[1], m_DayComponent );
 	readTypeOfIntList( args[2], m_WeekdayComponent );

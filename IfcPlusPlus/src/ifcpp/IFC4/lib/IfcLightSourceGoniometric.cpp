@@ -21,7 +21,7 @@
 
 // ENTITY IfcLightSourceGoniometric 
 IfcLightSourceGoniometric::IfcLightSourceGoniometric() {}
-IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_id = id; }
+IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_entity_id = id; }
 IfcLightSourceGoniometric::~IfcLightSourceGoniometric() {}
 shared_ptr<IfcPPObject> IfcLightSourceGoniometric::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -40,18 +40,18 @@ shared_ptr<IfcPPObject> IfcLightSourceGoniometric::getDeepCopy( IfcPPCopyOptions
 }
 void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTSOURCEGONIOMETRIC" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTSOURCEGONIOMETRIC" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ColourAppearance ) { stream << "#" << m_ColourAppearance->m_id; } else { stream << "$"; }
+	if( m_ColourAppearance ) { stream << "#" << m_ColourAppearance->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ColourTemperature ) { m_ColourTemperature->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -62,12 +62,12 @@ void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 	if( m_LightDistributionDataSource ) { m_LightDistributionDataSource->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceGoniometric::toString() const { return L"IfcLightSourceGoniometric"; }
 void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );

@@ -13,7 +13,7 @@
 
 // ENTITY IfcIrregularTimeSeriesValue 
 IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue() {}
-IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int id ) { m_id = id; }
+IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int id ) { m_entity_id = id; }
 IfcIrregularTimeSeriesValue::~IfcIrregularTimeSeriesValue() {}
 shared_ptr<IfcPPObject> IfcIrregularTimeSeriesValue::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,7 +31,7 @@ shared_ptr<IfcPPObject> IfcIrregularTimeSeriesValue::getDeepCopy( IfcPPCopyOptio
 }
 void IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCIRREGULARTIMESERIESVALUE" << "(";
+	stream << "#" << m_entity_id << "= IFCIRREGULARTIMESERIESVALUE" << "(";
 	if( m_TimeStamp ) { m_TimeStamp->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
@@ -54,12 +54,12 @@ void IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIrregularTimeSeriesValue::toString() const { return L"IfcIrregularTimeSeriesValue"; }
 void IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_TimeStamp = IfcDateTime::createObjectFromSTEP( args[0], map );
 	readSelectList( args[1], m_ListValues, map );
 }

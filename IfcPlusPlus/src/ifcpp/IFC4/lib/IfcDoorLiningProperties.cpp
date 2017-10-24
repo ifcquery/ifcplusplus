@@ -24,7 +24,7 @@
 
 // ENTITY IfcDoorLiningProperties 
 IfcDoorLiningProperties::IfcDoorLiningProperties() {}
-IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_id = id; }
+IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_entity_id = id; }
 IfcDoorLiningProperties::~IfcDoorLiningProperties() {}
 shared_ptr<IfcPPObject> IfcDoorLiningProperties::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -58,10 +58,10 @@ shared_ptr<IfcPPObject> IfcDoorLiningProperties::getDeepCopy( IfcPPCopyOptions& 
 }
 void IfcDoorLiningProperties::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCDOORLININGPROPERTIES" << "(";
+	stream << "#" << m_entity_id << "= IFCDOORLININGPROPERTIES" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -87,19 +87,19 @@ void IfcDoorLiningProperties::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_CasingDepth ) { m_CasingDepth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_id; } else { stream << "$"; }
+	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_LiningToPanelOffsetX ) { m_LiningToPanelOffsetX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LiningToPanelOffsetY ) { m_LiningToPanelOffsetY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDoorLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcDoorLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDoorLiningProperties::toString() const { return L"IfcDoorLiningProperties"; }
 void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorLiningProperties, expecting 17, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorLiningProperties, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

@@ -17,7 +17,7 @@
 
 // ENTITY IfcBSplineCurve 
 IfcBSplineCurve::IfcBSplineCurve() {}
-IfcBSplineCurve::IfcBSplineCurve( int id ) { m_id = id; }
+IfcBSplineCurve::IfcBSplineCurve( int id ) { m_entity_id = id; }
 IfcBSplineCurve::~IfcBSplineCurve() {}
 shared_ptr<IfcPPObject> IfcBSplineCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -38,7 +38,7 @@ shared_ptr<IfcPPObject> IfcBSplineCurve::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCBSPLINECURVE" << "(";
+	stream << "#" << m_entity_id << "= IFCBSPLINECURVE" << "(";
 	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
@@ -50,12 +50,12 @@ void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineCurve::toString() const { return L"IfcBSplineCurve"; }
 void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Degree = IfcInteger::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map );

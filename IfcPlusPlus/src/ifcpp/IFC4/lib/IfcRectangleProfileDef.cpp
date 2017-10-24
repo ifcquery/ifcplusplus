@@ -17,7 +17,7 @@
 
 // ENTITY IfcRectangleProfileDef 
 IfcRectangleProfileDef::IfcRectangleProfileDef() {}
-IfcRectangleProfileDef::IfcRectangleProfileDef( int id ) { m_id = id; }
+IfcRectangleProfileDef::IfcRectangleProfileDef( int id ) { m_entity_id = id; }
 IfcRectangleProfileDef::~IfcRectangleProfileDef() {}
 shared_ptr<IfcPPObject> IfcRectangleProfileDef::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -31,24 +31,24 @@ shared_ptr<IfcPPObject> IfcRectangleProfileDef::getDeepCopy( IfcPPCopyOptions& o
 }
 void IfcRectangleProfileDef::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRECTANGLEPROFILEDEF" << "(";
+	stream << "#" << m_entity_id << "= IFCRECTANGLEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangleProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRectangleProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangleProfileDef::toString() const { return L"IfcRectangleProfileDef"; }
 void IfcRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangleProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangleProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );

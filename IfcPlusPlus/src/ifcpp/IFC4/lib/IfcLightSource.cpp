@@ -16,7 +16,7 @@
 
 // ENTITY IfcLightSource 
 IfcLightSource::IfcLightSource() {}
-IfcLightSource::IfcLightSource( int id ) { m_id = id; }
+IfcLightSource::IfcLightSource( int id ) { m_entity_id = id; }
 IfcLightSource::~IfcLightSource() {}
 shared_ptr<IfcPPObject> IfcLightSource::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -29,22 +29,22 @@ shared_ptr<IfcPPObject> IfcLightSource::getDeepCopy( IfcPPCopyOptions& options )
 }
 void IfcLightSource::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCLIGHTSOURCE" << "(";
+	stream << "#" << m_entity_id << "= IFCLIGHTSOURCE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_id; } else { stream << "$"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcLightSource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSource::toString() const { return L"IfcLightSource"; }
 void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );

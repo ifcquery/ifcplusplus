@@ -19,7 +19,7 @@
 
 // ENTITY IfcRelAssociatesMaterial 
 IfcRelAssociatesMaterial::IfcRelAssociatesMaterial() {}
-IfcRelAssociatesMaterial::IfcRelAssociatesMaterial( int id ) { m_id = id; }
+IfcRelAssociatesMaterial::IfcRelAssociatesMaterial( int id ) { m_entity_id = id; }
 IfcRelAssociatesMaterial::~IfcRelAssociatesMaterial() {}
 shared_ptr<IfcPPObject> IfcRelAssociatesMaterial::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -49,10 +49,10 @@ shared_ptr<IfcPPObject> IfcRelAssociatesMaterial::getDeepCopy( IfcPPCopyOptions&
 }
 void IfcRelAssociatesMaterial::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCRELASSOCIATESMATERIAL" << "(";
+	stream << "#" << m_entity_id << "= IFCRELASSOCIATESMATERIAL" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
@@ -80,12 +80,12 @@ void IfcRelAssociatesMaterial::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingMaterial ) { m_RelatingMaterial->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcRelAssociatesMaterial::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcRelAssociatesMaterial::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesMaterial::toString() const { return L"IfcRelAssociatesMaterial"; }
 void IfcRelAssociatesMaterial::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociatesMaterial, expecting 6, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociatesMaterial, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

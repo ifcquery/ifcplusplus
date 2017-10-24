@@ -15,7 +15,7 @@
 
 // ENTITY IfcSweptSurface 
 IfcSweptSurface::IfcSweptSurface() {}
-IfcSweptSurface::IfcSweptSurface( int id ) { m_id = id; }
+IfcSweptSurface::IfcSweptSurface( int id ) { m_entity_id = id; }
 IfcSweptSurface::~IfcSweptSurface() {}
 shared_ptr<IfcPPObject> IfcSweptSurface::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -30,18 +30,18 @@ shared_ptr<IfcPPObject> IfcSweptSurface::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcSweptSurface::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSWEPTSURFACE" << "(";
-	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCSWEPTSURFACE" << "(";
+	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_id; } else { stream << "$"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSweptSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptSurface::toString() const { return L"IfcSweptSurface"; }
 void IfcSweptSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptSurface, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptCurve, map );
 	readEntityReference( args[1], m_Position, map );
 }

@@ -14,7 +14,7 @@
 
 // ENTITY IfcSurfaceReinforcementArea 
 IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea() {}
-IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea( int id ) { m_id = id; }
+IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea( int id ) { m_entity_id = id; }
 IfcSurfaceReinforcementArea::~IfcSurfaceReinforcementArea() {}
 shared_ptr<IfcPPObject> IfcSurfaceReinforcementArea::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -41,7 +41,7 @@ shared_ptr<IfcPPObject> IfcSurfaceReinforcementArea::getDeepCopy( IfcPPCopyOptio
 }
 void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCSURFACEREINFORCEMENTAREA" << "(";
+	stream << "#" << m_entity_id << "= IFCSURFACEREINFORCEMENTAREA" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_SurfaceReinforcement1 );
@@ -51,12 +51,12 @@ void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 	if( m_ShearReinforcement ) { m_ShearReinforcement->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceReinforcementArea::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcSurfaceReinforcementArea::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceReinforcementArea::toString() const { return L"IfcSurfaceReinforcementArea"; }
 void IfcSurfaceReinforcementArea::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceReinforcementArea, expecting 4, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceReinforcementArea, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readTypeOfRealList( args[1], m_SurfaceReinforcement1 );
 	readTypeOfRealList( args[2], m_SurfaceReinforcement2 );

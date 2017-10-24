@@ -14,7 +14,7 @@
 
 // ENTITY IfcManifoldSolidBrep 
 IfcManifoldSolidBrep::IfcManifoldSolidBrep() {}
-IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_id = id; }
+IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_entity_id = id; }
 IfcManifoldSolidBrep::~IfcManifoldSolidBrep() {}
 shared_ptr<IfcPPObject> IfcManifoldSolidBrep::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -24,16 +24,16 @@ shared_ptr<IfcPPObject> IfcManifoldSolidBrep::getDeepCopy( IfcPPCopyOptions& opt
 }
 void IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCMANIFOLDSOLIDBREP" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCMANIFOLDSOLIDBREP" << "(";
+	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcManifoldSolidBrep::toString() const { return L"IfcManifoldSolidBrep"; }
 void IfcManifoldSolidBrep::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 }
 void IfcManifoldSolidBrep::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

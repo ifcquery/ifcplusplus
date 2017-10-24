@@ -15,7 +15,7 @@
 
 // ENTITY IfcPointOnCurve 
 IfcPointOnCurve::IfcPointOnCurve() {}
-IfcPointOnCurve::IfcPointOnCurve( int id ) { m_id = id; }
+IfcPointOnCurve::IfcPointOnCurve( int id ) { m_entity_id = id; }
 IfcPointOnCurve::~IfcPointOnCurve() {}
 shared_ptr<IfcPPObject> IfcPointOnCurve::getDeepCopy( IfcPPCopyOptions& options )
 {
@@ -26,18 +26,18 @@ shared_ptr<IfcPPObject> IfcPointOnCurve::getDeepCopy( IfcPPCopyOptions& options 
 }
 void IfcPointOnCurve::getStepLine( std::stringstream& stream ) const
 {
-	stream << "#" << m_id << "= IFCPOINTONCURVE" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_id; } else { stream << "$"; }
+	stream << "#" << m_entity_id << "= IFCPOINTONCURVE" << "(";
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_PointParameter ) { m_PointParameter->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPointOnCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_id; }
+void IfcPointOnCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPointOnCurve::toString() const { return L"IfcPointOnCurve"; }
 void IfcPointOnCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPointOnCurve, expecting 2, having " << num_args << ". Entity ID: " << m_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPointOnCurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
 	m_PointParameter = IfcParameterValue::createObjectFromSTEP( args[1], map );
 }
