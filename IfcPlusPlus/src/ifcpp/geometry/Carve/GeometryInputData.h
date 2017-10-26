@@ -40,11 +40,14 @@ inline void premultMatrix( const carve::math::Matrix& matrix_to_append, carve::m
 	target_matrix = matrix_to_append*target_matrix;
 }
 
+/**
+*\brief Class TransformData: holds a matrix of a coordinate system and a pointer to the corresponding IFC placement entity
+*/
 class TransformData
 {
 public:
 	TransformData(){}
-	TransformData( const carve::math::Matrix& matrix, weak_ptr<IfcPPEntity>& placement_entity, int placement_id ) : m_placement_id( placement_id ), m_matrix(matrix), m_placement_entity(placement_entity)
+	TransformData( const carve::math::Matrix& matrix, weak_ptr<IfcPPEntity>& placement_entity, int placement_id ) : m_placement_entity_id( placement_id ), m_matrix(matrix), m_placement_entity(placement_entity)
 	{
 	}
 	TransformData( const shared_ptr<TransformData>& other )
@@ -53,7 +56,7 @@ public:
 		{
 			m_matrix = other->m_matrix;
 			m_placement_entity = other->m_placement_entity;
-			m_placement_id = other->m_placement_id;
+			m_placement_entity_id = other->m_placement_entity_id;
 		}
 	}
 	bool isSameTransform( shared_ptr<TransformData>& transform_data )
@@ -72,16 +75,16 @@ public:
 		}
 		return false;
 	}
-	int m_placement_id = -1;
+	
 	carve::math::Matrix		m_matrix;
 	weak_ptr<IfcPPEntity>	m_placement_entity;
+	int						m_placement_entity_id = -1;
 };
 
 class RepresentationData;
 class ProductShapeData;
 
 /**
-* 
 *\brief Class ItemShapeData: holds input data of one IFC geometric representation item.
 * Parent-child relationship of ItemShapeData, RepresentationData, ProductShapeData:
 *        ...
@@ -445,14 +448,15 @@ public:
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
 	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
 	bool												m_added_to_spatial_structure = false;
-	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
 	weak_ptr<ProductShapeData>							m_parent;
 	std::vector<shared_ptr<TransformData> >				m_vec_transforms;
 	
 protected:
+	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 
 public:
+	const std::vector<shared_ptr<ProductShapeData> >& getChildren() { return m_vec_children; }
 	shared_ptr<ProductShapeData> getDeepCopy()
 	{
 		shared_ptr<ProductShapeData> copy_data( new ProductShapeData() );
@@ -475,7 +479,7 @@ public:
 		{
 			if( transform )
 			{
-				shared_ptr<TransformData> transform_deep_copy( new TransformData( transform->m_matrix, transform->m_placement_entity, transform->m_placement_id ) );
+				shared_ptr<TransformData> transform_deep_copy( new TransformData( transform->m_matrix, transform->m_placement_entity, transform->m_placement_entity_id ) );
 				copy_data->m_vec_transforms.push_back( transform_deep_copy );
 			}
 		}
@@ -516,12 +520,31 @@ public:
 		m_vec_representations.clear();
 		m_added_to_spatial_structure = false;
 	}
+	
+	bool isContainedInParentsList( shared_ptr<ProductShapeData>& product_data_check )
+	{
+		if( !m_parent.expired() )
+		{
+			shared_ptr<ProductShapeData> product_data_parent( m_parent );
+			if( product_data_parent == product_data_check )
+			{
+				return true;
+			}
+			product_data_parent->isContainedInParentsList( product_data_check );
+		}
+		return false;
+	}
 
 	void addChildProduct( shared_ptr<ProductShapeData>& child_product, shared_ptr<ProductShapeData>& ptr_self )
 	{
 		if( ptr_self.get() != this )
 		{
-			std::cout << __FUNCTION__ << "ptr_self.get() != this" << std::endl;
+			std::cout << __FUNCTION__ << ": ptr_self.get() != this" << std::endl;
+		}
+		if( isContainedInParentsList( child_product ) )
+		{
+			std::cout << __FUNCTION__ << ": isContainedInParentsList" << std::endl;
+			return;
 		}
 		m_vec_children.push_back( child_product );
 		child_product->m_parent = ptr_self;
@@ -567,15 +590,22 @@ public:
 		m_vec_transforms.insert( m_vec_transforms.begin(), transform_data );
 	}
 
-	void applyPositionToProduct( const carve::math::Matrix& matrix )
+	void applyPositionToProduct( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
 	{
-		if( GeomUtils::isMatrixIdentity( matrix ) )
+		if( !matrix_identity_checked )
 		{
-			return;
+			if( GeomUtils::isMatrixIdentity( matrix ) )
+			{
+				return;
+			}
 		}
 		for( size_t i_item = 0; i_item < m_vec_representations.size(); ++i_item )
 		{
 			m_vec_representations[i_item]->applyPositionToRepresentation( matrix, true );
+		}
+		for( auto child_product_data : m_vec_children )
+		{
+			child_product_data->applyPositionToProduct( matrix, true );
 		}
 	}
 	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }

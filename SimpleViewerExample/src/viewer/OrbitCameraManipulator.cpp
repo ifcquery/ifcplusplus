@@ -373,11 +373,12 @@ bool OrbitCameraManipulator::intersectSceneRotateCenter( const osgGA::GUIEventAd
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
 
-	if( cam )
+	if( !cam )
 	{
-		iv.apply( *cam );
+		return false;
 	}
-
+	iv.apply( *cam );
+	
 	if( picker->containsIntersections() )
 	{
 #ifdef POLYTOPE_INTERSECTOR
@@ -408,72 +409,111 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 	}
 
 	osg::ref_ptr<osgUtil::LineSegmentIntersector> picker = new osgUtil::LineSegmentIntersector( osgUtil::Intersector::PROJECTION, ea.getXnormalized(),ea.getYnormalized() );
-	picker->setIntersectionLimit( osgUtil::Intersector::LIMIT_NEAREST );
 	osgUtil::IntersectionVisitor iv( picker.get() );
 	osg::Camera* cam = view->getCamera();
+	if( !cam )
+	{
+		return false;
+	}
 	iv.apply( *cam );
-
+	
 	bool intersection_geometry_found = false;
+	osgUtil::LineSegmentIntersector::Intersection closest_intersection;
+	int closest_intersection_nodepath_idx = 0;
+	double closest_intersection_distance = DBL_MAX;
+	
 	if( picker->containsIntersections() )
 	{
-#ifdef POLYTOPE_INTERSECTOR
-		osgUtil::PolytopeIntersector::Intersection intersection = picker->getFirstIntersection();
-#else
-		osgUtil::LineSegmentIntersector::Intersection intersection = picker->getFirstIntersection();
-#endif
-
-		osg::NodePath& nodePath = intersection.nodePath;
-		for( size_t i=0; i<nodePath.size(); ++i )
+		osgUtil::LineSegmentIntersector::Intersections& intersections = picker->getIntersections();
+		for( auto intersection : intersections )
 		{
-			osg::Node* node = nodePath[nodePath.size()-i-1];
-			const std::string node_name = node->getName();
-
-			m_pointer_intersection.set( intersection.getWorldIntersectPoint() );
-			intersection_geometry_found = true;
-
-			// check if picked object is a representation of an IfcProduct
-			if( node_name.length() == 0 ) continue;
-			if( node_name.at(0) != '#' ) continue;
-			if( node_name.compare( 0, 9, "intersect" ) == 0 ) continue;
-
-			osg::Group* group = dynamic_cast<osg::Group*>( node );
-			if( !group )
+			osg::NodePath& nodePath = intersection.nodePath;
+			for( size_t i = 0; i<nodePath.size(); ++i )
 			{
-				continue;
-			}
-			
-			// extract entity id
-			std::string node_name_id = node_name.substr( 1 );
-			size_t last_index = node_name_id.find_first_not_of("0123456789");
-			std::string id_str = node_name_id.substr( 0, last_index );
-			const int id = atoi( id_str.c_str() );
+				osg::Node* node = nodePath[nodePath.size()-i-1];
+				const std::string node_name = node->getName();
 
-			const std::map<int, shared_ptr<SelectedEntity> >& map_selected = m_system->getSelectedObjects();
-			std::map<int, shared_ptr<SelectedEntity> >::const_iterator it_selected = map_selected.find( id );
+				osg::Vec3d world_intersect_point = intersection.getWorldIntersectPoint();
+				m_pointer_intersection.set( world_intersect_point );
 
-			if( it_selected != map_selected.end() )
-			{
-				shared_ptr<SelectedEntity> selected_entity = it_selected->second;
-				// is already selected, so deselect
-				m_system->setObjectSelected( selected_entity->m_entity, false, selected_entity->m_osg_group );
-				return true;
-			}
-			else
-			{
-				// select
-				shared_ptr<IfcPPModel> ifc_model = m_system->getIfcModel();
-				const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
-				auto it_find = map_ifc_objects.find(id);
-				if( it_find != map_ifc_objects.end() )
+				// check if picked object is a representation of an IfcProduct
+				if( node_name.length() == 0 )
 				{
-					shared_ptr<IfcPPEntity> entitiy_selected = it_find->second;
-					if( !m_control_key_down )
-					{
-						m_system->clearSelection();
-					}
-					m_system->setObjectSelected( entitiy_selected, true, group );
+					continue;
 				}
-				return true;
+				if( node_name.at( 0 ) != '#' )
+				{
+					continue;
+				}
+				if( node_name.compare( 0, 9, "intersect" ) == 0 )
+				{
+					continue;
+				}
+
+				osg::Group* group = dynamic_cast<osg::Group*>( node );
+				if( !group )
+				{
+					continue;
+				}
+				
+				double distance_to_eye = ( m_eye-world_intersect_point ).length();
+				if( distance_to_eye < closest_intersection_distance )
+				{
+					intersection_geometry_found = true;
+					closest_intersection_distance = distance_to_eye;
+					closest_intersection = intersection;
+					closest_intersection_nodepath_idx = nodePath.size()-i-1;
+				}
+			}
+		}
+
+		if( intersection_geometry_found )
+		{
+			osg::NodePath& nodePath = closest_intersection.nodePath;
+			if( closest_intersection_nodepath_idx < nodePath.size() )
+			{
+				osg::Node* node = nodePath[closest_intersection_nodepath_idx];
+				const std::string node_name = node->getName();
+
+				osg::Vec3d world_intersect_point = closest_intersection.getWorldIntersectPoint();
+				m_pointer_intersection.set( world_intersect_point );
+
+				osg::Group* group = dynamic_cast<osg::Group*>( node );
+				if( group )
+				{
+					// extract entity id
+					std::string node_name_id = node_name.substr( 1 );
+					size_t last_index = node_name_id.find_first_not_of( "0123456789" );
+					std::string id_str = node_name_id.substr( 0, last_index );
+					const int id = atoi( id_str.c_str() );
+
+					auto map_selected = m_system->getSelectedObjects();
+					auto it_selected = map_selected.find( id );
+					if( it_selected != map_selected.end() )
+					{
+						shared_ptr<SelectedEntity> selected_entity = it_selected->second;
+						// is already selected, so deselect
+						m_system->setObjectSelected( selected_entity->m_entity, false, selected_entity->m_osg_group );
+						return true;
+					}
+					else
+					{
+						// select
+						shared_ptr<IfcPPModel> ifc_model = m_system->getIfcModel();
+						auto map_ifc_objects = ifc_model->getMapIfcEntities();
+						auto it_find = map_ifc_objects.find( id );
+						if( it_find != map_ifc_objects.end() )
+						{
+							shared_ptr<IfcPPEntity> entitiy_selected = it_find->second;
+							if( !m_control_key_down )
+							{
+								m_system->clearSelection();
+							}
+							m_system->setObjectSelected( entitiy_selected, true, group );
+						}
+						return true;
+					}
+				}
 			}
 		}
 	}

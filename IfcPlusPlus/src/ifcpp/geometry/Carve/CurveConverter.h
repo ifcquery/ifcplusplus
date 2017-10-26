@@ -61,18 +61,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 //\brief class to convert different types of IFC curve representations into carve input geometry
 class CurveConverter : public StatusCallback
 {
-public:	
+protected:
 	shared_ptr<GeometrySettings>	m_geom_settings;
-	shared_ptr<UnitConverter>		m_unit_converter;
-	shared_ptr<SplineConverter>		m_spline_converter;
+	shared_ptr<PlacementConverter>	m_placement_converter;
 	shared_ptr<PointConverter>		m_point_converter;
-	
-	CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
-		: m_geom_settings( gs ), m_unit_converter( uc ), m_point_converter( pc ), m_spline_converter( sc )
+	shared_ptr<SplineConverter>		m_spline_converter;
+
+public:
+	CurveConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<PlacementConverter>& placement_converter, shared_ptr<PointConverter>& pc, shared_ptr<SplineConverter>& sc )
+		: m_geom_settings( gs ), m_placement_converter(placement_converter), m_point_converter( pc ), m_spline_converter( sc )
 	{
 	}
 
 	virtual ~CurveConverter(){}
+
+	const shared_ptr<GeometrySettings>&		getGeomSettings() { return m_geom_settings; }
+	const shared_ptr<PlacementConverter>&	getPlcamentConverter() { return m_placement_converter; }
+	const shared_ptr<PointConverter>&		getPointConverter() { return m_point_converter; }
+	const shared_ptr<SplineConverter>&		getSplineConverter() { return m_spline_converter; }
 
 	void convertIfcCurve2D( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& loops, std::vector<vec2>& segment_start_points ) const
 	{
@@ -110,7 +116,7 @@ public:
 	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& target_vec, std::vector<vec3>& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
-		double length_factor = m_unit_converter->getLengthInMeterFactor();
+		double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
 		//	ENTITY IfcCurve ABSTRACT SUPERTYPE OF	(ONEOF(IfcBoundedCurve, IfcConic, IfcLine, IfcOffsetCurve2D, IfcOffsetCurve3D, IfcPCurve))
 		shared_ptr<IfcBoundedCurve> bounded_curve = dynamic_pointer_cast<IfcBoundedCurve>( ifc_curve );
@@ -191,12 +197,12 @@ public:
 				shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( conic_placement_select );
 				if( axis2placement2d )
 				{
-					PlacementConverter::convertIfcAxis2Placement2D( axis2placement2d, length_factor, conic_position_matrix );
+					m_placement_converter->convertIfcAxis2Placement2D( axis2placement2d, conic_position_matrix );
 				}
 				else if( dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select ) )
 				{
 					shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( conic_placement_select );
-					PlacementConverter::convertIfcAxis2Placement3D( axis2placement3d, length_factor, conic_position_matrix );
+					m_placement_converter->convertIfcAxis2Placement3D( axis2placement3d, conic_position_matrix );
 				}
 			}
 
@@ -224,8 +230,8 @@ public:
 				{
 					if( GeomUtils::findFirstInVector( trim1_vec, trim_par1 ) )
 					{
-						double plane_angle_factor = m_unit_converter->getAngleInRadiantFactor();
-						if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
+						double plane_angle_factor = m_point_converter->getUnitConverter()->getAngleInRadiantFactor();
+						if( m_point_converter->getUnitConverter()->getAngularUnit() == UnitConverter::UNDEFINED )
 						{
 							// angular unit definition not found in model, default to radian
 							plane_angle_factor = 1.0;
@@ -258,8 +264,8 @@ public:
 					shared_ptr<IfcParameterValue> trim_par2;
 					if( GeomUtils::findFirstInVector( trim2_vec, trim_par2 ) )
 					{
-						double plane_angle_factor = m_unit_converter->getAngleInRadiantFactor();
-						if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
+						double plane_angle_factor = m_point_converter->getUnitConverter()->getAngleInRadiantFactor();
+						if( m_point_converter->getUnitConverter()->getAngularUnit() == UnitConverter::UNDEFINED )
 						{
 							// angular unit definition not found in model, default to radian
 							plane_angle_factor = 1.0;

@@ -35,15 +35,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 //\brief class to convert IFC point representations into carve input geometry
 class PointConverter : public StatusCallback
 {
-public:
+protected:
 	shared_ptr<UnitConverter>		m_unit_converter;
 
+public:
 	PointConverter( shared_ptr<UnitConverter>& uc ): m_unit_converter( uc )
 	{
 	}
 
 	virtual ~PointConverter(){}
 
+	const shared_ptr<UnitConverter>& getUnitConverter() { return m_unit_converter; }
+	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
+	{
+		m_unit_converter = unit_converter;
+	}
 	static bool convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, vec3& point, double length_factor )
 	{
 		if( !ifc_point )

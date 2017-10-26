@@ -424,7 +424,6 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 	
 	target_entity_vec.resize( num_lines );
 	std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* target_vec_ptr = &target_entity_vec;
-	std::set<std::string>* unkown_entities_ptr = &unkown_entities;
 	const std::vector<std::string>* step_lines_ptr = &step_lines;
 
 #ifdef IFCPP_OPENMP
@@ -464,17 +463,21 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 #ifdef IFCPP_OPENMP
 #pragma omp critical
 #endif
-							{
-								unkown_entities.insert( unknown_keyword );
-								err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
-							}
+							unkown_entities.insert( unknown_keyword );
+							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
 						}
 					}
 				}
 				else
 				{
-					unkown_entities.insert( unknown_keyword );
-					err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+					if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
+					{
+#ifdef IFCPP_OPENMP
+#pragma omp critical
+#endif
+						unkown_entities.insert( unknown_keyword );
+						err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+					}
 				}
 			}
 

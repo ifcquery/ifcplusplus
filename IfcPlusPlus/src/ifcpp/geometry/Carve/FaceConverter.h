@@ -78,7 +78,7 @@ public:
 	{
 		//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))
 
-		double length_factor = m_unit_converter->getLengthInMeterFactor();
+		//double length_factor = m_unit_converter->getLengthInMeterFactor();
 		shared_ptr<IfcBoundedSurface> bounded_surface = dynamic_pointer_cast<IfcBoundedSurface>( surface );
 		if( bounded_surface )
 		{
@@ -111,7 +111,7 @@ public:
 
 					if( basis_surface_placement )
 					{
-						PlacementConverter::convertIfcAxis2Placement3D( basis_surface_placement, length_factor, curve_bounded_plane_matrix );
+						m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( basis_surface_placement, curve_bounded_plane_matrix );
 					}
 				}
 
@@ -193,7 +193,7 @@ public:
 			shared_ptr<TransformData> elementary_surface_transform;
 			if( elementary_surface_placement )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( elementary_surface_placement, length_factor, elementary_surface_transform );
+				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( elementary_surface_placement, elementary_surface_transform );
 			}
 
 			shared_ptr<SurfaceProxyLinear> proxy_linear( new SurfaceProxyLinear() );
@@ -273,7 +273,7 @@ public:
 			shared_ptr<TransformData> swept_surface_transform;
 			if( swept_surface_placement )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( swept_surface_placement, length_factor, swept_surface_transform );
+				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( swept_surface_placement,  swept_surface_transform );
 			}
 
 			shared_ptr<IfcSurfaceOfLinearExtrusion> linear_extrusion = dynamic_pointer_cast<IfcSurfaceOfLinearExtrusion>( swept_surface );

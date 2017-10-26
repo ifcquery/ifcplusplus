@@ -33,6 +33,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcGeometricRepresentationSubContext.h>
 #include <ifcpp/IFC4/include/IfcGridAxis.h>
 #include <ifcpp/IFC4/include/IfcGridPlacement.h>
+#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcLocalPlacement.h>
 #include <ifcpp/IFC4/include/IfcObjectPlacement.h>
 #include <ifcpp/IFC4/include/IfcPlacement.h>
@@ -43,10 +44,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "GeometryInputData.h"
 #include "IncludeCarveHeaders.h"
 
-namespace PlacementConverter
+class PlacementConverter : public StatusCallback
 {
-	inline void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, const double length_factor, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
+public:
+	shared_ptr<UnitConverter>	m_unit_converter;
+
+	PlacementConverter( shared_ptr<UnitConverter>& uc ) : m_unit_converter( uc )
 	{
+
+	}
+
+	void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
+	{
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
 		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
 		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
@@ -101,11 +111,12 @@ namespace PlacementConverter
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
 		resulting_matrix->m_placement_entity = axis2placement2d;
-		resulting_matrix->m_placement_id = axis2placement2d->m_entity_id;
+		resulting_matrix->m_placement_entity_id = axis2placement2d->m_entity_id;
 	}
 
-	inline void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
+	void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
 	{
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
 		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
 		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
@@ -167,11 +178,12 @@ namespace PlacementConverter
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
 		resulting_matrix->m_placement_entity = axis2placement3d;
-		resulting_matrix->m_placement_id = axis2placement3d->m_entity_id;
+		resulting_matrix->m_placement_entity_id = axis2placement3d->m_entity_id;
 	}
 
-	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, const double length_factor, carve::geom::plane<3>& plane, vec3& translate )
+	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, carve::geom::plane<3>& plane, vec3& translate )
 	{
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  location( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
 		vec3  local_x( carve::geom::VECTOR( 1.0, 0.0, 0.0 ) );
 		vec3  local_y( carve::geom::VECTOR( 0.0, 1.0, 0.0 ) );
@@ -208,8 +220,9 @@ namespace PlacementConverter
 		translate = location;
 	}
 
-	inline void convertMatrix( const carve::math::Matrix& matrix, const double length_factor, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_new_entities )
+	inline void convertMatrix( const carve::math::Matrix& matrix, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_new_entities )
 	{
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		if( !axis2placement3d )
 		{
 			axis2placement3d = shared_ptr<IfcAxis2Placement3D>( new IfcAxis2Placement3D() );
@@ -289,37 +302,31 @@ namespace PlacementConverter
 		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_x.z ) ) );
 	}
 
-	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, const double length_factor, shared_ptr<TransformData>& resulting_matrix, StatusCallback* sc, bool only_rotation = false )
+	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
 	{
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		if( dynamic_pointer_cast<IfcAxis1Placement>( placement ) )
 		{
-			if( sc )
-			{
-				sc->messageCallback( "IfcAxis1Placement not implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
-			}
+			messageCallback( "IfcAxis1Placement not implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
 			return;
 		}
 		else if( dynamic_pointer_cast<IfcAxis2Placement2D>( placement ) )
 		{
 			shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( placement );
-			convertIfcAxis2Placement2D( axis2placement2d, length_factor, resulting_matrix, only_rotation );
+			convertIfcAxis2Placement2D( axis2placement2d, resulting_matrix, only_rotation );
 		}
 		else if( dynamic_pointer_cast<IfcAxis2Placement3D>( placement ) )
 		{
 			shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( placement );
-			convertIfcAxis2Placement3D( axis2placement3d, length_factor, resulting_matrix, only_rotation );
+			convertIfcAxis2Placement3D( axis2placement3d, resulting_matrix, only_rotation );
 		}
 		else
 		{
-			if( sc )
-			{
-				sc->messageCallback( "IfcPlacement is not IfcAxis2Placement2D or IfcAxis2Placement3D", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
-			}
+			messageCallback( "IfcPlacement is not IfcAxis2Placement2D or IfcAxis2Placement3D", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );
 		}
 	}
 
-	inline void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, const double length_factor,
-		shared_ptr<TransformData>& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
+	void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, shared_ptr<TransformData>& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
 	{
 		if( !context )
 		{
@@ -350,7 +357,7 @@ namespace PlacementConverter
 		shared_ptr<IfcAxis2Placement3D> world_coords_3d = dynamic_pointer_cast<IfcAxis2Placement3D>( world_coords_select );
 		if( world_coords_3d )
 		{
-			convertIfcAxis2Placement3D( world_coords_3d, length_factor, world_coords_matrix );
+			convertIfcAxis2Placement3D( world_coords_3d, world_coords_matrix );
 		}
 
 		if( !resulting_matrix )
@@ -369,14 +376,14 @@ namespace PlacementConverter
 
 			if( parent_context )
 			{
-				getWorldCoordinateSystem( parent_context, length_factor, resulting_matrix, already_applied );
+				getWorldCoordinateSystem( parent_context, resulting_matrix, already_applied );
 			}
 		}
 	}
 
 	//\brief translates an IfcObjectPlacement (or subtype) to carve Matrix
-	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, const double length_factor,
-		shared_ptr<ProductShapeData>& product_data, StatusCallback* sc, std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation )
+	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, shared_ptr<ProductShapeData>& product_data, 
+		std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation )
 	{
 		if( !ifc_object_placement )
 		{
@@ -397,7 +404,7 @@ namespace PlacementConverter
 			{
 				// placement is relative to other placement
 				shared_ptr<IfcObjectPlacement> rel_to_placement = local_placement->m_PlacementRelTo;
-				convertIfcObjectPlacement( rel_to_placement, length_factor, product_data, sc, placement_already_applied, only_rotation );
+				convertIfcObjectPlacement( rel_to_placement, product_data, placement_already_applied, only_rotation );
 			}
 
 			shared_ptr<IfcAxis2Placement> relative_axis2placement_select = local_placement->m_RelativePlacement;
@@ -408,15 +415,12 @@ namespace PlacementConverter
 				if( relative_placement )
 				{
 					shared_ptr<TransformData> relative_placement_matrix;
-					convertIfcPlacement( relative_placement, length_factor, relative_placement_matrix, sc, only_rotation );
+					convertIfcPlacement( relative_placement, relative_placement_matrix, only_rotation );
 					product_data->addTransform( relative_placement_matrix );
 				}
 				else
 				{
-					if( sc )
-					{
-						sc->messageCallback( "unhandled placement", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, local_placement.get() );
-					}
+					messageCallback( "unhandled placement", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, local_placement.get() );
 				}
 			}
 		}
@@ -432,16 +436,13 @@ namespace PlacementConverter
 				// todo: implement
 
 			}
-			if( sc )
-			{
-				sc->messageCallback( "IfcGridPlacement not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, grid_placement.get() );
-			}
+			messageCallback( "IfcGridPlacement not implemented", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, grid_placement.get() );
 
 			//IfcGridPlacementDirectionSelect* ref_direction = grid_placement->m_PlacementRefDirection.get();	//optional
 		}
 	}
 
-	inline void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, const double length_factor, shared_ptr<TransformData>& resulting_matrix, StatusCallback* sc )
+	void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, shared_ptr<TransformData>& resulting_matrix )
 	{
 		// ENTITY IfcCartesianTransformationOperator  ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianTransformationOperator2D, IfcCartesianTransformationOperator3D))
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
@@ -452,6 +453,7 @@ namespace PlacementConverter
 		double scale = 1.0;
 		double scale_y = 1.0;
 		double scale_z = 1.0;
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		shared_ptr<IfcCartesianTransformationOperator2D> trans_operator_2d = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( transform_operator );
 		if( trans_operator_2d )
@@ -459,18 +461,12 @@ namespace PlacementConverter
 			// ENTITY IfcCartesianTransformationOperator2D SUPERTYPE OF(IfcCartesianTransformationOperator2DnonUniform)
 			if( !trans_operator_2d->m_LocalOrigin )
 			{
-				if( sc )
-				{
-					sc->messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
-				}
+				messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
 				return;
 			}
 			if( trans_operator_2d->m_LocalOrigin->m_Coordinates.size() < 2 )
 			{
-				if( sc )
-				{
-					sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
-				}
+				messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
 				return;
 			}
 			double x = trans_operator_2d->m_LocalOrigin->m_Coordinates[0]->m_value*length_factor;
@@ -487,18 +483,12 @@ namespace PlacementConverter
 			{
 				if( trans_operator_2d->m_Axis1->m_DirectionRatios.size() < 2 )
 				{
-					if( sc )
-					{
-						sc->messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
-					}
+					messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
 					return;
 				}
 				if( trans_operator_2d->m_Axis2->m_DirectionRatios.size() < 2 )
 				{
-					if( sc )
-					{
-						sc->messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
-					}
+					messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_2d.get() );
 					return;
 				}
 
@@ -524,26 +514,17 @@ namespace PlacementConverter
 			shared_ptr<IfcCartesianTransformationOperator3D> trans_operator_3d = dynamic_pointer_cast<IfcCartesianTransformationOperator3D>( transform_operator );
 			if( !trans_operator_3d )
 			{
-				if( sc )
-				{
-					sc->messageCallback( "IfcCartesianTransformationOperator is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
-				}
+				messageCallback( "IfcCartesianTransformationOperator is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 				return;
 			}
 			if( !trans_operator_3d->m_LocalOrigin )
 			{
-				if( sc )
-				{
-					sc->messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
-				}
+				messageCallback( "LocalOrigin not given", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 				return;
 			}
 			if( trans_operator_3d->m_LocalOrigin->m_Coordinates.size() < 3 )
 			{
-				if( sc )
-				{
-					sc->messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
-				}
+				messageCallback( "LocalOrigin is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 				return;
 			}
 			if( GeomUtils::allPointersValid( trans_operator_3d->m_LocalOrigin->m_Coordinates ) )
@@ -565,26 +546,17 @@ namespace PlacementConverter
 				shared_ptr<IfcDirection> axis3 = trans_operator_3d->m_Axis3;
 				if( axis1->m_DirectionRatios.size() < 2 )
 				{
-					if( sc )
-					{
-						sc->messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
-					}
+					messageCallback( "Axis1 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 					return;
 				}
 				if( axis2->m_DirectionRatios.size() < 2 )
 				{
-					if( sc )
-					{
-						sc->messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
-					}
+					messageCallback( "Axis2 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 					return;
 				}
 				if( axis3->m_DirectionRatios.size() < 2 )
 				{
-					if( sc )
-					{
-						sc->messageCallback( "Axis3 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
-					}
+					messageCallback( "Axis3 is not valid", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, trans_operator_3d.get() );
 					return;
 				}
 				local_x.x = axis1->m_DirectionRatios[0]->m_value;
@@ -628,6 +600,6 @@ namespace PlacementConverter
 			0, 0, 0, 1 );
 		resulting_matrix->m_matrix = rotate_translate*carve::math::Matrix::SCALE( scale, scale_y, scale_z ); // scale is applied first, rotate second
 		resulting_matrix->m_placement_entity = transform_operator;
-		resulting_matrix->m_placement_id = transform_operator->m_entity_id;
+		resulting_matrix->m_placement_entity_id = transform_operator->m_entity_id;
 	}
 };

@@ -50,7 +50,7 @@ protected:
 	shared_ptr<IfcPPModel>						m_ifc_model;
 	shared_ptr<GeometrySettings>				m_geom_settings;
 	shared_ptr<RepresentationConverter>			m_representation_converter;
-	std::map<int, shared_ptr<ProductShapeData> >	m_shape_input_data;
+	std::map<int, shared_ptr<ProductShapeData> >	m_product_shape_data;
 	std::map<int, shared_ptr<IfcPPObject> >		m_map_outside_spatial_structure;
 	double										m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
@@ -63,7 +63,7 @@ public:
 	// getters and setters
 	shared_ptr<IfcPPModel>&						getIfcPPModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverter>&		getRepresentationConverter() { return m_representation_converter; }
-	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_shape_input_data; }
+	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
 	shared_ptr<GeometrySettings>&				getGeomSettings() { return m_geom_settings; }
 	std::map<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 	
@@ -99,7 +99,7 @@ public:
 
 	void clearInputCache()
 	{
-		m_shape_input_data.clear();
+		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
 		m_representation_converter->clearCache();
 		m_messages.clear();
@@ -130,7 +130,7 @@ public:
 	{
 		progressTextCallback( L"Creating geometry..." );
 		progressValueCallback( 0, "geometry" );
-		m_shape_input_data.clear();
+		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
 		m_representation_converter->clearCache();
 
@@ -150,7 +150,7 @@ public:
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		std::map<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_shape_input_data;
+		std::map<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
 		const int num_products = (int)vec_ifc_object_defs.size();
 
 #ifdef IFCPP_OPENMP
@@ -248,7 +248,7 @@ public:
 			}
 
 			// check if there are entities that are not in spatial structure
-			for( auto it_product_shapes = m_shape_input_data.begin(); it_product_shapes != m_shape_input_data.end(); ++it_product_shapes )
+			for( auto it_product_shapes = m_product_shape_data.begin(); it_product_shapes != m_product_shape_data.end(); ++it_product_shapes )
 			{
 				shared_ptr<ProductShapeData> product_shape = it_product_shapes->second;
 				if( !product_shape )
@@ -497,8 +497,8 @@ public:
 					const shared_ptr<IfcObjectDefinition>& related_obj_def = vec_related_objects[jj];
 					if( related_obj_def )
 					{
-						auto it_product_map = m_shape_input_data.find( related_obj_def->m_entity_id );
-						if( it_product_map != m_shape_input_data.end() )
+						auto it_product_map = m_product_shape_data.find( related_obj_def->m_entity_id );
+						if( it_product_map != m_product_shape_data.end() )
 						{
 							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
 							if( related_product_shape )
@@ -533,8 +533,8 @@ public:
 						const shared_ptr<IfcProduct>& related_product = vec_related_elements[jj];
 						if( related_product )
 						{
-							auto it_product_map = m_shape_input_data.find( related_product->m_entity_id );
-							if( it_product_map != m_shape_input_data.end() )
+							auto it_product_map = m_product_shape_data.find( related_product->m_entity_id );
+							if( it_product_map != m_product_shape_data.end() )
 							{
 								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
 								if( related_product_shape )

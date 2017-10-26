@@ -187,7 +187,7 @@ public:
 		//	Curve	 :	IfcBoundedCurve;
 
 		shared_ptr<IfcCurve> ifc_curve = profile->m_Curve;
-		shared_ptr<UnitConverter>& uc = m_curve_converter->m_unit_converter;
+		const shared_ptr<UnitConverter>& uc = m_curve_converter->getPointConverter()->getUnitConverter();
 
 		// IfcCenterLineProfileDef
 		shared_ptr<IfcCenterLineProfileDef> center_line_profile_def = dynamic_pointer_cast<IfcCenterLineProfileDef>( profile );
@@ -332,7 +332,6 @@ public:
 	}
 	void convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<vec2> >& paths )
 	{
-		const double length_factor = m_curve_converter->m_unit_converter->getLengthInMeterFactor();
 		ProfileConverter temp_profiler( m_curve_converter, m_spline_converter );
 		temp_profiler.computeProfile( derived_profile->m_ParentProfile );
 		const std::vector<std::vector<vec2> >& parent_paths = temp_profiler.getCoordinates();
@@ -340,7 +339,7 @@ public:
 		shared_ptr<IfcCartesianTransformationOperator2D> transf_op_2D = derived_profile->m_Operator;
 
 		shared_ptr<TransformData> transform;
-		PlacementConverter::convertTransformationOperator( transf_op_2D, length_factor, transform, this );
+		m_curve_converter->getPlcamentConverter()->convertTransformationOperator( transf_op_2D, transform );
 		for( size_t i = 0; i < parent_paths.size(); ++i )
 		{
 			const std::vector<vec2>& loop_parent = parent_paths[i];
@@ -361,7 +360,6 @@ public:
 	}
 	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, std::vector<std::vector<vec2> >& paths )
 	{
-		const double length_factor = m_curve_converter->m_unit_converter->getLengthInMeterFactor();
 		std::vector<std::vector<vec2> > temp_paths;
 		convertIfcParameterizedProfileDef( parameterized, temp_paths );
 
@@ -370,7 +368,7 @@ public:
 		{
 			shared_ptr<IfcAxis2Placement2D> axis2Placement2D = parameterized->m_Position;
 			shared_ptr<TransformData> transform;
-			PlacementConverter::convertIfcPlacement( axis2Placement2D, length_factor, transform, this );
+			m_curve_converter->getPlcamentConverter()->convertIfcPlacement( axis2Placement2D, transform );
 
 			for( size_t i = 0; i < temp_paths.size(); ++i )
 			{
@@ -404,8 +402,8 @@ public:
 		//	(IfcCShapeProfileDef, IfcCircleProfileDef, IfcEllipseProfileDef, IfcIShapeProfileDef, IfcLShapeProfileDef,
 		//	IfcRectangleProfileDef, IfcTShapeProfileDef, IfcTrapeziumProfileDef, IfcUShapeProfileDef, IfcZShapeProfileDef))
 
-		shared_ptr<UnitConverter>& uc = m_curve_converter->m_unit_converter;
-		shared_ptr<GeometrySettings>& gs = m_curve_converter->m_geom_settings;
+		const shared_ptr<UnitConverter>& uc = m_curve_converter->getPointConverter()->getUnitConverter();
+		const shared_ptr<GeometrySettings>& gs = m_curve_converter->getGeomSettings();
 		if( !uc )
 		{
 			messageCallback( "UnitConverter not set", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, profile.get() );
@@ -436,7 +434,7 @@ public:
 					{
 						const double t = hollow->m_WallThickness->m_value*length_factor;
 						double outer_fillet_radius = 0;
-						if( hollow->m_OuterFilletRadius && !m_curve_converter->m_geom_settings->isIgnoreProfileRadius() )
+						if( hollow->m_OuterFilletRadius && !m_curve_converter->getGeomSettings()->isIgnoreProfileRadius() )
 						{
 							outer_fillet_radius = hollow->m_OuterFilletRadius->m_value*length_factor;
 						}
@@ -1126,7 +1124,7 @@ public:
 	}
 	void addArc( std::vector<vec2>& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments = 4 ) const
 	{
-		shared_ptr<GeometrySettings>& gs = m_curve_converter->m_geom_settings;
+		const shared_ptr<GeometrySettings>& gs = m_curve_converter->getGeomSettings();
 		if( !gs )
 		{
 			return;

@@ -43,8 +43,8 @@ class ConverterOSG : public StatusCallback
 {
 protected:
 	shared_ptr<GeometrySettings>				m_geom_settings;
-	std::map<int, osg::ref_ptr<osg::Switch> >		m_map_entity_id_to_switch;
-	std::map<int, osg::ref_ptr<osg::Switch> >		m_map_representation_id_to_switch;
+	std::map<int, osg::ref_ptr<osg::Switch> >	m_map_entity_id_to_switch;
+	std::map<int, osg::ref_ptr<osg::Switch> >	m_map_representation_id_to_switch;
 	double										m_recent_progress;
 	osg::ref_ptr<osg::CullFace>					m_cull_back_off;
 	osg::ref_ptr<osg::StateSet>					m_glass_stateset;
@@ -1040,7 +1040,7 @@ public:
 		}
 	}
 
-	void resolveProjectStructure( shared_ptr<ProductShapeData>& product_data, osg::ref_ptr<osg::Switch> group )
+	void resolveProjectStructure( const shared_ptr<ProductShapeData>& product_data, osg::ref_ptr<osg::Switch> group )
 	{
 		if( !product_data )
 		{
@@ -1060,9 +1060,10 @@ public:
 			return;
 		}
 
-		for( size_t ii = 0; ii < product_data->m_vec_children.size(); ++ii )
+		const std::vector<shared_ptr<ProductShapeData> >& vec_children = product_data->getChildren();
+		for( size_t ii = 0; ii < vec_children.size(); ++ii )
 		{
-			shared_ptr<ProductShapeData>& child_product_data = product_data->m_vec_children[ii];
+			const shared_ptr<ProductShapeData>& child_product_data = vec_children[ii];
 			if( !child_product_data )
 			{
 				continue;

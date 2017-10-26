@@ -61,16 +61,15 @@ class SolidModelConverter : public StatusCallback
 {
 public:
 	shared_ptr<GeometrySettings>		m_geom_settings;
-	shared_ptr<UnitConverter>			m_unit_converter;
 	shared_ptr<PointConverter>			m_point_converter;
 	shared_ptr<CurveConverter>			m_curve_converter;
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<Sweeper>					m_sweeper;
 
-	SolidModelConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>& cc, 
+	SolidModelConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<PointConverter>&	pc, shared_ptr<CurveConverter>& cc, 
 		shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache, shared_ptr<Sweeper>& sw )
-		: m_geom_settings( gs ), m_point_converter( pc ), m_unit_converter( uc ), m_curve_converter( cc ), m_face_converter( fc ), m_profile_cache( pcache ), m_sweeper( sw )
+		: m_geom_settings( gs ), m_point_converter( pc ), m_curve_converter( cc ), m_face_converter( fc ), m_profile_cache( pcache ), m_sweeper( sw )
 	{
 	}
 
@@ -82,7 +81,7 @@ public:
 	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data )
 	{
 		const int nvc = m_geom_settings->getNumVerticesPerCircle();
-		const double length_in_meter = m_unit_converter->getLengthInMeterFactor();
+		const double length_in_meter = m_curve_converter->getPointConverter()->getUnitConverter()->getLengthInMeterFactor();
 
 		shared_ptr<IfcSweptAreaSolid> swept_area_solid = dynamic_pointer_cast<IfcSweptAreaSolid>( solid_model );
 		if( swept_area_solid )
@@ -113,9 +112,8 @@ public:
 			shared_ptr<TransformData> swept_area_pos;
 			if( swept_area_solid->m_Position )
 			{
-				double length_factor = m_unit_converter->getLengthInMeterFactor();
 				shared_ptr<IfcAxis2Placement3D> swept_area_position = swept_area_solid->m_Position;
-				PlacementConverter::convertIfcAxis2Placement3D( swept_area_position, length_factor, swept_area_pos );
+				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( swept_area_position, swept_area_pos );
 			}
 
 			shared_ptr<IfcExtrudedAreaSolid> extruded_area = dynamic_pointer_cast<IfcExtrudedAreaSolid>( swept_area_solid );
@@ -342,7 +340,7 @@ public:
 			messageCallback( "Invalid Depth", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, extruded_area.get() );
 			return;
 		}
-		double length_factor = m_unit_converter->getLengthInMeterFactor();
+		double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
 		// direction and length of extrusion
 		const double depth = extruded_area->m_Depth->m_value*length_factor;
@@ -747,8 +745,8 @@ public:
 		}
 
 		// revolution angle
-		double angle_factor = m_unit_converter->getAngleInRadiantFactor();
-		if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
+		double angle_factor = m_point_converter->getUnitConverter()->getAngleInRadiantFactor();
+		if( m_point_converter->getUnitConverter()->getAngularUnit() == UnitConverter::UNDEFINED )
 		{
 			// angular unit definition not found in model, default to radian
 			angle_factor = 1.0;
@@ -760,7 +758,7 @@ public:
 			}
 		}
 		double revolution_angle = revolved_area->m_Angle->m_value*angle_factor;
-		const double length_factor = m_unit_converter->getLengthInMeterFactor();
+		const double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
 		// revolution axis
 		vec3  axis_location;
@@ -890,14 +888,14 @@ public:
 	void convertIfcCsgPrimitive3D( const shared_ptr<IfcCsgPrimitive3D>& csg_primitive, shared_ptr<ItemShapeData> item_data )
 	{
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-		const double length_factor = m_unit_converter->getLengthInMeterFactor();
+		const double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
 		// ENTITY IfcCsgPrimitive3D  ABSTRACT SUPERTYPE OF(ONEOF(IfcBlock, IfcRectangularPyramid, IfcRightCircularCone, IfcRightCircularCylinder, IfcSphere
 		shared_ptr<TransformData> primitive_placement_transform;
 		shared_ptr<IfcAxis2Placement3D>& primitive_placement = csg_primitive->m_Position;
 		if( primitive_placement )
 		{
-			PlacementConverter::convertIfcAxis2Placement3D( primitive_placement, length_factor, primitive_placement_transform );
+			m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( primitive_placement, primitive_placement_transform );
 		}
 
 		carve::math::Matrix primitive_placement_matrix;
@@ -1209,7 +1207,7 @@ public:
 	void convertIfcHalfSpaceSolid( const shared_ptr<IfcHalfSpaceSolid>& half_space_solid, shared_ptr<ItemShapeData> item_data, const shared_ptr<ItemShapeData>& other_operand )
 	{
 		//ENTITY IfcHalfSpaceSolid SUPERTYPE OF(ONEOF(IfcBoxedHalfSpace, IfcPolygonalBoundedHalfSpace))
-		double length_factor = m_unit_converter->getLengthInMeterFactor();
+		double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 		shared_ptr<IfcSurface> base_surface = half_space_solid->m_BaseSurface;
 
 		// base surface
@@ -1225,8 +1223,8 @@ public:
 		shared_ptr<TransformData> base_position_transform;
 		if( base_surface_pos )
 		{
-			PlacementConverter::getPlane( base_surface_pos, length_factor, base_surface_plane, base_surface_position );
-			PlacementConverter::convertIfcAxis2Placement3D( base_surface_pos, length_factor, base_position_transform );
+			m_curve_converter->getPlcamentConverter()->getPlane( base_surface_pos, base_surface_plane, base_surface_position );
+			m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( base_surface_pos, base_position_transform );
 		}
 		carve::math::Matrix base_position_matrix;
 		if( base_position_transform )
@@ -1301,7 +1299,7 @@ public:
 		}
 
 		// check dimenstions of other operand
-		double extrusion_depth = HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
+		double extrusion_depth = HALF_SPACE_BOX_SIZE*m_point_converter->getUnitConverter()->getCustomLengthFactor();
 		//vec3 other_operand_pos = base_surface_position;
 		if( other_operand )
 		{
@@ -1341,7 +1339,7 @@ public:
 			vec3 boundary_position;
 			if( polygonal_half_space->m_Position )
 			{
-				PlacementConverter::convertIfcAxis2Placement3D( polygonal_half_space->m_Position, length_factor, boundary_transform );
+				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( polygonal_half_space->m_Position, boundary_transform );
 				if( boundary_transform )
 				{
 					boundary_position_matrix = boundary_transform->m_matrix;
@@ -1470,7 +1468,7 @@ public:
 					}
 					vec3  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
 					vec3  half_space_extrusion_direction = -base_surface_normal;
-					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
+					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE*m_point_converter->getUnitConverter()->getCustomLengthFactor();
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 					extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
 					item_data->addOpenOrClosedPolyhedron( half_space_box_data );

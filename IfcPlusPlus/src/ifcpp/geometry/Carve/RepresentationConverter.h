@@ -68,14 +68,17 @@ class RepresentationConverter : public StatusCallback
 protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
-	shared_ptr<Sweeper>					m_sweeper;
 	shared_ptr<StylesConverter>			m_styles_converter;
-	shared_ptr<SplineConverter>			m_spline_converter;
 	shared_ptr<PointConverter>			m_point_converter;
+	shared_ptr<SplineConverter>			m_spline_converter;
+	shared_ptr<Sweeper>					m_sweeper;
+	shared_ptr<PlacementConverter>		m_placement_converter;
 	shared_ptr<CurveConverter>			m_curve_converter;
-	shared_ptr<SolidModelConverter>		m_solid_converter;
-	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<ProfileCache>			m_profile_cache;
+	shared_ptr<FaceConverter>			m_face_converter;
+	shared_ptr<SolidModelConverter>		m_solid_converter;
+	
+	
 	
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
@@ -85,20 +88,23 @@ public:
 		m_point_converter = shared_ptr<PointConverter>( new PointConverter( m_unit_converter ) );
 		m_spline_converter = shared_ptr<SplineConverter>( new SplineConverter( m_point_converter ) );
 		m_sweeper = shared_ptr<Sweeper>( new Sweeper( m_geom_settings, m_unit_converter ) );
-		m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_unit_converter, m_point_converter, m_spline_converter ) );
+		m_placement_converter = shared_ptr<PlacementConverter>( new PlacementConverter( m_unit_converter ) );
+		m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_placement_converter, m_point_converter, m_spline_converter ) );
 		m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_curve_converter, m_spline_converter ) );
 		m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter, m_sweeper ) );
-		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_unit_converter, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
+		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
+		
 
 		// this redirects the callback messages from all converters to RepresentationConverter's callback
 		m_styles_converter->setMessageTarget( this );
 		m_point_converter->setMessageTarget( this );
 		m_spline_converter->setMessageTarget( this );
-		m_profile_cache->setMessageTarget( this );
+		m_sweeper->setMessageTarget( this );
+		m_placement_converter->setMessageTarget( this );
 		m_curve_converter->setMessageTarget( this );
+		m_profile_cache->setMessageTarget( this );
 		m_face_converter->setMessageTarget( this );
 		m_solid_converter->setMessageTarget( this );
-		m_sweeper->setMessageTarget( this );
 	}
 
 	virtual ~RepresentationConverter()
@@ -111,23 +117,25 @@ public:
 		m_profile_cache->clearProfileCache();
 		m_styles_converter->clearStylesCache();
 	}
-	shared_ptr<UnitConverter>&			getUnitConverter()	{ return m_unit_converter; }
 	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings; }
-	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter; }
-	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache; }
-	shared_ptr<Sweeper>&				getSweeper()		{ return m_sweeper; }
-	shared_ptr<StylesConverter>&		getStylesConverter()	{ return m_styles_converter; }
+	shared_ptr<UnitConverter>&			getUnitConverter() { return m_unit_converter; }
+	shared_ptr<StylesConverter>&		getStylesConverter() { return m_styles_converter; }
+	shared_ptr<PointConverter>&			getPointConverter() { return m_point_converter; }
+	shared_ptr<SplineConverter>&		getSplineConverter() { return m_spline_converter; }
+	shared_ptr<Sweeper>&				getSweeper() { return m_sweeper; }
+	shared_ptr<PlacementConverter>&		getPlacementConverter() { return m_placement_converter; }
 	shared_ptr<CurveConverter>&			getCurveConverter() { return m_curve_converter; }
-	shared_ptr<SplineConverter>&		getSplineConverter(){ return m_spline_converter; }
+	shared_ptr<ProfileCache>&			getProfileCache()	{ return m_profile_cache; }
+	shared_ptr<FaceConverter>&			getFaceConverter() { return m_face_converter; }
+	shared_ptr<SolidModelConverter>&	getSolidConverter() { return m_solid_converter; }
 
 	void setUnitConverter( shared_ptr<UnitConverter>& unit_converter )
 	{
 		m_unit_converter = unit_converter;
-		m_point_converter->m_unit_converter = unit_converter;
+		m_point_converter->setUnitConverter( unit_converter );
 		m_sweeper->m_unit_converter = unit_converter;
-		m_curve_converter->m_unit_converter = unit_converter;
+		m_placement_converter->m_unit_converter = unit_converter;
 		m_face_converter->m_unit_converter = unit_converter;
-		m_solid_converter->m_unit_converter = unit_converter;
 	}
 
 	void convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
@@ -246,7 +254,7 @@ public:
 				if( mapped_item->m_MappingTarget )
 				{
 					shared_ptr<IfcCartesianTransformationOperator> transform_operator = mapped_item->m_MappingTarget;
-					PlacementConverter::convertTransformationOperator( transform_operator, length_factor, map_matrix_target, this );
+					m_placement_converter->convertTransformationOperator( transform_operator, map_matrix_target );
 				}
 
 				shared_ptr<TransformData> map_matrix_origin;
@@ -256,7 +264,7 @@ public:
 					shared_ptr<IfcPlacement> mapping_origin_placement = dynamic_pointer_cast<IfcPlacement>( mapping_origin_select );
 					if( mapping_origin_placement )
 					{
-						PlacementConverter::convertIfcPlacement( mapping_origin_placement, length_factor, map_matrix_origin, this );
+						m_placement_converter->convertIfcPlacement( mapping_origin_placement, map_matrix_origin );
 					}
 					else
 					{
@@ -613,18 +621,17 @@ public:
 				shared_ptr<IfcAxis2Placement>& text_placement_select = text_literal->m_Placement;
 				if( text_placement_select )
 				{
-					double length_factor = m_unit_converter->getLengthInMeterFactor();
 					shared_ptr<IfcAxis2Placement3D> placement_3d = dynamic_pointer_cast<IfcAxis2Placement3D>( text_placement_select );
 					if( placement_3d )
 					{
-						PlacementConverter::convertIfcAxis2Placement3D( placement_3d, length_factor, text_position_matrix );
+						m_placement_converter->convertIfcAxis2Placement3D( placement_3d, text_position_matrix );
 					}
 					else
 					{
 						shared_ptr<IfcAxis2Placement2D> placement_2d = dynamic_pointer_cast<IfcAxis2Placement2D>( text_placement_select );
 						if( placement_2d )
 						{
-							PlacementConverter::convertIfcAxis2Placement2D( placement_2d, length_factor, text_position_matrix );
+							m_placement_converter->convertIfcAxis2Placement2D( placement_2d, text_position_matrix );
 						}
 					}
 				}
@@ -930,7 +937,7 @@ public:
 			if( opening_placement )
 			{
 				std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
-				PlacementConverter::convertIfcObjectPlacement( opening_placement, length_factor, product_shape_opening, this, opening_placements_applied, false );
+				m_placement_converter->convertIfcObjectPlacement( opening_placement, product_shape_opening, opening_placements_applied, false );
 			}
 
 			std::vector<shared_ptr<IfcRepresentation> >& vec_opening_representations = opening->m_Representation->m_Representations;
