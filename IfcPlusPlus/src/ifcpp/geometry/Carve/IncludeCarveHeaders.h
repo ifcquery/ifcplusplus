@@ -30,7 +30,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <carve/matrix.hpp>
 #include <carve/geom2d.hpp>
 #include <carve/geom3d.hpp>
-#include <common/geometry.hpp>
+//#include <common/geometry.hpp>
 #include <carve/poly.hpp>
 #include <carve/polyhedron_base.hpp>
 #include <carve/mesh.hpp>

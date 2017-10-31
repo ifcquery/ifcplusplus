@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include <iterator>
+
 namespace std {
 template <unsigned ndim>
 inline void swap(carve::poly::Face<ndim>& a, carve::poly::Face<ndim>& b) {
