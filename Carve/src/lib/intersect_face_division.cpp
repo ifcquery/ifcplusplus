@@ -196,9 +196,9 @@ struct Graph {
       (*i).second.proj = face->project((*i).first->v);
     }
     for (graph_t::iterator i = graph.begin(), e = graph.end(); i != e; ++i) {
-      for (GraphEdge* e = (*i).second.edges; e; e = e->next) {
-        e->ang = carve::math::ANG(
-            carve::geom2d::atan2(projection(e->tgt) - projection(e->src)));
+      for (GraphEdge* ge = (*i).second.edges; ge; ge = ge->next) {
+        ge->ang = carve::math::ANG(
+            carve::geom2d::atan2(projection(ge->tgt) - projection(ge->src)));
       }
     }
   }
@@ -209,9 +209,9 @@ struct Graph {
          ++i) {
       out << (*i).first << (*i).first->v << '(' << projection((*i).first).x
           << ',' << projection((*i).first).y << ") :";
-      for (const GraphEdge* e = (*i).second.edges; e; e = e->next) {
-        out << ' ' << e->tgt << e->tgt->v << '(' << projection(e->tgt).x << ','
-            << projection(e->tgt).y << ')';
+      for (const GraphEdge* ge = (*i).second.edges; ge; ge = ge->next) {
+        out << ' ' << ge->tgt << ge->tgt->v << '(' << projection(ge->tgt).x << ','
+            << projection(ge->tgt).y << ')';
       }
       out << std::endl;
       if (vi) {
@@ -1164,9 +1164,11 @@ bool processCrossingEdges(
         }
       }
 
-      // copy up to the end of the path.
-      std::copy(base_loop.begin() + pos, base_loop.begin() + e1_1,
-                std::back_inserter(out));
+      if (pos <= e1_1){
+          // copy up to the end of the path.
+          std::copy(base_loop.begin() + pos, base_loop.begin() + e1_1,
+              std::back_inserter(out));
+      }
 
       CARVE_ASSERT(base_loop[e1_1] == p1.back());
       std::copy(p1.rbegin(), p1.rend() - 1, std::back_inserter(out));
@@ -1712,8 +1714,8 @@ void generateOneFaceLoop(
 
     std::vector<carve::geom2d::P2> projected;
     projected.reserve(face_loops.back().size());
-    for (size_t i = 0; i < face_loops.back().size(); ++i) {
-      projected.push_back(face->project(face_loops.back()[i]->v));
+    for (size_t j = 0; j < face_loops.back().size(); ++j) {
+      projected.push_back(face->project(face_loops.back()[j]->v));
     }
 
     if (carve::geom2d::signedArea(projected) > 0.0) {

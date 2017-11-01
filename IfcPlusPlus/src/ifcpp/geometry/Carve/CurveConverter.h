@@ -168,7 +168,7 @@ public:
 				std::vector<vec3> basis_curve_points;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim1_vec = trimmed_curve->m_Trim1;
 				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
-				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement->m_value;
+				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement.get() ? trimmed_curve->m_SenseAgreement->m_value : false;
 
 				convertIfcCurve( basis_curve, basis_curve_points, segment_start_points, curve_trim1_vec, curve_trim2_vec, trimmed_sense_agreement );
 				GeomUtils::appendPointsToCurve( basis_curve_points, target_vec );

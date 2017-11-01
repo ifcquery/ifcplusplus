@@ -38,7 +38,7 @@
 /* cbrt(x)
  * Return cube root of x
  */
-
+#if(_MSC_VER < 1900)
 inline double cbrt(double x) {
 
   static const unsigned 
@@ -91,3 +91,4 @@ inline double cbrt(double x) {
   __HI(t) |= sign;
   return(t);
 }
+#endif
