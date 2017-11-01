@@ -9,6 +9,8 @@
 
 #include <math.h>
 
+#if(_MSC_VER < 1900)
 static inline double round(double value) {
   return (value >= 0) ? floor(value + 0.5) : ceil(value - 0.5);
 }
+#endif
