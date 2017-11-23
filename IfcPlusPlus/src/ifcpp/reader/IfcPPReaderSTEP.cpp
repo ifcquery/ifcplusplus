@@ -425,6 +425,7 @@ void IfcPPReaderSTEP::readStepLines( const std::vector<std::string>& step_lines,
 	target_entity_vec.resize( num_lines );
 	std::vector<std::pair<std::string, shared_ptr<IfcPPEntity> > >* target_vec_ptr = &target_entity_vec;
 	const std::vector<std::string>* step_lines_ptr = &step_lines;
+	const std::set<std::string>* unkown_entities_ptr = &unkown_entities;
 
 #ifdef IFCPP_OPENMP
 #pragma omp parallel firstprivate(num_lines) shared(target_vec_ptr,unkown_entities_ptr,step_lines_ptr)

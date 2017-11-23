@@ -215,6 +215,7 @@ public:
 		}
 		applyPositionToItem( transform->m_matrix, true );
 	}
+
 	void applyPositionToItem( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
@@ -337,6 +338,54 @@ public:
 	}
 
 	const std::vector<shared_ptr<carve::input::VertexData> >& getVertexPoints() { return m_vertex_points; }
+
+	void computeBoundingBox( carve::geom::aabb<3>& bbox ) const
+	{
+		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
+		{
+			const shared_ptr<carve::input::VertexData>& vertex_data = m_vertex_points[ii];
+			for( size_t j = 0; j<vertex_data->points.size(); ++j )
+			{
+				const vec3& point = vertex_data->points[j];
+				if( bbox.isEmpty() ) bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR(0,0,0) );
+				bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+			}
+		}
+
+		for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
+		{
+			const shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
+			for( size_t j = 0; j<polyline_data->points.size(); ++j )
+			{
+				const vec3& point = polyline_data->points[j];
+				if( bbox.isEmpty() ) bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) );
+				bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+			}
+		}
+
+		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
+		{
+			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
+			if( bbox.isEmpty() ) bbox = item_meshset->getAABB();
+			bbox.unionAABB( item_meshset->getAABB() );
+		}
+
+		for( size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets )
+		{
+			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets[i_meshsets];
+			if( bbox.isEmpty() ) bbox = item_meshset->getAABB();
+			bbox.unionAABB( item_meshset->getAABB() );
+		}
+
+		for( size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
+		{
+			const shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
+			const carve::math::Matrix& mat = text_literals->m_text_position;
+			vec3 text_pos = carve::geom::VECTOR( mat._41, mat._42, mat._43 );
+			if( bbox.isEmpty() ) bbox = carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) );
+			bbox.unionAABB( carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) ) );
+		}
+	}
 };
 
 class RepresentationData
@@ -437,6 +486,15 @@ public:
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
 			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
+		}
+	}
+
+	void computeBoundingBox( carve::geom::aabb<3>& bbox ) const
+	{
+		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
+		{
+			const shared_ptr<ItemShapeData>& item_data = m_vec_item_data[ii];
+			item_data->computeBoundingBox( bbox );
 		}
 	}
 };
@@ -636,6 +694,14 @@ public:
 			}
 		}
 		return true;
+	}
+	void computeBoundingBox( carve::geom::aabb<3>& bbox ) const
+	{
+		for( size_t ii = 0; ii < m_vec_representations.size(); ++ii )
+		{
+			const shared_ptr<RepresentationData>& representation_data = m_vec_representations[ii];
+			representation_data->computeBoundingBox( bbox );
+		}
 	}
 };
 

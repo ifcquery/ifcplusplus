@@ -455,6 +455,7 @@ public:
 		{
 			return;
 		}
+		
 		if( !ifc_product->m_Representation )
 		{
 			return;

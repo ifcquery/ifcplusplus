@@ -302,7 +302,7 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
+			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
 		}
 	}
 	void applyPositionToRepresentation( const gp_GTrsf& matrix, bool matrix_identity_checked = false )
@@ -313,7 +313,7 @@ public:
 		//}
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPosition( matrix, matrix_identity_checked );
+			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
 		}
 	}
 };
@@ -387,7 +387,7 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_representations.size(); ++i_item )
 		{
-			m_vec_representations[i_item]->applyPosition( matrix, true );
+			m_vec_representations[i_item]->applyPositionToRepresentation( matrix, true );
 		}
 	}
 	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }

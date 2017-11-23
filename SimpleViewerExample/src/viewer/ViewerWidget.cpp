@@ -51,6 +51,7 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	m_material_default->setTransparency( osg::Material::FRONT_AND_BACK, 0.7f );
 
 	osg::LightModel* light_model = new osg::LightModel();
+	light_model->setTwoSided( true );
 	light_model->setAmbientIntensity( osg::Vec4f( 0.2f, 0.25f, 0.3f, 0.3f ) );
 	sys->getRootNode()->getOrCreateStateSet()->setAttribute( light_model );
 
