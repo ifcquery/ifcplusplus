@@ -75,7 +75,7 @@ public:
 		m_vertex_points.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( point.X(), point.Y(), point.Z() ) ) );
 	}
 
-	void applyPositionToItem( const gp_Trsf& mat, bool matrix_identity_checked = false )
+	void applyTransformToItem( const gp_Trsf& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -111,7 +111,7 @@ public:
 		}
 	}
 
-	void applyPositionToItem( const gp_GTrsf& mat, bool matrix_identity_checked = false )
+	void applyTransformToItem( const gp_GTrsf& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -124,7 +124,6 @@ public:
 		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
 		{
 			TopoDS_Vertex& vertex_data = m_vertex_points[ii];
-
 			GeomUtils::applyMatrixToShape( vertex_data, mat );
 		}
 
@@ -224,7 +223,6 @@ public:
 	std::wstring									m_representation_identifier;
 	std::wstring									m_representation_type;
 
-
 	shared_ptr<RepresentationData> getDeepCopy()
 	{
 		shared_ptr<RepresentationData> copy_representation( new RepresentationData() );
@@ -294,7 +292,7 @@ public:
 		m_representation_type = L"";
 	}
 
-	void applyPositionToRepresentation( const gp_Trsf& matrix, bool matrix_identity_checked = false )
+	void applyTransformToRepresentation( const gp_Trsf& matrix, bool matrix_identity_checked = false )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
 		{
@@ -302,10 +300,10 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
+			m_vec_item_data[i_item]->applyTransformToItem( matrix, matrix_identity_checked );
 		}
 	}
-	void applyPositionToRepresentation( const gp_GTrsf& matrix, bool matrix_identity_checked = false )
+	void applyTransformToRepresentation( const gp_GTrsf& matrix, bool matrix_identity_checked = false )
 	{
 		//if( GeomUtils::isMatrixIdentity( matrix ) )
 		//{
@@ -313,7 +311,7 @@ public:
 		//}
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
+			m_vec_item_data[i_item]->applyTransformToItem( matrix, matrix_identity_checked );
 		}
 	}
 };
@@ -379,7 +377,7 @@ public:
 		m_added_to_spatial_structure = false;
 	}
 
-	void applyPositionToProduct( const gp_Trsf& matrix )
+	void applyTransformToProduct( const gp_Trsf& matrix )
 	{
 		if( GeomUtils::isMatrixIdentity( matrix ) )
 		{
@@ -387,14 +385,14 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_representations.size(); ++i_item )
 		{
-			m_vec_representations[i_item]->applyPositionToRepresentation( matrix, true );
+			m_vec_representations[i_item]->applyTransformToRepresentation( matrix, true );
 		}
 	}
 	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
 
 	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
-	std::vector<shared_ptr<RepresentationData> >	m_vec_representations;
+	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
 	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
 	bool												m_added_to_spatial_structure;
 	

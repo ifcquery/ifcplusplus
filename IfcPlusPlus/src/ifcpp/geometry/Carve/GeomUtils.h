@@ -533,7 +533,7 @@ namespace GeomUtils
 	}
 	
 	/** MeshSet and Polyhedron operations */
-	inline void applyPosition( shared_ptr<carve::input::PolyhedronData>& poly_data, const carve::math::Matrix& matrix )
+	inline void applyTransform( shared_ptr<carve::input::PolyhedronData>& poly_data, const carve::math::Matrix& matrix )
 	{
 		for( size_t ii = 0; ii < poly_data->points.size(); ++ii )
 		{
@@ -553,7 +553,7 @@ namespace GeomUtils
 			meshset->meshes[i]->recalc();
 		}
 	}
-	inline void applyPosition( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& matrix )
+	inline void applyTransform( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& matrix )
 	{
 		for( size_t i = 0; i < meshset->vertex_storage.size(); ++i )
 		{
@@ -565,7 +565,7 @@ namespace GeomUtils
 			meshset->meshes[i]->recalc();
 		}
 	}
-	inline void applyPosition( carve::geom::aabb<3>& aabb, const carve::math::Matrix& matrix )
+	inline void applyTransform( carve::geom::aabb<3>& aabb, const carve::math::Matrix& matrix )
 	{
 		vec3& pos = aabb.pos;
 		vec3& extent = aabb.extent;

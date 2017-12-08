@@ -131,7 +131,7 @@ public:
 			if( extruded_area )
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
-				item_data_solid->applyPositionToItem( swept_area_pos );
+				item_data_solid->applyTransformToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}
@@ -200,7 +200,7 @@ public:
 			if( revolved_area_solid )
 			{
 				convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid );
-				item_data_solid->applyPositionToItem( swept_area_pos );
+				item_data_solid->applyTransformToItem( swept_area_pos );
 				item_data->addItemData( item_data_solid );
 				return;
 			}

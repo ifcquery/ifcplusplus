@@ -314,7 +314,7 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> ifc_object_def = vec_object_defs[i];
 				const int entity_id = ifc_object_def->m_entity_id;
-				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData() );
+				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( entity_id ) );
 				product_geom_input_data->m_ifc_object_definition = ifc_object_def;
 
 				std::stringstream thread_err;

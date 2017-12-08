@@ -200,7 +200,7 @@ public:
 		vertex_data->points.push_back( point );
 	}
 
-	void applyPositionToItem( const shared_ptr<TransformData>& transform, bool matrix_identity_checked = false )
+	void applyTransformToItem( const shared_ptr<TransformData>& transform, bool matrix_identity_checked = false )
 	{
 		if( !transform )
 		{
@@ -213,10 +213,10 @@ public:
 				return;
 			}
 		}
-		applyPositionToItem( transform->m_matrix, true );
+		applyTransformToItem( transform->m_matrix, true );
 	}
 
-	void applyPositionToItem( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
+	void applyTransformToItem( const carve::math::Matrix& mat, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -347,8 +347,14 @@ public:
 			for( size_t j = 0; j<vertex_data->points.size(); ++j )
 			{
 				const vec3& point = vertex_data->points[j];
-				if( bbox.isEmpty() ) bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR(0,0,0) );
-				bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+				if( bbox.isEmpty() )
+				{
+					bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) );
+				}
+				else
+				{
+					bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+				}
 			}
 		}
 
@@ -358,23 +364,41 @@ public:
 			for( size_t j = 0; j<polyline_data->points.size(); ++j )
 			{
 				const vec3& point = polyline_data->points[j];
-				if( bbox.isEmpty() ) bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) );
-				bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+				if( bbox.isEmpty() )
+				{
+					bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) );
+				}
+				else
+				{
+					bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+				}
 			}
 		}
 
 		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
 		{
 			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
-			if( bbox.isEmpty() ) bbox = item_meshset->getAABB();
-			bbox.unionAABB( item_meshset->getAABB() );
+			if( bbox.isEmpty() )
+			{
+				bbox = item_meshset->getAABB();
+			}
+			else
+			{
+				bbox.unionAABB( item_meshset->getAABB() );
+			}
 		}
 
 		for( size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets )
 		{
 			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets[i_meshsets];
-			if( bbox.isEmpty() ) bbox = item_meshset->getAABB();
-			bbox.unionAABB( item_meshset->getAABB() );
+			if( bbox.isEmpty() )
+			{
+				bbox = item_meshset->getAABB();
+			}
+			else
+			{
+				bbox.unionAABB( item_meshset->getAABB() );
+			}
 		}
 
 		for( size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
@@ -382,8 +406,14 @@ public:
 			const shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
 			const carve::math::Matrix& mat = text_literals->m_text_position;
 			vec3 text_pos = carve::geom::VECTOR( mat._41, mat._42, mat._43 );
-			if( bbox.isEmpty() ) bbox = carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) );
-			bbox.unionAABB( carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) ) );
+			if( bbox.isEmpty() )
+			{
+				bbox = carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) );
+			}
+			else
+			{
+				bbox.unionAABB( carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) ) );
+			}
 		}
 	}
 };
@@ -474,7 +504,7 @@ public:
 		m_representation_type = L"";
 	}
 	
-	void applyPositionToRepresentation( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
+	void applyTransformToRepresentation( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -485,7 +515,7 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_item_data.size(); ++i_item )
 		{
-			m_vec_item_data[i_item]->applyPositionToItem( matrix, matrix_identity_checked );
+			m_vec_item_data[i_item]->applyTransformToItem( matrix, matrix_identity_checked );
 		}
 	}
 
@@ -502,6 +532,7 @@ public:
 class ProductShapeData 
 {
 public:
+	int m_entity_id = -1;
 	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
 	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
@@ -514,10 +545,13 @@ protected:
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 
 public:
+	ProductShapeData() {}
+	ProductShapeData( int entity_id ) : m_entity_id(entity_id) { }
+
 	const std::vector<shared_ptr<ProductShapeData> >& getChildren() { return m_vec_children; }
 	shared_ptr<ProductShapeData> getDeepCopy()
 	{
-		shared_ptr<ProductShapeData> copy_data( new ProductShapeData() );
+		shared_ptr<ProductShapeData> copy_data( new ProductShapeData(m_entity_id) );
 		for( size_t item_i = 0; item_i < m_vec_representations.size(); ++item_i )
 		{
 			shared_ptr<RepresentationData>& representation_data = m_vec_representations[item_i];
@@ -529,7 +563,7 @@ public:
 		for( auto child_product_data : m_vec_children )
 		{
 			shared_ptr<ProductShapeData> child_copy = child_product_data->getDeepCopy();
-			copy_data->m_vec_children.push_back( child_product_data );
+			copy_data->m_vec_children.push_back( child_copy );
 		}
 		copy_data->m_parent = m_parent;
 
@@ -593,19 +627,37 @@ public:
 		return false;
 	}
 
-	void addChildProduct( shared_ptr<ProductShapeData>& child_product, shared_ptr<ProductShapeData>& ptr_self )
+	void addChildProduct( shared_ptr<ProductShapeData>& add_child, shared_ptr<ProductShapeData>& ptr_self )
 	{
 		if( ptr_self.get() != this )
 		{
 			std::cout << __FUNCTION__ << ": ptr_self.get() != this" << std::endl;
 		}
-		if( isContainedInParentsList( child_product ) )
+		if( isContainedInParentsList( add_child ) )
 		{
 			std::cout << __FUNCTION__ << ": isContainedInParentsList" << std::endl;
 			return;
 		}
-		m_vec_children.push_back( child_product );
-		child_product->m_parent = ptr_self;
+#ifdef _DEBUG
+		for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
+		{
+			const shared_ptr<ProductShapeData>& existing_child = m_vec_children[ii];
+			if( existing_child == add_child )
+			{
+				if( existing_child->m_entity_id == add_child->m_entity_id )
+				{
+					std::cout << __FUNCTION__ << ": child already added, entity_id: " << add_child->m_entity_id << std::endl;
+				}
+				else
+				{
+					std::cout << __FUNCTION__ << ": entity_id mismatch: " << add_child->m_entity_id << " != " << existing_child->m_entity_id << std::endl;
+				}
+				return;
+			}
+		}
+#endif
+		m_vec_children.push_back( add_child );
+		add_child->m_parent = ptr_self;
 	}
 
 	/**
@@ -648,7 +700,7 @@ public:
 		m_vec_transforms.insert( m_vec_transforms.begin(), transform_data );
 	}
 
-	void applyPositionToProduct( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
+	void applyTransformToProduct( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -659,11 +711,11 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_vec_representations.size(); ++i_item )
 		{
-			m_vec_representations[i_item]->applyPositionToRepresentation( matrix, true );
+			m_vec_representations[i_item]->applyTransformToRepresentation( matrix, true );
 		}
 		for( auto child_product_data : m_vec_children )
 		{
-			child_product_data->applyPositionToProduct( matrix, true );
+			child_product_data->applyTransformToProduct( matrix, true );
 		}
 	}
 	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
@@ -695,12 +747,20 @@ public:
 		}
 		return true;
 	}
-	void computeBoundingBox( carve::geom::aabb<3>& bbox ) const
+	void computeBoundingBox( carve::geom::aabb<3>& bbox, bool include_children ) const
 	{
 		for( size_t ii = 0; ii < m_vec_representations.size(); ++ii )
 		{
 			const shared_ptr<RepresentationData>& representation_data = m_vec_representations[ii];
 			representation_data->computeBoundingBox( bbox );
+		}
+
+		if( include_children )
+		{
+			for( auto child_product_data : m_vec_children )
+			{
+				child_product_data->computeBoundingBox( bbox, include_children );
+			}
 		}
 	}
 };

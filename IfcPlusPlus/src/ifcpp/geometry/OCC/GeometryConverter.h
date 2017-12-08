@@ -166,7 +166,7 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> ifc_object_def = vec_ifc_object_defs[i];
 				const int product_id = ifc_object_def->m_entity_id;
-				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData() );
+				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( product_id ) );
 				product_geom_input_data->m_ifc_object_definition = ifc_object_def;
 
 				std::stringstream thread_err;
@@ -346,7 +346,7 @@ public:
 			// IfcPlacement2Matrix follows related placements in case of local coordinate systems
 			std::unordered_set<IfcObjectPlacement*> placement_already_applied;
 			PlacementConverter::convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, length_factor, product_placement_matrix, this, placement_already_applied );
-			product_shape->applyPositionToProduct( product_placement_matrix );
+			product_shape->applyTransformToProduct( product_placement_matrix );
 		}
 
 		// handle openings

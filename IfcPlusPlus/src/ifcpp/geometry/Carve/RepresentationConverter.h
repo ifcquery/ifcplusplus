@@ -78,8 +78,6 @@ protected:
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<SolidModelConverter>		m_solid_converter;
 	
-	
-	
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
 		: m_geom_settings( geom_settings ), m_unit_converter( unit_converter )
@@ -322,7 +320,7 @@ public:
 				}
 
 				carve::math::Matrix mapped_pos( map_matrix_target->m_matrix*map_matrix_origin->m_matrix );
-				mapped_input_data->applyPositionToRepresentation( mapped_pos );
+				mapped_input_data->applyTransformToRepresentation( mapped_pos );
 				representation_data->appendRepresentationData( mapped_input_data, representation_data );
 				continue;
 			}
@@ -933,7 +931,7 @@ public:
 
 			// opening can have its own relative placement
 			shared_ptr<IfcObjectPlacement>	opening_placement = opening->m_ObjectPlacement;
-			shared_ptr<ProductShapeData> product_shape_opening( new ProductShapeData() );
+			shared_ptr<ProductShapeData> product_shape_opening( new ProductShapeData( opening_placement->m_entity_id ) );
 			if( opening_placement )
 			{
 				std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
@@ -1041,7 +1039,7 @@ public:
 								}
 
 								// transform opening meshset relative to product
-								opening_item_data->applyPositionToItem( opening_relative_to_product );
+								opening_item_data->applyTransformToItem( opening_relative_to_product );
 
 								std::vector<shared_ptr<carve::mesh::MeshSet<3> > >&	opening_meshsets = opening_item_data->m_meshsets;
 								for( size_t i_opening_meshset = 0; i_opening_meshset < opening_meshsets.size(); ++i_opening_meshset )
@@ -1079,7 +1077,7 @@ public:
 								}
 
 								// transform meshset back into local coordinates
-								opening_item_data->applyPositionToItem( opening_relative_to_product_inverse );
+								opening_item_data->applyTransformToItem( opening_relative_to_product_inverse );
 							}
 						}
 					}

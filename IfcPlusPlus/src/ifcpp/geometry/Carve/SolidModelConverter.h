@@ -121,7 +121,7 @@ public:
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
 				item_data->addItemData( item_data_solid );
-				item_data->applyPositionToItem( swept_area_pos );
+				item_data->applyTransformToItem( swept_area_pos );
 				return;
 			}
 
@@ -148,7 +148,7 @@ public:
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
 				item_data->addItemData( item_data_solid );
-				item_data->applyPositionToItem( swept_area_pos );
+				item_data->applyTransformToItem( swept_area_pos );
 
 				return;
 			}
@@ -158,7 +158,7 @@ public:
 			{
 				convertIfcRevolvedAreaSolid( revolved_area_solid, item_data_solid );
 				item_data->addItemData( item_data_solid );
-				item_data->applyPositionToItem( swept_area_pos );
+				item_data->applyTransformToItem( swept_area_pos );
 				return;
 			}
 
@@ -193,7 +193,7 @@ public:
 
 				m_sweeper->sweepArea( directrix_curve_points, profile_paths, surface_curve_swept_area_solid.get(), item_data_solid );
 				item_data->addItemData( item_data_solid );
-				item_data->applyPositionToItem( swept_area_pos );
+				item_data->applyTransformToItem( swept_area_pos );
 
 				return;
 			}
@@ -1375,7 +1375,7 @@ public:
 			}
 
 			// apply position of PolygonalBoundary
-			polygonal_halfspace_item_data->applyPositionToItem( boundary_position_matrix );
+			polygonal_halfspace_item_data->applyTransformToItem( boundary_position_matrix );
 
 			shared_ptr<carve::mesh::MeshSet<3> > polygonal_halfspace_meshset = polygonal_halfspace_item_data->m_meshsets[0];
 			const size_t num_poly_points = polygonal_halfspace_meshset->vertex_storage.size();

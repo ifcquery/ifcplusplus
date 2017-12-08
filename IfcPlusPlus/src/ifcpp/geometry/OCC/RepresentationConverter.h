@@ -275,12 +275,12 @@ public:
 				if( target_non_uniform )
 				{
 					gp_GTrsf mapped_pos( map_matrix_target_general*map_matrix_origin );
-					mapped_input_data->applyPositionToRepresentation( mapped_pos );
+					mapped_input_data->applyTransformToRepresentation( mapped_pos );
 				}
 				else
 				{
 					gp_Trsf mapped_pos( map_matrix_target*map_matrix_origin );
-					mapped_input_data->applyPositionToRepresentation( mapped_pos );
+					mapped_input_data->applyTransformToRepresentation( mapped_pos );
 				}
 				input_data->addInputData( mapped_input_data );
 
@@ -803,7 +803,7 @@ public:
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
 
-				opening_representation_data->applyPositionToRepresentation( opening_placement_matrix );
+				opening_representation_data->applyTransformToRepresentation( opening_placement_matrix );
 				vec_opening_data.push_back( opening_representation_data );
 			}
 		}
