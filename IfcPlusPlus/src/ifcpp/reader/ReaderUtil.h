@@ -372,7 +372,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 			--num_par_open;
 			if( num_par_open == 0 )
 			{
-				// closing paranthesis found
+				// closing parenthesis found
 				target_vec.resize(target_vec.size()+1);
 				std::wstring s = str.substr( last_token, i-last_token );
 				readTypeOfRealList( s, target_vec.back() );
@@ -382,9 +382,9 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 		++i;
 	}
 
-	// no closing paranthesis found
+	// no closing parenthesis found
 	std::wstringstream err;
-	err << "no closing paranthesis found: " << str << std::endl;
+	err << "no closing parenthesis found: " << str << std::endl;
 	throw IfcPPException( err.str(), __FUNC__ );
 }
 
@@ -753,9 +753,9 @@ void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector
 		}
 		++ch;
 	}
-	// no closing paranthesis found
+	// no closing parenthesis found
 	std::wstringstream err;
-	err << "no closing paranthesis found: " << str << std::endl;
+	err << "no closing parenthesis found: " << str << std::endl;
 	throw IfcPPException( err.str(), __FUNC__ );
 }
 
@@ -807,8 +807,8 @@ void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<
 		}
 		++ch;
 	}
-	// no closing paranthesis found
+	// no closing parenthesis found
 	std::stringstream err;
-	err << "no closing paranthesis found: " << str << std::endl;
+	err << "no closing parenthesis found: " << str << std::endl;
 	throw IfcPPException( err.str(), __FUNC__ );
 }

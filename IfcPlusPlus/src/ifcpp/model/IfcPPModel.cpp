@@ -391,7 +391,7 @@ void IfcPPModel::removeUnreferencedEntities()
 			shared_ptr<IfcRelationship> ifc_relationship = dynamic_pointer_cast<IfcRelationship>( entity );
 			if( ifc_relationship )
 			{
-				// relationship objects may only reference some entities while not beeing referenced itself
+				// relationship objects may only reference some entities while not being referenced itself
 				std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > > vec_attributes;
 				ifc_relationship->getAttributes( vec_attributes );
 				if( vec_attributes.size() > 4 )

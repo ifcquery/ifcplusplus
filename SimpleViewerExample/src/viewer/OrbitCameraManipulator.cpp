@@ -238,7 +238,7 @@ bool OrbitCameraManipulator::handleFrame( const osgGA::GUIEventAdapter& ea, osgG
 	{
 		if( m_animation_data->_startTime < 0 )
 		{
-			// animation has been started from some location without acces to a GUIEventAdapter object, so no start time could be set. Do it now.
+			// animation has been started from some location without access to a GUIEventAdapter object, so no start time could be set. Do it now.
 			m_animation_data->start( current_frame_time );
 		}
 		performAnimationMovement( ea, aa );

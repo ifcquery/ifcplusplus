@@ -27,7 +27,7 @@ CommandManager::~CommandManager(){}
 
 void CommandManager::executeCommand( shared_ptr<Command> c )
 {
-	// keep a pointer to the new and to the current command, to prevent them from beeing deleted
+	// keep a pointer to the new and to the current command, to prevent them from being deleted
 	shared_ptr<Command> tmp_new_cmd = c;
 	shared_ptr<Command> tmp_prev_cmd;
 

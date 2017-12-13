@@ -132,7 +132,7 @@ void IfcPPReaderSTEP::loadModelFromString( std::string& content, shared_ptr<IfcP
 	}
 	catch( ... )
 	{
-		messageCallback( "An error occured", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( "An error occurred", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 }
 
