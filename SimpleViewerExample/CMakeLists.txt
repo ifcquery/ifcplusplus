@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.9.4)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
 
 IF(NOT WIN32)
 IF(NOT CMAKE_BUILD_TYPE)
@@ -100,7 +100,12 @@ set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
 
 QT5_USE_MODULES(SimpleViewerExample Core Gui Widgets OpenGL)
 
-TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OPENTHREADS_LIBRARY} debug ${OPENTHREADS_LIBRARY_DEBUG})
+If(UNIX)
+    # ON Debian Stretch with cmake 3.7.2 OPENTHREADS_LIBRARY_DEBUG is a not known variable
+    TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY})
+else(UNIX)
+    TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OPENTHREADS_LIBRARY} debug ${OPENTHREADS_LIBRARY_DEBUG})
+ENDIF()
 TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OSG_LIBRARY} debug ${OSG_LIBRARY_DEBUG})
 TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG})
 TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OSGGA_LIBRARY} debug ${OSGGA_LIBRARY_DEBUG})
