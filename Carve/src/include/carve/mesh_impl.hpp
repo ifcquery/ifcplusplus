@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include <stddef.h>
+
 #include <carve/djset.hpp>
 #include <carve/geom2d.hpp>
 #include <carve/geom3d.hpp>
