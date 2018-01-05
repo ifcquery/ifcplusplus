@@ -786,7 +786,8 @@ namespace CSG_Adapter
 		}
 
 		size_t num_faces = getNumFaces( meshset.get() );
-		size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
+		// merge faces if their normals have a difference less than 10^-5 rad
+		/*size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
 		if( modifications_coplanar > 0 )
 		{
 			int num_faces_post_merge = getNumFaces( meshset.get() );
@@ -796,7 +797,7 @@ namespace CSG_Adapter
 				std::cout << "num_faces_post_merge + modifications_coplanar != num_faces" << std::endl;
 #endif
 			}
-		}
+		}*/
 
 		bool faces_ok = checkFaceIntegrity( meshset );
 		if( !faces_ok )
