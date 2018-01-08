@@ -845,7 +845,7 @@ void carve::triangulate::incorporateHolesIntoPolygon(
   // by 90 degree rotations or flipping about an axis. just as
   // long as we keep the carve::geom3d::Vector pointers for the
   // real data in sync, everything should be ok. then we wouldn't
-  // need to accomodate axes or sort order in the main loop.
+  // need to accommodate axes or sort order in the main loop.
 
   // find the bounding box of all the holes.
   carve::geom2d::P2 h_min, h_max;
@@ -994,7 +994,7 @@ carve::triangulate::incorporateHolesIntoPolygon(
   // by 90 degree rotations or flipping about an axis. just as
   // long as we keep the carve::geom3d::Vector pointers for the
   // real data in sync, everything should be ok. then we wouldn't
-  // need to accomodate axes or sort order in the main loop.
+  // need to accommodate axes or sort order in the main loop.
 
   // find the bounding box of all the holes.
   double min_x, min_y, max_x, max_y;

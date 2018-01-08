@@ -828,7 +828,7 @@ class MeshSet {
           const MeshOptions& opts = MeshOptions());
 
   // Construct a mesh set from a set of disconnected faces. Takes
-  // posession of the face pointers.
+  // possession of the face pointers.
   MeshSet(std::vector<face_t*>& faces, const MeshOptions& opts = MeshOptions());
 
   MeshSet(std::list<face_t*>& faces, const MeshOptions& opts = MeshOptions());

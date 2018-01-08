@@ -244,7 +244,7 @@ public:
 				}
 				//size_t offset_normals_storage = normals_tri_storage->size();
 
-				// Get each vertex index, checking common vertexes between shapes
+				// Get each vertex index, checking common vertices between shapes
 				for( int i = 0; i < num_vertices; i++ )
 				{
 					gp_Pnt triang_point = triang_vertices.Value( i+1 );
