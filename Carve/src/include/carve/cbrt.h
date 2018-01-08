@@ -87,7 +87,7 @@ inline double cbrt(double x) {
   r=(r-t)/(w+r);	/* r-s is exact */
   t=t+t*r;
 
-  /* retore the sign bit */
+  /* restore the sign bit */
   __HI(t) |= sign;
   return(t);
 }

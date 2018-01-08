@@ -113,7 +113,7 @@ struct tri_idx {
  *
  * @param [in] poly A vector containing the input polygon.
  * @param [out] result A vector of triangles, represented as
- *                     indicies into poly.
+ *                     indices into poly.
  */
 
 void triangulate(const std::vector<carve::geom2d::P2>& poly,
@@ -129,7 +129,7 @@ void triangulate(const std::vector<carve::geom2d::P2>& poly,
  * @param [in] poly A vector containing the input polygon,
  *                  represented as vert_t pointers.
  * @param [out] result A vector of triangles, represented as
- *                     indicies into poly.
+ *                     indices into poly.
  */
 template <typename project_t, typename vert_t>
 void triangulate(const project_t& project, const std::vector<vert_t>& poly,
@@ -146,7 +146,7 @@ void triangulate(const project_t& project, const std::vector<vert_t>& poly,
  * @param [in] poly A vector containing the input polygon,
  *                  represented as vert_t pointers.
  * @param [inout] result A vector of triangles, represented as
- *                       indicies into poly. On input, this vector
+ *                       indices into poly. On input, this vector
  *                       must contain a candidate triangulation of
  *                       poly. Calling improve() modifies the
  *                       contents of the vector, returning an
@@ -163,7 +163,7 @@ void improve(const project_t& project, const std::vector<vert_t>& poly,
  * @param [in] poly A vector containing the input polygon.
 
  * @param [inout] result A vector of triangles, represented as
- *                       indicies into poly. On input, this vector
+ *                       indices into poly. On input, this vector
  *                       must contain a candidate triangulation of
  *                       poly. Calling improve() modifies the
  *                       contents of the vector, returning an

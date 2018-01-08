@@ -79,7 +79,7 @@ class order_h_loops {
 
 /**
  * \class heap_ordering
- * \brief Provides an ordering of vertex indicies in a polygon
+ * \brief Provides an ordering of vertex indices in a polygon
  * loop according to proximity to a vertex.
  *
  * @tparam project_t A functor which converts vertices to a 2d
@@ -649,7 +649,7 @@ static std::vector<vert_t> incorporateHolesIntoPolygon(
   // by 90 degree rotations or flipping about an axis. just as
   // long as we keep the carve::geom3d::Vector pointers for the
   // real data in sync, everything should be ok. then we wouldn't
-  // need to accomodate axes or sort order in the main loop.
+  // need to accommodate axes or sort order in the main loop.
 
   // find the bounding box of all the holes.
   bool first = true;
