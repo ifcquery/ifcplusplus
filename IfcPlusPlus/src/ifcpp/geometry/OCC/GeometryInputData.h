@@ -319,7 +319,8 @@ public:
 class ProductShapeData
 {
 public:
-	ProductShapeData() : m_added_to_spatial_structure(false) {}
+	ProductShapeData() {}
+	ProductShapeData( int entity_id ) : m_entity_id( entity_id ) { }
 	virtual ~ProductShapeData() {}
 
 	void addInputData( shared_ptr<ProductShapeData>& other )
@@ -389,13 +390,64 @@ public:
 		}
 	}
 	std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
+	const std::vector<shared_ptr<ProductShapeData> >& getChildren() { return m_vec_children; }
 
-	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
-	weak_ptr<IfcObjectPlacement>						m_object_placement;
-	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
-	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
-	bool												m_added_to_spatial_structure;
-	
+	bool isContainedInParentsList( shared_ptr<ProductShapeData>& product_data_check )
+	{
+		if( !m_parent.expired() )
+		{
+			shared_ptr<ProductShapeData> product_data_parent( m_parent );
+			if( product_data_parent == product_data_check )
+			{
+				return true;
+			}
+			product_data_parent->isContainedInParentsList( product_data_check );
+		}
+		return false;
+	}
+
+	void addChildProduct( shared_ptr<ProductShapeData>& add_child, shared_ptr<ProductShapeData>& ptr_self )
+	{
+		if( ptr_self.get() != this )
+		{
+			std::cout << __FUNCTION__ << ": ptr_self.get() != this" << std::endl;
+		}
+		if( isContainedInParentsList( add_child ) )
+		{
+			std::cout << __FUNCTION__ << ": isContainedInParentsList" << std::endl;
+			return;
+		}
+#ifdef _DEBUG
+		for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
+		{
+			const shared_ptr<ProductShapeData>& existing_child = m_vec_children[ii];
+			if( existing_child == add_child )
+			{
+				if( existing_child->m_entity_id == add_child->m_entity_id )
+				{
+					std::cout << __FUNCTION__ << ": child already added, entity_id: " << add_child->m_entity_id << std::endl;
+				}
+				else
+				{
+					std::cout << __FUNCTION__ << ": entity_id mismatch: " << add_child->m_entity_id << " != " << existing_child->m_entity_id << std::endl;
+				}
+				return;
+			}
+		}
+#endif
+		m_vec_children.push_back( add_child );
+		add_child->m_parent = ptr_self;
+	}
+
+public:
+	int												m_entity_id = -1;
+	bool											m_added_to_spatial_structure = false;
+	weak_ptr<ProductShapeData>						m_parent;
+	weak_ptr<IfcObjectDefinition>					m_ifc_object_definition;
+	weak_ptr<IfcObjectPlacement>					m_object_placement;
+	std::vector<shared_ptr<RepresentationData> >	m_vec_representations;
+
 protected:
-	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
+	std::vector<shared_ptr<ProductShapeData> >		m_vec_children;
+	std::vector<shared_ptr<AppearanceData> >		m_vec_product_appearances;
 };

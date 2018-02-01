@@ -20,9 +20,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #if _MSC_VER >= 1600
 
 #include <memory>
+#if _MSC_VER < 1912
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::tr1::dynamic_pointer_cast;
+#else
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
+#endif
 
 #elif defined __GNUC__ && !defined(__FreeBSD__)
 

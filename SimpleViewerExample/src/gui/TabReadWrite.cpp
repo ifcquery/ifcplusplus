@@ -168,6 +168,10 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 		{
 			myself->slotProgressValue( m->m_progress_value, m->m_progress_type );
 		}
+		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_CLEAR_MESSAGES )
+		{
+			myself->slotClearTxtOut();
+		}
 	}
 }
 
@@ -341,6 +345,11 @@ void TabReadWrite::slotProgressValue( double progress_value_in, const std::strin
 			m_current_progress_value = progress_value;
 		}
 	}
+}
+
+void TabReadWrite::slotClearTxtOut()
+{
+	m_txt_out->clear();
 }
 
 void TabReadWrite::slotLoadRecentIfcFileClicked()

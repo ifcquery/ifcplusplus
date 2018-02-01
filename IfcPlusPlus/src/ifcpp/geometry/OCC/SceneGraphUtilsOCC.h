@@ -51,7 +51,7 @@ inline void drawBoundingBoxLines( const Bnd_Box& aabb, osg::Vec3Array* vertices,
 	vertices->push_back( osg::Vec3f( pos_x + dex, pos_y + dey, pos_z + dez ) );
 	vertices->push_back( osg::Vec3f( pos_x - dex, pos_y + dey, pos_z + dez ) );
 
-	osg::DrawElementsUInt* box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
+	osg::ref_ptr<osg::DrawElementsUInt> box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
 	box_lines->push_back( vert_id_offset + 0 );
 	box_lines->push_back( vert_id_offset + 1 );
 	box_lines->push_back( vert_id_offset + 2 );
@@ -76,9 +76,9 @@ inline void drawBoundingBoxLines( const Bnd_Box& aabb, osg::Geode* geode )
 	{
 		return;
 	}
-	osg::Geometry* geom_bbox = new osg::Geometry();
+	osg::ref_ptr<osg::Geometry> geom_bbox = new osg::Geometry();
 	geode->addDrawable( geom_bbox );
-	osg::Vec3Array* vertices_bbox = new osg::Vec3Array();
+	osg::ref_ptr<osg::Vec3Array> vertices_bbox = new osg::Vec3Array();
 	geom_bbox->setVertexArray( vertices_bbox );
 	drawBoundingBoxLines( aabb, vertices_bbox, geom_bbox );
 }

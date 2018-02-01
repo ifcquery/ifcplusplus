@@ -308,7 +308,7 @@ public:
 #pragma omp parallel firstprivate(num_products) shared(map_products_ptr)
 		{
 			// time for one product may vary significantly, so schedule not so many
-#pragma omp for schedule(dynamic,10)
+#pragma omp for schedule(dynamic,40)
 #endif
 			for( int i = 0; i < num_products; ++i )
 			{

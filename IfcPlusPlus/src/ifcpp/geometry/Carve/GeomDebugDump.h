@@ -358,7 +358,6 @@ namespace GeomDebugDump
 
 	inline void dumpPolylineSet( const carve::input::PolylineSetData* polyline_data, const carve::geom::vector<4>& color, bool append )
 	{
-		//osg::Vec3Array* vertices = new osg::Vec3Array();
 		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
 
 		if( polyline_set->vertices.size() < 2 )

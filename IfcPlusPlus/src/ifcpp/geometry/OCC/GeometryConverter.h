@@ -503,7 +503,7 @@ public:
 							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
 							if( related_product_shape )
 							{
-								product_data->m_vec_children.push_back( related_product_shape );
+								product_data->addChildProduct( related_product_shape, product_data );
 								resolveProjectStructure( related_product_shape );
 							}
 						}
@@ -539,7 +539,7 @@ public:
 								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
 								if( related_product_shape )
 								{
-									product_data->m_vec_children.push_back( related_product_shape );
+									product_data->addChildProduct( related_product_shape, product_data );
 									resolveProjectStructure( related_product_shape );
 								}
 							}

@@ -17,9 +17,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <osg/Material>
-#include <osg/Geode>
 #include <osg/CullFace>
+#include <osg/Geode>
+#include <osg/Hint>
+#include <osg/LineWidth>
+#include <osg/Material>
 #include <osg/Point>
 #include <osgUtil/Tessellator>
 
@@ -75,11 +77,12 @@ public:
 	{
 		m_map_entity_id_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
+		m_vec_existing_statesets.clear();
 	}
 
 	static void drawBoundingBox( const carve::geom::aabb<3>& aabb, osg::Geometry* geom )
 	{
-		osg::Vec3Array* vertices = dynamic_cast<osg::Vec3Array*>( geom->getVertexArray() );
+		osg::ref_ptr<osg::Vec3Array> vertices = dynamic_cast<osg::Vec3Array*>( geom->getVertexArray() );
 		if( !vertices )
 		{
 			vertices = new osg::Vec3Array();
@@ -102,7 +105,7 @@ public:
 		vertices->push_back( osg::Vec3f( aabb_pos.x + dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
 		vertices->push_back( osg::Vec3f( aabb_pos.x - dex, aabb_pos.y + dey, aabb_pos.z + dez ) );
 
-		osg::DrawElementsUInt* box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
+		osg::ref_ptr<osg::DrawElementsUInt> box_lines = new osg::DrawElementsUInt( GL_LINE_STRIP, 0 );
 		box_lines->push_back( vert_id_offset + 0 );
 		box_lines->push_back( vert_id_offset + 1 );
 		box_lines->push_back( vert_id_offset + 2 );
@@ -156,8 +159,8 @@ public:
 			std::cout << "drawFace is meant only for num vertices > 4" << std::endl;
 		}
 
-		vec3 * vertex_vec;
-		osg::Vec3Array* vertices = new osg::Vec3Array( num_vertices );
+		vec3* vertex_vec;
+		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array( num_vertices );
 		if( !vertices ) { throw IfcPPOutOfMemoryException(); }
 		osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::POLYGON, num_vertices );
 		if( !triangles ) { throw IfcPPOutOfMemoryException(); }
@@ -165,22 +168,19 @@ public:
 		for( size_t i = 0; i < num_vertices; ++i )
 		{
 			vertex_vec = &face_vertices[num_vertices - i - 1];
-			//vertices->push_back(osg::Vec3f(vertex_vec->x, vertex_vec->y, vertex_vec->z));
 			( *vertices )[i].set( vertex_vec->x, vertex_vec->y, vertex_vec->z );
-			( *triangles )[i] = i;// ->push_back( i );
+			( *triangles )[i] = i;
 		}
 
 		osg::Vec3f poly_normal = SceneGraphUtils::computePolygonNormal( vertices );
-		osg::Vec3Array* normals = new osg::Vec3Array();
+		osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
 		normals->resize( num_vertices, poly_normal );
 
 
-		osg::Geometry* geometry = new osg::Geometry();
+		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 		geometry->setVertexArray( vertices );
 		geometry->setNormalArray( normals );
 		normals->setBinding( osg::Array::BIND_PER_VERTEX );
-
-		//geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POLYGON, 0, vertices->size() ) );
 
 		if( add_color_array )
@@ -188,9 +188,7 @@ public:
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 			colors->resize( vertices->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 			colors->setBinding( osg::Array::BIND_PER_VERTEX );
-
 			geometry->setColorArray( colors );
-			//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		}
 
 		if( num_vertices > 4 )
@@ -206,7 +204,7 @@ public:
 
 
 #ifdef DEBUG_DRAW_NORMALS
-		osg::Vec3Array* vertices_normals = new osg::Vec3Array();
+		osg::ref_ptr<osg::Vec3Array> vertices_normals = new osg::Vec3Array();
 		for( size_t i = 0; i < num_vertices; ++i )
 		{
 			vertex_vec = &face_vertices[num_vertices - i - 1];
@@ -214,10 +212,10 @@ public:
 			vertices_normals->push_back( osg::Vec3f( vertex_vec->x, vertex_vec->y, vertex_vec->z ) + poly_normal );
 		}
 
-		osg::Vec4Array* colors_normals = new osg::Vec4Array();
+		osg::ref_ptr<osg::Vec4Array> colors_normals = new osg::Vec4Array();
 		colors_normals->resize( num_vertices * 2, osg::Vec4f( 0.4f, 0.7f, 0.4f, 1.f ) );
 
-		osg::Geometry* geometry_normals = new osg::Geometry();
+		osg::ref_ptr<osg::Geometry> geometry_normals = new osg::Geometry();
 		geometry_normals->setVertexArray( vertices_normals );
 		geometry_normals->setColorArray( colors_normals );
 		geometry_normals->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
@@ -416,13 +414,12 @@ public:
 
 		if( vertices_tri->size() > 0 )
 		{
-			osg::Geometry* geometry = new osg::Geometry();
+			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 			if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 			geometry->setVertexArray( vertices_tri );
 
 			geometry->setNormalArray( normals_tri );
 			normals_tri->setBinding( osg::Array::BIND_PER_VERTEX );
-			//geometry->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 
 			if( add_color_array )
 			{
@@ -431,7 +428,6 @@ public:
 				colors->resize( vertices_tri->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 				colors->setBinding( osg::Array::BIND_PER_VERTEX );
 				geometry->setColorArray( colors );
-				//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 			}
 
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size() ) );
@@ -439,7 +435,7 @@ public:
 			geode->addDrawable( geometry );
 
 #ifdef DEBUG_DRAW_NORMALS
-			osg::Vec3Array* vertices_normals = new osg::Vec3Array();
+			osg::ref_ptr<osg::Vec3Array> vertices_normals = new osg::Vec3Array();
 			for( size_t i = 0; i < vertices_tri->size(); ++i )
 			{
 				osg::Vec3f& vertex_vec = vertices_tri->at( i );// [i];
@@ -448,10 +444,10 @@ public:
 				vertices_normals->push_back( osg::Vec3f( vertex_vec.x(), vertex_vec.y(), vertex_vec.z() ) + normal_vec );
 			}
 
-			osg::Vec4Array* colors_normals = new osg::Vec4Array();
+			osg::ref_ptr<osg::Vec4Array> colors_normals = new osg::Vec4Array();
 			colors_normals->resize( vertices_normals->size(), osg::Vec4f( 0.4f, 0.7f, 0.4f, 1.f ) );
 
-			osg::Geometry* geometry_normals = new osg::Geometry();
+			osg::ref_ptr<osg::Geometry> geometry_normals = new osg::Geometry();
 			geometry_normals->setVertexArray( vertices_normals );
 			geometry_normals->setColorArray( colors_normals );
 			geometry_normals->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
@@ -467,7 +463,7 @@ public:
 		{
 			if( vertices_quad->size() > 0 )
 			{
-				osg::Geometry* geometry = new osg::Geometry();
+				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 				if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 				geometry->setVertexArray( vertices_quad );
 				if( normals_quad )
@@ -494,7 +490,7 @@ public:
 
 	static void drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false )
 	{
-		osg::Vec3Array* vertices = new osg::Vec3Array();
+		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 		if( !vertices ) { throw IfcPPOutOfMemoryException(); }
 		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
 
@@ -508,7 +504,7 @@ public:
 
 		for( auto it = polyline_set->lines.begin(); it != polyline_set->lines.end(); ++it )
 		{
-			carve::line::Polyline* pline = *it;
+			const carve::line::Polyline* pline = *it;
 			size_t vertex_count = pline->vertexCount();
 
 			for( size_t vertex_i = 0; vertex_i < vertex_count; ++vertex_i )
@@ -525,7 +521,7 @@ public:
 			}
 		}
 
-		osg::Geometry* geometry = new osg::Geometry();
+		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 		if( !geometry ) { throw IfcPPOutOfMemoryException(); }
 		geometry->setVertexArray( vertices );
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, vertices->size() ) );
@@ -537,10 +533,92 @@ public:
 			if( !colors ) { throw IfcPPOutOfMemoryException(); }
 			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 			geometry->setColorArray( colors );
-			//geometry->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		}
 
 		geode->addDrawable( geometry );
+	}
+
+	void computeCreaseEdgesFromMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<carve::mesh::Edge<3>* >& vec_edges_out, const double crease_angle )
+	{
+		if( !meshset )
+		{
+			return;
+		}
+
+		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
+		{
+			const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
+			const std::vector<carve::mesh::Edge<3>* >& vec_closed_edges = mesh->closed_edges;
+
+			for( size_t i_edge = 0; i_edge < vec_closed_edges.size(); ++i_edge )
+			{
+				carve::mesh::Edge<3>* edge = vec_closed_edges[i_edge];
+
+				if( !edge )
+				{
+					continue;
+				}
+				carve::mesh::Edge<3>* edge_reverse = edge->rev;
+				if( !edge_reverse )
+				{
+					continue;
+				}
+				carve::mesh::Face<3>* face = edge->face;
+				carve::mesh::Face<3>* face_reverse = edge_reverse->face;
+
+				const carve::geom::vector<3>& f1_normal = face->plane.N;
+				const carve::geom::vector<3>& f2_normal = face_reverse->plane.N;
+				const double cos_angle = dot( f1_normal, f2_normal );
+				if( cos_angle > 0 )
+				{
+					const double deviation = std::abs( cos_angle - 1.0 );
+					if( deviation < crease_angle )
+					{
+						continue;
+					}
+				}
+				// TODO: if area of face and face_reverse is equal, skip the crease edge. It could be the inside or outside of a cylinder. Check also if > 2 faces in a row have same normal angle differences
+				vec_edges_out.push_back( edge );
+			}
+		}
+	}
+
+	void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle )
+	{
+		if( !meshset )
+		{
+			return;
+		}
+		if( !target_geode )
+		{
+			return;
+		}
+		std::vector<carve::mesh::Edge<3>* > vec_crease_edges;
+		computeCreaseEdgesFromMeshset( meshset, vec_crease_edges, crease_angle );
+
+		if( vec_crease_edges.size() > 0 )
+		{
+			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
+			for( size_t i_edge = 0; i_edge < vec_crease_edges.size(); ++i_edge )
+			{
+				const carve::mesh::Edge<3>* edge = vec_crease_edges[i_edge];
+				const carve::geom::vector<3>& vertex1 = edge->v1()->v;
+				const carve::geom::vector<3>& vertex2 = edge->v2()->v;
+				vertices->push_back( osg::Vec3d( vertex1.x, vertex1.y, vertex1.z ) );
+				vertices->push_back( osg::Vec3d( vertex2.x, vertex2.y, vertex2.z ) );
+			}
+
+			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+			geometry->setVertexArray( vertices );
+			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices->size() ) );
+			geometry->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+			geometry->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
+			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::LineWidth( 3.0f ), osg::StateAttribute::ON );
+			geometry->getOrCreateStateSet()->setMode( GL_LINE_SMOOTH, osg::StateAttribute::ON );
+			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::Hint( GL_LINE_SMOOTH_HINT, GL_NICEST ), osg::StateAttribute::ON );
+			geometry->getOrCreateStateSet()->setRenderBinDetails( 10, "RenderBin");
+			target_geode->addDrawable( geometry );
+		}
 	}
 
 	void applyAppearancesToGroup( const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances, osg::Group* grp )
@@ -555,8 +633,9 @@ public:
 
 			if( appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_SURFACE || appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_ANY )
 			{
-				osg::StateSet* item_stateset = convertToOSGStateSet( appearance );
-				if( item_stateset != nullptr )
+				osg::ref_ptr<osg::StateSet> item_stateset;
+				convertToOSGStateSet( appearance, item_stateset );
+				if( item_stateset )
 				{
 					osg::StateSet* existing_item_stateset = grp->getStateSet();
 					if( existing_item_stateset )
@@ -646,7 +725,12 @@ public:
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 					if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode, m_geom_settings->getMinCreaseAngle() );
+					drawMeshSet( item_meshset, geode, m_geom_settings->getCoplanarFacesMaxDeltaAngle() );
+
+					if( m_geom_settings->getRenderCreaseEdges() )
+					{
+						renderMeshsetCreaseEdges( item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle() );
+					}
 
 					// disable back face culling for open meshes
 					geode->getOrCreateStateSet()->setAttributeAndModes( m_cull_back_off.get(), osg::StateAttribute::OFF );
@@ -674,9 +758,13 @@ public:
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode_meshset = new osg::Geode();
 					if( !geode_meshset ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode_meshset, m_geom_settings->getMinCreaseAngle() );
+					drawMeshSet( item_meshset, geode_meshset, m_geom_settings->getCoplanarFacesMaxDeltaAngle() );
 					item_group->addChild( geode_meshset );
 
+					if( m_geom_settings->getRenderCreaseEdges() )
+					{
+						renderMeshsetCreaseEdges( item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle() );
+					}
 
 					if( draw_bounding_box )
 					{
@@ -705,14 +793,14 @@ public:
 							osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 							if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
 
-							osg::Vec3Array* vertices = new osg::Vec3Array();
+							osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 							for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
 							{
 								vec3& carve_point = pointset_data->points[i_pointset_point];
 								vertices->push_back( osg::Vec3d( carve_point.x, carve_point.y, carve_point.z ) );
 							}
 
-							osg::Geometry* geometry = new osg::Geometry();
+							osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 							geometry->setVertexArray( vertices );
 							geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, vertices->size() ) );
 							geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
@@ -764,7 +852,7 @@ public:
 
 						osg::Vec3 pos2( text_pos._41, text_pos._42, text_pos._43 );
 
-						osgText::Text* txt = new osgText::Text();
+						osg::ref_ptr<osgText::Text> txt = new osgText::Text();
 						if( !txt )
 						{
 							throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -845,6 +933,7 @@ public:
 		progressValueCallback( 0, "scenegraph" );
 		m_map_entity_id_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
+		m_vec_existing_statesets.clear();
 
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<ProductShapeData> > vec_products;
@@ -865,12 +954,13 @@ public:
 
 #ifdef IFCPP_OPENMP
 		Mutex writelock_map;
+		Mutex writelock_message_callback;
 		Mutex writelock_ifc_project;
 
 #pragma omp parallel firstprivate(num_products) shared(map_entity_id, map_representations)
 		{
 			// time for one product may vary significantly, so schedule not so many
-#pragma omp for schedule(dynamic,10)
+#pragma omp for schedule(dynamic,40)
 #endif
 			for( int i = 0; i < num_products; ++i )
 			{
@@ -969,6 +1059,9 @@ public:
 
 				if( thread_err.tellp() > 0 )
 				{
+#ifdef IFCPP_OPENMP
+					ScopedLock scoped_lock( writelock_message_callback );
+#endif
 					messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 				}
 
@@ -1114,11 +1207,11 @@ public:
 		m_vec_existing_statesets.clear();
 	}
 
-	osg::StateSet* convertToOSGStateSet( const shared_ptr<AppearanceData>& appearence )
+	void convertToOSGStateSet( const shared_ptr<AppearanceData>& appearence, osg::ref_ptr<osg::StateSet>& target_stateset )
 	{
 		if( !appearence )
 		{
-			return nullptr;
+			return;
 		}
 		const float shininess = appearence->m_shininess;
 		const float transparency = appearence->m_transparency;
@@ -1191,7 +1284,8 @@ public:
 
 				// if we get here, appearance is same as existing state set
 				// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
-				return stateset_existing;
+				target_stateset = stateset_existing;
+				return;
 			}
 		}
 
@@ -1208,15 +1302,15 @@ public:
 		mat->setShininess( osg::Material::FRONT_AND_BACK, shininess );
 		mat->setColorMode( osg::Material::SPECULAR );
 
-		osg::StateSet* stateset = new osg::StateSet();
-		if( !stateset ){ throw IfcPPOutOfMemoryException(); }
-		stateset->setAttribute( mat, osg::StateAttribute::ON );
+		target_stateset = new osg::StateSet();
+		if( !target_stateset ){ throw IfcPPOutOfMemoryException(); }
+		target_stateset->setAttribute( mat, osg::StateAttribute::ON );
 	
 		if( appearence->m_set_transparent )
 		{
 			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );	
-			stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
-			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			target_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
+			target_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 		}
 
 		if( appearence->m_specular_exponent != 0.f )
@@ -1228,8 +1322,7 @@ public:
 
 		if( m_enable_stateset_caching )
 		{
-			m_vec_existing_statesets.push_back( stateset );
+			m_vec_existing_statesets.push_back( target_stateset );
 		}
-		return stateset;
 	}
 };

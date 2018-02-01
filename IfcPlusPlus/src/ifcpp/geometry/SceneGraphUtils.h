@@ -40,7 +40,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 namespace SceneGraphUtils
 {
-	inline bool inParentList( const int entity_id, osg::Group* group )
+	inline bool inParentList( const int entity_id, const osg::Group* group )
 	{
 		if( !group )
 		{
@@ -50,7 +50,7 @@ namespace SceneGraphUtils
 		const osg::Group::ParentList& vec_parents = group->getParents();
 		for( size_t ii = 0; ii < vec_parents.size(); ++ii )
 		{
-			osg::Group* parent = vec_parents[ii];
+			const osg::Group* parent = vec_parents[ii];
 			if( parent )
 			{
 				const std::string parent_name = parent->getName();
@@ -72,7 +72,6 @@ namespace SceneGraphUtils
 						{
 							return true;
 						}
-
 					}
 				}
 			}
@@ -226,7 +225,7 @@ namespace SceneGraphUtils
 			mt1->addChild( geode );
 			group->addChild( mt1 );
 
-			osg::Material* material = new osg::Material();
+			osg::ref_ptr<osg::Material> material = new osg::Material();
 			material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
 			material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
 			material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 1.f, 0.4f, 0.4f, 0.7f ) );
@@ -262,7 +261,7 @@ namespace SceneGraphUtils
 			group->addChild( mt2 );
 			group->addChild( mt_cyl );
 
-			osg::Material* material = new osg::Material();
+			osg::ref_ptr<osg::Material> material = new osg::Material();
 			material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
 			material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
 			material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 1.f, 0.4f, 0.7f ) );
@@ -403,7 +402,7 @@ namespace SceneGraphUtils
 	}
 	inline void WireFrameModeOff( osg::StateSet* state )
 	{
-		osg::PolygonMode *polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ) );
+		osg::ref_ptr<osg::PolygonMode> polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ) );
 
 		if( !polygon_mode )
 		{
@@ -511,6 +510,32 @@ namespace SceneGraphUtils
 		{
 			group->removeChildren( 0, group->getNumChildren() );
 		}
+	}
+
+	inline void clearAllChildNodes( osg::Group* group )
+	{
+		int num_children = group->getNumChildren();
+		for( int i = 0; i < num_children; ++i )
+		{
+			osg::Node* node = group->getChild( i );
+			osg::Group* child_group = dynamic_cast<osg::Group*>( node );
+			if( child_group )
+			{
+				osg::Geode* geode = dynamic_cast<osg::Geode*>( child_group );
+				if( geode )
+				{
+					geode->removeDrawables( 0, geode->getNumDrawables() );
+					
+				}
+				clearAllChildNodes( child_group );
+			}
+			node->releaseGLObjects();
+			if( node->getStateSet() )
+			{
+				node->setStateSet( nullptr );
+			}
+		}
+		group->removeChildren( 0, group->getNumChildren() );
 	}
 	inline void removeDrawables( osg::Geode* geode )
 	{

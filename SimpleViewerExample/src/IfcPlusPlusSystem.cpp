@@ -297,11 +297,11 @@ void IfcPlusPlusSystem::toggleSceneLight()
 
 	if( !m_transform_light.valid() )
 	{
-		osg::Group* light_group = new osg::Group();
+		osg::ref_ptr<osg::Group> light_group = new osg::Group();
 		light_group->setName( "light_group" );
 		double model_size = 100; // TODO: adjust when model is loaded
 
-		osg::Light* light6 = new osg::Light();
+		osg::ref_ptr<osg::Light> light6 = new osg::Light();
 		light6->setLightNum( 6 );
 		light6->setPosition( osg::Vec4( 0.0, 0.0, 0.0, 1.0f ) );
 		light6->setAmbient( osg::Vec4( 0.5f, 0.53f, 0.57f, 0.4f ) );
@@ -310,7 +310,7 @@ void IfcPlusPlusSystem::toggleSceneLight()
 		light6->setLinearAttenuation( 2.0f/model_size );
 		light6->setQuadraticAttenuation( 2.0f/(model_size*model_size) );
 
-		osg::LightSource* light_source6 = new osg::LightSource();
+		osg::ref_ptr<osg::LightSource> light_source6 = new osg::LightSource();
 		light_source6->setLight( light6 );
 		light_source6->setLocalStateSetModes( osg::StateAttribute::ON );
 		light_source6->setStateSetModes( *stateset_root, osg::StateAttribute::ON );

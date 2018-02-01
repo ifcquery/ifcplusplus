@@ -165,29 +165,32 @@ public:
 		{
 			const shared_ptr<IfcCartesianPoint>& cartesian_point = vec_ifc_points[ii];
 			double x = 0.0, y = 0.0, z = 0.0;
-			const std::vector<shared_ptr<IfcLengthMeasure> >& coords = cartesian_point->m_Coordinates;
+			if( cartesian_point )
+			{
+				const std::vector<shared_ptr<IfcLengthMeasure> >& coords = cartesian_point->m_Coordinates;
 
-			if( coords.size() > 2 )
-			{
+				if( coords.size() > 2 )
+				{
 #ifdef ROUND_IFC_COORDINATES
-				x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-				y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-				z = round( coords[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
+					x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
+					y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
+					z = round( coords[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
 #else
-				x = coords[0]->m_value*length_factor;
-				y = coords[1]->m_value*length_factor;
-				z = coords[2]->m_value*length_factor;
+					x = coords[0]->m_value*length_factor;
+					y = coords[1]->m_value*length_factor;
+					z = coords[2]->m_value*length_factor;
 #endif
-			}
-			else if( coords.size() > 1 )
-			{
+				}
+				else if( coords.size() > 1 )
+				{
 #ifdef ROUND_IFC_COORDINATES
-				x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-				y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
+					x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
+					y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
 #else
-				x = coords[0]->m_value*length_factor;
-				y = coords[1]->m_value*length_factor;
+					x = coords[0]->m_value*length_factor;
+					y = coords[1]->m_value*length_factor;
 #endif
+				}
 			}
 
 			// skip duplicate vertices

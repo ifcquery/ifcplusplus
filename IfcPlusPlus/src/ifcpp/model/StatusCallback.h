@@ -37,7 +37,8 @@ public:
 		MESSAGE_TYPE_PROGRESS_TEXT,		//\brief Progress mechanism to update text in progress bar or similar.
 		MESSAGE_TYPE_MINOR_WARNING,
 		MESSAGE_TYPE_WARNING,
-		MESSAGE_TYPE_ERROR
+		MESSAGE_TYPE_ERROR,
+		MESSAGE_TYPE_CLEAR_MESSAGES
 	};
 	/*\class Message
 	  \brief Combines all information about a status message, being it a general message, a warning, error, or a notification about a progress (for example during reading of a file).
@@ -176,6 +177,12 @@ public:
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_TEXT;
 		progress_message->m_progress_value = -1;
 		progress_message->m_progress_text.assign( progress_text.c_str() );
+		messageCallback( progress_message );
+	}
+	virtual void clearMessagesCallback()
+	{
+		shared_ptr<Message> progress_message( new Message() );
+		progress_message->m_message_type = MessageType::MESSAGE_TYPE_CLEAR_MESSAGES;
 		messageCallback( progress_message );
 	}
 

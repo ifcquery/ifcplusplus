@@ -43,14 +43,13 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	m_parent = parent;
 	m_shinyness = 35.0;
 	m_material_default = new osg::Material();
-	m_material_default->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.25f, 0.3f, 0.3f ) );
-	m_material_default->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( 0.8, 0.82, 0.84, 0.3f ) );
-	m_material_default->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.02f, 0.025f, 0.03f, 0.03f ) );
+	m_material_default->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.25f, 0.3f, 1.0f ) );
+	m_material_default->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( 0.8, 0.82, 0.84, 1.0f ) );
+	m_material_default->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.25f, 0.3f, 1.0f ) );
 	m_material_default->setShininess( osg::Material::FRONT_AND_BACK, m_shinyness );
 	m_material_default->setColorMode( osg::Material::SPECULAR );
-	m_material_default->setTransparency( osg::Material::FRONT_AND_BACK, 0.7f );
 
-	osg::LightModel* light_model = new osg::LightModel();
+	osg::ref_ptr<osg::LightModel> light_model = new osg::LightModel();
 	light_model->setTwoSided( true );
 	light_model->setAmbientIntensity( osg::Vec4f( 0.2f, 0.25f, 0.3f, 0.3f ) );
 	sys->getRootNode()->getOrCreateStateSet()->setAttribute( light_model );
@@ -64,7 +63,7 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	m_stateset_transparent->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 	m_stateset_transparent->setRenderBinDetails( 11, "DepthSortedBin" );
 
-	osg::Material* material_selected = new osg::Material();
+	osg::ref_ptr<osg::Material> material_selected = new osg::Material();
 	material_selected->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 0.92f, 0.92f, 0.5f ) );
 	material_selected->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.3f, 0.35f, 0.3f, 1.0f ) );
 	material_selected->setShininess( osg::Material::FRONT_AND_BACK, m_shinyness );

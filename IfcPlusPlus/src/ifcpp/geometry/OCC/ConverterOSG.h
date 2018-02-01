@@ -311,14 +311,14 @@ public:
 		{
 			if( vertices_tri->size() == normals_tri->size() )
 			{
-				osg::Geometry* geometry = new osg::Geometry();
+				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 				geometry->setVertexArray( vertices_tri );
 				geometry->setNormalArray( normals_tri );
 				normals_tri->setBinding( osg::Array::BIND_PER_VERTEX );
 
 				if( render_options.m_color_set )
 				{
-					osg::Vec4Array* colors = new osg::Vec4Array();
+					osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 					colors->push_back( render_options.m_color );
 					colors->setBinding( osg::Array::BIND_OVERALL );
 					geometry->setColorArray( colors );
@@ -328,7 +328,7 @@ public:
 				parent_geode->addDrawable( geometry );
 
 #ifdef DEBUG_DRAW_NORMALS
-				osg::Vec3Array* vertices_normals = new osg::Vec3Array();
+				osg::ref_ptr<osg::Vec3Array> vertices_normals = new osg::Vec3Array();
 				for( size_t i = 0; i < vertices_tri->size(); ++i )
 				{
 					osg::Vec3f& vertex_vec = vertices_tri->at( i );// [i];
@@ -337,10 +337,10 @@ public:
 					vertices_normals->push_back( osg::Vec3f( vertex_vec.x(), vertex_vec.y(), vertex_vec.z() ) + normal_vec );
 				}
 
-				osg::Vec4Array* colors_normals = new osg::Vec4Array();
+				osg::ref_ptr<osg::Vec4Array> colors_normals = new osg::Vec4Array();
 				colors_normals->resize( vertices_normals->size(), osg::Vec4f( 0.4f, 0.7f, 0.4f, 1.f ) );
 
-				osg::Geometry* geometry_normals = new osg::Geometry();
+				osg::ref_ptr<osg::Geometry> geometry_normals = new osg::Geometry();
 				geometry_normals->setVertexArray( vertices_normals );
 				geometry_normals->setColorArray( colors_normals );
 				colors_normals->setBinding( osg::Array::BIND_PER_VERTEX );
@@ -355,7 +355,7 @@ public:
 		{
 			if( vertices_quad->size() > 0 )
 			{
-				osg::Geometry* geometry = new osg::Geometry();
+				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 				geometry->setVertexArray( vertices_quad );
 				if( normals_quad )
 				{
@@ -365,7 +365,7 @@ public:
 
 				if( render_options.m_color_set )
 				{
-					osg::Vec4Array* colors = new osg::Vec4Array();
+					osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 					colors->push_back( render_options.m_color );
 					colors->setBinding( osg::Array::BIND_OVERALL );
 					geometry->setColorArray( colors );
@@ -378,12 +378,12 @@ public:
 
 		if( vertices_lines->size() > 0 )
 		{
-			osg::Geometry* geometry = new osg::Geometry();
+			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 			geometry->setVertexArray( vertices_lines );
 
 			if( render_options.m_color_set )
 			{
-				osg::Vec4Array* colors = new osg::Vec4Array();
+				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 				colors->push_back( render_options.m_color );
 				colors->setBinding( osg::Array::BIND_OVERALL );
 				geometry->setColorArray( colors );
@@ -398,7 +398,7 @@ public:
 		if( vertices_triangle_edges->size() > 0 && false )
 		{
 			{
-				osg::Geometry* geometry = new osg::Geometry();
+				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 				geometry->setVertexArray( vertices_triangle_edges );
 				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
 				colors->resize( vertices_triangle_edges->size(), osg::Vec4f( 0.6f, 0.7f, 0.6f, 0.1f ) );
@@ -546,7 +546,7 @@ public:
 
 					if( vertices->size() > 0 )
 					{
-						osg::Geometry* geometry = new osg::Geometry();
+						osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 						geometry->setVertexArray( vertices );
 						geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, vertices->size() ) );
 						geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
@@ -625,7 +625,7 @@ public:
 						gp_XYZ pos_translation = text_pos.TranslationPart();
 						osg::Vec3 pos2( pos_translation.X(), pos_translation.Y(), pos_translation.Z() );// text_pos._41, text_pos._42, text_pos._43 );
 
-						osgText::Text* txt = new osgText::Text();
+						osg::ref_ptr<osgText::Text> txt = new osgText::Text();
 						if( !txt )
 						{
 							throw IfcPPOutOfMemoryException( __FUNC__ );
@@ -938,7 +938,7 @@ public:
 		return false;
 	}
 
-	void resolveProjectStructure( shared_ptr<ProductShapeData>& product_data, osg::ref_ptr<osg::Switch> group )
+	void resolveProjectStructure( const shared_ptr<ProductShapeData>& product_data, osg::ref_ptr<osg::Switch> group )
 	{
 		if( !product_data )
 		{
@@ -958,9 +958,10 @@ public:
 			return;
 		}
 
-		for( size_t ii = 0; ii < product_data->m_vec_children.size(); ++ii )
+		const std::vector<shared_ptr<ProductShapeData> >& vec_children = product_data->getChildren();
+		for( size_t ii = 0; ii < vec_children.size(); ++ii )
 		{
-			shared_ptr<ProductShapeData>& child_product_data = product_data->m_vec_children[ii];
+			const shared_ptr<ProductShapeData>& child_product_data = vec_children[ii];
 			if( !child_product_data )
 			{
 				continue;

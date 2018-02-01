@@ -229,11 +229,10 @@ public:
 				}
 
 				vec4 ambient_color( surface_color );
-				//vec4 emissive_color( 0.0f, 0.0f, 0.0f, 1.f );
 				vec4 diffuse_color( surface_color );
 				vec4 specular_color( surface_color );
 				double shininess = 35.f;
-				double transparency = surface_color.a();//0.7;
+				double transparency = surface_color.a();
 				bool set_transparent = false;
 
 				shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>( surf_style_element_select );
@@ -248,7 +247,7 @@ public:
 					if( surf_style_rendering->m_SpecularColour )
 					{
 						shared_ptr<IfcColourOrFactor> ifc_specular_color = surf_style_rendering->m_SpecularColour;
-						//convertIfcColourOrFactor(specular_color, color, specularColor);
+						convertIfcColourOrFactor( ifc_specular_color, surface_color, specular_color );
 					}
 
 					if( surf_style_rendering->m_Transparency )

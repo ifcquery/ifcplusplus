@@ -54,6 +54,7 @@ public slots:
 	void slotTxtOutWarning( QString txt );
 	void slotTxtOutError( QString txt );
 	void slotProgressValue( double progress_value, const std::string& progress_type );
+	void slotClearTxtOut();
 
 	void slotLoadIfcFile( QString& path );
 	void slotRecentFilesIndexChanged(int);

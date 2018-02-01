@@ -48,19 +48,21 @@ bool LoadIfcFileCommand::doCmd()
 
 	// first remove previously loaded geometry from scenegraph
 	osg::ref_ptr<osg::Switch> model_switch = m_system->getModelNode();
-	SceneGraphUtils::removeChildren( model_switch );
+	SceneGraphUtils::clearAllChildNodes( model_switch );
 	m_system->clearSelection();
 
 	// reset the IFC model
 	shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
 	geometry_converter->resetModel();
 	std::stringstream err;
-	
+
 	try
 	{
 		// load file to IFC model
+		geometry_converter->clearMessagesCallback();
+		geometry_converter->resetModel();
 		m_system->getIfcPPReader()->loadModelFromFile( m_file_path, geometry_converter->getIfcPPModel() );
-		
+
 		// convert IFC geometry to Carve or OCC. Choose geometry engine in file IncludeGeometryHeaders.h
 		geometry_converter->convertGeometry();
 
@@ -75,7 +77,7 @@ bool LoadIfcFileCommand::doCmd()
 		{
 			osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();
 			sw_objects_outside_spatial_structure->setName( "IfcProduct objects outside spatial structure" );
-			
+
 			converter_osg->addNodes( objects_outside_spatial_structure, sw_objects_outside_spatial_structure );
 			if( sw_objects_outside_spatial_structure->getNumChildren() > 0 )
 			{
