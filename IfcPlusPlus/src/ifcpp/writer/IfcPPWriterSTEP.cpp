@@ -39,9 +39,9 @@ IfcPPWriterSTEP::~IfcPPWriterSTEP()
 
 void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<IfcPPModel> model )
 {
-	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
-	setlocale(LC_NUMERIC,"C");
-	
+	//imbue C locale to always use dots as decimal separator
+	stream.imbue(std::locale("C"));
+
 	const std::wstring& file_header_wstr = model->getFileHeader();
 	std::string file_header_str = encodeStepString( file_header_wstr );
 	stream << file_header_str.c_str();
@@ -82,6 +82,4 @@ void IfcPPWriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<
 	}
 
 	stream << "ENDSEC;\nEND-ISO-10303-21;\n";
-
-	setlocale(LC_NUMERIC, current_numeric_locale.c_str());
 }
