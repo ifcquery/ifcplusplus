@@ -336,7 +336,7 @@ template<typename T>
 void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& target_vec )
 {
 	//((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
-	char* ch = (char*)str.c_str();
+	wchar_t const* ch = str.c_str();
 
 	const size_t argsize = str.size();
 	if( argsize == 0 )
