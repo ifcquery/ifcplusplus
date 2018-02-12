@@ -67,20 +67,6 @@ namespace CSG_Adapter
 		return meshset_volume;
 	}
 
-	template<typename T>
-	int findInVector( T* find_object, std::vector<T*>& vec )
-	{
-		for( size_t ii = 0; ii < vec.size(); ++ii )
-		{
-			T* t_check = vec[ii];
-			if( t_check == find_object )
-			{
-				return ii;
-			}
-		}
-		return -1;
-	}
-
 	inline void roundVertices( meshset_t* meshset )
 	{
 		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
@@ -99,7 +85,6 @@ namespace CSG_Adapter
 		{
 			return;
 		}
-		bool meshset_dirty = false;
 
 		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
@@ -107,6 +92,7 @@ namespace CSG_Adapter
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
 
 			std::vector<edge_t*>& vec_closed_edges = mesh->closed_edges;
+			bool mesh_dirty = false;
 			for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
 			{
 				edge_t* edge_i = vec_closed_edges[closed_edge_i];
@@ -175,9 +161,9 @@ namespace CSG_Adapter
 					const vec3& v3vec = v3->v;
 					vec3 sement12 = v2vec - v1vec;
 					vec3 sement23 = v3vec - v2vec;
+#ifdef _DEBUG
 					double sement12_length2 = sement12.length2();
 					double sement23_length2 = sement23.length2();
-#ifdef _DEBUG
 					if( std::abs( edge_i->length2() - sement12_length2 ) > 0.00001 )
 					{
 						std::cout << __FUNC__ << ": abs( edge_i->length2() - sement12_length2 ) > 0.00001" << std::endl;
@@ -201,36 +187,19 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 							std::cout << __FUNC__ << ": edge loop with only 2 edges" << std::endl;
 #endif
+							//edge_i->rev == edge_next
+							edge_i->removeEdge(); //also removes edge_i->rev
 						}
-
-						// this links previous and next edges and deletes edge_j and reverse of edge_i:
-						edge_t* edge_next_rev = edge_next->rev;
-
-						size_t edge_remove_idx = findInVector( edge_next, vec_closed_edges );
-						if( edge_remove_idx >= 0 && edge_remove_idx < vec_closed_edges.size() )
+						else
 						{
-							vec_closed_edges.erase( vec_closed_edges.begin() + edge_remove_idx );
-							if( edge_remove_idx <= closed_edge_i )
-							{
-								--closed_edge_i;
-							}
-						}
-						edge_next->removeHalfEdge();
+							// this links previous and next edges and deletes edge_j and reverse of edge_i:
+							edge_i->rev->removeHalfEdge();
+							edge_i->rev = edge_next->rev;
 
-						edge_remove_idx = findInVector( edge_i->rev, vec_closed_edges );
-						if( edge_remove_idx >= 0 && edge_remove_idx < vec_closed_edges.size() )
-						{
-							vec_closed_edges.erase( vec_closed_edges.begin() + edge_remove_idx );
-							if( edge_remove_idx <= closed_edge_i )
-							{
-								--closed_edge_i;
-							}
+							edge_next->rev->rev = edge_i;
+							edge_next->removeHalfEdge();
+							mesh_dirty = true;
 						}
-						edge_i->rev->removeHalfEdge();
-
-						edge_i->rev = edge_next_rev;
-						edge_next_rev->rev = edge_i;
-						meshset_dirty = true;
 
 						// the vertex is kept in the vertex storage, no need to delete here
 					}
@@ -251,15 +220,11 @@ namespace CSG_Adapter
 					}
 				}
 			}
-		}
 
-		if( meshset_dirty )
-		{
-			for( size_t i = 0; i < meshset->meshes.size(); ++i )
+			if (mesh_dirty)
 			{
-				//simplifier.removeRemnantFaces( meshset->meshes[i] );
-				//simplifier.cleanFaceEdges( meshset->meshes[i] );
-				meshset->meshes[i]->cacheEdges();
+				//clears closed_edges and rebuilds it from faces
+				mesh->cacheEdges();
 			}
 		}
 	}
@@ -786,7 +751,8 @@ namespace CSG_Adapter
 		}
 
 		size_t num_faces = getNumFaces( meshset.get() );
-		size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
+		// merge faces if their normals have a difference less than 10^-5 rad
+		/*size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
 		if( modifications_coplanar > 0 )
 		{
 			int num_faces_post_merge = getNumFaces( meshset.get() );
@@ -796,7 +762,7 @@ namespace CSG_Adapter
 				std::cout << "num_faces_post_merge + modifications_coplanar != num_faces" << std::endl;
 #endif
 			}
-		}
+		}*/
 
 		bool faces_ok = checkFaceIntegrity( meshset );
 		if( !faces_ok )
@@ -810,6 +776,7 @@ namespace CSG_Adapter
 
 		meshset_copy = shared_ptr<meshset_t >( meshset->clone() );
 		mergeAlignedEdges( meshset, simplifier );
+		meshset->collectVertices(); //removes unreferenced Vertices
 
 		faces_ok = checkFaceIntegrity( meshset );
 		if( !faces_ok )
