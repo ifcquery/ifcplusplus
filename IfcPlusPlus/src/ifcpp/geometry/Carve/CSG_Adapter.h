@@ -187,15 +187,19 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 							std::cout << __FUNC__ << ": edge loop with only 2 edges" << std::endl;
 #endif
+							//edge_i->rev == edge_next
+							edge_i->removeEdge(); //also removes edge_i->rev
 						}
+						else
+						{
+							// this links previous and next edges and deletes edge_j and reverse of edge_i:
+							edge_i->rev->removeHalfEdge();
+							edge_i->rev = edge_next->rev;
 
-						// this links previous and next edges and deletes edge_j and reverse of edge_i:
-						edge_i->rev->removeHalfEdge();
-						edge_i->rev = edge_next->rev;
-
-						edge_next->rev->rev = edge_i;
-						edge_next->removeHalfEdge();
-						mesh_dirty = true;
+							edge_next->rev->rev = edge_i;
+							edge_next->removeHalfEdge();
+							mesh_dirty = true;
+						}
 
 						// the vertex is kept in the vertex storage, no need to delete here
 					}
