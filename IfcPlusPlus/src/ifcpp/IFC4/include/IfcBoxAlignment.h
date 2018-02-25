@@ -15,6 +15,7 @@ class IFCPP_EXPORT IfcBoxAlignment : public IfcLabel
 {
 public:
 	IfcBoxAlignment();
+	IfcBoxAlignment( std::wstring value ) { m_value = value; }
 	~IfcBoxAlignment();
 	virtual const char* className() const { return "IfcBoxAlignment"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );

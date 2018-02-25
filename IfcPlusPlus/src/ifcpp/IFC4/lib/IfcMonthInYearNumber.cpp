@@ -36,6 +36,6 @@ shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	shared_ptr<IfcMonthInYearNumber> type_object( new IfcMonthInYearNumber() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

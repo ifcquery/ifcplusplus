@@ -36,6 +36,6 @@ shared_ptr<IfcCardinalPointReference> IfcCardinalPointReference::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
 	shared_ptr<IfcCardinalPointReference> type_object( new IfcCardinalPointReference() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

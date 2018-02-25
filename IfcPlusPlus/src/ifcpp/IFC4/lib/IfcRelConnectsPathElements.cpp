@@ -98,8 +98,8 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 	readEntityReference( args[4], m_ConnectionGeometry, map );
 	readEntityReference( args[5], m_RelatingElement, map );
 	readEntityReference( args[6], m_RelatedElement, map );
-	readTypeOfIntList( args[7], m_RelatingPriorities );
-	readTypeOfIntList( args[8], m_RelatedPriorities );
+	readTypeOfIntegerList( args[7], m_RelatingPriorities );
+	readTypeOfIntegerList( args[8], m_RelatedPriorities );
 	m_RelatedConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[9], map );
 	m_RelatingConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[10], map );
 }

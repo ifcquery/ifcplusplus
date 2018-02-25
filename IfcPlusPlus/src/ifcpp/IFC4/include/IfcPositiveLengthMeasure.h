@@ -16,6 +16,7 @@ class IFCPP_EXPORT IfcPositiveLengthMeasure : public IfcLengthMeasure, public If
 {
 public:
 	IfcPositiveLengthMeasure();
+	IfcPositiveLengthMeasure( double value ) { m_value = value; }
 	~IfcPositiveLengthMeasure();
 	virtual const char* className() const { return "IfcPositiveLengthMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );

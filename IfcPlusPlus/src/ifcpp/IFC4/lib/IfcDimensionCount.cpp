@@ -36,6 +36,6 @@ shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	shared_ptr<IfcDimensionCount> type_object( new IfcDimensionCount() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

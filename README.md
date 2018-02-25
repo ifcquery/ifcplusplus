@@ -40,7 +40,7 @@ Office building with offset in y-direction for each building storey. The offset 
  
  
 
-###Office building
+### Office building
 Office building with details in the viewer application
 ![Office building](http://www.ifcquery.com/img/IfcQueryViewer-details.png)
  

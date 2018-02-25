@@ -36,6 +36,6 @@ shared_ptr<IfcArcIndex> IfcArcIndex::createObjectFromSTEP( const std::wstring& a
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	shared_ptr<IfcArcIndex> type_object( new IfcArcIndex() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

@@ -37,6 +37,6 @@ shared_ptr<IfcInteger> IfcInteger::createObjectFromSTEP( const std::wstring& arg
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	shared_ptr<IfcInteger> type_object( new IfcInteger() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

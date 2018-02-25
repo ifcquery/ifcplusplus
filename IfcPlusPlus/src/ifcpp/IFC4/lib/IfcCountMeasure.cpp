@@ -37,6 +37,6 @@ shared_ptr<IfcCountMeasure> IfcCountMeasure::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
 	shared_ptr<IfcCountMeasure> type_object( new IfcCountMeasure() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

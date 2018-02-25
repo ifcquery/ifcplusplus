@@ -36,6 +36,6 @@ shared_ptr<IfcPositiveInteger> IfcPositiveInteger::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	shared_ptr<IfcPositiveInteger> type_object( new IfcPositiveInteger() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

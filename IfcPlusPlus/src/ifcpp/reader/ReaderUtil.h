@@ -41,9 +41,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #endif
 
 void readBoolList( const std::wstring& str, std::vector<bool>& vec );
-void readIntList( const std::wstring& str, std::vector<int>& vec );
-void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec );
-void readIntList3D( const std::wstring& str, std::vector<std::vector<std::vector<int> > >& vec );
+void readIntegerList( const std::wstring& str, std::vector<int>& vec );
+void readIntegerList2D( const std::wstring& str, std::vector<std::vector<int> >& vec );
+void readIntegerList3D( const std::wstring& str, std::vector<std::vector<std::vector<int> > >& vec );
 void readRealList( const std::wstring& str, std::vector<double>& vec );
 void readRealList2D( const std::wstring& str, std::vector<std::vector<double> >& vec );
 void readRealList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec );
@@ -59,7 +59,7 @@ void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
 void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items );
 
-inline void readIntValue( const std::wstring& str, int& int_value )
+inline void readIntegerValue( const std::wstring& str, int& int_value )
 {
 	if( str.compare( L"$" ) == 0 )
 	{
@@ -74,7 +74,7 @@ inline void readIntValue( const std::wstring& str, int& int_value )
 		int_value = std::stoi( str.c_str() );
 	}
 }
-inline void readIntValue( const std::wstring& str, boost::optional<int>& int_value )
+inline void readIntegerValue( const std::wstring& str, boost::optional<int>& int_value )
 {
 	if( str.compare( L"$" ) == 0 )
 	{
@@ -151,7 +151,7 @@ inline void readLogical( const std::wstring& attribute_value, LogicalEnum& targe
 	}
 }
 
-inline void readInt( const std::wstring& attribute_value, int& target )
+inline void readInteger( const std::wstring& attribute_value, int& target )
 {
 	target = std::stoi( attribute_value );
 }
@@ -175,9 +175,9 @@ inline void readString( const std::wstring& attribute_value, std::wstring& targe
 }
 
 template<typename T>
-void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
+void readTypeOfIntegerList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
 {
-	//(38,12,4)
+	// example: (38,12,4)
 	wchar_t* ch = (wchar_t*)str.c_str();
 	wchar_t* last_token = nullptr;
 
@@ -247,11 +247,66 @@ void readTypeOfIntList( const std::wstring& str, std::vector<shared_ptr<T> >& ta
 		last_token = ch;
 	}
 }
+template<typename T>
+void readTypeOfIntegerList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& target_vec )
+{
+	// example: ((8,12,4),(58,10,34),(18,10,4))
+	wchar_t const* ch = str.c_str();
+
+	const size_t argsize = str.size();
+	if( argsize == 0 )
+	{
+		return;
+	}
+
+	if( ch[0] != '(' )
+	{
+		throw IfcPPException( "string does not start with (", __FUNC__ );
+	}
+	size_t i = 0;
+	size_t last_token = 1;
+	int num_par_open = 0;
+	while( i<argsize )
+	{
+		if( ch[i] == ',' )
+		{
+			if( num_par_open == 1 )
+			{
+				target_vec.resize( target_vec.size()+1 );
+				std::wstring s = str.substr( last_token, i-last_token );
+				readTypeOfIntegerList( s, target_vec.back() );
+				last_token = i+1;
+			}
+		}
+		else if( ch[i] == '(' )
+		{
+			++num_par_open;
+		}
+		else if( ch[i] == ')' )
+		{
+			--num_par_open;
+			if( num_par_open == 0 )
+			{
+				// closing parenthesis found
+				target_vec.resize( target_vec.size()+1 );
+				std::wstring s = str.substr( last_token, i-last_token );
+				readTypeOfIntegerList( s, target_vec.back() );
+				return;
+			}
+		}
+		++i;
+	}
+
+	// no closing parenthesis found
+	std::wstringstream err;
+	err << "no closing parenthesis found: " << str << std::endl;
+	throw IfcPPException( err.str(), __FUNC__ );
+}
 
 template<typename T>
 void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
 {
-	//(.38,12.0,.04)
+	// example: (.38,12.0,.04)
 	wchar_t* ch = (wchar_t*)str;
 	wchar_t* last_token = nullptr;
 
@@ -326,7 +381,7 @@ void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& target
 template<typename T>
 void readTypeOfRealList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
 {
-	//(.38,12.0,.04)
+	// example: (.38,12.0,.04)
 	wchar_t* ch = (wchar_t*)str.c_str();
 	readTypeOfRealList( ch, target_vec );
 }
@@ -335,7 +390,7 @@ void readTypeOfRealList( const std::wstring& str, std::vector<shared_ptr<T> >& t
 template<typename T>
 void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& target_vec )
 {
-	//((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
+	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
 	wchar_t const* ch = str.c_str();
 
 	const size_t argsize = str.size();
@@ -391,7 +446,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 template<typename T>
 void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
 {
-	//(.38,12.0,.04)
+	// example: (.38,12.0,.04)
 	wchar_t* ch = (wchar_t*)str;
 	wchar_t* last_token = nullptr;
 
@@ -500,7 +555,7 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 template<typename T>
 void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(IFCPARAMETERVALUE(0.5),*,IFCPARAMETERVALUE(2.0))
+	// example: (IFCPARAMETERVALUE(0.5),*,IFCPARAMETERVALUE(2.0))
 	wchar_t* pos_opening = nullptr;
 	wchar_t* pos_closing = nullptr;
 	wchar_t* ch = (wchar_t*)arg_complete.c_str();
@@ -587,7 +642,7 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 template<typename select_t>
 void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<select_t> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
+	// example: (#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
 	wchar_t* pos_opening = nullptr;
 	wchar_t* pos_closing = nullptr;
 	wchar_t* ch = (wchar_t*)arg_complete.c_str();
@@ -640,7 +695,7 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 template<typename T>
 void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(#287,#291,#295,#299)
+	// example: (#287,#291,#295,#299)
 	wchar_t* pos_opening = nullptr;
 	wchar_t* pos_closing = nullptr;
 	wchar_t* ch = (wchar_t*)arg_complete;
@@ -702,7 +757,7 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 template<typename T>
 void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(#287,#291,#295,#299)
+	// example: (#287,#291,#295,#299)
 	wchar_t* ch = (wchar_t*)str.c_str();
 	readEntityReferenceList( ch, vec, map_entities );
 }
@@ -710,7 +765,7 @@ void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T>
 template<typename T>
 void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//((#287,#291,#295,#299),(#287,#291,#295,#299))
+	// example: ((#287,#291,#295,#299),(#287,#291,#295,#299))
 	wchar_t* ch = (wchar_t*)str.c_str();
 
 	const size_t argsize = str.size();
@@ -762,7 +817,7 @@ void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector
 template<typename T>
 void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
 {
-	//(((#287,#291,#295,#299),(#287,#291,#295,#299)),((#287,#291,#295,#299),(#287,#291,#295,#299)))
+	// example: (((#287,#291,#295,#299),(#287,#291,#295,#299)),((#287,#291,#295,#299),(#287,#291,#295,#299)))
 	const size_t argsize = str.size();
 	if( argsize < 8 )
 	{

@@ -49,13 +49,13 @@ void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>
 {
 	const size_t num_args = args.size();
 	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDimensionalExponents, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
-	readIntValue( args[0], m_LengthExponent );
-	readIntValue( args[1], m_MassExponent );
-	readIntValue( args[2], m_TimeExponent );
-	readIntValue( args[3], m_ElectricCurrentExponent );
-	readIntValue( args[4], m_ThermodynamicTemperatureExponent );
-	readIntValue( args[5], m_AmountOfSubstanceExponent );
-	readIntValue( args[6], m_LuminousIntensityExponent );
+	readIntegerValue( args[0], m_LengthExponent );
+	readIntegerValue( args[1], m_MassExponent );
+	readIntegerValue( args[2], m_TimeExponent );
+	readIntegerValue( args[3], m_ElectricCurrentExponent );
+	readIntegerValue( args[4], m_ThermodynamicTemperatureExponent );
+	readIntegerValue( args[5], m_AmountOfSubstanceExponent );
+	readIntegerValue( args[6], m_LuminousIntensityExponent );
 }
 void IfcDimensionalExponents::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

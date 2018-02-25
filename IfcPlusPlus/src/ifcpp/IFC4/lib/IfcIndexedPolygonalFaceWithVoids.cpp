@@ -100,8 +100,8 @@ void IfcIndexedPolygonalFaceWithVoids::readStepArguments( const std::vector<std:
 {
 	const size_t num_args = args.size();
 	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFaceWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
-	readTypeList( args[0], m_CoordIndex, map );
-	readEntityReferenceList2D( args[1], m_InnerCoordIndices, map );
+	readTypeOfIntegerList( args[0], m_CoordIndex );
+	readTypeOfIntegerList2D( args[1], m_InnerCoordIndices );
 }
 void IfcIndexedPolygonalFaceWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -750,7 +750,7 @@ namespace CSG_Adapter
 			return;
 		}
 
-		size_t num_faces = getNumFaces( meshset.get() );
+		//size_t num_faces = getNumFaces( meshset.get() );
 		// merge faces if their normals have a difference less than 10^-5 rad
 		/*size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
 		if( modifications_coplanar > 0 )

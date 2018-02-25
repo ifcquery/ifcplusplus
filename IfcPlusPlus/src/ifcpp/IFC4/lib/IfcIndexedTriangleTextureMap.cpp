@@ -92,7 +92,7 @@ void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wst
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );
-	readEntityReferenceList2D( args[3], m_TexCoordIndex, map );
+	readTypeOfIntegerList2D( args[3], m_TexCoordIndex );
 }
 void IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

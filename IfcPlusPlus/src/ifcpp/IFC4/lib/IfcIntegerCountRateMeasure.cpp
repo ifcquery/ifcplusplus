@@ -37,6 +37,6 @@ shared_ptr<IfcIntegerCountRateMeasure> IfcIntegerCountRateMeasure::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	shared_ptr<IfcIntegerCountRateMeasure> type_object( new IfcIntegerCountRateMeasure() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

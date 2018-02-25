@@ -36,7 +36,7 @@ void IfcDerivedUnitElement::readStepArguments( const std::vector<std::wstring>& 
 	const size_t num_args = args.size();
 	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnitElement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Unit, map );
-	readIntValue( args[1], m_Exponent );
+	readIntegerValue( args[1], m_Exponent );
 }
 void IfcDerivedUnitElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

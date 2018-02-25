@@ -667,7 +667,8 @@ public:
 				GeomDebugDump::dumpEdgesOfShape( first_operand_shape, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );
 				GeomDebugDump::dumpShape( second_operand_shape, vec4( 0.4, 0.5, 0.6, 1.0 ), true, false );
 #endif
-				CSG_Adapter::computeCSG( first_operand_shape, second_operand_shape, result, csg_op, GEOM_EPSILON_CSG_FUZZY, this, bool_result.get() );
+				double fuzzy_value = 1.e-7*m_unit_converter->getLengthInMeterFactor();
+				CSG_Adapter::computeCSG( first_operand_shape, second_operand_shape, result, csg_op, fuzzy_value, this, bool_result.get() );
 				first_operand_shape = result;
 			}
 		}
@@ -976,7 +977,8 @@ public:
 #endif
 
 				TopoDS_Solid result;
-				CSG_Adapter::computeCSG( half_space_shape, clipping_solid, result, CSG_A_MINUS_B, GEOM_EPSILON_CSG_FUZZY, this, polygonal_half_space.get() );
+				double fuzzy_value = 1.e-7*m_unit_converter->getLengthInMeterFactor();
+				CSG_Adapter::computeCSG( half_space_shape, clipping_solid, result, CSG_A_MINUS_B, fuzzy_value, this, polygonal_half_space.get() );
 
 				if( !result.IsNull() )
 				{

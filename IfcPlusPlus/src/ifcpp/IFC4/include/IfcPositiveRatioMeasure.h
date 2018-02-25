@@ -15,6 +15,7 @@ class IFCPP_EXPORT IfcPositiveRatioMeasure : public IfcRatioMeasure
 {
 public:
 	IfcPositiveRatioMeasure();
+	IfcPositiveRatioMeasure( double value ) { m_value = value; }
 	~IfcPositiveRatioMeasure();
 	virtual const char* className() const { return "IfcPositiveRatioMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );

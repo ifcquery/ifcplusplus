@@ -71,7 +71,7 @@ void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[0], m_MappedTo, map );
 	m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Colours, map );
-	readTypeList( args[3], m_ColourIndex, map );
+	readTypeOfIntegerList( args[3], m_ColourIndex );
 }
 void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

@@ -35,6 +35,6 @@ shared_ptr<IfcLineIndex> IfcLineIndex::createObjectFromSTEP( const std::wstring&
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	shared_ptr<IfcLineIndex> type_object( new IfcLineIndex() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

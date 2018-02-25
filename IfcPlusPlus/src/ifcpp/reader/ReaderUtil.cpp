@@ -246,7 +246,7 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 	}
 }
 
-void readIntList( const std::wstring& str, std::vector<int>& vec )
+void readIntegerList( const std::wstring& str, std::vector<int>& vec )
 {
 	const wchar_t* ch = str.c_str();
 	const size_t argsize = str.size();
@@ -291,7 +291,7 @@ void readIntList( const std::wstring& str, std::vector<int>& vec )
 	}
 }
 
-void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec )
+void readIntegerList2D( const std::wstring& str, std::vector<std::vector<int> >& vec )
 {
 	// ((1,2,4),(3,23,039),(938,3,-3,6))
 	const wchar_t* ch = str.c_str();
@@ -311,7 +311,7 @@ void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec
 			{
 				std::vector<int> inner_vec;
 				vec.push_back( inner_vec );
-				readIntList( str.substr( last_token, i-last_token ), inner_vec );
+				readIntegerList( str.substr( last_token, i-last_token ), inner_vec );
 				last_token = i+1;
 			}
 		}
@@ -326,7 +326,7 @@ void readIntList2D( const std::wstring& str, std::vector<std::vector<int> >& vec
 			{
 				std::vector<int> inner_vec;
 				vec.push_back( inner_vec );
-				readIntList( str.substr( last_token, i-last_token ), inner_vec );
+				readIntegerList( str.substr( last_token, i-last_token ), inner_vec );
 				return;
 			}
 		}

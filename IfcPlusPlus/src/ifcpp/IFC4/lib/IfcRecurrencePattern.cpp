@@ -87,9 +87,9 @@ void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& a
 	const size_t num_args = args.size();
 	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
 	m_RecurrenceType = IfcRecurrenceTypeEnum::createObjectFromSTEP( args[0], map );
-	readTypeOfIntList( args[1], m_DayComponent );
-	readTypeOfIntList( args[2], m_WeekdayComponent );
-	readTypeOfIntList( args[3], m_MonthComponent );
+	readTypeOfIntegerList( args[1], m_DayComponent );
+	readTypeOfIntegerList( args[2], m_WeekdayComponent );
+	readTypeOfIntegerList( args[3], m_MonthComponent );
 	m_Position = IfcInteger::createObjectFromSTEP( args[4], map );
 	m_Interval = IfcInteger::createObjectFromSTEP( args[5], map );
 	m_Occurrences = IfcInteger::createObjectFromSTEP( args[6], map );

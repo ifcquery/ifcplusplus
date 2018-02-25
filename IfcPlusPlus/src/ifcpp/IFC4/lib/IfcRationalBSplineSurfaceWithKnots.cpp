@@ -137,8 +137,8 @@ void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<st
 	m_UClosed = IfcLogical::createObjectFromSTEP( args[4], map );
 	m_VClosed = IfcLogical::createObjectFromSTEP( args[5], map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[6], map );
-	readTypeOfIntList( args[7], m_UMultiplicities );
-	readTypeOfIntList( args[8], m_VMultiplicities );
+	readTypeOfIntegerList( args[7], m_UMultiplicities );
+	readTypeOfIntegerList( args[8], m_VMultiplicities );
 	readTypeOfRealList( args[9], m_UKnots );
 	readTypeOfRealList( args[10], m_VKnots );
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11], map );

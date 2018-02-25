@@ -82,7 +82,7 @@ void IfcPolygonalFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[0], m_Coordinates, map );
 	m_Closed = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Faces, map );
-	readTypeList( args[3], m_PnIndex, map );
+	readTypeOfIntegerList( args[3], m_PnIndex );
 }
 void IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

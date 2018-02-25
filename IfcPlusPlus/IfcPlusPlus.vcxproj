@@ -284,7 +284,7 @@
     </Lib>
     <PostBuildEvent>
       <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\SimpleViewerExample\bin\$(TargetName)$(TargetExt)"
-copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\..\..\IfcQuery\bin\$(TargetName)$(TargetExt)"</Command>
+</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>

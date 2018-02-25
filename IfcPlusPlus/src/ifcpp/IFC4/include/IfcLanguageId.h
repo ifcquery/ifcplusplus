@@ -15,6 +15,7 @@ class IFCPP_EXPORT IfcLanguageId : public IfcIdentifier
 {
 public:
 	IfcLanguageId();
+	IfcLanguageId( std::wstring value ) { m_value = value; }
 	~IfcLanguageId();
 	virtual const char* className() const { return "IfcLanguageId"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );

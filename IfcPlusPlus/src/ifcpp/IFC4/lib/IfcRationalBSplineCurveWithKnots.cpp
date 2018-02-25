@@ -97,7 +97,7 @@ void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map );
 	m_ClosedCurve = IfcLogical::createObjectFromSTEP( args[3], map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[4], map );
-	readTypeOfIntList( args[5], m_KnotMultiplicities );
+	readTypeOfIntegerList( args[5], m_KnotMultiplicities );
 	readTypeOfRealList( args[6], m_Knots );
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[7], map );
 	readTypeOfRealList( args[8], m_WeightsData );

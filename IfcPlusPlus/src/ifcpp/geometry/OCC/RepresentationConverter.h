@@ -809,7 +809,7 @@ public:
 		}
 
 		TopoDS_Shape unified_opening_meshset;
-		double fuzzy_value = GEOM_EPSILON_CSG_FUZZY;
+		double fuzzy_value = 1.e-7*m_unit_converter->getLengthInMeterFactor();// GEOM_EPSILON_CSG_FUZZY;
 		for( auto& opening_representation_data : vec_opening_data )
 		{
 			if( !opening_representation_data )

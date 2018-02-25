@@ -15,6 +15,7 @@ class IFCPP_EXPORT IfcNonNegativeLengthMeasure : public IfcLengthMeasure
 {
 public:
 	IfcNonNegativeLengthMeasure();
+	IfcNonNegativeLengthMeasure( double value ) { m_value = value; }
 	~IfcNonNegativeLengthMeasure();
 	virtual const char* className() const { return "IfcNonNegativeLengthMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );

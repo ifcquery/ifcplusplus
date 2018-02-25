@@ -56,7 +56,7 @@ void IfcReference::readStepArguments( const std::vector<std::wstring>& args, con
 	m_TypeIdentifier = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_AttributeIdentifier = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_InstanceName = IfcLabel::createObjectFromSTEP( args[2], map );
-	readTypeOfIntList( args[3], m_ListPositions );
+	readTypeOfIntegerList( args[3], m_ListPositions );
 	readEntityReference( args[4], m_InnerReference, map );
 }
 void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )

@@ -37,6 +37,6 @@ shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	shared_ptr<IfcNumericMeasure> type_object( new IfcNumericMeasure() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

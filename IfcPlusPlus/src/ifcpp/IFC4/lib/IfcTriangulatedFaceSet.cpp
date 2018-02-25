@@ -129,8 +129,8 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>&
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
 	m_Closed = IfcBoolean::createObjectFromSTEP( args[2], map );
-	readEntityReferenceList2D( args[3], m_CoordIndex, map );
-	readTypeList( args[4], m_PnIndex, map );
+	readTypeOfIntegerList2D( args[3], m_CoordIndex );
+	readTypeOfIntegerList( args[4], m_PnIndex );
 }
 void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
 {

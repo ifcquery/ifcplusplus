@@ -16,6 +16,7 @@ class IFCPP_EXPORT IfcNormalisedRatioMeasure : public IfcRatioMeasure, public If
 {
 public:
 	IfcNormalisedRatioMeasure();
+	IfcNormalisedRatioMeasure( double value ) { m_value = value; }
 	~IfcNormalisedRatioMeasure();
 	virtual const char* className() const { return "IfcNormalisedRatioMeasure"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );

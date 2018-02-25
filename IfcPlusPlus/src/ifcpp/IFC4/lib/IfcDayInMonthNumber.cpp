@@ -36,6 +36,6 @@ shared_ptr<IfcDayInMonthNumber> IfcDayInMonthNumber::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDayInMonthNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInMonthNumber>(); }
 	shared_ptr<IfcDayInMonthNumber> type_object( new IfcDayInMonthNumber() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

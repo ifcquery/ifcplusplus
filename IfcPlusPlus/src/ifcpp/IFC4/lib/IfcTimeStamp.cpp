@@ -37,6 +37,6 @@ shared_ptr<IfcTimeStamp> IfcTimeStamp::createObjectFromSTEP( const std::wstring&
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	shared_ptr<IfcTimeStamp> type_object( new IfcTimeStamp() );
-	readInt( arg, type_object->m_value );
+	readInteger( arg, type_object->m_value );
 	return type_object;
 }

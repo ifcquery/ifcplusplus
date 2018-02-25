@@ -15,6 +15,7 @@ class IFCPP_EXPORT IfcPositiveInteger : public IfcInteger
 {
 public:
 	IfcPositiveInteger();
+	IfcPositiveInteger( int value ) { m_value = value; }
 	~IfcPositiveInteger();
 	virtual const char* className() const { return "IfcPositiveInteger"; }
 	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
