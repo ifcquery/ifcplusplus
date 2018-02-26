@@ -178,8 +178,8 @@ template<typename T>
 void readTypeOfIntegerList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
 {
 	// example: (38,12,4)
-	wchar_t* ch = (wchar_t*)str.c_str();
-	wchar_t* last_token = nullptr;
+	wchar_t const* ch = str.c_str();
+	wchar_t const* last_token = nullptr;
 
 	// ignore leading space or opening parenthesis
 	while( *ch != '\0' )
@@ -247,6 +247,7 @@ void readTypeOfIntegerList( const std::wstring& str, std::vector<shared_ptr<T> >
 		last_token = ch;
 	}
 }
+
 template<typename T>
 void readTypeOfIntegerList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& target_vec )
 {
@@ -258,6 +259,10 @@ void readTypeOfIntegerList2D( const std::wstring& str, std::vector<std::vector<s
 	{
 		return;
 	}
+
+	//Optional lists can be represented by a $ sign
+	if( ch[0] == '$' )
+		return;
 
 	if( ch[0] != '(' )
 	{
@@ -304,11 +309,11 @@ void readTypeOfIntegerList2D( const std::wstring& str, std::vector<std::vector<s
 }
 
 template<typename T>
-void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
+void readTypeOfRealList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
 {
 	// example: (.38,12.0,.04)
-	wchar_t* ch = (wchar_t*)str;
-	wchar_t* last_token = nullptr;
+	wchar_t const* ch = str.c_str();
+	wchar_t const* last_token = nullptr;
 
 	// ignore leading space or opening parenthesis
 	while( *ch != '\0' )
@@ -352,7 +357,7 @@ void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& target
 				{
 
 				}
-				
+
 				target_vec.push_back(shared_ptr<T>(new T(real_value)));
 			}
 		}
@@ -379,15 +384,6 @@ void readTypeOfRealList( const wchar_t* str, std::vector<shared_ptr<T> >& target
 }
 
 template<typename T>
-void readTypeOfRealList( const std::wstring& str, std::vector<shared_ptr<T> >& target_vec )
-{
-	// example: (.38,12.0,.04)
-	wchar_t* ch = (wchar_t*)str.c_str();
-	readTypeOfRealList( ch, target_vec );
-}
-
-
-template<typename T>
 void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& target_vec )
 {
 	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
@@ -398,6 +394,10 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 	{
 		return;
 	}
+
+	//Optional lists can be represented by a $ sign
+	if( ch[0] == '$' )
+		return;
 
 	if( ch[0] != '(' )
 	{
