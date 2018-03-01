@@ -118,63 +118,42 @@ protected:
 		//PnIndex -> CoordIndex of faces is 1-based index into PnIndex.
 		//Value in PnIndex is 1-based index into Coordinates
 		std::vector<int> vertex_indices;
-		if(poly_face_set->m_PnIndex.size())
+		//using a lambda saves one nested loop
+		size_t const pn_index_count = poly_face_set->m_PnIndex.size();
+		auto check_and_add = [&vertex_indices,this](auto index)
 		{
-			size_t const index_count = poly_face_set->m_PnIndex.size();
-			for(auto const indexed_face : poly_face_set->m_Faces)
-			{
-				if(!indexed_face ||3 > indexed_face->m_CoordIndex.size())
-					continue;
-				vertex_indices.clear();
-				//using a lambda saves one nested loop
-				auto check_and_add = [&vertex_indices,&index_count,&poly_face_set,this](auto pn_index)
-				{
-					if(!pn_index)
-						return true;
-					if(1 > pn_index->m_value || index_count < pn_index->m_value)
-						return true;
-					auto const& index = poly_face_set->m_PnIndex[pn_index->m_value - 1];
-					if(!index)
-						return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(indexed_face->m_CoordIndex.cbegin(), indexed_face->m_CoordIndex.cend(),
-							check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
-			}
-		}
-		else
+			if(!index)
+				return true;
+			if(1 > index->m_value || m_coordinate_count < index->m_value)
+				return true;
+			vertex_indices.push_back(index->m_value - 1);
+			return false;
+		};
+		auto check_and_add_indirect = [&](auto pn_index)
 		{
-			for(auto const indexed_face : poly_face_set->m_Faces)
+			if(!pn_index)
+				return true;
+			if(1 > pn_index->m_value || pn_index_count < pn_index->m_value)
+				return true;
+			return check_and_add(poly_face_set->m_PnIndex[pn_index->m_value - 1]);
+		};
+		for(auto const indexed_face : poly_face_set->m_Faces)
+		{
+			auto const& coord_index = indexed_face->m_CoordIndex;
+			if(!indexed_face ||3 > coord_index.size())
+				continue;
+			if(auto face_with_voids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>
+					(indexed_face))
 			{
-				if(!indexed_face || 3 > indexed_face->m_CoordIndex.size())
-					continue;
-				if(auto face_with_voids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>
-						(indexed_face))
-				{
-					messageCallback( "Indexed faces with voids are currently not supported",
-							StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, face_with_voids.get());
-				}
-				vertex_indices.clear();
-				//using a lambda saves a nested for loop
-				auto check_and_add = [&vertex_indices,this](auto index)
-				{
-					if(!index)
-						return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(indexed_face->m_CoordIndex.cbegin(), indexed_face->m_CoordIndex.cend(),
-							check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.begin(), vertex_indices.end());
+				messageCallback( "Indexed faces with voids are currently not supported",
+						StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, face_with_voids.get());
 			}
+			vertex_indices.clear();
+			if((pn_index_count)
+				? std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add_indirect)
+				: std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add))
+				continue;
+			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
 	}
 
