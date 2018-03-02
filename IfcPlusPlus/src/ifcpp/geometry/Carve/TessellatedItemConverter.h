@@ -40,13 +40,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //- check if a face is degenerated (collapsed to a line or a point) and reject it if it is
 //- check for crossing edges and reject faces if they contain some
 //- check if voids overlap/cross each other and reject them if they do
-//- add support for holes. It should be possible to incorporate them by cutting the closed face open
-//  Idea: 1. find a pair (border_vertex, void_vertex) that has min distance
-//        2. rotate border index vector and void index vector so that the pair indices follow
-//           each other.
-//        3. append the vectors and append the pair indices reversed (as back edge)
-//        4. the resulting vector is the new border_vertex index-vector
-//        5. repeat 1.-4. if there are more voids
+//- improve run time of mergeHolesIntoPoly by using a spatial structure. Currently
+//  uses a naive algorithm, which is probably good enough as most polys have few
+//  vertices, and few holes with few vertices (each in the single digit range)
 //- check closed parameter and use it to use a different addPolyhedron method
 class TessellatedItemConverter : public StatusCallback {
 public:
@@ -156,7 +152,7 @@ protected:
 			{
 				copyHoleIndices(hole_vertex_indices, face_with_voids->m_InnerCoordIndices,
 						poly_face_set->m_PnIndex);
-				mergeHolesIntoPoly(vertex_indices, hole_vertex_indices, poly_face_set->m_Coordinates);
+				mergeHolesIntoPoly(vertex_indices, hole_vertex_indices);
 			}
 			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
@@ -197,10 +193,49 @@ protected:
 		}
 	}
 
+	///@brief Merge boundary and hole indices together
+	///@details This works because the IFC spec defines the winding order of
+	///the boundary to be counter-clock-wise and the winding order of holes
+	///to be clock-wise - the same order is used by carve internally. By
+	///concatenating the indices and adding a back-edge index pair we basically
+	///"cut" the polygon open and define the hole in a way carve recognises it.
+	///
+	///To find a suitable cutting edge, a naive nearest neighbour search is
+	///done. Ths can be improved by using a spatial tree like kd-tree or
+	///R-tree.
 	void mergeHolesIntoPoly(std::vector<int>& vertex_indices,
-			std::vector<std::vector<int>> const& hole_vertex_indices,
-			shared_ptr<IfcCartesianPointList3D> const& coordinates)
+			std::vector<std::vector<int>> const& hole_vertex_indices)
 	{
+		//use naive nearest neighbour search to find the boundary vertex closest
+		//to the hole vertex and insert an edge, cutting the poly open.
+		//Add the hole vertices to the boundary and repeat until no holes remain
+		//Can be improved by using a kd- or R-tree (carve ships with kd-trees)
+		for(auto hole : hole_vertex_indices)
+		{
+			auto candidate = std::make_tuple(std::numeric_limits<double>::max(), 0, 0);
+			for(size_t i = 0; i < vertex_indices.size(); ++i)
+			{
+				int v_index = vertex_indices[i];
+				auto const& boundary_vertex = m_carve_mesh_builder->points[v_index];
+				for(size_t j = 0; j < hole.size(); ++j)
+				{
+					int  h_index = hole[j];
+					auto const& hole_vertex = m_carve_mesh_builder->points[h_index];
+					double const distance = (hole_vertex - boundary_vertex).length2();
+					if(distance < std::get<0>(candidate))
+						candidate = std::make_tuple(distance, i, j);
+				}
+			}
+			//now that a minimum distance pair is found, rotate the index vectors
+			//so that the pair is right next to each other when concatenating
+			//this way an edge is formed. Also add a back-edge after the hole
+			std::rotate(vertex_indices.begin(), vertex_indices.begin() + std::get<1>(candidate),
+					vertex_indices.end());
+			std::rotate(hole.begin(), hole.begin() + std::get<2>(candidate), hole.end());
+			hole.push_back(hole.front());
+			hole.push_back(vertex_indices.back());
+			vertex_indices.insert(vertex_indices.end(), hole.cbegin(), hole.cend());
+		}
 	}
 
 	void convertTriangulatedFaceSet(shared_ptr<IfcTriangulatedFaceSet> const tri_face_set)
