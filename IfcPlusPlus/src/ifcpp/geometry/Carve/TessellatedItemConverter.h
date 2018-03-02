@@ -119,6 +119,7 @@ protected:
 		//PnIndex -> CoordIndex of faces is 1-based index into PnIndex.
 		//Value in PnIndex is 1-based index into Coordinates
 		std::vector<int> vertex_indices;
+		std::vector<std::vector<int>> hole_vertex_indices;
 		//using a lambda saves one nested loop
 		size_t const pn_index_count = poly_face_set->m_PnIndex.size();
 		auto check_and_add = [&vertex_indices,this](auto index)
@@ -143,20 +144,63 @@ protected:
 			auto const& coord_index = indexed_face->m_CoordIndex;
 			if(!indexed_face ||3 > coord_index.size())
 				continue;
-			if(auto face_with_voids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>
-					(indexed_face))
-			{
-				messageCallback( "Indexed faces with voids are currently not supported",
-						StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, face_with_voids.get());
-			}
 			vertex_indices.clear();
+			hole_vertex_indices.clear();
 			//skip face if any vertex index is invalid or out of range
 			if((pn_index_count)
 				? std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add_indirect)
 				: std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add))
 				continue;
+			if(auto face_with_voids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>
+					(indexed_face))
+			{
+				copyHoleIndices(hole_vertex_indices, face_with_voids->m_InnerCoordIndices,
+						poly_face_set->m_PnIndex);
+				mergeHolesIntoPoly(vertex_indices, hole_vertex_indices, poly_face_set->m_Coordinates);
+			}
 			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
+	}
+
+	//also resolves indirect access via pn, giving direct indices into coord list
+	void copyHoleIndices(std::vector<std::vector<int>>& hole_indices,
+			std::vector<std::vector<shared_ptr<IfcPositiveInteger>>> const& coord_index,
+			std::vector<shared_ptr<IfcPositiveInteger>> const& pn_indices)
+	{
+		std::vector<int> index_buffer;
+		size_t const pn_index_count = pn_indices.size();
+		auto check_and_add = [&index_buffer,this](auto index)
+		{
+			if(!index)
+				return true;
+			if(1 > index->m_value || m_coordinate_count < index->m_value)
+				return true;
+			index_buffer.push_back(index->m_value - 1);
+			return false;
+		};
+		auto check_and_add_indirect = [&](auto pn_index)
+		{
+			if(!pn_index)
+				return true;
+			if(1 > pn_index->m_value || pn_index_count < pn_index->m_value)
+				return true;
+			return check_and_add(pn_indices[pn_index->m_value - 1]);
+		};
+		for(auto const& hole : coord_index)
+		{
+			index_buffer.clear();
+			if((pn_index_count)
+				? std::any_of(hole.cbegin(), hole.cend(), check_and_add_indirect)
+				: std::any_of(hole.cbegin(), hole.cend(), check_and_add))
+				continue;
+			hole_indices.push_back(index_buffer);
+		}
+	}
+
+	void mergeHolesIntoPoly(std::vector<int>& vertex_indices,
+			std::vector<std::vector<int>> const& hole_vertex_indices,
+			shared_ptr<IfcCartesianPointList3D> const& coordinates)
+	{
 	}
 
 	void convertTriangulatedFaceSet(shared_ptr<IfcTriangulatedFaceSet> const tri_face_set)
