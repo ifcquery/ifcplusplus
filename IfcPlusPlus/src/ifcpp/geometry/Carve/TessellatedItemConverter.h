@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcIndexedPolygonalFace.h>
 #include <ifcpp/IFC4/include/IfcIndexedPolygonalFaceWithVoids.h>
+#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcPolygonalFaceSet.h>
 #include <ifcpp/IFC4/include/IfcPositiveInteger.h>
 #include <ifcpp/IFC4/include/IfcTessellatedFaceSet.h>
@@ -149,6 +150,7 @@ protected:
 						StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, face_with_voids.get());
 			}
 			vertex_indices.clear();
+			//skip face if any vertex index is invalid or out of range
 			if((pn_index_count)
 				? std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add_indirect)
 				: std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add))
@@ -164,54 +166,36 @@ protected:
 		//PnIndex -> CoordIndex is 1-based index into PnIndex.
 		//Value in PnIndex is 1-based index into Coordinates
 		std::vector<int> vertex_indices;
-		if(tri_face_set->m_PnIndex.size())
+		size_t const pn_index_count = tri_face_set->m_PnIndex.size();
+		//using a lambda saves one nested loop
+		auto check_and_add = [&vertex_indices,this](auto index)
 		{
-			size_t const index_count = tri_face_set->m_PnIndex.size();
-			for(auto const& tri_index : tri_face_set->m_CoordIndex)
-			{
-				if(3 != tri_index.size())
-					continue;
-				vertex_indices.clear();
-				//using a lambda saves one nested loop
-				auto check_and_add = [&vertex_indices,&index_count,&tri_face_set,this](auto pn_index)
-				{
-					if(!pn_index)
-						return true;
-					if(1 > pn_index->m_value || index_count < pn_index->m_value)
-						return true;
-					auto const& index = tri_face_set->m_PnIndex[pn_index->m_value - 1];
-					if(!index)
-						return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
-			}
-		}
-		else
+			if(!index)
+				return true;
+			if(1 > index->m_value || m_coordinate_count < index->m_value)
+				return true;
+			vertex_indices.push_back(index->m_value - 1);
+			return false;
+		};
+		auto check_and_add_indirect = [&](auto pn_index)
 		{
-			for(auto const& tri_index : tri_face_set->m_CoordIndex)
-			{
-				if(3 != tri_index.size())
-					continue;
-				vertex_indices.clear();
-				//using a lambda saves a nested for loop
-				auto check_and_add = [&vertex_indices,this](auto index)
-				{
-					if(!index) return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
-			}
+			if(!pn_index)
+				return true;
+			if(1 > pn_index->m_value || pn_index_count < pn_index->m_value)
+				return true;
+			return check_and_add(tri_face_set->m_PnIndex[pn_index->m_value - 1]);
+		};
+		for(auto const& tri_index : tri_face_set->m_CoordIndex)
+		{
+			if(3 != tri_index.size())
+				continue;
+			vertex_indices.clear();
+			//skip face if any vertex index is invalid or out of range
+			if((pn_index_count)
+				? std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add_indirect)
+				: std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
+				continue;
+			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
 	}
 
