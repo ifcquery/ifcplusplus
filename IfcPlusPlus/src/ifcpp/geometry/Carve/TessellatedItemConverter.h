@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcIndexedPolygonalFace.h>
 #include <ifcpp/IFC4/include/IfcIndexedPolygonalFaceWithVoids.h>
+#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcPolygonalFaceSet.h>
 #include <ifcpp/IFC4/include/IfcPositiveInteger.h>
 #include <ifcpp/IFC4/include/IfcTessellatedFaceSet.h>
@@ -39,13 +40,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //- check if a face is degenerated (collapsed to a line or a point) and reject it if it is
 //- check for crossing edges and reject faces if they contain some
 //- check if voids overlap/cross each other and reject them if they do
-//- add support for holes. It should be possible to incorporate them by cutting the closed face open
-//  Idea: 1. find a pair (border_vertex, void_vertex) that has min distance
-//        2. rotate border index vector and void index vector so that the pair indices follow
-//           each other.
-//        3. append the vectors and append the pair indices reversed (as back edge)
-//        4. the resulting vector is the new border_vertex index-vector
-//        5. repeat 1.-4. if there are more voids
+//- improve run time of mergeHolesIntoPoly by using a spatial structure. Currently
+//  uses a naive algorithm, which is probably good enough as most polys have few
+//  vertices, and few holes with few vertices (each in the single digit range)
 //- check closed parameter and use it to use a different addPolyhedron method
 class TessellatedItemConverter : public StatusCallback {
 public:
@@ -118,63 +115,126 @@ protected:
 		//PnIndex -> CoordIndex of faces is 1-based index into PnIndex.
 		//Value in PnIndex is 1-based index into Coordinates
 		std::vector<int> vertex_indices;
-		if(poly_face_set->m_PnIndex.size())
+		std::vector<std::vector<int>> hole_vertex_indices;
+		//using a lambda saves one nested loop
+		size_t const pn_index_count = poly_face_set->m_PnIndex.size();
+		auto check_and_add = [&vertex_indices,this](auto index)
 		{
-			size_t const index_count = poly_face_set->m_PnIndex.size();
-			for(auto const indexed_face : poly_face_set->m_Faces)
+			if(!index)
+				return true;
+			if(1 > index->m_value || m_coordinate_count < index->m_value)
+				return true;
+			vertex_indices.push_back(index->m_value - 1);
+			return false;
+		};
+		auto check_and_add_indirect = [&](auto pn_index)
+		{
+			if(!pn_index)
+				return true;
+			if(1 > pn_index->m_value || pn_index_count < pn_index->m_value)
+				return true;
+			return check_and_add(poly_face_set->m_PnIndex[pn_index->m_value - 1]);
+		};
+		for(auto const indexed_face : poly_face_set->m_Faces)
+		{
+			auto const& coord_index = indexed_face->m_CoordIndex;
+			if(!indexed_face ||3 > coord_index.size())
+				continue;
+			vertex_indices.clear();
+			hole_vertex_indices.clear();
+			//skip face if any vertex index is invalid or out of range
+			if((pn_index_count)
+				? std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add_indirect)
+				: std::any_of(coord_index.cbegin(), coord_index.cend(), check_and_add))
+				continue;
+			if(auto face_with_voids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>
+					(indexed_face))
 			{
-				if(!indexed_face ||3 > indexed_face->m_CoordIndex.size())
-					continue;
-				vertex_indices.clear();
-				//using a lambda saves one nested loop
-				auto check_and_add = [&vertex_indices,&index_count,&poly_face_set,this](auto pn_index)
-				{
-					if(!pn_index)
-						return true;
-					if(1 > pn_index->m_value || index_count < pn_index->m_value)
-						return true;
-					auto const& index = poly_face_set->m_PnIndex[pn_index->m_value - 1];
-					if(!index)
-						return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(indexed_face->m_CoordIndex.cbegin(), indexed_face->m_CoordIndex.cend(),
-							check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
+				copyHoleIndices(hole_vertex_indices, face_with_voids->m_InnerCoordIndices,
+						poly_face_set->m_PnIndex);
+				mergeHolesIntoPoly(vertex_indices, hole_vertex_indices);
 			}
+			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
-		else
+	}
+
+	//also resolves indirect access via pn, giving direct indices into coord list
+	void copyHoleIndices(std::vector<std::vector<int>>& hole_indices,
+			std::vector<std::vector<shared_ptr<IfcPositiveInteger>>> const& coord_index,
+			std::vector<shared_ptr<IfcPositiveInteger>> const& pn_indices)
+	{
+		std::vector<int> index_buffer;
+		size_t const pn_index_count = pn_indices.size();
+		auto check_and_add = [&index_buffer,this](auto index)
 		{
-			for(auto const indexed_face : poly_face_set->m_Faces)
+			if(!index)
+				return true;
+			if(1 > index->m_value || m_coordinate_count < index->m_value)
+				return true;
+			index_buffer.push_back(index->m_value - 1);
+			return false;
+		};
+		auto check_and_add_indirect = [&](auto pn_index)
+		{
+			if(!pn_index)
+				return true;
+			if(1 > pn_index->m_value || pn_index_count < pn_index->m_value)
+				return true;
+			return check_and_add(pn_indices[pn_index->m_value - 1]);
+		};
+		for(auto const& hole : coord_index)
+		{
+			index_buffer.clear();
+			if((pn_index_count)
+				? std::any_of(hole.cbegin(), hole.cend(), check_and_add_indirect)
+				: std::any_of(hole.cbegin(), hole.cend(), check_and_add))
+				continue;
+			hole_indices.push_back(index_buffer);
+		}
+	}
+
+	///@brief Merge boundary and hole indices together
+	///@details This works because the IFC spec defines the winding order of
+	///the boundary to be counter-clock-wise and the winding order of holes
+	///to be clock-wise - the same order is used by carve internally. By
+	///concatenating the indices and adding a back-edge index pair we basically
+	///"cut" the polygon open and define the hole in a way carve recognises it.
+	///
+	///To find a suitable cutting edge, a naive nearest neighbour search is
+	///done. Ths can be improved by using a spatial tree like kd-tree or
+	///R-tree.
+	void mergeHolesIntoPoly(std::vector<int>& vertex_indices,
+			std::vector<std::vector<int>> const& hole_vertex_indices)
+	{
+		//use naive nearest neighbour search to find the boundary vertex closest
+		//to the hole vertex and insert an edge, cutting the poly open.
+		//Add the hole vertices to the boundary and repeat until no holes remain
+		//Can be improved by using a kd- or R-tree (carve ships with kd-trees)
+		for(auto hole : hole_vertex_indices)
+		{
+			auto candidate = std::make_tuple(std::numeric_limits<double>::max(), 0, 0);
+			for(size_t i = 0; i < vertex_indices.size(); ++i)
 			{
-				if(!indexed_face || 3 > indexed_face->m_CoordIndex.size())
-					continue;
-				if(auto face_with_voids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>
-						(indexed_face))
+				int v_index = vertex_indices[i];
+				auto const& boundary_vertex = m_carve_mesh_builder->points[v_index];
+				for(size_t j = 0; j < hole.size(); ++j)
 				{
-					messageCallback( "Indexed faces with voids are currently not supported",
-							StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, face_with_voids.get());
+					int  h_index = hole[j];
+					auto const& hole_vertex = m_carve_mesh_builder->points[h_index];
+					double const distance = (hole_vertex - boundary_vertex).length2();
+					if(distance < std::get<0>(candidate))
+						candidate = std::make_tuple(distance, i, j);
 				}
-				vertex_indices.clear();
-				//using a lambda saves a nested for loop
-				auto check_and_add = [&vertex_indices,this](auto index)
-				{
-					if(!index)
-						return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(indexed_face->m_CoordIndex.cbegin(), indexed_face->m_CoordIndex.cend(),
-							check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.begin(), vertex_indices.end());
 			}
+			//now that a minimum distance pair is found, rotate the index vectors
+			//so that the pair is right next to each other when concatenating
+			//this way an edge is formed. Also add a back-edge after the hole
+			std::rotate(vertex_indices.begin(), vertex_indices.begin() + std::get<1>(candidate),
+					vertex_indices.end());
+			std::rotate(hole.begin(), hole.begin() + std::get<2>(candidate), hole.end());
+			hole.push_back(hole.front());
+			hole.push_back(vertex_indices.back());
+			vertex_indices.insert(vertex_indices.end(), hole.cbegin(), hole.cend());
 		}
 	}
 
@@ -185,54 +245,36 @@ protected:
 		//PnIndex -> CoordIndex is 1-based index into PnIndex.
 		//Value in PnIndex is 1-based index into Coordinates
 		std::vector<int> vertex_indices;
-		if(tri_face_set->m_PnIndex.size())
+		size_t const pn_index_count = tri_face_set->m_PnIndex.size();
+		//using a lambda saves one nested loop
+		auto check_and_add = [&vertex_indices,this](auto index)
 		{
-			size_t const index_count = tri_face_set->m_PnIndex.size();
-			for(auto const& tri_index : tri_face_set->m_CoordIndex)
-			{
-				if(3 != tri_index.size())
-					continue;
-				vertex_indices.clear();
-				//using a lambda saves one nested loop
-				auto check_and_add = [&vertex_indices,&index_count,&tri_face_set,this](auto pn_index)
-				{
-					if(!pn_index)
-						return true;
-					if(1 > pn_index->m_value || index_count < pn_index->m_value)
-						return true;
-					auto const& index = tri_face_set->m_PnIndex[pn_index->m_value - 1];
-					if(!index)
-						return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
-			}
-		}
-		else
+			if(!index)
+				return true;
+			if(1 > index->m_value || m_coordinate_count < index->m_value)
+				return true;
+			vertex_indices.push_back(index->m_value - 1);
+			return false;
+		};
+		auto check_and_add_indirect = [&](auto pn_index)
 		{
-			for(auto const& tri_index : tri_face_set->m_CoordIndex)
-			{
-				if(3 != tri_index.size())
-					continue;
-				vertex_indices.clear();
-				//using a lambda saves a nested for loop
-				auto check_and_add = [&vertex_indices,this](auto index)
-				{
-					if(!index) return true;
-					if(1 > index->m_value || m_coordinate_count < index->m_value)
-						return true;
-					vertex_indices.push_back(index->m_value - 1);
-					return false;
-				};
-				if(std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
-					continue;
-				m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
-			}
+			if(!pn_index)
+				return true;
+			if(1 > pn_index->m_value || pn_index_count < pn_index->m_value)
+				return true;
+			return check_and_add(tri_face_set->m_PnIndex[pn_index->m_value - 1]);
+		};
+		for(auto const& tri_index : tri_face_set->m_CoordIndex)
+		{
+			if(3 != tri_index.size())
+				continue;
+			vertex_indices.clear();
+			//skip face if any vertex index is invalid or out of range
+			if((pn_index_count)
+				? std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add_indirect)
+				: std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
+				continue;
+			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
 	}
 
