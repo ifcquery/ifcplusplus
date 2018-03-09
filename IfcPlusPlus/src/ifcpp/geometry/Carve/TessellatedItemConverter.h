@@ -48,8 +48,7 @@ class TessellatedItemConverter : public StatusCallback {
 public:
 	TessellatedItemConverter(shared_ptr<UnitConverter> const unit_converter):
 		m_unit_converter(unit_converter),
-		m_length_factor(unit_converter->getLengthInMeterFactor()),
-		m_carve_mesh_builder(std::make_shared<carve::input::PolyhedronData>())
+		m_length_factor(unit_converter->getLengthInMeterFactor())
 	{ }
 
 	void convertTessellatedItem(shared_ptr<IfcTessellatedItem> const tessellated_item,
@@ -58,9 +57,7 @@ public:
 		//Can be either an IfcPolygonalFaceSet or an IfcTriangulatedFaceSet
 		//the former one needs to be triangulated by the user, while the
 		//latter one can usually directly be used for rendering
-		m_carve_mesh_builder->clearFaces();
-		m_carve_mesh_builder->points.clear();
-		m_coordinate_count = 0;
+		auto carve_mesh_builder = std::make_shared<carve::input::PolyhedronData>();
 		auto face_set = dynamic_pointer_cast<IfcTessellatedFaceSet>(tessellated_item);
 		if(!face_set)
 		{
@@ -75,21 +72,22 @@ public:
 					StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, face_set.get());
 			return;
 		}
-		if(!copyVertices(vertices))
+		if(!copyVertices(vertices, carve_mesh_builder))
 			return;
-		m_coordinate_count = face_set->m_Coordinates->m_CoordList.size();
+		auto const coordinate_count = face_set->m_Coordinates->m_CoordList.size();
 
 		if(auto const poly_face_set = dynamic_pointer_cast<IfcPolygonalFaceSet>(tessellated_item))
-			convertPolygonalFaceSet( poly_face_set );
+			convertPolygonalFaceSet( poly_face_set, coordinate_count, carve_mesh_builder );
 
 		if(auto const tri_face_set = dynamic_pointer_cast<IfcTriangulatedFaceSet>(tessellated_item))
-			convertTriangulatedFaceSet( tri_face_set );
+			convertTriangulatedFaceSet( tri_face_set, coordinate_count, carve_mesh_builder );
 
-		item_data->addOpenOrClosedPolyhedron( m_carve_mesh_builder );
+		item_data->addOpenOrClosedPolyhedron( carve_mesh_builder );
 	}
 
 protected:
-	bool copyVertices(shared_ptr<IfcCartesianPointList3D> const point_list)
+	bool copyVertices(shared_ptr<IfcCartesianPointList3D> const point_list,
+			shared_ptr<carve::input::PolyhedronData> carve_mesh_builder)
 	{
 		for(auto const& coord : point_list->m_CoordList)
 		{
@@ -103,12 +101,14 @@ protected:
 			carve_point.x = coord[0]->m_value * m_length_factor;
 			carve_point.y = coord[1]->m_value * m_length_factor;
 			carve_point.z = coord[2]->m_value * m_length_factor;
-			m_carve_mesh_builder->addVertex(carve_point);
+			carve_mesh_builder->addVertex(carve_point);
 		}
 		return true;
 	}
 
-	void convertPolygonalFaceSet(shared_ptr<IfcPolygonalFaceSet> const poly_face_set)
+	void convertPolygonalFaceSet(shared_ptr<IfcPolygonalFaceSet> const poly_face_set,
+			size_t const coordinate_count,
+			shared_ptr<carve::input::PolyhedronData> carve_mesh_builder)
 	{
 		//indexing changes if PnIndex is present:
 		//no PnIndex -> CoordIndex of faces is 1-based index into Coordinates
@@ -118,11 +118,11 @@ protected:
 		std::vector<std::vector<int>> hole_vertex_indices;
 		//using a lambda saves one nested loop
 		size_t const pn_index_count = poly_face_set->m_PnIndex.size();
-		auto check_and_add = [&vertex_indices,this](auto index)
+		auto check_and_add = [&vertex_indices,&coordinate_count](auto index)
 		{
 			if(!index)
 				return true;
-			if(1 > index->m_value || m_coordinate_count < index->m_value)
+			if(1 > index->m_value || coordinate_count < index->m_value)
 				return true;
 			vertex_indices.push_back(index->m_value - 1);
 			return false;
@@ -151,25 +151,26 @@ protected:
 					(indexed_face))
 			{
 				copyHoleIndices(hole_vertex_indices, face_with_voids->m_InnerCoordIndices,
-						poly_face_set->m_PnIndex);
-				mergeHolesIntoPoly(vertex_indices, hole_vertex_indices);
+						poly_face_set->m_PnIndex, coordinate_count);
+				mergeHolesIntoPoly(vertex_indices, hole_vertex_indices, carve_mesh_builder);
 			}
-			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
+			carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
 	}
 
 	//also resolves indirect access via pn, giving direct indices into coord list
 	void copyHoleIndices(std::vector<std::vector<int>>& hole_indices,
 			std::vector<std::vector<shared_ptr<IfcPositiveInteger>>> const& coord_index,
-			std::vector<shared_ptr<IfcPositiveInteger>> const& pn_indices)
+			std::vector<shared_ptr<IfcPositiveInteger>> const& pn_indices,
+			size_t const coordinate_count)
 	{
 		std::vector<int> index_buffer;
 		size_t const pn_index_count = pn_indices.size();
-		auto check_and_add = [&index_buffer,this](auto index)
+		auto check_and_add = [&index_buffer,&coordinate_count](auto index)
 		{
 			if(!index)
 				return true;
-			if(1 > index->m_value || m_coordinate_count < index->m_value)
+			if(1 > index->m_value || coordinate_count < index->m_value)
 				return true;
 			index_buffer.push_back(index->m_value - 1);
 			return false;
@@ -204,7 +205,8 @@ protected:
 	///done. Ths can be improved by using a spatial tree like kd-tree or
 	///R-tree.
 	void mergeHolesIntoPoly(std::vector<int>& vertex_indices,
-			std::vector<std::vector<int>> const& hole_vertex_indices)
+			std::vector<std::vector<int>> const& hole_vertex_indices,
+			shared_ptr<carve::input::PolyhedronData> carve_mesh_builder)
 	{
 		//use naive nearest neighbour search to find the boundary vertex closest
 		//to the hole vertex and insert an edge, cutting the poly open.
@@ -212,15 +214,15 @@ protected:
 		//Can be improved by using a kd- or R-tree (carve ships with kd-trees)
 		for(auto hole : hole_vertex_indices)
 		{
-			auto candidate = std::make_tuple(std::numeric_limits<double>::max(), 0, 0);
+			auto candidate = std::make_tuple(std::numeric_limits<double>::max(), size_t(0), size_t(0));
 			for(size_t i = 0; i < vertex_indices.size(); ++i)
 			{
 				int v_index = vertex_indices[i];
-				auto const& boundary_vertex = m_carve_mesh_builder->points[v_index];
+				auto const& boundary_vertex = carve_mesh_builder->points[v_index];
 				for(size_t j = 0; j < hole.size(); ++j)
 				{
 					int  h_index = hole[j];
-					auto const& hole_vertex = m_carve_mesh_builder->points[h_index];
+					auto const& hole_vertex = carve_mesh_builder->points[h_index];
 					double const distance = (hole_vertex - boundary_vertex).length2();
 					if(distance < std::get<0>(candidate))
 						candidate = std::make_tuple(distance, i, j);
@@ -238,7 +240,9 @@ protected:
 		}
 	}
 
-	void convertTriangulatedFaceSet(shared_ptr<IfcTriangulatedFaceSet> const tri_face_set)
+	void convertTriangulatedFaceSet(shared_ptr<IfcTriangulatedFaceSet> const tri_face_set,
+			size_t const coordinate_count,
+			shared_ptr<carve::input::PolyhedronData> carve_mesh_builder)
 	{
 		//indexing changes if PnIndex is present:
 		//no PnIndex -> CoordIndex is 1-based index into Coordinates
@@ -247,11 +251,11 @@ protected:
 		std::vector<int> vertex_indices;
 		size_t const pn_index_count = tri_face_set->m_PnIndex.size();
 		//using a lambda saves one nested loop
-		auto check_and_add = [&vertex_indices,this](auto index)
+		auto check_and_add = [&vertex_indices,&coordinate_count](auto index)
 		{
 			if(!index)
 				return true;
-			if(1 > index->m_value || m_coordinate_count < index->m_value)
+			if(1 > index->m_value || coordinate_count < index->m_value)
 				return true;
 			vertex_indices.push_back(index->m_value - 1);
 			return false;
@@ -274,14 +278,12 @@ protected:
 				? std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add_indirect)
 				: std::any_of(tri_index.cbegin(), tri_index.cend(), check_and_add))
 				continue;
-			m_carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
+			carve_mesh_builder->addFace(vertex_indices.cbegin(), vertex_indices.cend());
 		}
 	}
 
 private:
 	shared_ptr<UnitConverter> const m_unit_converter;
 	double const m_length_factor;
-	shared_ptr<carve::input::PolyhedronData> m_carve_mesh_builder;
-	size_t m_coordinate_count;
 };
 
