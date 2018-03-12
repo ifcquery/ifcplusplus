@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDuctSilencerTypeEnum.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
 IfcDuctSilencerTypeEnum::IfcDuctSilencerTypeEnum() {}
 IfcDuctSilencerTypeEnum::~IfcDuctSilencerTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDuctSilencerTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDuctSilencerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctSilencerTypeEnum> copy_self( new IfcDuctSilencerTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -43,7 +43,7 @@ const std::wstring IfcDuctSilencerTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }

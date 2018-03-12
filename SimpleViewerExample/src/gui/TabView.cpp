@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -27,7 +27,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <osgGA/OrbitManipulator>
 
-#include <ifcpp/model/IfcPPModel.h>
+#include <ifcpp/model/BuildingModel.h>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"

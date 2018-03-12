@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcRotationalStiffnessSelect.h"
 #include "ifcpp/IFC4/include/IfcRotationalStiffnessMeasure.h"
@@ -15,7 +15,7 @@
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure() {}
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure( double value ) { m_value = value; }
 IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() {}
-shared_ptr<IfcPPObject> IfcRotationalStiffnessMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRotationalStiffnessMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalStiffnessMeasure> copy_self( new IfcRotationalStiffnessMeasure() );
 	copy_self->m_value = m_value;
@@ -33,7 +33,7 @@ const std::wstring IfcRotationalStiffnessMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcRotationalStiffnessMeasure> IfcRotationalStiffnessMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcRotationalStiffnessMeasure> IfcRotationalStiffnessMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }

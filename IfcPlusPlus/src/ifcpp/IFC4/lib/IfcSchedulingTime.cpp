@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDataOriginEnum.h"
@@ -15,7 +15,7 @@
 IfcSchedulingTime::IfcSchedulingTime() {}
 IfcSchedulingTime::IfcSchedulingTime( int id ) { m_entity_id = id; }
 IfcSchedulingTime::~IfcSchedulingTime() {}
-shared_ptr<IfcPPObject> IfcSchedulingTime::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSchedulingTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSchedulingTime> copy_self( new IfcSchedulingTime() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -35,24 +35,24 @@ void IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
 }
 void IfcSchedulingTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSchedulingTime::toString() const { return L"IfcSchedulingTime"; }
-void IfcSchedulingTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSchedulingTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcSchedulingTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSchedulingTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "DataOrigin", m_DataOrigin ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
 }
-void IfcSchedulingTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSchedulingTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcSchedulingTime::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcSchedulingTime::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcSchedulingTime::unlinkFromInverseCounterparts()

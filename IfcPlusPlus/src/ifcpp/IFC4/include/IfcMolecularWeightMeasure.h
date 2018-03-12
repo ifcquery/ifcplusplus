@@ -5,23 +5,23 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 #include "IfcDerivedMeasureValue.h"
 
 // TYPE IfcMolecularWeightMeasure = REAL;
-class IFCPP_EXPORT IfcMolecularWeightMeasure : public IfcDerivedMeasureValue
+class IFCQUERY_EXPORT IfcMolecularWeightMeasure : public IfcDerivedMeasureValue
 {
 public:
 	IfcMolecularWeightMeasure();
 	IfcMolecularWeightMeasure( double value );
 	~IfcMolecularWeightMeasure();
 	virtual const char* className() const { return "IfcMolecularWeightMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcMolecularWeightMeasure> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcMolecularWeightMeasure> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	double m_value;
 };
 

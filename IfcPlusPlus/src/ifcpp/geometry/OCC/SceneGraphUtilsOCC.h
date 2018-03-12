@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 

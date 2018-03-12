@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osgViewer/View>
 #include <osgText/Text>
 
-#include <ifcpp/model/IfcPPModel.h>
+#include <ifcpp/model/BuildingModel.h>
 #include "IfcPlusPlusSystem.h"
 #include "OrbitCameraManipulator.h"
 
@@ -499,12 +499,12 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 					else
 					{
 						// select
-						shared_ptr<IfcPPModel> ifc_model = m_system->getIfcModel();
+						shared_ptr<BuildingModel> ifc_model = m_system->getIfcModel();
 						auto map_ifc_objects = ifc_model->getMapIfcEntities();
 						auto it_find = map_ifc_objects.find( id );
 						if( it_find != map_ifc_objects.end() )
 						{
-							shared_ptr<IfcPPEntity> entitiy_selected = it_find->second;
+							shared_ptr<BuildingEntity> entitiy_selected = it_find->second;
 							if( !m_control_key_down )
 							{
 								m_system->clearSelection();

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement.h"
@@ -21,7 +21,7 @@
 IfcGeometricRepresentationContext::IfcGeometricRepresentationContext() {}
 IfcGeometricRepresentationContext::IfcGeometricRepresentationContext( int id ) { m_entity_id = id; }
 IfcGeometricRepresentationContext::~IfcGeometricRepresentationContext() {}
-shared_ptr<IfcPPObject> IfcGeometricRepresentationContext::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGeometricRepresentationContext::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricRepresentationContext> copy_self( new IfcGeometricRepresentationContext() );
 	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
@@ -50,10 +50,10 @@ void IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream )
 }
 void IfcGeometricRepresentationContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricRepresentationContext::toString() const { return L"IfcGeometricRepresentationContext"; }
-void IfcGeometricRepresentationContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcGeometricRepresentationContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationContext, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationContext, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromSTEP( args[2], map );
@@ -61,7 +61,7 @@ void IfcGeometricRepresentationContext::readStepArguments( const std::vector<std
 	m_WorldCoordinateSystem = IfcAxis2Placement::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_TrueNorth, map );
 }
-void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRepresentationContext::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CoordinateSpaceDimension", m_CoordinateSpaceDimension ) );
@@ -69,12 +69,12 @@ void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std
 	vec_attributes.push_back( std::make_pair( "WorldCoordinateSystem", m_WorldCoordinateSystem ) );
 	vec_attributes.push_back( std::make_pair( "TrueNorth", m_TrueNorth ) );
 }
-void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRepresentationContext::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasSubContexts_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasSubContexts_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasSubContexts_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasSubContexts_inverse.size(); ++i )
 		{
 			if( !m_HasSubContexts_inverse[i].expired() )
@@ -86,7 +86,7 @@ void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::p
 	}
 	if( m_HasCoordinateOperation_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasCoordinateOperation_inverse.size(); ++i )
 		{
 			if( !m_HasCoordinateOperation_inverse[i].expired() )
@@ -97,7 +97,7 @@ void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::p
 		vec_attributes_inverse.push_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
 	}
 }
-void IfcGeometricRepresentationContext::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcGeometricRepresentationContext::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRepresentationContext::setInverseCounterparts( ptr_self_entity );
 }

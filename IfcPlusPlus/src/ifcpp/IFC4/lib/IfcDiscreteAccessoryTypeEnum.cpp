@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryTypeEnum.h"
 
 // TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,USERDEFINED	,NOTDEFINED);
 IfcDiscreteAccessoryTypeEnum::IfcDiscreteAccessoryTypeEnum() {}
 IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -43,7 +43,7 @@ const std::wstring IfcDiscreteAccessoryTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }

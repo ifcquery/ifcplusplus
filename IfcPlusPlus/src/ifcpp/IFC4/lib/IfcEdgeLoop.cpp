@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcEdgeLoop.h"
@@ -16,7 +16,7 @@
 IfcEdgeLoop::IfcEdgeLoop() {}
 IfcEdgeLoop::IfcEdgeLoop( int id ) { m_entity_id = id; }
 IfcEdgeLoop::~IfcEdgeLoop() {}
-shared_ptr<IfcPPObject> IfcEdgeLoop::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcEdgeLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEdgeLoop> copy_self( new IfcEdgeLoop() );
 	for( size_t ii=0; ii<m_EdgeList.size(); ++ii )
@@ -37,27 +37,27 @@ void IfcEdgeLoop::getStepLine( std::stringstream& stream ) const
 }
 void IfcEdgeLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEdgeLoop::toString() const { return L"IfcEdgeLoop"; }
-void IfcEdgeLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcEdgeLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdgeLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdgeLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_EdgeList, map );
 }
-void IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcLoop::getAttributes( vec_attributes );
 	if( m_EdgeList.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> EdgeList_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> EdgeList_vec_object( new AttributeObjectVector() );
 		std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
 	}
 }
-void IfcEdgeLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcEdgeLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcLoop::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcEdgeLoop::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcEdgeLoop::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcLoop::setInverseCounterparts( ptr_self_entity );
 }

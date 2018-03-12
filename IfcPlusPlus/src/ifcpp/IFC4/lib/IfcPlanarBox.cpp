@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement.h"
@@ -17,7 +17,7 @@
 IfcPlanarBox::IfcPlanarBox() {}
 IfcPlanarBox::IfcPlanarBox( int id ) { m_entity_id = id; }
 IfcPlanarBox::~IfcPlanarBox() {}
-shared_ptr<IfcPPObject> IfcPlanarBox::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPlanarBox::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlanarBox> copy_self( new IfcPlanarBox() );
 	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy(options) ); }
@@ -37,24 +37,24 @@ void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 }
 void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlanarBox::toString() const { return L"IfcPlanarBox"; }
-void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[2], map );
 }
-void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPlanarExtent::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Placement", m_Placement ) );
 }
-void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPlanarExtent::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPlanarBox::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPlanarBox::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPlanarExtent::setInverseCounterparts( ptr_self_entity );
 }

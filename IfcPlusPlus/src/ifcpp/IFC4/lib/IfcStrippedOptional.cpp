@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcStrippedOptional.h"
 
 // TYPE IfcStrippedOptional = BOOLEAN;
 IfcStrippedOptional::IfcStrippedOptional() {}
 IfcStrippedOptional::IfcStrippedOptional( bool value ) { m_value = value; }
 IfcStrippedOptional::~IfcStrippedOptional() {}
-shared_ptr<IfcPPObject> IfcStrippedOptional::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStrippedOptional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStrippedOptional> copy_self( new IfcStrippedOptional() );
 	copy_self->m_value = m_value;
@@ -44,7 +44,7 @@ const std::wstring IfcStrippedOptional::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcStrippedOptional> IfcStrippedOptional::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcStrippedOptional> IfcStrippedOptional::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }

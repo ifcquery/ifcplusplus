@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcGridTypeEnum.h"
 
 // TYPE IfcGridTypeEnum = ENUMERATION OF	(RECTANGULAR	,RADIAL	,TRIANGULAR	,IRREGULAR	,USERDEFINED	,NOTDEFINED);
 IfcGridTypeEnum::IfcGridTypeEnum() {}
 IfcGridTypeEnum::~IfcGridTypeEnum() {}
-shared_ptr<IfcPPObject> IfcGridTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGridTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGridTypeEnum> copy_self( new IfcGridTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcGridTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcGridTypeEnum> IfcGridTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcGridTypeEnum> IfcGridTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }

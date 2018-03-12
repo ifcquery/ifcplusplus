@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcElement.h"
@@ -19,7 +19,7 @@
 IfcRelConnectsPorts::IfcRelConnectsPorts() {}
 IfcRelConnectsPorts::IfcRelConnectsPorts( int id ) { m_entity_id = id; }
 IfcRelConnectsPorts::~IfcRelConnectsPorts() {}
-shared_ptr<IfcPPObject> IfcRelConnectsPorts::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelConnectsPorts::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsPorts> copy_self( new IfcRelConnectsPorts() );
 	if( m_GlobalId )
@@ -59,10 +59,10 @@ void IfcRelConnectsPorts::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelConnectsPorts::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsPorts::toString() const { return L"IfcRelConnectsPorts"; }
-void IfcRelConnectsPorts::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelConnectsPorts::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPorts, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPorts, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -71,22 +71,22 @@ void IfcRelConnectsPorts::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[5], m_RelatedPort, map );
 	readEntityReference( args[6], m_RealizingElement, map );
 }
-void IfcRelConnectsPorts::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelConnectsPorts::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
 	vec_attributes.push_back( std::make_pair( "RelatedPort", m_RelatedPort ) );
 	vec_attributes.push_back( std::make_pair( "RealizingElement", m_RealizingElement ) );
 }
-void IfcRelConnectsPorts::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelConnectsPorts::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelConnectsPorts::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelConnectsPorts::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelConnectsPorts> ptr_self = dynamic_pointer_cast<IfcRelConnectsPorts>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelConnectsPorts::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsPorts::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedPort )
 	{
 		m_RelatedPort->m_ConnectedFrom_inverse.push_back( ptr_self );

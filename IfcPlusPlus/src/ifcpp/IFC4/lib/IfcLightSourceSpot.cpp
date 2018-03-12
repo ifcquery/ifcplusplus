@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
@@ -23,7 +23,7 @@
 IfcLightSourceSpot::IfcLightSourceSpot() {}
 IfcLightSourceSpot::IfcLightSourceSpot( int id ) { m_entity_id = id; }
 IfcLightSourceSpot::~IfcLightSourceSpot() {}
-shared_ptr<IfcPPObject> IfcLightSourceSpot::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLightSourceSpot::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceSpot> copy_self( new IfcLightSourceSpot() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -73,10 +73,10 @@ void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 }
 void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceSpot::toString() const { return L"IfcLightSourceSpot"; }
-void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceSpot, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceSpot, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -91,7 +91,7 @@ void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& arg
 	m_SpreadAngle = IfcPositivePlaneAngleMeasure::createObjectFromSTEP( args[11], map );
 	m_BeamWidthAngle = IfcPositivePlaneAngleMeasure::createObjectFromSTEP( args[12], map );
 }
-void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcLightSourcePositional::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
@@ -99,11 +99,11 @@ void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, share
 	vec_attributes.push_back( std::make_pair( "SpreadAngle", m_SpreadAngle ) );
 	vec_attributes.push_back( std::make_pair( "BeamWidthAngle", m_BeamWidthAngle ) );
 }
-void IfcLightSourceSpot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcLightSourceSpot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcLightSourcePositional::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcLightSourceSpot::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcLightSourceSpot::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcLightSourcePositional::setInverseCounterparts( ptr_self_entity );
 }

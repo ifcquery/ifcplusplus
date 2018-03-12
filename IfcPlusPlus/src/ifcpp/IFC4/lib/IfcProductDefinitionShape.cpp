@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -18,7 +18,7 @@
 IfcProductDefinitionShape::IfcProductDefinitionShape() {}
 IfcProductDefinitionShape::IfcProductDefinitionShape( int id ) { m_entity_id = id; }
 IfcProductDefinitionShape::~IfcProductDefinitionShape() {}
-shared_ptr<IfcPPObject> IfcProductDefinitionShape::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcProductDefinitionShape::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProductDefinitionShape> copy_self( new IfcProductDefinitionShape() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -45,24 +45,24 @@ void IfcProductDefinitionShape::getStepLine( std::stringstream& stream ) const
 }
 void IfcProductDefinitionShape::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProductDefinitionShape::toString() const { return L"IfcProductDefinitionShape"; }
-void IfcProductDefinitionShape::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcProductDefinitionShape::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProductDefinitionShape, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProductDefinitionShape, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );
 }
-void IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProductRepresentation::getAttributes( vec_attributes );
 }
-void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
 	if( m_ShapeOfProduct_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ShapeOfProduct_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ShapeOfProduct_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ShapeOfProduct_inverse.size(); ++i )
 		{
 			if( !m_ShapeOfProduct_inverse[i].expired() )
@@ -74,7 +74,7 @@ void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std:
 	}
 	if( m_HasShapeAspects_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasShapeAspects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
 		{
 			if( !m_HasShapeAspects_inverse[i].expired() )
@@ -85,7 +85,7 @@ void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std:
 		vec_attributes_inverse.push_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	}
 }
-void IfcProductDefinitionShape::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcProductDefinitionShape::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProductRepresentation::setInverseCounterparts( ptr_self_entity );
 }

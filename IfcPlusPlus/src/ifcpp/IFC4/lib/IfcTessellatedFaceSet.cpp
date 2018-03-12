@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianPointList3D.h"
@@ -18,7 +18,7 @@
 IfcTessellatedFaceSet::IfcTessellatedFaceSet() {}
 IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_entity_id = id; }
 IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
-shared_ptr<IfcPPObject> IfcTessellatedFaceSet::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTessellatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTessellatedFaceSet> copy_self( new IfcTessellatedFaceSet() );
 	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
@@ -32,23 +32,23 @@ void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 }
 void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTessellatedFaceSet::toString() const { return L"IfcTessellatedFaceSet"; }
-void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 }
-void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Coordinates", m_Coordinates ) );
 }
-void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTessellatedItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasColours_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasColours_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasColours_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasColours_inverse.size(); ++i )
 		{
 			if( !m_HasColours_inverse[i].expired() )
@@ -60,7 +60,7 @@ void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::str
 	}
 	if( m_HasTextures_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasTextures_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasTextures_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasTextures_inverse.size(); ++i )
 		{
 			if( !m_HasTextures_inverse[i].expired() )
@@ -71,7 +71,7 @@ void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::str
 		vec_attributes_inverse.push_back( std::make_pair( "HasTextures_inverse", HasTextures_inverse_vec_obj ) );
 	}
 }
-void IfcTessellatedFaceSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTessellatedFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTessellatedItem::setInverseCounterparts( ptr_self_entity );
 }

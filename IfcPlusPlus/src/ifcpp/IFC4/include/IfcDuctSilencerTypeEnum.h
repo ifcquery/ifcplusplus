@@ -5,12 +5,12 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
-class IFCPP_EXPORT IfcDuctSilencerTypeEnum : virtual public IfcPPObject
+class IFCQUERY_EXPORT IfcDuctSilencerTypeEnum : virtual public BuildingObject
 {
 public:
 	enum IfcDuctSilencerTypeEnumEnum
@@ -26,10 +26,10 @@ public:
 	IfcDuctSilencerTypeEnum( IfcDuctSilencerTypeEnumEnum e ) { m_enum = e; }
 	~IfcDuctSilencerTypeEnum();
 	virtual const char* className() const { return "IfcDuctSilencerTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcDuctSilencerTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcDuctSilencerTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	IfcDuctSilencerTypeEnumEnum m_enum;
 };
 

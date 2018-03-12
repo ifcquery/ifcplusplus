@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcMagneticFluxDensityMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure() {}
 IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure( double value ) { m_value = value; }
 IfcMagneticFluxDensityMeasure::~IfcMagneticFluxDensityMeasure() {}
-shared_ptr<IfcPPObject> IfcMagneticFluxDensityMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMagneticFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMagneticFluxDensityMeasure> copy_self( new IfcMagneticFluxDensityMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcMagneticFluxDensityMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcMagneticFluxDensityMeasure> IfcMagneticFluxDensityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcMagneticFluxDensityMeasure> IfcMagneticFluxDensityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMagneticFluxDensityMeasure>(); }

@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <ifcpp/geometry/GeometrySettings.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
@@ -306,7 +306,7 @@ public:
 	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeData> item_data, ShellType st )
 	{
 		PolyInputCache3D poly_cache;
-		IfcPPEntity* report_entity = nullptr;
+		BuildingEntity* report_entity = nullptr;
 		for( const shared_ptr<IfcFace>& ifc_face : vec_faces )
 		{
 			if( !ifc_face )
@@ -384,12 +384,12 @@ public:
 			{
 				item_data->addClosedPolyhedron( poly_cache.m_poly_data );
 			}
-			catch( IfcPPException& e )
+			catch( BuildingException& e )
 			{
 				// not a fatal error, just mesh is not closed
 				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", report_entity );  // calling function already in e.what()
 
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 				GeomDebugDump::dumpMeshset( meshset, color, true );

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalInformation.h"
@@ -13,7 +13,7 @@
 IfcExternalInformation::IfcExternalInformation() {}
 IfcExternalInformation::IfcExternalInformation( int id ) { m_entity_id = id; }
 IfcExternalInformation::~IfcExternalInformation() {}
-shared_ptr<IfcPPObject> IfcExternalInformation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcExternalInformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternalInformation> copy_self( new IfcExternalInformation() );
 	return copy_self;
@@ -25,16 +25,16 @@ void IfcExternalInformation::getStepLine( std::stringstream& stream ) const
 }
 void IfcExternalInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternalInformation::toString() const { return L"IfcExternalInformation"; }
-void IfcExternalInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcExternalInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcExternalInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcExternalInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 }
-void IfcExternalInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcExternalInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcExternalInformation::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcExternalInformation::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcExternalInformation::unlinkFromInverseCounterparts()

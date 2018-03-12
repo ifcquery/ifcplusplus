@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcEnergyMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcEnergyMeasure::IfcEnergyMeasure() {}
 IfcEnergyMeasure::IfcEnergyMeasure( double value ) { m_value = value; }
 IfcEnergyMeasure::~IfcEnergyMeasure() {}
-shared_ptr<IfcPPObject> IfcEnergyMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcEnergyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEnergyMeasure> copy_self( new IfcEnergyMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcEnergyMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }

@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcSectionalAreaIntegralMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure() {}
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure( double value ) { m_value = value; }
 IfcSectionalAreaIntegralMeasure::~IfcSectionalAreaIntegralMeasure() {}
-shared_ptr<IfcPPObject> IfcSectionalAreaIntegralMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSectionalAreaIntegralMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionalAreaIntegralMeasure> copy_self( new IfcSectionalAreaIntegralMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcSectionalAreaIntegralMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }

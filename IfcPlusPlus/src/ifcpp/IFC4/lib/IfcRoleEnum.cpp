@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcRoleEnum.h"
 
 // TYPE IfcRoleEnum = ENUMERATION OF	(SUPPLIER	,MANUFACTURER	,CONTRACTOR	,SUBCONTRACTOR	,ARCHITECT	,STRUCTURALENGINEER	,COSTENGINEER	,CLIENT	,BUILDINGOWNER	,BUILDINGOPERATOR	,MECHANICALENGINEER	,ELECTRICALENGINEER	,PROJECTMANAGER	,FACILITIESMANAGER	,CIVILENGINEER	,COMMISSIONINGENGINEER	,ENGINEER	,OWNER	,CONSULTANT	,CONSTRUCTIONMANAGER	,FIELDCONSTRUCTIONMANAGER	,RESELLER	,USERDEFINED);
 IfcRoleEnum::IfcRoleEnum() {}
 IfcRoleEnum::~IfcRoleEnum() {}
-shared_ptr<IfcPPObject> IfcRoleEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRoleEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoleEnum> copy_self( new IfcRoleEnum() );
 	copy_self->m_enum = m_enum;
@@ -79,7 +79,7 @@ const std::wstring IfcRoleEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }

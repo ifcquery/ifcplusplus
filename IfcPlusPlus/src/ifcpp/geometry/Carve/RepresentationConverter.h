@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <ifcpp/geometry/StylesConverter.h>
 #include <ifcpp/geometry/GeometrySettings.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcAnnotationFillArea.h>
@@ -55,7 +55,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
-
 #include "Sweeper.h"
 #include "SplineConverter.h"
 #include "PointConverter.h"
@@ -213,7 +212,7 @@ public:
 				shared_ptr<ItemShapeData> geom_item_data( new ItemShapeData() );
 				if( !geom_item_data )
 				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
+					throw OutOfMemoryException( __FUNC__ );
 				}
 				representation_data->m_vec_item_data.push_back( geom_item_data );
 				geom_item_data->m_parent_representation = representation_data;
@@ -222,11 +221,11 @@ public:
 				{
 					convertIfcGeometricRepresentationItem( geom_item, geom_item_data );
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representation_item.get() );
 				}
@@ -279,18 +278,18 @@ public:
 				shared_ptr<RepresentationData> mapped_input_data( new RepresentationData() );
 				if( !mapped_input_data )
 				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
+					throw OutOfMemoryException( __FUNC__ );
 				}
 
 				try
 				{
 					convertIfcRepresentation( mapped_representation, mapped_input_data );
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 				}
@@ -342,7 +341,7 @@ public:
 				shared_ptr<ItemShapeData> topological_item_data( new ItemShapeData() );
 				if( !topological_item_data )
 				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
+					throw OutOfMemoryException( __FUNC__ );
 				}
 				representation_data->m_vec_item_data.push_back( topological_item_data );
 				topological_item_data->m_parent_representation = representation_data;
@@ -351,11 +350,11 @@ public:
 				{
 					convertTopologicalRepresentationItem( topo_item, topological_item_data );
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representation_item.get() );
 				}
@@ -463,7 +462,7 @@ public:
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 			if( !polyline_data )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				throw OutOfMemoryException( __FUNC__ );
 			}
 			polyline_data->beginPolyline();
 			for( size_t i = 0; i < loops.size(); ++i )
@@ -523,7 +522,7 @@ public:
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 			if( !polyline_data )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				throw OutOfMemoryException( __FUNC__ );
 			}
 			polyline_data->beginPolyline();
 
@@ -568,7 +567,7 @@ public:
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					if( !polyline_data )
 					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
+						throw OutOfMemoryException( __FUNC__ );
 					}
 					polyline_data->beginPolyline();
 					for( size_t i = 0; i < loops.size(); ++i )
@@ -642,7 +641,7 @@ public:
 				shared_ptr<TextItemData> text_item_data( new TextItemData() );
 				if( !text_item_data )
 				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
+					throw OutOfMemoryException( __FUNC__ );
 				}
 				if( text_position_matrix )
 				{
@@ -740,7 +739,7 @@ public:
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					if( !polyline_data )
 					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
+						throw OutOfMemoryException( __FUNC__ );
 					}
 					topo_item_data->m_polylines.push_back( polyline_data );
 					polyline_data->beginPolyline();
@@ -878,7 +877,7 @@ public:
 				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 				if( !polyline_data )
 				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
+					throw OutOfMemoryException( __FUNC__ );
 				}
 				topo_item_data->m_polylines.push_back( polyline_data );
 				polyline_data->beginPolyline();
@@ -957,7 +956,7 @@ public:
 				shared_ptr<RepresentationData> opening_representation_data( new RepresentationData() );
 				if( !opening_representation_data )
 				{
-					throw IfcPPOutOfMemoryException( __FUNC__ );
+					throw OutOfMemoryException( __FUNC__ );
 				}
 
 				// TODO: Representation caching, one element could be used for several openings
@@ -965,11 +964,11 @@ public:
 				{
 					convertIfcRepresentation( ifc_opening_representation, opening_representation_data );
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
@@ -1072,11 +1071,11 @@ public:
 									{
 										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element.get() );
 									}
-									catch( IfcPPOutOfMemoryException& e )
+									catch( OutOfMemoryException& e )
 									{
 										throw e;
 									}
-									catch( IfcPPException& e )
+									catch( BuildingException& e )
 									{
 										messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 									}

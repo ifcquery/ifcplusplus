@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -17,7 +17,7 @@
 IfcCylindricalSurface::IfcCylindricalSurface() {}
 IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_entity_id = id; }
 IfcCylindricalSurface::~IfcCylindricalSurface() {}
-shared_ptr<IfcPPObject> IfcCylindricalSurface::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCylindricalSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCylindricalSurface> copy_self( new IfcCylindricalSurface() );
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
@@ -34,23 +34,23 @@ void IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 }
 void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCylindricalSurface::toString() const { return L"IfcCylindricalSurface"; }
-void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcCylindricalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCylindricalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
 }
-void IfcCylindricalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCylindricalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcElementarySurface::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCylindricalSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCylindricalSurface::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcElementarySurface::setInverseCounterparts( ptr_self_entity );
 }

@@ -47,8 +47,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class TessellatedItemConverter : public StatusCallback {
 public:
 	TessellatedItemConverter(shared_ptr<UnitConverter> const unit_converter):
-		m_unit_converter(unit_converter),
-		m_length_factor(unit_converter->getLengthInMeterFactor())
+		m_unit_converter(unit_converter)
 	{ }
 
 	void convertTessellatedItem(shared_ptr<IfcTessellatedItem> const tessellated_item,
@@ -89,6 +88,7 @@ protected:
 	bool copyVertices(shared_ptr<IfcCartesianPointList3D> const point_list,
 			shared_ptr<carve::input::PolyhedronData> carve_mesh_builder)
 	{
+		double length_factor = m_unit_converter->getLengthInMeterFactor();
 		for(auto const& coord : point_list->m_CoordList)
 		{
 			if(coord.size() != 3)
@@ -98,9 +98,9 @@ protected:
 				return false;
 			}
 			carve::geom3d::Vector carve_point;
-			carve_point.x = coord[0]->m_value * m_length_factor;
-			carve_point.y = coord[1]->m_value * m_length_factor;
-			carve_point.z = coord[2]->m_value * m_length_factor;
+			carve_point.x = coord[0]->m_value * length_factor;
+			carve_point.y = coord[1]->m_value * length_factor;
+			carve_point.z = coord[2]->m_value * length_factor;
 			carve_mesh_builder->addVertex(carve_point);
 		}
 		return true;
@@ -284,6 +284,5 @@ protected:
 
 private:
 	shared_ptr<UnitConverter> const m_unit_converter;
-	double const m_length_factor;
 };
 

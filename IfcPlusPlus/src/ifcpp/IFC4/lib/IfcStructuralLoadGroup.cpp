@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActionSourceTypeEnum.h"
@@ -32,7 +32,7 @@
 IfcStructuralLoadGroup::IfcStructuralLoadGroup() {}
 IfcStructuralLoadGroup::IfcStructuralLoadGroup( int id ) { m_entity_id = id; }
 IfcStructuralLoadGroup::~IfcStructuralLoadGroup() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadGroup::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralLoadGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadGroup> copy_self( new IfcStructuralLoadGroup() );
 	if( m_GlobalId )
@@ -81,10 +81,10 @@ void IfcStructuralLoadGroup::getStepLine( std::stringstream& stream ) const
 }
 void IfcStructuralLoadGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadGroup::toString() const { return L"IfcStructuralLoadGroup"; }
-void IfcStructuralLoadGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralLoadGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadGroup, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadGroup, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -96,7 +96,7 @@ void IfcStructuralLoadGroup::readStepArguments( const std::vector<std::wstring>&
 	m_Coefficient = IfcRatioMeasure::createObjectFromSTEP( args[8], map );
 	m_Purpose = IfcLabel::createObjectFromSTEP( args[9], map );
 }
-void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -105,12 +105,12 @@ void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "Coefficient", m_Coefficient ) );
 	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
 }
-void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 	if( m_SourceOfResultGroup_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_SourceOfResultGroup_inverse.size(); ++i )
 		{
 			if( !m_SourceOfResultGroup_inverse[i].expired() )
@@ -122,7 +122,7 @@ void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::st
 	}
 	if( m_LoadGroupFor_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> LoadGroupFor_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> LoadGroupFor_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_LoadGroupFor_inverse.size(); ++i )
 		{
 			if( !m_LoadGroupFor_inverse[i].expired() )
@@ -133,7 +133,7 @@ void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::st
 		vec_attributes_inverse.push_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
 	}
 }
-void IfcStructuralLoadGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralLoadGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGroup::setInverseCounterparts( ptr_self_entity );
 }

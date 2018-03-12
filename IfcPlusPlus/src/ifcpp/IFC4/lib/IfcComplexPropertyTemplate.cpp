@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcComplexPropertyTemplate.h"
@@ -22,7 +22,7 @@
 IfcComplexPropertyTemplate::IfcComplexPropertyTemplate() {}
 IfcComplexPropertyTemplate::IfcComplexPropertyTemplate( int id ) { m_entity_id = id; }
 IfcComplexPropertyTemplate::~IfcComplexPropertyTemplate() {}
-shared_ptr<IfcPPObject> IfcComplexPropertyTemplate::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcComplexPropertyTemplate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcComplexPropertyTemplate> copy_self( new IfcComplexPropertyTemplate() );
 	if( m_GlobalId )
@@ -69,10 +69,10 @@ void IfcComplexPropertyTemplate::getStepLine( std::stringstream& stream ) const
 }
 void IfcComplexPropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcComplexPropertyTemplate::toString() const { return L"IfcComplexPropertyTemplate"; }
-void IfcComplexPropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcComplexPropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcComplexPropertyTemplate, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcComplexPropertyTemplate, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -81,27 +81,27 @@ void IfcComplexPropertyTemplate::readStepArguments( const std::vector<std::wstri
 	m_TemplateType = IfcComplexPropertyTemplateTypeEnum::createObjectFromSTEP( args[5], map );
 	readEntityReferenceList( args[6], m_HasPropertyTemplates, map );
 }
-void IfcComplexPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcComplexPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPropertyTemplate::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
 	vec_attributes.push_back( std::make_pair( "TemplateType", m_TemplateType ) );
 	if( m_HasPropertyTemplates.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasPropertyTemplates_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasPropertyTemplates_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasPropertyTemplates.begin(), m_HasPropertyTemplates.end(), std::back_inserter( HasPropertyTemplates_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
 	}
 }
-void IfcComplexPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcComplexPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPropertyTemplate::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcComplexPropertyTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcComplexPropertyTemplate::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPropertyTemplate::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcComplexPropertyTemplate> ptr_self = dynamic_pointer_cast<IfcComplexPropertyTemplate>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcComplexPropertyTemplate::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcComplexPropertyTemplate::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_HasPropertyTemplates.size(); ++i )
 	{
 		if( m_HasPropertyTemplates[i] )

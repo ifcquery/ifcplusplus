@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcApplication.h"
@@ -16,7 +16,7 @@
 IfcApplication::IfcApplication() {}
 IfcApplication::IfcApplication( int id ) { m_entity_id = id; }
 IfcApplication::~IfcApplication() {}
-shared_ptr<IfcPPObject> IfcApplication::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcApplication::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcApplication> copy_self( new IfcApplication() );
 	if( m_ApplicationDeveloper ) { copy_self->m_ApplicationDeveloper = dynamic_pointer_cast<IfcOrganization>( m_ApplicationDeveloper->getDeepCopy(options) ); }
@@ -39,26 +39,26 @@ void IfcApplication::getStepLine( std::stringstream& stream ) const
 }
 void IfcApplication::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApplication::toString() const { return L"IfcApplication"; }
-void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApplication, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ApplicationDeveloper, map );
 	m_Version = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_ApplicationFullName = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_ApplicationIdentifier = IfcIdentifier::createObjectFromSTEP( args[3], map );
 }
-void IfcApplication::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcApplication::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "ApplicationDeveloper", m_ApplicationDeveloper ) );
 	vec_attributes.push_back( std::make_pair( "Version", m_Version ) );
 	vec_attributes.push_back( std::make_pair( "ApplicationFullName", m_ApplicationFullName ) );
 	vec_attributes.push_back( std::make_pair( "ApplicationIdentifier", m_ApplicationIdentifier ) );
 }
-void IfcApplication::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcApplication::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcApplication::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcApplication::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcApplication::unlinkFromInverseCounterparts()

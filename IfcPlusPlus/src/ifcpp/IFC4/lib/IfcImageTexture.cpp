@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -19,7 +19,7 @@
 IfcImageTexture::IfcImageTexture() {}
 IfcImageTexture::IfcImageTexture( int id ) { m_entity_id = id; }
 IfcImageTexture::~IfcImageTexture() {}
-shared_ptr<IfcPPObject> IfcImageTexture::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcImageTexture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcImageTexture> copy_self( new IfcImageTexture() );
 	if( m_RepeatS ) { copy_self->m_RepeatS = dynamic_pointer_cast<IfcBoolean>( m_RepeatS->getDeepCopy(options) ); }
@@ -72,10 +72,10 @@ void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 }
 void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcImageTexture::toString() const { return L"IfcImageTexture"; }
-void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcImageTexture, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0], map );
 	m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1], map );
 	m_Mode = IfcIdentifier::createObjectFromSTEP( args[2], map );
@@ -83,16 +83,16 @@ void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, 
 	readTypeOfStringList( args[4], m_Parameter );
 	m_URLReference = IfcURIReference::createObjectFromSTEP( args[5], map );
 }
-void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "URLReference", m_URLReference ) );
 }
-void IfcImageTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcImageTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSurfaceTexture::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcImageTexture::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcImageTexture::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSurfaceTexture::setInverseCounterparts( ptr_self_entity );
 }

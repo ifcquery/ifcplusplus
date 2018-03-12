@@ -4,30 +4,30 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 #include "IfcActorSelect.h"
 #include "IfcObjectReferenceSelect.h"
 #include "IfcResourceObjectSelect.h"
-class IFCPP_EXPORT IfcPerson;
-class IFCPP_EXPORT IfcOrganization;
-class IFCPP_EXPORT IfcActorRole;
+class IFCQUERY_EXPORT IfcPerson;
+class IFCQUERY_EXPORT IfcOrganization;
+class IFCQUERY_EXPORT IfcActorRole;
 //ENTITY
-class IFCPP_EXPORT IfcPersonAndOrganization : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public IfcPPEntity
+class IFCQUERY_EXPORT IfcPersonAndOrganization : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
 	IfcPersonAndOrganization();
 	IfcPersonAndOrganization( int id );
 	~IfcPersonAndOrganization();
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
-	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self );
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
+	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
 	virtual size_t getNumAttributes() { return 3; }
-	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
-	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
+	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
+	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
 	virtual void unlinkFromInverseCounterparts();
 	virtual const char* className() const { return "IfcPersonAndOrganization"; }
 	virtual const std::wstring toString() const;

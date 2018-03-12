@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcSurfaceTexture.h"
@@ -14,7 +14,7 @@
 IfcTextureCoordinate::IfcTextureCoordinate() {}
 IfcTextureCoordinate::IfcTextureCoordinate( int id ) { m_entity_id = id; }
 IfcTextureCoordinate::~IfcTextureCoordinate() {}
-shared_ptr<IfcPPObject> IfcTextureCoordinate::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTextureCoordinate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureCoordinate> copy_self( new IfcTextureCoordinate() );
 	for( size_t ii=0; ii<m_Maps.size(); ++ii )
@@ -35,31 +35,31 @@ void IfcTextureCoordinate::getStepLine( std::stringstream& stream ) const
 }
 void IfcTextureCoordinate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureCoordinate::toString() const { return L"IfcTextureCoordinate"; }
-void IfcTextureCoordinate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTextureCoordinate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinate, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinate, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 }
-void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	if( m_Maps.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Maps_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Maps_vec_object( new AttributeObjectVector() );
 		std::copy( m_Maps.begin(), m_Maps.end(), std::back_inserter( Maps_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Maps", Maps_vec_object ) );
 	}
 }
-void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTextureCoordinate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTextureCoordinate::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcTextureCoordinate> ptr_self = dynamic_pointer_cast<IfcTextureCoordinate>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcTextureCoordinate::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcTextureCoordinate::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_Maps.size(); ++i )
 	{
 		if( m_Maps[i] )

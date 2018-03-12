@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGridAxis.h"
@@ -15,7 +15,7 @@
 IfcVirtualGridIntersection::IfcVirtualGridIntersection() {}
 IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_entity_id = id; }
 IfcVirtualGridIntersection::~IfcVirtualGridIntersection() {}
-shared_ptr<IfcPPObject> IfcVirtualGridIntersection::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcVirtualGridIntersection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVirtualGridIntersection> copy_self( new IfcVirtualGridIntersection() );
 	for( size_t ii=0; ii<m_IntersectingAxes.size(); ++ii )
@@ -46,35 +46,35 @@ void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 }
 void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVirtualGridIntersection::toString() const { return L"IfcVirtualGridIntersection"; }
-void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_IntersectingAxes, map );
 	readTypeOfRealList( args[1], m_OffsetDistances );
 }
-void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	if( m_IntersectingAxes.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IntersectingAxes_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IntersectingAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
 	}
 	if( m_OffsetDistances.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> OffsetDistances_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> OffsetDistances_vec_object( new AttributeObjectVector() );
 		std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
 	}
 }
-void IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcVirtualGridIntersection> ptr_self = dynamic_pointer_cast<IfcVirtualGridIntersection>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcVirtualGridIntersection::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcVirtualGridIntersection::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_IntersectingAxes.size(); ++i )
 	{
 		if( m_IntersectingAxes[i] )

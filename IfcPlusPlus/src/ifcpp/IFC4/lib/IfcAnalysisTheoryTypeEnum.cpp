@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcAnalysisTheoryTypeEnum.h"
 
 // TYPE IfcAnalysisTheoryTypeEnum = ENUMERATION OF	(FIRST_ORDER_THEORY	,SECOND_ORDER_THEORY	,THIRD_ORDER_THEORY	,FULL_NONLINEAR_THEORY	,USERDEFINED	,NOTDEFINED);
 IfcAnalysisTheoryTypeEnum::IfcAnalysisTheoryTypeEnum() {}
 IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAnalysisTheoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAnalysisTheoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnalysisTheoryTypeEnum> copy_self( new IfcAnalysisTheoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcAnalysisTheoryTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }

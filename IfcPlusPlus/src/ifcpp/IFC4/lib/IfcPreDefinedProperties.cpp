@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -14,7 +14,7 @@
 IfcPreDefinedProperties::IfcPreDefinedProperties() {}
 IfcPreDefinedProperties::IfcPreDefinedProperties( int id ) { m_entity_id = id; }
 IfcPreDefinedProperties::~IfcPreDefinedProperties() {}
-shared_ptr<IfcPPObject> IfcPreDefinedProperties::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPreDefinedProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPreDefinedProperties> copy_self( new IfcPreDefinedProperties() );
 	return copy_self;
@@ -26,18 +26,18 @@ void IfcPreDefinedProperties::getStepLine( std::stringstream& stream ) const
 }
 void IfcPreDefinedProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPreDefinedProperties::toString() const { return L"IfcPreDefinedProperties"; }
-void IfcPreDefinedProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPreDefinedProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcPreDefinedProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPreDefinedProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
 }
-void IfcPreDefinedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPreDefinedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPreDefinedProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPreDefinedProperties::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPropertyAbstraction::setInverseCounterparts( ptr_self_entity );
 }

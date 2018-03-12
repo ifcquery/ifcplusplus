@@ -5,12 +5,12 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 
 // TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
-class IFCPP_EXPORT IfcCooledBeamTypeEnum : virtual public IfcPPObject
+class IFCQUERY_EXPORT IfcCooledBeamTypeEnum : virtual public BuildingObject
 {
 public:
 	enum IfcCooledBeamTypeEnumEnum
@@ -25,10 +25,10 @@ public:
 	IfcCooledBeamTypeEnum( IfcCooledBeamTypeEnumEnum e ) { m_enum = e; }
 	~IfcCooledBeamTypeEnum();
 	virtual const char* className() const { return "IfcCooledBeamTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcCooledBeamTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcCooledBeamTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	IfcCooledBeamTypeEnumEnum m_enum;
 };
 

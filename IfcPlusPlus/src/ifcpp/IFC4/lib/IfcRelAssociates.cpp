@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDefinitionSelect.h"
@@ -20,7 +20,7 @@
 IfcRelAssociates::IfcRelAssociates() {}
 IfcRelAssociates::IfcRelAssociates( int id ) { m_entity_id = id; }
 IfcRelAssociates::~IfcRelAssociates() {}
-shared_ptr<IfcPPObject> IfcRelAssociates::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAssociates::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociates> copy_self( new IfcRelAssociates() );
 	if( m_GlobalId )
@@ -78,35 +78,35 @@ void IfcRelAssociates::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAssociates::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociates::toString() const { return L"IfcRelAssociates"; }
-void IfcRelAssociates::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAssociates::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociates, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociates, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	readSelectList( args[4], m_RelatedObjects, map );
 }
-void IfcRelAssociates::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAssociates::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelationship::getAttributes( vec_attributes );
 	if( m_RelatedObjects.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedObjects_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
 }
-void IfcRelAssociates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAssociates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelationship::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAssociates::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAssociates::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAssociates> ptr_self = dynamic_pointer_cast<IfcRelAssociates>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAssociates::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAssociates::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		shared_ptr<IfcObjectDefinition>  RelatedObjects_IfcObjectDefinition = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatedObjects[i] );

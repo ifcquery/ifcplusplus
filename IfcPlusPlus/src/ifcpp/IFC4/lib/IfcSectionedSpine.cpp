@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -18,7 +18,7 @@
 IfcSectionedSpine::IfcSectionedSpine() {}
 IfcSectionedSpine::IfcSectionedSpine( int id ) { m_entity_id = id; }
 IfcSectionedSpine::~IfcSectionedSpine() {}
-shared_ptr<IfcPPObject> IfcSectionedSpine::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSectionedSpine::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionedSpine> copy_self( new IfcSectionedSpine() );
 	if( m_SpineCurve ) { copy_self->m_SpineCurve = dynamic_pointer_cast<IfcCompositeCurve>( m_SpineCurve->getDeepCopy(options) ); }
@@ -52,36 +52,36 @@ void IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 }
 void IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionedSpine::toString() const { return L"IfcSectionedSpine"; }
-void IfcSectionedSpine::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSectionedSpine::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionedSpine, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionedSpine, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SpineCurve, map );
 	readEntityReferenceList( args[1], m_CrossSections, map );
 	readEntityReferenceList( args[2], m_CrossSectionPositions, map );
 }
-void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SpineCurve", m_SpineCurve ) );
 	if( m_CrossSections.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> CrossSections_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> CrossSections_vec_object( new AttributeObjectVector() );
 		std::copy( m_CrossSections.begin(), m_CrossSections.end(), std::back_inserter( CrossSections_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "CrossSections", CrossSections_vec_object ) );
 	}
 	if( m_CrossSectionPositions.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> CrossSectionPositions_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> CrossSectionPositions_vec_object( new AttributeObjectVector() );
 		std::copy( m_CrossSectionPositions.begin(), m_CrossSectionPositions.end(), std::back_inserter( CrossSectionPositions_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
 	}
 }
-void IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSectionedSpine::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSectionedSpine::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

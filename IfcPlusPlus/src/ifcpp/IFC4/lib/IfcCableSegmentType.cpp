@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCableSegmentType.h"
@@ -28,7 +28,7 @@
 IfcCableSegmentType::IfcCableSegmentType() {}
 IfcCableSegmentType::IfcCableSegmentType( int id ) { m_entity_id = id; }
 IfcCableSegmentType::~IfcCableSegmentType() {}
-shared_ptr<IfcPPObject> IfcCableSegmentType::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCableSegmentType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableSegmentType> copy_self( new IfcCableSegmentType() );
 	if( m_GlobalId )
@@ -91,10 +91,10 @@ void IfcCableSegmentType::getStepLine( std::stringstream& stream ) const
 }
 void IfcCableSegmentType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCableSegmentType::toString() const { return L"IfcCableSegmentType"; }
-void IfcCableSegmentType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCableSegmentType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCableSegmentType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCableSegmentType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -106,16 +106,16 @@ void IfcCableSegmentType::readStepArguments( const std::vector<std::wstring>& ar
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcCableSegmentTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcCableSegmentType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCableSegmentType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcFlowSegmentType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcCableSegmentType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCableSegmentType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcFlowSegmentType::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCableSegmentType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCableSegmentType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcFlowSegmentType::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -17,7 +17,7 @@
 IfcPhysicalQuantity::IfcPhysicalQuantity() {}
 IfcPhysicalQuantity::IfcPhysicalQuantity( int id ) { m_entity_id = id; }
 IfcPhysicalQuantity::~IfcPhysicalQuantity() {}
-shared_ptr<IfcPPObject> IfcPhysicalQuantity::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPhysicalQuantity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalQuantity> copy_self( new IfcPhysicalQuantity() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -34,23 +34,23 @@ void IfcPhysicalQuantity::getStepLine( std::stringstream& stream ) const
 }
 void IfcPhysicalQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPhysicalQuantity::toString() const { return L"IfcPhysicalQuantity"; }
-void IfcPhysicalQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPhysicalQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalQuantity, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalQuantity, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 }
-void IfcPhysicalQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPhysicalQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
-void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_HasExternalReferences_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReferences_inverse[i].expired() )
@@ -62,7 +62,7 @@ void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_PartOfComplex_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfComplex_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfComplex_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
 		{
 			if( !m_PartOfComplex_inverse[i].expired() )
@@ -73,7 +73,7 @@ void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::strin
 		vec_attributes_inverse.push_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
 	}
 }
-void IfcPhysicalQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcPhysicalQuantity::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcPhysicalQuantity::unlinkFromInverseCounterparts()

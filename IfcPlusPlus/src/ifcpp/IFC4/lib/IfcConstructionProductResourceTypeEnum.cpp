@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcConstructionProductResourceTypeEnum.h"
 
 // TYPE IfcConstructionProductResourceTypeEnum = ENUMERATION OF	(ASSEMBLY	,FORMWORK	,USERDEFINED	,NOTDEFINED);
 IfcConstructionProductResourceTypeEnum::IfcConstructionProductResourceTypeEnum() {}
 IfcConstructionProductResourceTypeEnum::~IfcConstructionProductResourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcConstructionProductResourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcConstructionProductResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionProductResourceTypeEnum> copy_self( new IfcConstructionProductResourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -41,7 +41,7 @@ const std::wstring IfcConstructionProductResourceTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }

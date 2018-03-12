@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAreaMeasure.h"
@@ -42,7 +42,7 @@
 IfcReinforcingMesh::IfcReinforcingMesh() {}
 IfcReinforcingMesh::IfcReinforcingMesh( int id ) { m_entity_id = id; }
 IfcReinforcingMesh::~IfcReinforcingMesh() {}
-shared_ptr<IfcPPObject> IfcReinforcingMesh::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcReinforcingMesh::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingMesh> copy_self( new IfcReinforcingMesh() );
 	if( m_GlobalId )
@@ -115,10 +115,10 @@ void IfcReinforcingMesh::getStepLine( std::stringstream& stream ) const
 }
 void IfcReinforcingMesh::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcingMesh::toString() const { return L"IfcReinforcingMesh"; }
-void IfcReinforcingMesh::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcReinforcingMesh::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 18 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcingMesh, expecting 18, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 18 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcingMesh, expecting 18, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -138,7 +138,7 @@ void IfcReinforcingMesh::readStepArguments( const std::vector<std::wstring>& arg
 	m_TransverseBarSpacing = IfcPositiveLengthMeasure::createObjectFromSTEP( args[16], map );
 	m_PredefinedType = IfcReinforcingMeshTypeEnum::createObjectFromSTEP( args[17], map );
 }
-void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MeshLength", m_MeshLength ) );
@@ -151,11 +151,11 @@ void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, share
 	vec_attributes.push_back( std::make_pair( "TransverseBarSpacing", m_TransverseBarSpacing ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcReinforcingMesh::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcReinforcingMesh::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcReinforcingMesh::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcReinforcingMesh::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcReinforcingElement::setInverseCounterparts( ptr_self_entity );
 }

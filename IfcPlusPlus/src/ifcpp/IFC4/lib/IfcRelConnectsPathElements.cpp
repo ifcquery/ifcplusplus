@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcConnectionGeometry.h"
@@ -21,7 +21,7 @@
 IfcRelConnectsPathElements::IfcRelConnectsPathElements() {}
 IfcRelConnectsPathElements::IfcRelConnectsPathElements( int id ) { m_entity_id = id; }
 IfcRelConnectsPathElements::~IfcRelConnectsPathElements() {}
-shared_ptr<IfcPPObject> IfcRelConnectsPathElements::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelConnectsPathElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsPathElements> copy_self( new IfcRelConnectsPathElements() );
 	if( m_GlobalId )
@@ -87,10 +87,10 @@ void IfcRelConnectsPathElements::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelConnectsPathElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsPathElements::toString() const { return L"IfcRelConnectsPathElements"; }
-void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPathElements, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPathElements, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -103,29 +103,29 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 	m_RelatedConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[9], map );
 	m_RelatingConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
 	if( m_RelatingPriorities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatingPriorities_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatingPriorities_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatingPriorities.begin(), m_RelatingPriorities.end(), std::back_inserter( RelatingPriorities_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_object ) );
 	}
 	if( m_RelatedPriorities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedPriorities_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedPriorities_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedPriorities.begin(), m_RelatedPriorities.end(), std::back_inserter( RelatedPriorities_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
 	vec_attributes.push_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
 }
-void IfcRelConnectsPathElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelConnectsPathElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnectsElements::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelConnectsPathElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelConnectsPathElements::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnectsElements::setInverseCounterparts( ptr_self_entity );
 }

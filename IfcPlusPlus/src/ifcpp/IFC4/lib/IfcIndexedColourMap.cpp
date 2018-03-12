@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcColourRgbList.h"
@@ -17,7 +17,7 @@
 IfcIndexedColourMap::IfcIndexedColourMap() {}
 IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_entity_id = id; }
 IfcIndexedColourMap::~IfcIndexedColourMap() {}
-shared_ptr<IfcPPObject> IfcIndexedColourMap::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcIndexedColourMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
@@ -64,16 +64,16 @@ void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 }
 void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedColourMap::toString() const { return L"IfcIndexedColourMap"; }
-void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_MappedTo, map );
 	m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Colours, map );
 	readTypeOfIntegerList( args[3], m_ColourIndex );
 }
-void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
@@ -81,20 +81,20 @@ void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "Colours", m_Colours ) );
 	if( m_ColourIndex.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ColourIndex_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ColourIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( ColourIndex_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
 	}
 }
-void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcIndexedColourMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcIndexedColourMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcIndexedColourMap> ptr_self = dynamic_pointer_cast<IfcIndexedColourMap>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcIndexedColourMap::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcIndexedColourMap::setInverseCounterparts: type mismatch" ); }
 	if( m_MappedTo )
 	{
 		m_MappedTo->m_HasColours_inverse.push_back( ptr_self );

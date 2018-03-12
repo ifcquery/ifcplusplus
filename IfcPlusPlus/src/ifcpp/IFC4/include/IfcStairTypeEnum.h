@@ -5,12 +5,12 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 
 // TYPE IfcStairTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_STAIR	,TWO_STRAIGHT_RUN_STAIR	,QUARTER_WINDING_STAIR	,QUARTER_TURN_STAIR	,HALF_WINDING_STAIR	,HALF_TURN_STAIR	,TWO_QUARTER_WINDING_STAIR	,TWO_QUARTER_TURN_STAIR	,THREE_QUARTER_WINDING_STAIR	,THREE_QUARTER_TURN_STAIR	,SPIRAL_STAIR	,DOUBLE_RETURN_STAIR	,CURVED_RUN_STAIR	,TWO_CURVED_RUN_STAIR	,USERDEFINED	,NOTDEFINED);
-class IFCPP_EXPORT IfcStairTypeEnum : virtual public IfcPPObject
+class IFCQUERY_EXPORT IfcStairTypeEnum : virtual public BuildingObject
 {
 public:
 	enum IfcStairTypeEnumEnum
@@ -37,10 +37,10 @@ public:
 	IfcStairTypeEnum( IfcStairTypeEnumEnum e ) { m_enum = e; }
 	~IfcStairTypeEnum();
 	virtual const char* className() const { return "IfcStairTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcStairTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcStairTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	IfcStairTypeEnumEnum m_enum;
 };
 

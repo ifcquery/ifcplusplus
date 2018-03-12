@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcKinematicViscosityMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure() {}
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure( double value ) { m_value = value; }
 IfcKinematicViscosityMeasure::~IfcKinematicViscosityMeasure() {}
-shared_ptr<IfcPPObject> IfcKinematicViscosityMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcKinematicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcKinematicViscosityMeasure> copy_self( new IfcKinematicViscosityMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcKinematicViscosityMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcKinematicViscosityMeasure> IfcKinematicViscosityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcKinematicViscosityMeasure> IfcKinematicViscosityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }

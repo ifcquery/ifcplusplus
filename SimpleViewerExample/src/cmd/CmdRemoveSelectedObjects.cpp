@@ -18,8 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Vec3f>
 #include <osg/Group>
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPObject.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingObject.h>
 
 #include "IncludeGeometryHeaders.h"
 #include "Command.h"
@@ -38,7 +38,7 @@ bool CmdRemoveSelectedObjects::doCmd()
 	for( it_selected = selected_objects.begin(); it_selected != selected_objects.end(); ++it_selected )
 	{
 		shared_ptr<SelectedEntity> selected_entity = it_selected->second;
-		shared_ptr<IfcPPEntity> entity = selected_entity->m_entity;
+		shared_ptr<BuildingEntity> entity = selected_entity->m_entity;
 		osg::Group* grp = selected_entity->m_osg_group.get();
 	
 		SceneGraphUtils::removeChildren( grp );

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcComplexProperty.h"
@@ -24,7 +24,7 @@
 IfcPropertyTableValue::IfcPropertyTableValue() {}
 IfcPropertyTableValue::IfcPropertyTableValue( int id ) { m_entity_id = id; }
 IfcPropertyTableValue::~IfcPropertyTableValue() {}
-shared_ptr<IfcPPObject> IfcPropertyTableValue::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertyTableValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyTableValue> copy_self( new IfcPropertyTableValue() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
@@ -107,10 +107,10 @@ void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 }
 void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyTableValue::toString() const { return L"IfcPropertyTableValue"; }
-void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_DefiningValues, map );
@@ -120,18 +120,18 @@ void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& 
 	m_DefinedUnit = IfcUnit::createObjectFromSTEP( args[6], map );
 	m_CurveInterpolation = IfcCurveInterpolationEnum::createObjectFromSTEP( args[7], map );
 }
-void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	if( m_DefiningValues.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> DefiningValues_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> DefiningValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
 	}
 	if( m_DefinedValues.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> DefinedValues_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> DefinedValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
 	}
@@ -140,11 +140,11 @@ void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, sh
 	vec_attributes.push_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );
 	vec_attributes.push_back( std::make_pair( "CurveInterpolation", m_CurveInterpolation ) );
 }
-void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPropertyTableValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPropertyTableValue::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSimpleProperty::setInverseCounterparts( ptr_self_entity );
 }

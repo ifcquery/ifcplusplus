@@ -4,16 +4,16 @@
 #include <iostream>
 #include <sstream>
 #include <map>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 
 // TYPE IfcActorSelect = SELECT	(IfcOrganization	,IfcPerson	,IfcPersonAndOrganization);
-class IFCPP_EXPORT IfcActorSelect : virtual public IfcPPObject
+class IFCQUERY_EXPORT IfcActorSelect : virtual public BuildingObject
 {
 public:
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options ) = 0;
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options ) = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
 	virtual const std::wstring toString() const = 0;
-	static shared_ptr<IfcActorSelect> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcActorSelect> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 };
 

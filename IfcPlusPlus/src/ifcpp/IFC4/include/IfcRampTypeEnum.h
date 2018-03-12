@@ -5,12 +5,12 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 
 // TYPE IfcRampTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_RAMP	,TWO_STRAIGHT_RUN_RAMP	,QUARTER_TURN_RAMP	,TWO_QUARTER_TURN_RAMP	,HALF_TURN_RAMP	,SPIRAL_RAMP	,USERDEFINED	,NOTDEFINED);
-class IFCPP_EXPORT IfcRampTypeEnum : virtual public IfcPPObject
+class IFCQUERY_EXPORT IfcRampTypeEnum : virtual public BuildingObject
 {
 public:
 	enum IfcRampTypeEnumEnum
@@ -29,10 +29,10 @@ public:
 	IfcRampTypeEnum( IfcRampTypeEnumEnum e ) { m_enum = e; }
 	~IfcRampTypeEnum();
 	virtual const char* className() const { return "IfcRampTypeEnum"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcRampTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcRampTypeEnum> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	IfcRampTypeEnumEnum m_enum;
 };
 

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcComplexProperty.h"
@@ -23,7 +23,7 @@
 IfcPropertyBoundedValue::IfcPropertyBoundedValue() {}
 IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_entity_id = id; }
 IfcPropertyBoundedValue::~IfcPropertyBoundedValue() {}
-shared_ptr<IfcPPObject> IfcPropertyBoundedValue::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertyBoundedValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyBoundedValue> copy_self( new IfcPropertyBoundedValue() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
@@ -52,10 +52,10 @@ void IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
 }
 void IfcPropertyBoundedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyBoundedValue::toString() const { return L"IfcPropertyBoundedValue"; }
-void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyBoundedValue, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UpperBoundValue = IfcValue::createObjectFromSTEP( args[2], map );
@@ -63,7 +63,7 @@ void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>
 	m_Unit = IfcUnit::createObjectFromSTEP( args[4], map );
 	m_SetPointValue = IfcValue::createObjectFromSTEP( args[5], map );
 }
-void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UpperBoundValue", m_UpperBoundValue ) );
@@ -71,11 +71,11 @@ void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 	vec_attributes.push_back( std::make_pair( "SetPointValue", m_SetPointValue ) );
 }
-void IfcPropertyBoundedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPropertyBoundedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPropertyBoundedValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPropertyBoundedValue::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSimpleProperty::setInverseCounterparts( ptr_self_entity );
 }

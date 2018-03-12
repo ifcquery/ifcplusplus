@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcFlowMeter.h"
@@ -42,7 +42,7 @@
 IfcFlowMeter::IfcFlowMeter() {}
 IfcFlowMeter::IfcFlowMeter( int id ) { m_entity_id = id; }
 IfcFlowMeter::~IfcFlowMeter() {}
-shared_ptr<IfcPPObject> IfcFlowMeter::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFlowMeter::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowMeter> copy_self( new IfcFlowMeter() );
 	if( m_GlobalId )
@@ -88,10 +88,10 @@ void IfcFlowMeter::getStepLine( std::stringstream& stream ) const
 }
 void IfcFlowMeter::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowMeter::toString() const { return L"IfcFlowMeter"; }
-void IfcFlowMeter::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFlowMeter::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFlowMeter, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFlowMeter, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -102,16 +102,16 @@ void IfcFlowMeter::readStepArguments( const std::vector<std::wstring>& args, con
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcFlowMeterTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcFlowMeter::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcFlowMeter::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcFlowController::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcFlowMeter::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcFlowMeter::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcFlowController::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcFlowMeter::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcFlowMeter::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcFlowController::setInverseCounterparts( ptr_self_entity );
 }

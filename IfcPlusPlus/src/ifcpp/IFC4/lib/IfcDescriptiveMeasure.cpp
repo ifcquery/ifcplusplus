@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcSizeSelect.h"
 #include "ifcpp/IFC4/include/IfcDescriptiveMeasure.h"
@@ -15,7 +15,7 @@
 IfcDescriptiveMeasure::IfcDescriptiveMeasure() {}
 IfcDescriptiveMeasure::IfcDescriptiveMeasure( std::wstring value ) { m_value = value; }
 IfcDescriptiveMeasure::~IfcDescriptiveMeasure() {}
-shared_ptr<IfcPPObject> IfcDescriptiveMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDescriptiveMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDescriptiveMeasure> copy_self( new IfcDescriptiveMeasure() );
 	copy_self->m_value = m_value;
@@ -31,7 +31,7 @@ const std::wstring IfcDescriptiveMeasure::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcDescriptiveMeasure> IfcDescriptiveMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDescriptiveMeasure> IfcDescriptiveMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }

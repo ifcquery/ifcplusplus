@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcIndexedTriangleTextureMap.h"
@@ -17,7 +17,7 @@
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap() {}
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int id ) { m_entity_id = id; }
 IfcIndexedTriangleTextureMap::~IfcIndexedTriangleTextureMap() {}
-shared_ptr<IfcPPObject> IfcIndexedTriangleTextureMap::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedTriangleTextureMap> copy_self( new IfcIndexedTriangleTextureMap() );
 	for( size_t ii=0; ii<m_Maps.size(); ++ii )
@@ -85,24 +85,24 @@ void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) cons
 }
 void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedTriangleTextureMap::toString() const { return L"IfcIndexedTriangleTextureMap"; }
-void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );
 	readTypeOfIntegerList2D( args[3], m_TexCoordIndex );
 }
-void IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcIndexedTextureMap::getAttributes( vec_attributes );
 }
-void IfcIndexedTriangleTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcIndexedTriangleTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcIndexedTextureMap::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcIndexedTriangleTextureMap::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcIndexedTriangleTextureMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcIndexedTextureMap::setInverseCounterparts( ptr_self_entity );
 }

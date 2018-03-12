@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSlabTypeEnum.h"
 
 // TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,USERDEFINED	,NOTDEFINED);
 IfcSlabTypeEnum::IfcSlabTypeEnum() {}
 IfcSlabTypeEnum::~IfcSlabTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSlabTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSlabTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlabTypeEnum> copy_self( new IfcSlabTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcSlabTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }

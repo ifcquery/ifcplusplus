@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -19,7 +19,7 @@
 IfcMaterialLayerSet::IfcMaterialLayerSet() {}
 IfcMaterialLayerSet::IfcMaterialLayerSet( int id ) { m_entity_id = id; }
 IfcMaterialLayerSet::~IfcMaterialLayerSet() {}
-shared_ptr<IfcPPObject> IfcMaterialLayerSet::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialLayerSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerSet> copy_self( new IfcMaterialLayerSet() );
 	for( size_t ii=0; ii<m_MaterialLayers.size(); ++ii )
@@ -46,35 +46,35 @@ void IfcMaterialLayerSet::getStepLine( std::stringstream& stream ) const
 }
 void IfcMaterialLayerSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayerSet::toString() const { return L"IfcMaterialLayerSet"; }
-void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerSet, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerSet, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_MaterialLayers, map );
 	m_LayerSetName = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
 }
-void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	if( m_MaterialLayers.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> MaterialLayers_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> MaterialLayers_vec_object( new AttributeObjectVector() );
 		std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
-void IfcMaterialLayerSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialLayerSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcMaterialLayerSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMaterialLayerSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcMaterialDefinition::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcMaterialLayerSet> ptr_self = dynamic_pointer_cast<IfcMaterialLayerSet>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcMaterialLayerSet::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcMaterialLayerSet::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_MaterialLayers.size(); ++i )
 	{
 		if( m_MaterialLayers[i] )

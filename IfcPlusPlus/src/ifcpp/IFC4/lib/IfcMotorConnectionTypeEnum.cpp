@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMotorConnectionTypeEnum.h"
 
 // TYPE IfcMotorConnectionTypeEnum = ENUMERATION OF	(BELTDRIVE	,COUPLING	,DIRECTDRIVE	,USERDEFINED	,NOTDEFINED);
 IfcMotorConnectionTypeEnum::IfcMotorConnectionTypeEnum() {}
 IfcMotorConnectionTypeEnum::~IfcMotorConnectionTypeEnum() {}
-shared_ptr<IfcPPObject> IfcMotorConnectionTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMotorConnectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMotorConnectionTypeEnum> copy_self( new IfcMotorConnectionTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -43,7 +43,7 @@ const std::wstring IfcMotorConnectionTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }

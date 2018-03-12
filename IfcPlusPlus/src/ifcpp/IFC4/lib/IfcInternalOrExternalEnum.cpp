@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcInternalOrExternalEnum.h"
 
 // TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(INTERNAL	,EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,NOTDEFINED);
 IfcInternalOrExternalEnum::IfcInternalOrExternalEnum() {}
 IfcInternalOrExternalEnum::~IfcInternalOrExternalEnum() {}
-shared_ptr<IfcPPObject> IfcInternalOrExternalEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcInternalOrExternalEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInternalOrExternalEnum> copy_self( new IfcInternalOrExternalEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcInternalOrExternalEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }

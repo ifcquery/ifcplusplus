@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -35,8 +35,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Version>
 #include <osgText/Text>
 #include <osgViewer/Viewer>
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingException.h>
 
 namespace SceneGraphUtils
 {

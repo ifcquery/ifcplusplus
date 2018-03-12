@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPermitTypeEnum.h"
 
 // TYPE IfcPermitTypeEnum = ENUMERATION OF	(ACCESS	,BUILDING	,WORK	,USERDEFINED	,NOTDEFINED);
 IfcPermitTypeEnum::IfcPermitTypeEnum() {}
 IfcPermitTypeEnum::~IfcPermitTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPermitTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPermitTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermitTypeEnum> copy_self( new IfcPermitTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -43,7 +43,7 @@ const std::wstring IfcPermitTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }

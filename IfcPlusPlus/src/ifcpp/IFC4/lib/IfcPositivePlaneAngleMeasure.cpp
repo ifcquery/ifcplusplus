@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcPositivePlaneAngleMeasure.h"
 
 // TYPE IfcPositivePlaneAngleMeasure = IfcPlaneAngleMeasure;
 IfcPositivePlaneAngleMeasure::IfcPositivePlaneAngleMeasure() {}
 IfcPositivePlaneAngleMeasure::~IfcPositivePlaneAngleMeasure() {}
-shared_ptr<IfcPPObject> IfcPositivePlaneAngleMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPositivePlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositivePlaneAngleMeasure> copy_self( new IfcPositivePlaneAngleMeasure() );
 	copy_self->m_value = m_value;
@@ -31,7 +31,7 @@ const std::wstring IfcPositivePlaneAngleMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcPositivePlaneAngleMeasure> IfcPositivePlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPositivePlaneAngleMeasure> IfcPositivePlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositivePlaneAngleMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositivePlaneAngleMeasure>(); }

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcStateEnum.h"
 
 // TYPE IfcStateEnum = ENUMERATION OF	(READWRITE	,READONLY	,LOCKED	,READWRITELOCKED	,READONLYLOCKED);
 IfcStateEnum::IfcStateEnum() {}
 IfcStateEnum::~IfcStateEnum() {}
-shared_ptr<IfcPPObject> IfcStateEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStateEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStateEnum> copy_self( new IfcStateEnum() );
 	copy_self->m_enum = m_enum;
@@ -43,7 +43,7 @@ const std::wstring IfcStateEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }

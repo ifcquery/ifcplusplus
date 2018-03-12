@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcParameterValue.h"
@@ -17,7 +17,7 @@
 IfcPointOnSurface::IfcPointOnSurface() {}
 IfcPointOnSurface::IfcPointOnSurface( int id ) { m_entity_id = id; }
 IfcPointOnSurface::~IfcPointOnSurface() {}
-shared_ptr<IfcPPObject> IfcPointOnSurface::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPointOnSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPointOnSurface> copy_self( new IfcPointOnSurface() );
 	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
@@ -37,26 +37,26 @@ void IfcPointOnSurface::getStepLine( std::stringstream& stream ) const
 }
 void IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPointOnSurface::toString() const { return L"IfcPointOnSurface"; }
-void IfcPointOnSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPointOnSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPointOnSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPointOnSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	m_PointParameterU = IfcParameterValue::createObjectFromSTEP( args[1], map );
 	m_PointParameterV = IfcParameterValue::createObjectFromSTEP( args[2], map );
 }
-void IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPoint::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
 	vec_attributes.push_back( std::make_pair( "PointParameterU", m_PointParameterU ) );
 	vec_attributes.push_back( std::make_pair( "PointParameterV", m_PointParameterV ) );
 }
-void IfcPointOnSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPointOnSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPoint::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPointOnSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPointOnSurface::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPoint::setInverseCounterparts( ptr_self_entity );
 }

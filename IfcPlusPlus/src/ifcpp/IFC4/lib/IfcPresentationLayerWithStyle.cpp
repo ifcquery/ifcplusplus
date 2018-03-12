@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
@@ -19,7 +19,7 @@
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle() {}
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int id ) { m_entity_id = id; }
 IfcPresentationLayerWithStyle::~IfcPresentationLayerWithStyle() {}
-shared_ptr<IfcPPObject> IfcPresentationLayerWithStyle::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPresentationLayerWithStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerWithStyle> copy_self( new IfcPresentationLayerWithStyle() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -85,10 +85,10 @@ void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) con
 }
 void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationLayerWithStyle::toString() const { return L"IfcPresentationLayerWithStyle"; }
-void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_AssignedItems, map );
@@ -98,7 +98,7 @@ void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::ws
 	m_LayerBlocked = IfcLogical::createObjectFromSTEP( args[6], map );
 	readEntityReferenceList( args[7], m_LayerStyles, map );
 }
-void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationLayerAssignment::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LayerOn", m_LayerOn ) );
@@ -106,16 +106,16 @@ void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::st
 	vec_attributes.push_back( std::make_pair( "LayerBlocked", m_LayerBlocked ) );
 	if( m_LayerStyles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> LayerStyles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> LayerStyles_vec_object( new AttributeObjectVector() );
 		std::copy( m_LayerStyles.begin(), m_LayerStyles.end(), std::back_inserter( LayerStyles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "LayerStyles", LayerStyles_vec_object ) );
 	}
 }
-void IfcPresentationLayerWithStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPresentationLayerWithStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationLayerAssignment::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPresentationLayerWithStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPresentationLayerWithStyle::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationLayerAssignment::setInverseCounterparts( ptr_self_entity );
 }

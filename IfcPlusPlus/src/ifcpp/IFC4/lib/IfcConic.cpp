@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement.h"
@@ -16,7 +16,7 @@
 IfcConic::IfcConic() {}
 IfcConic::IfcConic( int id ) { m_entity_id = id; }
 IfcConic::~IfcConic() {}
-shared_ptr<IfcPPObject> IfcConic::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcConic::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConic> copy_self( new IfcConic() );
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
@@ -30,22 +30,22 @@ void IfcConic::getStepLine( std::stringstream& stream ) const
 }
 void IfcConic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConic::toString() const { return L"IfcConic"; }
-void IfcConic::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcConic::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConic, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConic, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 }
-void IfcConic::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcConic::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
 }
-void IfcConic::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcConic::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcConic::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcConic::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCurve::setInverseCounterparts( ptr_self_entity );
 }

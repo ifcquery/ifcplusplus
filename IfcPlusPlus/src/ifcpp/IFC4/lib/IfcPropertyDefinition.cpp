@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -19,7 +19,7 @@
 IfcPropertyDefinition::IfcPropertyDefinition() {}
 IfcPropertyDefinition::IfcPropertyDefinition( int id ) { m_entity_id = id; }
 IfcPropertyDefinition::~IfcPropertyDefinition() {}
-shared_ptr<IfcPPObject> IfcPropertyDefinition::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertyDefinition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyDefinition> copy_self( new IfcPropertyDefinition() );
 	if( m_GlobalId )
@@ -50,25 +50,25 @@ void IfcPropertyDefinition::getStepLine( std::stringstream& stream ) const
 }
 void IfcPropertyDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyDefinition::toString() const { return L"IfcPropertyDefinition"; }
-void IfcPropertyDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPropertyDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyDefinition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyDefinition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 }
-void IfcPropertyDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPropertyDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRoot::getAttributes( vec_attributes );
 }
-void IfcPropertyDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPropertyDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRoot::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasContext_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasContext_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasContext_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
 		{
 			if( !m_HasContext_inverse[i].expired() )
@@ -80,7 +80,7 @@ void IfcPropertyDefinition::getAttributesInverse( std::vector<std::pair<std::str
 	}
 	if( m_HasAssociations_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasAssociations_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasAssociations_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
 		{
 			if( !m_HasAssociations_inverse[i].expired() )
@@ -91,7 +91,7 @@ void IfcPropertyDefinition::getAttributesInverse( std::vector<std::pair<std::str
 		vec_attributes_inverse.push_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 	}
 }
-void IfcPropertyDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPropertyDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRoot::setInverseCounterparts( ptr_self_entity );
 }

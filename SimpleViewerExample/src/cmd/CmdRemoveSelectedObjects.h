@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <osg/Vec3f>
 #include <osg/Group>
 #include <osgGA/GUIEventAdapter>
@@ -26,13 +26,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "Command.h"
 
 class IfcPlusPlusSystem;
-class IfcPPEntity;
+class BuildingEntity;
 
 class CmdRemoveSelectedObjects : public Command
 {
 
 protected:
-	std::map<int, shared_ptr<IfcPPEntity> > m_removed_objects;
+	std::map<int, shared_ptr<BuildingEntity> > m_removed_objects;
 
 public:
 	CmdRemoveSelectedObjects( IfcPlusPlusSystem* system );

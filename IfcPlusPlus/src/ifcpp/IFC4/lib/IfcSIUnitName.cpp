@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSIUnitName.h"
 
 // TYPE IfcSIUnitName = ENUMERATION OF	(AMPERE	,BECQUEREL	,CANDELA	,COULOMB	,CUBIC_METRE	,DEGREE_CELSIUS	,FARAD	,GRAM	,GRAY	,HENRY	,HERTZ	,JOULE	,KELVIN	,LUMEN	,LUX	,METRE	,MOLE	,NEWTON	,OHM	,PASCAL	,RADIAN	,SECOND	,SIEMENS	,SIEVERT	,SQUARE_METRE	,STERADIAN	,TESLA	,VOLT	,WATT	,WEBER);
 IfcSIUnitName::IfcSIUnitName() {}
 IfcSIUnitName::~IfcSIUnitName() {}
-shared_ptr<IfcPPObject> IfcSIUnitName::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSIUnitName::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSIUnitName> copy_self( new IfcSIUnitName() );
 	copy_self->m_enum = m_enum;
@@ -93,7 +93,7 @@ const std::wstring IfcSIUnitName::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }

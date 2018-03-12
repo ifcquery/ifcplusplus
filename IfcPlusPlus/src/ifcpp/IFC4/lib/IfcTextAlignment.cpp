@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcTextAlignment.h"
 
 // TYPE IfcTextAlignment = STRING;
 IfcTextAlignment::IfcTextAlignment() {}
 IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
 IfcTextAlignment::~IfcTextAlignment() {}
-shared_ptr<IfcPPObject> IfcTextAlignment::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTextAlignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextAlignment> copy_self( new IfcTextAlignment() );
 	copy_self->m_value = m_value;
@@ -29,7 +29,7 @@ const std::wstring IfcTextAlignment::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }

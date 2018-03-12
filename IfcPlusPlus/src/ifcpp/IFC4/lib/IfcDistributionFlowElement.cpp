@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDistributionFlowElement.h"
@@ -41,7 +41,7 @@
 IfcDistributionFlowElement::IfcDistributionFlowElement() {}
 IfcDistributionFlowElement::IfcDistributionFlowElement( int id ) { m_entity_id = id; }
 IfcDistributionFlowElement::~IfcDistributionFlowElement() {}
-shared_ptr<IfcPPObject> IfcDistributionFlowElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDistributionFlowElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionFlowElement> copy_self( new IfcDistributionFlowElement() );
 	if( m_GlobalId )
@@ -84,10 +84,10 @@ void IfcDistributionFlowElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcDistributionFlowElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDistributionFlowElement::toString() const { return L"IfcDistributionFlowElement"; }
-void IfcDistributionFlowElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDistributionFlowElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionFlowElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionFlowElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -97,16 +97,16 @@ void IfcDistributionFlowElement::readStepArguments( const std::vector<std::wstri
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcDistributionFlowElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDistributionFlowElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcDistributionElement::getAttributes( vec_attributes );
 }
-void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcDistributionElement::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasControlElements_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasControlElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasControlElements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasControlElements_inverse.size(); ++i )
 		{
 			if( !m_HasControlElements_inverse[i].expired() )
@@ -117,7 +117,7 @@ void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std
 		vec_attributes_inverse.push_back( std::make_pair( "HasControlElements_inverse", HasControlElements_inverse_vec_obj ) );
 	}
 }
-void IfcDistributionFlowElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDistributionFlowElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcDistributionElement::setInverseCounterparts( ptr_self_entity );
 }

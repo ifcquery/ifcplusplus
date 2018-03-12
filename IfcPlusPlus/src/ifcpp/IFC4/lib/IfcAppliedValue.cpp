@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAppliedValue.h"
@@ -20,7 +20,7 @@
 IfcAppliedValue::IfcAppliedValue() {}
 IfcAppliedValue::IfcAppliedValue( int id ) { m_entity_id = id; }
 IfcAppliedValue::~IfcAppliedValue() {}
-shared_ptr<IfcPPObject> IfcAppliedValue::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAppliedValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAppliedValue> copy_self( new IfcAppliedValue() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -68,10 +68,10 @@ void IfcAppliedValue::getStepLine( std::stringstream& stream ) const
 }
 void IfcAppliedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAppliedValue::toString() const { return L"IfcAppliedValue"; }
-void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAppliedValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAppliedValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_AppliedValue = IfcAppliedValueSelect::createObjectFromSTEP( args[2], map );
@@ -83,7 +83,7 @@ void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, 
 	m_ArithmeticOperator = IfcArithmeticOperatorEnum::createObjectFromSTEP( args[8], map );
 	readEntityReferenceList( args[9], m_Components, map );
 }
-void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -96,16 +96,16 @@ void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "ArithmeticOperator", m_ArithmeticOperator ) );
 	if( m_Components.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Components_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Components_vec_object( new AttributeObjectVector() );
 		std::copy( m_Components.begin(), m_Components.end(), std::back_inserter( Components_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Components", Components_vec_object ) );
 	}
 }
-void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_HasExternalReference_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasExternalReference_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
@@ -116,7 +116,7 @@ void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, s
 		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
-void IfcAppliedValue::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcAppliedValue::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcAppliedValue::unlinkFromInverseCounterparts()

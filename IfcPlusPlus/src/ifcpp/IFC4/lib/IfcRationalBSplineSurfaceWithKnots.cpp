@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBSplineSurfaceForm.h"
@@ -22,7 +22,7 @@
 IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots() {}
 IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
 IfcRationalBSplineSurfaceWithKnots::~IfcRationalBSplineSurfaceWithKnots() {}
-shared_ptr<IfcPPObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRationalBSplineSurfaceWithKnots> copy_self( new IfcRationalBSplineSurfaceWithKnots() );
 	if( m_UDegree ) { copy_self->m_UDegree = dynamic_pointer_cast<IfcInteger>( m_UDegree->getDeepCopy(options) ); }
@@ -126,10 +126,10 @@ void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream 
 }
 void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRationalBSplineSurfaceWithKnots::toString() const { return L"IfcRationalBSplineSurfaceWithKnots"; }
-void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
@@ -144,15 +144,15 @@ void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<st
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11], map );
 	readTypeOfRealList2D( args[12], m_WeightsData );
 }
-void IfcRationalBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRationalBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBSplineSurfaceWithKnots::getAttributes( vec_attributes );
 }
-void IfcRationalBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRationalBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBSplineSurfaceWithKnots::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRationalBSplineSurfaceWithKnots::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRationalBSplineSurfaceWithKnots::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBSplineSurfaceWithKnots::setInverseCounterparts( ptr_self_entity );
 }

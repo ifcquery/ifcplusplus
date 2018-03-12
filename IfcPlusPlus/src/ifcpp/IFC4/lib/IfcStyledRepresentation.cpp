@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -19,7 +19,7 @@
 IfcStyledRepresentation::IfcStyledRepresentation() {}
 IfcStyledRepresentation::IfcStyledRepresentation( int id ) { m_entity_id = id; }
 IfcStyledRepresentation::~IfcStyledRepresentation() {}
-shared_ptr<IfcPPObject> IfcStyledRepresentation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStyledRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStyledRepresentation> copy_self( new IfcStyledRepresentation() );
 	if( m_ContextOfItems )
@@ -53,24 +53,24 @@ void IfcStyledRepresentation::getStepLine( std::stringstream& stream ) const
 }
 void IfcStyledRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStyledRepresentation::toString() const { return L"IfcStyledRepresentation"; }
-void IfcStyledRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStyledRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );
 	readEntityReferenceList( args[3], m_Items, map );
 }
-void IfcStyledRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStyledRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcStyleModel::getAttributes( vec_attributes );
 }
-void IfcStyledRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStyledRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcStyleModel::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStyledRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStyledRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcStyleModel::setInverseCounterparts( ptr_self_entity );
 }

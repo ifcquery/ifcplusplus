@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcActuatorTypeEnum.h"
 
 // TYPE IfcActuatorTypeEnum = ENUMERATION OF	(ELECTRICACTUATOR	,HANDOPERATEDACTUATOR	,HYDRAULICACTUATOR	,PNEUMATICACTUATOR	,THERMOSTATICACTUATOR	,USERDEFINED	,NOTDEFINED);
 IfcActuatorTypeEnum::IfcActuatorTypeEnum() {}
 IfcActuatorTypeEnum::~IfcActuatorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcActuatorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcActuatorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActuatorTypeEnum> copy_self( new IfcActuatorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -47,7 +47,7 @@ const std::wstring IfcActuatorTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }

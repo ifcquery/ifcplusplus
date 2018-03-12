@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -34,7 +34,7 @@
 IfcStructuralCurveAction::IfcStructuralCurveAction() {}
 IfcStructuralCurveAction::IfcStructuralCurveAction( int id ) { m_entity_id = id; }
 IfcStructuralCurveAction::~IfcStructuralCurveAction() {}
-shared_ptr<IfcPPObject> IfcStructuralCurveAction::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralCurveAction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveAction> copy_self( new IfcStructuralCurveAction() );
 	if( m_GlobalId )
@@ -89,10 +89,10 @@ void IfcStructuralCurveAction::getStepLine( std::stringstream& stream ) const
 }
 void IfcStructuralCurveAction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralCurveAction::toString() const { return L"IfcStructuralCurveAction"; }
-void IfcStructuralCurveAction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralCurveAction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralCurveAction, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralCurveAction, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -106,17 +106,17 @@ void IfcStructuralCurveAction::readStepArguments( const std::vector<std::wstring
 	m_ProjectedOrTrue = IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( args[10], map );
 	m_PredefinedType = IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( args[11], map );
 }
-void IfcStructuralCurveAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralCurveAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcStructuralAction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ProjectedOrTrue", m_ProjectedOrTrue ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcStructuralCurveAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralCurveAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcStructuralAction::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStructuralCurveAction::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralCurveAction::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcStructuralAction::setInverseCounterparts( ptr_self_entity );
 }

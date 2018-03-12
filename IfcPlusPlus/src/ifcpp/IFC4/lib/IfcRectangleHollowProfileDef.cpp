@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement2D.h"
@@ -20,7 +20,7 @@
 IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef() {}
 IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef( int id ) { m_entity_id = id; }
 IfcRectangleHollowProfileDef::~IfcRectangleHollowProfileDef() {}
-shared_ptr<IfcPPObject> IfcRectangleHollowProfileDef::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRectangleHollowProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangleHollowProfileDef> copy_self( new IfcRectangleHollowProfileDef() );
 	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
@@ -55,10 +55,10 @@ void IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) cons
 }
 void IfcRectangleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangleHollowProfileDef::toString() const { return L"IfcRectangleHollowProfileDef"; }
-void IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangleHollowProfileDef, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangleHollowProfileDef, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -68,18 +68,18 @@ void IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::wst
 	m_InnerFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[6], map );
 	m_OuterFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7], map );
 }
-void IfcRectangleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRectangleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRectangleProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "WallThickness", m_WallThickness ) );
 	vec_attributes.push_back( std::make_pair( "InnerFilletRadius", m_InnerFilletRadius ) );
 	vec_attributes.push_back( std::make_pair( "OuterFilletRadius", m_OuterFilletRadius ) );
 }
-void IfcRectangleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRectangleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRectangleProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRectangleHollowProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRectangleHollowProfileDef::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRectangleProfileDef::setInverseCounterparts( ptr_self_entity );
 }

@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcLinearForceMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcLinearForceMeasure::IfcLinearForceMeasure() {}
 IfcLinearForceMeasure::IfcLinearForceMeasure( double value ) { m_value = value; }
 IfcLinearForceMeasure::~IfcLinearForceMeasure() {}
-shared_ptr<IfcPPObject> IfcLinearForceMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLinearForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearForceMeasure> copy_self( new IfcLinearForceMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcLinearForceMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }

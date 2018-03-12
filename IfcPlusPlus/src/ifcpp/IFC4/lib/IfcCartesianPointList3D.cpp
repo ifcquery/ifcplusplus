@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianPointList3D.h"
@@ -16,7 +16,7 @@
 IfcCartesianPointList3D::IfcCartesianPointList3D() {}
 IfcCartesianPointList3D::IfcCartesianPointList3D( int id ) { m_entity_id = id; }
 IfcCartesianPointList3D::~IfcCartesianPointList3D() {}
-shared_ptr<IfcPPObject> IfcCartesianPointList3D::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCartesianPointList3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPointList3D> copy_self( new IfcCartesianPointList3D() );
 	copy_self->m_CoordList.resize( m_CoordList.size() );
@@ -43,21 +43,21 @@ void IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
 }
 void IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPointList3D::toString() const { return L"IfcCartesianPointList3D"; }
-void IfcCartesianPointList3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCartesianPointList3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList3D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList3D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList2D( args[0], m_CoordList );
 }
-void IfcCartesianPointList3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCartesianPointList3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCartesianPointList::getAttributes( vec_attributes );
 }
-void IfcCartesianPointList3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCartesianPointList3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCartesianPointList::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCartesianPointList3D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCartesianPointList3D::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCartesianPointList::setInverseCounterparts( ptr_self_entity );
 }

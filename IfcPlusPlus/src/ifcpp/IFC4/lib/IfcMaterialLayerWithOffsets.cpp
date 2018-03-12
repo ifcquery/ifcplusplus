@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -25,7 +25,7 @@
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets() {}
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets( int id ) { m_entity_id = id; }
 IfcMaterialLayerWithOffsets::~IfcMaterialLayerWithOffsets() {}
-shared_ptr<IfcPPObject> IfcMaterialLayerWithOffsets::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialLayerWithOffsets::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerWithOffsets> copy_self( new IfcMaterialLayerWithOffsets() );
 	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy(options) ); }
@@ -70,10 +70,10 @@ void IfcMaterialLayerWithOffsets::getStepLine( std::stringstream& stream ) const
 }
 void IfcMaterialLayerWithOffsets::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayerWithOffsets::toString() const { return L"IfcMaterialLayerWithOffsets"; }
-void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerWithOffsets, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerWithOffsets, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Material, map );
 	m_LayerThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_IsVentilated = IfcLogical::createObjectFromSTEP( args[2], map );
@@ -84,22 +84,22 @@ void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstr
 	m_OffsetDirection = IfcLayerSetDirectionEnum::createObjectFromSTEP( args[7], map );
 	readTypeOfRealList( args[8], m_OffsetValues );
 }
-void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcMaterialLayer::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
 	if( m_OffsetValues.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> OffsetValues_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	}
 }
-void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcMaterialLayer::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcMaterialLayerWithOffsets::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMaterialLayerWithOffsets::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcMaterialLayer::setInverseCounterparts( ptr_self_entity );
 }

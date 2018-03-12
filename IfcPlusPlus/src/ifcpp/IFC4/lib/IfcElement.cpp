@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcElement.h"
@@ -39,7 +39,7 @@
 IfcElement::IfcElement() {}
 IfcElement::IfcElement( int id ) { m_entity_id = id; }
 IfcElement::~IfcElement() {}
-shared_ptr<IfcPPObject> IfcElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElement> copy_self( new IfcElement() );
 	if( m_GlobalId )
@@ -82,10 +82,10 @@ void IfcElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElement::toString() const { return L"IfcElement"; }
-void IfcElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -95,17 +95,17 @@ void IfcElement::readStepArguments( const std::vector<std::wstring>& args, const
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
 }
-void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 	if( m_FillsVoids_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> FillsVoids_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> FillsVoids_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_FillsVoids_inverse.size(); ++i )
 		{
 			if( !m_FillsVoids_inverse[i].expired() )
@@ -117,7 +117,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_ConnectedTo_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ConnectedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ConnectedTo_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
 		{
 			if( !m_ConnectedTo_inverse[i].expired() )
@@ -129,7 +129,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_IsInterferedByElements_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
 		{
 			if( !m_IsInterferedByElements_inverse[i].expired() )
@@ -141,7 +141,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_InterferesElements_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> InterferesElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> InterferesElements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
 		{
 			if( !m_InterferesElements_inverse[i].expired() )
@@ -153,7 +153,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_HasProjections_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasProjections_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasProjections_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasProjections_inverse.size(); ++i )
 		{
 			if( !m_HasProjections_inverse[i].expired() )
@@ -165,7 +165,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_ReferencedInStructures_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ReferencedInStructures_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ReferencedInStructures_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencedInStructures_inverse.size(); ++i )
 		{
 			if( !m_ReferencedInStructures_inverse[i].expired() )
@@ -177,7 +177,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_HasOpenings_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasOpenings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasOpenings_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasOpenings_inverse.size(); ++i )
 		{
 			if( !m_HasOpenings_inverse[i].expired() )
@@ -189,7 +189,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_IsConnectionRealization_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsConnectionRealization_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsConnectionRealization_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsConnectionRealization_inverse.size(); ++i )
 		{
 			if( !m_IsConnectionRealization_inverse[i].expired() )
@@ -201,7 +201,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_ProvidesBoundaries_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ProvidesBoundaries_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ProvidesBoundaries_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ProvidesBoundaries_inverse.size(); ++i )
 		{
 			if( !m_ProvidesBoundaries_inverse[i].expired() )
@@ -213,7 +213,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_ConnectedFrom_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ConnectedFrom_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ConnectedFrom_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
 		{
 			if( !m_ConnectedFrom_inverse[i].expired() )
@@ -225,7 +225,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_ContainedInStructure_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
 		{
 			if( !m_ContainedInStructure_inverse[i].expired() )
@@ -237,7 +237,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_HasCoverings_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasCoverings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasCoverings_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
 		{
 			if( !m_HasCoverings_inverse[i].expired() )
@@ -248,7 +248,7 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 		vec_attributes_inverse.push_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
 	}
 }
-void IfcElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 }

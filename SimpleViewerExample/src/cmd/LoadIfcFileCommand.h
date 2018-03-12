@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include "ifcpp/model/IfcPPBasicTypes.h"
+#include "ifcpp/model/BasicTypes.h"
 #include "Command.h"
 
 class IfcPlusPlusSystem;
@@ -39,6 +39,7 @@ public:
 	virtual bool isRepeatable()		{ return false; }
 
 	void setFilePath( std::wstring& path );
+	void loadWallExample();
 
 protected:
 	std::wstring m_file_path;

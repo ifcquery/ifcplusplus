@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -17,7 +17,7 @@
 IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle() {}
 IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int id ) { m_entity_id = id; }
 IfcExternallyDefinedHatchStyle::~IfcExternallyDefinedHatchStyle() {}
-shared_ptr<IfcPPObject> IfcExternallyDefinedHatchStyle::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcExternallyDefinedHatchStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternallyDefinedHatchStyle> copy_self( new IfcExternallyDefinedHatchStyle() );
 	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
@@ -37,23 +37,23 @@ void IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) co
 }
 void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternallyDefinedHatchStyle::toString() const { return L"IfcExternallyDefinedHatchStyle"; }
-void IfcExternallyDefinedHatchStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcExternallyDefinedHatchStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedHatchStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedHatchStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcExternallyDefinedHatchStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcExternallyDefinedHatchStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcExternalReference::getAttributes( vec_attributes );
 }
-void IfcExternallyDefinedHatchStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcExternallyDefinedHatchStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcExternallyDefinedHatchStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcExternallyDefinedHatchStyle::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcExternalReference::setInverseCounterparts( ptr_self_entity );
 }

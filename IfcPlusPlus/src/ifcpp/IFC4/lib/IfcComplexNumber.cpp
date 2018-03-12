@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcComplexNumber.h"
 
 // TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
 IfcComplexNumber::IfcComplexNumber() {}
 IfcComplexNumber::~IfcComplexNumber() {}
-shared_ptr<IfcPPObject> IfcComplexNumber::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcComplexNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcComplexNumber> copy_self( new IfcComplexNumber() );
 	for( size_t ii=0; ii<m_vec.size(); ++ii )
@@ -34,7 +34,7 @@ const std::wstring IfcComplexNumber::toString() const
 	std::wstringstream strs;
 	for( size_t ii = 0; ii < m_vec.size(); ++ii )				{					if( ii > 0 )					{						strs << L", ";					}					strs << m_vec[ii];				}			return strs.str(); 
 }
-shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }

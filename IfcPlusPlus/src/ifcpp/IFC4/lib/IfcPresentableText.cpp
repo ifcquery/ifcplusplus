@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPresentableText.h"
 
 // TYPE IfcPresentableText = STRING;
 IfcPresentableText::IfcPresentableText() {}
 IfcPresentableText::IfcPresentableText( std::wstring value ) { m_value = value; }
 IfcPresentableText::~IfcPresentableText() {}
-shared_ptr<IfcPPObject> IfcPresentableText::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPresentableText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );
 	copy_self->m_value = m_value;
@@ -29,7 +29,7 @@ const std::wstring IfcPresentableText::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcPresentableText> IfcPresentableText::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPresentableText> IfcPresentableText::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }

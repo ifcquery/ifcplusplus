@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -18,7 +18,7 @@
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties() {}
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int id ) { m_entity_id = id; }
 IfcSectionReinforcementProperties::~IfcSectionReinforcementProperties() {}
-shared_ptr<IfcPPObject> IfcSectionReinforcementProperties::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSectionReinforcementProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionReinforcementProperties> copy_self( new IfcSectionReinforcementProperties() );
 	if( m_LongitudinalStartPosition ) { copy_self->m_LongitudinalStartPosition = dynamic_pointer_cast<IfcLengthMeasure>( m_LongitudinalStartPosition->getDeepCopy(options) ); }
@@ -54,10 +54,10 @@ void IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream )
 }
 void IfcSectionReinforcementProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionReinforcementProperties::toString() const { return L"IfcSectionReinforcementProperties"; }
-void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_LongitudinalStartPosition = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_LongitudinalEndPosition = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_TransversePosition = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -65,7 +65,7 @@ void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std
 	readEntityReference( args[4], m_SectionDefinition, map );
 	readEntityReferenceList( args[5], m_CrossSectionReinforcementDefinitions, map );
 }
-void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LongitudinalStartPosition", m_LongitudinalStartPosition ) );
@@ -75,16 +75,16 @@ void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std
 	vec_attributes.push_back( std::make_pair( "SectionDefinition", m_SectionDefinition ) );
 	if( m_CrossSectionReinforcementDefinitions.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new AttributeObjectVector() );
 		std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
 	}
 }
-void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSectionReinforcementProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSectionReinforcementProperties::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPreDefinedProperties::setInverseCounterparts( ptr_self_entity );
 }

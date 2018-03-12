@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -17,7 +17,7 @@
 IfcRightCircularCone::IfcRightCircularCone() {}
 IfcRightCircularCone::IfcRightCircularCone( int id ) { m_entity_id = id; }
 IfcRightCircularCone::~IfcRightCircularCone() {}
-shared_ptr<IfcPPObject> IfcRightCircularCone::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRightCircularCone::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRightCircularCone> copy_self( new IfcRightCircularCone() );
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
@@ -37,25 +37,25 @@ void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 }
 void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRightCircularCone::toString() const { return L"IfcRightCircularCone"; }
-void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCone, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCone, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_BottomRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcRightCircularCone::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRightCircularCone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
 	vec_attributes.push_back( std::make_pair( "BottomRadius", m_BottomRadius ) );
 }
-void IfcRightCircularCone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRightCircularCone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRightCircularCone::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRightCircularCone::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPreferredSurfaceCurveRepresentation.h"
 
 // TYPE IfcPreferredSurfaceCurveRepresentation = ENUMERATION OF	(CURVE3D	,PCURVE_S1	,PCURVE_S2);
 IfcPreferredSurfaceCurveRepresentation::IfcPreferredSurfaceCurveRepresentation() {}
 IfcPreferredSurfaceCurveRepresentation::~IfcPreferredSurfaceCurveRepresentation() {}
-shared_ptr<IfcPPObject> IfcPreferredSurfaceCurveRepresentation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPreferredSurfaceCurveRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPreferredSurfaceCurveRepresentation> copy_self( new IfcPreferredSurfaceCurveRepresentation() );
 	copy_self->m_enum = m_enum;
@@ -39,7 +39,7 @@ const std::wstring IfcPreferredSurfaceCurveRepresentation::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcPreferredSurfaceCurveRepresentation> IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPreferredSurfaceCurveRepresentation> IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -20,7 +20,7 @@
 IfcRelSequence::IfcRelSequence() {}
 IfcRelSequence::IfcRelSequence( int id ) { m_entity_id = id; }
 IfcRelSequence::~IfcRelSequence() {}
-shared_ptr<IfcPPObject> IfcRelSequence::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelSequence::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelSequence> copy_self( new IfcRelSequence() );
 	if( m_GlobalId )
@@ -66,10 +66,10 @@ void IfcRelSequence::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelSequence::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelSequence::toString() const { return L"IfcRelSequence"; }
-void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelSequence, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -80,7 +80,7 @@ void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, c
 	m_SequenceType = IfcSequenceEnum::createObjectFromSTEP( args[7], map );
 	m_UserDefinedSequenceType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
@@ -89,15 +89,15 @@ void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "SequenceType", m_SequenceType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedSequenceType", m_UserDefinedSequenceType ) );
 }
-void IfcRelSequence::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelSequence::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelSequence::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelSequence::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelSequence> ptr_self = dynamic_pointer_cast<IfcRelSequence>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelSequence::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelSequence::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedProcess )
 	{
 		m_RelatedProcess->m_IsSuccessorFrom_inverse.push_back( ptr_self );

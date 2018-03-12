@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActor.h"
@@ -21,7 +21,7 @@
 IfcRelAssignsToActor::IfcRelAssignsToActor() {}
 IfcRelAssignsToActor::IfcRelAssignsToActor( int id ) { m_entity_id = id; }
 IfcRelAssignsToActor::~IfcRelAssignsToActor() {}
-shared_ptr<IfcPPObject> IfcRelAssignsToActor::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAssignsToActor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToActor> copy_self( new IfcRelAssignsToActor() );
 	if( m_GlobalId )
@@ -71,10 +71,10 @@ void IfcRelAssignsToActor::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAssignsToActor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToActor::toString() const { return L"IfcRelAssignsToActor"; }
-void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToActor, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToActor, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -84,21 +84,21 @@ void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[6], m_RelatingActor, map );
 	readEntityReference( args[7], m_ActingRole, map );
 }
-void IfcRelAssignsToActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAssignsToActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingActor", m_RelatingActor ) );
 	vec_attributes.push_back( std::make_pair( "ActingRole", m_ActingRole ) );
 }
-void IfcRelAssignsToActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAssignsToActor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAssignsToActor::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelAssigns::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAssignsToActor> ptr_self = dynamic_pointer_cast<IfcRelAssignsToActor>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAssignsToActor::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToActor::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingActor )
 	{
 		m_RelatingActor->m_IsActingUpon_inverse.push_back( ptr_self );

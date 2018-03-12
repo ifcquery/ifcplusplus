@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCompositeProfileDef.h"
@@ -20,7 +20,7 @@
 IfcMaterialProfileSet::IfcMaterialProfileSet() {}
 IfcMaterialProfileSet::IfcMaterialProfileSet( int id ) { m_entity_id = id; }
 IfcMaterialProfileSet::~IfcMaterialProfileSet() {}
-shared_ptr<IfcPPObject> IfcMaterialProfileSet::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialProfileSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialProfileSet> copy_self( new IfcMaterialProfileSet() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -50,37 +50,37 @@ void IfcMaterialProfileSet::getStepLine( std::stringstream& stream ) const
 }
 void IfcMaterialProfileSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialProfileSet::toString() const { return L"IfcMaterialProfileSet"; }
-void IfcMaterialProfileSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialProfileSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSet, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSet, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_MaterialProfiles, map );
 	readEntityReference( args[3], m_CompositeProfile, map );
 }
-void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	if( m_MaterialProfiles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> MaterialProfiles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> MaterialProfiles_vec_object( new AttributeObjectVector() );
 		std::copy( m_MaterialProfiles.begin(), m_MaterialProfiles.end(), std::back_inserter( MaterialProfiles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "MaterialProfiles", MaterialProfiles_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "CompositeProfile", m_CompositeProfile ) );
 }
-void IfcMaterialProfileSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialProfileSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcMaterialProfileSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMaterialProfileSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcMaterialDefinition::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcMaterialProfileSet> ptr_self = dynamic_pointer_cast<IfcMaterialProfileSet>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcMaterialProfileSet::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcMaterialProfileSet::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_MaterialProfiles.size(); ++i )
 	{
 		if( m_MaterialProfiles[i] )

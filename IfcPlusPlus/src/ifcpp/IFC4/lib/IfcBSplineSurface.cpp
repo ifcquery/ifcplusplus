@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBSplineSurface.h"
@@ -19,7 +19,7 @@
 IfcBSplineSurface::IfcBSplineSurface() {}
 IfcBSplineSurface::IfcBSplineSurface( int id ) { m_entity_id = id; }
 IfcBSplineSurface::~IfcBSplineSurface() {}
-shared_ptr<IfcPPObject> IfcBSplineSurface::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurface> copy_self( new IfcBSplineSurface() );
 	if( m_UDegree ) { copy_self->m_UDegree = dynamic_pointer_cast<IfcInteger>( m_UDegree->getDeepCopy(options) ); }
@@ -64,10 +64,10 @@ void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 }
 void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurface::toString() const { return L"IfcBSplineSurface"; }
-void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
@@ -76,7 +76,7 @@ void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args
 	m_VClosed = IfcLogical::createObjectFromSTEP( args[5], map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[6], map );
 }
-void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UDegree", m_UDegree ) );
@@ -86,11 +86,11 @@ void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared
 	vec_attributes.push_back( std::make_pair( "VClosed", m_VClosed ) );
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
-void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBoundedSurface::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcBSplineSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcBSplineSurface::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBoundedSurface::setInverseCounterparts( ptr_self_entity );
 }

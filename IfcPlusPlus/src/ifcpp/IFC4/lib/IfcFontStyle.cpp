@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcFontStyle.h"
 
 // TYPE IfcFontStyle = STRING;
 IfcFontStyle::IfcFontStyle() {}
 IfcFontStyle::IfcFontStyle( std::wstring value ) { m_value = value; }
 IfcFontStyle::~IfcFontStyle() {}
-shared_ptr<IfcPPObject> IfcFontStyle::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFontStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFontStyle> copy_self( new IfcFontStyle() );
 	copy_self->m_value = m_value;
@@ -29,7 +29,7 @@ const std::wstring IfcFontStyle::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }

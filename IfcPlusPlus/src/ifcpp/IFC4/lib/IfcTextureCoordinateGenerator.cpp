@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator() {}
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_entity_id = id; }
 IfcTextureCoordinateGenerator::~IfcTextureCoordinateGenerator() {}
-shared_ptr<IfcPPObject> IfcTextureCoordinateGenerator::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTextureCoordinateGenerator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureCoordinateGenerator> copy_self( new IfcTextureCoordinateGenerator() );
 	for( size_t ii=0; ii<m_Maps.size(); ++ii )
@@ -50,30 +50,30 @@ void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) con
 }
 void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureCoordinateGenerator::toString() const { return L"IfcTextureCoordinateGenerator"; }
-void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	m_Mode = IfcLabel::createObjectFromSTEP( args[1], map );
 	readTypeOfRealList( args[2], m_Parameter );
 }
-void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Mode", m_Mode ) );
 	if( m_Parameter.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Parameter_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
 		std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 	}
 }
-void IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTextureCoordinate::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTextureCoordinateGenerator::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTextureCoordinateGenerator::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTextureCoordinate::setInverseCounterparts( ptr_self_entity );
 }

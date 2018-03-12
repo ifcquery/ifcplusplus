@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -19,9 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <boost/unordered_map.hpp>
 #include <QTreeWidget>
-#include "ifcpp/model/IfcPPBasicTypes.h"
+#include "ifcpp/model/BasicTypes.h"
 
-class IfcPPEntity;
+class BuildingEntity;
 class IfcPlusPlusSystem;
 
 class IfcTreeWidget : public QTreeWidget
@@ -36,7 +36,7 @@ public:
 	QTreeWidgetItem* itemFromIndex( const QModelIndex & index ) const { return QTreeWidget::itemFromIndex( index ); }
 
 public slots:
-	void slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map );
+	void slotObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >& map );
 	void slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous );
 	void slotTreewidgetSelectionChanged();
 

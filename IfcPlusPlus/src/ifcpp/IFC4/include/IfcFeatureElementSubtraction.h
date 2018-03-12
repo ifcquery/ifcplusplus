@@ -4,26 +4,26 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 #include "IfcFeatureElement.h"
-class IFCPP_EXPORT IfcRelVoidsElement;
+class IFCQUERY_EXPORT IfcRelVoidsElement;
 //ENTITY
-class IFCPP_EXPORT IfcFeatureElementSubtraction : public IfcFeatureElement
+class IFCQUERY_EXPORT IfcFeatureElementSubtraction : public IfcFeatureElement
 { 
 public:
 	IfcFeatureElementSubtraction();
 	IfcFeatureElementSubtraction( int id );
 	~IfcFeatureElementSubtraction();
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
-	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self );
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
+	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
 	virtual size_t getNumAttributes() { return 8; }
-	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
-	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
+	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
+	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
 	virtual void unlinkFromInverseCounterparts();
 	virtual const char* className() const { return "IfcFeatureElementSubtraction"; }
 	virtual const std::wstring toString() const;

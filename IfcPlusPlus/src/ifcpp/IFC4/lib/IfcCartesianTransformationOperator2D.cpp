@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
@@ -18,7 +18,7 @@
 IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D() {}
 IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D( int id ) { m_entity_id = id; }
 IfcCartesianTransformationOperator2D::~IfcCartesianTransformationOperator2D() {}
-shared_ptr<IfcPPObject> IfcCartesianTransformationOperator2D::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCartesianTransformationOperator2D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator2D> copy_self( new IfcCartesianTransformationOperator2D() );
 	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
@@ -41,24 +41,24 @@ void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& strea
 }
 void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator2D::toString() const { return L"IfcCartesianTransformationOperator2D"; }
-void IfcCartesianTransformationOperator2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCartesianTransformationOperator2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
 	m_Scale = IfcReal::createObjectFromSTEP( args[3], map );
 }
-void IfcCartesianTransformationOperator2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCartesianTransformationOperator2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCartesianTransformationOperator::getAttributes( vec_attributes );
 }
-void IfcCartesianTransformationOperator2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCartesianTransformationOperator2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCartesianTransformationOperator::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCartesianTransformationOperator2D::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCartesianTransformationOperator2D::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCartesianTransformationOperator::setInverseCounterparts( ptr_self_entity );
 }

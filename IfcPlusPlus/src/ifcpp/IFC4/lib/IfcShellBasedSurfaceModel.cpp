@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
@@ -16,7 +16,7 @@
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel() {}
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel( int id ) { m_entity_id = id; }
 IfcShellBasedSurfaceModel::~IfcShellBasedSurfaceModel() {}
-shared_ptr<IfcPPObject> IfcShellBasedSurfaceModel::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcShellBasedSurfaceModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShellBasedSurfaceModel> copy_self( new IfcShellBasedSurfaceModel() );
 	for( size_t ii=0; ii<m_SbsmBoundary.size(); ++ii )
@@ -54,27 +54,27 @@ void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 }
 void IfcShellBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShellBasedSurfaceModel::toString() const { return L"IfcShellBasedSurfaceModel"; }
-void IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShellBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShellBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readSelectList( args[0], m_SbsmBoundary, map );
 }
-void IfcShellBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcShellBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	if( m_SbsmBoundary.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> SbsmBoundary_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> SbsmBoundary_vec_object( new AttributeObjectVector() );
 		std::copy( m_SbsmBoundary.begin(), m_SbsmBoundary.end(), std::back_inserter( SbsmBoundary_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
 	}
 }
-void IfcShellBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcShellBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcShellBasedSurfaceModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcShellBasedSurfaceModel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -19,7 +19,7 @@
 IfcResourceTime::IfcResourceTime() {}
 IfcResourceTime::IfcResourceTime( int id ) { m_entity_id = id; }
 IfcResourceTime::~IfcResourceTime() {}
-shared_ptr<IfcPPObject> IfcResourceTime::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcResourceTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcResourceTime> copy_self( new IfcResourceTime() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -84,10 +84,10 @@ void IfcResourceTime::getStepLine( std::stringstream& stream ) const
 }
 void IfcResourceTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcResourceTime::toString() const { return L"IfcResourceTime"; }
-void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 18 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceTime, expecting 18, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 18 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceTime, expecting 18, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -107,7 +107,7 @@ void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, 
 	m_RemainingUsage = IfcPositiveRatioMeasure::createObjectFromSTEP( args[16], map );
 	m_Completion = IfcPositiveRatioMeasure::createObjectFromSTEP( args[17], map );
 }
-void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ScheduleWork", m_ScheduleWork ) );
@@ -126,11 +126,11 @@ void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "RemainingUsage", m_RemainingUsage ) );
 	vec_attributes.push_back( std::make_pair( "Completion", m_Completion ) );
 }
-void IfcResourceTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcResourceTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcResourceTime::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcResourceTime::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSchedulingTime::setInverseCounterparts( ptr_self_entity );
 }

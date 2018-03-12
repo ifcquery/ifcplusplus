@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcMassFlowRateMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcMassFlowRateMeasure::IfcMassFlowRateMeasure() {}
 IfcMassFlowRateMeasure::IfcMassFlowRateMeasure( double value ) { m_value = value; }
 IfcMassFlowRateMeasure::~IfcMassFlowRateMeasure() {}
-shared_ptr<IfcPPObject> IfcMassFlowRateMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMassFlowRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMassFlowRateMeasure> copy_self( new IfcMassFlowRateMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcMassFlowRateMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcMassFlowRateMeasure> IfcMassFlowRateMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcMassFlowRateMeasure> IfcMassFlowRateMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }

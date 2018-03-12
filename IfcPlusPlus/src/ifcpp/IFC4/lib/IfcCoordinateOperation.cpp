@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCoordinateOperation.h"
@@ -16,7 +16,7 @@
 IfcCoordinateOperation::IfcCoordinateOperation() {}
 IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_entity_id = id; }
 IfcCoordinateOperation::~IfcCoordinateOperation() {}
-shared_ptr<IfcPPObject> IfcCoordinateOperation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCoordinateOperation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoordinateOperation> copy_self( new IfcCoordinateOperation() );
 	if( m_SourceCRS ) { copy_self->m_SourceCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystemSelect>( m_SourceCRS->getDeepCopy(options) ); }
@@ -33,25 +33,25 @@ void IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 }
 void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoordinateOperation::toString() const { return L"IfcCoordinateOperation"; }
-void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateOperation, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateOperation, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 }
-void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "SourceCRS", m_SourceCRS ) );
 	vec_attributes.push_back( std::make_pair( "TargetCRS", m_TargetCRS ) );
 }
-void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcCoordinateOperation> ptr_self = dynamic_pointer_cast<IfcCoordinateOperation>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcCoordinateOperation::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcCoordinateOperation::setInverseCounterparts: type mismatch" ); }
 	shared_ptr<IfcCoordinateReferenceSystem>  SourceCRS_IfcCoordinateReferenceSystem = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_SourceCRS );
 	if( SourceCRS_IfcCoordinateReferenceSystem )
 	{

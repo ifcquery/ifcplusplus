@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement.h"
@@ -23,7 +23,7 @@
 IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext() {}
 IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_entity_id = id; }
 IfcGeometricRepresentationSubContext::~IfcGeometricRepresentationSubContext() {}
-shared_ptr<IfcPPObject> IfcGeometricRepresentationSubContext::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGeometricRepresentationSubContext::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricRepresentationSubContext> copy_self( new IfcGeometricRepresentationSubContext() );
 	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
@@ -64,10 +64,10 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 }
 void IfcGeometricRepresentationSubContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricRepresentationSubContext::toString() const { return L"IfcGeometricRepresentationSubContext"; }
-void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricRepresentationSubContext, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_CoordinateSpaceDimension = IfcDimensionCount::createObjectFromSTEP( args[2], map );
@@ -79,7 +79,7 @@ void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<
 	m_TargetView = IfcGeometricProjectionEnum::createObjectFromSTEP( args[8], map );
 	m_UserDefinedTargetView = IfcLabel::createObjectFromSTEP( args[9], map );
 }
-void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationContext::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentContext", m_ParentContext ) );
@@ -87,15 +87,15 @@ void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<
 	vec_attributes.push_back( std::make_pair( "TargetView", m_TargetView ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedTargetView", m_UserDefinedTargetView ) );
 }
-void IfcGeometricRepresentationSubContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcGeometricRepresentationSubContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationContext::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcGeometricRepresentationSubContext::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcGeometricRepresentationSubContext::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationContext::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcGeometricRepresentationSubContext> ptr_self = dynamic_pointer_cast<IfcGeometricRepresentationSubContext>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcGeometricRepresentationSubContext::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcGeometricRepresentationSubContext::setInverseCounterparts: type mismatch" ); }
 	if( m_ParentContext )
 	{
 		m_ParentContext->m_HasSubContexts_inverse.push_back( ptr_self );

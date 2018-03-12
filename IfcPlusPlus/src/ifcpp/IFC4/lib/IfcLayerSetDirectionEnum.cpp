@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcLayerSetDirectionEnum.h"
 
 // TYPE IfcLayerSetDirectionEnum = ENUMERATION OF	(AXIS1	,AXIS2	,AXIS3);
 IfcLayerSetDirectionEnum::IfcLayerSetDirectionEnum() {}
 IfcLayerSetDirectionEnum::~IfcLayerSetDirectionEnum() {}
-shared_ptr<IfcPPObject> IfcLayerSetDirectionEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLayerSetDirectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLayerSetDirectionEnum> copy_self( new IfcLayerSetDirectionEnum() );
 	copy_self->m_enum = m_enum;
@@ -39,7 +39,7 @@ const std::wstring IfcLayerSetDirectionEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -25,7 +25,7 @@
 IfcTypeObject::IfcTypeObject() {}
 IfcTypeObject::IfcTypeObject( int id ) { m_entity_id = id; }
 IfcTypeObject::~IfcTypeObject() {}
-shared_ptr<IfcPPObject> IfcTypeObject::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTypeObject::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTypeObject> copy_self( new IfcTypeObject() );
 	if( m_GlobalId )
@@ -69,10 +69,10 @@ void IfcTypeObject::getStepLine( std::stringstream& stream ) const
 }
 void IfcTypeObject::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTypeObject::toString() const { return L"IfcTypeObject"; }
-void IfcTypeObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTypeObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTypeObject, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTypeObject, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -80,23 +80,23 @@ void IfcTypeObject::readStepArguments( const std::vector<std::wstring>& args, co
 	m_ApplicableOccurrence = IfcIdentifier::createObjectFromSTEP( args[4], map );
 	readEntityReferenceList( args[5], m_HasPropertySets, map );
 }
-void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ApplicableOccurrence", m_ApplicableOccurrence ) );
 	if( m_HasPropertySets.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasPropertySets_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasPropertySets_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasPropertySets.begin(), m_HasPropertySets.end(), std::back_inserter( HasPropertySets_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
 	}
 }
-void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_Types_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Types_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Types_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Types_inverse.size(); ++i )
 		{
 			if( !m_Types_inverse[i].expired() )
@@ -107,11 +107,11 @@ void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, sha
 		vec_attributes_inverse.push_back( std::make_pair( "Types_inverse", Types_inverse_vec_obj ) );
 	}
 }
-void IfcTypeObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTypeObject::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcObjectDefinition::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcTypeObject> ptr_self = dynamic_pointer_cast<IfcTypeObject>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcTypeObject::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcTypeObject::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_HasPropertySets.size(); ++i )
 	{
 		if( m_HasPropertySets[i] )

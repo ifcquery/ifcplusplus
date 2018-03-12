@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -16,7 +16,7 @@
 IfcSectionProperties::IfcSectionProperties() {}
 IfcSectionProperties::IfcSectionProperties( int id ) { m_entity_id = id; }
 IfcSectionProperties::~IfcSectionProperties() {}
-shared_ptr<IfcPPObject> IfcSectionProperties::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSectionProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionProperties> copy_self( new IfcSectionProperties() );
 	if( m_SectionType ) { copy_self->m_SectionType = dynamic_pointer_cast<IfcSectionTypeEnum>( m_SectionType->getDeepCopy(options) ); }
@@ -44,26 +44,26 @@ void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
 }
 void IfcSectionProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionProperties::toString() const { return L"IfcSectionProperties"; }
-void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_SectionType = IfcSectionTypeEnum::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_StartProfile, map );
 	readEntityReference( args[2], m_EndProfile, map );
 }
-void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SectionType", m_SectionType ) );
 	vec_attributes.push_back( std::make_pair( "StartProfile", m_StartProfile ) );
 	vec_attributes.push_back( std::make_pair( "EndProfile", m_EndProfile ) );
 }
-void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSectionProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSectionProperties::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPreDefinedProperties::setInverseCounterparts( ptr_self_entity );
 }

@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -17,14 +17,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <osg/Vec3f>
 #include <osg/Group>
 #include <osgGA/GUIEventAdapter>
 #include <osgGA/GUIActionAdapter>
 
 class IfcPlusPlusSystem;
-class IfcPPEntity;
+class BuildingEntity;
 
 class Command
 {
@@ -46,8 +46,8 @@ public:
 	virtual bool mouseClicked( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa );
 	virtual bool mouseDragged( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa );
 	virtual bool keyPressed( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa );
-	virtual void itemSnapped( shared_ptr<IfcPPEntity> item, bool snapped );
-	virtual void itemSelected( shared_ptr<IfcPPEntity> item, bool selected );
+	virtual void itemSnapped( shared_ptr<BuildingEntity> item, bool snapped );
+	virtual void itemSelected( shared_ptr<BuildingEntity> item, bool selected );
 
 	virtual bool doCmd()	{ return true; }
 	virtual bool undo()		{ return true; }

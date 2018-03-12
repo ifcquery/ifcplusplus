@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorSelect.h"
@@ -22,7 +22,7 @@
 IfcApproval::IfcApproval() {}
 IfcApproval::IfcApproval( int id ) { m_entity_id = id; }
 IfcApproval::~IfcApproval() {}
-shared_ptr<IfcPPObject> IfcApproval::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcApproval::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcApproval> copy_self( new IfcApproval() );
 	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
@@ -60,10 +60,10 @@ void IfcApproval::getStepLine( std::stringstream& stream ) const
 }
 void IfcApproval::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApproval::toString() const { return L"IfcApproval"; }
-void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApproval, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
@@ -74,7 +74,7 @@ void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_RequestingApproval = IfcActorSelect::createObjectFromSTEP( args[7], map );
 	m_GivingApproval = IfcActorSelect::createObjectFromSTEP( args[8], map );
 }
-void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -86,11 +86,11 @@ void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<I
 	vec_attributes.push_back( std::make_pair( "RequestingApproval", m_RequestingApproval ) );
 	vec_attributes.push_back( std::make_pair( "GivingApproval", m_GivingApproval ) );
 }
-void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_HasExternalReferences_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReferences_inverse[i].expired() )
@@ -102,7 +102,7 @@ void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_ApprovedObjects_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ApprovedObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ApprovedObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ApprovedObjects_inverse.size(); ++i )
 		{
 			if( !m_ApprovedObjects_inverse[i].expired() )
@@ -114,7 +114,7 @@ void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_ApprovedResources_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ApprovedResources_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ApprovedResources_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ApprovedResources_inverse.size(); ++i )
 		{
 			if( !m_ApprovedResources_inverse[i].expired() )
@@ -126,7 +126,7 @@ void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_IsRelatedWith_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsRelatedWith_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsRelatedWith_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsRelatedWith_inverse.size(); ++i )
 		{
 			if( !m_IsRelatedWith_inverse[i].expired() )
@@ -138,7 +138,7 @@ void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_Relates_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Relates_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Relates_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Relates_inverse.size(); ++i )
 		{
 			if( !m_Relates_inverse[i].expired() )
@@ -149,7 +149,7 @@ void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, share
 		vec_attributes_inverse.push_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
 	}
 }
-void IfcApproval::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcApproval::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcApproval::unlinkFromInverseCounterparts()

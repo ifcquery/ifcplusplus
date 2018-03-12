@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -42,7 +42,7 @@
 IfcWindowStandardCase::IfcWindowStandardCase() {}
 IfcWindowStandardCase::IfcWindowStandardCase( int id ) { m_entity_id = id; }
 IfcWindowStandardCase::~IfcWindowStandardCase() {}
-shared_ptr<IfcPPObject> IfcWindowStandardCase::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcWindowStandardCase::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowStandardCase> copy_self( new IfcWindowStandardCase() );
 	if( m_GlobalId )
@@ -100,10 +100,10 @@ void IfcWindowStandardCase::getStepLine( std::stringstream& stream ) const
 }
 void IfcWindowStandardCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowStandardCase::toString() const { return L"IfcWindowStandardCase"; }
-void IfcWindowStandardCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcWindowStandardCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowStandardCase, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowStandardCase, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -118,15 +118,15 @@ void IfcWindowStandardCase::readStepArguments( const std::vector<std::wstring>& 
 	m_PartitioningType = IfcWindowTypePartitioningEnum::createObjectFromSTEP( args[11], map );
 	m_UserDefinedPartitioningType = IfcLabel::createObjectFromSTEP( args[12], map );
 }
-void IfcWindowStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcWindowStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcWindow::getAttributes( vec_attributes );
 }
-void IfcWindowStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcWindowStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcWindow::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcWindowStandardCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcWindowStandardCase::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcWindow::setInverseCounterparts( ptr_self_entity );
 }

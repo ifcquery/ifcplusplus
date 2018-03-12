@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcWindowPanelOperationEnum.h"
 
 // TYPE IfcWindowPanelOperationEnum = ENUMERATION OF	(SIDEHUNGRIGHTHAND	,SIDEHUNGLEFTHAND	,TILTANDTURNRIGHTHAND	,TILTANDTURNLEFTHAND	,TOPHUNG	,BOTTOMHUNG	,PIVOTHORIZONTAL	,PIVOTVERTICAL	,SLIDINGHORIZONTAL	,SLIDINGVERTICAL	,REMOVABLECASEMENT	,FIXEDCASEMENT	,OTHEROPERATION	,NOTDEFINED);
 IfcWindowPanelOperationEnum::IfcWindowPanelOperationEnum() {}
 IfcWindowPanelOperationEnum::~IfcWindowPanelOperationEnum() {}
-shared_ptr<IfcPPObject> IfcWindowPanelOperationEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcWindowPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowPanelOperationEnum> copy_self( new IfcWindowPanelOperationEnum() );
 	copy_self->m_enum = m_enum;
@@ -61,7 +61,7 @@ const std::wstring IfcWindowPanelOperationEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcWindowPanelOperationEnum> IfcWindowPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcWindowPanelOperationEnum> IfcWindowPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }

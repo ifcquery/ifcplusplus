@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement2D.h"
@@ -19,7 +19,7 @@
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef() {}
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_entity_id = id; }
 IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() {}
-shared_ptr<IfcPPObject> IfcRoundedRectangleProfileDef::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRoundedRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoundedRectangleProfileDef> copy_self( new IfcRoundedRectangleProfileDef() );
 	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
@@ -48,10 +48,10 @@ void IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream ) con
 }
 void IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRoundedRectangleProfileDef::toString() const { return L"IfcRoundedRectangleProfileDef"; }
-void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRoundedRectangleProfileDef, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRoundedRectangleProfileDef, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -59,16 +59,16 @@ void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::ws
 	m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map );
 	m_RoundingRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map );
 }
-void IfcRoundedRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRoundedRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRectangleProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RoundingRadius", m_RoundingRadius ) );
 }
-void IfcRoundedRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRoundedRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRectangleProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRoundedRectangleProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRoundedRectangleProfileDef::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRectangleProfileDef::setInverseCounterparts( ptr_self_entity );
 }

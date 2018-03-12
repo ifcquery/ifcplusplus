@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAssemblyPlaceEnum.h"
@@ -41,7 +41,7 @@
 IfcElementAssembly::IfcElementAssembly() {}
 IfcElementAssembly::IfcElementAssembly( int id ) { m_entity_id = id; }
 IfcElementAssembly::~IfcElementAssembly() {}
-shared_ptr<IfcPPObject> IfcElementAssembly::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcElementAssembly::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementAssembly> copy_self( new IfcElementAssembly() );
 	if( m_GlobalId )
@@ -90,10 +90,10 @@ void IfcElementAssembly::getStepLine( std::stringstream& stream ) const
 }
 void IfcElementAssembly::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElementAssembly::toString() const { return L"IfcElementAssembly"; }
-void IfcElementAssembly::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcElementAssembly::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElementAssembly, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElementAssembly, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -105,17 +105,17 @@ void IfcElementAssembly::readStepArguments( const std::vector<std::wstring>& arg
 	m_AssemblyPlace = IfcAssemblyPlaceEnum::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcElementAssemblyTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcElementAssembly::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcElementAssembly::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AssemblyPlace", m_AssemblyPlace ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcElementAssembly::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcElementAssembly::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcElement::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcElementAssembly::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcElementAssembly::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcElement::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBSplineCurveForm.h"
@@ -22,7 +22,7 @@
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots() {}
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_entity_id = id; }
 IfcRationalBSplineCurveWithKnots::~IfcRationalBSplineCurveWithKnots() {}
-shared_ptr<IfcPPObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRationalBSplineCurveWithKnots> copy_self( new IfcRationalBSplineCurveWithKnots() );
 	if( m_Degree ) { copy_self->m_Degree = dynamic_pointer_cast<IfcInteger>( m_Degree->getDeepCopy(options) ); }
@@ -88,10 +88,10 @@ void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) 
 }
 void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRationalBSplineCurveWithKnots::toString() const { return L"IfcRationalBSplineCurveWithKnots"; }
-void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineCurveWithKnots, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Degree = IfcInteger::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map );
@@ -102,21 +102,21 @@ void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[7], map );
 	readTypeOfRealList( args[8], m_WeightsData );
 }
-void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBSplineCurveWithKnots::getAttributes( vec_attributes );
 	if( m_WeightsData.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> WeightsData_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> WeightsData_vec_object( new AttributeObjectVector() );
 		std::copy( m_WeightsData.begin(), m_WeightsData.end(), std::back_inserter( WeightsData_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "WeightsData", WeightsData_vec_object ) );
 	}
 }
-void IfcRationalBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRationalBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBSplineCurveWithKnots::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRationalBSplineCurveWithKnots::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRationalBSplineCurveWithKnots::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBSplineCurveWithKnots::setInverseCounterparts( ptr_self_entity );
 }

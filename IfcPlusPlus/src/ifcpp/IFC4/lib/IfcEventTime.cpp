@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDataOriginEnum.h"
@@ -16,7 +16,7 @@
 IfcEventTime::IfcEventTime() {}
 IfcEventTime::IfcEventTime( int id ) { m_entity_id = id; }
 IfcEventTime::~IfcEventTime() {}
-shared_ptr<IfcPPObject> IfcEventTime::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcEventTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEventTime> copy_self( new IfcEventTime() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -48,10 +48,10 @@ void IfcEventTime::getStepLine( std::stringstream& stream ) const
 }
 void IfcEventTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEventTime::toString() const { return L"IfcEventTime"; }
-void IfcEventTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcEventTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEventTime, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEventTime, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -60,7 +60,7 @@ void IfcEventTime::readStepArguments( const std::vector<std::wstring>& args, con
 	m_LateDate = IfcDateTime::createObjectFromSTEP( args[5], map );
 	m_ScheduleDate = IfcDateTime::createObjectFromSTEP( args[6], map );
 }
-void IfcEventTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcEventTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ActualDate", m_ActualDate ) );
@@ -68,11 +68,11 @@ void IfcEventTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "LateDate", m_LateDate ) );
 	vec_attributes.push_back( std::make_pair( "ScheduleDate", m_ScheduleDate ) );
 }
-void IfcEventTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcEventTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcEventTime::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcEventTime::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSchedulingTime::setInverseCounterparts( ptr_self_entity );
 }

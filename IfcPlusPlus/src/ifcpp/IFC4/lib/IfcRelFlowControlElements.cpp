@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDistributionControlElement.h"
@@ -19,7 +19,7 @@
 IfcRelFlowControlElements::IfcRelFlowControlElements() {}
 IfcRelFlowControlElements::IfcRelFlowControlElements( int id ) { m_entity_id = id; }
 IfcRelFlowControlElements::~IfcRelFlowControlElements() {}
-shared_ptr<IfcPPObject> IfcRelFlowControlElements::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelFlowControlElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelFlowControlElements> copy_self( new IfcRelFlowControlElements() );
 	if( m_GlobalId )
@@ -63,10 +63,10 @@ void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelFlowControlElements::toString() const { return L"IfcRelFlowControlElements"; }
-void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelFlowControlElements, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -74,26 +74,26 @@ void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstrin
 	readEntityReferenceList( args[4], m_RelatedControlElements, map );
 	readEntityReference( args[5], m_RelatingFlowElement, map );
 }
-void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	if( m_RelatedControlElements.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedControlElements_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedControlElements_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedControlElements.begin(), m_RelatedControlElements.end(), std::back_inserter( RelatedControlElements_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingFlowElement", m_RelatingFlowElement ) );
 }
-void IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelFlowControlElements::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelFlowControlElements::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelFlowControlElements> ptr_self = dynamic_pointer_cast<IfcRelFlowControlElements>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelFlowControlElements::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelFlowControlElements::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedControlElements.size(); ++i )
 	{
 		if( m_RelatedControlElements[i] )

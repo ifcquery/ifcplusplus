@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -21,18 +21,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Material>
 #include <osgGA/GUIEventHandler>
 #include <boost/unordered_map.hpp>
-#include "ifcpp/model/IfcPPBasicTypes.h"
+#include "ifcpp/model/BasicTypes.h"
 
-class IfcPPModel;
-class IfcPPEntity;
-class IfcPPReaderSTEP;
-class IfcPPWriterSTEP;
+class BuildingModel;
+class BuildingEntity;
+class ReaderSTEP;
+class WriterSTEP;
 class GeometryConverter;
 class CommandManager;
 
 struct SelectedEntity 
 {
-	shared_ptr<IfcPPEntity>		m_entity;
+	shared_ptr<BuildingEntity>		m_entity;
 	osg::ref_ptr<osg::Group>	m_osg_group;
 	osg::ref_ptr<osg::Material> m_material_previous;
 	osg::ref_ptr<osg::Material> m_material_selected;
@@ -48,9 +48,10 @@ public:
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 	shared_ptr<GeometryConverter>	getGeometryConverter()	{ return m_geometry_converter; }
-	shared_ptr<IfcPPModel>&			getIfcModel()			{ return m_ifc_model; }
-	shared_ptr<IfcPPReaderSTEP>&	getIfcPPReader()		{ return m_step_reader; }
-	shared_ptr<IfcPPWriterSTEP>&	getIfcPPWriter()		{ return m_step_writer; }
+	shared_ptr<BuildingModel>&		getIfcModel()			{ return m_ifc_model; }
+	void setIfcModel( shared_ptr<BuildingModel>& model );
+	shared_ptr<ReaderSTEP>&	getModelReader()		{ return m_step_reader; }
+	shared_ptr<WriterSTEP>&	getModelWriter()		{ return m_step_writer; }
 	shared_ptr<CommandManager>		getCommandManager()		{ return m_command_manager; }
 	osg::Group*						getRootNode() { return m_rootnode; }
 	osg::Switch*					getModelNode() { return m_sw_model; }
@@ -59,7 +60,7 @@ public:
 	void toggleSceneLight();
 	void switchCurveRepresentation( osg::Group* grp, bool on_off );
 	
-	void setObjectSelected( shared_ptr<IfcPPEntity> object, bool selected, osg::Group* node = 0 );
+	void setObjectSelected( shared_ptr<BuildingEntity> object, bool selected, osg::Group* node = 0 );
 	const std::map<int, shared_ptr<SelectedEntity> >& getSelectedObjects() { return m_map_selected; }
 	void clearSelection();
 	void notifyModelCleared();
@@ -68,11 +69,11 @@ public:
 
 private:
 	shared_ptr<GeometryConverter>				m_geometry_converter;
-	shared_ptr<IfcPPReaderSTEP>					m_step_reader;
-	shared_ptr<IfcPPWriterSTEP>					m_step_writer;
+	shared_ptr<ReaderSTEP>						m_step_reader;
+	shared_ptr<WriterSTEP>						m_step_writer;
 	shared_ptr<CommandManager>					m_command_manager;
 	std::map<int, shared_ptr<SelectedEntity> >	m_map_selected;
-	shared_ptr<IfcPPModel>						m_ifc_model;
+	shared_ptr<BuildingModel>					m_ifc_model;
 	osg::ref_ptr<osg::Group>					m_rootnode;
 	osg::ref_ptr<osg::Switch>					m_sw_coord_axes;
 	osg::ref_ptr<osg::Switch>					m_sw_model;
@@ -82,8 +83,8 @@ private:
 	bool										m_show_curve_representation;
 
 signals:
-	void signalObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map_objects );
-	void signalObjectsUnselected( std::map<int, shared_ptr<IfcPPEntity> >& map_objects );
+	void signalObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >& map_objects );
+	void signalObjectsUnselected( std::map<int, shared_ptr<BuildingEntity> >& map_objects );
 	void signalModelCleared();
 	void signalModelLoadingStart();
 	void signalModelLoadingDone();

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -40,7 +40,7 @@
 IfcOpeningElement::IfcOpeningElement() {}
 IfcOpeningElement::IfcOpeningElement( int id ) { m_entity_id = id; }
 IfcOpeningElement::~IfcOpeningElement() {}
-shared_ptr<IfcPPObject> IfcOpeningElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcOpeningElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOpeningElement> copy_self( new IfcOpeningElement() );
 	if( m_GlobalId )
@@ -86,10 +86,10 @@ void IfcOpeningElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcOpeningElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOpeningElement::toString() const { return L"IfcOpeningElement"; }
-void IfcOpeningElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcOpeningElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOpeningElement, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOpeningElement, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -100,17 +100,17 @@ void IfcOpeningElement::readStepArguments( const std::vector<std::wstring>& args
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcOpeningElementTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcFeatureElementSubtraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcFeatureElementSubtraction::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasFillings_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasFillings_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasFillings_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasFillings_inverse.size(); ++i )
 		{
 			if( !m_HasFillings_inverse[i].expired() )
@@ -121,7 +121,7 @@ void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string,
 		vec_attributes_inverse.push_back( std::make_pair( "HasFillings_inverse", HasFillings_inverse_vec_obj ) );
 	}
 }
-void IfcOpeningElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcOpeningElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcFeatureElementSubtraction::setInverseCounterparts( ptr_self_entity );
 }

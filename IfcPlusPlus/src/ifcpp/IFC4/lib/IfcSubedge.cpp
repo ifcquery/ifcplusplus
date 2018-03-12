@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcEdge.h"
@@ -17,7 +17,7 @@
 IfcSubedge::IfcSubedge() {}
 IfcSubedge::IfcSubedge( int id ) { m_entity_id = id; }
 IfcSubedge::~IfcSubedge() {}
-shared_ptr<IfcPPObject> IfcSubedge::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSubedge::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSubedge> copy_self( new IfcSubedge() );
 	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
@@ -37,24 +37,24 @@ void IfcSubedge::getStepLine( std::stringstream& stream ) const
 }
 void IfcSubedge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSubedge::toString() const { return L"IfcSubedge"; }
-void IfcSubedge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSubedge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSubedge, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSubedge, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_ParentEdge, map );
 }
-void IfcSubedge::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSubedge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentEdge", m_ParentEdge ) );
 }
-void IfcSubedge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSubedge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcEdge::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSubedge::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSubedge::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcEdge::setInverseCounterparts( ptr_self_entity );
 }

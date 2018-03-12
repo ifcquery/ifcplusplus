@@ -4,29 +4,29 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
-class IFCPP_EXPORT IfcIdentifier;
-class IFCPP_EXPORT IfcLabel;
-class IFCPP_EXPORT IfcText;
-class IFCPP_EXPORT IfcUnit;
-class IFCPP_EXPORT IfcReference;
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
+class IFCQUERY_EXPORT IfcIdentifier;
+class IFCQUERY_EXPORT IfcLabel;
+class IFCQUERY_EXPORT IfcText;
+class IFCQUERY_EXPORT IfcUnit;
+class IFCQUERY_EXPORT IfcReference;
 //ENTITY
-class IFCPP_EXPORT IfcTableColumn : public IfcPPEntity
+class IFCQUERY_EXPORT IfcTableColumn : public BuildingEntity
 { 
 public:
 	IfcTableColumn();
 	IfcTableColumn( int id );
 	~IfcTableColumn();
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
-	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self );
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
+	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
 	virtual size_t getNumAttributes() { return 5; }
-	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
-	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
+	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
+	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
 	virtual void unlinkFromInverseCounterparts();
 	virtual const char* className() const { return "IfcTableColumn"; }
 	virtual const std::wstring toString() const;

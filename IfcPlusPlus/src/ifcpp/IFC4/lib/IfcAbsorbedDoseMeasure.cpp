@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcAbsorbedDoseMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure() {}
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure( double value ) { m_value = value; }
 IfcAbsorbedDoseMeasure::~IfcAbsorbedDoseMeasure() {}
-shared_ptr<IfcPPObject> IfcAbsorbedDoseMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAbsorbedDoseMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAbsorbedDoseMeasure> copy_self( new IfcAbsorbedDoseMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcAbsorbedDoseMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcAbsorbedDoseMeasure> IfcAbsorbedDoseMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcAbsorbedDoseMeasure> IfcAbsorbedDoseMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAbsorbedDoseMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAbsorbedDoseMeasure>(); }

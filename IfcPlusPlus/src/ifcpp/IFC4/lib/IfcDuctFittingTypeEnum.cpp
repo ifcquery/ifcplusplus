@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDuctFittingTypeEnum.h"
 
 // TYPE IfcDuctFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
 IfcDuctFittingTypeEnum::IfcDuctFittingTypeEnum() {}
 IfcDuctFittingTypeEnum::~IfcDuctFittingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDuctFittingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDuctFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctFittingTypeEnum> copy_self( new IfcDuctFittingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -51,7 +51,7 @@ const std::wstring IfcDuctFittingTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDuctFittingTypeEnum> IfcDuctFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDuctFittingTypeEnum> IfcDuctFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }

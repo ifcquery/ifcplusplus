@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -17,7 +17,7 @@
 IfcSphere::IfcSphere() {}
 IfcSphere::IfcSphere( int id ) { m_entity_id = id; }
 IfcSphere::~IfcSphere() {}
-shared_ptr<IfcPPObject> IfcSphere::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSphere::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSphere> copy_self( new IfcSphere() );
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
@@ -34,23 +34,23 @@ void IfcSphere::getStepLine( std::stringstream& stream ) const
 }
 void IfcSphere::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSphere::toString() const { return L"IfcSphere"; }
-void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphere, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSphere, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcSphere::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSphere::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
 }
-void IfcSphere::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSphere::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSphere::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSphere::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }

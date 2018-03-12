@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,9 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <map>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcpp/model/IfcPPOpenMP.h>
+#include <ifcpp/model/OpenMPIncludes.h>
 
 #include <QtCore/qglobal.h>
 #include <QWidget>
@@ -36,7 +36,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QTextEdit>
 
 class ViewerWidget;
-class IfcPPEntity;
+class BuildingEntity;
 class IfcPlusPlusSystem;
 
 class TabReadWrite : public QWidget
@@ -59,6 +59,8 @@ public slots:
 	void slotLoadIfcFile( QString& path );
 	void slotRecentFilesIndexChanged(int);
 	void updateRecentFilesCombo();
+
+	void slotLoadWallExample();
 	
 protected:
 	void keyPressEvent( QKeyEvent* event );
@@ -77,7 +79,7 @@ protected:
 	QSplitter*		m_io_splitter;
 	double			m_current_progress_value = 0;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	Mutex m_mutex_messages;
 #endif
 

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcUnitaryControlElementTypeEnum.h"
 
 // TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
 IfcUnitaryControlElementTypeEnum::IfcUnitaryControlElementTypeEnum() {}
 IfcUnitaryControlElementTypeEnum::~IfcUnitaryControlElementTypeEnum() {}
-shared_ptr<IfcPPObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -53,7 +53,7 @@ const std::wstring IfcUnitaryControlElementTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }

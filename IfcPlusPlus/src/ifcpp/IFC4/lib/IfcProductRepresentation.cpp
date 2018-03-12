@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcProductRepresentation::IfcProductRepresentation() {}
 IfcProductRepresentation::IfcProductRepresentation( int id ) { m_entity_id = id; }
 IfcProductRepresentation::~IfcProductRepresentation() {}
-shared_ptr<IfcPPObject> IfcProductRepresentation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcProductRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProductRepresentation> copy_self( new IfcProductRepresentation() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -43,32 +43,32 @@ void IfcProductRepresentation::getStepLine( std::stringstream& stream ) const
 }
 void IfcProductRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProductRepresentation::toString() const { return L"IfcProductRepresentation"; }
-void IfcProductRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcProductRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProductRepresentation, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProductRepresentation, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );
 }
-void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	if( m_Representations.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Representations_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Representations_vec_object( new AttributeObjectVector() );
 		std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Representations", Representations_vec_object ) );
 	}
 }
-void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcProductRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcProductRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcProductRepresentation> ptr_self = dynamic_pointer_cast<IfcProductRepresentation>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcProductRepresentation::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcProductRepresentation::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_Representations.size(); ++i )
 	{
 		if( m_Representations[i] )

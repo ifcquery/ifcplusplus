@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPerformanceHistoryTypeEnum.h"
 
 // TYPE IfcPerformanceHistoryTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcPerformanceHistoryTypeEnum::IfcPerformanceHistoryTypeEnum() {}
 IfcPerformanceHistoryTypeEnum::~IfcPerformanceHistoryTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPerformanceHistoryTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPerformanceHistoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPerformanceHistoryTypeEnum> copy_self( new IfcPerformanceHistoryTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -37,7 +37,7 @@ const std::wstring IfcPerformanceHistoryTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcPerformanceHistoryTypeEnum> IfcPerformanceHistoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPerformanceHistoryTypeEnum> IfcPerformanceHistoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }

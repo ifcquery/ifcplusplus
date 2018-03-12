@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDirection.h"
@@ -16,7 +16,7 @@
 IfcDirection::IfcDirection() {}
 IfcDirection::IfcDirection( int id ) { m_entity_id = id; }
 IfcDirection::~IfcDirection() {}
-shared_ptr<IfcPPObject> IfcDirection::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDirection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDirection> copy_self( new IfcDirection() );
 	for( size_t ii=0; ii<m_DirectionRatios.size(); ++ii )
@@ -37,27 +37,27 @@ void IfcDirection::getStepLine( std::stringstream& stream ) const
 }
 void IfcDirection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDirection::toString() const { return L"IfcDirection"; }
-void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList( args[0], m_DirectionRatios );
 }
-void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	if( m_DirectionRatios.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> DirectionRatios_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> DirectionRatios_vec_object( new AttributeObjectVector() );
 		std::copy( m_DirectionRatios.begin(), m_DirectionRatios.end(), std::back_inserter( DirectionRatios_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_object ) );
 	}
 }
-void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcDirection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDirection::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSimplePropertyTemplateTypeEnum.h"
 
 // TYPE IfcSimplePropertyTemplateTypeEnum = ENUMERATION OF	(P_SINGLEVALUE	,P_ENUMERATEDVALUE	,P_BOUNDEDVALUE	,P_LISTVALUE	,P_TABLEVALUE	,P_REFERENCEVALUE	,Q_LENGTH	,Q_AREA	,Q_VOLUME	,Q_COUNT	,Q_WEIGHT	,Q_TIME);
 IfcSimplePropertyTemplateTypeEnum::IfcSimplePropertyTemplateTypeEnum() {}
 IfcSimplePropertyTemplateTypeEnum::~IfcSimplePropertyTemplateTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSimplePropertyTemplateTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSimplePropertyTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSimplePropertyTemplateTypeEnum> copy_self( new IfcSimplePropertyTemplateTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -57,7 +57,7 @@ const std::wstring IfcSimplePropertyTemplateTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcSimplePropertyTemplateTypeEnum> IfcSimplePropertyTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSimplePropertyTemplateTypeEnum> IfcSimplePropertyTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }

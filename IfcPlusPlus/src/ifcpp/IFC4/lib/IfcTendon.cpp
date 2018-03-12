@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAreaMeasure.h"
@@ -45,7 +45,7 @@
 IfcTendon::IfcTendon() {}
 IfcTendon::IfcTendon( int id ) { m_entity_id = id; }
 IfcTendon::~IfcTendon() {}
-shared_ptr<IfcPPObject> IfcTendon::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTendon::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendon> copy_self( new IfcTendon() );
 	if( m_GlobalId )
@@ -115,10 +115,10 @@ void IfcTendon::getStepLine( std::stringstream& stream ) const
 }
 void IfcTendon::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTendon::toString() const { return L"IfcTendon"; }
-void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTendon, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTendon, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -137,7 +137,7 @@ void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_AnchorageSlip = IfcPositiveLengthMeasure::createObjectFromSTEP( args[15], map );
 	m_MinCurvatureRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[16], map );
 }
-void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -149,11 +149,11 @@ void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<Ifc
 	vec_attributes.push_back( std::make_pair( "AnchorageSlip", m_AnchorageSlip ) );
 	vec_attributes.push_back( std::make_pair( "MinCurvatureRadius", m_MinCurvatureRadius ) );
 }
-void IfcTendon::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTendon::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTendon::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTendon::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcReinforcingElement::setInverseCounterparts( ptr_self_entity );
 }

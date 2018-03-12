@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcLuminousIntensityDistributionMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcLuminousIntensityDistributionMeasure::IfcLuminousIntensityDistributionMeasure() {}
 IfcLuminousIntensityDistributionMeasure::IfcLuminousIntensityDistributionMeasure( double value ) { m_value = value; }
 IfcLuminousIntensityDistributionMeasure::~IfcLuminousIntensityDistributionMeasure() {}
-shared_ptr<IfcPPObject> IfcLuminousIntensityDistributionMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLuminousIntensityDistributionMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLuminousIntensityDistributionMeasure> copy_self( new IfcLuminousIntensityDistributionMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcLuminousIntensityDistributionMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcLuminousIntensityDistributionMeasure> IfcLuminousIntensityDistributionMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLuminousIntensityDistributionMeasure> IfcLuminousIntensityDistributionMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLuminousIntensityDistributionMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLuminousIntensityDistributionMeasure>(); }

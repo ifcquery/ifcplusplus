@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAddress.h"
@@ -18,7 +18,7 @@
 IfcAddress::IfcAddress() {}
 IfcAddress::IfcAddress( int id ) { m_entity_id = id; }
 IfcAddress::~IfcAddress() {}
-shared_ptr<IfcPPObject> IfcAddress::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAddress> copy_self( new IfcAddress() );
 	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
@@ -38,25 +38,25 @@ void IfcAddress::getStepLine( std::stringstream& stream ) const
 }
 void IfcAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAddress::toString() const { return L"IfcAddress"; }
-void IfcAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAddress, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAddress, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedPurpose", m_UserDefinedPurpose ) );
 }
-void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_OfPerson_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> OfPerson_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> OfPerson_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
 		{
 			if( !m_OfPerson_inverse[i].expired() )
@@ -68,7 +68,7 @@ void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared
 	}
 	if( m_OfOrganization_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> OfOrganization_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> OfOrganization_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
 		{
 			if( !m_OfOrganization_inverse[i].expired() )
@@ -79,7 +79,7 @@ void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared
 		vec_attributes_inverse.push_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
 	}
 }
-void IfcAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcAddress::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcAddress::unlinkFromInverseCounterparts()

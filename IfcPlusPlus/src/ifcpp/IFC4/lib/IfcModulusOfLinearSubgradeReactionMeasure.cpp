@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcModulusOfTranslationalSubgradeReactionSelect.h"
 #include "ifcpp/IFC4/include/IfcModulusOfLinearSubgradeReactionMeasure.h"
@@ -15,7 +15,7 @@
 IfcModulusOfLinearSubgradeReactionMeasure::IfcModulusOfLinearSubgradeReactionMeasure() {}
 IfcModulusOfLinearSubgradeReactionMeasure::IfcModulusOfLinearSubgradeReactionMeasure( double value ) { m_value = value; }
 IfcModulusOfLinearSubgradeReactionMeasure::~IfcModulusOfLinearSubgradeReactionMeasure() {}
-shared_ptr<IfcPPObject> IfcModulusOfLinearSubgradeReactionMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcModulusOfLinearSubgradeReactionMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> copy_self( new IfcModulusOfLinearSubgradeReactionMeasure() );
 	copy_self->m_value = m_value;
@@ -33,7 +33,7 @@ const std::wstring IfcModulusOfLinearSubgradeReactionMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> IfcModulusOfLinearSubgradeReactionMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> IfcModulusOfLinearSubgradeReactionMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure>(); }

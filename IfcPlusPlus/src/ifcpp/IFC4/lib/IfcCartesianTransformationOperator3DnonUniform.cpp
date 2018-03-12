@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
@@ -18,7 +18,7 @@
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform() {}
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform( int id ) { m_entity_id = id; }
 IfcCartesianTransformationOperator3DnonUniform::~IfcCartesianTransformationOperator3DnonUniform() {}
-shared_ptr<IfcPPObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator3DnonUniform> copy_self( new IfcCartesianTransformationOperator3DnonUniform() );
 	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
@@ -50,10 +50,10 @@ void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstr
 }
 void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator3DnonUniform::toString() const { return L"IfcCartesianTransformationOperator3DnonUniform"; }
-void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
@@ -62,17 +62,17 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 	m_Scale2 = IfcReal::createObjectFromSTEP( args[5], map );
 	m_Scale3 = IfcReal::createObjectFromSTEP( args[6], map );
 }
-void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Scale2", m_Scale2 ) );
 	vec_attributes.push_back( std::make_pair( "Scale3", m_Scale3 ) );
 }
-void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCartesianTransformationOperator3D::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCartesianTransformationOperator3DnonUniform::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCartesianTransformationOperator3DnonUniform::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCartesianTransformationOperator3D::setInverseCounterparts( ptr_self_entity );
 }

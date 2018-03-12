@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -32,7 +32,7 @@
 IfcTask::IfcTask() {}
 IfcTask::IfcTask( int id ) { m_entity_id = id; }
 IfcTask::~IfcTask() {}
-shared_ptr<IfcPPObject> IfcTask::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTask::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTask> copy_self( new IfcTask() );
 	if( m_GlobalId )
@@ -90,10 +90,10 @@ void IfcTask::getStepLine( std::stringstream& stream ) const
 }
 void IfcTask::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTask::toString() const { return L"IfcTask"; }
-void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTask, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTask, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -108,7 +108,7 @@ void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const st
 	readEntityReference( args[11], m_TaskTime, map );
 	m_PredefinedType = IfcTaskTypeEnum::createObjectFromSTEP( args[12], map );
 }
-void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
@@ -118,11 +118,11 @@ void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPP
 	vec_attributes.push_back( std::make_pair( "TaskTime", m_TaskTime ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcTask::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTask::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProcess::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTask::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTask::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProcess::setInverseCounterparts( ptr_self_entity );
 }

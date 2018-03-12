@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcLinearVelocityMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcLinearVelocityMeasure::IfcLinearVelocityMeasure() {}
 IfcLinearVelocityMeasure::IfcLinearVelocityMeasure( double value ) { m_value = value; }
 IfcLinearVelocityMeasure::~IfcLinearVelocityMeasure() {}
-shared_ptr<IfcPPObject> IfcLinearVelocityMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLinearVelocityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearVelocityMeasure> copy_self( new IfcLinearVelocityMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcLinearVelocityMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcLinearVelocityMeasure> IfcLinearVelocityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLinearVelocityMeasure> IfcLinearVelocityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearVelocityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearVelocityMeasure>(); }

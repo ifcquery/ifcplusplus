@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDoorLiningProperties.h"
@@ -26,7 +26,7 @@
 IfcDoorLiningProperties::IfcDoorLiningProperties() {}
 IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_entity_id = id; }
 IfcDoorLiningProperties::~IfcDoorLiningProperties() {}
-shared_ptr<IfcPPObject> IfcDoorLiningProperties::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDoorLiningProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorLiningProperties> copy_self( new IfcDoorLiningProperties() );
 	if( m_GlobalId )
@@ -96,10 +96,10 @@ void IfcDoorLiningProperties::getStepLine( std::stringstream& stream ) const
 }
 void IfcDoorLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDoorLiningProperties::toString() const { return L"IfcDoorLiningProperties"; }
-void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorLiningProperties, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorLiningProperties, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -118,7 +118,7 @@ void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>
 	m_LiningToPanelOffsetX = IfcLengthMeasure::createObjectFromSTEP( args[15], map );
 	m_LiningToPanelOffsetY = IfcLengthMeasure::createObjectFromSTEP( args[16], map );
 }
-void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
@@ -135,11 +135,11 @@ void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
 	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
 }
-void IfcDoorLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDoorLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcDoorLiningProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDoorLiningProperties::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPreDefinedPropertySet::setInverseCounterparts( ptr_self_entity );
 }

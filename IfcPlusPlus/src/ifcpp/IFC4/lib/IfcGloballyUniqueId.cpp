@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 
 // TYPE IfcGloballyUniqueId = STRING(22) FIXED;
 IfcGloballyUniqueId::IfcGloballyUniqueId() {}
 IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
 IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
-shared_ptr<IfcPPObject> IfcGloballyUniqueId::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGloballyUniqueId::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGloballyUniqueId> copy_self( new IfcGloballyUniqueId() );
 	copy_self->m_value = m_value;
@@ -29,7 +29,7 @@ const std::wstring IfcGloballyUniqueId::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }

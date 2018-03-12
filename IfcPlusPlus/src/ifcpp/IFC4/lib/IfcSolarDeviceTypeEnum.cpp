@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSolarDeviceTypeEnum.h"
 
 // TYPE IfcSolarDeviceTypeEnum = ENUMERATION OF	(SOLARCOLLECTOR	,SOLARPANEL	,USERDEFINED	,NOTDEFINED);
 IfcSolarDeviceTypeEnum::IfcSolarDeviceTypeEnum() {}
 IfcSolarDeviceTypeEnum::~IfcSolarDeviceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSolarDeviceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSolarDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolarDeviceTypeEnum> copy_self( new IfcSolarDeviceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -41,7 +41,7 @@ const std::wstring IfcSolarDeviceTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }

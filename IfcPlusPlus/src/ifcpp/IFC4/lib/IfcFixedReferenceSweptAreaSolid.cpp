@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -20,7 +20,7 @@
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid() {}
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_entity_id = id; }
 IfcFixedReferenceSweptAreaSolid::~IfcFixedReferenceSweptAreaSolid() {}
-shared_ptr<IfcPPObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFixedReferenceSweptAreaSolid> copy_self( new IfcFixedReferenceSweptAreaSolid() );
 	if( m_SweptArea )
@@ -53,10 +53,10 @@ void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) c
 }
 void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFixedReferenceSweptAreaSolid::toString() const { return L"IfcFixedReferenceSweptAreaSolid"; }
-void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Directrix, map );
@@ -64,7 +64,7 @@ void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::
 	m_EndParam = IfcParameterValue::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_FixedReference, map );
 }
-void IfcFixedReferenceSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcFixedReferenceSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Directrix", m_Directrix ) );
@@ -72,11 +72,11 @@ void IfcFixedReferenceSweptAreaSolid::getAttributes( std::vector<std::pair<std::
 	vec_attributes.push_back( std::make_pair( "EndParam", m_EndParam ) );
 	vec_attributes.push_back( std::make_pair( "FixedReference", m_FixedReference ) );
 }
-void IfcFixedReferenceSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcFixedReferenceSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcFixedReferenceSweptAreaSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcFixedReferenceSweptAreaSolid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSweptAreaSolid::setInverseCounterparts( ptr_self_entity );
 }

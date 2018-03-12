@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcElementQuantity.h"
@@ -23,7 +23,7 @@
 IfcElementQuantity::IfcElementQuantity() {}
 IfcElementQuantity::IfcElementQuantity( int id ) { m_entity_id = id; }
 IfcElementQuantity::~IfcElementQuantity() {}
-shared_ptr<IfcPPObject> IfcElementQuantity::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcElementQuantity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementQuantity> copy_self( new IfcElementQuantity() );
 	if( m_GlobalId )
@@ -67,10 +67,10 @@ void IfcElementQuantity::getStepLine( std::stringstream& stream ) const
 }
 void IfcElementQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElementQuantity::toString() const { return L"IfcElementQuantity"; }
-void IfcElementQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcElementQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElementQuantity, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcElementQuantity, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -78,22 +78,22 @@ void IfcElementQuantity::readStepArguments( const std::vector<std::wstring>& arg
 	m_MethodOfMeasurement = IfcLabel::createObjectFromSTEP( args[4], map );
 	readEntityReferenceList( args[5], m_Quantities, map );
 }
-void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcQuantitySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MethodOfMeasurement", m_MethodOfMeasurement ) );
 	if( m_Quantities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Quantities_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Quantities_vec_object( new AttributeObjectVector() );
 		std::copy( m_Quantities.begin(), m_Quantities.end(), std::back_inserter( Quantities_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Quantities", Quantities_vec_object ) );
 	}
 }
-void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcQuantitySet::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcElementQuantity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcElementQuantity::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcQuantitySet::setInverseCounterparts( ptr_self_entity );
 }

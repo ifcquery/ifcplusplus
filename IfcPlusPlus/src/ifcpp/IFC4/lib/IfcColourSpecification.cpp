@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcColourSpecification.h"
@@ -14,7 +14,7 @@
 IfcColourSpecification::IfcColourSpecification() {}
 IfcColourSpecification::IfcColourSpecification( int id ) { m_entity_id = id; }
 IfcColourSpecification::~IfcColourSpecification() {}
-shared_ptr<IfcPPObject> IfcColourSpecification::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcColourSpecification::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColourSpecification> copy_self( new IfcColourSpecification() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -28,22 +28,22 @@ void IfcColourSpecification::getStepLine( std::stringstream& stream ) const
 }
 void IfcColourSpecification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcColourSpecification::toString() const { return L"IfcColourSpecification"; }
-void IfcColourSpecification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcColourSpecification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourSpecification, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourSpecification, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 }
-void IfcColourSpecification::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcColourSpecification::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
-void IfcColourSpecification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcColourSpecification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcColourSpecification::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcColourSpecification::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCompositeCurve.h"
@@ -17,7 +17,7 @@
 IfcCompositeCurve::IfcCompositeCurve() {}
 IfcCompositeCurve::IfcCompositeCurve( int id ) { m_entity_id = id; }
 IfcCompositeCurve::~IfcCompositeCurve() {}
-shared_ptr<IfcPPObject> IfcCompositeCurve::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCompositeCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompositeCurve> copy_self( new IfcCompositeCurve() );
 	for( size_t ii=0; ii<m_Segments.size(); ++ii )
@@ -41,33 +41,33 @@ void IfcCompositeCurve::getStepLine( std::stringstream& stream ) const
 }
 void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeCurve::toString() const { return L"IfcCompositeCurve"; }
-void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[1], map );
 }
-void IfcCompositeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCompositeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	if( m_Segments.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Segments_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
 		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Segments", Segments_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
-void IfcCompositeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCompositeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCompositeCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCompositeCurve::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBoundedCurve::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcCompositeCurve> ptr_self = dynamic_pointer_cast<IfcCompositeCurve>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcCompositeCurve::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcCompositeCurve::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_Segments.size(); ++i )
 	{
 		if( m_Segments[i] )

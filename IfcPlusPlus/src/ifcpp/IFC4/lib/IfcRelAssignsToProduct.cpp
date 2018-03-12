@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -22,7 +22,7 @@
 IfcRelAssignsToProduct::IfcRelAssignsToProduct() {}
 IfcRelAssignsToProduct::IfcRelAssignsToProduct( int id ) { m_entity_id = id; }
 IfcRelAssignsToProduct::~IfcRelAssignsToProduct() {}
-shared_ptr<IfcPPObject> IfcRelAssignsToProduct::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToProduct> copy_self( new IfcRelAssignsToProduct() );
 	if( m_GlobalId )
@@ -69,10 +69,10 @@ void IfcRelAssignsToProduct::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAssignsToProduct::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToProduct::toString() const { return L"IfcRelAssignsToProduct"; }
-void IfcRelAssignsToProduct::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAssignsToProduct::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToProduct, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToProduct, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -81,20 +81,20 @@ void IfcRelAssignsToProduct::readStepArguments( const std::vector<std::wstring>&
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 	m_RelatingProduct = IfcProductSelect::createObjectFromSTEP( args[6], map );
 }
-void IfcRelAssignsToProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAssignsToProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingProduct", m_RelatingProduct ) );
 }
-void IfcRelAssignsToProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAssignsToProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAssignsToProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelAssigns::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAssignsToProduct> ptr_self = dynamic_pointer_cast<IfcRelAssignsToProduct>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAssignsToProduct::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToProduct::setInverseCounterparts: type mismatch" ); }
 	shared_ptr<IfcProduct>  RelatingProduct_IfcProduct = dynamic_pointer_cast<IfcProduct>( m_RelatingProduct );
 	if( RelatingProduct_IfcProduct )
 	{

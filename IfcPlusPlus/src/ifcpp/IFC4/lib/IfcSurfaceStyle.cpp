@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcSurfaceStyle::IfcSurfaceStyle() {}
 IfcSurfaceStyle::IfcSurfaceStyle( int id ) { m_entity_id = id; }
 IfcSurfaceStyle::~IfcSurfaceStyle() {}
-shared_ptr<IfcPPObject> IfcSurfaceStyle::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSurfaceStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyle> copy_self( new IfcSurfaceStyle() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -60,30 +60,30 @@ void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 }
 void IfcSurfaceStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyle::toString() const { return L"IfcSurfaceStyle"; }
-void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Side = IfcSurfaceSide::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_Styles, map );
 }
-void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Side", m_Side ) );
 	if( m_Styles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Styles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
 	}
 }
-void IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSurfaceStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSurfaceStyle::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationStyle::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCurve.h"
@@ -18,7 +18,7 @@
 IfcSweptDiskSolid::IfcSweptDiskSolid() {}
 IfcSweptDiskSolid::IfcSweptDiskSolid( int id ) { m_entity_id = id; }
 IfcSweptDiskSolid::~IfcSweptDiskSolid() {}
-shared_ptr<IfcPPObject> IfcSweptDiskSolid::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSweptDiskSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSweptDiskSolid> copy_self( new IfcSweptDiskSolid() );
 	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
@@ -44,17 +44,17 @@ void IfcSweptDiskSolid::getStepLine( std::stringstream& stream ) const
 }
 void IfcSweptDiskSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptDiskSolid::toString() const { return L"IfcSweptDiskSolid"; }
-void IfcSweptDiskSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSweptDiskSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolid, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolid, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Directrix, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_InnerRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 	m_StartParam = IfcParameterValue::createObjectFromSTEP( args[3], map );
 	m_EndParam = IfcParameterValue::createObjectFromSTEP( args[4], map );
 }
-void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSolidModel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Directrix", m_Directrix ) );
@@ -63,11 +63,11 @@ void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared
 	vec_attributes.push_back( std::make_pair( "StartParam", m_StartParam ) );
 	vec_attributes.push_back( std::make_pair( "EndParam", m_EndParam ) );
 }
-void IfcSweptDiskSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSweptDiskSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSolidModel::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSweptDiskSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSweptDiskSolid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSolidModel::setInverseCounterparts( ptr_self_entity );
 }

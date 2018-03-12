@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcReinforcingBarRoleEnum.h"
 
 // TYPE IfcReinforcingBarRoleEnum = ENUMERATION OF	(MAIN	,SHEAR	,LIGATURE	,STUD	,PUNCHING	,EDGE	,RING	,ANCHORING	,USERDEFINED	,NOTDEFINED);
 IfcReinforcingBarRoleEnum::IfcReinforcingBarRoleEnum() {}
 IfcReinforcingBarRoleEnum::~IfcReinforcingBarRoleEnum() {}
-shared_ptr<IfcPPObject> IfcReinforcingBarRoleEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcReinforcingBarRoleEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarRoleEnum> copy_self( new IfcReinforcingBarRoleEnum() );
 	copy_self->m_enum = m_enum;
@@ -53,7 +53,7 @@ const std::wstring IfcReinforcingBarRoleEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcReinforcingBarRoleEnum> IfcReinforcingBarRoleEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcReinforcingBarRoleEnum> IfcReinforcingBarRoleEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }

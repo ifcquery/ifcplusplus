@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -19,8 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <ifcpp/geometry/GeometryException.h>
 #include <ifcpp/geometry/Carve/GeomDebugDump.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingException.h>
 #include <ifcpp/model/StatusCallback.h>
 
 #include "IncludeCarveHeaders.h"
@@ -286,7 +286,7 @@ namespace CSG_Adapter
 					}
 					if( !e->rev )
 					{
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 						std::vector<face_t*> vec_faces;
 						vec_faces.push_back( face );
 						GeomDebugDump::dumpFaces( meshset, vec_faces );
@@ -349,7 +349,7 @@ namespace CSG_Adapter
 		}
 		return true;
 	}
-	inline bool checkMeshSetValidAndClosed( const shared_ptr<meshset_t> mesh_set, StatusCallback* report_callback, IfcPPEntity* entity )
+	inline bool checkMeshSetValidAndClosed( const shared_ptr<meshset_t> mesh_set, StatusCallback* report_callback, BuildingEntity* entity )
 	{
 		if( !mesh_set )
 		{
@@ -428,7 +428,7 @@ namespace CSG_Adapter
 		return true;
 	}
 
-	inline bool checkMeshSetVolume( const shared_ptr<meshset_t> mesh_set, StatusCallback* report_callback, IfcPPEntity* entity )
+	inline bool checkMeshSetVolume( const shared_ptr<meshset_t> mesh_set, StatusCallback* report_callback, BuildingEntity* entity )
 	{
 		if( !mesh_set )
 		{
@@ -697,7 +697,7 @@ namespace CSG_Adapter
 		meshset.reset();
 		meshset = shared_ptr<meshset_t >( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 	}
-	inline void simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate, StatusCallback* report_callback, IfcPPEntity* entity )
+	inline void simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate, StatusCallback* report_callback, BuildingEntity* entity )
 	{
 		carve::mesh::MeshSimplifier simplifier;
 		//double min_colinearity = m_geom_settings->m_min_colinearity;
@@ -812,7 +812,7 @@ namespace CSG_Adapter
 		bool simplified_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !simplified_meshset_ok )
 		{
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			std::cout << err_simplified.str().c_str() << std::endl;
 			GeomDebugDump::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
@@ -831,7 +831,7 @@ namespace CSG_Adapter
 		bool retriangulated_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !retriangulated_meshset_ok )
 		{
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			std::cout << err_retriangulated.str().c_str() << std::endl;
 
 			shared_ptr<meshset_t > meshset_pre_triang( meshset_copy->clone() );
@@ -855,7 +855,7 @@ namespace CSG_Adapter
 #endif
 	}
 
-	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, shared_ptr<meshset_t >& result, StatusCallback* report_callback, IfcPPEntity* entity )
+	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, shared_ptr<meshset_t >& result, StatusCallback* report_callback, BuildingEntity* entity )
 	{
 		if( !op1 || !op2 )
 		{
@@ -880,7 +880,7 @@ namespace CSG_Adapter
 				{
 					result = op2;
 				}
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op1, color, true );
 #endif
@@ -897,7 +897,7 @@ namespace CSG_Adapter
 				{
 					result = op1;
 				}
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op2, color, true );
 #endif
@@ -962,7 +962,7 @@ namespace CSG_Adapter
 				{
 					result = op2;
 				}
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op1, color, true );
 #endif
@@ -979,7 +979,7 @@ namespace CSG_Adapter
 				{
 					result = op1;
 				}
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op2, color, true );
 #endif
@@ -1062,7 +1062,7 @@ namespace CSG_Adapter
 
 		if( strs_err.tellp() > 0 )
 		{
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 
 			shared_ptr<meshset_t > op1_copy( op1->clone() );
 			

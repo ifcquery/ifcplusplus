@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDayInWeekNumber.h"
 
 // TYPE IfcDayInWeekNumber = INTEGER;
 IfcDayInWeekNumber::IfcDayInWeekNumber() {}
 IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
 IfcDayInWeekNumber::~IfcDayInWeekNumber() {}
-shared_ptr<IfcPPObject> IfcDayInWeekNumber::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDayInWeekNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );
 	copy_self->m_value = m_value;
@@ -31,7 +31,7 @@ const std::wstring IfcDayInWeekNumber::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcDayInWeekNumber> IfcDayInWeekNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDayInWeekNumber> IfcDayInWeekNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDistributionPortTypeEnum.h"
 
 // TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
 IfcDistributionPortTypeEnum::IfcDistributionPortTypeEnum() {}
 IfcDistributionPortTypeEnum::~IfcDistributionPortTypeEnum() {}
-shared_ptr<IfcPPObject> IfcDistributionPortTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDistributionPortTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionPortTypeEnum> copy_self( new IfcDistributionPortTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcDistributionPortTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }

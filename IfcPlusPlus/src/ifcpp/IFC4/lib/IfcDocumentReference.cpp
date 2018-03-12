@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDocumentInformation.h"
@@ -20,7 +20,7 @@
 IfcDocumentReference::IfcDocumentReference() {}
 IfcDocumentReference::IfcDocumentReference( int id ) { m_entity_id = id; }
 IfcDocumentReference::~IfcDocumentReference() {}
-shared_ptr<IfcPPObject> IfcDocumentReference::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDocumentReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentReference> copy_self( new IfcDocumentReference() );
 	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
@@ -46,28 +46,28 @@ void IfcDocumentReference::getStepLine( std::stringstream& stream ) const
 }
 void IfcDocumentReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDocumentReference::toString() const { return L"IfcDocumentReference"; }
-void IfcDocumentReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDocumentReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentReference, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentReference, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_ReferencedDocument, map );
 }
-void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcExternalReference::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "ReferencedDocument", m_ReferencedDocument ) );
 }
-void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 	if( m_DocumentRefForObjects_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
 		{
 			if( !m_DocumentRefForObjects_inverse[i].expired() )
@@ -78,11 +78,11 @@ void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::stri
 		vec_attributes_inverse.push_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 	}
 }
-void IfcDocumentReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDocumentReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcExternalReference::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcDocumentReference> ptr_self = dynamic_pointer_cast<IfcDocumentReference>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcDocumentReference::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcDocumentReference::setInverseCounterparts: type mismatch" ); }
 	if( m_ReferencedDocument )
 	{
 		m_ReferencedDocument->m_HasDocumentReferences_inverse.push_back( ptr_self );

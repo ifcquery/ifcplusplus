@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -18,7 +18,7 @@
 IfcGridAxis::IfcGridAxis() {}
 IfcGridAxis::IfcGridAxis( int id ) { m_entity_id = id; }
 IfcGridAxis::~IfcGridAxis() {}
-shared_ptr<IfcPPObject> IfcGridAxis::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGridAxis::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGridAxis> copy_self( new IfcGridAxis() );
 	if( m_AxisTag ) { copy_self->m_AxisTag = dynamic_pointer_cast<IfcLabel>( m_AxisTag->getDeepCopy(options) ); }
@@ -38,25 +38,25 @@ void IfcGridAxis::getStepLine( std::stringstream& stream ) const
 }
 void IfcGridAxis::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGridAxis::toString() const { return L"IfcGridAxis"; }
-void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridAxis, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_AxisTag = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_AxisCurve, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "AxisTag", m_AxisTag ) );
 	vec_attributes.push_back( std::make_pair( "AxisCurve", m_AxisCurve ) );
 	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 }
-void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_PartOfW_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfW_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfW_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfW_inverse.size(); ++i )
 		{
 			if( !m_PartOfW_inverse[i].expired() )
@@ -68,7 +68,7 @@ void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_PartOfV_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfV_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfV_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfV_inverse.size(); ++i )
 		{
 			if( !m_PartOfV_inverse[i].expired() )
@@ -80,7 +80,7 @@ void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_PartOfU_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfU_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfU_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfU_inverse.size(); ++i )
 		{
 			if( !m_PartOfU_inverse[i].expired() )
@@ -92,7 +92,7 @@ void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_HasIntersections_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasIntersections_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasIntersections_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasIntersections_inverse.size(); ++i )
 		{
 			if( !m_HasIntersections_inverse[i].expired() )
@@ -103,7 +103,7 @@ void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, share
 		vec_attributes_inverse.push_back( std::make_pair( "HasIntersections_inverse", HasIntersections_inverse_vec_obj ) );
 	}
 }
-void IfcGridAxis::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcGridAxis::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcGridAxis::unlinkFromInverseCounterparts()

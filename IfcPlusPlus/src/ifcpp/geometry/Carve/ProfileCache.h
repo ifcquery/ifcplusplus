@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,8 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <map>
-#include <ifcpp/model/IfcPPOpenMP.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/OpenMPIncludes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include "ProfileConverter.h"
 #include "CurveConverter.h"
@@ -32,7 +32,7 @@ protected:
 	shared_ptr<SplineConverter>					m_spline_converter;
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	Mutex m_writelock_profile_cache;
 #endif
 
@@ -62,7 +62,7 @@ public:
 		{
 			std::stringstream strs;
 			strs << "Entity ID is invalid, type: " << ifc_profile->className();
-			throw IfcPPException( strs.str().c_str(), __FUNC__ );
+			throw BuildingException( strs.str().c_str(), __FUNC__ );
 		}
 
 		auto it_profile_cache = m_profile_cache.find( profile_id );
@@ -74,11 +74,11 @@ public:
 		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_curve_converter, m_spline_converter ) );
 		if( !profile_converter )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 		profile_converter->computeProfile( ifc_profile );
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		ScopedLock lock( m_writelock_profile_cache );
 #endif
 		m_profile_cache[profile_id] = profile_converter;

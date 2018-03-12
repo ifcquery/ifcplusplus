@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcFootingTypeEnum.h"
 
 // TYPE IfcFootingTypeEnum = ENUMERATION OF	(CAISSON_FOUNDATION	,FOOTING_BEAM	,PAD_FOOTING	,PILE_CAP	,STRIP_FOOTING	,USERDEFINED	,NOTDEFINED);
 IfcFootingTypeEnum::IfcFootingTypeEnum() {}
 IfcFootingTypeEnum::~IfcFootingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFootingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFootingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFootingTypeEnum> copy_self( new IfcFootingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -47,7 +47,7 @@ const std::wstring IfcFootingTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }

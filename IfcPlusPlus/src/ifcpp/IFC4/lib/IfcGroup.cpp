@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -26,7 +26,7 @@
 IfcGroup::IfcGroup() {}
 IfcGroup::IfcGroup( int id ) { m_entity_id = id; }
 IfcGroup::~IfcGroup() {}
-shared_ptr<IfcPPObject> IfcGroup::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGroup> copy_self( new IfcGroup() );
 	if( m_GlobalId )
@@ -60,26 +60,26 @@ void IfcGroup::getStepLine( std::stringstream& stream ) const
 }
 void IfcGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGroup::toString() const { return L"IfcGroup"; }
-void IfcGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGroup, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGroup, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcObject::getAttributes( vec_attributes );
 }
-void IfcGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsGroupedBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsGroupedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsGroupedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsGroupedBy_inverse.size(); ++i )
 		{
 			if( !m_IsGroupedBy_inverse[i].expired() )
@@ -90,7 +90,7 @@ void IfcGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_p
 		vec_attributes_inverse.push_back( std::make_pair( "IsGroupedBy_inverse", IsGroupedBy_inverse_vec_obj ) );
 	}
 }
-void IfcGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcObject::setInverseCounterparts( ptr_self_entity );
 }

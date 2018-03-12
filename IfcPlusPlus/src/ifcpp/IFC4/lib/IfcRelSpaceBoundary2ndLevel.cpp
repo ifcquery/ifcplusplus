@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcConnectionGeometry.h"
@@ -23,7 +23,7 @@
 IfcRelSpaceBoundary2ndLevel::IfcRelSpaceBoundary2ndLevel() {}
 IfcRelSpaceBoundary2ndLevel::IfcRelSpaceBoundary2ndLevel( int id ) { m_entity_id = id; }
 IfcRelSpaceBoundary2ndLevel::~IfcRelSpaceBoundary2ndLevel() {}
-shared_ptr<IfcPPObject> IfcRelSpaceBoundary2ndLevel::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelSpaceBoundary2ndLevel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelSpaceBoundary2ndLevel> copy_self( new IfcRelSpaceBoundary2ndLevel() );
 	if( m_GlobalId )
@@ -75,10 +75,10 @@ void IfcRelSpaceBoundary2ndLevel::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelSpaceBoundary2ndLevel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelSpaceBoundary2ndLevel::toString() const { return L"IfcRelSpaceBoundary2ndLevel"; }
-void IfcRelSpaceBoundary2ndLevel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelSpaceBoundary2ndLevel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelSpaceBoundary2ndLevel, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelSpaceBoundary2ndLevel, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -91,17 +91,17 @@ void IfcRelSpaceBoundary2ndLevel::readStepArguments( const std::vector<std::wstr
 	readEntityReference( args[9], m_ParentBoundary, map );
 	readEntityReference( args[10], m_CorrespondingBoundary, map );
 }
-void IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelSpaceBoundary1stLevel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CorrespondingBoundary", m_CorrespondingBoundary ) );
 }
-void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelSpaceBoundary1stLevel::getAttributesInverse( vec_attributes_inverse );
 	if( m_Corresponds_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Corresponds_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Corresponds_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Corresponds_inverse.size(); ++i )
 		{
 			if( !m_Corresponds_inverse[i].expired() )
@@ -112,11 +112,11 @@ void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<st
 		vec_attributes_inverse.push_back( std::make_pair( "Corresponds_inverse", Corresponds_inverse_vec_obj ) );
 	}
 }
-void IfcRelSpaceBoundary2ndLevel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelSpaceBoundary2ndLevel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelSpaceBoundary1stLevel::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelSpaceBoundary2ndLevel> ptr_self = dynamic_pointer_cast<IfcRelSpaceBoundary2ndLevel>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelSpaceBoundary2ndLevel::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelSpaceBoundary2ndLevel::setInverseCounterparts: type mismatch" ); }
 	if( m_CorrespondingBoundary )
 	{
 		m_CorrespondingBoundary->m_Corresponds_inverse.push_back( ptr_self );

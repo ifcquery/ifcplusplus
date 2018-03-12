@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce() {}
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_entity_id = id; }
 IfcStructuralLoadLinearForce::~IfcStructuralLoadLinearForce() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadLinearForce::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralLoadLinearForce::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadLinearForce> copy_self( new IfcStructuralLoadLinearForce() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -48,10 +48,10 @@ void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) cons
 }
 void IfcStructuralLoadLinearForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadLinearForce::toString() const { return L"IfcStructuralLoadLinearForce"; }
-void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadLinearForce, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_LinearForceX = IfcLinearForceMeasure::createObjectFromSTEP( args[1], map );
 	m_LinearForceY = IfcLinearForceMeasure::createObjectFromSTEP( args[2], map );
@@ -60,7 +60,7 @@ void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wst
 	m_LinearMomentY = IfcLinearMomentMeasure::createObjectFromSTEP( args[5], map );
 	m_LinearMomentZ = IfcLinearMomentMeasure::createObjectFromSTEP( args[6], map );
 }
-void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LinearForceX", m_LinearForceX ) );
@@ -70,11 +70,11 @@ void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::str
 	vec_attributes.push_back( std::make_pair( "LinearMomentY", m_LinearMomentY ) );
 	vec_attributes.push_back( std::make_pair( "LinearMomentZ", m_LinearMomentZ ) );
 }
-void IfcStructuralLoadLinearForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadLinearForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcStructuralLoadStatic::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStructuralLoadLinearForce::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralLoadLinearForce::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcStructuralLoadStatic::setInverseCounterparts( ptr_self_entity );
 }

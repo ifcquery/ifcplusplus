@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCondenserTypeEnum.h"
 
 // TYPE IfcCondenserTypeEnum = ENUMERATION OF	(AIRCOOLED	,EVAPORATIVECOOLED	,WATERCOOLED	,WATERCOOLEDBRAZEDPLATE	,WATERCOOLEDSHELLCOIL	,WATERCOOLEDSHELLTUBE	,WATERCOOLEDTUBEINTUBE	,USERDEFINED	,NOTDEFINED);
 IfcCondenserTypeEnum::IfcCondenserTypeEnum() {}
 IfcCondenserTypeEnum::~IfcCondenserTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCondenserTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCondenserTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCondenserTypeEnum> copy_self( new IfcCondenserTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -51,7 +51,7 @@ const std::wstring IfcCondenserTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }

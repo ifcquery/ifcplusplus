@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,8 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <vector>
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingException.h>
 
 #include "IncludeCarveHeaders.h"
 
@@ -369,7 +369,7 @@ namespace GeomUtils
 		const double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y + line_direction.z*line_direction.z;
 		if( numer == 0.0 )
 		{
-			throw IfcPPException( "Line is degenerated: the line's direction vector is a null vector!", __FUNC__ );
+			throw BuildingException( "Line is degenerated: the line's direction vector is a null vector!", __FUNC__ );
 		}
 		const double lambda = denom / numer;
 		closest = carve::geom::VECTOR( line_origin.x + lambda*line_direction.x, line_origin.y + lambda*line_direction.y, line_origin.z + lambda*line_direction.z );
@@ -380,7 +380,7 @@ namespace GeomUtils
 		const double numer = line_direction.x*line_direction.x + line_direction.y*line_direction.y;
 		if( numer == 0.0 )
 		{
-			throw IfcPPException( "Line is degenerated: the line's direction vector is a null vector!", __FUNC__ );
+			throw BuildingException( "Line is degenerated: the line's direction vector is a null vector!", __FUNC__ );
 		}
 		const double lambda = denom / numer;
 		closest = carve::geom::VECTOR( line_origin.x + lambda*line_direction.x, line_origin.y + lambda*line_direction.y );
@@ -677,7 +677,7 @@ namespace GeomUtils
 
 		if( err_flag )
 		{
-			throw IfcPPException( "cannot compute inverse of matrix", __FUNC__ );
+			throw BuildingException( "cannot compute inverse of matrix", __FUNC__ );
 		}
 
 		inv._11 = a[0][4];

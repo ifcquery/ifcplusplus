@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcContext.h"
@@ -21,7 +21,7 @@
 IfcRelDeclares::IfcRelDeclares() {}
 IfcRelDeclares::IfcRelDeclares( int id ) { m_entity_id = id; }
 IfcRelDeclares::~IfcRelDeclares() {}
-shared_ptr<IfcPPObject> IfcRelDeclares::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelDeclares::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDeclares> copy_self( new IfcRelDeclares() );
 	if( m_GlobalId )
@@ -82,10 +82,10 @@ void IfcRelDeclares::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelDeclares::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDeclares::toString() const { return L"IfcRelDeclares"; }
-void IfcRelDeclares::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelDeclares::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDeclares, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDeclares, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -93,26 +93,26 @@ void IfcRelDeclares::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReference( args[4], m_RelatingContext, map );
 	readSelectList( args[5], m_RelatedDefinitions, map );
 }
-void IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingContext", m_RelatingContext ) );
 	if( m_RelatedDefinitions.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedDefinitions_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedDefinitions_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedDefinitions.begin(), m_RelatedDefinitions.end(), std::back_inserter( RelatedDefinitions_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedDefinitions", RelatedDefinitions_vec_object ) );
 	}
 }
-void IfcRelDeclares::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelDeclares::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelationship::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelDeclares::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelDeclares::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelDeclares> ptr_self = dynamic_pointer_cast<IfcRelDeclares>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelDeclares::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelDeclares::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedDefinitions.size(); ++i )
 	{
 		shared_ptr<IfcObjectDefinition>  RelatedDefinitions_IfcObjectDefinition = dynamic_pointer_cast<IfcObjectDefinition>( m_RelatedDefinitions[i] );

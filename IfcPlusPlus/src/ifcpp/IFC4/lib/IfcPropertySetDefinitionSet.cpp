@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPropertySetDefinitionSelect.h"
 #include "ifcpp/IFC4/include/IfcPropertySetDefinition.h"
 #include "ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h"
@@ -14,7 +14,7 @@
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
 IfcPropertySetDefinitionSet::IfcPropertySetDefinitionSet() {}
 IfcPropertySetDefinitionSet::~IfcPropertySetDefinitionSet() {}
-shared_ptr<IfcPPObject> IfcPropertySetDefinitionSet::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertySetDefinitionSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertySetDefinitionSet> copy_self( new IfcPropertySetDefinitionSet() );
 	for( size_t ii=0; ii<m_vec.size(); ++ii )
@@ -49,7 +49,7 @@ const std::wstring IfcPropertySetDefinitionSet::toString() const
 	}
 	return result_str; 
 }
-shared_ptr<IfcPropertySetDefinitionSet> IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPropertySetDefinitionSet> IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }

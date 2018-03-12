@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcGeometricProjectionEnum.h"
 
 // TYPE IfcGeometricProjectionEnum = ENUMERATION OF	(GRAPH_VIEW	,SKETCH_VIEW	,MODEL_VIEW	,PLAN_VIEW	,REFLECTED_PLAN_VIEW	,SECTION_VIEW	,ELEVATION_VIEW	,USERDEFINED	,NOTDEFINED);
 IfcGeometricProjectionEnum::IfcGeometricProjectionEnum() {}
 IfcGeometricProjectionEnum::~IfcGeometricProjectionEnum() {}
-shared_ptr<IfcPPObject> IfcGeometricProjectionEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGeometricProjectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricProjectionEnum> copy_self( new IfcGeometricProjectionEnum() );
 	copy_self->m_enum = m_enum;
@@ -51,7 +51,7 @@ const std::wstring IfcGeometricProjectionEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }

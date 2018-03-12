@@ -4,30 +4,30 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 #include "IfcMaterialUsageDefinition.h"
-class IFCPP_EXPORT IfcMaterialLayerSet;
-class IFCPP_EXPORT IfcLayerSetDirectionEnum;
-class IFCPP_EXPORT IfcDirectionSenseEnum;
-class IFCPP_EXPORT IfcLengthMeasure;
-class IFCPP_EXPORT IfcPositiveLengthMeasure;
+class IFCQUERY_EXPORT IfcMaterialLayerSet;
+class IFCQUERY_EXPORT IfcLayerSetDirectionEnum;
+class IFCQUERY_EXPORT IfcDirectionSenseEnum;
+class IFCQUERY_EXPORT IfcLengthMeasure;
+class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 //ENTITY
-class IFCPP_EXPORT IfcMaterialLayerSetUsage : public IfcMaterialUsageDefinition
+class IFCQUERY_EXPORT IfcMaterialLayerSetUsage : public IfcMaterialUsageDefinition
 { 
 public:
 	IfcMaterialLayerSetUsage();
 	IfcMaterialLayerSetUsage( int id );
 	~IfcMaterialLayerSetUsage();
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map );
-	virtual void setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self );
+	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
+	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
 	virtual size_t getNumAttributes() { return 5; }
-	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
-	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes );
+	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
+	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
 	virtual void unlinkFromInverseCounterparts();
 	virtual const char* className() const { return "IfcMaterialLayerSetUsage"; }
 	virtual const std::wstring toString() const;

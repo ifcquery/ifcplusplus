@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcClassification.h"
@@ -21,7 +21,7 @@
 IfcClassificationReference::IfcClassificationReference() {}
 IfcClassificationReference::IfcClassificationReference( int id ) { m_entity_id = id; }
 IfcClassificationReference::~IfcClassificationReference() {}
-shared_ptr<IfcPPObject> IfcClassificationReference::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcClassificationReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcClassificationReference> copy_self( new IfcClassificationReference() );
 	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
@@ -50,10 +50,10 @@ void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 }
 void IfcClassificationReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcClassificationReference::toString() const { return L"IfcClassificationReference"; }
-void IfcClassificationReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcClassificationReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassificationReference, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClassificationReference, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -61,19 +61,19 @@ void IfcClassificationReference::readStepArguments( const std::vector<std::wstri
 	m_Description = IfcText::createObjectFromSTEP( args[4], map );
 	m_Sort = IfcIdentifier::createObjectFromSTEP( args[5], map );
 }
-void IfcClassificationReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcClassificationReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcExternalReference::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ReferencedSource", m_ReferencedSource ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "Sort", m_Sort ) );
 }
-void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 	if( m_ClassificationRefForObjects_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ClassificationRefForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ClassificationRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ClassificationRefForObjects_inverse.size(); ++i )
 		{
 			if( !m_ClassificationRefForObjects_inverse[i].expired() )
@@ -85,7 +85,7 @@ void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std
 	}
 	if( m_HasReferences_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasReferences_inverse.size(); ++i )
 		{
 			if( !m_HasReferences_inverse[i].expired() )
@@ -96,11 +96,11 @@ void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std
 		vec_attributes_inverse.push_back( std::make_pair( "HasReferences_inverse", HasReferences_inverse_vec_obj ) );
 	}
 }
-void IfcClassificationReference::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcClassificationReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcExternalReference::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcClassificationReference> ptr_self = dynamic_pointer_cast<IfcClassificationReference>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcClassificationReference::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcClassificationReference::setInverseCounterparts: type mismatch" ); }
 	shared_ptr<IfcClassification>  ReferencedSource_IfcClassification = dynamic_pointer_cast<IfcClassification>( m_ReferencedSource );
 	if( ReferencedSource_IfcClassification )
 	{

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -19,7 +19,7 @@
 IfcTrimmedCurve::IfcTrimmedCurve() {}
 IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_entity_id = id; }
 IfcTrimmedCurve::~IfcTrimmedCurve() {}
-shared_ptr<IfcPPObject> IfcTrimmedCurve::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTrimmedCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTrimmedCurve> copy_self( new IfcTrimmedCurve() );
 	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy(options) ); }
@@ -93,40 +93,40 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 }
 void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTrimmedCurve::toString() const { return L"IfcTrimmedCurve"; }
-void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
 	readSelectList( args[1], m_Trim1, map );
 	readSelectList( args[2], m_Trim2, map );
 	m_SenseAgreement = IfcBoolean::createObjectFromSTEP( args[3], map );
 	m_MasterRepresentation = IfcTrimmingPreference::createObjectFromSTEP( args[4], map );
 }
-void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
 	if( m_Trim1.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Trim1_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Trim1_vec_object( new AttributeObjectVector() );
 		std::copy( m_Trim1.begin(), m_Trim1.end(), std::back_inserter( Trim1_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Trim1", Trim1_vec_object ) );
 	}
 	if( m_Trim2.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Trim2_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Trim2_vec_object( new AttributeObjectVector() );
 		std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Trim2", Trim2_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "SenseAgreement", m_SenseAgreement ) );
 	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
-void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTrimmedCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTrimmedCurve::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBoundedCurve::setInverseCounterparts( ptr_self_entity );
 }

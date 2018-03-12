@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLocalPlacement.h"
@@ -15,7 +15,7 @@
 IfcObjectPlacement::IfcObjectPlacement() {}
 IfcObjectPlacement::IfcObjectPlacement( int id ) { m_entity_id = id; }
 IfcObjectPlacement::~IfcObjectPlacement() {}
-shared_ptr<IfcPPObject> IfcObjectPlacement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcObjectPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectPlacement> copy_self( new IfcObjectPlacement() );
 	return copy_self;
@@ -27,17 +27,17 @@ void IfcObjectPlacement::getStepLine( std::stringstream& stream ) const
 }
 void IfcObjectPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcObjectPlacement::toString() const { return L"IfcObjectPlacement"; }
-void IfcObjectPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcObjectPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcObjectPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcObjectPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 }
-void IfcObjectPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcObjectPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_PlacesObject_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PlacesObject_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PlacesObject_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PlacesObject_inverse.size(); ++i )
 		{
 			if( !m_PlacesObject_inverse[i].expired() )
@@ -49,7 +49,7 @@ void IfcObjectPlacement::getAttributesInverse( std::vector<std::pair<std::string
 	}
 	if( m_ReferencedByPlacements_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ReferencedByPlacements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ReferencedByPlacements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencedByPlacements_inverse.size(); ++i )
 		{
 			if( !m_ReferencedByPlacements_inverse[i].expired() )
@@ -60,7 +60,7 @@ void IfcObjectPlacement::getAttributesInverse( std::vector<std::pair<std::string
 		vec_attributes_inverse.push_back( std::make_pair( "ReferencedByPlacements_inverse", ReferencedByPlacements_inverse_vec_obj ) );
 	}
 }
-void IfcObjectPlacement::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcObjectPlacement::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcObjectPlacement::unlinkFromInverseCounterparts()

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -18,7 +18,7 @@
 IfcRelAggregates::IfcRelAggregates() {}
 IfcRelAggregates::IfcRelAggregates( int id ) { m_entity_id = id; }
 IfcRelAggregates::~IfcRelAggregates() {}
-shared_ptr<IfcPPObject> IfcRelAggregates::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAggregates::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAggregates> copy_self( new IfcRelAggregates() );
 	if( m_GlobalId )
@@ -62,10 +62,10 @@ void IfcRelAggregates::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAggregates::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAggregates::toString() const { return L"IfcRelAggregates"; }
-void IfcRelAggregates::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAggregates::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAggregates, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAggregates, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -73,26 +73,26 @@ void IfcRelAggregates::readStepArguments( const std::vector<std::wstring>& args,
 	readEntityReference( args[4], m_RelatingObject, map );
 	readEntityReferenceList( args[5], m_RelatedObjects, map );
 }
-void IfcRelAggregates::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAggregates::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
 	if( m_RelatedObjects.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedObjects_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
 }
-void IfcRelAggregates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAggregates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelDecomposes::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAggregates::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAggregates::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelDecomposes::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAggregates> ptr_self = dynamic_pointer_cast<IfcRelAggregates>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAggregates::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAggregates::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		if( m_RelatedObjects[i] )

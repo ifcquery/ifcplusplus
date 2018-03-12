@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcPoint.h"
@@ -15,7 +15,7 @@
 IfcPoint::IfcPoint() {}
 IfcPoint::IfcPoint( int id ) { m_entity_id = id; }
 IfcPoint::~IfcPoint() {}
-shared_ptr<IfcPPObject> IfcPoint::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPoint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPoint> copy_self( new IfcPoint() );
 	return copy_self;
@@ -27,18 +27,18 @@ void IfcPoint::getStepLine( std::stringstream& stream ) const
 }
 void IfcPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPoint::toString() const { return L"IfcPoint"; }
-void IfcPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 }
-void IfcPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPoint::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPoint::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

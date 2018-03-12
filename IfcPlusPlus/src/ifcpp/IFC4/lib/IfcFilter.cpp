@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcFilter.h"
@@ -42,7 +42,7 @@
 IfcFilter::IfcFilter() {}
 IfcFilter::IfcFilter( int id ) { m_entity_id = id; }
 IfcFilter::~IfcFilter() {}
-shared_ptr<IfcPPObject> IfcFilter::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFilter::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFilter> copy_self( new IfcFilter() );
 	if( m_GlobalId )
@@ -88,10 +88,10 @@ void IfcFilter::getStepLine( std::stringstream& stream ) const
 }
 void IfcFilter::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFilter::toString() const { return L"IfcFilter"; }
-void IfcFilter::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFilter::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFilter, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFilter, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -102,16 +102,16 @@ void IfcFilter::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcFilterTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcFilter::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcFilter::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcFlowTreatmentDevice::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcFilter::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcFilter::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcFlowTreatmentDevice::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcFilter::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcFilter::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcFlowTreatmentDevice::setInverseCounterparts( ptr_self_entity );
 }

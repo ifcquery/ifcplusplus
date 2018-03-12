@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -15,12 +15,12 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include "Command.h"
 
 bool Command::mouseMoved( const osgGA::GUIEventAdapter& , osgGA::GUIActionAdapter&  ){ return false; }
 bool Command::mouseClicked( const osgGA::GUIEventAdapter& , osgGA::GUIActionAdapter&  ){ return false; }
 bool Command::mouseDragged( const osgGA::GUIEventAdapter& , osgGA::GUIActionAdapter&  ){ return false; }
 bool Command::keyPressed( const osgGA::GUIEventAdapter& , osgGA::GUIActionAdapter&  ){ return false; }
-void Command::itemSnapped( shared_ptr<IfcPPEntity> , bool  ){}
-void Command::itemSelected( shared_ptr<IfcPPEntity> , bool  ){}
+void Command::itemSnapped( shared_ptr<BuildingEntity> , bool  ){}
+void Command::itemSelected( shared_ptr<BuildingEntity> , bool  ){}

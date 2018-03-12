@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -42,8 +42,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 	#include <carve/csg_triangulator.hpp>
 #endif
 
+#ifndef CARVE_VEC2_VEC3_DEFINED
+#define CARVE_VEC2_VEC3_DEFINED
 typedef carve::geom::vector<2> vec2;
 typedef carve::geom::vector<3> vec3;
+#endif
 
 namespace carve{
 	namespace geom2d{

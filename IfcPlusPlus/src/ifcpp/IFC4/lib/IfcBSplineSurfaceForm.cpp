@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcBSplineSurfaceForm.h"
 
 // TYPE IfcBSplineSurfaceForm = ENUMERATION OF	(PLANE_SURF	,CYLINDRICAL_SURF	,CONICAL_SURF	,SPHERICAL_SURF	,TOROIDAL_SURF	,SURF_OF_REVOLUTION	,RULED_SURF	,GENERALISED_CONE	,QUADRIC_SURF	,SURF_OF_LINEAR_EXTRUSION	,UNSPECIFIED);
 IfcBSplineSurfaceForm::IfcBSplineSurfaceForm() {}
 IfcBSplineSurfaceForm::~IfcBSplineSurfaceForm() {}
-shared_ptr<IfcPPObject> IfcBSplineSurfaceForm::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBSplineSurfaceForm::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurfaceForm> copy_self( new IfcBSplineSurfaceForm() );
 	copy_self->m_enum = m_enum;
@@ -55,7 +55,7 @@ const std::wstring IfcBSplineSurfaceForm::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }

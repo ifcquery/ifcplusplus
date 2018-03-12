@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -17,7 +17,7 @@
 IfcBlock::IfcBlock() {}
 IfcBlock::IfcBlock( int id ) { m_entity_id = id; }
 IfcBlock::~IfcBlock() {}
-shared_ptr<IfcPPObject> IfcBlock::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBlock::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBlock> copy_self( new IfcBlock() );
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
@@ -40,27 +40,27 @@ void IfcBlock::getStepLine( std::stringstream& stream ) const
 }
 void IfcBlock::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBlock::toString() const { return L"IfcBlock"; }
-void IfcBlock::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBlock::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlock, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlock, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_XLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 	m_ZLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "XLength", m_XLength ) );
 	vec_attributes.push_back( std::make_pair( "YLength", m_YLength ) );
 	vec_attributes.push_back( std::make_pair( "ZLength", m_ZLength ) );
 }
-void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcBlock::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcBlock::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCsgPrimitive3D::setInverseCounterparts( ptr_self_entity );
 }

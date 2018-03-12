@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcComplexPropertyTemplate.h"
@@ -21,7 +21,7 @@
 IfcPropertyTemplate::IfcPropertyTemplate() {}
 IfcPropertyTemplate::IfcPropertyTemplate( int id ) { m_entity_id = id; }
 IfcPropertyTemplate::~IfcPropertyTemplate() {}
-shared_ptr<IfcPPObject> IfcPropertyTemplate::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertyTemplate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyTemplate> copy_self( new IfcPropertyTemplate() );
 	if( m_GlobalId )
@@ -52,25 +52,25 @@ void IfcPropertyTemplate::getStepLine( std::stringstream& stream ) const
 }
 void IfcPropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyTemplate::toString() const { return L"IfcPropertyTemplate"; }
-void IfcPropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyTemplate, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyTemplate, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 }
-void IfcPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPropertyTemplateDefinition::getAttributes( vec_attributes );
 }
-void IfcPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPropertyTemplateDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_PartOfComplexTemplate_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfComplexTemplate_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfComplexTemplate_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfComplexTemplate_inverse.size(); ++i )
 		{
 			if( !m_PartOfComplexTemplate_inverse[i].expired() )
@@ -82,7 +82,7 @@ void IfcPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_PartOfPsetTemplate_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfPsetTemplate_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfPsetTemplate_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfPsetTemplate_inverse.size(); ++i )
 		{
 			if( !m_PartOfPsetTemplate_inverse[i].expired() )
@@ -93,7 +93,7 @@ void IfcPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::strin
 		vec_attributes_inverse.push_back( std::make_pair( "PartOfPsetTemplate_inverse", PartOfPsetTemplate_inverse_vec_obj ) );
 	}
 }
-void IfcPropertyTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPropertyTemplate::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPropertyTemplateDefinition::setInverseCounterparts( ptr_self_entity );
 }

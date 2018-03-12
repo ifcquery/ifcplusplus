@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -27,7 +27,7 @@
 IfcWindowLiningProperties::IfcWindowLiningProperties() {}
 IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_entity_id = id; }
 IfcWindowLiningProperties::~IfcWindowLiningProperties() {}
-shared_ptr<IfcPPObject> IfcWindowLiningProperties::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcWindowLiningProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowLiningProperties> copy_self( new IfcWindowLiningProperties() );
 	if( m_GlobalId )
@@ -94,10 +94,10 @@ void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 }
 void IfcWindowLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowLiningProperties::toString() const { return L"IfcWindowLiningProperties"; }
-void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 16 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 16 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWindowLiningProperties, expecting 16, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -115,7 +115,7 @@ void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstrin
 	m_LiningToPanelOffsetX = IfcLengthMeasure::createObjectFromSTEP( args[14], map );
 	m_LiningToPanelOffsetY = IfcLengthMeasure::createObjectFromSTEP( args[15], map );
 }
-void IfcWindowLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcWindowLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
@@ -131,11 +131,11 @@ void IfcWindowLiningProperties::getAttributes( std::vector<std::pair<std::string
 	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
 	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
 }
-void IfcWindowLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcWindowLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcWindowLiningProperties::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcWindowLiningProperties::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPreDefinedPropertySet::setInverseCounterparts( ptr_self_entity );
 }

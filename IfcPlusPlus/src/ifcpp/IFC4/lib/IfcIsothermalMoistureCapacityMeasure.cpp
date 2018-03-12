@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcIsothermalMoistureCapacityMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure() {}
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure( double value ) { m_value = value; }
 IfcIsothermalMoistureCapacityMeasure::~IfcIsothermalMoistureCapacityMeasure() {}
-shared_ptr<IfcPPObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIsothermalMoistureCapacityMeasure> copy_self( new IfcIsothermalMoistureCapacityMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcIsothermalMoistureCapacityMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcIsothermalMoistureCapacityMeasure> IfcIsothermalMoistureCapacityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcIsothermalMoistureCapacityMeasure> IfcIsothermalMoistureCapacityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }

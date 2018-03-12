@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoundedSurface.h"
@@ -15,7 +15,7 @@
 IfcBoundedSurface::IfcBoundedSurface() {}
 IfcBoundedSurface::IfcBoundedSurface( int id ) { m_entity_id = id; }
 IfcBoundedSurface::~IfcBoundedSurface() {}
-shared_ptr<IfcPPObject> IfcBoundedSurface::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBoundedSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundedSurface> copy_self( new IfcBoundedSurface() );
 	return copy_self;
@@ -27,18 +27,18 @@ void IfcBoundedSurface::getStepLine( std::stringstream& stream ) const
 }
 void IfcBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundedSurface::toString() const { return L"IfcBoundedSurface"; }
-void IfcBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcBoundedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcBoundedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSurface::getAttributes( vec_attributes );
 }
-void IfcBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSurface::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcBoundedSurface::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcBoundedSurface::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSurface::setInverseCounterparts( ptr_self_entity );
 }

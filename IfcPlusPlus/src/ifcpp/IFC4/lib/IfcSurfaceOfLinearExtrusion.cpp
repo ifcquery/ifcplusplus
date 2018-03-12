@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -19,7 +19,7 @@
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion() {}
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion( int id ) { m_entity_id = id; }
 IfcSurfaceOfLinearExtrusion::~IfcSurfaceOfLinearExtrusion() {}
-shared_ptr<IfcPPObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceOfLinearExtrusion> copy_self( new IfcSurfaceOfLinearExtrusion() );
 	if( m_SweptCurve )
@@ -46,26 +46,26 @@ void IfcSurfaceOfLinearExtrusion::getStepLine( std::stringstream& stream ) const
 }
 void IfcSurfaceOfLinearExtrusion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceOfLinearExtrusion::toString() const { return L"IfcSurfaceOfLinearExtrusion"; }
-void IfcSurfaceOfLinearExtrusion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSurfaceOfLinearExtrusion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceOfLinearExtrusion, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceOfLinearExtrusion, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptCurve, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_ExtrudedDirection, map );
 	m_Depth = IfcLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcSurfaceOfLinearExtrusion::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSurfaceOfLinearExtrusion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSweptSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
 	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
 }
-void IfcSurfaceOfLinearExtrusion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSurfaceOfLinearExtrusion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSweptSurface::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSurfaceOfLinearExtrusion::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSurfaceOfLinearExtrusion::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSweptSurface::setInverseCounterparts( ptr_self_entity );
 }

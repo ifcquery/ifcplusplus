@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcWarpingStiffnessSelect.h"
 #include "ifcpp/IFC4/include/IfcWarpingMomentMeasure.h"
@@ -15,7 +15,7 @@
 IfcWarpingMomentMeasure::IfcWarpingMomentMeasure() {}
 IfcWarpingMomentMeasure::IfcWarpingMomentMeasure( double value ) { m_value = value; }
 IfcWarpingMomentMeasure::~IfcWarpingMomentMeasure() {}
-shared_ptr<IfcPPObject> IfcWarpingMomentMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcWarpingMomentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWarpingMomentMeasure> copy_self( new IfcWarpingMomentMeasure() );
 	copy_self->m_value = m_value;
@@ -33,7 +33,7 @@ const std::wstring IfcWarpingMomentMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcWarpingMomentMeasure> IfcWarpingMomentMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcWarpingMomentMeasure> IfcWarpingMomentMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }

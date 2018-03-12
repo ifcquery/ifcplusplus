@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcAirTerminalTypeEnum.h"
 
 // TYPE IfcAirTerminalTypeEnum = ENUMERATION OF	(DIFFUSER	,GRILLE	,LOUVRE	,REGISTER	,USERDEFINED	,NOTDEFINED);
 IfcAirTerminalTypeEnum::IfcAirTerminalTypeEnum() {}
 IfcAirTerminalTypeEnum::~IfcAirTerminalTypeEnum() {}
-shared_ptr<IfcPPObject> IfcAirTerminalTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAirTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalTypeEnum> copy_self( new IfcAirTerminalTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcAirTerminalTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }

@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -20,12 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osgViewer/ViewerEventHandlers>
 #include <osgGA/GUIActionAdapter>
 
-#include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/model/IfcPPGuid.h>
-#include <ifcpp/reader/IfcPPReaderSTEP.h>
+#include <ifcpp/model/BuildingModel.h>
+#include <ifcpp/model/BuildingException.h>
+#include <ifcpp/model/BuildingGuid.h>
+#include <ifcpp/reader/ReaderSTEP.h>
 #include <ifcpp/reader/ReaderUtil.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
+#include <ifcpp/writer/WriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
@@ -41,11 +41,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
-	m_ifc_model = shared_ptr<IfcPPModel>( new IfcPPModel() );
+	m_ifc_model = shared_ptr<BuildingModel>( new BuildingModel() );
 	shared_ptr<GeometrySettings> geom_settings( new GeometrySettings() );
 	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
-	m_step_reader = shared_ptr<IfcPPReaderSTEP>( new IfcPPReaderSTEP() );
-	m_step_writer = shared_ptr<IfcPPWriterSTEP>( new IfcPPWriterSTEP() );
+	m_step_reader = shared_ptr<ReaderSTEP>( new ReaderSTEP() );
+	m_step_writer = shared_ptr<WriterSTEP>( new WriterSTEP() );
 
 	m_rootnode = new osg::Group();
 	m_rootnode->setName( "m_rootnode" );
@@ -69,6 +69,11 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem(){}
+
+void IfcPlusPlusSystem::setIfcModel( shared_ptr<BuildingModel>& model )
+{
+	m_ifc_model = model;
+}
 
 void IfcPlusPlusSystem::setRootNode( osg::Group* root )
 {
@@ -111,11 +116,11 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 				break;
 		}
 	}
-	catch( IfcPPOutOfMemoryException& e)
+	catch( OutOfMemoryException& e)
 	{
 		throw e;
 	}
-	catch( IfcPPException& e )
+	catch( BuildingException& e )
 	{
 #ifdef _DEBUG
 		std::cout << e.what();
@@ -170,7 +175,7 @@ osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
 	return 0;
 }
 
-void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, bool selected, osg::Group* grp )
+void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object, bool selected, osg::Group* grp )
 {
 	const int id = ifc_object->m_entity_id;
 	if( !grp )
@@ -216,7 +221,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				selected_entity->m_material_selected = m_material_selected;
 			}
 
-			std::map<int, shared_ptr<IfcPPEntity> > map_objects;
+			std::map<int, shared_ptr<BuildingEntity> > map_objects;
 			map_objects[id] = ifc_object;
 			emit( signalObjectsSelected( map_objects ) );
 		}
@@ -247,7 +252,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<IfcPPEntity> ifc_object, b
 				m_map_selected.erase( it_selected );
 			}
 		}
-		std::map<int, shared_ptr<IfcPPEntity> > map_objects;
+		std::map<int, shared_ptr<BuildingEntity> > map_objects;
 		map_objects[id] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}
@@ -258,7 +263,7 @@ void IfcPlusPlusSystem::clearSelection()
 	for( auto it = m_map_selected.begin(); it != m_map_selected.end(); ++it )
 	{
 		shared_ptr<SelectedEntity>& selected_entity = (*it).second;
-		shared_ptr<IfcPPEntity> entity = selected_entity->m_entity;
+		shared_ptr<BuildingEntity> entity = selected_entity->m_entity;
 
 		if( selected_entity->m_osg_group )
 		{

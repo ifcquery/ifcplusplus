@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCsgSelect.h"
@@ -16,7 +16,7 @@
 IfcCsgSolid::IfcCsgSolid() {}
 IfcCsgSolid::IfcCsgSolid( int id ) { m_entity_id = id; }
 IfcCsgSolid::~IfcCsgSolid() {}
-shared_ptr<IfcPPObject> IfcCsgSolid::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCsgSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCsgSolid> copy_self( new IfcCsgSolid() );
 	if( m_TreeRootExpression ) { copy_self->m_TreeRootExpression = dynamic_pointer_cast<IfcCsgSelect>( m_TreeRootExpression->getDeepCopy(options) ); }
@@ -30,22 +30,22 @@ void IfcCsgSolid::getStepLine( std::stringstream& stream ) const
 }
 void IfcCsgSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCsgSolid::toString() const { return L"IfcCsgSolid"; }
-void IfcCsgSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCsgSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCsgSolid, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCsgSolid, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_TreeRootExpression = IfcCsgSelect::createObjectFromSTEP( args[0], map );
 }
-void IfcCsgSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCsgSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSolidModel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TreeRootExpression", m_TreeRootExpression ) );
 }
-void IfcCsgSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCsgSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSolidModel::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCsgSolid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCsgSolid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSolidModel::setInverseCounterparts( ptr_self_entity );
 }

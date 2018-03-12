@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCoordinateReferenceSystem.h"
@@ -17,7 +17,7 @@
 IfcMapConversion::IfcMapConversion() {}
 IfcMapConversion::IfcMapConversion( int id ) { m_entity_id = id; }
 IfcMapConversion::~IfcMapConversion() {}
-shared_ptr<IfcPPObject> IfcMapConversion::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMapConversion::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMapConversion> copy_self( new IfcMapConversion() );
 	if( m_SourceCRS ) { copy_self->m_SourceCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystemSelect>( m_SourceCRS->getDeepCopy(options) ); }
@@ -52,10 +52,10 @@ void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 }
 void IfcMapConversion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMapConversion::toString() const { return L"IfcMapConversion"; }
-void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 	m_Eastings = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -65,7 +65,7 @@ void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args,
 	m_XAxisOrdinate = IfcReal::createObjectFromSTEP( args[6], map );
 	m_Scale = IfcReal::createObjectFromSTEP( args[7], map );
 }
-void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCoordinateOperation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Eastings", m_Eastings ) );
@@ -75,11 +75,11 @@ void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_
 	vec_attributes.push_back( std::make_pair( "XAxisOrdinate", m_XAxisOrdinate ) );
 	vec_attributes.push_back( std::make_pair( "Scale", m_Scale ) );
 }
-void IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCoordinateOperation::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcMapConversion::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMapConversion::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCoordinateOperation::setInverseCounterparts( ptr_self_entity );
 }

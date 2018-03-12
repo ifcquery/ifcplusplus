@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -22,7 +22,7 @@
 IfcObjectDefinition::IfcObjectDefinition() {}
 IfcObjectDefinition::IfcObjectDefinition( int id ) { m_entity_id = id; }
 IfcObjectDefinition::~IfcObjectDefinition() {}
-shared_ptr<IfcPPObject> IfcObjectDefinition::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcObjectDefinition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectDefinition> copy_self( new IfcObjectDefinition() );
 	if( m_GlobalId )
@@ -53,25 +53,25 @@ void IfcObjectDefinition::getStepLine( std::stringstream& stream ) const
 }
 void IfcObjectDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcObjectDefinition::toString() const { return L"IfcObjectDefinition"; }
-void IfcObjectDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcObjectDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObjectDefinition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObjectDefinition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 }
-void IfcObjectDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcObjectDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRoot::getAttributes( vec_attributes );
 }
-void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRoot::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasAssignments_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasAssignments_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasAssignments_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasAssignments_inverse.size(); ++i )
 		{
 			if( !m_HasAssignments_inverse[i].expired() )
@@ -83,7 +83,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_Nests_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Nests_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Nests_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Nests_inverse.size(); ++i )
 		{
 			if( !m_Nests_inverse[i].expired() )
@@ -95,7 +95,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_IsNestedBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsNestedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsNestedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsNestedBy_inverse.size(); ++i )
 		{
 			if( !m_IsNestedBy_inverse[i].expired() )
@@ -107,7 +107,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_HasContext_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasContext_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasContext_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
 		{
 			if( !m_HasContext_inverse[i].expired() )
@@ -119,7 +119,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_IsDecomposedBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsDecomposedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsDecomposedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsDecomposedBy_inverse.size(); ++i )
 		{
 			if( !m_IsDecomposedBy_inverse[i].expired() )
@@ -131,7 +131,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_Decomposes_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Decomposes_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Decomposes_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Decomposes_inverse.size(); ++i )
 		{
 			if( !m_Decomposes_inverse[i].expired() )
@@ -143,7 +143,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 	}
 	if( m_HasAssociations_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasAssociations_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasAssociations_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
 		{
 			if( !m_HasAssociations_inverse[i].expired() )
@@ -154,7 +154,7 @@ void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::strin
 		vec_attributes_inverse.push_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 	}
 }
-void IfcObjectDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcObjectDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRoot::setInverseCounterparts( ptr_self_entity );
 }

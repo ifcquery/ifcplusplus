@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcLogicalOperatorEnum.h"
 
 // TYPE IfcLogicalOperatorEnum = ENUMERATION OF	(LOGICALAND	,LOGICALOR	,LOGICALXOR	,LOGICALNOTAND	,LOGICALNOTOR);
 IfcLogicalOperatorEnum::IfcLogicalOperatorEnum() {}
 IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() {}
-shared_ptr<IfcPPObject> IfcLogicalOperatorEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLogicalOperatorEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLogicalOperatorEnum> copy_self( new IfcLogicalOperatorEnum() );
 	copy_self->m_enum = m_enum;
@@ -43,7 +43,7 @@ const std::wstring IfcLogicalOperatorEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }

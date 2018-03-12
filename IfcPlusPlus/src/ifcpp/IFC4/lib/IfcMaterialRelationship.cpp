@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcMaterialRelationship::IfcMaterialRelationship() {}
 IfcMaterialRelationship::IfcMaterialRelationship( int id ) { m_entity_id = id; }
 IfcMaterialRelationship::~IfcMaterialRelationship() {}
-shared_ptr<IfcPPObject> IfcMaterialRelationship::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialRelationship> copy_self( new IfcMaterialRelationship() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -49,37 +49,37 @@ void IfcMaterialRelationship::getStepLine( std::stringstream& stream ) const
 }
 void IfcMaterialRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialRelationship::toString() const { return L"IfcMaterialRelationship"; }
-void IfcMaterialRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingMaterial, map );
 	readEntityReferenceList( args[3], m_RelatedMaterials, map );
 	m_Expression = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcMaterialRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
 	if( m_RelatedMaterials.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedMaterials_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedMaterials_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
 }
-void IfcMaterialRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcMaterialRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMaterialRelationship::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcMaterialRelationship> ptr_self = dynamic_pointer_cast<IfcMaterialRelationship>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcMaterialRelationship::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcMaterialRelationship::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedMaterials.size(); ++i )
 	{
 		if( m_RelatedMaterials[i] )

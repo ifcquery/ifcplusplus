@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAnalysisTheoryTypeEnum.h"
@@ -30,7 +30,7 @@
 IfcStructuralResultGroup::IfcStructuralResultGroup() {}
 IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_entity_id = id; }
 IfcStructuralResultGroup::~IfcStructuralResultGroup() {}
-shared_ptr<IfcPPObject> IfcStructuralResultGroup::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralResultGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralResultGroup> copy_self( new IfcStructuralResultGroup() );
 	if( m_GlobalId )
@@ -73,10 +73,10 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 }
 void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralResultGroup::toString() const { return L"IfcStructuralResultGroup"; }
-void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralResultGroup, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -86,19 +86,19 @@ void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[6], m_ResultForLoadGroup, map );
 	m_IsLinear = IfcBoolean::createObjectFromSTEP( args[7], map );
 }
-void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TheoryType", m_TheoryType ) );
 	vec_attributes.push_back( std::make_pair( "ResultForLoadGroup", m_ResultForLoadGroup ) );
 	vec_attributes.push_back( std::make_pair( "IsLinear", m_IsLinear ) );
 }
-void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 	if( m_ResultGroupFor_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ResultGroupFor_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ResultGroupFor_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ResultGroupFor_inverse.size(); ++i )
 		{
 			if( !m_ResultGroupFor_inverse[i].expired() )
@@ -109,11 +109,11 @@ void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::
 		vec_attributes_inverse.push_back( std::make_pair( "ResultGroupFor_inverse", ResultGroupFor_inverse_vec_obj ) );
 	}
 }
-void IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGroup::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcStructuralResultGroup> ptr_self = dynamic_pointer_cast<IfcStructuralResultGroup>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcStructuralResultGroup::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcStructuralResultGroup::setInverseCounterparts: type mismatch" ); }
 	if( m_ResultForLoadGroup )
 	{
 		m_ResultForLoadGroup->m_SourceOfResultGroup_inverse.push_back( ptr_self );

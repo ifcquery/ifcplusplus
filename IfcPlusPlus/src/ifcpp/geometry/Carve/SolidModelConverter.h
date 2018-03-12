@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <ifcpp/geometry/GeometrySettings.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
@@ -105,7 +105,7 @@ public:
 			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
 			if( !item_data_solid )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				throw OutOfMemoryException( __FUNC__ );
 			}
 
 			// check if local coordinate system is specified for extrusion
@@ -315,7 +315,7 @@ public:
 			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
 			if( !item_data_solid )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				throw OutOfMemoryException( __FUNC__ );
 			}
 
 			m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc, radius, radius_inner );
@@ -377,7 +377,7 @@ public:
 
 	}
 
-	void convertRevolvedAreaSolid( const std::vector<std::vector<vec2> >& profile_coords_unchecked, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeData> item_data, IfcPPEntity* entity_of_origin = nullptr )
+	void convertRevolvedAreaSolid( const std::vector<std::vector<vec2> >& profile_coords_unchecked, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeData> item_data, BuildingEntity* entity_of_origin = nullptr )
 	{
 		bool warning_small_loop_detected = false;
 		std::vector<std::vector<vec2> > profile_coords;
@@ -507,7 +507,7 @@ public:
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
 		if( !polyhedron_data )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 
 		// create vertices
@@ -704,7 +704,7 @@ public:
 			segment_offset += num_vertices_per_section;
 		}
 
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 		GeomDebugDump::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
 
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
@@ -820,7 +820,7 @@ public:
 		shared_ptr<ItemShapeData> first_operand_data( new ItemShapeData() );
 		if( !first_operand_data )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 		shared_ptr<ItemShapeData> empty_operand;
 		convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand );
@@ -829,7 +829,7 @@ public:
 		shared_ptr<ItemShapeData> second_operand_data( new ItemShapeData() );
 		if( !second_operand_data )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
@@ -845,21 +845,21 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
 					GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result.get() );
 
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", bool_result.get() ); // __FUNC__ is already in exception.what()
 				}
@@ -1121,7 +1121,7 @@ public:
 			shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
 			if( !polyhedron_data )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				throw OutOfMemoryException( __FUNC__ );
 			}
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( 0.0, 0.0, radius ) ); // top
 
@@ -1535,7 +1535,7 @@ public:
 
 		std::stringstream strs_err;
 		strs_err << "Unhandled IFC Representation: " << operand_select->className();
-		throw IfcPPException( strs_err.str().c_str(), __FUNC__ );
+		throw BuildingException( strs_err.str().c_str(), __FUNC__ );
 	}
 
 	void convertIfcSectionedSpine( const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeData> item_data )

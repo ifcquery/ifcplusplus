@@ -37,7 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9700AD93-4F6B-484A-BA34-FC4C97E5C645}</ProjectGuid>
     <RootNamespace>IfcPlusPlus</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -173,7 +173,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>src;.\..\Carve\src;.\..\Carve\src\include;.\..\Carve\src\common;$(BOOST_DIR);$(OSG_DIR)/include;$(CSF_OPT_INC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>
@@ -252,7 +252,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>src;$(BOOST_DIR);.\src\ifcpp\geometry\Carve\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCPP_OPENMP;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -261,8 +261,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalOptions>
       </AdditionalOptions>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
@@ -339,8 +338,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ifcpp\IFC4\IfcPPEntityFactory.cpp" />
-    <ClCompile Include="src\ifcpp\IFC4\IfcPPTypeFactory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\EntityFactory.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAbsorbedDoseMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAccelerationMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcActionRequest.cpp" />
@@ -1515,14 +1513,15 @@
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcWorkTime.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcZone.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcZShapeProfileDef.cpp" />
-    <ClCompile Include="src\ifcpp\model\IfcPPAttributeObject.cpp" />
-    <ClCompile Include="src\ifcpp\model\IfcPPModel.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\TypeFactory.cpp" />
+    <ClCompile Include="src\ifcpp\model\AttributeObject.cpp" />
+    <ClCompile Include="src\ifcpp\model\BuildingModel.cpp" />
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
-    <ClCompile Include="src\ifcpp\reader\IfcPPReader.cpp" />
-    <ClCompile Include="src\ifcpp\reader\IfcPPReaderSTEP.cpp" />
-    <ClCompile Include="src\ifcpp\reader\IfcPPReaderXML.cpp" />
+    <ClCompile Include="src\ifcpp\reader\AbstractReader.cpp" />
+    <ClCompile Include="src\ifcpp\reader\ReaderSTEP.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp" />
-    <ClCompile Include="src\ifcpp\writer\IfcPPWriterSTEP.cpp" />
+    <ClCompile Include="src\ifcpp\reader\ReaderXML.cpp" />
+    <ClCompile Include="src\ifcpp\writer\WriterSTEP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcpp\geometry\AppearanceData.h" />
@@ -1543,47 +1542,48 @@
     <ClInclude Include="src\ifcpp\geometry\Carve\SolidModelConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\SplineConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\Sweeper.h" />
+    <ClInclude Include="src\ifcpp\geometry\Carve\TessellatedItemConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\GeometryException.h" />
     <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\ConverterOSG.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\CSG_Adapter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\CurveConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\FaceConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugDump.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryInputData.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeomUtils.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\PlacementConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\PointConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileCache.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\RepresentationConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\CSG_AdapterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\CurveConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\FaceConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugDumpOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryInputDataOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\GeomUtilsOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\PlacementConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\PointConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileCacheOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\RepresentationConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphConverterOCC.h" />
     <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtilsOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SolidModelConverter.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverter.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SolidModelConverterOCC.h" />
+    <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverterOCC.h" />
     <ClInclude Include="src\ifcpp\geometry\SceneGraphUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\StylesConverter.h" />
-    <ClInclude Include="src\ifcpp\IFC4\IfcPPEntityFactory.h" />
-    <ClInclude Include="src\ifcpp\IFC4\IfcPPTypeFactory.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPAttributeObject.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPBasicTypes.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPException.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPGlobal.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPGuid.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPModel.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPObject.h" />
-    <ClInclude Include="src\ifcpp\model\IfcPPOpenMP.h" />
+    <ClInclude Include="src\ifcpp\IFC4\EntityFactory.h" />
+    <ClInclude Include="src\ifcpp\IFC4\TypeFactory.h" />
+    <ClInclude Include="src\ifcpp\model\AttributeObject.h" />
+    <ClInclude Include="src\ifcpp\model\BasicTypes.h" />
+    <ClInclude Include="src\ifcpp\model\BuildingException.h" />
+    <ClInclude Include="src\ifcpp\model\BuildingGuid.h" />
+    <ClInclude Include="src\ifcpp\model\BuildingModel.h" />
+    <ClInclude Include="src\ifcpp\model\BuildingObject.h" />
+    <ClInclude Include="src\ifcpp\model\GlobalDefines.h" />
+    <ClInclude Include="src\ifcpp\model\OpenMPIncludes.h" />
     <ClInclude Include="src\ifcpp\model\StatusCallback.h" />
     <ClInclude Include="src\ifcpp\model\UnitConverter.h" />
     <ClInclude Include="src\ifcpp\model\UnknownEntityException.h" />
-    <ClInclude Include="src\ifcpp\reader\IfcPPReader.h" />
-    <ClInclude Include="src\ifcpp\reader\IfcPPReaderSTEP.h" />
-    <ClInclude Include="src\ifcpp\reader\IfcPPReaderXML.h" />
+    <ClInclude Include="src\ifcpp\reader\AbstractReader.h" />
+    <ClInclude Include="src\ifcpp\reader\ReaderSTEP.h" />
     <ClInclude Include="src\ifcpp\reader\ReaderUtil.h" />
-    <ClInclude Include="src\ifcpp\writer\IfcPPWriter.h" />
-    <ClInclude Include="src\ifcpp\writer\IfcPPWriterSTEP.h" />
-    <ClInclude Include="src\ifcpp\writer\IfcPPWriterXML.h" />
+    <ClInclude Include="src\ifcpp\reader\ReaderXML.h" />
+    <ClInclude Include="src\ifcpp\writer\AbstractWriter.h" />
+    <ClInclude Include="src\ifcpp\writer\WriterSTEP.h" />
     <ClInclude Include="src\ifcpp\writer\WriterUtil.h" />
+    <ClInclude Include="src\ifcpp\writer\WriterXML.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

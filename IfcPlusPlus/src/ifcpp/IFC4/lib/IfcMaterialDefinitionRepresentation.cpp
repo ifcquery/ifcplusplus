@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -17,7 +17,7 @@
 IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation() {}
 IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation( int id ) { m_entity_id = id; }
 IfcMaterialDefinitionRepresentation::~IfcMaterialDefinitionRepresentation() {}
-shared_ptr<IfcPPObject> IfcMaterialDefinitionRepresentation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialDefinitionRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialDefinitionRepresentation> copy_self( new IfcMaterialDefinitionRepresentation() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -47,29 +47,29 @@ void IfcMaterialDefinitionRepresentation::getStepLine( std::stringstream& stream
 }
 void IfcMaterialDefinitionRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialDefinitionRepresentation::toString() const { return L"IfcMaterialDefinitionRepresentation"; }
-void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );
 	readEntityReference( args[3], m_RepresentedMaterial, map );
 }
-void IfcMaterialDefinitionRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialDefinitionRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProductRepresentation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RepresentedMaterial", m_RepresentedMaterial ) );
 }
-void IfcMaterialDefinitionRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialDefinitionRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcMaterialDefinitionRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMaterialDefinitionRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProductRepresentation::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcMaterialDefinitionRepresentation> ptr_self = dynamic_pointer_cast<IfcMaterialDefinitionRepresentation>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcMaterialDefinitionRepresentation::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcMaterialDefinitionRepresentation::setInverseCounterparts: type mismatch" ); }
 	if( m_RepresentedMaterial )
 	{
 		m_RepresentedMaterial->m_HasRepresentation_inverse.push_back( ptr_self );

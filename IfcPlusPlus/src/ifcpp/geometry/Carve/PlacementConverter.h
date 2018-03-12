@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <set>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/IFC4/include/IfcAxis1Placement.h>
 #include <ifcpp/IFC4/include/IfcAxis2Placement2D.h>
@@ -220,7 +220,7 @@ public:
 		translate = location;
 	}
 
-	inline void convertMatrix( const carve::math::Matrix& matrix, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<IfcPPEntity> >& vec_new_entities )
+	inline void convertMatrix( const carve::math::Matrix& matrix, shared_ptr<IfcAxis2Placement3D>& axis2placement3d, int& entity_id, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		if( !axis2placement3d )

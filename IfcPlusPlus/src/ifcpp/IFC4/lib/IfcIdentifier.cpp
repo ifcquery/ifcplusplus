@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSimpleValue.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
 
@@ -14,7 +14,7 @@
 IfcIdentifier::IfcIdentifier() {}
 IfcIdentifier::IfcIdentifier( std::wstring value ) { m_value = value; }
 IfcIdentifier::~IfcIdentifier() {}
-shared_ptr<IfcPPObject> IfcIdentifier::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcIdentifier::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIdentifier> copy_self( new IfcIdentifier() );
 	copy_self->m_value = m_value;
@@ -30,7 +30,7 @@ const std::wstring IfcIdentifier::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }

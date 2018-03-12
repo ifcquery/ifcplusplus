@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcActionSourceTypeEnum.h"
 
 // TYPE IfcActionSourceTypeEnum = ENUMERATION OF	(DEAD_LOAD_G	,COMPLETION_G1	,LIVE_LOAD_Q	,SNOW_S	,WIND_W	,PRESTRESSING_P	,SETTLEMENT_U	,TEMPERATURE_T	,EARTHQUAKE_E	,FIRE	,IMPULSE	,IMPACT	,TRANSPORT	,ERECTION	,PROPPING	,SYSTEM_IMPERFECTION	,SHRINKAGE	,CREEP	,LACK_OF_FIT	,BUOYANCY	,ICE	,CURRENT	,WAVE	,RAIN	,BRAKES	,USERDEFINED	,NOTDEFINED);
 IfcActionSourceTypeEnum::IfcActionSourceTypeEnum() {}
 IfcActionSourceTypeEnum::~IfcActionSourceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcActionSourceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcActionSourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionSourceTypeEnum> copy_self( new IfcActionSourceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -87,7 +87,7 @@ const std::wstring IfcActionSourceTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAdvancedFace.h"
@@ -19,7 +19,7 @@
 IfcAdvancedFace::IfcAdvancedFace() {}
 IfcAdvancedFace::IfcAdvancedFace( int id ) { m_entity_id = id; }
 IfcAdvancedFace::~IfcAdvancedFace() {}
-shared_ptr<IfcPPObject> IfcAdvancedFace::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAdvancedFace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAdvancedFace> copy_self( new IfcAdvancedFace() );
 	for( size_t ii=0; ii<m_Bounds.size(); ++ii )
@@ -46,23 +46,23 @@ void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 }
 void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAdvancedFace::toString() const { return L"IfcAdvancedFace"; }
-void IfcAdvancedFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcAdvancedFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAdvancedFace, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAdvancedFace, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 	readEntityReference( args[1], m_FaceSurface, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcAdvancedFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcAdvancedFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcFaceSurface::getAttributes( vec_attributes );
 }
-void IfcAdvancedFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcAdvancedFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcFaceSurface::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcAdvancedFace::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcAdvancedFace::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcFaceSurface::setInverseCounterparts( ptr_self_entity );
 }

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcEngineTypeEnum.h"
 
 // TYPE IfcEngineTypeEnum = ENUMERATION OF	(EXTERNALCOMBUSTION	,INTERNALCOMBUSTION	,USERDEFINED	,NOTDEFINED);
 IfcEngineTypeEnum::IfcEngineTypeEnum() {}
 IfcEngineTypeEnum::~IfcEngineTypeEnum() {}
-shared_ptr<IfcPPObject> IfcEngineTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcEngineTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEngineTypeEnum> copy_self( new IfcEngineTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -41,7 +41,7 @@ const std::wstring IfcEngineTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }

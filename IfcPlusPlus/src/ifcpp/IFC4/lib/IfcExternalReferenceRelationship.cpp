@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorRole.h"
@@ -28,7 +28,7 @@
 IfcExternalReferenceRelationship::IfcExternalReferenceRelationship() {}
 IfcExternalReferenceRelationship::IfcExternalReferenceRelationship( int id ) { m_entity_id = id; }
 IfcExternalReferenceRelationship::~IfcExternalReferenceRelationship() {}
-shared_ptr<IfcPPObject> IfcExternalReferenceRelationship::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcExternalReferenceRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternalReferenceRelationship> copy_self( new IfcExternalReferenceRelationship() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -75,35 +75,35 @@ void IfcExternalReferenceRelationship::getStepLine( std::stringstream& stream ) 
 }
 void IfcExternalReferenceRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternalReferenceRelationship::toString() const { return L"IfcExternalReferenceRelationship"; }
-void IfcExternalReferenceRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcExternalReferenceRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternalReferenceRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternalReferenceRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingReference, map );
 	readSelectList( args[3], m_RelatedResourceObjects, map );
 }
-void IfcExternalReferenceRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcExternalReferenceRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingReference", m_RelatingReference ) );
 	if( m_RelatedResourceObjects.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedResourceObjects_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedResourceObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedResourceObjects.begin(), m_RelatedResourceObjects.end(), std::back_inserter( RelatedResourceObjects_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
 	}
 }
-void IfcExternalReferenceRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcExternalReferenceRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcExternalReferenceRelationship> ptr_self = dynamic_pointer_cast<IfcExternalReferenceRelationship>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcExternalReferenceRelationship::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcExternalReferenceRelationship::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedResourceObjects.size(); ++i )
 	{
 		shared_ptr<IfcActorRole>  RelatedResourceObjects_IfcActorRole = dynamic_pointer_cast<IfcActorRole>( m_RelatedResourceObjects[i] );

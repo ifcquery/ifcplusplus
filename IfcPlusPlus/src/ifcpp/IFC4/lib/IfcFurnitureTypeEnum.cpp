@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcFurnitureTypeEnum.h"
 
 // TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,USERDEFINED	,NOTDEFINED);
 IfcFurnitureTypeEnum::IfcFurnitureTypeEnum() {}
 IfcFurnitureTypeEnum::~IfcFurnitureTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFurnitureTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFurnitureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFurnitureTypeEnum> copy_self( new IfcFurnitureTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -51,7 +51,7 @@ const std::wstring IfcFurnitureTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }

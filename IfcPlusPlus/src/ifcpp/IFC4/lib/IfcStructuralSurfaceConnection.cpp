@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoundaryCondition.h"
@@ -31,7 +31,7 @@
 IfcStructuralSurfaceConnection::IfcStructuralSurfaceConnection() {}
 IfcStructuralSurfaceConnection::IfcStructuralSurfaceConnection( int id ) { m_entity_id = id; }
 IfcStructuralSurfaceConnection::~IfcStructuralSurfaceConnection() {}
-shared_ptr<IfcPPObject> IfcStructuralSurfaceConnection::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralSurfaceConnection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralSurfaceConnection> copy_self( new IfcStructuralSurfaceConnection() );
 	if( m_GlobalId )
@@ -74,10 +74,10 @@ void IfcStructuralSurfaceConnection::getStepLine( std::stringstream& stream ) co
 }
 void IfcStructuralSurfaceConnection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralSurfaceConnection::toString() const { return L"IfcStructuralSurfaceConnection"; }
-void IfcStructuralSurfaceConnection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralSurfaceConnection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralSurfaceConnection, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralSurfaceConnection, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -87,15 +87,15 @@ void IfcStructuralSurfaceConnection::readStepArguments( const std::vector<std::w
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReference( args[7], m_AppliedCondition, map );
 }
-void IfcStructuralSurfaceConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralSurfaceConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcStructuralConnection::getAttributes( vec_attributes );
 }
-void IfcStructuralSurfaceConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralSurfaceConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcStructuralConnection::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStructuralSurfaceConnection::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralSurfaceConnection::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcStructuralConnection::setInverseCounterparts( ptr_self_entity );
 }

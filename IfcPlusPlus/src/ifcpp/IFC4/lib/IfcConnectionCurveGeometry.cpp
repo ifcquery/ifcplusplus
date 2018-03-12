@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcConnectionCurveGeometry.h"
@@ -14,7 +14,7 @@
 IfcConnectionCurveGeometry::IfcConnectionCurveGeometry() {}
 IfcConnectionCurveGeometry::IfcConnectionCurveGeometry( int id ) { m_entity_id = id; }
 IfcConnectionCurveGeometry::~IfcConnectionCurveGeometry() {}
-shared_ptr<IfcPPObject> IfcConnectionCurveGeometry::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcConnectionCurveGeometry::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionCurveGeometry> copy_self( new IfcConnectionCurveGeometry() );
 	if( m_CurveOnRelatingElement ) { copy_self->m_CurveOnRelatingElement = dynamic_pointer_cast<IfcCurveOrEdgeCurve>( m_CurveOnRelatingElement->getDeepCopy(options) ); }
@@ -31,24 +31,24 @@ void IfcConnectionCurveGeometry::getStepLine( std::stringstream& stream ) const
 }
 void IfcConnectionCurveGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionCurveGeometry::toString() const { return L"IfcConnectionCurveGeometry"; }
-void IfcConnectionCurveGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcConnectionCurveGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionCurveGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionCurveGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_CurveOnRelatingElement = IfcCurveOrEdgeCurve::createObjectFromSTEP( args[0], map );
 	m_CurveOnRelatedElement = IfcCurveOrEdgeCurve::createObjectFromSTEP( args[1], map );
 }
-void IfcConnectionCurveGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcConnectionCurveGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CurveOnRelatingElement", m_CurveOnRelatingElement ) );
 	vec_attributes.push_back( std::make_pair( "CurveOnRelatedElement", m_CurveOnRelatedElement ) );
 }
-void IfcConnectionCurveGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcConnectionCurveGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcConnectionGeometry::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcConnectionCurveGeometry::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcConnectionCurveGeometry::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcConnectionGeometry::setInverseCounterparts( ptr_self_entity );
 }

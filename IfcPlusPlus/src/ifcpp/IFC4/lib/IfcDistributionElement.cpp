@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDistributionElement.h"
@@ -40,7 +40,7 @@
 IfcDistributionElement::IfcDistributionElement() {}
 IfcDistributionElement::IfcDistributionElement( int id ) { m_entity_id = id; }
 IfcDistributionElement::~IfcDistributionElement() {}
-shared_ptr<IfcPPObject> IfcDistributionElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDistributionElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionElement> copy_self( new IfcDistributionElement() );
 	if( m_GlobalId )
@@ -83,10 +83,10 @@ void IfcDistributionElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcDistributionElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDistributionElement::toString() const { return L"IfcDistributionElement"; }
-void IfcDistributionElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDistributionElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDistributionElement, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -96,16 +96,16 @@ void IfcDistributionElement::readStepArguments( const std::vector<std::wstring>&
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcDistributionElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDistributionElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcElement::getAttributes( vec_attributes );
 }
-void IfcDistributionElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDistributionElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcElement::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasPorts_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasPorts_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasPorts_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasPorts_inverse.size(); ++i )
 		{
 			if( !m_HasPorts_inverse[i].expired() )
@@ -116,7 +116,7 @@ void IfcDistributionElement::getAttributesInverse( std::vector<std::pair<std::st
 		vec_attributes_inverse.push_back( std::make_pair( "HasPorts_inverse", HasPorts_inverse_vec_obj ) );
 	}
 }
-void IfcDistributionElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDistributionElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcElement::setInverseCounterparts( ptr_self_entity );
 }

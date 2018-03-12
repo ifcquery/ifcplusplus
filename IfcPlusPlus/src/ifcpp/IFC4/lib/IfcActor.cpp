@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActor.h"
@@ -27,7 +27,7 @@
 IfcActor::IfcActor() {}
 IfcActor::IfcActor( int id ) { m_entity_id = id; }
 IfcActor::~IfcActor() {}
-shared_ptr<IfcPPObject> IfcActor::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcActor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActor> copy_self( new IfcActor() );
 	if( m_GlobalId )
@@ -64,10 +64,10 @@ void IfcActor::getStepLine( std::stringstream& stream ) const
 }
 void IfcActor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcActor::toString() const { return L"IfcActor"; }
-void IfcActor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcActor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcActor, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcActor, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -75,17 +75,17 @@ void IfcActor::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 	m_TheActor = IfcActorSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcObject::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TheActor", m_TheActor ) );
 }
-void IfcActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsActingUpon_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsActingUpon_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsActingUpon_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsActingUpon_inverse.size(); ++i )
 		{
 			if( !m_IsActingUpon_inverse[i].expired() )
@@ -96,7 +96,7 @@ void IfcActor::getAttributesInverse( std::vector<std::pair<std::string, shared_p
 		vec_attributes_inverse.push_back( std::make_pair( "IsActingUpon_inverse", IsActingUpon_inverse_vec_obj ) );
 	}
 }
-void IfcActor::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcActor::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcObject::setInverseCounterparts( ptr_self_entity );
 }

@@ -5,23 +5,23 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 #include "IfcSimpleValue.h"
 
 // TYPE IfcDateTime = STRING;
-class IFCPP_EXPORT IfcDateTime : public IfcSimpleValue
+class IFCQUERY_EXPORT IfcDateTime : public IfcSimpleValue
 {
 public:
 	IfcDateTime();
 	IfcDateTime( std::wstring value );
 	~IfcDateTime();
 	virtual const char* className() const { return "IfcDateTime"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcDateTime> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcDateTime> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	std::wstring m_value;
 };
 

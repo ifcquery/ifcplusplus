@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcEvent.h"
@@ -31,7 +31,7 @@
 IfcEvent::IfcEvent() {}
 IfcEvent::IfcEvent( int id ) { m_entity_id = id; }
 IfcEvent::~IfcEvent() {}
-shared_ptr<IfcPPObject> IfcEvent::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcEvent::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEvent> copy_self( new IfcEvent() );
 	if( m_GlobalId )
@@ -83,10 +83,10 @@ void IfcEvent::getStepLine( std::stringstream& stream ) const
 }
 void IfcEvent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEvent::toString() const { return L"IfcEvent"; }
-void IfcEvent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcEvent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEvent, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEvent, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -99,7 +99,7 @@ void IfcEvent::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_UserDefinedEventTriggerType = IfcLabel::createObjectFromSTEP( args[9], map );
 	readEntityReference( args[10], m_EventOccurenceTime, map );
 }
-void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -107,11 +107,11 @@ void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 	vec_attributes.push_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
 	vec_attributes.push_back( std::make_pair( "EventOccurenceTime", m_EventOccurenceTime ) );
 }
-void IfcEvent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcEvent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProcess::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcEvent::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcEvent::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProcess::setInverseCounterparts( ptr_self_entity );
 }

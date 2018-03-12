@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcAmountOfSubstanceMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure() {}
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure( double value ) { m_value = value; }
 IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() {}
-shared_ptr<IfcPPObject> IfcAmountOfSubstanceMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAmountOfSubstanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAmountOfSubstanceMeasure> copy_self( new IfcAmountOfSubstanceMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcAmountOfSubstanceMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcAmountOfSubstanceMeasure> IfcAmountOfSubstanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcAmountOfSubstanceMeasure> IfcAmountOfSubstanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }

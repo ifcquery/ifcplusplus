@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcHatchLineDistanceSelect.h"
 #include "ifcpp/IFC4/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcSizeSelect.h"
@@ -15,7 +15,7 @@
 // TYPE IfcPositiveLengthMeasure = IfcLengthMeasure;
 IfcPositiveLengthMeasure::IfcPositiveLengthMeasure() {}
 IfcPositiveLengthMeasure::~IfcPositiveLengthMeasure() {}
-shared_ptr<IfcPPObject> IfcPositiveLengthMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPositiveLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositiveLengthMeasure> copy_self( new IfcPositiveLengthMeasure() );
 	copy_self->m_value = m_value;
@@ -33,7 +33,7 @@ const std::wstring IfcPositiveLengthMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }

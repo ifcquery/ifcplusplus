@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -19,8 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <vector>
 #include <ifcpp/geometry/AppearanceData.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingException.h>
 #include <ifcpp/IFC4/include/IfcObjectPlacement.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcRepresentation.h>
@@ -47,7 +47,7 @@ class TransformData
 {
 public:
 	TransformData(){}
-	TransformData( const carve::math::Matrix& matrix, weak_ptr<IfcPPEntity>& placement_entity, int placement_id ) : m_placement_entity_id( placement_id ), m_matrix(matrix), m_placement_entity(placement_entity)
+	TransformData( const carve::math::Matrix& matrix, weak_ptr<BuildingEntity>& placement_entity, int placement_id ) : m_placement_entity_id( placement_id ), m_matrix(matrix), m_placement_entity(placement_entity)
 	{
 	}
 	TransformData( const shared_ptr<TransformData>& other )
@@ -67,8 +67,8 @@ public:
 			{
 				if( !m_placement_entity.expired() )
 				{
-					shared_ptr<IfcPPEntity> ent1( m_placement_entity );
-					shared_ptr<IfcPPEntity> ent2( transform_data->m_placement_entity );
+					shared_ptr<BuildingEntity> ent1( m_placement_entity );
+					shared_ptr<BuildingEntity> ent2( transform_data->m_placement_entity );
 					return ent1 == ent2;
 				}
 			}
@@ -76,9 +76,9 @@ public:
 		return false;
 	}
 	
-	carve::math::Matrix		m_matrix;
-	weak_ptr<IfcPPEntity>	m_placement_entity;
-	int						m_placement_entity_id = -1;
+	carve::math::Matrix			m_matrix;
+	weak_ptr<BuildingEntity>	m_placement_entity;
+	int							m_placement_entity_id = -1;
 };
 
 class RepresentationData;
@@ -174,7 +174,7 @@ public:
 		else
 		{
 			m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
-			throw IfcPPException( "Meshset is not closed", __FUNC__ );
+			throw BuildingException( "Meshset is not closed", __FUNC__ );
 		}
 	}
 
@@ -186,14 +186,14 @@ public:
 			if( !m_vertex_points[0] )
 			{
 				m_vertex_points[0] = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-				if( !m_vertex_points[0] ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+				if( !m_vertex_points[0] ){ throw OutOfMemoryException( __FUNC__ ); }
 			}
 			vertex_data = m_vertex_points[0];
 		}
 		else
 		{
 			vertex_data = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-			if( !vertex_data ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+			if( !vertex_data ){ throw OutOfMemoryException( __FUNC__ ); }
 			m_vertex_points.push_back( vertex_data );
 		}
 

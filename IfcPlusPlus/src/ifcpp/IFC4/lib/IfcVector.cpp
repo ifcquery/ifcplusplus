@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDirection.h"
@@ -17,7 +17,7 @@
 IfcVector::IfcVector() {}
 IfcVector::IfcVector( int id ) { m_entity_id = id; }
 IfcVector::~IfcVector() {}
-shared_ptr<IfcPPObject> IfcVector::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcVector::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVector> copy_self( new IfcVector() );
 	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy(options) ); }
@@ -34,24 +34,24 @@ void IfcVector::getStepLine( std::stringstream& stream ) const
 }
 void IfcVector::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVector::toString() const { return L"IfcVector"; }
-void IfcVector::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcVector::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVector, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVector, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Orientation, map );
 	m_Magnitude = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcVector::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcVector::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
 	vec_attributes.push_back( std::make_pair( "Magnitude", m_Magnitude ) );
 }
-void IfcVector::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcVector::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcVector::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcVector::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

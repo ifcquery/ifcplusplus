@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcSurfaceStyleWithTextures.h"
@@ -14,7 +14,7 @@
 IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures() {}
 IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures( int id ) { m_entity_id = id; }
 IfcSurfaceStyleWithTextures::~IfcSurfaceStyleWithTextures() {}
-shared_ptr<IfcPPObject> IfcSurfaceStyleWithTextures::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSurfaceStyleWithTextures::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleWithTextures> copy_self( new IfcSurfaceStyleWithTextures() );
 	for( size_t ii=0; ii<m_Textures.size(); ++ii )
@@ -35,31 +35,31 @@ void IfcSurfaceStyleWithTextures::getStepLine( std::stringstream& stream ) const
 }
 void IfcSurfaceStyleWithTextures::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleWithTextures::toString() const { return L"IfcSurfaceStyleWithTextures"; }
-void IfcSurfaceStyleWithTextures::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSurfaceStyleWithTextures::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleWithTextures, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleWithTextures, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Textures, map );
 }
-void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	if( m_Textures.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Textures_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Textures_vec_object( new AttributeObjectVector() );
 		std::copy( m_Textures.begin(), m_Textures.end(), std::back_inserter( Textures_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Textures", Textures_vec_object ) );
 	}
 }
-void IfcSurfaceStyleWithTextures::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleWithTextures::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSurfaceStyleWithTextures::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSurfaceStyleWithTextures::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcSurfaceStyleWithTextures> ptr_self = dynamic_pointer_cast<IfcSurfaceStyleWithTextures>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcSurfaceStyleWithTextures::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcSurfaceStyleWithTextures::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_Textures.size(); ++i )
 	{
 		if( m_Textures[i] )

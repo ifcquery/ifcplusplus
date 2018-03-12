@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -31,7 +31,7 @@
 IfcGrid::IfcGrid() {}
 IfcGrid::IfcGrid( int id ) { m_entity_id = id; }
 IfcGrid::~IfcGrid() {}
-shared_ptr<IfcPPObject> IfcGrid::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGrid> copy_self( new IfcGrid() );
 	if( m_GlobalId )
@@ -104,10 +104,10 @@ void IfcGrid::getStepLine( std::stringstream& stream ) const
 }
 void IfcGrid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGrid::toString() const { return L"IfcGrid"; }
-void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGrid, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -120,35 +120,35 @@ void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const st
 	readEntityReferenceList( args[9], m_WAxes, map );
 	m_PredefinedType = IfcGridTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProduct::getAttributes( vec_attributes );
 	if( m_UAxes.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> UAxes_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> UAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "UAxes", UAxes_vec_object ) );
 	}
 	if( m_VAxes.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> VAxes_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> VAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "VAxes", VAxes_vec_object ) );
 	}
 	if( m_WAxes.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> WAxes_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> WAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "WAxes", WAxes_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 	if( m_ContainedInStructure_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ContainedInStructure_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
 		{
 			if( !m_ContainedInStructure_inverse[i].expired() )
@@ -159,11 +159,11 @@ void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_pt
 		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
 }
-void IfcGrid::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcGrid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcGrid> ptr_self = dynamic_pointer_cast<IfcGrid>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcGrid::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcGrid::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_UAxes.size(); ++i )
 	{
 		if( m_UAxes[i] )

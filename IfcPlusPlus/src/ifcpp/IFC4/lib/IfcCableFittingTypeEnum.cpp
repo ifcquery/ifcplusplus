@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCableFittingTypeEnum.h"
 
 // TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
 IfcCableFittingTypeEnum::IfcCableFittingTypeEnum() {}
 IfcCableFittingTypeEnum::~IfcCableFittingTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCableFittingTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCableFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableFittingTypeEnum> copy_self( new IfcCableFittingTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -47,7 +47,7 @@ const std::wstring IfcCableFittingTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }

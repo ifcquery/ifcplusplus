@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSpaceTypeEnum.h"
 
 // TYPE IfcSpaceTypeEnum = ENUMERATION OF	(SPACE	,PARKING	,GFA	,INTERNAL	,EXTERNAL	,USERDEFINED	,NOTDEFINED);
 IfcSpaceTypeEnum::IfcSpaceTypeEnum() {}
 IfcSpaceTypeEnum::~IfcSpaceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcSpaceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSpaceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceTypeEnum> copy_self( new IfcSpaceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -47,7 +47,7 @@ const std::wstring IfcSpaceTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }

@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCommunicationsApplianceTypeEnum.h"
 
 // TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,USERDEFINED	,NOTDEFINED);
 IfcCommunicationsApplianceTypeEnum::IfcCommunicationsApplianceTypeEnum() {}
 IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> copy_self( new IfcCommunicationsApplianceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -61,7 +61,7 @@ const std::wstring IfcCommunicationsApplianceTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAlarm.h"
@@ -42,7 +42,7 @@
 IfcAlarm::IfcAlarm() {}
 IfcAlarm::IfcAlarm( int id ) { m_entity_id = id; }
 IfcAlarm::~IfcAlarm() {}
-shared_ptr<IfcPPObject> IfcAlarm::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAlarm::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAlarm> copy_self( new IfcAlarm() );
 	if( m_GlobalId )
@@ -88,10 +88,10 @@ void IfcAlarm::getStepLine( std::stringstream& stream ) const
 }
 void IfcAlarm::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAlarm::toString() const { return L"IfcAlarm"; }
-void IfcAlarm::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcAlarm::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAlarm, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAlarm, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -102,16 +102,16 @@ void IfcAlarm::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcAlarmTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcAlarm::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcAlarm::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcDistributionControlElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcAlarm::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcAlarm::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcDistributionControlElement::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcAlarm::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcAlarm::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcDistributionControlElement::setInverseCounterparts( ptr_self_entity );
 }

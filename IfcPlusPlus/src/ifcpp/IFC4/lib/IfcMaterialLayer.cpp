@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -23,7 +23,7 @@
 IfcMaterialLayer::IfcMaterialLayer() {}
 IfcMaterialLayer::IfcMaterialLayer( int id ) { m_entity_id = id; }
 IfcMaterialLayer::~IfcMaterialLayer() {}
-shared_ptr<IfcPPObject> IfcMaterialLayer::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialLayer::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayer> copy_self( new IfcMaterialLayer() );
 	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy(options) ); }
@@ -55,10 +55,10 @@ void IfcMaterialLayer::getStepLine( std::stringstream& stream ) const
 }
 void IfcMaterialLayer::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayer::toString() const { return L"IfcMaterialLayer"; }
-void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Material, map );
 	m_LayerThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_IsVentilated = IfcLogical::createObjectFromSTEP( args[2], map );
@@ -67,7 +67,7 @@ void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args,
 	m_Category = IfcLabel::createObjectFromSTEP( args[5], map );
 	m_Priority = IfcInteger::createObjectFromSTEP( args[6], map );
 }
-void IfcMaterialLayer::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialLayer::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Material", m_Material ) );
@@ -78,12 +78,12 @@ void IfcMaterialLayer::getAttributes( std::vector<std::pair<std::string, shared_
 	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
 	vec_attributes.push_back( std::make_pair( "Priority", m_Priority ) );
 }
-void IfcMaterialLayer::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialLayer::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.push_back( std::make_pair( "ToMaterialLayerSet_inverse", shared_ptr<IfcPPEntity>( m_ToMaterialLayerSet_inverse ) ) );
+	vec_attributes_inverse.push_back( std::make_pair( "ToMaterialLayerSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialLayerSet_inverse ) ) );
 }
-void IfcMaterialLayer::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcMaterialLayer::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcMaterialDefinition::setInverseCounterparts( ptr_self_entity );
 }

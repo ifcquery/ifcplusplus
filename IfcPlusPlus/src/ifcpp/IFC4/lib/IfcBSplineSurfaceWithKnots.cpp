@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBSplineSurfaceForm.h"
@@ -21,7 +21,7 @@
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots() {}
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
 IfcBSplineSurfaceWithKnots::~IfcBSplineSurfaceWithKnots() {}
-shared_ptr<IfcPPObject> IfcBSplineSurfaceWithKnots::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurfaceWithKnots> copy_self( new IfcBSplineSurfaceWithKnots() );
 	if( m_UDegree ) { copy_self->m_UDegree = dynamic_pointer_cast<IfcInteger>( m_UDegree->getDeepCopy(options) ); }
@@ -109,10 +109,10 @@ void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 }
 void IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurfaceWithKnots::toString() const { return L"IfcBSplineSurfaceWithKnots"; }
-void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
@@ -126,40 +126,40 @@ void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstri
 	readTypeOfRealList( args[10], m_VKnots );
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11], map );
 }
-void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBSplineSurface::getAttributes( vec_attributes );
 	if( m_UMultiplicities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> UMultiplicities_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> UMultiplicities_vec_object( new AttributeObjectVector() );
 		std::copy( m_UMultiplicities.begin(), m_UMultiplicities.end(), std::back_inserter( UMultiplicities_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_object ) );
 	}
 	if( m_VMultiplicities.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> VMultiplicities_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> VMultiplicities_vec_object( new AttributeObjectVector() );
 		std::copy( m_VMultiplicities.begin(), m_VMultiplicities.end(), std::back_inserter( VMultiplicities_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_object ) );
 	}
 	if( m_UKnots.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> UKnots_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> UKnots_vec_object( new AttributeObjectVector() );
 		std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "UKnots", UKnots_vec_object ) );
 	}
 	if( m_VKnots.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> VKnots_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> VKnots_vec_object( new AttributeObjectVector() );
 		std::copy( m_VKnots.begin(), m_VKnots.end(), std::back_inserter( VKnots_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "VKnots", VKnots_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
 }
-void IfcBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBSplineSurface::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcBSplineSurfaceWithKnots::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcBSplineSurfaceWithKnots::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBSplineSurface::setInverseCounterparts( ptr_self_entity );
 }

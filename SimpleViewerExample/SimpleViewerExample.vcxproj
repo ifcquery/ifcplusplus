@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -118,6 +118,7 @@
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,8 +154,7 @@
     <ClCompile>
       <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;IFCPP_OPENMP;UNICODE;WIN32;WIN64;NDEBUG;QT_NO_DEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(BOOST_DIR);.\..\Carve\src;.\..\Carve\src\include;.\..\Carve\src\common;.;.\src;.\..\IfcPlusPlus\src;.\..\IfcPlusPlusGeometry\src;.\GeneratedFiles;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(CSF_OPT_INC);$(OSG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -177,7 +177,7 @@
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>..\IfcPlusPlus\bin;..\Carve\bin;$(QTDIR)\lib;$(OSG_DIR)\lib;$(FREETYPE_DIR)\objs\vc2010\x64;$(OCCT_DIR)\win64\vc14\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>carve.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5OpenGL.lib;Qt5Widgets.lib;Qt5PrintSupport.lib;Qt5Xml.lib;osg.lib;OpenThreads.lib;osgDB.lib;osgFX.lib;osgGA.lib;osgText.lib;osgUtil.lib;osgViewer.lib;freetype28.lib;IfcPlusPlus.lib;TKernel.lib;TKMath.lib;TKService.lib;TKV3d.lib;TKOpenGl.lib;TKBRep.lib;TKIGES.lib;TKSTL.lib;TKVRML.lib;TKSTEP.lib;TKSTEPAttr.lib;TKSTEP209.lib;TKSTEPBase.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKG3d.lib;TKG2d.lib;TKXSBase.lib;TKShHealing.lib;TKHLR.lib;TKTopAlgo.lib;TKMesh.lib;TKPrim.lib;TKCDF.lib;TKBool.lib;TKBO.lib;TKFillet.lib;TKOffset.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <StackReserveSize>
@@ -364,25 +364,25 @@
     <ClInclude Include="src\cmd\Command.h" />
     <ClInclude Include="src\cmd\CommandManager.h" />
     <ClInclude Include="src\cmd\LoadIfcFileCommand.h" />
-    <ClInclude Include="src\IncludeGeometryHeaders.h" />
     <CustomBuild Include="src\IfcPlusPlusSystem.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing IfcPlusPlusSystem.h...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DCARVE_SYSTEM_BOOST -DWIN32 -D_WINDOWS -DWINDOWS -DUNICODE -D_UNICODE -D_DEBUG -D_CRT_SECURE_NO_WARNINGS -D_MBCS -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB  "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I$(OSG_DIR)\include" "-I.\GeneratedFiles" "-I.\src" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DCARVE_SYSTEM_BOOST -DWIN32 -D_WINDOWS -DWINDOWS -DUNICODE -D_UNICODE -D_DEBUG -D_CRT_SECURE_NO_WARNINGS -D_MBCS -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I$(OSG_DIR)\include" "-I.\GeneratedFiles" "-I.\src" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing IfcPlusPlusSystem.h...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DWIN32 -DWIN64 -D_WINDOWS -DWINDOWS -DUNICODE -D_UNICODE -D_DEBUG -D_CRT_SECURE_NO_WARNINGS -D_MBCS -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB  "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I." "-I.\src" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(CSF_OPT_INC)\." "-I$(OSG_DIR)\include"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DWIN32 -DWIN64 -D_WINDOWS -DWINDOWS -DUNICODE -D_UNICODE -D_DEBUG -D_CRT_SECURE_NO_WARNINGS -D_MBCS -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I." "-I.\src" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(CSF_OPT_INC)\." "-I$(OSG_DIR)\include"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing IfcPlusPlusSystem.h...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DIFCPP_OPENMP -DCARVE_SYSTEM_BOOST -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I$(OSG_DIR)\include" "-I.\GeneratedFiles" "-I.\src" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DIFCPP_OPENMP -DCARVE_SYSTEM_BOOST -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I$(OSG_DIR)\include" "-I.\GeneratedFiles" "-I.\src" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing IfcPlusPlusSystem.h...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DCARVE_SYSTEM_BOOST -DIFCPP_OPENMP -DUNICODE -DWIN32 -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I." "-I.\src" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(CSF_OPT_INC)\." "-I$(OSG_DIR)\include"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DCARVE_SYSTEM_BOOST -DIFCPP_OPENMP -DUNICODE -DWIN32 -DWIN64 -DNDEBUG -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(BOOST_DIR)\." "-I.\..\Carve\src" "-I.\..\Carve\src\include" "-I.\..\Carve\src\common" "-I." "-I.\src" "-I.\..\IfcPlusPlus\src" "-I.\..\IfcPlusPlusGeometry\src" "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(CSF_OPT_INC)\." "-I$(OSG_DIR)\include"</Command>
     </CustomBuild>
+    <ClInclude Include="src\IncludeGeometryHeaders.h" />
     <ClInclude Include="src\viewer\GraphicsWindowQt.h" />
     <ClInclude Include="src\viewer\OrbitCameraManipulator.h" />
     <CustomBuild Include="src\viewer\ViewerWidget.h">

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement.h"
@@ -20,7 +20,7 @@
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() {}
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_entity_id = id; }
 IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() {}
-shared_ptr<IfcPPObject> IfcTextLiteralWithExtent::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTextLiteralWithExtent::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextLiteralWithExtent> copy_self( new IfcTextLiteralWithExtent() );
 	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy(options) ); }
@@ -46,27 +46,27 @@ void IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
 }
 void IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextLiteralWithExtent::toString() const { return L"IfcTextLiteralWithExtent"; }
-void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 	m_Path = IfcTextPath::createObjectFromSTEP( args[2], map );
 	readEntityReference( args[3], m_Extent, map );
 	m_BoxAlignment = IfcBoxAlignment::createObjectFromSTEP( args[4], map );
 }
-void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTextLiteral::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Extent", m_Extent ) );
 	vec_attributes.push_back( std::make_pair( "BoxAlignment", m_BoxAlignment ) );
 }
-void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTextLiteral::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTextLiteralWithExtent::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTextLiteralWithExtent::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTextLiteral::setInverseCounterparts( ptr_self_entity );
 }

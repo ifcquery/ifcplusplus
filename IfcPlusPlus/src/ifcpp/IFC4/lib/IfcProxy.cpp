@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -29,7 +29,7 @@
 IfcProxy::IfcProxy() {}
 IfcProxy::IfcProxy( int id ) { m_entity_id = id; }
 IfcProxy::~IfcProxy() {}
-shared_ptr<IfcPPObject> IfcProxy::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcProxy::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProxy> copy_self( new IfcProxy() );
 	if( m_GlobalId )
@@ -75,10 +75,10 @@ void IfcProxy::getStepLine( std::stringstream& stream ) const
 }
 void IfcProxy::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProxy::toString() const { return L"IfcProxy"; }
-void IfcProxy::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcProxy::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProxy, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProxy, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -89,17 +89,17 @@ void IfcProxy::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_ProxyType = IfcObjectTypeEnum::createObjectFromSTEP( args[7], map );
 	m_Tag = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcProxy::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcProxy::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ProxyType", m_ProxyType ) );
 	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
 }
-void IfcProxy::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcProxy::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcProxy::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcProxy::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 }

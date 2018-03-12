@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcComplexProperty.h"
@@ -22,7 +22,7 @@
 IfcPropertyReferenceValue::IfcPropertyReferenceValue() {}
 IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_entity_id = id; }
 IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
-shared_ptr<IfcPPObject> IfcPropertyReferenceValue::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertyReferenceValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyReferenceValue> copy_self( new IfcPropertyReferenceValue() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
@@ -45,26 +45,26 @@ void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 }
 void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyReferenceValue::toString() const { return L"IfcPropertyReferenceValue"; }
-void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UsageName = IfcText::createObjectFromSTEP( args[2], map );
 	m_PropertyReference = IfcObjectReferenceSelect::createObjectFromSTEP( args[3], map );
 }
-void IfcPropertyReferenceValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPropertyReferenceValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
 	vec_attributes.push_back( std::make_pair( "PropertyReference", m_PropertyReference ) );
 }
-void IfcPropertyReferenceValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPropertyReferenceValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPropertyReferenceValue::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPropertyReferenceValue::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSimpleProperty::setInverseCounterparts( ptr_self_entity );
 }

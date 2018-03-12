@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -16,7 +16,7 @@
 IfcMaterialDefinition::IfcMaterialDefinition() {}
 IfcMaterialDefinition::IfcMaterialDefinition( int id ) { m_entity_id = id; }
 IfcMaterialDefinition::~IfcMaterialDefinition() {}
-shared_ptr<IfcPPObject> IfcMaterialDefinition::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMaterialDefinition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialDefinition> copy_self( new IfcMaterialDefinition() );
 	return copy_self;
@@ -28,17 +28,17 @@ void IfcMaterialDefinition::getStepLine( std::stringstream& stream ) const
 }
 void IfcMaterialDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialDefinition::toString() const { return L"IfcMaterialDefinition"; }
-void IfcMaterialDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcMaterialDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcMaterialDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcMaterialDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 }
-void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_AssociatedTo_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> AssociatedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> AssociatedTo_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_AssociatedTo_inverse.size(); ++i )
 		{
 			if( !m_AssociatedTo_inverse[i].expired() )
@@ -50,7 +50,7 @@ void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::str
 	}
 	if( m_HasExternalReferences_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasExternalReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReferences_inverse[i].expired() )
@@ -62,7 +62,7 @@ void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::str
 	}
 	if( m_HasProperties_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasProperties_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasProperties_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasProperties_inverse.size(); ++i )
 		{
 			if( !m_HasProperties_inverse[i].expired() )
@@ -73,7 +73,7 @@ void IfcMaterialDefinition::getAttributesInverse( std::vector<std::pair<std::str
 		vec_attributes_inverse.push_back( std::make_pair( "HasProperties_inverse", HasProperties_inverse_vec_obj ) );
 	}
 }
-void IfcMaterialDefinition::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcMaterialDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcMaterialDefinition::unlinkFromInverseCounterparts()

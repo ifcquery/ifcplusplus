@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -20,13 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <iostream>
 #include <vector>
-#include "IfcPPBasicTypes.h"
-#include "IfcPPGlobal.h"
-#include "IfcPPOpenMP.h"
+#include "BasicTypes.h"
+#include "GlobalDefines.h"
+#include "OpenMPIncludes.h"
 
-class IfcPPEntity;
+class BuildingEntity;
 
-class IFCPP_EXPORT StatusCallback
+class IFCQUERY_EXPORT StatusCallback
 {
 public:
 	enum MessageType
@@ -57,8 +57,8 @@ public:
 
 		std::wstring m_message_text;		// Message text.
 		MessageType m_message_type;			// Type of message (warning, error etc.).
-		const char* m_reporting_function;	// Function name where the message is sent from. You can use the __FUNC__ macro from IfcPPException.h.
-		IfcPPEntity* m_entity;				// IFC entity in case the message applies to a certain entity.
+		const char* m_reporting_function;	// Function name where the message is sent from. You can use the __FUNC__ macro from BuildingException.h.
+		BuildingEntity* m_entity;				// IFC entity in case the message applies to a certain entity.
 
 		double m_progress_value;			// Value of progress [0...1]. If negative value is given, the progress itself is ignored, for example when only the progress text is updated.
 		std::string m_progress_type;		// Type of progress, for example "parse", "geometry".
@@ -136,7 +136,7 @@ public:
 		{
 			if( m_obj_call_on_message )
 			{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 				// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
 				ScopedLock lock( m_writelock );
 #endif
@@ -145,7 +145,7 @@ public:
 		}
 	}
 
-	virtual void messageCallback( const std::string& message_text, MessageType type, const char* reporting_function, IfcPPEntity* entity = nullptr )
+	virtual void messageCallback( const std::string& message_text, MessageType type, const char* reporting_function, BuildingEntity* entity = nullptr )
 	{
 		shared_ptr<Message> message( new Message() );
 		message->m_message_text.assign( message_text.begin(), message_text.end() );
@@ -154,7 +154,7 @@ public:
 		message->m_entity = entity;
 		messageCallback( message );
 	}
-	virtual void messageCallback( const std::wstring& message_text, MessageType type, const char* reporting_function, IfcPPEntity* entity = nullptr )
+	virtual void messageCallback( const std::wstring& message_text, MessageType type, const char* reporting_function, BuildingEntity* entity = nullptr )
 	{
 		shared_ptr<Message> message( new Message() );
 		message->m_message_text.assign( message_text.c_str() );
@@ -195,7 +195,7 @@ protected:
 
 	StatusCallback* m_redirect_target = nullptr;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	Mutex m_writelock;
 #endif
 };

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -28,7 +28,7 @@
 IfcRampFlightType::IfcRampFlightType() {}
 IfcRampFlightType::IfcRampFlightType( int id ) { m_entity_id = id; }
 IfcRampFlightType::~IfcRampFlightType() {}
-shared_ptr<IfcPPObject> IfcRampFlightType::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRampFlightType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRampFlightType> copy_self( new IfcRampFlightType() );
 	if( m_GlobalId )
@@ -91,10 +91,10 @@ void IfcRampFlightType::getStepLine( std::stringstream& stream ) const
 }
 void IfcRampFlightType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRampFlightType::toString() const { return L"IfcRampFlightType"; }
-void IfcRampFlightType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRampFlightType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRampFlightType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRampFlightType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -106,16 +106,16 @@ void IfcRampFlightType::readStepArguments( const std::vector<std::wstring>& args
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcRampFlightTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcRampFlightType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRampFlightType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBuildingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcRampFlightType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRampFlightType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRampFlightType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRampFlightType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBuildingElementType::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
@@ -18,7 +18,7 @@
 IfcTableColumn::IfcTableColumn() {}
 IfcTableColumn::IfcTableColumn( int id ) { m_entity_id = id; }
 IfcTableColumn::~IfcTableColumn() {}
-shared_ptr<IfcPPObject> IfcTableColumn::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTableColumn::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTableColumn> copy_self( new IfcTableColumn() );
 	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
@@ -44,17 +44,17 @@ void IfcTableColumn::getStepLine( std::stringstream& stream ) const
 }
 void IfcTableColumn::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTableColumn::toString() const { return L"IfcTableColumn"; }
-void IfcTableColumn::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTableColumn::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableColumn, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTableColumn, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_ReferencePath, map );
 }
-void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -62,10 +62,10 @@ void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 	vec_attributes.push_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
 }
-void IfcTableColumn::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTableColumn::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcTableColumn::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcTableColumn::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcTableColumn::unlinkFromInverseCounterparts()

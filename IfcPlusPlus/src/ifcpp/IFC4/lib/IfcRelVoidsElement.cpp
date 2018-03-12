@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcElement.h"
@@ -19,7 +19,7 @@
 IfcRelVoidsElement::IfcRelVoidsElement() {}
 IfcRelVoidsElement::IfcRelVoidsElement( int id ) { m_entity_id = id; }
 IfcRelVoidsElement::~IfcRelVoidsElement() {}
-shared_ptr<IfcPPObject> IfcRelVoidsElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelVoidsElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelVoidsElement> copy_self( new IfcRelVoidsElement() );
 	if( m_GlobalId )
@@ -56,10 +56,10 @@ void IfcRelVoidsElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelVoidsElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelVoidsElement::toString() const { return L"IfcRelVoidsElement"; }
-void IfcRelVoidsElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelVoidsElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelVoidsElement, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelVoidsElement, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -67,21 +67,21 @@ void IfcRelVoidsElement::readStepArguments( const std::vector<std::wstring>& arg
 	readEntityReference( args[4], m_RelatingBuildingElement, map );
 	readEntityReference( args[5], m_RelatedOpeningElement, map );
 }
-void IfcRelVoidsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelVoidsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
 	vec_attributes.push_back( std::make_pair( "RelatedOpeningElement", m_RelatedOpeningElement ) );
 }
-void IfcRelVoidsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelVoidsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelDecomposes::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelVoidsElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelVoidsElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelDecomposes::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelVoidsElement> ptr_self = dynamic_pointer_cast<IfcRelVoidsElement>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelVoidsElement::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelVoidsElement::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedOpeningElement )
 	{
 		m_RelatedOpeningElement->m_VoidsElements_inverse = ptr_self;

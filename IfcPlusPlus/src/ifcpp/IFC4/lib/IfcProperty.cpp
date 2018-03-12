@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcComplexProperty.h"
@@ -21,7 +21,7 @@
 IfcProperty::IfcProperty() {}
 IfcProperty::IfcProperty( int id ) { m_entity_id = id; }
 IfcProperty::~IfcProperty() {}
-shared_ptr<IfcPPObject> IfcProperty::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcProperty::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProperty> copy_self( new IfcProperty() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
@@ -38,25 +38,25 @@ void IfcProperty::getStepLine( std::stringstream& stream ) const
 }
 void IfcProperty::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProperty::toString() const { return L"IfcProperty"; }
-void IfcProperty::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcProperty::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProperty, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProperty, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 }
-void IfcProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
-void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
 	if( m_PartOfPset_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfPset_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfPset_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfPset_inverse.size(); ++i )
 		{
 			if( !m_PartOfPset_inverse[i].expired() )
@@ -68,7 +68,7 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_PropertyForDependance_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PropertyForDependance_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PropertyForDependance_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PropertyForDependance_inverse.size(); ++i )
 		{
 			if( !m_PropertyForDependance_inverse[i].expired() )
@@ -80,7 +80,7 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_PropertyDependsOn_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PropertyDependsOn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PropertyDependsOn_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PropertyDependsOn_inverse.size(); ++i )
 		{
 			if( !m_PropertyDependsOn_inverse[i].expired() )
@@ -92,7 +92,7 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_PartOfComplex_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PartOfComplex_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PartOfComplex_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
 		{
 			if( !m_PartOfComplex_inverse[i].expired() )
@@ -104,7 +104,7 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_HasConstraints_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasConstraints_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasConstraints_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasConstraints_inverse.size(); ++i )
 		{
 			if( !m_HasConstraints_inverse[i].expired() )
@@ -116,7 +116,7 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_HasApprovals_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasApprovals_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasApprovals_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasApprovals_inverse.size(); ++i )
 		{
 			if( !m_HasApprovals_inverse[i].expired() )
@@ -127,7 +127,7 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 		vec_attributes_inverse.push_back( std::make_pair( "HasApprovals_inverse", HasApprovals_inverse_vec_obj ) );
 	}
 }
-void IfcProperty::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcProperty::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPropertyAbstraction::setInverseCounterparts( ptr_self_entity );
 }

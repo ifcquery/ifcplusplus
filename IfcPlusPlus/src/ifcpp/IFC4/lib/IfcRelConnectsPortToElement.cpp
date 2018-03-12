@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDistributionElement.h"
@@ -19,7 +19,7 @@
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement() {}
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement( int id ) { m_entity_id = id; }
 IfcRelConnectsPortToElement::~IfcRelConnectsPortToElement() {}
-shared_ptr<IfcPPObject> IfcRelConnectsPortToElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelConnectsPortToElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsPortToElement> copy_self( new IfcRelConnectsPortToElement() );
 	if( m_GlobalId )
@@ -56,10 +56,10 @@ void IfcRelConnectsPortToElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsPortToElement::toString() const { return L"IfcRelConnectsPortToElement"; }
-void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsPortToElement, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -67,21 +67,21 @@ void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstr
 	readEntityReference( args[4], m_RelatingPort, map );
 	readEntityReference( args[5], m_RelatedElement, map );
 }
-void IfcRelConnectsPortToElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelConnectsPortToElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
 	vec_attributes.push_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
 }
-void IfcRelConnectsPortToElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelConnectsPortToElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelConnectsPortToElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelConnectsPortToElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelConnectsPortToElement> ptr_self = dynamic_pointer_cast<IfcRelConnectsPortToElement>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelConnectsPortToElement::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsPortToElement::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedElement )
 	{
 		m_RelatedElement->m_HasPorts_inverse.push_back( ptr_self );

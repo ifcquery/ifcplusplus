@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcLuminousFluxMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcLuminousFluxMeasure::IfcLuminousFluxMeasure() {}
 IfcLuminousFluxMeasure::IfcLuminousFluxMeasure( double value ) { m_value = value; }
 IfcLuminousFluxMeasure::~IfcLuminousFluxMeasure() {}
-shared_ptr<IfcPPObject> IfcLuminousFluxMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLuminousFluxMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLuminousFluxMeasure> copy_self( new IfcLuminousFluxMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcLuminousFluxMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcLuminousFluxMeasure> IfcLuminousFluxMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLuminousFluxMeasure> IfcLuminousFluxMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }

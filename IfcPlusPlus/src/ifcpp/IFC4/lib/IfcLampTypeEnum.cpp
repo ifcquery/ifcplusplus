@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcLampTypeEnum.h"
 
 // TYPE IfcLampTypeEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HALOGEN	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LED	,METALHALIDE	,OLED	,TUNGSTENFILAMENT	,USERDEFINED	,NOTDEFINED);
 IfcLampTypeEnum::IfcLampTypeEnum() {}
 IfcLampTypeEnum::~IfcLampTypeEnum() {}
-shared_ptr<IfcPPObject> IfcLampTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcLampTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLampTypeEnum> copy_self( new IfcLampTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -55,7 +55,7 @@ const std::wstring IfcLampTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }

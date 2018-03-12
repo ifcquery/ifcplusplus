@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAddressTypeEnum.h"
@@ -19,7 +19,7 @@
 IfcTelecomAddress::IfcTelecomAddress() {}
 IfcTelecomAddress::IfcTelecomAddress( int id ) { m_entity_id = id; }
 IfcTelecomAddress::~IfcTelecomAddress() {}
-shared_ptr<IfcPPObject> IfcTelecomAddress::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTelecomAddress> copy_self( new IfcTelecomAddress() );
 	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
@@ -153,10 +153,10 @@ void IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 }
 void IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTelecomAddress::toString() const { return L"IfcTelecomAddress"; }
-void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTelecomAddress, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTelecomAddress, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -167,41 +167,41 @@ void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args
 	m_WWWHomePageURL = IfcURIReference::createObjectFromSTEP( args[7], map );
 	readTypeOfStringList( args[8], m_MessagingIDs );
 }
-void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcAddress::getAttributes( vec_attributes );
 	if( m_TelephoneNumbers.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> TelephoneNumbers_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> TelephoneNumbers_vec_object( new AttributeObjectVector() );
 		std::copy( m_TelephoneNumbers.begin(), m_TelephoneNumbers.end(), std::back_inserter( TelephoneNumbers_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "TelephoneNumbers", TelephoneNumbers_vec_object ) );
 	}
 	if( m_FacsimileNumbers.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> FacsimileNumbers_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> FacsimileNumbers_vec_object( new AttributeObjectVector() );
 		std::copy( m_FacsimileNumbers.begin(), m_FacsimileNumbers.end(), std::back_inserter( FacsimileNumbers_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "FacsimileNumbers", FacsimileNumbers_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "PagerNumber", m_PagerNumber ) );
 	if( m_ElectronicMailAddresses.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ElectronicMailAddresses_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ElectronicMailAddresses_vec_object( new AttributeObjectVector() );
 		std::copy( m_ElectronicMailAddresses.begin(), m_ElectronicMailAddresses.end(), std::back_inserter( ElectronicMailAddresses_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "ElectronicMailAddresses", ElectronicMailAddresses_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "WWWHomePageURL", m_WWWHomePageURL ) );
 	if( m_MessagingIDs.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> MessagingIDs_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> MessagingIDs_vec_object( new AttributeObjectVector() );
 		std::copy( m_MessagingIDs.begin(), m_MessagingIDs.end(), std::back_inserter( MessagingIDs_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "MessagingIDs", MessagingIDs_vec_object ) );
 	}
 }
-void IfcTelecomAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTelecomAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcAddress::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTelecomAddress::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTelecomAddress::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcAddress::setInverseCounterparts( ptr_self_entity );
 }

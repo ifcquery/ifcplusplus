@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCompressorTypeEnum.h"
 
 // TYPE IfcCompressorTypeEnum = ENUMERATION OF	(DYNAMIC	,RECIPROCATING	,ROTARY	,SCROLL	,TROCHOIDAL	,SINGLESTAGE	,BOOSTER	,OPENTYPE	,HERMETIC	,SEMIHERMETIC	,WELDEDSHELLHERMETIC	,ROLLINGPISTON	,ROTARYVANE	,SINGLESCREW	,TWINSCREW	,USERDEFINED	,NOTDEFINED);
 IfcCompressorTypeEnum::IfcCompressorTypeEnum() {}
 IfcCompressorTypeEnum::~IfcCompressorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcCompressorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCompressorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompressorTypeEnum> copy_self( new IfcCompressorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -67,7 +67,7 @@ const std::wstring IfcCompressorTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcCompressorTypeEnum> IfcCompressorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCompressorTypeEnum> IfcCompressorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }

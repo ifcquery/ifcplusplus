@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDocumentInformation.h"
@@ -16,7 +16,7 @@
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship() {}
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_entity_id = id; }
 IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() {}
-shared_ptr<IfcPPObject> IfcDocumentInformationRelationship::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDocumentInformationRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentInformationRelationship> copy_self( new IfcDocumentInformationRelationship() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -49,37 +49,37 @@ void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream 
 }
 void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDocumentInformationRelationship::toString() const { return L"IfcDocumentInformationRelationship"; }
-void IfcDocumentInformationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDocumentInformationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingDocument, map );
 	readEntityReferenceList( args[3], m_RelatedDocuments, map );
 	m_RelationshipType = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
 	if( m_RelatedDocuments.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedDocuments_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedDocuments_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
-void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcDocumentInformationRelationship> ptr_self = dynamic_pointer_cast<IfcDocumentInformationRelationship>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcDocumentInformationRelationship::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcDocumentInformationRelationship::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedDocuments.size(); ++i )
 	{
 		if( m_RelatedDocuments[i] )

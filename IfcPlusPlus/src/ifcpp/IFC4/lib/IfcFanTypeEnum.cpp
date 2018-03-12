@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcFanTypeEnum.h"
 
 // TYPE IfcFanTypeEnum = ENUMERATION OF	(CENTRIFUGALFORWARDCURVED	,CENTRIFUGALRADIAL	,CENTRIFUGALBACKWARDINCLINEDCURVED	,CENTRIFUGALAIRFOIL	,TUBEAXIAL	,VANEAXIAL	,PROPELLORAXIAL	,USERDEFINED	,NOTDEFINED);
 IfcFanTypeEnum::IfcFanTypeEnum() {}
 IfcFanTypeEnum::~IfcFanTypeEnum() {}
-shared_ptr<IfcPPObject> IfcFanTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFanTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFanTypeEnum> copy_self( new IfcFanTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -51,7 +51,7 @@ const std::wstring IfcFanTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }

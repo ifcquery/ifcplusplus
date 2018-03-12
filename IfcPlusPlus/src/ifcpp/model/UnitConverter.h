@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -20,9 +20,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <map>
-#include "IfcPPBasicTypes.h"
+#include "BasicTypes.h"
 #include "StatusCallback.h"
-#include "IfcPPException.h"
+#include "BuildingException.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
 #include "ifcpp/IFC4/include/IfcSIPrefix.h"
 #include "ifcpp/IFC4/include/IfcSIUnitName.h"

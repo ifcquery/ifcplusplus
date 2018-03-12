@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -15,9 +15,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPObject.h>
-#include <ifcpp/model/IfcPPModel.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingObject.h>
+#include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/IFC4/include/IfcObjectDefinition.h>
 #include <ifcpp/IFC4/include/IfcSpatialStructureElement.h>
 #include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
@@ -67,7 +67,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setIndentation( 4 );
 
 	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( m_system, SIGNAL( signalObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >&) ),	this, SLOT( slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >&) ) );
+	connect( m_system, SIGNAL( signalObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >&) ),	this, SLOT( slotObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >&) ) );
 	connect( m_system, SIGNAL( signalModelCleared() ),		this, SLOT( slotModelCleared() ) );
 	connect( m_system, SIGNAL( signalModelLoadingStart() ),	this, SLOT( slotModelLoadingStart() ) );
 	connect( m_system, SIGNAL( signalModelLoadingDone() ),	this, SLOT( slotModelLoadingDone() ) );
@@ -75,7 +75,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 
 IfcTreeWidget::~IfcTreeWidget(){}
 
-void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >& map )
+void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >& map )
 {
 	if( m_block_selection_signals )
 	{
@@ -88,7 +88,7 @@ void IfcTreeWidget::slotObjectsSelected( std::map<int, shared_ptr<IfcPPEntity> >
 	}
 
 	// take the first object from map and highlight it
-	shared_ptr<IfcPPEntity> object = (*(map.begin())).second;
+	shared_ptr<BuildingEntity> object = (*(map.begin())).second;
 	int selected_id = object->m_entity_id;
 
 	for( int i=0; i<topLevelItemCount(); ++i )
@@ -113,16 +113,16 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 	{
 		return;
 	}
-	const std::map<int,shared_ptr<IfcPPEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
-	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_find;
+	const std::map<int,shared_ptr<BuildingEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
+	std::map<int,shared_ptr<BuildingEntity> >::const_iterator it_find;
 	if( previous )
 	{
 		int id = previous->text(1).toUInt();
 		it_find = map_ifc_objects.find(id);
 		if( it_find != map_ifc_objects.end() )
 		{
-			shared_ptr<IfcPPEntity> ifc_object = it_find->second;
-			//const shared_ptr<IfcPPEntity> ifc_object = map_ifc_objects[id];
+			shared_ptr<BuildingEntity> ifc_object = it_find->second;
+			//const shared_ptr<BuildingEntity> ifc_object = map_ifc_objects[id];
 			m_block_selection_signals = true;
 			m_system->setObjectSelected( ifc_object, false );
 			m_block_selection_signals = false;
@@ -135,7 +135,7 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 		it_find = map_ifc_objects.find(id);
 		if( it_find != map_ifc_objects.end() )
 		{
-			shared_ptr<IfcPPEntity> ifc_object = it_find->second;
+			shared_ptr<BuildingEntity> ifc_object = it_find->second;
 			m_block_selection_signals = true;
 			m_system->setObjectSelected( ifc_object, true );
 			m_block_selection_signals = false;
@@ -162,7 +162,7 @@ void IfcTreeWidget::slotModelLoadingStart()
 	slotModelCleared();
 }
 
-QTreeWidgetItem* resolveTreeItems( shared_ptr<IfcPPObject> obj, std::unordered_set<int>& set_visited )
+QTreeWidgetItem* resolveTreeItems( shared_ptr<BuildingObject> obj, std::unordered_set<int>& set_visited )
 {
 	QTreeWidgetItem* item = nullptr;
 
@@ -263,7 +263,7 @@ void IfcTreeWidget::slotModelLoadingDone()
 		}
 	}
 
-	std::map<int, shared_ptr<IfcPPObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
+	std::map<int, shared_ptr<BuildingObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
 	
 	if( map_outside.size() > 0 )
 	{
@@ -272,7 +272,7 @@ void IfcTreeWidget::slotModelLoadingDone()
 
 		for( auto it = map_outside.begin(); it != map_outside.end(); ++it )
 		{
-			shared_ptr<IfcPPObject>& ifc_object = it->second;
+			shared_ptr<BuildingObject>& ifc_object = it->second;
 			QTreeWidgetItem* object_item = resolveTreeItems( ifc_object, set_visited );
 			if( object_item != NULL )
 			{

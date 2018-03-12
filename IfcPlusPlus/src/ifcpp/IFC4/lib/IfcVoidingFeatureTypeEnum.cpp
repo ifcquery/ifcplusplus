@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcVoidingFeatureTypeEnum.h"
 
 // TYPE IfcVoidingFeatureTypeEnum = ENUMERATION OF	(CUTOUT	,NOTCH	,HOLE	,MITER	,CHAMFER	,EDGE	,USERDEFINED	,NOTDEFINED);
 IfcVoidingFeatureTypeEnum::IfcVoidingFeatureTypeEnum() {}
 IfcVoidingFeatureTypeEnum::~IfcVoidingFeatureTypeEnum() {}
-shared_ptr<IfcPPObject> IfcVoidingFeatureTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcVoidingFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVoidingFeatureTypeEnum> copy_self( new IfcVoidingFeatureTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -49,7 +49,7 @@ const std::wstring IfcVoidingFeatureTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }

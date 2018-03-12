@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -20,7 +20,7 @@
 IfcRelAssignsToGroup::IfcRelAssignsToGroup() {}
 IfcRelAssignsToGroup::IfcRelAssignsToGroup( int id ) { m_entity_id = id; }
 IfcRelAssignsToGroup::~IfcRelAssignsToGroup() {}
-shared_ptr<IfcPPObject> IfcRelAssignsToGroup::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAssignsToGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToGroup> copy_self( new IfcRelAssignsToGroup() );
 	if( m_GlobalId )
@@ -67,10 +67,10 @@ void IfcRelAssignsToGroup::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAssignsToGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToGroup::toString() const { return L"IfcRelAssignsToGroup"; }
-void IfcRelAssignsToGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAssignsToGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToGroup, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToGroup, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -79,20 +79,20 @@ void IfcRelAssignsToGroup::readStepArguments( const std::vector<std::wstring>& a
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 	readEntityReference( args[6], m_RelatingGroup, map );
 }
-void IfcRelAssignsToGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAssignsToGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingGroup", m_RelatingGroup ) );
 }
-void IfcRelAssignsToGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAssignsToGroup::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAssignsToGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelAssigns::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAssignsToGroup> ptr_self = dynamic_pointer_cast<IfcRelAssignsToGroup>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAssignsToGroup::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToGroup::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingGroup )
 	{
 		m_RelatingGroup->m_IsGroupedBy_inverse.push_back( ptr_self );

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcFlowSegment.h"
@@ -41,7 +41,7 @@
 IfcFlowSegment::IfcFlowSegment() {}
 IfcFlowSegment::IfcFlowSegment( int id ) { m_entity_id = id; }
 IfcFlowSegment::~IfcFlowSegment() {}
-shared_ptr<IfcPPObject> IfcFlowSegment::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFlowSegment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowSegment> copy_self( new IfcFlowSegment() );
 	if( m_GlobalId )
@@ -84,10 +84,10 @@ void IfcFlowSegment::getStepLine( std::stringstream& stream ) const
 }
 void IfcFlowSegment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowSegment::toString() const { return L"IfcFlowSegment"; }
-void IfcFlowSegment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFlowSegment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFlowSegment, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFlowSegment, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -97,15 +97,15 @@ void IfcFlowSegment::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcFlowSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcFlowSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcDistributionFlowElement::getAttributes( vec_attributes );
 }
-void IfcFlowSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcFlowSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcDistributionFlowElement::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcFlowSegment::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcFlowSegment::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcDistributionFlowElement::setInverseCounterparts( ptr_self_entity );
 }

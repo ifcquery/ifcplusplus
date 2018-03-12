@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcObjectiveEnum.h"
 
 // TYPE IfcObjectiveEnum = ENUMERATION OF	(CODECOMPLIANCE	,CODEWAIVER	,DESIGNINTENT	,EXTERNAL	,HEALTHANDSAFETY	,MERGECONFLICT	,MODELVIEW	,PARAMETER	,REQUIREMENT	,SPECIFICATION	,TRIGGERCONDITION	,USERDEFINED	,NOTDEFINED);
 IfcObjectiveEnum::IfcObjectiveEnum() {}
 IfcObjectiveEnum::~IfcObjectiveEnum() {}
-shared_ptr<IfcPPObject> IfcObjectiveEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcObjectiveEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectiveEnum> copy_self( new IfcObjectiveEnum() );
 	copy_self->m_enum = m_enum;
@@ -59,7 +59,7 @@ const std::wstring IfcObjectiveEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }

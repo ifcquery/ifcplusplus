@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCondenserType.h"
@@ -28,7 +28,7 @@
 IfcCondenserType::IfcCondenserType() {}
 IfcCondenserType::IfcCondenserType( int id ) { m_entity_id = id; }
 IfcCondenserType::~IfcCondenserType() {}
-shared_ptr<IfcPPObject> IfcCondenserType::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCondenserType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCondenserType> copy_self( new IfcCondenserType() );
 	if( m_GlobalId )
@@ -91,10 +91,10 @@ void IfcCondenserType::getStepLine( std::stringstream& stream ) const
 }
 void IfcCondenserType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCondenserType::toString() const { return L"IfcCondenserType"; }
-void IfcCondenserType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCondenserType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCondenserType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCondenserType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -106,16 +106,16 @@ void IfcCondenserType::readStepArguments( const std::vector<std::wstring>& args,
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcCondenserTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcCondenserType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCondenserType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcEnergyConversionDeviceType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcCondenserType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCondenserType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcEnergyConversionDeviceType::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcCondenserType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCondenserType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcEnergyConversionDeviceType::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDerivedUnit.h"
@@ -16,7 +16,7 @@
 IfcDerivedUnit::IfcDerivedUnit() {}
 IfcDerivedUnit::IfcDerivedUnit( int id ) { m_entity_id = id; }
 IfcDerivedUnit::~IfcDerivedUnit() {}
-shared_ptr<IfcPPObject> IfcDerivedUnit::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDerivedUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDerivedUnit> copy_self( new IfcDerivedUnit() );
 	for( size_t ii=0; ii<m_Elements.size(); ++ii )
@@ -43,29 +43,29 @@ void IfcDerivedUnit::getStepLine( std::stringstream& stream ) const
 }
 void IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDerivedUnit::toString() const { return L"IfcDerivedUnit"; }
-void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedUnit, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Elements, map );
 	m_UnitType = IfcDerivedUnitEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedType = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	if( m_Elements.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Elements_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
 		std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Elements", Elements_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedType", m_UserDefinedType ) );
 }
-void IfcDerivedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDerivedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcDerivedUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcDerivedUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcDerivedUnit::unlinkFromInverseCounterparts()

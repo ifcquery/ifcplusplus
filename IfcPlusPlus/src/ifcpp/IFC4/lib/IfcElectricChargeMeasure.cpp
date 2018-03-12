@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcElectricChargeMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcElectricChargeMeasure::IfcElectricChargeMeasure() {}
 IfcElectricChargeMeasure::IfcElectricChargeMeasure( double value ) { m_value = value; }
 IfcElectricChargeMeasure::~IfcElectricChargeMeasure() {}
-shared_ptr<IfcPPObject> IfcElectricChargeMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcElectricChargeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricChargeMeasure> copy_self( new IfcElectricChargeMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcElectricChargeMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcElectricChargeMeasure> IfcElectricChargeMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcElectricChargeMeasure> IfcElectricChargeMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }

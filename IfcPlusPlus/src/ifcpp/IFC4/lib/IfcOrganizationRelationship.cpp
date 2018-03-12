@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcOrganizationRelationship::IfcOrganizationRelationship() {}
 IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_entity_id = id; }
 IfcOrganizationRelationship::~IfcOrganizationRelationship() {}
-shared_ptr<IfcPPObject> IfcOrganizationRelationship::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcOrganizationRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOrganizationRelationship> copy_self( new IfcOrganizationRelationship() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -46,35 +46,35 @@ void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 }
 void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrganizationRelationship::toString() const { return L"IfcOrganizationRelationship"; }
-void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrganizationRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingOrganization, map );
 	readEntityReferenceList( args[3], m_RelatedOrganizations, map );
 }
-void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingOrganization", m_RelatingOrganization ) );
 	if( m_RelatedOrganizations.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedOrganizations_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedOrganizations_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedOrganizations.begin(), m_RelatedOrganizations.end(), std::back_inserter( RelatedOrganizations_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
 	}
 }
-void IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcOrganizationRelationship::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcOrganizationRelationship::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcOrganizationRelationship> ptr_self = dynamic_pointer_cast<IfcOrganizationRelationship>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcOrganizationRelationship::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcOrganizationRelationship::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedOrganizations.size(); ++i )
 	{
 		if( m_RelatedOrganizations[i] )

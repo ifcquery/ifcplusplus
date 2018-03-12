@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -26,7 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QSplashScreen>
 #include <osgViewer/CompositeViewer>
 
-#include <ifcpp/model/IfcPPException.h>
+#include <ifcpp/model/BuildingException.h>
 
 #include "gui/TabReadWrite.h"
 #include "gui/MainWindow.h"
@@ -106,9 +106,9 @@ int main(int argc, char *argv[])
 	{
 		re = app.exec();
 	}
-	catch( IfcPPException& e )
+	catch( BuildingException& e )
 	{
-		std::cout << "IfcPPException in app.exec(): " << e.what();
+		std::cout << "BuildingException in app.exec(): " << e.what();
 	}
 	catch( std::exception& e )
 	{

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAnnotation.h"
@@ -22,7 +22,7 @@
 IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure() {}
 IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure( int id ) { m_entity_id = id; }
 IfcRelContainedInSpatialStructure::~IfcRelContainedInSpatialStructure() {}
-shared_ptr<IfcPPObject> IfcRelContainedInSpatialStructure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelContainedInSpatialStructure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelContainedInSpatialStructure> copy_self( new IfcRelContainedInSpatialStructure() );
 	if( m_GlobalId )
@@ -66,10 +66,10 @@ void IfcRelContainedInSpatialStructure::getStepLine( std::stringstream& stream )
 }
 void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelContainedInSpatialStructure::toString() const { return L"IfcRelContainedInSpatialStructure"; }
-void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelContainedInSpatialStructure, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelContainedInSpatialStructure, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -77,26 +77,26 @@ void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std
 	readEntityReferenceList( args[4], m_RelatedElements, map );
 	readEntityReference( args[5], m_RelatingStructure, map );
 }
-void IfcRelContainedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelContainedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	if( m_RelatedElements.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedElements_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedElements_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedElements.begin(), m_RelatedElements.end(), std::back_inserter( RelatedElements_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedElements", RelatedElements_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingStructure", m_RelatingStructure ) );
 }
-void IfcRelContainedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelContainedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelContainedInSpatialStructure::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelContainedInSpatialStructure::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelContainedInSpatialStructure> ptr_self = dynamic_pointer_cast<IfcRelContainedInSpatialStructure>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelContainedInSpatialStructure::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelContainedInSpatialStructure::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedElements.size(); ++i )
 	{
 		shared_ptr<IfcAnnotation>  RelatedElements_IfcAnnotation = dynamic_pointer_cast<IfcAnnotation>( m_RelatedElements[i] );

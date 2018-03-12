@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcDataOriginEnum.h"
@@ -20,7 +20,7 @@
 IfcTimeSeries::IfcTimeSeries() {}
 IfcTimeSeries::IfcTimeSeries( int id ) { m_entity_id = id; }
 IfcTimeSeries::~IfcTimeSeries() {}
-shared_ptr<IfcPPObject> IfcTimeSeries::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTimeSeries::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeSeries> copy_self( new IfcTimeSeries() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -55,10 +55,10 @@ void IfcTimeSeries::getStepLine( std::stringstream& stream ) const
 }
 void IfcTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTimeSeries::toString() const { return L"IfcTimeSeries"; }
-void IfcTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimeSeries, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimeSeries, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_StartTime = IfcDateTime::createObjectFromSTEP( args[2], map );
@@ -68,7 +68,7 @@ void IfcTimeSeries::readStepArguments( const std::vector<std::wstring>& args, co
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[6], map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[7], map );
 }
-void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -79,11 +79,11 @@ void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
-void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_HasExternalReference_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasExternalReference_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
@@ -94,7 +94,7 @@ void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, sha
 		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
-void IfcTimeSeries::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcTimeSeries::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcTimeSeries::unlinkFromInverseCounterparts()

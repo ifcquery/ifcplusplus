@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -18,11 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPObject.h>
-#include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingObject.h>
+#include <ifcpp/model/BuildingModel.h>
+#include <ifcpp/model/BuildingException.h>
+#include <ifcpp/writer/WriterSTEP.h>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
@@ -47,11 +47,11 @@ bool CmdWriteIfcFile::doCmd()
 	}
 
 	shared_ptr<GeometryConverter> geom_converter = m_system->getGeometryConverter();
-	shared_ptr<IfcPPModel>& model = geom_converter->getIfcPPModel();
+	shared_ptr<BuildingModel>& model = geom_converter->getBuildingModel();
 	model->initFileHeader( m_file_path );
 	std::stringstream stream;
 
-	m_system->getIfcPPWriter()->writeModelToStream( stream, model );
+	m_system->getModelWriter()->writeModelToStream( stream, model );
 
 	QFile file_out( m_file_path.c_str() );
 	if( !file_out.open(QIODevice::WriteOnly | QIODevice::Text) )

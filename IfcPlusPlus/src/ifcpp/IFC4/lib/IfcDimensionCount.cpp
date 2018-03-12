@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDimensionCount.h"
 
 // TYPE IfcDimensionCount = INTEGER;
 IfcDimensionCount::IfcDimensionCount() {}
 IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
 IfcDimensionCount::~IfcDimensionCount() {}
-shared_ptr<IfcPPObject> IfcDimensionCount::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDimensionCount::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );
 	copy_self->m_value = m_value;
@@ -31,7 +31,7 @@ const std::wstring IfcDimensionCount::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }

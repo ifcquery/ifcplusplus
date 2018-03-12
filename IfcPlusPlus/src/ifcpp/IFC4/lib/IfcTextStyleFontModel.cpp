@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcFontStyle.h"
@@ -19,7 +19,7 @@
 IfcTextStyleFontModel::IfcTextStyleFontModel() {}
 IfcTextStyleFontModel::IfcTextStyleFontModel( int id ) { m_entity_id = id; }
 IfcTextStyleFontModel::~IfcTextStyleFontModel() {}
-shared_ptr<IfcPPObject> IfcTextStyleFontModel::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleFontModel> copy_self( new IfcTextStyleFontModel() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -72,10 +72,10 @@ void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 }
 void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleFontModel::toString() const { return L"IfcTextStyleFontModel"; }
-void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readTypeOfStringList( args[1], m_FontFamily );
 	m_FontStyle = IfcFontStyle::createObjectFromSTEP( args[2], map );
@@ -83,12 +83,12 @@ void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& 
 	m_FontWeight = IfcFontWeight::createObjectFromSTEP( args[4], map );
 	m_FontSize = IfcSizeSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPreDefinedTextFont::getAttributes( vec_attributes );
 	if( m_FontFamily.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> FontFamily_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> FontFamily_vec_object( new AttributeObjectVector() );
 		std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
 	}
@@ -97,11 +97,11 @@ void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, sh
 	vec_attributes.push_back( std::make_pair( "FontWeight", m_FontWeight ) );
 	vec_attributes.push_back( std::make_pair( "FontSize", m_FontSize ) );
 }
-void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPreDefinedTextFont::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTextStyleFontModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTextStyleFontModel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPreDefinedTextFont::setInverseCounterparts( ptr_self_entity );
 }

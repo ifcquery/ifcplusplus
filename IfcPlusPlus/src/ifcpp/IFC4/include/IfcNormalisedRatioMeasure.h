@@ -5,23 +5,23 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/model/IfcPPGlobal.h"
+#include "ifcpp/model/GlobalDefines.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingObject.h"
 #include "IfcRatioMeasure.h"
 #include "IfcColourOrFactor.h"
 
 // TYPE IfcNormalisedRatioMeasure = IfcRatioMeasure;
-class IFCPP_EXPORT IfcNormalisedRatioMeasure : public IfcRatioMeasure, public IfcColourOrFactor
+class IFCQUERY_EXPORT IfcNormalisedRatioMeasure : public IfcRatioMeasure, public IfcColourOrFactor
 {
 public:
 	IfcNormalisedRatioMeasure();
 	IfcNormalisedRatioMeasure( double value ) { m_value = value; }
 	~IfcNormalisedRatioMeasure();
 	virtual const char* className() const { return "IfcNormalisedRatioMeasure"; }
-	virtual shared_ptr<IfcPPObject> getDeepCopy( IfcPPCopyOptions& options );
+	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
-	static shared_ptr<IfcNormalisedRatioMeasure> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map );
+	static shared_ptr<IfcNormalisedRatioMeasure> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
 };
 

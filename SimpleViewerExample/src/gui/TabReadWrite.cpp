@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -21,13 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QFileDialog>
 #include <QFile>
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPModel.h>
-#include <ifcpp/model/IfcPPException.h>
-#include <ifcpp/model/IfcPPGuid.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingModel.h>
+#include <ifcpp/model/BuildingException.h>
+#include <ifcpp/model/BuildingGuid.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcpp/reader/IfcPPReaderSTEP.h>
-#include <ifcpp/writer/IfcPPWriterSTEP.h>
+#include <ifcpp/reader/ReaderSTEP.h>
+#include <ifcpp/writer/WriterSTEP.h>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
@@ -58,9 +58,12 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	
 	updateRecentFilesCombo();
 
-
 	QPushButton* btn_add_file = new QPushButton( "Choose file" );
 	connect( btn_add_file, SIGNAL( clicked() ), this, SLOT( slotAddOtherIfcFileClicked() ) );
+	
+	
+	QPushButton* btn_load_wall_example = new QPushButton( "Load wall example" );
+	connect( btn_load_wall_example, SIGNAL( clicked() ), this, SLOT( slotLoadWallExample() ) );
 
 	// write
 	m_le_path_write = new QLineEdit( "IfcPlusPlus-out.ifc" );
@@ -96,17 +99,24 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	combo_hbox->addWidget( btn_add_file );
 	combo_hbox->addWidget( m_btn_load, 0 );
 
+	QWidget* load_example_widget = new QWidget();
+	QVBoxLayout* load_example_vbox = new QVBoxLayout( load_example_widget );
+	load_example_vbox->addWidget( btn_load_wall_example );
+	load_example_vbox->addStretch( 1 );
+	
 	m_io_widget = new QWidget(this);
 	QVBoxLayout* io_vbox = new QVBoxLayout(m_io_widget);
 	io_vbox->setContentsMargins( 0, 0, 0, 0 );
 	io_vbox->addWidget( new QLabel( "Read IFC file" ), 0 );
 	io_vbox->addLayout( combo_hbox, 1 );
 	io_vbox->addSpacing( 10 );
+
 	io_vbox->addStretch( 1 );
 	io_vbox->addWidget( m_progress_bar,	0 );
 
 	m_io_splitter = new QSplitter( Qt::Horizontal );
 	m_io_splitter->addWidget( m_io_widget );
+	m_io_splitter->addWidget( load_example_widget );
 	m_io_splitter->addWidget( m_txt_out );
 
 	QHBoxLayout* hbox = new QHBoxLayout();
@@ -132,7 +142,7 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
 	{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		ScopedLock lock( myself->m_mutex_messages );
 #endif
 		std::string reporting_function_str( m->m_reporting_function );
@@ -210,8 +220,8 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
 	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->getIfcPPReader()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->getIfcPPWriter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getModelReader()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getModelWriter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
 	
 
 	slotTxtOut( QString( "loading file: " ) + path_in );
@@ -270,11 +280,11 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 		cmd_load->setFilePath( path_str );
 		cmd_load->doCmd();
 	}
-	catch( IfcPPOutOfMemoryException& e)
+	catch( OutOfMemoryException& e)
 	{
 		slotTxtOutError( e.what() );
 	}
-	catch( IfcPPException& e )
+	catch( BuildingException& e )
 	{
 		slotTxtOutError( e.what() );
 	}
@@ -436,5 +446,33 @@ void TabReadWrite::slotWriteFileClicked()
 	
 	int time_diff = clock() - millisecs;
 	slotTxtOut( "file written (" + QString::number( time_diff*0.001 ) + " sec)" );
+	slotProgressValue( 1.0, "" );
+}
+
+void TabReadWrite::slotLoadWallExample()
+{
+	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getModelReader()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getModelWriter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->notifyModelCleared();
+	m_txt_out->clear();
+
+	shared_ptr<LoadIfcFileCommand> cmd_load( new LoadIfcFileCommand( m_system ) );
+	cmd_load->loadWallExample();
+
+	m_viewer->update();
+
+	osgViewer::View* main_view = m_viewer->getMainView();
+	if( main_view )
+	{
+		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
+		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>( camera_manip );
+		if( orbit_manip )
+		{
+			osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
+			orbit_manip->zoomToBoundingSphere( bs );
+		}
+	}
+	m_system->notifyModelLoadingDone();
 	slotProgressValue( 1.0, "" );
 }

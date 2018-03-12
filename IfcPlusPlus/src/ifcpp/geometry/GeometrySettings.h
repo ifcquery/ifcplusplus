@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #define _USE_MATH_DEFINES 
 #include <math.h>
-#include <ifcpp/model/IfcPPOpenMP.h>
+#include <ifcpp/model/OpenMPIncludes.h>
 
 #define GEOM_TOLERANCE  0.0000001
 #ifdef _DEBUG

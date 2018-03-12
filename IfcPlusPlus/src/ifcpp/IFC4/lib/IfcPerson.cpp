@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorRole.h"
@@ -18,7 +18,7 @@
 IfcPerson::IfcPerson() {}
 IfcPerson::IfcPerson( int id ) { m_entity_id = id; }
 IfcPerson::~IfcPerson() {}
-shared_ptr<IfcPPObject> IfcPerson::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPerson::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPerson> copy_self( new IfcPerson() );
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
@@ -139,10 +139,10 @@ void IfcPerson::getStepLine( std::stringstream& stream ) const
 }
 void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPerson::toString() const { return L"IfcPerson"; }
-void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_FamilyName = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_GivenName = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -152,47 +152,47 @@ void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const 
 	readEntityReferenceList( args[6], m_Roles, map );
 	readEntityReferenceList( args[7], m_Addresses, map );
 }
-void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "FamilyName", m_FamilyName ) );
 	vec_attributes.push_back( std::make_pair( "GivenName", m_GivenName ) );
 	if( m_MiddleNames.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> MiddleNames_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> MiddleNames_vec_object( new AttributeObjectVector() );
 		std::copy( m_MiddleNames.begin(), m_MiddleNames.end(), std::back_inserter( MiddleNames_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "MiddleNames", MiddleNames_vec_object ) );
 	}
 	if( m_PrefixTitles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PrefixTitles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PrefixTitles_vec_object( new AttributeObjectVector() );
 		std::copy( m_PrefixTitles.begin(), m_PrefixTitles.end(), std::back_inserter( PrefixTitles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "PrefixTitles", PrefixTitles_vec_object ) );
 	}
 	if( m_SuffixTitles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> SuffixTitles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> SuffixTitles_vec_object( new AttributeObjectVector() );
 		std::copy( m_SuffixTitles.begin(), m_SuffixTitles.end(), std::back_inserter( SuffixTitles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "SuffixTitles", SuffixTitles_vec_object ) );
 	}
 	if( m_Roles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Roles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
 	}
 	if( m_Addresses.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Addresses_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Addresses_vec_object( new AttributeObjectVector() );
 		std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 	}
 }
-void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_EngagedIn_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> EngagedIn_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> EngagedIn_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_EngagedIn_inverse.size(); ++i )
 		{
 			if( !m_EngagedIn_inverse[i].expired() )
@@ -203,10 +203,10 @@ void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_
 		vec_attributes_inverse.push_back( std::make_pair( "EngagedIn_inverse", EngagedIn_inverse_vec_obj ) );
 	}
 }
-void IfcPerson::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPerson::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcPerson> ptr_self = dynamic_pointer_cast<IfcPerson>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcPerson::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcPerson::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_Addresses.size(); ++i )
 	{
 		if( m_Addresses[i] )

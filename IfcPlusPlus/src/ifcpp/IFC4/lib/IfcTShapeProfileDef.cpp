@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement2D.h"
@@ -21,7 +21,7 @@
 IfcTShapeProfileDef::IfcTShapeProfileDef() {}
 IfcTShapeProfileDef::IfcTShapeProfileDef( int id ) { m_entity_id = id; }
 IfcTShapeProfileDef::~IfcTShapeProfileDef() {}
-shared_ptr<IfcPPObject> IfcTShapeProfileDef::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTShapeProfileDef> copy_self( new IfcTShapeProfileDef() );
 	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
@@ -68,10 +68,10 @@ void IfcTShapeProfileDef::getStepLine( std::stringstream& stream ) const
 }
 void IfcTShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTShapeProfileDef::toString() const { return L"IfcTShapeProfileDef"; }
-void IfcTShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTShapeProfileDef, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTShapeProfileDef, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -85,7 +85,7 @@ void IfcTShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 	m_WebSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[10], map );
 	m_FlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[11], map );
 }
-void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
@@ -98,11 +98,11 @@ void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "WebSlope", m_WebSlope ) );
 	vec_attributes.push_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
 }
-void IfcTShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTShapeProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTShapeProfileDef::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcParameterizedProfileDef::setInverseCounterparts( ptr_self_entity );
 }

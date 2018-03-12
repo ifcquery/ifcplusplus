@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -27,7 +27,7 @@
 IfcTypeProduct::IfcTypeProduct() {}
 IfcTypeProduct::IfcTypeProduct( int id ) { m_entity_id = id; }
 IfcTypeProduct::~IfcTypeProduct() {}
-shared_ptr<IfcPPObject> IfcTypeProduct::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTypeProduct::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTypeProduct> copy_self( new IfcTypeProduct() );
 	if( m_GlobalId )
@@ -84,10 +84,10 @@ void IfcTypeProduct::getStepLine( std::stringstream& stream ) const
 }
 void IfcTypeProduct::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTypeProduct::toString() const { return L"IfcTypeProduct"; }
-void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTypeProduct, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTypeProduct, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -97,23 +97,23 @@ void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReferenceList( args[6], m_RepresentationMaps, map );
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 }
-void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTypeObject::getAttributes( vec_attributes );
 	if( m_RepresentationMaps.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RepresentationMaps_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RepresentationMaps_vec_object( new AttributeObjectVector() );
 		std::copy( m_RepresentationMaps.begin(), m_RepresentationMaps.end(), std::back_inserter( RepresentationMaps_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RepresentationMaps", RepresentationMaps_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
 }
-void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTypeObject::getAttributesInverse( vec_attributes_inverse );
 	if( m_ReferencedBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ReferencedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ReferencedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
 		{
 			if( !m_ReferencedBy_inverse[i].expired() )
@@ -124,7 +124,7 @@ void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, sh
 		vec_attributes_inverse.push_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 	}
 }
-void IfcTypeProduct::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTypeProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTypeObject::setInverseCounterparts( ptr_self_entity );
 }

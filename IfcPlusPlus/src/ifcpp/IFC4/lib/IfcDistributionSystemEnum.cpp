@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDistributionSystemEnum.h"
 
 // TYPE IfcDistributionSystemEnum = ENUMERATION OF	(AIRCONDITIONING	,AUDIOVISUAL	,CHEMICAL	,CHILLEDWATER	,COMMUNICATION	,COMPRESSEDAIR	,CONDENSERWATER	,CONTROL	,CONVEYING	,DATA	,DISPOSAL	,DOMESTICCOLDWATER	,DOMESTICHOTWATER	,DRAINAGE	,EARTHING	,ELECTRICAL	,ELECTROACOUSTIC	,EXHAUST	,FIREPROTECTION	,FUEL	,GAS	,HAZARDOUS	,HEATING	,LIGHTING	,LIGHTNINGPROTECTION	,MUNICIPALSOLIDWASTE	,OIL	,OPERATIONAL	,POWERGENERATION	,RAINWATER	,REFRIGERATION	,SECURITY	,SEWAGE	,SIGNAL	,STORMWATER	,TELEPHONE	,TV	,VACUUM	,VENT	,VENTILATION	,WASTEWATER	,WATERSUPPLY	,USERDEFINED	,NOTDEFINED);
 IfcDistributionSystemEnum::IfcDistributionSystemEnum() {}
 IfcDistributionSystemEnum::~IfcDistributionSystemEnum() {}
-shared_ptr<IfcPPObject> IfcDistributionSystemEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDistributionSystemEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionSystemEnum> copy_self( new IfcDistributionSystemEnum() );
 	copy_self->m_enum = m_enum;
@@ -121,7 +121,7 @@ const std::wstring IfcDistributionSystemEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDistributionSystemEnum> IfcDistributionSystemEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }

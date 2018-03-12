@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
@@ -17,7 +17,7 @@
 IfcPropertyEnumeration::IfcPropertyEnumeration() {}
 IfcPropertyEnumeration::IfcPropertyEnumeration( int id ) { m_entity_id = id; }
 IfcPropertyEnumeration::~IfcPropertyEnumeration() {}
-shared_ptr<IfcPPObject> IfcPropertyEnumeration::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPropertyEnumeration::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyEnumeration> copy_self( new IfcPropertyEnumeration() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -61,31 +61,31 @@ void IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
 }
 void IfcPropertyEnumeration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyEnumeration::toString() const { return L"IfcPropertyEnumeration"; }
-void IfcPropertyEnumeration::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcPropertyEnumeration::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyEnumeration, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyEnumeration, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readSelectList( args[1], m_EnumerationValues, map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[2], map );
 }
-void IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	if( m_EnumerationValues.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> EnumerationValues_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
-void IfcPropertyEnumeration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcPropertyEnumeration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcPropertyEnumeration::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcPropertyEnumeration::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPropertyAbstraction::setInverseCounterparts( ptr_self_entity );
 }

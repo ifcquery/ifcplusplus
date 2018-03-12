@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorSelect.h"
@@ -31,7 +31,7 @@
 IfcAsset::IfcAsset() {}
 IfcAsset::IfcAsset( int id ) { m_entity_id = id; }
 IfcAsset::~IfcAsset() {}
-shared_ptr<IfcPPObject> IfcAsset::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAsset::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAsset> copy_self( new IfcAsset() );
 	if( m_GlobalId )
@@ -92,10 +92,10 @@ void IfcAsset::getStepLine( std::stringstream& stream ) const
 }
 void IfcAsset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAsset::toString() const { return L"IfcAsset"; }
-void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 14 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 14 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -111,7 +111,7 @@ void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_IncorporationDate = IfcDate::createObjectFromSTEP( args[12], map );
 	readEntityReference( args[13], m_DepreciatedValue, map );
 }
-void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
@@ -124,11 +124,11 @@ void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcP
 	vec_attributes.push_back( std::make_pair( "IncorporationDate", m_IncorporationDate ) );
 	vec_attributes.push_back( std::make_pair( "DepreciatedValue", m_DepreciatedValue ) );
 }
-void IfcAsset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcAsset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcAsset::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcAsset::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGroup::setInverseCounterparts( ptr_self_entity );
 }

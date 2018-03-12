@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 
 #include "IncludeCarveHeaders.h"
@@ -43,7 +43,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void extrude( const std::vector<std::vector<vec2> >& face_loops_input, const vec3 extrusion_vector, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data )
+	void extrude( const std::vector<std::vector<vec2> >& face_loops_input, const vec3 extrusion_vector, BuildingEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data )
 	{
 		// TODO: complete and test
 		if( face_loops_input.size() == 0 )
@@ -56,7 +56,7 @@ public:
 		//shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 		//if( !polyline_data )
 		//{
-		//	throw IfcPPOutOfMemoryException( __FUNC__ );
+		//	throw OutOfMemoryException( __FUNC__ );
 		//}
 		//polyline_data->beginPolyline();
 		//polyline_data->addVertex( carve::geom::VECTOR( 0, 0, 0 ) );
@@ -96,7 +96,7 @@ public:
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 		if( !poly_data )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 		poly_data->points.resize( num_points_in_all_loops*2 );
 
@@ -249,9 +249,9 @@ public:
 #endif
 			item_data->addClosedPolyhedron( poly_data );
 		}
-		catch( IfcPPException& exception )
+		catch( BuildingException& exception )
 		{
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			std::cout << exception.what() << std::endl;
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
@@ -273,7 +273,7 @@ public:
 	  \param[in] nvc Number of vertices per circle
 	  \param[in] radius_inner If positive value is given, the swept disk becomes a pipe
 	**/
-	void sweepDisk( const std::vector<vec3>& curve_points, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 )
+	void sweepDisk( const std::vector<vec3>& curve_points, BuildingEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 )
 	{
 		const size_t num_curve_points = curve_points.size();
 		if( num_curve_points < 2 )
@@ -294,7 +294,7 @@ public:
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 			if( !polyline_data )
 			{
-				throw IfcPPOutOfMemoryException( __FUNC__ );
+				throw OutOfMemoryException( __FUNC__ );
 			}
 			polyline_data->beginPolyline();
 			for( size_t i_polyline = 0; i_polyline < curve_points.size(); ++i_polyline )
@@ -421,7 +421,7 @@ public:
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 		if( !poly_data )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 
 		for( size_t ii = 0; ii<num_curve_points; ++ii )
@@ -635,10 +635,10 @@ public:
 		{
 			item_data->addClosedPolyhedron( poly_data );
 		}
-		catch( IfcPPException& exception )
+		catch( BuildingException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 			GeomDebugDump::dumpMeshset( meshset, color, true );
@@ -653,7 +653,7 @@ public:
 
 	void triangulateLoops( const std::vector<std::vector<vec2> >& profile_paths_input,
 		std::vector<std::vector<vec2> >& face_loops_used_for_triangulation,
-		std::vector<int>& face_indexes_out, IfcPPEntity* ifc_entity )
+		std::vector<int>& face_indexes_out, BuildingEntity* ifc_entity )
 	{
 		// TODO: complete and test
 		if( profile_paths_input.size() == 0 )
@@ -879,7 +879,7 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void sweepArea( const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths, IfcPPEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data )
+	void sweepArea( const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths, BuildingEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data )
 	{
 		if( profile_paths.size() == 0 )
 		{
@@ -917,7 +917,7 @@ public:
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 		if( !poly_data )
 		{
-			throw IfcPPOutOfMemoryException( __FUNC__ );
+			throw OutOfMemoryException( __FUNC__ );
 		}
 		poly_data->points.resize( num_points_in_all_loops*curve_points.size() );
 
@@ -1104,10 +1104,10 @@ public:
 		{
 			item_data->addClosedPolyhedron( poly_data );
 		}
-		catch( IfcPPException& exception )
+		catch( BuildingException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			GeomDebugDump::dumpMeshset( meshset, color, true );
@@ -1125,7 +1125,7 @@ public:
 	\param[in] ifc_entity: Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	\param[out] poly_cache: Result input object
 	**/
-	void createTriangulated3DFace( const std::vector<std::vector<vec3> >& vec_bounds, IfcPPEntity* ifc_entity, PolyInputCache3D& poly_cache )
+	void createTriangulated3DFace( const std::vector<std::vector<vec3> >& vec_bounds, BuildingEntity* ifc_entity, PolyInputCache3D& poly_cache )
 	{
 		std::vector<std::vector<vec2> > face_loops_2d;
 		std::vector<std::vector<vec3> > face_loops_3d;

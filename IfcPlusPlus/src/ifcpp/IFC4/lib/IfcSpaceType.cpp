@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -28,7 +28,7 @@
 IfcSpaceType::IfcSpaceType() {}
 IfcSpaceType::IfcSpaceType( int id ) { m_entity_id = id; }
 IfcSpaceType::~IfcSpaceType() {}
-shared_ptr<IfcPPObject> IfcSpaceType::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSpaceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceType> copy_self( new IfcSpaceType() );
 	if( m_GlobalId )
@@ -94,10 +94,10 @@ void IfcSpaceType::getStepLine( std::stringstream& stream ) const
 }
 void IfcSpaceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpaceType::toString() const { return L"IfcSpaceType"; }
-void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSpaceType, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSpaceType, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -110,17 +110,17 @@ void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, con
 	m_PredefinedType = IfcSpaceTypeEnum::createObjectFromSTEP( args[9], map );
 	m_LongName = IfcLabel::createObjectFromSTEP( args[10], map );
 }
-void IfcSpaceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSpaceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSpatialStructureElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
 }
-void IfcSpaceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSpaceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSpatialStructureElementType::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSpaceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSpaceType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSpatialStructureElementType::setInverseCounterparts( ptr_self_entity );
 }

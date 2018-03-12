@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAppliedValue.h"
@@ -29,7 +29,7 @@
 IfcConstructionEquipmentResourceType::IfcConstructionEquipmentResourceType() {}
 IfcConstructionEquipmentResourceType::IfcConstructionEquipmentResourceType( int id ) { m_entity_id = id; }
 IfcConstructionEquipmentResourceType::~IfcConstructionEquipmentResourceType() {}
-shared_ptr<IfcPPObject> IfcConstructionEquipmentResourceType::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcConstructionEquipmentResourceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionEquipmentResourceType> copy_self( new IfcConstructionEquipmentResourceType() );
 	if( m_GlobalId )
@@ -98,10 +98,10 @@ void IfcConstructionEquipmentResourceType::getStepLine( std::stringstream& strea
 }
 void IfcConstructionEquipmentResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstructionEquipmentResourceType::toString() const { return L"IfcConstructionEquipmentResourceType"; }
-void IfcConstructionEquipmentResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcConstructionEquipmentResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstructionEquipmentResourceType, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstructionEquipmentResourceType, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -115,16 +115,16 @@ void IfcConstructionEquipmentResourceType::readStepArguments( const std::vector<
 	readEntityReference( args[10], m_BaseQuantity, map );
 	m_PredefinedType = IfcConstructionEquipmentResourceTypeEnum::createObjectFromSTEP( args[11], map );
 }
-void IfcConstructionEquipmentResourceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcConstructionEquipmentResourceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcConstructionResourceType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcConstructionEquipmentResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcConstructionEquipmentResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcConstructionResourceType::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcConstructionEquipmentResourceType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcConstructionEquipmentResourceType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcConstructionResourceType::setInverseCounterparts( ptr_self_entity );
 }

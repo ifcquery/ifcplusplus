@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcInterceptorTypeEnum.h"
 
 // TYPE IfcInterceptorTypeEnum = ENUMERATION OF	(CYCLONIC	,GREASE	,OIL	,PETROL	,USERDEFINED	,NOTDEFINED);
 IfcInterceptorTypeEnum::IfcInterceptorTypeEnum() {}
 IfcInterceptorTypeEnum::~IfcInterceptorTypeEnum() {}
-shared_ptr<IfcPPObject> IfcInterceptorTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcInterceptorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInterceptorTypeEnum> copy_self( new IfcInterceptorTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -45,7 +45,7 @@ const std::wstring IfcInterceptorTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }

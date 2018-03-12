@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -22,7 +22,7 @@
 IfcRelAssignsToResource::IfcRelAssignsToResource() {}
 IfcRelAssignsToResource::IfcRelAssignsToResource( int id ) { m_entity_id = id; }
 IfcRelAssignsToResource::~IfcRelAssignsToResource() {}
-shared_ptr<IfcPPObject> IfcRelAssignsToResource::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAssignsToResource::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToResource> copy_self( new IfcRelAssignsToResource() );
 	if( m_GlobalId )
@@ -69,10 +69,10 @@ void IfcRelAssignsToResource::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAssignsToResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToResource::toString() const { return L"IfcRelAssignsToResource"; }
-void IfcRelAssignsToResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAssignsToResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToResource, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssignsToResource, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -81,20 +81,20 @@ void IfcRelAssignsToResource::readStepArguments( const std::vector<std::wstring>
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 	m_RelatingResource = IfcResourceSelect::createObjectFromSTEP( args[6], map );
 }
-void IfcRelAssignsToResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAssignsToResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingResource", m_RelatingResource ) );
 }
-void IfcRelAssignsToResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAssignsToResource::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAssignsToResource::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelAssigns::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAssignsToResource> ptr_self = dynamic_pointer_cast<IfcRelAssignsToResource>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAssignsToResource::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToResource::setInverseCounterparts: type mismatch" ); }
 	shared_ptr<IfcResource>  RelatingResource_IfcResource = dynamic_pointer_cast<IfcResource>( m_RelatingResource );
 	if( RelatingResource_IfcResource )
 	{

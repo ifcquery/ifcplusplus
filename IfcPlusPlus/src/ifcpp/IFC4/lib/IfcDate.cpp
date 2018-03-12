@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSimpleValue.h"
 #include "ifcpp/IFC4/include/IfcDate.h"
 
@@ -14,7 +14,7 @@
 IfcDate::IfcDate() {}
 IfcDate::IfcDate( std::wstring value ) { m_value = value; }
 IfcDate::~IfcDate() {}
-shared_ptr<IfcPPObject> IfcDate::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDate> copy_self( new IfcDate() );
 	copy_self->m_value = m_value;
@@ -30,7 +30,7 @@ const std::wstring IfcDate::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcDate> IfcDate::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcDate> IfcDate::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDate>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDate>(); }

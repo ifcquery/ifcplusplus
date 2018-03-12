@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPlateTypeEnum.h"
 
 // TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,USERDEFINED	,NOTDEFINED);
 IfcPlateTypeEnum::IfcPlateTypeEnum() {}
 IfcPlateTypeEnum::~IfcPlateTypeEnum() {}
-shared_ptr<IfcPPObject> IfcPlateTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcPlateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -41,7 +41,7 @@ const std::wstring IfcPlateTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }

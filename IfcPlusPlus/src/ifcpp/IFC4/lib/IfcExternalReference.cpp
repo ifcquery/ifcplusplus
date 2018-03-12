@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcExternalReference.h"
@@ -17,7 +17,7 @@
 IfcExternalReference::IfcExternalReference() {}
 IfcExternalReference::IfcExternalReference( int id ) { m_entity_id = id; }
 IfcExternalReference::~IfcExternalReference() {}
-shared_ptr<IfcPPObject> IfcExternalReference::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcExternalReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternalReference> copy_self( new IfcExternalReference() );
 	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
@@ -37,25 +37,25 @@ void IfcExternalReference::getStepLine( std::stringstream& stream ) const
 }
 void IfcExternalReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternalReference::toString() const { return L"IfcExternalReference"; }
-void IfcExternalReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcExternalReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternalReference, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternalReference, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
-void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_ExternalReferenceForResources_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ExternalReferenceForResources_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ExternalReferenceForResources_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ExternalReferenceForResources_inverse.size(); ++i )
 		{
 			if( !m_ExternalReferenceForResources_inverse[i].expired() )
@@ -66,7 +66,7 @@ void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::stri
 		vec_attributes_inverse.push_back( std::make_pair( "ExternalReferenceForResources_inverse", ExternalReferenceForResources_inverse_vec_obj ) );
 	}
 }
-void IfcExternalReference::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcExternalReference::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcExternalReference::unlinkFromInverseCounterparts()

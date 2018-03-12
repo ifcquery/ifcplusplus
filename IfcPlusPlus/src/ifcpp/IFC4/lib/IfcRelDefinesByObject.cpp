@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -18,7 +18,7 @@
 IfcRelDefinesByObject::IfcRelDefinesByObject() {}
 IfcRelDefinesByObject::IfcRelDefinesByObject( int id ) { m_entity_id = id; }
 IfcRelDefinesByObject::~IfcRelDefinesByObject() {}
-shared_ptr<IfcPPObject> IfcRelDefinesByObject::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelDefinesByObject::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDefinesByObject> copy_self( new IfcRelDefinesByObject() );
 	if( m_GlobalId )
@@ -62,10 +62,10 @@ void IfcRelDefinesByObject::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelDefinesByObject::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDefinesByObject::toString() const { return L"IfcRelDefinesByObject"; }
-void IfcRelDefinesByObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelDefinesByObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDefinesByObject, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDefinesByObject, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -73,26 +73,26 @@ void IfcRelDefinesByObject::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReferenceList( args[4], m_RelatedObjects, map );
 	readEntityReference( args[5], m_RelatingObject, map );
 }
-void IfcRelDefinesByObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelDefinesByObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelDefines::getAttributes( vec_attributes );
 	if( m_RelatedObjects.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedObjects_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
 }
-void IfcRelDefinesByObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelDefinesByObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelDefines::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelDefinesByObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelDefinesByObject::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelDefines::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelDefinesByObject> ptr_self = dynamic_pointer_cast<IfcRelDefinesByObject>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelDefinesByObject::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelDefinesByObject::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedObjects.size(); ++i )
 	{
 		if( m_RelatedObjects[i] )

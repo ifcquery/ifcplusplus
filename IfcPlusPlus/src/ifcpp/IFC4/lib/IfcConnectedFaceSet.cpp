@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcConnectedFaceSet.h"
@@ -16,7 +16,7 @@
 IfcConnectedFaceSet::IfcConnectedFaceSet() {}
 IfcConnectedFaceSet::IfcConnectedFaceSet( int id ) { m_entity_id = id; }
 IfcConnectedFaceSet::~IfcConnectedFaceSet() {}
-shared_ptr<IfcPPObject> IfcConnectedFaceSet::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcConnectedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectedFaceSet> copy_self( new IfcConnectedFaceSet() );
 	for( size_t ii=0; ii<m_CfsFaces.size(); ++ii )
@@ -37,27 +37,27 @@ void IfcConnectedFaceSet::getStepLine( std::stringstream& stream ) const
 }
 void IfcConnectedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectedFaceSet::toString() const { return L"IfcConnectedFaceSet"; }
-void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_CfsFaces, map );
 }
-void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
 	if( m_CfsFaces.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> CfsFaces_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> CfsFaces_vec_object( new AttributeObjectVector() );
 		std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
 	}
 }
-void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcConnectedFaceSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcConnectedFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTopologicalRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

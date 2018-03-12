@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -17,8 +17,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
-#include <ifcpp/model/IfcPPModel.h>
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
@@ -36,27 +36,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class GeometryConverter : public StatusCallback
 {
 protected:
-	shared_ptr<IfcPPModel>				m_ifc_model;
-	shared_ptr<GeometrySettings>		m_geom_settings;
-	shared_ptr<RepresentationConverter> m_representation_converter;
+	shared_ptr<BuildingModel>				m_ifc_model;
+	shared_ptr<GeometrySettings>			m_geom_settings;
+	shared_ptr<RepresentationConverter>		m_representation_converter;
 
 	std::map<int, shared_ptr<ProductShapeData> >	m_product_shape_data;
-	std::map<int, shared_ptr<IfcPPObject> >			m_map_outside_spatial_structure;
+	std::map<int, shared_ptr<BuildingObject> >			m_map_outside_spatial_structure;
 	double m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	Mutex m_writelock_messages;
 #endif
 
 public:
 	// getters and setters
-	shared_ptr<IfcPPModel>&						getIfcPPModel() { return m_ifc_model; }
-	shared_ptr<RepresentationConverter>&		getRepresentationConverter() { return m_representation_converter; }
-	shared_ptr<GeometrySettings>&				getGeomSettings() { return m_geom_settings; }
+	shared_ptr<BuildingModel>&						getBuildingModel() { return m_ifc_model; }
+	shared_ptr<RepresentationConverter>&			getRepresentationConverter() { return m_representation_converter; }
+	shared_ptr<GeometrySettings>&					getGeomSettings() { return m_geom_settings; }
 	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
-	std::map<int, shared_ptr<IfcPPObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	std::map<int, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 
-	GeometryConverter( shared_ptr<IfcPPModel>& ifc_model )
+	GeometryConverter( shared_ptr<BuildingModel>& ifc_model )
 	{
 		m_ifc_model = ifc_model;
 		m_geom_settings = shared_ptr<GeometrySettings>( new GeometrySettings() );
@@ -81,7 +81,7 @@ public:
 		progressTextCallback( L"Unloading model done" );
 		progressValueCallback( 0.0, "parse" );
 
-#ifdef IFCPP_GEOM_DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 		GeomDebugDump::clearMeshsetDump();
 #endif
 	}
@@ -99,7 +99,7 @@ public:
 		m_geom_settings->resetNumVerticesPerCircle();
 	}
 
-	void setModel( shared_ptr<IfcPPModel> model )
+	void setModel( shared_ptr<BuildingModel> model )
 	{
 		if( m_ifc_model )
 		{
@@ -248,7 +248,7 @@ public:
 					shared_ptr<AppearanceData> appearance_data( new AppearanceData( -1 ) );
 					if( !appearance_data )
 					{
-						throw IfcPPOutOfMemoryException( __FUNC__ );
+						throw OutOfMemoryException( __FUNC__ );
 					}
 					appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_ANY;
 					appearance_data->m_color_ambient.setColor( vec_color );
@@ -261,7 +261,7 @@ public:
 		}
 	}
 
-	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded IfcPPModel model.
+	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded BuildingModel model.
 	\param[out] parent_group Group to append the resulting geometry.
 	**/
 	void convertGeometry()
@@ -286,10 +286,10 @@ public:
 		}
 		carve::setEpsilon( 1.5e-05*length_to_meter_factor );
 
-		const std::map<int, shared_ptr<IfcPPEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 		{
-			shared_ptr<IfcPPEntity> obj = it->second;
+			shared_ptr<BuildingEntity> obj = it->second;
 			shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
 			if( object_def )
 			{
@@ -301,7 +301,7 @@ public:
 		std::map<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
 		const int num_products = (int)vec_object_defs.size();
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		Mutex writelock_map;
 		Mutex writelock_ifc_project;
 
@@ -325,7 +325,7 @@ public:
 				}
 				else if( dynamic_pointer_cast<IfcProject>(ifc_object_def) )
 				{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );
 #endif
 					ifc_project_data = product_geom_input_data;
@@ -335,11 +335,11 @@ public:
 				{
 					convertIfcProductShape( product_geom_input_data );
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					thread_err << e.what();
 				}
@@ -357,7 +357,7 @@ public:
 				}
 
 				{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
 					map_products_ptr->insert( std::make_pair( entity_id, product_geom_input_data ) );
@@ -373,7 +373,7 @@ public:
 				if( progress - m_recent_progress > 0.02 )
 				{
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
@@ -383,7 +383,7 @@ public:
 					}
 				}
 			}
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		} // implicit barrier
 #endif
 
@@ -419,11 +419,11 @@ public:
 				}
 			}
 		}
-		catch( IfcPPOutOfMemoryException& e )
+		catch( OutOfMemoryException& e )
 		{
 			throw e;
 		}
-		catch( IfcPPException& e )
+		catch( BuildingException& e )
 		{
 			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 		}
@@ -488,11 +488,11 @@ public:
 				product_shape->m_vec_representations.push_back( representation_data );
 				representation_data->m_parent_product = product_shape;
 			}
-			catch( IfcPPOutOfMemoryException& e )
+			catch( OutOfMemoryException& e )
 			{
 				throw e;
 			}
-			catch( IfcPPException& e )
+			catch( BuildingException& e )
 			{
 				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 			}
@@ -572,7 +572,7 @@ public:
 		{
 			if( m->m_entity )
 			{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 				ScopedLock lock( myself->m_writelock_messages );
 #endif
 				// make sure that the same message for one entity does not appear several times

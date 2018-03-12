@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcElementCompositionEnum.h"
@@ -32,7 +32,7 @@
 IfcSpatialStructureElement::IfcSpatialStructureElement() {}
 IfcSpatialStructureElement::IfcSpatialStructureElement( int id ) { m_entity_id = id; }
 IfcSpatialStructureElement::~IfcSpatialStructureElement() {}
-shared_ptr<IfcPPObject> IfcSpatialStructureElement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSpatialStructureElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpatialStructureElement> copy_self( new IfcSpatialStructureElement() );
 	if( m_GlobalId )
@@ -78,10 +78,10 @@ void IfcSpatialStructureElement::getStepLine( std::stringstream& stream ) const
 }
 void IfcSpatialStructureElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpatialStructureElement::toString() const { return L"IfcSpatialStructureElement"; }
-void IfcSpatialStructureElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSpatialStructureElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSpatialStructureElement, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSpatialStructureElement, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -92,16 +92,16 @@ void IfcSpatialStructureElement::readStepArguments( const std::vector<std::wstri
 	m_LongName = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_CompositionType = IfcElementCompositionEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSpatialElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CompositionType", m_CompositionType ) );
 }
-void IfcSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSpatialElement::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSpatialStructureElement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSpatialStructureElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSpatialElement::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcFillAreaStyleTiles.h"
@@ -17,7 +17,7 @@
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles() {}
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_entity_id = id; }
 IfcFillAreaStyleTiles::~IfcFillAreaStyleTiles() {}
-shared_ptr<IfcPPObject> IfcFillAreaStyleTiles::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFillAreaStyleTiles::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyleTiles> copy_self( new IfcFillAreaStyleTiles() );
 	for( size_t ii=0; ii<m_TilingPattern.size(); ++ii )
@@ -51,36 +51,36 @@ void IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
 }
 void IfcFillAreaStyleTiles::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyleTiles::toString() const { return L"IfcFillAreaStyleTiles"; }
-void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyleTiles, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_TilingPattern, map );
 	readEntityReferenceList( args[1], m_Tiles, map );
 	m_TilingScale = IfcPositiveRatioMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	if( m_TilingPattern.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> TilingPattern_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> TilingPattern_vec_object( new AttributeObjectVector() );
 		std::copy( m_TilingPattern.begin(), m_TilingPattern.end(), std::back_inserter( TilingPattern_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
 	}
 	if( m_Tiles.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Tiles_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Tiles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Tiles.begin(), m_Tiles.end(), std::back_inserter( Tiles_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Tiles", Tiles_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "TilingScale", m_TilingScale ) );
 }
-void IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcFillAreaStyleTiles::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcFillAreaStyleTiles::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGeometricRepresentationItem::setInverseCounterparts( ptr_self_entity );
 }

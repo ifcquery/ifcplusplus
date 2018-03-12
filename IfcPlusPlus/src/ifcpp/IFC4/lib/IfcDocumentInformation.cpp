@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorSelect.h"
@@ -25,7 +25,7 @@
 IfcDocumentInformation::IfcDocumentInformation() {}
 IfcDocumentInformation::IfcDocumentInformation( int id ) { m_entity_id = id; }
 IfcDocumentInformation::~IfcDocumentInformation() {}
-shared_ptr<IfcPPObject> IfcDocumentInformation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDocumentInformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentInformation> copy_self( new IfcDocumentInformation() );
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
@@ -111,10 +111,10 @@ void IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
 }
 void IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDocumentInformation::toString() const { return L"IfcDocumentInformation"; }
-void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 17 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
@@ -133,7 +133,7 @@ void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>&
 	m_Confidentiality = IfcDocumentConfidentialityEnum::createObjectFromSTEP( args[15], map );
 	m_Status = IfcDocumentStatusEnum::createObjectFromSTEP( args[16], map );
 }
-void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcExternalInformation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
@@ -147,7 +147,7 @@ void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "DocumentOwner", m_DocumentOwner ) );
 	if( m_Editors.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Editors_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Editors_vec_object( new AttributeObjectVector() );
 		std::copy( m_Editors.begin(), m_Editors.end(), std::back_inserter( Editors_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Editors", Editors_vec_object ) );
 	}
@@ -159,12 +159,12 @@ void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "Confidentiality", m_Confidentiality ) );
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
 }
-void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcExternalInformation::getAttributesInverse( vec_attributes_inverse );
 	if( m_DocumentInfoForObjects_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> DocumentInfoForObjects_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> DocumentInfoForObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_DocumentInfoForObjects_inverse.size(); ++i )
 		{
 			if( !m_DocumentInfoForObjects_inverse[i].expired() )
@@ -176,7 +176,7 @@ void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::st
 	}
 	if( m_HasDocumentReferences_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasDocumentReferences_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasDocumentReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasDocumentReferences_inverse.size(); ++i )
 		{
 			if( !m_HasDocumentReferences_inverse[i].expired() )
@@ -188,7 +188,7 @@ void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::st
 	}
 	if( m_IsPointedTo_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsPointedTo_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsPointedTo_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsPointedTo_inverse.size(); ++i )
 		{
 			if( !m_IsPointedTo_inverse[i].expired() )
@@ -200,7 +200,7 @@ void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::st
 	}
 	if( m_IsPointer_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsPointer_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsPointer_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsPointer_inverse.size(); ++i )
 		{
 			if( !m_IsPointer_inverse[i].expired() )
@@ -211,7 +211,7 @@ void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::st
 		vec_attributes_inverse.push_back( std::make_pair( "IsPointer_inverse", IsPointer_inverse_vec_obj ) );
 	}
 }
-void IfcDocumentInformation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDocumentInformation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcExternalInformation::setInverseCounterparts( ptr_self_entity );
 }

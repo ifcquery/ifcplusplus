@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcBooleanOperator.h"
 
 // TYPE IfcBooleanOperator = ENUMERATION OF	(UNION	,INTERSECTION	,DIFFERENCE);
 IfcBooleanOperator::IfcBooleanOperator() {}
 IfcBooleanOperator::~IfcBooleanOperator() {}
-shared_ptr<IfcPPObject> IfcBooleanOperator::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBooleanOperator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBooleanOperator> copy_self( new IfcBooleanOperator() );
 	copy_self->m_enum = m_enum;
@@ -39,7 +39,7 @@ const std::wstring IfcBooleanOperator::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }

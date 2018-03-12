@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcModulusOfRotationalSubgradeReactionSelect.h"
 #include "ifcpp/IFC4/include/IfcModulusOfSubgradeReactionSelect.h"
 #include "ifcpp/IFC4/include/IfcModulusOfTranslationalSubgradeReactionSelect.h"
@@ -20,7 +20,7 @@
 IfcBoolean::IfcBoolean() {}
 IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
 IfcBoolean::~IfcBoolean() {}
-shared_ptr<IfcPPObject> IfcBoolean::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBoolean::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoolean> copy_self( new IfcBoolean() );
 	copy_self->m_value = m_value;
@@ -51,7 +51,7 @@ const std::wstring IfcBoolean::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcBoolean> IfcBoolean::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcBoolean> IfcBoolean::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoolean>(); }

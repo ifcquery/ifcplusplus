@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
@@ -19,7 +19,7 @@
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered() {}
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered( int id ) { m_entity_id = id; }
 IfcExtrudedAreaSolidTapered::~IfcExtrudedAreaSolidTapered() {}
-shared_ptr<IfcPPObject> IfcExtrudedAreaSolidTapered::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcExtrudedAreaSolidTapered::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExtrudedAreaSolidTapered> copy_self( new IfcExtrudedAreaSolidTapered() );
 	if( m_SweptArea )
@@ -53,26 +53,26 @@ void IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 }
 void IfcExtrudedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExtrudedAreaSolidTapered::toString() const { return L"IfcExtrudedAreaSolidTapered"; }
-void IfcExtrudedAreaSolidTapered::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcExtrudedAreaSolidTapered::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtrudedAreaSolidTapered, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtrudedAreaSolidTapered, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_ExtrudedDirection, map );
 	m_Depth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_EndSweptArea, map );
 }
-void IfcExtrudedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcExtrudedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcExtrudedAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EndSweptArea", m_EndSweptArea ) );
 }
-void IfcExtrudedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcExtrudedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcExtrudedAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcExtrudedAreaSolidTapered::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcExtrudedAreaSolidTapered::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcExtrudedAreaSolid::setInverseCounterparts( ptr_self_entity );
 }

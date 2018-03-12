@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcApplication.h"
@@ -18,7 +18,7 @@
 IfcOwnerHistory::IfcOwnerHistory() {}
 IfcOwnerHistory::IfcOwnerHistory( int id ) { m_entity_id = id; }
 IfcOwnerHistory::~IfcOwnerHistory() {}
-shared_ptr<IfcPPObject> IfcOwnerHistory::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcOwnerHistory::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOwnerHistory> copy_self( new IfcOwnerHistory() );
 	if( m_OwningUser ) { copy_self->m_OwningUser = dynamic_pointer_cast<IfcPersonAndOrganization>( m_OwningUser->getDeepCopy(options) ); }
@@ -53,10 +53,10 @@ void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 }
 void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOwnerHistory::toString() const { return L"IfcOwnerHistory"; }
-void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_OwningUser, map );
 	readEntityReference( args[1], m_OwningApplication, map );
 	m_State = IfcStateEnum::createObjectFromSTEP( args[2], map );
@@ -66,7 +66,7 @@ void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReference( args[6], m_LastModifyingApplication, map );
 	m_CreationDate = IfcTimeStamp::createObjectFromSTEP( args[7], map );
 }
-void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "OwningUser", m_OwningUser ) );
 	vec_attributes.push_back( std::make_pair( "OwningApplication", m_OwningApplication ) );
@@ -77,10 +77,10 @@ void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "LastModifyingApplication", m_LastModifyingApplication ) );
 	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
 }
-void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcOwnerHistory::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcOwnerHistory::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcOwnerHistory::unlinkFromInverseCounterparts()

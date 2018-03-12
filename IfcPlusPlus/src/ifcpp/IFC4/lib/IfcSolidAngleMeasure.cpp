@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcSolidAngleMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcSolidAngleMeasure::IfcSolidAngleMeasure() {}
 IfcSolidAngleMeasure::IfcSolidAngleMeasure( double value ) { m_value = value; }
 IfcSolidAngleMeasure::~IfcSolidAngleMeasure() {}
-shared_ptr<IfcPPObject> IfcSolidAngleMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSolidAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolidAngleMeasure> copy_self( new IfcSolidAngleMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcSolidAngleMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcSolidAngleMeasure> IfcSolidAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcSolidAngleMeasure> IfcSolidAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }

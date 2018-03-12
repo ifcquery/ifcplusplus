@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Point>
 #include <osgUtil/Tessellator>
 
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
@@ -54,7 +54,7 @@ protected:
 	std::vector<osg::ref_ptr<osg::StateSet> >	m_vec_existing_statesets;
 	bool										m_enable_stateset_caching = false;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	Mutex m_writelock_appearance_cache;
 #endif
 
@@ -125,7 +125,7 @@ public:
 		geom->addPrimitiveSet( box_lines );
 
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
-		if( !mat ) { throw IfcPPOutOfMemoryException(); }
+		if( !mat ) { throw OutOfMemoryException(); }
 		osg::Vec4f ambientColor( 1.f, 0.2f, 0.1f, 1.f );
 		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
 		mat->setDiffuse( osg::Material::FRONT_AND_BACK, ambientColor );
@@ -134,7 +134,7 @@ public:
 		//mat->setColorMode( osg::Material::SPECULAR );
 
 		osg::StateSet* stateset = geom->getOrCreateStateSet();
-		if( !stateset ) { throw IfcPPOutOfMemoryException(); }
+		if( !stateset ) { throw OutOfMemoryException(); }
 		stateset->setAttribute( mat, osg::StateAttribute::ON );
 		stateset->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 	}
@@ -161,9 +161,9 @@ public:
 
 		vec3* vertex_vec;
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array( num_vertices );
-		if( !vertices ) { throw IfcPPOutOfMemoryException(); }
+		if( !vertices ) { throw OutOfMemoryException(); }
 		osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::POLYGON, num_vertices );
-		if( !triangles ) { throw IfcPPOutOfMemoryException(); }
+		if( !triangles ) { throw OutOfMemoryException(); }
 
 		for( size_t i = 0; i < num_vertices; ++i )
 		{
@@ -237,9 +237,9 @@ public:
 		}
 
 		osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
-		if( !vertices_tri ) { throw IfcPPOutOfMemoryException(); }
+		if( !vertices_tri ) { throw OutOfMemoryException(); }
 		osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
-		if( !normals_tri ) { throw IfcPPOutOfMemoryException(); }
+		if( !normals_tri ) { throw OutOfMemoryException(); }
 
 		osg::ref_ptr<osg::Vec3Array> vertices_quad;
 		osg::ref_ptr<osg::Vec3Array> normals_quad;
@@ -415,7 +415,7 @@ public:
 		if( vertices_tri->size() > 0 )
 		{
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			if( !geometry ) { throw IfcPPOutOfMemoryException(); }
+			if( !geometry ) { throw OutOfMemoryException(); }
 			geometry->setVertexArray( vertices_tri );
 
 			geometry->setNormalArray( normals_tri );
@@ -424,14 +424,14 @@ public:
 			if( add_color_array )
 			{
 				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-				if( !colors ) { throw IfcPPOutOfMemoryException(); }
+				if( !colors ) { throw OutOfMemoryException(); }
 				colors->resize( vertices_tri->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 				colors->setBinding( osg::Array::BIND_PER_VERTEX );
 				geometry->setColorArray( colors );
 			}
 
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size() ) );
-			if( !geometry ) { throw IfcPPOutOfMemoryException(); }
+			if( !geometry ) { throw OutOfMemoryException(); }
 			geode->addDrawable( geometry );
 
 #ifdef DEBUG_DRAW_NORMALS
@@ -464,7 +464,7 @@ public:
 			if( vertices_quad->size() > 0 )
 			{
 				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				if( !geometry ) { throw IfcPPOutOfMemoryException(); }
+				if( !geometry ) { throw OutOfMemoryException(); }
 				geometry->setVertexArray( vertices_quad );
 				if( normals_quad )
 				{
@@ -475,14 +475,14 @@ public:
 				if( add_color_array )
 				{
 					osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-					if( !colors ) { throw IfcPPOutOfMemoryException(); }
+					if( !colors ) { throw OutOfMemoryException(); }
 					colors->resize( vertices_quad->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 					colors->setBinding( osg::Array::BIND_PER_VERTEX );
 					geometry->setColorArray( colors );
 				}
 
 				geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, vertices_quad->size() ) );
-				if( !geometry ) { throw IfcPPOutOfMemoryException(); }
+				if( !geometry ) { throw OutOfMemoryException(); }
 				geode->addDrawable( geometry );
 			}
 		}
@@ -491,7 +491,7 @@ public:
 	static void drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false )
 	{
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-		if( !vertices ) { throw IfcPPOutOfMemoryException(); }
+		if( !vertices ) { throw OutOfMemoryException(); }
 		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
 
 		if( polyline_set->vertices.size() < 2 )
@@ -522,7 +522,7 @@ public:
 		}
 
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		if( !geometry ) { throw IfcPPOutOfMemoryException(); }
+		if( !geometry ) { throw OutOfMemoryException(); }
 		geometry->setVertexArray( vertices );
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, vertices->size() ) );
 
@@ -530,7 +530,7 @@ public:
 		{
 			osg::Vec4f color( 0.6f, 0.6f, 0.6f, 0.1f );
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array( vertices->size(), &color );
-			if( !colors ) { throw IfcPPOutOfMemoryException(); }
+			if( !colors ) { throw OutOfMemoryException(); }
 			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 			geometry->setColorArray( colors );
 		}
@@ -710,7 +710,7 @@ public:
 			{
 				const shared_ptr<ItemShapeData>& item_shape = product_items[i_item];
 				osg::ref_ptr<osg::MatrixTransform> item_group = new osg::MatrixTransform();
-				if( !item_group ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+				if( !item_group ) { throw OutOfMemoryException( __FUNC__ ); }
 
 #ifdef _DEBUG
 				std::stringstream strs_item_name;
@@ -724,7 +724,7 @@ public:
 					shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets_open[ii];
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-					if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+					if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
 					drawMeshSet( item_meshset, geode, m_geom_settings->getCoplanarFacesMaxDeltaAngle() );
 
 					if( m_geom_settings->getRenderCreaseEdges() )
@@ -757,7 +757,7 @@ public:
 					shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets[ii];
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode_meshset = new osg::Geode();
-					if( !geode_meshset ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+					if( !geode_meshset ) { throw OutOfMemoryException( __FUNC__ ); }
 					drawMeshSet( item_meshset, geode_meshset, m_geom_settings->getCoplanarFacesMaxDeltaAngle() );
 					item_group->addChild( geode_meshset );
 
@@ -791,7 +791,7 @@ public:
 						if( pointset_data->points.size() > 0 )
 						{
 							osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-							if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+							if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
 
 							osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 							for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
@@ -823,7 +823,7 @@ public:
 				{
 					shared_ptr<carve::input::PolylineSetData>& polyline_data = item_shape->m_polylines[ii];
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-					if( !geode ) { throw IfcPPOutOfMemoryException( __FUNC__ ); }
+					if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
 					geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 					drawPolyline( polyline_data.get(), geode );
 					item_group->addChild( geode );
@@ -855,7 +855,7 @@ public:
 						osg::ref_ptr<osgText::Text> txt = new osgText::Text();
 						if( !txt )
 						{
-							throw IfcPPOutOfMemoryException( __FUNC__ );
+							throw OutOfMemoryException( __FUNC__ );
 						}
 						txt->setFont( "fonts/arial.ttf" );
 						txt->setColor( osg::Vec4f( 0, 0, 0, 1 ) );
@@ -866,7 +866,7 @@ public:
 						txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
 						osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-						if( !geode ){ throw IfcPPOutOfMemoryException( __FUNC__ ); }
+						if( !geode ){ throw OutOfMemoryException( __FUNC__ ); }
 						geode->addDrawable( txt );
 						item_group->addChild( geode );
 					}
@@ -952,7 +952,7 @@ public:
 		std::map<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
 		const int num_products = (int)vec_products.size();
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		Mutex writelock_map;
 		Mutex writelock_message_callback;
 		Mutex writelock_ifc_project;
@@ -981,7 +981,7 @@ public:
 				}
 				else if( dynamic_pointer_cast<IfcProject>(ifc_object_def) )
 				{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );
 #endif
 					ifc_project_data = shape_data;
@@ -1004,11 +1004,11 @@ public:
 				{
 					convertProductShapeToOSG( shape_data, map_representation_switches );
 				}
-				catch( IfcPPOutOfMemoryException& e )
+				catch( OutOfMemoryException& e )
 				{
 					throw e;
 				}
-				catch( IfcPPException& e )
+				catch( BuildingException& e )
 				{
 					thread_err << e.what();
 				}
@@ -1050,7 +1050,7 @@ public:
 						applyAppearancesToGroup( vec_product_appearances, product_switch );
 					}
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
 					map_entity_id->insert( std::make_pair( product_id, product_switch ) );
@@ -1059,7 +1059,7 @@ public:
 
 				if( thread_err.tellp() > 0 )
 				{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_message_callback );
 #endif
 					messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
@@ -1069,7 +1069,7 @@ public:
 				double progress = (double)i / (double)num_products;
 				if( progress - m_recent_progress > 0.02 )
 				{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
@@ -1079,7 +1079,7 @@ public:
 					}
 				}
 			}
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		} // implicit barrier
 #endif
 
@@ -1091,11 +1091,11 @@ public:
 				resolveProjectStructure( ifc_project_data, parent_group );
 			}
 		}
-		catch( IfcPPOutOfMemoryException& e )
+		catch( OutOfMemoryException& e )
 		{
 			throw e;
 		}
-		catch( IfcPPException& e )
+		catch( BuildingException& e )
 		{
 			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
 		}
@@ -1107,9 +1107,10 @@ public:
 		{
 			messageCallback( "undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		}
+		progressValueCallback( 0.9, "scenegraph" );
 	}
 
-	void addNodes( const std::map<int, shared_ptr<IfcPPObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
+	void addNodes( const std::map<int, shared_ptr<BuildingObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
 	{
 		// check if there are entities that are not in spatial structure
 		if( !target_group )
@@ -1201,7 +1202,7 @@ public:
 
 	void clearAppearanceCache()
 	{
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		ScopedLock lock( m_writelock_appearance_cache );
 #endif
 		m_vec_existing_statesets.clear();
@@ -1235,7 +1236,7 @@ public:
 		if( m_enable_stateset_caching )
 		{
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 			ScopedLock lock( m_writelock_appearance_cache );
 #endif
 
@@ -1295,7 +1296,7 @@ public:
 
 		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
-		if( !mat ){ throw IfcPPOutOfMemoryException(); }
+		if( !mat ){ throw OutOfMemoryException(); }
 		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
 		mat->setDiffuse( osg::Material::FRONT_AND_BACK, diffuseColor );
 		mat->setSpecular( osg::Material::FRONT_AND_BACK, specularColor );
@@ -1303,7 +1304,7 @@ public:
 		mat->setColorMode( osg::Material::SPECULAR );
 
 		target_stateset = new osg::StateSet();
-		if( !target_stateset ){ throw IfcPPOutOfMemoryException(); }
+		if( !target_stateset ){ throw OutOfMemoryException(); }
 		target_stateset->setAttribute( mat, osg::StateAttribute::ON );
 	
 		if( appearence->m_set_transparent )

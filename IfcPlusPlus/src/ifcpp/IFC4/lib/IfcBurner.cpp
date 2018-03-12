@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBurner.h"
@@ -42,7 +42,7 @@
 IfcBurner::IfcBurner() {}
 IfcBurner::IfcBurner( int id ) { m_entity_id = id; }
 IfcBurner::~IfcBurner() {}
-shared_ptr<IfcPPObject> IfcBurner::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBurner::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBurner> copy_self( new IfcBurner() );
 	if( m_GlobalId )
@@ -88,10 +88,10 @@ void IfcBurner::getStepLine( std::stringstream& stream ) const
 }
 void IfcBurner::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBurner::toString() const { return L"IfcBurner"; }
-void IfcBurner::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBurner::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBurner, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBurner, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -102,16 +102,16 @@ void IfcBurner::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcBurnerTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcBurner::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcBurner::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcEnergyConversionDevice::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcBurner::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcBurner::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcEnergyConversionDevice::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcBurner::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcBurner::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcEnergyConversionDevice::setInverseCounterparts( ptr_self_entity );
 }

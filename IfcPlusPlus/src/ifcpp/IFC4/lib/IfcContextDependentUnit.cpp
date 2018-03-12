@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcContextDependentUnit.h"
@@ -17,7 +17,7 @@
 IfcContextDependentUnit::IfcContextDependentUnit() {}
 IfcContextDependentUnit::IfcContextDependentUnit( int id ) { m_entity_id = id; }
 IfcContextDependentUnit::~IfcContextDependentUnit() {}
-shared_ptr<IfcPPObject> IfcContextDependentUnit::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcContextDependentUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcContextDependentUnit> copy_self( new IfcContextDependentUnit() );
 	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
@@ -37,25 +37,25 @@ void IfcContextDependentUnit::getStepLine( std::stringstream& stream ) const
 }
 void IfcContextDependentUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcContextDependentUnit::toString() const { return L"IfcContextDependentUnit"; }
-void IfcContextDependentUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcContextDependentUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcContextDependentUnit, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcContextDependentUnit, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcContextDependentUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcContextDependentUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcNamedUnit::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
-void IfcContextDependentUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcContextDependentUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcNamedUnit::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasExternalReference_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasExternalReference_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
@@ -66,7 +66,7 @@ void IfcContextDependentUnit::getAttributesInverse( std::vector<std::pair<std::s
 		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
-void IfcContextDependentUnit::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcContextDependentUnit::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcNamedUnit::setInverseCounterparts( ptr_self_entity );
 }

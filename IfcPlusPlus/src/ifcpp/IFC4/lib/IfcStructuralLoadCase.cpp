@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActionSourceTypeEnum.h"
@@ -32,7 +32,7 @@
 IfcStructuralLoadCase::IfcStructuralLoadCase() {}
 IfcStructuralLoadCase::IfcStructuralLoadCase( int id ) { m_entity_id = id; }
 IfcStructuralLoadCase::~IfcStructuralLoadCase() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadCase::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralLoadCase::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadCase> copy_self( new IfcStructuralLoadCase() );
 	if( m_GlobalId )
@@ -91,10 +91,10 @@ void IfcStructuralLoadCase::getStepLine( std::stringstream& stream ) const
 }
 void IfcStructuralLoadCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadCase::toString() const { return L"IfcStructuralLoadCase"; }
-void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadCase, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadCase, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -107,21 +107,21 @@ void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& 
 	m_Purpose = IfcLabel::createObjectFromSTEP( args[9], map );
 	readTypeOfRealList( args[10], m_SelfWeightCoefficients );
 }
-void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcStructuralLoadGroup::getAttributes( vec_attributes );
 	if( m_SelfWeightCoefficients.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> SelfWeightCoefficients_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> SelfWeightCoefficients_vec_object( new AttributeObjectVector() );
 		std::copy( m_SelfWeightCoefficients.begin(), m_SelfWeightCoefficients.end(), std::back_inserter( SelfWeightCoefficients_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
 	}
 }
-void IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcStructuralLoadGroup::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStructuralLoadCase::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralLoadCase::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcStructuralLoadGroup::setInverseCounterparts( ptr_self_entity );
 }

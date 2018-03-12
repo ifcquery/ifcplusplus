@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorSelect.h"
@@ -31,7 +31,7 @@
 IfcInventory::IfcInventory() {}
 IfcInventory::IfcInventory( int id ) { m_entity_id = id; }
 IfcInventory::~IfcInventory() {}
-shared_ptr<IfcPPObject> IfcInventory::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcInventory::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInventory> copy_self( new IfcInventory() );
 	if( m_GlobalId )
@@ -90,10 +90,10 @@ void IfcInventory::getStepLine( std::stringstream& stream ) const
 }
 void IfcInventory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcInventory::toString() const { return L"IfcInventory"; }
-void IfcInventory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcInventory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcInventory, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcInventory, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -106,14 +106,14 @@ void IfcInventory::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[9], m_CurrentValue, map );
 	readEntityReference( args[10], m_OriginalValue, map );
 }
-void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "Jurisdiction", m_Jurisdiction ) );
 	if( m_ResponsiblePersons.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ResponsiblePersons_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ResponsiblePersons_vec_object( new AttributeObjectVector() );
 		std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
 	}
@@ -121,11 +121,11 @@ void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
 	vec_attributes.push_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
 }
-void IfcInventory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcInventory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcInventory::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcInventory::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcGroup::setInverseCounterparts( ptr_self_entity );
 }

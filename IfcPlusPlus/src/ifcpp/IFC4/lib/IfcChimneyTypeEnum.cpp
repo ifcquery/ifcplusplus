@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcChimneyTypeEnum.h"
 
 // TYPE IfcChimneyTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
 IfcChimneyTypeEnum::IfcChimneyTypeEnum() {}
 IfcChimneyTypeEnum::~IfcChimneyTypeEnum() {}
-shared_ptr<IfcPPObject> IfcChimneyTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcChimneyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChimneyTypeEnum> copy_self( new IfcChimneyTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -37,7 +37,7 @@ const std::wstring IfcChimneyTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }

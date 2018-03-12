@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -21,7 +21,7 @@
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() {}
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_entity_id = id; }
 IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() {}
-shared_ptr<IfcPPObject> IfcTriangulatedFaceSet::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTriangulatedFaceSet> copy_self( new IfcTriangulatedFaceSet() );
 	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
@@ -122,32 +122,32 @@ void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 }
 void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTriangulatedFaceSet::toString() const { return L"IfcTriangulatedFaceSet"; }
-void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
 	m_Closed = IfcBoolean::createObjectFromSTEP( args[2], map );
 	readTypeOfIntegerList2D( args[3], m_CoordIndex );
 	readTypeOfIntegerList( args[4], m_PnIndex );
 }
-void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
 	if( m_PnIndex.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> PnIndex_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
 	}
 }
-void IfcTriangulatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcTriangulatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTessellatedFaceSet::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcTriangulatedFaceSet::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcTriangulatedFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTessellatedFaceSet::setInverseCounterparts( ptr_self_entity );
 }

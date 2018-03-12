@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -19,7 +19,7 @@
 IfcRepresentation::IfcRepresentation() {}
 IfcRepresentation::IfcRepresentation( int id ) { m_entity_id = id; }
 IfcRepresentation::~IfcRepresentation() {}
-shared_ptr<IfcPPObject> IfcRepresentation::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRepresentation> copy_self( new IfcRepresentation() );
 	if( m_ContextOfItems )
@@ -53,32 +53,32 @@ void IfcRepresentation::getStepLine( std::stringstream& stream ) const
 }
 void IfcRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentation::toString() const { return L"IfcRepresentation"; }
-void IfcRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );
 	readEntityReferenceList( args[3], m_Items, map );
 }
-void IfcRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	vec_attributes.push_back( std::make_pair( "ContextOfItems", m_ContextOfItems ) );
 	vec_attributes.push_back( std::make_pair( "RepresentationIdentifier", m_RepresentationIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "RepresentationType", m_RepresentationType ) );
 	if( m_Items.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Items_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Items_vec_object( new AttributeObjectVector() );
 		std::copy( m_Items.begin(), m_Items.end(), std::back_inserter( Items_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Items", Items_vec_object ) );
 	}
 }
-void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	if( m_RepresentationMap_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RepresentationMap_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RepresentationMap_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_RepresentationMap_inverse.size(); ++i )
 		{
 			if( !m_RepresentationMap_inverse[i].expired() )
@@ -90,7 +90,7 @@ void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string,
 	}
 	if( m_LayerAssignments_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> LayerAssignments_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> LayerAssignments_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_LayerAssignments_inverse.size(); ++i )
 		{
 			if( !m_LayerAssignments_inverse[i].expired() )
@@ -102,7 +102,7 @@ void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string,
 	}
 	if( m_OfProductRepresentation_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OfProductRepresentation_inverse.size(); ++i )
 		{
 			if( !m_OfProductRepresentation_inverse[i].expired() )
@@ -113,10 +113,10 @@ void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string,
 		vec_attributes_inverse.push_back( std::make_pair( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj ) );
 	}
 }
-void IfcRepresentation::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcRepresentation> ptr_self = dynamic_pointer_cast<IfcRepresentation>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRepresentation::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRepresentation::setInverseCounterparts: type mismatch" ); }
 	if( m_ContextOfItems )
 	{
 		m_ContextOfItems->m_RepresentationsInContext_inverse.push_back( ptr_self );

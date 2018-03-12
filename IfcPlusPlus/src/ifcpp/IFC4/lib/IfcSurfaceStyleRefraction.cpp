@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcReal.h"
@@ -14,7 +14,7 @@
 IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction() {}
 IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction( int id ) { m_entity_id = id; }
 IfcSurfaceStyleRefraction::~IfcSurfaceStyleRefraction() {}
-shared_ptr<IfcPPObject> IfcSurfaceStyleRefraction::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcSurfaceStyleRefraction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleRefraction> copy_self( new IfcSurfaceStyleRefraction() );
 	if( m_RefractionIndex ) { copy_self->m_RefractionIndex = dynamic_pointer_cast<IfcReal>( m_RefractionIndex->getDeepCopy(options) ); }
@@ -31,24 +31,24 @@ void IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream ) const
 }
 void IfcSurfaceStyleRefraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleRefraction::toString() const { return L"IfcSurfaceStyleRefraction"; }
-void IfcSurfaceStyleRefraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcSurfaceStyleRefraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRefraction, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRefraction, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_RefractionIndex = IfcReal::createObjectFromSTEP( args[0], map );
 	m_DispersionFactor = IfcReal::createObjectFromSTEP( args[1], map );
 }
-void IfcSurfaceStyleRefraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcSurfaceStyleRefraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RefractionIndex", m_RefractionIndex ) );
 	vec_attributes.push_back( std::make_pair( "DispersionFactor", m_DispersionFactor ) );
 }
-void IfcSurfaceStyleRefraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleRefraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcSurfaceStyleRefraction::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcSurfaceStyleRefraction::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPresentationItem::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -19,7 +19,7 @@
 IfcRelServicesBuildings::IfcRelServicesBuildings() {}
 IfcRelServicesBuildings::IfcRelServicesBuildings( int id ) { m_entity_id = id; }
 IfcRelServicesBuildings::~IfcRelServicesBuildings() {}
-shared_ptr<IfcPPObject> IfcRelServicesBuildings::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelServicesBuildings::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelServicesBuildings> copy_self( new IfcRelServicesBuildings() );
 	if( m_GlobalId )
@@ -63,10 +63,10 @@ void IfcRelServicesBuildings::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelServicesBuildings::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelServicesBuildings::toString() const { return L"IfcRelServicesBuildings"; }
-void IfcRelServicesBuildings::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelServicesBuildings::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelServicesBuildings, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelServicesBuildings, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -74,26 +74,26 @@ void IfcRelServicesBuildings::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[4], m_RelatingSystem, map );
 	readEntityReferenceList( args[5], m_RelatedBuildings, map );
 }
-void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
 	if( m_RelatedBuildings.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedBuildings_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedBuildings_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
 	}
 }
-void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelServicesBuildings::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelServicesBuildings::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelServicesBuildings> ptr_self = dynamic_pointer_cast<IfcRelServicesBuildings>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelServicesBuildings::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelServicesBuildings::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedBuildings.size(); ++i )
 	{
 		if( m_RelatedBuildings[i] )

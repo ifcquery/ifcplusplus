@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
@@ -30,7 +30,7 @@
 IfcDoorStyle::IfcDoorStyle() {}
 IfcDoorStyle::IfcDoorStyle( int id ) { m_entity_id = id; }
 IfcDoorStyle::~IfcDoorStyle() {}
-shared_ptr<IfcPPObject> IfcDoorStyle::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDoorStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorStyle> copy_self( new IfcDoorStyle() );
 	if( m_GlobalId )
@@ -99,10 +99,10 @@ void IfcDoorStyle::getStepLine( std::stringstream& stream ) const
 }
 void IfcDoorStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDoorStyle::toString() const { return L"IfcDoorStyle"; }
-void IfcDoorStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDoorStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorStyle, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 12 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDoorStyle, expecting 12, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -116,7 +116,7 @@ void IfcDoorStyle::readStepArguments( const std::vector<std::wstring>& args, con
 	m_ParameterTakesPrecedence = IfcBoolean::createObjectFromSTEP( args[10], map );
 	m_Sizeable = IfcBoolean::createObjectFromSTEP( args[11], map );
 }
-void IfcDoorStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDoorStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcTypeProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
@@ -124,11 +124,11 @@ void IfcDoorStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
 	vec_attributes.push_back( std::make_pair( "Sizeable", m_Sizeable ) );
 }
-void IfcDoorStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDoorStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcTypeProduct::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcDoorStyle::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDoorStyle::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcTypeProduct::setInverseCounterparts( ptr_self_entity );
 }

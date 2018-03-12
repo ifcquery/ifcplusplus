@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcFeatureElementSubtraction.h"
@@ -39,7 +39,7 @@
 IfcFeatureElementSubtraction::IfcFeatureElementSubtraction() {}
 IfcFeatureElementSubtraction::IfcFeatureElementSubtraction( int id ) { m_entity_id = id; }
 IfcFeatureElementSubtraction::~IfcFeatureElementSubtraction() {}
-shared_ptr<IfcPPObject> IfcFeatureElementSubtraction::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcFeatureElementSubtraction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFeatureElementSubtraction> copy_self( new IfcFeatureElementSubtraction() );
 	if( m_GlobalId )
@@ -82,10 +82,10 @@ void IfcFeatureElementSubtraction::getStepLine( std::stringstream& stream ) cons
 }
 void IfcFeatureElementSubtraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFeatureElementSubtraction::toString() const { return L"IfcFeatureElementSubtraction"; }
-void IfcFeatureElementSubtraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcFeatureElementSubtraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFeatureElementSubtraction, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFeatureElementSubtraction, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -95,16 +95,16 @@ void IfcFeatureElementSubtraction::readStepArguments( const std::vector<std::wst
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcFeatureElementSubtraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcFeatureElementSubtraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcFeatureElement::getAttributes( vec_attributes );
 }
-void IfcFeatureElementSubtraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcFeatureElementSubtraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcFeatureElement::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.push_back( std::make_pair( "VoidsElements_inverse", shared_ptr<IfcPPEntity>( m_VoidsElements_inverse ) ) );
+	vec_attributes_inverse.push_back( std::make_pair( "VoidsElements_inverse", shared_ptr<BuildingEntity>( m_VoidsElements_inverse ) ) );
 }
-void IfcFeatureElementSubtraction::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcFeatureElementSubtraction::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcFeatureElement::setInverseCounterparts( ptr_self_entity );
 }

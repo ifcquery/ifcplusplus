@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -16,7 +16,7 @@
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement() {}
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleDisplacement::~IfcStructuralLoadSingleDisplacement() {}
-shared_ptr<IfcPPObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleDisplacement> copy_self( new IfcStructuralLoadSingleDisplacement() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -48,10 +48,10 @@ void IfcStructuralLoadSingleDisplacement::getStepLine( std::stringstream& stream
 }
 void IfcStructuralLoadSingleDisplacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleDisplacement::toString() const { return L"IfcStructuralLoadSingleDisplacement"; }
-void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacement, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DisplacementX = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_DisplacementY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -60,7 +60,7 @@ void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<s
 	m_RotationalDisplacementRY = IfcPlaneAngleMeasure::createObjectFromSTEP( args[5], map );
 	m_RotationalDisplacementRZ = IfcPlaneAngleMeasure::createObjectFromSTEP( args[6], map );
 }
-void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DisplacementX", m_DisplacementX ) );
@@ -70,11 +70,11 @@ void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<s
 	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRY", m_RotationalDisplacementRY ) );
 	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRZ", m_RotationalDisplacementRZ ) );
 }
-void IfcStructuralLoadSingleDisplacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadSingleDisplacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcStructuralLoadStatic::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStructuralLoadSingleDisplacement::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralLoadSingleDisplacement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcStructuralLoadStatic::setInverseCounterparts( ptr_self_entity );
 }

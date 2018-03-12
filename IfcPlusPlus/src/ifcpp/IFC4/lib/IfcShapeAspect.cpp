@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -20,7 +20,7 @@
 IfcShapeAspect::IfcShapeAspect() {}
 IfcShapeAspect::IfcShapeAspect( int id ) { m_entity_id = id; }
 IfcShapeAspect::~IfcShapeAspect() {}
-shared_ptr<IfcPPObject> IfcShapeAspect::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcShapeAspect::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShapeAspect> copy_self( new IfcShapeAspect() );
 	for( size_t ii=0; ii<m_ShapeRepresentations.size(); ++ii )
@@ -53,21 +53,21 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 }
 void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeAspect::toString() const { return L"IfcShapeAspect"; }
-void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_ShapeRepresentations, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
 	m_ProductDefinitional = IfcLogical::createObjectFromSTEP( args[3], map );
 	m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromSTEP( args[4], map );
 }
-void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	if( m_ShapeRepresentations.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> ShapeRepresentations_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> ShapeRepresentations_vec_object( new AttributeObjectVector() );
 		std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
 	}
@@ -76,13 +76,13 @@ void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
 	vec_attributes.push_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
 }
-void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcShapeAspect::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcShapeAspect::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcShapeAspect> ptr_self = dynamic_pointer_cast<IfcShapeAspect>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcShapeAspect::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcShapeAspect::setInverseCounterparts: type mismatch" ); }
 	shared_ptr<IfcProductDefinitionShape>  PartOfProductDefinitionShape_IfcProductDefinitionShape = dynamic_pointer_cast<IfcProductDefinitionShape>( m_PartOfProductDefinitionShape );
 	if( PartOfProductDefinitionShape_IfcProductDefinitionShape )
 	{

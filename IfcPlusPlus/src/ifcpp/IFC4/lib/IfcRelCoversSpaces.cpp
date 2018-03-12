@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCovering.h"
@@ -19,7 +19,7 @@
 IfcRelCoversSpaces::IfcRelCoversSpaces() {}
 IfcRelCoversSpaces::IfcRelCoversSpaces( int id ) { m_entity_id = id; }
 IfcRelCoversSpaces::~IfcRelCoversSpaces() {}
-shared_ptr<IfcPPObject> IfcRelCoversSpaces::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelCoversSpaces::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelCoversSpaces> copy_self( new IfcRelCoversSpaces() );
 	if( m_GlobalId )
@@ -63,10 +63,10 @@ void IfcRelCoversSpaces::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelCoversSpaces::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelCoversSpaces::toString() const { return L"IfcRelCoversSpaces"; }
-void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelCoversSpaces, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelCoversSpaces, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -74,26 +74,26 @@ void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& arg
 	readEntityReference( args[4], m_RelatingSpace, map );
 	readEntityReferenceList( args[5], m_RelatedCoverings, map );
 }
-void IfcRelCoversSpaces::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelCoversSpaces::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
 	if( m_RelatedCoverings.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedCoverings_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedCoverings_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
 	}
 }
-void IfcRelCoversSpaces::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelCoversSpaces::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelCoversSpaces::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelCoversSpaces::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelCoversSpaces> ptr_self = dynamic_pointer_cast<IfcRelCoversSpaces>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelCoversSpaces::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelCoversSpaces::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedCoverings.size(); ++i )
 	{
 		if( m_RelatedCoverings[i] )

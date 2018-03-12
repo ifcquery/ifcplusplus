@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCovering.h"
@@ -41,7 +41,7 @@
 IfcCovering::IfcCovering() {}
 IfcCovering::IfcCovering( int id ) { m_entity_id = id; }
 IfcCovering::~IfcCovering() {}
-shared_ptr<IfcPPObject> IfcCovering::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCovering::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCovering> copy_self( new IfcCovering() );
 	if( m_GlobalId )
@@ -87,10 +87,10 @@ void IfcCovering::getStepLine( std::stringstream& stream ) const
 }
 void IfcCovering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCovering::toString() const { return L"IfcCovering"; }
-void IfcCovering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcCovering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCovering, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCovering, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -101,17 +101,17 @@ void IfcCovering::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcCoveringTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcCovering::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcCovering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 	if( m_CoversSpaces_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> CoversSpaces_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> CoversSpaces_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_CoversSpaces_inverse.size(); ++i )
 		{
 			if( !m_CoversSpaces_inverse[i].expired() )
@@ -123,7 +123,7 @@ void IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, share
 	}
 	if( m_CoversElements_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> CoversElements_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> CoversElements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_CoversElements_inverse.size(); ++i )
 		{
 			if( !m_CoversElements_inverse[i].expired() )
@@ -134,7 +134,7 @@ void IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, share
 		vec_attributes_inverse.push_back( std::make_pair( "CoversElements_inverse", CoversElements_inverse_vec_obj ) );
 	}
 }
-void IfcCovering::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcCovering::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
 }

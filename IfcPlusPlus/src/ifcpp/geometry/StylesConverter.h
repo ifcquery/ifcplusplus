@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <boost/algorithm/string.hpp>
 
 #include <ifcpp/geometry/AppearanceData.h>
-#include <ifcpp/model/IfcPPBasicTypes.h>
+#include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
 #include <ifcpp/IFC4/include/IfcSpecularExponent.h>
@@ -62,7 +62,7 @@ class StylesConverter : public StatusCallback
 protected:
 	std::map<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	Mutex m_writelock_styles_converter;
 #endif
 
@@ -192,7 +192,7 @@ public:
 				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 			}
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 			ScopedLock lock( m_writelock_styles_converter );
 #endif
 			m_map_ifc_styles[style_id] = appearance_data;
@@ -484,7 +484,7 @@ public:
 						vec_color.m_b = b;
 						vec_color.m_a = 1.0;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 						//ScopedLock lock( m_writelock_styles_converter );
 #endif
 						//appearance_data->color_ambient.setColor( r, g, b, 1.f );
@@ -520,7 +520,7 @@ public:
 			{
 				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 			}
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 			ScopedLock lock( m_writelock_styles_converter );
 #endif
 			m_map_ifc_styles[style_id] = appearance_data;
@@ -583,7 +583,7 @@ public:
 			{
 				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 			}
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 			ScopedLock lock( m_writelock_styles_converter );
 #endif
 			m_map_ifc_styles[style_id] = appearance_data;

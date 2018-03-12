@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcApproval.h"
@@ -19,7 +19,7 @@
 IfcRelAssociatesApproval::IfcRelAssociatesApproval() {}
 IfcRelAssociatesApproval::IfcRelAssociatesApproval( int id ) { m_entity_id = id; }
 IfcRelAssociatesApproval::~IfcRelAssociatesApproval() {}
-shared_ptr<IfcPPObject> IfcRelAssociatesApproval::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelAssociatesApproval::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesApproval> copy_self( new IfcRelAssociatesApproval() );
 	if( m_GlobalId )
@@ -80,10 +80,10 @@ void IfcRelAssociatesApproval::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelAssociatesApproval::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesApproval::toString() const { return L"IfcRelAssociatesApproval"; }
-void IfcRelAssociatesApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelAssociatesApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociatesApproval, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelAssociatesApproval, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -91,20 +91,20 @@ void IfcRelAssociatesApproval::readStepArguments( const std::vector<std::wstring
 	readSelectList( args[4], m_RelatedObjects, map );
 	readEntityReference( args[5], m_RelatingApproval, map );
 }
-void IfcRelAssociatesApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelAssociatesApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
 }
-void IfcRelAssociatesApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelAssociatesApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelAssociates::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelAssociatesApproval::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelAssociatesApproval::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelAssociates::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelAssociatesApproval> ptr_self = dynamic_pointer_cast<IfcRelAssociatesApproval>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelAssociatesApproval::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelAssociatesApproval::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingApproval )
 	{
 		m_RelatingApproval->m_ApprovedObjects_inverse.push_back( ptr_self );

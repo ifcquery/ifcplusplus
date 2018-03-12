@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -19,28 +19,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 // for developing only:
 #ifdef _DEBUG
-#define IFCPP_GEOM_DEBUG
+#define GEOMETRY_DEBUG_CHECK
 #endif
 
 
-// geometric modelling library: choose 1 for Carve or 2 for OpenCascade
-#define GEOM_LIBRARY 1
-
-
-#if GEOM_LIBRARY == 1
-	#ifdef IFCPP_GEOM_DEBUG
-		#include <ifcpp/geometry/Carve/GeomDebugDump.h>
-	#endif
-	#include <ifcpp/geometry/Carve/GeometryConverter.h>
-	#include <ifcpp/geometry/Carve/ConverterOSG.h>
-	#include <ifcpp/geometry/Carve/GeomUtils.h>
-#elif GEOM_LIBRARY == 2
-	#ifdef IFCPP_GEOM_DEBUG
-		#include <ifcpp/geometry/OCC/GeomDebugDump.h>
-	#endif
-	#include <ifcpp/geometry/OCC/GeometryConverter.h>
-	#include <ifcpp/geometry/OCC/ConverterOSG.h>
-	#include <ifcpp/geometry/OCC/GeomUtils.h>
+#ifdef GEOMETRY_DEBUG_CHECK
+	#include <ifcpp/geometry/Carve/GeomDebugDump.h>
 #endif
+#include <ifcpp/geometry/Carve/GeometryConverter.h>
+#include <ifcpp/geometry/Carve/ConverterOSG.h>
+#include <ifcpp/geometry/Carve/GeomUtils.h>
+
+
+#ifdef GEOMETRY_DEBUG_CHECK
+	#include <ifcpp/geometry/OCC/GeomDebugDumpOCC.h>
+#endif
+#include <ifcpp/geometry/OCC/GeometryConverterOCC.h>
+#include <ifcpp/geometry/OCC/SceneGraphConverterOCC.h>
+#include <ifcpp/geometry/OCC/GeomUtilsOCC.h>
+
 #include <ifcpp/geometry/SceneGraphUtils.h>
 #include <ifcpp/geometry/GeometrySettings.h>

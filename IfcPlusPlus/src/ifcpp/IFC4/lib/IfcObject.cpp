@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -25,7 +25,7 @@
 IfcObject::IfcObject() {}
 IfcObject::IfcObject( int id ) { m_entity_id = id; }
 IfcObject::~IfcObject() {}
-shared_ptr<IfcPPObject> IfcObject::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcObject::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObject> copy_self( new IfcObject() );
 	if( m_GlobalId )
@@ -59,27 +59,27 @@ void IfcObject::getStepLine( std::stringstream& stream ) const
 }
 void IfcObject::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcObject::toString() const { return L"IfcObject"; }
-void IfcObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObject, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObject, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ObjectType", m_ObjectType ) );
 }
-void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsDeclaredBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsDeclaredBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsDeclaredBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsDeclaredBy_inverse.size(); ++i )
 		{
 			if( !m_IsDeclaredBy_inverse[i].expired() )
@@ -91,7 +91,7 @@ void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_
 	}
 	if( m_Declares_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Declares_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Declares_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Declares_inverse.size(); ++i )
 		{
 			if( !m_Declares_inverse[i].expired() )
@@ -103,7 +103,7 @@ void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_
 	}
 	if( m_IsTypedBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsTypedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsTypedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsTypedBy_inverse.size(); ++i )
 		{
 			if( !m_IsTypedBy_inverse[i].expired() )
@@ -115,7 +115,7 @@ void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_
 	}
 	if( m_IsDefinedBy_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> IsDefinedBy_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> IsDefinedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
 		{
 			if( !m_IsDefinedBy_inverse[i].expired() )
@@ -126,7 +126,7 @@ void IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_
 		vec_attributes_inverse.push_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 	}
 }
-void IfcObject::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcObject::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcObjectDefinition::setInverseCounterparts( ptr_self_entity );
 }

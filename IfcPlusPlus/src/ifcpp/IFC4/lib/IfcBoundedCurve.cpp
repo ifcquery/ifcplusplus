@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoundedCurve.h"
@@ -15,7 +15,7 @@
 IfcBoundedCurve::IfcBoundedCurve() {}
 IfcBoundedCurve::IfcBoundedCurve( int id ) { m_entity_id = id; }
 IfcBoundedCurve::~IfcBoundedCurve() {}
-shared_ptr<IfcPPObject> IfcBoundedCurve::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcBoundedCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundedCurve> copy_self( new IfcBoundedCurve() );
 	return copy_self;
@@ -27,18 +27,18 @@ void IfcBoundedCurve::getStepLine( std::stringstream& stream ) const
 }
 void IfcBoundedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundedCurve::toString() const { return L"IfcBoundedCurve"; }
-void IfcBoundedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcBoundedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcBoundedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcBoundedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcCurve::getAttributes( vec_attributes );
 }
-void IfcBoundedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcBoundedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcBoundedCurve::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcBoundedCurve::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcCurve::setInverseCounterparts( ptr_self_entity );
 }

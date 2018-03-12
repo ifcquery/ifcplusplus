@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcTaskTypeEnum.h"
 
 // TYPE IfcTaskTypeEnum = ENUMERATION OF	(ATTENDANCE	,CONSTRUCTION	,DEMOLITION	,DISMANTLE	,DISPOSAL	,INSTALLATION	,LOGISTIC	,MAINTENANCE	,MOVE	,OPERATION	,REMOVAL	,RENOVATION	,USERDEFINED	,NOTDEFINED);
 IfcTaskTypeEnum::IfcTaskTypeEnum() {}
 IfcTaskTypeEnum::~IfcTaskTypeEnum() {}
-shared_ptr<IfcPPObject> IfcTaskTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcTaskTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTypeEnum> copy_self( new IfcTaskTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -61,7 +61,7 @@ const std::wstring IfcTaskTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }

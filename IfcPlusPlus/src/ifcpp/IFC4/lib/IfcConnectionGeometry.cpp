@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcConnectionGeometry.h"
@@ -13,7 +13,7 @@
 IfcConnectionGeometry::IfcConnectionGeometry() {}
 IfcConnectionGeometry::IfcConnectionGeometry( int id ) { m_entity_id = id; }
 IfcConnectionGeometry::~IfcConnectionGeometry() {}
-shared_ptr<IfcPPObject> IfcConnectionGeometry::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcConnectionGeometry::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionGeometry> copy_self( new IfcConnectionGeometry() );
 	return copy_self;
@@ -25,16 +25,16 @@ void IfcConnectionGeometry::getStepLine( std::stringstream& stream ) const
 }
 void IfcConnectionGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionGeometry::toString() const { return L"IfcConnectionGeometry"; }
-void IfcConnectionGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcConnectionGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 }
-void IfcConnectionGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcConnectionGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 }
-void IfcConnectionGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcConnectionGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 }
-void IfcConnectionGeometry::setInverseCounterparts( shared_ptr<IfcPPEntity> )
+void IfcConnectionGeometry::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcConnectionGeometry::unlinkFromInverseCounterparts()

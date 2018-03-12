@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActorSelect.h"
@@ -23,7 +23,7 @@
 IfcObjective::IfcObjective() {}
 IfcObjective::IfcObjective( int id ) { m_entity_id = id; }
 IfcObjective::~IfcObjective() {}
-shared_ptr<IfcPPObject> IfcObjective::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcObjective::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjective> copy_self( new IfcObjective() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -74,10 +74,10 @@ void IfcObjective::getStepLine( std::stringstream& stream ) const
 }
 void IfcObjective::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcObjective::toString() const { return L"IfcObjective"; }
-void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObjective, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObjective, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_ConstraintGrade = IfcConstraintEnum::createObjectFromSTEP( args[2], map );
@@ -90,12 +90,12 @@ void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, con
 	m_ObjectiveQualifier = IfcObjectiveEnum::createObjectFromSTEP( args[9], map );
 	m_UserDefinedQualifier = IfcLabel::createObjectFromSTEP( args[10], map );
 }
-void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcConstraint::getAttributes( vec_attributes );
 	if( m_BenchmarkValues.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> BenchmarkValues_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> BenchmarkValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
 	}
@@ -103,11 +103,11 @@ void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );
 }
-void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcConstraint::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcObjective::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcObjective::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcConstraint::setInverseCounterparts( ptr_self_entity );
 }

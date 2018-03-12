@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // TYPE IfcURIReference = STRING;
 IfcURIReference::IfcURIReference() {}
 IfcURIReference::IfcURIReference( std::wstring value ) { m_value = value; }
 IfcURIReference::~IfcURIReference() {}
-shared_ptr<IfcPPObject> IfcURIReference::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcURIReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcURIReference> copy_self( new IfcURIReference() );
 	copy_self->m_value = m_value;
@@ -29,7 +29,7 @@ const std::wstring IfcURIReference::toString() const
 {
 	return m_value;
 }
-shared_ptr<IfcURIReference> IfcURIReference::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcURIReference> IfcURIReference::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcURIReference>(); }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -19,7 +19,7 @@
 IfcRelDefinesByTemplate::IfcRelDefinesByTemplate() {}
 IfcRelDefinesByTemplate::IfcRelDefinesByTemplate( int id ) { m_entity_id = id; }
 IfcRelDefinesByTemplate::~IfcRelDefinesByTemplate() {}
-shared_ptr<IfcPPObject> IfcRelDefinesByTemplate::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelDefinesByTemplate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDefinesByTemplate> copy_self( new IfcRelDefinesByTemplate() );
 	if( m_GlobalId )
@@ -63,10 +63,10 @@ void IfcRelDefinesByTemplate::getStepLine( std::stringstream& stream ) const
 }
 void IfcRelDefinesByTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDefinesByTemplate::toString() const { return L"IfcRelDefinesByTemplate"; }
-void IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDefinesByTemplate, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelDefinesByTemplate, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -74,26 +74,26 @@ void IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::wstring>
 	readEntityReferenceList( args[4], m_RelatedPropertySets, map );
 	readEntityReference( args[5], m_RelatingTemplate, map );
 }
-void IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelDefines::getAttributes( vec_attributes );
 	if( m_RelatedPropertySets.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> RelatedPropertySets_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> RelatedPropertySets_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedPropertySets.begin(), m_RelatedPropertySets.end(), std::back_inserter( RelatedPropertySets_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "RelatedPropertySets", RelatedPropertySets_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingTemplate", m_RelatingTemplate ) );
 }
-void IfcRelDefinesByTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelDefinesByTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelDefines::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelDefinesByTemplate::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelDefinesByTemplate::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelDefines::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelDefinesByTemplate> ptr_self = dynamic_pointer_cast<IfcRelDefinesByTemplate>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelDefinesByTemplate::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelDefinesByTemplate::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedPropertySets.size(); ++i )
 	{
 		if( m_RelatedPropertySets[i] )

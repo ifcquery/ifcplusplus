@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAdvancedBrepWithVoids.h"
@@ -16,7 +16,7 @@
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids() {}
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids( int id ) { m_entity_id = id; }
 IfcAdvancedBrepWithVoids::~IfcAdvancedBrepWithVoids() {}
-shared_ptr<IfcPPObject> IfcAdvancedBrepWithVoids::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcAdvancedBrepWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAdvancedBrepWithVoids> copy_self( new IfcAdvancedBrepWithVoids() );
 	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
@@ -40,28 +40,28 @@ void IfcAdvancedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 }
 void IfcAdvancedBrepWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAdvancedBrepWithVoids::toString() const { return L"IfcAdvancedBrepWithVoids"; }
-void IfcAdvancedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcAdvancedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAdvancedBrepWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAdvancedBrepWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 	readEntityReferenceList( args[1], m_Voids, map );
 }
-void IfcAdvancedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcAdvancedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcAdvancedBrep::getAttributes( vec_attributes );
 	if( m_Voids.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> Voids_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> Voids_vec_object( new AttributeObjectVector() );
 		std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
 	}
 }
-void IfcAdvancedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcAdvancedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcAdvancedBrep::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcAdvancedBrepWithVoids::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcAdvancedBrepWithVoids::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcAdvancedBrep::setInverseCounterparts( ptr_self_entity );
 }

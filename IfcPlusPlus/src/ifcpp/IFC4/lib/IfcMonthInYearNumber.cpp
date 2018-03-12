@@ -5,15 +5,15 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMonthInYearNumber.h"
 
 // TYPE IfcMonthInYearNumber = INTEGER;
 IfcMonthInYearNumber::IfcMonthInYearNumber() {}
 IfcMonthInYearNumber::IfcMonthInYearNumber( int value ) { m_value = value; }
 IfcMonthInYearNumber::~IfcMonthInYearNumber() {}
-shared_ptr<IfcPPObject> IfcMonthInYearNumber::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcMonthInYearNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonthInYearNumber> copy_self( new IfcMonthInYearNumber() );
 	copy_self->m_value = m_value;
@@ -31,7 +31,7 @@ const std::wstring IfcMonthInYearNumber::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }

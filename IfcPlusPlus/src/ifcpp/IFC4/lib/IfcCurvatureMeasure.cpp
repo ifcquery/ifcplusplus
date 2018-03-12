@@ -5,8 +5,8 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDerivedMeasureValue.h"
 #include "ifcpp/IFC4/include/IfcCurvatureMeasure.h"
 
@@ -14,7 +14,7 @@
 IfcCurvatureMeasure::IfcCurvatureMeasure() {}
 IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
 IfcCurvatureMeasure::~IfcCurvatureMeasure() {}
-shared_ptr<IfcPPObject> IfcCurvatureMeasure::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcCurvatureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );
 	copy_self->m_value = m_value;
@@ -32,7 +32,7 @@ const std::wstring IfcCurvatureMeasure::toString() const
 	strs << m_value;
 	return strs.str();
 }
-shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }

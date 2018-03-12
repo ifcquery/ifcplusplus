@@ -5,14 +5,14 @@
 #include <map>
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcElectricApplianceTypeEnum.h"
 
 // TYPE IfcElectricApplianceTypeEnum = ENUMERATION OF	(DISHWASHER	,ELECTRICCOOKER	,FREESTANDINGELECTRICHEATER	,FREESTANDINGFAN	,FREESTANDINGWATERHEATER	,FREESTANDINGWATERCOOLER	,FREEZER	,FRIDGE_FREEZER	,HANDDRYER	,KITCHENMACHINE	,MICROWAVE	,PHOTOCOPIER	,REFRIGERATOR	,TUMBLEDRYER	,VENDINGMACHINE	,WASHINGMACHINE	,USERDEFINED	,NOTDEFINED);
 IfcElectricApplianceTypeEnum::IfcElectricApplianceTypeEnum() {}
 IfcElectricApplianceTypeEnum::~IfcElectricApplianceTypeEnum() {}
-shared_ptr<IfcPPObject> IfcElectricApplianceTypeEnum::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcElectricApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricApplianceTypeEnum> copy_self( new IfcElectricApplianceTypeEnum() );
 	copy_self->m_enum = m_enum;
@@ -69,7 +69,7 @@ const std::wstring IfcElectricApplianceTypeEnum::toString() const
 	}
 	return L"";
 }
-shared_ptr<IfcElectricApplianceTypeEnum> IfcElectricApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+shared_ptr<IfcElectricApplianceTypeEnum> IfcElectricApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }

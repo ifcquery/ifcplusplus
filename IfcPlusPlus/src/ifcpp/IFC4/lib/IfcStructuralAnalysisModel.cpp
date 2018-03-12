@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAnalysisModelTypeEnum.h"
@@ -32,7 +32,7 @@
 IfcStructuralAnalysisModel::IfcStructuralAnalysisModel() {}
 IfcStructuralAnalysisModel::IfcStructuralAnalysisModel( int id ) { m_entity_id = id; }
 IfcStructuralAnalysisModel::~IfcStructuralAnalysisModel() {}
-shared_ptr<IfcPPObject> IfcStructuralAnalysisModel::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralAnalysisModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralAnalysisModel> copy_self( new IfcStructuralAnalysisModel() );
 	if( m_GlobalId )
@@ -95,10 +95,10 @@ void IfcStructuralAnalysisModel::getStepLine( std::stringstream& stream ) const
 }
 void IfcStructuralAnalysisModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralAnalysisModel::toString() const { return L"IfcStructuralAnalysisModel"; }
-void IfcStructuralAnalysisModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralAnalysisModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralAnalysisModel, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralAnalysisModel, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -110,34 +110,34 @@ void IfcStructuralAnalysisModel::readStepArguments( const std::vector<std::wstri
 	readEntityReferenceList( args[8], m_HasResults, map );
 	readEntityReference( args[9], m_SharedPlacement, map );
 }
-void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "OrientationOf2DPlane", m_OrientationOf2DPlane ) );
 	if( m_LoadedBy.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> LoadedBy_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> LoadedBy_vec_object( new AttributeObjectVector() );
 		std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
 	}
 	if( m_HasResults.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> HasResults_vec_object( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> HasResults_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
 		vec_attributes.push_back( std::make_pair( "HasResults", HasResults_vec_object ) );
 	}
 	vec_attributes.push_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
 }
-void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcSystem::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcStructuralAnalysisModel::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralAnalysisModel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcSystem::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcStructuralAnalysisModel> ptr_self = dynamic_pointer_cast<IfcStructuralAnalysisModel>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcStructuralAnalysisModel::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcStructuralAnalysisModel::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_HasResults.size(); ++i )
 	{
 		if( m_HasResults[i] )

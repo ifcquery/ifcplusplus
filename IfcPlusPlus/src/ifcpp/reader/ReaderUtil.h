@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -29,10 +29,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <string>
 #include <boost/unordered_map.hpp>
 #include <boost/optional.hpp>
-#include "ifcpp/model/IfcPPBasicTypes.h"
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPObject.h"
-#include "ifcpp/IFC4/IfcPPTypeFactory.h"
+#include "ifcpp/model/BasicTypes.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingObject.h"
+#include "ifcpp/IFC4/TypeFactory.h"
 
 #ifdef _MSC_VER
 #include <cstdio>
@@ -52,8 +52,8 @@ void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec );
 void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
 void checkOpeningClosingParenthesis( const wchar_t* ch_check );
-IFCPP_EXPORT void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments );
-IFCPP_EXPORT void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments );
+IFCQUERY_EXPORT void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments );
+IFCQUERY_EXPORT void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments );
 void tokenizeInlineArgument( const std::wstring input, std::wstring& keyword, std::wstring& inner_argument );
 void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing );
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
@@ -121,7 +121,7 @@ inline void readRealValue( const std::wstring& str, boost::optional<double>& rea
 }
 
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
-IFCPP_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
+IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
 
 inline void readBool( const std::wstring& attribute_value, bool& target )
 {
@@ -266,7 +266,7 @@ void readTypeOfIntegerList2D( const std::wstring& str, std::vector<std::vector<s
 
 	if( ch[0] != '(' )
 	{
-		throw IfcPPException( "string does not start with (", __FUNC__ );
+		throw BuildingException( "string does not start with (", __FUNC__ );
 	}
 	size_t i = 0;
 	size_t last_token = 1;
@@ -305,7 +305,7 @@ void readTypeOfIntegerList2D( const std::wstring& str, std::vector<std::vector<s
 	// no closing parenthesis found
 	std::wstringstream err;
 	err << "no closing parenthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __FUNC__ );
+	throw BuildingException( err.str(), __FUNC__ );
 }
 
 template<typename T>
@@ -401,7 +401,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 
 	if( ch[0] != '(' )
 	{
-		throw IfcPPException( "string does not start with (", __FUNC__ );
+		throw BuildingException( "string does not start with (", __FUNC__ );
 	}
 	size_t i=0;
 	size_t last_token = 1;
@@ -440,7 +440,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 	// no closing parenthesis found
 	std::wstringstream err;
 	err << "no closing parenthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __FUNC__ );
+	throw BuildingException( err.str(), __FUNC__ );
 }
 
 template<typename T>
@@ -516,7 +516,7 @@ void readTypeOfStringList( const std::wstring& str, std::vector<shared_ptr<T> >&
 }
 
 template<typename T>
-void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	if( str.length() == 0)
 	{
@@ -525,17 +525,17 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 	if( str.at(0) == '#' )
 	{
 		int entity_id = std::stoi( str.substr( 1 ) );
-		std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity = map_entities.find( entity_id );
+		std::map<int,shared_ptr<BuildingEntity> >::const_iterator it_entity = map_entities.find( entity_id );
 		if( it_entity != map_entities.end() )
 		{
-			shared_ptr<IfcPPEntity> found_obj = it_entity->second;
+			shared_ptr<BuildingEntity> found_obj = it_entity->second;
 			target = dynamic_pointer_cast<T>(found_obj);
 		}
 		else
 		{
 			std::stringstream err;
 			err << "object with id " << entity_id << " not found" << std::endl;
-			throw IfcPPException( err.str(), __FUNC__ );
+			throw BuildingException( err.str(), __FUNC__ );
 		}
 	}
 	else if( str.compare(L"$")==0 )
@@ -548,12 +548,12 @@ void readEntityReference( const std::wstring& str, shared_ptr<T>& target, const 
 	}
 	else
 	{
-		throw IfcPPException( "unexpected argument", __FUNC__ );
+		throw BuildingException( "unexpected argument", __FUNC__ );
 	}
 }
 
 template<typename T>
-void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	// example: (IFCPARAMETERVALUE(0.5),*,IFCPARAMETERVALUE(2.0))
 	wchar_t* pos_opening = nullptr;
@@ -569,7 +569,7 @@ void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >&
 		}
 		std::wstringstream err;
 		err << "num_opening != num_closing : " << arg_complete.c_str() << std::endl;
-		throw IfcPPException( err.str(), __FUNC__ );
+		throw BuildingException( err.str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<std::wstring> list_items;
@@ -587,7 +587,7 @@ void readTypeList( const std::wstring arg_complete, std::vector<shared_ptr<T> >&
 }
 
 template<typename select_t>
-void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, const std::map<int, shared_ptr<IfcPPEntity> >& map_entities )
+void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, const std::map<int, shared_ptr<BuildingEntity> >& map_entities )
 {
 	wchar_t* ch = (wchar_t*)item.c_str();
 	if( *ch == '#' )
@@ -597,7 +597,7 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 		auto it_entity = map_entities.find( id );
 		if( it_entity != map_entities.end() )
 		{
-			shared_ptr<IfcPPEntity> found_obj = it_entity->second;
+			shared_ptr<BuildingEntity> found_obj = it_entity->second;
 			result = dynamic_pointer_cast<select_t>(found_obj);
 		}
 		return;
@@ -616,14 +616,14 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 	std::string type_name_upper( keyword.begin(), keyword.end() );
 	std::transform( type_name_upper.begin(), type_name_upper.end(), type_name_upper.begin(), toupper );
 	
-	shared_ptr<IfcPPObject> type_instance = IfcPPTypeFactory::createTypeObject( type_name_upper.c_str(), inline_arg, map_entities );
+	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject( type_name_upper.c_str(), inline_arg, map_entities );
 	if( type_instance )
 	{
 		result = dynamic_pointer_cast<select_t>(type_instance);
 		return;
 	}
 
-	//shared_ptr<IfcPPEntity> entity_instance( IfcPPEntityFactory::createEntityObject( type_name_upper.c_str() ) );
+	//shared_ptr<BuildingEntity> entity_instance( BuildingEntityFactory::createEntityObject( type_name_upper.c_str() ) );
 	//if( entity_instance )
 	//{
 	//	entity_instance->m_id = -1;
@@ -636,11 +636,11 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 
 	std::wstringstream strs;
 	strs << "unhandled select argument: " << item << " in function " << __FUNC__ << std::endl;
-	throw IfcPPException( strs.str() );
+	throw BuildingException( strs.str() );
 }
 
 template<typename select_t>
-void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<select_t> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<select_t> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	// example: (#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
 	wchar_t* pos_opening = nullptr;
@@ -656,7 +656,7 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 		}
 		std::stringstream err;
 		err << "num_opening != num_closing : " << arg_complete.c_str() << std::endl;
-		throw IfcPPException( err.str().c_str(), __FUNC__ );
+		throw BuildingException( err.str().c_str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<std::wstring> list_items;
@@ -672,11 +672,11 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 		{
 			readSelectType( item, select_object, map_entities );
 		}
-		catch( IfcPPOutOfMemoryException& e)
+		catch( OutOfMemoryException& e)
 		{
 			throw e;
 		}
-		catch( IfcPPException& e )
+		catch( BuildingException& e )
 		{
 			err << e.what();
 		}
@@ -687,13 +687,13 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 	}
 	if( err.tellp() > 0 )
 	{
-		throw IfcPPException( err.str().c_str(), __FUNC__ );
+		throw BuildingException( err.str().c_str(), __FUNC__ );
 	}
 	return;
 }
 
 template<typename T>
-void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	// example: (#287,#291,#295,#299)
 	wchar_t* pos_opening = nullptr;
@@ -712,20 +712,20 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 		}
 		std::wstringstream err;
 		err << "num_opening != num_closing : " << arg_complete << std::endl;
-		throw IfcPPException( err.str(), __FUNC__ );
+		throw BuildingException( err.str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<int> list_items;
 	tokenizeEntityList( arg, list_items );
 	std::vector<int> vec_not_found;
-	std::map<int,shared_ptr<IfcPPEntity> >::const_iterator it_entity;
+	std::map<int,shared_ptr<BuildingEntity> >::const_iterator it_entity;
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		const int id = list_items[i];
 		it_entity = map_entities.find( id );
 		if( it_entity != map_entities.end() )
 		{
-			shared_ptr<IfcPPEntity> found_obj = it_entity->second;
+			shared_ptr<BuildingEntity> found_obj = it_entity->second;
 			vec.push_back( dynamic_pointer_cast<T>(found_obj) );
 		}
 		else
@@ -750,12 +750,12 @@ void readEntityReferenceList( const wchar_t* arg_complete, std::vector<shared_pt
 		}
 
 		err << "  not found" << std::endl;
-		throw IfcPPException( err.str(), __FUNC__ );
+		throw BuildingException( err.str(), __FUNC__ );
 	}
 }
 
 template<typename T>
-void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	// example: (#287,#291,#295,#299)
 	wchar_t* ch = (wchar_t*)str.c_str();
@@ -763,7 +763,7 @@ void readEntityReferenceList( const std::wstring& str, std::vector<shared_ptr<T>
 }
 
 template<typename T>
-void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector<shared_ptr<T> > >& vec, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	// example: ((#287,#291,#295,#299),(#287,#291,#295,#299))
 	wchar_t* ch = (wchar_t*)str.c_str();
@@ -811,11 +811,11 @@ void readEntityReferenceList2D( const std::wstring& str, std::vector<std::vector
 	// no closing parenthesis found
 	std::wstringstream err;
 	err << "no closing parenthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __FUNC__ );
+	throw BuildingException( err.str(), __FUNC__ );
 }
 
 template<typename T>
-void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const std::map<int,shared_ptr<IfcPPEntity> >& map_entities )
+void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const std::map<int,shared_ptr<BuildingEntity> >& map_entities )
 {
 	// example: (((#287,#291,#295,#299),(#287,#291,#295,#299)),((#287,#291,#295,#299),(#287,#291,#295,#299)))
 	const size_t argsize = str.size();
@@ -865,5 +865,5 @@ void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<
 	// no closing parenthesis found
 	std::stringstream err;
 	err << "no closing parenthesis found: " << str << std::endl;
-	throw IfcPPException( err.str(), __FUNC__ );
+	throw BuildingException( err.str(), __FUNC__ );
 }

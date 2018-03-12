@@ -1,4 +1,4 @@
-/* -*-c++-*- IFC++ www.ifcquery.com
+/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -23,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #endif
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
+#include "ifcpp/model/BuildingException.h"
 #include "ReaderUtil.h"
 
 #ifndef CP_UTF8
@@ -86,7 +86,7 @@ void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 	{
 		std::stringstream err;
 		err << "checkOpeningClosingParenthesis: num_opening != num_closing : " << ch_check << std::endl;
-		throw IfcPPException( err.str().c_str(), __FUNC__ );
+		throw BuildingException( err.str().c_str(), __FUNC__ );
 	}
 }
 
@@ -167,7 +167,7 @@ void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items
 			last_token = stream_pos;
 			if( *stream_pos == '\0' )
 			{
-				throw IfcPPException( "tokenizeList: *stream_pos == '\0'", __FUNC__ );
+				throw BuildingException( "tokenizeList: *stream_pos == '\0'", __FUNC__ );
 			}
 			continue;
 		}
@@ -226,7 +226,7 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 		{
 			std::stringstream err;
 			err << "tokenizeEntityList: unexpected argument: " << list_str.c_str() << std::endl;
-			throw IfcPPException( err.str().c_str(), __FUNC__ );
+			throw BuildingException( err.str().c_str(), __FUNC__ );
 		}
 
 		while( isspace( *stream_pos ) )
@@ -919,7 +919,7 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 {
 	if( arg.size() == 0 )
 	{
-		throw IfcPPException( "arg.size() == 0", __FUNC__ );
+		throw BuildingException( "arg.size() == 0", __FUNC__ );
 	}
 	if( arg[0] == '$' )
 	{
@@ -931,7 +931,7 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 	}
 	if( arg[0] == '#' )
 	{
-		throw IfcPPException( "tokenizeInlineArgument: argument begins with #, so it is not inline", __FUNC__ );
+		throw BuildingException( "tokenizeInlineArgument: argument begins with #, so it is not inline", __FUNC__ );
 	}
 
 	wchar_t* stream_pos = (wchar_t*)arg.c_str();

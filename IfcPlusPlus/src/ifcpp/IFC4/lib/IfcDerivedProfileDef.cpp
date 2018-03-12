@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianTransformationOperator2D.h"
@@ -19,7 +19,7 @@
 IfcDerivedProfileDef::IfcDerivedProfileDef() {}
 IfcDerivedProfileDef::IfcDerivedProfileDef( int id ) { m_entity_id = id; }
 IfcDerivedProfileDef::~IfcDerivedProfileDef() {}
-shared_ptr<IfcPPObject> IfcDerivedProfileDef::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcDerivedProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDerivedProfileDef> copy_self( new IfcDerivedProfileDef() );
 	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
@@ -49,28 +49,28 @@ void IfcDerivedProfileDef::getStepLine( std::stringstream& stream ) const
 }
 void IfcDerivedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDerivedProfileDef::toString() const { return L"IfcDerivedProfileDef"; }
-void IfcDerivedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcDerivedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDerivedProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_ParentProfile, map );
 	readEntityReference( args[3], m_Operator, map );
 	m_Label = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcDerivedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcDerivedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentProfile", m_ParentProfile ) );
 	vec_attributes.push_back( std::make_pair( "Operator", m_Operator ) );
 	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
 }
-void IfcDerivedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcDerivedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProfileDef::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcDerivedProfileDef::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcDerivedProfileDef::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProfileDef::setInverseCounterparts( ptr_self_entity );
 }

@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGlobalOrLocalEnum.h"
@@ -31,7 +31,7 @@
 IfcStructuralActivity::IfcStructuralActivity() {}
 IfcStructuralActivity::IfcStructuralActivity( int id ) { m_entity_id = id; }
 IfcStructuralActivity::~IfcStructuralActivity() {}
-shared_ptr<IfcPPObject> IfcStructuralActivity::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcStructuralActivity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralActivity> copy_self( new IfcStructuralActivity() );
 	if( m_GlobalId )
@@ -77,10 +77,10 @@ void IfcStructuralActivity::getStepLine( std::stringstream& stream ) const
 }
 void IfcStructuralActivity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralActivity::toString() const { return L"IfcStructuralActivity"; }
-void IfcStructuralActivity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcStructuralActivity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralActivity, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralActivity, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -91,18 +91,18 @@ void IfcStructuralActivity::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[7], m_AppliedLoad, map );
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AppliedLoad", m_AppliedLoad ) );
 	vec_attributes.push_back( std::make_pair( "GlobalOrLocal", m_GlobalOrLocal ) );
 }
-void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 	if( m_AssignedToStructuralItem_inverse.size() > 0 )
 	{
-		shared_ptr<IfcPPAttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new IfcPPAttributeObjectVector() );
+		shared_ptr<AttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_AssignedToStructuralItem_inverse.size(); ++i )
 		{
 			if( !m_AssignedToStructuralItem_inverse[i].expired() )
@@ -113,7 +113,7 @@ void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::str
 		vec_attributes_inverse.push_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
 	}
 }
-void IfcStructuralActivity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcStructuralActivity::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcProduct::setInverseCounterparts( ptr_self_entity );
 }

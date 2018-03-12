@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcActuatorType.h"
@@ -28,7 +28,7 @@
 IfcActuatorType::IfcActuatorType() {}
 IfcActuatorType::IfcActuatorType( int id ) { m_entity_id = id; }
 IfcActuatorType::~IfcActuatorType() {}
-shared_ptr<IfcPPObject> IfcActuatorType::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcActuatorType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActuatorType> copy_self( new IfcActuatorType() );
 	if( m_GlobalId )
@@ -91,10 +91,10 @@ void IfcActuatorType::getStepLine( std::stringstream& stream ) const
 }
 void IfcActuatorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcActuatorType::toString() const { return L"IfcActuatorType"; }
-void IfcActuatorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcActuatorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcActuatorType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcActuatorType, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -106,16 +106,16 @@ void IfcActuatorType::readStepArguments( const std::vector<std::wstring>& args, 
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcActuatorTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcActuatorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcActuatorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcDistributionControlElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcActuatorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcActuatorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcDistributionControlElementType::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcActuatorType::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcActuatorType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcDistributionControlElementType::setInverseCounterparts( ptr_self_entity );
 }

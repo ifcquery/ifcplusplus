@@ -2,9 +2,9 @@
 #include <sstream>
 #include <limits>
 
-#include "ifcpp/model/IfcPPException.h"
-#include "ifcpp/model/IfcPPAttributeObject.h"
-#include "ifcpp/model/IfcPPGuid.h"
+#include "ifcpp/model/AttributeObject.h"
+#include "ifcpp/model/BuildingException.h"
+#include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
@@ -20,7 +20,7 @@
 IfcRelConnectsStructuralActivity::IfcRelConnectsStructuralActivity() {}
 IfcRelConnectsStructuralActivity::IfcRelConnectsStructuralActivity( int id ) { m_entity_id = id; }
 IfcRelConnectsStructuralActivity::~IfcRelConnectsStructuralActivity() {}
-shared_ptr<IfcPPObject> IfcRelConnectsStructuralActivity::getDeepCopy( IfcPPCopyOptions& options )
+shared_ptr<BuildingObject> IfcRelConnectsStructuralActivity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsStructuralActivity> copy_self( new IfcRelConnectsStructuralActivity() );
 	if( m_GlobalId )
@@ -57,10 +57,10 @@ void IfcRelConnectsStructuralActivity::getStepLine( std::stringstream& stream ) 
 }
 void IfcRelConnectsStructuralActivity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsStructuralActivity::toString() const { return L"IfcRelConnectsStructuralActivity"; }
-void IfcRelConnectsStructuralActivity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<IfcPPEntity> >& map )
+void IfcRelConnectsStructuralActivity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsStructuralActivity, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw IfcPPException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRelConnectsStructuralActivity, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -68,21 +68,21 @@ void IfcRelConnectsStructuralActivity::readStepArguments( const std::vector<std:
 	m_RelatingElement = IfcStructuralActivityAssignmentSelect::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_RelatedStructuralActivity, map );
 }
-void IfcRelConnectsStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes )
+void IfcRelConnectsStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
 	vec_attributes.push_back( std::make_pair( "RelatedStructuralActivity", m_RelatedStructuralActivity ) );
 }
-void IfcRelConnectsStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<IfcPPObject> > >& vec_attributes_inverse )
+void IfcRelConnectsStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }
-void IfcRelConnectsStructuralActivity::setInverseCounterparts( shared_ptr<IfcPPEntity> ptr_self_entity )
+void IfcRelConnectsStructuralActivity::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelConnectsStructuralActivity> ptr_self = dynamic_pointer_cast<IfcRelConnectsStructuralActivity>( ptr_self_entity );
-	if( !ptr_self ) { throw IfcPPException( "IfcRelConnectsStructuralActivity::setInverseCounterparts: type mismatch" ); }
+	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsStructuralActivity::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedStructuralActivity )
 	{
 		m_RelatedStructuralActivity->m_AssignedToStructuralItem_inverse.push_back( ptr_self );
