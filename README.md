@@ -10,19 +10,14 @@ The project is published under the MIT license, which means that you can use it 
 Additional information as well as download links to the viewer application is on this project website: http://www.ifcquery.com
 
 
-
-## Related repository
-The IFC classes, as well as a class factory and parser is generated with a tool that is available here: https://github.com/ifcquery/Express2SourceConverter
-
-
-
 Screenshots from the example viewer
 ===========
 
  ### Steel frame model
  980 000 entities loaded, 8000 with geometric representation. Loaded in < 4 sec. on a standard PC, including geometry.
- ![Steel frame model](http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png)
+ [<img src="http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png"]Steel frame model](http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png)
  
+ [<img src="http://www.google.com.au/images/nav_logo7.png">](http://google.com.au/)
   
 ### Steel frame model
  330 000 entities loaded, 3500 with geometric representation. Loaded in < 4 sec. on a standard PC, including geometry.
