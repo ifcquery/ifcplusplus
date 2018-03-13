@@ -66,7 +66,7 @@ void IfcIndexedPolygonalFaceWithVoids::getStepLine( std::stringstream& stream ) 
 	}
 	stream << ")";
 	stream << ",";
-	writeNumericTypeList2D(stream, m_InnerCoordIndices);
+	writeNumericTypeList2D( stream, m_InnerCoordIndices );
 	stream << ");";
 }
 void IfcIndexedPolygonalFaceWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

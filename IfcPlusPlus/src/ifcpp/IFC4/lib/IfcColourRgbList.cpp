@@ -36,7 +36,7 @@ shared_ptr<BuildingObject> IfcColourRgbList::getDeepCopy( BuildingCopyOptions& o
 void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCOLOURRGBLIST" << "(";
-	writeNumericList2D(stream, m_ColourList);
+	writeNumericTypeList2D( stream, m_ColourList );
 	stream << ");";
 }
 void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

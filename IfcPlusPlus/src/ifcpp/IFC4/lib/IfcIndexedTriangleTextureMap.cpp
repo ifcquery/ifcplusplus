@@ -55,7 +55,7 @@ void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) cons
 	stream << ",";
 	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	writeNumericTypeList2D(stream, m_TexCoordIndex);
+	writeNumericTypeList2D( stream, m_TexCoordIndex );
 	stream << ");";
 }
 void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
