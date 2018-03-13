@@ -17,8 +17,7 @@ Screenshots from the example viewer
  980 000 entities loaded, 8000 with geometric representation. Loaded in < 4 sec. on a standard PC, including geometry.
  [<img src="http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png"]Steel frame model](http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png)
  
- [<img src="http://www.google.com.au/images/nav_logo7.png">](http://google.com.au/)
-  
+   
 ### Steel frame model
  330 000 entities loaded, 3500 with geometric representation. Loaded in < 4 sec. on a standard PC, including geometry.
  ![Steel frame model](http://www.ifcquery.com/img/steel-frame.png)
