@@ -32,15 +32,15 @@ LINK_DIRECTORIES (${LINK_DIRECTORIES} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 FILE (GLOB ifc4_source "src/ifcpp/IFC4/lib/*.cpp")
 
 SET(IFCPP_SOURCE_FILES 
-  src/ifcpp/IFC4/IfcPPEntityFactory.cpp
-  src/ifcpp/IFC4/IfcPPTypeFactory.cpp
-  src/ifcpp/model/IfcPPModel.cpp
+  src/ifcpp/IFC4/EntityFactory.cpp
+  src/ifcpp/IFC4/TypeFactory.cpp
+  src/ifcpp/model/BuildingModel.cpp
   src/ifcpp/model/UnitConverter.cpp
-  src/ifcpp/reader/IfcPPReader.cpp
-  src/ifcpp/reader/IfcPPReaderSTEP.cpp
-  src/ifcpp/reader/IfcPPReaderXML.cpp
+  src/ifcpp/reader/AbstractReader.cpp
+  src/ifcpp/reader/ReaderSTEP.cpp
+  src/ifcpp/reader/ReaderXML.cpp
   src/ifcpp/reader/ReaderUtil.cpp
-  src/ifcpp/writer/IfcPPWriterSTEP.cpp
+  src/ifcpp/writer/WriterSTEP.cpp
 
   ${ifc4_source}
 )
