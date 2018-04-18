@@ -118,7 +118,7 @@ protected:
 		std::vector<std::vector<int>> hole_vertex_indices;
 		//using a lambda saves one nested loop
 		size_t const pn_index_count = poly_face_set->m_PnIndex.size();
-		auto check_and_add = [&vertex_indices,&coordinate_count](auto index)
+		auto check_and_add = [&vertex_indices,&coordinate_count](shared_ptr<IfcPositiveInteger> const& index)
 		{
 			if(!index)
 				return true;
@@ -127,7 +127,7 @@ protected:
 			vertex_indices.push_back(index->m_value - 1);
 			return false;
 		};
-		auto check_and_add_indirect = [&](auto pn_index)
+		auto check_and_add_indirect = [&](shared_ptr<IfcPositiveInteger> const& pn_index)
 		{
 			if(!pn_index)
 				return true;
@@ -166,7 +166,7 @@ protected:
 	{
 		std::vector<int> index_buffer;
 		size_t const pn_index_count = pn_indices.size();
-		auto check_and_add = [&index_buffer,&coordinate_count](auto index)
+		auto check_and_add = [&index_buffer,&coordinate_count](shared_ptr<IfcPositiveInteger> const& index)
 		{
 			if(!index)
 				return true;
@@ -175,7 +175,7 @@ protected:
 			index_buffer.push_back(index->m_value - 1);
 			return false;
 		};
-		auto check_and_add_indirect = [&](auto pn_index)
+		auto check_and_add_indirect = [&](shared_ptr<IfcPositiveInteger> const& pn_index)
 		{
 			if(!pn_index)
 				return true;
