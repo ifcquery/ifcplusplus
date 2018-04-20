@@ -387,8 +387,7 @@ public:
 							shared_ptr<IfcPresentationStyle>&  presentation_style = vec_presentation_styles[ii_style];
 							if( presentation_style )
 							{
-								shared_ptr<AppearanceData> appearance_data;
-								m_styles_converter->convertIfcPresentationStyle( presentation_style, appearance_data );
+								auto const appearance_data = m_styles_converter->convertIfcPresentationStyle( presentation_style );
 								if( appearance_data )
 								{
 									representation_data->addAppearance( appearance_data );

@@ -342,8 +342,7 @@ public:
 			shared_ptr<IfcPresentationStyle> presentation_style = dynamic_pointer_cast<IfcPresentationStyle>( style_assign_select );
 			if( presentation_style )
 			{
-				shared_ptr<AppearanceData> appearance_data;
-				convertIfcPresentationStyle( presentation_style, appearance_data );
+				auto const appearance_data = convertIfcPresentationStyle( presentation_style );
 				if( appearance_data )
 				{
 					vec_appearance_data.push_back( appearance_data );
@@ -408,9 +407,10 @@ public:
 		return {};
 	}
 
-	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
+	shared_ptr<AppearanceData> convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style )
 	{
 		int style_id = presentation_style->m_entity_id;
+		shared_ptr<AppearanceData> appearance_data;
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
@@ -418,7 +418,7 @@ public:
 			appearance_data = it_find_existing_style->second;
 			if( appearance_data->m_complete )
 			{
-				return;
+				return appearance_data;
 			}
 		}
 		else
@@ -438,7 +438,7 @@ public:
 		if( curve_style )
 		{
 			convertIfcCurveStyle( curve_style, appearance_data );
-			return;
+			return appearance_data;
 		}
 
 		shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
@@ -447,14 +447,14 @@ public:
 #ifdef _DEBUG
 			std::cout << "IfcFillAreaStyle not implemented" << std::endl;
 #endif
-			return;
+			return appearance_data;
 		}
 
 		shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style );
 		if( surface_style )
 		{
 			convertIfcSurfaceStyle( surface_style, appearance_data );
-			return;
+			return appearance_data;
 		}
 
 		shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
@@ -462,10 +462,10 @@ public:
 		{
 			appearance_data->m_text_style = text_style;
 			appearance_data->m_complete = true;
-			return;
+			return appearance_data;
 		}
 
-		return;
+		return appearance_data;
 	}
 
 private:
