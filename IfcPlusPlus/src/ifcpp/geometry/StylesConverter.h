@@ -78,96 +78,6 @@ public:
 	{
 		m_map_ifc_styles.clear();
 	}
-
-	void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> highlight_select, shared_ptr<AppearanceData>& appearance_data )
-	{
-		if( dynamic_pointer_cast<IfcSpecularExponent>( highlight_select ) )
-		{
-			shared_ptr<IfcSpecularExponent> spec = dynamic_pointer_cast<IfcSpecularExponent>( highlight_select );
-			appearance_data->m_specular_exponent = spec->m_value;
-		}
-		else if( dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select ) )
-		{
-			shared_ptr<IfcSpecularRoughness> specular_roughness = dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select );
-			appearance_data->m_specular_roughness = specular_roughness->m_value;
-		}
-	}
-
-	void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, vec4& color )
-	{
-		if( color_rgb->m_Red )
-		{
-			color.m_r = (float)color_rgb->m_Red->m_value;
-		}
-		if( color_rgb->m_Green )
-		{
-			color.m_g = (float)color_rgb->m_Green->m_value;
-		}
-		if( color_rgb->m_Blue )
-		{
-			color.m_b = (float)color_rgb->m_Blue->m_value;
-		}
-	}
-
-	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color )
-	{
-		// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
-		shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_or_factor );
-		if( color_rgb )
-		{
-			convertIfcColourRgb( color_rgb, target_color );
-			return;
-		}
-
-		shared_ptr<IfcNormalisedRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( color_or_factor );
-		if( ratio_measure )
-		{
-			float factor = ratio_measure->m_value;
-			target_color.setColor( src_color.r()*factor, src_color.g()*factor, src_color.b()*factor, src_color.a() );
-			return;
-		}
-	}
-
-	void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, vec4& color )
-	{
-		// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
-		shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>( ifc_color_select );
-		if( color_spec )
-		{
-			// ENTITY IfcColourSpecification ABSTRACT SUPERTYPE OF(IfcColourRgb);
-			shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_spec );
-			if( color_rgb )
-			{
-				convertIfcColourRgb( color_rgb, color );
-			}
-			return;
-		}
-
-		shared_ptr<IfcPreDefinedColour> predefined_color = dynamic_pointer_cast<IfcPreDefinedColour>( ifc_color_select );
-		if( predefined_color )
-		{
-			// ENTITY IfcPreDefinedColour ABSTRACT SUPERTYPE OF(IfcDraughtingPreDefinedColour)
-			shared_ptr<IfcDraughtingPreDefinedColour> draughting_predefined_color = dynamic_pointer_cast<IfcDraughtingPreDefinedColour>( predefined_color );
-			if( draughting_predefined_color )
-			{
-				if( draughting_predefined_color->m_Name )
-				{
-					std::wstring predefined_name = draughting_predefined_color->m_Name->m_value;
-					if( boost::iequals( predefined_name, L"black" ) )			color.setColor( 0.0, 0.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"red" ) )		color.setColor( 1.0, 0.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"green" ) )		color.setColor( 0.0, 1.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"blue" ) )		color.setColor( 0.0, 0.0, 1.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"yellow" ) )		color.setColor( 1.0, 1.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"magenta" ) )	color.setColor( 1.0, 0.0, 1.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"cyan" ) )		color.setColor( 0.0, 1.0, 1.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"white" ) )		color.setColor( 1.0, 1.0, 1.0, 1.0 );
-				}
-			}
-			return;
-		}
-	}
-
-
 	void convertIfcSurfaceStyle(
 		shared_ptr<IfcSurfaceStyle> const& surface_style,
 		shared_ptr<AppearanceData>& appearance_data )
@@ -561,6 +471,95 @@ public:
 		}
 
 		return;
+	}
+
+private:
+	void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> highlight_select, shared_ptr<AppearanceData>& appearance_data )
+	{
+		if( dynamic_pointer_cast<IfcSpecularExponent>( highlight_select ) )
+		{
+			shared_ptr<IfcSpecularExponent> spec = dynamic_pointer_cast<IfcSpecularExponent>( highlight_select );
+			appearance_data->m_specular_exponent = spec->m_value;
+		}
+		else if( dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select ) )
+		{
+			shared_ptr<IfcSpecularRoughness> specular_roughness = dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select );
+			appearance_data->m_specular_roughness = specular_roughness->m_value;
+		}
+	}
+
+	void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, vec4& color )
+	{
+		if( color_rgb->m_Red )
+		{
+			color.m_r = (float)color_rgb->m_Red->m_value;
+		}
+		if( color_rgb->m_Green )
+		{
+			color.m_g = (float)color_rgb->m_Green->m_value;
+		}
+		if( color_rgb->m_Blue )
+		{
+			color.m_b = (float)color_rgb->m_Blue->m_value;
+		}
+	}
+
+	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color )
+	{
+		// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
+		shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_or_factor );
+		if( color_rgb )
+		{
+			convertIfcColourRgb( color_rgb, target_color );
+			return;
+		}
+
+		shared_ptr<IfcNormalisedRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( color_or_factor );
+		if( ratio_measure )
+		{
+			double factor = ratio_measure->m_value;
+			target_color.setColor( src_color.r()*factor, src_color.g()*factor, src_color.b()*factor, src_color.a() );
+			return;
+		}
+	}
+
+	void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, vec4& color )
+	{
+		// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
+		shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>( ifc_color_select );
+		if( color_spec )
+		{
+			// ENTITY IfcColourSpecification ABSTRACT SUPERTYPE OF(IfcColourRgb);
+			shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_spec );
+			if( color_rgb )
+			{
+				convertIfcColourRgb( color_rgb, color );
+			}
+			return;
+		}
+
+		shared_ptr<IfcPreDefinedColour> predefined_color = dynamic_pointer_cast<IfcPreDefinedColour>( ifc_color_select );
+		if( predefined_color )
+		{
+			// ENTITY IfcPreDefinedColour ABSTRACT SUPERTYPE OF(IfcDraughtingPreDefinedColour)
+			shared_ptr<IfcDraughtingPreDefinedColour> draughting_predefined_color = dynamic_pointer_cast<IfcDraughtingPreDefinedColour>( predefined_color );
+			if( draughting_predefined_color )
+			{
+				if( draughting_predefined_color->m_Name )
+				{
+					std::wstring predefined_name = draughting_predefined_color->m_Name->m_value;
+					if( boost::iequals( predefined_name, L"black" ) )			color.setColor( 0.0, 0.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"red" ) )		color.setColor( 1.0, 0.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"green" ) )		color.setColor( 0.0, 1.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"blue" ) )		color.setColor( 0.0, 0.0, 1.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"yellow" ) )		color.setColor( 1.0, 1.0, 0.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"magenta" ) )	color.setColor( 1.0, 0.0, 1.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"cyan" ) )		color.setColor( 0.0, 1.0, 1.0, 1.0 );
+					else if( boost::iequals( predefined_name, L"white" ) )		color.setColor( 1.0, 1.0, 1.0, 1.0 );
+				}
+			}
+			return;
+		}
 	}
 
 	void convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data )
