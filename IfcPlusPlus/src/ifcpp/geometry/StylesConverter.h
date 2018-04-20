@@ -247,11 +247,10 @@ public:
 	void convertIfcStyledItem( weak_ptr<IfcStyledItem> styled_item_weak, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
 	{
 		if( styled_item_weak.expired() )
-		{
 			return;
-		}
-		shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
-		const int style_id = styled_item->m_entity_id;
+
+		auto const styled_item = styled_item_weak.lock();
+		auto const style_id = styled_item->m_entity_id;
 
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -260,54 +259,46 @@ public:
 			return;
 		}
 
-		std::vector<shared_ptr<IfcStyleAssignmentSelect> >& vec_style_assigns = styled_item->m_Styles;
-		for( size_t i_style_assign = 0; i_style_assign < vec_style_assigns.size(); ++i_style_assign )
+		auto const& vec_style_assigns = styled_item->m_Styles;
+		for( auto const& style_assign_select : vec_style_assigns )
 		{
 			// TYPE IfcStyleAssignmentSelect = SELECT	(IfcPresentationStyle	,IfcPresentationStyleAssignment);
-			shared_ptr<IfcStyleAssignmentSelect> style_assign_select = vec_style_assigns[i_style_assign];
 			if( !style_assign_select )
-			{
 				continue;
-			}
 
-			shared_ptr<IfcPresentationStyleAssignment> presentation_style_assign = dynamic_pointer_cast<IfcPresentationStyleAssignment>( style_assign_select );
+			auto const presentation_style_assign = dynamic_pointer_cast<IfcPresentationStyleAssignment>( style_assign_select );
 			if( presentation_style_assign )
 			{
-				std::vector<shared_ptr<IfcPresentationStyleSelect> >& vec_styles = presentation_style_assign->m_Styles;
-				for( size_t i_presentation_style = 0; i_presentation_style < vec_styles.size(); ++i_presentation_style )
+				auto const& vec_styles = presentation_style_assign->m_Styles;
+				for( auto const& presentation_style_select : vec_styles )
 				{
 					// TYPE IfcPresentationStyleSelect = SELECT	(IfcCurveStyle	,IfcFillAreaStyle	,IfcNullStyle	,IfcSurfaceStyle	,IfcSymbolStyle	,IfcTextStyle);
-					shared_ptr<IfcPresentationStyleSelect> presentation_style_select = vec_styles[i_presentation_style];
 					shared_ptr<AppearanceData> appearance_data;
-					shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style_select );
+					auto const curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style_select );
 					if( curve_style )
 					{
 						convertIfcCurveStyle( curve_style, appearance_data );
 						if( appearance_data )
-						{
 							vec_appearance_data.push_back( appearance_data );
-						}
 						continue;
 					}
 
-					shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style_select );
+					auto const surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style_select );
 					if( surface_style )
 					{
 						convertIfcSurfaceStyle( surface_style, appearance_data );
 						if( appearance_data )
-						{
 							vec_appearance_data.push_back( appearance_data );
-						}
 						continue;
 					}
 
-					shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style_select );
+					auto const text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style_select );
 					if( text_style )
 					{
 						if( !appearance_data )
 						{
-							int text_style_id = text_style->m_entity_id;
-							appearance_data = shared_ptr<AppearanceData>( new AppearanceData( text_style_id ) );
+							auto const text_style_id = text_style->m_entity_id;
+							appearance_data = std::make_shared<AppearanceData>( text_style_id );
 						}
 
 						appearance_data->m_text_style = text_style;
@@ -317,7 +308,7 @@ public:
 						continue;
 					}
 
-					shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style_select );
+					auto const fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style_select );
 					if( fill_area_style )
 					{
 #ifdef _DEBUG
@@ -326,7 +317,7 @@ public:
 						continue;
 					}
 
-					shared_ptr<IfcNullStyle> null_style = dynamic_pointer_cast<IfcNullStyle>( presentation_style_select );
+					auto const null_style = dynamic_pointer_cast<IfcNullStyle>( presentation_style_select );
 					if( null_style )
 					{
 #ifdef _DEBUG
@@ -339,7 +330,7 @@ public:
 			}
 
 			// ENTITY IfcPresentationStyle ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
-			shared_ptr<IfcPresentationStyle> presentation_style = dynamic_pointer_cast<IfcPresentationStyle>( style_assign_select );
+			auto const presentation_style = dynamic_pointer_cast<IfcPresentationStyle>( style_assign_select );
 			if( presentation_style )
 			{
 				auto const appearance_data = convertIfcPresentationStyle( presentation_style );
@@ -355,28 +346,28 @@ public:
 
 	vec4 convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> const& complex_property )
 	{
-		std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
+		auto const& vec_HasProperties = complex_property->m_HasProperties;
 		if( !complex_property->m_UsageName ) return {};
 		if( vec_HasProperties.size() < 3 ) return {};
-		std::wstring usage_name = complex_property->m_UsageName->m_value;
+		auto const& usage_name = complex_property->m_UsageName->m_value;
 		if( !boost::iequals( usage_name.c_str(), L"Color" ) ) return {};
 
 		if( complex_property->m_HasProperties.size() > 2 )
 		{
-			shared_ptr<IfcPropertySingleValue> prop1 = dynamic_pointer_cast<IfcPropertySingleValue>( complex_property->m_HasProperties[0] );
-			shared_ptr<IfcPropertySingleValue> prop2 = dynamic_pointer_cast<IfcPropertySingleValue>( complex_property->m_HasProperties[1] );
-			shared_ptr<IfcPropertySingleValue> prop3 = dynamic_pointer_cast<IfcPropertySingleValue>( complex_property->m_HasProperties[2] );
+			auto const prop1 = dynamic_pointer_cast<IfcPropertySingleValue>( complex_property->m_HasProperties[0] );
+			auto const prop2 = dynamic_pointer_cast<IfcPropertySingleValue>( complex_property->m_HasProperties[1] );
+			auto const prop3 = dynamic_pointer_cast<IfcPropertySingleValue>( complex_property->m_HasProperties[2] );
 
 			if( prop1 && prop2 && prop3 )
 			{
-				shared_ptr<IfcValue>	v1_select = prop1->m_NominalValue;
-				shared_ptr<IfcValue>	v2_select = prop2->m_NominalValue;
-				shared_ptr<IfcValue>	v3_select = prop3->m_NominalValue;
+				auto const& v1_select = prop1->m_NominalValue;
+				auto const& v2_select = prop2->m_NominalValue;
+				auto const& v3_select = prop3->m_NominalValue;
 				if( v1_select && v2_select && v3_select )
 				{
-					shared_ptr<IfcInteger> v1_int = dynamic_pointer_cast<IfcInteger>( v1_select );
-					shared_ptr<IfcInteger> v2_int = dynamic_pointer_cast<IfcInteger>( v2_select );
-					shared_ptr<IfcInteger> v3_int = dynamic_pointer_cast<IfcInteger>( v3_select );
+					auto const v1_int = dynamic_pointer_cast<IfcInteger>( v1_select );
+					auto const v2_int = dynamic_pointer_cast<IfcInteger>( v2_select );
+					auto const v3_int = dynamic_pointer_cast<IfcInteger>( v3_select );
 
 					if( v1_int && v2_int && v3_int )
 					{
@@ -407,9 +398,9 @@ public:
 		return {};
 	}
 
-	shared_ptr<AppearanceData> convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style )
+	shared_ptr<AppearanceData> convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> const& presentation_style )
 	{
-		int style_id = presentation_style->m_entity_id;
+		auto const style_id = presentation_style->m_entity_id;
 		shared_ptr<AppearanceData> appearance_data;
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -425,7 +416,7 @@ public:
 		{
 			if( !appearance_data )
 			{
-				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
+				appearance_data = std::make_shared<AppearanceData>( style_id );
 			}
 #ifdef ENABLE_OPENMP
 			ScopedLock lock( m_writelock_styles_converter );
@@ -434,14 +425,14 @@ public:
 		}
 
 		// ENTITY IfcPresentationStyle	ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
-		shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
+		auto const curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
 		if( curve_style )
 		{
 			convertIfcCurveStyle( curve_style, appearance_data );
 			return appearance_data;
 		}
 
-		shared_ptr<IfcFillAreaStyle> fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
+		auto const fill_area_style = dynamic_pointer_cast<IfcFillAreaStyle>( presentation_style );
 		if( fill_area_style )
 		{
 #ifdef _DEBUG
@@ -450,14 +441,14 @@ public:
 			return appearance_data;
 		}
 
-		shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style );
+		auto const surface_style = dynamic_pointer_cast<IfcSurfaceStyle>( presentation_style );
 		if( surface_style )
 		{
 			convertIfcSurfaceStyle( surface_style, appearance_data );
 			return appearance_data;
 		}
 
-		shared_ptr<IfcTextStyle> text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
+		auto const text_style = dynamic_pointer_cast<IfcTextStyle>( presentation_style );
 		if( text_style )
 		{
 			appearance_data->m_text_style = text_style;
@@ -469,63 +460,61 @@ public:
 	}
 
 private:
-	void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> highlight_select, shared_ptr<AppearanceData>& appearance_data )
+	void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> const& highlight_select, shared_ptr<AppearanceData>& appearance_data )
 	{
-		if( dynamic_pointer_cast<IfcSpecularExponent>( highlight_select ) )
+		if( auto const spec = dynamic_pointer_cast<IfcSpecularExponent>( highlight_select ) )
 		{
-			shared_ptr<IfcSpecularExponent> spec = dynamic_pointer_cast<IfcSpecularExponent>( highlight_select );
 			appearance_data->m_specular_exponent = spec->m_value;
 		}
-		else if( dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select ) )
+		else if( auto const specular_roughness = dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select ) )
 		{
-			shared_ptr<IfcSpecularRoughness> specular_roughness = dynamic_pointer_cast<IfcSpecularRoughness>( highlight_select );
 			appearance_data->m_specular_roughness = specular_roughness->m_value;
 		}
 	}
 
-	void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, vec4& color )
+	void convertIfcColourRgb( shared_ptr<IfcColourRgb> const& color_rgb, vec4& color )
 	{
 		if( color_rgb->m_Red )
 		{
-			color.m_r = (float)color_rgb->m_Red->m_value;
+			color.m_r = color_rgb->m_Red->m_value;
 		}
 		if( color_rgb->m_Green )
 		{
-			color.m_g = (float)color_rgb->m_Green->m_value;
+			color.m_g = color_rgb->m_Green->m_value;
 		}
 		if( color_rgb->m_Blue )
 		{
-			color.m_b = (float)color_rgb->m_Blue->m_value;
+			color.m_b = color_rgb->m_Blue->m_value;
 		}
 	}
 
-	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color )
+	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> const& color_or_factor, vec4& src_color, vec4& target_color )
 	{
 		// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
-		shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_or_factor );
+		auto const color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_or_factor );
 		if( color_rgb )
 		{
 			convertIfcColourRgb( color_rgb, target_color );
 			return;
 		}
 
-		shared_ptr<IfcNormalisedRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( color_or_factor );
+		auto const ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( color_or_factor );
 		if( ratio_measure )
 		{
-			double factor = ratio_measure->m_value;
+			auto const& factor = ratio_measure->m_value;
 			target_color.setColor( src_color.r()*factor, src_color.g()*factor, src_color.b()*factor, src_color.a() );
 			return;
 		}
 	}
 
-	void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, vec4& color )
+	void convertIfcColour( shared_ptr<IfcColour> const& ifc_color_select, vec4& color )
 	{
 		// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
-		shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>( ifc_color_select );
+		auto const color_spec = dynamic_pointer_cast<IfcColourSpecification>( ifc_color_select );
 		if( color_spec )
 		{
 			// ENTITY IfcColourSpecification ABSTRACT SUPERTYPE OF(IfcColourRgb);
-			shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_spec );
+			auto const color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_spec );
 			if( color_rgb )
 			{
 				convertIfcColourRgb( color_rgb, color );
@@ -533,16 +522,16 @@ private:
 			return;
 		}
 
-		shared_ptr<IfcPreDefinedColour> predefined_color = dynamic_pointer_cast<IfcPreDefinedColour>( ifc_color_select );
+		auto const predefined_color = dynamic_pointer_cast<IfcPreDefinedColour>( ifc_color_select );
 		if( predefined_color )
 		{
 			// ENTITY IfcPreDefinedColour ABSTRACT SUPERTYPE OF(IfcDraughtingPreDefinedColour)
-			shared_ptr<IfcDraughtingPreDefinedColour> draughting_predefined_color = dynamic_pointer_cast<IfcDraughtingPreDefinedColour>( predefined_color );
+			auto const draughting_predefined_color = dynamic_pointer_cast<IfcDraughtingPreDefinedColour>( predefined_color );
 			if( draughting_predefined_color )
 			{
 				if( draughting_predefined_color->m_Name )
 				{
-					std::wstring predefined_name = draughting_predefined_color->m_Name->m_value;
+					auto const& predefined_name = draughting_predefined_color->m_Name->m_value;
 					if( boost::iequals( predefined_name, L"black" ) )			color.setColor( 0.0, 0.0, 0.0, 1.0 );
 					else if( boost::iequals( predefined_name, L"red" ) )		color.setColor( 1.0, 0.0, 0.0, 1.0 );
 					else if( boost::iequals( predefined_name, L"green" ) )		color.setColor( 0.0, 1.0, 0.0, 1.0 );
@@ -557,21 +546,18 @@ private:
 		}
 	}
 
-	void convertIfcCurveStyle( shared_ptr<IfcCurveStyle> curve_style, shared_ptr<AppearanceData>& appearance_data )
+	void convertIfcCurveStyle( shared_ptr<IfcCurveStyle> const& curve_style, shared_ptr<AppearanceData>& appearance_data )
 	{
 		if( !curve_style )
-		{
 			return;
-		}
-		int style_id = curve_style->m_entity_id;
+
+		auto const style_id = curve_style->m_entity_id;
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
 			appearance_data = it_find_existing_style->second;
 			if( appearance_data->m_complete )
-			{
 				return;
-			}
 		}
 		else
 		{
@@ -590,7 +576,7 @@ private:
 		//CurveWidth	: OPTIONAL IfcSizeSelect;
 		//CurveColour	: OPTIONAL IfcColour;
 
-		shared_ptr<IfcColour> curve_color = curve_style->m_CurveColour;
+		auto const& curve_color = curve_style->m_CurveColour;
 		if( curve_color )
 		{
 			vec4 color( 0.2, 0.25, 0.3, 1.0 );
