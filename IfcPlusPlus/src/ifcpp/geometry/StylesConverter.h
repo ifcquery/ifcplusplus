@@ -354,13 +354,13 @@ public:
 		}
 	}
 
-	void convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> complex_property, vec4& vec_color )
+	vec4 convertIfcComplexPropertyColor( shared_ptr<IfcComplexProperty> const& complex_property )
 	{
 		std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
-		if( !complex_property->m_UsageName ) return;
-		if( vec_HasProperties.size() < 3 ) return;
+		if( !complex_property->m_UsageName ) return {};
+		if( vec_HasProperties.size() < 3 ) return {};
 		std::wstring usage_name = complex_property->m_UsageName->m_value;
-		if( !boost::iequals( usage_name.c_str(), L"Color" ) ) return;
+		if( !boost::iequals( usage_name.c_str(), L"Color" ) ) return {};
 
 		if( complex_property->m_HasProperties.size() > 2 )
 		{
@@ -391,11 +391,7 @@ public:
 							g = 0.12;
 							b = 0.15;
 						}
-						vec_color.m_r = r;
-						vec_color.m_g = g;
-						vec_color.m_b = b;
-						vec_color.m_a = 1.0;
-
+						return { r, g, b, 1.0 };
 #ifdef ENABLE_OPENMP
 						//ScopedLock lock( m_writelock_styles_converter );
 #endif
@@ -405,12 +401,11 @@ public:
 						//appearance_data->shininess = 35.f;
 
 						//m_map_ifc_styles[complex_property_id] = appearance_data;
-
-						return;
 					}
 				}
 			}
 		}
+		return {};
 	}
 
 	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
