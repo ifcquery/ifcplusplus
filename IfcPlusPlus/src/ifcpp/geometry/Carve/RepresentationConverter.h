@@ -140,15 +140,17 @@ public:
 		m_face_converter->m_unit_converter = unit_converter;
 	}
 
-	void convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
+	std::vector<shared_ptr<AppearanceData> > convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item )
 	{
 		std::vector<weak_ptr<IfcStyledItem> >&	vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
+		std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
 		for( size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i )
 		{
 			weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
 			shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>( styled_item_weak );
 			m_styles_converter->convertIfcStyledItem( styled_item, vec_appearance_data );
 		}
+		return vec_appearance_data;
 	}
 
 	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<RepresentationData>& representation_data )
@@ -205,7 +207,7 @@ public:
 		{
 			shared_ptr<IfcRepresentationItem> representation_item = ifc_representation->m_Items[i_representation_items];
 
-			//ENTITY IfcRepresentationItem  ABSTRACT SUPERTYPE OF(ONEOF(IfcGeometricRepresentationItem, IfcMappedItem, IfcStyledItem, IfcTopologicalRepresentationItem));
+			//ENTITY IfcRepresentationItem	ABSTRACT SUPERTYPE OF(ONEOF(IfcGeometricRepresentationItem, IfcMappedItem, IfcStyledItem, IfcTopologicalRepresentationItem));
 			shared_ptr<IfcGeometricRepresentationItem> geom_item = dynamic_pointer_cast<IfcGeometricRepresentationItem>( representation_item );
 			if( geom_item )
 			{
@@ -300,8 +302,7 @@ public:
 
 				if( m_geom_settings->handleStyledItems() )
 				{
-					std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
-					convertRepresentationStyle( representation_item, vec_appearance_data );
+					auto const vec_appearance_data = convertRepresentationStyle( representation_item );
 
 					if( vec_appearance_data.size() > 0 )
 					{
@@ -313,7 +314,7 @@ public:
 
 							for( size_t jj_appearance = 0; jj_appearance < vec_appearance_data.size(); ++jj_appearance )
 							{
-								shared_ptr<AppearanceData>& data = vec_appearance_data[jj_appearance];
+								auto const& data = vec_appearance_data[jj_appearance];
 								if( data )
 								{
 									mapped_item_data->m_vec_item_appearances.push_back( data );
@@ -409,8 +410,7 @@ public:
 		//IfcSolidModel, IfcSurface, IfcTessellatedItem, IfcTextLiteral, IfcVector))
 		if( m_geom_settings->handleStyledItems() )
 		{
-			std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
-			convertRepresentationStyle( geom_item, vec_appearance_data );
+			auto const vec_appearance_data = convertRepresentationStyle( geom_item );
 			std::copy( vec_appearance_data.begin(), vec_appearance_data.end(), std::back_inserter( item_data->m_vec_item_appearances ) );
 		}
 		
@@ -609,9 +609,9 @@ public:
 		shared_ptr<IfcTextLiteral> text_literal = dynamic_pointer_cast<IfcTextLiteral>( geom_item );
 		if( text_literal )
 		{
-			// Literal		: 	IfcPresentableText;
-			// Placement	: 	IfcAxis2Placement;
-			// Path			: 	IfcTextPath;
+			// Literal		:	IfcPresentableText;
+			// Placement	:	IfcAxis2Placement;
+			// Path			:	IfcTextPath;
 			if( m_geom_settings->isShowTextLiterals() )
 			{
 				shared_ptr<IfcPresentableText>& ifc_literal = text_literal->m_Literal;
@@ -715,7 +715,7 @@ public:
 
 	void convertTopologicalRepresentationItem( const shared_ptr<IfcTopologicalRepresentationItem>& topological_item, shared_ptr<ItemShapeData> topo_item_data )
 	{
-		//IfcTopologicalRepresentationItem 		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
+		//IfcTopologicalRepresentationItem		ABSTRACT SUPERTYPE OF(ONEOF(IfcConnectedFaceSet, IfcEdge, IfcFace, IfcFaceBound, IfcLoop, IfcPath, IfcVertex))
 		const shared_ptr<IfcConnectedFaceSet> topo_connected_face_set = dynamic_pointer_cast<IfcConnectedFaceSet>( topological_item );
 		if( topo_connected_face_set )
 		{
@@ -761,9 +761,9 @@ public:
 			//shared_ptr<IfcFaceSurface> topo_face_surface = dynamic_pointer_cast<IfcFaceSurface>( topo_face );
 			//if( topo_face_surface )
 			//{
-			//	//  std::vector<shared_ptr<IfcFaceBound> >					m_Bounds;
-			//	//  shared_ptr<IfcSurface>									m_FaceSurface;
-			//	//  bool													m_SameSense;
+			//	//	std::vector<shared_ptr<IfcFaceBound> >					m_Bounds;
+			//	//	shared_ptr<IfcSurface>									m_FaceSurface;
+			//	//	bool													m_SameSense;
 
 			//	const shared_ptr<IfcSurface>& face_surface = topo_face_surface->m_FaceSurface;
 			//	if( face_surface )
