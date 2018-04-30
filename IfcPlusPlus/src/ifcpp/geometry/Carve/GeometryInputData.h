@@ -246,6 +246,14 @@ public:
 			}
 		}
 
+		//is negative if coordinate system changes handedness (for example as result of mirroring)
+		//in this case invert the meshes to not make them look inside out (only noticable if using
+		//back face culling)
+		bool const invert_meshes = 0 > carve::geom::dotcross(
+			carve::geom::VECTOR(mat.m[0][0], mat.m[1][0], mat.m[2][0]),
+			carve::geom::VECTOR(mat.m[0][1], mat.m[1][1], mat.m[2][1]),
+			carve::geom::VECTOR(mat.m[0][2], mat.m[1][2], mat.m[2][2]));
+
 		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
@@ -258,6 +266,10 @@ public:
 			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
 			{
 				item_meshset->meshes[i]->recalc();
+				if(invert_meshes)
+				{
+					item_meshset->meshes[i]->invert();
+				}
 			}
 		}
 
@@ -273,6 +285,12 @@ public:
 			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
 			{
 				item_meshset->meshes[i]->recalc();
+				if(invert_meshes)
+				{
+					item_meshset->meshes[i]->invert();
+					//calcOrientation resets isNegative flag (usually)
+					item_meshset->meshes[i]->calcOrientation();
+				}
 			}
 		}
 
