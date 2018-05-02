@@ -8,4 +8,5 @@ class IFCQUERY_EXPORT EntityFactory
 {
 public:
 	static BuildingEntity* EntityFactory::createEntityObject( const std::string& class_name_upper );
+	static void emptyMapOfEntities();
 };

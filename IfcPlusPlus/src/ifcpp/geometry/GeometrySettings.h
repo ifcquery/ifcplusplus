@@ -97,6 +97,10 @@ public:
 	bool getRenderCreaseEdges() { return m_render_crease_edges; }
 	void setRenderCreaseEdges( bool render_crease_edges ) { m_render_crease_edges = render_crease_edges; }
 
+	/**\brief Render bounding box for each object */
+	bool getRenderBoundingBoxes() { return m_render_bounding_box; }
+	void setRenderBoundingBoxes( bool render_bbox ) { m_render_bounding_box = render_bbox; }
+
 protected:
 	int	m_num_vertices_per_circle = 14;
 	int m_num_vertices_per_circle_default = 14;
@@ -106,6 +110,7 @@ protected:
 	bool m_handle_styled_items = true;
 	bool m_handle_layer_assignments = true;
 	bool m_render_crease_edges = true;
+	bool m_render_bounding_box = false;
 	double m_crease_edges_max_delta_angle = M_PI*0.05;
 	double m_colinear_faces_max_delta_angle = M_PI*0.02;
 };

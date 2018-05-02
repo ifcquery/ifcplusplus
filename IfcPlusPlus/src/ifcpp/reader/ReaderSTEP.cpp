@@ -213,6 +213,11 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	wchar_t* stream_pos = &file_header_wstr[0];
 	wchar_t* last_token = stream_pos;
 
+	if( stream_pos == NULL )
+	{
+		throw BuildingException("Invalid file content, couln't find HEADER section", __FUNC__);
+	}
+
 	while( *stream_pos != '\0' )
 	{
 		if( *stream_pos == '\'' )
@@ -316,12 +321,21 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 	// find beginning of data lines
 	const size_t length = read_in.length();
 	char* stream_pos = (char*)&read_in[0];
-	stream_pos = strstr(stream_pos, "DATA;");
-	if( stream_pos != NULL )
+	if( stream_pos == NULL )
 	{
-		stream_pos += 5;
-		while( isspace(*stream_pos) ){ ++stream_pos; }
+		throw BuildingException("Invalid file content", __FUNC__);
 	}
+
+	stream_pos = strstr(stream_pos, "DATA;");
+	if( stream_pos == NULL )
+	{
+		throw BuildingException("Invalid file content, couln't find DATA section", __FUNC__);
+	}
+
+	// skip whitespaces
+	stream_pos += 5;
+	while( isspace(*stream_pos) ){ ++stream_pos; }
+	
 
 	// find the first data line
 	while( *stream_pos != '\0' )

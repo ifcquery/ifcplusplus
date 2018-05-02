@@ -60,8 +60,6 @@ public slots:
 	void slotRecentFilesIndexChanged(int);
 	void updateRecentFilesCombo();
 
-	void slotLoadWallExample();
-	
 protected:
 	void keyPressEvent( QKeyEvent* event );
 	

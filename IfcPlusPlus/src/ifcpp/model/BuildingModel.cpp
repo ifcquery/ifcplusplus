@@ -490,19 +490,19 @@ void BuildingModel::initFileHeader( std::string file_name )
 	m_file_header = strs.str().c_str();
 }
 
-void BuildingModel::setFileHeader( std::wstring header )
+void BuildingModel::setFileHeader( const std::wstring& header )
 {
 	m_file_header = header;
 }
 
-void BuildingModel::setFileDescription( std::wstring schema )
+void BuildingModel::setFileDescription( const std::wstring& description )
 {
-	m_IFC_FILE_DESCRIPTION = schema;
+	m_IFC_FILE_DESCRIPTION = description;
 }
 
-void BuildingModel::setFileName( std::wstring schema )
+void BuildingModel::setFileName( const std::wstring& name )
 {
-	m_IFC_FILE_NAME = schema;
+	m_IFC_FILE_NAME = name;
 }
 
 void BuildingModel::clearIfcModel()
@@ -515,7 +515,7 @@ void BuildingModel::clearIfcModel()
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";
-	m_unit_converter->resetComplete();
+	m_unit_converter->resetUnitFactors();
 }
 
 void BuildingModel::resetIfcModel()

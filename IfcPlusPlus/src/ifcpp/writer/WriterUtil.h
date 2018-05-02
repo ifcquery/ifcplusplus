@@ -83,9 +83,7 @@ inline std::string encodeStepString( const std::wstring& str )
 template<typename T>
 void writeNumericList( std::stringstream& stream, const std::vector<T>& vec )
 {
-	// (3,23,039)
-	// (1.6,2.0,4.9382)
-	// ("str1","str2","str3")
+	// example: (3,23,039)
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -106,9 +104,7 @@ void writeNumericList( std::stringstream& stream, const std::vector<T>& vec )
 template<typename T>
 void writeNumericList2D( std::stringstream& stream, const std::vector<std::vector<T> >& vec )
 {
-	// ((1,2,4),(3,23,039),(938,3,-3,6))
-	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	// (("str1","str2","str3"),("str1","str2","str3"),("str1","str2","str3","str4"))
+	// example: ((1,2,4),(3,23,039),(938,3,-3,6))
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -131,7 +127,7 @@ void writeNumericList2D( std::stringstream& stream, const std::vector<std::vecto
 template<typename T>
 void writeNumericList3D( std::stringstream& stream, const std::vector<std::vector<std::vector<T> > >& vec )
 {
-	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
+	// example: ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -154,7 +150,7 @@ void writeNumericList3D( std::stringstream& stream, const std::vector<std::vecto
 template<typename T>
 void writeNumericTypeList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec )
 {
-	//(38,12,4)
+	// example: (38,12,4)
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -175,7 +171,7 @@ void writeNumericTypeList( std::stringstream& stream, const std::vector<shared_p
 template<typename T>
 void writeNumericTypeList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec )
 {
-	//((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
+	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -198,7 +194,7 @@ void writeNumericTypeList2D( std::stringstream& stream, const std::vector<std::v
 template<typename T>
 void writeEntityList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec )
 {
-	//(#287,#291,$,#299)
+	// example: (#287,#291,$,#299)
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -228,7 +224,7 @@ void writeEntityList( std::stringstream& stream, const std::vector<shared_ptr<T>
 template<typename T>
 void writeEntityList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec )
 {
-	//((#287,#291,$,#299),(#287,#291,$,#299))
+	// example: ((#287,#291,$,#299),(#287,#291,$,#299))
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -251,7 +247,7 @@ void writeEntityList2D( std::stringstream& stream, const std::vector<std::vector
 template<typename T>
 void writeEntityList3D( std::stringstream& stream, const std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec )
 {
-	//(((#287,#291,$,#299),(#287,#291,$,#299)),((#287,#291,$,#299),(#287,#291,$,#299)))
+	// example: (((#287,#291,$,#299),(#287,#291,$,#299)),((#287,#291,$,#299),(#287,#291,$,#299)))
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -274,6 +270,7 @@ void writeEntityList3D( std::stringstream& stream, const std::vector<std::vector
 
 inline void writeStringList( std::stringstream& stream, const std::vector<std::wstring >& vec_strings )
 {
+	// example: ("str1","str2","str3")
 	stream << "(";
 	for( size_t ii = 0; ii < vec_strings.size(); ++ii )
 	{

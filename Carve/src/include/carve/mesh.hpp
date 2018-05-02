@@ -137,9 +137,9 @@ class Edge : public tagable {
   typedef Vertex<ndim> vertex_t;
   typedef Face<ndim> face_t;
 
-  vertex_t* vert;
-  face_t* face;
-  Edge *prev, *next, *rev;
+  vertex_t* vert = nullptr;
+  face_t* face = nullptr;
+  Edge *prev = nullptr, *next = nullptr, *rev = nullptr;
 
  private:
   static void _link(Edge* a, Edge* b) {
@@ -287,9 +287,9 @@ class Face : public tagable {
     value_type operator()(const Vertex<ndim>* v) const { return proj(v->v); }
   };
 
-  edge_t* edge;
-  size_t n_edges;
-  mesh_t* mesh;
+  edge_t* edge = nullptr;
+  size_t n_edges = 0;
+  mesh_t* mesh = nullptr;
   size_t id;
 
   plane_t plane;
@@ -633,7 +633,7 @@ class Mesh {
 
   bool is_negative;
 
-  meshset_t* meshset;
+  meshset_t* meshset = nullptr;
 
  protected:
   Mesh(std::vector<face_t*>& _faces, std::vector<edge_t*>& _open_edges,

@@ -26,7 +26,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
 
-typedef carve::mesh::Edge<3> edge_t;
 typedef carve::mesh::Face<3> face_t;
 typedef carve::mesh::MeshSet<3> meshset_t;
 
@@ -86,35 +85,21 @@ namespace CSG_Adapter
 			return;
 		}
 
-		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
+		std::map<face_t*, std::vector<carve::mesh::Edge<3>*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
 
-			std::vector<edge_t*>& vec_closed_edges = mesh->closed_edges;
+			const std::vector<carve::mesh::Edge<3>*>& vec_closed_edges = mesh->closed_edges;
 			bool mesh_dirty = false;
 			for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
 			{
-				edge_t* edge_i = vec_closed_edges[closed_edge_i];
-				edge_t* edge_next = edge_i->next;
-
-#ifdef _DEBUG
-				if( edge_i == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
+				carve::mesh::Edge<3>* edge_i = vec_closed_edges[closed_edge_i];
+				carve::mesh::Edge<3>* edge_next = edge_i->next;
+				if( !edge_next )
 				{
-					std::cout << __FUNC__ << ": !edge_i" << std::endl;
 					continue;
 				}
-				if( edge_next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
-				{
-					std::cout << __FUNC__ << ": !edge_next" << std::endl;
-					continue;
-				}
-				if( edge_next->rev == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
-				{
-					std::cout << __FUNC__ << ": !edge_j->rev" << std::endl;
-					continue;
-				}
-#endif
 
 				if( !edge_i )
 				{
@@ -276,14 +261,15 @@ namespace CSG_Adapter
 			for( size_t j = 0; j < vec_faces.size(); ++j )
 			{
 				face_t* face = vec_faces[j];
-				edge_t* e = face->edge;
+				carve::mesh::Edge<3>* e = face->edge;
+				if( e == nullptr )
+				{
+					continue;
+				}
+
 				const size_t n_edges = face->n_edges;
 				for( size_t i_edge = 0; i_edge < n_edges; ++i_edge )
 				{
-					if( e == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
-					{
-						return false;
-					}
 					if( !e->rev )
 					{
 #ifdef GEOMETRY_DEBUG_CHECK
@@ -291,13 +277,13 @@ namespace CSG_Adapter
 						vec_faces.push_back( face );
 						GeomDebugDump::dumpFaces( meshset, vec_faces );
 
-						std::vector<edge_t*> vec_edges;
+						std::vector<carve::mesh::Edge<3>*> vec_edges;
 						vec_edges.push_back( e );
 						GeomDebugDump::dumpEdges( meshset, vec_edges );
 #endif
 						return false;
 					}
-					if( e->rev->next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
+					if( e->rev->next == nullptr )
 					{
 						return false;
 					}
@@ -318,7 +304,7 @@ namespace CSG_Adapter
 					{
 						return false;
 					}
-					if( e->next == reinterpret_cast<edge_t*>( 0xfeeefeeefeeefeee ) )
+					if( e->next == nullptr )
 					{
 						return false;
 					}
@@ -506,18 +492,18 @@ namespace CSG_Adapter
 		}
 		bool meshset_dirty = false;
 
-		std::map<face_t*, std::vector<edge_t*> > map_omit_face_edges;
+		std::map<face_t*, std::vector<carve::mesh::Edge<3>*> > map_omit_face_edges;
 		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
 
 			// find edges that are in line
-			std::vector<edge_t*>& vec_closed_edges = mesh->closed_edges;
+			std::vector<carve::mesh::Edge<3>*>& vec_closed_edges = mesh->closed_edges;
 
 			for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
 			{
-				edge_t* edge = vec_closed_edges[closed_edge_i];
-				edge_t* edge_reverse = edge->rev;
+				carve::mesh::Edge<3>* edge = vec_closed_edges[closed_edge_i];
+				carve::mesh::Edge<3>* edge_reverse = edge->rev;
 				face_t* face = edge->face;
 				face_t* face_reverse = edge_reverse->face;
 
@@ -540,7 +526,7 @@ namespace CSG_Adapter
 
 				if( edge->next->rev == edge_reverse->prev )
 				{
-					edge_t* edge_next_rev = edge->next->rev;
+					carve::mesh::Edge<3>* edge_next_rev = edge->next->rev;
 					edge->next->removeHalfEdge();
 					edge_reverse->removeHalfEdge();
 
@@ -640,7 +626,7 @@ namespace CSG_Adapter
 
 				// now insert points to polygon, avoiding points with same coordinates
 				int i_vert = 0;
-				edge_t* edge = face->edge;
+				carve::mesh::Edge<3>* edge = face->edge;
 				do
 				{
 					const vec3& v = edge->vert->v;
@@ -775,7 +761,7 @@ namespace CSG_Adapter
 		}
 
 		meshset_copy = shared_ptr<meshset_t >( meshset->clone() );
-		mergeAlignedEdges( meshset, simplifier );
+		//mergeAlignedEdges( meshset, simplifier );
 		meshset->collectVertices(); //removes unreferenced Vertices
 
 		faces_ok = checkFaceIntegrity( meshset );

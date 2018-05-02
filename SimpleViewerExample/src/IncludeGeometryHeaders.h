@@ -31,12 +31,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/geometry/Carve/GeomUtils.h>
 
 
-#ifdef GEOMETRY_DEBUG_CHECK
-	#include <ifcpp/geometry/OCC/GeomDebugDumpOCC.h>
-#endif
-#include <ifcpp/geometry/OCC/GeometryConverterOCC.h>
-#include <ifcpp/geometry/OCC/SceneGraphConverterOCC.h>
-#include <ifcpp/geometry/OCC/GeomUtilsOCC.h>
+//#ifdef GEOMETRY_DEBUG_CHECK
+//	#include <ifcpp/geometry/OCC/GeomDebugDumpOCC.h>
+//#endif
+//#include <ifcpp/geometry/OCC/GeometryConverterOCC.h>
+//#include <ifcpp/geometry/OCC/SceneGraphConverterOCC.h>
+//#include <ifcpp/geometry/OCC/GeomUtilsOCC.h>
 
 #include <ifcpp/geometry/SceneGraphUtils.h>
 #include <ifcpp/geometry/GeometrySettings.h>

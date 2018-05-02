@@ -72,9 +72,9 @@ public:
 	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
 	const std::wstring& getFileName() { return m_IFC_FILE_NAME; }
 
-	void setFileHeader( std::wstring header );
-	void setFileDescription( std::wstring schema );
-	void setFileName( std::wstring schema );
+	void setFileHeader( const std::wstring& header );
+	void setFileDescription( const std::wstring& description );
+	void setFileName( const std::wstring& name );
 	void setIfcProject( shared_ptr<IfcProject> project );
 	void setUnitConverter( shared_ptr<UnitConverter>& uc );
 	void setIfcGeometricRepresentationContext3D( shared_ptr<IfcGeometricRepresentationContext>& context );

@@ -813,3 +813,7 @@ shared_ptr<BuildingObject> TypeFactory::createTypeObject( const std::string& cla
 	// class_name not registered
 	return shared_ptr<BuildingObject>();
 }
+void TypeFactory::emptyMapOfTypes()
+{
+	type_factory_map.clear();
+}

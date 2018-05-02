@@ -61,10 +61,6 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	QPushButton* btn_add_file = new QPushButton( "Choose file" );
 	connect( btn_add_file, SIGNAL( clicked() ), this, SLOT( slotAddOtherIfcFileClicked() ) );
 	
-	
-	QPushButton* btn_load_wall_example = new QPushButton( "Load wall example" );
-	connect( btn_load_wall_example, SIGNAL( clicked() ), this, SLOT( slotLoadWallExample() ) );
-
 	// write
 	m_le_path_write = new QLineEdit( "IfcPlusPlus-out.ifc" );
 	QPushButton* btn_set_out_path = new QPushButton( "..." );
@@ -99,11 +95,6 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	combo_hbox->addWidget( btn_add_file );
 	combo_hbox->addWidget( m_btn_load, 0 );
 
-	QWidget* load_example_widget = new QWidget();
-	QVBoxLayout* load_example_vbox = new QVBoxLayout( load_example_widget );
-	load_example_vbox->addWidget( btn_load_wall_example );
-	load_example_vbox->addStretch( 1 );
-	
 	m_io_widget = new QWidget(this);
 	QVBoxLayout* io_vbox = new QVBoxLayout(m_io_widget);
 	io_vbox->setContentsMargins( 0, 0, 0, 0 );
@@ -116,7 +107,6 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 
 	m_io_splitter = new QSplitter( Qt::Horizontal );
 	m_io_splitter->addWidget( m_io_widget );
-	m_io_splitter->addWidget( load_example_widget );
 	m_io_splitter->addWidget( m_txt_out );
 
 	QHBoxLayout* hbox = new QHBoxLayout();
@@ -446,33 +436,5 @@ void TabReadWrite::slotWriteFileClicked()
 	
 	int time_diff = clock() - millisecs;
 	slotTxtOut( "file written (" + QString::number( time_diff*0.001 ) + " sec)" );
-	slotProgressValue( 1.0, "" );
-}
-
-void TabReadWrite::slotLoadWallExample()
-{
-	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->getModelReader()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->getModelWriter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->notifyModelCleared();
-	m_txt_out->clear();
-
-	shared_ptr<LoadIfcFileCommand> cmd_load( new LoadIfcFileCommand( m_system ) );
-	cmd_load->loadWallExample();
-
-	m_viewer->update();
-
-	osgViewer::View* main_view = m_viewer->getMainView();
-	if( main_view )
-	{
-		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
-		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>( camera_manip );
-		if( orbit_manip )
-		{
-			osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
-			orbit_manip->zoomToBoundingSphere( bs );
-		}
-	}
-	m_system->notifyModelLoadingDone();
 	slotProgressValue( 1.0, "" );
 }

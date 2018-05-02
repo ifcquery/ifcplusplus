@@ -1569,3 +1569,7 @@ BuildingEntity* EntityFactory::createEntityObject( const std::string& class_name
 	// class_name not registered
 	return nullptr;
 }
+void EntityFactory::emptyMapOfEntities()
+{
+	entity_factory_map.clear();
+}

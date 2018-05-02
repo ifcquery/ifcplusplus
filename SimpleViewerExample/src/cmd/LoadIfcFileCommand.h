@@ -39,9 +39,7 @@ public:
 	virtual bool isRepeatable()		{ return false; }
 
 	void setFilePath( std::wstring& path );
-	void loadWallExample();
 
 protected:
 	std::wstring m_file_path;
-	
 };
