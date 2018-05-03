@@ -251,7 +251,7 @@ protected:
 		std::vector<int> vertex_indices;
 		size_t const pn_index_count = tri_face_set->m_PnIndex.size();
 		//using a lambda saves one nested loop
-		auto check_and_add = [&vertex_indices,&coordinate_count](auto index)
+		auto check_and_add = [&vertex_indices,&coordinate_count](shared_ptr<IfcPositiveInteger> const& index)
 		{
 			if(!index)
 				return true;
@@ -260,7 +260,7 @@ protected:
 			vertex_indices.push_back(index->m_value - 1);
 			return false;
 		};
-		auto check_and_add_indirect = [&](auto pn_index)
+		auto check_and_add_indirect = [&](shared_ptr<IfcPositiveInteger> const& pn_index)
 		{
 			if(!pn_index)
 				return true;
