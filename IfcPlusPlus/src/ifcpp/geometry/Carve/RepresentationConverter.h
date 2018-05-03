@@ -17,6 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
+#include <unordered_set>
 #include <ifcpp/geometry/StylesConverter.h>
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/model/BasicTypes.h>

@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <math.h>
 #include <iostream>
 #include <unordered_set>
-#include <boost/unordered_set.hpp>
 #include <osg/Array>
 #include <osg/CullFace>
 #include <osg/Geode>

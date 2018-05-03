@@ -573,132 +573,49 @@ namespace GeomUtils
 		pos = matrix*pos;
 		extent = matrix*extent;
 	}
+
 	/** matrix operations */
-	inline void computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& inv, const double eps = 0.01 )
+	inline bool computeInverse( const carve::math::Matrix& matrix_a, carve::math::Matrix& matrix_inv, const double eps = 0.01 )
 	{
-		int i, j;	// col, row
-		int s;		// step
-		int prow;	// pivot
-		int err_flag = 0;
-		double factor;
-		//const double eps = 0.01;
-		double max;
-		int pivot = 1;
-		double a[4][8];
+		double inv[16], det;
+		double m[16] = {
+			matrix_a._11, matrix_a._12, matrix_a._13, matrix_a._14,
+			matrix_a._21, matrix_a._22, matrix_a._23, matrix_a._24,
+			matrix_a._31, matrix_a._32, matrix_a._33, matrix_a._34,
+			matrix_a._41, matrix_a._42, matrix_a._43, matrix_a._44, };
 
-		a[0][0] = matrix_a._11;
-		a[0][1] = matrix_a._12;
-		a[0][2] = matrix_a._13;
-		a[0][3] = matrix_a._14;
+		inv[0] = m[5] * m[10] * m[15] - m[5] * m[11] * m[14] - m[9] * m[6] * m[15] + m[9] * m[7] * m[14] + m[13] * m[6] * m[11] - m[13] * m[7] * m[10];
+		inv[4] = -m[4] * m[10] * m[15] + m[4] * m[11] * m[14] + m[8] * m[6] * m[15] - m[8] * m[7] * m[14] - m[12] * m[6] * m[11] + m[12] * m[7] * m[10];
+		inv[8] = m[4] * m[9] * m[15] - m[4] * m[11] * m[13] - m[8] * m[5] * m[15] + m[8] * m[7] * m[13] + m[12] * m[5] * m[11] - m[12] * m[7] * m[9];
+		inv[12] = -m[4] * m[9] * m[14] + m[4] * m[10] * m[13] + m[8] * m[5] * m[14] - m[8] * m[6] * m[13] - m[12] * m[5] * m[10] + m[12] * m[6] * m[9];
+		inv[1] = -m[1] * m[10] * m[15] + m[1] * m[11] * m[14] + m[9] * m[2] * m[15] - m[9] * m[3] * m[14] - m[13] * m[2] * m[11] + m[13] * m[3] * m[10];
+		inv[5] = m[0] * m[10] * m[15] - m[0] * m[11] * m[14] - m[8] * m[2] * m[15] + m[8] * m[3] * m[14] + m[12] * m[2] * m[11] - m[12] * m[3] * m[10];
+		inv[9] = -m[0] * m[9] * m[15] + m[0] * m[11] * m[13] + m[8] * m[1] * m[15] - m[8] * m[3] * m[13] - m[12] * m[1] * m[11] + m[12] * m[3] * m[9];
+		inv[13] = m[0] * m[9] * m[14] - m[0] * m[10] * m[13] - m[8] * m[1] * m[14] + m[8] * m[2] * m[13] + m[12] * m[1] * m[10] - m[12] * m[2] * m[9];
+		inv[2] = m[1] * m[6] * m[15] - m[1] * m[7] * m[14] - m[5] * m[2] * m[15] + m[5] * m[3] * m[14] + m[13] * m[2] * m[7] - m[13] * m[3] * m[6];
+		inv[6] = -m[0] * m[6] * m[15] + m[0] * m[7] * m[14] + m[4] * m[2] * m[15] - m[4] * m[3] * m[14] - m[12] * m[2] * m[7] + m[12] * m[3] * m[6];
+		inv[10] = m[0] * m[5] * m[15] - m[0] * m[7] * m[13] - m[4] * m[1] * m[15] + m[4] * m[3] * m[13] + m[12] * m[1] * m[7] - m[12] * m[3] * m[5];
+		inv[14] = -m[0] * m[5] * m[14] + m[0] * m[6] * m[13] + m[4] * m[1] * m[14] - m[4] * m[2] * m[13] - m[12] * m[1] * m[6] + m[12] * m[2] * m[5];
+		inv[3] = -m[1] * m[6] * m[11] + m[1] * m[7] * m[10] + m[5] * m[2] * m[11] - m[5] * m[3] * m[10] - m[9] * m[2] * m[7] + m[9] * m[3] * m[6];
+		inv[7] = m[0] * m[6] * m[11] - m[0] * m[7] * m[10] - m[4] * m[2] * m[11] + m[4] * m[3] * m[10] + m[8] * m[2] * m[7] - m[8] * m[3] * m[6];
+		inv[11] = -m[0] * m[5] * m[11] + m[0] * m[7] * m[9] + m[4] * m[1] * m[11] - m[4] * m[3] * m[9] - m[8] * m[1] * m[7] + m[8] * m[3] * m[5];
+		inv[15] = m[0] * m[5] * m[10] - m[0] * m[6] * m[9] - m[4] * m[1] * m[10] + m[4] * m[2] * m[9] + m[8] * m[1] * m[6] - m[8] * m[2] * m[5];
+		det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
 
-		a[1][0] = matrix_a._21;
-		a[1][1] = matrix_a._22;
-		a[1][2] = matrix_a._23;
-		a[1][3] = matrix_a._24;
-
-		a[2][0] = matrix_a._31;
-		a[2][1] = matrix_a._32;
-		a[2][2] = matrix_a._33;
-		a[2][3] = matrix_a._34;
-
-		a[3][0] = matrix_a._41;
-		a[3][1] = matrix_a._42;
-		a[3][2] = matrix_a._43;
-		a[3][3] = matrix_a._44;
-
-		// append identity at the right
-		for( i = 0; i < 4; ++i )
+		if( abs(det) < eps )
 		{
-			for( j = 0; j < 4; ++j )
-			{
-				a[i][4 + j] = 0.0;
-				if( i == j )
-				{
-					a[i][4 + j] = 1.0;
-				}
-			}
+			return false;
 		}
 
-		s = 0;
-		do
+		det = 1.0 / det;
+
+		for( size_t i = 0; i < 16; i++ )
 		{
-			max = std::abs( a[s][s] );
-			if( pivot )
-			{
-				prow = s;
-				for( i = s + 1; i < 4; ++i )
-				{
-					if( std::abs( a[i][s] ) > max )
-					{
-						max = std::abs( a[i][s] );
-						prow = i;
-					}
-				}
-			}
-			err_flag = max < eps;
-
-			if( err_flag ) break;
-
-			if( pivot )
-			{
-				if( prow != s )
-				{
-					// change rows
-					double temp;
-					for( j = s; j < 2 * 4; ++j )
-					{
-						temp = a[s][j];
-						a[s][j] = a[prow][j];
-						a[prow][j] = temp;
-					}
-				}
-			}
-
-			// elimination: divide by pivot coefficient f = a[s][s]
-			factor = a[s][s];
-			for( j = s; j < 2 * 4; ++j )
-			{
-				a[s][j] = a[s][j] / factor;
-			}
-
-			for( i = 0; i < 4; ++i )
-			{
-				if( i != s )
-				{
-					factor = -a[i][s];
-					for( j = s; j < 2 * 4; ++j )
-					{
-						a[i][j] += factor*a[s][j];
-					}
-				}
-			}
-			++s;
-		} while( s < 4 );
-
-		if( err_flag )
-		{
-			throw BuildingException( "cannot compute inverse of matrix", __FUNC__ );
+			matrix_inv.v[i] = inv[i] * det;
 		}
 
-		inv._11 = a[0][4];
-		inv._12 = a[0][5];
-		inv._13 = a[0][6];
-		inv._14 = a[0][7];
+		return true;
 
-		inv._21 = a[1][4];
-		inv._22 = a[1][5];
-		inv._23 = a[1][6];
-		inv._24 = a[1][7];
-
-		inv._31 = a[2][4];
-		inv._32 = a[2][5];
-		inv._33 = a[2][6];
-		inv._34 = a[2][7];
-
-		inv._41 = a[3][4];
-		inv._42 = a[3][5];
-		inv._43 = a[3][6];
-		inv._44 = a[3][7];
 	}
 	inline bool checkMatricesIdentical( const carve::math::Matrix &A, const carve::math::Matrix &B, double tolerance = 0.000001 ) 
 	{
