@@ -56,7 +56,7 @@ public:
 		//Can be either an IfcPolygonalFaceSet or an IfcTriangulatedFaceSet
 		//the former one needs to be triangulated by the user, while the
 		//latter one can usually directly be used for rendering
-		auto carve_mesh_builder = std::make_shared<carve::input::PolyhedronData>();
+		auto carve_mesh_builder = make_shared<carve::input::PolyhedronData>();
 		auto face_set = dynamic_pointer_cast<IfcTessellatedFaceSet>(tessellated_item);
 		if(!face_set)
 		{
