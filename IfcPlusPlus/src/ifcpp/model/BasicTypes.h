@@ -24,18 +24,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::tr1::dynamic_pointer_cast;
+using std::tr1::make_shared;
 #else
 using std::shared_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 #endif
 
 #elif defined __GNUC__ && !defined(__FreeBSD__)
 
+#if __GNUC__ < 5
 #include <tr1/memory>
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::tr1::dynamic_pointer_cast;
+using std::tr1::make_shared;
+#else
+#include <memory>
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
+using std::make_shared;
+#endif
 
 #define _stricmp strcasecmp
 
@@ -47,6 +58,7 @@ using std::tr1::dynamic_pointer_cast;
 using std::shared_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 
 #define _stricmp strcasecmp
 
@@ -64,6 +76,7 @@ using std::dynamic_pointer_cast;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using boost::make_shared;
 
 #endif
 
