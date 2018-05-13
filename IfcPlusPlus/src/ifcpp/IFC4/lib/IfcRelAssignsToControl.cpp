@@ -106,6 +106,12 @@ void IfcRelAssignsToControl::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToControl> >& Controls_inverse = m_RelatingControl->m_Controls_inverse;
 		for( auto it_Controls_inverse = Controls_inverse.begin(); it_Controls_inverse != Controls_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToControl> self_candidate_weak = *it_Controls_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Controls_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToControl> self_candidate( *it_Controls_inverse );
 			if( self_candidate.get() == this )
 			{

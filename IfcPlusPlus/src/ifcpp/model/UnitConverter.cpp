@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <string.h>
+#include <boost/algorithm/string.hpp>
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcLengthMeasure.h"

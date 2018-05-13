@@ -72,6 +72,12 @@ void IfcLocalPlacement::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcLocalPlacement> >& ReferencedByPlacements_inverse = m_PlacementRelTo->m_ReferencedByPlacements_inverse;
 		for( auto it_ReferencedByPlacements_inverse = ReferencedByPlacements_inverse.begin(); it_ReferencedByPlacements_inverse != ReferencedByPlacements_inverse.end(); )
 		{
+			weak_ptr<IfcLocalPlacement> self_candidate_weak = *it_ReferencedByPlacements_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ReferencedByPlacements_inverse;
+				continue;
+			}
 			shared_ptr<IfcLocalPlacement> self_candidate( *it_ReferencedByPlacements_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -96,11 +96,14 @@ void IfcRelVoidsElement::unlinkFromInverseCounterparts()
 	IfcRelDecomposes::unlinkFromInverseCounterparts();
 	if( m_RelatedOpeningElement )
 	{
-		shared_ptr<IfcRelVoidsElement> self_candidate( m_RelatedOpeningElement->m_VoidsElements_inverse );
-		if( self_candidate.get() == this )
+		if( !m_RelatedOpeningElement->m_VoidsElements_inverse.expired() )
 		{
-			weak_ptr<IfcRelVoidsElement>& self_candidate_weak = m_RelatedOpeningElement->m_VoidsElements_inverse;
-			self_candidate_weak.reset();
+			shared_ptr<IfcRelVoidsElement> self_candidate( m_RelatedOpeningElement->m_VoidsElements_inverse );
+			if( self_candidate.get() == this )
+			{
+				weak_ptr<IfcRelVoidsElement>& self_candidate_weak = m_RelatedOpeningElement->m_VoidsElements_inverse;
+				self_candidate_weak.reset();
+			}
 		}
 	}
 	if( m_RelatingBuildingElement )
@@ -108,6 +111,12 @@ void IfcRelVoidsElement::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelVoidsElement> >& HasOpenings_inverse = m_RelatingBuildingElement->m_HasOpenings_inverse;
 		for( auto it_HasOpenings_inverse = HasOpenings_inverse.begin(); it_HasOpenings_inverse != HasOpenings_inverse.end(); )
 		{
+			weak_ptr<IfcRelVoidsElement> self_candidate_weak = *it_HasOpenings_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasOpenings_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelVoidsElement> self_candidate( *it_HasOpenings_inverse );
 			if( self_candidate.get() == this )
 			{

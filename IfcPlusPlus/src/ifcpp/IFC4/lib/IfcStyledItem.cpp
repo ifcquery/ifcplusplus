@@ -103,6 +103,12 @@ void IfcStyledItem::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcStyledItem> >& StyledByItem_inverse = m_Item->m_StyledByItem_inverse;
 		for( auto it_StyledByItem_inverse = StyledByItem_inverse.begin(); it_StyledByItem_inverse != StyledByItem_inverse.end(); )
 		{
+			weak_ptr<IfcStyledItem> self_candidate_weak = *it_StyledByItem_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_StyledByItem_inverse;
+				continue;
+			}
 			shared_ptr<IfcStyledItem> self_candidate( *it_StyledByItem_inverse );
 			if( self_candidate.get() == this )
 			{

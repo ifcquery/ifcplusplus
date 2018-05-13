@@ -121,6 +121,12 @@ void IfcRelAssignsToProcess::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToProcess> >& OperatesOn_inverse = RelatingProcess_IfcProcess->m_OperatesOn_inverse;
 		for( auto it_OperatesOn_inverse = OperatesOn_inverse.begin(); it_OperatesOn_inverse != OperatesOn_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToProcess> self_candidate_weak = *it_OperatesOn_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_OperatesOn_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToProcess> self_candidate( *it_OperatesOn_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -138,6 +144,12 @@ void IfcRelAssignsToProcess::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToProcess> >& OperatesOn_inverse = RelatingProcess_IfcTypeProcess->m_OperatesOn_inverse;
 		for( auto it_OperatesOn_inverse = OperatesOn_inverse.begin(); it_OperatesOn_inverse != OperatesOn_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToProcess> self_candidate_weak = *it_OperatesOn_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_OperatesOn_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToProcess> self_candidate( *it_OperatesOn_inverse );
 			if( self_candidate.get() == this )
 			{

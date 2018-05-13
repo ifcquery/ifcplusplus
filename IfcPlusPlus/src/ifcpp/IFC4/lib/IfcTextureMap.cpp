@@ -91,6 +91,12 @@ void IfcTextureMap::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcTextureMap> >& HasTextureMaps_inverse = m_MappedTo->m_HasTextureMaps_inverse;
 		for( auto it_HasTextureMaps_inverse = HasTextureMaps_inverse.begin(); it_HasTextureMaps_inverse != HasTextureMaps_inverse.end(); )
 		{
+			weak_ptr<IfcTextureMap> self_candidate_weak = *it_HasTextureMaps_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasTextureMaps_inverse;
+				continue;
+			}
 			shared_ptr<IfcTextureMap> self_candidate( *it_HasTextureMaps_inverse );
 			if( self_candidate.get() == this )
 			{

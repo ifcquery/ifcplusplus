@@ -106,6 +106,12 @@ void IfcRelAssignsToGroup::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToGroup> >& IsGroupedBy_inverse = m_RelatingGroup->m_IsGroupedBy_inverse;
 		for( auto it_IsGroupedBy_inverse = IsGroupedBy_inverse.begin(); it_IsGroupedBy_inverse != IsGroupedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToGroup> self_candidate_weak = *it_IsGroupedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsGroupedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToGroup> self_candidate( *it_IsGroupedBy_inverse );
 			if( self_candidate.get() == this )
 			{

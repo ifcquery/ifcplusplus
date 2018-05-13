@@ -34,8 +34,8 @@ public:
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
 	  \param[in] file_path Absolute path of the file to read.
 	**/
-	void loadModelFromFile( const std::wstring& file_path, shared_ptr<BuildingModel>& target_model );
-	void loadModelFromString( std::string& content, shared_ptr<BuildingModel>& target_model );
+	virtual void loadModelFromFile( const std::wstring& file_path, shared_ptr<BuildingModel>& target_model );
+	virtual void loadModelFromString( std::string& content, shared_ptr<BuildingModel>& target_model );
 
 	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& step_lines );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object );

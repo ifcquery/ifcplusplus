@@ -21,32 +21,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <cctype>
-#include <algorithm>
-#include <locale.h>
-#include <time.h>
 
-#include "boost/assign.hpp"
+#include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingModel.h>
+#include <ifcpp/model/BuildingException.h>
+#include <ifcpp/model/OpenMPIncludes.h>
+#include <ifcpp/model/UnknownEntityException.h>
+#include <ifcpp/IFC4/EntityFactory.h>
+#include <ifcpp/IFC4/include/IfcBuilding.h>
+#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
+#include <ifcpp/IFC4/include/IfcProject.h>
+#include <ifcpp/IFC4/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
 
-#include "ifcpp/model/OpenMPIncludes.h"
-#include "ifcpp/model/BuildingModel.h"
-#include "ifcpp/model/BuildingException.h"
-#include "ifcpp/model/UnknownEntityException.h"
-#include "ifcpp/IFC4/EntityFactory.h"
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
-
-void findEndOfString( char*& stream_pos );
-void findEndOfWString( wchar_t*& stream_pos );
 
 ReaderSTEP::ReaderSTEP(){}
 ReaderSTEP::~ReaderSTEP(){}
 
-void ReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_ptr<BuildingModel>& target_model )
+void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel )
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
-	
-	std::wstring ext = file_path.substr( file_path.find_last_of( L"." ) + 1 );
+	std::wstring ext = filePath.substr( filePath.find_last_of( L"." ) + 1 );
 	
 	if( boost::iequals( ext, "ifc" ) )
 	{
@@ -58,10 +56,9 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_ptr<Bu
 		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	else if( boost::iequals( ext, "ifcZIP" ) )
+	else if( boost::iequals( ext, "ifcZIP" ) || boost::iequals(ext, "zip") )
 	{
-		// TODO: implement zip uncompress
-		messageCallback( "ifcZIP not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( "ifcZIP not implemented, see www.ifcquery.com for details", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 	else
@@ -73,16 +70,13 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_ptr<Bu
 	}
 
 	// open file
-#ifdef _MSC_VER
-	std::ifstream infile(file_path.c_str(), std::ifstream::in );
-#else
-	std::string file_path_str( file_path.begin(), file_path.end() );
-	std::ifstream infile(file_path_str.c_str(), std::ifstream::in );
-#endif
+	std::string filePathStr(filePath.begin(), filePath.end());
+	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
+
 	if( !infile.is_open() )
 	{
 		std::wstringstream strs;
-		strs << "Could not open file: " << file_path.c_str();
+		strs << "Could not open file: " << filePath.c_str();
 		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
@@ -98,24 +92,32 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& file_path, shared_ptr<Bu
 	infile.read( &buffer[0], file_size );
 	infile.close();
 
-	loadModelFromString( buffer, target_model );
+	size_t file_header_start = buffer.find("HEADER;");
+	size_t file_header_end = buffer.find("ENDSEC;");
+	if( file_header_start == std::string::npos || file_header_end == std::string::npos )
+	{
+		messageCallback("Not a valid IFC file, might be zip archive, see www.ifcquery.com for details", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+		return;
+	}
+
+	loadModelFromString( buffer, targetModel);
 }
 
-void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingModel>& target_model )
+void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingModel>& targetModel)
 {
 	progressTextCallback( L"Reading file..." );
 	progressValueCallback( 0, "parse" );
 	try
 	{
 		removeComments( content );
-		readHeader( content, target_model );
-		readData( content, target_model );
-		target_model->resolveInverseAttributes();
-		target_model->updateCache();
+		readHeader( content, targetModel);
+		readData( content, targetModel);
+		targetModel->resolveInverseAttributes();
+		targetModel->updateCache();
 
 		// currently generated IFC classes are IFC4, files with older versions are converted. So after loading, the schema is always IFC4
-		target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
-		target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC4;
+		targetModel->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
+		targetModel->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC4;
 	}
 	catch( OutOfMemoryException& e)
 	{

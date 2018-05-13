@@ -33,7 +33,6 @@ using std::make_shared;
 #endif
 
 #elif defined __GNUC__ && !defined(__FreeBSD__)
-
 #if __GNUC__ < 5
 #include <tr1/memory>
 using std::tr1::shared_ptr;

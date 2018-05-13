@@ -85,6 +85,12 @@ void IfcPropertyDependencyRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcPropertyDependencyRelationship> >& PropertyDependsOn_inverse = m_DependantProperty->m_PropertyDependsOn_inverse;
 		for( auto it_PropertyDependsOn_inverse = PropertyDependsOn_inverse.begin(); it_PropertyDependsOn_inverse != PropertyDependsOn_inverse.end(); )
 		{
+			weak_ptr<IfcPropertyDependencyRelationship> self_candidate_weak = *it_PropertyDependsOn_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_PropertyDependsOn_inverse;
+				continue;
+			}
 			shared_ptr<IfcPropertyDependencyRelationship> self_candidate( *it_PropertyDependsOn_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -101,6 +107,12 @@ void IfcPropertyDependencyRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcPropertyDependencyRelationship> >& PropertyForDependance_inverse = m_DependingProperty->m_PropertyForDependance_inverse;
 		for( auto it_PropertyForDependance_inverse = PropertyForDependance_inverse.begin(); it_PropertyForDependance_inverse != PropertyForDependance_inverse.end(); )
 		{
+			weak_ptr<IfcPropertyDependencyRelationship> self_candidate_weak = *it_PropertyForDependance_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_PropertyForDependance_inverse;
+				continue;
+			}
 			shared_ptr<IfcPropertyDependencyRelationship> self_candidate( *it_PropertyForDependance_inverse );
 			if( self_candidate.get() == this )
 			{

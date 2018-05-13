@@ -86,6 +86,12 @@ void IfcProductRepresentation::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcProductRepresentation> >& OfProductRepresentation_inverse = m_Representations[i]->m_OfProductRepresentation_inverse;
 			for( auto it_OfProductRepresentation_inverse = OfProductRepresentation_inverse.begin(); it_OfProductRepresentation_inverse != OfProductRepresentation_inverse.end(); )
 			{
+				weak_ptr<IfcProductRepresentation> self_candidate_weak = *it_OfProductRepresentation_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_OfProductRepresentation_inverse;
+					continue;
+				}
 				shared_ptr<IfcProductRepresentation> self_candidate( *it_OfProductRepresentation_inverse );
 				if( self_candidate.get() == this )
 				{

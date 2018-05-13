@@ -108,6 +108,12 @@ void IfcIndexedColourMap::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcIndexedColourMap> >& HasColours_inverse = m_MappedTo->m_HasColours_inverse;
 		for( auto it_HasColours_inverse = HasColours_inverse.begin(); it_HasColours_inverse != HasColours_inverse.end(); )
 		{
+			weak_ptr<IfcIndexedColourMap> self_candidate_weak = *it_HasColours_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasColours_inverse;
+				continue;
+			}
 			shared_ptr<IfcIndexedColourMap> self_candidate( *it_HasColours_inverse );
 			if( self_candidate.get() == this )
 			{

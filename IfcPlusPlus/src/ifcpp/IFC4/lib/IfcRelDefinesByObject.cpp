@@ -115,6 +115,12 @@ void IfcRelDefinesByObject::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelDefinesByObject> >& IsDeclaredBy_inverse = m_RelatedObjects[i]->m_IsDeclaredBy_inverse;
 			for( auto it_IsDeclaredBy_inverse = IsDeclaredBy_inverse.begin(); it_IsDeclaredBy_inverse != IsDeclaredBy_inverse.end(); )
 			{
+				weak_ptr<IfcRelDefinesByObject> self_candidate_weak = *it_IsDeclaredBy_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsDeclaredBy_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelDefinesByObject> self_candidate( *it_IsDeclaredBy_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -132,6 +138,12 @@ void IfcRelDefinesByObject::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelDefinesByObject> >& Declares_inverse = m_RelatingObject->m_Declares_inverse;
 		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); )
 		{
+			weak_ptr<IfcRelDefinesByObject> self_candidate_weak = *it_Declares_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Declares_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelDefinesByObject> self_candidate( *it_Declares_inverse );
 			if( self_candidate.get() == this )
 			{

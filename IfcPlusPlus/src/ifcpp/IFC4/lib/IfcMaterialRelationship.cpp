@@ -102,6 +102,12 @@ void IfcMaterialRelationship::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcMaterialRelationship> >& IsRelatedWith_inverse = m_RelatedMaterials[i]->m_IsRelatedWith_inverse;
 			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); )
 			{
+				weak_ptr<IfcMaterialRelationship> self_candidate_weak = *it_IsRelatedWith_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsRelatedWith_inverse;
+					continue;
+				}
 				shared_ptr<IfcMaterialRelationship> self_candidate( *it_IsRelatedWith_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -119,6 +125,12 @@ void IfcMaterialRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcMaterialRelationship> >& RelatesTo_inverse = m_RelatingMaterial->m_RelatesTo_inverse;
 		for( auto it_RelatesTo_inverse = RelatesTo_inverse.begin(); it_RelatesTo_inverse != RelatesTo_inverse.end(); )
 		{
+			weak_ptr<IfcMaterialRelationship> self_candidate_weak = *it_RelatesTo_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_RelatesTo_inverse;
+				continue;
+			}
 			shared_ptr<IfcMaterialRelationship> self_candidate( *it_RelatesTo_inverse );
 			if( self_candidate.get() == this )
 			{

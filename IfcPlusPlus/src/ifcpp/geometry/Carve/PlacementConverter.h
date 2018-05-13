@@ -348,12 +348,7 @@ public:
 		}
 		already_applied.insert( context_ptr );
 
-		//shared_ptr<IfcDimensionCount>& dim_count = geom_context->m_CoordinateSpaceDimension;
-		//boost::optional<double>&		precision = geom_context->m_Precision;				//optional
 		shared_ptr<IfcAxis2Placement>& world_coords_select = geom_context->m_WorldCoordinateSystem;
-		//shared_ptr<IfcDirection>& true_north = geom_context->m_TrueNorth;				//optional
-		// inverse attributes: std::vector<weak_ptr<IfcGeometricRepresentationSubContext> >	m_HasSubContexts_inverse;
-
 		shared_ptr<TransformData> world_coords_matrix( new TransformData() );
 		shared_ptr<IfcAxis2Placement3D> world_coords_3d = dynamic_pointer_cast<IfcAxis2Placement3D>( world_coords_select );
 		if( world_coords_3d )

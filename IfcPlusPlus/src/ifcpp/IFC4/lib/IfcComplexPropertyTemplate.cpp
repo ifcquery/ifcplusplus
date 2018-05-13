@@ -120,6 +120,12 @@ void IfcComplexPropertyTemplate::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcComplexPropertyTemplate> >& PartOfComplexTemplate_inverse = m_HasPropertyTemplates[i]->m_PartOfComplexTemplate_inverse;
 			for( auto it_PartOfComplexTemplate_inverse = PartOfComplexTemplate_inverse.begin(); it_PartOfComplexTemplate_inverse != PartOfComplexTemplate_inverse.end(); )
 			{
+				weak_ptr<IfcComplexPropertyTemplate> self_candidate_weak = *it_PartOfComplexTemplate_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfComplexTemplate_inverse;
+					continue;
+				}
 				shared_ptr<IfcComplexPropertyTemplate> self_candidate( *it_PartOfComplexTemplate_inverse );
 				if( self_candidate.get() == this )
 				{

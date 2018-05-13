@@ -78,6 +78,12 @@ void IfcSurfaceStyleWithTextures::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcSurfaceStyleWithTextures> >& UsedInStyles_inverse = m_Textures[i]->m_UsedInStyles_inverse;
 			for( auto it_UsedInStyles_inverse = UsedInStyles_inverse.begin(); it_UsedInStyles_inverse != UsedInStyles_inverse.end(); )
 			{
+				weak_ptr<IfcSurfaceStyleWithTextures> self_candidate_weak = *it_UsedInStyles_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_UsedInStyles_inverse;
+					continue;
+				}
 				shared_ptr<IfcSurfaceStyleWithTextures> self_candidate( *it_UsedInStyles_inverse );
 				if( self_candidate.get() == this )
 				{

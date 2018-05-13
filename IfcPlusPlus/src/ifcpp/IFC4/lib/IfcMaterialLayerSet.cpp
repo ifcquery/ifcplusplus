@@ -90,11 +90,14 @@ void IfcMaterialLayerSet::unlinkFromInverseCounterparts()
 	{
 		if( m_MaterialLayers[i] )
 		{
-			shared_ptr<IfcMaterialLayerSet> self_candidate( m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse );
-			if( self_candidate.get() == this )
+			if( !m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse.expired() )
 			{
-				weak_ptr<IfcMaterialLayerSet>& self_candidate_weak = m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse;
-				self_candidate_weak.reset();
+				shared_ptr<IfcMaterialLayerSet> self_candidate( m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse );
+				if( self_candidate.get() == this )
+				{
+					weak_ptr<IfcMaterialLayerSet>& self_candidate_weak = m_MaterialLayers[i]->m_ToMaterialLayerSet_inverse;
+					self_candidate_weak.reset();
+				}
 			}
 		}
 	}

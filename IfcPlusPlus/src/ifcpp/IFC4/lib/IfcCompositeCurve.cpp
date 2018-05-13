@@ -86,6 +86,12 @@ void IfcCompositeCurve::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcCompositeCurve> >& UsingCurves_inverse = m_Segments[i]->m_UsingCurves_inverse;
 			for( auto it_UsingCurves_inverse = UsingCurves_inverse.begin(); it_UsingCurves_inverse != UsingCurves_inverse.end(); )
 			{
+				weak_ptr<IfcCompositeCurve> self_candidate_weak = *it_UsingCurves_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_UsingCurves_inverse;
+					continue;
+				}
 				shared_ptr<IfcCompositeCurve> self_candidate( *it_UsingCurves_inverse );
 				if( self_candidate.get() == this )
 				{

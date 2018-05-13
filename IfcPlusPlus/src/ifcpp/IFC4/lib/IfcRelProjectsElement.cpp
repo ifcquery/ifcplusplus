@@ -96,11 +96,14 @@ void IfcRelProjectsElement::unlinkFromInverseCounterparts()
 	IfcRelDecomposes::unlinkFromInverseCounterparts();
 	if( m_RelatedFeatureElement )
 	{
-		shared_ptr<IfcRelProjectsElement> self_candidate( m_RelatedFeatureElement->m_ProjectsElements_inverse );
-		if( self_candidate.get() == this )
+		if( !m_RelatedFeatureElement->m_ProjectsElements_inverse.expired() )
 		{
-			weak_ptr<IfcRelProjectsElement>& self_candidate_weak = m_RelatedFeatureElement->m_ProjectsElements_inverse;
-			self_candidate_weak.reset();
+			shared_ptr<IfcRelProjectsElement> self_candidate( m_RelatedFeatureElement->m_ProjectsElements_inverse );
+			if( self_candidate.get() == this )
+			{
+				weak_ptr<IfcRelProjectsElement>& self_candidate_weak = m_RelatedFeatureElement->m_ProjectsElements_inverse;
+				self_candidate_weak.reset();
+			}
 		}
 	}
 	if( m_RelatingElement )
@@ -108,6 +111,12 @@ void IfcRelProjectsElement::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelProjectsElement> >& HasProjections_inverse = m_RelatingElement->m_HasProjections_inverse;
 		for( auto it_HasProjections_inverse = HasProjections_inverse.begin(); it_HasProjections_inverse != HasProjections_inverse.end(); )
 		{
+			weak_ptr<IfcRelProjectsElement> self_candidate_weak = *it_HasProjections_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasProjections_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelProjectsElement> self_candidate( *it_HasProjections_inverse );
 			if( self_candidate.get() == this )
 			{

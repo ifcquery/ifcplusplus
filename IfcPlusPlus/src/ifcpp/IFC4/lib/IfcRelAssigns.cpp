@@ -112,6 +112,12 @@ void IfcRelAssigns::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelAssigns> >& HasAssignments_inverse = m_RelatedObjects[i]->m_HasAssignments_inverse;
 			for( auto it_HasAssignments_inverse = HasAssignments_inverse.begin(); it_HasAssignments_inverse != HasAssignments_inverse.end(); )
 			{
+				weak_ptr<IfcRelAssigns> self_candidate_weak = *it_HasAssignments_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasAssignments_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelAssigns> self_candidate( *it_HasAssignments_inverse );
 				if( self_candidate.get() == this )
 				{

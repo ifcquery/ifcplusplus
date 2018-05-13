@@ -109,6 +109,12 @@ void IfcShapeAspect::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcShapeAspect> >& HasShapeAspects_inverse = PartOfProductDefinitionShape_IfcProductDefinitionShape->m_HasShapeAspects_inverse;
 		for( auto it_HasShapeAspects_inverse = HasShapeAspects_inverse.begin(); it_HasShapeAspects_inverse != HasShapeAspects_inverse.end(); )
 		{
+			weak_ptr<IfcShapeAspect> self_candidate_weak = *it_HasShapeAspects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasShapeAspects_inverse;
+				continue;
+			}
 			shared_ptr<IfcShapeAspect> self_candidate( *it_HasShapeAspects_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -126,6 +132,12 @@ void IfcShapeAspect::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcShapeAspect> >& HasShapeAspects_inverse = PartOfProductDefinitionShape_IfcRepresentationMap->m_HasShapeAspects_inverse;
 		for( auto it_HasShapeAspects_inverse = HasShapeAspects_inverse.begin(); it_HasShapeAspects_inverse != HasShapeAspects_inverse.end(); )
 		{
+			weak_ptr<IfcShapeAspect> self_candidate_weak = *it_HasShapeAspects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasShapeAspects_inverse;
+				continue;
+			}
 			shared_ptr<IfcShapeAspect> self_candidate( *it_HasShapeAspects_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -144,6 +156,12 @@ void IfcShapeAspect::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcShapeAspect> >& OfShapeAspect_inverse = m_ShapeRepresentations[i]->m_OfShapeAspect_inverse;
 			for( auto it_OfShapeAspect_inverse = OfShapeAspect_inverse.begin(); it_OfShapeAspect_inverse != OfShapeAspect_inverse.end(); )
 			{
+				weak_ptr<IfcShapeAspect> self_candidate_weak = *it_OfShapeAspect_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_OfShapeAspect_inverse;
+					continue;
+				}
 				shared_ptr<IfcShapeAspect> self_candidate( *it_OfShapeAspect_inverse );
 				if( self_candidate.get() == this )
 				{

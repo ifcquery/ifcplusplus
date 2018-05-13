@@ -127,6 +127,12 @@ void IfcStructuralResultGroup::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcStructuralResultGroup> >& SourceOfResultGroup_inverse = m_ResultForLoadGroup->m_SourceOfResultGroup_inverse;
 		for( auto it_SourceOfResultGroup_inverse = SourceOfResultGroup_inverse.begin(); it_SourceOfResultGroup_inverse != SourceOfResultGroup_inverse.end(); )
 		{
+			weak_ptr<IfcStructuralResultGroup> self_candidate_weak = *it_SourceOfResultGroup_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_SourceOfResultGroup_inverse;
+				continue;
+			}
 			shared_ptr<IfcStructuralResultGroup> self_candidate( *it_SourceOfResultGroup_inverse );
 			if( self_candidate.get() == this )
 			{

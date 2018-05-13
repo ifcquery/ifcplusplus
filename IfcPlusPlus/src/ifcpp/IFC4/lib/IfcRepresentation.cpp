@@ -129,6 +129,12 @@ void IfcRepresentation::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRepresentation> >& RepresentationsInContext_inverse = m_ContextOfItems->m_RepresentationsInContext_inverse;
 		for( auto it_RepresentationsInContext_inverse = RepresentationsInContext_inverse.begin(); it_RepresentationsInContext_inverse != RepresentationsInContext_inverse.end(); )
 		{
+			weak_ptr<IfcRepresentation> self_candidate_weak = *it_RepresentationsInContext_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_RepresentationsInContext_inverse;
+				continue;
+			}
 			shared_ptr<IfcRepresentation> self_candidate( *it_RepresentationsInContext_inverse );
 			if( self_candidate.get() == this )
 			{

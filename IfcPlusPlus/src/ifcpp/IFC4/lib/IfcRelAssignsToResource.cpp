@@ -115,6 +115,12 @@ void IfcRelAssignsToResource::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToResource> >& ResourceOf_inverse = RelatingResource_IfcResource->m_ResourceOf_inverse;
 		for( auto it_ResourceOf_inverse = ResourceOf_inverse.begin(); it_ResourceOf_inverse != ResourceOf_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToResource> self_candidate_weak = *it_ResourceOf_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ResourceOf_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToResource> self_candidate( *it_ResourceOf_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -132,6 +138,12 @@ void IfcRelAssignsToResource::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToResource> >& ResourceOf_inverse = RelatingResource_IfcTypeResource->m_ResourceOf_inverse;
 		for( auto it_ResourceOf_inverse = ResourceOf_inverse.begin(); it_ResourceOf_inverse != ResourceOf_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToResource> self_candidate_weak = *it_ResourceOf_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ResourceOf_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToResource> self_candidate( *it_ResourceOf_inverse );
 			if( self_candidate.get() == this )
 			{

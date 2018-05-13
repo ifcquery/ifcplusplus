@@ -127,6 +127,12 @@ void IfcRelAssociatesDocument::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesDocument> >& DocumentInfoForObjects_inverse = RelatingDocument_IfcDocumentInformation->m_DocumentInfoForObjects_inverse;
 		for( auto it_DocumentInfoForObjects_inverse = DocumentInfoForObjects_inverse.begin(); it_DocumentInfoForObjects_inverse != DocumentInfoForObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesDocument> self_candidate_weak = *it_DocumentInfoForObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_DocumentInfoForObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesDocument> self_candidate( *it_DocumentInfoForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -144,6 +150,12 @@ void IfcRelAssociatesDocument::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesDocument> >& DocumentRefForObjects_inverse = RelatingDocument_IfcDocumentReference->m_DocumentRefForObjects_inverse;
 		for( auto it_DocumentRefForObjects_inverse = DocumentRefForObjects_inverse.begin(); it_DocumentRefForObjects_inverse != DocumentRefForObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesDocument> self_candidate_weak = *it_DocumentRefForObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_DocumentRefForObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesDocument> self_candidate( *it_DocumentRefForObjects_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -97,6 +97,12 @@ void IfcApprovalRelationship::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcApprovalRelationship> >& IsRelatedWith_inverse = m_RelatedApprovals[i]->m_IsRelatedWith_inverse;
 			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); )
 			{
+				weak_ptr<IfcApprovalRelationship> self_candidate_weak = *it_IsRelatedWith_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsRelatedWith_inverse;
+					continue;
+				}
 				shared_ptr<IfcApprovalRelationship> self_candidate( *it_IsRelatedWith_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -114,6 +120,12 @@ void IfcApprovalRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcApprovalRelationship> >& Relates_inverse = m_RelatingApproval->m_Relates_inverse;
 		for( auto it_Relates_inverse = Relates_inverse.begin(); it_Relates_inverse != Relates_inverse.end(); )
 		{
+			weak_ptr<IfcApprovalRelationship> self_candidate_weak = *it_Relates_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Relates_inverse;
+				continue;
+			}
 			shared_ptr<IfcApprovalRelationship> self_candidate( *it_Relates_inverse );
 			if( self_candidate.get() == this )
 			{

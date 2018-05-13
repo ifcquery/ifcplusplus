@@ -118,6 +118,12 @@ void IfcPresentationLayerAssignment::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignments_inverse = AssignedItems_IfcRepresentation->m_LayerAssignments_inverse;
 			for( auto it_LayerAssignments_inverse = LayerAssignments_inverse.begin(); it_LayerAssignments_inverse != LayerAssignments_inverse.end(); )
 			{
+				weak_ptr<IfcPresentationLayerAssignment> self_candidate_weak = *it_LayerAssignments_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_LayerAssignments_inverse;
+					continue;
+				}
 				shared_ptr<IfcPresentationLayerAssignment> self_candidate( *it_LayerAssignments_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -135,6 +141,12 @@ void IfcPresentationLayerAssignment::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignment_inverse = AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse;
 			for( auto it_LayerAssignment_inverse = LayerAssignment_inverse.begin(); it_LayerAssignment_inverse != LayerAssignment_inverse.end(); )
 			{
+				weak_ptr<IfcPresentationLayerAssignment> self_candidate_weak = *it_LayerAssignment_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_LayerAssignment_inverse;
+					continue;
+				}
 				shared_ptr<IfcPresentationLayerAssignment> self_candidate( *it_LayerAssignment_inverse );
 				if( self_candidate.get() == this )
 				{

@@ -99,6 +99,12 @@ void IfcRelFillsElement::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelFillsElement> >& FillsVoids_inverse = m_RelatedBuildingElement->m_FillsVoids_inverse;
 		for( auto it_FillsVoids_inverse = FillsVoids_inverse.begin(); it_FillsVoids_inverse != FillsVoids_inverse.end(); )
 		{
+			weak_ptr<IfcRelFillsElement> self_candidate_weak = *it_FillsVoids_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_FillsVoids_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelFillsElement> self_candidate( *it_FillsVoids_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -115,6 +121,12 @@ void IfcRelFillsElement::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelFillsElement> >& HasFillings_inverse = m_RelatingOpeningElement->m_HasFillings_inverse;
 		for( auto it_HasFillings_inverse = HasFillings_inverse.begin(); it_HasFillings_inverse != HasFillings_inverse.end(); )
 		{
+			weak_ptr<IfcRelFillsElement> self_candidate_weak = *it_HasFillings_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasFillings_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelFillsElement> self_candidate( *it_HasFillings_inverse );
 			if( self_candidate.get() == this )
 			{

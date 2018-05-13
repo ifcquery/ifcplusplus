@@ -102,6 +102,12 @@ void IfcDocumentInformationRelationship::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcDocumentInformationRelationship> >& IsPointedTo_inverse = m_RelatedDocuments[i]->m_IsPointedTo_inverse;
 			for( auto it_IsPointedTo_inverse = IsPointedTo_inverse.begin(); it_IsPointedTo_inverse != IsPointedTo_inverse.end(); )
 			{
+				weak_ptr<IfcDocumentInformationRelationship> self_candidate_weak = *it_IsPointedTo_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsPointedTo_inverse;
+					continue;
+				}
 				shared_ptr<IfcDocumentInformationRelationship> self_candidate( *it_IsPointedTo_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -119,6 +125,12 @@ void IfcDocumentInformationRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcDocumentInformationRelationship> >& IsPointer_inverse = m_RelatingDocument->m_IsPointer_inverse;
 		for( auto it_IsPointer_inverse = IsPointer_inverse.begin(); it_IsPointer_inverse != IsPointer_inverse.end(); )
 		{
+			weak_ptr<IfcDocumentInformationRelationship> self_candidate_weak = *it_IsPointer_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsPointer_inverse;
+				continue;
+			}
 			shared_ptr<IfcDocumentInformationRelationship> self_candidate( *it_IsPointer_inverse );
 			if( self_candidate.get() == this )
 			{

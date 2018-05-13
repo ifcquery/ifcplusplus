@@ -116,6 +116,12 @@ void IfcRelServicesBuildings::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelServicesBuildings> >& ServicedBySystems_inverse = m_RelatedBuildings[i]->m_ServicedBySystems_inverse;
 			for( auto it_ServicedBySystems_inverse = ServicedBySystems_inverse.begin(); it_ServicedBySystems_inverse != ServicedBySystems_inverse.end(); )
 			{
+				weak_ptr<IfcRelServicesBuildings> self_candidate_weak = *it_ServicedBySystems_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ServicedBySystems_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelServicesBuildings> self_candidate( *it_ServicedBySystems_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -133,6 +139,12 @@ void IfcRelServicesBuildings::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelServicesBuildings> >& ServicesBuildings_inverse = m_RelatingSystem->m_ServicesBuildings_inverse;
 		for( auto it_ServicesBuildings_inverse = ServicesBuildings_inverse.begin(); it_ServicesBuildings_inverse != ServicesBuildings_inverse.end(); )
 		{
+			weak_ptr<IfcRelServicesBuildings> self_candidate_weak = *it_ServicesBuildings_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ServicesBuildings_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelServicesBuildings> self_candidate( *it_ServicesBuildings_inverse );
 			if( self_candidate.get() == this )
 			{

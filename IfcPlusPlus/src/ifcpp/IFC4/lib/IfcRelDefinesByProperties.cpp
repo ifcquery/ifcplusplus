@@ -127,6 +127,12 @@ void IfcRelDefinesByProperties::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelDefinesByProperties> >& IsDefinedBy_inverse = RelatedObjects_IfcContext->m_IsDefinedBy_inverse;
 			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); )
 			{
+				weak_ptr<IfcRelDefinesByProperties> self_candidate_weak = *it_IsDefinedBy_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsDefinedBy_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelDefinesByProperties> self_candidate( *it_IsDefinedBy_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -144,6 +150,12 @@ void IfcRelDefinesByProperties::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelDefinesByProperties> >& IsDefinedBy_inverse = RelatedObjects_IfcObject->m_IsDefinedBy_inverse;
 			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); )
 			{
+				weak_ptr<IfcRelDefinesByProperties> self_candidate_weak = *it_IsDefinedBy_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsDefinedBy_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelDefinesByProperties> self_candidate( *it_IsDefinedBy_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -162,6 +174,12 @@ void IfcRelDefinesByProperties::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelDefinesByProperties> >& DefinesOccurrence_inverse = RelatingPropertyDefinition_IfcPropertySetDefinition->m_DefinesOccurrence_inverse;
 		for( auto it_DefinesOccurrence_inverse = DefinesOccurrence_inverse.begin(); it_DefinesOccurrence_inverse != DefinesOccurrence_inverse.end(); )
 		{
+			weak_ptr<IfcRelDefinesByProperties> self_candidate_weak = *it_DefinesOccurrence_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_DefinesOccurrence_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelDefinesByProperties> self_candidate( *it_DefinesOccurrence_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -142,6 +142,12 @@ void IfcRelDeclares::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelDeclares> >& HasContext_inverse = RelatedDefinitions_IfcObjectDefinition->m_HasContext_inverse;
 			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); )
 			{
+				weak_ptr<IfcRelDeclares> self_candidate_weak = *it_HasContext_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasContext_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelDeclares> self_candidate( *it_HasContext_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -159,6 +165,12 @@ void IfcRelDeclares::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelDeclares> >& HasContext_inverse = RelatedDefinitions_IfcPropertyDefinition->m_HasContext_inverse;
 			for( auto it_HasContext_inverse = HasContext_inverse.begin(); it_HasContext_inverse != HasContext_inverse.end(); )
 			{
+				weak_ptr<IfcRelDeclares> self_candidate_weak = *it_HasContext_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasContext_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelDeclares> self_candidate( *it_HasContext_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -176,6 +188,12 @@ void IfcRelDeclares::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelDeclares> >& Declares_inverse = m_RelatingContext->m_Declares_inverse;
 		for( auto it_Declares_inverse = Declares_inverse.begin(); it_Declares_inverse != Declares_inverse.end(); )
 		{
+			weak_ptr<IfcRelDeclares> self_candidate_weak = *it_Declares_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Declares_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelDeclares> self_candidate( *it_Declares_inverse );
 			if( self_candidate.get() == this )
 			{

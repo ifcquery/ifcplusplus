@@ -119,6 +119,12 @@ void IfcRelInterferesElements::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelInterferesElements> >& IsInterferedByElements_inverse = m_RelatedElement->m_IsInterferedByElements_inverse;
 		for( auto it_IsInterferedByElements_inverse = IsInterferedByElements_inverse.begin(); it_IsInterferedByElements_inverse != IsInterferedByElements_inverse.end(); )
 		{
+			weak_ptr<IfcRelInterferesElements> self_candidate_weak = *it_IsInterferedByElements_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsInterferedByElements_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelInterferesElements> self_candidate( *it_IsInterferedByElements_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -135,6 +141,12 @@ void IfcRelInterferesElements::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelInterferesElements> >& InterferesElements_inverse = m_RelatingElement->m_InterferesElements_inverse;
 		for( auto it_InterferesElements_inverse = InterferesElements_inverse.begin(); it_InterferesElements_inverse != InterferesElements_inverse.end(); )
 		{
+			weak_ptr<IfcRelInterferesElements> self_candidate_weak = *it_InterferesElements_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_InterferesElements_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelInterferesElements> self_candidate( *it_InterferesElements_inverse );
 			if( self_candidate.get() == this )
 			{

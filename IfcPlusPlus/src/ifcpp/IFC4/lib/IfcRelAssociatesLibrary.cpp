@@ -127,6 +127,12 @@ void IfcRelAssociatesLibrary::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >& LibraryInfoForObjects_inverse = RelatingLibrary_IfcLibraryInformation->m_LibraryInfoForObjects_inverse;
 		for( auto it_LibraryInfoForObjects_inverse = LibraryInfoForObjects_inverse.begin(); it_LibraryInfoForObjects_inverse != LibraryInfoForObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesLibrary> self_candidate_weak = *it_LibraryInfoForObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_LibraryInfoForObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesLibrary> self_candidate( *it_LibraryInfoForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -144,6 +150,12 @@ void IfcRelAssociatesLibrary::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >& LibraryRefForObjects_inverse = RelatingLibrary_IfcLibraryReference->m_LibraryRefForObjects_inverse;
 		for( auto it_LibraryRefForObjects_inverse = LibraryRefForObjects_inverse.begin(); it_LibraryRefForObjects_inverse != LibraryRefForObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesLibrary> self_candidate_weak = *it_LibraryRefForObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_LibraryRefForObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesLibrary> self_candidate( *it_LibraryRefForObjects_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -148,6 +148,12 @@ void IfcOrganization::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcOrganization> >& OfOrganization_inverse = m_Addresses[i]->m_OfOrganization_inverse;
 			for( auto it_OfOrganization_inverse = OfOrganization_inverse.begin(); it_OfOrganization_inverse != OfOrganization_inverse.end(); )
 			{
+				weak_ptr<IfcOrganization> self_candidate_weak = *it_OfOrganization_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_OfOrganization_inverse;
+					continue;
+				}
 				shared_ptr<IfcOrganization> self_candidate( *it_OfOrganization_inverse );
 				if( self_candidate.get() == this )
 				{

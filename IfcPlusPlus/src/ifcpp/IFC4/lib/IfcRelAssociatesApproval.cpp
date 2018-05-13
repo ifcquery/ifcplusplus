@@ -118,6 +118,12 @@ void IfcRelAssociatesApproval::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesApproval> >& ApprovedObjects_inverse = m_RelatingApproval->m_ApprovedObjects_inverse;
 		for( auto it_ApprovedObjects_inverse = ApprovedObjects_inverse.begin(); it_ApprovedObjects_inverse != ApprovedObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesApproval> self_candidate_weak = *it_ApprovedObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ApprovedObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesApproval> self_candidate( *it_ApprovedObjects_inverse );
 			if( self_candidate.get() == this )
 			{

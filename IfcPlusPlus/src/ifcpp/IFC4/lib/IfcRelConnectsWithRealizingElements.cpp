@@ -124,6 +124,12 @@ void IfcRelConnectsWithRealizingElements::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelConnectsWithRealizingElements> >& IsConnectionRealization_inverse = m_RealizingElements[i]->m_IsConnectionRealization_inverse;
 			for( auto it_IsConnectionRealization_inverse = IsConnectionRealization_inverse.begin(); it_IsConnectionRealization_inverse != IsConnectionRealization_inverse.end(); )
 			{
+				weak_ptr<IfcRelConnectsWithRealizingElements> self_candidate_weak = *it_IsConnectionRealization_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsConnectionRealization_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelConnectsWithRealizingElements> self_candidate( *it_IsConnectionRealization_inverse );
 				if( self_candidate.get() == this )
 				{

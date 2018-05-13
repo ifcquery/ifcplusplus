@@ -115,6 +115,12 @@ void IfcRelAggregates::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelAggregates> >& Decomposes_inverse = m_RelatedObjects[i]->m_Decomposes_inverse;
 			for( auto it_Decomposes_inverse = Decomposes_inverse.begin(); it_Decomposes_inverse != Decomposes_inverse.end(); )
 			{
+				weak_ptr<IfcRelAggregates> self_candidate_weak = *it_Decomposes_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_Decomposes_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelAggregates> self_candidate( *it_Decomposes_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -132,6 +138,12 @@ void IfcRelAggregates::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAggregates> >& IsDecomposedBy_inverse = m_RelatingObject->m_IsDecomposedBy_inverse;
 		for( auto it_IsDecomposedBy_inverse = IsDecomposedBy_inverse.begin(); it_IsDecomposedBy_inverse != IsDecomposedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelAggregates> self_candidate_weak = *it_IsDecomposedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsDecomposedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAggregates> self_candidate( *it_IsDecomposedBy_inverse );
 			if( self_candidate.get() == this )
 			{

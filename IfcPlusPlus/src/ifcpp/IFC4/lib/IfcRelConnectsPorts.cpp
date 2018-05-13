@@ -104,6 +104,12 @@ void IfcRelConnectsPorts::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelConnectsPorts> >& ConnectedFrom_inverse = m_RelatedPort->m_ConnectedFrom_inverse;
 		for( auto it_ConnectedFrom_inverse = ConnectedFrom_inverse.begin(); it_ConnectedFrom_inverse != ConnectedFrom_inverse.end(); )
 		{
+			weak_ptr<IfcRelConnectsPorts> self_candidate_weak = *it_ConnectedFrom_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ConnectedFrom_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelConnectsPorts> self_candidate( *it_ConnectedFrom_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -120,6 +126,12 @@ void IfcRelConnectsPorts::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelConnectsPorts> >& ConnectedTo_inverse = m_RelatingPort->m_ConnectedTo_inverse;
 		for( auto it_ConnectedTo_inverse = ConnectedTo_inverse.begin(); it_ConnectedTo_inverse != ConnectedTo_inverse.end(); )
 		{
+			weak_ptr<IfcRelConnectsPorts> self_candidate_weak = *it_ConnectedTo_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ConnectedTo_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelConnectsPorts> self_candidate( *it_ConnectedTo_inverse );
 			if( self_candidate.get() == this )
 			{

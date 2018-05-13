@@ -123,6 +123,12 @@ void IfcRelConnectsStructuralMember::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelConnectsStructuralMember> >& ConnectsStructuralMembers_inverse = m_RelatedStructuralConnection->m_ConnectsStructuralMembers_inverse;
 		for( auto it_ConnectsStructuralMembers_inverse = ConnectsStructuralMembers_inverse.begin(); it_ConnectsStructuralMembers_inverse != ConnectsStructuralMembers_inverse.end(); )
 		{
+			weak_ptr<IfcRelConnectsStructuralMember> self_candidate_weak = *it_ConnectsStructuralMembers_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ConnectsStructuralMembers_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelConnectsStructuralMember> self_candidate( *it_ConnectsStructuralMembers_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -139,6 +145,12 @@ void IfcRelConnectsStructuralMember::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelConnectsStructuralMember> >& ConnectedBy_inverse = m_RelatingStructuralMember->m_ConnectedBy_inverse;
 		for( auto it_ConnectedBy_inverse = ConnectedBy_inverse.begin(); it_ConnectedBy_inverse != ConnectedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelConnectsStructuralMember> self_candidate_weak = *it_ConnectedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ConnectedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelConnectsStructuralMember> self_candidate( *it_ConnectedBy_inverse );
 			if( self_candidate.get() == this )
 			{

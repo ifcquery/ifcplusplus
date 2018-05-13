@@ -130,6 +130,12 @@ void IfcTypeObject::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcTypeObject> >& DefinesType_inverse = m_HasPropertySets[i]->m_DefinesType_inverse;
 			for( auto it_DefinesType_inverse = DefinesType_inverse.begin(); it_DefinesType_inverse != DefinesType_inverse.end(); )
 			{
+				weak_ptr<IfcTypeObject> self_candidate_weak = *it_DefinesType_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_DefinesType_inverse;
+					continue;
+				}
 				shared_ptr<IfcTypeObject> self_candidate( *it_DefinesType_inverse );
 				if( self_candidate.get() == this )
 				{

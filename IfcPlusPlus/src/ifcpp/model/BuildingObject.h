@@ -21,8 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <map>
-#include <boost/algorithm/string.hpp>
-#include <boost/unordered_map.hpp>
+//#include <boost/algorithm/string.hpp>
 #include "ifcpp/model/BasicTypes.h"
 
 enum BuildingEntityEnum {};

@@ -163,6 +163,12 @@ void IfcStructuralAnalysisModel::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcStructuralAnalysisModel> >& ResultGroupFor_inverse = m_HasResults[i]->m_ResultGroupFor_inverse;
 			for( auto it_ResultGroupFor_inverse = ResultGroupFor_inverse.begin(); it_ResultGroupFor_inverse != ResultGroupFor_inverse.end(); )
 			{
+				weak_ptr<IfcStructuralAnalysisModel> self_candidate_weak = *it_ResultGroupFor_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ResultGroupFor_inverse;
+					continue;
+				}
 				shared_ptr<IfcStructuralAnalysisModel> self_candidate( *it_ResultGroupFor_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -182,6 +188,12 @@ void IfcStructuralAnalysisModel::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcStructuralAnalysisModel> >& LoadGroupFor_inverse = m_LoadedBy[i]->m_LoadGroupFor_inverse;
 			for( auto it_LoadGroupFor_inverse = LoadGroupFor_inverse.begin(); it_LoadGroupFor_inverse != LoadGroupFor_inverse.end(); )
 			{
+				weak_ptr<IfcStructuralAnalysisModel> self_candidate_weak = *it_LoadGroupFor_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_LoadGroupFor_inverse;
+					continue;
+				}
 				shared_ptr<IfcStructuralAnalysisModel> self_candidate( *it_LoadGroupFor_inverse );
 				if( self_candidate.get() == this )
 				{

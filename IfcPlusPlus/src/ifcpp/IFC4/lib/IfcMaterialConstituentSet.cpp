@@ -90,11 +90,14 @@ void IfcMaterialConstituentSet::unlinkFromInverseCounterparts()
 	{
 		if( m_MaterialConstituents[i] )
 		{
-			shared_ptr<IfcMaterialConstituentSet> self_candidate( m_MaterialConstituents[i]->m_ToMaterialConstituentSet_inverse );
-			if( self_candidate.get() == this )
+			if( !m_MaterialConstituents[i]->m_ToMaterialConstituentSet_inverse.expired() )
 			{
-				weak_ptr<IfcMaterialConstituentSet>& self_candidate_weak = m_MaterialConstituents[i]->m_ToMaterialConstituentSet_inverse;
-				self_candidate_weak.reset();
+				shared_ptr<IfcMaterialConstituentSet> self_candidate( m_MaterialConstituents[i]->m_ToMaterialConstituentSet_inverse );
+				if( self_candidate.get() == this )
+				{
+					weak_ptr<IfcMaterialConstituentSet>& self_candidate_weak = m_MaterialConstituents[i]->m_ToMaterialConstituentSet_inverse;
+					self_candidate_weak.reset();
+				}
 			}
 		}
 	}

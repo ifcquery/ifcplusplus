@@ -112,6 +112,12 @@ void IfcRelAssignsToActor::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToActor> >& IsActingUpon_inverse = m_RelatingActor->m_IsActingUpon_inverse;
 		for( auto it_IsActingUpon_inverse = IsActingUpon_inverse.begin(); it_IsActingUpon_inverse != IsActingUpon_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToActor> self_candidate_weak = *it_IsActingUpon_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsActingUpon_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToActor> self_candidate( *it_IsActingUpon_inverse );
 			if( self_candidate.get() == this )
 			{

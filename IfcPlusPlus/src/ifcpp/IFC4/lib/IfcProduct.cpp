@@ -126,6 +126,12 @@ void IfcProduct::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcProduct> >& PlacesObject_inverse = m_ObjectPlacement->m_PlacesObject_inverse;
 		for( auto it_PlacesObject_inverse = PlacesObject_inverse.begin(); it_PlacesObject_inverse != PlacesObject_inverse.end(); )
 		{
+			weak_ptr<IfcProduct> self_candidate_weak = *it_PlacesObject_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_PlacesObject_inverse;
+				continue;
+			}
 			shared_ptr<IfcProduct> self_candidate( *it_PlacesObject_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -143,6 +149,12 @@ void IfcProduct::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcProduct> >& ShapeOfProduct_inverse = Representation_IfcProductDefinitionShape->m_ShapeOfProduct_inverse;
 		for( auto it_ShapeOfProduct_inverse = ShapeOfProduct_inverse.begin(); it_ShapeOfProduct_inverse != ShapeOfProduct_inverse.end(); )
 		{
+			weak_ptr<IfcProduct> self_candidate_weak = *it_ShapeOfProduct_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ShapeOfProduct_inverse;
+				continue;
+			}
 			shared_ptr<IfcProduct> self_candidate( *it_ShapeOfProduct_inverse );
 			if( self_candidate.get() == this )
 			{

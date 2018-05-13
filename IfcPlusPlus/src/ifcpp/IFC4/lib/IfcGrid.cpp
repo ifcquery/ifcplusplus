@@ -196,6 +196,12 @@ void IfcGrid::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcGrid> >& PartOfU_inverse = m_UAxes[i]->m_PartOfU_inverse;
 			for( auto it_PartOfU_inverse = PartOfU_inverse.begin(); it_PartOfU_inverse != PartOfU_inverse.end(); )
 			{
+				weak_ptr<IfcGrid> self_candidate_weak = *it_PartOfU_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfU_inverse;
+					continue;
+				}
 				shared_ptr<IfcGrid> self_candidate( *it_PartOfU_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -215,6 +221,12 @@ void IfcGrid::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcGrid> >& PartOfV_inverse = m_VAxes[i]->m_PartOfV_inverse;
 			for( auto it_PartOfV_inverse = PartOfV_inverse.begin(); it_PartOfV_inverse != PartOfV_inverse.end(); )
 			{
+				weak_ptr<IfcGrid> self_candidate_weak = *it_PartOfV_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfV_inverse;
+					continue;
+				}
 				shared_ptr<IfcGrid> self_candidate( *it_PartOfV_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -234,6 +246,12 @@ void IfcGrid::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcGrid> >& PartOfW_inverse = m_WAxes[i]->m_PartOfW_inverse;
 			for( auto it_PartOfW_inverse = PartOfW_inverse.begin(); it_PartOfW_inverse != PartOfW_inverse.end(); )
 			{
+				weak_ptr<IfcGrid> self_candidate_weak = *it_PartOfW_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfW_inverse;
+					continue;
+				}
 				shared_ptr<IfcGrid> self_candidate( *it_PartOfW_inverse );
 				if( self_candidate.get() == this )
 				{

@@ -118,6 +118,12 @@ void IfcResourceApprovalRelationship::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcResourceApprovalRelationship> >& HasApprovals_inverse = RelatedResourceObjects_IfcProperty->m_HasApprovals_inverse;
 			for( auto it_HasApprovals_inverse = HasApprovals_inverse.begin(); it_HasApprovals_inverse != HasApprovals_inverse.end(); )
 			{
+				weak_ptr<IfcResourceApprovalRelationship> self_candidate_weak = *it_HasApprovals_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasApprovals_inverse;
+					continue;
+				}
 				shared_ptr<IfcResourceApprovalRelationship> self_candidate( *it_HasApprovals_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -135,6 +141,12 @@ void IfcResourceApprovalRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcResourceApprovalRelationship> >& ApprovedResources_inverse = m_RelatingApproval->m_ApprovedResources_inverse;
 		for( auto it_ApprovedResources_inverse = ApprovedResources_inverse.begin(); it_ApprovedResources_inverse != ApprovedResources_inverse.end(); )
 		{
+			weak_ptr<IfcResourceApprovalRelationship> self_candidate_weak = *it_ApprovedResources_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ApprovedResources_inverse;
+				continue;
+			}
 			shared_ptr<IfcResourceApprovalRelationship> self_candidate( *it_ApprovedResources_inverse );
 			if( self_candidate.get() == this )
 			{

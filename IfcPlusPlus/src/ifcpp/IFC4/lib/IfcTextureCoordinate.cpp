@@ -78,6 +78,12 @@ void IfcTextureCoordinate::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcTextureCoordinate> >& IsMappedBy_inverse = m_Maps[i]->m_IsMappedBy_inverse;
 			for( auto it_IsMappedBy_inverse = IsMappedBy_inverse.begin(); it_IsMappedBy_inverse != IsMappedBy_inverse.end(); )
 			{
+				weak_ptr<IfcTextureCoordinate> self_candidate_weak = *it_IsMappedBy_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsMappedBy_inverse;
+					continue;
+				}
 				shared_ptr<IfcTextureCoordinate> self_candidate( *it_IsMappedBy_inverse );
 				if( self_candidate.get() == this )
 				{

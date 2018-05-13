@@ -111,6 +111,12 @@ void IfcPropertySet::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPropertySet> >& PartOfPset_inverse = m_HasProperties[i]->m_PartOfPset_inverse;
 			for( auto it_PartOfPset_inverse = PartOfPset_inverse.begin(); it_PartOfPset_inverse != PartOfPset_inverse.end(); )
 			{
+				weak_ptr<IfcPropertySet> self_candidate_weak = *it_PartOfPset_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfPset_inverse;
+					continue;
+				}
 				shared_ptr<IfcPropertySet> self_candidate( *it_PartOfPset_inverse );
 				if( self_candidate.get() == this )
 				{

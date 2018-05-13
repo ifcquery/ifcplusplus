@@ -116,6 +116,12 @@ void IfcRelCoversBldgElements::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelCoversBldgElements> >& CoversElements_inverse = m_RelatedCoverings[i]->m_CoversElements_inverse;
 			for( auto it_CoversElements_inverse = CoversElements_inverse.begin(); it_CoversElements_inverse != CoversElements_inverse.end(); )
 			{
+				weak_ptr<IfcRelCoversBldgElements> self_candidate_weak = *it_CoversElements_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_CoversElements_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelCoversBldgElements> self_candidate( *it_CoversElements_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -133,6 +139,12 @@ void IfcRelCoversBldgElements::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelCoversBldgElements> >& HasCoverings_inverse = m_RelatingBuildingElement->m_HasCoverings_inverse;
 		for( auto it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); )
 		{
+			weak_ptr<IfcRelCoversBldgElements> self_candidate_weak = *it_HasCoverings_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasCoverings_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelCoversBldgElements> self_candidate( *it_HasCoverings_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -115,6 +115,12 @@ void IfcRelAssignsToProduct::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToProduct> >& ReferencedBy_inverse = RelatingProduct_IfcProduct->m_ReferencedBy_inverse;
 		for( auto it_ReferencedBy_inverse = ReferencedBy_inverse.begin(); it_ReferencedBy_inverse != ReferencedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToProduct> self_candidate_weak = *it_ReferencedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ReferencedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToProduct> self_candidate( *it_ReferencedBy_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -132,6 +138,12 @@ void IfcRelAssignsToProduct::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssignsToProduct> >& ReferencedBy_inverse = RelatingProduct_IfcTypeProduct->m_ReferencedBy_inverse;
 		for( auto it_ReferencedBy_inverse = ReferencedBy_inverse.begin(); it_ReferencedBy_inverse != ReferencedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssignsToProduct> self_candidate_weak = *it_ReferencedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ReferencedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssignsToProduct> self_candidate( *it_ReferencedBy_inverse );
 			if( self_candidate.get() == this )
 			{

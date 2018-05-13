@@ -116,6 +116,12 @@ void IfcRelDefinesByTemplate::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelDefinesByTemplate> >& IsDefinedBy_inverse = m_RelatedPropertySets[i]->m_IsDefinedBy_inverse;
 			for( auto it_IsDefinedBy_inverse = IsDefinedBy_inverse.begin(); it_IsDefinedBy_inverse != IsDefinedBy_inverse.end(); )
 			{
+				weak_ptr<IfcRelDefinesByTemplate> self_candidate_weak = *it_IsDefinedBy_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsDefinedBy_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelDefinesByTemplate> self_candidate( *it_IsDefinedBy_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -133,6 +139,12 @@ void IfcRelDefinesByTemplate::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelDefinesByTemplate> >& Defines_inverse = m_RelatingTemplate->m_Defines_inverse;
 		for( auto it_Defines_inverse = Defines_inverse.begin(); it_Defines_inverse != Defines_inverse.end(); )
 		{
+			weak_ptr<IfcRelDefinesByTemplate> self_candidate_weak = *it_Defines_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Defines_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelDefinesByTemplate> self_candidate( *it_Defines_inverse );
 			if( self_candidate.get() == this )
 			{

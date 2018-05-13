@@ -71,6 +71,12 @@ void IfcCoordinateOperation::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcCoordinateOperation> >& HasCoordinateOperation_inverse = SourceCRS_IfcCoordinateReferenceSystem->m_HasCoordinateOperation_inverse;
 		for( auto it_HasCoordinateOperation_inverse = HasCoordinateOperation_inverse.begin(); it_HasCoordinateOperation_inverse != HasCoordinateOperation_inverse.end(); )
 		{
+			weak_ptr<IfcCoordinateOperation> self_candidate_weak = *it_HasCoordinateOperation_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasCoordinateOperation_inverse;
+				continue;
+			}
 			shared_ptr<IfcCoordinateOperation> self_candidate( *it_HasCoordinateOperation_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -88,6 +94,12 @@ void IfcCoordinateOperation::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcCoordinateOperation> >& HasCoordinateOperation_inverse = SourceCRS_IfcGeometricRepresentationContext->m_HasCoordinateOperation_inverse;
 		for( auto it_HasCoordinateOperation_inverse = HasCoordinateOperation_inverse.begin(); it_HasCoordinateOperation_inverse != HasCoordinateOperation_inverse.end(); )
 		{
+			weak_ptr<IfcCoordinateOperation> self_candidate_weak = *it_HasCoordinateOperation_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasCoordinateOperation_inverse;
+				continue;
+			}
 			shared_ptr<IfcCoordinateOperation> self_candidate( *it_HasCoordinateOperation_inverse );
 			if( self_candidate.get() == this )
 			{

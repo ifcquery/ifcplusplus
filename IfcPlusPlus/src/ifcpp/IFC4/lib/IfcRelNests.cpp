@@ -115,6 +115,12 @@ void IfcRelNests::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelNests> >& Nests_inverse = m_RelatedObjects[i]->m_Nests_inverse;
 			for( auto it_Nests_inverse = Nests_inverse.begin(); it_Nests_inverse != Nests_inverse.end(); )
 			{
+				weak_ptr<IfcRelNests> self_candidate_weak = *it_Nests_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_Nests_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelNests> self_candidate( *it_Nests_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -132,6 +138,12 @@ void IfcRelNests::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelNests> >& IsNestedBy_inverse = m_RelatingObject->m_IsNestedBy_inverse;
 		for( auto it_IsNestedBy_inverse = IsNestedBy_inverse.begin(); it_IsNestedBy_inverse != IsNestedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelNests> self_candidate_weak = *it_IsNestedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsNestedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelNests> self_candidate( *it_IsNestedBy_inverse );
 			if( self_candidate.get() == this )
 			{

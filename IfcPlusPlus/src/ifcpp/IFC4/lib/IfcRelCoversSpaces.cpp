@@ -116,6 +116,12 @@ void IfcRelCoversSpaces::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelCoversSpaces> >& CoversSpaces_inverse = m_RelatedCoverings[i]->m_CoversSpaces_inverse;
 			for( auto it_CoversSpaces_inverse = CoversSpaces_inverse.begin(); it_CoversSpaces_inverse != CoversSpaces_inverse.end(); )
 			{
+				weak_ptr<IfcRelCoversSpaces> self_candidate_weak = *it_CoversSpaces_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_CoversSpaces_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelCoversSpaces> self_candidate( *it_CoversSpaces_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -133,6 +139,12 @@ void IfcRelCoversSpaces::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelCoversSpaces> >& HasCoverings_inverse = m_RelatingSpace->m_HasCoverings_inverse;
 		for( auto it_HasCoverings_inverse = HasCoverings_inverse.begin(); it_HasCoverings_inverse != HasCoverings_inverse.end(); )
 		{
+			weak_ptr<IfcRelCoversSpaces> self_candidate_weak = *it_HasCoverings_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasCoverings_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelCoversSpaces> self_candidate( *it_HasCoverings_inverse );
 			if( self_candidate.get() == this )
 			{

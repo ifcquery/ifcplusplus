@@ -116,6 +116,12 @@ void IfcRelFlowControlElements::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelFlowControlElements> >& AssignedToFlowElement_inverse = m_RelatedControlElements[i]->m_AssignedToFlowElement_inverse;
 			for( auto it_AssignedToFlowElement_inverse = AssignedToFlowElement_inverse.begin(); it_AssignedToFlowElement_inverse != AssignedToFlowElement_inverse.end(); )
 			{
+				weak_ptr<IfcRelFlowControlElements> self_candidate_weak = *it_AssignedToFlowElement_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_AssignedToFlowElement_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelFlowControlElements> self_candidate( *it_AssignedToFlowElement_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -133,6 +139,12 @@ void IfcRelFlowControlElements::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelFlowControlElements> >& HasControlElements_inverse = m_RelatingFlowElement->m_HasControlElements_inverse;
 		for( auto it_HasControlElements_inverse = HasControlElements_inverse.begin(); it_HasControlElements_inverse != HasControlElements_inverse.end(); )
 		{
+			weak_ptr<IfcRelFlowControlElements> self_candidate_weak = *it_HasControlElements_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasControlElements_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelFlowControlElements> self_candidate( *it_HasControlElements_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -69,6 +69,12 @@ void IfcMappedItem::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcMappedItem> >& MapUsage_inverse = m_MappingSource->m_MapUsage_inverse;
 		for( auto it_MapUsage_inverse = MapUsage_inverse.begin(); it_MapUsage_inverse != MapUsage_inverse.end(); )
 		{
+			weak_ptr<IfcMappedItem> self_candidate_weak = *it_MapUsage_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_MapUsage_inverse;
+				continue;
+			}
 			shared_ptr<IfcMappedItem> self_candidate( *it_MapUsage_inverse );
 			if( self_candidate.get() == this )
 			{

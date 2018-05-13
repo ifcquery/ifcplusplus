@@ -83,6 +83,12 @@ void IfcMaterialDefinitionRepresentation::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcMaterialDefinitionRepresentation> >& HasRepresentation_inverse = m_RepresentedMaterial->m_HasRepresentation_inverse;
 		for( auto it_HasRepresentation_inverse = HasRepresentation_inverse.begin(); it_HasRepresentation_inverse != HasRepresentation_inverse.end(); )
 		{
+			weak_ptr<IfcMaterialDefinitionRepresentation> self_candidate_weak = *it_HasRepresentation_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasRepresentation_inverse;
+				continue;
+			}
 			shared_ptr<IfcMaterialDefinitionRepresentation> self_candidate( *it_HasRepresentation_inverse );
 			if( self_candidate.get() == this )
 			{

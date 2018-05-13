@@ -97,6 +97,12 @@ void IfcOrganizationRelationship::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcOrganizationRelationship> >& IsRelatedBy_inverse = m_RelatedOrganizations[i]->m_IsRelatedBy_inverse;
 			for( auto it_IsRelatedBy_inverse = IsRelatedBy_inverse.begin(); it_IsRelatedBy_inverse != IsRelatedBy_inverse.end(); )
 			{
+				weak_ptr<IfcOrganizationRelationship> self_candidate_weak = *it_IsRelatedBy_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_IsRelatedBy_inverse;
+					continue;
+				}
 				shared_ptr<IfcOrganizationRelationship> self_candidate( *it_IsRelatedBy_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -114,6 +120,12 @@ void IfcOrganizationRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcOrganizationRelationship> >& Relates_inverse = m_RelatingOrganization->m_Relates_inverse;
 		for( auto it_Relates_inverse = Relates_inverse.begin(); it_Relates_inverse != Relates_inverse.end(); )
 		{
+			weak_ptr<IfcOrganizationRelationship> self_candidate_weak = *it_Relates_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Relates_inverse;
+				continue;
+			}
 			shared_ptr<IfcOrganizationRelationship> self_candidate( *it_Relates_inverse );
 			if( self_candidate.get() == this )
 			{

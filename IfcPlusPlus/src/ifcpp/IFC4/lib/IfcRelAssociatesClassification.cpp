@@ -127,6 +127,12 @@ void IfcRelAssociatesClassification::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesClassification> >& ClassificationForObjects_inverse = RelatingClassification_IfcClassification->m_ClassificationForObjects_inverse;
 		for( auto it_ClassificationForObjects_inverse = ClassificationForObjects_inverse.begin(); it_ClassificationForObjects_inverse != ClassificationForObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesClassification> self_candidate_weak = *it_ClassificationForObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ClassificationForObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesClassification> self_candidate( *it_ClassificationForObjects_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -144,6 +150,12 @@ void IfcRelAssociatesClassification::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelAssociatesClassification> >& ClassificationRefForObjects_inverse = RelatingClassification_IfcClassificationReference->m_ClassificationRefForObjects_inverse;
 		for( auto it_ClassificationRefForObjects_inverse = ClassificationRefForObjects_inverse.begin(); it_ClassificationRefForObjects_inverse != ClassificationRefForObjects_inverse.end(); )
 		{
+			weak_ptr<IfcRelAssociatesClassification> self_candidate_weak = *it_ClassificationRefForObjects_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ClassificationRefForObjects_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelAssociatesClassification> self_candidate( *it_ClassificationRefForObjects_inverse );
 			if( self_candidate.get() == this )
 			{

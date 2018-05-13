@@ -104,6 +104,12 @@ void IfcPhysicalComplexQuantity::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPhysicalComplexQuantity> >& PartOfComplex_inverse = m_HasQuantities[i]->m_PartOfComplex_inverse;
 			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); )
 			{
+				weak_ptr<IfcPhysicalComplexQuantity> self_candidate_weak = *it_PartOfComplex_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfComplex_inverse;
+					continue;
+				}
 				shared_ptr<IfcPhysicalComplexQuantity> self_candidate( *it_PartOfComplex_inverse );
 				if( self_candidate.get() == this )
 				{

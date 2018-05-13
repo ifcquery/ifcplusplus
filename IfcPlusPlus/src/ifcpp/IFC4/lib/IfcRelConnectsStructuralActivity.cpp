@@ -101,6 +101,12 @@ void IfcRelConnectsStructuralActivity::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelConnectsStructuralActivity> >& AssignedToStructuralItem_inverse = m_RelatedStructuralActivity->m_AssignedToStructuralItem_inverse;
 		for( auto it_AssignedToStructuralItem_inverse = AssignedToStructuralItem_inverse.begin(); it_AssignedToStructuralItem_inverse != AssignedToStructuralItem_inverse.end(); )
 		{
+			weak_ptr<IfcRelConnectsStructuralActivity> self_candidate_weak = *it_AssignedToStructuralItem_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_AssignedToStructuralItem_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelConnectsStructuralActivity> self_candidate( *it_AssignedToStructuralItem_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -118,6 +124,12 @@ void IfcRelConnectsStructuralActivity::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelConnectsStructuralActivity> >& AssignedStructuralActivity_inverse = RelatingElement_IfcStructuralItem->m_AssignedStructuralActivity_inverse;
 		for( auto it_AssignedStructuralActivity_inverse = AssignedStructuralActivity_inverse.begin(); it_AssignedStructuralActivity_inverse != AssignedStructuralActivity_inverse.end(); )
 		{
+			weak_ptr<IfcRelConnectsStructuralActivity> self_candidate_weak = *it_AssignedStructuralActivity_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_AssignedStructuralActivity_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelConnectsStructuralActivity> self_candidate( *it_AssignedStructuralActivity_inverse );
 			if( self_candidate.get() == this )
 			{

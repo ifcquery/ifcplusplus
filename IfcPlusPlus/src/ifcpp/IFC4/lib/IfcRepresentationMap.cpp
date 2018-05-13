@@ -89,6 +89,12 @@ void IfcRepresentationMap::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRepresentationMap> >& RepresentationMap_inverse = m_MappedRepresentation->m_RepresentationMap_inverse;
 		for( auto it_RepresentationMap_inverse = RepresentationMap_inverse.begin(); it_RepresentationMap_inverse != RepresentationMap_inverse.end(); )
 		{
+			weak_ptr<IfcRepresentationMap> self_candidate_weak = *it_RepresentationMap_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_RepresentationMap_inverse;
+				continue;
+			}
 			shared_ptr<IfcRepresentationMap> self_candidate( *it_RepresentationMap_inverse );
 			if( self_candidate.get() == this )
 			{

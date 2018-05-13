@@ -224,6 +224,12 @@ void IfcPerson::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPerson> >& OfPerson_inverse = m_Addresses[i]->m_OfPerson_inverse;
 			for( auto it_OfPerson_inverse = OfPerson_inverse.begin(); it_OfPerson_inverse != OfPerson_inverse.end(); )
 			{
+				weak_ptr<IfcPerson> self_candidate_weak = *it_OfPerson_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_OfPerson_inverse;
+					continue;
+				}
 				shared_ptr<IfcPerson> self_candidate( *it_OfPerson_inverse );
 				if( self_candidate.get() == this )
 				{

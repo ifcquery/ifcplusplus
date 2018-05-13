@@ -115,6 +115,12 @@ void IfcRelSequence::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSequence> >& IsSuccessorFrom_inverse = m_RelatedProcess->m_IsSuccessorFrom_inverse;
 		for( auto it_IsSuccessorFrom_inverse = IsSuccessorFrom_inverse.begin(); it_IsSuccessorFrom_inverse != IsSuccessorFrom_inverse.end(); )
 		{
+			weak_ptr<IfcRelSequence> self_candidate_weak = *it_IsSuccessorFrom_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsSuccessorFrom_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSequence> self_candidate( *it_IsSuccessorFrom_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -131,6 +137,12 @@ void IfcRelSequence::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSequence> >& IsPredecessorTo_inverse = m_RelatingProcess->m_IsPredecessorTo_inverse;
 		for( auto it_IsPredecessorTo_inverse = IsPredecessorTo_inverse.begin(); it_IsPredecessorTo_inverse != IsPredecessorTo_inverse.end(); )
 		{
+			weak_ptr<IfcRelSequence> self_candidate_weak = *it_IsPredecessorTo_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_IsPredecessorTo_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSequence> self_candidate( *it_IsPredecessorTo_inverse );
 			if( self_candidate.get() == this )
 			{

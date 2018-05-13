@@ -133,6 +133,12 @@ void IfcPropertySetTemplate::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPropertySetTemplate> >& PartOfPsetTemplate_inverse = m_HasPropertyTemplates[i]->m_PartOfPsetTemplate_inverse;
 			for( auto it_PartOfPsetTemplate_inverse = PartOfPsetTemplate_inverse.begin(); it_PartOfPsetTemplate_inverse != PartOfPsetTemplate_inverse.end(); )
 			{
+				weak_ptr<IfcPropertySetTemplate> self_candidate_weak = *it_PartOfPsetTemplate_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_PartOfPsetTemplate_inverse;
+					continue;
+				}
 				shared_ptr<IfcPropertySetTemplate> self_candidate( *it_PartOfPsetTemplate_inverse );
 				if( self_candidate.get() == this )
 				{

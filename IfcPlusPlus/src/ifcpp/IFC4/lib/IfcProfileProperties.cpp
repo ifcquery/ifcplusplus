@@ -88,6 +88,12 @@ void IfcProfileProperties::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcProfileProperties> >& HasProperties_inverse = m_ProfileDefinition->m_HasProperties_inverse;
 		for( auto it_HasProperties_inverse = HasProperties_inverse.begin(); it_HasProperties_inverse != HasProperties_inverse.end(); )
 		{
+			weak_ptr<IfcProfileProperties> self_candidate_weak = *it_HasProperties_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasProperties_inverse;
+				continue;
+			}
 			shared_ptr<IfcProfileProperties> self_candidate( *it_HasProperties_inverse );
 			if( self_candidate.get() == this )
 			{

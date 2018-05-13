@@ -125,6 +125,12 @@ void IfcRelSpaceBoundary1stLevel::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSpaceBoundary1stLevel> >& InnerBoundaries_inverse = m_ParentBoundary->m_InnerBoundaries_inverse;
 		for( auto it_InnerBoundaries_inverse = InnerBoundaries_inverse.begin(); it_InnerBoundaries_inverse != InnerBoundaries_inverse.end(); )
 		{
+			weak_ptr<IfcRelSpaceBoundary1stLevel> self_candidate_weak = *it_InnerBoundaries_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_InnerBoundaries_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSpaceBoundary1stLevel> self_candidate( *it_InnerBoundaries_inverse );
 			if( self_candidate.get() == this )
 			{

@@ -121,6 +121,12 @@ void IfcClassificationReference::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcClassificationReference> >& HasReferences_inverse = ReferencedSource_IfcClassification->m_HasReferences_inverse;
 		for( auto it_HasReferences_inverse = HasReferences_inverse.begin(); it_HasReferences_inverse != HasReferences_inverse.end(); )
 		{
+			weak_ptr<IfcClassificationReference> self_candidate_weak = *it_HasReferences_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasReferences_inverse;
+				continue;
+			}
 			shared_ptr<IfcClassificationReference> self_candidate( *it_HasReferences_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -138,6 +144,12 @@ void IfcClassificationReference::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcClassificationReference> >& HasReferences_inverse = ReferencedSource_IfcClassificationReference->m_HasReferences_inverse;
 		for( auto it_HasReferences_inverse = HasReferences_inverse.begin(); it_HasReferences_inverse != HasReferences_inverse.end(); )
 		{
+			weak_ptr<IfcClassificationReference> self_candidate_weak = *it_HasReferences_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasReferences_inverse;
+				continue;
+			}
 			shared_ptr<IfcClassificationReference> self_candidate( *it_HasReferences_inverse );
 			if( self_candidate.get() == this )
 			{

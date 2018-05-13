@@ -96,6 +96,12 @@ void IfcDocumentReference::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcDocumentReference> >& HasDocumentReferences_inverse = m_ReferencedDocument->m_HasDocumentReferences_inverse;
 		for( auto it_HasDocumentReferences_inverse = HasDocumentReferences_inverse.begin(); it_HasDocumentReferences_inverse != HasDocumentReferences_inverse.end(); )
 		{
+			weak_ptr<IfcDocumentReference> self_candidate_weak = *it_HasDocumentReferences_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasDocumentReferences_inverse;
+				continue;
+			}
 			shared_ptr<IfcDocumentReference> self_candidate( *it_HasDocumentReferences_inverse );
 			if( self_candidate.get() == this )
 			{

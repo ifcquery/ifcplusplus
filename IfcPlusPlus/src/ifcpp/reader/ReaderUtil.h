@@ -23,12 +23,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <locale>
 #include <string>
 #include <vector>
+#include <locale>
+#include <codecvt>
 #include <map>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <boost/unordered_map.hpp>
 #include <boost/optional.hpp>
+#include <boost/algorithm/string.hpp>
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/model/BuildingObject.h"
@@ -51,13 +53,27 @@ void readBinary( const std::wstring& str, std::wstring& target );
 void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec );
 void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
-void checkOpeningClosingParenthesis( const wchar_t* ch_check );
 IFCQUERY_EXPORT void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments );
 IFCQUERY_EXPORT void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments );
-void tokenizeInlineArgument( const std::wstring input, std::wstring& keyword, std::wstring& inner_argument );
-void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing );
+void tokenizeInlineArgument(const std::wstring input, std::wstring& keyword, std::wstring& inner_argument);
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
 void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items );
+void findLeadingTrailingParanthesis(wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing);
+void findEndOfString(char*& stream_pos);
+void findEndOfWString(wchar_t*& stream_pos);
+void checkOpeningClosingParenthesis(const wchar_t* ch_check);
+
+inline std::wstring s2ws(const std::string& str)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	return StringConverter.from_bytes(str);
+}
+
+inline std::string ws2s(const std::wstring& wstr)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	return StringConverter.to_bytes(wstr);
+}
 
 inline void readIntegerValue( const std::wstring& str, int& int_value )
 {

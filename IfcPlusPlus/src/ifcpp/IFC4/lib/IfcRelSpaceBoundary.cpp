@@ -125,6 +125,12 @@ void IfcRelSpaceBoundary::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSpaceBoundary> >& ProvidesBoundaries_inverse = m_RelatedBuildingElement->m_ProvidesBoundaries_inverse;
 		for( auto it_ProvidesBoundaries_inverse = ProvidesBoundaries_inverse.begin(); it_ProvidesBoundaries_inverse != ProvidesBoundaries_inverse.end(); )
 		{
+			weak_ptr<IfcRelSpaceBoundary> self_candidate_weak = *it_ProvidesBoundaries_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ProvidesBoundaries_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSpaceBoundary> self_candidate( *it_ProvidesBoundaries_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -142,6 +148,12 @@ void IfcRelSpaceBoundary::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSpaceBoundary> >& BoundedBy_inverse = RelatingSpace_IfcExternalSpatialElement->m_BoundedBy_inverse;
 		for( auto it_BoundedBy_inverse = BoundedBy_inverse.begin(); it_BoundedBy_inverse != BoundedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelSpaceBoundary> self_candidate_weak = *it_BoundedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_BoundedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSpaceBoundary> self_candidate( *it_BoundedBy_inverse );
 			if( self_candidate.get() == this )
 			{
@@ -159,6 +171,12 @@ void IfcRelSpaceBoundary::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSpaceBoundary> >& BoundedBy_inverse = RelatingSpace_IfcSpace->m_BoundedBy_inverse;
 		for( auto it_BoundedBy_inverse = BoundedBy_inverse.begin(); it_BoundedBy_inverse != BoundedBy_inverse.end(); )
 		{
+			weak_ptr<IfcRelSpaceBoundary> self_candidate_weak = *it_BoundedBy_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_BoundedBy_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSpaceBoundary> self_candidate( *it_BoundedBy_inverse );
 			if( self_candidate.get() == this )
 			{

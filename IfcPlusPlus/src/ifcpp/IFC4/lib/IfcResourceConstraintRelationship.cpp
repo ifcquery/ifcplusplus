@@ -118,6 +118,12 @@ void IfcResourceConstraintRelationship::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcResourceConstraintRelationship> >& HasConstraints_inverse = RelatedResourceObjects_IfcProperty->m_HasConstraints_inverse;
 			for( auto it_HasConstraints_inverse = HasConstraints_inverse.begin(); it_HasConstraints_inverse != HasConstraints_inverse.end(); )
 			{
+				weak_ptr<IfcResourceConstraintRelationship> self_candidate_weak = *it_HasConstraints_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasConstraints_inverse;
+					continue;
+				}
 				shared_ptr<IfcResourceConstraintRelationship> self_candidate( *it_HasConstraints_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -135,6 +141,12 @@ void IfcResourceConstraintRelationship::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcResourceConstraintRelationship> >& PropertiesForConstraint_inverse = m_RelatingConstraint->m_PropertiesForConstraint_inverse;
 		for( auto it_PropertiesForConstraint_inverse = PropertiesForConstraint_inverse.begin(); it_PropertiesForConstraint_inverse != PropertiesForConstraint_inverse.end(); )
 		{
+			weak_ptr<IfcResourceConstraintRelationship> self_candidate_weak = *it_PropertiesForConstraint_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_PropertiesForConstraint_inverse;
+				continue;
+			}
 			shared_ptr<IfcResourceConstraintRelationship> self_candidate( *it_PropertiesForConstraint_inverse );
 			if( self_candidate.get() == this )
 			{

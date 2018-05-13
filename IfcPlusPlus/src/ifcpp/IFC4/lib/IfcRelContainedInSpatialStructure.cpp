@@ -131,6 +131,12 @@ void IfcRelContainedInSpatialStructure::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcAnnotation->m_ContainedInStructure_inverse;
 			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
+				weak_ptr<IfcRelContainedInSpatialStructure> self_candidate_weak = *it_ContainedInStructure_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ContainedInStructure_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainedInStructure_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -148,6 +154,12 @@ void IfcRelContainedInSpatialStructure::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcElement->m_ContainedInStructure_inverse;
 			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
+				weak_ptr<IfcRelContainedInSpatialStructure> self_candidate_weak = *it_ContainedInStructure_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ContainedInStructure_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainedInStructure_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -165,6 +177,12 @@ void IfcRelContainedInSpatialStructure::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcGrid->m_ContainedInStructure_inverse;
 			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
+				weak_ptr<IfcRelContainedInSpatialStructure> self_candidate_weak = *it_ContainedInStructure_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ContainedInStructure_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainedInStructure_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -182,6 +200,12 @@ void IfcRelContainedInSpatialStructure::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainsElements_inverse = m_RelatingStructure->m_ContainsElements_inverse;
 		for( auto it_ContainsElements_inverse = ContainsElements_inverse.begin(); it_ContainsElements_inverse != ContainsElements_inverse.end(); )
 		{
+			weak_ptr<IfcRelContainedInSpatialStructure> self_candidate_weak = *it_ContainsElements_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_ContainsElements_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelContainedInSpatialStructure> self_candidate( *it_ContainsElements_inverse );
 			if( self_candidate.get() == this )
 			{

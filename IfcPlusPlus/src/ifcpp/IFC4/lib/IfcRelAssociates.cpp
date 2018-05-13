@@ -132,6 +132,12 @@ void IfcRelAssociates::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelAssociates> >& HasAssociations_inverse = RelatedObjects_IfcObjectDefinition->m_HasAssociations_inverse;
 			for( auto it_HasAssociations_inverse = HasAssociations_inverse.begin(); it_HasAssociations_inverse != HasAssociations_inverse.end(); )
 			{
+				weak_ptr<IfcRelAssociates> self_candidate_weak = *it_HasAssociations_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasAssociations_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelAssociates> self_candidate( *it_HasAssociations_inverse );
 				if( self_candidate.get() == this )
 				{
@@ -149,6 +155,12 @@ void IfcRelAssociates::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcRelAssociates> >& HasAssociations_inverse = RelatedObjects_IfcPropertyDefinition->m_HasAssociations_inverse;
 			for( auto it_HasAssociations_inverse = HasAssociations_inverse.begin(); it_HasAssociations_inverse != HasAssociations_inverse.end(); )
 			{
+				weak_ptr<IfcRelAssociates> self_candidate_weak = *it_HasAssociations_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasAssociations_inverse;
+					continue;
+				}
 				shared_ptr<IfcRelAssociates> self_candidate( *it_HasAssociations_inverse );
 				if( self_candidate.get() == this )
 				{

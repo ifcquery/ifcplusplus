@@ -102,6 +102,12 @@ void IfcLibraryReference::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcLibraryReference> >& HasLibraryReferences_inverse = m_ReferencedLibrary->m_HasLibraryReferences_inverse;
 		for( auto it_HasLibraryReferences_inverse = HasLibraryReferences_inverse.begin(); it_HasLibraryReferences_inverse != HasLibraryReferences_inverse.end(); )
 		{
+			weak_ptr<IfcLibraryReference> self_candidate_weak = *it_HasLibraryReferences_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_HasLibraryReferences_inverse;
+				continue;
+			}
 			shared_ptr<IfcLibraryReference> self_candidate( *it_HasLibraryReferences_inverse );
 			if( self_candidate.get() == this )
 			{

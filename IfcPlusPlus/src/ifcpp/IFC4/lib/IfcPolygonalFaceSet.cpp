@@ -128,6 +128,12 @@ void IfcPolygonalFaceSet::unlinkFromInverseCounterparts()
 			std::vector<weak_ptr<IfcPolygonalFaceSet> >& ToFaceSet_inverse = m_Faces[i]->m_ToFaceSet_inverse;
 			for( auto it_ToFaceSet_inverse = ToFaceSet_inverse.begin(); it_ToFaceSet_inverse != ToFaceSet_inverse.end(); )
 			{
+				weak_ptr<IfcPolygonalFaceSet> self_candidate_weak = *it_ToFaceSet_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ToFaceSet_inverse;
+					continue;
+				}
 				shared_ptr<IfcPolygonalFaceSet> self_candidate( *it_ToFaceSet_inverse );
 				if( self_candidate.get() == this )
 				{

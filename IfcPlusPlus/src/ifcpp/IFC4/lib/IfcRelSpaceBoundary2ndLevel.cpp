@@ -130,6 +130,12 @@ void IfcRelSpaceBoundary2ndLevel::unlinkFromInverseCounterparts()
 		std::vector<weak_ptr<IfcRelSpaceBoundary2ndLevel> >& Corresponds_inverse = m_CorrespondingBoundary->m_Corresponds_inverse;
 		for( auto it_Corresponds_inverse = Corresponds_inverse.begin(); it_Corresponds_inverse != Corresponds_inverse.end(); )
 		{
+			weak_ptr<IfcRelSpaceBoundary2ndLevel> self_candidate_weak = *it_Corresponds_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_Corresponds_inverse;
+				continue;
+			}
 			shared_ptr<IfcRelSpaceBoundary2ndLevel> self_candidate( *it_Corresponds_inverse );
 			if( self_candidate.get() == this )
 			{
