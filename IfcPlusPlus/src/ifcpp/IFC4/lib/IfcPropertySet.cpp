@@ -28,7 +28,7 @@ shared_ptr<BuildingObject> IfcPropertySet::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcPropertySet> copy_self( new IfcPropertySet() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createGUID32_wstr().c_str() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

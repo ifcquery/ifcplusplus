@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -123,9 +123,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName)d.exe</OutputFile>
-      <AdditionalLibraryDirectories>..\IfcPlusPlus\bin;..\external\Carve\bin;..\external\zlib\contrib\vstudio\vc14\x64\ZlibStatDebug;$(QTDIR)\lib;$(OSG_DIR)\lib;$(FREETYPE_DIR)\objs\vc2010\x64;$(OCCT_DIR)\win64\vc14\libd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\IfcPlusPlus\bin;..\external\Carve\bin;$(QTDIR)\lib;$(OSG_DIR)\lib;$(FREETYPE_DIR)\objs\vc2010\x64;$(OCCT_DIR)\win64\vc14\libd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;freetype28d.lib;IfcPlusPlusd.lib;Carved.lib;zlibstat.lib;TKernel.lib;TKMath.lib;TKService.lib;TKV3d.lib;TKOpenGl.lib;TKBRep.lib;TKIGES.lib;TKSTL.lib;TKVRML.lib;TKSTEP.lib;TKSTEPAttr.lib;TKSTEP209.lib;TKSTEPBase.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKG3d.lib;TKG2d.lib;TKXSBase.lib;TKShHealing.lib;TKHLR.lib;TKTopAlgo.lib;TKMesh.lib;TKPrim.lib;TKCDF.lib;TKBool.lib;TKBO.lib;TKFillet.lib;TKOffset.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;freetype28d.lib;IfcPlusPlusd.lib;Carved.lib;TKernel.lib;TKMath.lib;TKService.lib;TKV3d.lib;TKOpenGl.lib;TKBRep.lib;TKIGES.lib;TKSTL.lib;TKVRML.lib;TKSTEP.lib;TKSTEPAttr.lib;TKSTEP209.lib;TKSTEPBase.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKG3d.lib;TKG2d.lib;TKXSBase.lib;TKShHealing.lib;TKHLR.lib;TKTopAlgo.lib;TKMesh.lib;TKPrim.lib;TKCDF.lib;TKBool.lib;TKBO.lib;TKFillet.lib;TKOffset.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

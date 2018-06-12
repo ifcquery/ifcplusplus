@@ -17,6 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
+#include <array>
 #include <string>
 #include <sstream>
 #include <boost/uuid/uuid.hpp>
