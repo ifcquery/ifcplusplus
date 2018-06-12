@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcBinary::getDeepCopy( BuildingCopyOptions& options 
 void IfcBinary::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBINARY("; }
-	stream << "'" << encodeStepString( m_value ) << "'";
+	stream << "\"" << encodeStepString( m_value ) << "\"";
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcBinary::toString() const
