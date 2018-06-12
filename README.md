@@ -9,6 +9,9 @@ The project is published under the MIT license, which means that you can use it 
 ## Details and download of executable
 Additional information as well as download links to the viewer application is on this project website: http://www.ifcquery.com
 
+## How to build the library and example application on Windows and Linux
+https://github.com/ifcquery/ifcplusplus/wiki/Build-instructions
+
 
 Screenshots from the example viewer
 ===========
@@ -18,33 +21,3 @@ Screenshots from the example viewer
  ![Steel frame model](http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png)
  
    
-### Steel frame model
- 330 000 entities loaded, 3500 with geometric representation. Loaded in < 4 sec. on a standard PC, including geometry.
- ![Steel frame model](http://www.ifcquery.com/img/steel-frame.png)
- 
- 
-### Office building
-70 423 entities loaded, 2235 with geometric representation. Loaded in < 1 sec. on a standard PC, including geometry.
-![Office building](http://www.ifcquery.com/img/Office-building.png)
-
-
-### Office building
-Office building with offset in y-direction for each building storey. The offset allows for a better overview when there are several storeys.
-![Office building](http://www.ifcquery.com/img/storey-offset.png)
- 
- 
-
-### Office building
-Office building with details in the viewer application
-![Office building](http://www.ifcquery.com/img/IfcQueryViewer-details.png)
- 
-
-### Office building with steel parts
-387191 entities loaded, 10021 with geometric representation. Loaded in 10 sec. on a standard PC, including geometry.
-![Office building](http://www.ifcquery.com/img/office-building-steelwork.png)
-
-
-### House model
-Detailed model of a house, inside kitchen
-![Office building](http://www.ifcquery.com/img/Building-model-inside-kitchen.png)
-				
