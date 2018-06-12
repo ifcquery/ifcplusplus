@@ -13,10 +13,7 @@ Additional information as well as download links to the viewer application is on
 https://github.com/ifcquery/ifcplusplus/wiki/Build-instructions
 
 
-Screenshots from the example viewer
-===========
-
- ### Steel frame model
+## Screenshot of steel frame model in the example viewer
  980 000 entities loaded, 8000 with geometric representation. Loaded in < 4 sec. on a standard PC, including geometry.
  ![Steel frame model](http://www.ifcquery.com/img/Building-model-steel-frame-2018-02-05.png)
  
