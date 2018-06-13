@@ -36,7 +36,22 @@ inline std::string encodeStepString( const std::wstring& str )
 	while( *stream_pos != '\0' )
 	{
 		wchar_t append_char = *stream_pos;
-		if( append_char > 0 && append_char < 128 )
+		if( append_char == 10 )
+		{
+			// encode new line
+			result_str.append( "\\X\\0A" );
+		}
+		else if( append_char == 13 )
+		{
+			// encode carriage return
+			result_str.append( "\\X\\0D" );
+		}
+		else if( append_char == 92 )
+		{
+			// encode backslash
+			result_str.append( "\\" );
+		}
+		else if( append_char > 0 && append_char < 128 )
 		{
 			if( hasOpenedUnicodeTag )
 			{

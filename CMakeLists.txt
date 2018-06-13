@@ -37,5 +37,5 @@ ADD_SUBDIRECTORY (external/Carve)
 ADD_SUBDIRECTORY (IfcPlusPlus)
 
 IF(BUILD_VIEWER_APPLICATION)
-  ADD_SUBDIRECTORY (SimpleViewerExample)
+  ADD_SUBDIRECTORY (examples/SimpleViewerExampleQt)
 ENDIF()
