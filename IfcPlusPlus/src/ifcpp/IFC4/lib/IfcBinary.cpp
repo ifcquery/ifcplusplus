@@ -35,6 +35,6 @@ shared_ptr<IfcBinary> IfcBinary::createObjectFromSTEP( const std::wstring& arg, 
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	shared_ptr<IfcBinary> type_object( new IfcBinary() );
-	readString( arg, type_object->m_value );
+	readBinaryString( arg, type_object->m_value );
 	return type_object;
 }
