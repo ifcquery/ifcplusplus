@@ -3764,5 +3764,8 @@
     <ClCompile Include="src\ifcpp\reader\AbstractReader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

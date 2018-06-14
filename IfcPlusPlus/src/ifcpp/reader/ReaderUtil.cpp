@@ -464,6 +464,19 @@ void readBinary( const std::wstring& str, std::wstring& target )
 	target = str;
 }
 
+void readBinaryString(const std::wstring& attribute_value, std::wstring& target)
+{
+	if( attribute_value.size() < 2 )
+	{
+		target = attribute_value;
+		return;
+	}
+	if( attribute_value[0] == '"' && attribute_value[attribute_value.size() - 1] == '"' )
+	{
+		target = attribute_value.substr(1, attribute_value.size() - 2);
+	}
+}
+
 void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec )
 {
 	readStringList( str, vec );

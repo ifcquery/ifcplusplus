@@ -86,7 +86,7 @@ public:
 	void resetIfcModel();
 	void updateCache();
 	void clearCache();
-	void initFileHeader( std::string file_name );
+	void initFileHeader( std::wstring file_name );
 	static void collectDependentEntities( shared_ptr<BuildingEntity>& entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map );
 
 	friend class ReaderSTEP;
@@ -97,7 +97,7 @@ private:
 	shared_ptr<IfcProject>							m_ifc_project;
 	shared_ptr<IfcGeometricRepresentationContext>	m_geom_context_3d;
 	shared_ptr<UnitConverter>						m_unit_converter;
-	std::string										m_file_name;
+	std::wstring									m_file_name;
 	std::wstring									m_file_header;
 	std::wstring									m_IFC_FILE_DESCRIPTION;
 	std::wstring									m_IFC_FILE_NAME;

@@ -34,7 +34,7 @@ CmdWriteIfcFile::CmdWriteIfcFile( IfcPlusPlusSystem* system ): Command(system)
 
 CmdWriteIfcFile::~CmdWriteIfcFile(){}
 
-void CmdWriteIfcFile::setFilePath( std::string& path_in )
+void CmdWriteIfcFile::setFilePath( std::wstring& path_in )
 {
 	m_file_path = path_in;
 }
@@ -53,7 +53,7 @@ bool CmdWriteIfcFile::doCmd()
 
 	m_system->getModelWriter()->writeModelToStream( stream, model );
 
-	QFile file_out( m_file_path.c_str() );
+	QFile file_out( QString::fromStdWString( m_file_path.c_str() ) );
 	if( !file_out.open(QIODevice::WriteOnly | QIODevice::Text) )
 	{
 		return false;

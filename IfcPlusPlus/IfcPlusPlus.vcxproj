@@ -195,7 +195,7 @@
       <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
     <PostBuildEvent>
-      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\SimpleViewerExample\bin\$(TargetName)$(TargetExt)"</Command>
+      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\examples\SimpleViewerExampleQt\bin\$(TargetName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -282,7 +282,7 @@
       <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
     <PostBuildEvent>
-      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\SimpleViewerExample\bin\$(TargetName)$(TargetExt)"
+      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\examples\SimpleViewerExampleQt\bin\$(TargetName)$(TargetExt)"
 </Command>
     </PostBuildEvent>
     <ProjectReference>
@@ -1522,6 +1522,7 @@
     <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderXML.cpp" />
     <ClCompile Include="src\ifcpp\writer\WriterSTEP.cpp" />
+    <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ifcpp\geometry\AppearanceData.h" />

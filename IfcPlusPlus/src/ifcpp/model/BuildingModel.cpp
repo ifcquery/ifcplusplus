@@ -56,6 +56,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/IFC4/include/IfcElementAssembly.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 #include "ifcpp/IFC4/include/IfcUnit.h"
+#include "ifcpp/reader/ReaderUtil.h"
+#include "ifcpp/writer/WriterUtil.h"
 
 #include "AttributeObject.h"
 #include "BuildingGuid.h"
@@ -67,7 +69,7 @@ BuildingModel::BuildingModel()
 {
 	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
 	m_unit_converter->setMessageTarget( this );
-	initFileHeader( "IfcPlusPlus-export.ifc" );
+	initFileHeader( L"IfcPlusPlus-export.ifc" );
 }
 
 BuildingModel::~BuildingModel(){}
@@ -464,10 +466,10 @@ void BuildingModel::removeUnreferencedEntities()
 	}
 }
 
-void BuildingModel::initFileHeader( std::string file_name )
+void BuildingModel::initFileHeader( std::wstring file_name )
 {
 	m_file_name = file_name;
-	std::string filename_escaped = boost::replace_all_copy(file_name, "\\", "\\\\");
+	std::string filename_escaped = encodeStepString( file_name );
 	std::wstringstream strs;
 	strs << "ISO-10303-21;" << std::endl;
 	strs << "HEADER;" << std::endl;

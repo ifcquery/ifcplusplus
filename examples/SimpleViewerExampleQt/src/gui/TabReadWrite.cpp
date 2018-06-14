@@ -422,13 +422,12 @@ void TabReadWrite::slotWriteFileClicked()
 	slotTxtOut( "writing file: " + path );
 	int millisecs = clock();
 
-	std::string path_std = path.toStdString();
+	std::wstring path_std = path.toStdWString();
 	try
 	{
 		shared_ptr<CmdWriteIfcFile> cmd_write( new CmdWriteIfcFile( m_system ) );
 		cmd_write->setFilePath( path_std );
 		m_system->getCommandManager()->executeCommand( cmd_write );
-		//m_system->writeIfcFile( path_std );
 	}
 	catch( std::exception& e )
 	{

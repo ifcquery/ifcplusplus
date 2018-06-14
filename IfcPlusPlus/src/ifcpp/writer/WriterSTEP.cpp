@@ -29,6 +29,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcProject.h"
 #include "ifcpp/writer/WriterSTEP.h"
+#include "ifcpp/reader/ReaderUtil.h"
 
 WriterSTEP::WriterSTEP()
 {
@@ -43,7 +44,7 @@ void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<Build
 	stream.imbue(std::locale("C"));
 
 	const std::wstring& file_header_wstr = model->getFileHeader();
-	std::string file_header_str = encodeStepString( file_header_wstr );
+	std::string file_header_str = ws2s( file_header_wstr );
 	stream << file_header_str.c_str();
 	stream << "DATA;\n";
 	stream << std::setprecision( 15 );

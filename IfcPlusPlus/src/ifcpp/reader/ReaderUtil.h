@@ -50,6 +50,7 @@ void readRealList( const std::wstring& str, std::vector<double>& vec );
 void readRealList2D( const std::wstring& str, std::vector<std::vector<double> >& vec );
 void readRealList3D( const std::wstring& str, std::vector<std::vector<std::vector<double> > >& vec );
 void readBinary( const std::wstring& str, std::wstring& target );
+void readBinaryString(const std::wstring& attribute_value, std::wstring& target);
 void readBinaryList( const std::wstring& str, std::vector<std::wstring>& vec );
 void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
@@ -187,19 +188,6 @@ inline void readString( const std::wstring& attribute_value, std::wstring& targe
 	if( attribute_value[0] == '\'' && attribute_value[attribute_value.size()-1] == '\'' )
 	{
 		target = attribute_value.substr( 1, attribute_value.size()-2 ).c_str();
-	}
-}
-
-inline void readBinaryString( const std::wstring& attribute_value, std::wstring& target )
-{
-	if( attribute_value.size() < 2 )
-	{
-		target = attribute_value;
-		return;
-	}
-	if( attribute_value[0] == '"' && attribute_value[attribute_value.size()-1] == '"' )
-	{
-		target = attribute_value.substr( 1, attribute_value.size()-2 );
 	}
 }
 
