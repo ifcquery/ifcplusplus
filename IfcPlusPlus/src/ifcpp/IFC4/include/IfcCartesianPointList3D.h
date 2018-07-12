@@ -9,6 +9,7 @@
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcCartesianPointList.h"
 class IFCQUERY_EXPORT IfcLengthMeasure;
+class IFCQUERY_EXPORT IfcLabel;
 //ENTITY
 class IFCQUERY_EXPORT IfcCartesianPointList3D : public IfcCartesianPointList
 { 
@@ -21,7 +22,7 @@ public:
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
-	virtual size_t getNumAttributes() { return 1; }
+	virtual size_t getNumAttributes() { return 2; }
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
 	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes );
 	virtual void unlinkFromInverseCounterparts();
@@ -41,5 +42,6 @@ public:
 	// IfcCartesianPointList3D -----------------------------------------------------------
 	// attributes:
 	std::vector<std::vector<shared_ptr<IfcLengthMeasure> > >	m_CoordList;
+	std::vector<shared_ptr<IfcLabel> >						m_TagList;					//optional
 };
 

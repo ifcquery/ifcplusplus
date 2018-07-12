@@ -29,7 +29,7 @@ shared_ptr<BuildingObject> IfcOffsetCurve2D::getDeepCopy( BuildingCopyOptions& o
 void IfcOffsetCurve2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCOFFSETCURVE2D" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "$"; }
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -48,20 +48,19 @@ void IfcOffsetCurve2D::readStepArguments( const std::vector<std::wstring>& args,
 }
 void IfcOffsetCurve2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
 {
-	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
+	IfcOffsetCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Distance", m_Distance ) );
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcOffsetCurve2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
-	IfcCurve::getAttributesInverse( vec_attributes_inverse );
+	IfcOffsetCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcOffsetCurve2D::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcCurve::setInverseCounterparts( ptr_self_entity );
+	IfcOffsetCurve::setInverseCounterparts( ptr_self_entity );
 }
 void IfcOffsetCurve2D::unlinkFromInverseCounterparts()
 {
-	IfcCurve::unlinkFromInverseCounterparts();
+	IfcOffsetCurve::unlinkFromInverseCounterparts();
 }

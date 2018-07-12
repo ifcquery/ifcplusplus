@@ -21,6 +21,7 @@
 #include "ifcpp/IFC4/include/IfcProfileDef.h"
 #include "ifcpp/IFC4/include/IfcPropertyAbstraction.h"
 #include "ifcpp/IFC4/include/IfcResourceObjectSelect.h"
+#include "ifcpp/IFC4/include/IfcShapeAspect.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 #include "ifcpp/IFC4/include/IfcTimeSeries.h"
 
@@ -155,6 +156,11 @@ void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<Buildi
 		if( RelatedResourceObjects_IfcPropertyAbstraction )
 		{
 			RelatedResourceObjects_IfcPropertyAbstraction->m_HasExternalReferences_inverse.push_back( ptr_self );
+		}
+		shared_ptr<IfcShapeAspect>  RelatedResourceObjects_IfcShapeAspect = dynamic_pointer_cast<IfcShapeAspect>( m_RelatedResourceObjects[i] );
+		if( RelatedResourceObjects_IfcShapeAspect )
+		{
+			RelatedResourceObjects_IfcShapeAspect->m_HasExternalReferences_inverse.push_back( ptr_self );
 		}
 		shared_ptr<IfcTimeSeries>  RelatedResourceObjects_IfcTimeSeries = dynamic_pointer_cast<IfcTimeSeries>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcTimeSeries )
@@ -383,6 +389,29 @@ void IfcExternalReferenceRelationship::unlinkFromInverseCounterparts()
 		if( RelatedResourceObjects_IfcPropertyAbstraction )
 		{
 			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcPropertyAbstraction->m_HasExternalReferences_inverse;
+			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
+			{
+				weak_ptr<IfcExternalReferenceRelationship> self_candidate_weak = *it_HasExternalReferences_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_HasExternalReferences_inverse;
+					continue;
+				}
+				shared_ptr<IfcExternalReferenceRelationship> self_candidate( *it_HasExternalReferences_inverse );
+				if( self_candidate.get() == this )
+				{
+					it_HasExternalReferences_inverse= HasExternalReferences_inverse.erase( it_HasExternalReferences_inverse );
+				}
+				else
+				{
+					++it_HasExternalReferences_inverse;
+				}
+			}
+		}
+		shared_ptr<IfcShapeAspect>  RelatedResourceObjects_IfcShapeAspect = dynamic_pointer_cast<IfcShapeAspect>( m_RelatedResourceObjects[i] );
+		if( RelatedResourceObjects_IfcShapeAspect )
+		{
+			std::vector<weak_ptr<IfcExternalReferenceRelationship> >& HasExternalReferences_inverse = RelatedResourceObjects_IfcShapeAspect->m_HasExternalReferences_inverse;
 			for( auto it_HasExternalReferences_inverse = HasExternalReferences_inverse.begin(); it_HasExternalReferences_inverse != HasExternalReferences_inverse.end(); )
 			{
 				weak_ptr<IfcExternalReferenceRelationship> self_candidate_weak = *it_HasExternalReferences_inverse;

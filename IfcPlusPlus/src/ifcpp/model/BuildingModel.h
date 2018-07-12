@@ -35,14 +35,14 @@ public:
 	BuildingModel();
 	virtual ~BuildingModel();
 	
-	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4 };
+	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1 };
 	class SchemaVersion
 	{
 		public:
 			SchemaVersion()
 			{
-				m_IFC_FILE_SCHEMA = L"IFC4";
-				m_ifc_file_schema_enum = BuildingModel::IFC4;
+				m_IFC_FILE_SCHEMA = L"IFC4X1";
+				m_ifc_file_schema_enum = BuildingModel::IFC4X1;
 			}
 			SchemaVersion(std::wstring schema_str, QueryVersionEnum schema_enum)
 				: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)

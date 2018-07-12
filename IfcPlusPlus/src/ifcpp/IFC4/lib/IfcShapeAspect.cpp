@@ -7,6 +7,7 @@
 #include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
+#include "ifcpp/IFC4/include/IfcExternalReferenceRelationship.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcProductDefinitionShape.h"
@@ -78,6 +79,18 @@ void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
 {
+	if( m_HasExternalReferences_inverse.size() > 0 )
+	{
+		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
+		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+		{
+			if( !m_HasExternalReferences_inverse[i].expired() )
+			{
+				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
+	}
 }
 void IfcShapeAspect::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcAnnotation.h"
 #include "ifcpp/IFC4/include/IfcElement.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
-#include "ifcpp/IFC4/include/IfcGrid.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcOwnerHistory.h"
+#include "ifcpp/IFC4/include/IfcPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcSpatialElement.h"
@@ -109,10 +109,10 @@ void IfcRelContainedInSpatialStructure::setInverseCounterparts( shared_ptr<Build
 		{
 			RelatedElements_IfcElement->m_ContainedInStructure_inverse.push_back( ptr_self );
 		}
-		shared_ptr<IfcGrid>  RelatedElements_IfcGrid = dynamic_pointer_cast<IfcGrid>( m_RelatedElements[i] );
-		if( RelatedElements_IfcGrid )
+		shared_ptr<IfcPositioningElement>  RelatedElements_IfcPositioningElement = dynamic_pointer_cast<IfcPositioningElement>( m_RelatedElements[i] );
+		if( RelatedElements_IfcPositioningElement )
 		{
-			RelatedElements_IfcGrid->m_ContainedInStructure_inverse.push_back( ptr_self );
+			RelatedElements_IfcPositioningElement->m_ContainedInStructure_inverse.push_back( ptr_self );
 		}
 	}
 	if( m_RelatingStructure )
@@ -171,10 +171,10 @@ void IfcRelContainedInSpatialStructure::unlinkFromInverseCounterparts()
 				}
 			}
 		}
-		shared_ptr<IfcGrid>  RelatedElements_IfcGrid = dynamic_pointer_cast<IfcGrid>( m_RelatedElements[i] );
-		if( RelatedElements_IfcGrid )
+		shared_ptr<IfcPositioningElement>  RelatedElements_IfcPositioningElement = dynamic_pointer_cast<IfcPositioningElement>( m_RelatedElements[i] );
+		if( RelatedElements_IfcPositioningElement )
 		{
-			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcGrid->m_ContainedInStructure_inverse;
+			std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& ContainedInStructure_inverse = RelatedElements_IfcPositioningElement->m_ContainedInStructure_inverse;
 			for( auto it_ContainedInStructure_inverse = ContainedInStructure_inverse.begin(); it_ContainedInStructure_inverse != ContainedInStructure_inverse.end(); )
 			{
 				weak_ptr<IfcRelContainedInSpatialStructure> self_candidate_weak = *it_ContainedInStructure_inverse;
