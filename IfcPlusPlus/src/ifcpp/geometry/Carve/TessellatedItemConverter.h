@@ -202,7 +202,7 @@ protected:
 	///"cut" the polygon open and define the hole in a way carve recognises it.
 	///
 	///To find a suitable cutting edge, a naive nearest neighbour search is
-	///done. Ths can be improved by using a spatial tree like kd-tree or
+	///done. This can be improved by using a spatial tree like kd-tree or
 	///R-tree.
 	void mergeHolesIntoPoly(std::vector<int>& vertex_indices,
 			std::vector<std::vector<int>> const& hole_vertex_indices,
