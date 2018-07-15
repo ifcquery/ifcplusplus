@@ -247,7 +247,7 @@ public:
 		}
 
 		//is negative if coordinate system changes handedness (for example as result of mirroring)
-		//in this case invert the meshes to not make them look inside out (only noticable if using
+		//in this case invert the meshes to not make them look inside out (only noticeable if using
 		//back face culling)
 		bool const invert_meshes = 0 > carve::geom::dotcross(
 			carve::geom::VECTOR(mat.m[0][0], mat.m[1][0], mat.m[2][0]),

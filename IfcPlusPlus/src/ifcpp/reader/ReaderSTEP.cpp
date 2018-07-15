@@ -217,7 +217,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 
 	if( stream_pos == NULL )
 	{
-		throw BuildingException("Invalid file content, couln't find HEADER section", __FUNC__);
+		throw BuildingException("Invalid file content, couldn't find HEADER section", __FUNC__);
 	}
 
 	while( *stream_pos != '\0' )
@@ -331,7 +331,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 	stream_pos = strstr(stream_pos, "DATA;");
 	if( stream_pos == NULL )
 	{
-		throw BuildingException("Invalid file content, couln't find DATA section", __FUNC__);
+		throw BuildingException("Invalid file content, couldn't find DATA section", __FUNC__);
 	}
 
 	// skip whitespaces

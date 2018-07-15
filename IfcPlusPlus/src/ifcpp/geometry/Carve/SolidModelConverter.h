@@ -1298,7 +1298,7 @@ public:
 			return;
 		}
 
-		// check dimenstions of other operand
+		// check dimensions of other operand
 		double extrusion_depth = HALF_SPACE_BOX_SIZE*m_point_converter->getUnitConverter()->getCustomLengthFactor();
 		//vec3 other_operand_pos = base_surface_position;
 		if( other_operand )

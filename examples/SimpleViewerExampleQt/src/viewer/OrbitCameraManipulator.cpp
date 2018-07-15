@@ -706,7 +706,7 @@ If pushForwardIfNeeded is true and minimumDistance is reached, the focal center 
 */
 void OrbitCameraManipulator::zoomCamera( const float dy )
 {
-	// push camera forwared along mouse ray
+	// push camera forward along mouse ray
 	osg::Vec3d zoom_direction = m_ray_pointer_direction;
 	zoom_direction.normalize();
 	zoom_direction *= dy*100;

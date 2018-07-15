@@ -888,7 +888,7 @@ public:
 			return;
 		}
 
-		// check dimenstions of other operand
+		// check dimensions of other operand
 		double extrusion_depth = HALF_SPACE_BOX_SIZE;
 #ifdef _DEBUG
 		extrusion_depth *= 0.1;
