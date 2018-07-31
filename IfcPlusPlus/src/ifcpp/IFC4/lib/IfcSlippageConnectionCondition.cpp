@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcSlippageConnectionCondition::getDeepCopy( Building
 void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSLIPPAGECONNECTIONCONDITION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SlippageX ) { m_SlippageX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

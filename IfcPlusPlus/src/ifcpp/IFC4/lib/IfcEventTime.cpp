@@ -31,11 +31,11 @@ shared_ptr<BuildingObject> IfcEventTime::getDeepCopy( BuildingCopyOptions& optio
 void IfcEventTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCEVENTTIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ActualDate ) { m_ActualDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

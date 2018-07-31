@@ -45,21 +45,21 @@ shared_ptr<BuildingObject> IfcIrregularTimeSeries::getDeepCopy( BuildingCopyOpti
 void IfcIrregularTimeSeries::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCIRREGULARTIMESERIES" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TimeSeriesDataType ) { m_TimeSeriesDataType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_TimeSeriesDataType ) { m_TimeSeriesDataType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	writeEntityList( stream, m_Values );
 	stream << ");";

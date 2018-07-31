@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcBoundaryFaceCondition::getDeepCopy( BuildingCopyOp
 void IfcBoundaryFaceCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBOUNDARYFACECONDITION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TranslationalStiffnessByAreaX ) { m_TranslationalStiffnessByAreaX->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

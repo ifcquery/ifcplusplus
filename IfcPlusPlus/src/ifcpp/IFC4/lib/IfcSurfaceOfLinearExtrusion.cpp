@@ -35,9 +35,9 @@ shared_ptr<BuildingObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( BuildingCop
 void IfcSurfaceOfLinearExtrusion::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSURFACEOFLINEAREXTRUSION" << "(";
-	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_entity_id; } else { stream << "*"; }
+	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_entity_id; } else { stream << "$"; }
 	stream << ",";

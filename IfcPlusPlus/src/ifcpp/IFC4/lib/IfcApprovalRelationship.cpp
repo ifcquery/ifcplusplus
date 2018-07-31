@@ -35,9 +35,9 @@ shared_ptr<BuildingObject> IfcApprovalRelationship::getDeepCopy( BuildingCopyOpt
 void IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCAPPROVALRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->m_entity_id; } else { stream << "$"; }
 	stream << ",";

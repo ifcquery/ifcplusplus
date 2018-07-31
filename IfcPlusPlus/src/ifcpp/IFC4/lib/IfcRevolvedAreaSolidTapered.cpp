@@ -40,13 +40,13 @@ shared_ptr<BuildingObject> IfcRevolvedAreaSolidTapered::getDeepCopy( BuildingCop
 void IfcRevolvedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCREVOLVEDAREASOLIDTAPERED" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "*"; }
+	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Angle ) { m_Angle->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Angle ) { m_Angle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ");";

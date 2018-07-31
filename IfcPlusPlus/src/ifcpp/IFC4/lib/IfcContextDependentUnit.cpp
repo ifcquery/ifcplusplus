@@ -28,9 +28,9 @@ shared_ptr<BuildingObject> IfcContextDependentUnit::getDeepCopy( BuildingCopyOpt
 void IfcContextDependentUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCONTEXTDEPENDENTUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "*"; }
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

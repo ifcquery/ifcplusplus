@@ -29,7 +29,7 @@ shared_ptr<BuildingObject> IfcOffsetCurve2D::getDeepCopy( BuildingCopyOptions& o
 void IfcOffsetCurve2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCOFFSETCURVE2D" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "*"; }
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

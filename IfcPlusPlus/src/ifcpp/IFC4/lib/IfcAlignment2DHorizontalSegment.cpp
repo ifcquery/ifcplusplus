@@ -31,11 +31,11 @@ shared_ptr<BuildingObject> IfcAlignment2DHorizontalSegment::getDeepCopy( Buildin
 void IfcAlignment2DHorizontalSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCALIGNMENT2DHORIZONTALSEGMENT" << "(";
-	if( m_TangentialContinuity ) { m_TangentialContinuity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_TangentialContinuity ) { m_TangentialContinuity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_CurveGeometry ) { stream << "#" << m_CurveGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ");";

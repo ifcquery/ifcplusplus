@@ -67,21 +67,21 @@ shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( Buildi
 void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRATIONALBSPLINECURVEWITHKNOTS" << "(";
-	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ClosedCurve ) { m_ClosedCurve->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ClosedCurve ) { m_ClosedCurve->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_KnotMultiplicities );
 	stream << ",";
 	writeNumericTypeList( stream, m_Knots );
 	stream << ",";
-	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_WeightsData );
 	stream << ");";

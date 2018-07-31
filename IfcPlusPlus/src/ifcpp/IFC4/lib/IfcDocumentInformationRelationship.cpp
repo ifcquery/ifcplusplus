@@ -36,9 +36,9 @@ shared_ptr<BuildingObject> IfcDocumentInformationRelationship::getDeepCopy( Buil
 void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCDOCUMENTINFORMATIONRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingDocument ) { stream << "#" << m_RelatingDocument->m_entity_id; } else { stream << "$"; }
 	stream << ",";

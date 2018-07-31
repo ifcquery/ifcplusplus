@@ -35,9 +35,9 @@ shared_ptr<BuildingObject> IfcGeometricRepresentationContext::getDeepCopy( Build
 void IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCGEOMETRICREPRESENTATIONCONTEXT" << "(";
-	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

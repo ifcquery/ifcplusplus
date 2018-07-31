@@ -31,9 +31,9 @@ shared_ptr<BuildingObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( BuildingCo
 void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "*"; }
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";

@@ -31,7 +31,7 @@ shared_ptr<BuildingObject> IfcOffsetCurve3D::getDeepCopy( BuildingCopyOptions& o
 void IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCOFFSETCURVE3D" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "*"; }
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

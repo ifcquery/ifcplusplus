@@ -32,11 +32,11 @@ shared_ptr<BuildingObject> IfcQuantityLength::getDeepCopy( BuildingCopyOptions& 
 void IfcQuantityLength::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCQUANTITYLENGTH" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "*"; }
+	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_LengthValue ) { m_LengthValue->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

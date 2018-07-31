@@ -34,7 +34,7 @@ shared_ptr<BuildingObject> IfcSurfaceStyle::getDeepCopy( BuildingCopyOptions& op
 void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSURFACESTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Side ) { m_Side->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

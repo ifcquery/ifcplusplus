@@ -36,11 +36,11 @@ shared_ptr<BuildingObject> IfcAlignment2DVerticalSegment::getDeepCopy( BuildingC
 void IfcAlignment2DVerticalSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCALIGNMENT2DVERTICALSEGMENT" << "(";
-	if( m_TangentialContinuity ) { m_TangentialContinuity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_TangentialContinuity ) { m_TangentialContinuity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

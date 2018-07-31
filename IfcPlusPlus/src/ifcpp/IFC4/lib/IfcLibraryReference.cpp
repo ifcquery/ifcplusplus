@@ -35,11 +35,11 @@ shared_ptr<BuildingObject> IfcLibraryReference::getDeepCopy( BuildingCopyOptions
 void IfcLibraryReference::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCLIBRARYREFERENCE" << "(";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -32,11 +32,11 @@ shared_ptr<BuildingObject> IfcQuantityVolume::getDeepCopy( BuildingCopyOptions& 
 void IfcQuantityVolume::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCQUANTITYVOLUME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "*"; }
+	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_VolumeValue ) { m_VolumeValue->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

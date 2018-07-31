@@ -63,23 +63,23 @@ shared_ptr<BuildingObject> IfcSpace::getDeepCopy( BuildingCopyOptions& options )
 void IfcSpace::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSPACE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

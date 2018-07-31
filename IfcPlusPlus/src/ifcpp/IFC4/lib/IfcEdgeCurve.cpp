@@ -30,9 +30,9 @@ shared_ptr<BuildingObject> IfcEdgeCurve::getDeepCopy( BuildingCopyOptions& optio
 void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCEDGECURVE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_EdgeGeometry ) { stream << "#" << m_EdgeGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ",";

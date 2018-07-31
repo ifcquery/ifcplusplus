@@ -47,7 +47,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadConfiguration::getDeepCopy( Building
 void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADCONFIGURATION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Values );
 	stream << ",";

@@ -38,9 +38,9 @@ shared_ptr<BuildingObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( Buildin
 void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Directrix ) { stream << "#" << m_Directrix->m_entity_id; } else { stream << "$"; }
 	stream << ",";

@@ -33,7 +33,7 @@ shared_ptr<BuildingObject> IfcAdvancedBrepWithVoids::getDeepCopy( BuildingCopyOp
 void IfcAdvancedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCADVANCEDBREPWITHVOIDS" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "*"; }
+	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Voids );
 	stream << ");";

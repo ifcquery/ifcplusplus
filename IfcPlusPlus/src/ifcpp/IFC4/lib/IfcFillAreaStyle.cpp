@@ -34,7 +34,7 @@ shared_ptr<BuildingObject> IfcFillAreaStyle::getDeepCopy( BuildingCopyOptions& o
 void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCFILLAREASTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_FillStyles.size(); ++ii )

@@ -58,15 +58,15 @@ shared_ptr<BuildingObject> IfcBSplineCurveWithKnots::getDeepCopy( BuildingCopyOp
 void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBSPLINECURVEWITHKNOTS" << "(";
-	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Degree ) { m_Degree->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CurveForm ) { m_CurveForm->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ClosedCurve ) { m_ClosedCurve->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ClosedCurve ) { m_ClosedCurve->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_KnotMultiplicities );
 	stream << ",";

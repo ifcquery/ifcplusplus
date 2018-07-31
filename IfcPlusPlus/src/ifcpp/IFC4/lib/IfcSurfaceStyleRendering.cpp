@@ -35,9 +35,9 @@ shared_ptr<BuildingObject> IfcSurfaceStyleRendering::getDeepCopy( BuildingCopyOp
 void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSURFACESTYLERENDERING" << "(";
-	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_entity_id; } else { stream << "*"; }
+	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DiffuseColour ) { m_DiffuseColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

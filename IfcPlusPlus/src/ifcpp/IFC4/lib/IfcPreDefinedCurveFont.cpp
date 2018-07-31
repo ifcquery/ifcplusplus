@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcPreDefinedCurveFont::getDeepCopy( BuildingCopyOpti
 void IfcPreDefinedCurveFont::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPREDEFINEDCURVEFONT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcPreDefinedCurveFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

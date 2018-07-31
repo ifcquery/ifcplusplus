@@ -36,7 +36,7 @@ void IfcCompositeCurveOnSurface::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCCOMPOSITECURVEONSURFACE" << "(";
 	writeEntityList( stream, m_Segments );
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCompositeCurveOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

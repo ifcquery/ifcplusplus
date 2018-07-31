@@ -36,11 +36,11 @@ shared_ptr<BuildingObject> IfcTransitionCurveSegment2D::getDeepCopy( BuildingCop
 void IfcTransitionCurveSegment2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTRANSITIONCURVESEGMENT2D" << "(";
-	if( m_StartPoint ) { stream << "#" << m_StartPoint->m_entity_id; } else { stream << "*"; }
+	if( m_StartPoint ) { stream << "#" << m_StartPoint->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_StartDirection ) { m_StartDirection->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartDirection ) { m_StartDirection->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_StartRadius ) { m_StartRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -40,9 +40,9 @@ shared_ptr<BuildingObject> IfcComplexProperty::getDeepCopy( BuildingCopyOptions&
 void IfcComplexProperty::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCOMPLEXPROPERTY" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_UsageName ) { m_UsageName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

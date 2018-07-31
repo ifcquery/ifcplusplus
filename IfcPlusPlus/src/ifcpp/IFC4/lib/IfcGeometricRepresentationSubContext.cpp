@@ -41,17 +41,17 @@ shared_ptr<BuildingObject> IfcGeometricRepresentationSubContext::getDeepCopy( Bu
 void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCGEOMETRICREPRESENTATIONSUBCONTEXT" << "(";
-	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Precision ) { m_Precision->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Precision ) { m_Precision->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_entity_id; } else { stream << "*"; }
+	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ParentContext ) { stream << "#" << m_ParentContext->m_entity_id; } else { stream << "$"; }
 	stream << ",";

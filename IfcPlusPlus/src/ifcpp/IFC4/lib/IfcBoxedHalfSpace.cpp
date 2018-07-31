@@ -29,9 +29,9 @@ shared_ptr<BuildingObject> IfcBoxedHalfSpace::getDeepCopy( BuildingCopyOptions& 
 void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBOXEDHALFSPACE" << "(";
-	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "*"; }
+	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Enclosure ) { stream << "#" << m_Enclosure->m_entity_id; } else { stream << "$"; }
 	stream << ");";

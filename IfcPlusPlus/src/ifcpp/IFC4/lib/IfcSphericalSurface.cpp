@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcSphericalSurface::getDeepCopy( BuildingCopyOptions
 void IfcSphericalSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSPHERICALSURFACE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

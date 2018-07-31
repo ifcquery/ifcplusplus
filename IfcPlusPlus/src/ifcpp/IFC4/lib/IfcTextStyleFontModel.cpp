@@ -40,7 +40,7 @@ shared_ptr<BuildingObject> IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptio
 void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTEXTSTYLEFONTMODEL" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_FontFamily.size(); ++ii )

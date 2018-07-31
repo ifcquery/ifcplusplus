@@ -31,11 +31,11 @@ shared_ptr<BuildingObject> IfcCenterLineProfileDef::getDeepCopy( BuildingCopyOpt
 void IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCENTERLINEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Curve ) { stream << "#" << m_Curve->m_entity_id; } else { stream << "*"; }
+	if( m_Curve ) { stream << "#" << m_Curve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

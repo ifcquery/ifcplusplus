@@ -42,6 +42,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcRightCircularCone.h>
 #include <ifcpp/IFC4/include/IfcRightCircularCylinder.h>
 #include <ifcpp/IFC4/include/IfcSectionedSpine.h>
+#include <ifcpp/IFC4/include/IfcSectionedSolidHorizontal.h>
 #include <ifcpp/IFC4/include/IfcSolidModel.h>
 #include <ifcpp/IFC4/include/IfcSphere.h>
 #include <ifcpp/IFC4/include/IfcSurfaceCurveSweptAreaSolid.h>
@@ -320,6 +321,20 @@ public:
 
 			m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc, radius, radius_inner );
 			item_data->addItemData( item_data_solid );
+
+			return;
+		}
+
+		shared_ptr<IfcSectionedSolidHorizontal> sectionedSolid = dynamic_pointer_cast<IfcSectionedSolidHorizontal>(solid_model);
+		if( sectionedSolid )
+		{
+			//ENTITY IfcSectionedSolid ABSTRACT SUPERTYPE OF(IfcSectionedSolidHorizontal)
+			const shared_ptr<IfcCurve>& curve = sectionedSolid->m_Directrix;
+			const std::vector<shared_ptr<IfcProfileDef> >& vecCrossSections = sectionedSolid->m_CrossSections;
+			const std::vector<shared_ptr<IfcDistanceExpression> >& vecSectionPositions = sectionedSolid->m_CrossSectionPositions;
+			const shared_ptr<IfcBoolean>& fixedAxisVertical = sectionedSolid->m_FixedAxisVertical;
+
+
 
 			return;
 		}

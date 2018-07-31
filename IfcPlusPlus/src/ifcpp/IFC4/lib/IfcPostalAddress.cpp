@@ -43,11 +43,11 @@ shared_ptr<BuildingObject> IfcPostalAddress::getDeepCopy( BuildingCopyOptions& o
 void IfcPostalAddress::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPOSTALADDRESS" << "(";
-	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_InternalLocation ) { m_InternalLocation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

@@ -36,15 +36,15 @@ shared_ptr<BuildingObject> IfcRectangleHollowProfileDef::getDeepCopy( BuildingCo
 void IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRECTANGLEHOLLOWPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

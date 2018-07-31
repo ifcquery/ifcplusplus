@@ -36,7 +36,7 @@ shared_ptr<BuildingObject> IfcOffsetCurveByDistances::getDeepCopy( BuildingCopyO
 void IfcOffsetCurveByDistances::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCOFFSETCURVEBYDISTANCES" << "(";
-	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "*"; }
+	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_OffsetValues );
 	stream << ",";

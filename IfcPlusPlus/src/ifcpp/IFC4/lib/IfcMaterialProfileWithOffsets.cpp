@@ -49,17 +49,17 @@ shared_ptr<BuildingObject> IfcMaterialProfileWithOffsets::getDeepCopy( BuildingC
 void IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCMATERIALPROFILEWITHOFFSETS" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Material ) { stream << "#" << m_Material->m_entity_id; } else { stream << "*"; }
+	if( m_Material ) { stream << "#" << m_Material->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Profile ) { stream << "#" << m_Profile->m_entity_id; } else { stream << "*"; }
+	if( m_Profile ) { stream << "#" << m_Profile->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_OffsetValues );
 	stream << ");";

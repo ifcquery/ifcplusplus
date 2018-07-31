@@ -29,11 +29,11 @@ shared_ptr<BuildingObject> IfcLineSegment2D::getDeepCopy( BuildingCopyOptions& o
 void IfcLineSegment2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCLINESEGMENT2D" << "(";
-	if( m_StartPoint ) { stream << "#" << m_StartPoint->m_entity_id; } else { stream << "*"; }
+	if( m_StartPoint ) { stream << "#" << m_StartPoint->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_StartDirection ) { m_StartDirection->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartDirection ) { m_StartDirection->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcLineSegment2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

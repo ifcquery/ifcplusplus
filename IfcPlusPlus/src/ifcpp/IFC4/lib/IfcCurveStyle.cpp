@@ -31,7 +31,7 @@ shared_ptr<BuildingObject> IfcCurveStyle::getDeepCopy( BuildingCopyOptions& opti
 void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCURVESTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_CurveFont ) { m_CurveFont->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

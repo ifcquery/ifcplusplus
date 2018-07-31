@@ -33,15 +33,15 @@ shared_ptr<BuildingObject> IfcRoundedRectangleProfileDef::getDeepCopy( BuildingC
 void IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCROUNDEDRECTANGLEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RoundingRadius ) { m_RoundingRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

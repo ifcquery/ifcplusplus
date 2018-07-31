@@ -28,7 +28,7 @@ shared_ptr<BuildingObject> IfcToroidalSurface::getDeepCopy( BuildingCopyOptions&
 void IfcToroidalSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTOROIDALSURFACE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_MajorRadius ) { m_MajorRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

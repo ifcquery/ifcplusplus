@@ -33,9 +33,9 @@ shared_ptr<BuildingObject> IfcMapConversion::getDeepCopy( BuildingCopyOptions& o
 void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCMAPCONVERSION" << "(";
-	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_entity_id; } else { stream << "*"; }
+	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Eastings ) { m_Eastings->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

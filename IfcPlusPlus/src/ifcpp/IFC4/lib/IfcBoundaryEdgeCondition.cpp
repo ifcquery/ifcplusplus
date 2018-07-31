@@ -31,7 +31,7 @@ shared_ptr<BuildingObject> IfcBoundaryEdgeCondition::getDeepCopy( BuildingCopyOp
 void IfcBoundaryEdgeCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBOUNDARYEDGECONDITION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TranslationalStiffnessByLengthX ) { m_TranslationalStiffnessByLengthX->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

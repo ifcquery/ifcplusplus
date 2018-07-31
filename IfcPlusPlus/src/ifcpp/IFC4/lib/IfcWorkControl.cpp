@@ -66,17 +66,17 @@ shared_ptr<BuildingObject> IfcWorkControl::getDeepCopy( BuildingCopyOptions& opt
 void IfcWorkControl::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCWORKCONTROL" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

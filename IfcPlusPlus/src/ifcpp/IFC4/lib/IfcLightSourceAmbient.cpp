@@ -30,13 +30,13 @@ shared_ptr<BuildingObject> IfcLightSourceAmbient::getDeepCopy( BuildingCopyOptio
 void IfcLightSourceAmbient::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCLIGHTSOURCEAMBIENT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcLightSourceAmbient::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

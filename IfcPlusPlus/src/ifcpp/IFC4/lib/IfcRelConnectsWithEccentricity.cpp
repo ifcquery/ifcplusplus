@@ -51,25 +51,25 @@ shared_ptr<BuildingObject> IfcRelConnectsWithEccentricity::getDeepCopy( Building
 void IfcRelConnectsWithEccentricity::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRELCONNECTSWITHECCENTRICITY" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatingStructuralMember ) { stream << "#" << m_RelatingStructuralMember->m_entity_id; } else { stream << "*"; }
+	if( m_RelatingStructuralMember ) { stream << "#" << m_RelatingStructuralMember->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatedStructuralConnection ) { stream << "#" << m_RelatedStructuralConnection->m_entity_id; } else { stream << "*"; }
+	if( m_RelatedStructuralConnection ) { stream << "#" << m_RelatedStructuralConnection->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->m_entity_id; } else { stream << "*"; }
+	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AdditionalConditions ) { stream << "#" << m_AdditionalConditions->m_entity_id; } else { stream << "*"; }
+	if( m_AdditionalConditions ) { stream << "#" << m_AdditionalConditions->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_SupportedLength ) { m_SupportedLength->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SupportedLength ) { m_SupportedLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConditionCoordinateSystem ) { stream << "#" << m_ConditionCoordinateSystem->m_entity_id; } else { stream << "*"; }
+	if( m_ConditionCoordinateSystem ) { stream << "#" << m_ConditionCoordinateSystem->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ConnectionConstraint ) { stream << "#" << m_ConnectionConstraint->m_entity_id; } else { stream << "$"; }
 	stream << ");";

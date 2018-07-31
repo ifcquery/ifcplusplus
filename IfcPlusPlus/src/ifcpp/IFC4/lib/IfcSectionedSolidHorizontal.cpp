@@ -45,7 +45,7 @@ shared_ptr<BuildingObject> IfcSectionedSolidHorizontal::getDeepCopy( BuildingCop
 void IfcSectionedSolidHorizontal::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSECTIONEDSOLIDHORIZONTAL" << "(";
-	if( m_Directrix ) { stream << "#" << m_Directrix->m_entity_id; } else { stream << "*"; }
+	if( m_Directrix ) { stream << "#" << m_Directrix->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_CrossSections );
 	stream << ",";

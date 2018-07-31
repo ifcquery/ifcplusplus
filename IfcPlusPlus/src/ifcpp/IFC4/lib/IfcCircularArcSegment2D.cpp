@@ -32,11 +32,11 @@ shared_ptr<BuildingObject> IfcCircularArcSegment2D::getDeepCopy( BuildingCopyOpt
 void IfcCircularArcSegment2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCIRCULARARCSEGMENT2D" << "(";
-	if( m_StartPoint ) { stream << "#" << m_StartPoint->m_entity_id; } else { stream << "*"; }
+	if( m_StartPoint ) { stream << "#" << m_StartPoint->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_StartDirection ) { m_StartDirection->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartDirection ) { m_StartDirection->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

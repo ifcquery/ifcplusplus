@@ -48,23 +48,23 @@ shared_ptr<BuildingObject> IfcRelSpaceBoundary1stLevel::getDeepCopy( BuildingCop
 void IfcRelSpaceBoundary1stLevel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRELSPACEBOUNDARY1STLEVEL" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatingSpace ) { m_RelatingSpace->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_RelatingSpace ) { m_RelatingSpace->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->m_entity_id; } else { stream << "*"; }
+	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->m_entity_id; } else { stream << "*"; }
+	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_PhysicalOrVirtualBoundary ) { m_PhysicalOrVirtualBoundary->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_PhysicalOrVirtualBoundary ) { m_PhysicalOrVirtualBoundary->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ParentBoundary ) { stream << "#" << m_ParentBoundary->m_entity_id; } else { stream << "$"; }
 	stream << ");";

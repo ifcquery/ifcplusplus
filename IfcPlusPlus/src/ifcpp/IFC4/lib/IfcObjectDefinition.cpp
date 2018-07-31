@@ -42,13 +42,13 @@ shared_ptr<BuildingObject> IfcObjectDefinition::getDeepCopy( BuildingCopyOptions
 void IfcObjectDefinition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCOBJECTDEFINITION" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcObjectDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

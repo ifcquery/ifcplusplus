@@ -29,9 +29,9 @@ shared_ptr<BuildingObject> IfcPhysicalSimpleQuantity::getDeepCopy( BuildingCopyO
 void IfcPhysicalSimpleQuantity::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPHYSICALSIMPLEQUANTITY" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "$"; }
 	stream << ");";

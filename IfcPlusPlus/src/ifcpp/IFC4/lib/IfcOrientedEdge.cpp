@@ -30,9 +30,9 @@ shared_ptr<BuildingObject> IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& op
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCORIENTEDEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_entity_id; } else { stream << "$"; }
 	stream << ",";

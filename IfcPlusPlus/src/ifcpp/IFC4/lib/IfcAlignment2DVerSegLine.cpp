@@ -36,19 +36,19 @@ shared_ptr<BuildingObject> IfcAlignment2DVerSegLine::getDeepCopy( BuildingCopyOp
 void IfcAlignment2DVerSegLine::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCALIGNMENT2DVERSEGLINE" << "(";
-	if( m_TangentialContinuity ) { m_TangentialContinuity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_TangentialContinuity ) { m_TangentialContinuity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_HorizontalLength ) { m_HorizontalLength->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_HorizontalLength ) { m_HorizontalLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartHeight ) { m_StartHeight->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartHeight ) { m_StartHeight->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartGradient ) { m_StartGradient->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StartGradient ) { m_StartGradient->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcAlignment2DVerSegLine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

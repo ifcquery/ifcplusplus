@@ -30,11 +30,11 @@ shared_ptr<BuildingObject> IfcLagTime::getDeepCopy( BuildingCopyOptions& options
 void IfcLagTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCLAGTIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LagValue ) { m_LagValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

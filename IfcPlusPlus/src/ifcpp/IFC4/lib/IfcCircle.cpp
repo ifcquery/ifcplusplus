@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcCircle::getDeepCopy( BuildingCopyOptions& options 
 void IfcCircle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCIRCLE" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

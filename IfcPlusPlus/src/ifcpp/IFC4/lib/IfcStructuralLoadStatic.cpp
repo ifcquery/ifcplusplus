@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadStatic::getDeepCopy( BuildingCopyOpt
 void IfcStructuralLoadStatic::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSTATIC" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcStructuralLoadStatic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

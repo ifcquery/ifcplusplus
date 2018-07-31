@@ -29,7 +29,7 @@ shared_ptr<BuildingObject> IfcBlock::getDeepCopy( BuildingCopyOptions& options )
 void IfcBlock::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBLOCK" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_XLength ) { m_XLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

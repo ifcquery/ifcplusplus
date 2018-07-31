@@ -30,11 +30,11 @@ shared_ptr<BuildingObject> IfcMaterialProfileSetUsageTapering::getDeepCopy( Buil
 void IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCMATERIALPROFILESETUSAGETAPERING" << "(";
-	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->m_entity_id; } else { stream << "*"; }
+	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ForProfileEndSet ) { stream << "#" << m_ForProfileEndSet->m_entity_id; } else { stream << "$"; }
 	stream << ",";
