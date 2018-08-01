@@ -31,7 +31,7 @@ shared_ptr<BuildingObject> IfcCartesianTransformationOperator3D::getDeepCopy( Bu
 void IfcCartesianTransformationOperator3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3D" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "$"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";

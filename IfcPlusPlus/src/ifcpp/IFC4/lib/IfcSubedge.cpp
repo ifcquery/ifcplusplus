@@ -28,9 +28,9 @@ shared_ptr<BuildingObject> IfcSubedge::getDeepCopy( BuildingCopyOptions& options
 void IfcSubedge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSUBEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "$"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_ParentEdge ) { stream << "#" << m_ParentEdge->m_entity_id; } else { stream << "$"; }
 	stream << ");";
