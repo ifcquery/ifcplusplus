@@ -36,11 +36,11 @@ shared_ptr<BuildingObject> IfcSeamCurve::getDeepCopy( BuildingCopyOptions& optio
 void IfcSeamCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSEAMCURVE" << "(";
-	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_entity_id; } else { stream << "*"; }
+	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_AssociatedGeometry );
 	stream << ",";
-	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcSeamCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

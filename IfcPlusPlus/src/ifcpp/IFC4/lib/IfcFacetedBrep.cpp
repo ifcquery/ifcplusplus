@@ -25,7 +25,7 @@ shared_ptr<BuildingObject> IfcFacetedBrep::getDeepCopy( BuildingCopyOptions& opt
 void IfcFacetedBrep::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCFACETEDBREP" << "(";
-	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "*"; }
+	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcFacetedBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

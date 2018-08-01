@@ -32,11 +32,11 @@ shared_ptr<BuildingObject> IfcReparametrisedCompositeCurveSegment::getDeepCopy( 
 void IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCREPARAMETRISEDCOMPOSITECURVESEGMENT" << "(";
-	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->m_entity_id; } else { stream << "*"; }
+	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ParamLength ) { m_ParamLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

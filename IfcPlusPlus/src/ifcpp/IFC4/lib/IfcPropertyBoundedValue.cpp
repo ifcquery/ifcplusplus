@@ -37,9 +37,9 @@ shared_ptr<BuildingObject> IfcPropertyBoundedValue::getDeepCopy( BuildingCopyOpt
 void IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPROPERTYBOUNDEDVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_UpperBoundValue ) { m_UpperBoundValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

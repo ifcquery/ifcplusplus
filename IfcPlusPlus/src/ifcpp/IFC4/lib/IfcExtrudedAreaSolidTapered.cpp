@@ -40,13 +40,13 @@ shared_ptr<BuildingObject> IfcExtrudedAreaSolidTapered::getDeepCopy( BuildingCop
 void IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCEXTRUDEDAREASOLIDTAPERED" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_entity_id; } else { stream << "*"; }
+	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ");";

@@ -38,9 +38,9 @@ shared_ptr<BuildingObject> IfcSurfaceCurveSweptAreaSolid::getDeepCopy( BuildingC
 void IfcSurfaceCurveSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSURFACECURVESWEPTAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Directrix ) { stream << "#" << m_Directrix->m_entity_id; } else { stream << "$"; }
 	stream << ",";

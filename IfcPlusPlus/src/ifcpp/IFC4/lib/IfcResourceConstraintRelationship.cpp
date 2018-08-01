@@ -37,9 +37,9 @@ shared_ptr<BuildingObject> IfcResourceConstraintRelationship::getDeepCopy( Build
 void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRESOURCECONSTRAINTRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_entity_id; } else { stream << "$"; }
 	stream << ",";

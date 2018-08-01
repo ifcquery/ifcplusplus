@@ -52,13 +52,13 @@ shared_ptr<BuildingObject> IfcComplexPropertyTemplate::getDeepCopy( BuildingCopy
 void IfcComplexPropertyTemplate::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCOMPLEXPROPERTYTEMPLATE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_UsageName ) { m_UsageName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

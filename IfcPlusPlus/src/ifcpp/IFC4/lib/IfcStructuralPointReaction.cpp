@@ -56,23 +56,23 @@ shared_ptr<BuildingObject> IfcStructuralPointReaction::getDeepCopy( BuildingCopy
 void IfcStructuralPointReaction::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALPOINTREACTION" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "*"; }
+	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "*"; }
+	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AppliedLoad ) { stream << "#" << m_AppliedLoad->m_entity_id; } else { stream << "*"; }
+	if( m_AppliedLoad ) { stream << "#" << m_AppliedLoad->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_GlobalOrLocal ) { m_GlobalOrLocal->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalOrLocal ) { m_GlobalOrLocal->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcStructuralPointReaction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

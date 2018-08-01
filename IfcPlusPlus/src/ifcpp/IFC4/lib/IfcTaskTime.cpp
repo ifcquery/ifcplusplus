@@ -48,11 +48,11 @@ shared_ptr<BuildingObject> IfcTaskTime::getDeepCopy( BuildingCopyOptions& option
 void IfcTaskTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTASKTIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

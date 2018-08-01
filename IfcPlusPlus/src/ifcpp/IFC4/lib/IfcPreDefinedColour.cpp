@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcPreDefinedColour::getDeepCopy( BuildingCopyOptions
 void IfcPreDefinedColour::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPREDEFINEDCOLOUR" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcPreDefinedColour::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

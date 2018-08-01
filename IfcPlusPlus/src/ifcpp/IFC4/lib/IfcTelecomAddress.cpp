@@ -64,11 +64,11 @@ shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& 
 void IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTELECOMADDRESS" << "(";
-	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_TelephoneNumbers.size(); ++ii )

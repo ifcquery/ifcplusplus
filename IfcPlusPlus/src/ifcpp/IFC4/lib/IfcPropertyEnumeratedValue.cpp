@@ -42,9 +42,9 @@ shared_ptr<BuildingObject> IfcPropertyEnumeratedValue::getDeepCopy( BuildingCopy
 void IfcPropertyEnumeratedValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPROPERTYENUMERATEDVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_EnumerationValues.size(); ++ii )

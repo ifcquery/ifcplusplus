@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadTemperature::getDeepCopy( BuildingCo
 void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADTEMPERATURE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DeltaTConstant ) { m_DeltaTConstant->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

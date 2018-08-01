@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcPreDefinedTextFont::getDeepCopy( BuildingCopyOptio
 void IfcPreDefinedTextFont::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPREDEFINEDTEXTFONT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcPreDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

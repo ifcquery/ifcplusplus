@@ -33,11 +33,11 @@ shared_ptr<BuildingObject> IfcTextLiteralWithExtent::getDeepCopy( BuildingCopyOp
 void IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTEXTLITERALWITHEXTENT" << "(";
-	if( m_Literal ) { m_Literal->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Literal ) { m_Literal->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Extent ) { stream << "#" << m_Extent->m_entity_id; } else { stream << "$"; }
 	stream << ",";

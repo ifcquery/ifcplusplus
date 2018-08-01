@@ -33,11 +33,11 @@ void IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::stringstr
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR2DNONUNIFORM" << "(";
 	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "*"; }
+	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_entity_id; } else { stream << "*"; }
+	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Scale2 ) { m_Scale2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

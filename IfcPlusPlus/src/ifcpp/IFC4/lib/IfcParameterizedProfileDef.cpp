@@ -29,9 +29,9 @@ shared_ptr<BuildingObject> IfcParameterizedProfileDef::getDeepCopy( BuildingCopy
 void IfcParameterizedProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPARAMETERIZEDPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";

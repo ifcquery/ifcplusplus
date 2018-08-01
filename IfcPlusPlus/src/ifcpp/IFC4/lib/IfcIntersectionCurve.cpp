@@ -36,11 +36,11 @@ shared_ptr<BuildingObject> IfcIntersectionCurve::getDeepCopy( BuildingCopyOption
 void IfcIntersectionCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCINTERSECTIONCURVE" << "(";
-	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_entity_id; } else { stream << "*"; }
+	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_AssociatedGeometry );
 	stream << ",";
-	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcIntersectionCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

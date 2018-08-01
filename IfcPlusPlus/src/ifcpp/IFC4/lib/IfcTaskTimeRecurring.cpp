@@ -50,45 +50,45 @@ shared_ptr<BuildingObject> IfcTaskTimeRecurring::getDeepCopy( BuildingCopyOption
 void IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTASKTIMERECURRING" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleDuration ) { m_ScheduleDuration->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ScheduleDuration ) { m_ScheduleDuration->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleStart ) { m_ScheduleStart->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ScheduleStart ) { m_ScheduleStart->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleFinish ) { m_ScheduleFinish->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ScheduleFinish ) { m_ScheduleFinish->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EarlyStart ) { m_EarlyStart->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_EarlyStart ) { m_EarlyStart->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EarlyFinish ) { m_EarlyFinish->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_EarlyFinish ) { m_EarlyFinish->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LateStart ) { m_LateStart->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_LateStart ) { m_LateStart->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LateFinish ) { m_LateFinish->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_LateFinish ) { m_LateFinish->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FreeFloat ) { m_FreeFloat->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_FreeFloat ) { m_FreeFloat->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IsCritical ) { m_IsCritical->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_IsCritical ) { m_IsCritical->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualDuration ) { m_ActualDuration->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ActualDuration ) { m_ActualDuration->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualStart ) { m_ActualStart->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ActualStart ) { m_ActualStart->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualFinish ) { m_ActualFinish->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ActualFinish ) { m_ActualFinish->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RemainingTime ) { m_RemainingTime->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_RemainingTime ) { m_RemainingTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Recurrence ) { stream << "#" << m_Recurrence->m_entity_id; } else { stream << "$"; }
 	stream << ");";

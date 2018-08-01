@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcAxis1Placement::getDeepCopy( BuildingCopyOptions& 
 void IfcAxis1Placement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCAXIS1PLACEMENT" << "(";
-	if( m_Location ) { stream << "#" << m_Location->m_entity_id; } else { stream << "*"; }
+	if( m_Location ) { stream << "#" << m_Location->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ");";

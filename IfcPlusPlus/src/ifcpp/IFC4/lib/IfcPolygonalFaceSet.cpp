@@ -47,7 +47,7 @@ shared_ptr<BuildingObject> IfcPolygonalFaceSet::getDeepCopy( BuildingCopyOptions
 void IfcPolygonalFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPOLYGONALFACESET" << "(";
-	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "*"; }
+	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

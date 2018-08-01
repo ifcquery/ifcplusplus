@@ -46,23 +46,23 @@ shared_ptr<BuildingObject> IfcCostValue::getDeepCopy( BuildingCopyOptions& optio
 void IfcCostValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCOSTVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_UnitBasis ) { stream << "#" << m_UnitBasis->m_entity_id; } else { stream << "*"; }
+	if( m_UnitBasis ) { stream << "#" << m_UnitBasis->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_ApplicableDate ) { m_ApplicableDate->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ApplicableDate ) { m_ApplicableDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FixedUntilDate ) { m_FixedUntilDate->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_FixedUntilDate ) { m_FixedUntilDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Condition ) { m_Condition->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Condition ) { m_Condition->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ArithmeticOperator ) { m_ArithmeticOperator->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ArithmeticOperator ) { m_ArithmeticOperator->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Components );
 	stream << ");";

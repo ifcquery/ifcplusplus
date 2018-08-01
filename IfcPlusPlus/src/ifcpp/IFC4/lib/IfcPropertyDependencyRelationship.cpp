@@ -29,9 +29,9 @@ shared_ptr<BuildingObject> IfcPropertyDependencyRelationship::getDeepCopy( Build
 void IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPROPERTYDEPENDENCYRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DependingProperty ) { stream << "#" << m_DependingProperty->m_entity_id; } else { stream << "$"; }
 	stream << ",";

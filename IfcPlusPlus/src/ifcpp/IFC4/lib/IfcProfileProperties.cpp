@@ -41,9 +41,9 @@ shared_ptr<BuildingObject> IfcProfileProperties::getDeepCopy( BuildingCopyOption
 void IfcProfileProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPROFILEPROPERTIES" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Properties );
 	stream << ",";

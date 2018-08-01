@@ -42,7 +42,7 @@ shared_ptr<BuildingObject> IfcSurfaceReinforcementArea::getDeepCopy( BuildingCop
 void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSURFACEREINFORCEMENTAREA" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_SurfaceReinforcement1 );
 	stream << ",";

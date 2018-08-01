@@ -87,7 +87,7 @@ public:
 	void updateCache();
 	void clearCache();
 	void initFileHeader( std::wstring file_name );
-	static void collectDependentEntities( shared_ptr<BuildingEntity>& entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map );
+	static void collectDependentEntities( shared_ptr<BuildingEntity> entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map, bool resolveInverseAttributes = false );
 
 	friend class ReaderSTEP;
 	friend class ReaderXML;

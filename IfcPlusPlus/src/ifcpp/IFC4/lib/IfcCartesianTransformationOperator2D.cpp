@@ -32,11 +32,11 @@ void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& strea
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR2D" << "(";
 	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "*"; }
+	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_entity_id; } else { stream << "*"; }
+	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

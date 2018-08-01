@@ -82,19 +82,19 @@ shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopy
 void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBSPLINESURFACEWITHKNOTS" << "(";
-	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UClosed ) { m_UClosed->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UClosed ) { m_UClosed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_VClosed ) { m_VClosed->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_VClosed ) { m_VClosed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList( stream, m_UMultiplicities );
 	stream << ",";

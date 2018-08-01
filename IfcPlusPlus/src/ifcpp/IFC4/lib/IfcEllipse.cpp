@@ -28,7 +28,7 @@ shared_ptr<BuildingObject> IfcEllipse::getDeepCopy( BuildingCopyOptions& options
 void IfcEllipse::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCELLIPSE" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_SemiAxis1 ) { m_SemiAxis1->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

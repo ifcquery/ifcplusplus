@@ -33,9 +33,9 @@ shared_ptr<BuildingObject> IfcSurfaceOfRevolution::getDeepCopy( BuildingCopyOpti
 void IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSURFACEOFREVOLUTION" << "(";
-	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_entity_id; } else { stream << "*"; }
+	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_AxisPosition ) { stream << "#" << m_AxisPosition->m_entity_id; } else { stream << "$"; }
 	stream << ");";

@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadPlanarForce::getDeepCopy( BuildingCo
 void IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADPLANARFORCE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_PlanarForceX ) { m_PlanarForceX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

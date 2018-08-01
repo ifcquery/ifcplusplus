@@ -41,11 +41,11 @@ shared_ptr<BuildingObject> IfcTShapeProfileDef::getDeepCopy( BuildingCopyOptions
 void IfcTShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTSHAPEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

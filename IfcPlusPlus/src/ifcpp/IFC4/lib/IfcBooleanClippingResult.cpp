@@ -28,11 +28,11 @@ shared_ptr<BuildingObject> IfcBooleanClippingResult::getDeepCopy( BuildingCopyOp
 void IfcBooleanClippingResult::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCBOOLEANCLIPPINGRESULT" << "(";
-	if( m_Operator ) { m_Operator->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Operator ) { m_Operator->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FirstOperand ) { m_FirstOperand->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_FirstOperand ) { m_FirstOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcBooleanClippingResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

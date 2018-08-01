@@ -35,9 +35,9 @@ shared_ptr<BuildingObject> IfcRevolvedAreaSolid::getDeepCopy( BuildingCopyOption
 void IfcRevolvedAreaSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCREVOLVEDAREASOLID" << "(";
-	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "*"; }
+	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ",";

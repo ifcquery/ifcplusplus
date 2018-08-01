@@ -36,15 +36,15 @@ shared_ptr<BuildingObject> IfcMirroredProfileDef::getDeepCopy( BuildingCopyOptio
 void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCMIRROREDPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_entity_id; } else { stream << "*"; }
+	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Operator ) { stream << "#" << m_Operator->m_entity_id; } else { stream << "*"; }
 	stream << ",";
-	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

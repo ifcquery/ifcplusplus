@@ -39,9 +39,9 @@ void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCADVANCEDFACE" << "(";
 	writeEntityList( stream, m_Bounds );
 	stream << ",";
-	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_entity_id; } else { stream << "*"; }
+	if( m_FaceSurface ) { stream << "#" << m_FaceSurface->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

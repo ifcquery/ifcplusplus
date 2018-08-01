@@ -608,17 +608,17 @@ void BuildingModel::unsetInverseAttributes()
 	}
 }
 
-void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity>& entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map )
+void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity> entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map, bool resolveInverseAttributes )
 {
 	if( !entity )
 	{
 		return;
 	}
-	//if( entity->m_id < 0 )
-	//{
-	//	entity->setId( next_entity_id );
-	//	++next_entity_id;
-	//}
+	if( target_map.find( entity.get() ) != target_map.end() )
+	{
+		//return;
+	}
+	target_map[entity.get()] = entity;
 
 	shared_ptr<IfcElementAssembly> ele_assembly = dynamic_pointer_cast<IfcElementAssembly>( entity );
 	if( ele_assembly )
@@ -636,16 +636,20 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity>& entity
 			shared_ptr<IfcRelAggregates> is_decomposed_ptr( is_decomposed_weak_ptr );
 			if( is_decomposed_ptr )
 			{
-				int rel_aggregates_id = is_decomposed_ptr->m_entity_id;
-
 				shared_ptr<BuildingEntity> as_ifcpp_entity = is_decomposed_ptr;
-				collectDependentEntities( as_ifcpp_entity, target_map );
+				collectDependentEntities( as_ifcpp_entity, target_map, resolveInverseAttributes );
 			}
 		}
 	}
 
 	std::vector<std::pair<std::string, shared_ptr<BuildingObject> > > vec_attributes;
 	entity->getAttributes( vec_attributes );
+
+	if( resolveInverseAttributes )
+	{
+		entity->getAttributesInverse( vec_attributes );
+	}
+
 	for( size_t ii = 0; ii < vec_attributes.size(); ++ii )
 	{
 		shared_ptr<BuildingObject>& attribute = vec_attributes[ii].second;
@@ -660,8 +664,7 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity>& entity
 			if( target_map.find( attribute_entity.get() ) == target_map.end() )
 			{
 				target_map[attribute_entity.get()] = attribute_entity;
-				collectDependentEntities( attribute_entity, target_map );
-
+				collectDependentEntities( attribute_entity, target_map, resolveInverseAttributes );
 			}
 			continue;
 		}
@@ -681,16 +684,10 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity>& entity
 					if( target_map.find( attribute_entity.get() ) == target_map.end() )
 					{
 						target_map[attribute_entity.get()] = attribute_entity;
-						collectDependentEntities( attribute_entity, target_map );
-
+						collectDependentEntities( attribute_entity, target_map, resolveInverseAttributes );
 					}
 				}
 			}
 		}
-	}
-
-	if( target_map.find( entity.get() ) == target_map.end() )
-	{
-		target_map[entity.get()] = entity;
 	}
 }

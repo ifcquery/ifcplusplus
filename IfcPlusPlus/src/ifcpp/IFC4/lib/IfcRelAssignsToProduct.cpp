@@ -52,17 +52,17 @@ shared_ptr<BuildingObject> IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOpti
 void IfcRelAssignsToProduct::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRELASSIGNSTOPRODUCT" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "*"; }
+	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ",";
-	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_RelatedObjectsType ) { m_RelatedObjectsType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingProduct ) { m_RelatingProduct->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";

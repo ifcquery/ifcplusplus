@@ -49,19 +49,19 @@ shared_ptr<BuildingObject> IfcObjective::getDeepCopy( BuildingCopyOptions& optio
 void IfcObjective::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCOBJECTIVE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_BenchmarkValues );
 	stream << ",";

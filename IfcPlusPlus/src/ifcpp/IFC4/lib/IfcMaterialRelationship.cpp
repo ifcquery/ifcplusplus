@@ -36,9 +36,9 @@ shared_ptr<BuildingObject> IfcMaterialRelationship::getDeepCopy( BuildingCopyOpt
 void IfcMaterialRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCMATERIALRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingMaterial ) { stream << "#" << m_RelatingMaterial->m_entity_id; } else { stream << "$"; }
 	stream << ",";

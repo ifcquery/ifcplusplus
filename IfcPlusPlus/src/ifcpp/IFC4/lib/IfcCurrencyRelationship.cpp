@@ -34,9 +34,9 @@ shared_ptr<BuildingObject> IfcCurrencyRelationship::getDeepCopy( BuildingCopyOpt
 void IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCURRENCYRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingMonetaryUnit ) { stream << "#" << m_RelatingMonetaryUnit->m_entity_id; } else { stream << "$"; }
 	stream << ",";

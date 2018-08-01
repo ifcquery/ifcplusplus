@@ -33,19 +33,19 @@ shared_ptr<BuildingObject> IfcStructuralLoadSingleForceWarping::getDeepCopy( Bui
 void IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSINGLEFORCEWARPING" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ForceX ) { m_ForceX->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ForceX ) { m_ForceX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ForceY ) { m_ForceY->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ForceY ) { m_ForceY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ForceZ ) { m_ForceZ->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ForceZ ) { m_ForceZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MomentX ) { m_MomentX->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_MomentX ) { m_MomentX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MomentY ) { m_MomentY->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_MomentY ) { m_MomentY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_WarpingMoment ) { m_WarpingMoment->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

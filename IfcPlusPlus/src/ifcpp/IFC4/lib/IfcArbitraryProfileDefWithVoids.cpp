@@ -37,11 +37,11 @@ shared_ptr<BuildingObject> IfcArbitraryProfileDefWithVoids::getDeepCopy( Buildin
 void IfcArbitraryProfileDefWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCARBITRARYPROFILEDEFWITHVOIDS" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_entity_id; } else { stream << "*"; }
+	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_InnerCurves );
 	stream << ");";

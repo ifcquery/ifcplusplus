@@ -49,9 +49,9 @@ shared_ptr<BuildingObject> IfcPresentationLayerWithStyle::getDeepCopy( BuildingC
 void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPRESENTATIONLAYERWITHSTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_AssignedItems.size(); ++ii )
@@ -72,7 +72,7 @@ void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) con
 	}
 	stream << ")";
 	stream << ",";
-	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LayerOn ) { m_LayerOn->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

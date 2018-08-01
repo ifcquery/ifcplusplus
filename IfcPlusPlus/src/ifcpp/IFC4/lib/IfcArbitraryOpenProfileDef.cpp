@@ -29,9 +29,9 @@ shared_ptr<BuildingObject> IfcArbitraryOpenProfileDef::getDeepCopy( BuildingCopy
 void IfcArbitraryOpenProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCARBITRARYOPENPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Curve ) { stream << "#" << m_Curve->m_entity_id; } else { stream << "$"; }
 	stream << ");";

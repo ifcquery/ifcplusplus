@@ -51,13 +51,13 @@ shared_ptr<BuildingObject> IfcPixelTexture::getDeepCopy( BuildingCopyOptions& op
 void IfcPixelTexture::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPIXELTEXTURE" << "(";
-	if( m_RepeatS ) { m_RepeatS->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_RepeatS ) { m_RepeatS->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RepeatT ) { m_RepeatT->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_RepeatT ) { m_RepeatT->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_entity_id; } else { stream << "*"; }
+	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Parameter.size(); ++ii )

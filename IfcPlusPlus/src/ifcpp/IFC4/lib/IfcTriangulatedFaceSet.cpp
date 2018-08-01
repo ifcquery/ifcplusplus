@@ -67,7 +67,7 @@ shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOpti
 void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTRIANGULATEDFACESET" << "(";
-	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "*"; }
+	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	writeNumericTypeList2D( stream, m_Normals );
 	stream << ",";

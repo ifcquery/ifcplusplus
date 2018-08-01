@@ -31,7 +31,7 @@ shared_ptr<BuildingObject> IfcTextStyle::getDeepCopy( BuildingCopyOptions& optio
 void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTEXTSTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->m_entity_id; } else { stream << "$"; }
 	stream << ",";

@@ -28,7 +28,7 @@ shared_ptr<BuildingObject> IfcRightCircularCone::getDeepCopy( BuildingCopyOption
 void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCRIGHTCIRCULARCONE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

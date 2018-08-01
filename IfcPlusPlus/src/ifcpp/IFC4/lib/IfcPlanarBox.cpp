@@ -28,9 +28,9 @@ shared_ptr<BuildingObject> IfcPlanarBox::getDeepCopy( BuildingCopyOptions& optio
 void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPLANARBOX" << "(";
-	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";

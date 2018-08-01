@@ -35,11 +35,11 @@ shared_ptr<BuildingObject> IfcClassificationReference::getDeepCopy( BuildingCopy
 void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCLASSIFICATIONREFERENCE" << "(";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ReferencedSource ) { m_ReferencedSource->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";

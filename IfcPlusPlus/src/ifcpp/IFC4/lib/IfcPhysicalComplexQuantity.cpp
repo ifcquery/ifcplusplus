@@ -38,9 +38,9 @@ shared_ptr<BuildingObject> IfcPhysicalComplexQuantity::getDeepCopy( BuildingCopy
 void IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPHYSICALCOMPLEXQUANTITY" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_HasQuantities );
 	stream << ",";

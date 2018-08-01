@@ -25,7 +25,7 @@ shared_ptr<BuildingObject> IfcPlane::getDeepCopy( BuildingCopyOptions& options )
 void IfcPlane::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCPLANE" << "(";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
 void IfcPlane::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

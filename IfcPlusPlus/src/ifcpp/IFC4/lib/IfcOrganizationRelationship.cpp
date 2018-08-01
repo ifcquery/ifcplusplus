@@ -35,9 +35,9 @@ shared_ptr<BuildingObject> IfcOrganizationRelationship::getDeepCopy( BuildingCop
 void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCORGANIZATIONRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingOrganization ) { stream << "#" << m_RelatingOrganization->m_entity_id; } else { stream << "$"; }
 	stream << ",";

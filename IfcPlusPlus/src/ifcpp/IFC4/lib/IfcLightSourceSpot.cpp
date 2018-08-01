@@ -44,23 +44,23 @@ shared_ptr<BuildingObject> IfcLightSourceSpot::getDeepCopy( BuildingCopyOptions&
 void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCLIGHTSOURCESPOT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "*"; }
+	if( m_LightColour ) { stream << "#" << m_LightColour->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "*"; }
+	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstantAttenuation ) { m_ConstantAttenuation->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_ConstantAttenuation ) { m_ConstantAttenuation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DistanceAttenuation ) { m_DistanceAttenuation->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_DistanceAttenuation ) { m_DistanceAttenuation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_QuadricAttenuation ) { m_QuadricAttenuation->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_QuadricAttenuation ) { m_QuadricAttenuation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Orientation ) { stream << "#" << m_Orientation->m_entity_id; } else { stream << "$"; }
 	stream << ",";

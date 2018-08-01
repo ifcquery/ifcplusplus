@@ -27,9 +27,9 @@ shared_ptr<BuildingObject> IfcFaceOuterBound::getDeepCopy( BuildingCopyOptions& 
 void IfcFaceOuterBound::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCFACEOUTERBOUND" << "(";
-	if( m_Bound ) { stream << "#" << m_Bound->m_entity_id; } else { stream << "*"; }
+	if( m_Bound ) { stream << "#" << m_Bound->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcFaceOuterBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }

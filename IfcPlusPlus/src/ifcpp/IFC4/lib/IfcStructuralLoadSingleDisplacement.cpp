@@ -31,7 +31,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( Bui
 void IfcStructuralLoadSingleDisplacement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
