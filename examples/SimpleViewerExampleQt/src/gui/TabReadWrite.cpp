@@ -308,7 +308,8 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 
 void TabReadWrite::slotTxtOut( QString txt )
 {
-	m_txt_out->append( "<div style=\"color:black;\">" + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
+	QString basecol = palette().text().color().name();
+	m_txt_out->append( "<div style=\"color:" + basecol + ";\">" + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
 void TabReadWrite::slotTxtOutWarning( QString txt )
