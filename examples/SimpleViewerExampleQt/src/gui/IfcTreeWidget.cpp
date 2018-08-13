@@ -33,6 +33,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IfcPlusPlusSystem.h"
 #include "IfcTreeWidget.h"
 
+#include <QHeaderView>
+
 QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id )
 {
 	int num_children = item->childCount();
@@ -63,8 +65,13 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setColumnWidth( 0, 100 );
 	setColumnWidth( 1, 60 );
 	setColumnWidth( 2, 60 );
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	header()->setSectionResizeMode(0, QHeaderView::Stretch);
+#else
+	header()->setResizeMode(0, QHeaderView::Stretch);
+#endif
 	setSelectionBehavior( QAbstractItemView::SelectRows );
-	setIndentation( 4 );
+	setIndentation( 12 );
 
 	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( m_system, SIGNAL( signalObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >&) ),	this, SLOT( slotObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >&) ) );
