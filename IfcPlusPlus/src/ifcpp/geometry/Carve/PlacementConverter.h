@@ -385,6 +385,10 @@ public:
 		{
 			return;
 		}
+		if( !product_data )
+		{
+			return;
+		}
 		// prevent cyclic relative placement
 		IfcObjectPlacement* placement_ptr = ifc_object_placement.get();
 		if( placement_already_applied.find( placement_ptr ) != placement_already_applied.end() )
