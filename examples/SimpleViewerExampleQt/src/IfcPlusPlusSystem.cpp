@@ -37,8 +37,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "cmd/CommandManager.h"
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
+#include "viewer/ViewerWidget.h"
+#include "viewer/OrbitCameraManipulator.h"
 
 IfcPlusPlusSystem::IfcPlusPlusSystem()
+	: m_viewer_widget(nullptr)
 {
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
 	m_ifc_model = shared_ptr<BuildingModel>( new BuildingModel() );
@@ -78,6 +81,11 @@ void IfcPlusPlusSystem::setIfcModel( shared_ptr<BuildingModel>& model )
 void IfcPlusPlusSystem::setRootNode( osg::Group* root )
 {
 	m_rootnode = root;
+}
+
+void IfcPlusPlusSystem::setViewerWidget( ViewerWidget* viewer_widget )
+{
+	m_viewer_widget = viewer_widget;
 }
 
 bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& /*aa*/)
@@ -256,6 +264,36 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 		map_objects[id] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}
+}
+
+void IfcPlusPlusSystem::zoomToObject( shared_ptr<BuildingEntity> ifc_object, osg::Group* grp )
+{
+	if( !m_viewer_widget )
+	{
+		return;
+	}
+
+	const int id = ifc_object->m_entity_id;
+	if( !grp )
+	{
+		grp = findNodeByIfcId( m_sw_model, id );
+		if( !grp )
+			return;
+	}
+
+	osgViewer::View* main_view = m_viewer_widget->getMainView();
+	if( !main_view )
+	{
+		return;
+	}
+
+	OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>(main_view->getCameraManipulator());
+	if( !orbit_manip )
+	{
+		return;
+	}
+
+	orbit_manip->zoomToBoundingSphere(grp->getBound());
 }
 
 void IfcPlusPlusSystem::clearSelection()

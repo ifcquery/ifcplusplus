@@ -74,6 +74,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setIndentation( 12 );
 
 	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+	connect( this, SIGNAL( itemDoubleClicked( QTreeWidgetItem*, int )), this, SLOT(slotTreeWidgetItemDoubleClick(QTreeWidgetItem*, int)));
 	connect( m_system, SIGNAL( signalObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >&) ),	this, SLOT( slotObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >&) ) );
 	connect( m_system, SIGNAL( signalModelCleared() ),		this, SLOT( slotModelCleared() ) );
 	connect( m_system, SIGNAL( signalModelLoadingStart() ),	this, SLOT( slotModelLoadingStart() ) );
@@ -153,6 +154,32 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 void IfcTreeWidget::slotTreewidgetSelectionChanged()
 {
 
+}
+
+void IfcTreeWidget::slotTreeWidgetItemDoubleClick( QTreeWidgetItem* item, int column )
+{
+	if( m_block_selection_signals )
+	{
+		return;
+	}
+
+	if( !item )
+	{
+		return;
+	}
+
+	const std::map<int,shared_ptr<BuildingEntity>>& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
+	const int id = item->text(1).toUInt();
+	const std::map<int,shared_ptr<BuildingEntity>>::const_iterator it_find = map_ifc_objects.find(id);
+
+	if( it_find == map_ifc_objects.end() )
+	{
+		return;
+	}
+
+	m_block_selection_signals = true;
+	m_system->zoomToObject(it_find->second);
+	m_block_selection_signals = false;
 }
 
 void IfcTreeWidget::slotModelCleared()

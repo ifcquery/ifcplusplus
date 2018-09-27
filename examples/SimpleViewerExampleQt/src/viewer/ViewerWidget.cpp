@@ -40,6 +40,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget( parent )
 {
 	m_system = sys;
+	m_system->setViewerWidget(this);
 	m_parent = parent;
 	m_shinyness = 35.0;
 	m_material_default = new osg::Material();
