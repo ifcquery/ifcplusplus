@@ -15,6 +15,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <osg/Version>
 #include <osgViewer/ViewerBase>
 #include <QInputEvent>
 #include <QOpenGLContext>
@@ -468,7 +469,11 @@ GraphicsWindowQt::GraphicsWindowQt( QWidget* parent, Qt::WindowFlags f )
 	}
 
 	// make sure the event queue has the correct window rectangle size and input range
+#if (OPENSCENEGRAPH_MAJOR_VERSION == 3) && (OPENSCENEGRAPH_MINOR_VERSION == 2)
+	getEventQueue()->syncWindowRectangleWithGraphcisContext();
+#else
 	getEventQueue()->syncWindowRectangleWithGraphicsContext();
+#endif
 }
 
 GraphicsWindowQt::~GraphicsWindowQt()
@@ -584,7 +589,11 @@ bool GraphicsWindowQt::realizeImplementation()
 	m_realized = true;
 
 	// make sure the event queue has the correct window rectangle size and input range
+#if (OPENSCENEGRAPH_MAJOR_VERSION == 3) && (OPENSCENEGRAPH_MINOR_VERSION == 2)
+	getEventQueue()->syncWindowRectangleWithGraphcisContext();
+#else
 	getEventQueue()->syncWindowRectangleWithGraphicsContext();
+#endif
 
 	// make this window's context not current
 	// note: this must be done as we will probably make the context current from another thread
