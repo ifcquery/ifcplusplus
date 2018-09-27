@@ -394,7 +394,7 @@ void TabReadWrite::slotAddOtherIfcFileClicked()
 	{
 		default_dir = settings.value( "defaultDir" ).toString();
 	}
-	QString selected_file = QFileDialog::getOpenFileName(this, "Choose IFC file", default_dir );
+	QString selected_file = QFileDialog::getOpenFileName(this, "Choose IFC file", default_dir, QString(), Q_NULLPTR, QFileDialog::DontUseNativeDialog);
 	
 	if( !selected_file.isEmpty() )
 	{
@@ -407,7 +407,7 @@ void TabReadWrite::slotAddOtherIfcFileClicked()
 void TabReadWrite::slotSetWritePathClicked()
 {
 	QString selectedFilter;
-	QString fileName = QFileDialog::getSaveFileName(this, "IfcPlusPlus - choose path to write ifc file", m_le_path_write->text(), "All Files (*);;Text Files (*.ifc)", &selectedFilter);
+	QString fileName = QFileDialog::getSaveFileName(this, "IfcPlusPlus - choose path to write ifc file", m_le_path_write->text(), "All Files (*);;Text Files (*.ifc)", &selectedFilter, QFileDialog::DontUseNativeDialog);
 	if( !fileName.isEmpty() )
 	{
 		m_le_path_write->setText(fileName);
