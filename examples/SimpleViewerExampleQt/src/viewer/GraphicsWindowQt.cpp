@@ -588,7 +588,7 @@ bool GraphicsWindowQt::realizeImplementation()
 
 	m_realized = true;
 
-  // make sure the event queue has the correct window rectangle size and input range
+	// make sure the event queue has the correct window rectangle size and input range
 #if (OPENSCENEGRAPH_MAJOR_VERSION == 3) && (OPENSCENEGRAPH_MINOR_VERSION == 2)
 	getEventQueue()->syncWindowRectangleWithGraphcisContext();
 #else
