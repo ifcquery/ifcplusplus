@@ -13,7 +13,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-PROJECT (IFCPP)
+project(IFCPP)
 MESSAGE(STATUS "------------------------------------------------------------------------")
 
 OPTION(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
@@ -33,8 +33,23 @@ ENDIF(NOT WIN32)
 
 SET(CARVE_SOURCE_DIR ${IFCPP_SOURCE_DIR}/external/Carve)
 SET(CARVE_BINARY_DIR ${IFCPP_BINARY_DIR})
+SET(IFCPP_CONFIG_DIR "share/IFCPP/cmake")
 ADD_SUBDIRECTORY (external/Carve)
 ADD_SUBDIRECTORY (IfcPlusPlus)
+
+# Install configuration file
+INCLUDE(CMakePackageConfigHelpers)
+SET(config_file_input  "${CMAKE_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
+SET(config_file_output "${CMAKE_BINARY_DIR}/cmake/IFCPPConfig.cmake")
+
+CONFIGURE_PACKAGE_CONFIG_FILE(
+  ${config_file_input}
+  ${config_file_output}
+  INSTALL_DESTINATION ${IFCPP_CONFIG_DIR})
+
+INSTALL(
+  FILES ${config_file_output}
+  DESTINATION ${IFCPP_CONFIG_DIR})
 
 IF(BUILD_VIEWER_APPLICATION)
   ADD_SUBDIRECTORY (examples/SimpleViewerExampleQt)

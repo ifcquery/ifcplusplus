@@ -28,8 +28,6 @@ CONFIGURE_FILE (
   "${CARVE_SOURCE_DIR}/src/include/carve/cmake-config.h.in"
   "${CARVE_BINARY_DIR}/include/carve/config.h"
 )
-INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_SOURCE_DIR}/src/include)
-INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${CARVE_BINARY_DIR}/include) # For the generated Config file
 
 SET(CARVE_SOURCE_FILES 
   src/lib/aabb.cpp
@@ -69,21 +67,47 @@ ELSE(CMAKE_COMPILER_IS_GNUCXX)
     ADD_LIBRARY(carve STATIC ${CARVE_SOURCE_FILES})
 ENDIF()
 
+# Use this to request C++11 features. Dependent targets will transitively get
+# this requirement as well.
+TARGET_COMPILE_FEATURES(carve PUBLIC cxx_auto_type)
+
 set_target_properties(carve PROPERTIES DEBUG_POSTFIX "d")
 
+TARGET_INCLUDE_DIRECTORIES(carve
+  PUBLIC
+    "$<BUILD_INTERFACE:${CARVE_SOURCE_DIR}/src/include>"
+    "$<BUILD_INTERFACE:${CARVE_BINARY_DIR}/include>" # For the generated Config file
+    "$<INSTALL_INTERFACE:include>"
+)
 
 INSTALL(
     DIRECTORY   src/include/carve
     DESTINATION include
+    PATTERN "*.in" EXCLUDE
 )
 INSTALL(
-		TARGETS carve
-		RUNTIME DESTINATION bin
-		LIBRARY DESTINATION lib
-		ARCHIVE DESTINATION lib
-	)
-    
-IF(CMAKE_COMPILER_IS_GNUCXX)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-ENDIF()
- 
+    FILES "${CARVE_BINARY_DIR}/include/carve/config.h"
+    DESTINATION include/carve
+)
+INSTALL(
+    TARGETS carve
+    EXPORT  carve
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+
+# Export the targets so they can be consumed by other cmake projects
+SET(target_output_filename carve-targets.cmake)
+SET(target_output "${CMAKE_BINARY_DIR}/cmake/${target_output_filename}")
+
+export(
+  EXPORT carve
+  FILE ${target_output}
+  NAMESPACE IFCPP::)
+
+install(
+  EXPORT carve
+  DESTINATION ${IFCPP_CONFIG_DIR}
+  FILE ${target_output_filename}
+  NAMESPACE IFCPP::)
