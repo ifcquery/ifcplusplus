@@ -65,8 +65,6 @@ ADD_EXECUTABLE(SimpleViewerExample
 
 set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
 
-QT5_USE_MODULES(SimpleViewerExample Core Gui Widgets OpenGL)
-
 If(UNIX)
     # ON Debian Stretch with cmake 3.7.2 OPENTHREADS_LIBRARY_DEBUG is a not known variable
     TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY})
@@ -76,6 +74,8 @@ ENDIF()
 
 TARGET_LINK_LIBRARIES(SimpleViewerExample
   IfcPlusPlus
+  Qt5::Core
+  Qt5::Gui
   Qt5::Widgets
   Qt5::OpenGL
   optimized ${OSG_LIBRARY} debug ${OSG_LIBRARY_DEBUG}
